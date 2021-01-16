@@ -15,10 +15,9 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            Type subjectType = config.GetExpectationType(context.RuntimeType, context.CompileTimeType);
+            Type expectationType = config.GetExpectationType(context.RuntimeType, context.CompileTimeType);
 
-            return (subjectType?.IsEnum == true) ||
-                   (context.Expectation?.GetType().IsEnum == true);
+            return expectationType.IsEnum;
         }
 
         /// <summary>
@@ -96,9 +95,9 @@ namespace FluentAssertions.Equivalency
             if (o.GetType().IsEnum)
             {
                 string typePart = o.GetType().Name;
-                string namePart = Enum.GetName(o.GetType(), o);
+                string namePart = o.ToString().Replace(", ", "|", StringComparison.Ordinal);
                 string valuePart = v.Value.ToString(CultureInfo.InvariantCulture);
-                return $"{typePart}.{namePart}({valuePart})";
+                return $"{typePart}.{namePart} {{{{value: {valuePart}}}}}";
             }
 
             return v.Value.ToString(CultureInfo.InvariantCulture);

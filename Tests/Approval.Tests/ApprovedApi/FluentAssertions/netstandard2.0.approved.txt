@@ -48,7 +48,6 @@ namespace FluentAssertions
         public static FluentAssertions.Primitives.NullableDateTimeAssertions Should(this System.DateTime? actualValue) { }
         public static FluentAssertions.Primitives.DateTimeOffsetAssertions Should(this System.DateTimeOffset actualValue) { }
         public static FluentAssertions.Primitives.NullableDateTimeOffsetAssertions Should(this System.DateTimeOffset? actualValue) { }
-        public static FluentAssertions.Primitives.EnumAssertions Should(this System.Enum @enum) { }
         public static FluentAssertions.Specialized.NonGenericAsyncFunctionAssertions Should(this System.Func<System.Threading.Tasks.Task> action) { }
         public static FluentAssertions.Primitives.GuidAssertions Should(this System.Guid actualValue) { }
         public static FluentAssertions.Primitives.NullableGuidAssertions Should(this System.Guid? actualValue) { }
@@ -142,6 +141,13 @@ namespace FluentAssertions
     {
         public static FluentAssertions.Data.DataTableAssertions<TDataTable> Should<TDataTable>(this TDataTable actualValue)
             where TDataTable : System.Data.DataTable { }
+    }
+    public static class EnumAssertionsExtensions
+    {
+        public static FluentAssertions.Primitives.EnumAssertions<TEnum> Should<TEnum>(this TEnum @enum)
+            where TEnum :  struct, System.Enum { }
+        public static FluentAssertions.Primitives.NullableEnumAssertions<TEnum> Should<TEnum>(this TEnum? @enum)
+            where TEnum :  struct, System.Enum { }
     }
     public class EquivalencyStepCollection : System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.IEquivalencyStep>, System.Collections.IEnumerable
     {
@@ -1341,6 +1347,12 @@ namespace FluentAssertions.Formatting
         public bool CanHandle(object value) { }
         public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
+    public class EnumValueFormatter : FluentAssertions.Formatting.IValueFormatter
+    {
+        public EnumValueFormatter() { }
+        public virtual bool CanHandle(object value) { }
+        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+    }
     public class EnumerableValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public EnumerableValueFormatter() { }
@@ -1691,20 +1703,33 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> After(System.DateTime target, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Before(System.DateTime target, string because = "", params object[] becauseArgs) { }
     }
-    public class EnumAssertions : FluentAssertions.Primitives.EnumAssertions<System.Enum, FluentAssertions.Primitives.EnumAssertions>
+    public class EnumAssertions<TEnum> : FluentAssertions.Primitives.EnumAssertions<TEnum, FluentAssertions.Primitives.EnumAssertions<TEnum>>
+        where TEnum :  struct, System.Enum
     {
-        public EnumAssertions(System.Enum subject) { }
+        public EnumAssertions(TEnum subject) { }
     }
-    public class EnumAssertions<TEnum, TAssertions> : FluentAssertions.Primitives.ObjectAssertions<TEnum, TAssertions>
-        where TEnum : System.Enum
+    public class EnumAssertions<TEnum, TAssertions>
+        where TEnum :  struct, System.Enum
         where TAssertions : FluentAssertions.Primitives.EnumAssertions<TEnum, TAssertions>
     {
         public EnumAssertions(TEnum subject) { }
-        protected override string Identifier { get; }
-        public FluentAssertions.AndConstraint<TAssertions> HaveFlag<T>(T expectedFlag, string because = "", params object[] becauseArgs)
-            where T :  struct, TEnum { }
-        public FluentAssertions.AndConstraint<TAssertions> NotHaveFlag<T>(T unexpectedFlag, string because = "", params object[] becauseArgs)
-            where T :  struct, TEnum { }
+        public TEnum Subject { get; }
+        public FluentAssertions.AndConstraint<TAssertions> Be(TEnum expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> Be(TEnum? expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveFlag(TEnum expectedFlag, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveSameNameAs<T>(T expected, string because = "", params object[] becauseArgs)
+            where T :  struct, System.Enum { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveSameValueAs<T>(T expected, string because = "", params object[] becauseArgs)
+            where T :  struct, System.Enum { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveValue(decimal expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBe(TEnum unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBe(TEnum? unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHaveFlag(TEnum unexpectedFlag, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHaveSameNameAs<T>(T unexpected, string because = "", params object[] becauseArgs)
+            where T :  struct, System.Enum { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHaveSameValueAs<T>(T unexpected, string because = "", params object[] becauseArgs)
+            where T :  struct, System.Enum { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHaveValue(decimal unexpected, string because = "", params object[] becauseArgs) { }
     }
     public class GuidAssertions : FluentAssertions.Primitives.GuidAssertions<FluentAssertions.Primitives.GuidAssertions>
     {
@@ -1761,6 +1786,22 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs) { }
+    }
+    public class NullableEnumAssertions<TEnum> : FluentAssertions.Primitives.NullableEnumAssertions<TEnum, FluentAssertions.Primitives.NullableEnumAssertions<TEnum>>
+        where TEnum :  struct, System.Enum
+    {
+        public NullableEnumAssertions(TEnum? subject) { }
+    }
+    public class NullableEnumAssertions<TEnum, TAssertions> : FluentAssertions.Primitives.EnumAssertions<TEnum, TAssertions>
+        where TEnum :  struct, System.Enum
+        where TAssertions : FluentAssertions.Primitives.NullableEnumAssertions<TEnum, TAssertions>
+    {
+        public NullableEnumAssertions(TEnum? subject) { }
+        public TEnum? Subject { get; }
+        public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, TEnum> HaveValue(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, TEnum> NotBeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs) { }
     }
     public class NullableGuidAssertions : FluentAssertions.Primitives.NullableGuidAssertions<FluentAssertions.Primitives.NullableGuidAssertions>

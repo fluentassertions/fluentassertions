@@ -911,12 +911,12 @@ namespace FluentAssertions.Primitives
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:the date and time} to be in {0}{reason}", expectedKind)
+                .WithExpectation("Expected {context:the date and time} to be in " + expectedKind.ToString() + "{reason}")
                 .ForCondition(Subject.HasValue)
                 .FailWith(", but found a <null> DateTime.")
                 .Then
                 .ForCondition(Subject.Value.Kind == expectedKind)
-                .FailWith(", but found {0}.", Subject.Value.Kind)
+                .FailWith(", but found " + Subject.Value.Kind.ToString() + ".")
                 .Then
                 .ClearExpectation();
 

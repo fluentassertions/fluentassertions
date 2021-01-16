@@ -3521,8 +3521,12 @@ namespace FluentAssertions.Specs.Equivalency
         [Fact]
         public void When_asserting_the_same_enum_member_is_equivalent_it_should_succeed()
         {
-            // Arrange / Act
-            Action act = () => EnumOne.One.Should().BeEquivalentTo(EnumOne.One);
+            // Arrange
+            object subject = EnumOne.One;
+            object expectation = EnumOne.One;
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation);
 
             // Assert
             act.Should().NotThrow();
@@ -3575,12 +3579,16 @@ namespace FluentAssertions.Specs.Equivalency
         [Fact]
         public void When_asserting_different_enum_members_are_equivalent_it_should_fail()
         {
-            // Arrange / Act
-            Action act = () => EnumOne.One.Should().BeEquivalentTo(EnumOne.Two);
+            // Arrange
+            object subject = EnumOne.One;
+            object expectation = EnumOne.Two;
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation);
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected *EnumOne.Two(3)*but*EnumOne.One(0)*");
+                .WithMessage("Expected *EnumOne.Two {value: 3}*but*EnumOne.One {value: 0}*");
         }
 
         [Fact]
@@ -3636,7 +3644,7 @@ namespace FluentAssertions.Specs.Equivalency
             Action act = () => subject.Should().BeEquivalentTo(expectation, config => config.ComparingEnumsByName());
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected*to equal EnumFour.Three(3) by name, but found EnumOne.Two(3)*");
+            act.Should().Throw<XunitException>().WithMessage("Expected*to equal EnumFour.Three {value: 3} by name, but found EnumOne.Two {value: 3}*");
         }
 
         [Fact]
@@ -3691,6 +3699,81 @@ namespace FluentAssertions.Specs.Equivalency
         public enum TestEnum
         {
             First = 1
+        }
+
+        [Fact]
+        public void When_subject_is_null_and_enum_has_some_value_it_should_throw()
+        {
+            // Arrange
+            object subject = null;
+            object expectedEnum = EnumULong.UInt64Max;
+
+            // Act
+            // ReSharper disable once ExpressionIsAlwaysNull
+            Action act = () => subject.Should().BeEquivalentTo(expectedEnum, x => x.ComparingEnumsByName(), "comparing enums should throw");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*to equal EnumULong.UInt64Max {value: 18446744073709551615} by name because comparing enums should throw, but found null*");
+        }
+
+        [Fact]
+        public void When_expectation_is_null_and_subject_enum_has_some_value_it_should_throw_with_a_useful_message()
+        {
+            // Arrange
+            object subjectEnum = EnumULong.UInt64Max;
+            object expected = null;
+
+            // Act
+            // ReSharper disable once ExpressionIsAlwaysNull
+            Action act = () => subjectEnum.Should().BeEquivalentTo(expected, x => x.ComparingEnumsByName(), "comparing enums should throw");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*to be <null> because comparing enums should throw, but found EnumULong.UInt64Max*");
+        }
+
+        [Fact]
+        public void When_both_enums_are_equal_and_greater_than_max_long_it_should_not_throw()
+        {
+            // Arrange
+            object enumOne = EnumULong.UInt64Max;
+            object enumTwo = EnumULong.UInt64Max;
+
+            // Act
+            Action act = () => enumOne.Should().BeEquivalentTo(enumTwo);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_both_enums_are_equal_and_of_different_underlying_types_it_should_not_throw()
+        {
+            // Arrange
+            object enumOne = EnumLong.Int64Max;
+            object enumTwo = EnumULong.Int64Max;
+
+            // Act
+            Action act = () => enumOne.Should().BeEquivalentTo(enumTwo);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_both_enums_are_large_and_not_equal_it_should_throw()
+        {
+            // Arrange
+            object subjectEnum = EnumLong.Int64LessOne;
+            object expectedEnum = EnumULong.UInt64Max;
+
+            // Act
+            Action act = () => subjectEnum.Should().BeEquivalentTo(expectedEnum, "comparing enums should throw");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected subjectEnum*to equal EnumULong.UInt64Max {value: 18446744073709551615} by value because comparing enums should throw, but found EnumLong.Int64LessOne {value: 9223372036854775806}*");
         }
 
         #endregion

@@ -32,30 +32,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void When_a_nullable_enum_has_the_expected_flag_it_should_succeed()
-        {
-            // Arrange
-            TestEnum? someObject = TestEnum.One | TestEnum.Two;
-
-            // Act / Assert
-            someObject.Should().HaveFlag(TestEnum.Two);
-        }
-
-        [Fact]
-        public void When_enum_is_null_it_should_fail_with_a_descriptive_message()
-        {
-            // Arrange
-            Enum someObject = null;
-
-            // Act
-            Action act = () => someObject.Should().HaveFlag(TestEnum.Three);
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected*type*but found <null>*");
-        }
-
-        [Fact]
-        public void When_nullable_enum_is_null_it_should_fail_with_a_descriptive_message()
+        public void When_null_enum_does_not_have_the_expected_flag_it_should_fail()
         {
             // Arrange
             TestEnum? someObject = null;
@@ -64,7 +41,7 @@ namespace FluentAssertions.Specs.Primitives
             Action act = () => someObject.Should().HaveFlag(TestEnum.Three);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected*type*but found <null>*");
+            act.Should().Throw<XunitException>();
         }
 
         [Fact]
@@ -74,10 +51,11 @@ namespace FluentAssertions.Specs.Primitives
             TestEnum someObject = TestEnum.One | TestEnum.Two;
 
             // Act
-            Action act = () => someObject.Should().HaveFlag(TestEnum.Three);
+            Action act = () => someObject.Should().HaveFlag(TestEnum.Three, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("The enum was expected to have flag Three but found One, Two.");
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*have flag TestEnum.Three {value: 4}*because we want to test the failure message*but found TestEnum.One|Two {value: 3}.");
         }
 
         [Fact]
@@ -97,27 +75,15 @@ namespace FluentAssertions.Specs.Primitives
             TestEnum someObject = TestEnum.One | TestEnum.Two;
 
             // Act
-            Action act = () => someObject.Should().NotHaveFlag(TestEnum.Two);
+            Action act = () => someObject.Should().NotHaveFlag(TestEnum.Two, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Did not expect the enum to have flag Two.");
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected the enum to not have flag TestEnum.Two {value: 2}*because we want to test the failure message*");
         }
 
         [Fact]
-        public void When_enum_should_not_have_flag_but_is_null_it_should_fail_with_a_descriptive_message()
-        {
-            // Arrange
-            Enum someObject = null;
-
-            // Act
-            Action act = () => someObject.Should().NotHaveFlag(TestEnum.Three);
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected*type*but found <null>*");
-        }
-
-        [Fact]
-        public void When_nullable_enum_should_not_have_flag_but_is_null_it_should_fail_with_a_descriptive_message()
+        public void When_null_enum_does_not_have_the_expected_flag_it_should_not_fail()
         {
             // Arrange
             TestEnum? someObject = null;
@@ -126,7 +92,7 @@ namespace FluentAssertions.Specs.Primitives
             Action act = () => someObject.Should().NotHaveFlag(TestEnum.Three);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected*type*but found <null>*");
+            act.Should().NotThrow();
         }
 
         [Flags]
@@ -148,414 +114,586 @@ namespace FluentAssertions.Specs.Primitives
 
         #endregion
 
-        #region BeEquivalentTo
+        #region Be / NotBe
 
         [Fact]
-        public void When_both_enums_are_equal_and_greater_than_max_long_it_should_not_throw()
+        public void When_enums_are_equal_it_should_succeed()
         {
             // Arrange
-            var enumOne = EnumULong.UInt64Max;
-            var enumTwo = EnumULong.UInt64Max;
+            MyEnum subject = MyEnum.One;
+            MyEnum expected = MyEnum.One;
 
             // Act
-            Action act = () => enumOne.Should().BeEquivalentTo(enumTwo);
+            Action act = () => subject.Should().Be(expected);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Theory]
+        [InlineData(null, null)]
+        [InlineData(MyEnum.One, MyEnum.One)]
+        public void When_nullable_enums_are_equal_it_should_succeed(MyEnum? subject, MyEnum? expected)
+        {
+            // Act
+            Action act = () => subject.Should().Be(expected);
 
             // Assert
             act.Should().NotThrow();
         }
 
         [Fact]
-        public void When_both_enums_are_equal_and_of_different_underlying_types_it_should_not_throw()
+        public void When_a_null_enum_and_an_enum_are_unequal_it_should_throw()
         {
             // Arrange
-            var enumOne = EnumLong.Int64Max;
-            var enumTwo = EnumULong.Int64Max;
+            MyEnum? subject = null;
+            MyEnum expected = MyEnum.Two;
 
             // Act
-            Action act = () => enumOne.Should().BeEquivalentTo(enumTwo);
+            Action act = () => subject.Should().Be(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_enums_are_unequal_it_should_throw()
+        {
+            // Arrange
+            MyEnum subject = MyEnum.One;
+            MyEnum expected = MyEnum.Two;
+
+            // Act
+            Action act = () => subject.Should().Be(expected, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*");
+        }
+
+        [Theory]
+        [InlineData(null, MyEnum.One)]
+        [InlineData(MyEnum.One, null)]
+        [InlineData(MyEnum.One, MyEnum.Two)]
+        public void When_nullable_enums_are_equal_it_should_throw(MyEnum? subject, MyEnum? expected)
+        {
+            // Act
+            Action act = () => subject.Should().Be(expected, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*");
+        }
+
+        [Fact]
+        public void When_enums_are_unequal_it_should_succeed()
+        {
+            // Arrange
+            MyEnum subject = MyEnum.One;
+            MyEnum expected = MyEnum.Two;
+
+            // Act
+            Action act = () => subject.Should().NotBe(expected);
 
             // Assert
             act.Should().NotThrow();
         }
 
         [Fact]
-        public void When_both_enums_are_large_and_not_equal_it_should_throw()
+        public void When_a_null_enum_and_an_enum_are_unequal_it_should_succeed()
         {
             // Arrange
-            var subjectEnum = EnumLong.Int64LessOne;
-            var expectedEnum = EnumULong.UInt64Max;
+            MyEnum? subject = null;
+            MyEnum expected = MyEnum.Two;
 
             // Act
-            Action act = () => subjectEnum.Should().BeEquivalentTo(expectedEnum, "comparing enums should throw");
+            Action act = () => subject.Should().NotBe(expected);
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage($"Expected subjectEnum*to equal EnumULong.UInt64Max({(ulong)EnumULong.UInt64Max}) by value because comparing enums should throw, but found EnumLong.Int64LessOne({(long)EnumLong.Int64LessOne})*");
+            act.Should().NotThrow();
+        }
+
+        [Theory]
+        [InlineData(null, MyEnum.One)]
+        [InlineData(MyEnum.One, null)]
+        [InlineData(MyEnum.One, MyEnum.Two)]
+        public void When_nullable_enums_are_unequal_it_should_succeed(MyEnum? subject, MyEnum? expected)
+        {
+            // Act
+            Action act = () => subject.Should().NotBe(expected);
+
+            // Assert
+            act.Should().NotThrow();
         }
 
         [Fact]
-        public void When_subject_is_null_and_enum_has_some_value_it_should_throw()
+        public void When_enums_are_equal_it_should_throw()
         {
             // Arrange
-            object subject = null;
-            object expectedEnum = EnumULong.UInt64Max;
+            MyEnum subject = MyEnum.One;
+            MyEnum expected = MyEnum.One;
 
             // Act
-            // ReSharper disable once ExpressionIsAlwaysNull
-            Action act = () => subject.Should().BeEquivalentTo(expectedEnum, x => x.ComparingEnumsByName(), "comparing enums should throw");
+            Action act = () => subject.Should().NotBe(expected, "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage($"Expected*to equal EnumULong.UInt64Max({(ulong)EnumULong.UInt64Max}) by name because comparing enums should throw, but found null*");
+                .WithMessage("*because we want to test the failure message*");
         }
 
-        [Fact]
-        public void When_expectation_is_null_and_subject_enum_has_some_value_it_should_throw_with_a_useful_message()
+        [Theory]
+        [InlineData(null, null)]
+        [InlineData(MyEnum.One, MyEnum.One)]
+        public void When_nullable_enums_are_unequal_it_should_throw(MyEnum? subject, MyEnum? expected)
         {
-            // Arrange
-            object subjectEnum = EnumULong.UInt64Max;
-            object expected = null;
-
             // Act
-            // ReSharper disable once ExpressionIsAlwaysNull
-            Action act = () => subjectEnum.Should().BeEquivalentTo(expected, x => x.ComparingEnumsByName(), "comparing enums should throw");
+            Action act = () => subject.Should().NotBe(expected, "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*to be <null> because comparing enums should throw, but found UInt64Max*");
+                .WithMessage("*because we want to test the failure message*");
+        }
+
+        public enum MyEnum
+        {
+            One = 1,
+            Two = 2
         }
 
         #endregion
 
-        #region Be / NotBe
+        #region HaveValue / NotHaveValue
 
         [Fact]
-        public void When_comparing_a_null_enum_against_a_null_enum_for_equality_it_should_succeed()
+        public void When_enum_has_the_expected_value_it_should_succeed()
         {
             // Arrange
-            MyEnum? subject = null;
-            MyEnum? expected = null;
+            TestEnum someObject = TestEnum.One;
+
+            // Act / Assert
+            someObject.Should().HaveValue(1);
+        }
+
+        [Fact]
+        public void When_null_enum_does_not_have_the_expected_value_it_should_fail()
+        {
+            // Arrange
+            TestEnum? someObject = null;
 
             // Act
-            Action act = () => subject.Should().Be(expected);
+            Action act = () => someObject.Should().HaveValue(3);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_enum_does_not_have_specified_value_it_should_fail_with_a_descriptive_message()
+        {
+            // Arrange
+            TestEnum someObject = TestEnum.One;
+
+            // Act
+            Action act = () => someObject.Should().HaveValue(3, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*have value 3*because we want to test the failure message*but found*");
+        }
+
+        [Fact]
+        public void When_enum_does_not_have_the_unexpected_value_it_should_succeed()
+        {
+            // Arrange
+            TestEnum someObject = TestEnum.One;
+
+            // Act / Assert
+            someObject.Should().NotHaveValue(3);
+        }
+
+        [Fact]
+        public void When_enum_does_have_specified_value_it_should_fail_with_a_descriptive_message()
+        {
+            // Arrange
+            TestEnum someObject = TestEnum.One;
+
+            // Act
+            Action act = () => someObject.Should().NotHaveValue(1, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected the enum to not have value 1*because we want to test the failure message*");
+        }
+
+        [Fact]
+        public void When_null_enum_does_not_have_the_expected_value_it_should_not_fail()
+        {
+            // Arrange
+            TestEnum? someObject = null;
+
+            // Act
+            Action act = () => someObject.Should().NotHaveValue(3);
 
             // Assert
             act.Should().NotThrow();
         }
 
-        [Fact]
-        public void When_comparing_a_nullable_enum_against_an_enum_for_equality_it_should_succeed()
-        {
-            // Arrange
-            MyEnum? subject = MyEnum.One;
-            MyEnum expected = MyEnum.One;
+        #endregion
 
-            // Act
-            Action act = () => subject.Should().Be(expected);
-
-            // Assert
-            act.Should().NotThrow();
-        }
+        #region HaveSameValueAs / NotHaveSameValueAs
 
         [Fact]
-        public void When_comparing_an_enum_against_a_nullable_enum_for_equality_it_should_succeed()
+        public void When_enums_have_equal_values_it_should_succeed()
         {
             // Arrange
             MyEnum subject = MyEnum.One;
-            MyEnum? expected = MyEnum.One;
+            MyEnumOtherName expected = MyEnumOtherName.OtherOne;
 
             // Act
-            Action act = () => subject.Should().Be(expected);
+            Action act = () => subject.Should().HaveSameValueAs(expected);
 
             // Assert
             act.Should().NotThrow();
         }
 
         [Fact]
-        public void When_comparing_a_nullable_enum_against_a_nullable_enum_for_equality_it_should_succeed()
+        public void When_nullable_enums_have_equal_values_it_should_succeed()
         {
             // Arrange
             MyEnum? subject = MyEnum.One;
-            MyEnum? expected = MyEnum.One;
+            MyEnumOtherName expected = MyEnumOtherName.OtherOne;
 
             // Act
-            Action act = () => subject.Should().Be(expected);
+            Action act = () => subject.Should().HaveSameValueAs(expected);
 
             // Assert
             act.Should().NotThrow();
         }
 
         [Fact]
-        public void When_comparing_a_nullable_enum_against_an_enum_for_equality_it_should_throw()
-        {
-            // Arrange
-            MyEnum? subject = MyEnum.One;
-            MyEnum expected = MyEnum.Two;
-
-            // Act
-            Action act = () => subject.Should().Be(expected);
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_comparing_an_enum_against_a_nullable_enum_for_equality_it_should_throw()
+        public void When_enums_have_equal_values_it_should_throw()
         {
             // Arrange
             MyEnum subject = MyEnum.One;
-            MyEnum? expected = MyEnum.Two;
+            MyEnumOtherName expected = MyEnumOtherName.OtherTwo;
 
             // Act
-            Action act = () => subject.Should().Be(expected);
+            Action act = () => subject.Should().HaveSameValueAs(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*");
         }
 
-        [Fact]
-        public void When_comparing_a_nullable_enum_against_a_nullable_enum_for_equality_it_should_throw()
+        [Theory]
+        [InlineData(null, MyEnumOtherName.OtherOne)]
+        [InlineData(MyEnum.One, MyEnumOtherName.OtherTwo)]
+        public void When_nullable_enums_have_equal_values_it_should_throw(MyEnum? subject, MyEnumOtherName expected)
         {
-            // Arrange
-            MyEnum? subject = MyEnum.One;
-            MyEnum? expected = MyEnum.Two;
-
             // Act
-            Action act = () => subject.Should().Be(expected);
+            Action act = () => subject.Should().HaveSameValueAs(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*");
         }
 
         [Fact]
-        public void When_comparing_a_null_enum_against_a_nullable_enum_for_equality_it_should_throw()
-        {
-            // Arrange
-            MyEnum? subject = null;
-            MyEnum? expected = MyEnum.Two;
-
-            // Act
-            Action act = () => subject.Should().Be(expected);
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_comparing_a_null_enum_against_an_enum_for_equality_it_should_throw()
-        {
-            // Arrange
-            MyEnum? subject = null;
-            MyEnum expected = MyEnum.Two;
-
-            // Act
-            Action act = () => subject.Should().Be(expected);
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_comparing_a_nullable_enum_against_a_null_enum_for_equality_it_should_throw()
-        {
-            // Arrange
-            MyEnum? subject = MyEnum.One;
-            MyEnum? expected = null;
-
-            // Act
-            Action act = () => subject.Should().Be(expected);
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_comparing_an_enum_against_a_null_enum_for_equality_it_should_throw()
+        public void When_enum_have_unequal_values_it_should_succeed()
         {
             // Arrange
             MyEnum subject = MyEnum.One;
-            MyEnum? expected = null;
+            MyEnumOtherName expected = MyEnumOtherName.OtherTwo;
 
             // Act
-            Action act = () => subject.Should().Be(expected);
+            Action act = () => subject.Should().NotHaveSameValueAs(expected);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().NotThrow();
         }
 
-        [Fact]
-        public void When_comparing_a_null_enum_against_a_null_enum_for_inequality_it_should_throw()
+        [Theory]
+        [InlineData(null, MyEnumOtherName.OtherOne)]
+        [InlineData(MyEnum.One, MyEnumOtherName.OtherTwo)]
+        public void When_nullable_enums_have_unequal_values_it_should_succeed(MyEnum? subject, MyEnumOtherName expected)
         {
-            // Arrange
-            MyEnum? subject = null;
-            MyEnum? expected = null;
-
             // Act
-            Action act = () => subject.Should().NotBe(expected);
+            Action act = () => subject.Should().NotHaveSameValueAs(expected);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().NotThrow();
         }
 
         [Fact]
-        public void When_comparing_a_nullable_enum_against_an_enum_for_inequality_it_should_throw()
-        {
-            // Arrange
-            MyEnum? subject = MyEnum.One;
-            MyEnum expected = MyEnum.One;
-
-            // Act
-            Action act = () => subject.Should().NotBe(expected);
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_comparing_an_enum_against_a_nullable_enum_for_inequality_it_should_throww()
+        public void When_enums_have_unequal_values_it_should_throw()
         {
             // Arrange
             MyEnum subject = MyEnum.One;
-            MyEnum? expected = MyEnum.One;
+            MyEnumOtherName expected = MyEnumOtherName.OtherOne;
 
             // Act
-            Action act = () => subject.Should().NotBe(expected);
+            Action act = () => subject.Should().NotHaveSameValueAs(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*");
         }
 
         [Fact]
-        public void When_comparing_a_nullable_enum_against_a_nullable_enum_for_inequality_it_should_throw()
+        public void When_nullable_enums_have_unequal_values_it_should_throw()
         {
             // Arrange
             MyEnum? subject = MyEnum.One;
-            MyEnum? expected = MyEnum.One;
+            MyEnumOtherName expected = MyEnumOtherName.OtherOne;
 
             // Act
-            Action act = () => subject.Should().NotBe(expected);
+            Action act = () => subject.Should().NotHaveSameValueAs(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*");
         }
 
-        [Fact]
-        public void When_comparing_a_nullable_enum_against_an_enum_for_inequality_it_should_succeed()
+        public enum MyEnumOtherName
         {
-            // Arrange
-            MyEnum? subject = MyEnum.One;
-            MyEnum expected = MyEnum.Two;
-
-            // Act
-            Action act = () => subject.Should().NotBe(expected);
-
-            // Assert
-            act.Should().NotThrow();
+            OtherOne = 1,
+            OtherTwo = 2
         }
 
+        #endregion
+
+        #region HaveSameNameAs / NotHaveSameNameAs
+
         [Fact]
-        public void When_comparing_an_enum_against_a_nullable_enum_for_inequality_it_should_succeed()
+        public void When_enums_have_equal_names_it_should_succeed()
         {
             // Arrange
             MyEnum subject = MyEnum.One;
-            MyEnum? expected = MyEnum.Two;
+            MyEnumOtherValue expected = MyEnumOtherValue.One;
 
             // Act
-            Action act = () => subject.Should().NotBe(expected);
+            Action act = () => subject.Should().HaveSameNameAs(expected);
 
             // Assert
             act.Should().NotThrow();
         }
 
         [Fact]
-        public void When_comparing_a_nullable_enum_against_a_nullable_enum_for_inequality_it_should_succeed()
+        public void When_nullable_enums_have_equal_names_it_should_succeed()
         {
             // Arrange
             MyEnum? subject = MyEnum.One;
-            MyEnum? expected = MyEnum.Two;
+            MyEnumOtherValue expected = MyEnumOtherValue.One;
 
             // Act
-            Action act = () => subject.Should().NotBe(expected);
+            Action act = () => subject.Should().HaveSameNameAs(expected);
 
             // Assert
             act.Should().NotThrow();
         }
 
         [Fact]
-        public void When_comparing_a_null_enum_against_a_nullable_enum_for_inequality_it_should_succeed()
-        {
-            // Arrange
-            MyEnum? subject = null;
-            MyEnum? expected = MyEnum.Two;
-
-            // Act
-            Action act = () => subject.Should().NotBe(expected);
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_comparing_a_null_enum_against_an_enum_for_inequality_it_should_succeed()
-        {
-            // Arrange
-            MyEnum? subject = null;
-            MyEnum expected = MyEnum.Two;
-
-            // Act
-            Action act = () => subject.Should().NotBe(expected);
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_comparing_a_nullable_enum_against_a_null_enum_for_inequality_it_should_succeed()
-        {
-            // Arrange
-            MyEnum? subject = MyEnum.One;
-            MyEnum? expected = null;
-
-            // Act
-            Action act = () => subject.Should().NotBe(expected);
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_comparing_an_enum_against_a_null_enum_for_inequality_it_should_succeed()
+        public void When_enums_have_equal_names_it_should_throw()
         {
             // Arrange
             MyEnum subject = MyEnum.One;
-            MyEnum? expected = null;
+            MyEnumOtherValue expected = MyEnumOtherValue.Two;
 
             // Act
-            Action act = () => subject.Should().NotBe(expected);
+            Action act = () => subject.Should().HaveSameNameAs(expected, "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().NotThrow();
+            act.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*");
         }
 
-        // TODO: should probably fail in 6.0, see #1204
+        [Theory]
+        [InlineData(null, MyEnumOtherValue.One)]
+        [InlineData(MyEnum.One, MyEnumOtherValue.Two)]
+        public void When_nullable_enums_have_equal_names_it_should_throw(MyEnum? subject, MyEnumOtherValue expected)
+        {
+            // Act
+            Action act = () => subject.Should().HaveSameNameAs(expected, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*");
+        }
+
         [Fact]
-        public void When_comparing_a_numeric_and_an_enum_for_equality_it_should_not_throw()
+        public void When_senum_have_unequal_names_it_should_succeed()
         {
             // Arrange
-            object subject = 1;
-            MyEnum expected = MyEnum.One;
+            MyEnum subject = MyEnum.One;
+            MyEnumOtherValue expected = MyEnumOtherValue.Two;
 
             // Act
-            Action act = () => subject.Should().Be(expected);
+            Action act = () => subject.Should().NotHaveSameNameAs(expected);
 
             // Assert
             act.Should().NotThrow();
         }
 
-        private enum MyEnum
+        [Theory]
+        [InlineData(null, MyEnumOtherValue.One)]
+        [InlineData(MyEnum.One, MyEnumOtherValue.Two)]
+        public void When_nullable_enums_have_unequal_names_it_should_succeed(MyEnum? subject, MyEnumOtherValue expected)
         {
-            One = 1,
-            Two = 2
+            // Act
+            Action act = () => subject.Should().NotHaveSameNameAs(expected);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_enums_have_unequal_names_it_should_throw()
+        {
+            // Arrange
+            MyEnum subject = MyEnum.One;
+            MyEnumOtherValue expected = MyEnumOtherValue.One;
+
+            // Act
+            Action act = () => subject.Should().NotHaveSameNameAs(expected, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*");
+        }
+
+        [Fact]
+        public void When_nullable_enums_have_unequal_names_it_should_throw()
+        {
+            // Arrange
+            MyEnum? subject = MyEnum.One;
+            MyEnumOtherValue expected = MyEnumOtherValue.One;
+
+            // Act
+            Action act = () => subject.Should().NotHaveSameNameAs(expected, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*");
+        }
+
+        public enum MyEnumOtherValue
+        {
+            One = 11,
+            Two = 22
+        }
+
+        #endregion
+
+        #region BeNull / NotBeNull
+
+        [Fact]
+        public void When_nullable_enum_has_value_it_should_be_chainable()
+        {
+            // Arrange
+            MyEnum? subject = MyEnum.One;
+
+            // Act
+            Action act = () => subject.Should().HaveValue()
+                .Which.Should().Be(MyEnum.One);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_nullable_enum_is_not_null_it_should_be_chainable()
+        {
+            // Arrange
+            MyEnum? subject = MyEnum.One;
+
+            // Act
+            Action act = () => subject.Should().NotBeNull()
+                .Which.Should().Be(MyEnum.One);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_nullable_enum_does_not_have_value_it_should_throw()
+        {
+            // Arrange
+            MyEnum? subject = null;
+
+            // Act
+            Action act = () => subject.Should().HaveValue("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*");
+        }
+
+        [Fact]
+        public void When_nullable_enum_is_null_it_should_throw()
+        {
+            // Arrange
+            MyEnum? subject = null;
+
+            // Act
+            Action act = () => subject.Should().NotBeNull("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*");
+        }
+
+        [Fact]
+        public void When_nullable_enum_does_not_have_value_it_should_succeed()
+        {
+            // Arrange
+            MyEnum? subject = null;
+
+            // Act
+            Action act = () => subject.Should().NotHaveValue();
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_nullable_enum_is_null_it_should_succeed()
+        {
+            // Arrange
+            MyEnum? subject = null;
+
+            // Act
+            Action act = () => subject.Should().BeNull();
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_nullable_enum_has_value_it_should_throw()
+        {
+            // Arrange
+            MyEnum? subject = MyEnum.One;
+
+            // Act
+            Action act = () => subject.Should().NotHaveValue("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*");
+        }
+
+        [Fact]
+        public void When_nullable_enum_is_not_null_it_should_throw()
+        {
+            // Arrange
+            MyEnum? subject = MyEnum.One;
+
+            // Act
+            Action act = () => subject.Should().BeNull("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*because we want to test the failure message*");
         }
 
         #endregion
