@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using FluentAssertions.Execution;
 using FluentAssertions.Specialized;
 
 namespace FluentAssertions
@@ -98,7 +99,11 @@ namespace FluentAssertions
             params object[] becauseArgs)
             where TException : ArgumentException
         {
-            parent.Which.ParamName.Should().Be(paramName, because, becauseArgs);
+            Execute.Assertion
+                .ForCondition(parent.Which.ParamName == paramName)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected exception with parameter name {0}{reason}, but found {1}.", paramName, parent.Which.ParamName);
+
             return parent;
         }
 

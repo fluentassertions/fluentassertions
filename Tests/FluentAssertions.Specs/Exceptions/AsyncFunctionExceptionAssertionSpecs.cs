@@ -994,7 +994,7 @@ namespace FluentAssertions.Specs // TODO Move to FluentAssertions.Specs.Exceptio
 
             // Assert
             await act.Should().ThrowAsync<XunitException>()
-                .WithMessage("*someParameter*we want to test the failure message*someOtherParameter*");
+                .WithMessage("*with parameter name \"someParameter\"*we want to test the failure message*\"someOtherParameter\"*");
         }
 
         #region NotThrowAfterAsync
