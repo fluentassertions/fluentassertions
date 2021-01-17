@@ -270,8 +270,7 @@ namespace FluentAssertions.Types
         internal static string GetDescriptionFor(PropertyInfo property)
         {
             string propTypeName = property.PropertyType.Name;
-            return string.Format("{0} {1}.{2}", propTypeName,
-                property.DeclaringType, property.Name);
+            return $"{propTypeName} {property.DeclaringType}.{property.Name}";
         }
 
         internal override string SubjectDescription => GetDescriptionFor(Subject);

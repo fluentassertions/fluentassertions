@@ -2318,17 +2318,13 @@ namespace FluentAssertions.Specs
             const string blue = "blue";
             var testString = $"{red} {green}";
 
-            const string because = "some {0} reason";
-            var becauseArgs = new[] { "special" };
-            var expectedErrorReason = string.Format(because, becauseArgs);
-
             // Act
-            Action act = () => testString.Should().ContainAll(new[] { yellow, blue }, because, becauseArgs);
+            Action act = () => testString.Should().ContainAll(new[] { yellow, blue }, "some {0} reason", "special");
 
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage($"*{testString}*contain*{yellow}*{blue}*because {expectedErrorReason}*");
+                .WithMessage($"*{testString}*contain*{yellow}*{blue}*because some special reason*");
         }
 
         [Fact]
@@ -2458,17 +2454,13 @@ namespace FluentAssertions.Specs
             const string purple = "purple";
             var testString = $"{red} {green}";
 
-            const string because = "some {0} reason";
-            var becauseArgs = new[] { "special" };
-            var expectedErrorReason = string.Format(because, becauseArgs);
-
             // Act
-            Action act = () => testString.Should().ContainAny(new[] { blue, purple }, because, becauseArgs);
+            Action act = () => testString.Should().ContainAny(new[] { blue, purple }, "some {0} reason", "special");
 
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage($"*{testString}*contain at least one of*{blue}*{purple}*because {expectedErrorReason}*");
+                .WithMessage($"*{testString}*contain at least one of*{blue}*{purple}*because some special reason*");
         }
 
         #endregion
@@ -2576,17 +2568,13 @@ namespace FluentAssertions.Specs
             const string yellow = "yellow";
             var testString = $"{red} {green} {yellow}";
 
-            const string because = "some {0} reason";
-            var becauseArgs = new[] { "special" };
-            var expectedErrorReason = string.Format(because, becauseArgs);
-
             // Act
-            Action act = () => testString.Should().NotContainAll(new[] { red, green, yellow }, because, becauseArgs);
+            Action act = () => testString.Should().NotContainAll(new[] { red, green, yellow }, "some {0} reason", "special");
 
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage($"*not*{testString}*contain all*{red}*{green}*{yellow}*because*{expectedErrorReason}*");
+                .WithMessage($"*not*{testString}*contain all*{red}*{green}*{yellow}*because*some special reason*");
         }
 
         [Fact]
@@ -2713,17 +2701,13 @@ namespace FluentAssertions.Specs
             const string yellow = "yellow";
             var testString = $"{red} {green} {yellow}";
 
-            const string because = "some {0} reason";
-            var becauseArgs = new[] { "special" };
-            var expectedErrorReason = string.Format(because, becauseArgs);
-
             // Act
-            Action act = () => testString.Should().NotContainAny(new[] { red }, because, becauseArgs);
+            Action act = () => testString.Should().NotContainAny(new[] { red }, "some {0} reason", "special");
 
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage($"*not*{testString}*contain any*{red}*because*{expectedErrorReason}*");
+                .WithMessage($"*not*{testString}*contain any*{red}*because*some special reason*");
         }
 
         [Fact]

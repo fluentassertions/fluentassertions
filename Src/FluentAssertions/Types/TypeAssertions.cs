@@ -188,7 +188,7 @@ namespace FluentAssertions.Types
                 actualType = "[" + actual.AssemblyQualifiedName + "]";
             }
 
-            return string.Format("Expected type to be {0}{{reason}}, but found {1}.", expectedType, actualType);
+            return $"Expected type to be {expectedType}{{reason}}, but found {actualType}.";
         }
 
         /// <summary>
@@ -795,8 +795,7 @@ namespace FluentAssertions.Types
                 .FailWith($"Expected {propertyType.Name} {Subject.FullName}.{name} to exist{{reason}}, but it does not.")
                 .Then
                 .ForCondition(propertyInfo.PropertyType == propertyType)
-                .FailWith(string.Format("Expected {0} to be of type {1}{{reason}}, but it is not.",
-                    propertyInfoDescription, propertyType));
+                .FailWith($"Expected {propertyInfoDescription} to be of type {propertyType}{{reason}}, but it is not.");
 
             return new AndWhichConstraint<TypeAssertions, PropertyInfo>(this, propertyInfo);
         }
@@ -842,7 +841,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion.ForCondition(propertyInfo is null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(string.Format("Expected {0} to not exist{{reason}}, but it does.", propertyInfoDescription));
+                .FailWith($"Expected {propertyInfoDescription} to not exist{{reason}}, but it does.");
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -868,8 +867,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion.ForCondition(explicitlyImplementsProperty)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(string.Format("Expected {0} to explicitly implement {1}.{2}{{reason}}, but it does not.",
-                    Subject.FullName, interfaceType.FullName, name));
+                .FailWith($"Expected {Subject.FullName} to explicitly implement {interfaceType.FullName}.{name}{{reason}}, but it does not.");
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -914,8 +912,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion.ForCondition(!explicitlyImplementsProperty)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(string.Format("Expected {0} to not explicitly implement {1}.{2}{{reason}}, but it does.",
-                    Subject.FullName, interfaceType.FullName, name));
+                .FailWith($"Expected {Subject.FullName} to not explicitly implement {interfaceType.FullName}.{name}{{reason}}, but it does.");
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -957,12 +954,11 @@ namespace FluentAssertions.Types
         {
             Subject.Should().Implement(interfaceType, because, becauseArgs);
 
-            var explicitlyImplementsMethod = Subject.HasMethod(string.Format("{0}.{1}", interfaceType.FullName, name), parameterTypes);
+            var explicitlyImplementsMethod = Subject.HasMethod($"{interfaceType.FullName}.{name}", parameterTypes);
 
             Execute.Assertion.ForCondition(explicitlyImplementsMethod)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(string.Format("Expected {0} to explicitly implement {1}.{2}{{reason}}, but it does not.",
-                    Subject.FullName, interfaceType.FullName, name));
+                .FailWith($"Expected {Subject.FullName} to explicitly implement {interfaceType.FullName}.{name}{{reason}}, but it does not.");
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -1005,12 +1001,11 @@ namespace FluentAssertions.Types
         {
             Subject.Should().Implement(interfaceType, because, becauseArgs);
 
-            var explicitlyImplementsMethod = Subject.HasMethod(string.Format("{0}.{1}", interfaceType.FullName, name), parameterTypes);
+            var explicitlyImplementsMethod = Subject.HasMethod($"{interfaceType.FullName}.{name}", parameterTypes);
 
             Execute.Assertion.ForCondition(!explicitlyImplementsMethod)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(string.Format("Expected {0} to not explicitly implement {1}.{2}{{reason}}, but it does.",
-                    Subject.FullName, interfaceType.FullName, name));
+                .FailWith($"Expected {Subject.FullName} to not explicitly implement {interfaceType.FullName}.{name}{{reason}}, but it does.");
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -1061,14 +1056,11 @@ namespace FluentAssertions.Types
 
             Execute.Assertion.ForCondition(propertyInfo is not null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(string.Format("Expected {0} {1}[{2}] to exist{{reason}}, but it does not.",
-                    indexerType.Name, Subject.FullName,
-                    GetParameterString(parameterTypes)));
+                .FailWith($"Expected {indexerType.Name} {Subject.FullName}[{GetParameterString(parameterTypes)}] to exist{{reason}}, but it does not.");
 
             Execute.Assertion.ForCondition(propertyInfo.PropertyType == indexerType)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(string.Format("Expected {0} to be of type {1}{{reason}}, but it is not.",
-                    propertyInfoDescription, indexerType));
+                .FailWith($"Expected {propertyInfoDescription} to be of type {indexerType}{{reason}}, but it is not.");
 
             return new AndWhichConstraint<TypeAssertions, PropertyInfo>(this, propertyInfo);
         }
@@ -1090,9 +1082,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion.ForCondition(propertyInfo is null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(string.Format("Expected indexer {0}[{1}] to not exist{{reason}}, but it does.",
-                    Subject.FullName,
-                    GetParameterString(parameterTypes)));
+                .FailWith($"Expected indexer {Subject.FullName}[{GetParameterString(parameterTypes)}] to not exist{{reason}}, but it does.");
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -1115,9 +1105,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion.ForCondition(methodInfo is not null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(string.Format("Expected method {0}.{1}({2}) to exist{{reason}}, but it does not.",
-                    Subject.FullName, name,
-                    GetParameterString(parameterTypes)));
+                .FailWith($"Expected method {Subject.FullName}.{name}({GetParameterString(parameterTypes)}) to exist{{reason}}, but it does not.");
 
             return new AndWhichConstraint<TypeAssertions, MethodInfo>(this, methodInfo);
         }
@@ -1148,8 +1136,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion.ForCondition(methodInfo is null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(string.Format("Expected method {0}({1}) to not exist{{reason}}, but it does.", methodInfoDescription,
-                    GetParameterString(parameterTypes)));
+                .FailWith($"Expected method {methodInfoDescription}({GetParameterString(parameterTypes)}) to not exist{{reason}}, but it does.");
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -1171,9 +1158,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion.ForCondition(constructorInfo is not null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(string.Format("Expected constructor {0}({1}) to exist{{reason}}, but it does not.",
-                    Subject.FullName,
-                    GetParameterString(parameterTypes)));
+                .FailWith($"Expected constructor {Subject.FullName}({GetParameterString(parameterTypes)}) to exist{{reason}}, but it does not.");
 
             return new AndWhichConstraint<TypeAssertions, ConstructorInfo>(this, constructorInfo);
         }
@@ -1211,9 +1196,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(constructorInfo is null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(string.Format("Expected constructor {0}({1}) not to exist{{reason}}, but it does.",
-                    Subject.FullName,
-                    GetParameterString(parameterTypes)));
+                .FailWith($"Expected constructor {Subject.FullName}({GetParameterString(parameterTypes)}) not to exist{{reason}}, but it does.");
 
             return new AndWhichConstraint<TypeAssertions, ConstructorInfo>(this, constructorInfo);
         }
@@ -1319,8 +1302,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion.ForCondition(methodInfo is not null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(string.Format("Expected public static implicit {0}({1}) to exist{{reason}}, but it does not.",
-                    targetType.FullName, sourceType.FullName));
+                .FailWith($"Expected public static implicit {targetType.FullName}({sourceType.FullName}) to exist{{reason}}, but it does not.");
 
             return new AndWhichConstraint<TypeAssertions, MethodInfo>(this, methodInfo);
         }
@@ -1360,8 +1342,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion.ForCondition(methodInfo is null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(string.Format("Expected public static implicit {0}({1}) to not exist{{reason}}, but it does.",
-                    targetType.FullName, sourceType.FullName));
+                .FailWith($"Expected public static implicit {targetType.FullName}({sourceType.FullName}) to not exist{{reason}}, but it does.");
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -1401,8 +1382,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion.ForCondition(methodInfo is not null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(string.Format("Expected public static explicit {0}({1}) to exist{{reason}}, but it does not.",
-                    targetType.FullName, sourceType.FullName));
+                .FailWith($"Expected public static explicit {targetType.FullName}({sourceType.FullName}) to exist{{reason}}, but it does not.");
 
             return new AndWhichConstraint<TypeAssertions, MethodInfo>(this, methodInfo);
         }
@@ -1442,8 +1422,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion.ForCondition(methodInfo is null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(string.Format("Expected public static explicit {0}({1}) to not exist{{reason}}, but it does.",
-                    targetType.FullName, sourceType.FullName));
+                .FailWith($"Expected public static explicit {targetType.FullName}({sourceType.FullName}) to not exist{{reason}}, but it does.");
 
             return new AndConstraint<TypeAssertions>(this);
         }

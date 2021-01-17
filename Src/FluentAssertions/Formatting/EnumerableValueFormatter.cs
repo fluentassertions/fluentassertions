@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using FluentAssertions.Common;
 
@@ -40,7 +41,7 @@ namespace FluentAssertions.Formatting
                     enumerable = enumerable.Take(MaxItems).ToArray();
                 }
 
-                return "{" + string.Join(", ", enumerable.Select((item, index) => formatChild(index.ToString(), item))) + postfix + "}";
+                return "{" + string.Join(", ", enumerable.Select((item, index) => formatChild(index.ToString(CultureInfo.InvariantCulture), item))) + postfix + "}";
             }
             else
             {

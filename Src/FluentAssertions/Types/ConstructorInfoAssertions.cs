@@ -20,8 +20,7 @@ namespace FluentAssertions.Types
 
         internal static string GetDescriptionFor(ConstructorInfo constructorInfo)
         {
-            return string.Format("{0}({1})",
-                constructorInfo.DeclaringType, GetParameterString(constructorInfo));
+            return $"{constructorInfo.DeclaringType}({GetParameterString(constructorInfo)})";
         }
 
         internal override string SubjectDescription => GetDescriptionFor(Subject);

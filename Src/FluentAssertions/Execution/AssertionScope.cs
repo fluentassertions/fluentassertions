@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using FluentAssertions.Common;
@@ -140,7 +141,7 @@ namespace FluentAssertions.Execution
                 try
                 {
                     string becauseOrEmpty = because ?? string.Empty;
-                    return (becauseArgs?.Any() == true) ? string.Format(becauseOrEmpty, becauseArgs) : becauseOrEmpty;
+                    return (becauseArgs?.Any() == true) ? string.Format(CultureInfo.InvariantCulture, becauseOrEmpty, becauseArgs) : becauseOrEmpty;
                 }
                 catch (FormatException formatException)
                 {

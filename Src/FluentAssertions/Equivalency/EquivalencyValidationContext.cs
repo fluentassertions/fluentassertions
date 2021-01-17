@@ -1,6 +1,7 @@
 using System;
 using FluentAssertions.Equivalency.Tracing;
 using FluentAssertions.Execution;
+using static System.FormattableString;
 
 namespace FluentAssertions.Equivalency
 {
@@ -118,7 +119,7 @@ namespace FluentAssertions.Equivalency
 
         public override string ToString()
         {
-            return $"{{Path=\"{CurrentNode.Description}\", Subject={Subject}, Expectation={Expectation}}}";
+            return Invariant($"{{Path=\"{CurrentNode.Description}\", Subject={Subject}, Expectation={Expectation}}}");
         }
     }
 }

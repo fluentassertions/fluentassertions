@@ -66,9 +66,8 @@ namespace FluentAssertions.Common
                 }
                 catch (ArgumentException)
                 {
-                    throw new InvalidOperationException(string.Format(
-                        "'{0}' is not a valid option for detecting value formatters. Valid options include Disabled, Specific and Scan.",
-                        setting));
+                    throw new InvalidOperationException(
+                        $"'{setting}' is not a valid option for detecting value formatters. Valid options include Disabled, Specific and Scan.");
                 }
             }
 

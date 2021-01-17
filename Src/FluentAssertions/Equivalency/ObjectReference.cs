@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using FluentAssertions.Common;
+using static System.FormattableString;
 
 namespace FluentAssertions.Equivalency
 {
@@ -59,12 +61,12 @@ namespace FluentAssertions.Equivalency
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
-            return System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode(@object);
+            return RuntimeHelpers.GetHashCode(@object);
         }
 
         public override string ToString()
         {
-            return $"{{\"{path}\", {@object}}}";
+            return Invariant($"{{\"{path}\", {@object}}}");
         }
 
         public bool IsComplexType => isComplexType ?? (@object is not null && !@object.GetType().OverridesEquals());

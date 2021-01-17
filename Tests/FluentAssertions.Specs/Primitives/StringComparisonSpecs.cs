@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using FluentAssertions.Equivalency;
+using FluentAssertions.Execution;
 using FluentAssertions.Specs.CultureAwareTesting;
 using Xunit;
 using Xunit.Sdk;
@@ -256,6 +258,52 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().NotThrow<XunitException>();
+        }
+
+        [CulturedFact("tr-TR")]
+        public void When_formatting_reason_arguments_it_should_ignore_culture()
+        {
+            // Arrange
+            var scope = new AssertionScope();
+
+            // Act
+            scope.BecauseOf("{0}", 1.234)
+                 .FailWith("{reason}");
+
+            // Assert
+            scope.Invoking(e => e.Dispose()).Should().Throw<XunitException>()
+                .WithMessage("*1.234*", "it should always use . as decimal separator");
+        }
+
+        [CulturedFact("tr-TR")]
+        public void When_stringifying_an_object_it_should_ignore_culture()
+        {
+            // Arrange
+            var obj = new ObjectReference(1.234, string.Empty);
+
+            // Act
+            var str = obj.ToString();
+
+            // Assert
+            str.Should().Match("*1.234*", "it should always use . as decimal separator");
+        }
+
+        [CulturedFact("tr-TR")]
+        public void When_stringifying_a_validation_context_it_should_ignore_culture()
+        {
+            // Arrange
+            var root = FluentAssertions.Equivalency.Node.From<int>(() => string.Empty);
+            var context = new EquivalencyValidationContext(root)
+            {
+                Subject = 1.234,
+                Expectation = 5.678
+            };
+
+            // Act
+            var str = context.ToString();
+
+            // Assert
+            str.Should().Match("*1.234*5.678*", "it should always use . as decimal separator");
         }
 
         public static IEnumerable<object[]> EquivalencyData

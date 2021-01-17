@@ -228,7 +228,7 @@ namespace FluentAssertions.Specs
 
             private int Parse(string key)
             {
-                return int.Parse(key);
+                return int.Parse(key, CultureInfo.InvariantCulture);
             }
         }
 
@@ -1064,13 +1064,13 @@ namespace FluentAssertions.Specs
         public void When_a_dictionary_is_missing_a_key_it_should_report_the_specific_key()
         {
             // Arrange
-            var actual = new Dictionary<string,string>
+            var actual = new Dictionary<string, string>
             {
                 { "a", "x" },
                 { "b", "x" },
             };
 
-            var expected = new Dictionary<string,string>
+            var expected = new Dictionary<string, string>
             {
                 { "a", "x" },
                 { "c", "x" }, // key mismatch

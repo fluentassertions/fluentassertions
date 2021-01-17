@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -262,7 +263,7 @@ namespace FluentAssertions.Specs
                     {
                         foreach (KeyValuePair<string, object> pair in context)
                         {
-                            builder.AppendFormat("\nWith {0}:\n{1}", pair.Key, pair.Value);
+                            builder.AppendFormat(CultureInfo.InvariantCulture, "\nWith {0}:\n{1}", pair.Key, pair.Value);
                         }
                     }
 

@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using FluentAssertions.Common;
@@ -89,7 +90,7 @@ namespace FluentAssertions.Execution
         private string FormatArgumentPlaceholders(string failureMessage, object[] failureArgs)
         {
             string[] values = failureArgs.Select(a => Formatter.ToString(a, useLineBreaks)).ToArray();
-            string formattedMessage = string.Format(failureMessage, values);
+            string formattedMessage = string.Format(CultureInfo.InvariantCulture, failureMessage, values);
 
             return formattedMessage;
         }
