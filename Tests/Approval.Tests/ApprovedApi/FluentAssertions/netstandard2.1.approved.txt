@@ -98,17 +98,6 @@ namespace FluentAssertions
         public static FluentAssertions.Collections.GenericDictionaryAssertions<System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>>, TKey, TValue> Should<TKey, TValue>(this System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>> actualValue) { }
         public static FluentAssertions.Collections.GenericDictionaryAssertions<TCollection, TKey, TValue> Should<TCollection, TKey, TValue>(this TCollection actualValue)
             where TCollection : System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>> { }
-        public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> Where<TException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, System.Linq.Expressions.Expression<System.Func<TException, bool>> exceptionExpression, string because = "", params object[] becauseArgs)
-            where TException : System.Exception { }
-        public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TInnerException>> WithInnerException<TException, TInnerException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, string because = "", params object[] becauseArgs)
-            where TException : System.Exception
-            where TInnerException : System.Exception { }
-        public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> WithMessage<TException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, string expectedWildcardPattern, string because = "", params object[] becauseArgs)
-            where TException : System.Exception { }
-        public static FluentAssertions.Specialized.ExceptionAssertions<TException> WithParameterName<TException>(this FluentAssertions.Specialized.ExceptionAssertions<TException> parent, string paramName, string because = "", params object[] becauseArgs)
-            where TException : System.ArgumentException { }
-        public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> WithParameterName<TException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, string paramName, string because = "", params object[] becauseArgs)
-            where TException : System.ArgumentException { }
     }
     public static class AssertionOptions
     {
@@ -184,6 +173,20 @@ namespace FluentAssertions
         public static FluentAssertions.OccurrenceConstraint Thrice() { }
         public static FluentAssertions.OccurrenceConstraint Times(int expected) { }
         public static FluentAssertions.OccurrenceConstraint Twice() { }
+    }
+    public static class ExceptionAssertionsExtensions
+    {
+        public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> Where<TException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, System.Linq.Expressions.Expression<System.Func<TException, bool>> exceptionExpression, string because = "", params object[] becauseArgs)
+            where TException : System.Exception { }
+        public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TInnerException>> WithInnerException<TException, TInnerException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, string because = "", params object[] becauseArgs)
+            where TException : System.Exception
+            where TInnerException : System.Exception { }
+        public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> WithMessage<TException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, string expectedWildcardPattern, string because = "", params object[] becauseArgs)
+            where TException : System.Exception { }
+        public static FluentAssertions.Specialized.ExceptionAssertions<TException> WithParameterName<TException>(this FluentAssertions.Specialized.ExceptionAssertions<TException> parent, string paramName, string because = "", params object[] becauseArgs)
+            where TException : System.ArgumentException { }
+        public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> WithParameterName<TException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, string paramName, string because = "", params object[] becauseArgs)
+            where TException : System.ArgumentException { }
     }
     public static class FluentActions
     {

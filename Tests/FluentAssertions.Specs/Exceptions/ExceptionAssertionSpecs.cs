@@ -778,7 +778,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*someParameter*we want to test the failure message*someOtherParameter*");
+                .WithMessage("*with parameter name \"someParameter\"*we want to test the failure message*\"someOtherParameter\"*");
         }
 
         #endregion
