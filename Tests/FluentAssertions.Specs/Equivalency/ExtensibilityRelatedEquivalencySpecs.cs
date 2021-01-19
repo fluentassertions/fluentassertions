@@ -8,7 +8,7 @@ using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Equivalency
 {
     /// <summary>
     /// Test Class containing specs over the extensibility points of Should().BeEquivalentTo

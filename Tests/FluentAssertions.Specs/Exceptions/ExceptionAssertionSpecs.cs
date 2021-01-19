@@ -10,7 +10,7 @@ using Xunit.Sdk;
 
 using static FluentAssertions.Extensions.FluentTimeSpanExtensions;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Exceptions
 {
     public class ExceptionAssertionSpecs
     {

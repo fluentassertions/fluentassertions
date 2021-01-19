@@ -5,7 +5,7 @@ using System.Reflection;
 using Internal.Main.Test;
 using Xunit;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Types
 {
     public class PropertyInfoSelectorSpecs
     {

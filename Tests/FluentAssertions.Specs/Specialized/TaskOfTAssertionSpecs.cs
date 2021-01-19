@@ -5,10 +5,11 @@ using FluentAssertions.Extensions;
 #if NET47
 using FluentAssertions.Specs.Common;
 #endif
+using FluentAssertions.Specs.Exceptions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Specialized
 {
     [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
     public class TaskOfTAssertionSpecs

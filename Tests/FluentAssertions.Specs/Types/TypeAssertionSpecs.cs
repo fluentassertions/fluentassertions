@@ -6,11 +6,13 @@ using DummyNamespace.InnerDummyNamespace;
 using DummyNamespaceTwo;
 using FluentAssertions.Common;
 using FluentAssertions.Primitives;
+using FluentAssertions.Specs.Equivalency;
+using FluentAssertions.Specs.Primitives;
 using FluentAssertions.Types;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Types
 {
     public class TypeAssertionSpecs
     {
@@ -59,8 +61,8 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected type to be FluentAssertions.Specs.ClassWithoutAttribute" +
-                    " because we want to test the error message, but found FluentAssertions.Specs.ClassWithAttribute.");
+                "Expected type to be FluentAssertions*ClassWithoutAttribute" +
+                    " because we want to test the error message, but found FluentAssertions*ClassWithAttribute.");
         }
 
         [Fact]
@@ -90,7 +92,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected type to be FluentAssertions.Specs.ClassWithAttribute" +
+                "Expected type to be FluentAssertions*ClassWithAttribute" +
                     " because we want to test the error message, but found <null>.");
         }
 
@@ -108,7 +110,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected type to be <null>" +
-                    " because we want to test the error message, but found FluentAssertions.Specs.ClassWithAttribute.");
+                    " because we want to test the error message, but found FluentAssertions*ClassWithAttribute.");
         }
 
         [Fact]
@@ -179,8 +181,8 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected type to be FluentAssertions.Specs.ClassWithoutAttribute because we want to test " +
-                        "the error message, but found FluentAssertions.Specs.ClassWithAttribute.");
+                    "Expected type to be FluentAssertions*ClassWithoutAttribute because we want to test " +
+                        "the error message, but found FluentAssertions*ClassWithAttribute.");
         }
 
         #endregion
@@ -245,7 +247,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type not to be [FluentAssertions.Specs.ClassWithAttribute*]" +
+                .WithMessage("Expected type not to be [FluentAssertions*ClassWithAttribute*]" +
                              " because we want to test the error message, but it is.");
         }
 
@@ -290,7 +292,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected type not to be [FluentAssertions.Specs.ClassWithAttribute*] because we want to test " +
+                    "Expected type not to be [FluentAssertions*ClassWithAttribute*] because we want to test " +
                     "the error message, but it is.");
         }
 
@@ -568,8 +570,8 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type FluentAssertions.Specs.DummyBaseClass to be derived from " +
-                             "FluentAssertions.Specs.ClassWithMembers because we want to test the error message, but it is not.");
+                .WithMessage("Expected type FluentAssertions*DummyBaseClass to be derived from " +
+                             "FluentAssertions*ClassWithMembers because we want to test the error message, but it is not.");
         }
 
         [Fact]
@@ -823,8 +825,8 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type FluentAssertions.Specs.ClassWithoutAttribute to be decorated with " +
-                    "FluentAssertions.Specs.DummyClassAttribute because we want to test the error message, but the attribute " +
+                .WithMessage("Expected type FluentAssertions*ClassWithoutAttribute to be decorated with " +
+                    "FluentAssertions*DummyClassAttribute because we want to test the error message, but the attribute " +
                         "was not found.");
         }
 
@@ -887,8 +889,8 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type FluentAssertions.Specs.ClassWithAttribute to be decorated with " +
-                    "FluentAssertions.Specs.DummyClassAttribute that matches ((a.Name == \"Unexpected\")*a.IsEnabled), " +
+                .WithMessage("Expected type FluentAssertions*ClassWithAttribute to be decorated with " +
+                    "FluentAssertions*DummyClassAttribute that matches ((a.Name == \"Unexpected\")*a.IsEnabled), " +
                         "but no matching attribute was found.");
         }
 
@@ -1033,8 +1035,8 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type FluentAssertions.Specs.ClassWithoutAttribute to be decorated with or inherit " +
-                    "FluentAssertions.Specs.DummyClassAttribute because we want to test the error message, but the attribute " +
+                .WithMessage("Expected type FluentAssertions*ClassWithoutAttribute to be decorated with or inherit " +
+                    "FluentAssertions*DummyClassAttribute because we want to test the error message, but the attribute " +
                         "was not found.");
         }
 
@@ -1097,8 +1099,8 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type FluentAssertions.Specs.ClassWithInheritedAttribute to be decorated with or inherit " +
-                    "FluentAssertions.Specs.DummyClassAttribute that matches ((a.Name == \"Unexpected\")*a.IsEnabled), " +
+                .WithMessage("Expected type FluentAssertions*ClassWithInheritedAttribute to be decorated with or inherit " +
+                    "FluentAssertions*DummyClassAttribute that matches ((a.Name == \"Unexpected\")*a.IsEnabled), " +
                         "but no matching attribute was found.");
         }
 
@@ -1937,9 +1939,9 @@ namespace FluentAssertions.Specs
         }
 
         [Theory]
-        [InlineData(typeof(ClassWithoutMembers), "Expected type FluentAssertions.Specs.ClassWithoutMembers to be sealed.")]
-        [InlineData(typeof(Abstract), "Expected type FluentAssertions.Specs.Abstract to be sealed.")]
-        [InlineData(typeof(Static), "Expected type FluentAssertions.Specs.Static to be sealed.")]
+        [InlineData(typeof(ClassWithoutMembers), "Expected type FluentAssertions*ClassWithoutMembers to be sealed.")]
+        [InlineData(typeof(Abstract), "Expected type FluentAssertions*Abstract to be sealed.")]
+        [InlineData(typeof(Static), "Expected type FluentAssertions*Static to be sealed.")]
         public void When_type_is_not_sealed_it_fails(Type type, string exceptionMessage)
         {
             // Act
@@ -1961,13 +1963,13 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type FluentAssertions.Specs.ClassWithoutMembers to be sealed because it's very important.");
+                .WithMessage("Expected type FluentAssertions*ClassWithoutMembers to be sealed because it's very important.");
         }
 
         [Theory]
-        [InlineData(typeof(IDummyInterface), "FluentAssertions.Specs.IDummyInterface must be a class.")]
-        [InlineData(typeof(Struct), "FluentAssertions.Specs.Struct must be a class.")]
-        [InlineData(typeof(ExampleDelegate), "FluentAssertions.Specs.ExampleDelegate must be a class.")]
+        [InlineData(typeof(IDummyInterface), "FluentAssertions*IDummyInterface must be a class.")]
+        [InlineData(typeof(Struct), "FluentAssertions*Struct must be a class.")]
+        [InlineData(typeof(ExampleDelegate), "FluentAssertions*ExampleDelegate must be a class.")]
         public void When_type_is_not_valid_for_BeSealed_it_throws_exception(Type type, string exceptionMessage)
         {
             // Act
@@ -2036,7 +2038,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type FluentAssertions.Specs.Sealed not to be sealed.");
+                .WithMessage("Expected type FluentAssertions*Sealed not to be sealed.");
         }
 
         [Fact]
@@ -2050,13 +2052,13 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type FluentAssertions.Specs.Sealed not to be sealed because it's very important.");
+                .WithMessage("Expected type FluentAssertions*Sealed not to be sealed because it's very important.");
         }
 
         [Theory]
-        [InlineData(typeof(IDummyInterface), "FluentAssertions.Specs.IDummyInterface must be a class.")]
-        [InlineData(typeof(Struct), "FluentAssertions.Specs.Struct must be a class.")]
-        [InlineData(typeof(ExampleDelegate), "FluentAssertions.Specs.ExampleDelegate must be a class.")]
+        [InlineData(typeof(IDummyInterface), "FluentAssertions*IDummyInterface must be a class.")]
+        [InlineData(typeof(Struct), "FluentAssertions*Struct must be a class.")]
+        [InlineData(typeof(ExampleDelegate), "FluentAssertions*ExampleDelegate must be a class.")]
         public void When_type_is_not_valid_for_NotBeSealed_it_throws_exception(Type type, string exceptionMessage)
         {
             // Act
@@ -2112,9 +2114,9 @@ namespace FluentAssertions.Specs
         }
 
         [Theory]
-        [InlineData(typeof(ClassWithoutMembers), "Expected type FluentAssertions.Specs.ClassWithoutMembers to be abstract.")]
-        [InlineData(typeof(Sealed), "Expected type FluentAssertions.Specs.Sealed to be abstract.")]
-        [InlineData(typeof(Static), "Expected type FluentAssertions.Specs.Static to be abstract.")]
+        [InlineData(typeof(ClassWithoutMembers), "Expected type FluentAssertions*ClassWithoutMembers to be abstract.")]
+        [InlineData(typeof(Sealed), "Expected type FluentAssertions*Sealed to be abstract.")]
+        [InlineData(typeof(Static), "Expected type FluentAssertions*Static to be abstract.")]
         public void When_type_is_not_abstract_it_fails(Type type, string exceptionMessage)
         {
             // Act
@@ -2136,13 +2138,13 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type FluentAssertions.Specs.ClassWithoutMembers to be abstract because it's very important.");
+                .WithMessage("Expected type FluentAssertions*ClassWithoutMembers to be abstract because it's very important.");
         }
 
         [Theory]
-        [InlineData(typeof(IDummyInterface), "FluentAssertions.Specs.IDummyInterface must be a class.")]
-        [InlineData(typeof(Struct), "FluentAssertions.Specs.Struct must be a class.")]
-        [InlineData(typeof(ExampleDelegate), "FluentAssertions.Specs.ExampleDelegate must be a class.")]
+        [InlineData(typeof(IDummyInterface), "FluentAssertions*IDummyInterface must be a class.")]
+        [InlineData(typeof(Struct), "FluentAssertions*Struct must be a class.")]
+        [InlineData(typeof(ExampleDelegate), "FluentAssertions*ExampleDelegate must be a class.")]
         public void When_type_is_not_valid_for_BeAbstract_it_throws_exception(Type type, string exceptionMessage)
         {
             // Act
@@ -2178,7 +2180,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type FluentAssertions.Specs.Abstract not to be abstract.");
+                .WithMessage("Expected type FluentAssertions*Abstract not to be abstract.");
         }
 
         [Fact]
@@ -2192,13 +2194,13 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type FluentAssertions.Specs.Abstract not to be abstract because it's very important.");
+                .WithMessage("Expected type FluentAssertions*Abstract not to be abstract because it's very important.");
         }
 
         [Theory]
-        [InlineData(typeof(IDummyInterface), "FluentAssertions.Specs.IDummyInterface must be a class.")]
-        [InlineData(typeof(Struct), "FluentAssertions.Specs.Struct must be a class.")]
-        [InlineData(typeof(ExampleDelegate), "FluentAssertions.Specs.ExampleDelegate must be a class.")]
+        [InlineData(typeof(IDummyInterface), "FluentAssertions*IDummyInterface must be a class.")]
+        [InlineData(typeof(Struct), "FluentAssertions*Struct must be a class.")]
+        [InlineData(typeof(ExampleDelegate), "FluentAssertions*ExampleDelegate must be a class.")]
         public void When_type_is_not_valid_for_NotBeAbstract_it_throws_exception(Type type, string exceptionMessage)
         {
             // Act
@@ -2221,9 +2223,9 @@ namespace FluentAssertions.Specs
         }
 
         [Theory]
-        [InlineData(typeof(ClassWithoutMembers), "Expected type FluentAssertions.Specs.ClassWithoutMembers to be static.")]
-        [InlineData(typeof(Sealed), "Expected type FluentAssertions.Specs.Sealed to be static.")]
-        [InlineData(typeof(Abstract), "Expected type FluentAssertions.Specs.Abstract to be static.")]
+        [InlineData(typeof(ClassWithoutMembers), "Expected type FluentAssertions*ClassWithoutMembers to be static.")]
+        [InlineData(typeof(Sealed), "Expected type FluentAssertions*Sealed to be static.")]
+        [InlineData(typeof(Abstract), "Expected type FluentAssertions*Abstract to be static.")]
         public void When_type_is_not_static_it_fails(Type type, string exceptionMessage)
         {
             // Act
@@ -2245,13 +2247,13 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type FluentAssertions.Specs.ClassWithoutMembers to be static because it's very important.");
+                .WithMessage("Expected type FluentAssertions*ClassWithoutMembers to be static because it's very important.");
         }
 
         [Theory]
-        [InlineData(typeof(IDummyInterface), "FluentAssertions.Specs.IDummyInterface must be a class.")]
-        [InlineData(typeof(Struct), "FluentAssertions.Specs.Struct must be a class.")]
-        [InlineData(typeof(ExampleDelegate), "FluentAssertions.Specs.ExampleDelegate must be a class.")]
+        [InlineData(typeof(IDummyInterface), "FluentAssertions*IDummyInterface must be a class.")]
+        [InlineData(typeof(Struct), "FluentAssertions*Struct must be a class.")]
+        [InlineData(typeof(ExampleDelegate), "FluentAssertions*ExampleDelegate must be a class.")]
         public void When_type_is_not_valid_for_BeStatic_it_throws_exception(Type type, string exceptionMessage)
         {
             // Act
@@ -2287,7 +2289,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type FluentAssertions.Specs.Static not to be static.");
+                .WithMessage("Expected type FluentAssertions*Static not to be static.");
         }
 
         [Fact]
@@ -2301,13 +2303,13 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type FluentAssertions.Specs.Static not to be static because it's very important.");
+                .WithMessage("Expected type FluentAssertions*Static not to be static because it's very important.");
         }
 
         [Theory]
-        [InlineData(typeof(IDummyInterface), "FluentAssertions.Specs.IDummyInterface must be a class.")]
-        [InlineData(typeof(Struct), "FluentAssertions.Specs.Struct must be a class.")]
-        [InlineData(typeof(ExampleDelegate), "FluentAssertions.Specs.ExampleDelegate must be a class.")]
+        [InlineData(typeof(IDummyInterface), "FluentAssertions*IDummyInterface must be a class.")]
+        [InlineData(typeof(Struct), "FluentAssertions*Struct must be a class.")]
+        [InlineData(typeof(ExampleDelegate), "FluentAssertions*ExampleDelegate must be a class.")]
         public void When_type_is_not_valid_for_NotBeStatic_it_throws_exception(Type type, string exceptionMessage)
         {
             // Act
@@ -2348,8 +2350,8 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type FluentAssertions.Specs.ClassThatDoesNotImplementInterface to implement " +
-                             "interface FluentAssertions.Specs.IDummyInterface because we want to test the error message, " +
+                .WithMessage("Expected type FluentAssertions*ClassThatDoesNotImplementInterface to implement " +
+                             "interface FluentAssertions*IDummyInterface because we want to test the error message, " +
                              "but it does not.");
         }
 
@@ -2417,8 +2419,8 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type FluentAssertions.Specs.ClassThatImplementsInterface to not implement interface " +
-                             "FluentAssertions.Specs.IDummyInterface because we want to test the error message, but it does.");
+                .WithMessage("Expected type FluentAssertions*ClassThatImplementsInterface to not implement interface " +
+                             "FluentAssertions*IDummyInterface because we want to test the error message, but it does.");
         }
 
         [Fact]
@@ -2490,7 +2492,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected String FluentAssertions.Specs.ClassWithNoMembers.PublicProperty to exist because we want to " +
+                    "Expected String FluentAssertions*ClassWithNoMembers.PublicProperty to exist because we want to " +
                     "test the error message, but it does not.");
         }
 
@@ -2507,7 +2509,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected String FluentAssertions.Specs.ClassWithMembers.PrivateWriteProtectedReadProperty to be of type System.Int32 because we want to test the error message, but it is not.");
+                    "Expected String FluentAssertions*ClassWithMembers.PrivateWriteProtectedReadProperty to be of type System.Int32 because we want to test the error message, but it is not.");
         }
 
         #endregion
@@ -2563,7 +2565,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected String FluentAssertions.Specs.ClassWithMembers.PrivateWriteProtectedReadProperty to not exist because we want to " +
+                    "Expected String FluentAssertions*ClassWithMembers.PrivateWriteProtectedReadProperty to not exist because we want to " +
                     "test the error message, but it does.");
         }
 
@@ -2621,8 +2623,8 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to explicitly implement " +
-                    "FluentAssertions.Specs.IExplicitInterface.ImplicitStringProperty, but it does not.");
+                    "Expected FluentAssertions*ClassExplicitlyImplementingInterface to explicitly implement " +
+                    "FluentAssertions*IExplicitInterface.ImplicitStringProperty, but it does not.");
         }
 
         [Fact]
@@ -2641,8 +2643,8 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to explicitly implement " +
-                    "FluentAssertions.Specs.IExplicitInterface.NonExistentProperty, but it does not.");
+                    "Expected FluentAssertions*ClassExplicitlyImplementingInterface to explicitly implement " +
+                    "FluentAssertions*IExplicitInterface.NonExistentProperty, but it does not.");
         }
 
         [Fact]
@@ -2661,8 +2663,8 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected type FluentAssertions.Specs.ClassExplicitlyImplementingInterface to implement interface " +
-                    "FluentAssertions.Specs.IDummyInterface, but it does not.");
+                    "Expected type FluentAssertions*ClassExplicitlyImplementingInterface to implement interface " +
+                    "FluentAssertions*IDummyInterface, but it does not.");
         }
 
         #endregion
@@ -2704,8 +2706,8 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to not explicitly implement " +
-                    "FluentAssertions.Specs.IExplicitInterface.ExplicitStringProperty, but it does.");
+                    "Expected FluentAssertions*ClassExplicitlyImplementingInterface to not explicitly implement " +
+                    "FluentAssertions*IExplicitInterface.ExplicitStringProperty, but it does.");
         }
 
         [Fact]
@@ -2724,8 +2726,8 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to not explicitly implement " +
-                    "FluentAssertions.Specs.IExplicitInterface.ExplicitImplicitStringProperty, but it does.");
+                    "Expected FluentAssertions*ClassExplicitlyImplementingInterface to not explicitly implement " +
+                    "FluentAssertions*IExplicitInterface.ExplicitImplicitStringProperty, but it does.");
         }
 
         [Fact]
@@ -2777,8 +2779,8 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type FluentAssertions.Specs.ClassExplicitlyImplementingInterface to implement interface " +
-                             "FluentAssertions.Specs.IDummyInterface, but it does not.");
+                .WithMessage("Expected type FluentAssertions*ClassExplicitlyImplementingInterface to implement interface " +
+                             "FluentAssertions*IDummyInterface, but it does not.");
         }
 
         #endregion
@@ -2799,8 +2801,8 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to not explicitly implement " +
-                    "FluentAssertions.Specs.IExplicitInterface.ExplicitStringProperty, but it does.");
+                    "Expected FluentAssertions*ClassExplicitlyImplementingInterface to not explicitly implement " +
+                    "FluentAssertions*IExplicitInterface.ExplicitStringProperty, but it does.");
         }
 
         #endregion
@@ -2857,8 +2859,8 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to explicitly implement " +
-                    "FluentAssertions.Specs.IExplicitInterface.ImplicitMethod, but it does not.");
+                    "Expected FluentAssertions*ClassExplicitlyImplementingInterface to explicitly implement " +
+                    "FluentAssertions*IExplicitInterface.ImplicitMethod, but it does not.");
         }
 
         [Fact]
@@ -2877,8 +2879,8 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to explicitly implement " +
-                    "FluentAssertions.Specs.IExplicitInterface.NonExistentMethod, but it does not.");
+                    "Expected FluentAssertions*ClassExplicitlyImplementingInterface to explicitly implement " +
+                    "FluentAssertions*IExplicitInterface.NonExistentMethod, but it does not.");
         }
 
         [Fact]
@@ -2897,8 +2899,8 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected type FluentAssertions.Specs.ClassExplicitlyImplementingInterface to implement interface " +
-                    "FluentAssertions.Specs.IDummyInterface, but it does not.");
+                    "Expected type FluentAssertions*ClassExplicitlyImplementingInterface to implement interface " +
+                    "FluentAssertions*IDummyInterface, but it does not.");
         }
 
         #endregion
@@ -2940,8 +2942,8 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to not explicitly implement " +
-                    "FluentAssertions.Specs.IExplicitInterface.ExplicitMethod, but it does.");
+                    "Expected FluentAssertions*ClassExplicitlyImplementingInterface to not explicitly implement " +
+                    "FluentAssertions*IExplicitInterface.ExplicitMethod, but it does.");
         }
 
         [Fact]
@@ -2960,8 +2962,8 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to not explicitly implement " +
-                    "FluentAssertions.Specs.IExplicitInterface.ExplicitImplicitMethod, but it does.");
+                    "Expected FluentAssertions*ClassExplicitlyImplementingInterface to not explicitly implement " +
+                    "FluentAssertions*IExplicitInterface.ExplicitImplicitMethod, but it does.");
         }
 
         [Fact]
@@ -3013,8 +3015,8 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type FluentAssertions.Specs.ClassExplicitlyImplementingInterface to implement interface " +
-                             "FluentAssertions.Specs.IDummyInterface, but it does not.");
+                .WithMessage("Expected type FluentAssertions*ClassExplicitlyImplementingInterface to implement interface " +
+                             "FluentAssertions*IDummyInterface, but it does not.");
         }
 
         #endregion
@@ -3035,8 +3037,8 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to not explicitly implement " +
-                    "FluentAssertions.Specs.IExplicitInterface.ExplicitMethod, but it does.");
+                    "Expected FluentAssertions*ClassExplicitlyImplementingInterface to not explicitly implement " +
+                    "FluentAssertions*IExplicitInterface.ExplicitMethod, but it does.");
         }
 
         #endregion
@@ -3074,7 +3076,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected String FluentAssertions.Specs.ClassWithNoMembers[System.Int32, System.Type] to exist because we want to test the error" +
+                    "Expected String FluentAssertions*ClassWithNoMembers[System.Int32, System.Type] to exist because we want to test the error" +
                     " message, but it does not.");
         }
 
@@ -3091,7 +3093,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected String FluentAssertions.Specs.ClassWithMembers[System.Int32, System.Type] to exist because we want to test the error" +
+                    "Expected String FluentAssertions*ClassWithMembers[System.Int32, System.Type] to exist because we want to test the error" +
                     " message, but it does not.");
         }
 
@@ -3126,7 +3128,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected indexer FluentAssertions.Specs.ClassWithMembers[System.String] to not exist because we want to " +
+                    "Expected indexer FluentAssertions*ClassWithMembers[System.String] to not exist because we want to " +
                     "test the error message, but it does.");
         }
 
@@ -3164,7 +3166,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected constructor FluentAssertions.Specs.ClassWithNoMembers(System.Int32, System.Type) to exist because " +
+                    "Expected constructor FluentAssertions*ClassWithNoMembers(System.Int32, System.Type) to exist because " +
                     "we want to test the error message, but it does not.");
         }
 
@@ -3240,7 +3242,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected constructor FluentAssertions.Specs.ClassWithCctorAndNonDefaultConstructor() to exist because we " +
+                    "Expected constructor FluentAssertions*ClassWithCctorAndNonDefaultConstructor() to exist because we " +
                     "want to test the error message, but it does not.");
         }
 
@@ -3383,7 +3385,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected method FluentAssertions.Specs.ClassWithNoMembers.NonExistentMethod(System.Int32, System.Type) to exist " +
+                    "Expected method FluentAssertions*ClassWithNoMembers.NonExistentMethod(System.Int32, System.Type) to exist " +
                     "because we want to test the error message, but it does not.");
         }
 
@@ -3400,7 +3402,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected method FluentAssertions.Specs.ClassWithMembers.VoidMethod(System.Int32, System.Type) to exist " +
+                    "Expected method FluentAssertions*ClassWithMembers.VoidMethod(System.Int32, System.Type) to exist " +
                     "because we want to test the error message, but it does not.");
         }
 
@@ -3449,7 +3451,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected method Void FluentAssertions.Specs.ClassWithMembers.VoidMethod() to not exist because we want to " +
+                    "Expected method Void FluentAssertions*ClassWithMembers.VoidMethod() to not exist because we want to " +
                     "test the error message, but it does.");
         }
 
@@ -3929,7 +3931,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected public static explicit System.String(FluentAssertions.Specs.TypeWithConversionOperators) to exist " +
+                    "Expected public static explicit System.String(FluentAssertions*TypeWithConversionOperators) to exist " +
                     "because we want to test the error message, but it does not.");
         }
 
@@ -3967,7 +3969,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected public static explicit System.String(FluentAssertions.Specs.TypeWithConversionOperators) to exist " +
+                    "Expected public static explicit System.String(FluentAssertions*TypeWithConversionOperators) to exist " +
                     "because we want to test the error message, but it does not.");
         }
 
@@ -4007,7 +4009,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected public static explicit System.Byte(FluentAssertions.Specs.TypeWithConversionOperators) to not exist " +
+                    "Expected public static explicit System.Byte(FluentAssertions*TypeWithConversionOperators) to not exist " +
                     "because we want to test the error message, but it does.");
         }
 
@@ -4043,7 +4045,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected public static explicit System.Byte(FluentAssertions.Specs.TypeWithConversionOperators) to not exist " +
+                    "Expected public static explicit System.Byte(FluentAssertions*TypeWithConversionOperators) to not exist " +
                     "because we want to test the error message, but it does.");
         }
 
@@ -4085,7 +4087,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected public static implicit System.String(FluentAssertions.Specs.TypeWithConversionOperators) to exist " +
+                    "Expected public static implicit System.String(FluentAssertions*TypeWithConversionOperators) to exist " +
                     "because we want to test the error message, but it does not.");
         }
 
@@ -4123,7 +4125,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected public static implicit System.String(FluentAssertions.Specs.TypeWithConversionOperators) to exist " +
+                    "Expected public static implicit System.String(FluentAssertions*TypeWithConversionOperators) to exist " +
                     "because we want to test the error message, but it does not.");
         }
 
@@ -4163,7 +4165,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected public static implicit System.Int32(FluentAssertions.Specs.TypeWithConversionOperators) to not exist " +
+                    "Expected public static implicit System.Int32(FluentAssertions*TypeWithConversionOperators) to not exist " +
                     "because we want to test the error message, but it does.");
         }
 
@@ -4199,7 +4201,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected public static implicit System.Int32(FluentAssertions.Specs.TypeWithConversionOperators) to not exist " +
+                    "Expected public static implicit System.Int32(FluentAssertions*TypeWithConversionOperators) to not exist " +
                     "because we want to test the error message, but it does.");
         }
 

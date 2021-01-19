@@ -9,7 +9,7 @@ using FluentAssertions.Specs.Common;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Exceptions
 {
     public class FunctionExceptionAssertionSpecs
     {

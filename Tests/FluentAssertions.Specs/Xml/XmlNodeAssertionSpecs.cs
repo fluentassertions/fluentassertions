@@ -3,7 +3,7 @@ using System.Xml;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Xml
 {
     public class XmlNodeAssertionSpecs
     {

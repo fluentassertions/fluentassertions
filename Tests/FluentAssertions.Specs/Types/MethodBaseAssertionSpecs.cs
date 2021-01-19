@@ -5,7 +5,7 @@ using FluentAssertions.Specs.Common;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Types
 {
     public class MethodBaseAssertionSpecs
     {

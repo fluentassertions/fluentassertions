@@ -9,7 +9,7 @@ using FluentAssertions.Specs.Common;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs // TODO Move to FluentAssertions.Specs.Exceptions to follow file structure?
+namespace FluentAssertions.Specs.Exceptions
 {
     [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
     public class AsyncFunctionExceptionAssertionSpecs

@@ -4,7 +4,7 @@ using FluentAssertions.Types;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Types
 {
     public class MethodInfoSelectorAssertionSpecs
     {
@@ -51,9 +51,9 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected all selected methods" +
                              " to be virtual because we want to test the error message," +
                              " but the following methods are not virtual:*" +
-                             "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.PublicDoNothing*" +
-                             "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.InternalDoNothing*" +
-                             "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.ProtectedDoNothing");
+                             "Void FluentAssertions*ClassWithNonVirtualPublicMethods.PublicDoNothing*" +
+                             "Void FluentAssertions*ClassWithNonVirtualPublicMethods.InternalDoNothing*" +
+                             "Void FluentAssertions*ClassWithNonVirtualPublicMethods.ProtectedDoNothing");
         }
 
         [Fact]
@@ -162,11 +162,11 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods to be decorated with" +
-                             " FluentAssertions.Specs.DummyMethodAttribute because we want to test the error message," +
+                             " FluentAssertions*DummyMethodAttribute because we want to test the error message," +
                              " but the following methods are not:*" +
-                             "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing*" +
-                             "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.ProtectedDoNothing*" +
-                             "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PrivateDoNothing");
+                             "Void FluentAssertions*ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing*" +
+                             "Void FluentAssertions*ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.ProtectedDoNothing*" +
+                             "Void FluentAssertions*ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PrivateDoNothing");
         }
 
         [Fact]
@@ -261,9 +261,9 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods to be Public" +
                              ", but the following methods are not:*" +
-                             "Void FluentAssertions.Specs.ClassWithNonPublicMethods.PublicDoNothing*" +
-                             "Void FluentAssertions.Specs.ClassWithNonPublicMethods.DoNothingWithParameter*" +
-                             "Void FluentAssertions.Specs.ClassWithNonPublicMethods.DoNothingWithAnotherParameter");
+                             "Void FluentAssertions*ClassWithNonPublicMethods.PublicDoNothing*" +
+                             "Void FluentAssertions*ClassWithNonPublicMethods.DoNothingWithParameter*" +
+                             "Void FluentAssertions*ClassWithNonPublicMethods.DoNothingWithAnotherParameter");
         }
 
         [Fact]
@@ -281,9 +281,9 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected all selected methods to be Public" +
                              " because we want to test the error message" +
                              ", but the following methods are not:*" +
-                             "Void FluentAssertions.Specs.ClassWithNonPublicMethods.PublicDoNothing*" +
-                             "Void FluentAssertions.Specs.ClassWithNonPublicMethods.DoNothingWithParameter*" +
-                             "Void FluentAssertions.Specs.ClassWithNonPublicMethods.DoNothingWithAnotherParameter");
+                             "Void FluentAssertions*ClassWithNonPublicMethods.PublicDoNothing*" +
+                             "Void FluentAssertions*ClassWithNonPublicMethods.DoNothingWithParameter*" +
+                             "Void FluentAssertions*ClassWithNonPublicMethods.DoNothingWithAnotherParameter");
         }
 
         [Fact]
@@ -314,7 +314,7 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods to not be Public" +
                              ", but the following methods are:*" +
-                             "Void FluentAssertions.Specs.ClassWithPublicMethods.PublicDoNothing*");
+                             "Void FluentAssertions*ClassWithPublicMethods.PublicDoNothing*");
         }
 
         [Fact]
@@ -332,7 +332,7 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected all selected methods to not be Public" +
                              " because we want to test the error message" +
                              ", but the following methods are:*" +
-                             "Void FluentAssertions.Specs.ClassWithPublicMethods.PublicDoNothing*");
+                             "Void FluentAssertions*ClassWithPublicMethods.PublicDoNothing*");
         }
     }
 }

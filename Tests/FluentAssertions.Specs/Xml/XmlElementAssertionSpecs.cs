@@ -4,7 +4,7 @@ using FluentAssertions.Formatting;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Xml
 {
     public class XmlElementAssertionSpecs
     {

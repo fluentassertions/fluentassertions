@@ -12,7 +12,7 @@ using FluentAssertions.Specs.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Execution
 {
     public class AssertionScopeSpecs
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using FluentAssertions.Common;
 using Xunit;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Extensions
 {
     public class ObjectExtensionsSpecs
     {
