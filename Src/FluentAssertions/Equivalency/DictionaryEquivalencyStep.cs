@@ -3,6 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 
 using FluentAssertions.Execution;
 
+using static System.FormattableString;
+
 namespace FluentAssertions.Equivalency
 {
     public class DictionaryEquivalencyStep : IEquivalencyStep
@@ -39,12 +41,13 @@ namespace FluentAssertions.Equivalency
                     {
                         if (config.IsRecursive)
                         {
-                            context.Tracer.WriteLine(member => $"Recursing into dictionary item {key} at {member.Description}");
+                            context.Tracer.WriteLine(member => Invariant($"Recursing into dictionary item {key} at {member.Description}"));
                             parent.AssertEqualityUsing(context.AsDictionaryItem(key, subject[key], expectation[key]));
                         }
                         else
                         {
-                            context.Tracer.WriteLine(member => $"Comparing dictionary item {key} at {member.Description} between subject and expectation");
+                            context.Tracer.WriteLine(member =>
+                                Invariant($"Comparing dictionary item {key} at {member.Description} between subject and expectation"));
                             subject[key].Should().Be(expectation[key], context.Reason.FormattedMessage, context.Reason.Arguments);
                         }
                     }

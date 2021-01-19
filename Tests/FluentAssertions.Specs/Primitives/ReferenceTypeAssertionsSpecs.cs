@@ -373,9 +373,9 @@ namespace FluentAssertions.Specs.Primitives
             Action act = () => subject.Should().Be(other);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(string.Format(
-                "Expected subject to be System.Object (HashCode={0}), but found System.Object (HashCode={1}).",
-                other.GetHashCode(), subject.GetHashCode()));
+            act.Should().Throw<XunitException>()
+                .WithMessage($"Expected subject to be System.Object (HashCode={other.GetHashCode()}), " +
+                             $"but found System.Object (HashCode={subject.GetHashCode()}).");
         }
 
         #endregion
@@ -451,7 +451,7 @@ namespace FluentAssertions.Specs.Primitives
 
         public override string ToString()
         {
-            return string.Format("ClassWithCustomEqualMethod({0})", Key);
+            return $"ClassWithCustomEqualMethod({Key})";
         }
     }
 }

@@ -500,7 +500,7 @@ namespace FluentAssertions.Specs.Exceptions
 
         private static string BuildExpectedMessageForWithInnerExceptionExactly(string because, string innerExceptionMessage)
         {
-            var expectedMessage = string.Format("{0} \"{1}\"\n.", because, innerExceptionMessage);
+            var expectedMessage = $"{because} \"{innerExceptionMessage}\"\n.";
 
             return expectedMessage;
         }
@@ -745,9 +745,7 @@ namespace FluentAssertions.Specs.Exceptions
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage(
-                    string.Format("*System.ArgumentNullException*{0}*",
-                        typeof(ExceptionWithEmptyToString)));
+                .WithMessage($"*System.ArgumentNullException*{typeof(ExceptionWithEmptyToString)}*");
         }
 
         [Fact]

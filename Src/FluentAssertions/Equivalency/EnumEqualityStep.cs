@@ -45,8 +45,7 @@ namespace FluentAssertions.Equivalency
                     break;
 
                 default:
-                    throw new InvalidOperationException(string.Format("Do not know how to handle {0}",
-                        config.EnumEquivalencyHandling));
+                    throw new InvalidOperationException($"Do not know how to handle {config.EnumEquivalencyHandling}");
             }
 
             return true;

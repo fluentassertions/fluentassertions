@@ -353,8 +353,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             string expectedMessage =
-                string.Format("Expected collection to contain a single item matching {0}, " +
-                              "but the collection is empty.", expression.Body);
+                $"Expected collection to contain a single item matching {expression.Body}, but the collection is empty.";
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
@@ -371,8 +370,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             string expectedMessage =
-                string.Format("Expected collection to contain a single item matching {0}, " +
-                              "but found <null>.", expression.Body);
+                $"Expected collection to contain a single item matching {expression.Body}, but found <null>.";
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
@@ -389,8 +387,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             string expectedMessage =
-                string.Format("Expected collection to contain a single item matching {0}, " +
-                              "but no such item was found.", expression.Body);
+                $"Expected collection to contain a single item matching {expression.Body}, but no such item was found.";
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
@@ -407,8 +404,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             string expectedMessage =
-                string.Format("Expected collection to contain a single item matching {0}, " +
-                              "but 3 such items were found.", expression.Body);
+                $"Expected collection to contain a single item matching {expression.Body}, but 3 such items were found.";
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }

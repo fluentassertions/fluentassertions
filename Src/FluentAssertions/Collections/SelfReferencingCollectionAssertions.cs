@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
@@ -677,7 +678,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(expectationPrefix + "but " + count.ToString() + " such items were found.", predicate.Body);
+                    .FailWith(expectationPrefix + "but " + count.ToString(CultureInfo.InvariantCulture) + " such items were found.", predicate.Body);
             }
             else
             {

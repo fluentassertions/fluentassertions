@@ -756,9 +756,9 @@ namespace FluentAssertions.Specs.Xml
                 theDocument.Should().HaveRoot("unknown", "because we want to test the failure message");
 
             // Assert
-            string expectedMessage = string.Format("Expected theDocument to have root element \"unknown\"" +
-                                                   " because we want to test the failure message" +
-                                                   ", but found {0}.", Formatter.ToString(theDocument));
+            string expectedMessage = "Expected theDocument to have root element \"unknown\"" +
+                                     " because we want to test the failure message" +
+                                    $", but found {Formatter.ToString(theDocument)}.";
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
@@ -844,10 +844,10 @@ namespace FluentAssertions.Specs.Xml
                     "because we want to test the failure message");
 
             // Assert
-            string expectedMessage = string.Format(
-                "Expected theDocument to have root element \"{{http://www.example.com/2012/test}}unknown\"" +
+            string expectedMessage =
+                "Expected theDocument to have root element \"{http://www.example.com/2012/test}unknown\"" +
                 " because we want to test the failure message" +
-                ", but found {0}.", Formatter.ToString(theDocument));
+               $", but found {Formatter.ToString(theDocument)}.";
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }

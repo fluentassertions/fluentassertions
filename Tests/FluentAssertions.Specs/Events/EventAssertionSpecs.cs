@@ -709,7 +709,7 @@ namespace FluentAssertions.Specs.Events
             MethodBuilder emitAddRemoveEventHandler(string methodName)
             {
                 MethodBuilder method =
-                    typeBuilder.DefineMethod(string.Format("{0}.{1}_InterfaceEvent", interfaceType.FullName, methodName),
+                    typeBuilder.DefineMethod($"{interfaceType.FullName}.{methodName}_InterfaceEvent",
                         MethodAttributes.Private | MethodAttributes.Virtual | MethodAttributes.Final |
                         MethodAttributes.HideBySig |
                         MethodAttributes.NewSlot);

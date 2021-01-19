@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Xunit;
 using Xunit.Sdk;
 
@@ -663,7 +664,7 @@ namespace FluentAssertions.Specs.Numeric
 
         public override string ToString()
         {
-            return Value.ToString();
+            return Value.ToString(CultureInfo.InvariantCulture);
         }
     }
 
@@ -683,7 +684,7 @@ namespace FluentAssertions.Specs.Numeric
 
         public override string ToString()
         {
-            return Value.ToString();
+            return Value.ToString(CultureInfo.InvariantCulture);
         }
     }
 

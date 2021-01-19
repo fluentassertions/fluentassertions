@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using FluentAssertions.Common;
+using static System.FormattableString;
 
 namespace FluentAssertions.Equivalency
 {
@@ -47,13 +48,13 @@ namespace FluentAssertions.Equivalency
 
             if (TryChangeType(context.Subject, expectationType, out object convertedSubject))
             {
-                context.Tracer.WriteLine(member => $"Converted subject {context.Subject} at {member.Description} to {expectationType}");
+                context.Tracer.WriteLine(member => Invariant($"Converted subject {context.Subject} at {member.Description} to {expectationType}"));
 
                 context.Subject = convertedSubject;
             }
             else
             {
-                context.Tracer.WriteLine(member => $"Subject {context.Subject} at {member.Description} could not be converted to {expectationType}");
+                context.Tracer.WriteLine(member => Invariant($"Subject {context.Subject} at {member.Description} could not be converted to {expectationType}"));
             }
 
             return false;

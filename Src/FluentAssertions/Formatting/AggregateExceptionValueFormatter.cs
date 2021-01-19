@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text;
 
 namespace FluentAssertions.Formatting
@@ -29,7 +30,7 @@ namespace FluentAssertions.Formatting
             {
                 var builder = new StringBuilder();
 
-                builder.AppendFormat("{0} (aggregated) exceptions:\n", exception.InnerExceptions.Count);
+                builder.AppendFormat(CultureInfo.InvariantCulture, "{0} (aggregated) exceptions:\n", exception.InnerExceptions.Count);
 
                 foreach (Exception innerException in exception.InnerExceptions)
                 {

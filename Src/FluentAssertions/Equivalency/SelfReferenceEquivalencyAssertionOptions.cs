@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -644,7 +645,8 @@ namespace FluentAssertions.Equivalency
                 }
             }
 
-            builder.AppendFormat("- Compare enums by {0}" + Environment.NewLine,
+            builder.AppendFormat(CultureInfo.InvariantCulture,
+                "- Compare enums by {0}" + Environment.NewLine,
                 enumEquivalencyHandling == EnumEquivalencyHandling.ByName ? "name" : "value");
 
             if (cyclicReferenceHandling == CyclicReferenceHandling.Ignore)

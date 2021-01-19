@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using DummyNamespace;
@@ -4271,11 +4272,11 @@ namespace FluentAssertions.Specs.Types
 
         private ClassWithMembers(string _) { }
 
-        protected string PrivateWriteProtectedReadProperty { get { return null; } private set { } }
+        protected string PrivateWriteProtectedReadProperty { get => null; private set { } }
 
-        internal string this[string str] { private get { return str; } set { } }
+        internal string this[string str] { private get => str; set { } }
 
-        protected internal string this[int i] { get { return i.ToString(); } private set { } }
+        protected internal string this[int i] { get => i.ToString(CultureInfo.InvariantCulture); private set { } }
 
         private void VoidMethod() { }
 
@@ -4284,7 +4285,7 @@ namespace FluentAssertions.Specs.Types
 
     public class ClassExplicitlyImplementingInterface : IExplicitInterface
     {
-        public string ImplicitStringProperty { get { return null; } private set { } }
+        public string ImplicitStringProperty { get => null; private set { } }
 
         string IExplicitInterface.ExplicitStringProperty { set { } }
 

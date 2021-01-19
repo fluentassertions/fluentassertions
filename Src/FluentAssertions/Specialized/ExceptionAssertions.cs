@@ -178,9 +178,7 @@ namespace FluentAssertions.Specialized
                 {
                     string thrownExceptions = BuildExceptionsString(Subject);
                     Services.ThrowException(
-                        string.Format(
-                            "More than one exception was thrown.  FluentAssertions cannot determine which Exception was meant.{0}{1}",
-                            Environment.NewLine, thrownExceptions));
+                        $"More than one exception was thrown.  FluentAssertions cannot determine which Exception was meant.{Environment.NewLine}{thrownExceptions}");
                 }
 
                 return Subject.Single();

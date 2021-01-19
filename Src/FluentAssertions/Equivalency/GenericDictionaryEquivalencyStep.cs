@@ -83,12 +83,9 @@ namespace FluentAssertions.Equivalency
             }
 
             AssertionScope.Current.FailWith(
-                string.Format(
-                    "{{context:Expectation}} implements multiple dictionary types.  "
-                    + "It is not known which type should be use for equivalence.{0}"
-                    + "The following IDictionary interfaces are implemented: {1}",
-                    Environment.NewLine,
-                    string.Join(", ", (IEnumerable<Type>)interfaces)));
+                "{{context:Expectation}} implements multiple dictionary types.  "
+             + $"It is not known which type should be use for equivalence.{Environment.NewLine}"
+             + $"The following IDictionary interfaces are implemented: {string.Join(", ", (IEnumerable<Type>)interfaces)}");
 
             return false;
         }
@@ -123,13 +120,9 @@ namespace FluentAssertions.Equivalency
             if (!suitableDictionaryInterfaces.Any())
             {
                 AssertionScope.Current.FailWith(
-                    string.Format(
-                        "The {{context:subject}} dictionary has keys of type {0}; "
-                        + "however, the expectation is not keyed with any compatible types.{1}"
-                        + "The subject implements: {2}",
-                        expectedKeyType,
-                        Environment.NewLine,
-                        string.Join(",", (IEnumerable<Type>)subjectDictionaryInterfaces)));
+                    $"The {{context:subject}} dictionary has keys of type {expectedKeyType}; "
+                  + $"however, the expectation is not keyed with any compatible types.{Environment.NewLine}"
+                  + $"The subject implements: {string.Join(",", (IEnumerable<Type>)subjectDictionaryInterfaces)}");
 
                 return false;
             }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text;
 
 namespace FluentAssertions.Formatting
@@ -23,7 +24,8 @@ namespace FluentAssertions.Formatting
             var exception = (Exception)value;
 
             var builder = new StringBuilder();
-            builder.AppendFormat("{0} with message \"{1}\"\n", exception.GetType().FullName, exception.Message);
+            builder.AppendFormat(CultureInfo.InvariantCulture, "{0} with message \"{1}\"\n",
+                exception.GetType().FullName, exception.Message);
 
             if (exception.StackTrace is not null)
             {

@@ -51,19 +51,21 @@ namespace FluentAssertions.Execution
 
             if (!Frameworks.TryGetValue(frameworkName, out ITestFramework framework))
             {
-                var message = string.Format("FluentAssertions was configured to use {0} but the requested test framework is not supported. " +
-                    "Please use one of the supported frameworks: {1}", frameworkName, string.Join(", ", Frameworks.Keys));
+                string frameworks = string.Join(", ", Frameworks.Keys);
+                var message = $"FluentAssertions was configured to use {frameworkName} but the requested test framework is not supported. " +
+                    $"Please use one of the supported frameworks: {frameworks}";
 
                 throw new Exception(message);
             }
 
             if (!framework.IsAvailable)
             {
+                string frameworks = string.Join(", ", Frameworks.Keys);
                 var message = framework is LateBoundTestFramework lateBoundTestFramework
-                    ? string.Format("FluentAssertions was configured to use {0} but the required test framework assembly {1} could not be found. " +
-                        "Please use one of the supported frameworks: {2}", frameworkName, lateBoundTestFramework.AssemblyName, string.Join(", ", Frameworks.Keys))
-                    : string.Format("FluentAssertions was configured to use {0} but the required test framework could not be found. " +
-                        "Please use one of the supported frameworks: {1}", frameworkName, string.Join(", ", Frameworks.Keys));
+                    ? $"FluentAssertions was configured to use {frameworkName} but the required test framework assembly {lateBoundTestFramework.AssemblyName} could not be found. " +
+                        $"Please use one of the supported frameworks: {frameworks}"
+                    : $"FluentAssertions was configured to use {frameworkName} but the required test framework could not be found. " +
+                        $"Please use one of the supported frameworks: {frameworks}";
 
                 throw new Exception(message);
             }

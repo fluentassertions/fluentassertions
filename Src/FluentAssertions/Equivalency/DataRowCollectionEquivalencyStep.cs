@@ -65,7 +65,7 @@ namespace FluentAssertions.Equivalency
             for (int i = 0; i < expectation.Count; i++)
             {
                 IEquivalencyValidationContext nestedContext = context.AsCollectionItem(
-                    i.ToString(),
+                    i,
                     subject[i],
                     expectation[i]);
 

@@ -354,10 +354,10 @@ namespace FluentAssertions.Common
 
         public static bool HasExplicitlyImplementedProperty(this Type type, Type interfaceType, string propertyName)
         {
-            bool hasGetter = type.HasParameterlessMethod(string.Format("{0}.get_{1}", interfaceType.FullName, propertyName));
+            bool hasGetter = type.HasParameterlessMethod($"{interfaceType.FullName}.get_{propertyName}");
             bool hasSetter = type.GetMethods(AllMembersFlag)
                 .SingleOrDefault(m =>
-                    m.Name == string.Format("{0}.set_{1}", interfaceType.FullName, propertyName) &&
+                    m.Name == $"{interfaceType.FullName}.set_{propertyName}" &&
                     m.GetParameters().Length == 1) is not null;
 
             return hasGetter || hasSetter;

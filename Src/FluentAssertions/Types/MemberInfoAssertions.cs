@@ -78,9 +78,7 @@ namespace FluentAssertions.Types
         {
             Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
 
-            string failureMessage = string.Format("Expected {0} {1}" +
-                                                  " to be decorated with {2}{{reason}}, but that attribute was not found.",
-                                                  Identifier, SubjectDescription, typeof(TAttribute));
+            string failureMessage = $"Expected {Identifier} {SubjectDescription} to be decorated with {typeof(TAttribute)}{{reason}}, but that attribute was not found.";
 
             IEnumerable<TAttribute> attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
 
@@ -113,9 +111,7 @@ namespace FluentAssertions.Types
         {
             Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
 
-            string failureMessage = string.Format("Expected {0} {1}" +
-                                                  " to not be decorated with {2}{{reason}}, but that attribute was found.",
-                                                  Identifier, SubjectDescription, typeof(TAttribute));
+            string failureMessage = $"Expected {Identifier} {SubjectDescription} to not be decorated with {typeof(TAttribute)}{{reason}}, but that attribute was found.";
 
             IEnumerable<TAttribute> attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
 
@@ -129,12 +125,6 @@ namespace FluentAssertions.Types
 
         protected override string Identifier => "member";
 
-        internal virtual string SubjectDescription
-        {
-            get
-            {
-                return string.Format("{0}.{1}", Subject.DeclaringType, Subject.Name);
-            }
-        }
+        internal virtual string SubjectDescription => $"{Subject.DeclaringType}.{Subject.Name}";
     }
 }

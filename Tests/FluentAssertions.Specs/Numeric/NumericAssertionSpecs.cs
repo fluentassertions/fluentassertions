@@ -797,7 +797,7 @@ namespace FluentAssertions.Specs.Numeric
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage(string.Format("Expected value to be one of {{4, 5}}, but found {0}.", value));
+                .WithMessage("Expected value to be one of {4, 5}, but found 3.");
         }
 
         [Fact]
@@ -812,8 +812,7 @@ namespace FluentAssertions.Specs.Numeric
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage(
-                    string.Format("Expected value to be one of {{4, 5}} because those are the valid values, but found {0}.", value));
+                .WithMessage("Expected value to be one of {4, 5} because those are the valid values, but found 3.");
         }
 
         [Fact]

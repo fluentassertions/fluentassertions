@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -26,11 +27,11 @@ namespace FluentAssertions.Xml.Equivalency
             {
                 if (location.count > 1)
                 {
-                    resultBuilder.AppendFormat("/{0}[{1}]", location.name, location.count);
+                    resultBuilder.AppendFormat(CultureInfo.InvariantCulture, "/{0}[{1}]", location.name, location.count);
                 }
                 else
                 {
-                    resultBuilder.AppendFormat("/{0}", location.name);
+                    resultBuilder.AppendFormat(CultureInfo.InvariantCulture, "/{0}", location.name);
                 }
             }
 

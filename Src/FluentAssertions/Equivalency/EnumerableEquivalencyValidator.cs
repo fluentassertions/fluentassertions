@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions.Equivalency.Tracing;
 using FluentAssertions.Execution;
+using static System.FormattableString;
 
 namespace FluentAssertions.Equivalency
 {
@@ -36,12 +37,14 @@ namespace FluentAssertions.Equivalency
             {
                 if (Recursive)
                 {
-                    using var _ = context.Tracer.WriteBlock(member => $"Structurally comparing {subject} and expectation {expectation} at {member.Description}");
+                    using var _ = context.Tracer.WriteBlock(member =>
+                        Invariant($"Structurally comparing {subject} and expectation {expectation} at {member.Description}"));
                     AssertElementGraphEquivalency(subject, expectation);
                 }
                 else
                 {
-                    using var _ = context.Tracer.WriteBlock(member => $"Comparing subject {subject} and expectation {expectation} at {member.Description} using simple value equality");
+                    using var _ = context.Tracer.WriteBlock(member =>
+                        Invariant($"Comparing subject {subject} and expectation {expectation} at {member.Description} using simple value equality"));
                     subject.Should().BeEquivalentTo(expectation);
                 }
             }
@@ -90,7 +93,7 @@ namespace FluentAssertions.Equivalency
                 T expectation = expectations[index];
 
                 using var _ = context.Tracer.WriteBlock(member =>
-                    $"Strictly comparing expectation {expectation} at {member.Description} to item with index {index} in {subjects}");
+                    Invariant($"Strictly comparing expectation {expectation} at {member.Description} to item with index {index} in {subjects}"));
                 bool succeeded = StrictlyMatchAgainst(subjects, expectation, index);
                 if (!succeeded)
                 {
@@ -113,7 +116,7 @@ namespace FluentAssertions.Equivalency
                 T expectation = expectations[index];
 
                 using var _ = context.Tracer.WriteBlock(member =>
-                    $"Finding the best match of {expectation} within all items in {subjects} at {member.Description}[{index}]");
+                    Invariant($"Finding the best match of {expectation} within all items in {subjects} at {member.Description}[{index}]"));
                 bool succeeded = LooselyMatchAgainst(subjects, expectation, index);
                 if (!succeeded)
                 {
@@ -174,7 +177,7 @@ namespace FluentAssertions.Equivalency
         private string[] TryToMatch<T>(object subject, T expectation, int expectationIndex)
         {
             using var scope = new AssertionScope();
-            parent.AssertEqualityUsing(context.AsCollectionItem(expectationIndex.ToString(), subject, expectation));
+            parent.AssertEqualityUsing(context.AsCollectionItem(expectationIndex, subject, expectation));
 
             return scope.Discard();
         }
@@ -183,9 +186,8 @@ namespace FluentAssertions.Equivalency
         {
             using var scope = new AssertionScope();
             object subject = subjects[expectationIndex];
-            string indexString = expectationIndex.ToString();
             IEquivalencyValidationContext equivalencyValidationContext =
-                context.AsCollectionItem(indexString, subject, expectation);
+                context.AsCollectionItem(expectationIndex, subject, expectation);
 
             parent.AssertEqualityUsing(equivalencyValidationContext);
 
