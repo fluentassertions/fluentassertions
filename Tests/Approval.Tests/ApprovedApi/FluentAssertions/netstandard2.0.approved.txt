@@ -2043,6 +2043,7 @@ namespace FluentAssertions.Specialized
         public TaskCompletionSourceAssertions(System.Threading.Tasks.TaskCompletionSource<T> tcs) { }
         public TaskCompletionSourceAssertions(System.Threading.Tasks.TaskCompletionSource<T> tcs, FluentAssertions.Common.IClock clock) { }
         public System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.TaskCompletionSourceAssertions<T>, T>> CompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
+        public System.Threading.Tasks.Task NotCompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
     }
 }
 namespace FluentAssertions.Types
