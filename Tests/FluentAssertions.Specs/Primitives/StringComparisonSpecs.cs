@@ -292,7 +292,7 @@ namespace FluentAssertions.Specs.Primitives
         public void When_stringifying_a_validation_context_it_should_ignore_culture()
         {
             // Arrange
-            var root = FluentAssertions.Equivalency.Node.From<int>(() => string.Empty);
+            var root = Node.From<int>(() => string.Empty);
             var context = new EquivalencyValidationContext(root)
             {
                 Subject = 1.234,
@@ -304,6 +304,25 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             str.Should().Match("*1.234*5.678*", "it should always use . as decimal separator");
+        }
+
+        [CulturedFact("tr-TR")]
+        public void When_formatting_the_context_it_should_ignore_culture()
+        {
+            // Arrange
+            var context = new Dictionary<string, object>
+            {
+                ["FOO"] = 1.234
+            };
+            var strategy = new CollectingAssertionStrategy();
+            strategy.HandleFailure(string.Empty);
+
+            // Act
+            Action act = () => strategy.ThrowIfAny(context);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*1.234*", "it should always use . as decimal separator");
         }
 
         public static IEnumerable<object[]> EquivalencyData
