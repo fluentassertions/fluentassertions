@@ -104,6 +104,11 @@ namespace FluentAssertions
         public static void AssertEquivalencyUsing(System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions, FluentAssertions.Equivalency.EquivalencyAssertionOptions> defaultsConfigurer) { }
         public static FluentAssertions.Equivalency.EquivalencyAssertionOptions<T> CloneDefaults<T>() { }
     }
+    public static class AsyncAssertionsExtensions
+    {
+        public static System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.GenericAsyncFunctionAssertions<T>, T>> WithResult<T>(this System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.GenericAsyncFunctionAssertions<T>, T>> task, T expected, string because = "", params object[] becauseArgs) { }
+        public static System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.TaskCompletionSourceAssertions<T>, T>> WithResult<T>(this System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.TaskCompletionSourceAssertions<T>, T>> task, T expected, string because = "", params object[] becauseArgs) { }
+    }
     public static class AtLeast
     {
         public static FluentAssertions.OccurrenceConstraint Once() { }
