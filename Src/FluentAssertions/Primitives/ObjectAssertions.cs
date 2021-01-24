@@ -203,7 +203,7 @@ namespace FluentAssertions.Primitives
             bool hasMismatches;
             using (var scope = new AssertionScope())
             {
-                Subject.Should().BeEquivalentTo(unexpected, config, because, becauseArgs);
+                Subject.Should().BeEquivalentTo(unexpected, config);
                 hasMismatches = scope.Discard().Length > 0;
             }
 
@@ -211,7 +211,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(hasMismatches)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
-                .FailWith("Expected {context} not to be equivalent to {0}, but they are.", unexpected);
+                .FailWith("Expected {context} not to be equivalent to {0}{reason}, but they are.", unexpected);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

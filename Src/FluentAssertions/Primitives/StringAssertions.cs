@@ -585,7 +585,7 @@ namespace FluentAssertions.Primitives
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} that does not end with {1}, but found {0}.", Subject, unexpected);
+                    .FailWith("Expected {context:string} that does not end with {1}{reason}, but found {0}.", Subject, unexpected);
             }
 
             Execute.Assertion
@@ -654,7 +654,7 @@ namespace FluentAssertions.Primitives
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} that does not end with equivalent of {0}, but found {1}.", unexpected, Subject);
+                    .FailWith("Expected {context:string} that does not end with equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
             }
 
             Execute.Assertion

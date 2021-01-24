@@ -1260,7 +1260,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Act
             Action action = () =>
-                value.Should().NotEndWith("BC", "because of some reason");
+                value.Should().NotEndWith("BC", "because of some {0}", "reason");
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
@@ -1302,11 +1302,11 @@ namespace FluentAssertions.Specs.Primitives
         {
             // Act
             string someString = null;
-            Action act = () => someString.Should().NotEndWith("ABC");
+            Action act = () => someString.Should().NotEndWith("ABC", "some {0}", "reason");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected someString that does not end with \"ABC\", but found <null>.");
+                "Expected someString that does not end with \"ABC\"*some reason*, but found <null>.");
         }
 
         #endregion
@@ -1582,7 +1582,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Act
             Action action = () =>
-                value.Should().NotEndWithEquivalentOf("Bc", "because of some reason");
+                value.Should().NotEndWithEquivalentOf("Bc", "because of some {0}", "reason");
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
@@ -1624,11 +1624,11 @@ namespace FluentAssertions.Specs.Primitives
         {
             // Act
             string someString = null;
-            Action act = () => someString.Should().NotEndWithEquivalentOf("Abc");
+            Action act = () => someString.Should().NotEndWithEquivalentOf("Abc", "some {0}", "reason");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected someString that does not end with equivalent of \"Abc\", but found <null>.");
+                "Expected someString that does not end with equivalent of \"Abc\"*some reason*, but found <null>.");
         }
 
         #endregion
