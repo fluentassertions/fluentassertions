@@ -34,15 +34,22 @@ namespace FluentAssertions.Primitives
     public class DateTimeOffsetAssertions<TAssertions>
         where TAssertions : DateTimeOffsetAssertions<TAssertions>
     {
-        public DateTimeOffsetAssertions(DateTimeOffset? value)
+        public DateTimeOffsetAssertions(DateTimeOffset value)
+            : this((DateTimeOffset?)value)
         {
-            Subject = value;
+        }
+
+        private protected DateTimeOffsetAssertions(DateTimeOffset? value)
+        {
+            SubjectInternal = value;
         }
 
         /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
-        public DateTimeOffset? Subject { get; }
+        public DateTimeOffset Subject => SubjectInternal.Value;
+
+        private protected DateTimeOffset? SubjectInternal { get; }
 
         /// <summary>
         /// Asserts that the current <see cref="DateTimeOffset"/> is exactly equal to the <paramref name="expected"/> value.
@@ -59,10 +66,10 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.HasValue && (Subject.Value == expected))
+                .ForCondition(SubjectInternal.HasValue && (SubjectInternal.Value == expected))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:the date and time} to be {0}{reason}, but it was {1}.",
-                    expected, Subject ?? default(DateTimeOffset?));
+                    expected, SubjectInternal ?? default(DateTimeOffset?));
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -82,10 +89,10 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject == expected)
+                .ForCondition(SubjectInternal == expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:the date and time} to be {0}{reason}, but it was {1}.",
-                    expected, Subject ?? default(DateTimeOffset?));
+                    expected, SubjectInternal ?? default(DateTimeOffset?));
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -105,7 +112,7 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!Subject.HasValue || (Subject.Value != unexpected))
+                .ForCondition(!SubjectInternal.HasValue || (SubjectInternal.Value != unexpected))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:the date and time} to be {0}{reason}, but it was.", unexpected);
 
@@ -127,8 +134,8 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition((!Subject.HasValue == unexpected.HasValue) ||
-                (Subject.HasValue && unexpected.HasValue && Subject.Value != unexpected))
+                .ForCondition((!SubjectInternal.HasValue == unexpected.HasValue) ||
+                (SubjectInternal.HasValue && unexpected.HasValue && SubjectInternal.Value != unexpected))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:the date and time} to be {0}{reason}, but it was.", unexpected);
 
@@ -172,11 +179,11 @@ namespace FluentAssertions.Primitives
             DateTimeOffset maximumValue = nearbyTime.AddTicks(Math.Min(precision.Ticks, distanceToMaxInTicks));
 
             Execute.Assertion
-                .ForCondition(Subject.HasValue && (Subject.Value >= minimumValue) && (Subject.Value <= maximumValue))
+                .ForCondition(SubjectInternal.HasValue && (SubjectInternal.Value >= minimumValue) && (SubjectInternal.Value <= maximumValue))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:the date and time} to be within {0} from {1}{reason}, but it was {2}.",
                     precision,
-                    nearbyTime, Subject);
+                    nearbyTime, SubjectInternal);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -217,12 +224,12 @@ namespace FluentAssertions.Primitives
             DateTimeOffset maximumValue = distantTime.AddTicks(Math.Min(precision.Ticks, distanceToMaxInTicks));
 
             Execute.Assertion
-                .ForCondition(Subject.HasValue && ((Subject.Value < minimumValue) || (Subject.Value > maximumValue)))
+                .ForCondition(SubjectInternal.HasValue && ((SubjectInternal.Value < minimumValue) || (SubjectInternal.Value > maximumValue)))
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Did not expect {context:the date and time} to be within {0} from {1}{reason}, but it was {2}.",
                     precision,
-                    distantTime, Subject ?? default(DateTimeOffset?));
+                    distantTime, SubjectInternal ?? default(DateTimeOffset?));
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -242,10 +249,10 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) < 0)
+                .ForCondition(SubjectInternal.HasValue && SubjectInternal.Value.CompareTo(expected) < 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:the date and time} to be before {0}{reason}, but it was {1}.", expected,
-                    Subject ?? default(DateTimeOffset?));
+                    SubjectInternal ?? default(DateTimeOffset?));
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -282,10 +289,10 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) <= 0)
+                .ForCondition(SubjectInternal.HasValue && SubjectInternal.Value.CompareTo(expected) <= 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:the date and time} to be on or before {0}{reason}, but it was {1}.", expected,
-                    Subject ?? default(DateTimeOffset?));
+                    SubjectInternal ?? default(DateTimeOffset?));
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -322,10 +329,10 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) > 0)
+                .ForCondition(SubjectInternal.HasValue && SubjectInternal.Value.CompareTo(expected) > 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:the date and time} to be after {0}{reason}, but it was {1}.", expected,
-                    Subject ?? default(DateTimeOffset?));
+                    SubjectInternal ?? default(DateTimeOffset?));
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -362,10 +369,10 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) >= 0)
+                .ForCondition(SubjectInternal.HasValue && SubjectInternal.Value.CompareTo(expected) >= 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:the date and time} to be on or after {0}{reason}, but it was {1}.", expected,
-                    Subject ?? default(DateTimeOffset?));
+                    SubjectInternal ?? default(DateTimeOffset?));
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -404,11 +411,11 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected the year part of {context:the date} to be {0}{reason}, ", expected)
-                .ForCondition(Subject.HasValue)
+                .ForCondition(SubjectInternal.HasValue)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
-                .ForCondition(Subject.Value.Year == expected)
-                .FailWith("but it was {0}.", Subject.Value.Year)
+                .ForCondition(SubjectInternal.Value.Year == expected)
+                .FailWith("but it was {0}.", SubjectInternal.Value.Year)
                 .Then
                 .ClearExpectation();
 
@@ -431,10 +438,10 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Did not expect the year part of {context:the date} to be {0}{reason}, ", unexpected)
-                .ForCondition(Subject.HasValue)
+                .ForCondition(SubjectInternal.HasValue)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
-                .ForCondition(Subject.Value.Year != unexpected)
+                .ForCondition(SubjectInternal.Value.Year != unexpected)
                 .FailWith("but it was.")
                 .Then
                 .ClearExpectation();
@@ -459,11 +466,11 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected the month part of {context:the date} to be {0}{reason}, ", expected)
-                .ForCondition(Subject.HasValue)
+                .ForCondition(SubjectInternal.HasValue)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
-                .ForCondition(Subject.Value.Month == expected)
-                .FailWith("but it was {0}.", Subject.Value.Month)
+                .ForCondition(SubjectInternal.Value.Month == expected)
+                .FailWith("but it was {0}.", SubjectInternal.Value.Month)
                 .Then
                 .ClearExpectation();
 
@@ -486,10 +493,10 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Did not expect the month part of {context:the date} to be {0}{reason}, ", unexpected)
-                .ForCondition(Subject.HasValue)
+                .ForCondition(SubjectInternal.HasValue)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
-                .ForCondition(Subject.Value.Month != unexpected)
+                .ForCondition(SubjectInternal.Value.Month != unexpected)
                 .FailWith("but it was.")
                 .Then
                 .ClearExpectation();
@@ -514,11 +521,11 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected the day part of {context:the date} to be {0}{reason}, ", expected)
-                .ForCondition(Subject.HasValue)
+                .ForCondition(SubjectInternal.HasValue)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
-                .ForCondition(Subject.Value.Day == expected)
-                .FailWith("but it was {0}.", Subject.Value.Day)
+                .ForCondition(SubjectInternal.Value.Day == expected)
+                .FailWith("but it was {0}.", SubjectInternal.Value.Day)
                 .Then
                 .ClearExpectation();
 
@@ -541,10 +548,10 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Did not expect the day part of {context:the date} to be {0}{reason}, ", unexpected)
-                .ForCondition(Subject.HasValue)
+                .ForCondition(SubjectInternal.HasValue)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
-                .ForCondition(Subject.Value.Day != unexpected)
+                .ForCondition(SubjectInternal.Value.Day != unexpected)
                 .FailWith("but it was.")
                 .Then
                 .ClearExpectation();
@@ -569,11 +576,11 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected the hour part of {context:the time} to be {0}{reason}, ", expected)
-                .ForCondition(Subject.HasValue)
+                .ForCondition(SubjectInternal.HasValue)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
-                .ForCondition(Subject.Value.Hour == expected)
-                .FailWith("but it was {0}.", Subject.Value.Hour)
+                .ForCondition(SubjectInternal.Value.Hour == expected)
+                .FailWith("but it was {0}.", SubjectInternal.Value.Hour)
                 .Then
                 .ClearExpectation();
 
@@ -596,10 +603,10 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Did not expect the hour part of {context:the time} to be {0}{reason}, ", unexpected)
-                .ForCondition(Subject.HasValue)
+                .ForCondition(SubjectInternal.HasValue)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
-                .ForCondition(Subject.Value.Hour != unexpected)
+                .ForCondition(SubjectInternal.Value.Hour != unexpected)
                 .FailWith("but it was.")
                 .Then
                 .ClearExpectation();
@@ -624,11 +631,11 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected the minute part of {context:the time} to be {0}{reason}, ", expected)
-                .ForCondition(Subject.HasValue)
+                .ForCondition(SubjectInternal.HasValue)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
-                .ForCondition(Subject.Value.Minute == expected)
-                .FailWith("but it was {0}.", Subject.Value.Minute)
+                .ForCondition(SubjectInternal.Value.Minute == expected)
+                .FailWith("but it was {0}.", SubjectInternal.Value.Minute)
                 .Then
                 .ClearExpectation();
 
@@ -652,10 +659,10 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Did not expect the minute part of {context:the time} to be {0}{reason}, ", unexpected)
-                .ForCondition(Subject.HasValue)
+                .ForCondition(SubjectInternal.HasValue)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
-                .ForCondition(Subject.Value.Minute != unexpected)
+                .ForCondition(SubjectInternal.Value.Minute != unexpected)
                 .FailWith("but it was.")
                 .Then
                 .ClearExpectation();
@@ -680,11 +687,11 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected the seconds part of {context:the time} to be {0}{reason}, ", expected)
-                .ForCondition(Subject.HasValue)
+                .ForCondition(SubjectInternal.HasValue)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
-                .ForCondition(Subject.Value.Second == expected)
-                .FailWith("but it was {0}.", Subject.Value.Second)
+                .ForCondition(SubjectInternal.Value.Second == expected)
+                .FailWith("but it was {0}.", SubjectInternal.Value.Second)
                 .Then
                 .ClearExpectation();
 
@@ -708,10 +715,10 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Did not expect the seconds part of {context:the time} to be {0}{reason}, ", unexpected)
-                .ForCondition(Subject.HasValue)
+                .ForCondition(SubjectInternal.HasValue)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
-                .ForCondition(Subject.Value.Second != unexpected)
+                .ForCondition(SubjectInternal.Value.Second != unexpected)
                 .FailWith("but it was.")
                 .Then
                 .ClearExpectation();
@@ -736,11 +743,11 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected the offset of {context:the date} to be {0}{reason}, ", expected)
-                .ForCondition(Subject.HasValue)
+                .ForCondition(SubjectInternal.HasValue)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
-                .ForCondition(Subject.Value.Offset == expected)
-                .FailWith("but it was {0}.", Subject.Value.Offset)
+                .ForCondition(SubjectInternal.Value.Offset == expected)
+                .FailWith("but it was {0}.", SubjectInternal.Value.Offset)
                 .Then
                 .ClearExpectation();
 
@@ -764,10 +771,10 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Did not expect the offset of {context:the date} to be {0}{reason}, ", unexpected)
-                .ForCondition(Subject.HasValue)
+                .ForCondition(SubjectInternal.HasValue)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
-                .ForCondition(Subject.Value.Offset != unexpected)
+                .ForCondition(SubjectInternal.Value.Offset != unexpected)
                 .FailWith("but it was.")
                 .Then
                 .ClearExpectation();
@@ -784,7 +791,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public DateTimeOffsetRangeAssertions<TAssertions> BeMoreThan(TimeSpan timeSpan)
         {
-            return new DateTimeOffsetRangeAssertions<TAssertions>((TAssertions)this, Subject, TimeSpanCondition.MoreThan, timeSpan);
+            return new DateTimeOffsetRangeAssertions<TAssertions>((TAssertions)this, SubjectInternal, TimeSpanCondition.MoreThan, timeSpan);
         }
 
         /// <summary>
@@ -797,7 +804,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public DateTimeOffsetRangeAssertions<TAssertions> BeAtLeast(TimeSpan timeSpan)
         {
-            return new DateTimeOffsetRangeAssertions<TAssertions>((TAssertions)this, Subject, TimeSpanCondition.AtLeast, timeSpan);
+            return new DateTimeOffsetRangeAssertions<TAssertions>((TAssertions)this, SubjectInternal, TimeSpanCondition.AtLeast, timeSpan);
         }
 
         /// <summary>
@@ -809,7 +816,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public DateTimeOffsetRangeAssertions<TAssertions> BeExactly(TimeSpan timeSpan)
         {
-            return new DateTimeOffsetRangeAssertions<TAssertions>((TAssertions)this, Subject, TimeSpanCondition.Exactly, timeSpan);
+            return new DateTimeOffsetRangeAssertions<TAssertions>((TAssertions)this, SubjectInternal, TimeSpanCondition.Exactly, timeSpan);
         }
 
         /// <summary>
@@ -821,7 +828,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public DateTimeOffsetRangeAssertions<TAssertions> BeWithin(TimeSpan timeSpan)
         {
-            return new DateTimeOffsetRangeAssertions<TAssertions>((TAssertions)this, Subject, TimeSpanCondition.Within, timeSpan);
+            return new DateTimeOffsetRangeAssertions<TAssertions>((TAssertions)this, SubjectInternal, TimeSpanCondition.Within, timeSpan);
         }
 
         /// <summary>
@@ -833,7 +840,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public DateTimeOffsetRangeAssertions<TAssertions> BeLessThan(TimeSpan timeSpan)
         {
-            return new DateTimeOffsetRangeAssertions<TAssertions>((TAssertions)this, Subject, TimeSpanCondition.LessThan, timeSpan);
+            return new DateTimeOffsetRangeAssertions<TAssertions>((TAssertions)this, SubjectInternal, TimeSpanCondition.LessThan, timeSpan);
         }
 
         /// <summary>
@@ -855,11 +862,11 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected the date part of {context:the date and time} to be {0}{reason}, ", expectedDate)
-                .ForCondition(Subject.HasValue)
+                .ForCondition(SubjectInternal.HasValue)
                 .FailWith("but found a <null> DateTimeOffset.", expectedDate)
                 .Then
-                .ForCondition(Subject.Value.Date == expectedDate)
-                .FailWith("but it was {0}.", Subject.Value)
+                .ForCondition(SubjectInternal.Value.Date == expectedDate)
+                .FailWith("but it was {0}.", SubjectInternal.Value)
                 .Then
                 .ClearExpectation();
 
@@ -885,10 +892,10 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Did not expect the date part of {context:the date and time} to be {0}{reason}, ", unexpectedDate)
-                .ForCondition(Subject.HasValue)
+                .ForCondition(SubjectInternal.HasValue)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
-                .ForCondition(Subject.Value.Date != unexpectedDate)
+                .ForCondition(SubjectInternal.Value.Date != unexpectedDate)
                 .FailWith("but it was.")
                 .Then
                 .ClearExpectation();
@@ -952,9 +959,9 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> BeOneOf(IEnumerable<DateTimeOffset?> validValues, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(validValues.Contains(Subject))
+                .ForCondition(validValues.Contains(SubjectInternal))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:the date and time} to be one of {0}{reason}, but it was {1}.", validValues, Subject);
+                .FailWith("Expected {context:the date and time} to be one of {0}{reason}, but it was {1}.", validValues, SubjectInternal);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

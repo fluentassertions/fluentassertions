@@ -28,6 +28,11 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
+        /// Gets the object which value is being asserted.
+        /// </summary>
+        public new bool? Subject => SubjectInternal;
+
+        /// <summary>
         /// Asserts that a nullable boolean value is not <c>null</c>.
         /// </summary>
         /// <param name="because">

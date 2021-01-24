@@ -37,6 +37,11 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
+        /// Gets the object which value is being asserted.
+        /// </summary>
+        public new TimeSpan? Subject => SubjectInternal;
+
+        /// <summary>
         /// Asserts that a nullable <see cref="TimeSpan"/> value is not <c>null</c>.
         /// </summary>
         /// <param name="because">

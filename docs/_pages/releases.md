@@ -19,6 +19,7 @@ sidebar:
 
 **Breaking Changes**
 * Changed `becauseArgs` of `[Not]Reference(Assembly)` from `string[]` to `object[]` - [#1459](https://github.com/fluentassertions/fluentassertions/pull/1459)
+* Changed `Subject` and constructor parameter to non-nullable type for assertions on `bool`, `DateTime`, `DateTimeOffset`, `Guid` and `TimeSpan` - [#1483](https://github.com/fluentassertions/fluentassertions/pull/1483).
 
 **Breaking Changes (Extensibility)**
 * Pascal cased `CallerIdentifier.logger` - [#1458](https://github.com/fluentassertions/fluentassertions/pull/1458).

@@ -1573,8 +1573,8 @@ namespace FluentAssertions.Primitives
     public class BooleanAssertions<TAssertions>
         where TAssertions : FluentAssertions.Primitives.BooleanAssertions<TAssertions>
     {
-        public BooleanAssertions(bool? value) { }
-        public bool? Subject { get; }
+        public BooleanAssertions(bool value) { }
+        public bool Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(bool expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeFalse(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeTrue(string because = "", params object[] becauseArgs) { }
@@ -1587,8 +1587,8 @@ namespace FluentAssertions.Primitives
     public class DateTimeAssertions<TAssertions>
         where TAssertions : FluentAssertions.Primitives.DateTimeAssertions<TAssertions>
     {
-        public DateTimeAssertions(System.DateTime? value) { }
-        public System.DateTime? Subject { get; }
+        public DateTimeAssertions(System.DateTime value) { }
+        public System.DateTime Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(System.DateTime expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Be(System.DateTime? expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeAfter(System.DateTime expected, string because = "", params object[] becauseArgs) { }
@@ -1635,8 +1635,8 @@ namespace FluentAssertions.Primitives
     public class DateTimeOffsetAssertions<TAssertions>
         where TAssertions : FluentAssertions.Primitives.DateTimeOffsetAssertions<TAssertions>
     {
-        public DateTimeOffsetAssertions(System.DateTimeOffset? value) { }
-        public System.DateTimeOffset? Subject { get; }
+        public DateTimeOffsetAssertions(System.DateTimeOffset value) { }
+        public System.DateTimeOffset Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(System.DateTimeOffset expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Be(System.DateTimeOffset? expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeAfter(System.DateTimeOffset expected, string because = "", params object[] becauseArgs) { }
@@ -1713,8 +1713,8 @@ namespace FluentAssertions.Primitives
     public class GuidAssertions<TAssertions>
         where TAssertions : FluentAssertions.Primitives.GuidAssertions<TAssertions>
     {
-        public GuidAssertions(System.Guid? value) { }
-        public System.Guid? Subject { get; }
+        public GuidAssertions(System.Guid value) { }
+        public System.Guid Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(System.Guid expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Be(string expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEmpty(string because = "", params object[] becauseArgs) { }
@@ -1729,6 +1729,7 @@ namespace FluentAssertions.Primitives
         where TAssertions : FluentAssertions.Primitives.NullableBooleanAssertions<TAssertions>
     {
         public NullableBooleanAssertions(bool? value) { }
+        public bool? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(bool? expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
@@ -1745,6 +1746,7 @@ namespace FluentAssertions.Primitives
         where TAssertions : FluentAssertions.Primitives.NullableDateTimeAssertions<TAssertions>
     {
         public NullableDateTimeAssertions(System.DateTime? expected) { }
+        public System.DateTime? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs) { }
@@ -1758,6 +1760,7 @@ namespace FluentAssertions.Primitives
         where TAssertions : FluentAssertions.Primitives.NullableDateTimeOffsetAssertions<TAssertions>
     {
         public NullableDateTimeOffsetAssertions(System.DateTimeOffset? expected) { }
+        public System.DateTimeOffset? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs) { }
@@ -1771,6 +1774,7 @@ namespace FluentAssertions.Primitives
         where TAssertions : FluentAssertions.Primitives.NullableGuidAssertions<TAssertions>
     {
         public NullableGuidAssertions(System.Guid? value) { }
+        public System.Guid? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(System.Guid? expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
@@ -1785,6 +1789,7 @@ namespace FluentAssertions.Primitives
         where TAssertions : FluentAssertions.Primitives.NullableSimpleTimeSpanAssertions<TAssertions>
     {
         public NullableSimpleTimeSpanAssertions(System.TimeSpan? value) { }
+        public System.TimeSpan? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(System.TimeSpan? expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
@@ -1836,8 +1841,8 @@ namespace FluentAssertions.Primitives
     public class SimpleTimeSpanAssertions<TAssertions>
         where TAssertions : FluentAssertions.Primitives.SimpleTimeSpanAssertions<TAssertions>
     {
-        public SimpleTimeSpanAssertions(System.TimeSpan? value) { }
-        public System.TimeSpan? Subject { get; }
+        public SimpleTimeSpanAssertions(System.TimeSpan value) { }
+        public System.TimeSpan Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(System.TimeSpan expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeCloseTo(System.TimeSpan nearbyTime, System.TimeSpan precision, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeGreaterOrEqualTo(System.TimeSpan expected, string because = "", params object[] becauseArgs) { }

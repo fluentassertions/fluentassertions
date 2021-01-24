@@ -37,6 +37,11 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
+        /// Gets the object which value is being asserted.
+        /// </summary>
+        public new DateTimeOffset? Subject => SubjectInternal;
+
+        /// <summary>
         /// Asserts that a nullable <see cref="DateTimeOffset"/> value is not <c>null</c>.
         /// </summary>
         /// <param name="because">
@@ -49,9 +54,9 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.HasValue)
+                .ForCondition(SubjectInternal.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:variable} to have a value{reason}, but found {0}", Subject);
+                .FailWith("Expected {context:variable} to have a value{reason}, but found {0}", SubjectInternal);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -85,9 +90,9 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!Subject.HasValue)
+                .ForCondition(!SubjectInternal.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:variable} to have a value{reason}, but found {0}", Subject);
+                .FailWith("Did not expect {context:variable} to have a value{reason}, but found {0}", SubjectInternal);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

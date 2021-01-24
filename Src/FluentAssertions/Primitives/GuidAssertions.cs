@@ -23,15 +23,22 @@ namespace FluentAssertions.Primitives
     public class GuidAssertions<TAssertions>
         where TAssertions : GuidAssertions<TAssertions>
     {
-        public GuidAssertions(Guid? value)
+        public GuidAssertions(Guid value)
+            : this((Guid?)value)
         {
-            Subject = value;
+        }
+
+        private protected GuidAssertions(Guid? value)
+        {
+            SubjectInternal = value;
         }
 
         /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
-        public Guid? Subject { get; }
+        public Guid Subject => SubjectInternal.Value;
+
+        private protected Guid? SubjectInternal { get; }
 
         #region BeEmpty / NotBeEmpty
 
@@ -48,9 +55,9 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> BeEmpty(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.HasValue && (Subject.Value == Guid.Empty))
+                .ForCondition(SubjectInternal.HasValue && (SubjectInternal.Value == Guid.Empty))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:Guid} to be empty{reason}, but found {0}.", Subject);
+                .FailWith("Expected {context:Guid} to be empty{reason}, but found {0}.", SubjectInternal);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -68,7 +75,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.HasValue && (Subject.Value != Guid.Empty))
+                .ForCondition(SubjectInternal.HasValue && (SubjectInternal.Value != Guid.Empty))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:Guid} to be empty{reason}.");
 
@@ -110,9 +117,9 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> Be(Guid expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.HasValue && Subject.Value == expected)
+                .ForCondition(SubjectInternal.HasValue && SubjectInternal.Value == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:Guid} to be {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:Guid} to be {0}{reason}, but found {1}.", expected, SubjectInternal);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -131,9 +138,9 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> NotBe(Guid unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!Subject.HasValue || Subject.Value != unexpected)
+                .ForCondition(!SubjectInternal.HasValue || SubjectInternal.Value != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:Guid} to be {0}{reason}.", Subject);
+                .FailWith("Did not expect {context:Guid} to be {0}{reason}.", SubjectInternal);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

@@ -29,6 +29,11 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
+        /// Gets the object which value is being asserted.
+        /// </summary>
+        public new Guid? Subject => SubjectInternal;
+
+        /// <summary>
         /// Asserts that a nullable <see cref="Guid"/> value is not <c>null</c>.
         /// </summary>
         /// <param name="because">
@@ -41,7 +46,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.HasValue)
+                .ForCondition(SubjectInternal.HasValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected a value{reason}.");
 
@@ -76,9 +81,9 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!Subject.HasValue)
+                .ForCondition(!SubjectInternal.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
+                .FailWith("Did not expect a value{reason}, but found {0}.", SubjectInternal);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -112,9 +117,9 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> Be(Guid? expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject == expected)
+                .ForCondition(SubjectInternal == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:Guid} to be {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:Guid} to be {0}{reason}, but found {1}.", expected, SubjectInternal);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

@@ -38,6 +38,11 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
+        /// Gets the object which value is being asserted.
+        /// </summary>
+        public new DateTime? Subject => SubjectInternal;
+
+        /// <summary>
         /// Asserts that a nullable <see cref="DateTime"/> value is not <c>null</c>.
         /// </summary>
         /// <param name="because">

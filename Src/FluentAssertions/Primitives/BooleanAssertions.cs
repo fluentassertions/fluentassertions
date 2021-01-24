@@ -23,15 +23,22 @@ namespace FluentAssertions.Primitives
     public class BooleanAssertions<TAssertions>
         where TAssertions : BooleanAssertions<TAssertions>
     {
-        public BooleanAssertions(bool? value)
+        public BooleanAssertions(bool value)
+            : this((bool?)value)
         {
-            Subject = value;
+        }
+
+        private protected BooleanAssertions(bool? value)
+        {
+            SubjectInternal = value;
         }
 
         /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
-        public bool? Subject { get; }
+        public bool Subject => SubjectInternal.Value;
+
+        private protected bool? SubjectInternal { get; }
 
         /// <summary>
         /// Asserts that the value is <c>false</c>.
@@ -46,9 +53,9 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> BeFalse(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject == false)
+                .ForCondition(SubjectInternal == false)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:boolean} to be false{reason}, but found {0}.", Subject);
+                .FailWith("Expected {context:boolean} to be false{reason}, but found {0}.", SubjectInternal);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -66,9 +73,9 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> BeTrue(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject == true)
+                .ForCondition(SubjectInternal == true)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:boolean} to be true{reason}, but found {0}.", Subject);
+                .FailWith("Expected {context:boolean} to be true{reason}, but found {0}.", SubjectInternal);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -87,9 +94,9 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> Be(bool expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.HasValue && Subject.Value == expected)
+                .ForCondition(SubjectInternal.HasValue && SubjectInternal.Value == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:boolean} to be {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:boolean} to be {0}{reason}, but found {1}.", expected, SubjectInternal);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -108,9 +115,9 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> NotBe(bool unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!Subject.HasValue || (Subject.Value != unexpected))
+                .ForCondition(!SubjectInternal.HasValue || (SubjectInternal.Value != unexpected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:boolean} not to be {0}{reason}, but found {1}.", unexpected, Subject);
+                .FailWith("Expected {context:boolean} not to be {0}{reason}, but found {1}.", unexpected, SubjectInternal);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
