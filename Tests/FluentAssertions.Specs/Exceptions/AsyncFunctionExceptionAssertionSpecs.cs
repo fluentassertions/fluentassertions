@@ -822,11 +822,7 @@ namespace FluentAssertions.Specs.Exceptions
         public async Task When_async_method_throws_the_expected_inner_exception_it_should_succeed()
         {
             // Arrange
-            Func<Task> task = async () =>
-            {
-                await Task.Delay(100);
-                throw new AggregateException(new InvalidOperationException());
-            };
+            Func<Task> task = () => Throw.Async(new AggregateException(new InvalidOperationException()));
 
             // Act
             Func<Task> action = () => task
@@ -841,11 +837,7 @@ namespace FluentAssertions.Specs.Exceptions
         public async Task When_async_method_throws_aggregate_exception_containing_expected_exception_it_should_succeed()
         {
             // Arrange
-            Func<Task> task = async () =>
-            {
-                await Task.Delay(100);
-                throw new AggregateException(new InvalidOperationException());
-            };
+            Func<Task> task = () => Throw.Async(new AggregateException(new InvalidOperationException()));
 
             // Act
             Func<Task> action = () => task
@@ -859,11 +851,7 @@ namespace FluentAssertions.Specs.Exceptions
         public async Task When_async_method_throws_the_expected_exception_it_should_succeed()
         {
             // Arrange
-            Func<Task> task = async () =>
-            {
-                await Task.Delay(100);
-                throw new InvalidOperationException();
-            };
+            Func<Task> task = () => Throw.Async<InvalidOperationException>();
 
             // Act
             Func<Task> action = () => task
@@ -877,11 +865,7 @@ namespace FluentAssertions.Specs.Exceptions
         public async Task When_async_method_does_not_throw_the_expected_inner_exception_it_should_fail()
         {
             // Arrange
-            Func<Task> task = async () =>
-            {
-                await Task.Delay(100);
-                throw new AggregateException(new ArgumentException());
-            };
+            Func<Task> task = () => Throw.Async(new AggregateException(new ArgumentException()));
 
             // Act
             Func<Task> action = () => task
@@ -896,11 +880,7 @@ namespace FluentAssertions.Specs.Exceptions
         public async Task When_async_method_does_not_throw_the_expected_exception_it_should_fail()
         {
             // Arrange
-            Func<Task> task = async () =>
-            {
-                await Task.Delay(100);
-                throw new ArgumentException();
-            };
+            Func<Task> task = () => Throw.Async<ArgumentException>();
 
             // Act
             Func<Task> action = () => task
@@ -1225,39 +1205,24 @@ namespace FluentAssertions.Specs.Exceptions
 
     internal class AsyncClass
     {
-        public async Task ThrowAsync<TException>()
-            where TException : Exception, new()
-        {
-            await Task.Yield();
-            throw new TException();
-        }
+        public Task ThrowAsync<TException>()
+            where TException : Exception, new() =>
+            ThrowAsync(new TException());
 
-        public async Task ThrowAsync(Exception exception)
-        {
-            await Task.Yield();
-            throw exception;
-        }
+        public Task ThrowAsync(Exception exception) =>
+            Throw.Async(exception);
 
-        public async ValueTask ThrowAsyncValueTask<TException>()
-            where TException : Exception, new()
-        {
-            await Task.Yield();
-            throw new TException();
-        }
+        public ValueTask ThrowAsyncValueTask<TException>()
+            where TException : Exception, new() =>
+            Throw.AsyncValueTask(new TException());
 
-        public async Task ThrowAggregateExceptionAsync<TException>()
-            where TException : Exception, new()
-        {
-            await Task.Yield();
-            throw new AggregateException(new TException());
-        }
+        public Task ThrowAggregateExceptionAsync<TException>()
+            where TException : Exception, new() =>
+            Throw.Async(new AggregateException(new TException()));
 
-        public async ValueTask ThrowAggregateExceptionAsyncValueTask<TException>()
-            where TException : Exception, new()
-        {
-            await Task.Yield();
-            throw new AggregateException(new TException());
-        }
+        public ValueTask ThrowAggregateExceptionAsyncValueTask<TException>()
+            where TException : Exception, new() =>
+            Throw.AsyncValueTask(new AggregateException(new TException()));
 
         public async Task SucceedAsync()
         {
@@ -1308,6 +1273,25 @@ namespace FluentAssertions.Specs.Exceptions
             }
 
             return 123;
+        }
+    }
+
+    internal static class Throw
+    {
+        public static Task Async<TException>()
+            where TException : Exception, new() =>
+            Async(new TException());
+
+        public static async Task Async(Exception expcetion)
+        {
+            await Task.Yield();
+            throw expcetion;
+        }
+
+        public static async ValueTask AsyncValueTask(Exception expcetion)
+        {
+            await Task.Yield();
+            throw expcetion;
         }
     }
 }
