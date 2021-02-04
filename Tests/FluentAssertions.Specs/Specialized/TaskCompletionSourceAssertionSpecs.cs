@@ -17,12 +17,12 @@ namespace FluentAssertions.Specs.Specialized
             var timer = new FakeClock();
 
             // Act
-            Func<Task> action = () => subject.Should(timer).CompleteWithinAsync(1.Seconds());
+            Func<Task> action = () => subject.Should(timer).CompleteWithin(1.Seconds());
             subject.SetResult(true);
             timer.Complete();
 
             // Assert
-            await action.Should().NotThrowAsync();
+            await action.Should().NotThrow();
         }
 
         [Fact]
@@ -33,12 +33,12 @@ namespace FluentAssertions.Specs.Specialized
             var timer = new FakeClock();
 
             // Act
-            Func<Task> action = async () => (await subject.Should(timer).CompleteWithinAsync(1.Seconds())).Which.Should().Be(42);
+            Func<Task> action = async () => (await subject.Should(timer).CompleteWithin(1.Seconds())).Which.Should().Be(42);
             subject.SetResult(42);
             timer.Complete();
 
             // Assert
-            await action.Should().NotThrowAsync();
+            await action.Should().NotThrow();
         }
 
         [Fact]
@@ -49,12 +49,12 @@ namespace FluentAssertions.Specs.Specialized
             var timer = new FakeClock();
 
             // Act
-            Func<Task> action = async () => (await subject.Should(timer).CompleteWithinAsync(1.Seconds())).Which.Should().Be(42);
+            Func<Task> action = async () => (await subject.Should(timer).CompleteWithin(1.Seconds())).Which.Should().Be(42);
             subject.SetResult(99);
             timer.Complete();
 
             // Assert
-            await action.Should().ThrowAsync<XunitException>()
+            await action.Should().Throw<XunitException>()
                 .WithMessage("Expected * to be 42, but found 99.");
         }
 
@@ -66,11 +66,11 @@ namespace FluentAssertions.Specs.Specialized
             var timer = new FakeClock();
 
             // Act
-            Func<Task> action = () => subject.Should(timer).CompleteWithinAsync(1.Seconds(), "test {0}", "testArg");
+            Func<Task> action = () => subject.Should(timer).CompleteWithin(1.Seconds(), "test {0}", "testArg");
             timer.Complete();
 
             // Assert
-            await action.Should().ThrowAsync<XunitException>()
+            await action.Should().Throw<XunitException>()
                 .WithMessage("Expected subject to complete within 1s because test testArg.");
         }
 
@@ -82,10 +82,10 @@ namespace FluentAssertions.Specs.Specialized
             TaskCompletionSource<bool> subject = null;
 
             // Act
-            Func<Task> action = () => subject.Should().CompleteWithinAsync(1.Seconds());
+            Func<Task> action = () => subject.Should().CompleteWithin(1.Seconds());
 
             // Assert
-            await action.Should().ThrowAsync<XunitException>()
+            await action.Should().Throw<XunitException>()
                 .WithMessage("Expected subject to complete within 1s, but found <null>.");
         }
 
@@ -97,12 +97,12 @@ namespace FluentAssertions.Specs.Specialized
             var timer = new FakeClock();
 
             // Act
-            Func<Task> action = () => subject.Should(timer).NotCompleteWithinAsync(1.Seconds(), "test {0}", "testArg");
+            Func<Task> action = () => subject.Should(timer).NotCompleteWithin(1.Seconds(), "test {0}", "testArg");
             subject.SetResult(true);
             timer.Complete();
 
             // Assert
-            await action.Should().ThrowAsync<XunitException>().WithMessage("*to not complete within*because test testArg*");
+            await action.Should().Throw<XunitException>().WithMessage("*to not complete within*because test testArg*");
         }
 
         [Fact]
@@ -113,11 +113,11 @@ namespace FluentAssertions.Specs.Specialized
             var timer = new FakeClock();
 
             // Act
-            Func<Task> action = () => subject.Should(timer).NotCompleteWithinAsync(1.Seconds());
+            Func<Task> action = () => subject.Should(timer).NotCompleteWithin(1.Seconds());
             timer.Complete();
 
             // Assert
-            await action.Should().NotThrowAsync();
+            await action.Should().NotThrow();
         }
 
         [Fact]
@@ -128,10 +128,10 @@ namespace FluentAssertions.Specs.Specialized
             TaskCompletionSource<bool> subject = null;
 
             // Act
-            Func<Task> action = () => subject.Should().NotCompleteWithinAsync(1.Seconds(), "test {0}", "testArg");
+            Func<Task> action = () => subject.Should().NotCompleteWithin(1.Seconds(), "test {0}", "testArg");
 
             // Assert
-            await action.Should().ThrowAsync<XunitException>()
+            await action.Should().Throw<XunitException>()
                 .WithMessage("Expected subject to not complete within 1s because test testArg, but found <null>.");
         }
     }

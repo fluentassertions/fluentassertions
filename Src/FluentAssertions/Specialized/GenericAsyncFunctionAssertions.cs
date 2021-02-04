@@ -4,9 +4,12 @@ using System.Threading.Tasks;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
+#pragma warning disable AV1755 // "Name of async method ... should end with Async"; Async suffix is too noisy in fluent API
+
 namespace FluentAssertions.Specialized
 {
-    public class GenericAsyncFunctionAssertions<TResult> : AsyncFunctionAssertions<Task<TResult>, GenericAsyncFunctionAssertions<TResult>>
+    public class GenericAsyncFunctionAssertions<TResult> : AsyncFunctionAssertions<Task<TResult>,
+        GenericAsyncFunctionAssertions<TResult>>
     {
         public GenericAsyncFunctionAssertions(Func<Task<TResult>> subject, IExtractExceptions extractor)
             : this(subject, extractor, new Clock())
@@ -29,7 +32,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public new async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> CompleteWithinAsync(
+        public new async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> CompleteWithin(
             TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
@@ -67,7 +70,8 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public new async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAsync(string because = "", params object[] becauseArgs)
+        public new async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrow(
+            string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject is not null)
@@ -109,7 +113,8 @@ namespace FluentAssertions.Specialized
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
-        public new Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAfterAsync(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
+        public new Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAfter(
+            TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
         {
             if (waitTime < TimeSpan.Zero)
             {

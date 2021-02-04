@@ -12,19 +12,19 @@ The following assertions helps to check that the result is available within spec
 
 ```csharp
 var tcs = new TaskCompletionSource<bool>();
-await tcs.Should().CompleteWithinAsync(1.Seconds());
+await tcs.Should().CompleteWithin(1.Seconds());
 ```
 
 The assertion returns the result for subsequent value assertions.
 
 ```csharp
 var tcs = new TaskCompletionSource<bool>();
-(await tcs.Should().CompleteWithinAsync(1.Seconds())).Which.Should().BeTrue();
+(await tcs.Should().CompleteWithin(1.Seconds())).Which.Should().BeTrue();
 ```
 
 Additionally it is possible to assert that the task will *not* complete within specific time.
 
 ```csharp
 var tcs = new TaskCompletionSource<bool>();
-await tcs.Should().NotCompleteWithinAsync(1.Seconds());
+await tcs.Should().NotCompleteWithin(1.Seconds());
 ```

@@ -28,14 +28,14 @@ namespace FluentAssertions.Specs.Extensions
         public async Task Awaiting_works_with_action()
         {
             // Arrange / Act / Assert
-            await Awaiting(() => ThrowsAsync()).Should().ThrowAsync<InvalidOperationException>();
+            await Awaiting(() => ThrowsAsync()).Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
         public async Task Awaiting_works_with_func()
         {
             // Arrange / Act / Assert
-            await Awaiting(() => ThrowsAsync(0)).Should().ThrowAsync<InvalidOperationException>();
+            await Awaiting(() => ThrowsAsync(0)).Should().Throw<InvalidOperationException>();
         }
 
         [Fact]

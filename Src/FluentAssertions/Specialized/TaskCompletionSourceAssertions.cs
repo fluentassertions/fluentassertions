@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
+#pragma warning disable AV1755 // "Name of async method ... should end with Async"; Async suffix is too noisy in fluent API
+
 namespace FluentAssertions.Specialized
 {
     public class TaskCompletionSourceAssertions<T>
@@ -34,7 +36,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public async Task<AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>> CompleteWithinAsync(
+        public async Task<AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>> CompleteWithin(
             TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
@@ -71,7 +73,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public async Task NotCompleteWithinAsync(
+        public async Task NotCompleteWithin(
             TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion

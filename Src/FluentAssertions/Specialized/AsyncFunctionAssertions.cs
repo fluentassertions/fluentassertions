@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
+#pragma warning disable AV1755 // "Name of async method ... should end with Async"; Async suffix is too noisy in fluent API
+
 namespace FluentAssertions.Specialized
 {
     /// <summary>
@@ -38,7 +40,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public async Task<AndConstraint<TAssertions>> CompleteWithinAsync(
+        public async Task<AndConstraint<TAssertions>> CompleteWithin(
             TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
@@ -82,8 +84,8 @@ namespace FluentAssertions.Specialized
         /// <returns>
         /// Returns an object that allows asserting additional members of the thrown exception.
         /// </returns>
-        public async Task<ExceptionAssertions<TException>> ThrowExactlyAsync<TException>(string because = "",
-            params object[] becauseArgs)
+        public async Task<ExceptionAssertions<TException>> ThrowExactly<TException>(
+            string because = "", params object[] becauseArgs)
             where TException : Exception
         {
             Type expectedType = typeof(TException);
@@ -115,8 +117,8 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public async Task<ExceptionAssertions<TException>> ThrowAsync<TException>(string because = "",
-            params object[] becauseArgs)
+        public async Task<ExceptionAssertions<TException>> Throw<TException>(
+            string because = "", params object[] becauseArgs)
             where TException : Exception
         {
             Execute.Assertion
@@ -138,7 +140,8 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public async Task<AndConstraint<TAssertions>> NotThrowAsync(string because = "", params object[] becauseArgs)
+        public async Task<AndConstraint<TAssertions>> NotThrow(
+            string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject is not null)
@@ -167,7 +170,8 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public async Task<AndConstraint<TAssertions>> NotThrowAsync<TException>(string because = "", params object[] becauseArgs)
+        public async Task<AndConstraint<TAssertions>> NotThrow<TException>(
+            string because = "", params object[] becauseArgs)
             where TException : Exception
         {
             Execute.Assertion
@@ -210,7 +214,8 @@ namespace FluentAssertions.Specialized
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
-        public Task<AndConstraint<TAssertions>> NotThrowAfterAsync(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
+        public Task<AndConstraint<TAssertions>> NotThrowAfter(
+            TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
         {
             if (waitTime < TimeSpan.Zero)
             {
@@ -264,13 +269,13 @@ namespace FluentAssertions.Specialized
                 // to match the contents of the subject rather than our own call site.
                 //
                 //   Func<Task> action = async () => await subject.Should().BeSomething();
-                //   await action.Should().ThrowAsync<Exception>();
+                //   await action.Should().Throw<Exception>();
                 //
                 // If an assertion failure occurs, we want the message to talk about "subject"
                 // not "await action".
                 using (CallerIdentifier.OnlyOneFluentAssertionScopeOnCallStack()
-                        ? CallerIdentifier.OverrideStackSearchUsingCurrentScope()
-                        : default)
+                    ? CallerIdentifier.OverrideStackSearchUsingCurrentScope()
+                    : default)
                 {
                     await action();
                 }

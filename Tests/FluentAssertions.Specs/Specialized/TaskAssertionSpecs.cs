@@ -31,11 +31,11 @@ namespace FluentAssertions.Specs.Specialized
             Func<Task> action = null;
 
             // Act
-            Func<Task> testAction = () => action.Should().CompleteWithinAsync(
+            Func<Task> testAction = () => action.Should().CompleteWithin(
                 timeSpan, "because we want to test the failure {0}", "message");
 
             // Assert
-            await testAction.Should().ThrowAsync<XunitException>()
+            await testAction.Should().Throw<XunitException>()
                 .WithMessage("*because we want to test the failure message*found <null>*");
         }
 
@@ -47,12 +47,12 @@ namespace FluentAssertions.Specs.Specialized
             var taskFactory = new TaskCompletionSource<bool>();
 
             // Act
-            Func<Task> action = () => taskFactory.Awaiting(t => (Task)t.Task).Should(timer).CompleteWithinAsync(100.Milliseconds());
+            Func<Task> action = () => taskFactory.Awaiting(t => (Task)t.Task).Should(timer).CompleteWithin(100.Milliseconds());
             taskFactory.SetResult(true);
             timer.Complete();
 
             // Assert
-            await action.Should().NotThrowAsync();
+            await action.Should().NotThrow();
         }
 
         [UIFact]
@@ -63,12 +63,12 @@ namespace FluentAssertions.Specs.Specialized
             var taskFactory = new TaskCompletionSource<bool>();
 
             // Act
-            Func<Task> action = () => taskFactory.Awaiting(t => (Task)t.Task).Should(timer).CompleteWithinAsync(100.Milliseconds());
+            Func<Task> action = () => taskFactory.Awaiting(t => (Task)t.Task).Should(timer).CompleteWithin(100.Milliseconds());
             taskFactory.SetResult(true);
             timer.Complete();
 
             // Assert
-            await action.Should().NotThrowAsync();
+            await action.Should().NotThrow();
         }
 
         [Fact]
@@ -79,11 +79,11 @@ namespace FluentAssertions.Specs.Specialized
             var taskFactory = new TaskCompletionSource<bool>();
 
             // Act
-            Func<Task> action = () => taskFactory.Awaiting(t => (Task)t.Task).Should(timer).CompleteWithinAsync(100.Milliseconds());
+            Func<Task> action = () => taskFactory.Awaiting(t => (Task)t.Task).Should(timer).CompleteWithin(100.Milliseconds());
             timer.Complete();
 
             // Assert
-            await action.Should().ThrowAsync<XunitException>();
+            await action.Should().Throw<XunitException>();
         }
 
         [UIFact]
@@ -94,11 +94,11 @@ namespace FluentAssertions.Specs.Specialized
             var taskFactory = new TaskCompletionSource<bool>();
 
             // Act
-            Func<Task> action = () => taskFactory.Awaiting(t => (Task)t.Task).Should(timer).CompleteWithinAsync(100.Milliseconds());
+            Func<Task> action = () => taskFactory.Awaiting(t => (Task)t.Task).Should(timer).CompleteWithin(100.Milliseconds());
             timer.Complete();
 
             // Assert
-            await action.Should().ThrowAsync<XunitException>();
+            await action.Should().Throw<XunitException>();
         }
 
         [UIFact]
@@ -108,10 +108,10 @@ namespace FluentAssertions.Specs.Specialized
             Func<Task> task = CheckContextAsync;
 
             // Act
-            Func<Task> action = () => this.Awaiting(x => task()).Should().CompleteWithinAsync(1.Seconds());
+            Func<Task> action = () => this.Awaiting(x => task()).Should().CompleteWithin(1.Seconds());
 
             // Assert
-            await action.Should().NotThrowAsync();
+            await action.Should().NotThrow();
 
             async Task CheckContextAsync()
             {

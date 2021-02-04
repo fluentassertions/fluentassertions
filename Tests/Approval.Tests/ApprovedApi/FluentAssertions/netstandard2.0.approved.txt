@@ -1983,14 +1983,14 @@ namespace FluentAssertions.Specialized
         public AsyncFunctionAssertions(System.Func<TTask> subject, FluentAssertions.Specialized.IExtractExceptions extractor) { }
         public AsyncFunctionAssertions(System.Func<TTask> subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Common.IClock clock) { }
         protected override string Identifier { get; }
-        public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> CompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
-        public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> NotThrowAfterAsync(System.TimeSpan waitTime, System.TimeSpan pollInterval, string because = "", params object[] becauseArgs) { }
-        public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> NotThrowAsync(string because = "", params object[] becauseArgs) { }
-        public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> NotThrowAsync<TException>(string because = "", params object[] becauseArgs)
+        public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> CompleteWithin(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
+        public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> NotThrow(string because = "", params object[] becauseArgs) { }
+        public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> NotThrow<TException>(string because = "", params object[] becauseArgs)
             where TException : System.Exception { }
-        public System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> ThrowAsync<TException>(string because = "", params object[] becauseArgs)
+        public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> NotThrowAfter(System.TimeSpan waitTime, System.TimeSpan pollInterval, string because = "", params object[] becauseArgs) { }
+        public System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> Throw<TException>(string because = "", params object[] becauseArgs)
             where TException : System.Exception { }
-        public System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> ThrowExactlyAsync<TException>(string because = "", params object[] becauseArgs)
+        public System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> ThrowExactly<TException>(string because = "", params object[] becauseArgs)
             where TException : System.Exception { }
     }
     public abstract class DelegateAssertionsBase<TDelegate, TAssertions> : FluentAssertions.Primitives.ReferenceTypeAssertions<TDelegate, FluentAssertions.Specialized.DelegateAssertionsBase<TDelegate, TAssertions>>
@@ -2061,9 +2061,9 @@ namespace FluentAssertions.Specialized
     {
         public GenericAsyncFunctionAssertions(System.Func<System.Threading.Tasks.Task<TResult>> subject, FluentAssertions.Specialized.IExtractExceptions extractor) { }
         public GenericAsyncFunctionAssertions(System.Func<System.Threading.Tasks.Task<TResult>> subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Common.IClock clock) { }
-        public System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.GenericAsyncFunctionAssertions<TResult>, TResult>> CompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
-        public System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAfterAsync(System.TimeSpan waitTime, System.TimeSpan pollInterval, string because = "", params object[] becauseArgs) { }
-        public System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAsync(string because = "", params object[] becauseArgs) { }
+        public System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.GenericAsyncFunctionAssertions<TResult>, TResult>> CompleteWithin(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
+        public System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrow(string because = "", params object[] becauseArgs) { }
+        public System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAfter(System.TimeSpan waitTime, System.TimeSpan pollInterval, string because = "", params object[] becauseArgs) { }
     }
     public interface IExtractExceptions
     {
@@ -2083,8 +2083,8 @@ namespace FluentAssertions.Specialized
     {
         public TaskCompletionSourceAssertions(System.Threading.Tasks.TaskCompletionSource<T> tcs) { }
         public TaskCompletionSourceAssertions(System.Threading.Tasks.TaskCompletionSource<T> tcs, FluentAssertions.Common.IClock clock) { }
-        public System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.TaskCompletionSourceAssertions<T>, T>> CompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
-        public System.Threading.Tasks.Task NotCompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
+        public System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.TaskCompletionSourceAssertions<T>, T>> CompleteWithin(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
+        public System.Threading.Tasks.Task NotCompleteWithin(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
     }
 }
 namespace FluentAssertions.Types

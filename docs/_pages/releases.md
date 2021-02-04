@@ -21,6 +21,7 @@ sidebar:
 **Breaking Changes**
 * Changed `becauseArgs` of `[Not]Reference(Assembly)` from `string[]` to `object[]` - [#1459](https://github.com/fluentassertions/fluentassertions/pull/1459)
 * Major overhaul on how enums are handled, see the [Migration Guide](/upgradingtov6) for more details - [#1479](https://github.com/fluentassertions/fluentassertions/pull/1479).
+* Removed `Async` postfix from all assertions on asynchronous operations (`Task`, `Task<T>`, `TaskCompletionSource<T>`) - [#1490](https://github.com/fluentassertions/fluentassertions/pull/1490)
 
 **Breaking Changes (Extensibility)**
 * Pascal cased `CallerIdentifier.logger` - [#1458](https://github.com/fluentassertions/fluentassertions/pull/1458).
