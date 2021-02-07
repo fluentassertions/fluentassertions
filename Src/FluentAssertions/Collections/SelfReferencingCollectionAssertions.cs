@@ -519,6 +519,35 @@ namespace FluentAssertions.Collections
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
+        public void ExactlyContain(params Expression<Func<T, bool>>[] predicates)
+        {
+            var elements = Subject.ConvertOrCastToCollection().ToList();
+            var compatibilityMatrix = new PredicateMatchesMatrix(predicates.Length);
+
+            for (int predicateIndex = 0; predicateIndex < predicates.Length; predicateIndex++)
+            {
+                var predicate = predicates[predicateIndex];
+                var compiledPredicate = predicate.Compile();
+
+                for (int elementIndex = 0; elementIndex < elements.Count; elementIndex++)
+                {
+                    var element = elements[elementIndex];
+
+                    if (compiledPredicate(element))
+                    {
+                        compatibilityMatrix.AddMatch(predicateIndex, elementIndex);
+                    }
+                }
+            }
+
+            var matches = OnlyContainAssertionHelper.FindBestMatching(compatibilityMatrix);
+
+            if (matches.Count != predicates.Length || matches.Count != elements.Count)
+            {
+                Execute.Assertion.FailWith("Expected {context:collection} to match the predicates");
+            }
+        }
+
         /// <summary>
         /// Asserts that the current collection does not contain the supplied <paramref name="unexpected" /> item.
         /// </summary>

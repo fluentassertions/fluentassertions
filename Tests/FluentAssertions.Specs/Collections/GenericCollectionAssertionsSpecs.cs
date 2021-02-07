@@ -311,6 +311,92 @@ namespace FluentAssertions.Specs.Collections
 
         #endregion
 
+        #region Exactly Contain (multiple predicates)
+
+        [Fact]
+        public void Match1()
+        {
+            // Arrange
+            var collection = new int[] { 1, 2, 3 };
+
+            // Act
+            Action act = () => collection.Should().ExactlyContain(
+                _ => _ == 1,
+                _ => _ == 2,
+                _ => _ == 3);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void Match2()
+        {
+            // Arrange
+            var collection = new int[] { 2, 2, 3 };
+
+            // Act
+            Action act = () => collection.Should().ExactlyContain(
+                _ => _ == 3,
+                _ => _ == 2,
+                _ => _ == 2);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void Match3()
+        {
+            // Arrange
+            var collection = new int[] { 2, 2 };
+
+            // Act
+            Action act = () => collection.Should().ExactlyContain(
+                _ => _ == 3,
+                _ => _ == 2,
+                _ => _ == 2);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Match4()
+        {
+            // Arrange
+            var collection = new int[] { 1, 2, 3, 4 };
+
+            // Act
+            Action act = () => collection.Should().ExactlyContain(
+                _ => _ == 1 || _ == 2 || _ == 3 || _ == 4,
+                _ => _ == 1 || _ == 2 || _ == 3,
+                _ => _ == 1 || _ == 2,
+                _ => _ == 1);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void Match5()
+        {
+            // Arrange
+            var collection = new int[] { 1, 2, 3, 4 };
+
+            // Act
+            Action act = () => collection.Should().ExactlyContain(
+                _ => _ == 1,
+                _ => _ == 1 || _ == 2,
+                _ => _ == 1 || _ == 2 || _ == 3,
+                _ => _ == 1 || _ == 2 || _ == 3 || _ == 4);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        #endregion
+
         #region Contain Single
 
         [Fact]
