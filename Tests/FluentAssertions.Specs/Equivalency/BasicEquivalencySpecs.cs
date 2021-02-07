@@ -3676,7 +3676,7 @@ namespace FluentAssertions.Specs.Equivalency
         }
 
         [Fact]
-        public void When_a_numeric_member_is_compared_with_an_enum_it_should_respect_the_enum_options()
+        public void When_a_numeric_member_is_compared_with_an_enum_it_should_throw()
         {
             // Arrange
             var actual = new
@@ -3693,7 +3693,91 @@ namespace FluentAssertions.Specs.Equivalency
             Action act = () => actual.Should().BeEquivalentTo(expected, options => options.ComparingEnumsByValue());
 
             // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_a_string_member_is_compared_with_an_enum_it_should_throw()
+        {
+            // Arrange
+            var actual = new
+            {
+                Property = "First"
+            };
+
+            var expected = new
+            {
+                Property = TestEnum.First
+            };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected, options => options.ComparingEnumsByName());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_null_enum_members_are_compared_by_name_it_should_succeed()
+        {
+            // Arrange
+            var actual = new
+            {
+                Property = null as TestEnum?
+            };
+
+            var expected = new
+            {
+                Property = null as TestEnum?
+            };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected, options => options.ComparingEnumsByName());
+
+            // Assert
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_null_enum_members_are_compared_by_value_it_should_succeed()
+        {
+            // Arrange
+            var actual = new
+            {
+                Property = null as TestEnum?
+            };
+
+            var expected = new
+            {
+                Property = null as TestEnum?
+            };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected, options => options.ComparingEnumsByValue());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_zero_and_null_enum_are_compared_by_value_it_should_throw()
+        {
+            // Arrange
+            var actual = new
+            {
+                Property = (TestEnum)0
+            };
+
+            var expected = new
+            {
+                Property = null as TestEnum?
+            };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected, options => options.ComparingEnumsByValue());
+
+            // Assert
+            act.Should().Throw<XunitException>();
         }
 
         public enum TestEnum
@@ -3714,7 +3798,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*to equal EnumULong.UInt64Max {value: 18446744073709551615} by name because comparing enums should throw, but found null*");
+                .WithMessage("Expected*to be equivalent to EnumULong.UInt64Max {value: 18446744073709551615} because comparing enums should throw, but found <null>*");
         }
 
         [Fact]

@@ -51,5 +51,18 @@ Technically nullable enums are handled by `NullableEnumAssertions` which in addi
 If you want to compare two enums of different types, you can use `HaveSameValueAs` or `HaveSameNameAs` depending on how _you_ define equality for different enums.
 Lastly, if you want to verify than an enum has a specific integral value, you can use `HaveValue`.
 
+When comparing object graphs with enum members, we have constrained when we consider them to be equivalent.
+An enum is now only considered to be equivalent to an enum of the same of another type, but you can control whether they should equal by name or by value.
+The practical implications are that the following examples now fails.
+```cs
+var subject = new { Value = "One" };
+var expectation = new { Value = MyOtherEnum.One };
+subject.Should().BeEquivalentTo(expectation,  opt => opt.ComparingEnumsByName());
+
+var subject = new { Value = 1 };
+var expectation = new { Value = MyOtherEnum.One };
+subject.Should().BeEquivalentTo(expectation,  opt => opt.ComparingEnumsByValue());
+```
+
 If your assertions rely on the formatting of enums in failure messages, you'll notice that we have given it a facelift.
 Previously, formatting an enum would simply be a call to `ToString()`, but to provide more detail we now format `MyEnum.One` as `"MyEnum.One(1)"` instead of `"One"`.
