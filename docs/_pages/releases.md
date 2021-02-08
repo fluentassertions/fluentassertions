@@ -32,6 +32,7 @@ sidebar:
 * Pascal cased `SelfReferenceEquivalencyAssertionOptions.orderingRules` - [#1458](https://github.com/fluentassertions/fluentassertions/pull/1458).
 * Moved extension methods on `ExceptionAssertions` from `AssertionExtensions` to `ExceptionAssertionsExtensions` - [#1471](https://github.com/fluentassertions/fluentassertions/pull/1471).
 * Moved `Including(Expression<Func<IMemberInfo, bool>> predicate)` from `EquivalencyAssertionOptions<T>` to `SelfReferenceEquivalencyAssertionOptions<T>` - [#1495](https://github.com/fluentassertions/fluentassertions/pull/1495).
+* `Formatter.ToString()` and `IValueFormatter` now work with a `FormattingOptions` object that wraps the `UseLineBreaks` option - [#1469](https://github.com/fluentassertions/fluentassertions/pull/1469).
 
 ## 6.0.0 Alpha 2
 

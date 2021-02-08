@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions.Common;
@@ -68,14 +68,16 @@ namespace FluentAssertions.Formatting
         /// Returns a human-readable representation of a particular object.
         /// </summary>
         /// <param name="value">The value for which to create a <see cref="string"/>.</param>
-        /// <param name="useLineBreaks">
+        /// <param name="options">
         /// Indicates whether the formatter should use line breaks when the specific <see cref="IValueFormatter"/> supports it.
         /// </param>
         /// <returns>
         /// A <see cref="string" /> that represents this instance.
         /// </returns>
-        public static string ToString(object value, bool useLineBreaks = false)
+        public static string ToString(object value, FormattingOptions options = null)
         {
+            options ??= new FormattingOptions();
+
             try
             {
                 if (isReentry)
@@ -91,10 +93,10 @@ namespace FluentAssertions.Formatting
                 var context = new FormattingContext
                 {
                     Depth = graph.Depth,
-                    UseLineBreaks = useLineBreaks
+                    Options = options
                 };
 
-                return Format(value, context, (path, childValue) => FormatChild(path, childValue, useLineBreaks, graph));
+                return Format(value, context, (path, childValue) => FormatChild(path, childValue, context, graph));
             }
             finally
             {
@@ -102,7 +104,7 @@ namespace FluentAssertions.Formatting
             }
         }
 
-        private static string FormatChild(string path, object childValue, bool useLineBreaks, ObjectGraph graph)
+        private static string FormatChild(string path, object childValue, FormattingContext formattingContext, ObjectGraph graph)
         {
             try
             {
@@ -121,10 +123,10 @@ namespace FluentAssertions.Formatting
                     var context = new FormattingContext
                     {
                         Depth = graph.Depth,
-                        UseLineBreaks = useLineBreaks
+                        Options = formattingContext.Options
                     };
 
-                    return Format(childValue, context, (x, y) => FormatChild(x, y, useLineBreaks, graph));
+                    return Format(childValue, context, (x, y) => FormatChild(x, y, context, graph));
                 }
             }
             finally
@@ -203,5 +205,13 @@ namespace FluentAssertions.Formatting
                 return string.Join(".", pathStack.Reverse().ToArray());
             }
         }
+    }
+
+    public class FormattingOptions
+    {
+        /// <summary>
+        /// Indicates whether the formatter should use line breaks when the <see cref="IValueFormatter"/> supports it.
+        /// </summary>
+        public bool UseLineBreaks { get; set; }
     }
 }

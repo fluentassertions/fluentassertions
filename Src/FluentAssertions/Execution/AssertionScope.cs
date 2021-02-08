@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using FluentAssertions.Common;
+using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Execution
 {
@@ -21,7 +22,7 @@ namespace FluentAssertions.Execution
         private readonly ContextDataItems contextData = new();
 
         private Func<string> reason;
-        private bool useLineBreaks;
+        private FormattingOptions formattingOptions = new();
 
         private static readonly AsyncLocal<AssertionScope> CurrentScope = new();
         private AssertionScope parent;
@@ -125,7 +126,7 @@ namespace FluentAssertions.Execution
         {
             get
             {
-                useLineBreaks = true;
+                formattingOptions.UseLineBreaks = true;
                 return this;
             }
         }
@@ -184,7 +185,7 @@ namespace FluentAssertions.Execution
             Func<string> localReason = reason;
             expectation = () =>
             {
-                var messageBuilder = new MessageBuilder(useLineBreaks);
+                var messageBuilder = new MessageBuilder(formattingOptions);
                 string reason = localReason?.Invoke() ?? string.Empty;
                 string identifier = GetIdentifier();
 
@@ -240,7 +241,7 @@ namespace FluentAssertions.Execution
             return FailWith(() =>
             {
                 string localReason = reason?.Invoke() ?? string.Empty;
-                var messageBuilder = new MessageBuilder(useLineBreaks);
+                var messageBuilder = new MessageBuilder(formattingOptions);
                 string identifier = GetIdentifier();
                 FailReason failReason = failReasonFunc();
                 string result = messageBuilder.Build(failReason.Message, failReason.Args, localReason, contextData, identifier, fallbackIdentifier);

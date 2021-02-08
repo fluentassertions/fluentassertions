@@ -1,8 +1,12 @@
 <<<<<<< HEAD:Tests/Approval.Tests/ApprovedApi/FluentAssertions/netcoreapp2.1.verified.txt
+<<<<<<< HEAD:Tests/Approval.Tests/ApprovedApi/FluentAssertions/netcoreapp2.1.verified.txt
 [assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/fluentassertions/fluentassertions.git")]
 =======
 >>>>>>> 94b2b45d (Made AssertionScope.Succeeded internal):Tests/Approval.Tests/ApprovedApi/FluentAssertions/netcoreapp2.1.approved.txt
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo(@"Benchmarks, PublicKey=00240000048000009400000006020000002400005253413100040000010001002d25ff515c85b13ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f970d2a4874932fed35db546e89af2da88c194bf1b7f7ac70de7988c78406f7629c547283061282a825616eb7eb48a9514a7570942936020a9bb37dca9ff60b778309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f")]
+=======
+﻿[assembly: System.Runtime.CompilerServices.InternalsVisibleTo(@"Benchmarks, PublicKey=00240000048000009400000006020000002400005253413100040000010001002d25ff515c85b13ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f970d2a4874932fed35db546e89af2da88c194bf1b7f7ac70de7988c78406f7629c547283061282a825616eb7eb48a9514a7570942936020a9bb37dca9ff60b778309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f")]
+>>>>>>> 78ddd79b (Formatter.ToString() now takes a FormattingOptions that wraps the UseLineBreaks option ):Tests/Approval.Tests/ApprovedApi/FluentAssertions/netcoreapp2.1.approved.txt
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo(@"FluentAssertions.Specs, PublicKey=00240000048000009400000006020000002400005253413100040000010001002d25ff515c85b13ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f970d2a4874932fed35db546e89af2da88c194bf1b7f7ac70de7988c78406f7629c547283061282a825616eb7eb48a9514a7570942936020a9bb37dca9ff60b778309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f")]
 [assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v2.1", FrameworkDisplayName="")]
 namespace FluentAssertions
@@ -1437,12 +1441,17 @@ namespace FluentAssertions.Formatting
         public static System.Collections.Generic.IEnumerable<FluentAssertions.Formatting.IValueFormatter> Formatters { get; }
         public static void AddFormatter(FluentAssertions.Formatting.IValueFormatter formatter) { }
         public static void RemoveFormatter(FluentAssertions.Formatting.IValueFormatter formatter) { }
-        public static string ToString(object value, bool useLineBreaks = false) { }
+        public static string ToString(object value, FluentAssertions.Formatting.FormattingOptions options = null) { }
     }
     public class FormattingContext
     {
         public FormattingContext() { }
         public int Depth { get; set; }
+        public FluentAssertions.Formatting.FormattingOptions Options { get; set; }
+    }
+    public class FormattingOptions
+    {
+        public FormattingOptions() { }
         public bool UseLineBreaks { get; set; }
     }
     public class GuidValueFormatter : FluentAssertions.Formatting.IValueFormatter

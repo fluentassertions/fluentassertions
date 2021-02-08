@@ -19,7 +19,7 @@ namespace FluentAssertions.Formatting
         /// <inheritdoc />
         public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
-            string prefix = context.UseLineBreaks ? Environment.NewLine : string.Empty;
+            string prefix = context.Options.UseLineBreaks ? Environment.NewLine : string.Empty;
             string escapedString = value.ToString();
 
             return prefix + "\"" + escapedString + "\"";

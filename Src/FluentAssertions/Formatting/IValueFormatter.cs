@@ -28,7 +28,7 @@
         /// Allows the formatter to recursively format any child objects.
         /// </param>
         /// <remarks>
-        /// DO NOT CALL <see cref="Formatter.ToString(object,bool)"/> directly, but use <paramref name="formatChild"/>
+        /// DO NOT CALL <see cref="Formatter.ToString(object,FormattingOptions)"/> directly, but use <paramref name="formatChild"/>
         /// instead. This will ensure cyclic dependencies are properly detected.
         /// </remarks>
         string Format(object value, FormattingContext context, FormatChild formatChild);
@@ -39,9 +39,15 @@
     /// </summary>
     public class FormattingContext
     {
+        /// <summary>
+        /// Gets the zero-based depth of the object that is being formatted within the object graph
+        /// </summary>
         public int Depth { get; set; }
 
-        public bool UseLineBreaks { get; set; }
+        /// <summary>
+        /// All options that should be used while formatting.
+        /// </summary>
+        public FormattingOptions Options { get; set; }
     }
 
     /// <summary>
