@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions.Common;
@@ -114,9 +114,9 @@ namespace FluentAssertions.Formatting
                 {
                     return $"{{Cyclic reference to type {childValue.GetType()} detected}}";
                 }
-                else if (graph.Depth > 5)
+                else if (graph.Depth > formattingContext.Options.MaxDepth)
                 {
-                    return "{Maximum recursion depth was reached…}";
+                    return $"Maximum recursion depth of {formattingContext.Options.MaxDepth} was reached…";
                 }
                 else
                 {
@@ -205,13 +205,5 @@ namespace FluentAssertions.Formatting
                 return string.Join(".", pathStack.Reverse().ToArray());
             }
         }
-    }
-
-    public class FormattingOptions
-    {
-        /// <summary>
-        /// Indicates whether the formatter should use line breaks when the <see cref="IValueFormatter"/> supports it.
-        /// </summary>
-        public bool UseLineBreaks { get; set; }
     }
 }

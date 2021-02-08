@@ -18,11 +18,11 @@ namespace FluentAssertions.Execution
     {
         #region Private Definitions
 
+        private readonly FormattingOptions formattingOptions = AssertionOptions.FormattingOptions.Clone();
         private readonly IAssertionStrategy assertionStrategy;
         private readonly ContextDataItems contextData = new();
 
         private Func<string> reason;
-        private FormattingOptions formattingOptions = new();
 
         private static readonly AsyncLocal<AssertionScope> CurrentScope = new();
         private AssertionScope parent;
@@ -122,6 +122,12 @@ namespace FluentAssertions.Execution
             private set => SetCurrentAssertionScope(value);
         }
 
+        /// <summary>
+        /// Forces the formatters that support it to add the necessary line breaks.
+        /// </summary>
+        /// <remarks>
+        /// This is just shorthand for modifying the <see cref="FormattingOptions"/> property.
+        /// </remarks>
         public AssertionScope UsingLineBreaks
         {
             get
@@ -130,6 +136,11 @@ namespace FluentAssertions.Execution
                 return this;
             }
         }
+
+        /// <summary>
+        /// Exposes the options the scope will use for formatting objects in case an assertion fails.
+        /// </summary>
+        public FormattingOptions FormattingOptions => formattingOptions;
 
         internal bool Succeeded
         {

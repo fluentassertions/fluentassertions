@@ -219,19 +219,51 @@ namespace FluentAssertions.Specs.Formatting
         {
             // Arrange
             var head = new Node();
+            var node = head;
 
-            foreach (int i in Enumerable.Range(0, 20))
+            int maxDepth = 10;
+            int iterations = (maxDepth / 2) + 1; // Each iteration adds two levels of depth to the graph
+            foreach (int i in Enumerable.Range(0, iterations))
             {
                 var newHead = new Node();
-                newHead.Children.Add(head);
-                head = newHead;
+                node.Children.Add(newHead);
+                node = newHead;
             }
 
             // Act
-            string result = Formatter.ToString(head);
+            string result = Formatter.ToString(head, new FormattingOptions
+            {
+                MaxDepth = maxDepth
+            });
 
             // Assert
-            result.Should().ContainEquivalentOf("maximum recursion depth");
+            result.Should().ContainEquivalentOf($"maximum recursion depth of {maxDepth}");
+        }
+
+        [Fact]
+        public void When_the_maximum_recursion_depth_is_never_reached_it_should_render_the_entire_graph()
+        {
+            // Arrange
+            var head = new Node();
+            var node = head;
+
+            int iterations = 10;
+            foreach (int i in Enumerable.Range(0, iterations))
+            {
+                var newHead = new Node();
+                node.Children.Add(newHead);
+                node = newHead;
+            }
+
+            // Act
+            string result = Formatter.ToString(head, new FormattingOptions
+            {
+                    // Each iteration adds two levels of depth to the graph
+                MaxDepth = (iterations * 2) + 1
+            });
+
+            // Assert
+            result.Should().NotContainEquivalentOf("maximum recursion depth");
         }
 
         [Fact]

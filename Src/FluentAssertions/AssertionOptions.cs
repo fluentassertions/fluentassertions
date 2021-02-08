@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
+using FluentAssertions.Formatting;
 
 namespace FluentAssertions
 {
@@ -48,5 +49,10 @@ namespace FluentAssertions
         /// is structurally equivalent to another (collection of) object(s).
         /// </summary>
         public static EquivalencyStepCollection EquivalencySteps { get; }
+
+        /// <summary>
+        /// Gets the default formatting options used by the formatters in Fluent Assertions.
+        /// </summary>
+        public static FormattingOptions FormattingOptions { get; } = new();
     }
 }

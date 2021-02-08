@@ -109,6 +109,7 @@ namespace FluentAssertions
     public static class AssertionOptions
     {
         public static FluentAssertions.EquivalencyStepCollection EquivalencySteps { get; }
+        public static FluentAssertions.Formatting.FormattingOptions FormattingOptions { get; }
         public static void AssertEquivalencyUsing(System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions, FluentAssertions.Equivalency.EquivalencyAssertionOptions> defaultsConfigurer) { }
         public static FluentAssertions.Equivalency.EquivalencyAssertionOptions<T> CloneDefaults<T>() { }
     }
@@ -1202,6 +1203,7 @@ namespace FluentAssertions.Execution
         public AssertionScope(System.Lazy<string> context) { }
         public AssertionScope(string context) { }
         public System.Lazy<string> Context { get; set; }
+        public FluentAssertions.Formatting.FormattingOptions FormattingOptions { get; }
         public FluentAssertions.Execution.AssertionScope UsingLineBreaks { get; }
         public static FluentAssertions.Execution.AssertionScope Current { get; }
         public void AddNonReportable(string key, object value) { }
@@ -1452,7 +1454,9 @@ namespace FluentAssertions.Formatting
     public class FormattingOptions
     {
         public FormattingOptions() { }
+        public int MaxDepth { get; set; }
         public bool UseLineBreaks { get; set; }
+        public FluentAssertions.Formatting.FormattingOptions Clone() { }
     }
     public class GuidValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
