@@ -76,10 +76,3 @@ Internally, `BeBinarySerializable` uses the [Object graph comparison](#object-gr
 theObject.Should().BeBinarySerializable<MyClass>(
     options => options.Excluding(s => s.SomeNonSerializableProperty));
 ```
-
-Fluent Assertions has special support for `[Flags]` based enumerations, which allow you to do something like this:
-
-```csharp
-regexOptions.Should().HaveFlag(RegexOptions.Global);
-regexOptions.Should().NotHaveFlag(RegexOptions.CaseInsensitive);
-```

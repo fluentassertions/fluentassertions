@@ -15,10 +15,9 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            Type subjectType = config.GetExpectationType(context.RuntimeType, context.CompileTimeType);
+            Type expectationType = config.GetExpectationType(context.RuntimeType, context.CompileTimeType);
 
-            return (subjectType?.IsEnum == true) ||
-                   (context.Expectation?.GetType().IsEnum == true);
+            return expectationType.IsEnum;
         }
 
         /// <summary>
@@ -34,6 +33,16 @@ namespace FluentAssertions.Equivalency
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent,
             IEquivalencyAssertionOptions config)
         {
+            Execute.Assertion
+                .ForCondition(context.Subject?.GetType().IsEnum == true)
+                .FailWith(() =>
+                {
+                    decimal? expectationsUnderlyingValue = ExtractDecimal(context.Expectation);
+                    string expectationName = GetDisplayNameForEnumComparison(context.Expectation, expectationsUnderlyingValue);
+
+                    return new FailReason($"Expected {{context:enum}} to be equivalent to {expectationName}{{reason}}, but found {{0}}.", context.Subject);
+                });
+
             switch (config.EnumEquivalencyHandling)
             {
                 case EnumEquivalencyHandling.ByValue:
@@ -69,7 +78,7 @@ namespace FluentAssertions.Equivalency
 
         private static void HandleByName(IEquivalencyValidationContext context)
         {
-            string subject = context.Subject?.ToString();
+            string subject = context.Subject.ToString();
             string expected = context.Expectation.ToString();
 
             Execute.Assertion
@@ -90,18 +99,13 @@ namespace FluentAssertions.Equivalency
         {
             if (o is null || v is null)
             {
-                return "null";
+                return "<null>";
             }
 
-            if (o.GetType().IsEnum)
-            {
-                string typePart = o.GetType().Name;
-                string namePart = Enum.GetName(o.GetType(), o);
-                string valuePart = v.Value.ToString(CultureInfo.InvariantCulture);
-                return $"{typePart}.{namePart}({valuePart})";
-            }
-
-            return v.Value.ToString(CultureInfo.InvariantCulture);
+            string typePart = o.GetType().Name;
+            string namePart = o.ToString().Replace(", ", "|", StringComparison.Ordinal);
+            string valuePart = v.Value.ToString(CultureInfo.InvariantCulture);
+            return $"{typePart}.{namePart} {{{{value: {valuePart}}}}}";
         }
 
         private static decimal? ExtractDecimal(object o)

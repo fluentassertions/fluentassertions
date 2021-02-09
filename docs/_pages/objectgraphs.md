@@ -183,6 +183,9 @@ An option to compare an `Enum` only by name is also available, using the followi
 orderDto.Should().BeEquivalentTo(expectation, options => options.ComparingEnumsByName());
 ```
 
+Note that even though an enum's underlying value equals a numeric value or the enum's name equals some string value, we do not consider those to be equivalent.
+In other words, enums are only considered to be equivalent to enums of the same or another type, but you can control whether they should equal by name or by value.
+
 ### Collections and Dictionaries ###
 Considering our running example, you could use the following against a collection of `OrderDto`s: 
 
@@ -300,7 +303,7 @@ For instance, to always compare enumerations by name, use the following statemen
 
 ```csharp
 AssertionOptions.AssertEquivalencyUsing(options => 
-   options.ComparingEnumsByValue);
+   options.ComparingEnumsByName);
 ``` 
 
 All the options available to an individual call to `Should().BeEquivalentTo` are supported, with the exception of some of the overloads that are specific to the type of the subject (for obvious reasons).

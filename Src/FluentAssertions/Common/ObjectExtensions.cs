@@ -31,8 +31,8 @@ namespace FluentAssertions.Common
             Type actualType = actual.GetType();
 
             return actualType != expectedType
-                && (actual.IsNumericType() || actualType.IsEnum)
-                && (expected.IsNumericType() || expectedType.IsEnum)
+                && actual.IsNumericType()
+                && expected.IsNumericType()
                 && CanConvert(actual, expected, actualType, expectedType)
                 && CanConvert(expected, actual, expectedType, actualType);
         }
@@ -55,9 +55,7 @@ namespace FluentAssertions.Common
 
         private static object ConvertTo(this object source, Type targetType)
         {
-            return targetType.IsEnum
-                ? Enum.ToObject(targetType, source)
-                : Convert.ChangeType(source, targetType, CultureInfo.InvariantCulture);
+            return Convert.ChangeType(source, targetType, CultureInfo.InvariantCulture);
         }
 
         private static bool IsNumericType(this object obj)

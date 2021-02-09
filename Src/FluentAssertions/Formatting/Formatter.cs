@@ -46,6 +46,7 @@ namespace FluentAssertions.Formatting
             new ExceptionValueFormatter(),
             new MultidimensionalArrayFormatter(),
             new EnumerableValueFormatter(),
+            new EnumValueFormatter(),
             new DefaultValueFormatter()
         };
 
