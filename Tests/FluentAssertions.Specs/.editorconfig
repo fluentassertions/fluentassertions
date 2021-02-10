@@ -94,8 +94,6 @@ dotnet_diagnostic.AV1704.severity = none
 dotnet_diagnostic.AV1706.severity = none
 # AV1710: Property contains the name of its containing type
 dotnet_diagnostic.AV1710.severity = none
-# AV1755: Name of async method should end with Async or TaskAsync
-dotnet_diagnostic.AV1755.severity = none
 
 # SA1001: XML comment analysis is disabled due to project configuration
 dotnet_diagnostic.SA1001.severity = none

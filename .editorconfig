@@ -254,6 +254,8 @@ dotnet_diagnostic.AV1706.severity = suggestion
 dotnet_diagnostic.AV1708.severity = suggestion
 # AV1710: Field contains the name of its containing type
 dotnet_diagnostic.AV1710.severity = none
+# AV1755: Name of async method should end with Async or TaskAsync
+dotnet_diagnostic.AV1755.severity = none
 # AV2202: Replace call to Nullable<T>.HasValue with null check
 dotnet_diagnostic.AV2202.severity = none
 # AV2305: Missing XML comment for internally visible type or member

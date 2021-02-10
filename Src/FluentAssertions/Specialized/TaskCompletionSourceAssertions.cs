@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
-#pragma warning disable AV1755 // "Name of async method ... should end with Async"; Async suffix is too noisy in fluent API
-
 namespace FluentAssertions.Specialized
 {
     public class TaskCompletionSourceAssertions<T>
