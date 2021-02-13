@@ -431,6 +431,78 @@ namespace FluentAssertions.Specs.Equivalency
             act.Should().NotThrow();
         }
 
+        [InlineData(null, 0)]
+        [InlineData(0, null)]
+        [Theory]
+        public void When_subject_or_expectation_is_null_it_should_not_match_a_non_nullable_type(int? subjectValue, int? expectedValue)
+        {
+            // Arrange
+            var actual = new { Value = subjectValue };
+            var expected = new { Value = expectedValue };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected, opt => opt
+                .Using<int>(c => c.Subject.Should().NotBe(c.Expectation))
+                .WhenTypeIs<int>());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [InlineData(null, 0)]
+        [InlineData(0, null)]
+        [Theory]
+        public void When_subject_or_expectation_is_null_it_should_match_a_nullable_type(int? subjectValue, int? expectedValue)
+        {
+            // Arrange
+            var actual = new { Value = subjectValue };
+            var expected = new { Value = expectedValue };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected, opt => opt
+                .Using<int?>(c => c.Subject.Should().NotBe(c.Expectation))
+                .WhenTypeIs<int?>());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [InlineData(null, null)]
+        [InlineData(0, 0)]
+        [Theory]
+        public void When_types_are_nullable_it_should_match_a_nullable_type(int? subjectValue, int? expectedValue)
+        {
+            // Arrange
+            var actual = new { Value = subjectValue };
+            var expected = new { Value = expectedValue };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected, opt => opt
+                .Using<int?>(c => c.Subject.Should().NotBe(c.Expectation))
+                .WhenTypeIs<int?>());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_overriding_with_custom_assertion_it_should_be_chainable()
+        {
+            // Arrange
+            var actual = new { Nullable = (int?)1, NonNullable = 2 };
+            var expected = new { Nullable = (int?)3, NonNullable = 3 };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected, opt => opt
+                .Using<int>(c => c.Subject.Should().BeCloseTo(c.Expectation, 1))
+                .WhenTypeIs<int>()
+                .Using<int?>(c => c.Subject.Should().NotBe(c.Expectation))
+                .WhenTypeIs<int?>());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
         [Fact]
         public void When_a_nullable_property_is_overriden_with_a_custom_assertion_it_should_use_it()
         {
@@ -447,8 +519,9 @@ namespace FluentAssertions.Specs.Equivalency
             };
 
             // Act / Assert
-            actual.Should().BeEquivalentTo(expected,
-                opt => opt.Using<long>(c => c.Subject.Should().BeInRange(0, 10)).WhenTypeIs<long?>());
+            actual.Should().BeEquivalentTo(expected, opt => opt
+                .Using<long?>(c => c.Subject.Should().BeInRange(0, 10))
+                .WhenTypeIs<long?>());
         }
 
         internal class SimpleWithNullable

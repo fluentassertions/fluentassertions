@@ -1073,7 +1073,8 @@ namespace FluentAssertions.Equivalency
         {
             public Restriction(TSelf options, System.Action<FluentAssertions.Equivalency.IAssertionContext<TMember>> action) { }
             public TSelf When(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
-            public TSelf WhenTypeIs<TMemberType>() { }
+            public TSelf WhenTypeIs<TMemberType>()
+                where TMemberType : TMember { }
         }
     }
     public class SimpleEqualityEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep

@@ -698,6 +698,7 @@ namespace FluentAssertions.Equivalency
             /// <typeparamref name="TMemberType" />
             /// </summary>
             public TSelf WhenTypeIs<TMemberType>()
+                where TMemberType : TMember
             {
                 When(info => info.RuntimeType.IsSameOrInherits(typeof(TMemberType)));
                 return options;
