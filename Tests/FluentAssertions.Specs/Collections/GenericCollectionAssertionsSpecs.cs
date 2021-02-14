@@ -320,7 +320,7 @@ namespace FluentAssertions.Specs.Collections
             var collection = new int[] { 1, 2, 3 };
 
             // Act
-            Action act = () => collection.Should().ExactlyContain(
+            Action act = () => collection.Should().Satisfy(
                 _ => _ == 1,
                 _ => _ == 2,
                 _ => _ == 3);
@@ -336,7 +336,7 @@ namespace FluentAssertions.Specs.Collections
             var collection = new int[] { 2, 2, 3 };
 
             // Act
-            Action act = () => collection.Should().ExactlyContain(
+            Action act = () => collection.Should().Satisfy(
                 _ => _ == 3,
                 _ => _ == 2,
                 _ => _ == 2);
@@ -352,7 +352,7 @@ namespace FluentAssertions.Specs.Collections
             var collection = new int[] { 2, 2 };
 
             // Act
-            Action act = () => collection.Should().ExactlyContain(
+            Action act = () => collection.Should().Satisfy(
                 _ => _ == 3,
                 _ => _ == 2,
                 _ => _ == 2);
@@ -368,7 +368,7 @@ namespace FluentAssertions.Specs.Collections
             var collection = new int[] { 1, 2, 3, 4 };
 
             // Act
-            Action act = () => collection.Should().ExactlyContain(
+            Action act = () => collection.Should().Satisfy(
                 _ => _ == 1 || _ == 2 || _ == 3 || _ == 4,
                 _ => _ == 1 || _ == 2 || _ == 3,
                 _ => _ == 1 || _ == 2,
@@ -385,7 +385,7 @@ namespace FluentAssertions.Specs.Collections
             var collection = new int[] { 1, 2, 3, 4 };
 
             // Act
-            Action act = () => collection.Should().ExactlyContain(
+            Action act = () => collection.Should().Satisfy(
                 _ => _ == 1,
                 _ => _ == 1 || _ == 2,
                 _ => _ == 1 || _ == 2 || _ == 3,
@@ -393,6 +393,28 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void Formatting1()
+        {
+            // Arrange
+            IEnumerable<SomeClass> collection = new[]
+            {
+                new SomeClass { Text = "one", Number = 1 },
+                new SomeClass { Text = "two", Number = 2 },
+                new SomeClass { Text = "three", Number = 3 },
+                new SomeClass { Text = "four", Number = 4 }
+            };
+
+            // Act
+            collection.Should().Satisfy(
+                _ => _.Text == "one" && _.Number == 1,
+                _ => _.Text == "two" && _.Number == 3);
+
+            // Assert
+            //act.Should().Throw<XunitException>().WithMessage(
+            //    "Expected collection to only have unique items*on e.Text*because we don't like duplicates, but item*three*is not unique.");
         }
 
         #endregion

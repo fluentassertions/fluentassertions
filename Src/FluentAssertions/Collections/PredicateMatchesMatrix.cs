@@ -6,15 +6,17 @@ namespace FluentAssertions.Collections
     internal class PredicateMatchesMatrix
     {
         private readonly Dictionary<int, List<int>> matchingElementsByPredicate;
-        private readonly IEnumerable<int> allPredicates;
 
-        public PredicateMatchesMatrix(int predicatesCount)
+        public PredicateMatchesMatrix(int predicatesCount, int elementsCount)
         {
             matchingElementsByPredicate = new Dictionary<int, List<int>>();
-            allPredicates = Enumerable.Range(0, predicatesCount);
+            AllPredicates = Enumerable.Range(0, predicatesCount);
+            AllElements = Enumerable.Range(0, elementsCount);
         }
 
-        public IEnumerable<int> AllPredicates => allPredicates;
+        public IEnumerable<int> AllPredicates { get; }
+
+        public IEnumerable<int> AllElements { get; }
 
         public IEnumerable<int> GetMatchingElements(int predicate)
         {

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
+using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Collections
 {
@@ -519,35 +520,6 @@ namespace FluentAssertions.Collections
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        public void ExactlyContain(params Expression<Func<T, bool>>[] predicates)
-        {
-            var elements = Subject.ConvertOrCastToCollection().ToList();
-            var compatibilityMatrix = new PredicateMatchesMatrix(predicates.Length);
-
-            for (int predicateIndex = 0; predicateIndex < predicates.Length; predicateIndex++)
-            {
-                var predicate = predicates[predicateIndex];
-                var compiledPredicate = predicate.Compile();
-
-                for (int elementIndex = 0; elementIndex < elements.Count; elementIndex++)
-                {
-                    var element = elements[elementIndex];
-
-                    if (compiledPredicate(element))
-                    {
-                        compatibilityMatrix.AddMatch(predicateIndex, elementIndex);
-                    }
-                }
-            }
-
-            var matches = OnlyContainAssertionHelper.FindBestMatching(compatibilityMatrix);
-
-            if (matches.Count != predicates.Length || matches.Count != elements.Count)
-            {
-                Execute.Assertion.FailWith("Expected {context:collection} to match the predicates");
-            }
-        }
-
         /// <summary>
         /// Asserts that the current collection does not contain the supplied <paramref name="unexpected" /> item.
         /// </summary>
@@ -792,6 +764,65 @@ namespace FluentAssertions.Collections
                     .FailWithPreFormatted(failureMessage)
                     .Then
                     .ClearExpectation();
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+
+        public AndConstraint<TAssertions> Satisfy(params Expression<Func<T, bool>>[] predicates)
+        {
+            return Satisfy(predicates, because: "");
+        }
+
+        public AndConstraint<TAssertions> Satisfy(Expression<Func<T, bool>>[] predicates, string because = "", params object[] becauseArgs)
+        {
+            var elements = Subject.ConvertOrCastToCollection().ToList();
+            var compatibilityMatrix = new PredicateMatchesMatrix(predicates.Length, elements.Count);
+
+            for (int predicateIndex = 0; predicateIndex < predicates.Length; predicateIndex++)
+            {
+                var predicate = predicates[predicateIndex];
+                var compiledPredicate = predicate.Compile();
+
+                for (int elementIndex = 0; elementIndex < elements.Count; elementIndex++)
+                {
+                    var element = elements[elementIndex];
+
+                    if (compiledPredicate(element))
+                    {
+                        compatibilityMatrix.AddMatch(predicateIndex, elementIndex);
+                    }
+                }
+            }
+
+            var matches = OnlyContainAssertionHelper.FindBestMatching(compatibilityMatrix);
+
+            if (matches.Count != predicates.Length || matches.Count != elements.Count)
+            {
+                string message = "";
+
+                var notMatchingElements = compatibilityMatrix.AllElements.Except(matches.Values).ToList();
+                if (notMatchingElements.Any())
+                {
+                    message += Environment.NewLine + "\t" + "The following elements did not match any predicate:" + Environment.NewLine + "\t\t";
+                    // todo formatter?
+                    message += string.Join(Environment.NewLine + "\t\t", notMatchingElements.Select(_ => elements[_].ToString()));
+                    message += Environment.NewLine;
+                }
+
+                var notMatchingPredicates = compatibilityMatrix.AllPredicates.Except(matches.Keys).ToList();
+                if (notMatchingPredicates.Any())
+                {
+                    message += Environment.NewLine + "\t" + "The following predicates did not have matching elements:" + Environment.NewLine + "\t\t";
+                    // todo formatter?
+                    message += string.Join(Environment.NewLine + "\t\t", notMatchingPredicates.Select(_ => AdvancedExpressionFormatter.FormatExpression(predicates[_])));
+                }
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .WithExpectation("Expected {context:collection} to satisfy all predicates{reason}, but:")
+                    .FailWithPreFormatted(message);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
