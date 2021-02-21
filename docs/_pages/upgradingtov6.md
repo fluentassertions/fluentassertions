@@ -66,3 +66,79 @@ subject.Should().BeEquivalentTo(expectation,  opt => opt.ComparingEnumsByValue()
 
 If your assertions rely on the formatting of enums in failure messages, you'll notice that we have given it a facelift.
 Previously, formatting an enum would simply be a call to `ToString()`, but to provide more detail we now format `MyEnum.One` as `"MyEnum.One(1)"` instead of `"One"`.
+
+
+## Using ##
+
+Since v2, released back in late 2012, the syntax for overriding the default comparison of properties during structural equivalency has more or less been
+```cs
+orderDto.Should().BeEquivalentTo(order, opt => opt
+    .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1.Seconds()))
+    .WhenTypeIs<DateTime>());
+```
+
+As there were no restrictions on the relationship between the generic parameters of `Using<TProperty>` and `WhenTypeIs<TMemberType>` you could write nonsense such as
+```
+var subject = new { Value = "One" };
+var expectation = new { Value = "Two" };
+
+subject.Should().BeEquivalentTo(expectation, opt => opt
+    .Using<int>(e => e.Subject.Should().Be(e.Expectation))
+    .WhenTypeIs<string>()
+);
+```
+
+This would compile, but then fail at runtime with
+
+```
+Expected member Value from subject to be a System.Int32, but found a System.String.
+Expected member Value from expectation to be a System.Int32, but found a System.String.
+```
+
+In v6 we have restricted this relationship between `WhenTypeIs` and `Using`, such that `TMemberType` must be assignable to `TProperty`.
+The snippet above now gives a compile error
+```
+CS0311: There is no implicit reference conversion from 'string' to 'int'.
+```
+
+This change also breaks compilation for cases that might worked before, but only due to assumptions about the runtime values.
+
+```
+.Using<Derived>()
+.WhenTypeIs<Base>() // assuming that all Bases are of type `Derived`
+```
+
+```cs
+.Using<int>()
+.WhenTypeIs<int?>() // null is an int? but not an int
+```
+
+```cs
+.Using<int?>()
+.WhenTypeIs<int>() // This would work, but there's no reason to cast int to int?
+```
+
+Besides the generic constraint, we also fixed two cases regarding non-nullable values, that we didn't handle correctly before.
+
+In the first case, we would match both `null` and `0` as an `int?`, but then cast both to `int`, which gave a `NullReferenceException`.
+```cs
+var subject = new { Value = null as int? };
+var expectation = new { Value = 0 };
+
+subject.Should().BeEquivalentTo(expectation, opt => opt
+    .Using<int>(e => e.Subject.Should().Be(e.Expectation))
+    .WhenTypeIs<int?>()
+);
+```
+
+In the second case we would cast a `null` expectation to `default(TMember)`, which worked fine for reference types, but for e.g. `int` this meant that we considered `null` to be equal to `0`.
+
+```cs
+var subject = new { Value = 0 };
+var expectation = new { Value = null as int? };
+
+subject.Should().BeEquivalentTo(expectation, opt => opt
+    .Using<int>(e => e.Subject.Should().Be(e.Expectation))
+    .WhenTypeIs<int?>()
+);
+```
