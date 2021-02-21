@@ -439,15 +439,17 @@ namespace FluentAssertions.Collections
         /// <summary>
         /// Asserts that the collection contains some extra items in addition to the original items.
         /// </summary>
-        /// <param name="expectedItemsList">An <see cref="IEnumerable{T}"/> of expectation items.</param>
-        /// <param name="additionalExpectedItems">Additional items that are expectation to be contained by the collection.</param>
-        public AndConstraint<TAssertions> Contain(IEnumerable<T> expectedItemsList,
-            params T[] additionalExpectedItems)
+        /// <param name="expected">An <see cref="IEnumerable{T}"/> of expectation items.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+        /// </param>
+        public AndConstraint<TAssertions> Contain(IEnumerable<T> expected, string because = "", params object[] becauseArgs)
         {
-            var list = new List<T>(expectedItemsList);
-            list.AddRange(additionalExpectedItems);
-
-            return Contain((IEnumerable)list);
+            return Contain((IEnumerable)expected, because, becauseArgs);
         }
 
         /// <summary>
@@ -555,13 +557,17 @@ namespace FluentAssertions.Collections
         /// <summary>
         /// Asserts that the collection does not contain some extra items in addition to the original items.
         /// </summary>
-        /// <param name="unexpectedItemsList">An <see cref="IEnumerable{T}"/> of unexpected items.</param>
-        /// <param name="additionalUnexpectedItems">Additional items that are not expected to be contained by the collection.</param>
-        public AndConstraint<TAssertions> NotContain(IEnumerable<T> unexpectedItemsList, params T[] additionalUnexpectedItems)
+        /// <param name="unexpected">An <see cref="IEnumerable{T}"/> of unexpected items.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+        /// </param>
+        public AndConstraint<TAssertions> NotContain(IEnumerable<T> unexpected, string because = "", params object[] becauseArgs)
         {
-            var list = new List<T>(unexpectedItemsList);
-            list.AddRange(additionalUnexpectedItems);
-            return NotContain((IEnumerable)list);
+            return NotContain((IEnumerable)unexpected, because, becauseArgs);
         }
 
         /// <summary>

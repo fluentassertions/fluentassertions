@@ -103,17 +103,18 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
-        public void When_a_collection_does_not_contain_the_combination_of_a_collection_and_a_single_item_it_should_throw()
+        public void When_a_collection_does_not_contain_the_collection_it_should_throw()
         {
             // Arrange
-            IEnumerable<object> strings = new[] { "string1", "string2" };
+            IEnumerable<object> subject = new[] { "string1", "string2" };
+            IEnumerable<object> expectation = new[] { "string1", "string2", "string3" };
 
             // Act
-            Action act = () => strings.Should().Contain(strings, new object[] { "string3" });
+            Action act = () => subject.Should().Contain(expectation, "some {0}", "argument");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected strings {\"string1\", \"string2\"} to contain {\"string1\", \"string2\", \"string3\"}, but could not find {\"string3\"}.");
+                "Expected subject {\"string1\", \"string2\"} to contain {\"string1\", \"string2\", \"string3\"}*some argument*but could not find {\"string3\"}.");
         }
 
         [Fact]
@@ -175,17 +176,18 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
-        public void When_a_collection_does_contain_the_combination_of_a_collection_and_a_single_item_it_should_throw()
+        public void When_a_collection_does_contain_the_collection_it_should_throw()
         {
             // Arrange
-            IEnumerable<object> strings = new[] { "string1", "string2" };
+            IEnumerable<object> subject = new[] { "string1", "string2" };
+            IEnumerable<object> expectation = new[] { "string3", "string4", "string2" };
 
             // Act
-            Action act = () => strings.Should().NotContain(new[] { "string3", "string4" }, new object[] { "string2" });
+            Action act = () => subject.Should().NotContain(expectation, "some {0}", "argument");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected strings {\"string1\", \"string2\"} to not contain {\"string3\", \"string4\", \"string2\"}, but found {\"string2\"}.");
+                "Expected subject {\"string1\", \"string2\"} to not contain {\"string3\", \"string4\", \"string2\"}*some argument*but found {\"string2\"}.");
         }
 
         [Fact]

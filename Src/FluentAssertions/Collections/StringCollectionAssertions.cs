@@ -262,42 +262,6 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Expects the current collection to contain the specified elements in any order. Elements are compared
-        /// using their <see cref="object.Equals(object)" /> implementation.
-        /// </summary>
-        /// <param name="expected">An <see cref="IEnumerable{T}" /> with the expected elements.</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndConstraint<TAssertions> Contain(IEnumerable<string> expected, string because = null,
-            params object[] becauseArgs)
-        {
-            return base.Contain(expected, because, becauseArgs);
-        }
-
-        /// <summary>
-        /// Asserts that the current collection does not contain the supplied items. Elements are compared
-        /// using their <see cref="object.Equals(object)" /> implementation.
-        /// </summary>
-        /// <param name="unexpected">An <see cref="IEnumerable{T}"/> with the unexpected elements.</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndConstraint<TAssertions> NotContain(IEnumerable<string> unexpected, string because = null,
-            params object[] becauseArgs)
-        {
-            return base.NotContain(unexpected, because, becauseArgs);
-        }
-
-        /// <summary>
         /// Asserts that the collection contains at least one string that matches a wildcard pattern.
         /// </summary>
         /// <param name="wildcardPattern">
