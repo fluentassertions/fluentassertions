@@ -802,21 +802,18 @@ namespace FluentAssertions.Collections
             {
                 string message = "";
 
-                var notMatchingElements = compatibilityMatrix.AllElements.Except(matches.Values).ToList();
-                if (notMatchingElements.Any())
-                {
-                    message += Environment.NewLine + "\t" + "The following elements did not match any predicate:" + Environment.NewLine + "\t\t";
-                    // todo formatter?
-                    message += string.Join(Environment.NewLine + "\t\t", notMatchingElements.Select(_ => elements[_].ToString()));
-                    message += Environment.NewLine;
-                }
-
                 var notMatchingPredicates = compatibilityMatrix.AllPredicates.Except(matches.Keys).ToList();
                 if (notMatchingPredicates.Any())
                 {
-                    message += Environment.NewLine + "\t" + "The following predicates did not have matching elements:" + Environment.NewLine + "\t\t";
-                    // todo formatter?
-                    message += string.Join(Environment.NewLine + "\t\t", notMatchingPredicates.Select(_ => AdvancedExpressionFormatter.FormatExpression(predicates[_])));
+                    message += Environment.NewLine + Environment.NewLine + "The following predicates did not have matching elements:";
+                    message += Environment.NewLine + Environment.NewLine + string.Join(Environment.NewLine, notMatchingPredicates.Select(_ => AdvancedExpressionFormatter.FormatExpression(predicates[_])));
+                }
+
+                var notMatchingElements = compatibilityMatrix.AllElements.Except(matches.Values).ToList();
+                if (notMatchingElements.Any())
+                {
+                    message += Environment.NewLine + Environment.NewLine + "The following elements did not match any predicate:";
+                    message += string.Join("", notMatchingElements.Select(_ => Formatter.ToString(elements[_], useLineBreaks: false)));
                 }
 
                 Execute.Assertion

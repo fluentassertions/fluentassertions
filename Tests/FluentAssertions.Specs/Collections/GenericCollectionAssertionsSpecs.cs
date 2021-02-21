@@ -408,13 +408,37 @@ namespace FluentAssertions.Specs.Collections
             };
 
             // Act
-            collection.Should().Satisfy(
+            Action act = () => collection.Should().Satisfy(
                 _ => _.Text == "one" && _.Number == 1,
                 _ => _.Text == "two" && _.Number == 3);
 
             // Assert
-            //act.Should().Throw<XunitException>().WithMessage(
-            //    "Expected collection to only have unique items*on e.Text*because we don't like duplicates, but item*three*is not unique.");
+            act.Should().Throw<XunitException>().WithMessage(
+                @"Expected collection to satisfy all predicates, but:
+
+The following predicates did not have matching elements:
+
+(_.Text == ""two"") AndAlso (_.Number == 3)
+
+The following elements did not match any predicate:
+
+FluentAssertions.Specs.Collections.GenericCollectionAssertionsSpecs+SomeClass
+{
+   Number = 2
+   Text = ""two""
+}
+
+FluentAssertions.Specs.Collections.GenericCollectionAssertionsSpecs+SomeClass
+{
+   Number = 3
+   Text = ""three""
+}
+
+FluentAssertions.Specs.Collections.GenericCollectionAssertionsSpecs+SomeClass
+{
+   Number = 4
+   Text = ""four""
+}");
         }
 
         #endregion
