@@ -317,6 +317,18 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
+        /// Includes the specified member in the equality check.
+        /// </summary>
+        /// <remarks>
+        /// This overrides the default behavior of including all declared members.
+        /// </remarks>
+        public TSelf Including(Expression<Func<IMemberInfo, bool>> predicate)
+        {
+            AddSelectionRule(new IncludeMemberByPredicateSelectionRule(predicate));
+            return (TSelf)this;
+        }
+
+        /// <summary>
         /// Tries to match the members of the subject with equally named members on the expectation. Ignores those
         /// members that don't exist on the expectation and previously registered matching rules.
         /// </summary>
