@@ -59,7 +59,7 @@ If the `Task` is generic and returns a value, you can use that to write a contin
 ```csharp
 Func<Task<int>> someAsyncFunc;
 
-(await someAsyncFunc.Should().CompleteWithinAsync(100.Milliseconds())).Which.Should().Be(42);
+await someAsyncFunc.Should().CompleteWithinAsync(100.Milliseconds()).WithResult(42);
 ```
 
 A fully `async` version is available as well.
