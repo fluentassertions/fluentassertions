@@ -510,13 +510,13 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(System.Collections.Generic.IEnumerable<string> expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(System.Collections.Generic.IEnumerable<string> expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Contain(System.Collections.Generic.IEnumerable<string> expected) { }
-        public FluentAssertions.AndConstraint<TAssertions> Contain(System.Collections.Generic.IEnumerable<string> expected, string because = null, object becauseArg = null, params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> Contain(System.Collections.Generic.IEnumerable<string> expected, string because = null, params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> ContainInOrder(params string[] expected) { }
         public FluentAssertions.AndConstraint<TAssertions> ContainInOrder(System.Collections.Generic.IEnumerable<string> expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, string> ContainMatch(string wildcardPattern, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Equal(System.Collections.Generic.IEnumerable<string> expected) { }
         public FluentAssertions.AndConstraint<TAssertions> Equal(params string[] expected) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotContain(System.Collections.Generic.IEnumerable<string> unexpected, string because = null, object becauseArg = null, params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotContain(System.Collections.Generic.IEnumerable<string> unexpected, string because = null, params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainInOrder(params string[] unexpected) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainInOrder(System.Collections.Generic.IEnumerable<string> unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainMatch(string wildcardPattern, string because = "", params object[] becauseArgs) { }

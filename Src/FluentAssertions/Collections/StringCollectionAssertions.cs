@@ -270,19 +270,13 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="becauseArg">
-        /// An object to format using the placeholders in <paramref name="because" />.
-        /// </param>
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> Contain(IEnumerable<string> expected, string because = null,
-            object becauseArg = null,
             params object[] becauseArgs)
         {
-            var args = new List<object> { becauseArg };
-            args.AddRange(becauseArgs);
-            return base.Contain(expected, because, args.ToArray());
+            return base.Contain(expected, because, becauseArgs);
         }
 
         /// <summary>
@@ -294,19 +288,13 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="becauseArg">
-        /// An object to format using the placeholders in <paramref name="because" />.
-        /// </param>
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public AndConstraint<TAssertions> NotContain(IEnumerable<string> unexpected, string because = null,
-            object becauseArg = null,
             params object[] becauseArgs)
         {
-            var args = new List<object> { becauseArg };
-            args.AddRange(becauseArgs);
-            return base.NotContain(unexpected, because, args.ToArray());
+            return base.NotContain(unexpected, because, becauseArgs);
         }
 
         /// <summary>
