@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Net;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
@@ -884,7 +883,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Act
             Action act =
-                () => dto.Should().BeEquivalentTo(dto, options => options.Including((Expression<Func<CustomerDto, object>>)null));
+                () => dto.Should().BeEquivalentTo(dto, options => options.Including(null));
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithMessage(

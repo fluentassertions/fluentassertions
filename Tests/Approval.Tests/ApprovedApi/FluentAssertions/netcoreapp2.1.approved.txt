@@ -817,7 +817,6 @@ namespace FluentAssertions.Equivalency
         public EquivalencyAssertionOptions(FluentAssertions.Equivalency.IEquivalencyAssertionOptions defaults) { }
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<System.Collections.Generic.IEnumerable<TExpectation>> AsCollection() { }
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> Excluding(System.Linq.Expressions.Expression<System.Func<TExpectation, object>> expression) { }
-        public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> Including(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> Including(System.Linq.Expressions.Expression<System.Func<TExpectation, object>> expression) { }
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> WithStrictOrderingFor(System.Linq.Expressions.Expression<System.Func<TExpectation, object>> expression) { }
     }
@@ -1047,6 +1046,7 @@ namespace FluentAssertions.Equivalency
         public TSelf ExcludingNestedObjects() { }
         public TSelf ExcludingProperties() { }
         public TSelf IgnoringCyclicReferences() { }
+        public TSelf Including(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }
         public TSelf IncludingAllDeclaredProperties() { }
         public TSelf IncludingAllRuntimeProperties() { }
         public TSelf IncludingFields() { }
