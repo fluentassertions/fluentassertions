@@ -777,6 +777,24 @@ namespace FluentAssertions.Collections
 
         public AndConstraint<TAssertions> Satisfy(Expression<Func<T, bool>>[] predicates, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(predicates, nameof(predicates), "Cannot verify against a <null> collection of predicates");
+
+            if (!predicates.Any())
+            {
+                throw new ArgumentException("Cannot verify against an empty collection of predicates", nameof(predicates));
+            }
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected {context:collection} to satisfy all predicates{reason}, ")
+                .ForCondition(Subject is not null)
+                .FailWith("but collection is <null>.")
+                .Then
+                .ForCondition(Subject.Any())
+                .FailWith("but collection is empty.")
+                .Then
+                .ClearExpectation();
+
             var elements = Subject.ConvertOrCastToCollection().ToList();
             var compatibilityMatrix = new PredicateMatchesMatrix(predicates.Length, elements.Count);
 
@@ -801,18 +819,19 @@ namespace FluentAssertions.Collections
             if (matches.Count != predicates.Length || matches.Count != elements.Count)
             {
                 string message = "";
+                var doubleNewLine = Environment.NewLine + Environment.NewLine;
 
                 var notMatchingPredicates = compatibilityMatrix.AllPredicates.Except(matches.Keys).ToList();
                 if (notMatchingPredicates.Any())
                 {
-                    message += Environment.NewLine + Environment.NewLine + "The following predicates did not have matching elements:";
-                    message += Environment.NewLine + Environment.NewLine + string.Join(Environment.NewLine, notMatchingPredicates.Select(_ => AdvancedExpressionFormatter.FormatExpression(predicates[_])));
+                    message += doubleNewLine + "The following predicates did not have matching elements:";
+                    message += doubleNewLine + string.Join(Environment.NewLine, notMatchingPredicates.Select(_ => Formatter.ToString(predicates[_])));
                 }
 
                 var notMatchingElements = compatibilityMatrix.AllElements.Except(matches.Values).ToList();
                 if (notMatchingElements.Any())
                 {
-                    message += Environment.NewLine + Environment.NewLine + "The following elements did not match any predicate:";
+                    message += doubleNewLine + "The following elements did not match any predicate:";
                     message += string.Join("", notMatchingElements.Select(_ => Formatter.ToString(elements[_], useLineBreaks: false)));
                 }
 

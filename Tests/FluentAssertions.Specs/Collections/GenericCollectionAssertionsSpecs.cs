@@ -311,120 +311,6 @@ namespace FluentAssertions.Specs.Collections
 
         #endregion
 
-        #region Exactly Contain (multiple predicates)
-
-        [Fact]
-        public void When_collection_element_at_each_position_matches_predicate_at_same_position_Satisfy_should_not_throw()
-        {
-            // Arrange
-            var collection = new int[] { 1, 2, 3 };
-
-            // Act
-            Action act = () => collection.Should().Satisfy(
-                _ => _ == 1,
-                _ => _ == 2,
-                _ => _ == 3);
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_collection_element_at_each_position_matches_predicate_at_reverse_position_Satisfy_should_not_throw()
-        {
-            // Arrange
-            var collection = new int[] { 1, 2, 3 };
-
-            // Act
-            Action act = () => collection.Should().Satisfy(
-                _ => _ == 3,
-                _ => _ == 2,
-                _ => _ == 1);
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_one_element_does_not_have_matching_predicate_Satisfy_should_throw()
-        {
-            // Arrange
-            var collection = new int[] { 1, 2 };
-
-            // Act
-            Action act = () => collection.Should().Satisfy(
-                _ => _ == 3,
-                _ => _ == 1,
-                _ => _ == 2);
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_some_predicates_have_multiple_matching_elements_and_most_restricitve_predicates_are_last_Satisfy_should__not_throw()
-        {
-            // Arrange
-            var collection = new int[] { 1, 2, 3, 4 };
-
-            // Act
-            Action act = () => collection.Should().Satisfy(
-                _ => _ == 1 || _ == 2 || _ == 3 || _ == 4,
-                _ => _ == 1 || _ == 2 || _ == 3,
-                _ => _ == 1 || _ == 2,
-                _ => _ == 1);
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_some_predicates_have_multiple_matching_elements_and_most_restricitve_predicates_are_first_Satisfy_should__not_throw()
-        {
-            // Arrange
-            var collection = new int[] { 1, 2, 3, 4 };
-
-            // Act
-            Action act = () => collection.Should().Satisfy(
-                _ => _ == 1,
-                _ => _ == 1 || _ == 2,
-                _ => _ == 1 || _ == 2 || _ == 3,
-                _ => _ == 1 || _ == 2 || _ == 3 || _ == 4);
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_Satisfy_fails_then_failure_message_must_contain_predicates_without_matching_elements_and_elements_without_matching_predicates()
-        {
-            // Arrange
-            IEnumerable<SomeClass> collection = new[]
-            {
-                new SomeClass { Text = "one", Number = 1 },
-                new SomeClass { Text = "two", Number = 2 },
-                new SomeClass { Text = "three", Number = 3 },
-                new SomeClass { Text = "four", Number = 4 }
-            };
-
-            // Act
-            Action act = () => collection.Should().Satisfy(
-                _ => _.Text == "four" && _.Number == 4,
-                _ => _.Text == "two" && _.Number == 3);
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection to satisfy all predicates, but:*" +
-                "The following predicates did not have matching elements:*" +
-                "(_.Text == \"two\") AndAlso (_.Number == 3)*" +
-                "The following elements did not match any predicate:*" +
-                "FluentAssertions.Specs.Collections.GenericCollectionAssertionsSpecs+SomeClass*{*Number = 1*Text = \"one\"*}*" +
-                "FluentAssertions.Specs.Collections.GenericCollectionAssertionsSpecs+SomeClass*{*Number = 2*Text = \"two\"*}*" +
-                "FluentAssertions.Specs.Collections.GenericCollectionAssertionsSpecs+SomeClass*{*Number = 3*Text = \"three\"*}*");
-        }
-
-        #endregion
-
         #region Contain Single
 
         [Fact]
@@ -2045,5 +1931,195 @@ namespace FluentAssertions.Specs.Collections
             act.Should().Throw<XunitException>().WithMessage("*because we want to test the failure*");
         }
         #endregion
+
+        #region Satisfy (Predicates)
+
+        [Fact]
+        public void When_collection_element_at_each_position_matches_predicate_at_same_position_Satisfy_should_not_throw()
+        {
+            // Arrange
+            var collection = new int[] { 1, 2, 3 };
+
+            // Act
+            Action act = () => collection.Should().Satisfy(
+                _ => _ == 1,
+                _ => _ == 2,
+                _ => _ == 3);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_collection_element_at_each_position_matches_predicate_at_reverse_position_Satisfy_should_not_throw()
+        {
+            // Arrange
+            var collection = new int[] { 1, 2, 3 };
+
+            // Act
+            Action act = () => collection.Should().Satisfy(
+                _ => _ == 3,
+                _ => _ == 2,
+                _ => _ == 1);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_one_element_does_not_have_matching_predicate_Satisfy_should_throw()
+        {
+            // Arrange
+            var collection = new int[] { 1, 2 };
+
+            // Act
+            Action act = () => collection.Should().Satisfy(
+                _ => _ == 3,
+                _ => _ == 1,
+                _ => _ == 2);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_some_predicates_have_multiple_matching_elements_and_most_restricitve_predicates_are_last_Satisfy_should__not_throw()
+        {
+            // Arrange
+            var collection = new int[] { 1, 2, 3, 4 };
+
+            // Act
+            Action act = () => collection.Should().Satisfy(
+                _ => _ == 1 || _ == 2 || _ == 3 || _ == 4,
+                _ => _ == 1 || _ == 2 || _ == 3,
+                _ => _ == 1 || _ == 2,
+                _ => _ == 1);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_some_predicates_have_multiple_matching_elements_and_most_restricitve_predicates_are_first_Satisfy_should__not_throw()
+        {
+            // Arrange
+            var collection = new int[] { 1, 2, 3, 4 };
+
+            // Act
+            Action act = () => collection.Should().Satisfy(
+                _ => _ == 1,
+                _ => _ == 1 || _ == 2,
+                _ => _ == 1 || _ == 2 || _ == 3,
+                _ => _ == 1 || _ == 2 || _ == 3 || _ == 4);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_Satisfy_fails_then_failure_message_must_contain_predicates_without_matching_elements_and_elements_without_matching_predicates()
+        {
+            // Arrange
+            IEnumerable<SomeClass> collection = new[]
+            {
+                new SomeClass { Text = "one", Number = 1 },
+                new SomeClass { Text = "two", Number = 2 },
+                new SomeClass { Text = "three", Number = 3 },
+                new SomeClass { Text = "four", Number = 4 },
+            };
+
+            // Act
+            Action act = () => collection.Should().Satisfy(
+                new Expression<Func<SomeClass, bool>>[]
+                {
+                    _ => _.Text == "four" && _.Number == 4,
+                    _ => _.Text == "two" && _.Number == 3,
+                },
+                because: "we want to test formatting ({0})",
+                becauseArgs: "args");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+@"Expected collection to satisfy all predicates because we want to test formatting (args), but:
+*The following predicates did not have matching elements:
+*(_.Text == ""two"") AndAlso (_.Number == 3)
+*The following elements did not match any predicate:
+*FluentAssertions.Specs.Collections.GenericCollectionAssertionsSpecs+SomeClass*{*Number = 1*Text = ""one""*}
+*FluentAssertions.Specs.Collections.GenericCollectionAssertionsSpecs+SomeClass*{*Number = 2*Text = ""two""*}
+*FluentAssertions.Specs.Collections.GenericCollectionAssertionsSpecs+SomeClass*{*Number = 3*Text = ""three""*}");
+        }
+
+        [Fact]
+        public void When_Satisfy_asserting_against_null_inspectors_it_should_throw_with_clear_explanation()
+        {
+            // Arrange
+            IEnumerable<int> collection = new[] { 1, 2 };
+
+            // Act
+            Action act = () => collection.Should().Satisfy(null);
+
+            // Assert
+            act.Should().Throw<ArgumentException>().WithMessage(
+                "Cannot verify against a <null> collection of predicates*");
+        }
+
+        [Fact]
+        public void When_Satisfy_asserting_against_empty_inspectors_it_should_throw_with_clear_explanation()
+        {
+            // Arrange
+            IEnumerable<int> collection = new[] { 1, 2 };
+
+            // Act
+            Action act = () => collection.Should().Satisfy();
+
+            // Assert
+            act.Should().Throw<ArgumentException>().WithMessage(
+                "Cannot verify against an empty collection of predicates*");
+        }
+
+        [Fact]
+        public void When_Satisfy_is_asserting_collection_which_is_null_it_should_throw()
+        {
+            // Arrange
+            IEnumerable<int> collection = null;
+
+            // Act
+            Action act = () => collection.Should().Satisfy(
+                new Expression<Func<int, bool>>[]
+                {
+                    _ => _ == 1,
+                    _ => _ == 2,
+                },
+                because: "we want to test the failure message ({0})",
+                becauseArgs: "args");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection to satisfy all predicates because we want to test the failure message (args), but collection is <null>.");
+        }
+
+        [Fact]
+        public void When_Satisfy_is_asserting_collection_which_is_empty_it_should_throw()
+        {
+            // Arrange
+            var collection = Enumerable.Empty<int>();
+
+            // Act
+            Action act = () => collection.Should().Satisfy(
+                new Expression<Func<int, bool>>[]
+                {
+                    _ => _ == 1,
+                    _ => _ == 2,
+                },
+                because: "we want to test the failure message ({0})",
+                becauseArgs: "args");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection to satisfy all predicates because we want to test the failure message (args), but collection is empty.");
+        }
+
+        #endregion
+
     }
 }

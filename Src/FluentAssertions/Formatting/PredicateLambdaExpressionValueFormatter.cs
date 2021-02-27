@@ -3,35 +3,47 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace FluentAssertions.Formatting
 {
-    public static class AdvancedExpressionFormatter 
+    public class PredicateLambdaExpressionValueFormatter : IValueFormatter
     {
-        public static string FormatExpression(LambdaExpression expression) => FormatExpression(expression.Body);
+        public bool CanHandle(object value) => value is LambdaExpression lambdaExpression && lambdaExpression.ReturnType == typeof(bool);
 
-        public static string FormatExpression(Expression expression)
+        public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
-            var reducedExpression = new ConstantExpressionReductionVisitor().Visit(expression);
-            
+            var lambdaExpression = value as LambdaExpression;
+
+            var reducedExpression = ReduceConstantSubExpressions(lambdaExpression.Body);
+
             if (reducedExpression is BinaryExpression binaryExpression && binaryExpression.NodeType == ExpressionType.AndAlso)
             {
-                var subExpressions = AndOperatorChainExtractor.ExtractChainOfExpressionsJoinedWithAndOperator(binaryExpression);
+                var subExpressions = ExtractChainOfExpressionsJoinedWithAndOperator(binaryExpression);
                 return string.Join(" AndAlso ", subExpressions.Select(_ => _.ToString()));
             }
 
-            return expression.ToString();
+            return reducedExpression.ToString();
         }
 
-        private static bool IsConstantExpression(Expression expression)
+        private static Expression ReduceConstantSubExpressions(Expression expression) => new ConstantSubExpressionReductionVisitor().Visit(expression);
+
+        private static bool ExpressionIsConstant(Expression expression)
         {
-            var visitor = new ConstantVisitor();
+            var visitor = new ParameterDetector();
             visitor.Visit(expression);
             return !visitor.HasParameters;
         }
 
-        internal class ConstantVisitor : ExpressionVisitor
+        private static IEnumerable<Expression> ExtractChainOfExpressionsJoinedWithAndOperator(BinaryExpression binaryExpression)
+        {
+            var visitor = new AndOperatorChainExtractor();
+            visitor.Visit(binaryExpression);
+            return visitor.AndChain;
+        }
+
+        internal class ParameterDetector : ExpressionVisitor
         {
             public bool HasParameters { get; private set; } = false;
 
@@ -48,11 +60,11 @@ namespace FluentAssertions.Formatting
             }
         }
 
-        internal class ConstantExpressionReductionVisitor : ExpressionVisitor
+        internal class ConstantSubExpressionReductionVisitor : ExpressionVisitor
         {
             public override Expression Visit(Expression node)
             {
-                if (IsConstantExpression(node))
+                if (ExpressionIsConstant(node))
                 {
                     return Expression.Constant(Expression.Lambda(node).Compile().DynamicInvoke());                    
                 }
@@ -63,9 +75,7 @@ namespace FluentAssertions.Formatting
 
         internal class AndOperatorChainExtractor : ExpressionVisitor
         {
-            private List<Expression> andChain = new List<Expression>();
-
-            private AndOperatorChainExtractor() { }
+            public List<Expression> AndChain { get; }  = new List<Expression>();
 
             public override Expression Visit(Expression node)
             {
@@ -77,17 +87,10 @@ namespace FluentAssertions.Formatting
                 }
                 else
                 {
-                    andChain.Add(node);
+                    AndChain.Add(node);
                 }
 
                 return null;
-            }
-
-            public static IEnumerable<Expression> ExtractChainOfExpressionsJoinedWithAndOperator(BinaryExpression binaryExpression)
-            {
-                var visitor = new AndOperatorChainExtractor();
-                visitor.Visit(binaryExpression);
-                return visitor.andChain;
             }
         }
     }
