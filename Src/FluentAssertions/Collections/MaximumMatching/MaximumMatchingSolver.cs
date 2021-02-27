@@ -27,10 +27,12 @@ namespace FluentAssertions.Collections
 
         /// <summary>
         /// To find a solution which contains the specified predicate and increases the total number of matches
-        /// we either
-        /// - Search for a free element which matches the specified predicate
-        /// - Or take over an element which was previously assigned to another predicate and repeat the procedure for the previously assigned predicate.
-        /// Breadth first search is used to traverse the graph of possible matches between predicates and elements.
+        /// we: <br />
+        /// - Search for a free element which matches the specified predicate.<br />
+        /// - Or take over an element which was previously assigned to another predicate and repeat the procedure for the previously assigned predicate.<br />
+        /// - We are basically searching for a path in the graph of matches between predicates and elements which would start at the specified predicate
+        /// and end at an unassigned element.<br />
+        /// - Breadth first search used to traverse the graph.<br />
         /// </summary>
         private static IEnumerable<Assignment> FindAssignmentForPredicate<T>(
             int predicate,
