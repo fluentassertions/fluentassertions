@@ -314,7 +314,7 @@ namespace FluentAssertions.Specs.Collections
         #region Exactly Contain (multiple predicates)
 
         [Fact]
-        public void Match1()
+        public void When_collection_element_at_each_position_matches_predicate_at_same_position_Satisfy_should_not_throw()
         {
             // Arrange
             var collection = new int[] { 1, 2, 3 };
@@ -330,31 +330,31 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
-        public void Match2()
+        public void When_collection_element_at_each_position_matches_predicate_at_reverse_position_Satisfy_should_not_throw()
         {
             // Arrange
-            var collection = new int[] { 2, 2, 3 };
+            var collection = new int[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().Satisfy(
                 _ => _ == 3,
                 _ => _ == 2,
-                _ => _ == 2);
+                _ => _ == 1);
 
             // Assert
             act.Should().NotThrow();
         }
 
         [Fact]
-        public void Match3()
+        public void When_one_element_does_not_have_matching_predicate_Satisfy_should_throw()
         {
             // Arrange
-            var collection = new int[] { 2, 2 };
+            var collection = new int[] { 1, 2 };
 
             // Act
             Action act = () => collection.Should().Satisfy(
                 _ => _ == 3,
-                _ => _ == 2,
+                _ => _ == 1,
                 _ => _ == 2);
 
             // Assert
@@ -362,7 +362,7 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
-        public void Match4()
+        public void When_some_predicates_have_multiple_matching_elements_and_most_restricitve_predicates_are_last_Satisfy_should__not_throw()
         {
             // Arrange
             var collection = new int[] { 1, 2, 3, 4 };
@@ -379,7 +379,7 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
-        public void Match5()
+        public void When_some_predicates_have_multiple_matching_elements_and_most_restricitve_predicates_are_first_Satisfy_should__not_throw()
         {
             // Arrange
             var collection = new int[] { 1, 2, 3, 4 };
@@ -396,7 +396,7 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
-        public void Formatting1()
+        public void When_Satisfy_fails_then_failure_message_must_contain_predicates_without_matching_elements_and_elements_without_matching_predicates()
         {
             // Arrange
             IEnumerable<SomeClass> collection = new[]
@@ -409,36 +409,18 @@ namespace FluentAssertions.Specs.Collections
 
             // Act
             Action act = () => collection.Should().Satisfy(
-                _ => _.Text == "one" && _.Number == 1,
+                _ => _.Text == "four" && _.Number == 4,
                 _ => _.Text == "two" && _.Number == 3);
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                @"Expected collection to satisfy all predicates, but:
-
-The following predicates did not have matching elements:
-
-(_.Text == ""two"") AndAlso (_.Number == 3)
-
-The following elements did not match any predicate:
-
-FluentAssertions.Specs.Collections.GenericCollectionAssertionsSpecs+SomeClass
-{
-   Number = 2
-   Text = ""two""
-}
-
-FluentAssertions.Specs.Collections.GenericCollectionAssertionsSpecs+SomeClass
-{
-   Number = 3
-   Text = ""three""
-}
-
-FluentAssertions.Specs.Collections.GenericCollectionAssertionsSpecs+SomeClass
-{
-   Number = 4
-   Text = ""four""
-}");
+                "Expected collection to satisfy all predicates, but:*" +
+                "The following predicates did not have matching elements:*" +
+                "(_.Text == \"two\") AndAlso (_.Number == 3)*" +
+                "The following elements did not match any predicate:*" +
+                "FluentAssertions.Specs.Collections.GenericCollectionAssertionsSpecs+SomeClass*{*Number = 1*Text = \"one\"*}*" +
+                "FluentAssertions.Specs.Collections.GenericCollectionAssertionsSpecs+SomeClass*{*Number = 2*Text = \"two\"*}*" +
+                "FluentAssertions.Specs.Collections.GenericCollectionAssertionsSpecs+SomeClass*{*Number = 3*Text = \"three\"*}*");
         }
 
         #endregion
