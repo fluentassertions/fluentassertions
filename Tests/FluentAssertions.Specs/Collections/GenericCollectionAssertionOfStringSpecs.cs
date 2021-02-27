@@ -1345,7 +1345,7 @@ namespace FluentAssertions.Specs.Collections
             IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             // Act
-            Action act = () => collection.Should().Contain(new int[0]);
+            Action act = () => collection.Should().Contain(new string[0]);
 
             // Assert
             act.Should().Throw<ArgumentException>().WithMessage(
@@ -1666,9 +1666,13 @@ namespace FluentAssertions.Specs.Collections
                 select new { method.Name, method.ReturnType };
 
             // Assert
-            methods.Should().OnlyContain(method =>
-                typeof(AndConstraint<StringCollectionAssertions<IEnumerable<string>>>)
-                    .IsAssignableFrom(method.ReturnType));
+            var expectedTypes = new[]
+            {
+                typeof(AndConstraint<StringCollectionAssertions<IEnumerable<string>>>),
+                typeof(AndConstraint<SubsequentOrderingAssertions<string>>)
+            };
+
+            methods.Should().OnlyContain(method => expectedTypes.Any(e => e.IsAssignableFrom(method.ReturnType)));
         }
 
         #region ContainMatch

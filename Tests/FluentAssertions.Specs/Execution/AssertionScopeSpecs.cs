@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
-using FluentAssertions.Specs.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -467,7 +466,7 @@ namespace FluentAssertions.Specs.Execution
             Action act = () =>
             {
                 using var _ = new AssertionScope("{}");
-                default(Array).Should().Equal(3, 2, 1);
+                default(int[]).Should().Equal(3, 2, 1);
             };
 
             // Assert

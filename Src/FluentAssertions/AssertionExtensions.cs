@@ -278,16 +278,6 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns an <see cref="NonGenericCollectionAssertions"/> object that can be used to assert the
-        /// current <see cref="IEnumerable"/>.
-        /// </summary>
-        [Pure]
-        public static NonGenericCollectionAssertions Should(this IEnumerable actualValue)
-        {
-            return new NonGenericCollectionAssertions(actualValue);
-        }
-
-        /// <summary>
         /// Returns an <see cref="GenericCollectionAssertions{T}"/> object that can be used to assert the
         /// current <see cref="IEnumerable{T}"/>.
         /// </summary>

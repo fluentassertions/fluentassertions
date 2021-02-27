@@ -515,7 +515,7 @@ namespace FluentAssertions.Specs.Types
                 .UnwrapTaskTypes();
 
             types.Should()
-                .BeEquivalentTo(typeof(int), typeof(void), typeof(void), typeof(string), typeof(bool));
+                .BeEquivalentTo(new[] { typeof(int), typeof(void), typeof(void), typeof(string), typeof(bool) });
         }
 
         [Fact]

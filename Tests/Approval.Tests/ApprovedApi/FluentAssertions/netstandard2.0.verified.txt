@@ -43,7 +43,6 @@ namespace FluentAssertions
         public static FluentAssertions.Types.TypeSelectorAssertions Should(this FluentAssertions.Types.TypeSelector typeSelector) { }
         public static FluentAssertions.Specialized.ActionAssertions Should(this System.Action action) { }
         public static FluentAssertions.Collections.StringCollectionAssertions Should(this System.Collections.Generic.IEnumerable<string> @this) { }
-        public static FluentAssertions.Collections.NonGenericCollectionAssertions Should(this System.Collections.IEnumerable actualValue) { }
         public static FluentAssertions.Data.DataColumnAssertions Should(this System.Data.DataColumn actualValue) { }
         public static FluentAssertions.Primitives.DateTimeAssertions Should(this System.DateTime actualValue) { }
         public static FluentAssertions.Primitives.NullableDateTimeAssertions Should(this System.DateTime? actualValue) { }
@@ -305,68 +304,6 @@ namespace FluentAssertions
 }
 namespace FluentAssertions.Collections
 {
-    public abstract class CollectionAssertions<TSubject, TAssertions> : FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions>
-        where TSubject : System.Collections.IEnumerable
-        where TAssertions : FluentAssertions.Collections.CollectionAssertions<TSubject, TAssertions>
-    {
-        protected CollectionAssertions(TSubject subject) { }
-        protected override string Identifier { get; }
-        public FluentAssertions.AndConstraint<TAssertions> AllBeAssignableTo(System.Type expectedType, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<TAssertions, System.Collections.Generic.IEnumerable<T>> AllBeAssignableTo<T>(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> AllBeOfType(System.Type expectedType, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<TAssertions, System.Collections.Generic.IEnumerable<T>> AllBeOfType<T>(string because = "", params object[] becauseArgs) { }
-        protected void AssertCollectionEndsWith<TActual, TExpected>(System.Collections.Generic.IEnumerable<TActual> actual, System.Collections.Generic.ICollection<TExpected> expected, System.Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
-        protected void AssertCollectionEndsWith<TActual, TExpected>(System.Collections.Generic.IEnumerable<TActual> actual, TExpected[] expected, System.Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
-        protected void AssertCollectionStartsWith<TActual, TExpected>(System.Collections.Generic.IEnumerable<TActual> actualItems, System.Collections.Generic.ICollection<TExpected> expected, System.Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
-        protected void AssertCollectionStartsWith<TActual, TExpected>(System.Collections.Generic.IEnumerable<TActual> actualItems, TExpected[] expected, System.Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
-        protected void AssertSubjectEquality<TActual, TExpected>(System.Collections.IEnumerable expectation, System.Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeEmpty(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(params object[] expectations) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(System.Collections.IEnumerable expectation, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(System.Collections.IEnumerable expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<System.Collections.IEnumerable>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<System.Collections.IEnumerable>> config, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> expectation, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeInAscendingOrder(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeInAscendingOrder(System.Collections.Generic.IComparer<object> comparer, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeInDescendingOrder(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeInDescendingOrder(System.Collections.Generic.IComparer<object> comparer, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeNullOrEmpty(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeSubsetOf(System.Collections.IEnumerable expectedSuperset, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> Contain(System.Collections.IEnumerable expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> ContainEquivalentOf<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> ContainEquivalentOf<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> ContainInOrder(params object[] expected) { }
-        public FluentAssertions.AndConstraint<TAssertions> ContainInOrder(System.Collections.IEnumerable expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> ContainItemsAssignableTo<T>(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> EndWith(object element, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> Equal(params object[] elements) { }
-        public FluentAssertions.AndConstraint<TAssertions> Equal(System.Collections.IEnumerable expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<TAssertions, object> HaveElementAt(int index, object element, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveElementPreceding(object successor, object expectation, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveElementSucceeding(object predecessor, object expectation, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveSameCount(System.Collections.IEnumerable otherCollection, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> IntersectWith(System.Collections.IEnumerable otherCollection, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo(System.Collections.IEnumerable unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeInAscendingOrder(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeInAscendingOrder(System.Collections.Generic.IComparer<object> comparer, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeInDescendingOrder(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeInDescendingOrder(System.Collections.Generic.IComparer<object> comparer, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeNullOrEmpty(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeSubsetOf(System.Collections.IEnumerable unexpectedSuperset, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotContain(System.Collections.IEnumerable unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotContainEquivalentOf<TExpectation>(TExpectation unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotContainEquivalentOf<TExpectation>(TExpectation unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotContainInOrder(params object[] unexpected) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotContainInOrder(System.Collections.IEnumerable unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotContainNulls(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotEqual(System.Collections.IEnumerable unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotHaveSameCount(System.Collections.IEnumerable otherCollection, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotIntersectWith(System.Collections.IEnumerable otherCollection, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> OnlyHaveUniqueItems(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> StartWith(object element, string because = "", params object[] becauseArgs) { }
-    }
     public class GenericCollectionAssertions<T> : FluentAssertions.Collections.GenericCollectionAssertions<System.Collections.Generic.IEnumerable<T>, T, FluentAssertions.Collections.GenericCollectionAssertions<T>>
     {
         public GenericCollectionAssertions(System.Collections.Generic.IEnumerable<T> actualValue) { }
@@ -376,28 +313,101 @@ namespace FluentAssertions.Collections
     {
         public GenericCollectionAssertions(TCollection actualValue) { }
     }
-    public class GenericCollectionAssertions<TCollection, T, TAssertions> : FluentAssertions.Collections.SelfReferencingCollectionAssertions<TCollection, T, TAssertions>
+    public class GenericCollectionAssertions<TCollection, T, TAssertions> : FluentAssertions.Primitives.ReferenceTypeAssertions<TCollection, TAssertions>
         where TCollection : System.Collections.Generic.IEnumerable<T>
         where TAssertions : FluentAssertions.Collections.GenericCollectionAssertions<TCollection, T, TAssertions>
     {
         public GenericCollectionAssertions(TCollection actualValue) { }
+        protected override string Identifier { get; }
+        public FluentAssertions.AndConstraint<TAssertions> AllBeAssignableTo(System.Type expectedType, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, System.Collections.Generic.IEnumerable<TExpectation>> AllBeAssignableTo<TExpectation>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> AllBeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> AllBeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> AllBeOfType(System.Type expectedType, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, System.Collections.Generic.IEnumerable<TExpectation>> AllBeOfType<TExpectation>(string because = "", params object[] becauseArgs) { }
+        protected void AssertCollectionEndsWith<TActual, TExpectation>(System.Collections.Generic.IEnumerable<TActual> actual, System.Collections.Generic.ICollection<TExpectation> expected, System.Func<TActual, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
+        protected void AssertCollectionEndsWith<TActual, TExpectation>(System.Collections.Generic.IEnumerable<TActual> actual, TExpectation[] expected, System.Func<TActual, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
+        protected void AssertCollectionStartsWith<TActual, TExpectation>(System.Collections.Generic.IEnumerable<TActual> actualItems, System.Collections.Generic.ICollection<TExpectation> expected, System.Func<TActual, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
+        protected void AssertCollectionStartsWith<TActual, TExpectation>(System.Collections.Generic.IEnumerable<TActual> actualItems, TExpectation[] expected, System.Func<TActual, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
+        protected void AssertSubjectEquality<TActual, TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> expectation, System.Func<TActual, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeEmpty(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> expectation, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Collections.SubsequentOrderingAssertions<T>> BeInAscendingOrder(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.SubsequentOrderingAssertions<T>> BeInAscendingOrder(System.Collections.Generic.IComparer<T> comparer, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.SubsequentOrderingAssertions<T>> BeInAscendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.SubsequentOrderingAssertions<T>> BeInAscendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, System.Collections.Generic.IComparer<TSelector> comparer, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Collections.SubsequentOrderingAssertions<T>> BeInDescendingOrder(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.SubsequentOrderingAssertions<T>> BeInDescendingOrder(System.Collections.Generic.IComparer<T> comparer, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.SubsequentOrderingAssertions<T>> BeInDescendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.SubsequentOrderingAssertions<T>> BeInDescendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, System.Collections.Generic.IComparer<TSelector> comparer, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeNullOrEmpty(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeSubsetOf(System.Collections.Generic.IEnumerable<T> expectedSuperset, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> Contain(System.Collections.Generic.IEnumerable<T> expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, T> Contain(System.Linq.Expressions.Expression<System.Func<T, bool>> predicate, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, T> Contain(T expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, T> ContainEquivalentOf<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, T> ContainEquivalentOf<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> ContainInOrder(params T[] expected) { }
+        public FluentAssertions.AndConstraint<TAssertions> ContainInOrder(System.Collections.Generic.IEnumerable<T> expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> ContainItemsAssignableTo<TExpectation>(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, T> ContainSingle(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, T> ContainSingle(System.Linq.Expressions.Expression<System.Func<T, bool>> predicate, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> EndWith(System.Collections.Generic.IEnumerable<T> expectation, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> EndWith(T element, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> EndWith<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> expectation, System.Func<T, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> Equal(params T[] elements) { }
+        public FluentAssertions.AndConstraint<TAssertions> Equal(System.Collections.Generic.IEnumerable<T> expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> Equal<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> expectation, System.Func<T, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveCount(int expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveCount(System.Linq.Expressions.Expression<System.Func<int, bool>> countPredicate, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveCountGreaterOrEqualTo(int expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveCountGreaterThan(int expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveCountLessOrEqualTo(int expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveCountLessThan(int expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, T> HaveElementAt(int index, T element, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveElementPreceding(T successor, T expectation, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveElementSucceeding(T predecessor, T expectation, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveSameCount(System.Collections.IEnumerable otherCollection, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> IntersectWith(System.Collections.Generic.IEnumerable<T> otherCollection, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeInAscendingOrder(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeInAscendingOrder(System.Collections.Generic.IComparer<T> comparer, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeInAscendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeInAscendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, System.Collections.Generic.IComparer<TSelector> comparer, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeInDescendingOrder(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeInDescendingOrder(System.Collections.Generic.IComparer<T> comparer, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeInDescendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeInDescendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, System.Collections.Generic.IComparer<TSelector> comparer, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeNullOrEmpty(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeSubsetOf(System.Collections.Generic.IEnumerable<T> unexpectedSuperset, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotContain(System.Collections.Generic.IEnumerable<T> unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotContain(System.Linq.Expressions.Expression<System.Func<T, bool>> predicate, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, T> NotContain(T unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotContainEquivalentOf<TExpectation>(TExpectation unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotContainEquivalentOf<TExpectation>(TExpectation unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotContainInOrder(params T[] unexpected) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotContainInOrder(System.Collections.Generic.IEnumerable<T> unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotContainNulls(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainNulls<TKey>(System.Linq.Expressions.Expression<System.Func<T, TKey>> predicate, string because = "", params object[] becauseArgs)
             where TKey :  class { }
+        public FluentAssertions.AndConstraint<TAssertions> NotEqual(System.Collections.Generic.IEnumerable<T> unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHaveCount(int unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHaveSameCount(System.Collections.IEnumerable otherCollection, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotIntersectWith(System.Collections.Generic.IEnumerable<T> otherCollection, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> OnlyContain(System.Linq.Expressions.Expression<System.Func<T, bool>> predicate, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> OnlyHaveUniqueItems(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> OnlyHaveUniqueItems<TKey>(System.Linq.Expressions.Expression<System.Func<T, TKey>> predicate, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> Satisfy(params System.Linq.Expressions.Expression<>[] predicates) { }
+        public FluentAssertions.AndConstraint<TAssertions> Satisfy(System.Collections.Generic.IEnumerable<System.Linq.Expressions.Expression<System.Func<T, bool>>> predicates, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> SatisfyRespectively(params System.Action<>[] elementInspectors) { }
+        public FluentAssertions.AndConstraint<TAssertions> SatisfyRespectively(System.Collections.Generic.IEnumerable<System.Action<T>> expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> StartWith(System.Collections.Generic.IEnumerable<T> expectation, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> StartWith(T element, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> StartWith<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> expectation, System.Func<T, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
+        protected static System.Collections.Generic.IEnumerable<TExpectation> RepeatAsManyAs<TExpectation>(TExpectation value, System.Collections.Generic.IEnumerable<T> enumerable) { }
     }
     public class GenericDictionaryAssertions<TCollection, TKey, TValue> : FluentAssertions.Collections.GenericDictionaryAssertions<TCollection, TKey, TValue, FluentAssertions.Collections.GenericDictionaryAssertions<TCollection, TKey, TValue>>
         where TCollection : System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>>
@@ -437,63 +447,6 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> NotEqual<T>(T unexpected, string because = "", params object[] becauseArgs)
             where T : System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>> { }
     }
-    public class NonGenericCollectionAssertions : FluentAssertions.Collections.NonGenericCollectionAssertions<System.Collections.IEnumerable, FluentAssertions.Collections.NonGenericCollectionAssertions>
-    {
-        public NonGenericCollectionAssertions(System.Collections.IEnumerable collection) { }
-    }
-    public class NonGenericCollectionAssertions<TCollection, TAssertions> : FluentAssertions.Collections.CollectionAssertions<TCollection, TAssertions>
-        where TCollection : System.Collections.IEnumerable
-        where TAssertions : FluentAssertions.Collections.NonGenericCollectionAssertions<TCollection, TAssertions>
-    {
-        public NonGenericCollectionAssertions(TCollection collection) { }
-        public FluentAssertions.AndConstraint<TAssertions> Contain(object expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveCount(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveCount(System.Linq.Expressions.Expression<System.Func<int, bool>> countPredicate, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveCountGreaterOrEqualTo(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveCountGreaterThan(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveCountLessOrEqualTo(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveCountLessThan(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotContain(object unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotHaveCount(int unexpected, string because = "", params object[] becauseArgs) { }
-    }
-    public class SelfReferencingCollectionAssertions<T, TAssertions> : FluentAssertions.Collections.SelfReferencingCollectionAssertions<System.Collections.Generic.IEnumerable<T>, T, TAssertions>
-        where TAssertions : FluentAssertions.Collections.SelfReferencingCollectionAssertions<System.Collections.Generic.IEnumerable<T>, T, TAssertions>
-    {
-        public SelfReferencingCollectionAssertions(System.Collections.Generic.IEnumerable<T> actualValue) { }
-    }
-    public class SelfReferencingCollectionAssertions<TCollection, T, TAssertions> : FluentAssertions.Collections.CollectionAssertions<TCollection, TAssertions>
-        where TCollection : System.Collections.Generic.IEnumerable<T>
-        where TAssertions : FluentAssertions.Collections.SelfReferencingCollectionAssertions<TCollection, T, TAssertions>
-    {
-        public SelfReferencingCollectionAssertions(TCollection actualValue) { }
-        public FluentAssertions.AndConstraint<TAssertions> Contain(System.Collections.Generic.IEnumerable<T> expectedItemsList, params T[] additionalExpectedItems) { }
-        public FluentAssertions.AndWhichConstraint<TAssertions, T> Contain(System.Linq.Expressions.Expression<System.Func<T, bool>> predicate, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<TAssertions, T> Contain(T expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<TAssertions, T> ContainSingle(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<TAssertions, T> ContainSingle(System.Linq.Expressions.Expression<System.Func<T, bool>> predicate, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> EndWith(System.Collections.Generic.IEnumerable<T> expectation, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> EndWith<TExpected>(System.Collections.Generic.IEnumerable<TExpected> expectation, System.Func<T, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> Equal(params T[] elements) { }
-        public FluentAssertions.AndConstraint<TAssertions> Equal<TExpected>(System.Collections.Generic.IEnumerable<TExpected> expectation, System.Func<T, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveCount(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveCount(System.Linq.Expressions.Expression<System.Func<int, bool>> countPredicate, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveCountGreaterOrEqualTo(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveCountGreaterThan(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveCountLessOrEqualTo(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveCountLessThan(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotContain(System.Collections.Generic.IEnumerable<T> unexpectedItemsList, params T[] additionalUnexpectedItems) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotContain(System.Linq.Expressions.Expression<System.Func<T, bool>> predicate, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<TAssertions, T> NotContain(T unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotHaveCount(int unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> OnlyContain(System.Linq.Expressions.Expression<System.Func<T, bool>> predicate, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> Satisfy(params System.Linq.Expressions.Expression<>[] predicates) { }
-        public FluentAssertions.AndConstraint<TAssertions> Satisfy(System.Collections.Generic.IEnumerable<System.Linq.Expressions.Expression<System.Func<T, bool>>> predicates, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> SatisfyRespectively(params System.Action<>[] elementInspectors) { }
-        public FluentAssertions.AndConstraint<TAssertions> SatisfyRespectively(System.Collections.Generic.IEnumerable<System.Action<T>> expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> StartWith(System.Collections.Generic.IEnumerable<T> expectation, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> StartWith<TExpected>(System.Collections.Generic.IEnumerable<TExpected> expectation, System.Func<T, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
-        protected static System.Collections.Generic.IEnumerable<TExpectation> RepeatAsManyAs<TExpectation>(TExpectation value, System.Collections.Generic.IEnumerable<T> enumerable) { }
-    }
     public class StringCollectionAssertions : FluentAssertions.Collections.StringCollectionAssertions<System.Collections.Generic.IEnumerable<string>>
     {
         public StringCollectionAssertions(System.Collections.Generic.IEnumerable<string> actualValue) { }
@@ -503,7 +456,7 @@ namespace FluentAssertions.Collections
     {
         public StringCollectionAssertions(TCollection actualValue) { }
     }
-    public class StringCollectionAssertions<TCollection, TAssertions> : FluentAssertions.Collections.SelfReferencingCollectionAssertions<TCollection, string, TAssertions>
+    public class StringCollectionAssertions<TCollection, TAssertions> : FluentAssertions.Collections.GenericCollectionAssertions<TCollection, string, TAssertions>
         where TCollection : System.Collections.Generic.IEnumerable<string>
         where TAssertions : FluentAssertions.Collections.StringCollectionAssertions<TCollection, TAssertions>
     {
@@ -513,16 +466,9 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(params string[] expectation) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(System.Collections.Generic.IEnumerable<string> expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(System.Collections.Generic.IEnumerable<string> expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>> config, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> Contain(System.Collections.Generic.IEnumerable<string> expected) { }
-        public FluentAssertions.AndConstraint<TAssertions> Contain(System.Collections.Generic.IEnumerable<string> expected, string because = null, params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> ContainInOrder(params string[] expected) { }
-        public FluentAssertions.AndConstraint<TAssertions> ContainInOrder(System.Collections.Generic.IEnumerable<string> expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, string> ContainMatch(string wildcardPattern, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Equal(System.Collections.Generic.IEnumerable<string> expected) { }
         public FluentAssertions.AndConstraint<TAssertions> Equal(params string[] expected) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotContain(System.Collections.Generic.IEnumerable<string> unexpected, string because = null, params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotContainInOrder(params string[] unexpected) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotContainInOrder(System.Collections.Generic.IEnumerable<string> unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainMatch(string wildcardPattern, string because = "", params object[] becauseArgs) { }
     }
     public class SubsequentOrderingAssertions<T> : FluentAssertions.Collections.SubsequentOrderingGenericCollectionAssertions<System.Collections.Generic.IEnumerable<T>, T, FluentAssertions.Collections.SubsequentOrderingAssertions<T>>
@@ -1191,6 +1137,8 @@ namespace FluentAssertions.Execution
         public string[] Discard() { }
         public void Dispose() { }
         public FluentAssertions.Execution.Continuation FailWith(System.Func<FluentAssertions.Execution.FailReason> failReasonFunc) { }
+        public FluentAssertions.Execution.Continuation FailWith(string message) { }
+        public FluentAssertions.Execution.Continuation FailWith(string message, params System.Func<>[] argProviders) { }
         public FluentAssertions.Execution.Continuation FailWith(string message, params object[] args) { }
         public FluentAssertions.Execution.IAssertionScope ForCondition(bool condition) { }
         public FluentAssertions.Execution.GivenSelector<T> Given<T>(System.Func<T> selector) { }
@@ -1223,6 +1171,8 @@ namespace FluentAssertions.Execution
         FluentAssertions.Execution.Continuation ClearExpectation();
         string[] Discard();
         FluentAssertions.Execution.Continuation FailWith(System.Func<FluentAssertions.Execution.FailReason> failReasonFunc);
+        FluentAssertions.Execution.Continuation FailWith(string message);
+        FluentAssertions.Execution.Continuation FailWith(string message, params System.Func<>[] argProviders);
         FluentAssertions.Execution.Continuation FailWith(string message, params object[] args);
         FluentAssertions.Execution.IAssertionScope ForCondition(bool condition);
         FluentAssertions.Execution.GivenSelector<T> Given<T>(System.Func<T> selector);

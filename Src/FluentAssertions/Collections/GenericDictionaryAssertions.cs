@@ -652,7 +652,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> Contain(IEnumerable<KeyValuePair<TKey, TValue>> expected,
+        public new AndConstraint<TAssertions> Contain(IEnumerable<KeyValuePair<TKey, TValue>> expected,
             string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare dictionary with <null>.");
@@ -809,7 +809,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> NotContain(IEnumerable<KeyValuePair<TKey, TValue>> items,
+        public new AndConstraint<TAssertions> NotContain(IEnumerable<KeyValuePair<TKey, TValue>> items,
             string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(items, nameof(items), "Cannot compare dictionary with <null>.");
