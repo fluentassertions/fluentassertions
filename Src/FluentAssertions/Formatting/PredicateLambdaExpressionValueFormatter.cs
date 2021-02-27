@@ -8,6 +8,10 @@ using System.Text;
 
 namespace FluentAssertions.Formatting
 {
+    /// <summary>
+    /// The <see cref="PredicateLambdaExpressionValueFormatter" /> is responsible for formatting
+    /// boolean lambda expressions.
+    /// </summary>
     public class PredicateLambdaExpressionValueFormatter : IValueFormatter
     {
         public bool CanHandle(object value) => value is LambdaExpression lambdaExpression && lambdaExpression.ReturnType == typeof(bool);
@@ -27,15 +31,24 @@ namespace FluentAssertions.Formatting
             return reducedExpression.ToString();
         }
 
-        private static Expression ReduceConstantSubExpressions(Expression expression) => new ConstantSubExpressionReductionVisitor().Visit(expression);
-
-        private static bool ExpressionIsConstant(Expression expression)
+        /// <summary>
+        /// This step simplifies the lambda expression by replacing parts of it which do not depend on the lambda parameters
+        /// with the actual values of these sub-expressions. The simplified expression is much easier to read. 
+        /// E.g. "(_.Text == "two") AndAlso (_.Number == 3)"
+        /// Instead of "(_.Text == value(FluentAssertions.Specs.Collections.GenericCollectionAssertionsSpecs+c__DisplayClass122_0).twoText) AndAlso (_.Number == 3)".
+        /// </summary>
+        private static Expression ReduceConstantSubExpressions(Expression expression)
         {
-            var visitor = new ParameterDetector();
-            visitor.Visit(expression);
-            return !visitor.HasParameters;
+            return new ConstantSubExpressionReductionVisitor().Visit(expression);
         }
 
+        /// <summary>
+        /// This step simplifies the lambda expression by removing unnecessary parentheses for root level chain of AND operators.
+        /// E.g. (_.Text == "two") AndAlso (_.Number == 3) AndAlso (_.OtherText == "foo")
+        /// Instead of ((_.Text == "two") AndAlso (_.Number == 3)) AndAlso (_.OtherText == "foo")
+        /// This simplification is only implemented for the chain of AND operators beacuse this is the most common predicate scenario.
+        /// Similar logic can be implemented in the future for other operators.
+        /// </summary>
         private static IEnumerable<Expression> ExtractChainOfExpressionsJoinedWithAndOperator(BinaryExpression binaryExpression)
         {
             var visitor = new AndOperatorChainExtractor();
@@ -43,6 +56,9 @@ namespace FluentAssertions.Formatting
             return visitor.AndChain;
         }
 
+        /// <summary>
+        /// Expression visitor which can detect whether the expression depends on parameters.
+        /// </summary>
         internal class ParameterDetector : ExpressionVisitor
         {
             public bool HasParameters { get; private set; } = false;
@@ -60,6 +76,9 @@ namespace FluentAssertions.Formatting
             }
         }
 
+        /// <summary>
+        /// Expression visitor which can replace constant sub-expressions with constant values.
+        /// </summary>
         internal class ConstantSubExpressionReductionVisitor : ExpressionVisitor
         {
             public override Expression Visit(Expression node)
@@ -71,8 +90,19 @@ namespace FluentAssertions.Formatting
 
                 return base.Visit(node);
             }
+
+            private static bool ExpressionIsConstant(Expression expression)
+            {
+                var visitor = new ParameterDetector();
+                visitor.Visit(expression);
+                return !visitor.HasParameters;
+            }
         }
 
+        /// <summary>
+        /// Expression visitor which can extract sub-expressions from an expression which has the following form:
+        /// (SubExpression1) AND (SubExpression2) ... AND (SubExpressionN)
+        /// </summary>
         internal class AndOperatorChainExtractor : ExpressionVisitor
         {
             public List<Expression> AndChain { get; }  = new List<Expression>();

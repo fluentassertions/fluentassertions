@@ -2020,20 +2020,28 @@ namespace FluentAssertions.Specs.Collections
         public void When_Satisfy_fails_then_failure_message_must_contain_predicates_without_matching_elements_and_elements_without_matching_predicates()
         {
             // Arrange
+
+            // These variables are introduced to make sure that expected results coming from variables
+            // will be printed out in user-friendly manner in the failure message
+            var oneText = "one";
+            var twoText = "two";
+            var threeText = "three";
+            var fourText = "four";
+
             IEnumerable<SomeClass> collection = new[]
             {
-                new SomeClass { Text = "one", Number = 1 },
-                new SomeClass { Text = "two", Number = 2 },
-                new SomeClass { Text = "three", Number = 3 },
-                new SomeClass { Text = "four", Number = 4 },
+                new SomeClass { Text = oneText, Number = 1 },
+                new SomeClass { Text = twoText, Number = 3 },
+                new SomeClass { Text = threeText, Number = 3 },
+                new SomeClass { Text = fourText, Number = 4 },
             };
 
             // Act
             Action act = () => collection.Should().Satisfy(
                 new Expression<Func<SomeClass, bool>>[]
                 {
-                    _ => _.Text == "four" && _.Number == 4,
-                    _ => _.Text == "two" && _.Number == 3,
+                    _ => _.Text == fourText && _.Number == 4,
+                    _ => _.Text == twoText && _.Number == 2,
                 },
                 because: "we want to test formatting ({0})",
                 becauseArgs: "args");
@@ -2042,10 +2050,10 @@ namespace FluentAssertions.Specs.Collections
             act.Should().Throw<XunitException>().WithMessage(
 @"Expected collection to satisfy all predicates because we want to test formatting (args), but:
 *The following predicates did not have matching elements:
-*(_.Text == ""two"") AndAlso (_.Number == 3)
+*(_.Text == ""two"") AndAlso (_.Number == 2)
 *The following elements did not match any predicate:
 *FluentAssertions.Specs.Collections.GenericCollectionAssertionsSpecs+SomeClass*{*Number = 1*Text = ""one""*}
-*FluentAssertions.Specs.Collections.GenericCollectionAssertionsSpecs+SomeClass*{*Number = 2*Text = ""two""*}
+*FluentAssertions.Specs.Collections.GenericCollectionAssertionsSpecs+SomeClass*{*Number = 3*Text = ""two""*}
 *FluentAssertions.Specs.Collections.GenericCollectionAssertionsSpecs+SomeClass*{*Number = 3*Text = ""three""*}");
         }
 
