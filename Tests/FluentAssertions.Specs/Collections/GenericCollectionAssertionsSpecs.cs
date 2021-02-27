@@ -2017,6 +2017,22 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
+        public void test2()
+        {
+            // Arrange
+            var collection = new int[] { 1, 2, 3 };
+
+            // Act
+            Action act = () => collection.Should().Satisfy(
+                _ => _ == 1,
+                _ => _ == 1 || _ == 3,
+                _ => _ == 2);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_Satisfy_fails_then_failure_message_must_contain_predicates_without_matching_elements_and_elements_without_matching_predicates()
         {
             // Arrange

@@ -3,32 +3,46 @@ using System.Linq;
 
 namespace FluentAssertions.Collections
 {
-    internal class OnlyContainAssertionHelper
+    /// <summary>
+    /// The <see cref="MaximumMatchingSolver"/> class encapsulates the algorithm
+    /// for solving the maximum matching problem (see <see cref="MaximumMatchingProblem{TElement}"/>).<br />
+    /// A simplified variation of the Ford-Fulkerson algorithm is used for solving the problem. <br />
+    /// </summary>
+    internal class MaximumMatchingSolver
     {
-        public static Dictionary<int, int> FindBestMatching(PredicateMatchesMatrix matches)
+        public static Dictionary<int, int> FindMaximumMatching<T>(MaximumMatchingProblem<T> maximumMatchingProblem)
         {
             var assignments = new AssignmentCollection();
 
-            foreach (var predicate in matches.AllPredicates)
+            foreach (var predicate in maximumMatchingProblem.AllPredicateIndices)
             {
-                var newAssignments = FindAssignmentForPredicate(predicate, matches, assignments);
+                // At each step of the algorithm we search for a solution which contains the current predicate
+                // and increases the total number of matches (i.e. Augmenting Flow through the current predicate in the Ford-Fulkerson terminology).
+                var newAssignments = FindAssignmentForPredicate(predicate, maximumMatchingProblem, assignments);
                 assignments.UpdateFrom(newAssignments);
             }
 
             return assignments.GetAssignedElementsByPredicate();
         }
 
-        private static IEnumerable<Assignment> FindAssignmentForPredicate(
+        /// <summary>
+        /// To find a solution which contains the specified predicate and increases the total number of matches
+        /// we either
+        /// - Search for a free element which matches the specified predicate
+        /// - Or take over an element which was previously assigned to another predicate and repeat the procedure for the previously assigned predicate.
+        /// Breadth first search is used to traverse the graph of possible matches between predicates and elements.
+        /// </summary>
+        private static IEnumerable<Assignment> FindAssignmentForPredicate<T>(
             int predicate,
-            PredicateMatchesMatrix matches,
+            MaximumMatchingProblem<T> maximumMatchingProblem,
             AssignmentCollection currentAssignments)
         {
-            var bfsDecisionTree = new BfsTracker(predicate, currentAssignments);
             var visitedElements = new HashSet<int>();
+            var breadthFirstSearchTracker = new BreadthFirstSearchTracker(predicate, currentAssignments);
 
-            while (bfsDecisionTree.TryDequeueNotAssignedPredicate(out var unassignedPredicate))
+            while (breadthFirstSearchTracker.TryDequeueNotAssignedPredicate(out var unassignedPredicate))
             {
-                var notVisitedMatchingElements = matches.GetMatchingElements(unassignedPredicate).Where(_ => !visitedElements.Contains(_));
+                var notVisitedMatchingElements = maximumMatchingProblem.GetMatchingElementIndices(unassignedPredicate).Where(_ => !visitedElements.Contains(_));
 
                 foreach (var element in notVisitedMatchingElements)
                 {
@@ -36,12 +50,12 @@ namespace FluentAssertions.Collections
 
                     if (currentAssignments.Exists(element))
                     {
-                        bfsDecisionTree.ReassignElement(element, unassignedPredicate);
+                        breadthFirstSearchTracker.ReassignElement(element, unassignedPredicate);
                     }
                     else
                     {
                         var finalAssignment = new Assignment { Predicate = unassignedPredicate, Element = element };
-                        return bfsDecisionTree.GetAssignmentChain(finalAssignment);
+                        return breadthFirstSearchTracker.GetAssignmentChain(finalAssignment);
                     }
                 }
             }
@@ -84,14 +98,14 @@ namespace FluentAssertions.Collections
             }
         }
 
-        private class BfsTracker
+        private class BreadthFirstSearchTracker
         {
             private readonly Queue<int> notAssignedPredicatesQueue = new Queue<int>();
             private readonly Dictionary<int, Assignment> previousAssignmentByPredicate = new Dictionary<int, Assignment>();
 
             private readonly AssignmentCollection originalAssignments;
 
-            public BfsTracker(int notAssignedPredicate, AssignmentCollection originalAssignments)
+            public BreadthFirstSearchTracker(int notAssignedPredicate, AssignmentCollection originalAssignments)
             {
                 notAssignedPredicatesQueue.Enqueue(notAssignedPredicate);
 

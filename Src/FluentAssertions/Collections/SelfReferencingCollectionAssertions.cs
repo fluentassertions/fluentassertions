@@ -795,44 +795,25 @@ namespace FluentAssertions.Collections
                 .Then
                 .ClearExpectation();
 
-            var elements = Subject.ConvertOrCastToCollection().ToList();
-            var compatibilityMatrix = new PredicateMatchesMatrix(predicates.Length, elements.Count);
+            var maximumMatchingSolution = new MaximumMatchingProblem<T>(predicates, elements: Subject.ConvertOrCastToList()).Solve();
 
-            for (int predicateIndex = 0; predicateIndex < predicates.Length; predicateIndex++)
-            {
-                var predicate = predicates[predicateIndex];
-                var compiledPredicate = predicate.Compile();
-
-                for (int elementIndex = 0; elementIndex < elements.Count; elementIndex++)
-                {
-                    var element = elements[elementIndex];
-
-                    if (compiledPredicate(element))
-                    {
-                        compatibilityMatrix.AddMatch(predicateIndex, elementIndex);
-                    }
-                }
-            }
-
-            var matches = OnlyContainAssertionHelper.FindBestMatching(compatibilityMatrix);
-
-            if (matches.Count != predicates.Length || matches.Count != elements.Count)
+            if (maximumMatchingSolution.NotMatchedPredicatesExist || maximumMatchingSolution.NotMatchedElementsExist)
             {
                 string message = "";
                 var doubleNewLine = Environment.NewLine + Environment.NewLine;
 
-                var notMatchingPredicates = compatibilityMatrix.AllPredicates.Except(matches.Keys).ToList();
-                if (notMatchingPredicates.Any())
+                var notMatchedPredicates = maximumMatchingSolution.GetNotMatchedPredicates();
+                if (notMatchedPredicates.Any())
                 {
                     message += doubleNewLine + "The following predicates did not have matching elements:";
-                    message += doubleNewLine + string.Join(Environment.NewLine, notMatchingPredicates.Select(_ => Formatter.ToString(predicates[_])));
+                    message += doubleNewLine + string.Join(Environment.NewLine, notMatchedPredicates.Select(_ => Formatter.ToString(_)));
                 }
 
-                var notMatchingElements = compatibilityMatrix.AllElements.Except(matches.Values).ToList();
-                if (notMatchingElements.Any())
+                var notMatchedElements = maximumMatchingSolution.GetNotMatchedElements();
+                if (notMatchedElements.Any())
                 {
                     message += doubleNewLine + "The following elements did not match any predicate:";
-                    message += string.Join("", notMatchingElements.Select(_ => Formatter.ToString(elements[_], useLineBreaks: false)));
+                    message += string.Join("", notMatchedElements.Select(_ => Formatter.ToString(_, useLineBreaks: false)));
                 }
 
                 Execute.Assertion
