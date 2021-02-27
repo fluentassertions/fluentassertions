@@ -473,6 +473,8 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndWhichConstraint<TAssertions, T> NotContain(T unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveCount(int unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> OnlyContain(System.Linq.Expressions.Expression<System.Func<T, bool>> predicate, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> Satisfy(params System.Linq.Expressions.Expression<>[] predicates) { }
+        public FluentAssertions.AndConstraint<TAssertions> Satisfy(System.Linq.Expressions.Expression<>[] predicates, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> SatisfyRespectively(params System.Action<>[] elementInspectors) { }
         public FluentAssertions.AndConstraint<TAssertions> SatisfyRespectively(System.Collections.Generic.IEnumerable<System.Action<T>> expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> StartWith(System.Collections.Generic.IEnumerable<T> expectation, string because = "", params object[] becauseArgs) { }
@@ -1412,6 +1414,12 @@ namespace FluentAssertions.Formatting
     public class NullValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public NullValueFormatter() { }
+        public bool CanHandle(object value) { }
+        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+    }
+    public class PredicateLambdaExpressionValueFormatter : FluentAssertions.Formatting.IValueFormatter
+    {
+        public PredicateLambdaExpressionValueFormatter() { }
         public bool CanHandle(object value) { }
         public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
