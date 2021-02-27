@@ -168,3 +168,16 @@ collection.Should().SatisfyRespectively(
         second.Attributes.Should().NotBeEmpty();
     });
 ```
+
+If you need to perform individual assertions on all elements of a collection without setting expectation about the order of elements:
+```csharp
+var collection = new []
+{
+    new { Id = 1, Name = "John", Attributes = new string[] { } },
+    new { Id = 2, Name = "Jane", Attributes = new string[] {"attr"} }
+};
+
+collection.Should().Satisfy(
+    _ => _.Id == 2 && _.Name == "Jane" && _.Attributes == null,
+    _ => _.Id == 1 && _.Name == "John" && _.Attributes?.Length > 0);
+```
