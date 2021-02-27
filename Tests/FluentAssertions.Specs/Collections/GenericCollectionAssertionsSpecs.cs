@@ -2017,7 +2017,7 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
-        public void test2()
+        public void When_second_predicate_matches_first_and_last_element_and_solution_exists_Satisfy_should_not_throw()
         {
             // Arrange
             var collection = new int[] { 1, 2, 3 };

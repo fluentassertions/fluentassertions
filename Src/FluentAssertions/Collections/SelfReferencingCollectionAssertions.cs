@@ -769,10 +769,9 @@ namespace FluentAssertions.Collections
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-
         public AndConstraint<TAssertions> Satisfy(params Expression<Func<T, bool>>[] predicates)
         {
-            return Satisfy(predicates, because: "");
+            return Satisfy(predicates, because: string.Empty);
         }
 
         public AndConstraint<TAssertions> Satisfy(Expression<Func<T, bool>>[] predicates, string because = "", params object[] becauseArgs)
@@ -799,7 +798,7 @@ namespace FluentAssertions.Collections
 
             if (maximumMatchingSolution.NotMatchedPredicatesExist || maximumMatchingSolution.NotMatchedElementsExist)
             {
-                string message = "";
+                string message = string.Empty;
                 var doubleNewLine = Environment.NewLine + Environment.NewLine;
 
                 var notMatchedPredicates = maximumMatchingSolution.GetNotMatchedPredicates();
@@ -813,7 +812,7 @@ namespace FluentAssertions.Collections
                 if (notMatchedElements.Any())
                 {
                     message += doubleNewLine + "The following elements did not match any predicate:";
-                    message += string.Join("", notMatchedElements.Select(_ => Formatter.ToString(_, useLineBreaks: false)));
+                    message += string.Concat(notMatchedElements.Select(_ => Formatter.ToString(_, useLineBreaks: false)));
                 }
 
                 Execute.Assertion

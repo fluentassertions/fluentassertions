@@ -61,7 +61,7 @@ namespace FluentAssertions.Formatting
         /// </summary>
         internal class ParameterDetector : ExpressionVisitor
         {
-            public bool HasParameters { get; private set; } = false;
+            public bool HasParameters { get; private set; }
 
             public override Expression Visit(Expression node)
             {
@@ -105,7 +105,7 @@ namespace FluentAssertions.Formatting
         /// </summary>
         internal class AndOperatorChainExtractor : ExpressionVisitor
         {
-            public List<Expression> AndChain { get; }  = new List<Expression>();
+            public List<Expression> AndChain { get; } = new List<Expression>();
 
             public override Expression Visit(Expression node)
             {
