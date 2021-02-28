@@ -36,12 +36,9 @@ namespace FluentAssertions.Collections.MaximumMatching
                 .ToList();
         }
 
-        public List<TElement> GetNotMatchedElements()
+        public List<int> GetNotMatchedElementIndices()
         {
-            return problem.AllElementIndices
-                .Except(matchedElementIndexesByPredicateIndex.Values)
-                .Select(elementIndex => problem.Elements[elementIndex])
-                .ToList();
+            return problem.AllElementIndices.Except(matchedElementIndexesByPredicateIndex.Values).ToList();
         }
     }
 }

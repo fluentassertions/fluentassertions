@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Text;
 
 namespace FluentAssertions.Formatting
 {
@@ -46,7 +42,7 @@ namespace FluentAssertions.Formatting
         /// This step simplifies the lambda expression by removing unnecessary parentheses for root level chain of AND operators.
         /// E.g. (_.Text == "two") AndAlso (_.Number == 3) AndAlso (_.OtherText == "foo")
         /// Instead of ((_.Text == "two") AndAlso (_.Number == 3)) AndAlso (_.OtherText == "foo")
-        /// This simplification is only implemented for the chain of AND operators beacuse this is the most common predicate scenario.
+        /// This simplification is only implemented for the chain of AND operators because this is the most common predicate scenario.
         /// Similar logic can be implemented in the future for other operators.
         /// </summary>
         private static IEnumerable<Expression> ExtractChainOfExpressionsJoinedWithAndOperator(BinaryExpression binaryExpression)
@@ -65,7 +61,7 @@ namespace FluentAssertions.Formatting
 
             public override Expression Visit(Expression node)
             {
-                // As soon as at least one parameter was found in the expression tree we should stop iterating (this is achieved by not callling base.Visit).
+                // As soon as at least one parameter was found in the expression tree we should stop iterating (this is achieved by not calling base.Visit).
                 return HasParameters ? node : base.Visit(node);
             }
 

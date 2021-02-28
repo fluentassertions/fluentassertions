@@ -152,7 +152,7 @@ In case if you need to perform individual assertions on all elements of a collec
 var collection = new []
 {
     new { Id = 1, Name = "John", Attributes = new string[] { } },
-    new { Id = 2, Name = "Jane", Attributes = new string[] {"attr"} }
+    new { Id = 2, Name = "Jane", Attributes = new string[] { "attr" } }
 };
 collection.Should().SatisfyRespectively(
     first =>
@@ -174,7 +174,7 @@ If you need to perform individual assertions on all elements of a collection wit
 var collection = new []
 {
     new { Id = 1, Name = "John", Attributes = new string[] { } },
-    new { Id = 2, Name = "Jane", Attributes = new string[] {"attr"} }
+    new { Id = 2, Name = "Jane", Attributes = new string[] { "attr" } }
 };
 
 collection.Should().Satisfy(

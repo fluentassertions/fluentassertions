@@ -769,16 +769,43 @@ namespace FluentAssertions.Collections
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
+        /// <summary>
+        /// Asserts that a collection contains exactly a given number of elements which meet
+        /// the criteria provided by the element predicates. Assertion fails if it is not possible
+        /// to find a one to one mapping between the elements of the collection and the predicates.
+        /// The order of the predicates does not need to match the order of the elements.
+        /// </summary>
+        /// <param name="predicates">
+        /// The predicates that the elements of the collection must match.
+        /// The total number of predicates must exactly match the number of elements in the collection.
+        /// </param>
         public AndConstraint<TAssertions> Satisfy(params Expression<Func<T, bool>>[] predicates)
         {
             return Satisfy(predicates, because: string.Empty);
         }
 
-        public AndConstraint<TAssertions> Satisfy(Expression<Func<T, bool>>[] predicates, string because = "", params object[] becauseArgs)
+        /// <summary>
+        /// Asserts that a collection contains exactly a given number of elements which meet
+        /// the criteria provided by the element predicates. Assertion fails if it is not possible
+        /// to find a one to one mapping between the elements of the collection and the predicates.
+        /// </summary>
+        /// <param name="predicates">
+        /// The predicates that the elements of the collection must match.
+        /// The total number of predicates must exactly match the number of elements in the collection.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+        /// </param>
+        public AndConstraint<TAssertions> Satisfy(IEnumerable<Expression<Func<T, bool>>> predicates, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(predicates, nameof(predicates), "Cannot verify against a <null> collection of predicates");
 
-            if (!predicates.Any())
+            var predicatesList = predicates.ConvertOrCastToList();
+            if (predicatesList.Count == 0)
             {
                 throw new ArgumentException("Cannot verify against an empty collection of predicates", nameof(predicates));
             }
@@ -794,7 +821,8 @@ namespace FluentAssertions.Collections
                 .Then
                 .ClearExpectation();
 
-            var maximumMatchingSolution = new MaximumMatchingProblem<T>(predicates, elements: Subject.ConvertOrCastToList()).Solve();
+            var elements = Subject.ConvertOrCastToList();
+            var maximumMatchingSolution = new MaximumMatchingProblem<T>(predicatesList, elements).Solve();
 
             if (maximumMatchingSolution.NotMatchedPredicatesExist || maximumMatchingSolution.NotMatchedElementsExist)
             {
@@ -805,14 +833,16 @@ namespace FluentAssertions.Collections
                 if (notMatchedPredicates.Any())
                 {
                     message += doubleNewLine + "The following predicates did not have matching elements:";
-                    message += doubleNewLine + string.Join(Environment.NewLine, notMatchedPredicates.Select(_ => Formatter.ToString(_)));
+                    message += doubleNewLine + string.Join(Environment.NewLine, notMatchedPredicates.Select(predicate => Formatter.ToString(predicate)));
                 }
 
-                var notMatchedElements = maximumMatchingSolution.GetNotMatchedElements();
-                if (notMatchedElements.Any())
+                var notMatchedElementIndices = maximumMatchingSolution.GetNotMatchedElementIndices();
+                if (notMatchedElementIndices.Any())
                 {
                     message += doubleNewLine + "The following elements did not match any predicate:";
-                    message += string.Concat(notMatchedElements.Select(_ => Formatter.ToString(_, useLineBreaks: false)));
+
+                    var elementDescriptions = notMatchedElementIndices.Select(index => $"Index: {index}, Element: {Formatter.ToString(elements[index])}");
+                    message += doubleNewLine + string.Join(doubleNewLine, elementDescriptions);
                 }
 
                 Execute.Assertion
