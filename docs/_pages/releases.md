@@ -13,18 +13,23 @@ sidebar:
 * Added `WithParameterName` extension to ease asserting on the parameter name for a thrown `ArgumentException` - [#1466](https://github.com/fluentassertions/fluentassertions/pull/1466).
 * Added `NotCompleteWithinAsync` to `TaskCompletionSourceAssertions` - [#1474](https://github.com/fluentassertions/fluentassertions/pull/1474).
 * Added `Satisfy` to `SelfReferencingCollectionAssertions` - [#1500](https://github.com/fluentassertions/fluentassertions/pull/1500).
+* Added `HaveValue(decimal)`, `HaveSameValueAs` and `HaveSameNameAs` to `EnumAssertions` - [#1479](https://github.com/fluentassertions/fluentassertions/pull/1479).
+* Added `WithResult` extension method to `CompleteWithinAsync` assertions for `Task<T>` and `TaskCompletionSource<T>` - [#1478](https://github.com/fluentassertions/fluentassertions/pull/1478).
 
 **Fixes**
 * Sometimes `BeEquivalentTo` reported an incorrect message when a dictionary was missing a key - [#1454](https://github.com/fluentassertions/fluentassertions/pull/1454)
 * Some dictionary failures did not honor the user-provided reason - [#1456](https://github.com/fluentassertions/fluentassertions/pull/1456)
+* Restrict what types `WhenTypeIs<T>` can use and how `Using<T>` handles non-nullable types, see the [Migration Guide](/upgradingtov6#using) for more details - [#1494](https://github.com/fluentassertions/fluentassertions/pull/1494).
 
 **Breaking Changes**
 * Changed `becauseArgs` of `[Not]Reference(Assembly)` from `string[]` to `object[]` - [#1459](https://github.com/fluentassertions/fluentassertions/pull/1459)
+* Major overhaul on how enums are handled, see the [Migration Guide](/upgradingtov6#enums) for more details - [#1479](https://github.com/fluentassertions/fluentassertions/pull/1479).
 
 **Breaking Changes (Extensibility)**
 * Pascal cased `CallerIdentifier.logger` - [#1458](https://github.com/fluentassertions/fluentassertions/pull/1458).
 * Pascal cased `SelfReferenceEquivalencyAssertionOptions.orderingRules` - [#1458](https://github.com/fluentassertions/fluentassertions/pull/1458).
 * Moved extension methods on `ExceptionAssertions` from `AssertionExtensions` to `ExceptionAssertionsExtensions` - [#1471](https://github.com/fluentassertions/fluentassertions/pull/1471).
+* Moved `Including(Expression<Func<IMemberInfo, bool>> predicate)` from `EquivalencyAssertionOptions<T>` to `SelfReferenceEquivalencyAssertionOptions<T>` - [#1495](https://github.com/fluentassertions/fluentassertions/pull/1495).
 
 ## 6.0.0 Alpha 2
 

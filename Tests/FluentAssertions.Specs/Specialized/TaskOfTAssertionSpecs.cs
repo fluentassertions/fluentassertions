@@ -15,6 +15,7 @@ namespace FluentAssertions.Specs.Specialized
     public class TaskOfTAssertionSpecs
     {
         #region CompleteWithinAsync
+
         [Fact]
         public async Task When_subject_is_null_when_expecting_to_complete_async_it_should_throw()
         {
@@ -55,6 +56,53 @@ namespace FluentAssertions.Specs.Specialized
         }
 
         [Fact]
+        public async Task When_task_completes_async_and_result_is_not_expected_it_should_throw()
+        {
+            // Arrange
+            var timer = new FakeClock();
+            var taskFactory = new TaskCompletionSource<int>();
+
+            // Act
+            Func<Task> action = async () =>
+            {
+                Func<Task<int>> funcSubject = () => taskFactory.Task;
+
+                (await funcSubject.Should(timer).CompleteWithinAsync(100.Milliseconds()))
+                    .Which.Should().Be(42);
+            };
+
+            taskFactory.SetResult(99);
+            timer.Complete();
+
+            // Assert
+            // TODO message currently shows "Expected (await funcSubject to be...", but should be "Expected funcSubject to be...",
+            // maybe with or without await.
+            await action.Should().ThrowAsync<XunitException>().WithMessage("*to be 42, but found 99.");
+        }
+
+        [Fact]
+        public async Task When_task_completes_async_and_async_result_is_not_expected_it_should_throw()
+        {
+            // Arrange
+            var timer = new FakeClock();
+            var taskFactory = new TaskCompletionSource<int>();
+
+            // Act
+            Func<Task> action = async () =>
+            {
+                Func<Task<int>> funcSubject = () => taskFactory.Task;
+
+                await funcSubject.Should(timer).CompleteWithinAsync(100.Milliseconds()).WithResult(42);
+            };
+
+            taskFactory.SetResult(99);
+            timer.Complete();
+
+            // Assert
+            await action.Should().ThrowAsync<XunitException>().WithMessage("Expected await funcSubject to be 42, but found 99.");
+        }
+
+        [Fact]
         public async Task When_task_completes_slow_async_it_should_fail()
         {
             // Arrange
@@ -74,9 +122,11 @@ namespace FluentAssertions.Specs.Specialized
             // Assert
             await action.Should().ThrowAsync<XunitException>();
         }
+
         #endregion
 
         #region NotThrowAfterAsync
+
         [Fact]
         public async Task When_subject_is_null_when_expecting_to_not_throw_async_it_should_throw()
         {
@@ -372,6 +422,7 @@ namespace FluentAssertions.Specs.Specialized
             // Assert
             await act.Should().NotThrowAsync();
         }
+
         #endregion
     }
 }

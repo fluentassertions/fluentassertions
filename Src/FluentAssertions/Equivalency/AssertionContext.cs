@@ -24,12 +24,10 @@ namespace FluentAssertions.Equivalency
 
         internal static AssertionContext<TSubject> CreateFromEquivalencyValidationContext(IEquivalencyValidationContext context)
         {
-            TSubject expectation = (context.Expectation is not null) ? (TSubject)context.Expectation : default;
-
             return new AssertionContext<TSubject>(
                 context.CurrentNode,
                 (TSubject)context.Subject,
-                expectation,
+                (TSubject)context.Expectation,
                 context.Reason.FormattedMessage,
                 context.Reason.Arguments);
         }

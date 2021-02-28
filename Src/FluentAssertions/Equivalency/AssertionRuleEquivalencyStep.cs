@@ -83,12 +83,19 @@ namespace FluentAssertions.Equivalency
 
             if (subjectIsValidType && expectationIsValidType)
             {
+                if ((subjectIsNull || expectationIsNull) && !CanBeNull<TSubject>())
+                {
+                    return false;
+                }
+
                 assertion(AssertionContext<TSubject>.CreateFromEquivalencyValidationContext(context));
                 return true;
             }
 
             return false;
         }
+
+        private static bool CanBeNull<T>() => !typeof(T).IsValueType || Nullable.GetUnderlyingType(typeof(T)) is not null;
 
         /// <summary>
         /// Returns a string that represents the current object.

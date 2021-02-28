@@ -128,6 +128,26 @@ namespace FluentAssertions.Specs.Primitives
                 "because we want to test the failure message.");
         }
 
+        [Fact]
+        public void When_comparing_a_numeric_and_an_enum_for_equality_it_should_throw()
+        {
+            // Arrange
+            object subject = 1;
+            MyEnum expected = MyEnum.One;
+
+            // Act
+            Action act = () => subject.Should().Be(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        private enum MyEnum
+        {
+            One = 1,
+            Two = 2
+        }
+
         #endregion
 
         #region BeNull / BeNotNull
