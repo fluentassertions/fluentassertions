@@ -23,7 +23,7 @@ namespace FluentAssertions.Specs.Specialized
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*(s.Sleep(610)) should be less or equal to 0.500s because we like speed, but it required*");
+                "*(s.Sleep(610)) should be less or equal to 500ms because we like speed, but it required*");
         }
 
         [Fact]
@@ -50,7 +50,7 @@ namespace FluentAssertions.Specs.Specialized
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*action should be less or equal to 0.100s, but it required*");
+                "*action should be less or equal to 100ms, but it required*");
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace FluentAssertions.Specs.Specialized
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*action should be less or equal to 0.100s, but it required more than*");
+                "*action should be less or equal to 100ms, but it required more than*");
         }
         #endregion
 
@@ -99,7 +99,7 @@ namespace FluentAssertions.Specs.Specialized
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*(s.Sleep(610)) should be less than 0.500s because we like speed, but it required*");
+                "*(s.Sleep(610)) should be less than 500ms because we like speed, but it required*");
         }
 
         [Fact]
@@ -126,7 +126,7 @@ namespace FluentAssertions.Specs.Specialized
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*action should be less than 0.100s, but it required*");
+                "*action should be less than 100ms, but it required*");
         }
 
         [Fact]
@@ -140,7 +140,7 @@ namespace FluentAssertions.Specs.Specialized
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*action should be less than 0.100s, but it required*");
+                "*action should be less than 100ms, but it required*");
         }
 
         [Fact]
@@ -185,7 +185,7 @@ namespace FluentAssertions.Specs.Specialized
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*action should be less than 0.100s, but it required more than*");
+                "*action should be less than 100ms, but it required more than*");
         }
         #endregion
 
@@ -368,7 +368,7 @@ namespace FluentAssertions.Specs.Specialized
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*(s.Sleep(200)) should be within 0.050s from 0.100s because we like speed, but it required*");
+                "*(s.Sleep(200)) should be within 50ms from 100ms because we like speed, but it required*");
         }
 
         [Fact]
@@ -396,7 +396,7 @@ namespace FluentAssertions.Specs.Specialized
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*action should be within 0.050s from 0.100s, but it required*");
+                "*action should be within 50ms from 100ms, but it required*");
         }
 
         [Fact]
@@ -428,7 +428,7 @@ namespace FluentAssertions.Specs.Specialized
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*action should be within 0.050s from 0.100s, but it required*");
+                "*action should be within 50ms from 100ms, but it required*");
         }
         #endregion
 

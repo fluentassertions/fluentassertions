@@ -949,7 +949,7 @@ namespace FluentAssertions.Specs.Exceptions
 
             // Assert
             action.Should().Throw<XunitException>()
-                         .WithMessage("Did not expect any exceptions after 0.100s because we passed valid arguments*");
+                         .WithMessage("Did not expect any exceptions after 100ms because we passed valid arguments*");
         }
 
         [Fact]
