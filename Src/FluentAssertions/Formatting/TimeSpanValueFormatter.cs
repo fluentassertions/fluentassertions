@@ -63,6 +63,7 @@ namespace FluentAssertions.Formatting
             AddHoursIfNotZero(absoluteTimespan, fragments);
             AddMinutesIfNotZero(absoluteTimespan, fragments);
             AddSecondsIfNotZero(absoluteTimespan, fragments);
+            AddMilliSecondsIfNotZero(absoluteTimespan, fragments);
             AddMicrosecondsIfNotZero(absoluteTimespan, fragments);
 
             return fragments;
@@ -80,16 +81,21 @@ namespace FluentAssertions.Formatting
 
         private static void AddSecondsIfNotZero(TimeSpan timeSpan, List<string> fragments)
         {
-            if ((timeSpan.Seconds > 0) || (timeSpan.Milliseconds > 0))
+            if (timeSpan.Seconds > 0)
             {
                 string result = timeSpan.Seconds.ToString(CultureInfo.InvariantCulture);
 
-                if (timeSpan.Milliseconds > 0)
-                {
-                    result += "." + timeSpan.Milliseconds.ToString("000", CultureInfo.InvariantCulture);
-                }
-
                 fragments.Add(result + "s");
+            }
+        }
+
+        private static void AddMilliSecondsIfNotZero(TimeSpan timeSpan, List<string> fragments)
+        {
+            if (timeSpan.Milliseconds > 0)
+            {
+                var result = timeSpan.Milliseconds.ToString(CultureInfo.InvariantCulture);
+
+                fragments.Add(result + "ms");
             }
         }
 
