@@ -1,27 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using ApprovalTests;
-using ApprovalTests.Core;
-using ApprovalTests.Reporters;
-using ApprovalTests.Writers;
+using System.Text;
+using System.Threading.Tasks;
+using DiffPlex.DiffBuilder;
+using DiffPlex.DiffBuilder.Model;
 using PublicApiGenerator;
+using VerifyTests;
+using VerifyXunit;
 using Xunit;
 
 namespace Approval.Tests
 {
+    [UsesVerify]
     public class ApiApproval
     {
         [Theory]
-        [InlineData("FluentAssertions", "net47")]
-        [InlineData("FluentAssertions", "netstandard2.0")]
-        [InlineData("FluentAssertions", "netstandard2.1")]
-        [InlineData("FluentAssertions", "netcoreapp2.1")]
-        [InlineData("FluentAssertions", "netcoreapp3.0")]
-        [UseReporter(typeof(DiffReporter))]
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        public void ApproveApi(string projectName, string frameworkVersion)
+        [InlineData("net47")]
+        [InlineData("netstandard2.0")]
+        [InlineData("netstandard2.1")]
+        [InlineData("netcoreapp2.1")]
+        [InlineData("netcoreapp3.0")]
+        public Task ApproveApi(string frameworkVersion)
         {
             string codeBase = Assembly.GetExecutingAssembly().CodeBase;
             var uri = new UriBuilder(new Uri(codeBase));
@@ -31,55 +33,47 @@ namespace Approval.Tests
             var assemblyFile = Path.GetFullPath(
                 Path.Combine(
                     GetSourceDirectory(),
-                    $"../../Artifacts/{configurationName}/{frameworkVersion}/{projectName}.dll"));
+                    Path.Combine("..", "..", "Artifacts", configurationName, frameworkVersion, "FluentAssertions.dll")));
 
             var assembly = Assembly.LoadFile(Path.GetFullPath(assemblyFile));
-            var publicApi = ApiGenerator.GeneratePublicApi(assembly, options: null);
+            var publicApi = assembly.GeneratePublicApi(options: null);
 
-            Approvals.Verify(
-                WriterFactory.CreateTextWriter(publicApi),
-                new ApprovalNamer(projectName, frameworkVersion),
-                DetermineReporter());
-        }
-
-        private static IApprovalFailureReporter DetermineReporter()
-        {
-            IApprovalFailureReporter approvalFailureReporter = Approvals.GetReporter();
-
-            string typeName = Environment.GetEnvironmentVariable("ApiApproval.Reporter");
-
-            if (!string.IsNullOrWhiteSpace(typeName))
-            {
-                if (!typeName.Contains("."))
-                {
-                    typeName = "ApprovalTests.Reporters." + typeName;
-                }
-
-                if (!typeName.EndsWith("Reporter"))
-                {
-                    typeName += "Reporter";
-                }
-
-                Type type = typeof(IApprovalFailureReporter).Assembly.GetType(typeName, throwOnError: true, ignoreCase: true);
-                approvalFailureReporter = (IApprovalFailureReporter)Activator.CreateInstance(type);
-            }
-
-            return approvalFailureReporter;
-        }
-
-        private class ApprovalNamer : IApprovalNamer
-        {
-            public ApprovalNamer(string projectName, string frameworkVersion)
-            {
-                Name = frameworkVersion;
-                SourcePath = Path.Combine(GetSourceDirectory(), "ApprovedApi", projectName);
-            }
-
-            public string SourcePath { get; }
-
-            public string Name { get; }
+            return Verifier
+                .Verify(publicApi)
+                .UseDirectory(Path.Combine("ApprovedApi", "FluentAssertions"))
+                .UseStringComparer(OnlyIncludeChanges)
+                .UseFileName(frameworkVersion)
+                .DisableDiff()
+                .DisableClipboard();
         }
 
         private static string GetSourceDirectory([CallerFilePath] string path = "") => Path.GetDirectoryName(path);
+
+        // Copied from https://github.com/VerifyTests/Verify.DiffPlex/blob/master/src/Verify.DiffPlex/VerifyDiffPlex.cs
+        public static Task<CompareResult> OnlyIncludeChanges(string received, string verified, IReadOnlyDictionary<string, object> _)
+        {
+            var diff = InlineDiffBuilder.Diff(verified, received);
+
+            var builder = new StringBuilder();
+            foreach (var line in diff.Lines)
+            {
+                switch (line.Type)
+                {
+                    case ChangeType.Inserted:
+                        builder.Append("+ ");
+                        break;
+                    case ChangeType.Deleted:
+                        builder.Append("- ");
+                        break;
+                    default:
+                        // omit unchanged files
+                        continue;
+                }
+                builder.AppendLine(line.Text);
+            }
+
+            var compareResult = CompareResult.NotEqual(builder.ToString());
+            return Task.FromResult(compareResult);
+        }
     }
 }

@@ -1,6 +1,6 @@
-﻿[assembly: System.Runtime.CompilerServices.InternalsVisibleTo(@"Benchmarks, PublicKey=00240000048000009400000006020000002400005253413100040000010001002d25ff515c85b13ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f970d2a4874932fed35db546e89af2da88c194bf1b7f7ac70de7988c78406f7629c547283061282a825616eb7eb48a9514a7570942936020a9bb37dca9ff60b778309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo(@"Benchmarks, PublicKey=00240000048000009400000006020000002400005253413100040000010001002d25ff515c85b13ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f970d2a4874932fed35db546e89af2da88c194bf1b7f7ac70de7988c78406f7629c547283061282a825616eb7eb48a9514a7570942936020a9bb37dca9ff60b778309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo(@"FluentAssertions.Specs, PublicKey=00240000048000009400000006020000002400005253413100040000010001002d25ff515c85b13ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f970d2a4874932fed35db546e89af2da88c194bf1b7f7ac70de7988c78406f7629c547283061282a825616eb7eb48a9514a7570942936020a9bb37dca9ff60b778309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f")]
-[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v3.0", FrameworkDisplayName="")]
+[assembly: System.Runtime.Versioning.TargetFramework(".NETStandard,Version=v2.0", FrameworkDisplayName="")]
 namespace FluentAssertions
 {
     public class AggregateExceptionExtractor : FluentAssertions.Specialized.IExtractExceptions
@@ -36,7 +36,6 @@ namespace FluentAssertions
         public static FluentAssertions.Specialized.MemberExecutionTime<T> ExecutionTimeOf<T>(this T subject, System.Linq.Expressions.Expression<System.Action<T>> action) { }
         public static System.Action Invoking<T>(this T subject, System.Action<T> action) { }
         public static System.Func<TResult> Invoking<T, TResult>(this T subject, System.Func<T, TResult> action) { }
-        public static FluentAssertions.Events.IMonitor<T> Monitor<T>(this T eventSource, System.Func<System.DateTime> utcNow = null) { }
         public static FluentAssertions.Specialized.ExecutionTimeAssertions Should(this FluentAssertions.Specialized.ExecutionTime executionTime) { }
         public static FluentAssertions.Types.MethodInfoSelectorAssertions Should(this FluentAssertions.Types.MethodInfoSelector methodSelector) { }
         public static FluentAssertions.Types.PropertyInfoSelectorAssertions Should(this FluentAssertions.Types.PropertyInfoSelector propertyInfoSelector) { }
@@ -171,12 +170,6 @@ namespace FluentAssertions
         public void Remove<TStep>()
             where TStep : FluentAssertions.Equivalency.IEquivalencyStep { }
         public void Reset() { }
-    }
-    public static class EventRaisingExtensions
-    {
-        public static FluentAssertions.Events.IEventRecording WithArgs<T>(this FluentAssertions.Events.IEventRecording eventRecording, params System.Linq.Expressions.Expression<>[] predicates) { }
-        public static FluentAssertions.Events.IEventRecording WithArgs<T>(this FluentAssertions.Events.IEventRecording eventRecording, System.Linq.Expressions.Expression<System.Func<T, bool>> predicate) { }
-        public static FluentAssertions.Events.IEventRecording WithSender(this FluentAssertions.Events.IEventRecording eventRecording, object expectedSender) { }
     }
     public static class Exactly
     {
@@ -1137,46 +1130,6 @@ namespace FluentAssertions.Equivalency.Tracing
         public override string ToString() { }
         public System.IDisposable WriteBlock(FluentAssertions.Equivalency.Tracing.GetTraceMessage getTraceMessage) { }
         public void WriteLine(FluentAssertions.Equivalency.Tracing.GetTraceMessage getTraceMessage) { }
-    }
-}
-namespace FluentAssertions.Events
-{
-    public class EventAssertions<T> : FluentAssertions.Primitives.ReferenceTypeAssertions<T, FluentAssertions.Events.EventAssertions<T>>
-    {
-        protected EventAssertions(FluentAssertions.Events.IMonitor<T> monitor) { }
-        protected override string Identifier { get; }
-        public void NotRaise(string eventName, string because = "", params object[] becauseArgs) { }
-        public void NotRaisePropertyChangeFor(System.Linq.Expressions.Expression<System.Func<T, object>> propertyExpression, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.Events.IEventRecording Raise(string eventName, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.Events.IEventRecording RaisePropertyChangeFor(System.Linq.Expressions.Expression<System.Func<T, object>> propertyExpression, string because = "", params object[] becauseArgs) { }
-    }
-    public class EventMetadata
-    {
-        public EventMetadata(string eventName, System.Type handlerType) { }
-        public string EventName { get; }
-        public System.Type HandlerType { get; }
-    }
-    public interface IEventRecording : System.Collections.Generic.IEnumerable<FluentAssertions.Events.OccurredEvent>, System.Collections.IEnumerable
-    {
-        System.Type EventHandlerType { get; }
-        string EventName { get; }
-        object EventObject { get; }
-    }
-    public interface IMonitor<T> : System.IDisposable
-    {
-        FluentAssertions.Events.EventMetadata[] MonitoredEvents { get; }
-        FluentAssertions.Events.OccurredEvent[] OccurredEvents { get; }
-        T Subject { get; }
-        void Clear();
-        FluentAssertions.Events.IEventRecording GetRecordingFor(string eventName);
-        FluentAssertions.Events.EventAssertions<T> Should();
-    }
-    public class OccurredEvent
-    {
-        public OccurredEvent() { }
-        public string EventName { get; set; }
-        public object[] Parameters { get; set; }
-        public System.DateTime TimestampUtc { get; set; }
     }
 }
 namespace FluentAssertions.Execution
