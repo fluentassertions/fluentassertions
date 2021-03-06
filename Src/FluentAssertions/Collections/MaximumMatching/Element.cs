@@ -25,6 +25,5 @@ namespace FluentAssertions.Collections.MaximumMatching
         /// The value of the element in the maximum matching problem.
         /// </summary>
         public TValue Value { get; }
-
     }
 }
