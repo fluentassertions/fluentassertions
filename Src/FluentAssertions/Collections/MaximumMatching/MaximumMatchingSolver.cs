@@ -5,8 +5,10 @@ namespace FluentAssertions.Collections.MaximumMatching
 {
     /// <summary>
     /// The <see cref="MaximumMatchingSolver{TElement}"/> class encapsulates the algorithm
-    /// for solving the maximum matching problem (see <see cref="MaximumMatchingProblem{TElement}"/>).<br />
-    /// A simplified variation of the Ford-Fulkerson algorithm is used for solving the problem. <br />
+    /// for solving the maximum matching problem (see <see cref="MaximumMatchingProblem{TElement}"/>).
+    /// See https://en.wikipedia.org/wiki/Maximum_cardinality_matching for more details.<br />
+    /// A simplified variation of the Ford-Fulkerson algorithm is used for solving the problem.
+    /// See https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm for more details.
     /// </summary>
     internal class MaximumMatchingSolver<TValue>
     {
@@ -23,17 +25,17 @@ namespace FluentAssertions.Collections.MaximumMatching
         /// </summary>
         public MaximumMatchingSolution<TValue> Solve()
         {
-            var assignments = new AssignmentCollection();
+            var matches = new MatchCollection();
 
             foreach (var predicate in problem.Predicates)
             {
                 // At each step of the algorithm we search for a solution which contains the current predicate
                 // and increases the total number of matches (i.e. Augmenting Flow through the current predicate in the Ford-Fulkerson terminology).
-                var newAssignments = FindAssignmentForPredicate(predicate, assignments);
-                assignments.UpdateFrom(newAssignments);
+                var newMatches = FindMatchForPredicate(predicate, matches);
+                matches.UpdateFrom(newMatches);
             }
 
-            var elementsByMatchedPredicate = assignments.ToDictionary(assignment => assignment.Predicate, assignment => assignment.Element);
+            var elementsByMatchedPredicate = matches.ToDictionary(match => match.Predicate, match => match.Element);
 
             return new MaximumMatchingSolution<TValue>(problem, elementsByMatchedPredicate);
         }
@@ -42,37 +44,37 @@ namespace FluentAssertions.Collections.MaximumMatching
         /// To find a solution which contains the specified predicate and increases the total number of matches
         /// we: <br />
         /// - Search for a free element which matches the specified predicate.<br />
-        /// - Or take over an element which was previously assigned to another predicate and repeat the procedure for the previously assigned predicate.<br />
+        /// - Or take over an element which was previously matched with another predicate and repeat the procedure for the previously matched predicate.<br />
         /// - We are basically searching for a path in the graph of matches between predicates and elements which would start at the specified predicate
-        /// and end at an unassigned element.<br />
+        /// and end at an unmatched element.<br />
         /// - Breadth first search used to traverse the graph.<br />
         /// </summary>
-        private IEnumerable<Assignment> FindAssignmentForPredicate(Predicate<TValue> predicate, AssignmentCollection currentAssignments)
+        private IEnumerable<Match> FindMatchForPredicate(Predicate<TValue> predicate, MatchCollection currentMatches)
         {
             var visitedElements = new HashSet<Element<TValue>>();
-            var breadthFirstSearchTracker = new BreadthFirstSearchTracker(predicate, currentAssignments);
+            var breadthFirstSearchTracker = new BreadthFirstSearchTracker(predicate, currentMatches);
 
-            while (breadthFirstSearchTracker.TryDequeueNotAssignedPredicate(out var unassignedPredicate))
+            while (breadthFirstSearchTracker.TryDequeueUnMatchedPredicate(out var unmatchedPredicate))
             {
-                var notVisitedMatchingElements = GetMatchingElements(unassignedPredicate).Where(element => !visitedElements.Contains(element));
+                var notVisitedMatchingElements = GetMatchingElements(unmatchedPredicate).Where(element => !visitedElements.Contains(element));
 
                 foreach (var element in notVisitedMatchingElements)
                 {
                     visitedElements.Add(element);
 
-                    if (currentAssignments.Exists(element))
+                    if (currentMatches.Contains(element))
                     {
-                        breadthFirstSearchTracker.ReassignElement(element, unassignedPredicate);
+                        breadthFirstSearchTracker.ReassignElement(element, unmatchedPredicate);
                     }
                     else
                     {
-                        var finalAssignment = new Assignment { Predicate = unassignedPredicate, Element = element };
-                        return breadthFirstSearchTracker.GetAssignmentChain(finalAssignment);
+                        var finalMatch = new Match { Predicate = unmatchedPredicate, Element = element };
+                        return breadthFirstSearchTracker.GetMatchChain(finalMatch);
                     }
                 }
             }
 
-            return Enumerable.Empty<Assignment>();
+            return Enumerable.Empty<Match>();
         }
 
         private IEnumerable<Element<TValue>> GetMatchingElements(Predicate<TValue> predicate)
@@ -86,78 +88,78 @@ namespace FluentAssertions.Collections.MaximumMatching
             return matchingElements;
         }
 
-        private struct Assignment
+        private struct Match
         {
             public Predicate<TValue> Predicate;
             public Element<TValue> Element;
         }
 
-        private class AssignmentCollection : IEnumerable<Assignment>
+        private class MatchCollection : IEnumerable<Match>
         {
-            private readonly Dictionary<Element<TValue>, Assignment> assignmentsByElement = new();
+            private readonly Dictionary<Element<TValue>, Match> matchesByElement = new();
 
-            public void UpdateFrom(IEnumerable<Assignment> assignments)
+            public void UpdateFrom(IEnumerable<Match> matches)
             {
-                foreach (var assignment in assignments)
+                foreach (var match in matches)
                 {
-                    assignmentsByElement[assignment.Element] = assignment;
+                    matchesByElement[match.Element] = match;
                 }
             }
 
-            public Predicate<TValue> GetAssignedPredicate(Element<TValue> element)
+            public Predicate<TValue> GetMatchedPredicate(Element<TValue> element)
             {
-                return assignmentsByElement[element].Predicate;
+                return matchesByElement[element].Predicate;
             }                
 
-            public bool Exists(Element<TValue> element) => assignmentsByElement.ContainsKey(element);
+            public bool Contains(Element<TValue> element) => matchesByElement.ContainsKey(element);
 
-            public IEnumerator<Assignment> GetEnumerator() => assignmentsByElement.Values.GetEnumerator();
+            public IEnumerator<Match> GetEnumerator() => matchesByElement.Values.GetEnumerator();
 
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => assignmentsByElement.Values.GetEnumerator();
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => matchesByElement.Values.GetEnumerator();
         }
 
         private class BreadthFirstSearchTracker
         {
-            private readonly Queue<Predicate<TValue>> notAssignedPredicatesQueue = new();
-            private readonly Dictionary<Predicate<TValue>, Assignment> previousAssignmentByPredicate = new();
+            private readonly Queue<Predicate<TValue>> unmatchedPredicatesQueue = new();
+            private readonly Dictionary<Predicate<TValue>, Match> previousMatchByPredicate = new();
 
-            private readonly AssignmentCollection originalAssignments;
+            private readonly MatchCollection originalMatches;
 
-            public BreadthFirstSearchTracker(Predicate<TValue> notAssignedPredicate, AssignmentCollection originalAssignments)
+            public BreadthFirstSearchTracker(Predicate<TValue> unmatchedPredicate, MatchCollection originalMatches)
             {
-                notAssignedPredicatesQueue.Enqueue(notAssignedPredicate);
+                unmatchedPredicatesQueue.Enqueue(unmatchedPredicate);
 
-                this.originalAssignments = originalAssignments;
+                this.originalMatches = originalMatches;
             }
 
-            public bool TryDequeueNotAssignedPredicate(out Predicate<TValue> notAssignedPredicate)
+            public bool TryDequeueUnMatchedPredicate(out Predicate<TValue> unmatchedPredicate)
             {
-                if (notAssignedPredicatesQueue.Count == 0)
+                if (unmatchedPredicatesQueue.Count == 0)
                 {
-                    notAssignedPredicate = null;
+                    unmatchedPredicate = null;
                     return false;
                 }
 
-                notAssignedPredicate = notAssignedPredicatesQueue.Dequeue();
+                unmatchedPredicate = unmatchedPredicatesQueue.Dequeue();
                 return true;
             }
 
-            public void ReassignElement(Element<TValue> element, Predicate<TValue> newAssignedPredicate)
+            public void ReassignElement(Element<TValue> element, Predicate<TValue> newMatchedPredicate)
             {
-                var previouslyAssignedPredicate = originalAssignments.GetAssignedPredicate(element);
-                previousAssignmentByPredicate.Add(previouslyAssignedPredicate, new Assignment { Predicate = newAssignedPredicate, Element = element });
-                notAssignedPredicatesQueue.Enqueue(previouslyAssignedPredicate);
+                var previouslyMatchedPredicate = originalMatches.GetMatchedPredicate(element);
+                previousMatchByPredicate.Add(previouslyMatchedPredicate, new Match { Predicate = newMatchedPredicate, Element = element });
+                unmatchedPredicatesQueue.Enqueue(previouslyMatchedPredicate);
             }
 
-            public IEnumerable<Assignment> GetAssignmentChain(Assignment lastAssignment)
+            public IEnumerable<Match> GetMatchChain(Match lastMatch)
             {
-                var assignment = lastAssignment;
+                var match = lastMatch;
 
                 do
                 {
-                    yield return assignment;
+                    yield return match;
                 }
-                while (previousAssignmentByPredicate.TryGetValue(assignment.Predicate, out assignment));
+                while (previousMatchByPredicate.TryGetValue(match.Predicate, out match));
             }
         }
     }

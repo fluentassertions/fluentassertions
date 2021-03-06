@@ -773,7 +773,7 @@ namespace FluentAssertions.Collections
         /// <summary>
         /// Asserts that a collection contains exactly a given number of elements which meet
         /// the criteria provided by the element predicates. Assertion fails if it is not possible
-        /// to find a one to one mapping between the elements of the collection and the predicates.
+        /// to find a one-to-one mapping between the elements of the collection and the predicates.
         /// The order of the predicates does not need to match the order of the elements.
         /// </summary>
         /// <param name="predicates">
@@ -788,7 +788,7 @@ namespace FluentAssertions.Collections
         /// <summary>
         /// Asserts that a collection contains exactly a given number of elements which meet
         /// the criteria provided by the element predicates. Assertion fails if it is not possible
-        /// to find a one to one mapping between the elements of the collection and the predicates.
+        /// to find a one-to-one mapping between the elements of the collection and the predicates.
         /// </summary>
         /// <param name="predicates">
         /// The predicates that the elements of the collection must match.
