@@ -40,7 +40,7 @@ If you see something missing, please consider submitting a pull request.
 {% include assertion-comparison.html header1="MSTest" header2="Fluent Assertions" idPrefix="mstest-" caption="Exceptions"        examples=site.data.mstest-migration.exceptions %}
 
 ## Using global AssertionOptions
-The `AssertionOptions` class allows you to globally configure how `Should().BeEquivalentTo()` works, see also [Object graph comparison](/objectgraphs). Setting up the global configuration multiple times can lead to multi-threading issues when tests are run in parallel.
+The `AssertionOptions` class allows you to globally configure how `Should().BeEquivalentTo()` works, see also [Object graph comparison](objectgraphs.md). Setting up the global configuration multiple times can lead to multi-threading issues when tests are run in parallel.
 
 In order to ensure the global AssertionOptions are configured exactly once, a test framework specific solution is required.
 

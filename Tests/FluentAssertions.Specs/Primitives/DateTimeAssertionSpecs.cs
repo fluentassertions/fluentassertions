@@ -533,7 +533,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect time to be within 0.020s from <2016-06-04 12:15:31>, but it was <2016-06-04 12:15:30.980>.");
+                .WithMessage("Did not expect time to be within 20ms from <2016-06-04 12:15:31>, but it was <2016-06-04 12:15:30.980>.");
         }
 
         [Fact]
@@ -562,7 +562,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect time to be within 0.020s from <2016-06-04 12:15:31>, but it was <2016-06-04 12:15:31.020>.");
+                .WithMessage("Did not expect time to be within 20ms from <2016-06-04 12:15:31>, but it was <2016-06-04 12:15:31.020>.");
         }
 
         [Fact]
@@ -577,7 +577,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect time to be within 0.020s from <2016-06-04 12:15:31>, but it was <2016-06-04 12:15:31.020>.");
+                .WithMessage("Did not expect time to be within 20ms from <2016-06-04 12:15:31>, but it was <2016-06-04 12:15:31.020>.");
         }
 
         [Fact]
@@ -593,7 +593,7 @@ namespace FluentAssertions.Specs.Primitives
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected time to be within 0.020s from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:30.979>.");
+                    "Expected time to be within 20ms from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:30.979>.");
         }
 
         [Fact]
@@ -609,7 +609,7 @@ namespace FluentAssertions.Specs.Primitives
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected time to be within 0.020s from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:30.979>.");
+                    "Expected time to be within 20ms from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:30.979>.");
         }
 
         [Fact]
@@ -639,7 +639,7 @@ namespace FluentAssertions.Specs.Primitives
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected time to be within 0.020s from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:31.021>.");
+                    "Expected time to be within 20ms from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:31.021>.");
         }
 
         [Fact]
@@ -682,7 +682,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect time to be within 0.035s from <2016-06-04 12:15:31>, but it was <2016-06-04 12:15:31.035>.");
+                .WithMessage("Did not expect time to be within 35ms from <2016-06-04 12:15:31>, but it was <2016-06-04 12:15:31.035>.");
         }
 
         [Fact]
@@ -741,7 +741,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect time to be within 0.100s from <0001-01-01 00:00:00.000>, but it was <00:00:00.050>.");
+                .WithMessage("Did not expect time to be within 100ms from <0001-01-01 00:00:00.000>, but it was <00:00:00.050>.");
         }
 
         [Fact]
@@ -770,7 +770,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect time to be within 0.100s from <9999-12-31 23:59:59.9999999>, but it was <9999-12-31 23:59:59.9499999>.");
+                .WithMessage("Did not expect time to be within 100ms from <9999-12-31 23:59:59.9999999>, but it was <9999-12-31 23:59:59.9499999>.");
         }
 
         #endregion

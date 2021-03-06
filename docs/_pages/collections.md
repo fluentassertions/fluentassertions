@@ -91,7 +91,7 @@ stringCollection.Should().ContainMatch("* failed");
 stringCollection.Should().AllBe("build succeeded");
 ```
 
-In order to assert presence of an equivalent item in a collection applying [Object graph comparison](/objectgraphs) rules, use this:
+In order to assert presence of an equivalent item in a collection applying [Object graph comparison](objectgraphs.md) rules, use this:
 
 ```csharp
 collection.Should().ContainEquivalentOf(boxedValue);
