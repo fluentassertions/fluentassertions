@@ -8,12 +8,12 @@ namespace FluentAssertions.Collections.MaximumMatching
     /// for solving the maximum matching problem (see <see cref="MaximumMatchingProblem{TElement}"/>).<br />
     /// A simplified variation of the Ford-Fulkerson algorithm is used for solving the problem. <br />
     /// </summary>
-    internal class MaximumMatchingSolver<TElement>
+    internal class MaximumMatchingSolver<TValue>
     {
-        private readonly MaximumMatchingProblem<TElement> problem;
-        private readonly Dictionary<int, List<int>> matchingElementsByPredicate = new();
+        private readonly MaximumMatchingProblem<TValue> problem;
+        private readonly Dictionary<Predicate<TValue>, List<Element<TValue>>> matchingElementsByPredicate = new();
 
-        public MaximumMatchingSolver(MaximumMatchingProblem<TElement> problem)
+        public MaximumMatchingSolver(MaximumMatchingProblem<TValue> problem)
         {
             this.problem = problem;
         }
@@ -21,7 +21,7 @@ namespace FluentAssertions.Collections.MaximumMatching
         /// <summary>
         /// Solves the maximum matching problem;
         /// </summary>
-        public MaximumMatchingSolution<TElement> Solve()
+        public MaximumMatchingSolution<TValue> Solve()
         {
             var assignments = new AssignmentCollection();
 
@@ -29,15 +29,13 @@ namespace FluentAssertions.Collections.MaximumMatching
             {
                 // At each step of the algorithm we search for a solution which contains the current predicate
                 // and increases the total number of matches (i.e. Augmenting Flow through the current predicate in the Ford-Fulkerson terminology).
-                var newAssignments = FindAssignmentForPredicate(predicate.Index, assignments);
+                var newAssignments = FindAssignmentForPredicate(predicate, assignments);
                 assignments.UpdateFrom(newAssignments);
             }
 
-            var elementsByMatchedPredicate = assignments.ToDictionary(
-                assignment => problem.Predicates[assignment.Predicate],
-                assignment => problem.Elements[assignment.Element]);
+            var elementsByMatchedPredicate = assignments.ToDictionary(assignment => assignment.Predicate, assignment => assignment.Element);
 
-            return new MaximumMatchingSolution<TElement>(problem, elementsByMatchedPredicate);
+            return new MaximumMatchingSolution<TValue>(problem, elementsByMatchedPredicate);
         }
 
         /// <summary>
@@ -49,9 +47,9 @@ namespace FluentAssertions.Collections.MaximumMatching
         /// and end at an unassigned element.<br />
         /// - Breadth first search used to traverse the graph.<br />
         /// </summary>
-        private IEnumerable<Assignment> FindAssignmentForPredicate(int predicate, AssignmentCollection currentAssignments)
+        private IEnumerable<Assignment> FindAssignmentForPredicate(Predicate<TValue> predicate, AssignmentCollection currentAssignments)
         {
-            var visitedElements = new HashSet<int>();
+            var visitedElements = new HashSet<Element<TValue>>();
             var breadthFirstSearchTracker = new BreadthFirstSearchTracker(predicate, currentAssignments);
 
             while (breadthFirstSearchTracker.TryDequeueNotAssignedPredicate(out var unassignedPredicate))
@@ -77,14 +75,12 @@ namespace FluentAssertions.Collections.MaximumMatching
             return Enumerable.Empty<Assignment>();
         }
 
-        private IEnumerable<int> GetMatchingElements(int predicateIndex)
+        private IEnumerable<Element<TValue>> GetMatchingElements(Predicate<TValue> predicate)
         {
-            var predicate = problem.Predicates[predicateIndex];
-
-            if (!matchingElementsByPredicate.TryGetValue(predicateIndex, out var matchingElements))
+            if (!matchingElementsByPredicate.TryGetValue(predicate, out var matchingElements))
             {
-                matchingElements = problem.Elements.Where(element => predicate.Matches(element.Value)).Select(element => element.Index).ToList();
-                matchingElementsByPredicate.Add(predicateIndex, matchingElements);
+                matchingElements = problem.Elements.Where(element => predicate.Matches(element.Value)).ToList();
+                matchingElementsByPredicate.Add(predicate, matchingElements);
             }
 
             return matchingElements;
@@ -92,13 +88,13 @@ namespace FluentAssertions.Collections.MaximumMatching
 
         private struct Assignment
         {
-            public int Predicate;
-            public int Element;
+            public Predicate<TValue> Predicate;
+            public Element<TValue> Element;
         }
 
         private class AssignmentCollection : IEnumerable<Assignment>
         {
-            private readonly Dictionary<int, Assignment> assignmentsByElement = new Dictionary<int, Assignment>();
+            private readonly Dictionary<Element<TValue>, Assignment> assignmentsByElement = new();
 
             public void UpdateFrom(IEnumerable<Assignment> assignments)
             {
@@ -108,9 +104,12 @@ namespace FluentAssertions.Collections.MaximumMatching
                 }
             }
 
-            public int GetAssignedPredicate(int element) => assignmentsByElement[element].Predicate;
+            public Predicate<TValue> GetAssignedPredicate(Element<TValue> element)
+            {
+                return assignmentsByElement[element].Predicate;
+            }                
 
-            public bool Exists(int element) => assignmentsByElement.ContainsKey(element);
+            public bool Exists(Element<TValue> element) => assignmentsByElement.ContainsKey(element);
 
             public IEnumerator<Assignment> GetEnumerator() => assignmentsByElement.Values.GetEnumerator();
 
@@ -119,23 +118,23 @@ namespace FluentAssertions.Collections.MaximumMatching
 
         private class BreadthFirstSearchTracker
         {
-            private readonly Queue<int> notAssignedPredicatesQueue = new Queue<int>();
-            private readonly Dictionary<int, Assignment> previousAssignmentByPredicate = new Dictionary<int, Assignment>();
+            private readonly Queue<Predicate<TValue>> notAssignedPredicatesQueue = new();
+            private readonly Dictionary<Predicate<TValue>, Assignment> previousAssignmentByPredicate = new();
 
             private readonly AssignmentCollection originalAssignments;
 
-            public BreadthFirstSearchTracker(int notAssignedPredicate, AssignmentCollection originalAssignments)
+            public BreadthFirstSearchTracker(Predicate<TValue> notAssignedPredicate, AssignmentCollection originalAssignments)
             {
                 notAssignedPredicatesQueue.Enqueue(notAssignedPredicate);
 
                 this.originalAssignments = originalAssignments;
             }
 
-            public bool TryDequeueNotAssignedPredicate(out int notAssignedPredicate)
+            public bool TryDequeueNotAssignedPredicate(out Predicate<TValue> notAssignedPredicate)
             {
                 if (notAssignedPredicatesQueue.Count == 0)
                 {
-                    notAssignedPredicate = -1;
+                    notAssignedPredicate = null;
                     return false;
                 }
 
@@ -143,7 +142,7 @@ namespace FluentAssertions.Collections.MaximumMatching
                 return true;
             }
 
-            public void ReassignElement(int element, int newAssignedPredicate)
+            public void ReassignElement(Element<TValue> element, Predicate<TValue> newAssignedPredicate)
             {
                 var previouslyAssignedPredicate = originalAssignments.GetAssignedPredicate(element);
                 previousAssignmentByPredicate.Add(previouslyAssignedPredicate, new Assignment { Predicate = newAssignedPredicate, Element = element });

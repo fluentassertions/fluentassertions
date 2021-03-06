@@ -10,15 +10,15 @@ namespace FluentAssertions.Collections.MaximumMatching
     /// The <see cref="MaximumMatchingSolution{TElement}"/> class defines the solution (output) for the maximum matching problem.
     /// See documentation of <see cref="MaximumMatchingProblem{TElement}"/> for more details.
     /// </summary>
-    /// <typeparam name="TElement">The type of elements which must be matched with predicates.</typeparam>
-    internal class MaximumMatchingSolution<TElement>
+    /// <typeparam name="TValue">The type of elements which must be matched with predicates.</typeparam>
+    internal class MaximumMatchingSolution<TValue>
     {
-        private readonly Dictionary<IndexedPredicate<TElement>, IndexedElement<TElement>> elementsByMatchedPredicate;
-        private readonly MaximumMatchingProblem<TElement> problem;
+        private readonly Dictionary<Predicate<TValue>, Element<TValue>> elementsByMatchedPredicate;
+        private readonly MaximumMatchingProblem<TValue> problem;
 
         public MaximumMatchingSolution(
-            MaximumMatchingProblem<TElement> problem,
-            Dictionary<IndexedPredicate<TElement>, IndexedElement<TElement>> elementsByMatchedPredicate)
+            MaximumMatchingProblem<TValue> problem,
+            Dictionary<Predicate<TValue>, Element<TValue>> elementsByMatchedPredicate)
         {
             this.problem = problem;
             this.elementsByMatchedPredicate = elementsByMatchedPredicate;
@@ -28,12 +28,12 @@ namespace FluentAssertions.Collections.MaximumMatching
 
         public bool UnmatchedElementsExist => problem.Elements.Count != elementsByMatchedPredicate.Count;
 
-        public List<IndexedPredicate<TElement>> GetUnmatchedPredicates()
+        public List<Predicate<TValue>> GetUnmatchedPredicates()
         {
             return problem.Predicates.Except(elementsByMatchedPredicate.Keys).ToList();
         }
 
-        public List<IndexedElement<TElement>> GetUnmatchedElements()
+        public List<Element<TValue>> GetUnmatchedElements()
         {
             return problem.Elements.Except(elementsByMatchedPredicate.Values).ToList();
         }

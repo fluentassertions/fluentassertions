@@ -55,7 +55,7 @@ namespace FluentAssertions.Formatting
         /// <summary>
         /// Expression visitor which can detect whether the expression depends on parameters.
         /// </summary>
-        internal class ParameterDetector : ExpressionVisitor
+        private class ParameterDetector : ExpressionVisitor
         {
             public bool HasParameters { get; private set; }
 
@@ -75,7 +75,7 @@ namespace FluentAssertions.Formatting
         /// <summary>
         /// Expression visitor which can replace constant sub-expressions with constant values.
         /// </summary>
-        internal class ConstantSubExpressionReductionVisitor : ExpressionVisitor
+        private class ConstantSubExpressionReductionVisitor : ExpressionVisitor
         {
             public override Expression Visit(Expression node)
             {
@@ -99,7 +99,7 @@ namespace FluentAssertions.Formatting
         /// Expression visitor which can extract sub-expressions from an expression which has the following form:
         /// (SubExpression1) AND (SubExpression2) ... AND (SubExpressionN)
         /// </summary>
-        internal class AndOperatorChainExtractor : ExpressionVisitor
+        private class AndOperatorChainExtractor : ExpressionVisitor
         {
             public List<Expression> AndChain { get; } = new List<Expression>();
 

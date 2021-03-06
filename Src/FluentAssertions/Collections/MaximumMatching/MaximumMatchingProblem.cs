@@ -12,21 +12,21 @@ namespace FluentAssertions.Collections.MaximumMatching
     /// A predicate can be mapped with only one element.
     /// An element can be mapped with only one predicate.
     /// </summary>
-    /// <typeparam name="TElement">The type of elements which must be matched with predicates.</typeparam>
-    internal class MaximumMatchingProblem<TElement>
+    /// <typeparam name="TValue">The type of elements which must be matched with predicates.</typeparam>
+    internal class MaximumMatchingProblem<TValue>
     {
         public MaximumMatchingProblem(
-            IEnumerable<Expression<Func<TElement, bool>>> predicates,
-            IEnumerable<TElement> elements)
+            IEnumerable<Expression<Func<TValue, bool>>> predicates,
+            IEnumerable<TValue> elements)
         {
-            Predicates.AddRange(predicates.Select((predicate, index) => new IndexedPredicate<TElement>(predicate, index)));
-            Elements.AddRange(elements.Select((element, index) => new IndexedElement<TElement>(element, index)));
+            Predicates.AddRange(predicates.Select((predicate, index) => new Predicate<TValue>(predicate, index)));
+            Elements.AddRange(elements.Select((element, index) => new Element<TValue>(element, index)));
         }
 
-        public List<IndexedPredicate<TElement>> Predicates { get; } = new();
+        public List<Predicate<TValue>> Predicates { get; } = new();
 
-        public List<IndexedElement<TElement>> Elements { get; } = new();
+        public List<Element<TValue>> Elements { get; } = new();
 
-        public MaximumMatchingSolution<TElement> Solve() => new MaximumMatchingSolver<TElement>(this).Solve();
+        public MaximumMatchingSolution<TValue> Solve() => new MaximumMatchingSolver<TValue>(this).Solve();
     }
 }
