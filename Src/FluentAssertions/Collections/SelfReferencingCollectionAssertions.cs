@@ -824,19 +824,19 @@ namespace FluentAssertions.Collections
             var elements = Subject.ConvertOrCastToList();
             var maximumMatchingSolution = new MaximumMatchingProblem<T>(predicatesList, elements).Solve();
 
-            if (maximumMatchingSolution.NotMatchedPredicatesExist || maximumMatchingSolution.NotMatchedElementsExist)
+            if (maximumMatchingSolution.UnmatchedPredicatesExist || maximumMatchingSolution.UnmatchedElementsExist)
             {
                 string message = string.Empty;
                 var doubleNewLine = Environment.NewLine + Environment.NewLine;
 
-                var notMatchedPredicates = maximumMatchingSolution.GetNotMatchedPredicates();
+                var notMatchedPredicates = maximumMatchingSolution.GetUnmatchedPredicates();
                 if (notMatchedPredicates.Any())
                 {
                     message += doubleNewLine + "The following predicates did not have matching elements:";
                     message += doubleNewLine + string.Join(Environment.NewLine, notMatchedPredicates.Select(predicate => Formatter.ToString(predicate)));
                 }
 
-                var notMatchedElementIndices = maximumMatchingSolution.GetNotMatchedElementIndices();
+                var notMatchedElementIndices = maximumMatchingSolution.GetUnmatchedElementIndices();
                 if (notMatchedElementIndices.Any())
                 {
                     message += doubleNewLine + "The following elements did not match any predicate:";

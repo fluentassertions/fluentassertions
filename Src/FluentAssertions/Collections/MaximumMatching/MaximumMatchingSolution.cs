@@ -13,32 +13,29 @@ namespace FluentAssertions.Collections.MaximumMatching
     /// <typeparam name="TElement">The type of elements which must be matched with predicates.</typeparam>
     internal class MaximumMatchingSolution<TElement>
     {
-        private readonly Dictionary<int, int> matchedElementIndexesByPredicateIndex;
+        private readonly Dictionary<IndexedPredicate<TElement>, IndexedElement<TElement>> matchedElementsByPredicates;
         private readonly MaximumMatchingProblem<TElement> problem;
 
         public MaximumMatchingSolution(
             MaximumMatchingProblem<TElement> problem,
-            Dictionary<int, int> matchedElementIndexesByPredicateIndex)
+            Dictionary<IndexedPredicate<TElement>, IndexedElement<TElement>> matchedElementsByPredicates)
         {
             this.problem = problem;
-            this.matchedElementIndexesByPredicateIndex = matchedElementIndexesByPredicateIndex;
+            this.matchedElementsByPredicates = matchedElementsByPredicates;
         }
 
-        public bool NotMatchedPredicatesExist => problem.Predicates.Count != matchedElementIndexesByPredicateIndex.Count;
+        public bool UnmatchedPredicatesExist => problem.Predicates.Count != matchedElementsByPredicates.Count;
 
-        public bool NotMatchedElementsExist => problem.Elements.Count != matchedElementIndexesByPredicateIndex.Count;
+        public bool UnmatchedElementsExist => problem.Elements.Count != matchedElementsByPredicates.Count;
 
-        public List<Expression<Func<TElement, bool>>> GetNotMatchedPredicates()
+        public List<IndexedPredicate<TElement>> GetUnmatchedPredicates()
         {
-            return problem.AllPredicateIndices
-                .Except(matchedElementIndexesByPredicateIndex.Keys)
-                .Select(predicateIndex => problem.Predicates[predicateIndex])
-                .ToList();
+            return problem.Predicates.Except(matchedElementsByPredicates.Keys).ToList();
         }
 
-        public List<int> GetNotMatchedElementIndices()
+        public List<IndexedElement<TElement>> GetUnmatchedElements()
         {
-            return problem.AllElementIndices.Except(matchedElementIndexesByPredicateIndex.Values).ToList();
+            return problem.Elements.Except(matchedElementsByPredicates.Values).ToList();
         }
     }
 }

@@ -1,28 +1,44 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace FluentAssertions.Collections
+namespace FluentAssertions.Collections.MaximumMatching
 {
     /// <summary>
-    /// The <see cref="MaximumMatchingSolver"/> class encapsulates the algorithm
+    /// The <see cref="MaximumMatchingSolver{TElement}"/> class encapsulates the algorithm
     /// for solving the maximum matching problem (see <see cref="MaximumMatchingProblem{TElement}"/>).<br />
     /// A simplified variation of the Ford-Fulkerson algorithm is used for solving the problem. <br />
     /// </summary>
-    internal class MaximumMatchingSolver
+    internal class MaximumMatchingSolver<TElement>
     {
-        public static Dictionary<int, int> FindMaximumMatching<T>(MaximumMatchingProblem<T> maximumMatchingProblem)
+        private readonly MaximumMatchingProblem<TElement> problem;
+        private readonly Dictionary<int, List<int>> matchingElementsByPredicate = new();
+
+        public MaximumMatchingSolver(MaximumMatchingProblem<TElement> problem)
+        {
+            this.problem = problem;
+        }
+
+        public MaximumMatchingSolution<TElement> Solve()
+        {
+            AssignmentCollection assignmentCollection = FindMaximumMatching();
+
+
+            return new MaximumMatchingSolution<TElement>(problem, );
+        }
+
+        private AssignmentCollection FindMaximumMatching()
         {
             var assignments = new AssignmentCollection();
 
-            foreach (var predicate in maximumMatchingProblem.AllPredicateIndices)
+            foreach (var predicate in problem.Predicates)
             {
                 // At each step of the algorithm we search for a solution which contains the current predicate
                 // and increases the total number of matches (i.e. Augmenting Flow through the current predicate in the Ford-Fulkerson terminology).
-                var newAssignments = FindAssignmentForPredicate(predicate, maximumMatchingProblem, assignments);
+                var newAssignments = FindAssignmentForPredicate(predicate.Index, assignments);
                 assignments.UpdateFrom(newAssignments);
             }
 
-            return assignments.GetAssignedElementsByPredicate();
+            return assignments;
         }
 
         /// <summary>
@@ -34,17 +50,14 @@ namespace FluentAssertions.Collections
         /// and end at an unassigned element.<br />
         /// - Breadth first search used to traverse the graph.<br />
         /// </summary>
-        private static IEnumerable<Assignment> FindAssignmentForPredicate<T>(
-            int predicate,
-            MaximumMatchingProblem<T> maximumMatchingProblem,
-            AssignmentCollection currentAssignments)
+        private IEnumerable<Assignment> FindAssignmentForPredicate(int predicate, AssignmentCollection currentAssignments)
         {
             var visitedElements = new HashSet<int>();
             var breadthFirstSearchTracker = new BreadthFirstSearchTracker(predicate, currentAssignments);
 
             while (breadthFirstSearchTracker.TryDequeueNotAssignedPredicate(out var unassignedPredicate))
             {
-                var notVisitedMatchingElements = maximumMatchingProblem.GetMatchingElementIndices(unassignedPredicate).Where(_ => !visitedElements.Contains(_));
+                var notVisitedMatchingElements = GetMatchingElements(unassignedPredicate).Where(element => !visitedElements.Contains(element));
 
                 foreach (var element in notVisitedMatchingElements)
                 {
@@ -65,39 +78,44 @@ namespace FluentAssertions.Collections
             return Enumerable.Empty<Assignment>();
         }
 
+        private IEnumerable<int> GetMatchingElements(int predicateIndex)
+        {
+            var predicate = problem.Predicates[predicateIndex];
+
+            if (!matchingElementsByPredicate.TryGetValue(predicateIndex, out var matchingElements))
+            {
+                matchingElements = problem.Elements.Where(element => predicate.Matches(element.Value)).Select(element => element.Index).ToList();
+                matchingElementsByPredicate.Add(predicateIndex, matchingElements);
+            }
+
+            return matchingElements;
+        }
+
         private struct Assignment
         {
             public int Predicate;
             public int Element;
         }
 
-        private class AssignmentCollection
+        private class AssignmentCollection : IEnumerable<Assignment>
         {
-            private readonly Dictionary<int, int> predicateByAssignedElement = new Dictionary<int, int>();
+            private readonly Dictionary<int, Assignment> assignmentsByElement = new Dictionary<int, Assignment>();
 
             public void UpdateFrom(IEnumerable<Assignment> assignments)
             {
                 foreach (var assignment in assignments)
                 {
-                    predicateByAssignedElement[assignment.Element] = assignment.Predicate;
+                    assignmentsByElement[assignment.Element] = assignment;
                 }
             }
 
-            public int GetAssignedPredicate(int element) => predicateByAssignedElement[element];
+            public int GetAssignedPredicate(int element) => assignmentsByElement[element].Predicate;
 
-            public bool Exists(int element) => predicateByAssignedElement.ContainsKey(element);
+            public bool Exists(int element) => assignmentsByElement.ContainsKey(element);
 
-            public Dictionary<int, int> GetAssignedElementsByPredicate()
-            {
-                var result = new Dictionary<int, int>();
+            public IEnumerator<Assignment> GetEnumerator() => assignmentsByElement.Values.GetEnumerator();
 
-                foreach (var pair in predicateByAssignedElement)
-                {
-                    result.Add(pair.Value, pair.Key);
-                }
-
-                return result;
-            }
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => assignmentsByElement.Values.GetEnumerator();
         }
 
         private class BreadthFirstSearchTracker

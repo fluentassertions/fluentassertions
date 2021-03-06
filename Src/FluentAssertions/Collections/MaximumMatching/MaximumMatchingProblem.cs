@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using FluentAssertions.Collections.MaximumMatching;
 
-namespace FluentAssertions.Collections
+namespace FluentAssertions.Collections.MaximumMatching
 {
     /// <summary>
     /// The <see cref="MaximumMatchingProblem{TElement}"/> class defines input for the maximum matching problem.
@@ -16,54 +15,32 @@ namespace FluentAssertions.Collections
     /// <typeparam name="TElement">The type of elements which must be matched with predicates.</typeparam>
     internal class MaximumMatchingProblem<TElement>
     {
-        private readonly Dictionary<int, List<int>> matchingElementsByPredicate = new Dictionary<int, List<int>>();
-
         public MaximumMatchingProblem(
             IList<Expression<Func<TElement, bool>>> predicates,
             IList<TElement> elements)
         {
-            Predicates = predicates;
-            Elements = elements;
-            AllPredicateIndices = Enumerable.Range(0, predicates.Count);
-            AllElementIndices = Enumerable.Range(0, elements.Count);
-        }
+            Predicates = new();
 
-        public IList<Expression<Func<TElement, bool>>> Predicates { get; }
-
-        public IList<TElement> Elements { get; }
-
-        public IEnumerable<int> AllPredicateIndices { get; }
-
-        public IEnumerable<int> AllElementIndices { get; }
-
-        public IEnumerable<int> GetMatchingElementIndices(int predicateIndex)
-        {
-            if (!matchingElementsByPredicate.TryGetValue(predicateIndex, out var matchingElements))
+            for (int i = 0; i < predicates.Count; i++)
             {
-                matchingElements = new List<int>();
-
-                var compiledPredicate = Predicates[predicateIndex].Compile();
-
-                for (int elementIndex = 0; elementIndex < Elements.Count; elementIndex++)
-                {
-                    var element = Elements[elementIndex];
-
-                    if (compiledPredicate(element))
-                    {
-                        matchingElements.Add(elementIndex);
-                    }
-                }
-
-                matchingElementsByPredicate.Add(predicateIndex, matchingElements);
+                Predicates.Add(new IndexedPredicate<TElement>(i, predicates[i]));
             }
 
-            return matchingElements;
+            Elements = new();
+
+            for (int i = 0; i < elements.Count; i++)
+            {
+                Elements.Add(new IndexedElement<TElement>(i, elements[i]));
+            }
         }
+
+        public List<IndexedPredicate<TElement>> Predicates { get; }
+
+        public List<IndexedElement<TElement>> Elements { get; }
 
         public MaximumMatchingSolution<TElement> Solve()
         {
-            var matches = MaximumMatchingSolver.FindMaximumMatching<TElement>(this);
-            return new MaximumMatchingSolution<TElement>(this, matches);
+
         }
     }
 }
