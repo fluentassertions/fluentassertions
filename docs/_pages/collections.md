@@ -152,7 +152,7 @@ In case if you need to perform individual assertions on all elements of a collec
 var collection = new []
 {
     new { Id = 1, Name = "John", Attributes = new string[] { } },
-    new { Id = 2, Name = "Jane", Attributes = new string[] {"attr"} }
+    new { Id = 2, Name = "Jane", Attributes = new string[] { "attr" } }
 };
 collection.Should().SatisfyRespectively(
     first =>
@@ -167,4 +167,17 @@ collection.Should().SatisfyRespectively(
         second.Name.Should().EndWith("e");
         second.Attributes.Should().NotBeEmpty();
     });
+```
+
+If you need to perform individual assertions on all elements of a collection without setting expectation about the order of elements:
+```csharp
+var collection = new []
+{
+    new { Id = 1, Name = "John", Attributes = new string[] { } },
+    new { Id = 2, Name = "Jane", Attributes = new string[] { "attr" } }
+};
+
+collection.Should().Satisfy(
+    e => e.Id == 2 && e.Name == "Jane" && e.Attributes == null,
+    e => e.Id == 1 && e.Name == "John" && e.Attributes != null && e.Attributes.Length > 0);
 ```

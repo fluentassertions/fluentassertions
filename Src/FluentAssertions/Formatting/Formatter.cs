@@ -42,6 +42,7 @@ namespace FluentAssertions.Formatting
             new SByteValueFormatter(),
             new StringValueFormatter(),
             new TaskFormatter(),
+            new PredicateLambdaExpressionValueFormatter(),
             new ExpressionValueFormatter(),
             new ExceptionValueFormatter(),
             new MultidimensionalArrayFormatter(),

@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using FluentAssertions.Collections.MaximumMatching;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
+using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Collections
 {
@@ -763,6 +765,90 @@ namespace FluentAssertions.Collections
                     .FailWithPreFormatted(failureMessage)
                     .Then
                     .ClearExpectation();
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that a collection contains exactly a given number of elements which meet
+        /// the criteria provided by the element predicates. Assertion fails if it is not possible
+        /// to find a one-to-one mapping between the elements of the collection and the predicates.
+        /// The order of the predicates does not need to match the order of the elements.
+        /// </summary>
+        /// <param name="predicates">
+        /// The predicates that the elements of the collection must match.
+        /// The total number of predicates must exactly match the number of elements in the collection.
+        /// </param>
+        public AndConstraint<TAssertions> Satisfy(params Expression<Func<T, bool>>[] predicates)
+        {
+            return Satisfy(predicates, because: string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that a collection contains exactly a given number of elements which meet
+        /// the criteria provided by the element predicates. Assertion fails if it is not possible
+        /// to find a one-to-one mapping between the elements of the collection and the predicates.
+        /// </summary>
+        /// <param name="predicates">
+        /// The predicates that the elements of the collection must match.
+        /// The total number of predicates must exactly match the number of elements in the collection.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+        /// </param>
+        public AndConstraint<TAssertions> Satisfy(IEnumerable<Expression<Func<T, bool>>> predicates, string because = "", params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(predicates, nameof(predicates), "Cannot verify against a <null> collection of predicates");
+
+            var predicatesList = predicates.ConvertOrCastToList();
+            if (predicatesList.Count == 0)
+            {
+                throw new ArgumentException("Cannot verify against an empty collection of predicates", nameof(predicates));
+            }
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected {context:collection} to satisfy all predicates{reason}, ")
+                .ForCondition(Subject is not null)
+                .FailWith("but collection is <null>.")
+                .Then
+                .ForCondition(Subject.Any())
+                .FailWith("but collection is empty.")
+                .Then
+                .ClearExpectation();
+
+            var maximumMatchingSolution = new MaximumMatchingProblem<T>(predicatesList, Subject).Solve();
+
+            if (maximumMatchingSolution.UnmatchedPredicatesExist || maximumMatchingSolution.UnmatchedElementsExist)
+            {
+                string message = string.Empty;
+                var doubleNewLine = Environment.NewLine + Environment.NewLine;
+
+                var unmatchedPredicates = maximumMatchingSolution.GetUnmatchedPredicates();
+                if (unmatchedPredicates.Any())
+                {
+                    message += doubleNewLine + "The following predicates did not have matching elements:";
+                    message += doubleNewLine + string.Join(Environment.NewLine, unmatchedPredicates.Select(predicate => Formatter.ToString(predicate.Expression)));
+                }
+
+                var unmatchedElements = maximumMatchingSolution.GetUnmatchedElements();
+                if (unmatchedElements.Any())
+                {
+                    message += doubleNewLine + "The following elements did not match any predicate:";
+
+                    var elementDescriptions = unmatchedElements.Select(element => $"Index: {element.Index}, Element: {Formatter.ToString(element.Value)}");
+                    message += doubleNewLine + string.Join(doubleNewLine, elementDescriptions);
+                }
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .WithExpectation("Expected {context:collection} to satisfy all predicates{reason}, but:")
+                    .FailWithPreFormatted(message);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
