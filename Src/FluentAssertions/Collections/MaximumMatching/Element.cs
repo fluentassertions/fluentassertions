@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FluentAssertions.Collections.MaximumMatching
+﻿namespace FluentAssertions.Collections.MaximumMatching
 {
     /// <summary>
     /// Stores an element's value and index in the maximum matching problem.

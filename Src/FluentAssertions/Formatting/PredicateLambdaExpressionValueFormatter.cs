@@ -14,7 +14,7 @@ namespace FluentAssertions.Formatting
 
         public string Format(object value, FormattingContext context, FormatChild formatChild)
         {
-            var lambdaExpression = value as LambdaExpression;
+            var lambdaExpression = (LambdaExpression)value;
 
             var reducedExpression = ReduceConstantSubExpressions(lambdaExpression.Body);
 
@@ -81,7 +81,7 @@ namespace FluentAssertions.Formatting
             {
                 if (ExpressionIsConstant(node))
                 {
-                    return Expression.Constant(Expression.Lambda(node).Compile().DynamicInvoke());                    
+                    return Expression.Constant(Expression.Lambda(node).Compile().DynamicInvoke());
                 }
 
                 return base.Visit(node);
@@ -107,7 +107,7 @@ namespace FluentAssertions.Formatting
             {
                 if (node.NodeType == ExpressionType.AndAlso)
                 {
-                    var binaryExpression = node as BinaryExpression;
+                    var binaryExpression = (BinaryExpression)node;
                     Visit(binaryExpression.Left);
                     Visit(binaryExpression.Right);
                 }
