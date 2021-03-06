@@ -70,7 +70,7 @@ theObject.Should().BeBinarySerializable();
 theObject.Should().BeDataContractSerializable();
 ```
 
-Internally, `BeBinarySerializable` uses the [Object graph comparison](#object-graph-comparison) API, so if you are in need of excluding certain properties from the comparison (for instance, because its backing field is `[NonSerializable]`, you can do this:
+Internally, `BeBinarySerializable` uses the [Object graph comparison](objectgraphs.md) API, so if you are in need of excluding certain properties from the comparison (for instance, because its backing field is `[NonSerializable]`, you can do this:
 
 ```csharp
 theObject.Should().BeBinarySerializable<MyClass>(
