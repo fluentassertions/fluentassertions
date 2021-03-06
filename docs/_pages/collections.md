@@ -178,6 +178,6 @@ var collection = new []
 };
 
 collection.Should().Satisfy(
-    _ => _.Id == 2 && _.Name == "Jane" && _.Attributes == null,
-    _ => _.Id == 1 && _.Name == "John" && _.Attributes != null && _.Attributes.Length > 0);
+    _ => e.Id == 2 && e.Name == "Jane" && e.Attributes == null,
+    _ => e.Id == 1 && e.Name == "John" && e.Attributes != null && e.Attributes.Length > 0);
 ```

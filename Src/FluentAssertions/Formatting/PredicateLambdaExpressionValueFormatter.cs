@@ -21,7 +21,7 @@ namespace FluentAssertions.Formatting
             if (reducedExpression is BinaryExpression binaryExpression && binaryExpression.NodeType == ExpressionType.AndAlso)
             {
                 var subExpressions = ExtractChainOfExpressionsJoinedWithAndOperator(binaryExpression);
-                return string.Join(" AndAlso ", subExpressions.Select(_ => _.ToString()));
+                return string.Join(" AndAlso ", subExpressions.Select(e => e.ToString()));
             }
 
             return reducedExpression.ToString();

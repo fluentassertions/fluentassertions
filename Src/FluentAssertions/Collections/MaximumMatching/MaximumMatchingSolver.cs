@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FluentAssertions.Collections.MaximumMatching
@@ -115,7 +116,7 @@ namespace FluentAssertions.Collections.MaximumMatching
 
             public IEnumerator<Match> GetEnumerator() => matchesByElement.Values.GetEnumerator();
 
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => matchesByElement.Values.GetEnumerator();
+            IEnumerator IEnumerable.GetEnumerator() => matchesByElement.Values.GetEnumerator();
         }
 
         private class BreadthFirstSearchTracker
