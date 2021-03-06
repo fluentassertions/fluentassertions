@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using FluentAssertions.Collections.MaximumMatching;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Formatting;
@@ -821,27 +822,26 @@ namespace FluentAssertions.Collections
                 .Then
                 .ClearExpectation();
 
-            var elements = Subject.ConvertOrCastToList();
-            var maximumMatchingSolution = new MaximumMatchingProblem<T>(predicatesList, elements).Solve();
+            var maximumMatchingSolution = new MaximumMatchingProblem<T>(predicatesList, Subject).Solve();
 
             if (maximumMatchingSolution.UnmatchedPredicatesExist || maximumMatchingSolution.UnmatchedElementsExist)
             {
                 string message = string.Empty;
                 var doubleNewLine = Environment.NewLine + Environment.NewLine;
 
-                var notMatchedPredicates = maximumMatchingSolution.GetUnmatchedPredicates();
-                if (notMatchedPredicates.Any())
+                var unmatchedPredicates = maximumMatchingSolution.GetUnmatchedPredicates();
+                if (unmatchedPredicates.Any())
                 {
                     message += doubleNewLine + "The following predicates did not have matching elements:";
-                    message += doubleNewLine + string.Join(Environment.NewLine, notMatchedPredicates.Select(predicate => Formatter.ToString(predicate)));
+                    message += doubleNewLine + string.Join(Environment.NewLine, unmatchedPredicates.Select(predicate => Formatter.ToString(predicate.Expression)));
                 }
 
-                var notMatchedElementIndices = maximumMatchingSolution.GetUnmatchedElementIndices();
-                if (notMatchedElementIndices.Any())
+                var unmatchedElements = maximumMatchingSolution.GetUnmatchedElements();
+                if (unmatchedElements.Any())
                 {
                     message += doubleNewLine + "The following elements did not match any predicate:";
 
-                    var elementDescriptions = notMatchedElementIndices.Select(index => $"Index: {index}, Element: {Formatter.ToString(elements[index])}");
+                    var elementDescriptions = unmatchedElements.Select(element => $"Index: {element.Index}, Element: {Formatter.ToString(element.Value)}");
                     message += doubleNewLine + string.Join(doubleNewLine, elementDescriptions);
                 }
 

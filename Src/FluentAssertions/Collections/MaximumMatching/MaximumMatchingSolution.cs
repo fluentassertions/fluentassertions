@@ -13,29 +13,29 @@ namespace FluentAssertions.Collections.MaximumMatching
     /// <typeparam name="TElement">The type of elements which must be matched with predicates.</typeparam>
     internal class MaximumMatchingSolution<TElement>
     {
-        private readonly Dictionary<IndexedPredicate<TElement>, IndexedElement<TElement>> matchedElementsByPredicates;
+        private readonly Dictionary<IndexedPredicate<TElement>, IndexedElement<TElement>> elementsByMatchedPredicate;
         private readonly MaximumMatchingProblem<TElement> problem;
 
         public MaximumMatchingSolution(
             MaximumMatchingProblem<TElement> problem,
-            Dictionary<IndexedPredicate<TElement>, IndexedElement<TElement>> matchedElementsByPredicates)
+            Dictionary<IndexedPredicate<TElement>, IndexedElement<TElement>> elementsByMatchedPredicate)
         {
             this.problem = problem;
-            this.matchedElementsByPredicates = matchedElementsByPredicates;
+            this.elementsByMatchedPredicate = elementsByMatchedPredicate;
         }
 
-        public bool UnmatchedPredicatesExist => problem.Predicates.Count != matchedElementsByPredicates.Count;
+        public bool UnmatchedPredicatesExist => problem.Predicates.Count != elementsByMatchedPredicate.Count;
 
-        public bool UnmatchedElementsExist => problem.Elements.Count != matchedElementsByPredicates.Count;
+        public bool UnmatchedElementsExist => problem.Elements.Count != elementsByMatchedPredicate.Count;
 
         public List<IndexedPredicate<TElement>> GetUnmatchedPredicates()
         {
-            return problem.Predicates.Except(matchedElementsByPredicates.Keys).ToList();
+            return problem.Predicates.Except(elementsByMatchedPredicate.Keys).ToList();
         }
 
         public List<IndexedElement<TElement>> GetUnmatchedElements()
         {
-            return problem.Elements.Except(matchedElementsByPredicates.Values).ToList();
+            return problem.Elements.Except(elementsByMatchedPredicate.Values).ToList();
         }
     }
 }

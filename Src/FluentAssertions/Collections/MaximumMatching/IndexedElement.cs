@@ -6,7 +6,7 @@ namespace FluentAssertions.Collections.MaximumMatching
 {
     internal class IndexedElement<TElement>
     {
-        public IndexedElement(int index, TElement value)
+        public IndexedElement(TElement value, int index)
         {
             Index = index;
             Value = value;

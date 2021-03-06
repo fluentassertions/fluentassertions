@@ -18,15 +18,10 @@ namespace FluentAssertions.Collections.MaximumMatching
             this.problem = problem;
         }
 
+        /// <summary>
+        /// Solves the maximum matching problem;
+        /// </summary>
         public MaximumMatchingSolution<TElement> Solve()
-        {
-            AssignmentCollection assignmentCollection = FindMaximumMatching();
-
-
-            return new MaximumMatchingSolution<TElement>(problem, );
-        }
-
-        private AssignmentCollection FindMaximumMatching()
         {
             var assignments = new AssignmentCollection();
 
@@ -38,7 +33,11 @@ namespace FluentAssertions.Collections.MaximumMatching
                 assignments.UpdateFrom(newAssignments);
             }
 
-            return assignments;
+            var elementsByMatchedPredicate = assignments.ToDictionary(
+                assignment => problem.Predicates[assignment.Predicate],
+                assignment => problem.Elements[assignment.Element]);
+
+            return new MaximumMatchingSolution<TElement>(problem, elementsByMatchedPredicate);
         }
 
         /// <summary>

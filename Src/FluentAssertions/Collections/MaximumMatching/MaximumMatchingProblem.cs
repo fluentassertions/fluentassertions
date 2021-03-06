@@ -16,31 +16,17 @@ namespace FluentAssertions.Collections.MaximumMatching
     internal class MaximumMatchingProblem<TElement>
     {
         public MaximumMatchingProblem(
-            IList<Expression<Func<TElement, bool>>> predicates,
-            IList<TElement> elements)
+            IEnumerable<Expression<Func<TElement, bool>>> predicates,
+            IEnumerable<TElement> elements)
         {
-            Predicates = new();
-
-            for (int i = 0; i < predicates.Count; i++)
-            {
-                Predicates.Add(new IndexedPredicate<TElement>(i, predicates[i]));
-            }
-
-            Elements = new();
-
-            for (int i = 0; i < elements.Count; i++)
-            {
-                Elements.Add(new IndexedElement<TElement>(i, elements[i]));
-            }
+            Predicates.AddRange(predicates.Select((predicate, index) => new IndexedPredicate<TElement>(predicate, index)));
+            Elements.AddRange(elements.Select((element, index) => new IndexedElement<TElement>(element, index)));
         }
 
-        public List<IndexedPredicate<TElement>> Predicates { get; }
+        public List<IndexedPredicate<TElement>> Predicates { get; } = new();
 
-        public List<IndexedElement<TElement>> Elements { get; }
+        public List<IndexedElement<TElement>> Elements { get; } = new();
 
-        public MaximumMatchingSolution<TElement> Solve()
-        {
-
-        }
+        public MaximumMatchingSolution<TElement> Solve() => new MaximumMatchingSolver<TElement>(this).Solve();
     }
 }
