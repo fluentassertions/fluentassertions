@@ -11,9 +11,7 @@ See https://www.fluentassertions.com for background information, usage documenta
 Install Visual Studio 2019 or JetBrains Rider 2017.1 and Build Tools 2017 and run
 
 # What are these Approval.Tests?
-This is a special set of tests that use the [ApprovalTests.Net](https://github.com/approvals/ApprovalTests.Net) project to verify whether you've introduced any breaking changes in the public API of the library.
-By default, the right reporter is selected based on the run-time environment (e.g. Visual Studio diff viewer, Rider's diff viewer, etc).
-You can change that by setting the environment variable `ApiApproval.Reporter` to the (fully-qualified) name of [one of the implementations](https://github.com/approvals/ApprovalTests.Net/tree/master/src/ApprovalTests/Reporters) of `IApprovalFailureReporter`.
+This is a special set of tests that use the [Verify](https://github.com/VerifyTests/Verify) project to verify whether you've introduced any breaking changes in the public API of the library.
 
 If you've verified the changes and decided they are valid, you can accept them  using `AcceptApiChanges.ps1` or `AcceptApiChanges.sh`.
 See also the [Contribution Guidelines.](CONTRIBUTING.md).
