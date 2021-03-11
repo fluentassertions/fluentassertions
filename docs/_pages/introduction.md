@@ -88,7 +88,7 @@ This will throw a test framework-specific exception with the following message:
 
 `Expected username to be "jonas" with a length of 5, but "dennis" has a length of 6, differs near "den" (index 0).`
 
-The way this works is that Fluent Assertions will try to traverse the current stack trace to find the line and column numbers as well as the full path to the source file. Since it needs the debug symbols for that, this will require you to compile the unit tests in debug mode, even on your build servers. Also, since only .NET Standard 2.0 and the full .NET Framework support getting direct access to the current stack trace, subject identification only works for the platforms targeting those frameworks.
+The way this works is that Fluent Assertions will try to traverse the current stack trace to find the line and column numbers as well as the full path to the source file. Since it needs the debug symbols for that, this will require you to compile the unit tests in debug mode, even on your build servers. Also, since only .NET Standard 2.0 and newer as well as the full .NET Framework support getting direct access to the current stack trace, subject identification only works for the platforms targeting those frameworks.
 
 Now, if you've built your own extensions that use Fluent Assertions directly, you can tell it to skip that extension code while traversing the stack trace. Consider for example the customer assertion:
 
