@@ -245,7 +245,7 @@ With configuration:
 - Be strict about the order of items in byte arrays
 ```
 
-However, sometimes that's not enough. For those scenarios where you need to understand a but more, you can add the `WithTracing` option. When added to the assertion call, it would extend the above output with something like this:
+However, sometimes that's not enough. For those scenarios where you need to understand a bit more, you can add the `WithTracing` option. When added to the assertion call, it would extend the above output with something like this:
 
 ```
 With trace:
