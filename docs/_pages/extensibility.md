@@ -118,7 +118,7 @@ public class DirectoryInfoValueFormatter : IValueFormatter
         return value is DirectoryInfo;
     }
 
-    public string Format(object value, FormattingContext context, FormatChild formatChild);
+    public string Format(object value, FormattingContext context, FormatChild formatChild)
     {
         string newline = context.UseLineBreaks ? Environment.NewLine : "";
         string padding = new string('\t', context.Depth);
