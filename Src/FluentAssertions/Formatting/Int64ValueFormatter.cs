@@ -16,10 +16,9 @@ namespace FluentAssertions.Formatting
             return value is long;
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
-            return ((long)value).ToString(CultureInfo.InvariantCulture) + "L";
+            formattedGraph.AddFragment(((long)value).ToString(CultureInfo.InvariantCulture) + "L");
         }
     }
 }

@@ -343,8 +343,8 @@ namespace FluentAssertions.Specs.Primitives
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected subject to be*FluentAssertions*SomeDto*{*Age = 2*Birthdate = <2009-02-22>*" +
-                    "   Name = \"Teddie\"*}, but found*FluentAssertions*SomeDto*{*Age = 37*" +
-                        "   Birthdate = <1973-09-20>*Name = \"Dennis\"*}.");
+                    "  Name = \"Teddie\"*}, but found*FluentAssertions*SomeDto*{*Age = 37*" +
+                        "  Birthdate = <1973-09-20>*Name = \"Dennis\"*}.");
         }
 
         [Fact]

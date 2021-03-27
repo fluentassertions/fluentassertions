@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 
 namespace FluentAssertions.Formatting
 {
@@ -16,27 +17,26 @@ namespace FluentAssertions.Formatting
             return value is float;
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
             float singleValue = (float)value;
 
             if (float.IsPositiveInfinity(singleValue))
             {
-                return typeof(float).Name + "." + nameof(float.PositiveInfinity);
+                formattedGraph.AddFragment(nameof(Single) + "." + nameof(float.PositiveInfinity));
             }
-
-            if (float.IsNegativeInfinity(singleValue))
+            else if (float.IsNegativeInfinity(singleValue))
             {
-                return typeof(float).Name + "." + nameof(float.NegativeInfinity);
+                formattedGraph.AddFragment(nameof(Single) + "." + nameof(float.NegativeInfinity));
             }
-
-            if (float.IsNaN(singleValue))
+            else if (float.IsNaN(singleValue))
             {
-                return singleValue.ToString(CultureInfo.InvariantCulture);
+                formattedGraph.AddFragment(singleValue.ToString(CultureInfo.InvariantCulture));
             }
-
-            return singleValue.ToString("R", CultureInfo.InvariantCulture) + "F";
+            else
+            {
+                formattedGraph.AddFragment(singleValue.ToString("R", CultureInfo.InvariantCulture) + "F");
+            }
         }
     }
 }

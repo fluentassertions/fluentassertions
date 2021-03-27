@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
-using System.Text;
 
 namespace FluentAssertions.Formatting
 {
@@ -19,17 +18,15 @@ namespace FluentAssertions.Formatting
             return value is Array arr && arr.Rank >= 2;
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
             var arr = (Array)value;
 
             if (arr.Length == 0)
             {
-                return "{empty}";
+                formattedGraph.AddFragment("{empty}");
+                return;
             }
-
-            var sb = new StringBuilder();
 
             int[] dimensionIndices = Enumerable.Range(0, arr.Rank).Select(dimension => arr.GetLowerBound(dimension)).ToArray();
 
@@ -43,16 +40,16 @@ namespace FluentAssertions.Formatting
 
                 if (IsFirstIteration(arr, currentDimensionIndex, currentLoopIndex))
                 {
-                    sb.Append('{');
+                    formattedGraph.AddFragment("{");
                 }
 
                 if (IsInnerMostLoop(arr, currentLoopIndex))
                 {
                     enumerator.MoveNext();
-                    sb.Append(formatChild(string.Join("-", dimensionIndices), enumerator.Current));
+                    formatChild(string.Join("-", dimensionIndices), enumerator.Current, formattedGraph);
                     if (!IsLastIteration(arr, currentDimensionIndex, currentLoopIndex))
                     {
-                        sb.Append(", ");
+                        formattedGraph.AddFragment(", ");
                     }
 
                     ++dimensionIndices[currentLoopIndex];
@@ -65,7 +62,7 @@ namespace FluentAssertions.Formatting
 
                 while (IsLastIteration(arr, currentDimensionIndex, currentLoopIndex))
                 {
-                    sb.Append('}');
+                    formattedGraph.AddFragment("}");
 
                     // Reset current loop's variable to start value ...and move to outer loop
                     dimensionIndices[currentLoopIndex] = arr.GetLowerBound(currentLoopIndex);
@@ -79,14 +76,12 @@ namespace FluentAssertions.Formatting
                     currentDimensionIndex = dimensionIndices[currentLoopIndex];
                     if (!IsLastIteration(arr, currentDimensionIndex, currentLoopIndex))
                     {
-                        sb.Append(", ");
+                        formattedGraph.AddFragment(", ");
                     }
 
                     ++dimensionIndices[currentLoopIndex];
                 }
             }
-
-            return sb.ToString();
         }
 
         private static bool IsFirstIteration(Array arr, int index, int dimension)

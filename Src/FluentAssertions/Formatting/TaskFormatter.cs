@@ -13,15 +13,16 @@ namespace FluentAssertions.Formatting
             return value is Task;
         }
 
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
             if (value is Task task)
             {
-                return $"{formatChild("type", task.GetType())} {{Status={task.Status}}}";
+                formatChild("type", task.GetType(), formattedGraph);
+                formattedGraph.AddFragment($" {{Status={task.Status}}}");
             }
             else
             {
-                return "<null>";
+                formattedGraph.AddFragment("<null>");
             }
         }
     }

@@ -16,10 +16,9 @@ namespace FluentAssertions.Formatting
             return value is int;
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
-            return ((int)value).ToString(CultureInfo.InvariantCulture);
+            formattedGraph.AddFragment(((int)value).ToString(CultureInfo.InvariantCulture));
         }
     }
 }

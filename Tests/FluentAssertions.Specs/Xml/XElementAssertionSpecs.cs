@@ -843,7 +843,7 @@ namespace FluentAssertions.Specs.Xml
 
             // Act
             Action act = () =>
-                theElement.Should().HaveAttribute(XName.Get("name", "http://www.example.com/2012/test"), "dennis",
+                 theElement.Should().HaveAttribute(XName.Get("name", "http://www.example.com/2012/test"), "dennis",
                     "because we want to test the failure {0}", "message");
 
             // Assert

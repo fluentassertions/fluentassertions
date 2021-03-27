@@ -316,6 +316,7 @@ namespace FluentAssertions.Specs
                 {
                     AssertionOptions.FormattingOptions.UseLineBreaks = true;
                     AssertionOptions.FormattingOptions.MaxDepth = 123;
+                    AssertionOptions.FormattingOptions.MaxLines = 33;
                 });
             }
 
@@ -324,12 +325,14 @@ namespace FluentAssertions.Specs
             {
                 AssertionScope.Current.FormattingOptions.UseLineBreaks.Should().BeTrue();
                 AssertionScope.Current.FormattingOptions.MaxDepth.Should().Be(123);
+                AssertionScope.Current.FormattingOptions.MaxLines.Should().Be(33);
             }
 
             protected override void Dispose(bool disposing)
             {
                 AssertionOptions.FormattingOptions.MaxDepth = oldSettings.MaxDepth;
                 AssertionOptions.FormattingOptions.UseLineBreaks = oldSettings.UseLineBreaks;
+                AssertionOptions.FormattingOptions.MaxLines = oldSettings.MaxLines;
 
                 base.Dispose(disposing);
             }

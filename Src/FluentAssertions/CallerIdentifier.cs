@@ -131,7 +131,7 @@ namespace FluentAssertions
             int startOfSecondFluentAssertionsScopeStackFrameIndex = Array.FindIndex(
                 allStackFrames,
                 startIndex: firstNonFluentAssertionsStackFrameIndex + 1,
-                frame => IsCurrentAssembly(frame));
+                IsCurrentAssembly);
 
             return startOfSecondFluentAssertionsScopeStackFrameIndex < 0;
         }
@@ -148,7 +148,7 @@ namespace FluentAssertions
 
         private static bool IsCurrentAssembly(StackFrame frame)
         {
-            return frame.GetMethod().DeclaringType.Assembly == typeof(CallerIdentifier).Assembly;
+            return frame.GetMethod().DeclaringType?.Assembly == typeof(CallerIdentifier).Assembly;
         }
 
         private static bool IsDotNet(StackFrame frame)
@@ -162,7 +162,7 @@ namespace FluentAssertions
 
         private static bool IsCompilerServices(StackFrame frame)
         {
-            return frame.GetMethod().DeclaringType.Namespace == "System.Runtime.CompilerServices";
+            return frame.GetMethod().DeclaringType?.Namespace == "System.Runtime.CompilerServices";
         }
 
         private static string ExtractVariableNameFrom(StackFrame frame)

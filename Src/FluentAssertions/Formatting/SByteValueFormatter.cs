@@ -16,10 +16,9 @@ namespace FluentAssertions.Formatting
             return value is sbyte;
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
-            return ((sbyte)value).ToString(CultureInfo.InvariantCulture) + "y";
+            formattedGraph.AddFragment(((sbyte)value).ToString(CultureInfo.InvariantCulture) + "y");
         }
     }
 }

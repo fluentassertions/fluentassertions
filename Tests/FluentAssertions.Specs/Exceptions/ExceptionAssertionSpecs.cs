@@ -500,7 +500,7 @@ namespace FluentAssertions.Specs.Exceptions
 
         private static string BuildExpectedMessageForWithInnerExceptionExactly(string because, string innerExceptionMessage)
         {
-            var expectedMessage = $"{because} \"{innerExceptionMessage}\"\n.";
+            var expectedMessage = $"{because} \"{innerExceptionMessage}\".";
 
             return expectedMessage;
         }

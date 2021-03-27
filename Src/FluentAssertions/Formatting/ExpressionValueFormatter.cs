@@ -17,10 +17,9 @@ namespace FluentAssertions.Formatting
             return value is Expression;
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
-            return value.ToString().Replace(" = ", " == ", StringComparison.Ordinal);
+            formattedGraph.AddFragment(value.ToString().Replace(" = ", " == ", StringComparison.Ordinal));
         }
     }
 }

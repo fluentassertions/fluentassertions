@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -258,12 +259,35 @@ namespace FluentAssertions.Specs.Formatting
             // Act
             string result = Formatter.ToString(head, new FormattingOptions
             {
-                    // Each iteration adds two levels of depth to the graph
+                // Each iteration adds two levels of depth to the graph
                 MaxDepth = (iterations * 2) + 1
             });
 
             // Assert
             result.Should().NotContainEquivalentOf("maximum recursion depth");
+        }
+
+        [Fact]
+        public void When_formatting_a_collection_exceeds_the_max_line_count_it_should_cut_off_the_result()
+        {
+            // Arrange
+            var collection = Enumerable.Range(0, 20)
+                .Select(i => new StuffWithAField
+                {
+                    Description = $"Property {i}",
+                    Field = $"Field {i}",
+                    StuffId = i
+                })
+                .ToArray();
+
+            // Act
+            string result = Formatter.ToString(collection, new FormattingOptions
+            {
+                MaxLines = 50
+            });
+
+            // Assert
+            result.Should().Match("*Output has exceeded*50*line*");
         }
 
         [Fact]
@@ -769,27 +793,28 @@ namespace FluentAssertions.Specs.Formatting
             }
 
             [ValueFormatter]
-            public static string Foo(SomeClassWithCustomFormatter value)
+            public static void Foo(SomeClassWithCustomFormatter value, FormattedObjectGraph output)
             {
-                return "Property = " + value.Property;
+                output.AddFragment("Property = " + value.Property);
             }
 
             [ValueFormatter]
-            public static string Foo(SomeOtherClassWithCustomFormatter _)
+            [SuppressMessage("ReSharper", "CA1801")]
+            public static void Foo(SomeOtherClassWithCustomFormatter _, FormattedObjectGraph output)
             {
                 throw new XunitException("Should never be called");
             }
 
             [ValueFormatter]
-            public static string Foo(SomeClassInheritedFromClassWithCustomFormatterLvl2 value)
+            public static void Foo(SomeClassInheritedFromClassWithCustomFormatterLvl2 value, FormattedObjectGraph output)
             {
-                return "Property is " + value.Property;
+                output.AddFragment("Property is " + value.Property);
             }
 
             [ValueFormatter]
-            public static string Foo2(SomeClassInheritedFromClassWithCustomFormatterLvl2 value)
+            public static void Foo2(SomeClassInheritedFromClassWithCustomFormatterLvl2 value, FormattedObjectGraph output)
             {
-                return "Property is " + value.Property;
+                output.AddFragment("Property is " + value.Property);
             }
         }
 
@@ -808,7 +833,7 @@ namespace FluentAssertions.Specs.Formatting
             str.Should().Match(
 "*CustomClass" + Environment.NewLine +
 "{" + Environment.NewLine +
-"        IntProperty = 0" + Environment.NewLine +
+"    IntProperty = 0" + Environment.NewLine +
 "}*");
         }
 
@@ -852,13 +877,12 @@ namespace FluentAssertions.Specs.Formatting
             // Act
             string str = Formatter.ToString(values);
 
-            // Assert
             str.Should().Match(
-"{FluentAssertions*FormatterSpecs+CustomClass" + Environment.NewLine +
-"   {" + Environment.NewLine +
-"      IntProperty = 1" + Environment.NewLine +
-"      StringProperty = <null>" + Environment.NewLine +
-"   }, …1 more…}*");
+"{*FluentAssertions*FormatterSpecs+CustomClass" + Environment.NewLine +
+"    {" + Environment.NewLine +
+"        IntProperty = 1, " + Environment.NewLine +
+"        StringProperty = <null>" + Environment.NewLine +
+"    },*…1 more…*}*");
         }
 
         private class SingleItemValueFormatter : EnumerableValueFormatter

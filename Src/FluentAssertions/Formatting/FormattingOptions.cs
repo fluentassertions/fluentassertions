@@ -15,12 +15,21 @@
         /// </value>
         public int MaxDepth { get; set; } = 5;
 
-        public FormattingOptions Clone()
+        /// <summary>
+        /// Sets the maximum number of lines of the failure message.
+        /// </summary>
+        /// <remarks>
+        /// Because of technical reasons, the actual output may be one or two lines longer.
+        /// </remarks>
+        public int MaxLines { get; set; } = 100;
+
+        internal FormattingOptions Clone()
         {
             return new()
             {
                 UseLineBreaks = UseLineBreaks,
-                MaxDepth = MaxDepth
+                MaxDepth = MaxDepth,
+                MaxLines = MaxLines
             };
         }
     }
