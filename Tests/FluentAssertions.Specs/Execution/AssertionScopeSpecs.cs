@@ -643,6 +643,52 @@ namespace FluentAssertions.Specs.Execution
                 .WithMessage("*SomeValue*AnotherValue*");
         }
 
+        [Fact]
+        public void When_using_a_deferred_reportable_value_it_is_not_calculated_if_there_are_no_failures()
+        {
+            // Arrange
+            var scope = new AssertionScope();
+            var deferredValueInvoked = false;
+
+            scope.AddDeferredReportable("MyKey", () =>
+            {
+                deferredValueInvoked = true;
+
+                return "MyValue";
+            });
+
+            // Act
+            scope.Dispose();
+
+            // Assert
+            deferredValueInvoked.Should().BeFalse();
+        }
+
+        [Fact]
+        public void When_using_a_deferred_reportable_value_it_is_calculated_if_there_is_a_failure()
+        {
+            // Arrange
+            var scope = new AssertionScope();
+            var deferredValueInvoked = false;
+
+            scope.AddDeferredReportable("MyKey", () =>
+            {
+                deferredValueInvoked = true;
+
+                return "MyValue";
+            });
+
+            AssertionScope.Current.FailWith("{MyKey}");
+
+            // Act
+            Action act = scope.Dispose;
+
+            // Assert
+            act.Should().ThrowExactly<XunitException>()
+                .WithMessage("*MyValue*");
+            deferredValueInvoked.Should().BeTrue();
+        }
+
         #endregion
 
         #region Chaining API

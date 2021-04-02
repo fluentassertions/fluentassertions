@@ -1150,6 +1150,7 @@ namespace FluentAssertions.Execution
         public bool Succeeded { get; }
         public FluentAssertions.Execution.AssertionScope UsingLineBreaks { get; }
         public static FluentAssertions.Execution.AssertionScope Current { get; }
+        public void AddDeferredReportable(string key, System.Func<string> valueFunc) { }
         public void AddNonReportable(string key, object value) { }
         public void AddPreFormattedFailure(string formattedFailureMessage) { }
         public void AddReportable(string key, string value) { }

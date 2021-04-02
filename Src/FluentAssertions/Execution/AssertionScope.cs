@@ -29,6 +29,18 @@ namespace FluentAssertions.Execution
         private string fallbackIdentifier = "object";
         private bool? succeeded;
 
+        private sealed class DeferredReportable
+        {
+            private readonly Lazy<string> lazyValue;
+
+            public DeferredReportable(Func<string> valueFunc)
+            {
+                this.lazyValue = new(valueFunc);
+            }
+
+            public override string ToString() => lazyValue.Value;
+        }
+
         #endregion
 
         /// <summary>
@@ -326,6 +338,15 @@ namespace FluentAssertions.Execution
         public void AddReportable(string key, string value)
         {
             contextData.Add(new ContextDataItems.DataItem(key, value, reportable: true, requiresFormatting: false));
+        }
+
+        /// <summary>
+        /// Adds some information to the assertion scope that will be included in the message
+        /// that is emitted if an assertion fails. The value is only calculated on failure.
+        /// </summary>
+        public void AddDeferredReportable(string key, Func<string> valueFunc)
+        {
+            contextData.Add(new ContextDataItems.DataItem(key, new DeferredReportable(valueFunc), reportable: true, requiresFormatting: false));
         }
 
         public string[] Discard()
