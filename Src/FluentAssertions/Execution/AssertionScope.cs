@@ -170,7 +170,7 @@ namespace FluentAssertions.Execution
         /// In addition to the numbered <see cref="string.Format(string,object[])"/>-style placeholders, messages may contain a few
         /// specialized placeholders as well. For instance, {reason} will be replaced with the reason of the assertion as passed
         /// to <see cref="BecauseOf(FluentAssertions.Execution.Reason)"/>. Other named placeholders will be replaced with the <see cref="Current"/> scope data
-        /// passed through <see cref="AddNonReportable"/> and <see cref="AddReportable"/>. Finally, a description of the
+        /// passed through <see cref="AddNonReportable"/> and <see cref="AddReportable(string,string)"/>. Finally, a description of the
         /// current subject can be passed through the {context:description} placeholder. This is used in the message if no
         /// explicit context is specified through the <see cref="AssertionScope"/> constructor.
         /// Note that only 10 <paramref name="args"/> are supported in combination with a {reason}.
@@ -344,7 +344,7 @@ namespace FluentAssertions.Execution
         /// Adds some information to the assertion scope that will be included in the message
         /// that is emitted if an assertion fails. The value is only calculated on failure.
         /// </summary>
-        public void AddDeferredReportable(string key, Func<string> valueFunc)
+        public void AddReportable(string key, Func<string> valueFunc)
         {
             contextData.Add(new ContextDataItems.DataItem(key, new DeferredReportable(valueFunc), reportable: true, requiresFormatting: false));
         }

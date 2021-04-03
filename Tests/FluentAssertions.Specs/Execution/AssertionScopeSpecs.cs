@@ -650,7 +650,7 @@ namespace FluentAssertions.Specs.Execution
             var scope = new AssertionScope();
             var deferredValueInvoked = false;
 
-            scope.AddDeferredReportable("MyKey", () =>
+            scope.AddReportable("MyKey", () =>
             {
                 deferredValueInvoked = true;
 
@@ -671,7 +671,7 @@ namespace FluentAssertions.Specs.Execution
             var scope = new AssertionScope();
             var deferredValueInvoked = false;
 
-            scope.AddDeferredReportable("MyKey", () =>
+            scope.AddReportable("MyKey", () =>
             {
                 deferredValueInvoked = true;
 
