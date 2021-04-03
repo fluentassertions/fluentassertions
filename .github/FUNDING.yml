@@ -1,4 +1,6 @@
 # These are supported funding model platforms
 
+github: dennisdoomen
+ko_fi: dennisdoomen
 patreon: fluentassertions
-custom: ['https://paypal.me/fluentassertions']
+custom: ["https://paypal.me/fluentassertions", PayPal]
