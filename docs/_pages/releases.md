@@ -16,6 +16,7 @@ sidebar:
 * Added `WithResult` extension method to `CompleteWithinAsync` assertions for `Task<T>` and `TaskCompletionSource<T>` - [#1478](https://github.com/fluentassertions/fluentassertions/pull/1478).
 * Added `Satisfy` to be able to compare a collection with a set of predicates in any order - [#1500](https://github.com/fluentassertions/fluentassertions/pull/1500).
 * Added milliseconds formatting for error messages including `TimeSpan` - [#1504](https://github.com/fluentassertions/fluentassertions/pull/1504).
+* Added `AddReportable` overload to `AssertionScope` for deferring reportable value calculation only on a test failure - [#1515](https://github.com/fluentassertions/fluentassertions/pull/1515).
 
 **Fixes**
 * Sometimes `BeEquivalentTo` reported an incorrect message when a dictionary was missing a key - [#1454](https://github.com/fluentassertions/fluentassertions/pull/1454)
