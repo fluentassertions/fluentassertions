@@ -83,7 +83,7 @@ namespace FluentAssertions.Equivalency
             }
 
             AssertionScope.Current.FailWith(
-                "{{context:Expectation}} implements multiple dictionary types.  "
+                "{context:Expectation} implements multiple dictionary types.  "
              + $"It is not known which type should be use for equivalence.{Environment.NewLine}"
              + $"The following IDictionary interfaces are implemented: {string.Join(", ", (IEnumerable<Type>)interfaces)}");
 
