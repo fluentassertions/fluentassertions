@@ -527,14 +527,15 @@ namespace FluentAssertions.Specs.Equivalency
         public void When_an_object_implements_two_IDictionary_interfaces_it_should_fail_descriptively()
         {
             // Arrange
-            var object1 = new ClassWithTwoDictionaryImplementations();
-            var object2 = new ClassWithTwoDictionaryImplementations();
+            var object1 = (object)new ClassWithTwoDictionaryImplementations();
+            var object2 = (object)new ClassWithTwoDictionaryImplementations();
 
             // Act
             Action act = () => object1.Should().BeEquivalentTo(object2);
 
             // Assert
-            act.Should().NotThrow();
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Object1*implements multiple dictionary types*");
         }
 
         [Fact]
