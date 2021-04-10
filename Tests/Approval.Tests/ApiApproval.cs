@@ -26,7 +26,7 @@ namespace Approval.Tests
         public Task ApproveApi(string frameworkVersion)
         {
             VerifierSettings.DisableClipboard();
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            string codeBase = Assembly.GetExecutingAssembly().Location;
             var uri = new UriBuilder(new Uri(codeBase));
             string assemblyPath = Uri.UnescapeDataString(uri.Path);
             var containingDirectory = Path.GetDirectoryName(assemblyPath);
