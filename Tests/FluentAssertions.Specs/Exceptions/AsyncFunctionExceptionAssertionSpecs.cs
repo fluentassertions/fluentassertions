@@ -352,7 +352,7 @@ namespace FluentAssertions.Specs.Exceptions
         }
 
         [Fact]
-        public async Task When_async_method_throws_expected_exception__through_ValueTask_it_should_succeed()
+        public async Task When_async_method_throws_expected_exception_through_ValueTask_it_should_succeed()
         {
             // Arrange
             var asyncObject = new AsyncClass();

@@ -116,7 +116,7 @@ namespace FluentAssertions.Specs.Specialized
         }
 
         [Fact]
-        public void When_the_execution_time_of_an_action_is_not_less_than_a_limit__it_should_throw()
+        public void When_the_execution_time_of_an_action_is_not_less_than_a_limit_it_should_throw()
         {
             // Arrange
             Action someAction = () => Thread.Sleep(510);
@@ -130,7 +130,7 @@ namespace FluentAssertions.Specs.Specialized
         }
 
         [Fact]
-        public void When_the_execution_time_of_an_async_action_is_not_less_than_a_limit__it_should_throw()
+        public void When_the_execution_time_of_an_async_action_is_not_less_than_a_limit_it_should_throw()
         {
             // Arrange
             Func<Task> someAction = () => Task.Delay(TimeSpan.FromMilliseconds(150));
@@ -294,7 +294,7 @@ namespace FluentAssertions.Specs.Specialized
         }
 
         [Fact]
-        public void When_the_execution_time_of_an_action_is_not_greater_than_a_limit__it_should_throw()
+        public void When_the_execution_time_of_an_action_is_not_greater_than_a_limit_it_should_throw()
         {
             // Arrange
             Action someAction = () => Thread.Sleep(100);
@@ -386,7 +386,7 @@ namespace FluentAssertions.Specs.Specialized
         }
 
         [Fact]
-        public void When_the_execution_time_of_an_action_is_not_close_to_a_limit__it_should_throw()
+        public void When_the_execution_time_of_an_action_is_not_close_to_a_limit_it_should_throw()
         {
             // Arrange
             Action someAction = () => Thread.Sleep(200);
