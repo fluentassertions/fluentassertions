@@ -62,7 +62,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(Subject == expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:the date and time} to be {0}{reason}, but it was {1}.",
-                    expected, Subject ?? default(DateTimeOffset?));
+                    expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -85,7 +85,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(Subject == expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:the date and time} to be {0}{reason}, but it was {1}.",
-                    expected, Subject ?? default(DateTimeOffset?));
+                    expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -221,7 +221,7 @@ namespace FluentAssertions.Primitives
                 .FailWith(
                     "Did not expect {context:the date and time} to be within {0} from {1}{reason}, but it was {2}.",
                     precision,
-                    distantTime, Subject ?? default(DateTimeOffset?));
+                    distantTime, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -244,7 +244,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) < 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:the date and time} to be before {0}{reason}, but it was {1}.", expected,
-                    Subject ?? default(DateTimeOffset?));
+                    Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -284,7 +284,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) <= 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:the date and time} to be on or before {0}{reason}, but it was {1}.", expected,
-                    Subject ?? default(DateTimeOffset?));
+                    Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -324,7 +324,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) > 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:the date and time} to be after {0}{reason}, but it was {1}.", expected,
-                    Subject ?? default(DateTimeOffset?));
+                    Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -364,7 +364,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) >= 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:the date and time} to be on or after {0}{reason}, but it was {1}.", expected,
-                    Subject ?? default(DateTimeOffset?));
+                    Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

@@ -285,7 +285,7 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:time} to be within {0} from {1}{reason}, but found {2}.",
                     precision,
-                    nearbyTime, Subject ?? default(TimeSpan?));
+                    nearbyTime, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -327,7 +327,7 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:time} to not be within {0} from {1}{reason}, but found {2}.",
                     precision,
-                    distantTime, Subject ?? default(TimeSpan?));
+                    distantTime, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
