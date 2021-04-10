@@ -27,7 +27,7 @@ namespace FluentAssertions.Common
 
         private static Func<char, char, bool> GetCharComparer(StringComparison stringComparison) =>
             stringComparison == StringComparison.Ordinal
-                ? (Func<char, char, bool>)((x, y) => x == y)
+                ? ((x, y) => x == y)
                 : (x, y) => char.ToUpperInvariant(x) == char.ToUpperInvariant(y);
 
         /// <summary>

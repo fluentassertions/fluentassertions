@@ -150,7 +150,7 @@ namespace FluentAssertions.Specs.Equivalency
                 }
 
                 PropertyInfo runtimeProperty = subject.GetType().GetRuntimeProperty(name);
-                return (runtimeProperty is not null) ? (IMember)new Property(runtimeProperty, parent) : null;
+                return (runtimeProperty is not null) ? new Property(runtimeProperty, parent) : null;
             }
         }
 
