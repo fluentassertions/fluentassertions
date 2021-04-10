@@ -52,7 +52,7 @@ If you want to compare two enums of different types, you can use `HaveSameValueA
 Lastly, if you want to verify than an enum has a specific integral value, you can use `HaveValue`.
 
 When comparing object graphs with enum members, we have constrained when we consider them to be equivalent.
-An enum is now only considered to be equivalent to an enum of the same of another type, but you can control whether they should equal by name or by value.
+An enum is now only considered to be equivalent to an enum of the same or another type, but you can control whether they should equal by name or by value.
 The practical implications are that the following examples now fails.
 ```cs
 var subject = new { Value = "One" };
@@ -142,6 +142,7 @@ subject.Should().BeEquivalentTo(expectation, opt => opt
     .WhenTypeIs<int?>()
 );
 ```
+
 ## Value Formatters ##
 
 Within Fluent Assertions, the `Formatter` class is responsible for rendering a textual representation of the objects involved in an assertion. Those objects can turn out to be entire graphs, especially when you use `BeEquivalentTo`. Rendering such a graph can be an expensive operation, so in 5.x we already had limits on how deep the `Formatter` would traverse the object graph. Because we received several performance-related issues, we decided to slightly redesign how implementations of `IValueFormatter` should work. This unfortunately required us to introduce some breaking changes in the signature of the `Format` method as well as some behavioral changes. You can read all about that in the updated [extensibility guide](/extensibility/#rendering-objects-with-beauty), but the gist of it is that instead of returning a `string`, you now need to use the `FormattedObjectGraph`, which acts like a kind of `StringBuilder`. For instance, this is what the `StringValueFormatter` now looks like:
@@ -161,3 +162,53 @@ public void Format(object value, FormattedObjectGraph formattedGraph, Formatting
     }
 }
 ```
+
+## Collections ##
+
+As part of embracing the generic type system and improving the maintainability of the code base, we have removed support for non-generic collections.
+The overload of `Should()` taking an `IEnumerable` has been removed and the new best matching overload of `Should` (from a compiler perspective) is now the one that returns an `ObjectAssertions`.
+
+```cs
+IEnumerable subject;
+
+subject.Should().HaveCount(42); // No longer compiles
+subject.Cast<object>().Should().HaveCount(42);
+```
+
+With Fluent Assertion 5.0 we [redefined equivalency](https://www.continuousimprover.com/2018/02/fluent-assertions-50-best-unit-test.html#redefining-equivalency) to let the expectation drive the comparison.
+If your expectation is an interface we will by default only compare the subset of members defined on the interface, but as always you can override it by using `RespectingRuntimeTypes`.
+To live up to this design we have removed `BeEquivalentTo(params object[])` as it discarded compile time type information about the expectation.
+
+In the example below all expectations are of type `I`, so `AA`, which is defined on `A`, should not be included in the comparison and all assertions should pass.
+
+```cs
+interface I
+{
+    int II { get; set; }
+}
+
+class A : I
+{
+    public int II { get; set; }
+    public int AA { get; set; }
+}
+
+A[] items = new[] { new A() { AA = 42 } };
+
+items.Should().BeEquivalentTo((I)new A()); // (1)
+items.Should().BeEquivalentTo(new I[] { new A() }); // (2)
+items.Should().BeEquivalentTo(new List<I> { new A() }); // (3)
+items.Should().BeEquivalentTo(new I[] { new A() }, opt => opt); // (4)
+```
+
+In Fluent Assertions 5.0 `(1)` and `(2)` both used the `BeEquivalentTo(params object[])` overload, which meant the expectation was seen as `object`s with runtime time `A` and now `AA` was unexpectedly included in the comparison.
+Case `(3)` works as expected, as `List<T>` is not implicitly convertible to `T[]` and the compiler picks `BeEquivalentTo(IEnumerable<I>)`, which retains the compile time information about the expectation being objects of type `I`.
+A case which led to some confusion among our users was that `(2)` changed behavior when adding assertion options, as shown in `(4)`, as `BeEquivalentTo(IEnumerable<T>, Func<EquivalencyAssertionOptions<I>>)` was now picked because `I[]` is implicitly covertible to `IEnumerable<I>`.
+
+You might ask if we could not just have changed the overload signature from `params object[]` to `params T[]` to solve the type problem while keeping the convient overload.
+The answer is no (as far as we know), as the compiler prefers resolving e.g. `IEnumerable<T>` to `params IEnumerable<T>[]` over `IEnumerable<T>`.
+
+For Fluent Assertions 6.0 the implications of this are that `(1)` no longer compiles, as `BeEquivalentTo` takes an `IEnumerable<T>`, but `(2)` now works as expected.
+
+// performance boxing
+// losing types
