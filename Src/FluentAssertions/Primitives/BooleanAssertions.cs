@@ -87,7 +87,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> Be(bool expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.HasValue && Subject.Value == expected)
+                .ForCondition(Subject == expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:boolean} to be {0}{reason}, but found {1}.", expected, Subject);
 
@@ -108,7 +108,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> NotBe(bool unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!Subject.HasValue || (Subject.Value != unexpected))
+                .ForCondition(Subject != unexpected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:boolean} not to be {0}{reason}, but found {1}.", unexpected, Subject);
 

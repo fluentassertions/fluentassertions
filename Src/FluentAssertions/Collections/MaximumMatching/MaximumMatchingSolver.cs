@@ -110,7 +110,7 @@ namespace FluentAssertions.Collections.MaximumMatching
             public Predicate<TValue> GetMatchedPredicate(Element<TValue> element)
             {
                 return matchesByElement[element].Predicate;
-            }                
+            }
 
             public bool Contains(Element<TValue> element) => matchesByElement.ContainsKey(element);
 

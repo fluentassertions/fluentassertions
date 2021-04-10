@@ -210,7 +210,7 @@ namespace FluentAssertions.Execution
 
         public GivenSelector<T> Given<T>(Func<T> selector)
         {
-            return new GivenSelector<T>(selector, this, continueAsserting: !succeeded.HasValue || succeeded.Value);
+            return new GivenSelector<T>(selector, this, continueAsserting: succeeded != false);
         }
 
         public AssertionScope ForCondition(bool condition)
@@ -255,7 +255,7 @@ namespace FluentAssertions.Execution
         {
             try
             {
-                bool failed = !succeeded.HasValue || !succeeded.Value;
+                bool failed = succeeded != true;
                 if (failed)
                 {
                     string result = failReasonFunc();
