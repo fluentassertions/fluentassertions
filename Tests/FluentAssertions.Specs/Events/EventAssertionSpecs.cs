@@ -1,4 +1,4 @@
-﻿#if NET47
+﻿#if NETFRAMEWORK
 using System.Reflection;
 using System.Reflection.Emit;
 #endif
@@ -658,7 +658,7 @@ namespace FluentAssertions.Specs.Events
             });
         }
 
-#if NET47 // DefineDynamicAssembly is obsolete in .NET Core
+#if NETFRAMEWORK // DefineDynamicAssembly is obsolete in .NET Core
         [Fact]
         public void When_an_object_doesnt_expose_any_events_it_should_throw()
         {

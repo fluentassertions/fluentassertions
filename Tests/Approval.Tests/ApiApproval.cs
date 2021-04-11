@@ -25,7 +25,8 @@ namespace Approval.Tests
         [InlineData("netcoreapp3.0")]
         public Task ApproveApi(string frameworkVersion)
         {
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            VerifierSettings.DisableClipboard();
+            string codeBase = Assembly.GetExecutingAssembly().Location;
             var uri = new UriBuilder(new Uri(codeBase));
             string assemblyPath = Uri.UnescapeDataString(uri.Path);
             var containingDirectory = Path.GetDirectoryName(assemblyPath);
@@ -43,8 +44,7 @@ namespace Approval.Tests
                 .UseDirectory(Path.Combine("ApprovedApi", "FluentAssertions"))
                 .UseStringComparer(OnlyIncludeChanges)
                 .UseFileName(frameworkVersion)
-                .DisableDiff()
-                .DisableClipboard();
+                .DisableDiff();
         }
 
         private static string GetSourceDirectory([CallerFilePath] string path = "") => Path.GetDirectoryName(path);
