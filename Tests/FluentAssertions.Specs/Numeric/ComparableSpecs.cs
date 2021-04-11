@@ -301,7 +301,7 @@ namespace FluentAssertions.Specs.Numeric
         #region NotBeInRange
 
         [Fact]
-        public void When_assertion_an_instance_to_not_be_in_a_certain_range_and_it_is_not__it_should_succeed()
+        public void When_assertion_an_instance_to_not_be_in_a_certain_range_and_it_is_not_it_should_succeed()
         {
             // Arrange
             var subject = new ComparableOfInt(3);

@@ -29,7 +29,7 @@ namespace FluentAssertions.Formatting
 
         /// <summary>
         /// This step simplifies the lambda expression by replacing parts of it which do not depend on the lambda parameters
-        /// with the actual values of these sub-expressions. The simplified expression is much easier to read. 
+        /// with the actual values of these sub-expressions. The simplified expression is much easier to read.
         /// E.g. "(_.Text == "two") AndAlso (_.Number == 3)"
         /// Instead of "(_.Text == value(FluentAssertions.Specs.Collections.GenericCollectionAssertionsSpecs+c__DisplayClass122_0).twoText) AndAlso (_.Number == 3)".
         /// </summary>

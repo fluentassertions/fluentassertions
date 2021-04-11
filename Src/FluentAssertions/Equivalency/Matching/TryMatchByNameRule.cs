@@ -17,7 +17,7 @@ namespace FluentAssertions.Equivalency.Matching
             }
 
             FieldInfo field = subject.GetType().FindField(expectedMember.Name, expectedMember.Type);
-            return (field is not null) ? (IMember)new Field(field, parent) : null;
+            return (field is not null) ? new Field(field, parent) : null;
         }
 
         /// <inheritdoc />
