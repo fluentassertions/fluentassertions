@@ -24,9 +24,7 @@ class Build : NukeBuild
        - Microsoft VSCode           https://nuke.build/vscode
     */
 
-    public static int Main() => Execute<Build>(
-        x => x.UnitTests,
-        x => x.Pack);
+    public static int Main() => Execute<Build>(x => x.Pack);
 
     [Solution(GenerateProjects = true)] readonly Solution Solution;
     [GitVersion] readonly GitVersion GitVersion;
@@ -35,13 +33,13 @@ class Build : NukeBuild
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
 
     Target Clean => _ => _
-        .Before(Restore)
         .Executes(() =>
         {
             EnsureCleanDirectory(ArtifactsDirectory);
         });
 
     Target Restore => _ => _
+        .DependsOn(Clean)
         .Executes(() =>
         {
             DotNetRestore(s => s
@@ -119,6 +117,7 @@ class Build : NukeBuild
                 .SetProject(Solution.Core.FluentAssertions)
                 .SetOutputDirectory(ArtifactsDirectory)
                 .SetConfiguration("Release")
+                .EnableContinuousIntegrationBuild() // Necessary for deterministic builds
                 .SetVersion(GitVersion.NuGetVersionV2));
         });
 }
