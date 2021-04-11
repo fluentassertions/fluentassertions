@@ -402,7 +402,7 @@ namespace FluentAssertions.Specs.Formatting
             string result = Formatter.ToString(value);
 
             // Assert
-#if NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
             result.Should().Be("0.33333334F");
 #else
             result.Should().Be("0.333333343F");
@@ -499,7 +499,7 @@ namespace FluentAssertions.Specs.Formatting
             string result = Formatter.ToString(value);
 
             // Assert
-#if NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
             result.Should().Be("0.3333333333333333");
 #else
             result.Should().Be("0.33333333333333331");

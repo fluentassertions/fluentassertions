@@ -18,10 +18,6 @@
     <Compile Remove="Events\*.cs" />
   </ItemGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net47'">
-    <DefineConstants>$(DefineConstants);NET47</DefineConstants>
-  </PropertyGroup>
-
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
   </PropertyGroup>

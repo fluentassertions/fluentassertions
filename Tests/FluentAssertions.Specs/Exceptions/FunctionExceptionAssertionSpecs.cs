@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
-#if NET47
+#if NETFRAMEWORK
 using FluentAssertions.Specs.Common;
 #endif
 using Xunit;
