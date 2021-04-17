@@ -8,7 +8,8 @@
 See https://www.fluentassertions.com for background information, usage documentation, an extensibility guide, support information and more tips & tricks.
 
 # How do I build this?
-Install Visual Studio 2019 or JetBrains Rider 2017.1 and Build Tools 2017 and run
+Install Visual Studio 2019 16.9+ or JetBrains Rider 2017.1 and Build Tools 2017 and run.
+You will also need to have .NET Framework 4.7 SDK and .NET 5.0 SDK installed - check [global.json](global.json) for the current minimum required version.
 
 # What are these Approval.Tests?
 This is a special set of tests that use the [Verify](https://github.com/VerifyTests/Verify) project to verify whether you've introduced any breaking changes in the public API of the library.
