@@ -425,6 +425,28 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
+        /// Expects the current collection to have all elements in ascending order. Elements are compared
+        /// using the given lambda expression.
+        /// </summary>
+        /// <param name="comparison">
+        /// A lambda expression that should be used to determine the expected ordering between two objects.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        /// <remarks>
+        /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
+        /// </remarks>
+        public AndConstraint<SubsequentOrderingAssertions<T>> BeInAscendingOrder(Func<T, T, int> comparison, string because = "", params object[] becauseArgs)
+        {
+            return BeInOrder(Comparer<T>.Create((x, y) => comparison(x, y)), SortOrder.Ascending, because, becauseArgs);
+        }
+
+        /// <summary>
         /// Asserts that a collection is ordered in descending order according to the value of the specified
         /// <paramref name="propertyExpression"/>.
         /// </summary>
@@ -513,6 +535,28 @@ namespace FluentAssertions.Collections
         public AndConstraint<SubsequentOrderingAssertions<T>> BeInDescendingOrder(string because = "", params object[] becauseArgs)
         {
             return BeInDescendingOrder(Comparer<T>.Default, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Expects the current collection to have all elements in descending order. Elements are compared
+        /// using the given lambda expression.
+        /// </summary>
+        /// <param name="comparison">
+        /// A lambda expression that should be used to determine the expected ordering between two objects.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        /// <remarks>
+        /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
+        /// </remarks>
+        public AndConstraint<SubsequentOrderingAssertions<T>> BeInDescendingOrder(Func<T, T, int> comparison, string because = "", params object[] becauseArgs)
+        {
+            return BeInOrder(Comparer<T>.Create((x, y) => comparison(x, y)), SortOrder.Descending, because, becauseArgs);
         }
 
         /// <summary>
@@ -1687,6 +1731,27 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
+        /// Asserts that a collection is not ordered in ascending order according to the provided lambda expression.
+        /// </summary>
+        /// <param name="comparison">
+        /// A lambda expression that should be used to determine the expected ordering between two objects.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        /// <remarks>
+        /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
+        /// </remarks>
+        public AndConstraint<TAssertions> NotBeInAscendingOrder(Func<T, T, int> comparison, string because = "", params object[] becauseArgs)
+        {
+            return NotBeInOrder(Comparer<T>.Create((x, y) => comparison(x, y)), SortOrder.Ascending, because, becauseArgs);
+        }
+
+        /// <summary>
         /// Asserts that a collection is not ordered in descending order according to the value of the specified
         /// <paramref name="propertyExpression"/>.
         /// </summary>
@@ -1775,6 +1840,27 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> NotBeInDescendingOrder(string because = "", params object[] becauseArgs)
         {
             return NotBeInDescendingOrder(Comparer<T>.Default, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that a collection is not ordered in descending order according to the provided lambda expression.
+        /// </summary>
+        /// <param name="comparison">
+        /// A lambda expression that should be used to determine the expected ordering between two objects.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        /// <remarks>
+        /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
+        /// </remarks>
+        public AndConstraint<TAssertions> NotBeInDescendingOrder(Func<T, T, int> comparison, string because = "", params object[] becauseArgs)
+        {
+            return NotBeInOrder(Comparer<T>.Create((x, y) => comparison(x, y)), SortOrder.Descending, because, becauseArgs);
         }
 
         /// <summary>

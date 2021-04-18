@@ -18,6 +18,7 @@ sidebar:
 * Added milliseconds formatting for error messages including `TimeSpan` - [#1504](https://github.com/fluentassertions/fluentassertions/pull/1504).
 * Added `AddReportable` overload to `AssertionScope` for deferring reportable value calculation only on a test failure - [#1515](https://github.com/fluentassertions/fluentassertions/pull/1515).
 * Added the possibility to set the maximum depth and other formatting settings either globally or per `AssertionScope` - [#1469](https://github.com/fluentassertions/fluentassertions/pull/1469).
+* Added `BeInAscendingOrder` and `BeInDescendingOrder` for collections taking a lambda expression - [#1526](https://github.com/fluentassertions/fluentassertions/pull/1526)
 
 **Fixes**
 * Sometimes `BeEquivalentTo` reported an incorrect message when a dictionary was missing a key - [#1454](https://github.com/fluentassertions/fluentassertions/pull/1454)
