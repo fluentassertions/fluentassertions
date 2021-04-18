@@ -15,7 +15,7 @@ namespace FluentAssertions.Execution
             ["nspec3"] = new NSpecFramework(),
             ["nunit"] = new NUnitTestFramework(),
             ["mstestv2"] = new MSTestFrameworkV2(),
-            ["xunit2"] = new XUnit2TestFramework()
+            ["xunit2"] = new XUnit2TestFramework() // Keep this the last one as it uses a try/catch approach
         };
 
         private static ITestFramework testFramework;
