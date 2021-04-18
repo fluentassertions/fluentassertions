@@ -82,6 +82,6 @@ The version numbers of Fluent Assertions releases comply to the [Semantic Versio
 
 ## What do you need to compile the solution?
 
-* Visual Studio 2019 or Jetbrains Rider and Build Tools 2017
+* Visual Studio 2019 16.9+ or Jetbrains Rider and Build Tools 2017
 * Windows 10
-* .NET Core SDK 3.0
+* .NET Framework 4.7 SDK and .NET 5.0 SDK (check [global.json](https://github.com/fluentassertions/fluentassertions/tree/develop/global.json) for the current minimum required version)
