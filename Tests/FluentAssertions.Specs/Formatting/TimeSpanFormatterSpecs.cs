@@ -10,11 +10,8 @@ namespace FluentAssertions.Specs.Formatting
         [Fact]
         public void When_zero_time_span_it_should_return_a_literal()
         {
-            // Arrange
-            var formatter = new TimeSpanValueFormatter();
-
             // Act
-            string result = formatter.Format(TimeSpan.Zero, new FormattingContext(), null);
+            string result = Formatter.ToString(TimeSpan.Zero);
 
             // Assert
             result.Should().Be("default");
@@ -23,11 +20,8 @@ namespace FluentAssertions.Specs.Formatting
         [Fact]
         public void When_max_time_span_it_should_return_a_literal()
         {
-            // Arrange
-            var formatter = new TimeSpanValueFormatter();
-
             // Act
-            string result = formatter.Format(TimeSpan.MaxValue, new FormattingContext(), null);
+            string result = Formatter.ToString(TimeSpan.MaxValue);
 
             // Assert
             result.Should().Be("max time span");
@@ -36,11 +30,8 @@ namespace FluentAssertions.Specs.Formatting
         [Fact]
         public void When_min_time_span_it_should_return_a_literal()
         {
-            // Arrange
-            var formatter = new TimeSpanValueFormatter();
-
             // Act
-            string result = formatter.Format(TimeSpan.MinValue, new FormattingContext(), null);
+            string result = Formatter.ToString(TimeSpan.MinValue);
 
             // Assert
             result.Should().Be("min time span");
@@ -76,11 +67,10 @@ namespace FluentAssertions.Specs.Formatting
         public void When_timespan_components_are_not_relevant_they_should_not_be_included_in_the_output(string actual, string expected)
         {
             // Arrange
-            var formatter = new TimeSpanValueFormatter();
             var value = TimeSpan.Parse(actual, CultureInfo.InvariantCulture);
 
             // Act
-            string result = formatter.Format(value, new FormattingContext(), null);
+            string result = Formatter.ToString(value);
 
             // Assert
             result.Should().Be(expected);

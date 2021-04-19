@@ -45,7 +45,14 @@ namespace FluentAssertions.Specs.Formatting
             result.Should().Be("(a.Text == \"123\") AndAlso (a.Number >= 0) AndAlso (a.Number <= 1000)");
         }
 
-        private string Format(Expression<Func<SomeClass, bool>> expression) => formatter.Format(expression, new FormattingContext(), null);
+        private string Format(Expression<Func<SomeClass, bool>> expression)
+        {
+            var graph = new FormattedObjectGraph(maxLines: 100);
+
+            formatter.Format(expression, graph, new FormattingContext(), null);
+
+            return graph.ToString();
+        }
 
         private class SomeClass
         {

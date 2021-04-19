@@ -33,14 +33,13 @@ namespace FluentAssertions.Formatting
             get { return Configuration.Current.ValueFormatterDetectionMode != ValueFormatterDetectionMode.Disabled; }
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
             MethodInfo method = GetFormatter(value);
 
-            object[] parameters = new[] { value };
+            object[] parameters = new[] { value, formattedGraph };
 
-            return (string)method.Invoke(null, parameters);
+            method.Invoke(null, parameters);
         }
 
         private MethodInfo GetFormatter(object value)
@@ -86,10 +85,11 @@ namespace FluentAssertions.Formatting
                 where type is not null
                 from method in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
                 where method.IsStatic
-                where method.ReturnType == typeof(string)
+                where method.ReturnType == typeof(void)
                 where method.IsDecoratedWithOrInherit<ValueFormatterAttribute>()
-                where method.GetParameters().Length == 1
-                select new { Type = method.GetParameters().Single().ParameterType, Method = method } into formatter
+                let methodParameters = method.GetParameters()
+                where methodParameters.Length == 2
+                select new { Type = methodParameters.First().ParameterType, Method = method } into formatter
                 group formatter by formatter.Type into formatterGroup
                 select formatterGroup.First();
 

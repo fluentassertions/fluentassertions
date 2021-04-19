@@ -9,19 +9,18 @@ namespace FluentAssertions.Formatting
             return value is XDocument;
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
             var document = (XDocument)value;
 
-            return (document.Root is not null)
-                ? formatChild("root", document.Root)
-                : FormatDocumentWithoutRoot();
-        }
-
-        private static string FormatDocumentWithoutRoot()
-        {
-            return "[XML document without root element]";
+            if (document.Root is not null)
+            {
+                formatChild("root", document.Root, formattedGraph);
+            }
+            else
+            {
+                formattedGraph.AddFragment("[XML document without root element]");
+            }
         }
     }
 }

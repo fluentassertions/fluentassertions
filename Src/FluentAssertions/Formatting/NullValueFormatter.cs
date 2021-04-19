@@ -14,10 +14,9 @@
             return value is null;
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
-            return "<null>";
+            formattedGraph.AddFragment("<null>");
         }
     }
 }

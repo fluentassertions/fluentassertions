@@ -142,3 +142,22 @@ subject.Should().BeEquivalentTo(expectation, opt => opt
     .WhenTypeIs<int?>()
 );
 ```
+## Value Formatters ##
+
+Within Fluent Assertions, the `Formatter` class is responsible for rendering a textual representation of the objects involved in an assertion. Those objects can turn out to be entire graphs, especially when you use `BeEquivalentTo`. Rendering such a graph can be an expensive operation, so in 5.x we already had limits on how deep the `Formatter` would traverse the object graph. Because we received several performance-related issues, we decided to slightly redesign how implementations of `IValueFormatter` should work. This unfortunately required us to introduce some breaking changes in the signature of the `Format` method as well as some behavioral changes. You can read all about that in the updated [extensibility guide](/extensibility/#rendering-objects-with-beauty), but the gist of it is that instead of returning a `string`, you now need to use the `FormattedObjectGraph`, which acts like a kind of `StringBuilder`. For instance, this is what the `StringValueFormatter` now looks like:
+
+```csharp
+public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
+{
+    string result = "\"" + value + "\"";
+
+    if (context.UseLineBreaks)
+    {
+        formattedGraph.AddFragmentOnNewLine(result);
+    }
+    else
+    {
+        formattedGraph.AddFragment(result);
+    }
+}
+```

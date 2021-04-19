@@ -95,18 +95,19 @@ So in this case, our nicely created `ContainFile` extension method will display 
 
 ## Rendering objects with beauty ##
 
-Whenever Fluent Assertions raises an assertion exception, it will use value formatters to render the display representation of an object. Notice that these things are supposed to do more than just calling `Format`. A good formatter will include the relevant parts and hide the irrelevant parts. For instance, the `DateTimeOffsetValueFormatter` is there to give you a nice human-readable representation of a date and time with offset. It will only show the parts of that value that have non-default values. Check out the specs to see some examples of that.
+Whenever Fluent Assertions raises an assertion exception, it will use value formatters to render a display representation of an object. Notice that these things are supposed to do more than just calling `Format`. A good formatter will include the relevant parts and hide the irrelevant parts. For instance, the `DateTimeOffsetValueFormatter` is there to give you a nice human-readable representation of a date and time with offset. It will only show the parts of that value that have non-default values. Check out the [specs](https://github.com/fluentassertions/fluentassertions/blob/develop/Tests/FluentAssertions.Specs/Formatting/FormatterSpecs.cs#L127) to see some examples of that.
 
 You can hook-up your own formatters in several ways, for example by calling the static method `FluentAssertions.Formatting.Formatter.AddFormatter(IValueFormatter)`. But what does it mean to build your own? Well, a value formatter just needs to implement the two methods `IValueFormatter` declares. First, it needs to tell FA whether your formatter can handle a certain type by implementing the well-named method `CanHandle(object)`. The other one is there to, no surprises here, render it to a string.
 
 ```
-string Format(object value, FormattingContext context, FormatChild formatChild);
+void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild);
 ```
 
 Next to the actual value that needs rendering, this method accepts a couple of parameters worth mentioning.
 
+* `formattedGraph` is the object that collects the textual representation of the entire graph. It supports adding fragments of text, full lines and deals with automatic identation using its `WithIndentation` method. It also protects the performance of the rendering by throwing a `MaxLinesExceededException` when the textual representation has exceeded the configured maximum.  
 * `context.UseLineBreaks` denotes that the value should be prefixed by a newline. It is used by some assertion code to force displaying the various elements of the failure message on a separate line.
-* `context.Depth` is used when rendering a complex object that would involve multiple, potentially recursive, nested calls through `formatChild`. It allows the formatter to display its representation using an indented view.
+* `formatChild` is used when rendering a complex object that would involve multiple, potentially recursive, nested calls through `Formatter`.
 
 This is what an implementation for the DirectoryInfo would look like.
 
@@ -118,13 +119,21 @@ public class DirectoryInfoValueFormatter : IValueFormatter
         return value is DirectoryInfo;
     }
 
-    public string Format(object value, FormattingContext context, FormatChild formatChild)
+    void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
     {
-        string newline = context.UseLineBreaks ? Environment.NewLine : "";
-        string padding = new string('\t', context.Depth);
-
         var info = (DirectoryInfo)value;
-        return $"{newline}{padding} {info.FullName} ({info.GetFiles().Length} files, {info.GetDirectories().Length} directories)";
+        string result = $"{info.FullName} ({info.GetFiles().Length} files, {info.GetDirectories().Length} directories)";
+
+        if (context.UseLineBreaks)
+        {
+            // Forces the result to be added as a separate line in the final output
+            formattedGraph.AddLine(result);
+        }
+        else
+        {
+            // Appends the result to any existing fragments on the current line
+            formattedGraph.AddFragment(result);
+        }
     }
 }
 ```

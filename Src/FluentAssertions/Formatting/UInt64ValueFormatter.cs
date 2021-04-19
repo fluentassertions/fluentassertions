@@ -16,10 +16,9 @@ namespace FluentAssertions.Formatting
             return value is ulong;
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
-            return ((ulong)value).ToString(CultureInfo.InvariantCulture) + "UL";
+            formattedGraph.AddFragment(((ulong)value).ToString(CultureInfo.InvariantCulture) + "UL");
         }
     }
 }

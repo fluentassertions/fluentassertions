@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using FluentAssertions.Common;
+using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Execution
 {
@@ -17,11 +18,11 @@ namespace FluentAssertions.Execution
     {
         #region Private Definitions
 
+        private readonly FormattingOptions formattingOptions = AssertionOptions.FormattingOptions.Clone();
         private readonly IAssertionStrategy assertionStrategy;
         private readonly ContextDataItems contextData = new();
 
         private Func<string> reason;
-        private bool useLineBreaks;
 
         private static readonly AsyncLocal<AssertionScope> CurrentScope = new();
         private AssertionScope parent;
@@ -121,16 +122,27 @@ namespace FluentAssertions.Execution
             private set => SetCurrentAssertionScope(value);
         }
 
+        /// <summary>
+        /// Forces the formatters that support it to add the necessary line breaks.
+        /// </summary>
+        /// <remarks>
+        /// This is just shorthand for modifying the <see cref="FormattingOptions"/> property.
+        /// </remarks>
         public AssertionScope UsingLineBreaks
         {
             get
             {
-                useLineBreaks = true;
+                formattingOptions.UseLineBreaks = true;
                 return this;
             }
         }
 
-        public bool Succeeded
+        /// <summary>
+        /// Exposes the options the scope will use for formatting objects in case an assertion fails.
+        /// </summary>
+        public FormattingOptions FormattingOptions => formattingOptions;
+
+        internal bool Succeeded
         {
             get => succeeded == true;
         }
@@ -184,7 +196,7 @@ namespace FluentAssertions.Execution
             Func<string> localReason = reason;
             expectation = () =>
             {
-                var messageBuilder = new MessageBuilder(useLineBreaks);
+                var messageBuilder = new MessageBuilder(formattingOptions);
                 string reason = localReason?.Invoke() ?? string.Empty;
                 string identifier = GetIdentifier();
 
@@ -240,7 +252,7 @@ namespace FluentAssertions.Execution
             return FailWith(() =>
             {
                 string localReason = reason?.Invoke() ?? string.Empty;
-                var messageBuilder = new MessageBuilder(useLineBreaks);
+                var messageBuilder = new MessageBuilder(formattingOptions);
                 string identifier = GetIdentifier();
                 FailReason failReason = failReasonFunc();
                 string result = messageBuilder.Build(failReason.Message, failReason.Args, localReason, contextData, identifier, fallbackIdentifier);

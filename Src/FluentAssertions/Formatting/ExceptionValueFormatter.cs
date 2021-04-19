@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Globalization;
-using System.Text;
+using static System.FormattableString;
 
 namespace FluentAssertions.Formatting
 {
@@ -18,24 +17,19 @@ namespace FluentAssertions.Formatting
             return value is Exception;
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
             var exception = (Exception)value;
 
-            var builder = new StringBuilder();
-            builder.AppendFormat(CultureInfo.InvariantCulture, "{0} with message \"{1}\"\n",
-                exception.GetType().FullName, exception.Message);
+            formattedGraph.AddFragment(Invariant($"{exception.GetType().FullName} with message \"{exception.Message}\""));
 
             if (exception.StackTrace is not null)
             {
                 foreach (string line in exception.StackTrace.Split(new[] { Environment.NewLine }, StringSplitOptions.None))
                 {
-                    builder.Append("  ").AppendLine(line);
+                    formattedGraph.AddLine("  " + line);
                 }
             }
-
-            return builder.ToString();
         }
     }
 }

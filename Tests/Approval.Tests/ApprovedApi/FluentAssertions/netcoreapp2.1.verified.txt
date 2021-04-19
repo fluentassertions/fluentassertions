@@ -102,6 +102,7 @@ namespace FluentAssertions
     public static class AssertionOptions
     {
         public static FluentAssertions.EquivalencyStepCollection EquivalencySteps { get; }
+        public static FluentAssertions.Formatting.FormattingOptions FormattingOptions { get; }
         public static void AssertEquivalencyUsing(System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions, FluentAssertions.Equivalency.EquivalencyAssertionOptions> defaultsConfigurer) { }
         public static FluentAssertions.Equivalency.EquivalencyAssertionOptions<T> CloneDefaults<T>() { }
     }
@@ -1195,7 +1196,7 @@ namespace FluentAssertions.Execution
         public AssertionScope(System.Lazy<string> context) { }
         public AssertionScope(string context) { }
         public System.Lazy<string> Context { get; set; }
-        public bool Succeeded { get; }
+        public FluentAssertions.Formatting.FormattingOptions FormattingOptions { get; }
         public FluentAssertions.Execution.AssertionScope UsingLineBreaks { get; }
         public static FluentAssertions.Execution.AssertionScope Current { get; }
         public void AddNonReportable(string key, object value) { }
@@ -1363,38 +1364,38 @@ namespace FluentAssertions.Formatting
     {
         public AggregateExceptionValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class AttributeBasedFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public AttributeBasedFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class ByteValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public ByteValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class DateTimeOffsetValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public DateTimeOffsetValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class DecimalValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public DecimalValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class DefaultValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public DefaultValueFormatter() { }
         protected virtual int SpacesPerIndentionLevel { get; }
         public virtual bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
         protected virtual System.Reflection.MemberInfo[] GetMembers(System.Type type) { }
         protected virtual string TypeDisplayName(System.Type type) { }
     }
@@ -1402,147 +1403,170 @@ namespace FluentAssertions.Formatting
     {
         public DoubleValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class EnumValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public EnumValueFormatter() { }
         public virtual bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class EnumerableValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public EnumerableValueFormatter() { }
         protected virtual int MaxItems { get; }
         public virtual bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class ExceptionValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public ExceptionValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class ExpressionValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public ExpressionValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
-    public delegate string FormatChild(string childPath, object value);
+    public delegate void FormatChild(string childPath, object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph);
+    public class FormattedObjectGraph
+    {
+        public FormattedObjectGraph(int maxLines) { }
+        public int LineCount { get; }
+        public static int SpacesPerIndentation { get; }
+        public void AddFragment(string fragment) { }
+        public void AddFragmentOnNewLine(string fragment) { }
+        public void AddLine(string line) { }
+        public override string ToString() { }
+        public System.IDisposable WithIndentation() { }
+    }
     public static class Formatter
     {
         public static System.Collections.Generic.IEnumerable<FluentAssertions.Formatting.IValueFormatter> Formatters { get; }
         public static void AddFormatter(FluentAssertions.Formatting.IValueFormatter formatter) { }
         public static void RemoveFormatter(FluentAssertions.Formatting.IValueFormatter formatter) { }
-        public static string ToString(object value, bool useLineBreaks = false) { }
+        public static string ToString(object value, FluentAssertions.Formatting.FormattingOptions options = null) { }
     }
     public class FormattingContext
     {
         public FormattingContext() { }
-        public int Depth { get; set; }
+        public bool UseLineBreaks { get; set; }
+    }
+    public class FormattingOptions
+    {
+        public FormattingOptions() { }
+        public int MaxDepth { get; set; }
+        public int MaxLines { get; set; }
         public bool UseLineBreaks { get; set; }
     }
     public class GuidValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public GuidValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public interface IValueFormatter
     {
         bool CanHandle(object value);
-        string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild);
+        void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild);
     }
     public class Int16ValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public Int16ValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class Int32ValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public Int32ValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class Int64ValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public Int64ValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+    }
+    public class MaxLinesExceededException : System.Exception
+    {
+        public MaxLinesExceededException() { }
+        public MaxLinesExceededException(string message) { }
+        public MaxLinesExceededException(string message, System.Exception innerException) { }
     }
     public class MultidimensionalArrayFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public MultidimensionalArrayFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class NullValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public NullValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class PredicateLambdaExpressionValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public PredicateLambdaExpressionValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class PropertyInfoFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public PropertyInfoFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class SByteValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public SByteValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class SingleValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public SingleValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class StringValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public StringValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class TaskFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public TaskFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class TimeSpanValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public TimeSpanValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class UInt16ValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public UInt16ValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class UInt32ValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public UInt32ValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class UInt64ValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public UInt64ValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     [System.AttributeUsage(System.AttributeTargets.Method | System.AttributeTargets.All, AllowMultiple=false)]
     public class ValueFormatterAttribute : System.Attribute
@@ -1553,19 +1577,19 @@ namespace FluentAssertions.Formatting
     {
         public XAttributeValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class XDocumentValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public XDocumentValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
     public class XElementValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public XElementValueFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
 }
 namespace FluentAssertions.Numeric
@@ -2490,6 +2514,6 @@ namespace FluentAssertions.Xml
     {
         public XmlNodeFormatter() { }
         public bool CanHandle(object value) { }
-        public string Format(object value, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
 }

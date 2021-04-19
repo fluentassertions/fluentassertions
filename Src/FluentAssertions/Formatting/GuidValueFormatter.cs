@@ -16,10 +16,9 @@ namespace FluentAssertions.Formatting
             return value is Guid;
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
-            return "{" + value + "}";
+            formattedGraph.AddFragment("{" + value + "}");
         }
     }
 }

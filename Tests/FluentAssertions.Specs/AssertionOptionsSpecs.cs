@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Chill;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
+using FluentAssertions.Formatting;
 using Xunit;
 using Xunit.Sdk;
 
@@ -146,6 +147,7 @@ namespace FluentAssertions.Specs
             }
         }
 
+        [Collection("AssertionOptionsSpecs")]
         public class Given_temporary_equivalency_steps : GivenWhenThen
         {
             protected override void Dispose(bool disposing)
@@ -295,6 +297,44 @@ namespace FluentAssertions.Specs
                 Execute.Assertion.FailWith(GetType().FullName);
 
                 return true;
+            }
+        }
+
+        [Collection("AssertionOptionsSpecs")]
+        public class When_global_formatting_settings_are_modified : GivenWhenThen
+        {
+            private FormattingOptions oldSettings;
+
+            public When_global_formatting_settings_are_modified()
+            {
+                Given(() =>
+                {
+                    oldSettings = AssertionOptions.FormattingOptions.Clone();
+                });
+
+                When(() =>
+                {
+                    AssertionOptions.FormattingOptions.UseLineBreaks = true;
+                    AssertionOptions.FormattingOptions.MaxDepth = 123;
+                    AssertionOptions.FormattingOptions.MaxLines = 33;
+                });
+            }
+
+            [Fact]
+            public void Then_the_current_assertion_scope_should_use_these_settings()
+            {
+                AssertionScope.Current.FormattingOptions.UseLineBreaks.Should().BeTrue();
+                AssertionScope.Current.FormattingOptions.MaxDepth.Should().Be(123);
+                AssertionScope.Current.FormattingOptions.MaxLines.Should().Be(33);
+            }
+
+            protected override void Dispose(bool disposing)
+            {
+                AssertionOptions.FormattingOptions.MaxDepth = oldSettings.MaxDepth;
+                AssertionOptions.FormattingOptions.UseLineBreaks = oldSettings.UseLineBreaks;
+                AssertionOptions.FormattingOptions.MaxLines = oldSettings.MaxLines;
+
+                base.Dispose(disposing);
             }
         }
     }

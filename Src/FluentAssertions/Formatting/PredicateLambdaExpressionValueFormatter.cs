@@ -12,7 +12,7 @@ namespace FluentAssertions.Formatting
     {
         public bool CanHandle(object value) => value is LambdaExpression lambdaExpression && lambdaExpression.ReturnType == typeof(bool);
 
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
             var lambdaExpression = (LambdaExpression)value;
 
@@ -21,10 +21,12 @@ namespace FluentAssertions.Formatting
             if (reducedExpression is BinaryExpression binaryExpression && binaryExpression.NodeType == ExpressionType.AndAlso)
             {
                 var subExpressions = ExtractChainOfExpressionsJoinedWithAndOperator(binaryExpression);
-                return string.Join(" AndAlso ", subExpressions.Select(e => e.ToString()));
+                formattedGraph.AddFragment(string.Join(" AndAlso ", subExpressions.Select(e => e.ToString())));
             }
-
-            return reducedExpression.ToString();
+            else
+            {
+                formattedGraph.AddFragment(reducedExpression.ToString());
+            }
         }
 
         /// <summary>

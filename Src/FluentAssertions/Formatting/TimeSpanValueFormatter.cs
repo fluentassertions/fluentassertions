@@ -19,37 +19,38 @@ namespace FluentAssertions.Formatting
             return value is TimeSpan;
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
             var timeSpan = (TimeSpan)value;
 
             if (timeSpan == TimeSpan.MinValue)
             {
-                return "min time span";
+                formattedGraph.AddFragment("min time span");
+                return;
             }
 
             if (timeSpan == TimeSpan.MaxValue)
             {
-                return "max time span";
+                formattedGraph.AddFragment("max time span");
+                return;
             }
 
             List<string> fragments = GetNonZeroFragments(timeSpan);
 
             if (!fragments.Any())
             {
-                return "default";
+                formattedGraph.AddFragment("default");
             }
 
             string sign = (timeSpan.Ticks >= 0) ? string.Empty : "-";
 
             if (fragments.Count == 1)
             {
-                return sign + fragments.Single();
+                formattedGraph.AddFragment(sign + fragments.Single());
             }
             else
             {
-                return sign + fragments.JoinUsingWritingStyle();
+                formattedGraph.AddFragment(sign + fragments.JoinUsingWritingStyle());
             }
         }
 

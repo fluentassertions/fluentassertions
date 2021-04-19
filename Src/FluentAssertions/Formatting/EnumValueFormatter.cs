@@ -18,14 +18,14 @@ namespace FluentAssertions.Formatting
         }
 
         /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
             string typePart = value.GetType().Name;
             string namePart = value.ToString().Replace(", ", "|", StringComparison.Ordinal);
             string valuePart = Convert.ToDecimal(value, CultureInfo.InvariantCulture)
                 .ToString(CultureInfo.InvariantCulture);
 
-            return $"{typePart}.{namePart} {{value: {valuePart}}}";
+            formattedGraph.AddFragment($"{typePart}.{namePart} {{value: {valuePart}}}");
         }
     }
 }
