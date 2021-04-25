@@ -209,6 +209,3 @@ You might ask if we could not just have changed the overload signature from `par
 The answer is no (as far as we know), as the compiler prefers resolving e.g. `IEnumerable<T>` to `params IEnumerable<T>[]` over `IEnumerable<T>`.
 
 For Fluent Assertions 6.0 the implications of this are that `(1)` no longer compiles, as `BeEquivalentTo` takes an `IEnumerable<T>`, but `(2)` now works as expected.
-
-// performance boxing
-// losing types

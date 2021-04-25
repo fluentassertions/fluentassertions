@@ -1302,21 +1302,6 @@ namespace FluentAssertions.Specs.Equivalency
         }
 
         [Fact]
-        public void When_injecting_a_null_config_to_non_generic_overload_it_should_throw()
-        {
-            // Arrange
-            ICollection collection1 = null;
-            ICollection collection2 = null;
-
-            // Act
-            Action act = () => collection1.Should().BeEquivalentTo(collection2, config: null);
-
-            // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .WithParameterName("config");
-        }
-
-        [Fact]
         public void When_asserting_equivalence_of_generic_collections_it_should_respect_the_declared_type()
         {
             // Arrange

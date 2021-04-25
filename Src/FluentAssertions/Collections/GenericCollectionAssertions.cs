@@ -1109,7 +1109,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> Equal(IEnumerable<T> expected, string because = "", params object[] becauseArgs)
         {
-            AssertSubjectEquality<T, T>(expected, (s, e) => s.IsSameOrEqualTo(e), because, becauseArgs);
+            AssertSubjectEquality(expected, (s, e) => s.IsSameOrEqualTo(e), because, becauseArgs);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -1435,7 +1435,7 @@ namespace FluentAssertions.Collections
             }
 
             int actualCount = Subject.Count();
-            int expectedCount = otherCollection.Cast<object>().Count();
+            int expectedCount = (otherCollection as ICollection)?.Count ?? otherCollection.Cast<object>().Count();
 
             Execute.Assertion
                 .ForCondition(actualCount == expectedCount)
@@ -2275,8 +2275,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected collections not to be equal{reason}, but they both reference the same object.");
             }
 
-            IList<T> actualItems = Subject.ConvertOrCastToCollection()
-                .ToList(); // Defensive copy to avoid multiple enumerations
+            ICollection<T> actualItems = Subject.ConvertOrCastToCollection();
 
             if (actualItems.SequenceEqual(unexpected))
             {
@@ -2917,7 +2916,7 @@ namespace FluentAssertions.Collections
                 .ClearExpectation();
         }
 
-        protected void AssertSubjectEquality<TActual, TExpectation>(IEnumerable<TExpectation> expectation, Func<TActual, TExpectation, bool> equalityComparison,
+        protected void AssertSubjectEquality<TExpectation>(IEnumerable<TExpectation> expectation, Func<T, TExpectation, bool> equalityComparison,
             string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(equalityComparison, nameof(equalityComparison));
@@ -2941,7 +2940,7 @@ namespace FluentAssertions.Collections
 
             assertion
                 .WithExpectation("Expected {context:collection} to be equal to {0}{reason}, ", expectedItems)
-                .Given(() => Subject.ConvertOrCastToCollection<TActual>())
+                .Given(() => Subject.ConvertOrCastToCollection())
                 .AssertCollectionsHaveSameCount(expectedItems.Count)
                 .Then
                 .AssertCollectionsHaveSameItems(expectedItems, (a, e) => a.IndexOfFirstDifferenceWith(e, equalityComparison))

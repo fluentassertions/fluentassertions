@@ -25,16 +25,6 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
-        public void When_a_custom_enumerable_implementation_is_expected_not_to_be_null_and_it_is_it_should_not_throw()
-        {
-            // Arrange
-            var enumerable = new CustomEnumerable();
-
-            // Act / Assert
-            enumerable.Should().NotBeNull();
-        }
-
-        [Fact]
         public void When_collection_is_expected_to_be_null_and_it_isnt_it_should_throw()
         {
             // Arrange
@@ -1255,21 +1245,21 @@ namespace FluentAssertions.Specs.Collections
         public void When_asserting_identical_collections_to_be_equal_it_should_enumerate_the_subject_only_once()
         {
             // Arrange
-            var actual = new CountingGenericCollection<int>(new[] { 1, 2, 3 });
+            var actual = new CountingGenericEnumerable<int>(new[] { 1, 2, 3 });
             var expected = new[] { 1, 2, 3 };
 
             // Act
             actual.Should().Equal(expected);
 
             // Assert
-            actual.GetEnumeratorCallCount.Should().BeLessOrEqualTo(1);
+            actual.GetEnumeratorCallCount.Should().Be(1);
         }
 
         [Fact]
         public void When_asserting_identical_collections_to_not_be_equal_it_should_enumerate_the_subject_only_once()
         {
             // Arrange
-            var actual = new CountingGenericCollection<int>(new[] { 1, 2, 3 });
+            var actual = new CountingGenericEnumerable<int>(new[] { 1, 2, 3 });
             var expected = new[] { 1, 2, 3 };
 
             // Act
@@ -1283,14 +1273,14 @@ namespace FluentAssertions.Specs.Collections
             }
 
             // Assert
-            actual.GetEnumeratorCallCount.Should().BeLessOrEqualTo(1);
+            actual.GetEnumeratorCallCount.Should().Be(1);
         }
 
         [Fact]
-        public void When_asserting_different_collections_to_be_equal_it_should_enumerate_the_subject_at_most_twice()
+        public void When_asserting_different_collections_to_be_equal_it_should_enumerate_the_subject_once()
         {
             // Arrange
-            var actual = new CountingGenericCollection<int>(new[] { 1, 2, 3 });
+            var actual = new CountingGenericEnumerable<int>(new[] { 1, 2, 3 });
             var expected = new[] { 1, 2, 4 };
 
             // Act
@@ -1304,21 +1294,21 @@ namespace FluentAssertions.Specs.Collections
             }
 
             // Assert
-            actual.GetEnumeratorCallCount.Should().BeLessOrEqualTo(2);
+            actual.GetEnumeratorCallCount.Should().Be(1);
         }
 
         [Fact]
         public void When_asserting_different_collections_to_not_be_equal_it_should_enumerate_the_subject_only_once()
         {
             // Arrange
-            var actual = new CountingGenericCollection<int>(new[] { 1, 2, 3 });
+            var actual = new CountingGenericEnumerable<int>(new[] { 1, 2, 3 });
             var expected = new[] { 1, 2, 4 };
 
             // Act
             actual.Should().NotEqual(expected);
 
             // Assert
-            actual.GetEnumeratorCallCount.Should().BeLessOrEqualTo(1);
+            actual.GetEnumeratorCallCount.Should().Be(1);
         }
 
         #endregion
@@ -4224,7 +4214,7 @@ namespace FluentAssertions.Specs.Collections
 
         public bool Contains(TElement item) { throw new NotImplementedException(); }
 
-        public void CopyTo(TElement[] array, int arrayIndex) => backingSet.CopyTo(array, arrayIndex);
+        public void CopyTo(TElement[] array, int arrayIndex) { throw new NotImplementedException(); }
 
         public bool Remove(TElement item) { throw new NotImplementedException(); }
 
@@ -4240,17 +4230,6 @@ namespace FluentAssertions.Specs.Collections
         }
 
         public bool IsReadOnly { get; private set; }
-    }
-
-    internal class CustomEnumerable : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            foreach (string s in new[] { "a", "b", "c" })
-            {
-                yield return s;
-            }
-        }
     }
 
     internal class TrackingTestEnumerable : IEnumerable<int>
