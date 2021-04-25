@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using FluentAssertions;
 using FluentAssertions.Common;
 
@@ -23,12 +22,6 @@ namespace Benchmarks
         }
 
         [Benchmark(Baseline = true)]
-        public void CollectionEqual_NonGeneric()
-        {
-            ((IEnumerable)collection1).Should().Equal(collection2);
-        }
-
-        [Benchmark]
         public void CollectionEqual_Generic()
         {
             collection1.Should().Equal(collection2);
