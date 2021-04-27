@@ -33,7 +33,7 @@ namespace FluentAssertions.Equivalency
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent,
             IEquivalencyAssertionOptions config)
         {
-            Execute.Assertion
+            bool succeeded = Execute.Assertion
                 .ForCondition(context.Subject?.GetType().IsEnum == true)
                 .FailWith(() =>
                 {
@@ -43,18 +43,21 @@ namespace FluentAssertions.Equivalency
                     return new FailReason($"Expected {{context:enum}} to be equivalent to {expectationName}{{reason}}, but found {{0}}.", context.Subject);
                 });
 
-            switch (config.EnumEquivalencyHandling)
+            if (succeeded)
             {
-                case EnumEquivalencyHandling.ByValue:
-                    HandleByValue(context);
-                    break;
+                switch (config.EnumEquivalencyHandling)
+                {
+                    case EnumEquivalencyHandling.ByValue:
+                        HandleByValue(context);
+                        break;
 
-                case EnumEquivalencyHandling.ByName:
-                    HandleByName(context);
-                    break;
+                    case EnumEquivalencyHandling.ByName:
+                        HandleByName(context);
+                        break;
 
-                default:
-                    throw new InvalidOperationException($"Do not know how to handle {config.EnumEquivalencyHandling}");
+                    default:
+                        throw new InvalidOperationException($"Do not know how to handle {config.EnumEquivalencyHandling}");
+                }
             }
 
             return true;
