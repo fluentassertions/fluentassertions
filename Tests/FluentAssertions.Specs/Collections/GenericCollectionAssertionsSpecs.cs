@@ -103,20 +103,6 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
-        public void When_a_collection_does_not_contain_the_combination_of_a_collection_and_a_single_item_it_should_throw()
-        {
-            // Arrange
-            IEnumerable<object> strings = new[] { "string1", "string2" };
-
-            // Act
-            Action act = () => strings.Should().Contain(strings, new object[] { "string3" });
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected strings {\"string1\", \"string2\"} to contain {\"string1\", \"string2\", \"string3\"}, but could not find {\"string3\"}.");
-        }
-
-        [Fact]
         public void When_asserting_collection_contains_some_values_but_collection_is_null_it_should_throw()
         {
             // Arrange
@@ -172,20 +158,6 @@ namespace FluentAssertions.Specs.Collections
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected strings not to contain (x == \"xxx\") because we're checking how it reacts to a null subject, but found <null>.");
-        }
-
-        [Fact]
-        public void When_a_collection_does_contain_the_combination_of_a_collection_and_a_single_item_it_should_throw()
-        {
-            // Arrange
-            IEnumerable<object> strings = new[] { "string1", "string2" };
-
-            // Act
-            Action act = () => strings.Should().NotContain(new[] { "string3", "string4" }, new object[] { "string2" });
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected strings {\"string1\", \"string2\"} to not contain {\"string3\", \"string4\", \"string2\"}, but found {\"string2\"}.");
         }
 
         [Fact]
@@ -570,7 +542,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect collection to contain items in ascending order because I say so, but found {empty}.");
+                .WithMessage("Did not expect collection to be in ascending order because I say so, but found {empty}.");
         }
 
         [Fact]
@@ -597,7 +569,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect collection to contain items in descending order because I say so, but found {empty}.");
+                .WithMessage("Did not expect collection to be in descending order because I say so, but found {empty}.");
         }
 
         [Fact]
@@ -682,7 +654,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect collection to contain items in ascending order, but found {42}.");
+                .WithMessage("Did not expect collection to be in ascending order, but found {42}.");
         }
 
         [Fact]
@@ -709,7 +681,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect collection to contain items in descending order, but found {42}.");
+                .WithMessage("Did not expect collection to be in descending order, but found {42}.");
         }
 
         [Fact]
@@ -791,7 +763,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected collection*2*3*1*ordered*should be sorted*1*2*3*");
+                .WithMessage("Expected collection to be in ascending order*should be sorted*2*3*1*");
         }
 
         [Fact]
@@ -818,7 +790,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected collection*1*2*3*ordered*should be sorted*3*2*1*");
+                .WithMessage("Expected collection to be in descending order*should be sorted*1*2*3*");
         }
 
         [Fact]
@@ -845,7 +817,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected collection*3*2*1*not be ordered*should not be sorted*3*2*1*");
+                .WithMessage("Did not expect collection to be in descending order*should not be sorted*3*2*1*");
         }
 
         [Fact]
@@ -872,7 +844,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected collection*1*2*3*not be ordered*should not be sorted*1*2*3*");
+                .WithMessage("Did not expect collection to be in ascending order*should not be sorted*1*2*3*");
         }
 
         [Fact]
@@ -1203,7 +1175,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*Text*found*null*");
+                .WithMessage("*Text*found*null*");
         }
 
         [Fact]
@@ -1217,7 +1189,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*found*null*");
+                .WithMessage("*found*null*");
         }
 
         [Fact]
@@ -1231,7 +1203,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*Text*found*null*");
+                .WithMessage("*Text*found*null*");
         }
 
         [Fact]
@@ -1245,7 +1217,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*Text*found*null*");
+                .WithMessage("*Text*found*null*");
         }
 
         [Fact]
@@ -1302,7 +1274,7 @@ namespace FluentAssertions.Specs.Collections
             var collection = Enumerable.Empty<SomeClass>();
 
             // Act
-            Action act = () => collection.Should().BeInAscendingOrder(null);
+            Action act = () => collection.Should().BeInAscendingOrder(comparer: null);
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
@@ -1331,7 +1303,7 @@ namespace FluentAssertions.Specs.Collections
             var collection = Enumerable.Empty<SomeClass>();
 
             // Act
-            Action act = () => collection.Should().NotBeInAscendingOrder(null);
+            Action act = () => collection.Should().NotBeInAscendingOrder(comparer: null);
 
             // Assert
             act.Should().Throw<ArgumentNullException>()

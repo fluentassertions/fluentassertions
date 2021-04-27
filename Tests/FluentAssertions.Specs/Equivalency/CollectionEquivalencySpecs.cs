@@ -191,7 +191,7 @@ namespace FluentAssertions.Specs.Equivalency
         }
 
         [Fact]
-        public void When_the_expectation_is_an_array_of_interface_type_it_should_respect_runtime_types()
+        public void When_the_expectation_is_an_array_of_interface_type_it_should_respect_declared_types()
         {
             // Arrange
             var actual = new IInterface[] { new MyClass() { InterfaceProperty = 1, ClassProperty = 42 } };
@@ -201,8 +201,7 @@ namespace FluentAssertions.Specs.Equivalency
             Action act = () => actual.Should().BeEquivalentTo(expected);
 
             // Assert
-            act.Should().Throw<XunitException>(@"Fluent Assertions 5.x.x has the params object[] overload,
-                which discards the compile time type.");
+            act.Should().NotThrow<XunitException>("it should respect the declared types on IInterface");
         }
 
         [Fact]
@@ -219,25 +218,9 @@ namespace FluentAssertions.Specs.Equivalency
             Action act = () => actual.Should().BeEquivalentTo(expected);
 
             // Assert
-            act.Should().Throw<XunitException>(@"Fluent Assertions 5.x.x has the params object[] overload,
-                which cannot distinguish an array of objects from an element which is an array of objects.");
-        }
-
-        [Fact]
-        public void When_the_expectation_has_fewer_dimensions_than_a_one_dimensional_subject_it_should_succeed()
-        {
-            // Arrange
-            object objectA = new object();
-
-            var actual = new object[] { objectA };
-            var expected = actual[0];
-
-            // Act
-            Action act = () => actual.Should().BeEquivalentTo(expected);
-
-            // Assert
-            act.Should().NotThrow<XunitException>(@"Fluent Assertions 5.x.x has the params object[] overload,
-                which treats a single object as an element of a list.");
+            act.Should().Throw<XunitException>()
+                .WithMessage("*be a collection with 2 item(s)*contains 1 item(s) less than*",
+                    "adding a `params object[]` overload cannot distinguish 'an array of objects' from 'an element which is an array of objects'");
         }
 
         [Fact]
@@ -551,8 +534,11 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Act / Assert
             items.Should().BeEquivalentTo(
-                new int[] { 42 },
-                new int[0]
+                new[]
+                {
+                    new int[] { 42 },
+                    new int[0]
+                }
             );
         }
 
@@ -1316,21 +1302,6 @@ namespace FluentAssertions.Specs.Equivalency
         }
 
         [Fact]
-        public void When_injecting_a_null_config_to_non_generic_overload_it_should_throw()
-        {
-            // Arrange
-            ICollection collection1 = null;
-            ICollection collection2 = null;
-
-            // Act
-            Action act = () => collection1.Should().BeEquivalentTo(collection2, config: null);
-
-            // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .WithParameterName("config");
-        }
-
-        [Fact]
         public void When_asserting_equivalence_of_generic_collections_it_should_respect_the_declared_type()
         {
             // Arrange
@@ -1357,34 +1328,6 @@ namespace FluentAssertions.Specs.Equivalency
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("*Wheels*not have*VehicleId*not have*");
-        }
-
-        [Fact]
-        public void When_comparing_against_a_non_generic_collection_it_should_treat_it_as_unordered_collection_of_objects()
-        {
-            // Arrange
-            List<Type> actual = new List<Type> { typeof(int), typeof(string) };
-            IEnumerable expectation = new List<Type> { typeof(string), typeof(int) };
-
-            // Act
-            Action act = () => actual.Should().BeEquivalentTo(expectation);
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_comparing_against_a_non_generic_collection_it_should_treat_it_as_collection_of_objects()
-        {
-            // Arrange
-            List<Type> actual = new List<Type> { typeof(int), typeof(string) };
-            IEnumerable expectation = new List<Type> { typeof(string), typeof(int) };
-
-            // Act
-            Action act = () => actual.Should().BeEquivalentTo(expectation, o => o.WithStrictOrdering());
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected*actual[0]*String*Int32*actual[1]*Int32*String*");
         }
 
         [Fact]
@@ -1450,7 +1393,7 @@ namespace FluentAssertions.Specs.Equivalency
             var subject = Enumerable.Empty<object>();
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(null);
+            Action act = () => subject.Should().BeEquivalentTo((IEnumerable<object>)null);
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1630,7 +1573,7 @@ namespace FluentAssertions.Specs.Equivalency
             IEnumerable<object> subject = null;
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(null);
+            Action act = () => subject.Should().BeEquivalentTo((IEnumerable<int>)null);
 
             // Assert
             act.Should().NotThrow();
@@ -1801,7 +1744,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected actual*to be <null>*{1, 2, 3, 4, 5, 6}*");
+                .WithMessage("Expected actual*to be <null>*{{1, 2, 3}, {4, 5, 6}}*");
         }
 
         [Fact]
@@ -1895,15 +1838,24 @@ namespace FluentAssertions.Specs.Equivalency
         public void When_the_number_of_dimensions_of_the_arrays_are_not_the_same_it_should_throw()
         {
             // Arrange
+            var actual = new[, ,]
+            {
+                {
+                    { 1 },
+                    { 2 },
+                    { 3 }
+                },
+                {
+                    { 4 },
+                    { 5 },
+                    { 6 }
+                }
+            };
+
             var expectation = new[,]
             {
                 { 1, 2, 3 },
                 { 4, 5, 6 }
-            };
-
-            var actual = new[]
-            {
-                1, 2
             };
 
             // Act
@@ -1911,7 +1863,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected actual*2 dimension(s)*but it has 1*");
+                .WithMessage("Expected actual*2 dimension(s)*but it has 3*");
         }
 
         [Fact]

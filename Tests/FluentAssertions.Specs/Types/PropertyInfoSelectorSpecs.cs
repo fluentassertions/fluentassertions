@@ -229,7 +229,7 @@ namespace FluentAssertions.Specs.Types
 
             // Assert
             returnTypes.Should()
-                .BeEquivalentTo(typeof(string), typeof(string), typeof(int), typeof(int), typeof(int), typeof(int));
+                .BeEquivalentTo(new[] { typeof(string), typeof(string), typeof(int), typeof(int), typeof(int), typeof(int) });
         }
     }
 

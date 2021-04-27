@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Collections;
-using FluentAssertions.Specs.Equivalency;
 using Xunit;
 using Xunit.Sdk;
 
@@ -12,7 +10,7 @@ namespace FluentAssertions.Specs.Collections
 {
     /// <summary>
     /// The tests in this class are responsible for testing the Satisfy methods
-    /// in the <see cref="SelfReferencingCollectionAssertions{TCollection, T, TAssertions}"/> class.
+    /// in the <see cref="GenericCollectionAssertions{TCollection, T, TAssertions}"/> class.
     /// </summary>
     public class GenericCollectionSatisfyAssertionSpecs
     {
