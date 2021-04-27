@@ -671,34 +671,22 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:collection} to contain {0}{reason}, but found <null>.", expected);
             }
 
-            if (expected is string)
+            IEnumerable<T> missingItems = expectedObjects.Except(Subject);
+            if (missingItems.Any())
             {
-                if (!Subject.Cast<object>().Contains(expected))
+                if (expectedObjects.Count > 1)
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} {0} to contain {1}{reason}.", Subject, expected);
+                        .FailWith("Expected {context:collection} {0} to contain {1}{reason}, but could not find {2}.", Subject,
+                            expected, missingItems);
                 }
-            }
-            else
-            {
-                IEnumerable<T> missingItems = expectedObjects.Except(Subject);
-                if (missingItems.Any())
+                else
                 {
-                    if (expectedObjects.Count > 1)
-                    {
-                        Execute.Assertion
-                            .BecauseOf(because, becauseArgs)
-                            .FailWith("Expected {context:collection} {0} to contain {1}{reason}, but could not find {2}.", Subject,
-                                expected, missingItems);
-                    }
-                    else
-                    {
-                        Execute.Assertion
-                            .BecauseOf(because, becauseArgs)
-                            .FailWith("Expected {context:collection} {0} to contain {1}{reason}.", Subject,
-                                expected.First());
-                    }
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:collection} {0} to contain {1}{reason}.", Subject,
+                            expected.First());
                 }
             }
 
@@ -1932,34 +1920,22 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:collection} to not contain {0}{reason}, but found <null>.", unexpected);
             }
 
-            if (unexpected is string)
+            IEnumerable<T> foundItems = unexpectedObjects.Intersect(Subject);
+            if (foundItems.Any())
             {
-                if (Subject.Cast<object>().Contains(unexpected))
+                if (unexpectedObjects.Count > 1)
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} {0} to not contain {1}{reason}.", Subject, unexpected);
+                        .FailWith("Expected {context:collection} {0} to not contain {1}{reason}, but found {2}.", Subject,
+                            unexpected, foundItems);
                 }
-            }
-            else
-            {
-                IEnumerable<T> foundItems = unexpectedObjects.Intersect(Subject);
-                if (foundItems.Any())
+                else
                 {
-                    if (unexpectedObjects.Count > 1)
-                    {
-                        Execute.Assertion
-                            .BecauseOf(because, becauseArgs)
-                            .FailWith("Expected {context:collection} {0} to not contain {1}{reason}, but found {2}.", Subject,
-                                unexpected, foundItems);
-                    }
-                    else
-                    {
-                        Execute.Assertion
-                            .BecauseOf(because, becauseArgs)
-                            .FailWith("Expected {context:collection} {0} to not contain element {1}{reason}.", Subject,
-                                unexpectedObjects.First());
-                    }
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:collection} {0} to not contain element {1}{reason}.", Subject,
+                            unexpectedObjects.First());
                 }
             }
 
