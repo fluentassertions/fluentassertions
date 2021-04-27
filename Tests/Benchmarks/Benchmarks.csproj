@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net47</TargetFramework>
+    <TargetFrameworks>net5;net472</TargetFrameworks>
     <LangVersion>9.0</LangVersion>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\Src\FluentAssertions\FluentAssertions.snk</AssemblyOriginatorKeyFile>

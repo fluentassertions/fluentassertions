@@ -1,32 +1,35 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace FluentAssertions.Common
 {
     internal static class ObjectExtensions
     {
-        public static bool IsSameOrEqualTo(this object actual, object expected)
+        public static Func<T, T, bool> GetComparer<T>()
         {
-            if (actual is null && expected is null)
+            if (typeof(T).IsValueType)
             {
-                return true;
+                // Avoid causing any boxing for value types
+                return (actual, expected) => EqualityComparer<T>.Default.Equals(actual, expected);
             }
 
-            if (actual is null)
+            if (typeof(T) != typeof(object))
             {
-                return false;
+                // CompareNumerics is only relevant for numerics boxed in an object.
+                return (actual, expected) => actual is null
+                    ? expected is null
+                    : expected is not null && EqualityComparer<T>.Default.Equals(actual, expected);
             }
 
-            if (expected is null)
-            {
-                return false;
-            }
+            return (actual, expected) => actual is null
+                    ? expected is null
+                    : expected is not null
+                        && (EqualityComparer<T>.Default.Equals(actual, expected) || CompareNumerics(actual, expected));
+        }
 
-            if (actual.Equals(expected))
-            {
-                return true;
-            }
-
+        private static bool CompareNumerics(object actual, object expected)
+        {
             Type expectedType = expected.GetType();
             Type actualType = actual.GetType();
 
@@ -60,8 +63,8 @@ namespace FluentAssertions.Common
 
         private static bool IsNumericType(this object obj)
         {
-            return obj switch
-            {
+            // "is not null" is due to https://github.com/dotnet/runtime/issues/47920#issuecomment-774481505
+            return obj is not null and (
                 int or
                 long or
                 float or
@@ -72,10 +75,7 @@ namespace FluentAssertions.Common
                 short or
                 ushort or
                 uint or
-                ulong
-                  => true,
-                _ => false,
-            };
+                ulong);
         }
     }
 }

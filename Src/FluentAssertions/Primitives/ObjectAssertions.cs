@@ -43,7 +43,7 @@ namespace FluentAssertions.Primitives
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject.IsSameOrEqualTo(expected))
+                .ForCondition(ObjectExtensions.GetComparer<TSubject>()(Subject, expected))
                 .WithDefaultIdentifier(Identifier)
                 .FailWith("Expected {context} to be {0}{reason}, but found {1}.", expected,
                     Subject);
@@ -65,7 +65,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> NotBe(TSubject unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!Subject.IsSameOrEqualTo(unexpected))
+                .ForCondition(!ObjectExtensions.GetComparer<TSubject>()(Subject, unexpected))
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
                 .FailWith("Did not expect {context} to be equal to {0}{reason}.", unexpected);
