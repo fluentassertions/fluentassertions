@@ -1162,6 +1162,370 @@ namespace FluentAssertions.Specs.Collections
 
         #endregion
 
+        #region Multi Element Collection - Using Lambda
+
+        #region Be In Ascending Order
+
+        [Fact]
+        public void When_strings_are_in_ascending_order_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "alpha", "beta", "theta" };
+
+            // Act
+            Action act = () => strings.Should().BeInAscendingOrder();
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_not_in_ascending_order_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "theta", "alpha", "beta" };
+
+            // Act
+            Action act = () => strings.Should().BeInAscendingOrder("of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Expected*ascending*of reasons*index 0*");
+        }
+
+        [Fact]
+        public void When_strings_are_in_ascending_order_according_to_a_custom_comparer_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "alpha", "beta", "theta" };
+
+            // Act
+            Action act = () => strings.Should().BeInAscendingOrder(new ByLastCharacterComparer());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_not_in_ascending_order_according_to_a_custom_comparer_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "dennis", "roy", "thomas" };
+
+            // Act
+            Action act = () => strings.Should().BeInAscendingOrder(new ByLastCharacterComparer(), "of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Expected*ascending*of reasons*index 1*");
+        }
+
+        [Fact]
+        public void When_strings_are_in_ascending_order_according_to_a_custom_lambda_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "alpha", "beta", "theta" };
+
+            // Act
+            Action act = () => strings.Should().BeInAscendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_not_in_ascending_order_according_to_a_custom_lambda_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "dennis", "roy", "thomas" };
+
+            // Act
+            Action act = () => strings.Should().BeInAscendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()), "of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Expected*ascending*of reasons*index 1*");
+        }
+
+        #endregion
+
+        #region Not Be In Ascending Order
+
+        [Fact]
+        public void When_strings_are_not_in_ascending_order_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "beta", "alpha", "theta" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInAscendingOrder();
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_in_ascending_order_unexpectedly_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "alpha", "beta", "theta" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInAscendingOrder("of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Did not expect*ascending*of reasons*but found*");
+        }
+
+        [Fact]
+        public void When_strings_are_not_in_ascending_order_according_to_a_custom_comparer_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "dennis", "roy", "barbara" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInAscendingOrder(new ByLastCharacterComparer());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_unexpectedly_in_ascending_order_according_to_a_custom_comparer_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "dennis", "thomas", "roy" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInAscendingOrder(new ByLastCharacterComparer(), "of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Did not expect*ascending*of reasons*but found*");
+        }
+
+        [Fact]
+        public void When_strings_are_not_in_ascending_order_according_to_a_custom_lambda_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "roy", "dennis", "thomas" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInAscendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_unexpectedly_in_ascending_order_according_to_a_custom_lambda_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "barbara", "dennis", "roy" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInAscendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()), "of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Did not expect*ascending*of reasons*but found*");
+        }
+
+        #endregion
+
+        #region Be In Descending Order
+
+        [Fact]
+        public void When_strings_are_in_descending_order_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "theta", "beta", "alpha" };
+
+            // Act
+            Action act = () => strings.Should().BeInDescendingOrder();
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_not_in_descending_order_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "theta", "alpha", "beta" };
+
+            // Act
+            Action act = () => strings.Should().BeInDescendingOrder("of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Expected*descending*of reasons*index 1*");
+        }
+
+        [Fact]
+        public void When_strings_are_in_descending_order_based_on_a_custom_comparer_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "roy", "dennis", "barbara" };
+
+            // Act
+            Action act = () => strings.Should().BeInDescendingOrder(new ByLastCharacterComparer());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_not_in_descending_order_based_on_a_custom_comparer_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "dennis", "roy", "barbara" };
+
+            // Act
+            Action act = () => strings.Should().BeInDescendingOrder(new ByLastCharacterComparer(), "of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Expected*descending*of reasons*index 0*");
+        }
+
+        [Fact]
+        public void When_strings_are_in_descending_order_based_on_a_custom_lambda_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "roy", "dennis", "barbara" };
+
+            // Act
+            Action act = () => strings.Should().BeInDescendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_not_in_descending_order_based_on_a_custom_lambda_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "dennis", "roy", "barbara" };
+
+            // Act
+            Action act = () => strings.Should().BeInDescendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()), "of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Expected*descending*of reasons*index 0*");
+        }
+
+        #endregion
+
+        #region Not Be In Descending Order
+
+        [Fact]
+        public void When_strings_are_not_in_descending_order_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "beta", "theta", "alpha" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInDescendingOrder();
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_unexpectedly_in_descending_order_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "theta", "beta", "alpha" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInDescendingOrder("of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Did not expect*descending*of reasons*but found*");
+        }
+
+        [Fact]
+        public void When_strings_are_not_in_descending_order_based_on_a_custom_comparer_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "roy", "barbara", "dennis" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInDescendingOrder(new ByLastCharacterComparer());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_unexpectedly_in_descending_order_based_on_a_custom_comparer_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "roy", "dennis", "barbara" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInDescendingOrder(new ByLastCharacterComparer(), "of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Did not expect*descending*of reasons*but found*");
+        }
+
+        [Fact]
+        public void When_strings_are_not_in_descending_order_based_on_a_custom_lambda_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "dennis", "roy", "barbara" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInDescendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_unexpectedly_in_descending_order_based_on_a_custom_lambda_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "roy", "dennis", "barbara" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInDescendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()), "of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Did not expect*descending*of reasons*but found*");
+        }
+
+        private class ByLastCharacterComparer : IComparer<string>
+        {
+            public int Compare(string x, string y)
+            {
+                return x.Last().CompareTo(y.Last());
+            }
+        }
+
+        #endregion
+
+        #endregion
+
         #region Null Collection
 
         [Fact]
