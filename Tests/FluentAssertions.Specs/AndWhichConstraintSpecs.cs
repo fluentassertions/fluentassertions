@@ -1,5 +1,4 @@
 ﻿using System;
-
 using FluentAssertions.Collections;
 using Xunit;
 using Xunit.Sdk;

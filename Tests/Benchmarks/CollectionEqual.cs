@@ -1,15 +1,18 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System.Collections.Generic;
+using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Jobs;
 using FluentAssertions;
 using FluentAssertions.Common;
 
 namespace Benchmarks
 {
     [MemoryDiagnoser]
-    [RyuJitX86Job]
+    [SimpleJob(RuntimeMoniker.Net472)]
+    [SimpleJob(RuntimeMoniker.NetCoreApp50)]
     public class CollectionEqualBenchmarks
     {
-        private int[] collection1;
-        private int[] collection2;
+        private IEnumerable<int> collection1;
+        private IEnumerable<int> collection2;
 
         [Params(10, 100, 1_000, 5_000, 10_000)]
         public int N { get; set; }
@@ -28,13 +31,13 @@ namespace Benchmarks
         }
 
         [Benchmark]
-        public void CollectionEqual_Generic_IsSameOrEqualTo()
+        public void CollectionEqual_Optimized()
         {
-            collection1.Should().Equal(collection2, (s, e) => ((object)s).IsSameOrEqualTo(e));
+            collection1.Should().Equal(collection2, ObjectExtensions.GetComparer<int>());
         }
 
         [Benchmark]
-        public void CollectionEqual_Generic_Equality()
+        public void CollectionEqual_CustomComparer()
         {
             collection1.Should().Equal(collection2, (a, b) => a == b);
         }

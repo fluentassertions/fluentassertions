@@ -6,7 +6,7 @@ namespace Benchmarks
     {
         public static void Main()
         {
-            _ = BenchmarkRunner.Run<LargeDataTableEquivalencyBenchmarks>();
+            _ = BenchmarkRunner.Run<CollectionEqualBenchmarks>();
         }
     }
 }

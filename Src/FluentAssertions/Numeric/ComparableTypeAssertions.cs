@@ -49,7 +49,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<TAssertions> Be(T expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.IsSameOrEqualTo(expected))
+                .ForCondition(Equals(Subject, expected))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:object} to be equal to {0}{reason}, but found {1}.", expected, Subject);
 
@@ -138,7 +138,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<TAssertions> NotBe(T unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!Subject.IsSameOrEqualTo(unexpected))
+                .ForCondition(!Equals(Subject, unexpected))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:object} to be equal to {0}{reason}.", unexpected);
 

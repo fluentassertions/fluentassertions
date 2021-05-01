@@ -869,10 +869,11 @@ namespace FluentAssertions.Collections
             IList<T> expectedItems = expected.ConvertOrCastToList();
             IList<T> actualItems = Subject.ConvertOrCastToList();
 
+            Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
             for (int index = 0; index < expectedItems.Count; index++)
             {
                 T expectedItem = expectedItems[index];
-                actualItems = actualItems.SkipWhile(actualItem => !actualItem.IsSameOrEqualTo(expectedItem)).ToArray();
+                actualItems = actualItems.SkipWhile(actualItem => !areSameOrEqual(actualItem, expectedItem)).ToArray();
                 if (actualItems.Any())
                 {
                     actualItems = actualItems.Skip(1).ToArray();
@@ -1037,7 +1038,7 @@ namespace FluentAssertions.Collections
                 return EndWith(null, because, becauseArgs);
             }
 
-            AssertCollectionEndsWith(Subject, expectation.ConvertOrCastToCollection(), EqualityComparer<T>.Default.Equals, because, becauseArgs);
+            AssertCollectionEndsWith(Subject, expectation.ConvertOrCastToCollection(), (a, b) => EqualityComparer<T>.Default.Equals(a, b), because, becauseArgs);
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
@@ -1083,7 +1084,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> EndWith(T element, string because = "", params object[] becauseArgs)
         {
-            AssertCollectionEndsWith(Subject, new[] { element }, (a, b) => a.IsSameOrEqualTo(b), because, becauseArgs);
+            AssertCollectionEndsWith(Subject, new[] { element }, ObjectExtensions.GetComparer<T>(), because, becauseArgs);
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
@@ -1094,9 +1095,7 @@ namespace FluentAssertions.Collections
         /// <param name="elements">A params array with the expected elements.</param>
         public AndConstraint<TAssertions> Equal(params T[] elements)
         {
-            Func<T, T, bool> comparer = GetComparer();
-
-            AssertSubjectEquality(elements, comparer, string.Empty);
+            AssertSubjectEquality(elements, ObjectExtensions.GetComparer<T>(), string.Empty);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -1140,7 +1139,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> Equal(IEnumerable<T> expected, string because = "", params object[] becauseArgs)
         {
-            AssertSubjectEquality(expected, (s, e) => s.IsSameOrEqualTo(e), because, becauseArgs);
+            AssertSubjectEquality(expected, ObjectExtensions.GetComparer<T>(), because, becauseArgs);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -1362,7 +1361,7 @@ namespace FluentAssertions.Collections
                 actual = Subject.ElementAt(index);
 
                 Execute.Assertion
-                    .ForCondition(actual.IsSameOrEqualTo(element))
+                    .ForCondition(ObjectExtensions.GetComparer<T>()(actual, element))
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {0} at index {1}{reason}, but found {2}.", element, index, actual);
             }
@@ -1400,7 +1399,7 @@ namespace FluentAssertions.Collections
                 .FailWith("but found nothing.")
                 .Then
                 .Given(() => PredecessorOf(successor, Subject))
-                .ForCondition(predecessor => predecessor.IsSameOrEqualTo(expectation))
+                .ForCondition(predecessor => ObjectExtensions.GetComparer<T>()(predecessor, expectation))
                 .FailWith("but found {0}.", predecessor => predecessor)
                 .Then
                 .ClearExpectation();
@@ -1432,7 +1431,7 @@ namespace FluentAssertions.Collections
                 .FailWith("but found nothing.")
                 .Then
                 .Given(() => SuccessorOf(predecessor, Subject))
-                .ForCondition(successor => successor.IsSameOrEqualTo(expectation))
+                .ForCondition(successor => ObjectExtensions.GetComparer<T>()(successor, expectation))
                 .FailWith("but found {0}.", successor => successor)
                 .Then
                 .ClearExpectation();
@@ -2091,7 +2090,7 @@ namespace FluentAssertions.Collections
                 int index = 0;
                 foreach (T actualItem in Subject)
                 {
-                    var context = new EquivalencyValidationContext(Node.From<TExpectation>(CallerIdentifier.DetermineCallerIdentity))
+                    var context = new EquivalencyValidationContext(Node.From<TExpectation>(() => CallerIdentifier.DetermineCallerIdentity()))
                     {
                         Subject = actualItem,
                         Expectation = unexpected,
@@ -2188,6 +2187,7 @@ namespace FluentAssertions.Collections
             }
 
             var actualItemsSkipped = 0;
+            Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
             for (int index = 0; index < unexpectedItems.Count; index++)
             {
                 T unexpectedItem = unexpectedItems[index];
@@ -2195,7 +2195,7 @@ namespace FluentAssertions.Collections
                 actualItems = actualItems.SkipWhile(actualItem =>
                 {
                     actualItemsSkipped++;
-                    return !actualItem.IsSameOrEqualTo(unexpectedItem);
+                    return !areSameOrEqual(actualItem, unexpectedItem);
                 }).ToArray();
 
                 if (actualItems.Any())
@@ -2282,7 +2282,7 @@ namespace FluentAssertions.Collections
             }
 
             int[] indices = Subject
-                .Select((item, index) => new { Item = item, Index = index })
+                .Select((item, index) => (Item: item, Index: index))
                 .Where(e => e.Item is null)
                 .Select(e => e.Index)
                 .ToArray();
@@ -2789,7 +2789,7 @@ namespace FluentAssertions.Collections
                 return StartWith(null, because, becauseArgs);
             }
 
-            AssertCollectionStartsWith(Subject, expectation.ConvertOrCastToCollection(), EqualityComparer<T>.Default.Equals, because, becauseArgs);
+            AssertCollectionStartsWith(Subject, expectation.ConvertOrCastToCollection(), (a, b) => EqualityComparer<T>.Default.Equals(a, b), because, becauseArgs);
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
@@ -2835,7 +2835,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> StartWith(T element, string because = "", params object[] becauseArgs)
         {
-            AssertCollectionStartsWith(Subject, new[] { element }, (a, b) => a.IsSameOrEqualTo(b), because, becauseArgs);
+            AssertCollectionStartsWith(Subject, new[] { element }, ObjectExtensions.GetComparer<T>(), because, becauseArgs);
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
@@ -3009,16 +3009,6 @@ namespace FluentAssertions.Collections
                 .ClearExpectation();
         }
 
-        private static Func<T, T, bool> GetComparer()
-        {
-            if (typeof(T).IsValueType)
-            {
-                return (T s, T e) => s.Equals(e);
-            }
-
-            return (T s, T e) => Equals(s, e);
-        }
-
         private static string GetExpressionOrderString<TSelector>(Expression<Func<T, TSelector>> propertyExpression)
         {
             string orderString = propertyExpression.GetMemberPath().ToString();
@@ -3028,7 +3018,7 @@ namespace FluentAssertions.Collections
             return orderString;
         }
 
-        private static Type GetType(object o)
+        private static Type GetType<TType>(TType o)
         {
             return o is Type t ? t : o.GetType();
         }
@@ -3165,10 +3155,11 @@ namespace FluentAssertions.Collections
                 : actualItems.OrderByDescending(item => item, comparer);
 
             T[] orderedItems = ordering.ToArray();
+            Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
 
             for (int index = 0; index < orderedItems.Length; index++)
             {
-                if (!actualItems[index].IsSameOrEqualTo(orderedItems[index]))
+                if (!areSameOrEqual(actualItems[index], orderedItems[index]))
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
@@ -3209,8 +3200,9 @@ namespace FluentAssertions.Collections
                 ? actualItems.OrderBy(item => item, comparer).ToArray()
                 : actualItems.OrderByDescending(item => item, comparer).ToArray();
 
+            Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
             bool itemsAreUnordered = actualItems
-                .Where((actualItem, index) => !actualItem.IsSameOrEqualTo(orderedItems[index]))
+                .Where((actualItem, index) => !areSameOrEqual(actualItem, orderedItems[index]))
                 .Any();
 
             if (!itemsAreUnordered)
