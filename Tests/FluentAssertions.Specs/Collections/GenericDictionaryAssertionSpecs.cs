@@ -615,7 +615,7 @@ namespace FluentAssertions.Specs.Collections
                 [2] = "Two",
                 [3] = "Three"
             };
-            IEnumerable collection = new[] { 4, 5, 6 };
+            var collection = new[] { 4, 5, 6 };
 
             // Act / Assert
             dictionary.Should().HaveSameCount(collection);
@@ -631,7 +631,7 @@ namespace FluentAssertions.Specs.Collections
                 [2] = "Two",
                 [3] = "Three"
             };
-            IEnumerable collection = new[] { 4, 6 };
+            var collection = new[] { 4, 6 };
 
             // Act
             Action act = () => dictionary.Should().HaveSameCount(collection);
@@ -651,7 +651,7 @@ namespace FluentAssertions.Specs.Collections
                 [2] = "Two",
                 [3] = "Three"
             };
-            IEnumerable collection = new[] { 4, 6 };
+            var collection = new[] { 4, 6 };
 
             // Act
             Action act = () => dictionary.Should().HaveSameCount(collection, "we want to test the {0}", "reason");
@@ -666,7 +666,7 @@ namespace FluentAssertions.Specs.Collections
         {
             // Arrange
             Dictionary<string, int> dictionary = null;
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => dictionary.Should().HaveSameCount(collection,
@@ -687,7 +687,7 @@ namespace FluentAssertions.Specs.Collections
                 [2] = "Two",
                 [3] = "Three"
             };
-            IEnumerable collection = null;
+            int[] collection = null;
 
             // Act
             Action act = () => dictionary.Should().HaveSameCount(collection);
@@ -711,7 +711,7 @@ namespace FluentAssertions.Specs.Collections
                 [2] = "Two",
                 [3] = "Three"
             };
-            IEnumerable collection = new[] { 4, 6 };
+            var collection = new[] { 4, 6 };
 
             // Act / Assert
             dictionary.Should().NotHaveSameCount(collection);
@@ -727,7 +727,7 @@ namespace FluentAssertions.Specs.Collections
                 [2] = "Two",
                 [3] = "Three"
             };
-            IEnumerable collection = new[] { 4, 5, 6 };
+            var collection = new[] { 4, 5, 6 };
 
             // Act
             Action act = () => dictionary.Should().NotHaveSameCount(collection);
@@ -747,7 +747,7 @@ namespace FluentAssertions.Specs.Collections
                 [2] = "Two",
                 [3] = "Three"
             };
-            IEnumerable collection = new[] { 4, 5, 6 };
+            var collection = new[] { 4, 5, 6 };
 
             // Act
             Action act = () => dictionary.Should().NotHaveSameCount(collection, "we want to test the {0}", "reason");
@@ -762,7 +762,7 @@ namespace FluentAssertions.Specs.Collections
         {
             // Arrange
             Dictionary<int, string> dictionary = null;
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => dictionary.Should().NotHaveSameCount(collection,
@@ -783,7 +783,7 @@ namespace FluentAssertions.Specs.Collections
                 [2] = "Two",
                 [3] = "Three"
             };
-            IEnumerable collection = null;
+            int[] collection = null;
 
             // Act
             Action act = () => dictionary.Should().NotHaveSameCount(collection);
@@ -803,7 +803,7 @@ namespace FluentAssertions.Specs.Collections
                 [2] = "Two",
                 [3] = "Three"
             };
-            IEnumerable collection = dictionary;
+            var collection = dictionary;
 
             // Act
             Action act = () => dictionary.Should().NotHaveSameCount(collection,

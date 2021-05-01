@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -1452,7 +1451,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> HaveSameCount(IEnumerable otherCollection, string because = "",
+        public AndConstraint<TAssertions> HaveSameCount<TExpectation>(IEnumerable<TExpectation> otherCollection, string because = "",
             params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify count against a <null> collection.");
@@ -1467,7 +1466,7 @@ namespace FluentAssertions.Collections
             }
 
             int actualCount = Subject.Count();
-            int expectedCount = (otherCollection as ICollection)?.Count ?? otherCollection.Cast<object>().Count();
+            int expectedCount = otherCollection.Count();
 
             Execute.Assertion
                 .ForCondition(actualCount == expectedCount)
@@ -2390,7 +2389,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> NotHaveSameCount(IEnumerable otherCollection, string because = "",
+        public AndConstraint<TAssertions> NotHaveSameCount<TExpectation>(IEnumerable<TExpectation> otherCollection, string because = "",
             params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify count against a <null> collection.");
@@ -2414,7 +2413,7 @@ namespace FluentAssertions.Collections
             }
 
             int actualCount = Subject.Count();
-            int expectedCount = otherCollection.Cast<object>().Count();
+            int expectedCount = otherCollection.Count();
 
             Execute.Assertion
                 .ForCondition(actualCount != expectedCount)
