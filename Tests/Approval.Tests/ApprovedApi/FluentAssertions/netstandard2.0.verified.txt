@@ -370,7 +370,7 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndWhichConstraint<TAssertions, T> HaveElementAt(int index, T element, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveElementPreceding(T successor, T expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveElementSucceeding(T predecessor, T expectation, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveSameCount(System.Collections.IEnumerable otherCollection, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveSameCount<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> otherCollection, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> IntersectWith(System.Collections.Generic.IEnumerable<T> otherCollection, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> unexpected, string because = "", params object[] becauseArgs) { }
@@ -399,7 +399,7 @@ namespace FluentAssertions.Collections
             where TKey :  class { }
         public FluentAssertions.AndConstraint<TAssertions> NotEqual(System.Collections.Generic.IEnumerable<T> unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveCount(int unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotHaveSameCount(System.Collections.IEnumerable otherCollection, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHaveSameCount<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> otherCollection, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotIntersectWith(System.Collections.Generic.IEnumerable<T> otherCollection, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> OnlyContain(System.Linq.Expressions.Expression<System.Func<T, bool>> predicate, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> OnlyHaveUniqueItems(string because = "", params object[] becauseArgs) { }
