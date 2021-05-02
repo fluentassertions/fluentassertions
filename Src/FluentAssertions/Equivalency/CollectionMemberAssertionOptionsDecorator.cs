@@ -44,7 +44,7 @@ namespace FluentAssertions.Equivalency
 
         public IEnumerable<IEquivalencyStep> UserEquivalencySteps
         {
-            get { return inner.UserEquivalencySteps.Select(step => new CollectionMemberAssertionRuleDecorator(step)).ToArray(); }
+            get { return inner.UserEquivalencySteps; }
         }
 
         public bool IsRecursive => inner.IsRecursive;
