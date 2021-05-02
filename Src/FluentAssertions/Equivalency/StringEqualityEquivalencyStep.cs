@@ -7,57 +7,44 @@ namespace FluentAssertions.Equivalency
 {
     public class StringEqualityEquivalencyStep : IEquivalencyStep
     {
-        /// <summary>
-        /// Gets a value indicating whether this step can handle the current subject and/or expectation.
-        /// </summary>
-        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
         {
-            Type expectationType = config.GetExpectationType(context.RuntimeType, context.CompileTimeType);
+            Type expectationType = comparands.GetExpectedType(context.Options);
 
-            return (expectationType is not null) && (expectationType == typeof(string));
-        }
-
-        /// <summary>
-        /// Applies a step as part of the task to compare two objects for structural equality.
-        /// </summary>
-        /// <value>
-        /// Should return <c>true</c> if the subject matches the expectation or if no additional assertions
-        /// have to be executed. Should return <c>false</c> otherwise.
-        /// </value>
-        /// <remarks>
-        /// May throw when preconditions are not met or if it detects mismatching data.
-        /// </remarks>
-        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
-        {
-            if (!ValidateAgainstNulls(context))
+            if (expectationType is null || expectationType != typeof(string))
             {
-                return true;
+                return EquivalencyResult.ContinueWithNext;
             }
 
-            bool subjectIsString = ValidateAgainstType<string>(context);
+            if (!ValidateAgainstNulls(comparands, context.CurrentNode))
+            {
+                return EquivalencyResult.AssertionCompleted;
+            }
+
+            bool subjectIsString = ValidateAgainstType<string>(comparands, context.CurrentNode);
             if (subjectIsString)
             {
-                string subject = (string)context.Subject;
-                string expectation = (string)context.Expectation;
+                string subject = (string)comparands.Subject;
+                string expectation = (string)comparands.Expectation;
 
                 subject.Should()
                     .Be(expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
             }
 
-            return true;
+            return EquivalencyResult.AssertionCompleted;
         }
 
-        private static bool ValidateAgainstNulls(IEquivalencyValidationContext context)
+        private static bool ValidateAgainstNulls(Comparands comparands, INode currentNode)
         {
-            object expected = context.Expectation;
-            object subject = context.Subject;
+            object expected = comparands.Expectation;
+            object subject = comparands.Subject;
 
             bool onlyOneNull = (expected is null) ^ (subject is null);
 
             if (onlyOneNull)
             {
                 AssertionScope.Current.FailWith(
-                    $"Expected {context.CurrentNode.Description} to be {{0}}{{reason}}, but found {{1}}.", expected, subject);
+                    $"Expected {currentNode.Description} to be {{0}}{{reason}}, but found {{1}}.", expected, subject);
 
                 return false;
             }
@@ -65,9 +52,9 @@ namespace FluentAssertions.Equivalency
             return true;
         }
 
-        private static bool ValidateAgainstType<T>(IEquivalencyValidationContext context)
+        private static bool ValidateAgainstType<T>(Comparands comparands, INode currentNode)
         {
-            bool subjectIsNull = context.Subject is null;
+            bool subjectIsNull = comparands.Subject is null;
             if (subjectIsNull)
             {
                 // Do not know the declared type of the expectation.
@@ -76,9 +63,9 @@ namespace FluentAssertions.Equivalency
 
             return
                 AssertionScope.Current
-                    .ForCondition(context.Subject.GetType().IsSameOrInherits(typeof(T)))
-                    .FailWith($"Expected {context.CurrentNode.Description} to be {{0}}, but found {{1}}.",
-                        context.RuntimeType, context.Subject.GetType());
+                    .ForCondition(comparands.Subject.GetType().IsSameOrInherits(typeof(T)))
+                    .FailWith($"Expected {currentNode} to be {{0}}, but found {{1}}.",
+                        comparands.RuntimeType, comparands.Subject.GetType());
         }
     }
 }

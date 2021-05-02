@@ -6,24 +6,19 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
-    public class ConstraintCollectionEquivalencyStep : IEquivalencyStep
+    public class ConstraintCollectionEquivalencyStep : EquivalencyStep<ConstraintCollection>
     {
-        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
         {
-            return typeof(ConstraintCollection).IsAssignableFrom(config.GetExpectationType(context.RuntimeType, context.CompileTimeType));
-        }
-
-        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
-        {
-            if (context.Subject is not ConstraintCollection)
+            if (comparands.Subject is not ConstraintCollection)
             {
                 AssertionScope.Current
-                    .FailWith("Expected a value of type ConstraintCollection at {context:Constraints}, but found {0}", context.Subject.GetType());
+                    .FailWith("Expected a value of type ConstraintCollection at {context:Constraints}, but found {0}", comparands.Subject.GetType());
             }
             else
             {
-                var subject = (ConstraintCollection)context.Subject;
-                var expectation = (ConstraintCollection)context.Expectation;
+                var subject = (ConstraintCollection)comparands.Subject;
+                var expectation = (ConstraintCollection)comparands.Expectation;
 
                 var subjectConstraints = subject.Cast<Constraint>().ToDictionary(constraint => constraint.ConstraintName);
                 var expectationConstraints = expectation.Cast<Constraint>().ToDictionary(constraint => constraint.ConstraintName);
@@ -42,20 +37,20 @@ namespace FluentAssertions.Equivalency
 
                     if ((subjectConstraint is not null) && (expectationConstraint is not null))
                     {
-                        IEquivalencyValidationContext nestedContext = context.AsCollectionItem(
-                            constraintName,
-                            subjectConstraint,
-                            expectationConstraint);
-
-                        if (nestedContext is not null)
+                        Comparands newComparands = new()
                         {
-                            parent.AssertEqualityUsing(nestedContext);
-                        }
+                            Subject = subjectConstraint,
+                            Expectation = expectationConstraint,
+                            CompileTimeType = typeof(Constraint)
+                        };
+
+                        IEquivalencyValidationContext nestedContext = context.AsCollectionItem<Constraint>(constraintName);
+                        nestedValidator.RecursivelyAssertEquality(newComparands, nestedContext);
                     }
                 }
             }
 
-            return true;
+            return EquivalencyResult.AssertionCompleted;
         }
     }
 }

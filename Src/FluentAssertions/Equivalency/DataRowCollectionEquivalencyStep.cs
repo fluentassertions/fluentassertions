@@ -7,72 +7,63 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
-    public class DataRowCollectionEquivalencyStep : IEquivalencyStep
+    public class DataRowCollectionEquivalencyStep : EquivalencyStep<DataRowCollection>
     {
-        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
         {
-            return typeof(DataRowCollection).IsAssignableFrom(config.GetExpectationType(context.RuntimeType, context.CompileTimeType));
-        }
-
-        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
-        {
-            if (context.Subject is not DataRowCollection)
+            if (comparands.Subject is not DataRowCollection)
             {
                 AssertionScope.Current
-                    .FailWith("Expected {context:value} to be of type DataRowCollection, but found {0}", context.Subject.GetType());
+                    .FailWith("Expected {context:value} to be of type DataRowCollection, but found {0}",
+                        comparands.Subject.GetType());
             }
             else
             {
                 RowMatchMode rowMatchMode = RowMatchMode.Index;
 
-                if (config is DataEquivalencyAssertionOptions<DataSet> dataSetConfig)
+                if (context.Options is DataEquivalencyAssertionOptions<DataSet> dataSetConfig)
                 {
                     rowMatchMode = dataSetConfig.RowMatchMode;
                 }
-                else if (config is DataEquivalencyAssertionOptions<DataTable> dataTableConfig)
+                else if (context.Options is DataEquivalencyAssertionOptions<DataTable> dataTableConfig)
                 {
                     rowMatchMode = dataTableConfig.RowMatchMode;
                 }
 
-                var subject = (DataRowCollection)context.Subject;
-                var expectation = (DataRowCollection)context.Expectation;
+                var subject = (DataRowCollection)comparands.Subject;
+                var expectation = (DataRowCollection)comparands.Expectation;
 
                 AssertionScope.Current
                     .ForCondition(subject.Count == expectation.Count)
-                    .FailWith("Expected {context:DataRowCollection} to contain {0} row(s){reason}, but found {1}", expectation.Count, subject.Count);
+                    .FailWith("Expected {context:DataRowCollection} to contain {0} row(s){reason}, but found {1}",
+                        expectation.Count, subject.Count);
 
                 switch (rowMatchMode)
                 {
                     case RowMatchMode.Index:
-                        MatchRowsByIndexAndCompare(context, parent, subject, expectation);
+                        MatchRowsByIndexAndCompare(context, nestedValidator, subject, expectation);
                         break;
 
                     case RowMatchMode.PrimaryKey:
-                        MatchRowsByPrimaryKeyAndCompare(parent, context, subject, expectation);
+                        MatchRowsByPrimaryKeyAndCompare(nestedValidator, context, subject, expectation);
                         break;
 
                     default:
-                        AssertionScope.Current.FailWith("Unknown RowMatchMode {0} when trying to compare {context:DataRowCollection}", rowMatchMode);
+                        AssertionScope.Current.FailWith(
+                            "Unknown RowMatchMode {0} when trying to compare {context:DataRowCollection}", rowMatchMode);
                         break;
                 }
             }
 
-            return true;
+            return EquivalencyResult.AssertionCompleted;
         }
 
         private static void MatchRowsByIndexAndCompare(IEquivalencyValidationContext context, IEquivalencyValidator parent, DataRowCollection subject, DataRowCollection expectation)
         {
-            for (int i = 0; i < expectation.Count; i++)
+            for (int index = 0; index < expectation.Count; index++)
             {
-                IEquivalencyValidationContext nestedContext = context.AsCollectionItem(
-                    i,
-                    subject[i],
-                    expectation[i]);
-
-                if (nestedContext is not null)
-                {
-                    parent.AssertEqualityUsing(nestedContext);
-                }
+                IEquivalencyValidationContext nestedContext = context.AsCollectionItem<DataRow>(index);
+                parent.RecursivelyAssertEquality(new Comparands(subject[index], expectation[index], typeof(DataRow)), nestedContext);
             }
         }
 
@@ -165,15 +156,8 @@ namespace FluentAssertions.Equivalency
                 {
                     expectationRowByKey.Remove(key);
 
-                    IEquivalencyValidationContext nestedContext = context.AsCollectionItem(
-                        key.ToString(),
-                        subjectRow,
-                        expectationRow);
-
-                    if (nestedContext is not null)
-                    {
-                        parent.AssertEqualityUsing(nestedContext);
-                    }
+                    IEquivalencyValidationContext nestedContext = context.AsCollectionItem<DataRow>(key.ToString());
+                    parent.RecursivelyAssertEquality(new Comparands(subjectRow, expectationRow, typeof(DataRow)), nestedContext);
                 }
             }
 

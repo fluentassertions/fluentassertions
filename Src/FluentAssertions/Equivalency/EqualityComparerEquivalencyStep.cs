@@ -13,24 +13,24 @@ namespace FluentAssertions.Equivalency
             this.comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
         }
 
-        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
         {
-            return config.GetExpectationType(context.RuntimeType, context.CompileTimeType) == typeof(T);
-        }
+            if (comparands.GetExpectedType(context.Options) != typeof(T))
+            {
+                return EquivalencyResult.ContinueWithNext;
+            }
 
-        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
-        {
             Execute.Assertion
                 .BecauseOf(context.Reason.FormattedMessage, context.Reason.Arguments)
-                .ForCondition(context.Subject is T)
-                .FailWith("Expected {context:object} to be of type {0}{because}, but found {1}", typeof(T), context.Subject)
+                .ForCondition(comparands.Subject is T)
+                .FailWith("Expected {context:object} to be of type {0}{because}, but found {1}", typeof(T), comparands.Subject)
                 .Then
-                .Given(() => comparer.Equals((T)context.Subject, (T)context.Expectation))
+                .Given(() => comparer.Equals((T)comparands.Subject, (T)comparands.Expectation))
                 .ForCondition(isEqual => isEqual)
                 .FailWith("Expected {context:object} to be equal to {1} according to {0}{because}, but {2} was not.",
-                    comparer.ToString(), context.Expectation, context.Subject);
+                    comparer.ToString(), comparands.Expectation, comparands.Subject);
 
-            return true;
+            return EquivalencyResult.AssertionCompleted;
         }
 
         public override string ToString()

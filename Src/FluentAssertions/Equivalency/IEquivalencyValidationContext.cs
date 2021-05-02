@@ -16,27 +16,6 @@ namespace FluentAssertions.Equivalency
         INode CurrentNode { get; }
 
         /// <summary>
-        /// Gets the compile-time type of the current object. If the current object is not the root object and the type is not <see cref="object"/>,
-        /// then it returns the same <see cref="System.Type"/> as the <see cref="RuntimeType"/> property does.
-        /// </summary>
-        Type CompileTimeType { get; }
-
-        /// <summary>
-        /// Gets the run-time type of the current object.
-        /// </summary>
-        Type RuntimeType { get; }
-
-        /// <summary>
-        /// Gets the value of the expected object graph.
-        /// </summary>
-        object Expectation { get; }
-
-        /// <summary>
-        /// Gets the value of the subject object graph.
-        /// </summary>
-        object Subject { get; set; }
-
-        /// <summary>
         /// A formatted phrase and the placeholder values explaining why the assertion is needed.
         /// </summary>
         public Reason Reason { get; }
@@ -47,20 +26,28 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         Tracer Tracer { get; }
 
+        IEquivalencyAssertionOptions Options { get; }
+
+        /// <summary>
+        /// Determines whether the specified object reference is a cyclic reference to the same object earlier in the
+        /// equivalency validation.
+        /// </summary>
+        public bool IsCyclicReference(object expectation);
+
         /// <summary>
         /// Creates a context from the current object intended to assert the equivalency of a nested member.
         /// </summary>
-        IEquivalencyValidationContext AsNestedMember(IMember expectationMember, IMember matchingSubjectMember);
+        IEquivalencyValidationContext AsNestedMember(IMember expectationMember);
 
         /// <summary>
         /// Creates a context from the current object intended to assert the equivalency of a collection item identified by <paramref name="index"/>.
         /// </summary>
-        IEquivalencyValidationContext AsCollectionItem<T>(string index, object subject, T expectation);
+        IEquivalencyValidationContext AsCollectionItem<TItem>(string index);
 
         /// <summary>
         /// Creates a context from the current object intended to assert the equivalency of a collection item identified by <paramref name="key"/>.
         /// </summary>
-        IEquivalencyValidationContext AsDictionaryItem<TKey, TExpectation>(TKey key, object subject, TExpectation expectation);
+        IEquivalencyValidationContext AsDictionaryItem<TKey, TExpectation>(TKey key);
 
         /// <summary>
         /// Creates a deep clone of the current context.

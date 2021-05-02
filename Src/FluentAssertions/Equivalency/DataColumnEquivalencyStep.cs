@@ -2,24 +2,18 @@
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-
 using FluentAssertions.Data;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
-    public class DataColumnEquivalencyStep : IEquivalencyStep
+    public class DataColumnEquivalencyStep : EquivalencyStep<DataColumn>
     {
-        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
-        {
-            return typeof(DataColumn).IsAssignableFrom(config.GetExpectationType(context.RuntimeType, context.CompileTimeType));
-        }
-
         [SuppressMessage("Style", "IDE0019:Use pattern matching", Justification = "The code is easier to read without it.")]
-        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+        protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
         {
-            var subject = context.Subject as DataColumn;
-            var expectation = context.Expectation as DataColumn;
+            var subject = comparands.Subject as DataColumn;
+            var expectation = comparands.Expectation as DataColumn;
 
             if (expectation is null)
             {
@@ -32,72 +26,78 @@ namespace FluentAssertions.Equivalency
             {
                 if (subject is null)
                 {
-                    if (context.Subject is null)
+                    if (comparands.Subject is null)
                     {
                         AssertionScope.Current.FailWith("Expected {context:DataColumn} to be non-null, but found null");
                     }
                     else
                     {
-                        AssertionScope.Current.FailWith("Expected {context:DataColumn} to be of type {0}, but found {1} instead", expectation.GetType(), context.Subject.GetType());
+                        AssertionScope.Current.FailWith("Expected {context:DataColumn} to be of type {0}, but found {1} instead",
+                            expectation.GetType(), comparands.Subject.GetType());
                     }
                 }
                 else
                 {
-                    CompareSubjectAndExpectationOfTypeDataColumn(context, parent, config, subject);
+                    CompareSubjectAndExpectationOfTypeDataColumn(comparands, context, nestedValidator, subject);
                 }
             }
 
-            return true;
+            return EquivalencyResult.AssertionCompleted;
         }
 
-        private static void CompareSubjectAndExpectationOfTypeDataColumn(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config, DataColumn subject)
+        private static void CompareSubjectAndExpectationOfTypeDataColumn(Comparands comparands,
+            IEquivalencyValidationContext context, IEquivalencyValidator parent, DataColumn subject)
         {
             bool compareColumn = true;
 
-            var dataSetConfig = config as DataEquivalencyAssertionOptions<DataSet>;
-            var dataTableConfig = config as DataEquivalencyAssertionOptions<DataTable>;
-            var dataColumnConfig = config as DataEquivalencyAssertionOptions<DataColumn>;
+            var dataSetConfig = context.Options as DataEquivalencyAssertionOptions<DataSet>;
+            var dataTableConfig = context.Options as DataEquivalencyAssertionOptions<DataTable>;
+            var dataColumnConfig = context.Options as DataEquivalencyAssertionOptions<DataColumn>;
 
             if (((dataSetConfig is not null) && dataSetConfig.ShouldExcludeColumn(subject))
-             || ((dataTableConfig is not null) && dataTableConfig.ShouldExcludeColumn(subject))
-             || ((dataColumnConfig is not null) && dataColumnConfig.ShouldExcludeColumn(subject)))
+                || ((dataTableConfig is not null) && dataTableConfig.ShouldExcludeColumn(subject))
+                || ((dataColumnConfig is not null) && dataColumnConfig.ShouldExcludeColumn(subject)))
             {
                 compareColumn = false;
             }
 
             if (compareColumn)
             {
-                foreach (IMember expectationMember in GetMembersFromExpectation(context, config))
+                foreach (IMember expectationMember in GetMembersFromExpectation(context.CurrentNode, comparands, context.Options))
                 {
                     if (expectationMember.Name != nameof(subject.Table))
                     {
-                        CompareMember(expectationMember, parent, context, config);
+                        CompareMember(expectationMember, comparands, parent, context);
                     }
                 }
             }
         }
 
-        private static void CompareMember(IMember expectationMember, IEquivalencyValidator parent, IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        private static void CompareMember(IMember expectationMember, Comparands comparands, IEquivalencyValidator parent,
+            IEquivalencyValidationContext context)
         {
-            IMember matchingMember = FindMatchFor(expectationMember, context, config);
-
+            IMember matchingMember = FindMatchFor(expectationMember, comparands.Subject, context);
             if (matchingMember is not null)
             {
-                IEquivalencyValidationContext nestedContext =
-                            context.AsNestedMember(expectationMember, matchingMember);
-
-                if (nestedContext is not null)
+                var nestedComparands = new Comparands
                 {
-                    parent.AssertEqualityUsing(nestedContext);
+                    Subject = matchingMember.GetValue(comparands.Subject),
+                    Expectation = expectationMember.GetValue(comparands.Expectation),
+                    CompileTimeType = expectationMember.Type
+                };
+
+                if (context.AsNestedMember(expectationMember) is not null)
+                {
+                    parent.RecursivelyAssertEquality(nestedComparands, context.AsNestedMember(expectationMember));
                 }
             }
         }
 
-        private static IMember FindMatchFor(IMember selectedMemberInfo, IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        private static IMember FindMatchFor(IMember selectedMemberInfo, object subject, IEquivalencyValidationContext context)
         {
             IEnumerable<IMember> query =
-                from rule in config.MatchingRules
-                let match = rule.Match(selectedMemberInfo, context.Subject, context.CurrentNode, config)
+                from rule in context.Options.MatchingRules
+                let match = rule.Match(selectedMemberInfo, subject, context.CurrentNode, context.Options)
                 where match is not null
                 select match;
 
@@ -128,19 +128,15 @@ namespace FluentAssertions.Equivalency
                 nameof(DataColumn.Unique),
             };
 
-        private static IEnumerable<IMember> GetMembersFromExpectation(IEquivalencyValidationContext context,
+        private static IEnumerable<IMember> GetMembersFromExpectation(INode currentNode, Comparands comparands,
             IEquivalencyAssertionOptions config)
         {
             IEnumerable<IMember> members = Enumerable.Empty<IMember>();
 
             foreach (IMemberSelectionRule rule in config.SelectionRules)
             {
-                members = rule.SelectMembers(context.CurrentNode, members, new MemberSelectionContext
-                {
-                    CompileTimeType = context.CompileTimeType,
-                    RuntimeType = context.RuntimeType,
-                    Options = config
-                });
+                members = rule.SelectMembers(currentNode, members,
+                    new MemberSelectionContext(comparands.CompileTimeType, comparands.RuntimeType, config));
             }
 
             members = members.Where(member => CandidateMembers.Contains(member.Name));

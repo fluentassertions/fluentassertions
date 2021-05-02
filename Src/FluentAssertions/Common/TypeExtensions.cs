@@ -584,5 +584,18 @@ namespace FluentAssertions.Common
         {
             return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(KeyValuePair<,>);
         }
+
+        /// <summary>
+        /// If the type provided is a nullable type, gets the underlying type. Returns the type itself otherwise.
+        /// </summary>
+        public static Type NullableOrActualType(this Type type)
+        {
+            if (type.IsConstructedGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                type = type.GetGenericArguments().First();
+            }
+
+            return type;
+        }
     }
 }

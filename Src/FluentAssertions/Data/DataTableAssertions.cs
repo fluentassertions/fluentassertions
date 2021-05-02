@@ -245,17 +245,20 @@ namespace FluentAssertions.Data
 
             IDataEquivalencyAssertionOptions<DataTable> options = config(AssertionOptions.CloneDefaults<DataTable, DataEquivalencyAssertionOptions<DataTable>>(e => new(e)));
 
-            var context = new EquivalencyValidationContext(Node.From<DataTable>(() => CallerIdentifier.DetermineCallerIdentity()))
+            var context = new EquivalencyValidationContext(Node.From<DataTable>(() => CallerIdentifier.DetermineCallerIdentity()), options)
             {
-                Subject = Subject,
-                Expectation = expectation,
-                CompileTimeType = typeof(TDataTable),
                 Reason = new Reason(because, becauseArgs),
                 TraceWriter = options.TraceWriter
             };
 
-            var equivalencyValidator = new EquivalencyValidator(options);
-            equivalencyValidator.AssertEquality(context);
+            var comparands = new Comparands
+            {
+                Subject = Subject,
+                Expectation = expectation,
+                CompileTimeType = typeof(TDataTable),
+            };
+
+            new EquivalencyValidator().AssertEquality(comparands, context);
 
             return new AndConstraint<DataTableAssertions<TDataTable>>(this);
         }

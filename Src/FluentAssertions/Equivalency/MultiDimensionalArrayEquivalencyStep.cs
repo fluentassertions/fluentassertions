@@ -11,22 +11,19 @@ namespace FluentAssertions.Equivalency
     /// </summary>
     internal class MultiDimensionalArrayEquivalencyStep : IEquivalencyStep
     {
-        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
         {
-            Array array = context.Expectation as Array;
-            return array?.Rank > 1;
-        }
+            Array expectationAsArray = comparands.Expectation as Array;
+            if (expectationAsArray is null || expectationAsArray?.Rank == 1)
+            {
+                return EquivalencyResult.ContinueWithNext;
+            }
 
-        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent,
-            IEquivalencyAssertionOptions config)
-        {
-            Array expectationAsArray = (Array)context.Expectation;
-
-            if (AreComparable(context, expectationAsArray))
+            if (AreComparable(comparands, expectationAsArray))
             {
                 if (expectationAsArray.Length == 0)
                 {
-                    return true;
+                    return EquivalencyResult.AssertionCompleted;
                 }
 
                 Digit digit = BuildDigitsRepresentingAllIndices(expectationAsArray);
@@ -34,20 +31,18 @@ namespace FluentAssertions.Equivalency
                 do
                 {
                     int[] indices = digit.GetIndices();
-                    object subject = ((Array)context.Subject).GetValue(indices);
+                    object subject = ((Array)comparands.Subject).GetValue(indices);
                     string listOfIndices = string.Join(",", indices);
                     object expectation = expectationAsArray.GetValue(indices);
-                    IEquivalencyValidationContext itemContext = context.AsCollectionItem(
-                        listOfIndices,
-                        subject,
-                        expectation);
 
-                    parent.AssertEqualityUsing(itemContext);
+                    IEquivalencyValidationContext itemContext = context.AsCollectionItem<object>(listOfIndices);
+
+                    nestedValidator.RecursivelyAssertEquality(new Comparands(subject, expectation, typeof(object)), itemContext);
                 }
                 while (digit.Increment());
             }
 
-            return true;
+            return EquivalencyResult.AssertionCompleted;
         }
 
         private static Digit BuildDigitsRepresentingAllIndices(Array subjectAsArray)
@@ -58,12 +53,12 @@ namespace FluentAssertions.Equivalency
                 .Aggregate((Digit)null, (next, rank) => new Digit(subjectAsArray.GetLength(rank), next));
         }
 
-        private static bool AreComparable(IEquivalencyValidationContext context, Array expectationAsArray)
+        private static bool AreComparable(Comparands comparands, Array expectationAsArray)
         {
             return
-                IsArray(context.Subject) &&
-                HaveSameRank(context.Subject, expectationAsArray) &&
-                HaveSameDimensions(context.Subject, expectationAsArray);
+                IsArray(comparands.Subject) &&
+                HaveSameRank(comparands.Subject, expectationAsArray) &&
+                HaveSameDimensions(comparands.Subject, expectationAsArray);
         }
 
         private static bool IsArray(object type)

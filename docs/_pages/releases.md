@@ -38,6 +38,7 @@ sidebar:
 * Removed support for non-generic collections, see the [Migration Guide](/upgradingtov6#collections) for more details - [#1529](https://github.com/fluentassertions/fluentassertions/pull/1529).
 * Removed `[Not]Contain(IEnumerable<T>, params T[])` - [#1529](https://github.com/fluentassertions/fluentassertions/pull/1529).
 * Removed `BeEquivalentTo(params object[])` - [#1529](https://github.com/fluentassertions/fluentassertions/pull/1529).
+* Renamed `EquivalencyStepCollection` to `EquivalencyPlan` and `AssertionOptions.EquivalencyCollection` to `EquivalencyPlan` - [#1539](https://github.com/fluentassertions/fluentassertions/pull/1539).
 
 **Breaking Changes (Extensibility)**
 * Pascal cased `CallerIdentifier.logger` - [#1458](https://github.com/fluentassertions/fluentassertions/pull/1458).
@@ -45,6 +46,9 @@ sidebar:
 * Moved extension methods on `ExceptionAssertions` from `AssertionExtensions` to `ExceptionAssertionsExtensions` - [#1471](https://github.com/fluentassertions/fluentassertions/pull/1471).
 * Moved `Including(Expression<Func<IMemberInfo, bool>> predicate)` from `EquivalencyAssertionOptions<T>` to `SelfReferenceEquivalencyAssertionOptions<T>` - [#1495](https://github.com/fluentassertions/fluentassertions/pull/1495).
 * `Formatter.ToString()` and `IValueFormatter` now work with a `FormattingOptions` object that wraps the `UseLineBreaks` option - [#1469](https://github.com/fluentassertions/fluentassertions/pull/1469).
+* Split-up the subject and expectation from `IEquivalencyValidationContext` into a new type `Comparands`. This affected `IEquivalencyStep` - [#1539](https://github.com/fluentassertions/fluentassertions/pull/1539).
+* Moved the responsibility of `IEquivalencyStep.CanHandle` into `Handle` and replaced `Handle`'s return value with a more clearer `EquivalencyResult` - [#1539](https://github.com/fluentassertions/fluentassertions/pull/1539)
+* Simplified `MemberSelectionContext` which is used by `IMemberSelectionRule` to remove the need for extensions to understand the difference between run-time and compile-time types - [#1539](https://github.com/fluentassertions/fluentassertions/pull/1539).
 
 ## 6.0.0 Alpha 2
 

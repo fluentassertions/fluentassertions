@@ -67,6 +67,9 @@ subject.Should().BeEquivalentTo(expectation,  opt => opt.ComparingEnumsByValue()
 If your assertions rely on the formatting of enums in failure messages, you'll notice that we have given it a facelift.
 Previously, formatting an enum would simply be a call to `ToString()`, but to provide more detail we now format `MyEnum.One` as `"MyEnum.One(1)"` instead of `"One"`.
 
+## IEquivalencyStep ##
+
+In v6, we applied some major refactorings to the equivalency validator, of which most of it is internal and therefore won't be visble to consumers of the library. But one thing that does, is that we split off the subject and expectation from the `IEquivalencyValidationContext` and move them into their own type called `Comparands`. Since this affected the `IEquivalencyStep` and we already had some ideas to simplify that abstraction, we removed the `CanHandle` method and replaced the boolean return value of `Handle` with a more self-describing `EquivalencyResult`. The consequence of this is that `Handle` must first check whether the comparands are applicable to the step and bail out with `EquivalencyResult.ContinueWithNext` if that isn't the case. There's a convenience base-class called `EquivalencyStep<T>` that remove some of that burden for you. Check out `DictionaryEquivalencyStep` for an example of that. Also, the [extensibility section](extensibility/#equivalency-assertion-step-by-step) has been updated to reflect the new signatures and types.
 
 ## Using ##
 

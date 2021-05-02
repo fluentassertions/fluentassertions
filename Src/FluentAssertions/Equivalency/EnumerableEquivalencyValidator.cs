@@ -39,7 +39,7 @@ namespace FluentAssertions.Equivalency
                 {
                     using var _ = context.Tracer.WriteBlock(member =>
                         Invariant($"Structurally comparing {subject} and expectation {expectation} at {member.Description}"));
-                    AssertElementGraphEquivalency(subject, expectation);
+                    AssertElementGraphEquivalency(subject, expectation, context.CurrentNode);
                 }
                 else
                 {
@@ -70,12 +70,12 @@ namespace FluentAssertions.Equivalency
                 .ClearExpectation();
         }
 
-        private void AssertElementGraphEquivalency<T>(object[] subjects, T[] expectations)
+        private void AssertElementGraphEquivalency<T>(object[] subjects, T[] expectations, INode currentNode)
         {
             unmatchedSubjectIndexes = new List<int>(subjects.Length);
             unmatchedSubjectIndexes.AddRange(Enumerable.Range(0, subjects.Length));
 
-            if (OrderingRules.IsOrderingStrictFor(new ObjectInfo(context)))
+            if (OrderingRules.IsOrderingStrictFor(new ObjectInfo(new Comparands(subjects, expectations, typeof(T[])), currentNode)))
             {
                 AssertElementGraphEquivalencyWithStrictOrdering(subjects, expectations);
             }
@@ -177,7 +177,7 @@ namespace FluentAssertions.Equivalency
         private string[] TryToMatch<T>(object subject, T expectation, int expectationIndex)
         {
             using var scope = new AssertionScope();
-            parent.AssertEqualityUsing(context.AsCollectionItem(expectationIndex, subject, expectation));
+            parent.RecursivelyAssertEquality(new Comparands(subject, expectation, typeof(T)), context.AsCollectionItem<T>(expectationIndex));
 
             return scope.Discard();
         }
@@ -186,10 +186,9 @@ namespace FluentAssertions.Equivalency
         {
             using var scope = new AssertionScope();
             object subject = subjects[expectationIndex];
-            IEquivalencyValidationContext equivalencyValidationContext =
-                context.AsCollectionItem(expectationIndex, subject, expectation);
+            IEquivalencyValidationContext equivalencyValidationContext = context.AsCollectionItem<T>(expectationIndex);
 
-            parent.AssertEqualityUsing(equivalencyValidationContext);
+            parent.RecursivelyAssertEquality(new Comparands(subject, expectation, typeof(T)), equivalencyValidationContext);
 
             bool failed = scope.HasFailures();
             return !failed;

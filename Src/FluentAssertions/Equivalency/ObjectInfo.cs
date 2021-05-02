@@ -4,12 +4,12 @@ namespace FluentAssertions.Equivalency
 {
     internal class ObjectInfo : IObjectInfo
     {
-        public ObjectInfo(IEquivalencyValidationContext context)
+        public ObjectInfo(Comparands comparands, INode currentNode)
         {
-            Type = context.CurrentNode.Type;
-            Path = context.CurrentNode.PathAndName;
-            CompileTimeType = context.CompileTimeType;
-            RuntimeType = context.RuntimeType;
+            Type = currentNode.Type;
+            Path = currentNode.PathAndName;
+            CompileTimeType = comparands.CompileTimeType;
+            RuntimeType = comparands.RuntimeType;
         }
 
         public Type Type { get; }

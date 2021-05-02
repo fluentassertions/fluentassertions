@@ -156,9 +156,9 @@ namespace FluentAssertions.Specs
                 base.Dispose(disposing);
             }
 
-            protected static EquivalencyStepCollection Steps
+            protected static EquivalencyPlan Steps
             {
-                get { return AssertionOptions.EquivalencySteps; }
+                get { return AssertionOptions.EquivalencyPlan; }
             }
         }
 
@@ -286,17 +286,11 @@ namespace FluentAssertions.Specs
 
         internal class MyEquivalencyStep : IEquivalencyStep
         {
-            public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
-            {
-                return true;
-            }
-
-            public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent,
-                IEquivalencyAssertionOptions config)
+            public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
             {
                 Execute.Assertion.FailWith(GetType().FullName);
 
-                return true;
+                return EquivalencyResult.AssertionCompleted;
             }
         }
 

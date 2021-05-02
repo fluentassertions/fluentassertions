@@ -180,17 +180,20 @@ namespace FluentAssertions.Data
 
             IDataEquivalencyAssertionOptions<DataRow> options = config(AssertionOptions.CloneDefaults<DataRow, DataEquivalencyAssertionOptions<DataRow>>(e => new(e)));
 
-            var context = new EquivalencyValidationContext(Node.From<DataRow>(() => CallerIdentifier.DetermineCallerIdentity()))
+            var context = new EquivalencyValidationContext(Node.From<DataRow>(() => CallerIdentifier.DetermineCallerIdentity()), options)
             {
-                Subject = Subject,
-                Expectation = expectation,
-                CompileTimeType = typeof(TDataRow),
                 Reason = new Reason(because, becauseArgs),
                 TraceWriter = options.TraceWriter
             };
 
-            var equivalencyValidator = new EquivalencyValidator(options);
-            equivalencyValidator.AssertEquality(context);
+            var comparands = new Comparands
+            {
+                Subject = Subject,
+                Expectation = expectation,
+                CompileTimeType = typeof(TDataRow),
+            };
+
+            new EquivalencyValidator().AssertEquality(comparands, context);
 
             return new AndConstraint<DataRowAssertions<TDataRow>>(this);
         }

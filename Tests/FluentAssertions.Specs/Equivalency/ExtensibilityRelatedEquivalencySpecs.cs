@@ -602,28 +602,31 @@ namespace FluentAssertions.Specs.Equivalency
                 "a different assertion rule should handle the comparison before the exception throwing assertion rule is hit");
         }
 
-        internal class AlwaysFailOnDateTimesEquivalencyStep : IEquivalencyStep
+        private class AlwaysFailOnDateTimesEquivalencyStep : IEquivalencyStep
         {
-            public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+            public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
             {
-                return context.Expectation is DateTime;
-            }
+                if (comparands.Expectation is DateTime time)
+                {
+                    throw new Exception("Failed");
+                }
 
-            public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config) =>
-                throw new Exception("Failed");
+                return EquivalencyResult.ContinueWithNext;
+            }
         }
 
-        internal class RelaxingDateTimeEquivalencyStep : IEquivalencyStep
+        private class RelaxingDateTimeEquivalencyStep : IEquivalencyStep
         {
-            public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+            public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
             {
-                return context.Expectation is DateTime;
-            }
+                if (comparands.Expectation is DateTime time)
+                {
+                    ((DateTime)comparands.Subject).Should().BeCloseTo(time, 1.Minutes());
 
-            public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
-            {
-                ((DateTime)context.Subject).Should().BeCloseTo((DateTime)context.Expectation, 1.Minutes());
-                return true;
+                    return EquivalencyResult.AssertionCompleted;
+                }
+
+                return EquivalencyResult.ContinueWithNext;
             }
         }
 
@@ -780,42 +783,41 @@ namespace FluentAssertions.Specs.Equivalency
             act.Should().Throw<NotSupportedException>();
         }
 
-        internal class ThrowExceptionEquivalencyStep<TException> : CanHandleAnythingEquivalencyStep
+        private class ThrowExceptionEquivalencyStep<TException> : IEquivalencyStep
             where TException : Exception, new()
         {
-            public override bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+            public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
             {
                 throw new TException();
             }
         }
 
-        internal class AlwaysHandleEquivalencyStep : CanHandleAnythingEquivalencyStep
+        private class AlwaysHandleEquivalencyStep : IEquivalencyStep
         {
-            public override bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+            public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
             {
-                return true;
+                return EquivalencyResult.AssertionCompleted;
             }
         }
 
-        internal class NeverHandleEquivalencyStep : CanHandleAnythingEquivalencyStep
+        private class NeverHandleEquivalencyStep : IEquivalencyStep
         {
-            public override bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+            public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
             {
-                return false;
+                return EquivalencyResult.ContinueWithNext;
             }
         }
 
-        private class EqualityEquivalencyStep : CanHandleAnythingEquivalencyStep
+        private class EqualityEquivalencyStep : IEquivalencyStep
         {
-            public override bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+            public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
             {
-                context.Subject.Should().Be(context.Expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
-
-                return true;
+                comparands.Subject.Should().Be(comparands.Expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
+                return EquivalencyResult.AssertionCompleted;
             }
         }
 
-        internal class DoEquivalencyStep : CanHandleAnythingEquivalencyStep
+        internal class DoEquivalencyStep : IEquivalencyStep
         {
             private readonly Action doAction;
 
@@ -824,21 +826,11 @@ namespace FluentAssertions.Specs.Equivalency
                 this.doAction = doAction;
             }
 
-            public override bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+            public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
             {
                 doAction();
-                return true;
+                return EquivalencyResult.AssertionCompleted;
             }
-        }
-
-        internal abstract class CanHandleAnythingEquivalencyStep : IEquivalencyStep
-        {
-            public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
-            {
-                return true;
-            }
-
-            public abstract bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config);
         }
 
         #endregion

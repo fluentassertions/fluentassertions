@@ -14,11 +14,11 @@ namespace FluentAssertions
     /// Represents a mutable collection of equivalency steps that can be reordered and/or amended with additional
     /// custom equivalency steps.
     /// </summary>
-    public class EquivalencyStepCollection : IEnumerable<IEquivalencyStep>
+    public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
     {
         private List<IEquivalencyStep> steps;
 
-        public EquivalencyStepCollection()
+        public EquivalencyPlan()
         {
             steps = GetDefaultSteps();
         }
@@ -110,7 +110,7 @@ namespace FluentAssertions
 
         private static List<IEquivalencyStep> GetDefaultSteps()
         {
-            return new List<IEquivalencyStep>(18)
+            return new(18)
             {
                 new RunAllUserStepsEquivalencyStep(),
                 new AutoConversionStep(),
