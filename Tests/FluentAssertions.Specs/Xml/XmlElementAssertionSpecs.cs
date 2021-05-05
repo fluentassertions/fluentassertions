@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Xml;
-using FluentAssertions.Formatting;
 using Xunit;
 using Xunit.Sdk;
 
@@ -417,6 +416,44 @@ namespace FluentAssertions.Specs.Xml
             matchedElement.Should().BeOfType<XmlElement>()
                 .And.HaveAttribute("attr", "1");
             matchedElement.Name.Should().Be("child");
+        }
+
+        [Fact]
+        public void When_asserting_xml_element_with_ns_has_child_element_and_it_does_it_should_succeed()
+        {
+            // Arrange
+            var xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(
+                @"<parent xmlns=""test"">
+                    <child>value</child>
+                </parent>");
+            var element = xmlDoc.DocumentElement;
+
+            // Act
+            Action act = () =>
+                element.Should().HaveElement("child");
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_xml_element_has_child_element_and_it_does_with_ns_it_should_succeed2()
+        {
+            // Arrange
+            var xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(
+                @"<parent>
+                    <child xmlns=""test"">value</child>
+                </parent>");
+            var element = xmlDoc.DocumentElement;
+
+            // Act
+            Action act = () =>
+                element.Should().HaveElement("child");
+
+            // Assert
+            act.Should().NotThrow();
         }
 
         #endregion
