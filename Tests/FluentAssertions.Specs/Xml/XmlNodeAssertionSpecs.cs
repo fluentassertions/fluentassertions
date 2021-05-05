@@ -27,10 +27,8 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_an_xml_node_is_same_as_a_different_xml_node_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var theDocument = new XmlDocument();
-            theDocument.LoadXml("<doc/>");
-            var otherNode = new XmlDocument();
-            otherNode.LoadXml("<otherDoc/>");
+            XmlDocument theDocument = CreateXmlDocument("<doc/>");
+            XmlDocument otherNode = CreateXmlDocument("<otherDoc/>");
 
             // Act
             Action act = () =>
@@ -46,10 +44,8 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_an_xml_node_is_same_as_a_different_xml_node_it_should_fail_with_descriptive_message_and_truncate_xml()
         {
             // Arrange
-            var theDocument = new XmlDocument();
-            theDocument.LoadXml("<doc>Some very long text that should be truncated.</doc>");
-            var otherNode = new XmlDocument();
-            otherNode.LoadXml("<otherDoc/>");
+            XmlDocument theDocument = CreateXmlDocument("<doc>Some very long text that should be truncated.</doc>");
+            XmlDocument otherNode = CreateXmlDocument("<otherDoc/>");
 
             // Act
             Action act = () =>
@@ -66,8 +62,7 @@ namespace FluentAssertions.Specs.Xml
         {
             // Arrange
             XmlDocument theDocument = null;
-            var expected = new XmlDocument();
-            expected.LoadXml("<xml/>");
+            XmlDocument expected = CreateXmlDocument("<xml/>");
 
             // Act
             Action act = () => theDocument.Should().BeSameAs(expected);
@@ -99,8 +94,7 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_an_xml_node_is_null_but_it_is_not_it_should_fail()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<xml/>");
+            XmlDocument xmlDoc = CreateXmlDocument("<xml/>");
 
             // Act
             Action act = () =>
@@ -114,8 +108,7 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_an_xml_node_is_null_but_it_is_not_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var theDocument = new XmlDocument();
-            theDocument.LoadXml("<xml/>");
+            XmlDocument theDocument = CreateXmlDocument("<xml/>");
 
             // Act
             Action act = () =>
@@ -131,8 +124,7 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_a_non_null_xml_node_is_not_null_it_should_succeed()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<xml/>");
+            XmlDocument xmlDoc = CreateXmlDocument("<xml/>");
 
             // Act
             Action act = () =>
@@ -193,10 +185,8 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_an_xml_node_is_not_equivalent_to_som_other_xml_node_it_should_succeed()
         {
             // Arrange
-            var subject = new XmlDocument();
-            subject.LoadXml("<xml>a</xml>");
-            var unexpected = new XmlDocument();
-            unexpected.LoadXml("<xml>b</xml>");
+            XmlDocument subject = CreateXmlDocument("<xml>a</xml>");
+            XmlDocument unexpected = CreateXmlDocument("<xml>b</xml>");
 
             // Act
             Action act = () =>
@@ -210,8 +200,7 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_an_xml_node_is_not_equivalent_to_same_xml_node_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var theDocument = new XmlDocument();
-            theDocument.LoadXml("<xml>a</xml>");
+            XmlDocument theDocument = CreateXmlDocument("<xml>a</xml>");
 
             // Act
             Action act = () =>
@@ -227,10 +216,8 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_an_xml_node_is_equivalent_to_a_different_xml_node_with_other_contents_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var theDocument = new XmlDocument();
-            theDocument.LoadXml("<subject/>");
-            var expected = new XmlDocument();
-            expected.LoadXml("<expected/>");
+            XmlDocument theDocument = CreateXmlDocument("<subject/>");
+            XmlDocument expected = CreateXmlDocument("<expected/>");
 
             // Act
             Action act = () =>
@@ -248,10 +235,8 @@ namespace FluentAssertions.Specs.Xml
             // Arrange
             var xml = "<root><a xmlns=\"urn:a\"><data>data</data></a><ns:b xmlns:ns=\"urn:b\"><data>data</data></ns:b></root>";
 
-            var subject = new XmlDocument();
-            subject.LoadXml(xml);
-            var expected = new XmlDocument();
-            expected.LoadXml(xml);
+            XmlDocument subject = CreateXmlDocument(xml);
+            XmlDocument expected = CreateXmlDocument(xml);
 
             // Act
             Action act = () =>
@@ -265,10 +250,8 @@ namespace FluentAssertions.Specs.Xml
         public void When_assertion_an_xml_node_is_equivalent_to_a_different_xml_node_with_different_namespace_prefix_it_should_succeed()
         {
             // Arrange
-            var subject = new XmlDocument();
-            subject.LoadXml("<xml xmlns=\"urn:a\"/>");
-            var expected = new XmlDocument();
-            expected.LoadXml("<a:xml xmlns:a=\"urn:a\"/>");
+            XmlDocument subject = CreateXmlDocument("<xml xmlns=\"urn:a\"/>");
+            XmlDocument expected = CreateXmlDocument("<a:xml xmlns:a=\"urn:a\"/>");
 
             // Act
             Action act = () =>
@@ -282,10 +265,8 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_an_xml_node_is_equivalent_to_a_different_xml_node_which_differs_only_on_unused_namespace_declaration_it_should_succeed()
         {
             // Arrange
-            var subject = new XmlDocument();
-            subject.LoadXml("<xml xmlns:a=\"urn:a\"/>");
-            var expected = new XmlDocument();
-            expected.LoadXml("<xml/>");
+            XmlDocument subject = CreateXmlDocument("<xml xmlns:a=\"urn:a\"/>");
+            XmlDocument expected = CreateXmlDocument("<xml/>");
 
             // Act
             Action act = () =>
@@ -299,10 +280,8 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_an_xml_node_is_equivalent_to_a_different_XmlDocument_which_differs_on_a_child_element_name_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var theDocument = new XmlDocument();
-            theDocument.LoadXml("<xml><child><subject/></child></xml>");
-            var expected = new XmlDocument();
-            expected.LoadXml("<xml><child><expected/></child></xml>");
+            XmlDocument theDocument = CreateXmlDocument("<xml><child><subject/></child></xml>");
+            XmlDocument expected = CreateXmlDocument("<xml><child><expected/></child></xml>");
 
             // Act
             Action act = () =>
@@ -318,10 +297,8 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_an_xml_node_is_equivalent_to_a_different_xml_node_which_differs_on_a_child_element_namespace_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var theDocument = new XmlDocument();
-            theDocument.LoadXml("<a:xml xmlns:a=\"urn:a\"><a:child><a:data/></a:child></a:xml>");
-            var expected = new XmlDocument();
-            expected.LoadXml("<xml xmlns=\"urn:a\"><child><data xmlns=\"urn:b\"/></child></xml>");
+            XmlDocument theDocument = CreateXmlDocument("<a:xml xmlns:a=\"urn:a\"><a:child><a:data/></a:child></a:xml>");
+            XmlDocument expected = CreateXmlDocument("<xml xmlns=\"urn:a\"><child><data xmlns=\"urn:b\"/></child></xml>");
 
             // Act
             Action act = () =>
@@ -337,10 +314,8 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_contains_an_unexpected_node_type_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var theDocument = new XmlDocument();
-            theDocument.LoadXml("<xml>data</xml>");
-            var expected = new XmlDocument();
-            expected.LoadXml("<xml><data/></xml>");
+            XmlDocument theDocument = CreateXmlDocument("<xml>data</xml>");
+            XmlDocument expected = CreateXmlDocument("<xml><data/></xml>");
 
             // Act
             Action act = () =>
@@ -356,10 +331,8 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_contains_extra_elements_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var theDocument = new XmlDocument();
-            theDocument.LoadXml("<xml><data/></xml>");
-            var expected = new XmlDocument();
-            expected.LoadXml("<xml/>");
+            XmlDocument theDocument = CreateXmlDocument("<xml><data/></xml>");
+            XmlDocument expected = CreateXmlDocument("<xml/>");
 
             // Act
             Action act = () =>
@@ -375,10 +348,8 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_lacks_elements_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var theDocument = new XmlDocument();
-            theDocument.LoadXml("<xml/>");
-            var expected = new XmlDocument();
-            expected.LoadXml("<xml><data/></xml>");
+            XmlDocument theDocument = CreateXmlDocument("<xml/>");
+            XmlDocument expected = CreateXmlDocument("<xml><data/></xml>");
 
             // Act
             Action act = () =>
@@ -394,10 +365,8 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_lacks_attributes_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var theDocument = new XmlDocument();
-            theDocument.LoadXml("<xml><element b=\"1\"/></xml>");
-            var expected = new XmlDocument();
-            expected.LoadXml("<xml><element a=\"b\" b=\"1\"/></xml>");
+            XmlDocument theDocument = CreateXmlDocument("<xml><element b=\"1\"/></xml>");
+            XmlDocument expected = CreateXmlDocument("<xml><element a=\"b\" b=\"1\"/></xml>");
 
             // Act
             Action act = () =>
@@ -413,10 +382,8 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_has_extra_attributes_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var theDocument = new XmlDocument();
-            theDocument.LoadXml("<xml><element a=\"b\"/></xml>");
-            var expected = new XmlDocument();
-            expected.LoadXml("<xml><element/></xml>");
+            XmlDocument theDocument = CreateXmlDocument("<xml><element a=\"b\"/></xml>");
+            XmlDocument expected = CreateXmlDocument("<xml><element/></xml>");
 
             // Act
             Action act = () =>
@@ -432,10 +399,8 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_has_different_attribute_values_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var theDocument = new XmlDocument();
-            theDocument.LoadXml("<xml><element a=\"b\"/></xml>");
-            var expected = new XmlDocument();
-            expected.LoadXml("<xml><element a=\"c\"/></xml>");
+            XmlDocument theDocument = CreateXmlDocument("<xml><element a=\"b\"/></xml>");
+            XmlDocument expected = CreateXmlDocument("<xml><element a=\"c\"/></xml>");
 
             // Act
             Action act = () =>
@@ -451,10 +416,8 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_has_attribute_with_different_namespace_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var theDocument = new XmlDocument();
-            theDocument.LoadXml("<xml><element xmlns:ns=\"urn:a\" ns:a=\"b\"/></xml>");
-            var expected = new XmlDocument();
-            expected.LoadXml("<xml><element a=\"b\"/></xml>");
+            XmlDocument theDocument = CreateXmlDocument("<xml><element xmlns:ns=\"urn:a\" ns:a=\"b\"/></xml>");
+            XmlDocument expected = CreateXmlDocument("<xml><element a=\"b\"/></xml>");
 
             // Act
             Action act = () =>
@@ -470,10 +433,8 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_has_different_text_contents_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var theDocument = new XmlDocument();
-            theDocument.LoadXml("<xml>a</xml>");
-            var expected = new XmlDocument();
-            expected.LoadXml("<xml>b</xml>");
+            XmlDocument theDocument = CreateXmlDocument("<xml>a</xml>");
+            XmlDocument expected = CreateXmlDocument("<xml>b</xml>");
 
             // Act
             Action act = () =>
@@ -489,10 +450,8 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_with_different_comments_it_should_succeed()
         {
             // Arrange
-            var subject = new XmlDocument();
-            subject.LoadXml("<xml><!--Comment--><a/></xml>");
-            var expected = new XmlDocument();
-            expected.LoadXml("<xml><a/><!--Comment--></xml>");
+            XmlDocument subject = CreateXmlDocument("<xml><!--Comment--><a/></xml>");
+            XmlDocument expected = CreateXmlDocument("<xml><a/><!--Comment--></xml>");
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expected);
@@ -521,8 +480,7 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_an_xml_node_is_equivalent_that_contains_an_unsupported_node_it_should_throw_a_descriptive_message()
         {
             // Arrange
-            var theDocument = new XmlDocument();
-            theDocument.LoadXml("<xml><![CDATA[Text]]></xml>");
+            XmlDocument theDocument = CreateXmlDocument("<xml><![CDATA[Text]]></xml>");
 
             // Act
             Action act = () => theDocument.Should().BeEquivalentTo(theDocument);
@@ -537,10 +495,8 @@ namespace FluentAssertions.Specs.Xml
             When_asserting_an_xml_node_is_equivalent_that_isnt_it_should_include_the_right_location_in_the_descriptive_message()
         {
             // Arrange
-            var theDocument = new XmlDocument();
-            theDocument.LoadXml("<xml><a/><b c=\"d\"/></xml>");
-            var expected = new XmlDocument();
-            expected.LoadXml("<xml><a/><b c=\"e\"/></xml>");
+            XmlDocument theDocument = CreateXmlDocument("<xml><a/><b c=\"d\"/></xml>");
+            XmlDocument expected = CreateXmlDocument("<xml><a/><b c=\"e\"/></xml>");
 
             // Act
             Action act = () => theDocument.Should().BeEquivalentTo(expected);
@@ -551,5 +507,12 @@ namespace FluentAssertions.Specs.Xml
         }
 
         #endregion
+
+        private static XmlDocument CreateXmlDocument(string xml)
+        {
+            var xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(xml);
+            return xmlDoc;
+        }
     }
 }

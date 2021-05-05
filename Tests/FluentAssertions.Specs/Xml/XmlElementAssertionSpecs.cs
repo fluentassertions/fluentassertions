@@ -17,12 +17,8 @@ namespace FluentAssertions.Specs.Xml
             // XmlElementAssertions inherits XmlNodeAssertions.
 
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<user>grega</user>");
-            var element = xmlDoc.DocumentElement;
-            var expectedDoc = new XmlDocument();
-            expectedDoc.LoadXml("<user>grega</user>");
-            var expected = expectedDoc.DocumentElement;
+            XmlElement element = CreateXmlElement("<user>grega</user>");
+            XmlElement expected = CreateXmlElement("<user>grega</user>");
 
             // Act
             Action act = () =>
@@ -40,9 +36,7 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_xml_element_has_a_specific_inner_text_and_it_does_it_should_succeed()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<user>grega</user>");
-            var element = xmlDoc.DocumentElement;
+            XmlElement element = CreateXmlElement("<user>grega</user>");
 
             // Act
             Action act = () =>
@@ -56,9 +50,7 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_xml_element_has_a_specific_inner_text_but_it_has_a_different_inner_text_it_should_throw()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<user>grega</user>");
-            var element = xmlDoc.DocumentElement;
+            XmlElement element = CreateXmlElement("<user>grega</user>");
 
             // Act
             Action act = () =>
@@ -73,9 +65,7 @@ namespace FluentAssertions.Specs.Xml
             When_asserting_xml_element_has_a_specific_inner_text_but_it_has_a_different_inner_text_it_should_throw_with_descriptive_message()
         {
             // Arrange
-            var document = new XmlDocument();
-            document.LoadXml("<user>grega</user>");
-            var theElement = document.DocumentElement;
+            XmlElement theElement = CreateXmlElement("<user>grega</user>");
 
             // Act
             Action act = () =>
@@ -94,9 +84,7 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_xml_element_has_attribute_with_specific_value_and_it_does_it_should_succeed()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(@"<user name=""martin"" />");
-            var element = xmlDoc.DocumentElement;
+            XmlElement element = CreateXmlElement(@"<user name=""martin"" />");
 
             // Act
             Action act = () =>
@@ -110,9 +98,7 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_xml_element_has_attribute_with_ns_and_specific_value_and_it_does_it_should_succeed()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
-            var element = xmlDoc.DocumentElement;
+            XmlElement element = CreateXmlElement(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
 
             // Act
             Action act = () =>
@@ -126,9 +112,7 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_xml_element_has_attribute_with_specific_value_but_attribute_does_not_exist_it_should_fail()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(@"<user name=""martin"" />");
-            var element = xmlDoc.DocumentElement;
+            XmlElement element = CreateXmlElement(@"<user name=""martin"" />");
 
             // Act
             Action act = () =>
@@ -143,9 +127,7 @@ namespace FluentAssertions.Specs.Xml
             When_asserting_xml_element_has_attribute_with_ns_and_specific_value_but_attribute_does_not_exist_it_should_fail()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
-            var element = xmlDoc.DocumentElement;
+            XmlElement element = CreateXmlElement(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
 
             // Act
             Action act = () =>
@@ -160,9 +142,7 @@ namespace FluentAssertions.Specs.Xml
             When_asserting_xml_element_has_attribute_with_specific_value_but_attribute_does_not_exist_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var document = new XmlDocument();
-            document.LoadXml(@"<user name=""martin"" />");
-            var theElement = document.DocumentElement;
+            XmlElement theElement = CreateXmlElement(@"<user name=""martin"" />");
 
             // Act
             Action act = () =>
@@ -180,9 +160,7 @@ namespace FluentAssertions.Specs.Xml
             When_asserting_xml_element_has_attribute_with_ns_and_specific_value_but_attribute_does_not_exist_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var document = new XmlDocument();
-            document.LoadXml(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
-            var theElement = document.DocumentElement;
+            XmlElement theElement = CreateXmlElement(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
 
             // Act
             Action act = () =>
@@ -202,9 +180,7 @@ namespace FluentAssertions.Specs.Xml
             When_asserting_xml_element_has_attribute_with_specific_value_but_attribute_has_different_value_it_should_fail()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(@"<user name=""martin"" />");
-            var element = xmlDoc.DocumentElement;
+            XmlElement element = CreateXmlElement(@"<user name=""martin"" />");
 
             // Act
             Action act = () =>
@@ -219,9 +195,7 @@ namespace FluentAssertions.Specs.Xml
             When_asserting_xml_element_has_attribute_with_ns_and_specific_value_but_attribute_has_different_value_it_should_fail()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
-            var element = xmlDoc.DocumentElement;
+            XmlElement element = CreateXmlElement(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
 
             // Act
             Action act = () =>
@@ -236,9 +210,7 @@ namespace FluentAssertions.Specs.Xml
             When_asserting_xml_element_has_attribute_with_specific_value_but_attribute_has_different_value_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var document = new XmlDocument();
-            document.LoadXml(@"<user name=""martin"" />");
-            var theElement = document.DocumentElement;
+            XmlElement theElement = CreateXmlElement(@"<user name=""martin"" />");
 
             // Act
             Action act = () =>
@@ -256,9 +228,7 @@ namespace FluentAssertions.Specs.Xml
             When_asserting_xml_element_has_attribute_with_ns_and_specific_value_but_attribute_has_different_value_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var document = new XmlDocument();
-            document.LoadXml(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
-            var theElement = document.DocumentElement;
+            XmlElement theElement = CreateXmlElement(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
 
             // Act
             Action act = () =>
@@ -281,12 +251,10 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_xml_element_has_child_element_and_it_does_it_should_succeed()
         {
             // Arrange
-            var xml = new XmlDocument();
-            xml.LoadXml(
+            XmlElement element = CreateXmlElement(
                 @"<parent>
                     <child />
                   </parent>");
-            var element = xml.DocumentElement;
 
             // Act
             Action act = () =>
@@ -300,12 +268,10 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_xml_element_has_child_element_with_ns_and_it_does_it_should_succeed()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(
+            XmlElement element = CreateXmlElement(
                 @"<parent xmlns:c='http://www.example.com/2012/test'>
                     <c:child />
                   </parent>");
-            var element = xmlDoc.DocumentElement;
 
             // Act
             Action act = () =>
@@ -319,12 +285,10 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_xml_element_has_child_element_but_it_does_not_it_should_fail()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(
+            XmlElement element = CreateXmlElement(
                 @"<parent>
                     <child />
                   </parent>");
-            var element = xmlDoc.DocumentElement;
 
             // Act
             Action act = () =>
@@ -338,12 +302,10 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_xml_element_has_child_element_with_ns_but_it_does_not_it_should_fail()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(
+            XmlElement element = CreateXmlElement(
                 @"<parent>
                     <child />
                   </parent>");
-            var element = xmlDoc.DocumentElement;
 
             // Act
             Action act = () =>
@@ -357,12 +319,10 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_xml_element_has_child_element_but_it_does_not_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var document = new XmlDocument();
-            document.LoadXml(
+            XmlElement theElement = CreateXmlElement(
                 @"<parent>
                     <child />
                   </parent>");
-            var theElement = document.DocumentElement;
 
             // Act
             Action act = () =>
@@ -379,12 +339,10 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_xml_element_has_child_element_with_ns_but_it_does_not_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var document = new XmlDocument();
-            document.LoadXml(
+            XmlElement theElement = CreateXmlElement(
                 @"<parent>
                     <child />
                   </parent>");
-            var theElement = document.DocumentElement;
 
             // Act
             Action act = () =>
@@ -402,12 +360,10 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_xml_element_has_child_element_it_should_return_the_matched_element_in_the_which_property()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(
+            XmlElement element = CreateXmlElement(
                 @"<parent>
                     <child attr='1' />
                   </parent>");
-            var element = xmlDoc.DocumentElement;
 
             // Act
             var matchedElement = element.Should().HaveElement("child").Subject;
@@ -422,12 +378,10 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_xml_element_with_ns_has_child_element_and_it_does_it_should_succeed()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(
+            XmlElement element = CreateXmlElement(
                 @"<parent xmlns=""test"">
                     <child>value</child>
                 </parent>");
-            var element = xmlDoc.DocumentElement;
 
             // Act
             Action act = () =>
@@ -441,12 +395,10 @@ namespace FluentAssertions.Specs.Xml
         public void When_asserting_xml_element_has_child_element_and_it_does_with_ns_it_should_succeed2()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(
+            XmlElement element = CreateXmlElement(
                 @"<parent>
                     <child xmlns=""test"">value</child>
                 </parent>");
-            var element = xmlDoc.DocumentElement;
 
             // Act
             Action act = () =>
@@ -457,5 +409,12 @@ namespace FluentAssertions.Specs.Xml
         }
 
         #endregion
+
+        private static XmlElement CreateXmlElement(string xml)
+        {
+            var xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(xml);
+            return xmlDoc.DocumentElement;
+        }
     }
 }
