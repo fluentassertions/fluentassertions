@@ -113,7 +113,7 @@ namespace FluentAssertions.Xml
 
         /// <summary>
         /// Asserts that the current <see cref="XmlElement"/> has a direct child element with the specified
-        /// <paramref name="expectedName"/> name.
+        /// <paramref name="expectedName"/> name, ignoring the namespace.
         /// </summary>
         /// <param name="expectedName">The name of the expected child element</param>
         /// <param name="because">
@@ -128,7 +128,7 @@ namespace FluentAssertions.Xml
             string because = "",
             params object[] becauseArgs)
         {
-            return HaveElementWithNamespace(expectedName, string.Empty, because, becauseArgs);
+            return HaveElementWithNamespace(expectedName, null, because, becauseArgs);
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace FluentAssertions.Xml
             string because = "",
             params object[] becauseArgs)
         {
-            XmlElement element = Subject[expectedName, expectedNamespace];
+            XmlElement element = expectedNamespace == null ? Subject[expectedName] : Subject[expectedName, expectedNamespace];
 
             string expectedFormattedName =
                 (string.IsNullOrEmpty(expectedNamespace) ? string.Empty : $"{{{expectedNamespace}}}")
