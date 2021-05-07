@@ -43,9 +43,9 @@ namespace FluentAssertions.Streams
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected the {context:stream} buffer size to be {0}{reason}, ", expected)
+                .WithExpectation("Expected the buffer size of {context:stream} to be {0}{reason}, ", expected)
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> BufferedStream.")
+                .FailWith("but found a <null> reference.")
                 .Then
                 .ForCondition(Subject.BufferSize == expected)
                 .FailWith("but it was {0}.", Subject.BufferSize)
@@ -56,9 +56,9 @@ namespace FluentAssertions.Streams
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="BufferedStream"/> has not the <paramref name="unexpected"/> buffer size.
+        /// Asserts that the current <see cref="BufferedStream"/> does not have a buffer size of <paramref name="unexpected"/>.
         /// </summary>
-        /// <param name="unexpected">The not expected buffer size of the current stream.</param>
+        /// <param name="unexpected">The unexpected buffer size of the current stream.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -70,9 +70,9 @@ namespace FluentAssertions.Streams
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected the {context:stream} buffer size not to be {0}{reason}, ", unexpected)
+                .WithExpectation("Expected the buffer size of {context:stream} not to be {0}{reason}, ", unexpected)
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> BufferedStream.")
+                .FailWith("but found a <null> reference.")
                 .Then
                 .ForCondition(Subject.BufferSize != unexpected)
                 .FailWith("but it was {0}.", Subject.BufferSize)

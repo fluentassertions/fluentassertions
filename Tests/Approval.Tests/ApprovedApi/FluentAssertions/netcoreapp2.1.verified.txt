@@ -2158,15 +2158,15 @@ namespace FluentAssertions.Streams
         public FluentAssertions.AndConstraint<TAssertions> BeSeekable(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeWritable(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeWriteOnly(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveLength(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HavePosition(int expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveLength(long expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HavePosition(long expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeReadOnly(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeReadable(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeSeekable(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeWritable(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeWriteOnly(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotHaveLength(int unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotHavePosition(int unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHaveLength(long unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHavePosition(long unexpected, string because = "", params object[] becauseArgs) { }
     }
 }
 namespace FluentAssertions.Types

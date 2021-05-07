@@ -47,7 +47,7 @@ namespace FluentAssertions.Streams
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:stream} to be writable{reason}, ")
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> Stream.")
+                .FailWith("but found a <null> reference.")
                 .Then
                 .ForCondition(Subject.CanWrite)
                 .FailWith("but it was not.")
@@ -73,7 +73,7 @@ namespace FluentAssertions.Streams
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:stream} not to be writable{reason}, ")
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> Stream.")
+                .FailWith("but found a <null> reference.")
                 .Then
                 .ForCondition(!Subject.CanWrite)
                 .FailWith("but it was.")
@@ -99,7 +99,7 @@ namespace FluentAssertions.Streams
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:stream} to be seekable{reason}, ")
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> Stream.")
+                .FailWith("but found a <null> reference.")
                 .Then
                 .ForCondition(Subject.CanSeek)
                 .FailWith("but it was not.")
@@ -125,7 +125,7 @@ namespace FluentAssertions.Streams
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:stream} not to be seekable{reason}, ")
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> Stream.")
+                .FailWith("but found a <null> reference.")
                 .Then
                 .ForCondition(!Subject.CanSeek)
                 .FailWith("but it was.")
@@ -151,7 +151,7 @@ namespace FluentAssertions.Streams
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:stream} to be readable{reason}, ")
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> Stream.")
+                .FailWith("but found a <null> reference.")
                 .Then
                 .ForCondition(Subject.CanRead)
                 .FailWith("but it was not.")
@@ -177,7 +177,7 @@ namespace FluentAssertions.Streams
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:stream} not to be readable{reason}, ")
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> Stream.")
+                .FailWith("but found a <null> reference.")
                 .Then
                 .ForCondition(!Subject.CanRead)
                 .FailWith("but it was.")
@@ -198,13 +198,13 @@ namespace FluentAssertions.Streams
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> HavePosition(int expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> HavePosition(long expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected the position of {context:stream} to be {0}{reason}, ", expected)
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> Stream.")
+                .FailWith("but found a <null> reference.")
                 .Then
                 .ForCondition(Subject.CanSeek)
                 .FailWith("but found a non-seekable stream.")
@@ -218,9 +218,9 @@ namespace FluentAssertions.Streams
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Stream"/> has not the <paramref name="unexpected"/> position.
+        /// Asserts that the current <see cref="Stream"/> does not have an <paramref name="unexpected"/> position.
         /// </summary>
-        /// <param name="unexpected">The not expected position of the current stream.</param>
+        /// <param name="unexpected">The unexpected position of the current stream.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -228,13 +228,13 @@ namespace FluentAssertions.Streams
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> NotHavePosition(int unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotHavePosition(long unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected the position of {context:stream} not to be {0}{reason}, ", unexpected)
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> Stream.")
+                .FailWith("but found a <null> reference.")
                 .Then
                 .ForCondition(Subject.CanSeek)
                 .FailWith("but found a non-seekable stream.")
@@ -258,13 +258,13 @@ namespace FluentAssertions.Streams
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> HaveLength(int expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> HaveLength(long expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected the length of {context:stream} to be {0}{reason}, ", expected)
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> Stream.")
+                .FailWith("but found a <null> reference.")
                 .Then
                 .ForCondition(Subject.CanSeek)
                 .FailWith("but found a non-seekable stream.")
@@ -278,9 +278,9 @@ namespace FluentAssertions.Streams
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Stream"/> has not the <paramref name="unexpected"/> length.
+        /// Asserts that the current <see cref="Stream"/> does not have an <paramref name="unexpected"/> length.
         /// </summary>
-        /// <param name="unexpected">The not expected length of the current stream.</param>
+        /// <param name="unexpected">The unexpected length of the current stream.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -288,13 +288,13 @@ namespace FluentAssertions.Streams
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> NotHaveLength(int unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotHaveLength(long unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected the length of {context:stream} not to be {0}{reason}, ", unexpected)
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> Stream.")
+                .FailWith("but found a <null> reference.")
                 .Then
                 .ForCondition(Subject.CanSeek)
                 .FailWith("but found a non-seekable stream.")
@@ -308,7 +308,7 @@ namespace FluentAssertions.Streams
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Stream"/> is read only.
+        /// Asserts that the current <see cref="Stream"/> is read-only.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -321,9 +321,9 @@ namespace FluentAssertions.Streams
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:stream} to be read only{reason}, ")
+                .WithExpectation("Expected {context:stream} to be read-only{reason}, ")
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> Stream.")
+                .FailWith("but found a <null> reference.")
                 .Then
                 .ForCondition(!Subject.CanWrite && Subject.CanRead)
                 .FailWith("but it was writable or not readable.")
@@ -334,7 +334,7 @@ namespace FluentAssertions.Streams
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Stream"/> is not read only.
+        /// Asserts that the current <see cref="Stream"/> is not read-only.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -347,9 +347,9 @@ namespace FluentAssertions.Streams
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:stream} not to be read only{reason}, ")
+                .WithExpectation("Expected {context:stream} not to be read-only{reason}, ")
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> Stream.")
+                .FailWith("but found a <null> reference.")
                 .Then
                 .ForCondition(Subject.CanWrite || !Subject.CanRead)
                 .FailWith("but it was.")
@@ -360,7 +360,7 @@ namespace FluentAssertions.Streams
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Stream"/> is write only.
+        /// Asserts that the current <see cref="Stream"/> is write-only.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -373,9 +373,9 @@ namespace FluentAssertions.Streams
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:stream} to be write only{reason}, ")
+                .WithExpectation("Expected {context:stream} to be write-only{reason}, ")
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> Stream.")
+                .FailWith("but found a <null> reference.")
                 .Then
                 .ForCondition(Subject.CanWrite && !Subject.CanRead)
                 .FailWith("but it was readable or not writable.")
@@ -386,7 +386,7 @@ namespace FluentAssertions.Streams
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Stream"/> is not write only.
+        /// Asserts that the current <see cref="Stream"/> is not write-only.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -399,9 +399,9 @@ namespace FluentAssertions.Streams
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:stream} not to be write only{reason}, ")
+                .WithExpectation("Expected {context:stream} not to be write-only{reason}, ")
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> Stream.")
+                .FailWith("but found a <null> reference.")
                 .Then
                 .ForCondition(!Subject.CanWrite || Subject.CanRead)
                 .FailWith("but it was.")
