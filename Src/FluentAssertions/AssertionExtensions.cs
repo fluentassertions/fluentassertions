@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
 using FluentAssertions.Reflection;
 using FluentAssertions.Specialized;
+using FluentAssertions.Streams;
 using FluentAssertions.Types;
 using FluentAssertions.Xml;
 using JetBrains.Annotations;
@@ -178,6 +180,26 @@ namespace FluentAssertions
         public static XAttributeAssertions Should(this XAttribute actualValue)
         {
             return new XAttributeAssertions(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="StreamAssertions"/> object that can be used to assert the
+        /// current <see cref="Stream"/>.
+        /// </summary>
+        [Pure]
+        public static StreamAssertions Should(this Stream actualValue)
+        {
+            return new StreamAssertions(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="BufferedStreamAssertions"/> object that can be used to assert the
+        /// current <see cref="BufferedStream"/>.
+        /// </summary>
+        [Pure]
+        public static BufferedStreamAssertions Should(this BufferedStream actualValue)
+        {
+            return new BufferedStreamAssertions(actualValue);
         }
 
         /// <summary>
