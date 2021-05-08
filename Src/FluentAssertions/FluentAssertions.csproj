@@ -21,7 +21,7 @@
       Supports the unit test frameworks MSTest2, NUnit3, XUnit2, MSpec, and NSpec3.
     </PackageDescription>
     <PackageProjectUrl>https://www.fluentassertions.com</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/fluentassertions/fluentassertions.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/fluentassertions/fluentassertions</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>MSTest2;xUnit;NUnit;MSpec;NSpec;TDD;BDD;Fluent;netcore;netstandard;uwp</PackageTags>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>

@@ -65,8 +65,3 @@ My name is [Dennis Doomen](https://twitter.com/ddoomen) and I work for [Aviva So
 
 ## Versioning
 The version numbers of Fluent Assertions releases comply to the [Semantic Versioning](http://semver.org/) scheme. In other words, release 1.4.0 only adds backwards-compatible functionality and bug fixes compared to 1.3.0. Release 1.4.1 should only include bug fixes. And if we ever introduce breaking changes, the number increased to 2.0.0.
-
-
-* Visual Studio 2019 16.9+ or Jetbrains Rider and Build Tools 2017
-* Windows 10
-* .NET Framework 4.7 SDK and .NET 5.0 SDK (check [global.json](https://github.com/fluentassertions/fluentassertions/tree/develop/global.json) for the current minimum required version)
