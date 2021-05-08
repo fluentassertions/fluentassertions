@@ -30,7 +30,7 @@ actual.Should().StartWith("AB").And.EndWith("HI").And.Contain("EF").And.HaveLeng
 To verify that all elements of a collection match a predicate and that it contains a specified number of elements.
 
 ```c#
-IEnumerable numbers = new[] { 1, 2, 3 };
+IEnumerable<int> numbers = new[] { 1, 2, 3 };
 
 numbers.Should().OnlyContain(n => n > 0);
 numbers.Should().HaveCount(4, "because we thought we put four items in the collection");
