@@ -51,6 +51,8 @@ namespace FluentAssertions
         public static FluentAssertions.Specialized.NonGenericAsyncFunctionAssertions Should(this System.Func<System.Threading.Tasks.Task> action) { }
         public static FluentAssertions.Primitives.GuidAssertions Should(this System.Guid actualValue) { }
         public static FluentAssertions.Primitives.NullableGuidAssertions Should(this System.Guid? actualValue) { }
+        public static FluentAssertions.Streams.BufferedStreamAssertions Should(this System.IO.BufferedStream actualValue) { }
+        public static FluentAssertions.Streams.StreamAssertions Should(this System.IO.Stream actualValue) { }
         public static FluentAssertions.Reflection.AssemblyAssertions Should(this System.Reflection.Assembly assembly) { }
         public static FluentAssertions.Types.ConstructorInfoAssertions Should(this System.Reflection.ConstructorInfo constructorInfo) { }
         public static FluentAssertions.Types.MethodInfoAssertions Should(this System.Reflection.MethodInfo methodInfo) { }
@@ -2079,6 +2081,43 @@ namespace FluentAssertions.Specialized
         public TaskCompletionSourceAssertions(System.Threading.Tasks.TaskCompletionSource<T> tcs, FluentAssertions.Common.IClock clock) { }
         public System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.TaskCompletionSourceAssertions<T>, T>> CompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
         public System.Threading.Tasks.Task NotCompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
+    }
+}
+namespace FluentAssertions.Streams
+{
+    public class BufferedStreamAssertions : FluentAssertions.Streams.BufferedStreamAssertions<FluentAssertions.Streams.BufferedStreamAssertions>
+    {
+        public BufferedStreamAssertions(System.IO.BufferedStream stream) { }
+    }
+    public class BufferedStreamAssertions<TAssertions> : FluentAssertions.Streams.StreamAssertions<System.IO.BufferedStream, TAssertions>
+        where TAssertions : FluentAssertions.Streams.BufferedStreamAssertions<TAssertions>
+    {
+        public BufferedStreamAssertions(System.IO.BufferedStream stream) { }
+    }
+    public class StreamAssertions : FluentAssertions.Streams.StreamAssertions<System.IO.Stream, FluentAssertions.Streams.StreamAssertions>
+    {
+        public StreamAssertions(System.IO.Stream stream) { }
+    }
+    public class StreamAssertions<TSubject, TAssertions> : FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions>
+        where TSubject : System.IO.Stream
+        where TAssertions : FluentAssertions.Streams.StreamAssertions<TSubject, TAssertions>
+    {
+        public StreamAssertions(TSubject stream) { }
+        protected override string Identifier { get; }
+        public FluentAssertions.AndConstraint<TAssertions> BeReadOnly(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeReadable(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeSeekable(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeWritable(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeWriteOnly(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveLength(long expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HavePosition(long expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeReadOnly(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeReadable(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeSeekable(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeWritable(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeWriteOnly(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHaveLength(long unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHavePosition(long unexpected, string because = "", params object[] becauseArgs) { }
     }
 }
 namespace FluentAssertions.Types
