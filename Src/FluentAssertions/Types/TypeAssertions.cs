@@ -11,7 +11,7 @@ using FluentAssertions.Primitives;
 namespace FluentAssertions.Types
 {
     /// <summary>
-    /// Contains a number of methods to assert that a <see cref="System.Type"/> meets certain expectations.
+    /// Contains a number of methods to assert that a <see cref="Type"/> meets certain expectations.
     /// </summary>
     [DebuggerNonUserCode]
     public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
@@ -25,7 +25,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type is equal to the specified <typeparamref name="TExpected"/> type.
+        /// Asserts that the current <see cref="Type"/> is equal to the specified <typeparamref name="TExpected"/> type.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -40,7 +40,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type is equal to the specified <paramref name="expected"/> type.
+        /// Asserts that the current <see cref="Type"/> is equal to the specified <paramref name="expected"/> type.
         /// </summary>
         /// <param name="expected">The expected type</param>
         /// <param name="because">
@@ -422,7 +422,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="System.Type"/> implements Interface <paramref name="interfaceType"/>.
+        /// Asserts that the current <see cref="Type"/> implements <paramref name="interfaceType"/>.
         /// </summary>
         /// <param name="interfaceType">The interface that should be implemented.</param>
         /// <param name="because">
@@ -454,7 +454,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="System.Type"/> implements Interface <typeparamref name="TInterface"/>.
+        /// Asserts that the current <see cref="Type"/> implements interface <typeparamref name="TInterface"/>.
         /// </summary>
         /// <typeparam name="TInterface">The interface that should be implemented.</typeparam>
         /// <param name="because">
@@ -471,7 +471,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="System.Type"/> does not implement Interface <paramref name="interfaceType"/>.
+        /// Asserts that the current <see cref="Type"/> does not implement <paramref name="interfaceType"/>.
         /// </summary>
         /// <param name="interfaceType">The interface that should be not implemented.</param>
         /// <param name="because">
@@ -503,7 +503,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="System.Type"/> does not implement Interface <typeparamref name="TInterface"/>.
+        /// Asserts that the current <see cref="Type"/> does not implement interface <typeparamref name="TInterface"/>.
         /// </summary>
         /// <typeparam name="TInterface">The interface that should not be implemented.</typeparam>
         /// <param name="because">
@@ -520,9 +520,9 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="System.Type"/> is derived from <see cref="System.Type"/> <paramref name="baseType"/>.
+        /// Asserts that the current <see cref="Type"/> is derived from <paramref name="baseType"/>.
         /// </summary>
-        /// <param name="baseType">The Type that should be derived from.</param>
+        /// <param name="baseType">The type that should be derived from.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -552,9 +552,9 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="System.Type"/> is derived from <typeparamref name="TBaseClass"/>.
+        /// Asserts that the current <see cref="Type"/> is derived from <typeparamref name="TBaseClass"/>.
         /// </summary>
-        /// <typeparam name="TBaseClass">The Type that should be derived from.</typeparam>
+        /// <typeparam name="TBaseClass">The type that should be derived from.</typeparam>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -569,9 +569,9 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="System.Type"/> is not derived from <see cref="System.Type"/> <paramref name="baseType"/>.
+        /// Asserts that the current <see cref="Type"/> is not derived from <paramref name="baseType"/>.
         /// </summary>
-        /// <param name="baseType">The Type that should not be derived from.</param>
+        /// <param name="baseType">The type that should not be derived from.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -601,9 +601,9 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="System.Type"/> is not derived from <typeparamref name="TBaseClass"/>.
+        /// Asserts that the current <see cref="Type"/> is not derived from <typeparamref name="TBaseClass"/>.
         /// </summary>
-        /// <typeparam name="TBaseClass">The Type that should not be derived from.</typeparam>
+        /// <typeparam name="TBaseClass">The type that should not be derived from.</typeparam>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -618,7 +618,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="System.Type"/> is sealed.
+        /// Asserts that the current <see cref="Type"/> is sealed.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -646,7 +646,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="System.Type"/> is not sealed.
+        /// Asserts that the current <see cref="Type"/> is not sealed.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -674,7 +674,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="System.Type"/> is abstract.
+        /// Asserts that the current <see cref="Type"/> is abstract.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -702,7 +702,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="System.Type"/> is not abstract.
+        /// Asserts that the current <see cref="Type"/> is not abstract.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -730,7 +730,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="System.Type"/> is static.
+        /// Asserts that the current <see cref="Type"/> is static.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -758,7 +758,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="System.Type"/> is not static.
+        /// Asserts that the current <see cref="Type"/> is not static.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -786,7 +786,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type has a property of type <paramref name="propertyType"/> named <paramref name="name"/>.
+        /// Asserts that the current <see cref="Type"/> has a property of type <paramref name="propertyType"/> named <paramref name="name"/>.
         /// </summary>
         /// <param name="propertyType">The type of the property.</param>
         /// <param name="name">The name of the property.</param>
@@ -824,7 +824,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type has a property of type <typeparamref name="TProperty"/> named <paramref name="name"/>.
+        /// Asserts that the current <see cref="Type"/> has a property of type <typeparamref name="TProperty"/> named <paramref name="name"/>.
         /// </summary>
         /// <typeparam name="TProperty">The type of the property.</typeparam>
         /// <param name="name">The name of the property.</param>
@@ -842,7 +842,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type does not have a property named <paramref name="name"/>.
+        /// Asserts that the current <see cref="Type"/> does not have a property named <paramref name="name"/>.
         /// </summary>
         /// <param name="name">The name of the property.</param>
         /// <param name="because">
@@ -874,7 +874,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type explicitly implements a property named
+        /// Asserts that the current <see cref="Type"/> explicitly implements a property named
         /// <paramref name="name"/> from interface <paramref name="interfaceType" />.
         /// </summary>
         /// <param name="interfaceType">The type of the interface.</param>
@@ -911,7 +911,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type explicitly implements a property named
+        /// Asserts that the current <see cref="Type"/> explicitly implements a property named
         /// <paramref name="name"/> from interface <typeparamref name="TInterface"/>.
         /// </summary>
         /// <typeparam name="TInterface">The interface whose member is being explicitly implemented.</typeparam>
@@ -931,7 +931,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type does not explicitly implement a property named
+        /// Asserts that the current <see cref="Type"/> does not explicitly implement a property named
         /// <paramref name="name"/> from interface <paramref name="interfaceType" />.
         /// </summary>
         /// <param name="interfaceType">The type of the interface.</param>
@@ -968,7 +968,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type does not explicitly implement a property named
+        /// Asserts that the current <see cref="Type"/> does not explicitly implement a property named
         /// <paramref name="name"/> from interface <typeparamref name="TInterface"/>.
         /// </summary>
         /// <typeparam name="TInterface">The interface whose member is not being explicitly implemented.</typeparam>
@@ -988,7 +988,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type explicitly implements a method named <paramref name="name"/>
+        /// Asserts that the current <see cref="Type"/> explicitly implements a method named <paramref name="name"/>
         /// from interface <paramref name="interfaceType" />.
         /// </summary>
         /// <param name="interfaceType">The type of the interface.</param>
@@ -1028,7 +1028,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type explicitly implements a method named <paramref name="name"/>
+        /// Asserts that the current <see cref="Type"/> explicitly implements a method named <paramref name="name"/>
         /// from interface  <typeparamref name="TInterface"/>.
         /// </summary>
         /// <typeparam name="TInterface">The interface whose member is being explicitly implemented.</typeparam>
@@ -1050,7 +1050,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type does not explicitly implement a method named <paramref name="name"/>
+        /// Asserts that the current <see cref="Type"/> does not explicitly implement a method named <paramref name="name"/>
         /// from interface <paramref name="interfaceType" />.
         /// </summary>
         /// <param name="interfaceType">The type of the interface.</param>
@@ -1090,7 +1090,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type does not explicitly implement a method named <paramref name="name"/>
+        /// Asserts that the current <see cref="Type"/> does not explicitly implement a method named <paramref name="name"/>
         /// from interface <typeparamref name="TInterface"/>.
         /// </summary>
         /// <typeparam name="TInterface">The interface whose member is not being explicitly implemented.</typeparam>
@@ -1112,7 +1112,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type has an indexer of type <paramref name="indexerType"/>.
+        /// Asserts that the current <see cref="Type"/> has an indexer of type <paramref name="indexerType"/>.
         /// with parameter types <paramref name="parameterTypes"/>.
         /// </summary>
         /// <param name="indexerType">The type of the indexer.</param>
@@ -1151,7 +1151,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type does not have an indexer that takes parameter types <paramref name="parameterTypes"/>.
+        /// Asserts that the current <see cref="Type"/> does not have an indexer that takes parameter types <paramref name="parameterTypes"/>.
         /// </summary>
         /// <param name="parameterTypes">The expected indexer's parameter types.</param>
         /// <param name="because">
@@ -1182,7 +1182,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type has a method named <paramref name="name"/>with parameter types <paramref name="parameterTypes"/>.
+        /// Asserts that the current <see cref="Type"/> has a method named <paramref name="name"/> with parameter types <paramref name="parameterTypes"/>.
         /// </summary>
         /// <param name="name">The name of the method.</param>
         /// <param name="parameterTypes">The parameter types for the indexer.</param>
@@ -1216,7 +1216,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type does not expose a method named <paramref name="name"/>
+        /// Asserts that the current <see cref="Type"/> does not expose a method named <paramref name="name"/>
         /// with parameter types <paramref name="parameterTypes"/>.
         /// </summary>
         /// <param name="name">The name of the method.</param>
@@ -1252,7 +1252,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type has a constructor with parameter types <paramref name="parameterTypes"/>.
+        /// Asserts that the current <see cref="Type"/> has a constructor with <paramref name="parameterTypes"/>.
         /// </summary>
         /// <param name="parameterTypes">The parameter types for the indexer.</param>
         /// <param name="because">
@@ -1283,7 +1283,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type has a default constructor.
+        /// Asserts that the current <see cref="Type"/> has a default constructor.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -1298,7 +1298,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type does not have a constructor with parameter types <paramref name="parameterTypes"/>.
+        /// Asserts that the current <see cref="Type"/> does not have a constructor with <paramref name="parameterTypes"/>.
         /// </summary>
         /// <param name="parameterTypes">The parameter types for the indexer.</param>
         /// <param name="because">
@@ -1329,7 +1329,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type does not have a default constructor.
+        /// Asserts that the current <see cref="Type"/> does not have a default constructor.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -1349,7 +1349,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the selected type has the specified C# <paramref name="accessModifier"/>.
+        /// Asserts that the current <see cref="Type"/> has the specified C# <paramref name="accessModifier"/>.
         /// </summary>
         /// <param name="accessModifier">The expected C# access modifier.</param>
         /// <param name="because">
@@ -1381,7 +1381,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the selected type does not have the specified C# <paramref name="accessModifier"/>.
+        /// Asserts that the current <see cref="Type"/> does not have the specified C# <paramref name="accessModifier"/>.
         /// </summary>
         /// <param name="accessModifier">The unexpected C# access modifier.</param>
         /// <param name="because">
@@ -1413,7 +1413,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type has an implicit conversion operator that converts <typeparamref name="TSource"/> into <typeparamref name="TTarget"/>.
+        /// Asserts that the current <see cref="Type"/> has an implicit conversion operator that converts <typeparamref name="TSource"/> into <typeparamref name="TTarget"/>.
         /// </summary>
         /// <typeparam name="TSource">The type to convert from.</typeparam>
         /// <typeparam name="TTarget">The type to convert to.</typeparam>
@@ -1430,7 +1430,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type has an implicit conversion operator that converts <paramref name="sourceType"/> into <paramref name="targetType"/>.
+        /// Asserts that the current <see cref="Type"/> has an implicit conversion operator that converts <paramref name="sourceType"/> into <paramref name="targetType"/>.
         /// </summary>
         /// <param name="sourceType">The type to convert from.</param>
         /// <param name="targetType">The type to convert to.</param>
@@ -1464,7 +1464,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type does not have an implicit conversion operator that converts <typeparamref name="TSource"/> into <typeparamref name="TTarget"/>.
+        /// Asserts that the current <see cref="Type"/> does not have an implicit conversion operator that converts <typeparamref name="TSource"/> into <typeparamref name="TTarget"/>.
         /// </summary>
         /// <typeparam name="TSource">The type to convert from.</typeparam>
         /// <typeparam name="TTarget">The type to convert to.</typeparam>
@@ -1481,7 +1481,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type does not have an implicit conversion operator that converts <paramref name="sourceType"/> into <paramref name="targetType"/>.
+        /// Asserts that the current <see cref="Type"/> does not have an implicit conversion operator that converts <paramref name="sourceType"/> into <paramref name="targetType"/>.
         /// </summary>
         /// <param name="sourceType">The type to convert from.</param>
         /// <param name="targetType">The type to convert to.</param>
@@ -1515,7 +1515,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type has an explicit conversion operator that converts <typeparamref name="TSource"/> into <typeparamref name="TTarget"/>.
+        /// Asserts that the current <see cref="Type"/> has an explicit conversion operator that converts <typeparamref name="TSource"/> into <typeparamref name="TTarget"/>.
         /// </summary>
         /// <typeparam name="TSource">The type to convert from.</typeparam>
         /// <typeparam name="TTarget">The type to convert to.</typeparam>
@@ -1532,7 +1532,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type has an explicit conversion operator that converts <paramref name="sourceType"/> into <paramref name="targetType"/>.
+        /// Asserts that the current <see cref="Type"/> has an explicit conversion operator that converts <paramref name="sourceType"/> into <paramref name="targetType"/>.
         /// </summary>
         /// <param name="sourceType">The type to convert from.</param>
         /// <param name="targetType">The type to convert to.</param>
@@ -1566,7 +1566,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type does not have an explicit conversion operator that converts <typeparamref name="TSource"/> into <typeparamref name="TTarget"/>.
+        /// Asserts that the current <see cref="Type"/> does not have an explicit conversion operator that converts <typeparamref name="TSource"/> into <typeparamref name="TTarget"/>.
         /// </summary>
         /// <typeparam name="TSource">The type to convert from.</typeparam>
         /// <typeparam name="TTarget">The type to convert to.</typeparam>
@@ -1583,7 +1583,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current type does not have an explicit conversion operator that converts <paramref name="sourceType"/> into <paramref name="targetType"/>.
+        /// Asserts that the current <see cref="Type"/> does not have an explicit conversion operator that converts <paramref name="sourceType"/> into <paramref name="targetType"/>.
         /// </summary>
         /// <param name="sourceType">The type to convert from.</param>
         /// <param name="targetType">The type to convert to.</param>
