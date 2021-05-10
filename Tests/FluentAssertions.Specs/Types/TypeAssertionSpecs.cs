@@ -1,6 +1,5 @@
 using System;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
 using DummyNamespace;
 using DummyNamespace.InnerDummyNamespace;
@@ -3215,7 +3214,7 @@ namespace FluentAssertions.Specs.Types
             // Act
             Action act = () =>
                 type.Should()
-                    .HaveExplicitMethod(interfaceType, "ExplicitMethod", Enumerable.Empty<Type>());
+                    .HaveExplicitMethod(interfaceType, "ExplicitMethod", new Type[0]);
 
             // Assert
             act.Should().NotThrow();
@@ -3232,7 +3231,7 @@ namespace FluentAssertions.Specs.Types
             // Act
             Action act = () =>
                 type.Should()
-                    .HaveExplicitMethod(interfaceType, "ExplicitImplicitMethod", Enumerable.Empty<Type>());
+                    .HaveExplicitMethod(interfaceType, "ExplicitImplicitMethod", new Type[0]);
 
             // Assert
             act.Should().NotThrow();
@@ -3249,7 +3248,7 @@ namespace FluentAssertions.Specs.Types
             // Act
             Action act = () =>
                 type.Should()
-                    .HaveExplicitMethod(interfaceType, "ImplicitMethod", Enumerable.Empty<Type>());
+                    .HaveExplicitMethod(interfaceType, "ImplicitMethod", new Type[0]);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -3269,7 +3268,7 @@ namespace FluentAssertions.Specs.Types
             // Act
             Action act = () =>
                 type.Should()
-                    .HaveExplicitMethod(interfaceType, "NonExistentMethod", Enumerable.Empty<Type>());
+                    .HaveExplicitMethod(interfaceType, "NonExistentMethod", new Type[0]);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -3289,7 +3288,7 @@ namespace FluentAssertions.Specs.Types
             // Act
             Action act = () =>
                 type.Should()
-                    .HaveExplicitMethod(interfaceType, "NonExistentProperty", Enumerable.Empty<Type>());
+                    .HaveExplicitMethod(interfaceType, "NonExistentProperty", new Type[0]);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -3386,7 +3385,7 @@ namespace FluentAssertions.Specs.Types
             // Act
             Action act = () =>
                 type.Should()
-                    .HaveExplicitMethod<IExplicitInterface>("ExplicitMethod", Enumerable.Empty<Type>());
+                    .HaveExplicitMethod<IExplicitInterface>("ExplicitMethod", new Type[0]);
 
             // Assert
             act.Should().NotThrow();
@@ -3467,7 +3466,7 @@ namespace FluentAssertions.Specs.Types
             // Act
             Action act = () =>
                 type.Should()
-                    .NotHaveExplicitMethod(interfaceType, "ExplicitMethod", Enumerable.Empty<Type>());
+                    .NotHaveExplicitMethod(interfaceType, "ExplicitMethod", new Type[0]);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -3487,7 +3486,7 @@ namespace FluentAssertions.Specs.Types
             // Act
             Action act = () =>
                 type.Should()
-                    .NotHaveExplicitMethod(interfaceType, "ExplicitImplicitMethod", Enumerable.Empty<Type>());
+                    .NotHaveExplicitMethod(interfaceType, "ExplicitImplicitMethod", new Type[0]);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -3507,7 +3506,7 @@ namespace FluentAssertions.Specs.Types
             // Act
             Action act = () =>
                 type.Should()
-                    .NotHaveExplicitMethod(interfaceType, "ImplicitMethod", Enumerable.Empty<Type>());
+                    .NotHaveExplicitMethod(interfaceType, "ImplicitMethod", new Type[0]);
 
             // Assert
             act.Should().NotThrow();
@@ -3524,7 +3523,7 @@ namespace FluentAssertions.Specs.Types
             // Act
             Action act = () =>
                 type.Should()
-                    .NotHaveExplicitMethod(interfaceType, "NonExistentMethod", Enumerable.Empty<Type>());
+                    .NotHaveExplicitMethod(interfaceType, "NonExistentMethod", new Type[0]);
 
             // Assert
             act.Should().NotThrow();
@@ -3541,7 +3540,7 @@ namespace FluentAssertions.Specs.Types
             // Act
             Action act = () =>
                 type.Should()
-                    .NotHaveExplicitMethod(interfaceType, "NonExistentMethod", Enumerable.Empty<Type>());
+                    .NotHaveExplicitMethod(interfaceType, "NonExistentMethod", new Type[0]);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -3637,7 +3636,7 @@ namespace FluentAssertions.Specs.Types
             // Act
             Action act = () =>
                 type.Should()
-                    .NotHaveExplicitMethod<IExplicitInterface>("ExplicitMethod", Enumerable.Empty<Type>());
+                    .NotHaveExplicitMethod<IExplicitInterface>("ExplicitMethod", new Type[0]);
 
             // Assert
             act.Should().Throw<XunitException>()

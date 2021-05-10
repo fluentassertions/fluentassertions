@@ -1294,7 +1294,7 @@ namespace FluentAssertions.Types
         /// </param>
         public AndWhichConstraint<TypeAssertions, ConstructorInfo> HaveDefaultConstructor(string because = "", params object[] becauseArgs)
         {
-            return HaveConstructor(new Type[] { }, because, becauseArgs);
+            return HaveConstructor(new Type[0], because, becauseArgs);
         }
 
         /// <summary>
@@ -1340,7 +1340,7 @@ namespace FluentAssertions.Types
         /// </param>
         public AndWhichConstraint<TypeAssertions, ConstructorInfo> NotHaveDefaultConstructor(string because = "", params object[] becauseArgs)
         {
-            return NotHaveConstructor(new Type[] { }, because, becauseArgs);
+            return NotHaveConstructor(new Type[0], because, becauseArgs);
         }
 
         private static string GetParameterString(IEnumerable<Type> parameterTypes)
