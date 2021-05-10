@@ -419,6 +419,21 @@ namespace FluentAssertions.Specs.Types
             typeof(DummyBaseType<>).Should().BeAssignableTo(typeof(DummyBaseType<>));
         }
 
+        [Fact]
+        public void When_asserting_a_type_to_be_assignable_to_null_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(DummyBaseType<>);
+
+            // Act
+            Action act = () =>
+                type.Should().BeAssignableTo(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("type");
+        }
+
         #endregion
 
         #region NotBeAssignableTo
@@ -541,6 +556,21 @@ namespace FluentAssertions.Specs.Types
                 .WithMessage($"*{typeof(ClassWithGenericBaseType)} to not be assignable to {typeof(IDummyInterface<>)}*failure message*");
         }
 
+        [Fact]
+        public void When_asserting_a_type_not_to_be_assignable_to_null_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(DummyBaseType<>);
+
+            // Act
+            Action act =
+                () => type.Should().NotBeAssignableTo(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("type");
+        }
+
         #endregion
 
         #region BeDerivedFrom
@@ -586,9 +616,8 @@ namespace FluentAssertions.Specs.Types
                 type.Should().BeDerivedFrom(typeof(IDummyInterface), "because we want to test the error {0}", "message");
 
             // Assert
-            act.Should().Throw<ArgumentException>()
-                .WithMessage("Must not be an interface Type.*")
-                .WithParameterName("baseType");
+            act.Should().Throw<XunitException>()
+                .WithMessage($"Expected type *.ClassThatImplementsInterface to be derived from *.IDummyInterface *error message*, but *.IDummyInterface is an interface.");
         }
 
         [Fact]
@@ -633,6 +662,21 @@ namespace FluentAssertions.Specs.Types
             act.Should().Throw<XunitException>()
                 .WithMessage($"Expected type {typeof(ClassWithMembers)} to be derived from " +
                              $"{typeof(DummyBaseType<>)} because we want to test the error message, but it is not.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_to_be_derived_from_null_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(DummyBaseType<>);
+
+            // Act
+            Action act =
+                () => type.Should().BeDerivedFrom(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("baseType");
         }
 
         #endregion
@@ -698,9 +742,8 @@ namespace FluentAssertions.Specs.Types
                 type.Should().NotBeDerivedFrom(typeof(IDummyInterface), "because we want to test the error {0}", "message");
 
             // Assert
-            act.Should().Throw<ArgumentException>()
-                .WithMessage("Must not be an interface Type.*")
-                .WithParameterName("baseType");
+            act.Should().Throw<XunitException>()
+                .WithMessage($"Expected type *.ClassThatImplementsInterface not to be derived from *.IDummyInterface *error message*, but *.IDummyInterface is an interface.");
         }
 
         [Fact]
@@ -745,6 +788,21 @@ namespace FluentAssertions.Specs.Types
             act.Should().Throw<XunitException>()
                 .WithMessage($"Expected type*{typeof(DummyBaseType<ClassWithGenericBaseType>)}*not to be derived from*" +
                              $"{typeof(DummyBaseType<>)}*because we want to test the error message*but it is.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_not_to_be_derived_from_null_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(DummyBaseType<>);
+
+            // Act
+            Action act =
+                () => type.Should().NotBeDerivedFrom(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("baseType");
         }
 
         #endregion
@@ -2014,6 +2072,21 @@ namespace FluentAssertions.Specs.Types
                              + ".");
         }
 
+        [Fact]
+        public void When_subject_is_null_be_sealed_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().BeSealed("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type to be sealed *failure message*, but type is <null>.");
+        }
+
         #endregion
 
         #region NotBeSealed
@@ -2103,6 +2176,21 @@ namespace FluentAssertions.Specs.Types
                              + ".");
         }
 
+        [Fact]
+        public void When_subject_is_null_not_be_sealed_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().NotBeSealed("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type not to be sealed *failure message*, but type is <null>.");
+        }
+
         #endregion
 
         #region BeAbstract
@@ -2154,6 +2242,21 @@ namespace FluentAssertions.Specs.Types
             // Assert
             act.Should().Throw<InvalidOperationException>()
                 .WithMessage(exceptionMessage);
+        }
+
+        [Fact]
+        public void When_subject_is_null_be_abstract_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().BeAbstract("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type to be abstract *failure message*, but type is <null>.");
         }
 
         #endregion
@@ -2212,6 +2315,21 @@ namespace FluentAssertions.Specs.Types
                 .WithMessage(exceptionMessage);
         }
 
+        [Fact]
+        public void When_subject_is_null_not_be_abstract_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().NotBeAbstract("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type not to be abstract *failure message*, but type is <null>.");
+        }
+
         #endregion
 
         #region BeStatic
@@ -2263,6 +2381,21 @@ namespace FluentAssertions.Specs.Types
             // Assert
             act.Should().Throw<InvalidOperationException>()
                 .WithMessage(exceptionMessage);
+        }
+
+        [Fact]
+        public void When_subject_is_null_be_static_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().BeStatic("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type to be static *failure message*, but type is <null>.");
         }
 
         #endregion
@@ -2321,6 +2454,21 @@ namespace FluentAssertions.Specs.Types
                 .WithMessage(exceptionMessage);
         }
 
+        [Fact]
+        public void When_subject_is_null_not_be_static_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().NotBeStatic("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type not to be static *failure message*, but type is <null>.");
+        }
+
         #endregion
 
         #region Implement
@@ -2367,8 +2515,22 @@ namespace FluentAssertions.Specs.Types
                 type.Should().Implement(typeof(DateTime), "because we want to test the error {0}", "message");
 
             // Assert
-            act.Should().Throw<ArgumentException>()
-                .WithMessage("Must be an interface Type.*")
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type *.ClassThatDoesNotImplementInterface to implement interface *.DateTime *error message*, but *.DateTime is not an interface.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_to_implement_null_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(DummyBaseType<>);
+
+            // Act
+            Action act = () =>
+                type.Should().Implement(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("interfaceType");
         }
 
@@ -2435,8 +2597,22 @@ namespace FluentAssertions.Specs.Types
                 type.Should().NotImplement(typeof(DateTime), "because we want to test the error {0}", "message");
 
             // Assert
-            act.Should().Throw<ArgumentException>()
-                .WithMessage("Must be an interface Type.*")
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type *.ClassThatDoesNotImplementInterface to not implement interface *.DateTime *error message*, but *.DateTime is not an interface.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_not_to_implement_null_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassThatDoesNotImplementInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().NotImplement(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("interfaceType");
         }
 
@@ -2513,6 +2689,66 @@ namespace FluentAssertions.Specs.Types
                     "Expected String FluentAssertions*ClassWithMembers.PrivateWriteProtectedReadProperty to be of type System.Int32 because we want to test the error message, but it is not.");
         }
 
+        [Fact]
+        public void When_subject_is_null_have_property_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().HaveProperty(typeof(string), "PublicProperty", "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected String type.PublicProperty to exist *failure message*, but type is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_a_property_of_null_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassWithMembers);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveProperty(null, "PublicProperty");
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("propertyType");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_a_property_with_a_null_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassWithMembers);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveProperty(typeof(string), null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_a_property_with_an_empty_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassWithMembers);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveProperty(typeof(string), string.Empty);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
+        }
+
         #endregion
 
         #region HavePropertyOfT
@@ -2533,6 +2769,36 @@ namespace FluentAssertions.Specs.Types
 
             // Assert
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_a_propertyOfT_with_a_null_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassWithMembers);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveProperty<string>(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_a_propertyOfT_with_an_empty_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassWithMembers);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveProperty<string>(string.Empty);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
         }
 
         #endregion
@@ -2568,6 +2834,51 @@ namespace FluentAssertions.Specs.Types
                 .WithMessage(
                     "Expected String FluentAssertions*ClassWithMembers.PrivateWriteProtectedReadProperty to not exist because we want to " +
                     "test the error message, but it does.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_not_have_property_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveProperty("PublicProperty", "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type.PublicProperty to not exist *failure message*, but type is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_a_property_with_a_null_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassWithMembers);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveProperty(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_a_property_with_an_empty_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassWithMembers);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveProperty(string.Empty);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
         }
 
         #endregion
@@ -2668,6 +2979,66 @@ namespace FluentAssertions.Specs.Types
                     "FluentAssertions*IDummyInterface, but it does not.");
         }
 
+        [Fact]
+        public void When_subject_is_null_have_explicit_property_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().HaveExplicitProperty(typeof(IExplicitInterface), "ExplicitStringProperty", "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type to explicitly implement *.IExplicitInterface.ExplicitStringProperty *failure message*, but type is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_explicit_property_inherited_by_null_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveExplicitProperty(null, "ExplicitStringProperty");
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("interfaceType");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_explicit_property_with_a_null_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveExplicitProperty(typeof(IExplicitInterface), null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_explicit_property_with_an_empty_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveExplicitProperty(typeof(IExplicitInterface), string.Empty);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
+        }
+
         #endregion
 
         #region HaveExplicitPropertyOfT
@@ -2685,6 +3056,51 @@ namespace FluentAssertions.Specs.Types
 
             // Assert
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_explicitlyOfT_property_with_a_null_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveExplicitProperty<IExplicitInterface>(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_explicitlyOfT_property_with_an_empty_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveExplicitProperty<IExplicitInterface>(string.Empty);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
+        }
+
+        [Fact]
+        public void When_subject_is_null_have_explicit_propertyOfT_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().HaveExplicitProperty<IExplicitInterface>("ExplicitStringProperty", "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type to explicitly implement *.IExplicitInterface.ExplicitStringProperty *failure message*, but type is <null>.");
         }
 
         #endregion
@@ -2784,6 +3200,66 @@ namespace FluentAssertions.Specs.Types
                              "FluentAssertions*IDummyInterface, but it does not.");
         }
 
+        [Fact]
+        public void When_subject_is_null_not_have_explicit_property_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveExplicitProperty(typeof(IExplicitInterface), "ExplicitStringProperty", "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type to not explicitly implement *IExplicitInterface.ExplicitStringProperty *failure message*, but type is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_explicit_property_inherited_from_null_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveExplicitProperty(null, "ExplicitStringProperty");
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("interfaceType");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_explicit_property_with_a_null_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveExplicitProperty(typeof(IExplicitInterface), null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_explicit_property_with_an_empty_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveExplicitProperty(typeof(IExplicitInterface), string.Empty);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
+        }
+
         #endregion
 
         #region NotHaveExplicitPropertyOfT
@@ -2804,6 +3280,51 @@ namespace FluentAssertions.Specs.Types
                 .WithMessage(
                     "Expected FluentAssertions*ClassExplicitlyImplementingInterface to not explicitly implement " +
                     "FluentAssertions*IExplicitInterface.ExplicitStringProperty, but it does.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_not_have_explicit_propertyOfT_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveExplicitProperty<IExplicitInterface>("ExplicitStringProperty", "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type to not explicitly implement *.IExplicitInterface.ExplicitStringProperty *failure message*, but type is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_explicitlyOfT_property_with_a_null_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveExplicitProperty<IExplicitInterface>(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_explicitlyOfT_property_with_an_empty_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveExplicitProperty<IExplicitInterface>(string.Empty);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
         }
 
         #endregion
@@ -2904,6 +3425,81 @@ namespace FluentAssertions.Specs.Types
                     "FluentAssertions*IDummyInterface, but it does not.");
         }
 
+        [Fact]
+        public void When_subject_is_null_have_explicit_method_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().HaveExplicitMethod(typeof(IExplicitInterface), "ExplicitMethod", new Type[0], "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type to explicitly implement *.IExplicitInterface.ExplicitMethod *failure message*, but type is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_explicit_method_with_a_null_interface_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveExplicitMethod(null, "ExplicitMethod", new Type[0]);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("interfaceType");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_explicit_method_with_a_null_parameter_type_list_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveExplicitMethod(typeof(IExplicitInterface), "ExplicitMethod", null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("parameterTypes");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_explicit_method_with_a_null_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveExplicitMethod(typeof(IExplicitInterface), null, new Type[0]);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_explicit_method_with_an_empty_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveExplicitMethod(typeof(IExplicitInterface), string.Empty, new Type[0]);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
+        }
+
         #endregion
 
         #region HaveExplicitMethodOfT
@@ -2921,6 +3517,66 @@ namespace FluentAssertions.Specs.Types
 
             // Assert
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_subject_is_null_have_explicit_methodOfT_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().HaveExplicitMethod<IExplicitInterface>("ExplicitMethod", new Type[0], "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type to explicitly implement *.IExplicitInterface.ExplicitMethod *failure message*, but type is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_explicit_methodOfT_with_a_null_parameter_type_list_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveExplicitMethod<IExplicitInterface>("ExplicitMethod", null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("parameterTypes");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_explicit_methodOfT_with_a_null_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveExplicitMethod<IExplicitInterface>(null, new Type[0]);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_explicit_methodOfT_with_an_empty_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveExplicitMethod<IExplicitInterface>(string.Empty, new Type[0]);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
         }
 
         #endregion
@@ -3020,6 +3676,81 @@ namespace FluentAssertions.Specs.Types
                              "FluentAssertions*IDummyInterface, but it does not.");
         }
 
+        [Fact]
+        public void When_subject_is_null_not_have_explicit_method_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveExplicitMethod(typeof(IExplicitInterface), "ExplicitMethod", new Type[0], "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type to not explicitly implement *.IExplicitInterface.ExplicitMethod *failure message*, but type is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_explicit_method_inherited_from_null_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveExplicitMethod(null, "ExplicitMethod", new Type[0]);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("interfaceType");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_explicit_method_with_a_null_parameter_type_list_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveExplicitMethod(typeof(IExplicitInterface), "ExplicitMethod", null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("parameterTypes");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_explicit_method_with_a_null_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveExplicitMethod(typeof(IExplicitInterface), null, new Type[0]);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_explicit_method_with_an_empty_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveExplicitMethod(typeof(IExplicitInterface), string.Empty, new Type[0]);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
+        }
+
         #endregion
 
         #region NotHaveExplicitMethodOfT
@@ -3040,6 +3771,66 @@ namespace FluentAssertions.Specs.Types
                 .WithMessage(
                     "Expected FluentAssertions*ClassExplicitlyImplementingInterface to not explicitly implement " +
                     "FluentAssertions*IExplicitInterface.ExplicitMethod, but it does.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_not_have_explicit_methodOfT_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveExplicitMethod<IExplicitInterface>("ExplicitMethod", new Type[0], "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type to not explicitly implement *.IExplicitInterface.ExplicitMethod *failure message*, but type is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_explicit_methodOfT_with_a_null_parameter_type_list_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveExplicitMethod<IExplicitInterface>("ExplicitMethod", null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("parameterTypes");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_explicit_methodOfT_with_a_null_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveExplicitMethod<IExplicitInterface>(null, new Type[0]);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_explicit_methodOfT_with_an_empty_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveExplicitMethod<IExplicitInterface>(string.Empty, new Type[0]);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
         }
 
         #endregion
@@ -3098,6 +3889,51 @@ namespace FluentAssertions.Specs.Types
                     " message, but it does not.");
         }
 
+        [Fact]
+        public void When_subject_is_null_have_indexer_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().HaveIndexer(typeof(string), new[] { typeof(string) }, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected String type[System.String] to exist *failure message*, but type is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_indexer_for_null_it_should_throw()
+        {
+            // Arrange
+            Type type = typeof(ClassWithMembers);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveIndexer(null, new[] { typeof(string) });
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("indexerType");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_indexer_with_a_null_parameter_type_list_it_should_throw()
+        {
+            // Arrange
+            Type type = typeof(ClassWithMembers);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveIndexer(typeof(string), null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("parameterTypes");
+        }
+
         #endregion
 
         #region NotHaveIndexer
@@ -3131,6 +3967,36 @@ namespace FluentAssertions.Specs.Types
                 .WithMessage(
                     "Expected indexer FluentAssertions*ClassWithMembers[System.String] to not exist because we want to " +
                     "test the error message, but it does.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_not_have_indexer_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveIndexer(new[] { typeof(string) }, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected indexer type[System.String] to not exist *failure message*, but type is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_indexer_for_null_it_should_throw()
+        {
+            // Arrange
+            Type type = typeof(ClassWithMembers);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveIndexer(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("parameterTypes");
         }
 
         #endregion
@@ -3169,6 +4035,36 @@ namespace FluentAssertions.Specs.Types
                 .WithMessage(
                     "Expected constructor FluentAssertions*ClassWithNoMembers(System.Int32, System.Type) to exist because " +
                     "we want to test the error message, but it does not.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_have_constructor_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().HaveConstructor(new[] { typeof(string) }, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected constructor type(System.String) to exist *failure message*, but type is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_a_constructor_of_null_it_should_throw()
+        {
+            // Arrange
+            Type type = typeof(ClassWithMembers);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveConstructor(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("parameterTypes");
         }
 
         #endregion
@@ -3247,6 +4143,21 @@ namespace FluentAssertions.Specs.Types
                     "want to test the error message, but it does not.");
         }
 
+        [Fact]
+        public void When_subject_is_null_have_default_constructor_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().HaveDefaultConstructor("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected constructor type() to exist *failure message*, but type is <null>.");
+        }
+
         #endregion
 
         #region NotHaveConstructor
@@ -3281,6 +4192,36 @@ namespace FluentAssertions.Specs.Types
                 .WithMessage(
                     "Expected constructor*ClassWithMembers(System.String) not to exist because " +
                     "we want to test the error message, but it does.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_not_have_constructor_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveConstructor(new[] { typeof(string) }, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected constructor type(System.String) not to exist *failure message*, but type is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_a_constructor_of_null_it_should_throw()
+        {
+            // Arrange
+            Type type = typeof(ClassWithMembers);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveConstructor(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("parameterTypes");
         }
 
         #endregion
@@ -3351,6 +4292,21 @@ namespace FluentAssertions.Specs.Types
             act.Should().NotThrow();
         }
 
+        [Fact]
+        public void When_subject_is_null_not_have_default_constructor_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveDefaultConstructor("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected constructor type() not to exist *failure message*, but type is <null>.");
+        }
+
         #endregion
 
         #region HaveMethod
@@ -3407,6 +4363,66 @@ namespace FluentAssertions.Specs.Types
                     "because we want to test the error message, but it does not.");
         }
 
+        [Fact]
+        public void When_subject_is_null_have_method_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().HaveMethod("Name", new[] { typeof(string) }, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected method type.Name(System.String) to exist *failure message*, but type is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_a_method_with_a_null_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassWithMembers);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveMethod(null, new[] { typeof(string) });
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_a_method_with_an_empty_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassWithMembers);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveMethod(string.Empty, new[] { typeof(string) });
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_a_method_with_a_null_parameter_type_list_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassWithMembers);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveMethod("Name", null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("parameterTypes");
+        }
+
         #endregion
 
         #region NotHaveMethod
@@ -3454,6 +4470,66 @@ namespace FluentAssertions.Specs.Types
                 .WithMessage(
                     "Expected method Void FluentAssertions*ClassWithMembers.VoidMethod() to not exist because we want to " +
                     "test the error message, but it does.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_not_have_method_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveMethod("Name", new[] { typeof(string) }, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected method type.Name(System.String) to not exist *failure message*, but type is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_a_method_with_a_null_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassWithMembers);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveMethod(null, new[] { typeof(string) });
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_a_method_with_an_empty_name_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassWithMembers);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveMethod(string.Empty, new[] { typeof(string) });
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_a_method_with_a_null_parameter_type_list_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(ClassWithMembers);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveMethod("Name", null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("parameterTypes");
         }
 
         #endregion
@@ -3675,6 +4751,36 @@ namespace FluentAssertions.Specs.Types
                              "message, but it is ProtectedInternal.");
         }
 
+        [Fact]
+        public void When_subject_is_null_have_access_modifier_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().HaveAccessModifier(CSharpAccessModifier.Public, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type to be Public *failure message*, but type is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_access_modifier_with_an_invalid_enum_value_it_should_throw()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().HaveAccessModifier((CSharpAccessModifier)int.MaxValue);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentOutOfRangeException>()
+                .WithParameterName("accessModifier");
+        }
+
         #endregion
 
         #region NotHaveAccessModifier
@@ -3894,6 +5000,36 @@ namespace FluentAssertions.Specs.Types
                              "message, but it is.");
         }
 
+        [Fact]
+        public void When_subject_is_null_not_have_access_modifier_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveAccessModifier(CSharpAccessModifier.Public, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type not to be Public *failure message*, but type is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_access_modifier_with_an_invalid_enum_value_it_should_throw()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveAccessModifier((CSharpAccessModifier)int.MaxValue);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentOutOfRangeException>()
+                .WithParameterName("accessModifier");
+        }
+
         #endregion
 
         #region HaveExplicitConversionOperator
@@ -3936,6 +5072,51 @@ namespace FluentAssertions.Specs.Types
                     "because we want to test the error message, but it does not.");
         }
 
+        [Fact]
+        public void When_subject_is_null_have_explicit_conversion_operator_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().HaveExplicitConversionOperator(typeof(TypeWithConversionOperators), typeof(string), "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected public static explicit System.String(*.TypeWithConversionOperators) to exist *failure message*, but type is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_explicit_conversion_operator_from_null_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(TypeWithConversionOperators);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveExplicitConversionOperator(null, typeof(string));
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("sourceType");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_explicit_conversion_operator_to_null_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(TypeWithConversionOperators);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveExplicitConversionOperator(typeof(TypeWithConversionOperators), null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("targetType");
+        }
+
         #endregion
 
         #region HaveExplicitConversionOperatorOfT
@@ -3972,6 +5153,21 @@ namespace FluentAssertions.Specs.Types
                 .WithMessage(
                     "Expected public static explicit System.String(FluentAssertions*TypeWithConversionOperators) to exist " +
                     "because we want to test the error message, but it does not.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_have_explicit_conversion_operatorOfT_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().HaveExplicitConversionOperator<TypeWithConversionOperators, string>("because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected public static explicit System.String(*.TypeWithConversionOperators) to exist *failure message*, but type is <null>.");
         }
 
         #endregion
@@ -4012,6 +5208,51 @@ namespace FluentAssertions.Specs.Types
                 .WithMessage(
                     "Expected public static explicit System.Byte(FluentAssertions*TypeWithConversionOperators) to not exist " +
                     "because we want to test the error message, but it does.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_not_have_explicit_conversion_operator_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveExplicitConversionOperator(typeof(TypeWithConversionOperators), typeof(string), "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected public static explicit System.String(*.TypeWithConversionOperators) to not exist *failure message*, but type is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_explicit_conversion_operator_from_null_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(TypeWithConversionOperators);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveExplicitConversionOperator(null, typeof(string));
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("sourceType");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_explicit_conversion_operator_to_null_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(TypeWithConversionOperators);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveExplicitConversionOperator(typeof(TypeWithConversionOperators), null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("targetType");
         }
 
         #endregion
@@ -4092,6 +5333,51 @@ namespace FluentAssertions.Specs.Types
                     "because we want to test the error message, but it does not.");
         }
 
+        [Fact]
+        public void When_subject_is_null_have_implicit_conversion_operator_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().HaveImplicitConversionOperator(typeof(TypeWithConversionOperators), typeof(string), "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected public static implicit System.String(*.TypeWithConversionOperators) to exist *failure message*, but type is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_implicit_conversion_operator_from_null_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(TypeWithConversionOperators);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveImplicitConversionOperator(null, typeof(string));
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("sourceType");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_implicit_conversion_operator_to_null_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(TypeWithConversionOperators);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveImplicitConversionOperator(typeof(TypeWithConversionOperators), null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("targetType");
+        }
+
         #endregion
 
         #region HaveImplicitConversionOperatorOfT
@@ -4128,6 +5414,21 @@ namespace FluentAssertions.Specs.Types
                 .WithMessage(
                     "Expected public static implicit System.String(FluentAssertions*TypeWithConversionOperators) to exist " +
                     "because we want to test the error message, but it does not.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_have_implicit_conversion_operatorOfT_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().HaveImplicitConversionOperator<TypeWithConversionOperators, string>("because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected public static implicit System.String(*.TypeWithConversionOperators) to exist *failure message*, but type is <null>.");
         }
 
         #endregion
@@ -4170,6 +5471,51 @@ namespace FluentAssertions.Specs.Types
                     "because we want to test the error message, but it does.");
         }
 
+        [Fact]
+        public void When_subject_is_null_not_have_implicit_conversion_operator_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveImplicitConversionOperator(typeof(TypeWithConversionOperators), typeof(string), "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected public static implicit System.String(*.TypeWithConversionOperators) to not exist *failure message*, but type is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_implicit_conversion_operator_from_null_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(TypeWithConversionOperators);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveImplicitConversionOperator(null, typeof(string));
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("sourceType");
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_implicit_conversion_operator_to_null_it_should_throw()
+        {
+            // Arrange
+            var type = typeof(TypeWithConversionOperators);
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveImplicitConversionOperator(typeof(TypeWithConversionOperators), null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("targetType");
+        }
+
         #endregion
 
         #region NotHaveImplicitConversionOperatorOfT
@@ -4204,6 +5550,21 @@ namespace FluentAssertions.Specs.Types
                 .WithMessage(
                     "Expected public static implicit System.Int32(FluentAssertions*TypeWithConversionOperators) to not exist " +
                     "because we want to test the error message, but it does.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_not_have_implicit_conversion_operatorOfT_should_fail()
+        {
+            // Arrange
+            Type type = null;
+
+            // Act
+            Action act = () =>
+                type.Should().NotHaveImplicitConversionOperator<TypeWithConversionOperators, string>("because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected public static implicit System.String(*.TypeWithConversionOperators) to not exist *failure message*, but type is <null>.");
         }
 
         #endregion

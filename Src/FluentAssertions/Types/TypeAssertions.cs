@@ -91,23 +91,14 @@ namespace FluentAssertions.Types
         /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
         public new AndConstraint<TypeAssertions> BeAssignableTo(Type type, string because = "", params object[] becauseArgs)
         {
-            bool isAssignable;
-            if (type.IsGenericTypeDefinition)
-            {
-                isAssignable = Subject.IsAssignableToOpenGeneric(type);
-            }
-            else
-            {
-                isAssignable = type.IsAssignableFrom(Subject);
-            }
+            Guard.ThrowIfArgumentIsNull(type, nameof(type));
+
+            bool isAssignable = type.IsGenericTypeDefinition ? Subject.IsAssignableToOpenGeneric(type) : type.IsAssignableFrom(Subject);
 
             Execute.Assertion
                 .ForCondition(isAssignable)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected {context:" + Identifier + "} {0} to be assignable to {1}{reason}, but it is not.",
-                    Subject,
-                    type);
+                .FailWith("Expected {context:type} {0} to be assignable to {1}{reason}, but it is not.", Subject, type);
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -143,23 +134,14 @@ namespace FluentAssertions.Types
         /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
         public new AndConstraint<TypeAssertions> NotBeAssignableTo(Type type, string because = "", params object[] becauseArgs)
         {
-            bool isAssignable;
-            if (type.IsGenericTypeDefinition)
-            {
-                isAssignable = Subject.IsAssignableToOpenGeneric(type);
-            }
-            else
-            {
-                isAssignable = type.IsAssignableFrom(Subject);
-            }
+            Guard.ThrowIfArgumentIsNull(type, nameof(type));
+
+            bool isAssignable = type.IsGenericTypeDefinition ? Subject.IsAssignableToOpenGeneric(type) : type.IsAssignableFrom(Subject);
 
             Execute.Assertion
                 .ForCondition(!isAssignable)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected {context:" + Identifier + "} {0} to not be assignable to {1}{reason}, but it is.",
-                    Subject,
-                    type);
+                .FailWith("Expected {context:type} {0} to not be assignable to {1}{reason}, but it is.", Subject, type);
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -456,16 +438,23 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <c>null</c>.</exception>
         public AndConstraint<TypeAssertions> Implement(Type interfaceType, string because = "", params object[] becauseArgs)
         {
-            if (!interfaceType.IsInterface)
-            {
-                throw new ArgumentException("Must be an interface Type.", nameof(interfaceType));
-            }
+            Guard.ThrowIfArgumentIsNull(interfaceType, nameof(interfaceType));
 
-            Execute.Assertion.ForCondition(Subject.GetInterfaces().Contains(interfaceType))
+            bool containsInterface = Subject.GetInterfaces().Contains(interfaceType);
+
+            Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected type {0} to implement interface {1}{reason}, but it does not.", Subject, interfaceType);
+                .WithExpectation("Expected type {0} to implement interface {1}{reason}", Subject, interfaceType)
+                .ForCondition(interfaceType.IsInterface)
+                .FailWith(", but {0} is not an interface.", interfaceType)
+                .Then
+                .ForCondition(containsInterface)
+                .FailWith(", but it does not.")
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -498,16 +487,23 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <c>null</c>.</exception>
         public AndConstraint<TypeAssertions> NotImplement(Type interfaceType, string because = "", params object[] becauseArgs)
         {
-            if (!interfaceType.IsInterface)
-            {
-                throw new ArgumentException("Must be an interface Type.", nameof(interfaceType));
-            }
+            Guard.ThrowIfArgumentIsNull(interfaceType, nameof(interfaceType));
 
-            Execute.Assertion.ForCondition(!Subject.GetInterfaces().Contains(interfaceType))
+            bool containsInterface = Subject.GetInterfaces().Contains(interfaceType);
+
+            Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected type {0} to not implement interface {1}{reason}, but it does.", Subject, interfaceType);
+                .WithExpectation("Expected type {0} to not implement interface {1}{reason}", Subject, interfaceType)
+                .ForCondition(interfaceType.IsInterface)
+                .FailWith(", but {0} is not an interface.", interfaceType)
+                .Then
+                .ForCondition(!containsInterface)
+                .FailWith(", but it does.", interfaceType)
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -540,26 +536,23 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="baseType"/> is <c>null</c>.</exception>
         public AndConstraint<TypeAssertions> BeDerivedFrom(Type baseType, string because = "", params object[] becauseArgs)
         {
-            if (baseType.IsInterface)
-            {
-                throw new ArgumentException("Must not be an interface Type.", nameof(baseType));
-            }
+            Guard.ThrowIfArgumentIsNull(baseType, nameof(baseType));
 
-            bool isDerivedFrom;
-            if (baseType.IsGenericTypeDefinition)
-            {
-                isDerivedFrom = Subject.IsDerivedFromOpenGeneric(baseType);
-            }
-            else
-            {
-                isDerivedFrom = Subject.IsSubclassOf(baseType);
-            }
+            bool isDerivedFrom = baseType.IsGenericTypeDefinition ? Subject.IsDerivedFromOpenGeneric(baseType) : Subject.IsSubclassOf(baseType);
 
-            Execute.Assertion.ForCondition(isDerivedFrom)
+            Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected type {0} to be derived from {1}{reason}, but it is not.", Subject, baseType);
+                .WithExpectation("Expected type {0} to be derived from {1}{reason}", Subject, baseType)
+                .ForCondition(!baseType.IsInterface)
+                .FailWith(", but {0} is an interface.", baseType)
+                .Then
+                .ForCondition(isDerivedFrom)
+                .FailWith(", but it is not.")
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -592,27 +585,23 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="baseType"/> is <c>null</c>.</exception>
         public AndConstraint<TypeAssertions> NotBeDerivedFrom(Type baseType, string because = "", params object[] becauseArgs)
         {
-            if (baseType.IsInterface)
-            {
-                throw new ArgumentException("Must not be an interface Type.", nameof(baseType));
-            }
+            Guard.ThrowIfArgumentIsNull(baseType, nameof(baseType));
 
-            bool isDerivedFrom;
-            if (baseType.IsGenericTypeDefinition)
-            {
-                isDerivedFrom = Subject.IsDerivedFromOpenGeneric(baseType);
-            }
-            else
-            {
-                isDerivedFrom = Subject.IsSubclassOf(baseType);
-            }
+            bool isDerivedFrom = baseType.IsGenericTypeDefinition ? Subject.IsDerivedFromOpenGeneric(baseType) : Subject.IsSubclassOf(baseType);
 
             Execute.Assertion
-                .ForCondition(!isDerivedFrom)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected type {0} not to be derived from {1}{reason}, but it is.", Subject, baseType);
+                .WithExpectation("Expected type {0} not to be derived from {1}{reason}", Subject, baseType)
+                .ForCondition(!baseType.IsInterface)
+                .FailWith(", but {0} is an interface.", baseType)
+                .Then
+                .ForCondition(!isDerivedFrom)
+                .FailWith(", but it is.")
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -644,8 +633,14 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="InvalidOperationException"><see cref="ReferenceTypeAssertions{Type, TypeAssertions}.Subject"/> is not a class.</exception>
         public AndConstraint<TypeAssertions> BeSealed(string because = "", params object[] becauseArgs)
         {
+            Execute.Assertion
+               .BecauseOf(because, becauseArgs)
+               .ForCondition(Subject is not null)
+               .FailWith("Expected type to be sealed{reason}, but {context:type} is <null>.");
+
             AssertThatSubjectIsClass();
 
             Execute.Assertion
@@ -666,8 +661,14 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="InvalidOperationException"><see cref="ReferenceTypeAssertions{Type, TypeAssertions}.Subject"/> is not a class.</exception>
         public AndConstraint<TypeAssertions> NotBeSealed(string because = "", params object[] becauseArgs)
         {
+            Execute.Assertion
+               .BecauseOf(because, becauseArgs)
+               .ForCondition(Subject is not null)
+               .FailWith("Expected type not to be sealed{reason}, but {context:type} is <null>.");
+
             AssertThatSubjectIsClass();
 
             Execute.Assertion
@@ -688,8 +689,14 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="InvalidOperationException"><see cref="ReferenceTypeAssertions{Type, TypeAssertions}.Subject"/> is not a class.</exception>
         public AndConstraint<TypeAssertions> BeAbstract(string because = "", params object[] becauseArgs)
         {
+            Execute.Assertion
+               .BecauseOf(because, becauseArgs)
+               .ForCondition(Subject is not null)
+               .FailWith("Expected type to be abstract{reason}, but {context:type} is <null>.");
+
             AssertThatSubjectIsClass();
 
             Execute.Assertion
@@ -710,8 +717,14 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="InvalidOperationException"><see cref="ReferenceTypeAssertions{Type, TypeAssertions}.Subject"/> is not a class.</exception>
         public AndConstraint<TypeAssertions> NotBeAbstract(string because = "", params object[] becauseArgs)
         {
+            Execute.Assertion
+               .BecauseOf(because, becauseArgs)
+               .ForCondition(Subject is not null)
+               .FailWith("Expected type not to be abstract{reason}, but {context:type} is <null>.");
+
             AssertThatSubjectIsClass();
 
             Execute.Assertion
@@ -732,8 +745,14 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="InvalidOperationException"><see cref="ReferenceTypeAssertions{Type, TypeAssertions}.Subject"/> is not a class.</exception>
         public AndConstraint<TypeAssertions> BeStatic(string because = "", params object[] becauseArgs)
         {
+            Execute.Assertion
+               .BecauseOf(because, becauseArgs)
+               .ForCondition(Subject is not null)
+               .FailWith("Expected type to be static{reason}, but {context:type} is <null>.");
+
             AssertThatSubjectIsClass();
 
             Execute.Assertion
@@ -754,8 +773,14 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="InvalidOperationException"><see cref="ReferenceTypeAssertions{Type, TypeAssertions}.Subject"/> is not a class.</exception>
         public AndConstraint<TypeAssertions> NotBeStatic(string because = "", params object[] becauseArgs)
         {
+            Execute.Assertion
+               .BecauseOf(because, becauseArgs)
+               .ForCondition(Subject is not null)
+               .FailWith("Expected type not to be static{reason}, but {context:type} is <null>.");
+
             AssertThatSubjectIsClass();
 
             Execute.Assertion
@@ -778,16 +803,20 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="propertyType"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
         public AndWhichConstraint<TypeAssertions, PropertyInfo> HaveProperty(Type propertyType, string name, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(propertyType, nameof(propertyType));
+            Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith($"Expected {propertyType.Name} {{context:type}}.{name} to exist{{reason}}, but {{context:type}} is <null>.");
+
             PropertyInfo propertyInfo = Subject.GetPropertyByName(name);
-
-            string propertyInfoDescription = string.Empty;
-
-            if (propertyInfo is not null)
-            {
-                propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
-            }
+            var propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -812,6 +841,7 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
         public AndWhichConstraint<TypeAssertions, PropertyInfo> HaveProperty<TProperty>(string name, string because = "", params object[] becauseArgs)
         {
             return HaveProperty(typeof(TProperty), name, because, becauseArgs);
@@ -828,16 +858,18 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
         public AndConstraint<TypeAssertions> NotHaveProperty(string name, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith($"Expected {{context:type}}.{name} to not exist{{reason}}, but {{context:type}} is <null>.");
+
             PropertyInfo propertyInfo = Subject.GetPropertyByName(name);
-
-            string propertyInfoDescription = string.Empty;
-
-            if (propertyInfo is not null)
-            {
-                propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
-            }
+            var propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
 
             Execute.Assertion.ForCondition(propertyInfo is null)
                 .BecauseOf(because, becauseArgs)
@@ -859,8 +891,18 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
         public AndConstraint<TypeAssertions> HaveExplicitProperty(Type interfaceType, string name, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(interfaceType, nameof(interfaceType));
+            Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith($"Expected {{context:type}} to explicitly implement {interfaceType.FullName}.{name}{{reason}}, but {{context:type}} is <null>.");
+
             Subject.Should().Implement(interfaceType, because, becauseArgs);
 
             var explicitlyImplementsProperty = Subject.HasExplicitlyImplementedProperty(interfaceType, name);
@@ -885,6 +927,7 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
         public AndConstraint<TypeAssertions> HaveExplicitProperty<TInterface>(string name, string because = "", params object[] becauseArgs)
             where TInterface : class
         {
@@ -904,8 +947,18 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
         public AndConstraint<TypeAssertions> NotHaveExplicitProperty(Type interfaceType, string name, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(interfaceType, nameof(interfaceType));
+            Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith($"Expected {{context:type}} to not explicitly implement {interfaceType.FullName}.{name}{{reason}}, but {{context:type}} is <null>.");
+
             Subject.Should().Implement(interfaceType, because, becauseArgs);
 
             var explicitlyImplementsProperty = Subject.HasExplicitlyImplementedProperty(interfaceType, name);
@@ -930,6 +983,7 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
         public AndConstraint<TypeAssertions> NotHaveExplicitProperty<TInterface>(string name, string because = "", params object[] becauseArgs)
             where TInterface : class
         {
@@ -950,8 +1004,20 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
         public AndConstraint<TypeAssertions> HaveExplicitMethod(Type interfaceType, string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(interfaceType, nameof(interfaceType));
+            Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
+            Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith($"Expected {{context:type}} to explicitly implement {interfaceType.FullName}.{name}{{reason}}, but {{context:type}} is <null>.");
+
             Subject.Should().Implement(interfaceType, because, becauseArgs);
 
             var explicitlyImplementsMethod = Subject.HasMethod($"{interfaceType.FullName}.{name}", parameterTypes);
@@ -977,6 +1043,8 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
         public AndConstraint<TypeAssertions> HaveExplicitMethod<TInterface>(string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
             where TInterface : class
         {
@@ -997,8 +1065,20 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
         public AndConstraint<TypeAssertions> NotHaveExplicitMethod(Type interfaceType, string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(interfaceType, nameof(interfaceType));
+            Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
+            Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith($"Expected {{context:type}} to not explicitly implement {interfaceType.FullName}.{name}{{reason}}, but {{context:type}} is <null>.");
+
             Subject.Should().Implement(interfaceType, because, becauseArgs);
 
             var explicitlyImplementsMethod = Subject.HasMethod($"{interfaceType.FullName}.{name}", parameterTypes);
@@ -1024,6 +1104,8 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
         public AndConstraint<TypeAssertions> NotHaveExplicitMethod<TInterface>(string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
             where TInterface : class
         {
@@ -1043,16 +1125,20 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="indexerType"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
         public AndWhichConstraint<TypeAssertions, PropertyInfo> HaveIndexer(Type indexerType, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(indexerType, nameof(indexerType));
+            Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith($"Expected {indexerType.Name} {{context:type}}[{GetParameterString(parameterTypes)}] to exist{{reason}}, but {{context:type}} is <null>.");
+
             PropertyInfo propertyInfo = Subject.GetIndexerByParameterTypes(parameterTypes);
-
-            string propertyInfoDescription = string.Empty;
-
-            if (propertyInfo is not null)
-            {
-                propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
-            }
+            var propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
 
             Execute.Assertion.ForCondition(propertyInfo is not null)
                 .BecauseOf(because, becauseArgs)
@@ -1076,8 +1162,16 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
         public AndConstraint<TypeAssertions> NotHaveIndexer(IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith($"Expected indexer {{context:type}}[{GetParameterString(parameterTypes)}] to not exist{{reason}}, but {{context:type}} is <null>.");
+
             PropertyInfo propertyInfo = Subject.GetIndexerByParameterTypes(parameterTypes);
 
             Execute.Assertion.ForCondition(propertyInfo is null)
@@ -1099,8 +1193,18 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
         public AndWhichConstraint<TypeAssertions, MethodInfo> HaveMethod(string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
+            Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith($"Expected method {{context:type}}.{name}({GetParameterString(parameterTypes)}) to exist{{reason}}, but {{context:type}} is <null>.");
+
             MethodInfo methodInfo = Subject.GetMethod(name, parameterTypes);
 
             Execute.Assertion.ForCondition(methodInfo is not null)
@@ -1123,16 +1227,20 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
         public AndConstraint<TypeAssertions> NotHaveMethod(string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
+            Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith($"Expected method {{context:type}}.{name}({GetParameterString(parameterTypes)}) to not exist{{reason}}, but {{context:type}} is <null>.");
+
             MethodInfo methodInfo = Subject.GetMethod(name, parameterTypes);
-
-            string methodInfoDescription = string.Empty;
-
-            if (methodInfo is not null)
-            {
-                methodInfoDescription = MethodInfoAssertions.GetDescriptionFor(methodInfo);
-            }
+            var methodInfoDescription = MethodInfoAssertions.GetDescriptionFor(methodInfo);
 
             Execute.Assertion.ForCondition(methodInfo is null)
                 .BecauseOf(because, becauseArgs)
@@ -1152,8 +1260,16 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
         public AndWhichConstraint<TypeAssertions, ConstructorInfo> HaveConstructor(IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
+
+            Execute.Assertion
+               .BecauseOf(because, becauseArgs)
+               .ForCondition(Subject is not null)
+               .FailWith($"Expected constructor {{context:type}}({GetParameterString(parameterTypes)}) to exist{{reason}}, but {{context:type}} is <null>.");
+
             ConstructorInfo constructorInfo = Subject.GetConstructor(parameterTypes);
 
             Execute.Assertion.ForCondition(constructorInfo is not null)
@@ -1189,8 +1305,16 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
         public AndWhichConstraint<TypeAssertions, ConstructorInfo> NotHaveConstructor(IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
+
+            Execute.Assertion
+               .BecauseOf(because, becauseArgs)
+               .ForCondition(Subject is not null)
+               .FailWith($"Expected constructor {{context:type}}({GetParameterString(parameterTypes)}) not to exist{{reason}}, but {{context:type}} is <null>.");
+
             ConstructorInfo constructorInfo = Subject.GetConstructor(parameterTypes);
 
             Execute.Assertion
@@ -1232,9 +1356,17 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="accessModifier"/> is not a <see cref="CSharpAccessModifier"/> value.</exception>
         public AndConstraint<TypeAssertions> HaveAccessModifier(
             CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsOutOfRange(accessModifier, nameof(accessModifier));
+
+            Execute.Assertion
+               .BecauseOf(because, becauseArgs)
+               .ForCondition(Subject is not null)
+               .FailWith($"Expected {{context:type}} to be {accessModifier}{{reason}}, but {{context:type}} is <null>.");
+
             CSharpAccessModifier subjectAccessModifier = Subject.GetCSharpAccessModifier();
 
             Execute.Assertion.ForCondition(accessModifier == subjectAccessModifier)
@@ -1256,10 +1388,20 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="accessModifier"/> is not a <see cref="CSharpAccessModifier"/> value.</exception>
         public AndConstraint<TypeAssertions> NotHaveAccessModifier(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsOutOfRange(accessModifier, nameof(accessModifier));
+
             Execute.Assertion
-                .ForCondition(accessModifier != Subject.GetCSharpAccessModifier())
+               .BecauseOf(because, becauseArgs)
+               .ForCondition(Subject is not null)
+               .FailWith($"Expected {{context:type}} not to be {accessModifier}{{reason}}, but {{context:type}} is <null>.");
+
+            CSharpAccessModifier subjectAccessModifier = Subject.GetCSharpAccessModifier();
+
+            Execute.Assertion
+                .ForCondition(accessModifier != subjectAccessModifier)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type " + Subject.Name + " not to be " + accessModifier.ToString() + "{reason}, but it is.");
 
@@ -1295,8 +1437,18 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="sourceType"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="targetType"/> is <c>null</c>.</exception>
         public AndWhichConstraint<TypeAssertions, MethodInfo> HaveImplicitConversionOperator(Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(sourceType, nameof(sourceType));
+            Guard.ThrowIfArgumentIsNull(targetType, nameof(targetType));
+
+            Execute.Assertion
+               .BecauseOf(because, becauseArgs)
+               .ForCondition(Subject is not null)
+               .FailWith($"Expected public static implicit {targetType.FullName}({sourceType.FullName}) to exist{{reason}}, but {{context:type}} is <null>.");
+
             MethodInfo methodInfo = Subject.GetImplicitConversionOperator(sourceType, targetType);
 
             Execute.Assertion.ForCondition(methodInfo is not null)
@@ -1335,8 +1487,18 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="sourceType"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="targetType"/> is <c>null</c>.</exception>
         public AndConstraint<TypeAssertions> NotHaveImplicitConversionOperator(Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(sourceType, nameof(sourceType));
+            Guard.ThrowIfArgumentIsNull(targetType, nameof(targetType));
+
+            Execute.Assertion
+               .BecauseOf(because, becauseArgs)
+               .ForCondition(Subject is not null)
+               .FailWith($"Expected public static implicit {targetType.FullName}({sourceType.FullName}) to not exist{{reason}}, but {{context:type}} is <null>.");
+
             MethodInfo methodInfo = Subject.GetImplicitConversionOperator(sourceType, targetType);
 
             Execute.Assertion.ForCondition(methodInfo is null)
@@ -1375,8 +1537,18 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="sourceType"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="targetType"/> is <c>null</c>.</exception>
         public AndWhichConstraint<TypeAssertions, MethodInfo> HaveExplicitConversionOperator(Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(sourceType, nameof(sourceType));
+            Guard.ThrowIfArgumentIsNull(targetType, nameof(targetType));
+
+            Execute.Assertion
+               .BecauseOf(because, becauseArgs)
+               .ForCondition(Subject is not null)
+               .FailWith($"Expected public static explicit {targetType.FullName}({sourceType.FullName}) to exist{{reason}}, but {{context:type}} is <null>.");
+
             MethodInfo methodInfo = Subject.GetExplicitConversionOperator(sourceType, targetType);
 
             Execute.Assertion.ForCondition(methodInfo is not null)
@@ -1415,8 +1587,18 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="sourceType"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="targetType"/> is <c>null</c>.</exception>
         public AndConstraint<TypeAssertions> NotHaveExplicitConversionOperator(Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(sourceType, nameof(sourceType));
+            Guard.ThrowIfArgumentIsNull(targetType, nameof(targetType));
+
+            Execute.Assertion
+               .BecauseOf(because, becauseArgs)
+               .ForCondition(Subject is not null)
+               .FailWith($"Expected public static explicit {targetType.FullName}({sourceType.FullName}) to not exist{{reason}}, but {{context:type}} is <null>.");
+
             MethodInfo methodInfo = Subject.GetExplicitConversionOperator(sourceType, targetType);
 
             Execute.Assertion.ForCondition(methodInfo is null)
