@@ -43,27 +43,11 @@ namespace FluentAssertions.Specs.Types
 
             // Act
             Action act = () =>
-                type.Should().Be(differentType);
+                type.Should().Be(differentType, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_type_is_equal_to_another_type_it_fails_with_a_useful_message()
-        {
-            // Arrange
-            Type type = typeof(ClassWithAttribute);
-            Type differentType = typeof(ClassWithoutAttribute);
-
-            // Act
-            Action act = () =>
-                type.Should().Be(differentType, "because we want to test the error {0}", "message");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected type to be FluentAssertions*ClassWithoutAttribute" +
-                    " because we want to test the error message, but found FluentAssertions*ClassWithAttribute.");
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type to be *.ClassWithoutAttribute *failure message*, but found *.ClassWithAttribute.");
         }
 
         [Fact]
@@ -163,27 +147,11 @@ namespace FluentAssertions.Specs.Types
 
             // Act
             Action act = () =>
-                type.Should().Be<ClassWithoutAttribute>();
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_type_is_equal_to_another_type_using_generics_it_fails_with_a_useful_message()
-        {
-            // Arrange
-            Type type = typeof(ClassWithAttribute);
-
-            // Act
-            Action act = () =>
-                type.Should().Be<ClassWithoutAttribute>("because we want to test the error {0}", "message");
+                type.Should().Be<ClassWithoutAttribute>("because we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage(
-                    "Expected type to be FluentAssertions*ClassWithoutAttribute because we want to test " +
-                        "the error message, but found FluentAssertions*ClassWithAttribute.");
+                .WithMessage("Expected type to be *.ClassWithoutAttribute *failure message*, but found *.ClassWithAttribute.");
         }
 
         #endregion
@@ -214,10 +182,11 @@ namespace FluentAssertions.Specs.Types
 
             // Act
             Action act = () =>
-                type.Should().NotBe(sameType);
+                type.Should().NotBe(sameType, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type not to be [*.ClassWithAttribute*] *failure message*, but it is.");
         }
 
         [Fact]
@@ -233,23 +202,6 @@ namespace FluentAssertions.Specs.Types
 
             // Assert
             act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_type_is_not_equal_to_the_same_type_it_fails_with_a_useful_message()
-        {
-            // Arrange
-            Type type = typeof(ClassWithAttribute);
-            Type sameType = typeof(ClassWithAttribute);
-
-            // Act
-            Action act = () =>
-                type.Should().NotBe(sameType, "because we want to test the error {0}", "message");
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected type not to be [FluentAssertions*ClassWithAttribute*]" +
-                             " because we want to test the error message, but it is.");
         }
 
         [Fact]
@@ -274,27 +226,11 @@ namespace FluentAssertions.Specs.Types
 
             // Act
             Action act = () =>
-                type.Should().NotBe<ClassWithAttribute>();
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_type_is_not_equal_to_the_same_type_using_generics_it_fails_with_a_useful_message()
-        {
-            // Arrange
-            Type type = typeof(ClassWithAttribute);
-
-            // Act
-            Action act = () =>
-                type.Should().NotBe<ClassWithAttribute>("because we want to test the error {0}", "message");
+                type.Should().NotBe<ClassWithAttribute>("because we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage(
-                    "Expected type not to be [FluentAssertions*ClassWithAttribute*] because we want to test " +
-                    "the error message, but it is.");
+                .WithMessage("Expected type not to be [*.ClassWithAttribute*] *failure message*, but it is.");
         }
 
         #endregion
@@ -323,7 +259,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_an_unrelated_type_it_fails_with_a_useful_message()
+        public void When_an_unrelated_type_it_fails()
         {
             // Arrange
             Type someType = typeof(DummyImplementingClass);
@@ -356,15 +292,18 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_an_unrelated_type_instance_it_fails_with_a_useful_message()
+        public void When_an_unrelated_type_instance_it_fails()
         {
             // Arrange
             Type someType = typeof(DummyImplementingClass);
-            Action act = () => someType.Should().BeAssignableTo(typeof(DateTime), "because we want to test the failure {0}", "message");
 
-            // Act / Assert
+            // Act
+            Action act = () =>
+                someType.Should().BeAssignableTo(typeof(DateTime), "because we want to test the failure {0}", "message");
+
+            // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage($"*{typeof(DummyImplementingClass)} to be assignable to {typeof(DateTime)}*failure message*");
+                .WithMessage("*.DummyImplementingClass to be assignable to *.DateTime *failure message*");
         }
 
         [Fact]
@@ -389,19 +328,22 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_unrelated_to_open_generic_interface_it_fails_with_a_useful_message()
+        public void When_unrelated_to_open_generic_interface_it_fails()
         {
             // Arrange
             Type someType = typeof(IDummyInterface);
-            Action act = () => someType.Should().BeAssignableTo(typeof(IDummyInterface<>), "because we want to test the failure {0}", "message");
 
-            // Act / Assert
+            // Act
+            Action act = () =>
+                someType.Should().BeAssignableTo(typeof(IDummyInterface<>), "because we want to test the failure {0}", "message");
+
+            // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage($"*{typeof(IDummyInterface)} to be assignable to {typeof(IDummyInterface<>)}*failure message*");
         }
 
         [Fact]
-        public void When_unrelated_to_open_generic_type_it_fails_with_a_useful_message()
+        public void When_unrelated_to_open_generic_type_it_fails()
         {
             // Arrange
             Type someType = typeof(ClassWithAttribute);
@@ -439,7 +381,7 @@ namespace FluentAssertions.Specs.Types
         #region NotBeAssignableTo
 
         [Fact]
-        public void When_its_own_type_and_asserting_not_assignable_it_fails_with_a_useful_message()
+        public void When_its_own_type_and_asserting_not_assignable_it_fails()
         {
             // Arrange
             Action act = () => typeof(DummyImplementingClass).Should().NotBeAssignableTo<DummyImplementingClass>("because we want to test the failure {0}", "message");
@@ -450,7 +392,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_its_base_type_and_asserting_not_assignable_it_fails_with_a_useful_message()
+        public void When_its_base_type_and_asserting_not_assignable_it_fails()
         {
             // Arrange
             Action act = () => typeof(DummyImplementingClass).Should().NotBeAssignableTo<DummyBaseClass>("because we want to test the failure {0}", "message");
@@ -461,7 +403,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_implemented_interface_type_and_asserting_not_assignable_it_fails_with_a_useful_message()
+        public void When_implemented_interface_type_and_asserting_not_assignable_it_fails()
         {
             // Arrange
             Action act = () => typeof(DummyImplementingClass).Should().NotBeAssignableTo<IDisposable>("because we want to test the failure {0}", "message");
@@ -479,7 +421,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_its_own_type_instance_and_asserting_not_assignable_it_fails_with_a_useful_message()
+        public void When_its_own_type_instance_and_asserting_not_assignable_it_fails()
         {
             // Arrange
             Action act = () => typeof(DummyImplementingClass).Should().NotBeAssignableTo(typeof(DummyImplementingClass), "because we want to test the failure {0}", "message");
@@ -490,7 +432,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_its_base_type_instance_and_asserting_not_assignable_it_fails_with_a_useful_message()
+        public void When_its_base_type_instance_and_asserting_not_assignable_it_fails()
         {
             // Arrange
             Action act = () => typeof(DummyImplementingClass).Should().NotBeAssignableTo(typeof(DummyBaseClass), "because we want to test the failure {0}", "message");
@@ -501,7 +443,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_an_implemented_interface_type_instance_and_asserting_not_assignable_it_fails_with_a_useful_message()
+        public void When_an_implemented_interface_type_instance_and_asserting_not_assignable_it_fails()
         {
             // Arrange
             Action act = () => typeof(DummyImplementingClass).Should().NotBeAssignableTo(typeof(IDisposable), "because we want to test the failure {0}", "message");
@@ -533,7 +475,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_implementation_of_open_generic_interface_and_asserting_not_assignable_it_fails_with_a_useful_message()
+        public void When_implementation_of_open_generic_interface_and_asserting_not_assignable_it_fails()
         {
             // Arrange
             Type someType = typeof(ClassWithGenericBaseType);
@@ -545,7 +487,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_derived_from_open_generic_class_and_asserting_not_assignable_it_fails_with_a_useful_message()
+        public void When_derived_from_open_generic_class_and_asserting_not_assignable_it_fails()
         {
             // Arrange
             Type someType = typeof(ClassWithGenericBaseType);
@@ -590,7 +532,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_is_derived_from_an_unrelated_class_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_is_derived_from_an_unrelated_class_it_fails()
         {
             // Arrange
             var type = typeof(DummyBaseClass);
@@ -606,7 +548,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_is_derived_from_an_interface_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_is_derived_from_an_interface_it_fails()
         {
             // Arrange
             var type = typeof(ClassThatImplementsInterface);
@@ -649,7 +591,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_is_derived_from_an_unrelated_open_generic_class_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_is_derived_from_an_unrelated_open_generic_class_it_fails()
         {
             // Arrange
             var type = typeof(ClassWithMembers);
@@ -716,7 +658,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_is_not_derived_from_its_base_class_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_is_not_derived_from_its_base_class_it_fails()
         {
             // Arrange
             var type = typeof(DummyImplementingClass);
@@ -732,7 +674,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_is_not_derived_from_an_interface_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_is_not_derived_from_an_interface_it_fails()
         {
             // Arrange
             var type = typeof(ClassThatImplementsInterface);
@@ -775,7 +717,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_is_not_derived_from_its_open_generic_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_is_not_derived_from_its_open_generic_it_fails()
         {
             // Arrange
             var type = typeof(DummyBaseType<ClassWithGenericBaseType>);
@@ -864,29 +806,11 @@ namespace FluentAssertions.Specs.Types
 
             // Act
             Action act = () =>
-                typeWithoutAttribute.Should().BeDecoratedWith<DummyClassAttribute>();
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_type_is_not_decorated_with_expected_attribute_it_fails_with_a_useful_message()
-        {
-            // Arrange
-            Type typeWithoutAttribute = typeof(ClassWithoutAttribute);
-
-            // Act
-            Action act = () =>
-                typeWithoutAttribute.Should().BeDecoratedWith<DummyClassAttribute>(
-                    "because we want to test the error {0}",
-                    "message");
+                typeWithoutAttribute.Should().BeDecoratedWith<DummyClassAttribute>("because we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type FluentAssertions*ClassWithoutAttribute to be decorated with " +
-                    "FluentAssertions*DummyClassAttribute because we want to test the error message, but the attribute " +
-                        "was not found.");
+                .WithMessage("Expected type *.ClassWithoutAttribute to be decorated with *.DummyClassAttribute *failure message*, but the attribute was not found.");
         }
 
         [Fact]
@@ -1074,29 +998,11 @@ namespace FluentAssertions.Specs.Types
 
             // Act
             Action act = () =>
-                typeWithoutAttribute.Should().BeDecoratedWithOrInherit<DummyClassAttribute>();
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_type_does_not_inherit_expected_attribute_it_fails_with_a_useful_message()
-        {
-            // Arrange
-            Type typeWithoutAttribute = typeof(ClassWithoutAttribute);
-
-            // Act
-            Action act = () =>
-                typeWithoutAttribute.Should().BeDecoratedWithOrInherit<DummyClassAttribute>(
-                    "because we want to test the error {0}",
-                    "message");
+                typeWithoutAttribute.Should().BeDecoratedWithOrInherit<DummyClassAttribute>("because we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type FluentAssertions*ClassWithoutAttribute to be decorated with or inherit " +
-                    "FluentAssertions*DummyClassAttribute because we want to test the error message, but the attribute " +
-                        "was not found.");
+                .WithMessage("Expected type *.ClassWithoutAttribute to be decorated with or inherit *.DummyClassAttribute *failure message*, but the attribute was not found.");
         }
 
         [Fact]
@@ -1270,28 +1176,12 @@ namespace FluentAssertions.Specs.Types
 
             // Act
             Action act = () =>
-                typeWithAttribute.Should().NotBeDecoratedWith<DummyClassAttribute>();
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_type_is_decorated_with_unexpected_attribute_it_fails_with_a_useful_message()
-        {
-            // Arrange
-            Type typeWithAttribute = typeof(ClassWithAttribute);
-
-            // Act
-            Action act = () =>
-                typeWithAttribute.Should().NotBeDecoratedWith<DummyClassAttribute>(
-                    "because we want to test the error {0}",
-                    "message");
+                typeWithAttribute.Should().NotBeDecoratedWith<DummyClassAttribute>("because we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected type*ClassWithAttribute to not be decorated with" +
-                    "*DummyClassAttribute*because we want to test the error message*attribute was found.");
+                    "*DummyClassAttribute* *failure message* attribute was found.");
         }
 
         [Fact]
@@ -1443,28 +1333,11 @@ namespace FluentAssertions.Specs.Types
 
             // Act
             Action act = () =>
-                typeWithAttribute.Should().NotBeDecoratedWithOrInherit<DummyClassAttribute>();
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_type_inherits_unexpected_attribute_it_fails_with_a_useful_message()
-        {
-            // Arrange
-            Type typeWithAttribute = typeof(ClassWithInheritedAttribute);
-
-            // Act
-            Action act = () =>
-                typeWithAttribute.Should().NotBeDecoratedWithOrInherit<DummyClassAttribute>(
-                    "because we want to test the error {0}",
-                    "message");
+                typeWithAttribute.Should().NotBeDecoratedWithOrInherit<DummyClassAttribute>("because we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type*ClassWithInheritedAttribute to not be decorated with or inherit" +
-                    "*DummyClassAttribute*because we want to test the error message*attribute was found.");
+                .WithMessage("Expected type*ClassWithInheritedAttribute to not be decorated with or inherit *.DummyClassAttribute* *failure message* attribute was found.");
         }
 
         [Fact]
@@ -2488,7 +2361,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_does_not_implement_an_interface_which_it_does_then_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_does_not_implement_an_interface_which_it_does_then_it_fails()
         {
             // Arrange
             var type = typeof(ClassThatDoesNotImplementInterface);
@@ -2505,7 +2378,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_implements_a_NonInterface_type_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_implements_a_NonInterface_type_it_fails()
         {
             // Arrange
             var type = typeof(ClassThatDoesNotImplementInterface);
@@ -2571,7 +2444,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_implements_an_interface_which_it_does_not_then_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_implements_an_interface_which_it_does_not_then_it_fails()
         {
             // Arrange
             var type = typeof(ClassThatImplementsInterface);
@@ -2587,7 +2460,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_does_not_implement_a_NonInterface_type_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_does_not_implement_a_NonInterface_type_it_fails()
         {
             // Arrange
             var type = typeof(ClassThatDoesNotImplementInterface);
@@ -2657,7 +2530,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_has_a_property_which_it_does_not_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_has_a_property_which_it_does_not_it_fails()
         {
             // Arrange
             var type = typeof(ClassWithNoMembers);
@@ -2674,7 +2547,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_has_a_property_which_it_has_with_a_different_type_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_has_a_property_which_it_has_with_a_different_type_it_fails()
         {
             // Arrange
             var type = typeof(ClassWithMembers);
@@ -2820,7 +2693,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_does_not_have_a_property_which_it_does_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_does_not_have_a_property_which_it_does_it_fails()
         {
             // Arrange
             var type = typeof(ClassWithMembers);
@@ -2920,7 +2793,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_explicitly_implements_a_property_which_it_implements_implicitly_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_explicitly_implements_a_property_which_it_implements_implicitly_it_fails()
         {
             // Arrange
             var type = typeof(ClassExplicitlyImplementingInterface);
@@ -2940,7 +2813,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_explicitly_implements_a_property_which_it_does_not_implement_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_explicitly_implements_a_property_which_it_does_not_implement_it_fails()
         {
             // Arrange
             var type = typeof(ClassExplicitlyImplementingInterface);
@@ -2960,7 +2833,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_explicitly_implements_a_property_from_an_unimplemented_interface_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_explicitly_implements_a_property_from_an_unimplemented_interface_it_fails()
         {
             // Arrange
             var type = typeof(ClassExplicitlyImplementingInterface);
@@ -3108,7 +2981,7 @@ namespace FluentAssertions.Specs.Types
         #region NotHaveExplicitProperty
 
         [Fact]
-        public void When_asserting_a_type_does_not_explicitly_implement_a_property_which_it_does_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_does_not_explicitly_implement_a_property_which_it_does_it_fails()
         {
             // Arrange
             var type = typeof(ClassExplicitlyImplementingInterface);
@@ -3128,7 +3001,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_does_not_explicitly_implement_a_property_which_it_implements_implicitly_and_explicitly_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_does_not_explicitly_implement_a_property_which_it_implements_implicitly_and_explicitly_it_fails()
         {
             // Arrange
             var type = typeof(ClassExplicitlyImplementingInterface);
@@ -3265,7 +3138,7 @@ namespace FluentAssertions.Specs.Types
         #region NotHaveExplicitPropertyOfT
 
         [Fact]
-        public void When_asserting_a_type_does_not_explicitlyOfT_implement_a_property_which_it_does_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_does_not_explicitlyOfT_implement_a_property_which_it_does_it_fails()
         {
             // Arrange
             var type = typeof(ClassExplicitlyImplementingInterface);
@@ -3366,7 +3239,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_explicitly_implements_a_method_which_it_implements_implicitly_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_explicitly_implements_a_method_which_it_implements_implicitly_it_fails()
         {
             // Arrange
             var type = typeof(ClassExplicitlyImplementingInterface);
@@ -3386,7 +3259,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_explicitly_implements_a_method_which_it_does_not_implement_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_explicitly_implements_a_method_which_it_does_not_implement_it_fails()
         {
             // Arrange
             var type = typeof(ClassExplicitlyImplementingInterface);
@@ -3406,7 +3279,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_explicitly_implements_a_method_from_an_unimplemented_interface_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_explicitly_implements_a_method_from_an_unimplemented_interface_it_fails()
         {
             // Arrange
             var type = typeof(ClassExplicitlyImplementingInterface);
@@ -3584,7 +3457,7 @@ namespace FluentAssertions.Specs.Types
         #region NotHaveExplicitMethod
 
         [Fact]
-        public void When_asserting_a_type_does_not_explicitly_implement_a_method_which_it_does_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_does_not_explicitly_implement_a_method_which_it_does_it_fails()
         {
             // Arrange
             var type = typeof(ClassExplicitlyImplementingInterface);
@@ -3604,7 +3477,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_does_not_explicitly_implement_a_method_which_it_implements_implicitly_and_explicitly_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_does_not_explicitly_implement_a_method_which_it_implements_implicitly_and_explicitly_it_fails()
         {
             // Arrange
             var type = typeof(ClassExplicitlyImplementingInterface);
@@ -3756,7 +3629,7 @@ namespace FluentAssertions.Specs.Types
         #region NotHaveExplicitMethodOfT
 
         [Fact]
-        public void When_asserting_a_type_does_not_explicitly_implementOfT_a_method_which_it_does_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_does_not_explicitly_implementOfT_a_method_which_it_does_it_fails()
         {
             // Arrange
             var type = typeof(ClassExplicitlyImplementingInterface);
@@ -3856,7 +3729,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_has_an_indexer_which_it_does_not_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_has_an_indexer_which_it_does_not_it_fails()
         {
             // Arrange
             var type = typeof(ClassWithNoMembers);
@@ -3873,7 +3746,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_has_an_indexer_with_different_parameters_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_has_an_indexer_with_different_parameters_it_fails()
         {
             // Arrange
             var type = typeof(ClassWithMembers);
@@ -3953,7 +3826,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_does_not_have_an_indexer_which_it_does_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_does_not_have_an_indexer_which_it_does_it_fails()
         {
             // Arrange
             var type = typeof(ClassWithMembers);
@@ -4021,7 +3894,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_has_a_constructor_which_it_does_not_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_has_a_constructor_which_it_does_not_it_fails()
         {
             // Arrange
             var type = typeof(ClassWithNoMembers);
@@ -4178,7 +4051,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_does_not_have_a_constructor_which_it_does_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_does_not_have_a_constructor_which_it_does_it_fails()
         {
             // Arrange
             var type = typeof(ClassWithMembers);
@@ -4244,7 +4117,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_does_not_have_a_default_constructor_which_it_does_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_does_not_have_a_default_constructor_which_it_does_it_fails()
         {
             // Arrange
             var type = typeof(ClassWithMembers);
@@ -4262,7 +4135,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_does_not_have_a_default_constructor_which_it_does_and_a_cctor_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_does_not_have_a_default_constructor_which_it_does_and_a_cctor_it_fails()
         {
             // Arrange
             var type = typeof(ClassWithCctor);
@@ -4330,7 +4203,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_has_a_method_which_it_does_not_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_has_a_method_which_it_does_not_it_fails()
         {
             // Arrange
             var type = typeof(ClassWithNoMembers);
@@ -4347,7 +4220,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_has_a_method_with_different_parameter_types_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_has_a_method_with_different_parameter_types_it_fails()
         {
             // Arrange
             var type = typeof(ClassWithMembers);
@@ -4456,7 +4329,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_does_not_have_that_method_which_it_does_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_does_not_have_that_method_which_it_does_it_fails()
         {
             // Arrange
             var type = typeof(ClassWithMembers);
@@ -4551,7 +4424,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_public_member_is_internal_it_throws_with_a_useful_message()
+        public void When_asserting_a_public_member_is_internal_it_throws()
         {
             // Arrange
             Type type = typeof(IPublicInterface);
@@ -4583,7 +4456,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_an_internal_type_is_protected_internal_it_throws_with_a_useful_message()
+        public void When_asserting_an_internal_type_is_protected_internal_it_throws()
         {
             // Arrange
             Type type = typeof(InternalClass);
@@ -4614,7 +4487,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_nested_private_type_is_protected_it_throws_with_a_useful_message()
+        public void When_asserting_a_nested_private_type_is_protected_it_throws()
         {
             // Arrange
             Type type = typeof(Nested).GetNestedType("PrivateClass", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -4644,7 +4517,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_nested_protected_type_is_public_it_throws_with_a_useful_message()
+        public void When_asserting_a_nested_protected_type_is_public_it_throws()
         {
             // Arrange
             Type type = typeof(Nested).GetNestedType("ProtectedEnum", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -4673,7 +4546,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_nested_public_member_is_internal_it_throws_with_a_useful_message()
+        public void When_asserting_a_nested_public_member_is_internal_it_throws()
         {
             // Arrange
             Type type = typeof(Nested.IPublicInterface);
@@ -4705,7 +4578,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_nested_internal_type_is_protected_internal_it_throws_with_a_useful_message()
+        public void When_asserting_a_nested_internal_type_is_protected_internal_it_throws()
         {
             // Arrange
             Type type = typeof(Nested.InternalClass);
@@ -4736,7 +4609,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_nested_protected_internal_member_is_private_it_throws_with_a_useful_message()
+        public void When_asserting_a_nested_protected_internal_member_is_private_it_throws()
         {
             // Arrange
             Type type = typeof(Nested.IProtectedInternalInterface);
@@ -4800,7 +4673,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_public_member_is_not_public_it_throws_with_a_useful_message()
+        public void When_asserting_a_public_member_is_not_public_it_throws()
         {
             // Arrange
             Type type = typeof(IPublicInterface);
@@ -4832,7 +4705,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_an_internal_type_is_not_internal_it_throws_with_a_useful_message()
+        public void When_asserting_an_internal_type_is_not_internal_it_throws()
         {
             // Arrange
             Type type = typeof(InternalClass);
@@ -4863,7 +4736,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_nested_private_type_is_not_private_it_throws_with_a_useful_message()
+        public void When_asserting_a_nested_private_type_is_not_private_it_throws()
         {
             // Arrange
             Type type = typeof(Nested).GetNestedType("PrivateClass", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -4893,7 +4766,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_nested_protected_type_is_not_protected_it_throws_with_a_useful_message()
+        public void When_asserting_a_nested_protected_type_is_not_protected_it_throws()
         {
             // Arrange
             Type type = typeof(Nested).GetNestedType("ProtectedEnum", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -4922,7 +4795,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_nested_public_member_is_not_public_it_throws_with_a_useful_message()
+        public void When_asserting_a_nested_public_member_is_not_public_it_throws()
         {
             // Arrange
             Type type = typeof(Nested.IPublicInterface);
@@ -4954,7 +4827,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_nested_internal_type_is_not_internal_it_throws_with_a_useful_message()
+        public void When_asserting_a_nested_internal_type_is_not_internal_it_throws()
         {
             // Arrange
             Type type = typeof(Nested.InternalClass);
@@ -4985,7 +4858,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_nested_protected_internal_member_is_not_protected_internal_it_throws_with_a_useful_message()
+        public void When_asserting_a_nested_protected_internal_member_is_not_protected_internal_it_throws()
         {
             // Arrange
             Type type = typeof(Nested.IProtectedInternalInterface);
@@ -5139,7 +5012,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_has_an_explicit_conversion_operatorOfT_which_it_does_not_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_has_an_explicit_conversion_operatorOfT_which_it_does_not_it_fails()
         {
             // Arrange
             var type = typeof(TypeWithConversionOperators);
@@ -5192,7 +5065,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_does_not_have_an_explicit_conversion_operator_which_it_does_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_does_not_have_an_explicit_conversion_operator_which_it_does_it_fails()
         {
             // Arrange
             var type = typeof(TypeWithConversionOperators);
@@ -5275,7 +5148,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_does_not_have_an_explicit_conversion_operatorOfT_which_it_does_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_does_not_have_an_explicit_conversion_operatorOfT_which_it_does_it_fails()
         {
             // Arrange
             var type = typeof(TypeWithConversionOperators);
@@ -5315,7 +5188,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_has_an_implicit_conversion_operator_which_it_does_not_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_has_an_implicit_conversion_operator_which_it_does_not_it_fails()
         {
             // Arrange
             var type = typeof(TypeWithConversionOperators);
@@ -5400,7 +5273,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_has_an_implicit_conversion_operatorOfT_which_it_does_not_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_has_an_implicit_conversion_operatorOfT_which_it_does_not_it_fails()
         {
             // Arrange
             var type = typeof(TypeWithConversionOperators);
@@ -5453,7 +5326,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_does_not_have_an_implicit_conversion_operator_which_it_does_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_does_not_have_an_implicit_conversion_operator_which_it_does_it_fails()
         {
             // Arrange
             var type = typeof(TypeWithConversionOperators);
@@ -5536,7 +5409,7 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_asserting_a_type_does_not_have_an_implicit_conversion_operatorOfT_which_it_does_it_fails_with_a_useful_message()
+        public void When_asserting_a_type_does_not_have_an_implicit_conversion_operatorOfT_which_it_does_it_fails()
         {
             // Arrange
             var type = typeof(TypeWithConversionOperators);
