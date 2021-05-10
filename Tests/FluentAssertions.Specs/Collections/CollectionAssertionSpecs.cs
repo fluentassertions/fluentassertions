@@ -3089,6 +3089,34 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
+        public void When_collection_does_not_start_with_a_null_sequence_it_should_throw()
+        {
+            // Arrange
+            var collection = new[] { "john" };
+
+            // Act
+            Action act = () => collection.Should().StartWith((IEnumerable<string>)null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().Be("expectation");
+        }
+
+        [Fact]
+        public void When_collection_does_not_start_with_a_null_sequence_using_a_comparer_it_should_throw()
+        {
+            // Arrange
+            var collection = new[] { "john" };
+
+            // Act
+            Action act = () => collection.Should().StartWith((IEnumerable<string>)null, (_, _) => true);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().Be("expectation");
+        }
+
+        [Fact]
         public void When_collection_does_not_start_with_a_specific_element_in_a_sequence_it_should_throw()
         {
             // Arrange
@@ -3287,6 +3315,34 @@ namespace FluentAssertions.Specs.Collections
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected*end*ryan*because of some reason*but*differs at index 2*");
+        }
+
+        [Fact]
+        public void When_collection_does_not_end_with_a_null_sequence_it_should_throw()
+        {
+            // Arrange
+            var collection = new[] { "john" };
+
+            // Act
+            Action act = () => collection.Should().EndWith((IEnumerable<string>)null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().Be("expectation");
+        }
+
+        [Fact]
+        public void When_collection_does_not_end_with_a_null_sequence_using_a_comparer_it_should_throw()
+        {
+            // Arrange
+            var collection = new[] { "john" };
+
+            // Act
+            Action act = () => collection.Should().EndWith((IEnumerable<string>)null, (_, _) => true);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().Be("expectation");
         }
 
         [Fact]

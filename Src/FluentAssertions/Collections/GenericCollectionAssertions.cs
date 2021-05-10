@@ -1033,13 +1033,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> EndWith(IEnumerable<T> expectation, string because = "", params object[] becauseArgs)
         {
-            if (expectation is null)
-            {
-                return EndWith(null, because, becauseArgs);
-            }
-
-            AssertCollectionEndsWith(Subject, expectation.ConvertOrCastToCollection(), (a, b) => EqualityComparer<T>.Default.Equals(a, b), because, becauseArgs);
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return EndWith(expectation, (a, b) => EqualityComparer<T>.Default.Equals(a, b), because, becauseArgs);
         }
 
         /// <summary>
@@ -1084,8 +1078,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> EndWith(T element, string because = "", params object[] becauseArgs)
         {
-            AssertCollectionEndsWith(Subject, new[] { element }, ObjectExtensions.GetComparer<T>(), because, becauseArgs);
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return EndWith(new[] { element }, ObjectExtensions.GetComparer<T>(), because, becauseArgs);
         }
 
         /// <summary>
@@ -2784,13 +2777,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> StartWith(IEnumerable<T> expectation, string because = "", params object[] becauseArgs)
         {
-            if (expectation is null)
-            {
-                return StartWith(null, because, becauseArgs);
-            }
-
-            AssertCollectionStartsWith(Subject, expectation.ConvertOrCastToCollection(), (a, b) => EqualityComparer<T>.Default.Equals(a, b), because, becauseArgs);
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return StartWith(expectation, (a, b) => EqualityComparer<T>.Default.Equals(a, b), because, becauseArgs);
         }
 
         /// <summary>
@@ -2835,8 +2822,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> StartWith(T element, string because = "", params object[] becauseArgs)
         {
-            AssertCollectionStartsWith(Subject, new[] { element }, ObjectExtensions.GetComparer<T>(), because, becauseArgs);
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return StartWith(new[] { element }, ObjectExtensions.GetComparer<T>(), because, becauseArgs);
         }
 
         internal AndConstraint<SubsequentOrderingAssertions<T>> BeOrderedBy<TSelector>(
@@ -2899,28 +2885,6 @@ namespace FluentAssertions.Collections
             return RepeatAsManyAsIterator(value, enumerable);
         }
 
-        protected void AssertCollectionEndsWith<TActual, TExpectation>(IEnumerable<TActual> actual, TExpectation[] expected, Func<TActual, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs)
-        {
-            Guard.ThrowIfArgumentIsNull(equalityComparison, nameof(equalityComparison));
-
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:collection} to end with {0}{reason}, ", expected)
-                .Given(() => actual)
-                .AssertCollectionIsNotNull()
-                .Then
-                .AssertCollectionHasEnoughItems(expected.Length)
-                .Then
-                .AssertCollectionsHaveSameItems(expected, (a, e) =>
-                {
-                    int firstIndexToCompare = a.Count - e.Count;
-                    int index = a.Skip(firstIndexToCompare).IndexOfFirstDifferenceWith(e, equalityComparison);
-                    return index >= 0 ? index + firstIndexToCompare : index;
-                })
-                .Then
-                .ClearExpectation();
-        }
-
         protected void AssertCollectionEndsWith<TActual, TExpectation>(IEnumerable<TActual> actual, ICollection<TExpectation> expected, Func<TActual, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(equalityComparison, nameof(equalityComparison));
@@ -2939,23 +2903,6 @@ namespace FluentAssertions.Collections
                     int index = a.Skip(firstIndexToCompare).IndexOfFirstDifferenceWith(e, equalityComparison);
                     return index >= 0 ? index + firstIndexToCompare : index;
                 })
-                .Then
-                .ClearExpectation();
-        }
-
-        protected void AssertCollectionStartsWith<TActual, TExpectation>(IEnumerable<TActual> actualItems, TExpectation[] expected, Func<TActual, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs)
-        {
-            Guard.ThrowIfArgumentIsNull(equalityComparison, nameof(equalityComparison));
-
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:collection} to start with {0}{reason}, ", expected)
-                .Given(() => actualItems)
-                .AssertCollectionIsNotNull()
-                .Then
-                .AssertCollectionHasEnoughItems(expected.Length)
-                .Then
-                .AssertCollectionsHaveSameItems(expected, (a, e) => a.Take(e.Count).IndexOfFirstDifferenceWith(e, equalityComparison))
                 .Then
                 .ClearExpectation();
         }
