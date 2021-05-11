@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq.Expressions;
 using System.Reflection;
 using FluentAssertions.Common;
@@ -219,6 +219,21 @@ namespace FluentAssertions.Specs.Types
                 .WithMessage("Expected property to be decorated with *.DummyPropertyAttribute *failure message*, but propertyInfo is <null>.");
         }
 
+        [Fact]
+        public void When_asserting_property_is_decorated_with_null_it_should_throw()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().BeDecoratedWith((Expression<Func<DummyPropertyAttribute, bool>>)null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("isMatchingAttributePredicate");
+        }
+
         #endregion
 
         #region NotBeDecoratedWithOfT
@@ -236,6 +251,21 @@ namespace FluentAssertions.Specs.Types
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected property to not be decorated with *.DummyPropertyAttribute *failure message*, but propertyInfo is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_property_is_not_decorated_with_null_it_should_throw()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().NotBeDecoratedWith((Expression<Func<DummyPropertyAttribute, bool>>)null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("isMatchingAttributePredicate");
         }
 
         #endregion
@@ -528,6 +558,21 @@ namespace FluentAssertions.Specs.Types
                 .WithMessage("Expected property to be Public *failure message*, but propertyInfo is <null>.");
         }
 
+        [Fact]
+        public void When_asserting_is_readable_with_an_invalid_enum_value_it_should_throw()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().BeReadable((CSharpAccessModifier)int.MaxValue);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentOutOfRangeException>()
+                .WithParameterName("accessModifier");
+        }
+
         #endregion
 
         #region BeWritableAccessModifier
@@ -572,6 +617,21 @@ namespace FluentAssertions.Specs.Types
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected property to be Public *failure message*, but propertyInfo is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_is_writable_with_an_invalid_enum_value_it_should_throw()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().BeWritable((CSharpAccessModifier)int.MaxValue);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentOutOfRangeException>()
+                .WithParameterName("accessModifier");
         }
 
         #endregion
@@ -619,6 +679,21 @@ namespace FluentAssertions.Specs.Types
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected type of property to be *.Int32 *failure message*, but propertyInfo is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_property_type_is_null_it_should_throw()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().Return(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("propertyType");
         }
 
         #endregion
@@ -698,6 +773,21 @@ namespace FluentAssertions.Specs.Types
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected type of property not to be *.Int32 *failure message*, but propertyInfo is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_property_type_is_not_null_it_should_throw()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().NotReturn(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("propertyType");
         }
 
         #endregion

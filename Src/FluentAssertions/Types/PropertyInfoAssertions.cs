@@ -117,8 +117,12 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="accessModifier"/>
+        /// is not a <see cref="CSharpAccessModifier"/> value.</exception>
         public AndConstraint<PropertyInfoAssertions> BeWritable(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsOutOfRange(accessModifier, nameof(accessModifier));
+
             bool success = Execute.Assertion
               .BecauseOf(because, becauseArgs)
               .ForCondition(Subject is not null)
@@ -203,8 +207,12 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="accessModifier"/>
+        /// is not a <see cref="CSharpAccessModifier"/> value.</exception>
         public AndConstraint<PropertyInfoAssertions> BeReadable(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsOutOfRange(accessModifier, nameof(accessModifier));
+
             bool success = Execute.Assertion
                .BecauseOf(because, becauseArgs)
                .ForCondition(Subject is not null)
@@ -262,9 +270,12 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="propertyType"/> is <c>null</c>.</exception>
         public AndConstraint<PropertyInfoAssertions> Return(Type propertyType,
             string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(propertyType, nameof(propertyType));
+
             bool success = Execute.Assertion
                .BecauseOf(because, becauseArgs)
                .ForCondition(Subject is not null)
@@ -308,8 +319,11 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="propertyType"/> is <c>null</c>.</exception>
         public AndConstraint<PropertyInfoAssertions> NotReturn(Type propertyType, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(propertyType, nameof(propertyType));
+
             bool success = Execute.Assertion
                .BecauseOf(because, becauseArgs)
                .ForCondition(Subject is not null)

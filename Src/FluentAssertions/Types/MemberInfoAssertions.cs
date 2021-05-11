@@ -71,6 +71,7 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <c>null</c>.</exception>
         public AndWhichConstraint<MemberInfoAssertions<TSubject, TAssertions>, TAttribute> BeDecoratedWith<TAttribute>(
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
             string because = "", params object[] becauseArgs)
@@ -116,6 +117,7 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotBeDecoratedWith<TAttribute>(
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
             string because = "", params object[] becauseArgs)
