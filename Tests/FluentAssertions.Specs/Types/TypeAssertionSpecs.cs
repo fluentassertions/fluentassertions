@@ -3156,7 +3156,7 @@ namespace FluentAssertions.Specs.Types
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected *.ClassExplicitlyImplementingInterface to explicitly implement *.IExplicitInterface.ImplicitMethod, but it does not.");
+                .WithMessage("Expected *.ClassExplicitlyImplementingInterface to explicitly implement *.IExplicitInterface.ImplicitMethod(), but it does not.");
         }
 
         [Fact]
@@ -3174,7 +3174,7 @@ namespace FluentAssertions.Specs.Types
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected *.ClassExplicitlyImplementingInterface to explicitly implement *.IExplicitInterface.NonExistentMethod, but it does not.");
+                .WithMessage("Expected *.ClassExplicitlyImplementingInterface to explicitly implement *.IExplicitInterface.NonExistentMethod(), but it does not.");
         }
 
         [Fact]
@@ -3207,7 +3207,7 @@ namespace FluentAssertions.Specs.Types
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type to explicitly implement *.IExplicitInterface.ExplicitMethod *failure message*, but type is <null>.");
+                .WithMessage("Expected type to explicitly implement *.IExplicitInterface.ExplicitMethod() *failure message*, but type is <null>.");
         }
 
         [Fact]
@@ -3301,7 +3301,7 @@ namespace FluentAssertions.Specs.Types
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type to explicitly implement *.IExplicitInterface.ExplicitMethod *failure message*, but type is <null>.");
+                .WithMessage("Expected type to explicitly implement *.IExplicitInterface.ExplicitMethod() *failure message*, but type is <null>.");
         }
 
         [Fact]
@@ -3368,7 +3368,7 @@ namespace FluentAssertions.Specs.Types
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected *.ClassExplicitlyImplementingInterface to not explicitly implement *.IExplicitInterface.ExplicitMethod, but it does.");
+                .WithMessage("Expected *.ClassExplicitlyImplementingInterface to not explicitly implement *.IExplicitInterface.ExplicitMethod(), but it does.");
         }
 
         [Fact]
@@ -3386,7 +3386,7 @@ namespace FluentAssertions.Specs.Types
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected *.ClassExplicitlyImplementingInterface to not explicitly implement *.IExplicitInterface.ExplicitImplicitMethod, but it does.");
+                .WithMessage("Expected *.ClassExplicitlyImplementingInterface to not explicitly implement *.IExplicitInterface.ExplicitImplicitMethod(), but it does.");
         }
 
         [Fact]
@@ -3453,7 +3453,7 @@ namespace FluentAssertions.Specs.Types
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type to not explicitly implement *.IExplicitInterface.ExplicitMethod *failure message*, but type is <null>.");
+                .WithMessage("Expected type to not explicitly implement *.IExplicitInterface.ExplicitMethod() *failure message*, but type is <null>.");
         }
 
         [Fact]
@@ -3533,7 +3533,7 @@ namespace FluentAssertions.Specs.Types
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected *.ClassExplicitlyImplementingInterface to not explicitly implement *.IExplicitInterface.ExplicitMethod, but it does.");
+                .WithMessage("Expected *.ClassExplicitlyImplementingInterface to not explicitly implement *.IExplicitInterface.ExplicitMethod(), but it does.");
         }
 
         [Fact]
@@ -3548,7 +3548,7 @@ namespace FluentAssertions.Specs.Types
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type to not explicitly implement *.IExplicitInterface.ExplicitMethod *failure message*, but type is <null>.");
+                .WithMessage("Expected type to not explicitly implement *.IExplicitInterface.ExplicitMethod() *failure message*, but type is <null>.");
         }
 
         [Fact]

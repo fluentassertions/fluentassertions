@@ -1013,7 +1013,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
-                .FailWith($"Expected {{context:type}} to explicitly implement {interfaceType.FullName}.{name}{{reason}}, but {{context:type}} is <null>.");
+                .FailWith($"Expected {{context:type}} to explicitly implement {interfaceType.FullName}.{name}({GetParameterString(parameterTypes)}){{reason}}, but {{context:type}} is <null>.");
 
             Subject.Should().Implement(interfaceType, because, becauseArgs);
 
@@ -1022,7 +1022,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(explicitlyImplementsMethod)
-                .FailWith($"Expected {Subject.FullName} to explicitly implement {interfaceType.FullName}.{name}{{reason}}, but it does not.");
+                .FailWith($"Expected {Subject.FullName} to explicitly implement {interfaceType.FullName}.{name}({GetParameterString(parameterTypes)}){{reason}}, but it does not.");
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -1075,7 +1075,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
-                .FailWith($"Expected {{context:type}} to not explicitly implement {interfaceType.FullName}.{name}{{reason}}, but {{context:type}} is <null>.");
+                .FailWith($"Expected {{context:type}} to not explicitly implement {interfaceType.FullName}.{name}({GetParameterString(parameterTypes)}){{reason}}, but {{context:type}} is <null>.");
 
             Subject.Should().Implement(interfaceType, because, becauseArgs);
 
@@ -1084,7 +1084,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(!explicitlyImplementsMethod)
-                .FailWith($"Expected {Subject.FullName} to not explicitly implement {interfaceType.FullName}.{name}{{reason}}, but it does.");
+                .FailWith($"Expected {Subject.FullName} to not explicitly implement {interfaceType.FullName}.{name}({GetParameterString(parameterTypes)}){{reason}}, but it does.");
 
             return new AndConstraint<TypeAssertions>(this);
         }
