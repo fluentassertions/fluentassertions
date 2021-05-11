@@ -31,14 +31,18 @@ namespace FluentAssertions.Types
         public AndConstraint<PropertyInfoAssertions> BeVirtual(
             string because = "", params object[] becauseArgs)
         {
-            string failureMessage = "Expected property " +
-                                    GetDescriptionFor(Subject) +
-                                    " to be virtual{reason}, but it is not.";
-
-            Execute.Assertion
-                .ForCondition(Subject.IsVirtual())
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage);
+                .ForCondition(Subject is not null)
+                .FailWith("Expected property to be virtual{reason}, but {context:property} is <null>.");
+
+            if (success)
+            {
+                Execute.Assertion
+                    .ForCondition(Subject.IsVirtual())
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith($"Expected property {GetDescriptionFor(Subject)} to be virtual{{reason}}, but it is not.");
+            }
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -55,12 +59,18 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<PropertyInfoAssertions> NotBeVirtual(string because = "", params object[] becauseArgs)
         {
-            string failureMessage = "Expected property " + GetDescriptionFor(Subject) + " not to be virtual{reason}, but it is.";
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected property not to be virtual{reason}, but {context:property} is <null>.");
 
-            Execute.Assertion
+            if (success)
+            {
+                Execute.Assertion
                 .ForCondition(!Subject.IsVirtual())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage);
+                .FailWith($"Expected property {GetDescriptionFor(Subject)} not to be virtual{{reason}}, but it is.");
+            }
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -78,12 +88,20 @@ namespace FluentAssertions.Types
         public AndConstraint<PropertyInfoAssertions> BeWritable(
             string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected property to have a setter{reason}, but {context:property} is <null>.");
+
+            if (success)
+            {
+                Execute.Assertion
                 .ForCondition(Subject.CanWrite)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:property} {0} to have a setter{reason}.",
                     Subject);
+            }
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -101,9 +119,17 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<PropertyInfoAssertions> BeWritable(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
         {
-            Subject.Should().BeWritable(because, becauseArgs);
+            bool success = Execute.Assertion
+              .BecauseOf(because, becauseArgs)
+              .ForCondition(Subject is not null)
+              .FailWith($"Expected {Identifier} to be {accessModifier}{{reason}}, but {{context:property}} is <null>.");
 
-            Subject.GetSetMethod(nonPublic: true).Should().HaveAccessModifier(accessModifier, because, becauseArgs);
+            if (success)
+            {
+                Subject.Should().BeWritable(because, becauseArgs);
+
+                Subject.GetSetMethod(nonPublic: true).Should().HaveAccessModifier(accessModifier, because, becauseArgs);
+            }
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -121,12 +147,20 @@ namespace FluentAssertions.Types
         public AndConstraint<PropertyInfoAssertions> NotBeWritable(
             string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected property not to have a setter{reason}, but {context:property} is <null>.");
+
+            if (success)
+            {
+                Execute.Assertion
                 .ForCondition(!Subject.CanWrite)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:property} {0} not to have a setter{reason}.",
                     Subject);
+            }
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -143,9 +177,17 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<PropertyInfoAssertions> BeReadable(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion.ForCondition(Subject.CanRead)
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected property to have a getter{reason}, but {context:property} is <null>.");
+
+            if (success)
+            {
+                Execute.Assertion.ForCondition(Subject.CanRead)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected property " + Subject.Name + " to have a getter{reason}, but it does not.");
+            }
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -163,9 +205,17 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<PropertyInfoAssertions> BeReadable(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
         {
-            Subject.Should().BeReadable(because, becauseArgs);
+            bool success = Execute.Assertion
+               .BecauseOf(because, becauseArgs)
+               .ForCondition(Subject is not null)
+               .FailWith($"Expected {Identifier} to be {accessModifier}{{reason}}, but {{context:property}} is <null>.");
 
-            Subject.GetGetMethod(nonPublic: true).Should().HaveAccessModifier(accessModifier, because, becauseArgs);
+            if (success)
+            {
+                Subject.Should().BeReadable(because, becauseArgs);
+
+                Subject.GetGetMethod(nonPublic: true).Should().HaveAccessModifier(accessModifier, because, becauseArgs);
+            }
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -183,12 +233,20 @@ namespace FluentAssertions.Types
         public AndConstraint<PropertyInfoAssertions> NotBeReadable(
             string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected property not to have a getter{reason}, but {context:property} is <null>.");
+
+            if (success)
+            {
+                Execute.Assertion
                 .ForCondition(!Subject.CanRead)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:property} {0} not to have a getter{reason}.",
                     Subject);
+            }
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -207,9 +265,18 @@ namespace FluentAssertions.Types
         public AndConstraint<PropertyInfoAssertions> Return(Type propertyType,
             string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion.ForCondition(Subject.PropertyType == propertyType)
+            bool success = Execute.Assertion
+               .BecauseOf(because, becauseArgs)
+               .ForCondition(Subject is not null)
+               .FailWith("Expected type of property to be {0}{reason}, but {context:property} is <null>.", propertyType);
+
+            if (success)
+            {
+                Execute.Assertion.ForCondition(Subject.PropertyType == propertyType)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected Type of property " + Subject.Name + " to be {0}{reason}, but it is {1}.", propertyType, Subject.PropertyType);
+                .FailWith("Expected Type of property " + Subject.Name + " to be {0}{reason}, but it is {1}.",
+                propertyType, Subject.PropertyType);
+            }
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -243,10 +310,18 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<PropertyInfoAssertions> NotReturn(Type propertyType, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
+               .BecauseOf(because, becauseArgs)
+               .ForCondition(Subject is not null)
+               .FailWith("Expected type of property not to be {0}{reason}, but {context:property} is <null>.", propertyType);
+
+            if (success)
+            {
+                Execute.Assertion
                 .ForCondition(Subject.PropertyType != propertyType)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected Type of property " + Subject.Name + " not to be {0}{reason}, but it is.", propertyType);
+            }
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
