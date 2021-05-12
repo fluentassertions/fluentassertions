@@ -26,6 +26,7 @@ indent_size = 4
 [*.cs]
 indent_style = space
 indent_size = 4
+max_line_length = 130
 
 # New line preferences
 csharp_new_line_before_open_brace = all
