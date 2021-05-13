@@ -654,17 +654,20 @@ namespace FluentAssertions.Types
         /// is not a class.</exception>
         public AndConstraint<TypeAssertions> BeSealed(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-               .BecauseOf(because, becauseArgs)
-               .ForCondition(Subject is not null)
-               .FailWith("Expected type to be sealed{reason}, but {context:type} is <null>.");
-
-            AssertThatSubjectIsClass();
-
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject.IsCSharpSealed())
-                .FailWith("Expected type {0} to be sealed{reason}.", Subject);
+                .ForCondition(Subject is not null)
+                .FailWith("Expected type to be sealed{reason}, but {context:type} is <null>.");
+
+            if (success)
+            {
+                AssertThatSubjectIsClass();
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(Subject.IsCSharpSealed())
+                    .FailWith("Expected type {0} to be sealed{reason}.", Subject);
+            }
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -683,17 +686,20 @@ namespace FluentAssertions.Types
         /// is not a class.</exception>
         public AndConstraint<TypeAssertions> NotBeSealed(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-               .BecauseOf(because, becauseArgs)
-               .ForCondition(Subject is not null)
-               .FailWith("Expected type not to be sealed{reason}, but {context:type} is <null>.");
-
-            AssertThatSubjectIsClass();
-
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(!Subject.IsCSharpSealed())
-                .FailWith("Expected type {0} not to be sealed{reason}.", Subject);
+                .ForCondition(Subject is not null)
+                .FailWith("Expected type not to be sealed{reason}, but {context:type} is <null>.");
+
+            if (success)
+            {
+                AssertThatSubjectIsClass();
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(!Subject.IsCSharpSealed())
+                    .FailWith("Expected type {0} not to be sealed{reason}.", Subject);
+            }
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -712,17 +718,20 @@ namespace FluentAssertions.Types
         /// is not a class.</exception>
         public AndConstraint<TypeAssertions> BeAbstract(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-               .BecauseOf(because, becauseArgs)
-               .ForCondition(Subject is not null)
-               .FailWith("Expected type to be abstract{reason}, but {context:type} is <null>.");
-
-            AssertThatSubjectIsClass();
-
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject.IsCSharpAbstract())
-                .FailWith("Expected {context:type} {0} to be abstract{reason}.", Subject);
+                .ForCondition(Subject is not null)
+                .FailWith("Expected type to be abstract{reason}, but {context:type} is <null>.");
+
+            if (success)
+            {
+                AssertThatSubjectIsClass();
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(Subject.IsCSharpAbstract())
+                    .FailWith("Expected {context:type} {0} to be abstract{reason}.", Subject);
+            }
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -741,17 +750,20 @@ namespace FluentAssertions.Types
         /// is not a class.</exception>
         public AndConstraint<TypeAssertions> NotBeAbstract(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-               .BecauseOf(because, becauseArgs)
-               .ForCondition(Subject is not null)
-               .FailWith("Expected type not to be abstract{reason}, but {context:type} is <null>.");
-
-            AssertThatSubjectIsClass();
-
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(!Subject.IsCSharpAbstract())
-                .FailWith("Expected type {0} not to be abstract{reason}.", Subject);
+                .ForCondition(Subject is not null)
+                .FailWith("Expected type not to be abstract{reason}, but {context:type} is <null>.");
+
+            if (success)
+            {
+                AssertThatSubjectIsClass();
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(!Subject.IsCSharpAbstract())
+                    .FailWith("Expected type {0} not to be abstract{reason}.", Subject);
+            }
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -770,17 +782,20 @@ namespace FluentAssertions.Types
         /// is not a class.</exception>
         public AndConstraint<TypeAssertions> BeStatic(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
                .BecauseOf(because, becauseArgs)
                .ForCondition(Subject is not null)
                .FailWith("Expected type to be static{reason}, but {context:type} is <null>.");
 
-            AssertThatSubjectIsClass();
+            if (success)
+            {
+                AssertThatSubjectIsClass();
 
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject.IsCSharpStatic())
-                .FailWith("Expected type {0} to be static{reason}.", Subject);
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(Subject.IsCSharpStatic())
+                    .FailWith("Expected type {0} to be static{reason}.", Subject);
+            }
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -799,17 +814,20 @@ namespace FluentAssertions.Types
         /// is not a class.</exception>
         public AndConstraint<TypeAssertions> NotBeStatic(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-               .BecauseOf(because, becauseArgs)
-               .ForCondition(Subject is not null)
-               .FailWith("Expected type not to be static{reason}, but {context:type} is <null>.");
-
-            AssertThatSubjectIsClass();
-
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(!Subject.IsCSharpStatic())
-                .FailWith("Expected type {0} not to be static{reason}.", Subject);
+                .ForCondition(Subject is not null)
+                .FailWith("Expected type not to be static{reason}, but {context:type} is <null>.");
+
+            if (success)
+            {
+                AssertThatSubjectIsClass();
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(!Subject.IsCSharpStatic())
+                    .FailWith("Expected type {0} not to be static{reason}.", Subject);
+            }
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -835,22 +853,27 @@ namespace FluentAssertions.Types
             Guard.ThrowIfArgumentIsNull(propertyType, nameof(propertyType));
             Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
 
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
                 .FailWith(
                     $"Expected {propertyType.Name} {{context:type}}.{name} to exist{{reason}}, but {{context:type}} is <null>.");
 
-            PropertyInfo propertyInfo = Subject.GetPropertyByName(name);
-            var propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
+            PropertyInfo propertyInfo = null;
 
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(propertyInfo is not null)
-                .FailWith($"Expected {propertyType.Name} {Subject.FullName}.{name} to exist{{reason}}, but it does not.")
-                .Then
-                .ForCondition(propertyInfo.PropertyType == propertyType)
-                .FailWith($"Expected {propertyInfoDescription} to be of type {propertyType}{{reason}}, but it is not.");
+            if (success)
+            {
+                propertyInfo = Subject.GetPropertyByName(name);
+                var propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(propertyInfo is not null)
+                    .FailWith($"Expected {propertyType.Name} {Subject}.{name} to exist{{reason}}, but it does not.")
+                    .Then
+                    .ForCondition(propertyInfo.PropertyType == propertyType)
+                    .FailWith($"Expected {propertyInfoDescription} to be of type {propertyType}{{reason}}, but it is not.");
+            }
 
             return new AndWhichConstraint<TypeAssertions, PropertyInfo>(this, propertyInfo);
         }
@@ -891,18 +914,21 @@ namespace FluentAssertions.Types
         {
             Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
 
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
                 .FailWith($"Expected {{context:type}}.{name} to not exist{{reason}}, but {{context:type}} is <null>.");
 
-            PropertyInfo propertyInfo = Subject.GetPropertyByName(name);
-            var propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
+            if (success)
+            {
+                PropertyInfo propertyInfo = Subject.GetPropertyByName(name);
+                var propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
 
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(propertyInfo is null)
-                .FailWith($"Expected {propertyInfoDescription} to not exist{{reason}}, but it does.");
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(propertyInfo is null)
+                    .FailWith($"Expected {propertyInfoDescription} to not exist{{reason}}, but it does.");
+            }
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -928,23 +954,25 @@ namespace FluentAssertions.Types
             Guard.ThrowIfArgumentIsNull(interfaceType, nameof(interfaceType));
             Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
 
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
                 .FailWith(
-                    $"Expected {{context:type}} to explicitly implement {interfaceType.FullName}.{name}{{reason}}" +
+                    $"Expected {{context:type}} to explicitly implement {interfaceType}.{name}{{reason}}" +
                     $", but {{context:type}} is <null>.");
 
-            Subject.Should().Implement(interfaceType, because, becauseArgs);
+            if (success)
+            {
+                Subject.Should().Implement(interfaceType, because, becauseArgs);
 
-            var explicitlyImplementsProperty = Subject.HasExplicitlyImplementedProperty(interfaceType, name);
+                var explicitlyImplementsProperty = Subject.HasExplicitlyImplementedProperty(interfaceType, name);
 
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(explicitlyImplementsProperty)
-                .FailWith(
-                    $"Expected {Subject.FullName} to explicitly implement {interfaceType.FullName}.{name}{{reason}}" +
-                    $", but it does not.");
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(explicitlyImplementsProperty)
+                    .FailWith(
+                        $"Expected {Subject} to explicitly implement {interfaceType}.{name}{{reason}}, but it does not.");
+            }
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -991,23 +1019,26 @@ namespace FluentAssertions.Types
             Guard.ThrowIfArgumentIsNull(interfaceType, nameof(interfaceType));
             Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
 
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
                 .FailWith(
-                    $"Expected {{context:type}} to not explicitly implement {interfaceType.FullName}.{name}{{reason}}" +
+                    $"Expected {{context:type}} to not explicitly implement {interfaceType}.{name}{{reason}}" +
                     $", but {{context:type}} is <null>.");
 
-            Subject.Should().Implement(interfaceType, because, becauseArgs);
+            if (success)
+            {
+                Subject.Should().Implement(interfaceType, because, becauseArgs);
 
-            var explicitlyImplementsProperty = Subject.HasExplicitlyImplementedProperty(interfaceType, name);
+                var explicitlyImplementsProperty = Subject.HasExplicitlyImplementedProperty(interfaceType, name);
 
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(!explicitlyImplementsProperty)
-                .FailWith(
-                    $"Expected {Subject.FullName} to not explicitly implement {interfaceType.FullName}.{name}{{reason}}" +
-                    $", but it does.");
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(!explicitlyImplementsProperty)
+                    .FailWith(
+                        $"Expected {Subject} to not explicitly implement {interfaceType}.{name}{{reason}}" +
+                        $", but it does.");
+            }
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -1057,23 +1088,26 @@ namespace FluentAssertions.Types
             Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
             Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
 
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
                 .FailWith(
-                    $"Expected {{context:type}} to explicitly implement {interfaceType.FullName}.{name}" +
+                    $"Expected {{context:type}} to explicitly implement {interfaceType}.{name}" +
                     $"({GetParameterString(parameterTypes)}){{reason}}, but {{context:type}} is <null>.");
 
-            Subject.Should().Implement(interfaceType, because, becauseArgs);
+            if (success)
+            {
+                Subject.Should().Implement(interfaceType, because, becauseArgs);
 
-            var explicitlyImplementsMethod = Subject.HasMethod($"{interfaceType.FullName}.{name}", parameterTypes);
+                var explicitlyImplementsMethod = Subject.HasMethod($"{interfaceType}.{name}", parameterTypes);
 
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(explicitlyImplementsMethod)
-                .FailWith(
-                    $"Expected {Subject.FullName} to explicitly implement {interfaceType.FullName}.{name}" +
-                    $"({GetParameterString(parameterTypes)}){{reason}}, but it does not.");
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(explicitlyImplementsMethod)
+                    .FailWith(
+                        $"Expected {Subject} to explicitly implement {interfaceType}.{name}" +
+                        $"({GetParameterString(parameterTypes)}){{reason}}, but it does not.");
+            }
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -1125,23 +1159,26 @@ namespace FluentAssertions.Types
             Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
             Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
 
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
                 .FailWith(
-                    $"Expected {{context:type}} to not explicitly implement {interfaceType.FullName}.{name}" +
+                    $"Expected {{context:type}} to not explicitly implement {interfaceType}.{name}" +
                     $"({GetParameterString(parameterTypes)}){{reason}}, but {{context:type}} is <null>.");
 
-            Subject.Should().Implement(interfaceType, because, becauseArgs);
+            if (success)
+            {
+                Subject.Should().Implement(interfaceType, because, becauseArgs);
 
-            var explicitlyImplementsMethod = Subject.HasMethod($"{interfaceType.FullName}.{name}", parameterTypes);
+                var explicitlyImplementsMethod = Subject.HasMethod($"{interfaceType}.{name}", parameterTypes);
 
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(!explicitlyImplementsMethod)
-                .FailWith(
-                    $"Expected {Subject.FullName} to not explicitly implement {interfaceType.FullName}.{name}" +
-                    $"({GetParameterString(parameterTypes)}){{reason}}, but it does.");
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(!explicitlyImplementsMethod)
+                    .FailWith(
+                        $"Expected {Subject} to not explicitly implement {interfaceType}.{name}" +
+                        $"({GetParameterString(parameterTypes)}){{reason}}, but it does.");
+            }
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -1190,25 +1227,30 @@ namespace FluentAssertions.Types
             Guard.ThrowIfArgumentIsNull(indexerType, nameof(indexerType));
             Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
 
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
                 .FailWith(
                     $"Expected {indexerType.Name} {{context:type}}[{GetParameterString(parameterTypes)}] to exist{{reason}}" +
                     $", but {{context:type}} is <null>.");
 
-            PropertyInfo propertyInfo = Subject.GetIndexerByParameterTypes(parameterTypes);
-            var propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
+            PropertyInfo propertyInfo = null;
 
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(propertyInfo is not null)
-                .FailWith(
-                    $"Expected {indexerType.Name} {Subject.FullName}[{GetParameterString(parameterTypes)}] to exist{{reason}}" +
-                    $", but it does not.")
-                .Then
-                .ForCondition(propertyInfo.PropertyType == indexerType)
-                .FailWith($"Expected {propertyInfoDescription} to be of type {indexerType}{{reason}}, but it is not.");
+            if (success)
+            {
+                propertyInfo = Subject.GetIndexerByParameterTypes(parameterTypes);
+                var propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(propertyInfo is not null)
+                    .FailWith(
+                        $"Expected {indexerType.Name} {Subject}[{GetParameterString(parameterTypes)}] to exist{{reason}}" +
+                        $", but it does not.")
+                    .Then
+                    .ForCondition(propertyInfo.PropertyType == indexerType)
+                    .FailWith($"Expected {propertyInfoDescription} to be of type {indexerType}{{reason}}, but it is not.");
+            }
 
             return new AndWhichConstraint<TypeAssertions, PropertyInfo>(this, propertyInfo);
         }
@@ -1231,21 +1273,24 @@ namespace FluentAssertions.Types
         {
             Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
 
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
                 .FailWith(
                     $"Expected indexer {{context:type}}[{GetParameterString(parameterTypes)}] to not exist{{reason}}" +
                     $", but {{context:type}} is <null>.");
 
-            PropertyInfo propertyInfo = Subject.GetIndexerByParameterTypes(parameterTypes);
+            if (success)
+            {
+                PropertyInfo propertyInfo = Subject.GetIndexerByParameterTypes(parameterTypes);
 
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(propertyInfo is null)
-                .FailWith(
-                    $"Expected indexer {Subject.FullName}[{GetParameterString(parameterTypes)}] to not exist{{reason}}" +
-                    $", but it does.");
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(propertyInfo is null)
+                    .FailWith(
+                        $"Expected indexer {Subject}[{GetParameterString(parameterTypes)}] to not exist{{reason}}" +
+                        $", but it does.");
+            }
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -1271,21 +1316,26 @@ namespace FluentAssertions.Types
             Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
             Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
 
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
                 .FailWith(
                     $"Expected method {{context:type}}.{name}({GetParameterString(parameterTypes)}) to exist{{reason}}" +
                     $", but {{context:type}} is <null>.");
 
-            MethodInfo methodInfo = Subject.GetMethod(name, parameterTypes);
+            MethodInfo methodInfo = null;
 
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(methodInfo is not null)
-                .FailWith(
-                    $"Expected method {Subject.FullName}.{name}({GetParameterString(parameterTypes)}) to exist{{reason}}" +
-                    $", but it does not.");
+            if (success)
+            {
+                methodInfo = Subject.GetMethod(name, parameterTypes);
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(methodInfo is not null)
+                    .FailWith(
+                        $"Expected method {Subject}.{name}({GetParameterString(parameterTypes)}) to exist{{reason}}" +
+                        $", but it does not.");
+            }
 
             return new AndWhichConstraint<TypeAssertions, MethodInfo>(this, methodInfo);
         }
@@ -1311,22 +1361,25 @@ namespace FluentAssertions.Types
             Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
             Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
 
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
                 .FailWith(
                     $"Expected method {{context:type}}.{name}({GetParameterString(parameterTypes)}) to not exist{{reason}}" +
                     $", but {{context:type}} is <null>.");
 
-            MethodInfo methodInfo = Subject.GetMethod(name, parameterTypes);
-            var methodInfoDescription = MethodInfoAssertions.GetDescriptionFor(methodInfo);
+            if (success)
+            {
+                MethodInfo methodInfo = Subject.GetMethod(name, parameterTypes);
+                var methodInfoDescription = MethodInfoAssertions.GetDescriptionFor(methodInfo);
 
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(methodInfo is null)
-                .FailWith(
-                    $"Expected method {methodInfoDescription}({GetParameterString(parameterTypes)}) to not exist{{reason}}" +
-                    $", but it does.");
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(methodInfo is null)
+                    .FailWith(
+                        $"Expected method {methodInfoDescription}({GetParameterString(parameterTypes)}) to not exist{{reason}}" +
+                        $", but it does.");
+            }
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -1348,21 +1401,26 @@ namespace FluentAssertions.Types
         {
             Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
 
-            Execute.Assertion
-               .BecauseOf(because, becauseArgs)
-               .ForCondition(Subject is not null)
-               .FailWith(
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith(
                     $"Expected constructor {{context:type}}({GetParameterString(parameterTypes)}) to exist{{reason}}" +
                     $", but {{context:type}} is <null>.");
 
-            ConstructorInfo constructorInfo = Subject.GetConstructor(parameterTypes);
+            ConstructorInfo constructorInfo = null;
 
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(constructorInfo is not null)
-                .FailWith(
-                    $"Expected constructor {Subject.FullName}({GetParameterString(parameterTypes)}) to exist{{reason}}" +
-                    $", but it does not.");
+            if (success)
+            {
+                constructorInfo = Subject.GetConstructor(parameterTypes);
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(constructorInfo is not null)
+                    .FailWith(
+                        $"Expected constructor {Subject}({GetParameterString(parameterTypes)}) to exist{{reason}}" +
+                        $", but it does not.");
+            }
 
             return new AndWhichConstraint<TypeAssertions, ConstructorInfo>(this, constructorInfo);
         }
@@ -1400,21 +1458,26 @@ namespace FluentAssertions.Types
         {
             Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
 
-            Execute.Assertion
-               .BecauseOf(because, becauseArgs)
-               .ForCondition(Subject is not null)
-               .FailWith(
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith(
                     $"Expected constructor {{context:type}}({GetParameterString(parameterTypes)}) not to exist{{reason}}" +
                     $", but {{context:type}} is <null>.");
 
-            ConstructorInfo constructorInfo = Subject.GetConstructor(parameterTypes);
+            ConstructorInfo constructorInfo = null;
 
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(constructorInfo is null)
-                .FailWith(
-                    $"Expected constructor {Subject.FullName}({GetParameterString(parameterTypes)}) not to exist{{reason}}" +
-                    $", but it does.");
+            if (success)
+            {
+                constructorInfo = Subject.GetConstructor(parameterTypes);
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(constructorInfo is null)
+                    .FailWith(
+                        $"Expected constructor {Subject}({GetParameterString(parameterTypes)}) not to exist{{reason}}" +
+                        $", but it does.");
+            }
 
             return new AndWhichConstraint<TypeAssertions, ConstructorInfo>(this, constructorInfo);
         }
@@ -1458,19 +1521,22 @@ namespace FluentAssertions.Types
         {
             Guard.ThrowIfArgumentIsOutOfRange(accessModifier, nameof(accessModifier));
 
-            Execute.Assertion
+            bool success = Execute.Assertion
                .BecauseOf(because, becauseArgs)
                .ForCondition(Subject is not null)
                .FailWith($"Expected {{context:type}} to be {accessModifier}{{reason}}, but {{context:type}} is <null>.");
 
-            CSharpAccessModifier subjectAccessModifier = Subject.GetCSharpAccessModifier();
+            if (success)
+            {
+                CSharpAccessModifier subjectAccessModifier = Subject.GetCSharpAccessModifier();
 
-            Execute.Assertion.ForCondition(accessModifier == subjectAccessModifier)
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(accessModifier == subjectAccessModifier)
-                .FailWith(
-                    $"Expected {{context:type}} {Subject.Name} to be {accessModifier}{{reason}}" +
-                    $", but it is {subjectAccessModifier}.");
+                Execute.Assertion.ForCondition(accessModifier == subjectAccessModifier)
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(accessModifier == subjectAccessModifier)
+                    .FailWith(
+                        $"Expected {{context:type}} {Subject.Name} to be {accessModifier}{{reason}}" +
+                        $", but it is {subjectAccessModifier}.");
+            }
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -1493,18 +1559,21 @@ namespace FluentAssertions.Types
         {
             Guard.ThrowIfArgumentIsOutOfRange(accessModifier, nameof(accessModifier));
 
-            Execute.Assertion
-               .BecauseOf(because, becauseArgs)
-               .ForCondition(Subject is not null)
-               .FailWith($"Expected {{context:type}} not to be {accessModifier}{{reason}}, but {{context:type}} is <null>.");
-
-            CSharpAccessModifier subjectAccessModifier = Subject.GetCSharpAccessModifier();
-
-            Execute.Assertion
-                .ForCondition(accessModifier != subjectAccessModifier)
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(accessModifier != subjectAccessModifier)
-                .FailWith($"Expected {{context:type}} {Subject.Name} not to be {accessModifier}{{reason}}, but it is.");
+                .ForCondition(Subject is not null)
+                .FailWith($"Expected {{context:type}} not to be {accessModifier}{{reason}}, but {{context:type}} is <null>.");
+
+            if (success)
+            {
+                CSharpAccessModifier subjectAccessModifier = Subject.GetCSharpAccessModifier();
+
+                Execute.Assertion
+                    .ForCondition(accessModifier != subjectAccessModifier)
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(accessModifier != subjectAccessModifier)
+                    .FailWith($"Expected {{context:type}} {Subject.Name} not to be {accessModifier}{{reason}}, but it is.");
+            }
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -1549,21 +1618,24 @@ namespace FluentAssertions.Types
             Guard.ThrowIfArgumentIsNull(sourceType, nameof(sourceType));
             Guard.ThrowIfArgumentIsNull(targetType, nameof(targetType));
 
-            Execute.Assertion
-               .BecauseOf(because, becauseArgs)
-               .ForCondition(Subject is not null)
-               .FailWith(
-                    $"Expected public static implicit {targetType.FullName}({sourceType.FullName}) to exist{{reason}}" +
-                    $", but {{context:type}} is <null>.");
-
-            MethodInfo methodInfo = Subject.GetImplicitConversionOperator(sourceType, targetType);
-
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(methodInfo is not null)
-                .FailWith(
-                    $"Expected public static implicit {targetType.FullName}({sourceType.FullName}) to exist{{reason}}" +
-                    $", but it does not.");
+                .ForCondition(Subject is not null)
+                .FailWith("Expected public static implicit {0}({1}) to exist{reason}, but {context:type} is <null>.",
+                    targetType, sourceType);
+
+            MethodInfo methodInfo = null;
+
+            if (success)
+            {
+                methodInfo = Subject.GetImplicitConversionOperator(sourceType, targetType);
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(methodInfo is not null)
+                    .FailWith("Expected public static implicit {0}({1}) to exist{reason}, but it does not.",
+                        targetType, sourceType);
+            }
 
             return new AndWhichConstraint<TypeAssertions, MethodInfo>(this, methodInfo);
         }
@@ -1608,21 +1680,22 @@ namespace FluentAssertions.Types
             Guard.ThrowIfArgumentIsNull(sourceType, nameof(sourceType));
             Guard.ThrowIfArgumentIsNull(targetType, nameof(targetType));
 
-            Execute.Assertion
-               .BecauseOf(because, becauseArgs)
-               .ForCondition(Subject is not null)
-               .FailWith(
-                    $"Expected public static implicit {targetType.FullName}({sourceType.FullName}) to not exist{{reason}}" +
-                    $", but {{context:type}} is <null>.");
-
-            MethodInfo methodInfo = Subject.GetImplicitConversionOperator(sourceType, targetType);
-
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(methodInfo is null)
-                .FailWith(
-                    $"Expected public static implicit {targetType.FullName}({sourceType.FullName}) to not exist{{reason}}" +
-                    $", but it does.");
+                .ForCondition(Subject is not null)
+                .FailWith("Expected public static implicit {0}({1}) to not exist{reason}, but {context:type} is <null>.",
+                    targetType, sourceType);
+
+            if (success)
+            {
+                MethodInfo methodInfo = Subject.GetImplicitConversionOperator(sourceType, targetType);
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(methodInfo is null)
+                    .FailWith("Expected public static implicit {0}({1}) to not exist{reason}, but it does.",
+                        targetType, sourceType);
+            }
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -1667,21 +1740,24 @@ namespace FluentAssertions.Types
             Guard.ThrowIfArgumentIsNull(sourceType, nameof(sourceType));
             Guard.ThrowIfArgumentIsNull(targetType, nameof(targetType));
 
-            Execute.Assertion
-               .BecauseOf(because, becauseArgs)
-               .ForCondition(Subject is not null)
-               .FailWith(
-                    $"Expected public static explicit {targetType.FullName}({sourceType.FullName}) to exist{{reason}}" +
-                    $", but {{context:type}} is <null>.");
-
-            MethodInfo methodInfo = Subject.GetExplicitConversionOperator(sourceType, targetType);
-
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(methodInfo is not null)
-                .FailWith(
-                    $"Expected public static explicit {targetType.FullName}({sourceType.FullName}) to exist{{reason}}" +
-                    $", but it does not.");
+                .ForCondition(Subject is not null)
+                .FailWith("Expected public static explicit {0}({1}) to exist{reason}, but {context:type} is <null>.",
+                    targetType, sourceType);
+
+            MethodInfo methodInfo = null;
+
+            if (success)
+            {
+                methodInfo = Subject.GetExplicitConversionOperator(sourceType, targetType);
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(methodInfo is not null)
+                    .FailWith("Expected public static explicit {0}({1}) to exist{reason}, but it does not.",
+                        targetType, sourceType);
+            }
 
             return new AndWhichConstraint<TypeAssertions, MethodInfo>(this, methodInfo);
         }
@@ -1726,21 +1802,22 @@ namespace FluentAssertions.Types
             Guard.ThrowIfArgumentIsNull(sourceType, nameof(sourceType));
             Guard.ThrowIfArgumentIsNull(targetType, nameof(targetType));
 
-            Execute.Assertion
-               .BecauseOf(because, becauseArgs)
-               .ForCondition(Subject is not null)
-               .FailWith(
-                    $"Expected public static explicit {targetType.FullName}({sourceType.FullName}) to not exist{{reason}}" +
-                    $", but {{context:type}} is <null>.");
-
-            MethodInfo methodInfo = Subject.GetExplicitConversionOperator(sourceType, targetType);
-
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(methodInfo is null)
-                .FailWith(
-                    $"Expected public static explicit {targetType.FullName}({sourceType.FullName}) to not exist{{reason}}" +
-                    $", but it does.");
+                .ForCondition(Subject is not null)
+                .FailWith("Expected public static explicit {0}({1}) to not exist{reason}, but {context:type} is <null>.",
+                    targetType, sourceType);
+
+            if (success)
+            {
+                MethodInfo methodInfo = Subject.GetExplicitConversionOperator(sourceType, targetType);
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(methodInfo is null)
+                    .FailWith("Expected public static explicit {0}({1}) to not exist{reason}, but it does.",
+                        targetType, sourceType);
+            }
 
             return new AndConstraint<TypeAssertions>(this);
         }
