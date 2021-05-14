@@ -72,6 +72,21 @@ namespace FluentAssertions.Specs.Types
                     "Expected the return type of method to be *.String *failure message*, but methodInfo is <null>.");
         }
 
+        [Fact]
+        public void When_asserting_method_return_type_is_null_it_should_throw()
+        {
+            // Arrange
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("IntMethod");
+
+            // Act
+            Action act = () =>
+                methodInfo.Should().Return(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("returnType");
+        }
+
         #endregion
 
         #region NotReturn
@@ -119,6 +134,21 @@ namespace FluentAssertions.Specs.Types
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected the return type of method not to be *.String *failure message*, but methodInfo is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_method_return_type_is_not_null_it_should_throw()
+        {
+            // Arrange
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("IntMethod");
+
+            // Act
+            Action act = () =>
+                methodInfo.Should().NotReturn(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("returnType");
         }
 
         #endregion
@@ -512,6 +542,21 @@ namespace FluentAssertions.Specs.Types
                 .WithMessage("Expected method to be Public *failure message*, but methodInfo is <null>.");
         }
 
+        [Fact]
+        public void When_asserting_method_has_access_modifier_with_an_invalid_enum_value_it_should_throw()
+        {
+            // Arrange
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("PrivateMethod");
+
+            // Act
+            Action act = () =>
+                methodInfo.Should().HaveAccessModifier((CSharpAccessModifier)int.MaxValue);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentOutOfRangeException>()
+                .WithParameterName("accessModifier");
+        }
+
         #endregion
 
         #region NotHaveAccessModifier
@@ -713,6 +758,21 @@ namespace FluentAssertions.Specs.Types
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected method not to be Public *failure message*, but methodInfo is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_method_does_not_have_access_modifier_with_an_invalid_enum_value_it_should_throw()
+        {
+            // Arrange
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("PrivateMethod");
+
+            // Act
+            Action act = () =>
+                methodInfo.Should().NotHaveAccessModifier((CSharpAccessModifier)int.MaxValue);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentOutOfRangeException>()
+                .WithParameterName("accessModifier");
         }
 
         #endregion

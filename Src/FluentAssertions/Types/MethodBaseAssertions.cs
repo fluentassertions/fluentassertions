@@ -32,9 +32,13 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="accessModifier"/>
+        /// is not a <see cref="CSharpAccessModifier"/> value.</exception>
         public AndConstraint<TAssertions> HaveAccessModifier(
             CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsOutOfRange(accessModifier, nameof(accessModifier));
+
             bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
@@ -65,8 +69,12 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="accessModifier"/>
+        /// is not a <see cref="CSharpAccessModifier"/> value.</exception>
         public AndConstraint<TAssertions> NotHaveAccessModifier(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsOutOfRange(accessModifier, nameof(accessModifier));
+
             bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
