@@ -33,15 +33,25 @@ namespace FluentAssertions.Reflection
         /// </param>
         public AndConstraint<AssemblyAssertions> NotReference(Assembly assembly, string because = "", params object[] becauseArgs)
         {
-            var subjectName = Subject.GetName().Name;
             var assemblyName = assembly.GetName().Name;
 
-            IEnumerable<string> references = Subject.GetReferencedAssemblies().Select(x => x.Name);
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected assembly not to reference assembly {0}{reason}, but {context:assembly} is <null>.",
+                    assemblyName);
 
-            Execute.Assertion
-                   .BecauseOf(because, becauseArgs)
-                   .ForCondition(!references.Contains(assemblyName))
-                   .FailWith("Expected assembly {0} not to reference assembly {1}{reason}.", subjectName, assemblyName);
+            if (success)
+            {
+                var subjectName = Subject.GetName().Name;
+
+                IEnumerable<string> references = Subject.GetReferencedAssemblies().Select(x => x.Name);
+
+                Execute.Assertion
+                       .BecauseOf(because, becauseArgs)
+                       .ForCondition(!references.Contains(assemblyName))
+                       .FailWith("Expected assembly {0} not to reference assembly {1}{reason}.", subjectName, assemblyName);
+            }
 
             return new AndConstraint<AssemblyAssertions>(this);
         }
@@ -59,15 +69,24 @@ namespace FluentAssertions.Reflection
         /// </param>
         public AndConstraint<AssemblyAssertions> Reference(Assembly assembly, string because = "", params object[] becauseArgs)
         {
-            var subjectName = Subject.GetName().Name;
             var assemblyName = assembly.GetName().Name;
 
-            IEnumerable<string> references = Subject.GetReferencedAssemblies().Select(x => x.Name);
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected assembly to reference assembly {0}{reason}, but {context:assembly} is <null>.", assemblyName);
 
-            Execute.Assertion
-                   .BecauseOf(because, becauseArgs)
-                   .ForCondition(references.Contains(assemblyName))
-                   .FailWith("Expected assembly {0} to reference assembly {1}{reason}, but it does not.", subjectName, assemblyName);
+            if (success)
+            {
+                var subjectName = Subject.GetName().Name;
+
+                IEnumerable<string> references = Subject.GetReferencedAssemblies().Select(x => x.Name);
+
+                Execute.Assertion
+                       .BecauseOf(because, becauseArgs)
+                       .ForCondition(references.Contains(assemblyName))
+                       .FailWith("Expected assembly {0} to reference assembly {1}{reason}, but it does not.", subjectName, assemblyName);
+            }
 
             return new AndConstraint<AssemblyAssertions>(this);
         }
@@ -86,13 +105,24 @@ namespace FluentAssertions.Reflection
         /// </param>
         public AndWhichConstraint<AssemblyAssertions, Type> DefineType(string @namespace, string name, string because = "", params object[] becauseArgs)
         {
-            Type foundType = Subject.GetTypes().SingleOrDefault(t => t.Namespace == @namespace && t.Name == name);
-
-            Execute.Assertion
-                .ForCondition(foundType is not null)
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected assembly {0} to define type {1}.{2}{reason}, but it does not.",
-                    Subject.FullName, @namespace, name);
+                .ForCondition(Subject is not null)
+                .FailWith("Expected assembly to define type {0}.{1}{reason}, but {context:assembly} is <null>.",
+                    @namespace, name);
+
+            Type foundType = null;
+
+            if (success)
+            {
+                foundType = Subject.GetTypes().SingleOrDefault(t => t.Namespace == @namespace && t.Name == name);
+
+                Execute.Assertion
+                    .ForCondition(foundType is not null)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected assembly {0} to define type {1}.{2}{reason}, but it does not.",
+                        Subject.FullName, @namespace, name);
+            }
 
             return new AndWhichConstraint<AssemblyAssertions, Type>(this, foundType);
         }

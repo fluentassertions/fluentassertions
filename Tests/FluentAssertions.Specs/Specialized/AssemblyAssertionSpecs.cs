@@ -10,6 +10,8 @@ namespace FluentAssertions.Specs.Specialized
 {
     public class AssemblyAssertionSpecs
     {
+        #region NotReference
+
         [Fact]
         public void When_an_assembly_is_not_referenced_and_should_not_reference_is_asserted_it_should_succeed()
         {
@@ -52,6 +54,26 @@ namespace FluentAssertions.Specs.Specialized
             // Assert
             act.Should().Throw<XunitException>();
         }
+
+        [Fact]
+        public void When_subject_is_null_not_reference_should_fail()
+        {
+            // Arrange
+            Assembly assemblyA = null;
+            Assembly assemblyB = FindAssembly.Containing<ClassB>();
+
+            // Act
+            Action act = () => assemblyA.Should().NotReference(assemblyB, "we want to to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected assembly not to reference assembly \"AssemblyB\" *failure message*, but assemblyA is <null>.");
+        }
+
+        #endregion
+
+        #region Reference
 
         [Fact]
         public void When_an_assembly_is_referenced_and_should_reference_is_asserted_it_should_succeed()
@@ -97,6 +119,26 @@ namespace FluentAssertions.Specs.Specialized
         }
 
         [Fact]
+        public void When_subject_is_null_reference_should_fail()
+        {
+            // Arrange
+            Assembly assemblyA = null;
+            Assembly assemblyB = FindAssembly.Containing<ClassB>();
+
+            // Act
+            Action act = () => assemblyA.Should().Reference(assemblyB, "we want to to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected assembly to reference assembly \"AssemblyB\" *failure message*, but assemblyA is <null>.");
+        }
+
+        #endregion
+
+        #region DefineType
+
+        [Fact]
         public void When_an_assembly_defines_a_type_and_Should_DefineType_is_asserted_it_should_succeed()
         {
             // Arrange
@@ -129,6 +171,28 @@ namespace FluentAssertions.Specs.Specialized
         }
 
         [Fact]
+        public void When_subject_is_null_define_type_should_fail()
+        {
+            // Arrange
+            Assembly thisAssembly = null;
+
+            // Act
+            Action act = () =>
+                thisAssembly.Should().DefineType(GetType().Namespace, "WellKnownClassWithAttribute",
+                    "we want to to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected assembly to define type *.\"WellKnownClassWithAttribute\" *failure message*" +
+                    ", but thisAssembly is <null>.");
+        }
+
+        #endregion
+
+        #region BeNull
+
+        [Fact]
         public void When_an_assembly_is_null_and_Should_BeNull_is_asserted_it_should_succeed()
         {
             // Arrange
@@ -141,6 +205,8 @@ namespace FluentAssertions.Specs.Specialized
             // Assert
             act.Should().NotThrow();
         }
+
+        #endregion
     }
 
     [DummyClass("name", true)]
