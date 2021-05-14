@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
 using FluentAssertions.Common;
-using FluentAssertions.Specs.Common;
 using Xunit;
 using Xunit.Sdk;
 
@@ -57,6 +56,22 @@ namespace FluentAssertions.Specs.Types
                              "error message, but it is \"System.Void\".");
         }
 
+        [Fact]
+        public void When_subject_is_null_return_should_fail()
+        {
+            // Arrange
+            MethodInfo methodInfo = null;
+
+            // Act
+            Action act = () =>
+                methodInfo.Should().Return(typeof(string), "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected the return type of method to be *.String *failure message*, but methodInfo is <null>.");
+        }
+
         #endregion
 
         #region NotReturn
@@ -89,6 +104,21 @@ namespace FluentAssertions.Specs.Types
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected the return type of*IntMethod*not to be System.Int32*because we want to test the " +
                              "error message, but it is.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_not_return_should_fail()
+        {
+            // Arrange
+            MethodInfo methodInfo = null;
+
+            // Act
+            Action act = () =>
+                methodInfo.Should().NotReturn(typeof(string), "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected the return type of method not to be *.String *failure message*, but methodInfo is <null>.");
         }
 
         #endregion
@@ -125,6 +155,21 @@ namespace FluentAssertions.Specs.Types
                              "error message, but it is \"System.Int32\".");
         }
 
+        [Fact]
+        public void When_subject_is_null_returnOfT_should_fail()
+        {
+            // Arrange
+            MethodInfo methodInfo = null;
+
+            // Act
+            Action act = () =>
+                methodInfo.Should().Return<string>("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected the return type of method to be *.String *failure message*, but methodInfo is <null>.");
+        }
+
         #endregion
 
         #region NotReturnOfT
@@ -157,6 +202,21 @@ namespace FluentAssertions.Specs.Types
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected the return type of*IntMethod*not to be System.Int32*because we want to test the " +
                              "error message, but it is.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_not_returnOfT_should_fail()
+        {
+            // Arrange
+            MethodInfo methodInfo = null;
+
+            // Act
+            Action act = () =>
+                methodInfo.Should().NotReturn<string>("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected the return type of method not to be *.String *failure message*, but methodInfo is <null>.");
         }
 
         #endregion
@@ -193,6 +253,21 @@ namespace FluentAssertions.Specs.Types
                              "message, but it is \"System.Int32\".");
         }
 
+        [Fact]
+        public void When_subject_is_null_return_void_should_fail()
+        {
+            // Arrange
+            MethodInfo methodInfo = null;
+
+            // Act
+            Action act = () =>
+                methodInfo.Should().ReturnVoid("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected the return type of method to be void *failure message*, but methodInfo is <null>.");
+        }
+
         #endregion
 
         #region NotReturnVoid
@@ -224,6 +299,21 @@ namespace FluentAssertions.Specs.Types
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected the return type of*VoidMethod*not to be void*because we want to test the error message*");
+        }
+
+        [Fact]
+        public void When_subject_is_null_not_return_void_should_fail()
+        {
+            // Arrange
+            MethodInfo methodInfo = null;
+
+            // Act
+            Action act = () =>
+                methodInfo.Should().NotReturnVoid("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected the return type of method not to be void *failure message*, but methodInfo is <null>.");
         }
 
         #endregion
@@ -405,6 +495,21 @@ namespace FluentAssertions.Specs.Types
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected method ProtectedInternalMethod to be Private because we want to test the error message, but it is " +
                              "ProtectedInternal.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_have_access_modifier_should_fail()
+        {
+            // Arrange
+            MethodInfo methodInfo = null;
+
+            // Act
+            Action act = () =>
+                methodInfo.Should().HaveAccessModifier(CSharpAccessModifier.Public, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected method to be Public *failure message*, but methodInfo is <null>.");
         }
 
         #endregion
@@ -592,6 +697,22 @@ namespace FluentAssertions.Specs.Types
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected method ProtectedInternalMethod not to be ProtectedInternal*because we want to test the error message*");
+        }
+
+        [Fact]
+        public void When_subject_is_not_null_have_access_modifier_should_fail()
+        {
+            // Arrange
+            MethodInfo methodInfo = null;
+
+            // Act
+            Action act = () =>
+                methodInfo.Should().NotHaveAccessModifier(
+                    CSharpAccessModifier.Public, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected method not to be Public *failure message*, but methodInfo is <null>.");
         }
 
         #endregion

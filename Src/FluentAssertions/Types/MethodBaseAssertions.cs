@@ -35,12 +35,21 @@ namespace FluentAssertions.Types
         public AndConstraint<TAssertions> HaveAccessModifier(
             CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
         {
-            CSharpAccessModifier subjectAccessModifier = Subject.GetCSharpAccessModifier();
-
-            Execute.Assertion.ForCondition(accessModifier == subjectAccessModifier)
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected method " + Subject.Name + " to be " + accessModifier.ToString()
-                    + "{reason}, but it is " + subjectAccessModifier.ToString() + ".");
+                .ForCondition(Subject is not null)
+                .FailWith($"Expected method to be {accessModifier}{{reason}}, but {{context:member}} is <null>.");
+
+            if (success)
+            {
+                CSharpAccessModifier subjectAccessModifier = Subject.GetCSharpAccessModifier();
+
+                Execute.Assertion
+                    .ForCondition(accessModifier == subjectAccessModifier)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        $"Expected method {Subject.Name} to be {accessModifier}{{reason}}, but it is {subjectAccessModifier}.");
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -58,10 +67,20 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<TAssertions> NotHaveAccessModifier(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(accessModifier != Subject.GetCSharpAccessModifier())
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected method " + Subject.Name + " not to be " + accessModifier.ToString() + "{reason}, but it is.");
+                .ForCondition(Subject is not null)
+                .FailWith($"Expected method not to be {accessModifier}{{reason}}, but {{context:member}} is <null>.");
+
+            if (success)
+            {
+                CSharpAccessModifier subjectAccessModifier = Subject.GetCSharpAccessModifier();
+
+                Execute.Assertion
+                    .ForCondition(accessModifier != subjectAccessModifier)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith($"Expected method {Subject.Name} not to be {accessModifier}{{reason}}, but it is.");
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

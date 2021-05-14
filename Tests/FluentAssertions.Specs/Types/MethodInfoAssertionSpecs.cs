@@ -43,6 +43,21 @@ namespace FluentAssertions.Specs.Types
                     " but it is not virtual.");
         }
 
+        [Fact]
+        public void When_subject_is_null_be_virtual_should_fail()
+        {
+            // Arrange
+            MethodInfo methodInfo = null;
+
+            // Act
+            Action act = () =>
+                methodInfo.Should().BeVirtual("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected method to be virtual *failure message*, but methodInfo is <null>.");
+        }
+
         #endregion
 
         #region NotBeVirtual
@@ -76,6 +91,21 @@ namespace FluentAssertions.Specs.Types
                 .WithMessage("Expected method *ClassWithAllMethodsVirtual.PublicVirtualDoNothing" +
                     " not to be virtual because we want to test the error message," +
                     " but it is.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_not_be_virtual_should_fail()
+        {
+            // Arrange
+            MethodInfo methodInfo = null;
+
+            // Act
+            Action act = () =>
+                methodInfo.Should().NotBeVirtual("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected method not to be virtual *failure message*, but methodInfo is <null>.");
         }
 
         #endregion
@@ -318,6 +348,22 @@ namespace FluentAssertions.Specs.Types
             act.Should().Throw<XunitException>();
         }
 
+        [Fact]
+        public void When_subject_is_null_be_decorated_withOfT_should_fail()
+        {
+            // Arrange
+            MethodInfo methodInfo = null;
+
+            // Act
+            Action act = () =>
+                methodInfo.Should().BeDecoratedWith<DummyMethodAttribute>("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected method to be decorated with *.DummyMethodAttribute *failure message*, but methodInfo is <null>.");
+        }
+
         #endregion
 
         #region NotBeDecoratedWithOfT
@@ -445,6 +491,23 @@ namespace FluentAssertions.Specs.Types
                         " but that attribute was found.");
         }
 
+        [Fact]
+        public void When_subject_is_null_not_be_decorated_withOfT_should_fail()
+        {
+            // Arrange
+            MethodInfo methodInfo = null;
+
+            // Act
+            Action act = () =>
+                methodInfo.Should().NotBeDecoratedWith<DummyMethodAttribute>("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected method to not be decorated with *.DummyMethodAttribute *failure message*" +
+                    ", but methodInfo is <null>.");
+        }
+
         #endregion
 
         #region BeAsync
@@ -480,6 +543,21 @@ namespace FluentAssertions.Specs.Types
                     " but it is not.");
         }
 
+        [Fact]
+        public void When_subject_is_null_be_async_should_fail()
+        {
+            // Arrange
+            MethodInfo methodInfo = null;
+
+            // Act
+            Action act = () =>
+                methodInfo.Should().BeAsync("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected method to be async *failure message*, but methodInfo is <null>.");
+        }
+
         #endregion
 
         #region NotBeAsync
@@ -512,6 +590,21 @@ namespace FluentAssertions.Specs.Types
             act.Should().Throw<XunitException>()
                 .WithMessage("*ClassWithAllMethodsAsync.PublicAsyncDoNothing*" +
                     "not to be async*because we want to test the error message*");
+        }
+
+        [Fact]
+        public void When_subject_is_null_not_be_async_should_fail()
+        {
+            // Arrange
+            MethodInfo methodInfo = null;
+
+            // Act
+            Action act = () =>
+                methodInfo.Should().NotBeAsync("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected method not to be async *failure message*, but methodInfo is <null>.");
         }
 
         #endregion
