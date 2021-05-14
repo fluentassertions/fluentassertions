@@ -71,6 +71,20 @@ namespace FluentAssertions.Specs.Specialized
                     "Expected assembly not to reference assembly \"AssemblyB\" *failure message*, but assemblyA is <null>.");
         }
 
+        [Fact]
+        public void When_an_assembly_is_not_referencing_null_it_should_throw()
+        {
+            // Arrange
+            var assemblyA = FindAssembly.Containing<ClassA>();
+
+            // Act
+            Action act = () => assemblyA.Should().NotReference(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("assembly");
+        }
+
         #endregion
 
         #region Reference
@@ -134,6 +148,20 @@ namespace FluentAssertions.Specs.Specialized
                     "Expected assembly to reference assembly \"AssemblyB\" *failure message*, but assemblyA is <null>.");
         }
 
+        [Fact]
+        public void When_an_assembly_is_referencing_null_it_should_throw()
+        {
+            // Arrange
+            var assemblyA = FindAssembly.Containing<ClassA>();
+
+            // Act
+            Action act = () => assemblyA.Should().Reference(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("assembly");
+        }
+
         #endregion
 
         #region DefineType
@@ -186,6 +214,34 @@ namespace FluentAssertions.Specs.Specialized
                 .WithMessage(
                     "Expected assembly to define type *.\"WellKnownClassWithAttribute\" *failure message*" +
                     ", but thisAssembly is <null>.");
+        }
+
+        [Fact]
+        public void When_an_assembly_defining_a_type_with_a_null_name_it_should_throw()
+        {
+            // Arrange
+            var thisAssembly = GetType().Assembly;
+
+            // Act
+            Action act = () => thisAssembly.Should().DefineType(GetType().Namespace, null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
+        }
+
+        [Fact]
+        public void When_an_assembly_defining_a_type_with_an_empty_name_it_should_throw()
+        {
+            // Arrange
+            var thisAssembly = GetType().Assembly;
+
+            // Act
+            Action act = () => thisAssembly.Should().DefineType(GetType().Namespace, string.Empty);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("name");
         }
 
         #endregion
