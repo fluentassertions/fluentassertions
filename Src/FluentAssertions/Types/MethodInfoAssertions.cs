@@ -226,7 +226,12 @@ namespace FluentAssertions.Types
 
         internal static string GetDescriptionFor(MethodInfo method)
         {
-            string returnTypeName = method.ReturnType.Name;
+            if (method is null)
+            {
+                return string.Empty;
+            }
+
+            var returnTypeName = method.ReturnType.Name;
 
             return $"{returnTypeName} {method.DeclaringType}.{method.Name}";
         }

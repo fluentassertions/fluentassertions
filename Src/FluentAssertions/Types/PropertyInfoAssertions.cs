@@ -269,7 +269,13 @@ namespace FluentAssertions.Types
 
         internal static string GetDescriptionFor(PropertyInfo property)
         {
-            string propTypeName = property.PropertyType.Name;
+            if (property is null)
+            {
+                return string.Empty;
+            }
+
+            var propTypeName = property.PropertyType.Name;
+
             return $"{propTypeName} {property.DeclaringType}.{property.Name}";
         }
 
