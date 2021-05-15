@@ -30,6 +30,7 @@ sidebar:
 * `[Not]HaveExplicitMethod` did not mention the parameters in the failure message - [#1550](https://github.com/fluentassertions/fluentassertions/pull/1550)
 * Better parameter checking of `PropertyInfoAssertions` - [#1558](https://github.com/fluentassertions/fluentassertions/pull/1558)
 * Better parameter checking of `MethodBaseAssertions` and `MethodInfoAssertions` - [#1559](https://github.com/fluentassertions/fluentassertions/pull/1559)
+* Better parameter checking of `AssemblyAssertions` - [#1561](https://github.com/fluentassertions/fluentassertions/pull/1561)
 
 **Breaking Changes**
 * Changed `becauseArgs` of `[Not]Reference(Assembly)` from `string[]` to `object[]` - [#1459](https://github.com/fluentassertions/fluentassertions/pull/1459)
