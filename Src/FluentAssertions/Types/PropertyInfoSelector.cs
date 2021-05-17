@@ -18,6 +18,7 @@ namespace FluentAssertions.Types
         /// Initializes a new instance of the <see cref="PropertyInfoSelector"/> class.
         /// </summary>
         /// <param name="type">The type from which to select properties.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
         public PropertyInfoSelector(Type type)
             : this(new[] { type })
         {
@@ -27,8 +28,16 @@ namespace FluentAssertions.Types
         /// Initializes a new instance of the <see cref="PropertyInfoSelector"/> class.
         /// </summary>
         /// <param name="types">The types from which to select properties.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="types"/> is <c>null</c>.</exception>
         public PropertyInfoSelector(IEnumerable<Type> types)
         {
+            Guard.ThrowIfArgumentIsNull(types, nameof(types));
+
+            if (types.Any(t => t is null))
+            {
+                throw new ArgumentNullException(nameof(types), "Collection contains a null value");
+            }
+
             selectedProperties = types.SelectMany(t => t
                 .GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic));
         }
@@ -113,7 +122,7 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelector ReturnTypes()
         {
-            var returnTypes = selectedProperties.Select(mi => mi.PropertyType);
+            var returnTypes = selectedProperties.Select(property => property.PropertyType);
 
             return new TypeSelector(returnTypes);
         }
