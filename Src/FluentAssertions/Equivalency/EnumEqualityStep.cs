@@ -10,89 +10,73 @@ namespace FluentAssertions.Equivalency
 {
     public class EnumEqualityStep : IEquivalencyStep
     {
-        /// <summary>
-        /// Gets a value indicating whether this step can handle the current subject and/or expectation.
-        /// </summary>
-        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
         {
-            Type expectationType = config.GetExpectationType(context.RuntimeType, context.CompileTimeType);
+            if (!comparands.GetExpectedType(context.Options).IsEnum)
+            {
+                return EquivalencyResult.ContinueWithNext;
+            }
 
-            return expectationType.IsEnum;
-        }
-
-        /// <summary>
-        /// Applies a step as part of the task to compare two objects for structural equality.
-        /// </summary>
-        /// <value>
-        /// Should return <c>true</c> if the subject matches the expectation or if no additional assertions
-        /// have to be executed. Should return <c>false</c> otherwise.
-        /// </value>
-        /// <remarks>
-        /// May throw when preconditions are not met or if it detects mismatching data.
-        /// </remarks>
-        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent,
-            IEquivalencyAssertionOptions config)
-        {
             bool succeeded = Execute.Assertion
-                .ForCondition(context.Subject?.GetType().IsEnum == true)
+                .ForCondition(comparands.Subject?.GetType().IsEnum == true)
                 .FailWith(() =>
                 {
-                    decimal? expectationsUnderlyingValue = ExtractDecimal(context.Expectation);
-                    string expectationName = GetDisplayNameForEnumComparison(context.Expectation, expectationsUnderlyingValue);
+                    decimal? expectationsUnderlyingValue = ExtractDecimal(comparands.Expectation);
+                    string expectationName = GetDisplayNameForEnumComparison(comparands.Expectation, expectationsUnderlyingValue);
 
-                    return new FailReason($"Expected {{context:enum}} to be equivalent to {expectationName}{{reason}}, but found {{0}}.", context.Subject);
+                    return new FailReason($"Expected {{context:enum}} to be equivalent to {expectationName}{{reason}}, but found {{0}}.", comparands.Subject);
                 });
 
             if (succeeded)
             {
-                switch (config.EnumEquivalencyHandling)
+                switch (context.Options.EnumEquivalencyHandling)
                 {
                     case EnumEquivalencyHandling.ByValue:
-                        HandleByValue(context);
+                        HandleByValue(comparands);
                         break;
 
                     case EnumEquivalencyHandling.ByName:
-                        HandleByName(context);
+                        HandleByName(comparands);
                         break;
 
                     default:
-                        throw new InvalidOperationException($"Do not know how to handle {config.EnumEquivalencyHandling}");
+                        throw new InvalidOperationException($"Do not know how to handle {context.Options.EnumEquivalencyHandling}");
                 }
             }
 
-            return true;
+            return EquivalencyResult.AssertionCompleted;
         }
 
-        private static void HandleByValue(IEquivalencyValidationContext context)
+        private static void HandleByValue(Comparands comparands)
         {
-            decimal? subjectsUnderlyingValue = ExtractDecimal(context.Subject);
-            decimal? expectationsUnderlyingValue = ExtractDecimal(context.Expectation);
+            decimal? subjectsUnderlyingValue = ExtractDecimal(comparands.Subject);
+            decimal? expectationsUnderlyingValue = ExtractDecimal(comparands.Expectation);
 
             Execute.Assertion
                 .ForCondition(subjectsUnderlyingValue == expectationsUnderlyingValue)
                 .FailWith(() =>
                 {
-                    string subjectsName = GetDisplayNameForEnumComparison(context.Subject, subjectsUnderlyingValue);
-                    string expectationName = GetDisplayNameForEnumComparison(context.Expectation, expectationsUnderlyingValue);
+                    string subjectsName = GetDisplayNameForEnumComparison(comparands.Subject, subjectsUnderlyingValue);
+                    string expectationName = GetDisplayNameForEnumComparison(comparands.Expectation, expectationsUnderlyingValue);
 
                     return new FailReason($"Expected {{context:enum}} to equal {expectationName} by value{{reason}}, but found {subjectsName}.");
                 });
         }
 
-        private static void HandleByName(IEquivalencyValidationContext context)
+        private static void HandleByName(Comparands comparands)
         {
-            string subject = context.Subject.ToString();
-            string expected = context.Expectation.ToString();
+            string subject = comparands.Subject.ToString();
+            string expected = comparands.Expectation.ToString();
 
             Execute.Assertion
                 .ForCondition(subject == expected)
                 .FailWith(() =>
                 {
-                    decimal? subjectsUnderlyingValue = ExtractDecimal(context.Subject);
-                    decimal? expectationsUnderlyingValue = ExtractDecimal(context.Expectation);
+                    decimal? subjectsUnderlyingValue = ExtractDecimal(comparands.Subject);
+                    decimal? expectationsUnderlyingValue = ExtractDecimal(comparands.Expectation);
 
-                    string subjectsName = GetDisplayNameForEnumComparison(context.Subject, subjectsUnderlyingValue);
-                    string expectationName = GetDisplayNameForEnumComparison(context.Expectation, expectationsUnderlyingValue);
+                    string subjectsName = GetDisplayNameForEnumComparison(comparands.Subject, subjectsUnderlyingValue);
+                    string expectationName = GetDisplayNameForEnumComparison(comparands.Expectation, expectationsUnderlyingValue);
                     return new FailReason(
                             $"Expected {{context:enum}} to equal {expectationName} by name{{reason}}, but found {subjectsName}.");
                 });

@@ -8,23 +8,17 @@ namespace FluentAssertions.Equivalency
     /// </summary>
     public class RunAllUserStepsEquivalencyStep : IEquivalencyStep
     {
-        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
         {
-            return config.UserEquivalencySteps.Any(s => s.CanHandle(context, config));
-        }
-
-        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent,
-            IEquivalencyAssertionOptions config)
-        {
-            foreach (IEquivalencyStep step in config.UserEquivalencySteps)
+            foreach (IEquivalencyStep step in context.Options.UserEquivalencySteps)
             {
-                if (step.CanHandle(context, config) && step.Handle(context, parent, config))
+                if (step.Handle(comparands, context, nestedValidator) == EquivalencyResult.AssertionCompleted)
                 {
-                    return true;
+                    return EquivalencyResult.AssertionCompleted;
                 }
             }
 
-            return false;
+            return EquivalencyResult.ContinueWithNext;
         }
     }
 }

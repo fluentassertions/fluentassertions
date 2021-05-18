@@ -51,9 +51,9 @@ namespace FluentAssertions.Equivalency
                 $"Do not convert member {predicate.Body}."));
         }
 
-        public bool RequiresConversion(IEquivalencyValidationContext context)
+        public bool RequiresConversion(Comparands comparands, INode currentNode)
         {
-            var objectInfo = new ObjectInfo(context);
+            var objectInfo = new ObjectInfo(comparands, currentNode);
 
             return inclusions.Any(p => p.Predicate(objectInfo)) && !exclusions.Any(p => p.Predicate(objectInfo));
         }

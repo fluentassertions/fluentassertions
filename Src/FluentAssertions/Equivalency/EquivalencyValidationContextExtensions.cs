@@ -4,8 +4,8 @@ namespace FluentAssertions.Equivalency
 {
     internal static class EquivalencyValidationContextExtensions
     {
-        public static IEquivalencyValidationContext AsCollectionItem<T>(this IEquivalencyValidationContext context,
-            int index, object subject, T expectation) =>
-            context.AsCollectionItem(index.ToString(CultureInfo.InvariantCulture), subject, expectation);
+        public static IEquivalencyValidationContext AsCollectionItem<TItem>(this IEquivalencyValidationContext context,
+            int index) =>
+            context.AsCollectionItem<TItem>(index.ToString(CultureInfo.InvariantCulture));
     }
 }

@@ -6,20 +6,21 @@ namespace FluentAssertions.Equivalency
     public interface IEquivalencyStep
     {
         /// <summary>
-        /// Gets a value indicating whether this step can handle the current subject and/or expectation.
-        /// </summary>
-        bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config);
-
-        /// <summary>
-        /// Applies a step as part of the task to compare two objects for structural equality.
+        /// Executes an operation such as an equivalency assertion on the provided <paramref name="comparands"/>.
         /// </summary>
         /// <value>
-        /// Should return <c>true</c> if the subject matches the expectation or if no additional assertions
-        /// have to be executed. Should return <c>false</c> otherwise.
+        /// Should return <see cref="EquivalencyResult.AssertionCompleted"/> if the subject matches the expectation or if no additional assertions
+        /// have to be executed. Should return <see cref="EquivalencyResult.ContinueWithNext"/> otherwise.
         /// </value>
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config);
+        EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator);
+    }
+
+    public enum EquivalencyResult
+    {
+        ContinueWithNext,
+        AssertionCompleted
     }
 }

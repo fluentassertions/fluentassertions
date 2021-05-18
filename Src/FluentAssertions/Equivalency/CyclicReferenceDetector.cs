@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
@@ -12,25 +11,18 @@ namespace FluentAssertions.Equivalency
     {
         #region Private Definitions
 
-        private readonly CyclicReferenceHandling handling;
         private HashSet<ObjectReference> observedReferences = new();
 
         #endregion
-
-        public CyclicReferenceDetector(CyclicReferenceHandling handling)
-        {
-            this.handling = handling;
-        }
 
         /// <summary>
         /// Determines whether the specified object reference is a cyclic reference to the same object earlier in the
         /// equivalency validation.
         /// </summary>
         /// <remarks>
-        /// The behavior of a cyclic reference is determined by the <see cref="CyclicReferenceHandling"/> constructor
-        /// parameter.
+        /// The behavior of a cyclic reference is determined by the <paramref name="handling"/> parameter.
         /// </remarks>
-        public bool IsCyclicReference(ObjectReference reference, Reason reason = null)
+        public bool IsCyclicReference(ObjectReference reference, CyclicReferenceHandling handling, Reason reason = null)
         {
             bool isCyclic = false;
 
@@ -43,7 +35,7 @@ namespace FluentAssertions.Equivalency
                     AssertionScope.Current
                         .BecauseOf(reason)
                         .FailWith(
-                        "Expected {context:subject} to be {expectation}{reason}, but it contains a cyclic reference.");
+                            "Expected {context:subject} to be {expectation}{reason}, but it contains a cyclic reference.");
                 }
             }
 
@@ -58,7 +50,7 @@ namespace FluentAssertions.Equivalency
         /// </returns>
         public object Clone()
         {
-            return new CyclicReferenceDetector(handling)
+            return new CyclicReferenceDetector
             {
                 observedReferences = new HashSet<ObjectReference>(observedReferences)
             };

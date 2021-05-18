@@ -317,17 +317,20 @@ namespace FluentAssertions.Collections
 
             EquivalencyAssertionOptions<IEnumerable<TExpectation>> options = config(AssertionOptions.CloneDefaults<TExpectation>()).AsCollection();
 
-            var context = new EquivalencyValidationContext(Node.From<IEnumerable<TExpectation>>(() => CallerIdentifier.DetermineCallerIdentity()))
+            var context = new EquivalencyValidationContext(Node.From<IEnumerable<TExpectation>>(() => CallerIdentifier.DetermineCallerIdentity()), options)
             {
-                Subject = Subject,
-                Expectation = expectation,
-                CompileTimeType = typeof(IEnumerable<TExpectation>),
                 Reason = new Reason(because, becauseArgs),
                 TraceWriter = options.TraceWriter,
             };
 
-            var equivalencyValidator = new EquivalencyValidator(options);
-            equivalencyValidator.AssertEquality(context);
+            var comparands = new Comparands
+            {
+                Subject = Subject,
+                Expectation = expectation,
+                CompileTimeType = typeof(IEnumerable<TExpectation>),
+            };
+
+            new EquivalencyValidator().AssertEquality(comparands, context);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -802,17 +805,20 @@ namespace FluentAssertions.Collections
 
                 foreach (T actualItem in Subject)
                 {
-                    var context = new EquivalencyValidationContext(Node.From<TExpectation>(() => CallerIdentifier.DetermineCallerIdentity()))
+                    var context = new EquivalencyValidationContext(Node.From<TExpectation>(() => CallerIdentifier.DetermineCallerIdentity()), options)
                     {
-                        Subject = actualItem,
-                        Expectation = expectation,
-                        CompileTimeType = typeof(TExpectation),
                         Reason = new Reason(because, becauseArgs),
                         TraceWriter = options.TraceWriter
                     };
 
-                    var equivalencyValidator = new EquivalencyValidator(options);
-                    equivalencyValidator.AssertEquality(context);
+                    var comparands = new Comparands
+                    {
+                        Subject = actualItem,
+                        Expectation = expectation,
+                        CompileTimeType = typeof(TExpectation),
+                    };
+
+                    new EquivalencyValidator().AssertEquality(comparands, context);
 
                     string[] failures = scope.Discard();
 
@@ -2083,17 +2089,20 @@ namespace FluentAssertions.Collections
                 int index = 0;
                 foreach (T actualItem in Subject)
                 {
-                    var context = new EquivalencyValidationContext(Node.From<TExpectation>(() => CallerIdentifier.DetermineCallerIdentity()))
+                    var context = new EquivalencyValidationContext(Node.From<TExpectation>(() => CallerIdentifier.DetermineCallerIdentity()), options)
                     {
-                        Subject = actualItem,
-                        Expectation = unexpected,
-                        CompileTimeType = typeof(TExpectation),
                         Reason = new Reason(because, becauseArgs),
                         TraceWriter = options.TraceWriter
                     };
 
-                    var equivalencyValidator = new EquivalencyValidator(options);
-                    equivalencyValidator.AssertEquality(context);
+                    var comparands = new Comparands
+                    {
+                        Subject = actualItem,
+                        Expectation = unexpected,
+                        CompileTimeType = typeof(TExpectation),
+                    };
+
+                    new EquivalencyValidator().AssertEquality(comparands, context);
 
                     string[] failures = scope.Discard();
 

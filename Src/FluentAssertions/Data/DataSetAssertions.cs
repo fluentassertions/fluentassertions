@@ -232,17 +232,21 @@ namespace FluentAssertions.Data
 
             IDataEquivalencyAssertionOptions<DataSet> options = config(AssertionOptions.CloneDefaults<DataSet, DataEquivalencyAssertionOptions<DataSet>>(e => new(e)));
 
-            var context = new EquivalencyValidationContext(Node.From<DataSet>(() => CallerIdentifier.DetermineCallerIdentity()))
+            var comparands = new Comparands
             {
                 Subject = Subject,
                 Expectation = expectation,
-                CompileTimeType = typeof(TDataSet),
-                Reason = new Reason(because, becauseArgs),
-                TraceWriter = options.TraceWriter
+                CompileTimeType = typeof(TDataSet)
             };
 
-            var equivalencyValidator = new EquivalencyValidator(options);
-            equivalencyValidator.AssertEquality(context);
+            var context = new EquivalencyValidationContext(Node.From<DataSet>(() => CallerIdentifier.DetermineCallerIdentity()), options)
+            {
+                Reason = new Reason(because, becauseArgs),
+                TraceWriter = options.TraceWriter,
+            };
+
+            var equivalencyValidator = new EquivalencyValidator();
+            equivalencyValidator.AssertEquality(comparands, context);
 
             return new AndConstraint<DataSetAssertions<TDataSet>>(this);
         }

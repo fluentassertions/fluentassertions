@@ -14,12 +14,12 @@ namespace FluentAssertions
 
         static AssertionOptions()
         {
-            EquivalencySteps = new EquivalencyStepCollection();
+            EquivalencyPlan = new EquivalencyPlan();
         }
 
         public static EquivalencyAssertionOptions<T> CloneDefaults<T>()
         {
-            return new EquivalencyAssertionOptions<T>(defaults);
+            return new(defaults);
         }
 
         internal static TOptions CloneDefaults<T, TOptions>(Func<EquivalencyAssertionOptions, TOptions> predicate)
@@ -45,10 +45,10 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Represents a mutable collection of steps that are executed while asserting a (collection of) object(s)
+        /// Represents a mutable plan consisting of steps that are executed while asserting a (collection of) object(s)
         /// is structurally equivalent to another (collection of) object(s).
         /// </summary>
-        public static EquivalencyStepCollection EquivalencySteps { get; }
+        public static EquivalencyPlan EquivalencyPlan { get; }
 
         /// <summary>
         /// Gets the default formatting options used by the formatters in Fluent Assertions.

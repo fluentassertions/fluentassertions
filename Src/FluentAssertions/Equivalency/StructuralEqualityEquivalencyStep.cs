@@ -7,34 +7,32 @@ namespace FluentAssertions.Equivalency
 {
     public class StructuralEqualityEquivalencyStep : IEquivalencyStep
     {
-        /// <summary>
-        /// Gets a value indicating whether this step can handle the current subject and/or expectation.
-        /// </summary>
-        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+            IEquivalencyValidator nestedValidator)
         {
-            return context.CurrentNode.IsRoot || config.IsRecursive;
-        }
+            if (!context.CurrentNode.IsRoot && !context.Options.IsRecursive)
+            {
+                return EquivalencyResult.ContinueWithNext;
+            }
 
-        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
-        {
             bool expectationIsNotNull = AssertionScope.Current
-                .ForCondition(context.Expectation is not null)
+                .ForCondition(comparands.Expectation is not null)
                 .BecauseOf(context.Reason)
                 .FailWith(
                     "Expected {context:subject} to be <null>{reason}, but found {0}.",
-                    context.Subject);
+                    comparands.Subject);
 
             bool subjectIsNotNull = AssertionScope.Current
-                .ForCondition(context.Subject is not null)
+                .ForCondition(comparands.Subject is not null)
                 .BecauseOf(context.Reason)
                 .FailWith(
                     "Expected {context:object} to be {0}{reason}, but found {1}.",
-                    context.Expectation,
-                    context.Subject);
+                    comparands.Expectation,
+                    comparands.Subject);
 
             if (expectationIsNotNull && subjectIsNotNull)
             {
-                IMember[] selectedMembers = GetMembersFromExpectation(context, config).ToArray();
+                IMember[] selectedMembers = GetMembersFromExpectation(context.CurrentNode, comparands, context.Options).ToArray();
                 if (context.CurrentNode.IsRoot && !selectedMembers.Any())
                 {
                     throw new InvalidOperationException(
@@ -44,52 +42,51 @@ namespace FluentAssertions.Equivalency
 
                 foreach (IMember selectedMember in selectedMembers)
                 {
-                    AssertMemberEquality(context, parent, selectedMember, config);
+                    AssertMemberEquality(comparands, context, nestedValidator, selectedMember, context.Options);
                 }
             }
 
-            return true;
+            return EquivalencyResult.AssertionCompleted;
         }
 
-        private static void AssertMemberEquality(IEquivalencyValidationContext context, IEquivalencyValidator parent, IMember selectedMember, IEquivalencyAssertionOptions config)
+        private static void AssertMemberEquality(Comparands comparands, IEquivalencyValidationContext context,
+            IEquivalencyValidator parent, IMember selectedMember, IEquivalencyAssertionOptions options)
         {
-            IMember matchingMember = FindMatchFor(selectedMember, context, config);
+            IMember matchingMember = FindMatchFor(selectedMember, context.CurrentNode, comparands.Subject, options);
             if (matchingMember is not null)
             {
-                IEquivalencyValidationContext nestedContext =
-                    context.AsNestedMember(selectedMember, matchingMember);
-
-                if (nestedContext is not null)
+                var nestedComparands = new Comparands
                 {
-                    parent.AssertEqualityUsing(nestedContext);
-                }
+                    Subject = matchingMember.GetValue(comparands.Subject),
+                    Expectation = selectedMember.GetValue(comparands.Expectation),
+                    CompileTimeType = selectedMember.Type
+                };
+
+                parent.RecursivelyAssertEquality(nestedComparands, context.AsNestedMember(selectedMember));
             }
         }
 
-        private static IMember FindMatchFor(IMember selectedMember, IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        private static IMember FindMatchFor(IMember selectedMember, INode currentNode, object subject,
+            IEquivalencyAssertionOptions config)
         {
             IEnumerable<IMember> query =
                 from rule in config.MatchingRules
-                let match = rule.Match(selectedMember, context.Subject, context.CurrentNode, config)
+                let match = rule.Match(selectedMember, subject, currentNode, config)
                 where match is not null
                 select match;
 
             return query.FirstOrDefault();
         }
 
-        private static IEnumerable<IMember> GetMembersFromExpectation(IEquivalencyValidationContext context,
-            IEquivalencyAssertionOptions config)
+        private static IEnumerable<IMember> GetMembersFromExpectation(INode currentNode, Comparands comparands,
+            IEquivalencyAssertionOptions options)
         {
             IEnumerable<IMember> members = Enumerable.Empty<IMember>();
 
-            foreach (IMemberSelectionRule rule in config.SelectionRules)
+            foreach (IMemberSelectionRule rule in options.SelectionRules)
             {
-                members = rule.SelectMembers(context.CurrentNode, members, new MemberSelectionContext
-                {
-                    CompileTimeType = context.CompileTimeType,
-                    RuntimeType = context.RuntimeType,
-                    Options = config
-                });
+                members = rule.SelectMembers(currentNode, members,
+                    new MemberSelectionContext(comparands.CompileTimeType, comparands.RuntimeType, options));
             }
 
             return members;

@@ -8,40 +8,25 @@ namespace FluentAssertions.Equivalency
 {
     public class EnumerableEquivalencyStep : IEquivalencyStep
     {
-        /// <summary>
-        /// Gets a value indicating whether this step can handle the verificationScope subject and/or expectation.
-        /// </summary>
-        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
         {
-            Type expectationType = config.GetExpectationType(context.RuntimeType, context.CompileTimeType);
-
-            return IsCollection(expectationType);
-        }
-
-        /// <summary>
-        /// Applies a step as part of the task to compare two objects for structural equality.
-        /// </summary>
-        /// <value>
-        /// Should return <c>true</c> if the subject matches the expectation or if no additional assertions
-        /// have to be executed. Should return <c>false</c> otherwise.
-        /// </value>
-        /// <remarks>
-        /// May throw when preconditions are not met or if it detects mismatching data.
-        /// </remarks>
-        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
-        {
-            if (AssertSubjectIsCollection(context.Subject))
+            if (!IsCollection(comparands.GetExpectedType(context.Options)))
             {
-                var validator = new EnumerableEquivalencyValidator(parent, context)
-                {
-                    Recursive = context.CurrentNode.IsRoot || config.IsRecursive,
-                    OrderingRules = config.OrderingRules
-                };
-
-                validator.Execute(ToArray(context.Subject), ToArray(context.Expectation));
+                return EquivalencyResult.ContinueWithNext;
             }
 
-            return true;
+            if (AssertSubjectIsCollection(comparands.Subject))
+            {
+                var validator = new EnumerableEquivalencyValidator(nestedValidator, context)
+                {
+                    Recursive = context.CurrentNode.IsRoot || context.Options.IsRecursive,
+                    OrderingRules = context.Options.OrderingRules
+                };
+
+                validator.Execute(ToArray(comparands.Subject), ToArray(comparands.Expectation));
+            }
+
+            return EquivalencyResult.AssertionCompleted;
         }
 
         private static bool AssertSubjectIsCollection(object subject)

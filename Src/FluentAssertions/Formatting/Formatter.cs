@@ -187,7 +187,7 @@ namespace FluentAssertions.Formatting
 
             public ObjectGraph(object rootObject)
             {
-                tracker = new CyclicReferenceDetector(CyclicReferenceHandling.Ignore);
+                tracker = new CyclicReferenceDetector();
                 pathStack = new Stack<string>();
                 TryPush("root", rootObject);
             }
@@ -198,7 +198,7 @@ namespace FluentAssertions.Formatting
 
                 string fullPath = GetFullPath();
                 var reference = new ObjectReference(value, fullPath);
-                return !tracker.IsCyclicReference(reference);
+                return !tracker.IsCyclicReference(reference, CyclicReferenceHandling.Ignore);
             }
 
             private string GetFullPath() => string.Join(".", pathStack.Reverse());
