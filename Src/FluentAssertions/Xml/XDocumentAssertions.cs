@@ -82,8 +82,8 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XDocumentAssertions> BeEquivalentTo(XDocument expected, string because = "", params object[] becauseArgs)
         {
-            using (XmlReader subjectReader = Subject.CreateReader())
-            using (XmlReader otherReader = expected.CreateReader())
+            using (XmlReader subjectReader = Subject?.CreateReader())
+            using (XmlReader otherReader = expected?.CreateReader())
             {
                 var xmlReaderValidator = new XmlReaderValidator(subjectReader, otherReader, because, becauseArgs);
                 xmlReaderValidator.Validate(shouldBeEquivalent: true);
@@ -106,8 +106,8 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XDocumentAssertions> NotBeEquivalentTo(XDocument unexpected, string because = "", params object[] becauseArgs)
         {
-            using (XmlReader subjectReader = Subject.CreateReader())
-            using (XmlReader otherReader = unexpected.CreateReader())
+            using (XmlReader subjectReader = Subject?.CreateReader())
+            using (XmlReader otherReader = unexpected?.CreateReader())
             {
                 var xmlReaderValidator = new XmlReaderValidator(subjectReader, otherReader, because, becauseArgs);
                 xmlReaderValidator.Validate(shouldBeEquivalent: false);

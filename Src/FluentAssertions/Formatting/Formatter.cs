@@ -19,6 +19,7 @@ namespace FluentAssertions.Formatting
 
         private static readonly List<IValueFormatter> DefaultFormatters = new()
         {
+            new XmlReaderValueFormatter(),
             new XmlNodeFormatter(),
             new AttributeBasedFormatter(),
             new AggregateExceptionValueFormatter(),
