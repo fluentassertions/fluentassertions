@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -46,7 +47,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().BeWritable("we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -90,7 +94,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().NotBeWritable("we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -138,7 +145,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().BeSeekable("we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -182,7 +192,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().NotBeSeekable("we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -230,7 +243,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().BeReadable("we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -274,7 +290,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().NotBeReadable("we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -322,7 +341,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().HavePosition(10, "we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -337,7 +359,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().HavePosition(10, "we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -381,7 +406,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().NotHavePosition(10, "we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -396,7 +424,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().NotHavePosition(10, "we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -444,7 +475,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().HaveLength(10, "we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -459,7 +493,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().HaveLength(10, "we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -503,7 +540,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().NotHaveLength(10, "we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -518,7 +558,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().NotHaveLength(10, "we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -581,7 +624,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().BeReadOnly("we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -639,7 +685,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().NotBeReadOnly("we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -702,7 +751,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().BeWriteOnly("we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -760,7 +812,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().NotBeWriteOnly("we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -772,6 +827,8 @@ namespace FluentAssertions.Specs.Streams
 
     internal class TestStream : Stream
     {
+        private long position;
+
         public bool Readable { private get; set; }
 
         public bool Seekable { private get; set; }
@@ -786,9 +843,24 @@ namespace FluentAssertions.Specs.Streams
 
         public override bool CanWrite => Writable;
 
-        public override long Length => WithLength;
+        public override long Length
+        {
+            get
+            {
+                EnsureCanSeek();
+                return WithLength;
+            }
+        }
 
-        public override long Position { get; set; }
+        public override long Position
+        {
+            get
+            {
+                EnsureCanSeek();
+                return position;
+            }
+            set => position = value;
+        }
 
         public override void Flush() => throw new NotImplementedException();
 
@@ -799,5 +871,13 @@ namespace FluentAssertions.Specs.Streams
         public override void SetLength(long value) => throw new NotImplementedException();
 
         public override void Write(byte[] buffer, int offset, int count) => throw new NotImplementedException();
+
+        private void EnsureCanSeek()
+        {
+            if (!CanSeek)
+            {
+                throw new NotSupportedException("Stream does not support seeking.");
+            }
+        }
     }
 }

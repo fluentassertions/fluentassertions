@@ -1,6 +1,7 @@
 ﻿#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1
 using System;
 using System.IO;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 #endif
@@ -49,7 +50,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().HaveBufferSize(10, "we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -82,7 +86,7 @@ namespace FluentAssertions.Specs.Streams
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected the buffer size of stream not to be 10 *failure message*, but it was 10.");
+                .WithMessage("Expected the buffer size of stream not to be 10 *failure message*, but it was.");
         }
 
         [Fact]
@@ -93,7 +97,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().NotHaveBufferSize(10, "we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()

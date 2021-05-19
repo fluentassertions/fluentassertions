@@ -41,16 +41,20 @@ namespace FluentAssertions.Streams
         /// </param>
         public AndConstraint<TAssertions> HaveBufferSize(int expected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected the buffer size of {context:stream} to be {0}{reason}, ", expected)
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> reference.")
-                .Then
-                .ForCondition(Subject.BufferSize == expected)
-                .FailWith("but it was {0}.", Subject.BufferSize)
-                .Then
-                .ClearExpectation();
+                .FailWith("Expected the buffer size of {context:stream} to be {0}{reason}, but found a <null> reference.",
+                    expected);
+
+            if (success)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(Subject.BufferSize == expected)
+                    .FailWith("Expected the buffer size of {context:stream} to be {0}{reason}, but it was {1}.",
+                        expected, Subject.BufferSize);
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -68,16 +72,20 @@ namespace FluentAssertions.Streams
         /// </param>
         public AndConstraint<TAssertions> NotHaveBufferSize(int unexpected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected the buffer size of {context:stream} not to be {0}{reason}, ", unexpected)
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> reference.")
-                .Then
-                .ForCondition(Subject.BufferSize != unexpected)
-                .FailWith("but it was {0}.", Subject.BufferSize)
-                .Then
-                .ClearExpectation();
+                .FailWith("Expected the buffer size of {context:stream} not to be {0}{reason}, but found a <null> reference.",
+                    unexpected);
+
+            if (success)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(Subject.BufferSize != unexpected)
+                    .FailWith("Expected the buffer size of {context:stream} not to be {0}{reason}, but it was.",
+                        unexpected);
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
