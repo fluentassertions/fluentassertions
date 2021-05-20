@@ -123,17 +123,20 @@ namespace FluentAssertions.Collections
 
             EquivalencyAssertionOptions<IEnumerable<string>> options = config(AssertionOptions.CloneDefaults<string>()).AsCollection();
 
-            var context = new EquivalencyValidationContext(Node.From<IEnumerable<string>>(CallerIdentifier.DetermineCallerIdentity))
+            var context = new EquivalencyValidationContext(Node.From<IEnumerable<string>>(() => CallerIdentifier.DetermineCallerIdentity()), options)
             {
-                Subject = Subject,
-                Expectation = expectation,
-                CompileTimeType = typeof(IEnumerable<string>),
                 Reason = new Reason(because, becauseArgs),
                 TraceWriter = options.TraceWriter
             };
 
-            var equivalencyValidator = new EquivalencyValidator(options);
-            equivalencyValidator.AssertEquality(context);
+            var comparands = new Comparands
+            {
+                Subject = Subject,
+                Expectation = expectation,
+                CompileTimeType = typeof(IEnumerable<string>),
+            };
+
+            new EquivalencyValidator().AssertEquality(comparands, context);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

@@ -707,9 +707,12 @@ namespace FluentAssertions
         /// current <see cref="MethodInfoSelector"/>.
         /// </summary>
         /// <seealso cref="TypeAssertions"/>
+        /// <exception cref="ArgumentNullException"><paramref name="methodSelector"/> is <c>null</c>.</exception>
         [Pure]
         public static MethodInfoSelectorAssertions Should(this MethodInfoSelector methodSelector)
         {
+            Guard.ThrowIfArgumentIsNull(methodSelector, nameof(methodSelector));
+
             return new MethodInfoSelectorAssertions(methodSelector.ToArray());
         }
 

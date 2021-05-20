@@ -2,29 +2,16 @@ namespace FluentAssertions.Equivalency
 {
     public class SimpleEqualityEquivalencyStep : IEquivalencyStep
     {
-        /// <summary>
-        /// Gets a value indicating whether this step can handle the current subject and/or expectation.
-        /// </summary>
-        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
         {
-            return !config.IsRecursive && !context.CurrentNode.IsRoot;
-        }
+            if (!context.Options.IsRecursive && !context.CurrentNode.IsRoot)
+            {
+                comparands.Subject.Should().Be(comparands.Expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
 
-        /// <summary>
-        /// Applies a step as part of the task to compare two objects for structural equality.
-        /// </summary>
-        /// <value>
-        /// Should return <c>true</c> if the subject matches the expectation or if no additional assertions
-        /// have to be executed. Should return <c>false</c> otherwise.
-        /// </value>
-        /// <remarks>
-        /// May throw when preconditions are not met or if it detects mismatching data.
-        /// </remarks>
-        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator structuralEqualityValidator, IEquivalencyAssertionOptions config)
-        {
-            context.Subject.Should().Be(context.Expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
+                return EquivalencyResult.AssertionCompleted;
+            }
 
-            return true;
+            return EquivalencyResult.ContinueWithNext;
         }
     }
 }

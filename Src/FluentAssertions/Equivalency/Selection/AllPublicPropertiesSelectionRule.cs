@@ -14,7 +14,7 @@ namespace FluentAssertions.Equivalency.Selection
         public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
             MemberSelectionContext context)
         {
-            IEnumerable<IMember> selectedNonPrivateProperties = context.Options.GetExpectationType(context.RuntimeType, context.CompileTimeType)
+            IEnumerable<IMember> selectedNonPrivateProperties = context.Type
                 .GetNonPrivateProperties()
                 .Select(info => new Property(info, currentNode));
 

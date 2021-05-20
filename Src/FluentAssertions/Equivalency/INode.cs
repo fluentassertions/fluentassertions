@@ -34,6 +34,11 @@ namespace FluentAssertions.Equivalency
         string PathAndName { get; }
 
         /// <summary>
+        /// Gets a zero-based number representing the depth within the object graph
+        /// </summary>
+        int Depth { get; }
+
+        /// <summary>
         /// Gets the path including the description of the subject.
         /// </summary>
         string Description { get; }

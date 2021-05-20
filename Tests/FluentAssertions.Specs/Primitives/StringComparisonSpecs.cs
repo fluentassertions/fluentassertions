@@ -292,15 +292,14 @@ namespace FluentAssertions.Specs.Primitives
         public void When_stringifying_a_validation_context_it_should_ignore_culture()
         {
             // Arrange
-            var root = Node.From<int>(() => string.Empty);
-            var context = new EquivalencyValidationContext(root)
+            var comparands = new Comparands
             {
                 Subject = 1.234,
                 Expectation = 5.678
             };
 
             // Act
-            var str = context.ToString();
+            var str = comparands.ToString();
 
             // Assert
             str.Should().Match("*1.234*5.678*", "it should always use . as decimal separator");

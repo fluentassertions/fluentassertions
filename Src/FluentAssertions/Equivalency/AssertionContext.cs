@@ -22,12 +22,12 @@ namespace FluentAssertions.Equivalency
 
         public object[] BecauseArgs { get; set; }
 
-        internal static AssertionContext<TSubject> CreateFromEquivalencyValidationContext(IEquivalencyValidationContext context)
+        internal static AssertionContext<TSubject> CreateFrom(Comparands comparands, IEquivalencyValidationContext context)
         {
-            return new AssertionContext<TSubject>(
+            return new(
                 context.CurrentNode,
-                (TSubject)context.Subject,
-                (TSubject)context.Expectation,
+                (TSubject)comparands.Subject,
+                (TSubject)comparands.Expectation,
                 context.Reason.FormattedMessage,
                 context.Reason.Arguments);
         }

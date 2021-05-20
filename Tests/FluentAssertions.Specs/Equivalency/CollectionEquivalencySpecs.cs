@@ -156,7 +156,7 @@ namespace FluentAssertions.Specs.Equivalency
             public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
                 MemberSelectionContext context)
             {
-                return context.CompileTimeType.GetProperties().Select(pi => new Property(pi, currentNode));
+                return context.Type.GetProperties().Select(pi => new Property(pi, currentNode));
             }
 
             bool IMemberSelectionRule.IncludesMembers => OverridesStandardIncludeRules;

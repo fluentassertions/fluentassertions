@@ -193,30 +193,27 @@ Primitive types are never compared by their members and trying to call e.g. `Com
 
 ## Equivalency assertion step by step ##
 
-The entire structural equivalency API is built around the concept of a collection of equivalency steps that are run in a predefined order. Each step is an implementation of the `IEquivalencyStep` which exposes two methods: `CanHandle` and `Handle`. You can pass your own implementation to a particular assertion call by passing it into the `Using` method (which puts it behind the final default step) or directly tweak the global `AssertionOptions.EquivalencySteps` collection. Checkout the underlying `EquivalencyStepCollection` to see how it relates your custom step to the other steps. That said, the `Handle` method has the following signature:
+The entire structural equivalency API is built around the concept of a plan containing equivalency steps that are run in a predefined order. Each step is an implementation of the `IEquivalencyStep` which exposes a single method `Handle`. You can pass your own implementation to a particular assertion call by passing it into the `Using` method (which puts it behind the final default step) or directly tweak the global `AssertionOptions.EquivalencyPlan`. Checkout the underlying `EquivalencyPlan` to see how it relates your custom step to the other steps. That said, the `Handle` method has the following signature:
 
 ```csharp
-bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, 
-    IEquivalencyAssertionOptions config);
+EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator);
 ```
 
-It provides you with a couple of parameters. The `context` gives you access to information on the subject-under-test, the expectation and some information on where you are in a deeply nested structure. The `parent` allows you to perform nested assertions like the `StructuralEqualityEquivalencyStep` is doing. The `config` parameter provides you access to the effective configuration that should apply to the current assertion call. Using this knowledge, the simplest built-in step looks like this:
+It provides you with a couple of parameters. The `comparands` gives you access to the subject-under-test and the expectation. The `context` provides some additional information such as where you are in a deeply nested structure (the `CurrentNode`), or the effective configuration that should apply to the current assertion call (the `Options`). The `nestedValidator` allows you to perform nested assertions like the `StructuralEqualityEquivalencyStep` is doing. Using this knowledge, the simplest built-in step looks like this:
 
 ```csharp
 public class SimpleEqualityEquivalencyStep : IEquivalencyStep
 {
-    public bool CanHandle(IEquivalencyValidationContext context, 
-        IEquivalencyAssertionOptions config)
+    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
     {
-        return !config.IsRecursive && !context.IsRoot;
-    }
+        if (!context.Options.IsRecursive && !context.CurrentNode.IsRoot)
+        {
+            comparands.Subject.Should().Be(comparands.Expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
 
-    public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator 
-        structuralEqualityValidator, IEquivalencyAssertionOptions config)
-    {
-        context.Subject.Should().Be(context.Expectation, context.Because, context.BecauseArgs);
+            return EquivalencyResult.AssertionCompleted;
+        }
 
-        return true;
+        return EquivalencyResult.ContinueWithNext;
     }
 }
 ```
@@ -227,7 +224,7 @@ Since `Should().Be()` internally uses the `{context}` placeholder I discussed at
 
 Next to tuning the value type evaluation and changing the internal execution plan of the equivalency API, there are a couple of more specific extension methods. They are internally used by some of the methods provided by the `options` parameter, but you can add your own by calling the appropriate overloads of the `Using` methods. You can even do this globally by using the static `AssertionOptions.AssertEquivalencyUsing` method.
 
-The interface `IMemberSelectionRule` defines an abstraction that defines what members (fields and properties) of the subject need to be included in the equivalency assertion operation. The main in-out parameter is a collection of `IMember` objects representing the fields and properties that need to be included. However, if your selection rule needs to start from scratch, you should override `IncludesMembers` and return `false`. The rule will also get access to the configuration for the current invocation as well as some contextual information about the compile-time and run-time types of the current parent member. As an example, the `AllPublicPropertiesSelectionRule` looks like this:
+The interface `IMemberSelectionRule` defines an abstraction that defines what members (fields and properties) of the subject need to be included in the equivalency assertion operation. The main in-out parameter is a collection of `IMember` objects representing the fields and properties that need to be included. However, if your selection rule needs to start from scratch, you should override `IncludesMembers` and return `false`. As an example, the `AllPublicPropertiesSelectionRule` looks like this:
 
 ```csharp
 internal class AllPublicPropertiesSelectionRule : IMemberSelectionRule
@@ -237,10 +234,9 @@ internal class AllPublicPropertiesSelectionRule : IMemberSelectionRule
     public IEnumerable<IMember> SelectMembers(INode currentNode 
         IEnumerable<IMember> selectedMembers, MemberSelectionContext context)
     {
-        IEnumerable<IMember> selectedNonPrivateProperties = context.Options
-            .GetExpectationType(context.RuntimeType, context.CompileTimeType)
-            .GetNonPrivateProperties()
-            .Select(info => new Property(info, currentNode));
+            IEnumerable<IMember> selectedNonPrivateProperties = context.Type
+                .GetNonPrivateProperties()
+                .Select(info => new Property(info, currentNode));
 
         return selectedMembers.Union(selectedNonPrivateProperties).ToList();
     }

@@ -22,33 +22,30 @@ namespace FluentAssertions.Equivalency
             description = predicate.ToString();
         }
 
-        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config) => true;
-
-        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent,
-            IEquivalencyAssertionOptions config)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
         {
             bool success = false;
             using (var scope = new AssertionScope())
             {
                 // Try without conversion
-                if (AppliesTo(context))
+                if (AppliesTo(comparands, context.CurrentNode))
                 {
-                    success = ExecuteAssertion(context);
+                    success = ExecuteAssertion(comparands, context);
                 }
 
                 bool converted = false;
-                if (!success && converter.CanHandle(context, config))
+                if (!success && context.Options.ConversionSelector.RequiresConversion(comparands, context.CurrentNode))
                 {
                     // Convert into a child context
                     context = context.Clone();
-                    converter.Handle(context, parent, config);
+                    converter.Handle(comparands, context, nestedValidator);
                     converted = true;
                 }
 
-                if (converted && AppliesTo(context))
+                if (converted && AppliesTo(comparands, context.CurrentNode))
                 {
                     // Try again after conversion
-                    success = ExecuteAssertion(context);
+                    success = ExecuteAssertion(comparands, context);
                     if (success)
                     {
                         // If the assertion succeeded after conversion, discard the failures from
@@ -58,28 +55,28 @@ namespace FluentAssertions.Equivalency
                 }
             }
 
-            return success;
+            return success ? EquivalencyResult.AssertionCompleted : EquivalencyResult.ContinueWithNext;
         }
 
-        private bool AppliesTo(IEquivalencyValidationContext context) => predicate(new ObjectInfo(context));
+        private bool AppliesTo(Comparands comparands, INode currentNode) => predicate(new ObjectInfo(comparands, currentNode));
 
-        private bool ExecuteAssertion(IEquivalencyValidationContext context)
+        private bool ExecuteAssertion(Comparands comparands, IEquivalencyValidationContext context)
         {
-            bool subjectIsNull = context.Subject is null;
+            bool subjectIsNull = comparands.Subject is null;
 
             bool subjectIsValidType =
                 AssertionScope.Current
-                    .ForCondition(subjectIsNull || context.Subject.GetType().IsSameOrInherits(typeof(TSubject)))
+                    .ForCondition(subjectIsNull || comparands.Subject.GetType().IsSameOrInherits(typeof(TSubject)))
                     .FailWith("Expected " + context.CurrentNode.Description + " from subject to be a {0}{reason}, but found a {1}.",
-                        typeof(TSubject), context.Subject?.GetType());
+                        typeof(TSubject), comparands.Subject?.GetType());
 
-            bool expectationIsNull = context.Expectation is null;
+            bool expectationIsNull = comparands.Expectation is null;
 
             bool expectationIsValidType =
                 AssertionScope.Current
-                    .ForCondition(expectationIsNull || context.Expectation.GetType().IsSameOrInherits(typeof(TSubject)))
+                    .ForCondition(expectationIsNull || comparands.Expectation.GetType().IsSameOrInherits(typeof(TSubject)))
                     .FailWith("Expected " + context.CurrentNode.Description + " from expectation to be a {0}{reason}, but found a {1}.",
-                        typeof(TSubject), context.Expectation?.GetType());
+                        typeof(TSubject), comparands.Expectation?.GetType());
 
             if (subjectIsValidType && expectationIsValidType)
             {
@@ -88,7 +85,7 @@ namespace FluentAssertions.Equivalency
                     return false;
                 }
 
-                assertion(AssertionContext<TSubject>.CreateFromEquivalencyValidationContext(context));
+                assertion(AssertionContext<TSubject>.CreateFrom(comparands, context));
                 return true;
             }
 

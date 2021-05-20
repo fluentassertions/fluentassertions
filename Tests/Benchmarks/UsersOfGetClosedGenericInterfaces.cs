@@ -27,22 +27,18 @@ namespace Benchmarks
 
         private class Context : IEquivalencyValidationContext
         {
-            public INode CurrentNode => throw new NotImplementedException();
+            public INode CurrentNode { get; }
+            public Reason Reason { get; }
+            public Tracer Tracer { get; }
+            public IEquivalencyAssertionOptions Options { get; }
+            public bool IsCyclicReference(object expectation) => throw new NotImplementedException();
 
-            public Type CompileTimeType { get; set; }
-            public Type RuntimeType { get; set; }
+            public IEquivalencyValidationContext AsNestedMember(IMember expectationMember) => throw new NotImplementedException();
 
-            public object Expectation { get; set; }
+            public IEquivalencyValidationContext AsCollectionItem<TItem>(string index) => throw new NotImplementedException();
 
-            public object Subject { get; set; }
+            public IEquivalencyValidationContext AsDictionaryItem<TKey, TExpectation>(TKey key) => throw new NotImplementedException();
 
-            public Reason Reason => throw new NotImplementedException();
-
-            public Tracer Tracer => throw new NotImplementedException();
-
-            public IEquivalencyValidationContext AsCollectionItem<T>(string index, object subject, T expectation) => throw new NotImplementedException();
-            public IEquivalencyValidationContext AsDictionaryItem<TKey, TExpectation>(TKey key, object subject, TExpectation expectation) => throw new NotImplementedException();
-            public IEquivalencyValidationContext AsNestedMember(IMember expectationMember, IMember matchingSubjectMember) => throw new NotImplementedException();
             public IEquivalencyValidationContext Clone() => throw new NotImplementedException();
         }
 
@@ -166,7 +162,7 @@ namespace Benchmarks
                 }
             }
 
-            context = new Context() { RuntimeType = DataType, CompileTimeType = DataType, Expectation = values[0] };
+            context = new Context();
             config = new Config();
         }
 
@@ -175,9 +171,7 @@ namespace Benchmarks
         {
             for (int i = 0; i < values.Length; i++)
             {
-                context.Subject = values[i];
-
-                dictionaryStep.CanHandle(context, config);
+                dictionaryStep.Handle(new Comparands(values[i], values[0], typeof(object)), context, null);
             }
         }
 
@@ -186,9 +180,7 @@ namespace Benchmarks
         {
             for (int i = 0; i < values.Length; i++)
             {
-                context.Subject = values[i];
-
-                enumerableStep.CanHandle(context, config);
+                enumerableStep.Handle(new Comparands(values[i], values[0], typeof(object)), context, null);
             }
         }
     }

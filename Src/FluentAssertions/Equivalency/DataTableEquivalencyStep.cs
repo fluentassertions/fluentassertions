@@ -8,18 +8,13 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
-    public class DataTableEquivalencyStep : IEquivalencyStep
+    public class DataTableEquivalencyStep : EquivalencyStep<DataTable>
     {
-        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
-        {
-            return typeof(DataTable).IsAssignableFrom(config.GetExpectationType(context.RuntimeType, context.CompileTimeType));
-        }
-
         [SuppressMessage("Style", "IDE0019:Use pattern matching", Justification = "The code is easier to read without it.")]
-        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+        protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
         {
-            var subject = context.Subject as DataTable;
-            var expectation = context.Expectation as DataTable;
+            var subject = comparands.Subject as DataTable;
+            var expectation = comparands.Expectation as DataTable;
 
             if (expectation is null)
             {
@@ -32,19 +27,19 @@ namespace FluentAssertions.Equivalency
             {
                 if (subject is null)
                 {
-                    if (context.Subject is null)
+                    if (comparands.Subject is null)
                     {
                         AssertionScope.Current.FailWith("Expected {context:DataTable} to be non-null, but found null");
                     }
                     else
                     {
-                        AssertionScope.Current.FailWith("Expected {context:DataTable} to be of type {0}, but found {1} instead", expectation.GetType(), context.Subject.GetType());
+                        AssertionScope.Current.FailWith("Expected {context:DataTable} to be of type {0}, but found {1} instead", expectation.GetType(), comparands.Subject.GetType());
                     }
                 }
                 else
                 {
-                    var dataSetConfig = config as DataEquivalencyAssertionOptions<DataSet>;
-                    var dataTableConfig = config as DataEquivalencyAssertionOptions<DataTable>;
+                    var dataSetConfig = context.Options as DataEquivalencyAssertionOptions<DataSet>;
+                    var dataTableConfig = context.Options as DataEquivalencyAssertionOptions<DataTable>;
 
                     if (dataSetConfig?.AllowMismatchedTypes != true
                      && dataTableConfig?.AllowMismatchedTypes != true)
@@ -54,16 +49,16 @@ namespace FluentAssertions.Equivalency
                             .FailWith("Expected {context:DataTable} to be of type '{0}'{reason}, but found '{1}'", expectation.GetType(), subject.GetType());
                     }
 
-                    var selectedMembers = GetMembersFromExpectation(context, config)
+                    var selectedMembers = GetMembersFromExpectation(context.CurrentNode, comparands, context.Options)
                         .ToDictionary(member => member.Name);
 
                     CompareScalarProperties(subject, expectation, selectedMembers);
 
-                    CompareCollections(context, parent, config, selectedMembers);
+                    CompareCollections(comparands, context, nestedValidator, context.Options, selectedMembers);
                 }
             }
 
-            return true;
+            return EquivalencyResult.AssertionCompleted;
         }
 
         private static void CompareScalarProperties(DataTable subject, DataTable expectation, Dictionary<string, IMember> selectedMembers)
@@ -127,7 +122,7 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private static void CompareCollections(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config, Dictionary<string, IMember> selectedMembers)
+        private static void CompareCollections(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config, Dictionary<string, IMember> selectedMembers)
         {
             // Note: The collections here are listed in the XML documentation for the DataTable.BeEquivalentTo extension
             // method in DataTableAssertions.cs. If this ever needs to change, keep them in sync.
@@ -146,46 +141,43 @@ namespace FluentAssertions.Equivalency
             {
                 if (selectedMembers.TryGetValue(collectionName, out IMember expectationMember))
                 {
-                    IMember matchingMember = FindMatchFor(expectationMember, context, config);
-
+                    IMember matchingMember = FindMatchFor(expectationMember, comparands.Subject, context.CurrentNode, config);
                     if (matchingMember is not null)
                     {
-                        IEquivalencyValidationContext nestedContext =
-                                context.AsNestedMember(expectationMember, matchingMember);
+                        IEquivalencyValidationContext nestedContext = context.AsNestedMember(expectationMember);
 
-                        if (nestedContext is not null)
+                        var nestedComparands = new Comparands
                         {
-                            parent.AssertEqualityUsing(nestedContext);
-                        }
+                            Subject = matchingMember.GetValue(comparands.Subject),
+                            Expectation = expectationMember.GetValue(comparands.Expectation),
+                            CompileTimeType = expectationMember.Type
+                        };
+
+                        parent.RecursivelyAssertEquality(nestedComparands, nestedContext);
                     }
                 }
             }
         }
 
-        private static IMember FindMatchFor(IMember selectedMemberInfo, IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        private static IMember FindMatchFor(IMember selectedMemberInfo, object subject, INode currentNode, IEquivalencyAssertionOptions config)
         {
             IEnumerable<IMember> query =
                 from rule in config.MatchingRules
-                let match = rule.Match(selectedMemberInfo, context.Subject, context.CurrentNode, config)
+                let match = rule.Match(selectedMemberInfo, subject, currentNode, config)
                 where match is not null
                 select match;
 
             return query.FirstOrDefault();
         }
 
-        private static IEnumerable<IMember> GetMembersFromExpectation(IEquivalencyValidationContext context,
-            IEquivalencyAssertionOptions config)
+        private static IEnumerable<IMember> GetMembersFromExpectation(INode currentNode, Comparands comparands, IEquivalencyAssertionOptions config)
         {
             IEnumerable<IMember> members = Enumerable.Empty<IMember>();
 
             foreach (IMemberSelectionRule rule in config.SelectionRules)
             {
-                members = rule.SelectMembers(context.CurrentNode, members, new MemberSelectionContext
-                {
-                    CompileTimeType = context.CompileTimeType,
-                    RuntimeType = context.RuntimeType,
-                    Options = config
-                });
+                members = rule.SelectMembers(currentNode, members,
+                    new MemberSelectionContext(comparands.CompileTimeType, comparands.RuntimeType, config));
             }
 
             return members;

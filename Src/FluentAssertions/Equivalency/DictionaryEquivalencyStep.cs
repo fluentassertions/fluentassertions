@@ -7,31 +7,13 @@ using static System.FormattableString;
 
 namespace FluentAssertions.Equivalency
 {
-    public class DictionaryEquivalencyStep : IEquivalencyStep
+    public class DictionaryEquivalencyStep : EquivalencyStep<IDictionary>
     {
-        /// <summary>
-        /// Gets a value indicating whether this step can handle the current subject and/or expectation.
-        /// </summary>
-        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
-        {
-            return typeof(IDictionary).IsAssignableFrom(config.GetExpectationType(context.RuntimeType, context.CompileTimeType));
-        }
-
-        /// <summary>
-        /// Applies a step as part of the task to compare two objects for structural equality.
-        /// </summary>
-        /// <value>
-        /// Should return <c>true</c> if the subject matches the expectation or if no additional assertions
-        /// have to be executed. Should return <c>false</c> otherwise.
-        /// </value>
-        /// <remarks>
-        /// May throw when preconditions are not met or if it detects mismatching data.
-        /// </remarks>
         [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
-        public virtual bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+        protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
         {
-            var subject = context.Subject as IDictionary;
-            var expectation = context.Expectation as IDictionary;
+            var subject = comparands.Subject as IDictionary;
+            var expectation = comparands.Expectation as IDictionary;
 
             if (PreconditionsAreMet(expectation, subject))
             {
@@ -39,10 +21,10 @@ namespace FluentAssertions.Equivalency
                 {
                     foreach (object key in expectation.Keys)
                     {
-                        if (config.IsRecursive)
+                        if (context.Options.IsRecursive)
                         {
                             context.Tracer.WriteLine(member => Invariant($"Recursing into dictionary item {key} at {member.Description}"));
-                            parent.AssertEqualityUsing(context.AsDictionaryItem(key, subject[key], expectation[key]));
+                            nestedValidator.RecursivelyAssertEquality(new Comparands(subject[key], expectation[key], typeof(object)), context.AsDictionaryItem<object, IDictionary>(key));
                         }
                         else
                         {
@@ -54,7 +36,7 @@ namespace FluentAssertions.Equivalency
                 }
             }
 
-            return true;
+            return EquivalencyResult.AssertionCompleted;
         }
 
         private static bool PreconditionsAreMet(IDictionary expectation, IDictionary subject)

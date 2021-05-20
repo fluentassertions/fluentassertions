@@ -8,6 +8,8 @@ namespace FluentAssertions.Specs.Types
 {
     public class MethodInfoSelectorAssertionSpecs
     {
+        #region BeVirtual
+
         [Fact]
         public void When_asserting_methods_are_virtual_and_they_are_it_should_succeed()
         {
@@ -56,6 +58,10 @@ namespace FluentAssertions.Specs.Types
                              "Void FluentAssertions*ClassWithNonVirtualPublicMethods.ProtectedDoNothing");
         }
 
+        #endregion
+
+        #region NotBeVirtual
+
         [Fact]
         public void When_asserting_methods_are_not_virtual_and_they_are_not_it_should_succeed()
         {
@@ -103,6 +109,10 @@ namespace FluentAssertions.Specs.Types
                              "*ClassWithAllMethodsVirtual.InternalVirtualDoNothing" +
                              "*ClassWithAllMethodsVirtual.ProtectedVirtualDoNothing*");
         }
+
+        #endregion
+
+        #region BeDecoratedWith
 
         [Fact]
         public void When_injecting_a_null_predicate_into_BeDecoratedWith_it_should_throw()
@@ -169,6 +179,10 @@ namespace FluentAssertions.Specs.Types
                              "Void FluentAssertions*ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PrivateDoNothing");
         }
 
+        #endregion
+
+        #region NotBeDecoratedWith
+
         [Fact]
         public void When_injecting_a_null_predicate_into_NotBeDecoratedWith_it_should_throw()
         {
@@ -233,6 +247,10 @@ namespace FluentAssertions.Specs.Types
                              "*ClassWithAllMethodsDecoratedWithDummyAttribute.PrivateDoNothing");
         }
 
+        #endregion
+
+        #region Be
+
         [Fact]
         public void When_all_methods_have_specified_accessor_it_should_succeed()
         {
@@ -286,6 +304,10 @@ namespace FluentAssertions.Specs.Types
                              "Void FluentAssertions*ClassWithNonPublicMethods.DoNothingWithAnotherParameter");
         }
 
+        #endregion
+
+        #region NotBe
+
         [Fact]
         public void When_all_methods_does_not_have_specified_accessor_it_should_succeed()
         {
@@ -334,5 +356,7 @@ namespace FluentAssertions.Specs.Types
                              ", but the following methods are:*" +
                              "Void FluentAssertions*ClassWithPublicMethods.PublicDoNothing*");
         }
+
+        #endregion
     }
 }

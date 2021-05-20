@@ -13,51 +13,38 @@ namespace FluentAssertions.Equivalency
     /// </remarks>
     public class AutoConversionStep : IEquivalencyStep
     {
-        /// <summary>
-        /// Gets a value indicating whether this step can handle the current subject and/or expectation.
-        /// </summary>
-        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
         {
-            return config.ConversionSelector.RequiresConversion(context);
-        }
-
-        /// <summary>
-        /// Applies a step as part of the task to compare two objects for structural equality.
-        /// </summary>
-        /// <value>
-        /// Should return <c>true</c> if the subject matches the expectation or if no additional assertions
-        /// have to be executed. Should return <c>false</c> otherwise.
-        /// </value>
-        /// <remarks>
-        /// May throw when preconditions are not met or if it detects mismatching data.
-        /// </remarks>
-        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
-        {
-            if ((context.Expectation is null) || (context.Subject is null))
+            if (!context.Options.ConversionSelector.RequiresConversion(comparands, context.CurrentNode))
             {
-                return false;
+                return EquivalencyResult.ContinueWithNext;
             }
 
-            Type subjectType = context.Subject.GetType();
-            Type expectationType = context.Expectation.GetType();
+            if ((comparands.Expectation is null) || (comparands.Subject is null))
+            {
+                return EquivalencyResult.ContinueWithNext;
+            }
+
+            Type subjectType = comparands.Subject.GetType();
+            Type expectationType = comparands.Expectation.GetType();
 
             if (subjectType.IsSameOrInherits(expectationType))
             {
-                return false;
+                return EquivalencyResult.ContinueWithNext;
             }
 
-            if (TryChangeType(context.Subject, expectationType, out object convertedSubject))
+            if (TryChangeType(comparands.Subject, expectationType, out object convertedSubject))
             {
-                context.Tracer.WriteLine(member => Invariant($"Converted subject {context.Subject} at {member.Description} to {expectationType}"));
+                context.Tracer.WriteLine(member => Invariant($"Converted subject {comparands.Subject} at {member.Description} to {expectationType}"));
 
-                context.Subject = convertedSubject;
+                comparands.Subject = convertedSubject;
             }
             else
             {
-                context.Tracer.WriteLine(member => Invariant($"Subject {context.Subject} at {member.Description} could not be converted to {expectationType}"));
+                context.Tracer.WriteLine(member => Invariant($"Subject {comparands.Subject} at {member.Description} could not be converted to {expectationType}"));
             }
 
-            return false;
+            return EquivalencyResult.ContinueWithNext;
         }
 
         private static bool TryChangeType(object subject, Type expectationType, out object conversionResult)
