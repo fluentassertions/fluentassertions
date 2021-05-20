@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using FluentAssertions.Collections;
+using FluentAssertions.Common;
 using FluentAssertions.Data;
 #if !NETSTANDARD2_0
 using FluentAssertions.Events;
@@ -706,9 +707,12 @@ namespace FluentAssertions
         /// current <see cref="MethodInfoSelector"/>.
         /// </summary>
         /// <seealso cref="TypeAssertions"/>
+        /// <exception cref="ArgumentNullException"><paramref name="methodSelector"/> is <c>null</c>.</exception>
         [Pure]
         public static MethodInfoSelectorAssertions Should(this MethodInfoSelector methodSelector)
         {
+            Guard.ThrowIfArgumentIsNull(methodSelector, nameof(methodSelector));
+
             return new MethodInfoSelectorAssertions(methodSelector.ToArray());
         }
 

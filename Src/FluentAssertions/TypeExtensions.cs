@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using FluentAssertions.Common;
 using FluentAssertions.Types;
 
 namespace FluentAssertions
@@ -38,18 +39,22 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns a method selector for the current <see cref="System.Type"/>.
+        /// Returns a method selector for the current <see cref="Type"/>.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
         public static MethodInfoSelector Methods(this Type type)
         {
             return new MethodInfoSelector(type);
         }
 
         /// <summary>
-        /// Returns a method selector for the current <see cref="System.Type"/>.
+        /// Returns a method selector for the current <see cref="Type"/>.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="typeSelector"/> is <c>null</c>.</exception>
         public static MethodInfoSelector Methods(this TypeSelector typeSelector)
         {
+            Guard.ThrowIfArgumentIsNull(typeSelector, nameof(typeSelector));
+
             return new MethodInfoSelector(typeSelector.ToList());
         }
 

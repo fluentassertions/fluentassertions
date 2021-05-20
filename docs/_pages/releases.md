@@ -31,6 +31,7 @@ sidebar:
 * Better parameter checking of `PropertyInfoAssertions` - [#1558](https://github.com/fluentassertions/fluentassertions/pull/1558)
 * Better parameter checking of `MethodBaseAssertions` and `MethodInfoAssertions` - [#1559](https://github.com/fluentassertions/fluentassertions/pull/1559)
 * Better parameter checking of `AssemblyAssertions` - [#1561](https://github.com/fluentassertions/fluentassertions/pull/1561)
+* Better parameter checking of `MethodInfoSelectorAssertions` - [#1569](https://github.com/fluentassertions/fluentassertions/pull/1569)
 
 **Breaking Changes**
 * Changed `becauseArgs` of `[Not]Reference(Assembly)` from `string[]` to `object[]` - [#1459](https://github.com/fluentassertions/fluentassertions/pull/1459)
