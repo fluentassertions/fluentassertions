@@ -732,9 +732,12 @@ namespace FluentAssertions
         /// current <see cref="PropertyInfoSelector"/>.
         /// </summary>
         /// <seealso cref="TypeAssertions"/>
+        /// <exception cref="ArgumentNullException"><paramref name="propertyInfoSelector"/> is <c>null</c>.</exception>
         [Pure]
         public static PropertyInfoSelectorAssertions Should(this PropertyInfoSelector propertyInfoSelector)
         {
+            Guard.ThrowIfArgumentIsNull(propertyInfoSelector, nameof(propertyInfoSelector));
+
             return new PropertyInfoSelectorAssertions(propertyInfoSelector.ToArray());
         }
 

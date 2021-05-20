@@ -1,5 +1,4 @@
 ﻿using System;
-
 using FluentAssertions.Types;
 using Xunit;
 using Xunit.Sdk;
@@ -8,6 +7,8 @@ namespace FluentAssertions.Specs.Types
 {
     public class PropertyInfoSelectorAssertionSpecs
     {
+        #region BeVirtual
+
         [Fact]
         public void When_asserting_properties_are_virtual_and_they_are_it_should_succeed()
         {
@@ -57,6 +58,10 @@ namespace FluentAssertions.Specs.Types
                    "String FluentAssertions*ClassWithNonVirtualPublicProperties.ProtectedNonVirtualProperty");
         }
 
+        #endregion
+
+        #region NotBeVirtual
+
         [Fact]
         public void When_asserting_properties_are_not_virtual_and_they_are_not_it_should_succeed()
         {
@@ -105,6 +110,10 @@ namespace FluentAssertions.Specs.Types
                    "*ClassWithAllPropertiesVirtual.InternalVirtualProperty" +
                    "*ClassWithAllPropertiesVirtual.ProtectedVirtualProperty");
         }
+
+        #endregion
+
+        #region BeDecoratedWith
 
         [Fact]
         public void When_asserting_properties_are_decorated_with_attribute_and_they_are_it_should_succeed()
@@ -157,6 +166,10 @@ namespace FluentAssertions.Specs.Types
                    "String FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.ProtectedProperty");
         }
 
+        #endregion
+
+        #region NotBeDecoratedWith
+
         [Fact]
         public void When_asserting_properties_are_not_decorated_with_attribute_and_they_are_not_it_should_succeed()
         {
@@ -208,6 +221,10 @@ namespace FluentAssertions.Specs.Types
                    "ClassWithAllPropertiesDecoratedWithDummyAttribute.ProtectedProperty*");
         }
 
+        #endregion
+
+        #region BeWritable
+
         [Fact]
         public void When_a_read_only_property_is_expected_to_be_writable_it_should_throw_with_descriptive_message()
         {
@@ -240,6 +257,10 @@ namespace FluentAssertions.Specs.Types
             action.Should().NotThrow();
         }
 
+        #endregion
+
+        #region NotBeWritable
+
         [Fact]
         public void When_a_writable_property_is_expected_to_be_read_only_it_should_throw_with_descriptive_message()
         {
@@ -271,6 +292,8 @@ namespace FluentAssertions.Specs.Types
             // Assert
             action.Should().NotThrow();
         }
+
+        #endregion
     }
 
     #region Internal classes used in unit tests
