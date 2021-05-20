@@ -20,6 +20,9 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelectorAssertions(params Type[] types)
         {
+            Guard.ThrowIfArgumentIsNull(types, nameof(types));
+            Guard.ThrowIfArgumentContainsNull(types, nameof(types));
+
             Subject = types;
         }
 
