@@ -61,6 +61,8 @@ namespace FluentAssertions.Equivalency
 
         public bool IncludeFields => inner.IncludeFields;
 
+        public bool CompareRecordsByValue => inner.CompareRecordsByValue;
+
         public EqualityStrategy GetEqualityStrategy(Type type)
         {
             return inner.GetEqualityStrategy(type);

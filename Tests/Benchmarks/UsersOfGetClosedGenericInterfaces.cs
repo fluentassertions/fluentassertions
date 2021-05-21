@@ -68,6 +68,8 @@ namespace Benchmarks
 
             public bool IncludeFields => throw new NotImplementedException();
 
+            public bool CompareRecordsByValue => throw new NotImplementedException();
+
             public ITraceWriter TraceWriter => throw new NotImplementedException();
 
             public EqualityStrategy GetEqualityStrategy(Type type) => throw new NotImplementedException();
