@@ -57,6 +57,7 @@ namespace FluentAssertions.Equivalency
         private bool includeProperties;
 
         private bool includeFields;
+        private bool compareRecordsByValue;
 
         #endregion
 
@@ -79,6 +80,7 @@ namespace FluentAssertions.Equivalency
             useRuntimeTyping = defaults.UseRuntimeTyping;
             includeProperties = defaults.IncludeProperties;
             includeFields = defaults.IncludeFields;
+            compareRecordsByValue = defaults.CompareRecordsByValue;
 
             ConversionSelector = defaults.ConversionSelector.Clone();
 
@@ -160,6 +162,8 @@ namespace FluentAssertions.Equivalency
 
         bool IEquivalencyAssertionOptions.IncludeFields => includeFields;
 
+        public bool CompareRecordsByValue => compareRecordsByValue;
+
         EqualityStrategy IEquivalencyAssertionOptions.GetEqualityStrategy(Type type)
         {
             EqualityStrategy strategy;
@@ -179,6 +183,10 @@ namespace FluentAssertions.Equivalency
             else if (valueTypes.Any(type.IsAssignableToOpenGeneric))
             {
                 strategy = EqualityStrategy.ForceEquals;
+            }
+            else if (type.IsRecord())
+            {
+                strategy = compareRecordsByValue ? EqualityStrategy.ForceEquals : EqualityStrategy.ForceMembers;
             }
             else
             {
@@ -543,6 +551,27 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
+        /// Ensures records by default are compared by value instead of their members.
+        /// </summary>
+        public TSelf ComparingRecordsByValue()
+        {
+            compareRecordsByValue = true;
+            return (TSelf)this;
+        }
+
+        /// <summary>
+        /// Ensures records by default are compared by value instead of their members.
+        /// </summary>
+        /// <remarks>
+        /// This is the default.
+        /// </remarks>
+        public TSelf ComparingRecordsByMembers()
+        {
+            compareRecordsByValue = false;
+            return (TSelf)this;
+        }
+
+        /// <summary>
         /// Marks the <typeparamref name="T" /> as a type that should be compared by its members even though it may override
         /// the <see cref="object.Equals(object)" /> method.
         /// </summary>
@@ -664,6 +693,28 @@ namespace FluentAssertions.Equivalency
             if (cyclicReferenceHandling == CyclicReferenceHandling.Ignore)
             {
                 builder.AppendLine("- Ignoring cyclic references");
+            }
+
+            builder.AppendLine($"- Compare tuples by their properties");
+            builder.AppendLine($"- Compare anonymous types by their properties");
+
+            if (compareRecordsByValue)
+            {
+                builder.AppendLine("- Compare records by value");
+            }
+            else
+            {
+                builder.AppendLine("- Compare records by their members");
+            }
+
+            foreach (Type valueType in valueTypes)
+            {
+                builder.AppendLine($"- Compare {valueType} by value");
+            }
+
+            foreach (Type type in referenceTypes)
+            {
+                builder.AppendLine($"- Compare {type} by its members");
             }
 
             foreach (IMemberSelectionRule rule in selectionRules)

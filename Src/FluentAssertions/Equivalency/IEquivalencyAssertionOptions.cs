@@ -72,6 +72,11 @@ namespace FluentAssertions.Equivalency
         bool IncludeFields { get; }
 
         /// <summary>
+        /// Gets a value indicating whether records should be compared by value instead of their members
+        /// </summary>
+        bool CompareRecordsByValue { get; }
+
+        /// <summary>
         /// Gets the currently configured tracer, or <c>null</c> if no tracing was configured.
         /// </summary>
         ITraceWriter TraceWriter { get; }

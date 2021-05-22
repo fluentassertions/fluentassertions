@@ -834,6 +834,7 @@ namespace FluentAssertions.Equivalency
     public interface IEquivalencyAssertionOptions
     {
         bool AllowInfiniteRecursion { get; }
+        bool CompareRecordsByValue { get; }
         FluentAssertions.Equivalency.ConversionSelector ConversionSelector { get; }
         FluentAssertions.Equivalency.CyclicReferenceHandling CyclicReferenceHandling { get; }
         FluentAssertions.Equivalency.EnumEquivalencyHandling EnumEquivalencyHandling { get; }
@@ -981,6 +982,7 @@ namespace FluentAssertions.Equivalency
         where TSelf : FluentAssertions.Equivalency.SelfReferenceEquivalencyAssertionOptions<TSelf>
     {
         protected SelfReferenceEquivalencyAssertionOptions(FluentAssertions.Equivalency.IEquivalencyAssertionOptions defaults) { }
+        public bool CompareRecordsByValue { get; }
         public FluentAssertions.Equivalency.ConversionSelector ConversionSelector { get; }
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         protected FluentAssertions.Equivalency.OrderingRuleCollection OrderingRules { get; }
@@ -993,6 +995,8 @@ namespace FluentAssertions.Equivalency
         public TSelf ComparingByValue<T>() { }
         public TSelf ComparingEnumsByName() { }
         public TSelf ComparingEnumsByValue() { }
+        public TSelf ComparingRecordsByMembers() { }
+        public TSelf ComparingRecordsByValue() { }
         public TSelf Excluding(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }
         public TSelf ExcludingFields() { }
         public TSelf ExcludingMissingMembers() { }

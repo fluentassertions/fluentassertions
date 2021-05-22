@@ -580,6 +580,16 @@ namespace FluentAssertions.Common
             return hasCompilerGeneratedAttribute;
         }
 
+        public static bool IsRecord(this Type type)
+        {
+            return type.GetMethod("<Clone>$") is not null &&
+                type.GetTypeInfo()
+                    .DeclaredProperties
+                    .FirstOrDefault(p => p.Name == "EqualityContract")?
+                    .GetMethod?
+                    .GetCustomAttribute(typeof(CompilerGeneratedAttribute)) is not null;
+        }
+
         private static bool IsKeyValuePair(Type type)
         {
             return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(KeyValuePair<,>);

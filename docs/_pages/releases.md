@@ -20,6 +20,7 @@ sidebar:
 * Added the possibility to set the maximum depth and other formatting settings either globally or per `AssertionScope` - [#1469](https://github.com/fluentassertions/fluentassertions/pull/1469).
 * Added `BeInAscendingOrder` and `BeInDescendingOrder` for collections taking a lambda expression - [#1526](https://github.com/fluentassertions/fluentassertions/pull/1526)
 * Added `[Not]BeWritable`, `[Not]BeSeekable`, `[Not]BeReadable`, `[Not]BeReadOnly`, `[Not]BeWriteOnly`, `[Not]HaveLength` , `[Not]HavePosition` for Stream and `[Not]HaveBufferSize` for BufferedStream - [#1543](https://github.com/fluentassertions/fluentassertions/pull/1543)
+* The equivalency failure message will include information on how tuples, anonymous types, records and other types are compared - [#1571](https://github.com/fluentassertions/fluentassertions/pull/1571)
 
 **Fixes**
 * Sometimes `BeEquivalentTo` reported an incorrect message when a dictionary was missing a key - [#1454](https://github.com/fluentassertions/fluentassertions/pull/1454)
@@ -35,6 +36,7 @@ sidebar:
 * Better parameter checking of `MethodInfoSelectorAssertions` - [#1569](https://github.com/fluentassertions/fluentassertions/pull/1569)
 
 **Breaking Changes**
+* By default, records are now compared by their members. Can be overridden using `ComparingRecordsByValue` - [#1571](https://github.com/fluentassertions/fluentassertions/pull/1571)
 * Changed `becauseArgs` of `[Not]Reference(Assembly)` from `string[]` to `object[]` - [#1459](https://github.com/fluentassertions/fluentassertions/pull/1459)
 * Major overhaul on how enums are handled, see the [Migration Guide](/upgradingtov6#enums) for more details - [#1479](https://github.com/fluentassertions/fluentassertions/pull/1479).
 * Removed support for non-generic collections, see the [Migration Guide](/upgradingtov6#collections) for more details - [#1529](https://github.com/fluentassertions/fluentassertions/pull/1529).
