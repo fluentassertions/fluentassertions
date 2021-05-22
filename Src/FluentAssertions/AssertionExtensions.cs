@@ -673,11 +673,14 @@ namespace FluentAssertions
 
         /// <summary>
         /// Returns a <see cref="TypeAssertions"/> object that can be used to assert the
-        /// current <see cref="System.Type"/>.
+        /// current <see cref="Type"/>.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="typeSelector"/> is <c>null</c>.</exception>
         [Pure]
         public static TypeSelectorAssertions Should(this TypeSelector typeSelector)
         {
+            Guard.ThrowIfArgumentIsNull(typeSelector, nameof(typeSelector));
+
             return new TypeSelectorAssertions(typeSelector.ToArray());
         }
 

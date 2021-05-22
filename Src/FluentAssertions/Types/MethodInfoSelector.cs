@@ -32,11 +32,7 @@ namespace FluentAssertions.Types
         public MethodInfoSelector(IEnumerable<Type> types)
         {
             Guard.ThrowIfArgumentIsNull(types, nameof(types));
-
-            if (types.Any(t => t is null))
-            {
-                throw new ArgumentNullException(nameof(types), "Collection contains a null value");
-            }
+            Guard.ThrowIfArgumentContainsNull(types, nameof(types));
 
             selectedMethods = types.SelectMany(t => t
                 .GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
