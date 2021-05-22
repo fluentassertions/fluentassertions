@@ -1066,6 +1066,21 @@ namespace FluentAssertions.Equivalency
         public ValueTypeEquivalencyStep() { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
     }
+    public class XAttributeEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Xml.Linq.XAttribute>
+    {
+        public XAttributeEquivalencyStep() { }
+        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+    }
+    public class XDocumentEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Xml.Linq.XDocument>
+    {
+        public XDocumentEquivalencyStep() { }
+        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+    }
+    public class XElementEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Xml.Linq.XElement>
+    {
+        public XElementEquivalencyStep() { }
+        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+    }
 }
 namespace FluentAssertions.Equivalency.Tracing
 {
