@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
@@ -220,20 +221,28 @@ namespace FluentAssertions.Streams
 
             if (success)
             {
-                success = Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .ForCondition(Subject.CanSeek)
-                    .FailWith("Expected the position of {context:stream} to be {0}{reason}, but found a non-seekable stream.",
-                        expected);
-            }
+                long position;
 
-            if (success)
-            {
+                try
+                {
+                    position = Subject.Position;
+                }
+                catch (Exception exception)
+                    when (exception is IOException or NotSupportedException or ObjectDisposedException)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected the position of {context:stream} to be {0}{reason}, but it failed with:{1}{2}",
+                            expected, Environment.NewLine, exception.Message);
+
+                    return new AndConstraint<TAssertions>((TAssertions)this);
+                }
+
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .ForCondition(Subject.Position == expected)
+                    .ForCondition(position == expected)
                     .FailWith("Expected the position of {context:stream} to be {0}{reason}, but it was {1}.",
-                        expected, Subject.Position);
+                        expected, position);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -260,18 +269,26 @@ namespace FluentAssertions.Streams
 
             if (success)
             {
-                success = Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .ForCondition(Subject.CanSeek)
-                    .FailWith("Expected the position of {context:stream} not to be {0}{reason}, but found a non-seekable stream.",
-                        unexpected);
-            }
+                long position;
 
-            if (success)
-            {
+                try
+                {
+                    position = Subject.Position;
+                }
+                catch (Exception exception)
+                    when (exception is IOException or NotSupportedException or ObjectDisposedException)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected the position of {context:stream} not to be {0}{reason}, but it failed with:{1}{2}",
+                            unexpected, Environment.NewLine, exception.Message);
+
+                    return new AndConstraint<TAssertions>((TAssertions)this);
+                }
+
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .ForCondition(Subject.Position != unexpected)
+                    .ForCondition(position != unexpected)
                     .FailWith("Expected the position of {context:stream} not to be {0}{reason}, but it was.",
                         unexpected);
             }
@@ -300,20 +317,28 @@ namespace FluentAssertions.Streams
 
             if (success)
             {
-                success = Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .ForCondition(Subject.CanSeek)
-                    .FailWith("Expected the length of {context:stream} to be {0}{reason}, but found a non-seekable stream.",
-                        expected);
-            }
+                long length;
 
-            if (success)
-            {
+                try
+                {
+                    length = Subject.Length;
+                }
+                catch (Exception exception)
+                    when (exception is IOException or NotSupportedException or ObjectDisposedException)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected the length of {context:stream} to be {0}{reason}, but it failed with:{1}{2}",
+                            expected, Environment.NewLine, exception.Message);
+
+                    return new AndConstraint<TAssertions>((TAssertions)this);
+                }
+
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .ForCondition(Subject.Length == expected)
+                    .ForCondition(length == expected)
                     .FailWith("Expected the length of {context:stream} to be {0}{reason}, but it was {1}.",
-                        expected, Subject.Length);
+                        expected, length);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -340,18 +365,26 @@ namespace FluentAssertions.Streams
 
             if (success)
             {
-                success = Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .ForCondition(Subject.CanSeek)
-                    .FailWith("Expected the length of {context:stream} not to be {0}{reason}, but found a non-seekable stream.",
-                        unexpected);
-            }
+                long length;
 
-            if (success)
-            {
+                try
+                {
+                    length = Subject.Length;
+                }
+                catch (Exception exception)
+                    when (exception is IOException or NotSupportedException or ObjectDisposedException)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected the length of {context:stream} not to be {0}{reason}, but it failed with:{1}{2}",
+                            unexpected, Environment.NewLine, exception.Message);
+
+                    return new AndConstraint<TAssertions>((TAssertions)this);
+                }
+
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .ForCondition(Subject.Length != unexpected)
+                    .ForCondition(length != unexpected)
                     .FailWith("Expected the length of {context:stream} not to be {0}{reason}, but it was.",
                         unexpected);
             }
