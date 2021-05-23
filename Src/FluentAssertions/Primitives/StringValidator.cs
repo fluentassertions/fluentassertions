@@ -52,7 +52,7 @@ namespace FluentAssertions.Primitives
 
         private bool ValidateAgainstNulls()
         {
-            if ((Expected is null) ^ (Subject is null))
+            if ((Expected is null) != (Subject is null))
             {
                 Assertion.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.", Expected, Subject);
                 return false;

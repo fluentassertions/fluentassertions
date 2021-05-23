@@ -1097,7 +1097,7 @@ namespace FluentAssertions
                 throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
             }
 
-            if (parent.Subject is null ^ unexpectedValue is null)
+            if ((parent.Subject is null) != (unexpectedValue is null))
             {
                 return new AndConstraint<NullableNumericAssertions<float>>(parent);
             }
@@ -1222,7 +1222,7 @@ namespace FluentAssertions
                 throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
             }
 
-            if (parent.Subject is null ^ unexpectedValue is null)
+            if ((parent.Subject is null) != (unexpectedValue is null))
             {
                 return new AndConstraint<NullableNumericAssertions<double>>(parent);
             }
@@ -1347,7 +1347,7 @@ namespace FluentAssertions
                 throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
             }
 
-            if (parent.Subject is null ^ unexpectedValue is null)
+            if ((parent.Subject is null) != (unexpectedValue is null))
             {
                 return new AndConstraint<NullableNumericAssertions<decimal>>(parent);
             }
