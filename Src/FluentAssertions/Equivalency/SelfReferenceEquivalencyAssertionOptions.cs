@@ -168,19 +168,19 @@ namespace FluentAssertions.Equivalency
         {
             EqualityStrategy strategy;
 
-            if (!type.IsPrimitive && referenceTypes.Any(type.IsSameOrInherits))
+            if (!type.IsPrimitive && referenceTypes.Any(t => type.IsSameOrInherits(t)))
             {
                 strategy = EqualityStrategy.ForceMembers;
             }
-            else if (valueTypes.Any(type.IsSameOrInherits))
+            else if (valueTypes.Any(t => type.IsSameOrInherits(t)))
             {
                 strategy = EqualityStrategy.ForceEquals;
             }
-            else if (!type.IsPrimitive && referenceTypes.Any(type.IsAssignableToOpenGeneric))
+            else if (!type.IsPrimitive && referenceTypes.Any(t => type.IsAssignableToOpenGeneric(t)))
             {
                 strategy = EqualityStrategy.ForceMembers;
             }
-            else if (valueTypes.Any(type.IsAssignableToOpenGeneric))
+            else if (valueTypes.Any(t => type.IsAssignableToOpenGeneric(t)))
             {
                 strategy = EqualityStrategy.ForceEquals;
             }
@@ -590,7 +590,7 @@ namespace FluentAssertions.Equivalency
                 throw new InvalidOperationException($"Cannot compare a primitive type such as {type.Name} by its members");
             }
 
-            if (valueTypes.Any(type.IsSameOrInherits))
+            if (valueTypes.Any(t => type.IsSameOrInherits(t)))
             {
                 throw new InvalidOperationException(
                     $"Can't compare {type.Name} by its members if it already setup to be compared by value");
@@ -614,7 +614,7 @@ namespace FluentAssertions.Equivalency
         {
             Guard.ThrowIfArgumentIsNull(type, nameof(type));
 
-            if (referenceTypes.Any(type.IsSameOrInherits))
+            if (referenceTypes.Any(t => type.IsSameOrInherits(t)))
             {
                 throw new InvalidOperationException(
                     $"Can't compare {type.Name} by value if it already setup to be compared by its members");

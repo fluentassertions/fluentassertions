@@ -464,7 +464,7 @@ namespace FluentAssertions.Types
 
         private static string GetDescriptionsFor(IEnumerable<Type> types)
         {
-            string[] descriptions = types.Select(GetDescriptionFor).ToArray();
+            IEnumerable<string> descriptions = types.Select(type => GetDescriptionFor(type));
             return string.Join(Environment.NewLine, descriptions);
         }
 
