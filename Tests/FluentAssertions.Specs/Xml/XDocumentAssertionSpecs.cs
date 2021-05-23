@@ -43,7 +43,6 @@ namespace FluentAssertions.Specs.Xml
         }
 
         [Fact]
-        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
         public void When_asserting_a_null_xml_document_is_equal_to_another_xml_document_it_should_fail()
         {
             // Arrange
@@ -60,7 +59,6 @@ namespace FluentAssertions.Specs.Xml
         }
 
         [Fact]
-        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
         public void When_a_null_xml_document_is_equal_to_a_null_xml_document_it_should_succeed()
         {
             // Arrange
@@ -123,7 +121,6 @@ namespace FluentAssertions.Specs.Xml
         }
 
         [Fact]
-        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
         public void When_asserting_a_null_xml_document_is_not_equal_to_some_xml_document_it_should_succeed()
         {
             // Arrange
@@ -139,7 +136,6 @@ namespace FluentAssertions.Specs.Xml
         }
 
         [Fact]
-        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
         public void When_asserting_a_null_xml_document_is_not_equal_to_a_null_xml_document_it_should_fail()
         {
             // Arrange
@@ -618,7 +614,6 @@ namespace FluentAssertions.Specs.Xml
         #region BeNull / NotBeNull
 
         [Fact]
-        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
         public void When_asserting_a_null_xml_document_is_null_it_should_succeed()
         {
             // Arrange

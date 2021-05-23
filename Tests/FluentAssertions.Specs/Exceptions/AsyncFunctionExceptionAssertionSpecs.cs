@@ -11,7 +11,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Exceptions
 {
-    [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
     public class AsyncFunctionExceptionAssertionSpecs
     {
         [Fact]

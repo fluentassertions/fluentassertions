@@ -260,7 +260,7 @@ namespace FluentAssertions.Types
 
         private static string GetDescriptionsFor(IEnumerable<MethodInfo> methods)
         {
-            IEnumerable<string> descriptions = methods.Select(MethodInfoAssertions.GetDescriptionFor).ToArray();
+            IEnumerable<string> descriptions = methods.Select(method => MethodInfoAssertions.GetDescriptionFor(method));
 
             return string.Join(Environment.NewLine, descriptions);
         }

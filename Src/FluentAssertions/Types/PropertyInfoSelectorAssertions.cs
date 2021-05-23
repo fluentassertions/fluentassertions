@@ -213,7 +213,7 @@ namespace FluentAssertions.Types
 
         private static string GetDescriptionsFor(IEnumerable<PropertyInfo> properties)
         {
-            IEnumerable<string> descriptions = properties.Select(PropertyInfoAssertions.GetDescriptionFor);
+            IEnumerable<string> descriptions = properties.Select(property => PropertyInfoAssertions.GetDescriptionFor(property));
 
             return string.Join(Environment.NewLine, descriptions);
         }

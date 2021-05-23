@@ -108,7 +108,6 @@ namespace FluentAssertions.Specs.Specialized
         }
 
         [Fact]
-        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
         public async Task When_TCS_is_null_it_should_fail()
         {
             // Arrange
@@ -154,7 +153,6 @@ namespace FluentAssertions.Specs.Specialized
         }
 
         [Fact]
-        [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
         public async Task When_TCS_is_null_and_we_validate_to_not_complete_it_should_fail()
         {
             // Arrange
