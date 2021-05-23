@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -46,7 +48,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().BeWritable("we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -90,7 +95,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().NotBeWritable("we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -138,7 +146,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().BeSeekable("we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -182,7 +193,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().NotBeSeekable("we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -230,7 +244,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().BeReadable("we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -274,7 +291,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().NotBeReadable("we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -284,6 +304,14 @@ namespace FluentAssertions.Specs.Streams
         #endregion
 
         #region HavePosition / NotHavePosition
+
+        public static IEnumerable<object[]> GetPositionExceptions()
+        {
+            // https://docs.microsoft.com/en-us/dotnet/api/system.io.stream.position#exceptions
+            yield return new object[] { new IOException("GetPositionExceptionMessage") };
+            yield return new object[] { new NotSupportedException("GetPositionExceptionMessage") };
+            yield return new object[] { new ObjectDisposedException("GetPositionExceptionMessage") };
+        }
 
         [Fact]
         public void When_a_stream_has_the_expected_position_it_should_succeed()
@@ -314,11 +342,12 @@ namespace FluentAssertions.Specs.Streams
                 .WithMessage("Expected the position of stream to be 10* *failure message*, but it was 1*.");
         }
 
-        [Fact]
-        public void When_having_a_non_seekable_stream_have_position_should_fail()
+        [Theory]
+        [MemberData(nameof(GetPositionExceptions))]
+        public void When_a_throwing_stream_should_have_a_position_it_should_fail(Exception exception)
         {
             // Arrange
-            using var stream = new TestStream { Seekable = false };
+            using var stream = new ExceptingStream(exception);
 
             // Act
             Action act = () =>
@@ -326,7 +355,8 @@ namespace FluentAssertions.Specs.Streams
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected the position of stream to be 10* *failure message*, but found a non-seekable stream.");
+                .WithMessage("Expected the position of stream to be 10* *failure message*, " +
+                    "but it failed with*GetPositionExceptionMessage*");
         }
 
         [Fact]
@@ -337,7 +367,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().HavePosition(10, "we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -373,11 +406,12 @@ namespace FluentAssertions.Specs.Streams
                 .WithMessage("Expected the position of stream not to be 10* *failure message*, but it was.");
         }
 
-        [Fact]
-        public void When_having_a_non_seekable_stream_not_have_position_should_fail()
+        [Theory]
+        [MemberData(nameof(GetPositionExceptions))]
+        public void When_a_throwing_stream_should_not_have_a_position_it_should_fail(Exception exception)
         {
             // Arrange
-            using var stream = new TestStream { Seekable = false };
+            using var stream = new ExceptingStream(exception);
 
             // Act
             Action act = () =>
@@ -385,7 +419,8 @@ namespace FluentAssertions.Specs.Streams
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected the position of stream not to be 10* *failure message*, but found a non-seekable stream.");
+                .WithMessage("Expected the position of stream not to be 10* *failure message*, " +
+                    "but it failed with*GetPositionExceptionMessage*");
         }
 
         [Fact]
@@ -396,7 +431,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().NotHavePosition(10, "we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -406,6 +444,14 @@ namespace FluentAssertions.Specs.Streams
         #endregion
 
         #region HaveLength / NotHaveLength
+
+        public static IEnumerable<object[]> GetLengthExceptions()
+        {
+            // https://docs.microsoft.com/en-us/dotnet/api/system.io.stream.length#exceptions
+            yield return new object[] { new IOException("GetLengthExceptionMessage") };
+            yield return new object[] { new NotSupportedException("GetLengthExceptionMessage") };
+            yield return new object[] { new ObjectDisposedException("GetLengthExceptionMessage") };
+        }
 
         [Fact]
         public void When_a_stream_has_the_expected_length_it_should_succeed()
@@ -436,11 +482,12 @@ namespace FluentAssertions.Specs.Streams
                 .WithMessage("Expected the length of stream to be 10* *failure message*, but it was 1*.");
         }
 
-        [Fact]
-        public void When_having_a_non_seekable_stream_have_length_should_fail()
+        [Theory]
+        [MemberData(nameof(GetLengthExceptions))]
+        public void When_a_throwing_stream_should_have_a_length_it_should_fail(Exception exception)
         {
             // Arrange
-            using var stream = new TestStream { Seekable = false };
+            using var stream = new ExceptingStream(exception);
 
             // Act
             Action act = () =>
@@ -448,7 +495,8 @@ namespace FluentAssertions.Specs.Streams
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected the length of stream to be 10* *failure message*, but found a non-seekable stream.");
+                .WithMessage("Expected the length of stream to be 10* *failure message*, " +
+                    "but it failed with*GetLengthExceptionMessage*");
         }
 
         [Fact]
@@ -459,7 +507,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().HaveLength(10, "we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -495,11 +546,12 @@ namespace FluentAssertions.Specs.Streams
                 .WithMessage("Expected the length of stream not to be 10* *failure message*, but it was.");
         }
 
-        [Fact]
-        public void When_having_a_non_seekable_stream_not_have_length_should_fail()
+        [Theory]
+        [MemberData(nameof(GetLengthExceptions))]
+        public void When_a_throwing_stream_should_not_have_a_length_it_should_fail(Exception exception)
         {
             // Arrange
-            using var stream = new TestStream { Seekable = false };
+            using var stream = new ExceptingStream(exception);
 
             // Act
             Action act = () =>
@@ -507,7 +559,8 @@ namespace FluentAssertions.Specs.Streams
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected the length of stream not to be 10* *failure message*, but found a non-seekable stream.");
+                .WithMessage("Expected the length of stream not to be 10* *failure message*, " +
+                    "but it failed with*GetLengthExceptionMessage*");
         }
 
         [Fact]
@@ -518,7 +571,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().NotHaveLength(10, "we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -581,7 +637,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().BeReadOnly("we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -639,7 +698,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().NotBeReadOnly("we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -702,7 +764,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().BeWriteOnly("we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -760,7 +825,10 @@ namespace FluentAssertions.Specs.Streams
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 stream.Should().NotBeWriteOnly("we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -768,6 +836,40 @@ namespace FluentAssertions.Specs.Streams
         }
 
         #endregion
+    }
+
+    internal class ExceptingStream : Stream
+    {
+        private readonly Exception exception;
+
+        public ExceptingStream(Exception exception)
+        {
+            this.exception = exception;
+        }
+
+        public override bool CanRead => true;
+
+        public override bool CanSeek => true;
+
+        public override bool CanWrite => true;
+
+        public override long Length => throw exception;
+
+        public override long Position
+        {
+            get => throw exception;
+            set => throw new NotImplementedException();
+        }
+
+        public override void Flush() => throw new NotImplementedException();
+
+        public override int Read(byte[] buffer, int offset, int count) => throw new NotImplementedException();
+
+        public override long Seek(long offset, SeekOrigin origin) => throw new NotImplementedException();
+
+        public override void SetLength(long value) => throw new NotImplementedException();
+
+        public override void Write(byte[] buffer, int offset, int count) => throw new NotImplementedException();
     }
 
     internal class TestStream : Stream

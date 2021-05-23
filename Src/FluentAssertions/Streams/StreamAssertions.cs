@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
@@ -43,16 +44,18 @@ namespace FluentAssertions.Streams
         /// </param>
         public AndConstraint<TAssertions> BeWritable(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:stream} to be writable{reason}, ")
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> reference.")
-                .Then
-                .ForCondition(Subject.CanWrite)
-                .FailWith("but it was not.")
-                .Then
-                .ClearExpectation();
+                .FailWith("Expected {context:stream} to be writable{reason}, but found a <null> reference.");
+
+            if (success)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(Subject.CanWrite)
+                    .FailWith("Expected {context:stream} to be writable{reason}, but it was not.");
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -69,16 +72,18 @@ namespace FluentAssertions.Streams
         /// </param>
         public AndConstraint<TAssertions> NotBeWritable(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:stream} not to be writable{reason}, ")
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> reference.")
-                .Then
-                .ForCondition(!Subject.CanWrite)
-                .FailWith("but it was.")
-                .Then
-                .ClearExpectation();
+                .FailWith("Expected {context:stream} not to be writable{reason}, but found a <null> reference.");
+
+            if (success)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(!Subject.CanWrite)
+                    .FailWith("Expected {context:stream} not to be writable{reason}, but it was.");
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -95,16 +100,18 @@ namespace FluentAssertions.Streams
         /// </param>
         public AndConstraint<TAssertions> BeSeekable(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:stream} to be seekable{reason}, ")
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> reference.")
-                .Then
-                .ForCondition(Subject.CanSeek)
-                .FailWith("but it was not.")
-                .Then
-                .ClearExpectation();
+                .FailWith("Expected {context:stream} to be seekable{reason}, but found a <null> reference.");
+
+            if (success)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(Subject.CanSeek)
+                    .FailWith("Expected {context:stream} to be seekable{reason}, but it was not.");
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -121,16 +128,18 @@ namespace FluentAssertions.Streams
         /// </param>
         public AndConstraint<TAssertions> NotBeSeekable(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:stream} not to be seekable{reason}, ")
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> reference.")
-                .Then
-                .ForCondition(!Subject.CanSeek)
-                .FailWith("but it was.")
-                .Then
-                .ClearExpectation();
+                .FailWith("Expected {context:stream} not to be seekable{reason}, but found a <null> reference.");
+
+            if (success)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(!Subject.CanSeek)
+                    .FailWith("Expected {context:stream} not to be seekable{reason}, but it was.");
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -147,16 +156,18 @@ namespace FluentAssertions.Streams
         /// </param>
         public AndConstraint<TAssertions> BeReadable(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:stream} to be readable{reason}, ")
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> reference.")
-                .Then
-                .ForCondition(Subject.CanRead)
-                .FailWith("but it was not.")
-                .Then
-                .ClearExpectation();
+                .FailWith("Expected {context:stream} to be readable{reason}, but found a <null> reference.");
+
+            if (success)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(Subject.CanRead)
+                    .FailWith("Expected {context:stream} to be readable{reason}, but it was not.");
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -173,16 +184,18 @@ namespace FluentAssertions.Streams
         /// </param>
         public AndConstraint<TAssertions> NotBeReadable(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:stream} not to be readable{reason}, ")
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> reference.")
-                .Then
-                .ForCondition(!Subject.CanRead)
-                .FailWith("but it was.")
-                .Then
-                .ClearExpectation();
+                .FailWith("Expected {context:stream} not to be readable{reason}, but found a <null> reference.");
+
+            if (success)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(!Subject.CanRead)
+                    .FailWith("Expected {context:stream} not to be readable{reason}, but it was.");
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -200,19 +213,37 @@ namespace FluentAssertions.Streams
         /// </param>
         public AndConstraint<TAssertions> HavePosition(long expected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected the position of {context:stream} to be {0}{reason}, ", expected)
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> reference.")
-                .Then
-                .ForCondition(Subject.CanSeek)
-                .FailWith("but found a non-seekable stream.")
-                .Then
-                .ForCondition(Subject.Position == expected)
-                .FailWith("but it was {0}.", Subject.Position)
-                .Then
-                .ClearExpectation();
+                .FailWith("Expected the position of {context:stream} to be {0}{reason}, but found a <null> reference.",
+                    expected);
+
+            if (success)
+            {
+                long position;
+
+                try
+                {
+                    position = Subject.Position;
+                }
+                catch (Exception exception)
+                    when (exception is IOException or NotSupportedException or ObjectDisposedException)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected the position of {context:stream} to be {0}{reason}, but it failed with:{1}{2}",
+                            expected, Environment.NewLine, exception.Message);
+
+                    return new AndConstraint<TAssertions>((TAssertions)this);
+                }
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(position == expected)
+                    .FailWith("Expected the position of {context:stream} to be {0}{reason}, but it was {1}.",
+                        expected, position);
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -230,19 +261,37 @@ namespace FluentAssertions.Streams
         /// </param>
         public AndConstraint<TAssertions> NotHavePosition(long unexpected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected the position of {context:stream} not to be {0}{reason}, ", unexpected)
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> reference.")
-                .Then
-                .ForCondition(Subject.CanSeek)
-                .FailWith("but found a non-seekable stream.")
-                .Then
-                .ForCondition(Subject.Position != unexpected)
-                .FailWith("but it was.")
-                .Then
-                .ClearExpectation();
+                .FailWith("Expected the position of {context:stream} not to be {0}{reason}, but found a <null> reference.",
+                    unexpected);
+
+            if (success)
+            {
+                long position;
+
+                try
+                {
+                    position = Subject.Position;
+                }
+                catch (Exception exception)
+                    when (exception is IOException or NotSupportedException or ObjectDisposedException)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected the position of {context:stream} not to be {0}{reason}, but it failed with:{1}{2}",
+                            unexpected, Environment.NewLine, exception.Message);
+
+                    return new AndConstraint<TAssertions>((TAssertions)this);
+                }
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(position != unexpected)
+                    .FailWith("Expected the position of {context:stream} not to be {0}{reason}, but it was.",
+                        unexpected);
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -260,19 +309,37 @@ namespace FluentAssertions.Streams
         /// </param>
         public AndConstraint<TAssertions> HaveLength(long expected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected the length of {context:stream} to be {0}{reason}, ", expected)
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> reference.")
-                .Then
-                .ForCondition(Subject.CanSeek)
-                .FailWith("but found a non-seekable stream.")
-                .Then
-                .ForCondition(Subject.Length == expected)
-                .FailWith("but it was {0}.", Subject.Length)
-                .Then
-                .ClearExpectation();
+                .FailWith("Expected the length of {context:stream} to be {0}{reason}, but found a <null> reference.",
+                    expected);
+
+            if (success)
+            {
+                long length;
+
+                try
+                {
+                    length = Subject.Length;
+                }
+                catch (Exception exception)
+                    when (exception is IOException or NotSupportedException or ObjectDisposedException)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected the length of {context:stream} to be {0}{reason}, but it failed with:{1}{2}",
+                            expected, Environment.NewLine, exception.Message);
+
+                    return new AndConstraint<TAssertions>((TAssertions)this);
+                }
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(length == expected)
+                    .FailWith("Expected the length of {context:stream} to be {0}{reason}, but it was {1}.",
+                        expected, length);
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -290,19 +357,37 @@ namespace FluentAssertions.Streams
         /// </param>
         public AndConstraint<TAssertions> NotHaveLength(long unexpected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected the length of {context:stream} not to be {0}{reason}, ", unexpected)
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> reference.")
-                .Then
-                .ForCondition(Subject.CanSeek)
-                .FailWith("but found a non-seekable stream.")
-                .Then
-                .ForCondition(Subject.Length != unexpected)
-                .FailWith("but it was.")
-                .Then
-                .ClearExpectation();
+                .FailWith("Expected the length of {context:stream} not to be {0}{reason}, but found a <null> reference.",
+                    unexpected);
+
+            if (success)
+            {
+                long length;
+
+                try
+                {
+                    length = Subject.Length;
+                }
+                catch (Exception exception)
+                    when (exception is IOException or NotSupportedException or ObjectDisposedException)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected the length of {context:stream} not to be {0}{reason}, but it failed with:{1}{2}",
+                            unexpected, Environment.NewLine, exception.Message);
+
+                    return new AndConstraint<TAssertions>((TAssertions)this);
+                }
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(length != unexpected)
+                    .FailWith("Expected the length of {context:stream} not to be {0}{reason}, but it was.",
+                        unexpected);
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -319,16 +404,18 @@ namespace FluentAssertions.Streams
         /// </param>
         public AndConstraint<TAssertions> BeReadOnly(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:stream} to be read-only{reason}, ")
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> reference.")
-                .Then
-                .ForCondition(!Subject.CanWrite && Subject.CanRead)
-                .FailWith("but it was writable or not readable.")
-                .Then
-                .ClearExpectation();
+                .FailWith("Expected {context:stream} to be read-only{reason}, but found a <null> reference.");
+
+            if (success)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(!Subject.CanWrite && Subject.CanRead)
+                    .FailWith("Expected {context:stream} to be read-only{reason}, but it was writable or not readable.");
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -345,16 +432,18 @@ namespace FluentAssertions.Streams
         /// </param>
         public AndConstraint<TAssertions> NotBeReadOnly(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:stream} not to be read-only{reason}, ")
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> reference.")
-                .Then
-                .ForCondition(Subject.CanWrite || !Subject.CanRead)
-                .FailWith("but it was.")
-                .Then
-                .ClearExpectation();
+                .FailWith("Expected {context:stream} not to be read-only{reason}, but found a <null> reference.");
+
+            if (success)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(Subject.CanWrite || !Subject.CanRead)
+                    .FailWith("Expected {context:stream} not to be read-only{reason}, but it was.");
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -371,16 +460,18 @@ namespace FluentAssertions.Streams
         /// </param>
         public AndConstraint<TAssertions> BeWriteOnly(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:stream} to be write-only{reason}, ")
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> reference.")
-                .Then
-                .ForCondition(Subject.CanWrite && !Subject.CanRead)
-                .FailWith("but it was readable or not writable.")
-                .Then
-                .ClearExpectation();
+                .FailWith("Expected {context:stream} to be write-only{reason}, but found a <null> reference.");
+
+            if (success)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(Subject.CanWrite && !Subject.CanRead)
+                    .FailWith("Expected {context:stream} to be write-only{reason}, but it was readable or not writable.");
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -397,16 +488,18 @@ namespace FluentAssertions.Streams
         /// </param>
         public AndConstraint<TAssertions> NotBeWriteOnly(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:stream} not to be write-only{reason}, ")
                 .ForCondition(Subject is not null)
-                .FailWith("but found a <null> reference.")
-                .Then
-                .ForCondition(!Subject.CanWrite || Subject.CanRead)
-                .FailWith("but it was.")
-                .Then
-                .ClearExpectation();
+                .FailWith("Expected {context:stream} not to be write-only{reason}, but found a <null> reference.");
+
+            if (success)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(!Subject.CanWrite || Subject.CanRead)
+                    .FailWith("Expected {context:stream} not to be write-only{reason}, but it was.");
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
