@@ -39,7 +39,7 @@ namespace FluentAssertions.Equivalency
             object expected = comparands.Expectation;
             object subject = comparands.Subject;
 
-            bool onlyOneNull = (expected is null) ^ (subject is null);
+            bool onlyOneNull = (expected is null) != (subject is null);
 
             if (onlyOneNull)
             {

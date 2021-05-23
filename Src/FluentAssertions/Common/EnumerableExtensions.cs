@@ -40,7 +40,7 @@ namespace FluentAssertions.Common
                     return -1;
                 }
 
-                if (isFirstCompleted ^ isSecondCompleted)
+                if (isFirstCompleted != isSecondCompleted)
                 {
                     return index;
                 }
