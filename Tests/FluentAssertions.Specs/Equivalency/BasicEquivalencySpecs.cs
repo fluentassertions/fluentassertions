@@ -3933,7 +3933,6 @@ namespace FluentAssertions.Specs.Equivalency
             object expectedEnum = EnumULong.UInt64Max;
 
             // Act
-            // ReSharper disable once ExpressionIsAlwaysNull
             Action act = () => subject.Should().BeEquivalentTo(expectedEnum, x => x.ComparingEnumsByName(), "comparing enums should throw");
 
             // Assert
@@ -3949,7 +3948,6 @@ namespace FluentAssertions.Specs.Equivalency
             object expected = null;
 
             // Act
-            // ReSharper disable once ExpressionIsAlwaysNull
             Action act = () => subjectEnum.Should().BeEquivalentTo(expected, x => x.ComparingEnumsByName(), "comparing enums should throw");
 
             // Assert

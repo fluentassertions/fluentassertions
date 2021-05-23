@@ -134,3 +134,6 @@ dotnet_diagnostic.SA1615.severity = none
 
 # SA1005: Single line comments should begin with single space
 dotnet_diagnostic.SA1005.severity = suggestion
+
+# ReSharper/Rider
+resharper_expression_is_always_null_highlighting=none

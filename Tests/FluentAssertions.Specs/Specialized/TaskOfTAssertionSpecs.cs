@@ -11,7 +11,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Specialized
 {
-    [SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
     public class TaskOfTAssertionSpecs
     {
         #region CompleteWithinAsync
