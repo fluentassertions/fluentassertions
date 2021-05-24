@@ -127,9 +127,10 @@ namespace FluentAssertions.Equivalency
                 DataColumn expectationColumn = expectation.Table.Columns[columnName];
                 DataColumn subjectColumn = subject.Table.Columns[columnName];
 
-                if ((dataSetConfig?.ShouldExcludeColumn(subjectColumn) == true)
-                    || (dataTableConfig?.ShouldExcludeColumn(subjectColumn) == true)
-                    || (dataRowConfig?.ShouldExcludeColumn(subjectColumn) == true))
+                if (subjectColumn is not null
+                    && ((dataSetConfig?.ShouldExcludeColumn(subjectColumn) == true)
+                        || (dataTableConfig?.ShouldExcludeColumn(subjectColumn) == true)
+                        || (dataRowConfig?.ShouldExcludeColumn(subjectColumn) == true)))
                 {
                     continue;
                 }
