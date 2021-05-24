@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Common;
+using FluentAssertions.Equivalency;
 
 namespace FluentAssertions.Formatting
 {
@@ -58,7 +59,7 @@ namespace FluentAssertions.Formatting
         /// <remarks>The default is all non-private members.</remarks>
         protected virtual MemberInfo[] GetMembers(Type type)
         {
-            return type.GetNonPrivateMembers().ToArray();
+            return type.GetNonPrivateMembers(MemberVisibility.Public).ToArray();
         }
 
         private static bool HasDefaultToStringImplementation(object value)

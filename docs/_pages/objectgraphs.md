@@ -144,13 +144,21 @@ Barring other configuration, Fluent Assertions will include all `public` propert
 This behavior can be changed:
 
 ```csharp
-// Include Fields
+// Include properties (which is the default)
+orderDto.Should().BeEquivalentTo(order, options => options
+    .IncludingProperties());
+
+// Include fields
 orderDto.Should().BeEquivalentTo(order, options => options
     .IncludingFields());
 
-// Include Properties
+// Include internal properties as well
 orderDto.Should().BeEquivalentTo(order, options => options
-    .IncludingProperties());
+    .IncludingInternalProperties());
+
+// And the internal fields
+orderDto.Should().BeEquivalentTo(order, options => options
+    .IncludingInternalFields());
 
 // Exclude Fields
 orderDto.Should().BeEquivalentTo(order, options => options
@@ -161,9 +169,7 @@ orderDto.Should().BeEquivalentTo(order, options => options
     .ExcludingProperties());
 ```
 
-This configuration affects the initial inclusion of members and happens before any `Exclude`s or other `IMemberSelectionRule`s.
-This configuration also affects matching.
-For example, that if properties are excluded, properties will not be inspected when looking for a match on the expected object.
+This configuration affects the initial inclusion of members and happens before any `Exclude`s or other `IMemberSelectionRule`s. This configuration also affects matching. For example, that if properties are excluded, properties will not be inspected when looking for a match on the expected object.
 
 ### Equivalency Comparison Behavior ###
 In addition to influencing the members that are including in the comparison, you can also override the actual assertion operation that is executed on a particular member.

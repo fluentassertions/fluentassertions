@@ -44,6 +44,7 @@ sidebar:
 * Removed `[Not]Contain(IEnumerable<T>, params T[])` - [#1529](https://github.com/fluentassertions/fluentassertions/pull/1529).
 * Removed `BeEquivalentTo(params object[])` - [#1529](https://github.com/fluentassertions/fluentassertions/pull/1529).
 * Renamed `EquivalencyStepCollection` to `EquivalencyPlan` and `AssertionOptions.EquivalencyCollection` to `EquivalencyPlan` - [#1539](https://github.com/fluentassertions/fluentassertions/pull/1539).
+* `BeEquivalentTo` will no longer include `internal` properties and fields, unless `IncludingInternalProperties` or `IncludingInternalFields` is used - [#1575](https://github.com/fluentassertions/fluentassertions/pull/1575).
 
 **Breaking Changes (Extensibility)**
 * Pascal cased `CallerIdentifier.logger` - [#1458](https://github.com/fluentassertions/fluentassertions/pull/1458).

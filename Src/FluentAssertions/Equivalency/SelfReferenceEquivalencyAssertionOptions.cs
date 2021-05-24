@@ -22,12 +22,10 @@ namespace FluentAssertions.Equivalency
     {
         #region Private Definitions
 
+        // REFACTOR: group the next four fields in a dedicated class
         private readonly ConcurrentDictionary<Type, bool> hasValueSemanticsMap = new();
-
         private readonly List<Type> referenceTypes = new();
-
         private readonly List<Type> valueTypes = new();
-
         private readonly Func<Type, EqualityStrategy> getDefaultEqualityStrategy;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -54,9 +52,9 @@ namespace FluentAssertions.Equivalency
 
         private bool useRuntimeTyping;
 
-        private bool includeProperties;
+        private MemberVisibility includedProperties;
+        private MemberVisibility includedFields;
 
-        private bool includeFields;
         private bool compareRecordsByValue;
 
         #endregion
@@ -78,8 +76,8 @@ namespace FluentAssertions.Equivalency
             allowInfiniteRecursion = defaults.AllowInfiniteRecursion;
             enumEquivalencyHandling = defaults.EnumEquivalencyHandling;
             useRuntimeTyping = defaults.UseRuntimeTyping;
-            includeProperties = defaults.IncludeProperties;
-            includeFields = defaults.IncludeFields;
+            includedProperties = defaults.IncludedProperties;
+            includedFields = defaults.IncludedFields;
             compareRecordsByValue = defaults.CompareRecordsByValue;
 
             ConversionSelector = defaults.ConversionSelector.Clone();
@@ -92,8 +90,8 @@ namespace FluentAssertions.Equivalency
             getDefaultEqualityStrategy = defaults.GetEqualityStrategy;
             TraceWriter = defaults.TraceWriter;
 
-            RemoveSelectionRule<AllPublicPropertiesSelectionRule>();
-            RemoveSelectionRule<AllPublicFieldsSelectionRule>();
+            RemoveSelectionRule<AllPropertiesSelectionRule>();
+            RemoveSelectionRule<AllFieldsSelectionRule>();
         }
 
         /// <summary>
@@ -105,14 +103,14 @@ namespace FluentAssertions.Equivalency
             {
                 bool hasConflictingRules = selectionRules.Any(rule => rule.IncludesMembers);
 
-                if (includeProperties && !hasConflictingRules)
+                if (includedProperties.HasFlag(MemberVisibility.Public) && !hasConflictingRules)
                 {
-                    yield return new AllPublicPropertiesSelectionRule();
+                    yield return new AllPropertiesSelectionRule();
                 }
 
-                if (includeFields && !hasConflictingRules)
+                if (includedFields.HasFlag(MemberVisibility.Public) && !hasConflictingRules)
                 {
-                    yield return new AllPublicFieldsSelectionRule();
+                    yield return new AllFieldsSelectionRule();
                 }
 
                 foreach (IMemberSelectionRule rule in selectionRules)
@@ -158,9 +156,9 @@ namespace FluentAssertions.Equivalency
 
         bool IEquivalencyAssertionOptions.UseRuntimeTyping => useRuntimeTyping;
 
-        bool IEquivalencyAssertionOptions.IncludeProperties => includeProperties;
+        MemberVisibility IEquivalencyAssertionOptions.IncludedProperties => includedProperties;
 
-        bool IEquivalencyAssertionOptions.IncludeFields => includeFields;
+        MemberVisibility IEquivalencyAssertionOptions.IncludedFields => includedFields;
 
         public bool CompareRecordsByValue => compareRecordsByValue;
 
@@ -250,14 +248,23 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Instructs the comparison to include fields.
+        /// Instructs the comparison to include public fields.
         /// </summary>
         /// <remarks>
         /// This is part of the default behavior.
         /// </remarks>
         public TSelf IncludingFields()
         {
-            includeFields = true;
+            includedFields = MemberVisibility.Public;
+            return (TSelf)this;
+        }
+
+        /// <summary>
+        /// Instructs the comparison to include public and internal fields.
+        /// </summary>
+        public TSelf IncludingInternalFields()
+        {
+            includedFields = MemberVisibility.Public | MemberVisibility.Internal;
             return (TSelf)this;
         }
 
@@ -269,19 +276,28 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public TSelf ExcludingFields()
         {
-            includeFields = false;
+            includedFields = MemberVisibility.None;
             return (TSelf)this;
         }
 
         /// <summary>
-        /// Instructs the comparison to include properties.
+        /// Instructs the comparison to include public properties.
         /// </summary>
         /// <remarks>
         /// This is part of the default behavior.
         /// </remarks>
         public TSelf IncludingProperties()
         {
-            includeProperties = true;
+            includedProperties = MemberVisibility.Public;
+            return (TSelf)this;
+        }
+
+        /// <summary>
+        /// Instructs the comparison to include public and internal properties.
+        /// </summary>
+        public TSelf IncludingInternalProperties()
+        {
+            includedProperties = MemberVisibility.Public | MemberVisibility.Internal;
             return (TSelf)this;
         }
 
@@ -293,7 +309,7 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public TSelf ExcludingProperties()
         {
-            includeProperties = false;
+            includedProperties = MemberVisibility.None;
             return (TSelf)this;
         }
 

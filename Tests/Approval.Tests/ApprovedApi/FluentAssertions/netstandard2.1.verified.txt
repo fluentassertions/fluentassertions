@@ -838,8 +838,8 @@ namespace FluentAssertions.Equivalency
         FluentAssertions.Equivalency.ConversionSelector ConversionSelector { get; }
         FluentAssertions.Equivalency.CyclicReferenceHandling CyclicReferenceHandling { get; }
         FluentAssertions.Equivalency.EnumEquivalencyHandling EnumEquivalencyHandling { get; }
-        bool IncludeFields { get; }
-        bool IncludeProperties { get; }
+        FluentAssertions.Equivalency.MemberVisibility IncludedFields { get; }
+        FluentAssertions.Equivalency.MemberVisibility IncludedProperties { get; }
         bool IsRecursive { get; }
         System.Collections.Generic.IEnumerable<FluentAssertions.Equivalency.IMemberMatchingRule> MatchingRules { get; }
         FluentAssertions.Equivalency.OrderingRuleCollection OrderingRules { get; }
@@ -924,7 +924,16 @@ namespace FluentAssertions.Equivalency
     public class MemberSelectionContext
     {
         public MemberSelectionContext(System.Type compileTimeType, System.Type runtimeType, FluentAssertions.Equivalency.IEquivalencyAssertionOptions options) { }
+        public FluentAssertions.Equivalency.MemberVisibility IncludedFields { get; }
+        public FluentAssertions.Equivalency.MemberVisibility IncludedProperties { get; }
         public System.Type Type { get; }
+    }
+    [System.Flags]
+    public enum MemberVisibility
+    {
+        None = 0,
+        Internal = 1,
+        Public = 2,
     }
     public class Node : FluentAssertions.Equivalency.INode
     {
@@ -1007,6 +1016,8 @@ namespace FluentAssertions.Equivalency
         public TSelf IncludingAllDeclaredProperties() { }
         public TSelf IncludingAllRuntimeProperties() { }
         public TSelf IncludingFields() { }
+        public TSelf IncludingInternalFields() { }
+        public TSelf IncludingInternalProperties() { }
         public TSelf IncludingNestedObjects() { }
         public TSelf IncludingProperties() { }
         public TSelf RespectingDeclaredTypes() { }

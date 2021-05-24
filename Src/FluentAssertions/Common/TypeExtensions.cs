@@ -10,11 +10,14 @@ namespace FluentAssertions.Common
 {
     internal static class TypeExtensions
     {
-        private const BindingFlags PublicMembersFlag =
+        private const BindingFlags PublicInstanceMembersFlag =
+            BindingFlags.Public | BindingFlags.Instance;
+
+        private const BindingFlags AllInstanceMembersFlag =
             BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
-        private const BindingFlags AllMembersFlag =
-            PublicMembersFlag | BindingFlags.NonPublic | BindingFlags.Static;
+        private const BindingFlags AllStaticAndInstanceMembersFlag =
+            PublicInstanceMembersFlag | BindingFlags.NonPublic | BindingFlags.Static;
 
         public static bool IsDecoratedWith<TAttribute>(this Type type)
             where TAttribute : Attribute
@@ -167,7 +170,7 @@ namespace FluentAssertions.Common
         public static PropertyInfo FindProperty(this Type type, string propertyName, Type preferredType)
         {
             List<PropertyInfo> properties =
-                type.GetProperties(PublicMembersFlag)
+                type.GetProperties(AllInstanceMembersFlag)
                     .Where(pi => pi.Name == propertyName)
                     .ToList();
 
@@ -185,7 +188,7 @@ namespace FluentAssertions.Common
         public static FieldInfo FindField(this Type type, string fieldName, Type preferredType)
         {
             List<FieldInfo> properties =
-                type.GetFields(PublicMembersFlag)
+                type.GetFields(AllInstanceMembersFlag)
                     .Where(pi => pi.Name == fieldName)
                     .ToList();
 
@@ -194,31 +197,43 @@ namespace FluentAssertions.Common
                 : properties.SingleOrDefault();
         }
 
-        public static IEnumerable<MemberInfo> GetNonPrivateMembers(this Type typeToReflect)
+        public static IEnumerable<MemberInfo> GetNonPrivateMembers(this Type typeToReflect, MemberVisibility visibility)
         {
             return
-                GetNonPrivateProperties(typeToReflect)
-                    .Concat<MemberInfo>(GetNonPrivateFields(typeToReflect))
+                GetNonPrivateProperties(typeToReflect, visibility)
+                    .Concat<MemberInfo>(GetNonPrivateFields(typeToReflect, visibility))
                     .ToArray();
         }
 
-        public static IEnumerable<PropertyInfo> GetNonPrivateProperties(this Type typeToReflect,
-            IEnumerable<string> filter = null)
+        public static IEnumerable<PropertyInfo> GetNonPrivateProperties(this Type typeToReflect, MemberVisibility visibility)
         {
             IEnumerable<PropertyInfo> query =
-                from propertyInfo in GetPropertiesFromHierarchy(typeToReflect)
+                from propertyInfo in GetPropertiesFromHierarchy(typeToReflect, visibility)
                 where HasNonPrivateGetter(propertyInfo)
                 where !propertyInfo.IsIndexer()
-                where filter is null || filter.Contains(propertyInfo.Name)
                 select propertyInfo;
 
             return query.ToArray();
         }
 
-        public static IEnumerable<FieldInfo> GetNonPrivateFields(this Type typeToReflect)
+        private static IEnumerable<PropertyInfo> GetPropertiesFromHierarchy(Type typeToReflect, MemberVisibility memberVisibility)
+        {
+            bool includeInternals = memberVisibility.HasFlag(MemberVisibility.Internal);
+
+            return GetMembersFromHierarchy(typeToReflect, type =>
+            {
+                return type
+                    .GetProperties(AllInstanceMembersFlag)
+                    .Where(property => property.GetMethod?.IsPrivate == false)
+                    .Where(property => includeInternals || (property.GetMethod?.IsAssembly == false && property.GetMethod?.IsFamilyOrAssembly == false))
+                    .ToArray();
+            });
+        }
+
+        public static IEnumerable<FieldInfo> GetNonPrivateFields(this Type typeToReflect, MemberVisibility visibility)
         {
             IEnumerable<FieldInfo> query =
-                from fieldInfo in GetFieldsFromHierarchy(typeToReflect)
+                from fieldInfo in GetFieldsFromHierarchy(typeToReflect, visibility)
                 where !fieldInfo.IsPrivate
                 where !fieldInfo.IsFamily
                 select fieldInfo;
@@ -226,14 +241,18 @@ namespace FluentAssertions.Common
             return query.ToArray();
         }
 
-        private static IEnumerable<FieldInfo> GetFieldsFromHierarchy(Type typeToReflect)
+        private static IEnumerable<FieldInfo> GetFieldsFromHierarchy(Type typeToReflect, MemberVisibility memberVisibility)
         {
-            return GetMembersFromHierarchy(typeToReflect, GetPublicFields);
-        }
+            bool includeInternals = memberVisibility.HasFlag(MemberVisibility.Internal);
 
-        private static IEnumerable<PropertyInfo> GetPropertiesFromHierarchy(Type typeToReflect)
-        {
-            return GetMembersFromHierarchy(typeToReflect, GetPublicProperties);
+            return GetMembersFromHierarchy(typeToReflect, type =>
+            {
+                return type
+                    .GetFields(AllInstanceMembersFlag)
+                    .Where(field => !field.IsPrivate)
+                    .Where(field => includeInternals || (!field.IsAssembly && !field.IsFamilyOrAssembly))
+                    .ToArray();
+            });
         }
 
         private static IEnumerable<TMemberInfo> GetMembersFromHierarchy<TMemberInfo>(
@@ -282,16 +301,6 @@ namespace FluentAssertions.Common
             return type.GetInterfaces();
         }
 
-        private static PropertyInfo[] GetPublicProperties(Type type)
-        {
-            return type.GetProperties(PublicMembersFlag);
-        }
-
-        private static FieldInfo[] GetPublicFields(Type type)
-        {
-            return type.GetFields(PublicMembersFlag);
-        }
-
         private static bool HasNonPrivateGetter(PropertyInfo propertyInfo)
         {
             MethodInfo getMethod = propertyInfo.GetGetMethod(nonPublic: true);
@@ -327,7 +336,7 @@ namespace FluentAssertions.Common
 
         public static MethodInfo GetMethod(this Type type, string methodName, IEnumerable<Type> parameterTypes)
         {
-            return type.GetMethods(AllMembersFlag)
+            return type.GetMethods(AllStaticAndInstanceMembersFlag)
                 .SingleOrDefault(m =>
                     m.Name == methodName && m.GetParameters().Select(p => p.ParameterType).SequenceEqual(parameterTypes));
         }
@@ -349,13 +358,13 @@ namespace FluentAssertions.Common
 
         public static PropertyInfo GetPropertyByName(this Type type, string propertyName)
         {
-            return type.GetProperty(propertyName, AllMembersFlag);
+            return type.GetProperty(propertyName, AllStaticAndInstanceMembersFlag);
         }
 
         public static bool HasExplicitlyImplementedProperty(this Type type, Type interfaceType, string propertyName)
         {
             bool hasGetter = type.HasParameterlessMethod($"{interfaceType.FullName}.get_{propertyName}");
-            bool hasSetter = type.GetMethods(AllMembersFlag)
+            bool hasSetter = type.GetMethods(AllStaticAndInstanceMembersFlag)
                 .SingleOrDefault(m =>
                     m.Name == $"{interfaceType.FullName}.set_{propertyName}" &&
                     m.GetParameters().Length == 1) is not null;
@@ -365,7 +374,7 @@ namespace FluentAssertions.Common
 
         public static PropertyInfo GetIndexerByParameterTypes(this Type type, IEnumerable<Type> parameterTypes)
         {
-            return type.GetProperties(AllMembersFlag)
+            return type.GetProperties(AllStaticAndInstanceMembersFlag)
                 .SingleOrDefault(p =>
                     p.IsIndexer() && p.GetIndexParameters().Select(i => i.ParameterType).SequenceEqual(parameterTypes));
         }
@@ -378,7 +387,7 @@ namespace FluentAssertions.Common
         public static ConstructorInfo GetConstructor(this Type type, IEnumerable<Type> parameterTypes)
         {
             return type
-                .GetConstructors(PublicMembersFlag)
+                .GetConstructors(AllInstanceMembersFlag)
                 .SingleOrDefault(m => m.GetParameters().Select(p => p.ParameterType).SequenceEqual(parameterTypes));
         }
 

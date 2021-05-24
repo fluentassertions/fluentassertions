@@ -7,7 +7,7 @@ namespace FluentAssertions.Equivalency.Selection
     /// <summary>
     /// Selection rule that adds all public fields of the expectation
     /// </summary>
-    internal class AllPublicFieldsSelectionRule : IMemberSelectionRule
+    internal class AllFieldsSelectionRule : IMemberSelectionRule
     {
         public bool IncludesMembers => false;
 
@@ -15,7 +15,7 @@ namespace FluentAssertions.Equivalency.Selection
             MemberSelectionContext context)
         {
             IEnumerable<IMember> selectedNonPrivateFields = context.Type
-                .GetNonPrivateFields()
+                .GetNonPrivateFields(context.IncludedFields)
                 .Select(info => new Field(info, currentNode));
 
             return selectedMembers.Union(selectedNonPrivateFields).ToList();

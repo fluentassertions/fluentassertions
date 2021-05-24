@@ -7,7 +7,7 @@ namespace FluentAssertions.Equivalency.Selection
     /// <summary>
     /// Selection rule that adds all public properties of the expectation.
     /// </summary>
-    internal class AllPublicPropertiesSelectionRule : IMemberSelectionRule
+    internal class AllPropertiesSelectionRule : IMemberSelectionRule
     {
         public bool IncludesMembers => false;
 
@@ -15,7 +15,7 @@ namespace FluentAssertions.Equivalency.Selection
             MemberSelectionContext context)
         {
             IEnumerable<IMember> selectedNonPrivateProperties = context.Type
-                .GetNonPrivateProperties()
+                .GetNonPrivateProperties(context.IncludedProperties)
                 .Select(info => new Property(info, currentNode));
 
             return selectedMembers.Union(selectedNonPrivateProperties).ToList();
