@@ -112,6 +112,7 @@ namespace FluentAssertions.Formatting
             }
             catch (Exception ex)
             {
+                ex = (ex as TargetInvocationException)?.InnerException ?? ex;
                 memberValue = $"[Member '{member.Name}' threw an exception: '{ex.Message}']";
             }
 
