@@ -172,7 +172,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected dictionary {[1, One], [2, Two], [3, Three]} to contain 4 item(s) because we want to test the failure message, but found 3.");
+                .WithMessage("Expected dictionary {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"} to contain 4 item(s) because we want to test the failure message, but found 3.");
         }
 
         [Fact]
@@ -206,7 +206,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1, One], [2, Two], [3, Three]} to have a count (c >= 4) because a minimum of 4 is required, but count is 3.");
+                "Expected dictionary {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"} to have a count (c >= 4) because a minimum of 4 is required, but count is 3.");
         }
 
         [Fact]
@@ -858,7 +858,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected dictionary to be empty because we want to test the failure message, but found {[1, One]}.");
+                .WithMessage("Expected dictionary to be empty because we want to test the failure message, but found {[1] = \"One\"}.");
         }
 
         [Fact]
@@ -1004,7 +1004,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary1 to be equal to {[1, One], [22, Two]} because we want to test the failure message, but could not find keys {22}.");
+                "Expected dictionary1 to be equal to {[1] = \"One\", [22] = \"Two\"} because we want to test the failure message, but could not find keys {22}.");
         }
 
         [Fact]
@@ -1028,7 +1028,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary1 to be equal to {[1, One], [2, Two]} because we want to test the failure message, but found additional keys {3}.");
+                "Expected dictionary1 to be equal to {[1] = \"One\", [2] = \"Two\"} because we want to test the failure message, but found additional keys {3}.");
         }
 
         [Fact]
@@ -1051,7 +1051,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary1 to be equal to {[1, One], [2, Three]} because we want to test the failure message, but {[1, One], [2, Two]} differs at key 2.");
+                "Expected dictionary1 to be equal to {[1] = \"One\", [2] = \"Three\"} because we want to test the failure message, but {[1] = \"One\", [2] = \"Two\"} differs at key 2.");
         }
 
         [Fact]
@@ -1070,7 +1070,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary1 to be equal to {[1, One], [2, Two]} because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected dictionary1 to be equal to {[1] = \"One\", [2] = \"Two\"} because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         [Fact]
@@ -1109,7 +1109,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary1 to be equal to {[1, One], [2, Two]}, but could not find keys {1, 2}.");
+                "Expected dictionary1 to be equal to {[1] = \"One\", [2] = \"Two\"}, but could not find keys {1, 2}.");
         }
 
         [Fact]
@@ -1170,7 +1170,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Did not expect dictionaries {[1, One], [2, Two]} and {[1, One], [2, Two]} to be equal.");
+                "Did not expect dictionaries {[1] = \"One\", [2] = \"Two\"} and {[1] = \"One\", [2] = \"Two\"} to be equal.");
         }
 
         [Fact]
@@ -1193,7 +1193,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Did not expect dictionaries {[1, One], [2, Two]} and {[1, One], [2, Two]} to be equal because we want to test the failure message.");
+                "Did not expect dictionaries {[1] = \"One\", [2] = \"Two\"} and {[1] = \"One\", [2] = \"Two\"} to be equal because we want to test the failure message.");
         }
 
         [Fact]
@@ -1322,7 +1322,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1, One], [2, Two]} to contain key 3 because we do.");
+                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain key 3 because we do.");
         }
 
         [Fact]
@@ -1391,7 +1391,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1, One], [2, Two]} to contain key {2, 3} because we do, but could not find {3}.");
+                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain key {2, 3} because we do, but could not find {3}.");
         }
 
         [Fact]
@@ -1461,7 +1461,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1, One], [2, Two]} not to contain key 1 because we don't like it, but found it anyhow.");
+                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} not to contain key 1 because we don't like it, but found it anyhow.");
         }
 
         [Fact]
@@ -1494,7 +1494,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1, One], [2, Two]} to not contain key {2, 3} because we do, but found {2}.");
+                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to not contain key {2, 3} because we do, but found {2}.");
         }
 
         [Fact]
@@ -1512,7 +1512,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1, One], [2, Two]} to not contain key 2 because we do.");
+                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to not contain key 2 because we do.");
         }
 
         [Fact]
@@ -1680,7 +1680,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1, One], [2, Two]} to contain value \"Three\" because we do.");
+                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain value \"Three\" because we do.");
         }
 
         [Fact]
@@ -1698,7 +1698,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1, One], [2, Two]} to contain value {\"Two\", \"Three\"} because we do, but could not find {\"Three\"}.");
+                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain value {\"Two\", \"Three\"} because we do, but could not find {\"Three\"}.");
         }
 
         [Fact]
@@ -1751,7 +1751,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1, One], [2, Two]} not to contain value \"One\" because we don't like it, but found it anyhow.");
+                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} not to contain value \"One\" because we don't like it, but found it anyhow.");
         }
 
         [Fact]
@@ -1801,7 +1801,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1, One], [2, Two]} to not contain value \"Two\" because we do.");
+                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to not contain value \"Two\" because we do.");
         }
 
         [Fact]
@@ -1819,7 +1819,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1, One], [2, Two]} to not contain value {\"Two\", \"Three\"} because we do, but found {\"Two\"}.");
+                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to not contain value {\"Two\", \"Three\"} because we do, but found {\"Two\"}.");
         }
 
         [Fact]
@@ -2065,7 +2065,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1, One], [2, Two]} to contain key 3 because we do.");
+                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain key 3 because we do.");
         }
 
         [Fact]
@@ -2090,7 +2090,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1, One], [2, Two]} to contain key(s) {1, 3, 4} because we do, but could not find keys {3, 4}.");
+                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain key(s) {1, 3, 4} because we do, but could not find keys {3, 4}.");
         }
 
         [Fact]
