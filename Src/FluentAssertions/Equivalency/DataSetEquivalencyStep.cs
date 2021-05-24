@@ -161,9 +161,14 @@ namespace FluentAssertions.Equivalency
         {
             if (selectedMembers.ContainsKey(nameof(expectation.Tables)))
             {
-                AssertionScope.Current
+                bool success = AssertionScope.Current
                     .ForCondition(subject.Tables.Count == expectation.Tables.Count)
                     .FailWith("Expected {context:DataSet} to contain {0}, but found {1} table(s)", expectation.Tables.Count, subject.Tables.Count);
+
+                if (!success)
+                {
+                    return;
+                }
 
                 if (dataConfig is not null)
                 {
@@ -193,20 +198,28 @@ namespace FluentAssertions.Equivalency
                         continue;
                     }
 
-                    DataTable expectationTable = expectation.Tables[tableName];
-                    DataTable subjectTable = subject.Tables[tableName];
-
-                    AssertionScope.Current
-                        .ForCondition(subjectTable is not null)
-                        .FailWith("Expected {context:DataSet} to contain table '{0}'{reason}, but did not find it", tableName);
-
-                    AssertionScope.Current
-                        .ForCondition(expectationTable is not null)
-                        .FailWith("Found unexpected table '{0}' in DataSet", tableName);
-
-                    IEquivalencyValidationContext nestedContext = context.AsCollectionItem<DataTable>(tableName);
-                    parent.RecursivelyAssertEquality(new Comparands(subjectTable, expectationTable, typeof(DataTable)), nestedContext);
+                    CompareTable(context, parent, subject, expectation, tableName);
                 }
+            }
+        }
+
+        private static void CompareTable(IEquivalencyValidationContext context, IEquivalencyValidator parent, DataSet subject,
+            DataSet expectation, string tableName)
+        {
+            DataTable expectationTable = expectation.Tables[tableName];
+            DataTable subjectTable = subject.Tables[tableName];
+
+            bool success = AssertionScope.Current
+                .ForCondition(subjectTable is not null)
+                .FailWith("Expected {context:DataSet} to contain table '{0}'{reason}, but did not find it", tableName)
+                .Then
+                .ForCondition(expectationTable is not null)
+                .FailWith("Found unexpected table '{0}' in DataSet", tableName);
+
+            if (success)
+            {
+                IEquivalencyValidationContext nestedContext = context.AsCollectionItem<DataTable>(tableName);
+                parent.RecursivelyAssertEquality(new Comparands(subjectTable, expectationTable, typeof(DataTable)), nestedContext);
             }
         }
 
