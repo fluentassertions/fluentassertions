@@ -54,9 +54,9 @@ namespace FluentAssertions.Equivalency
             var dataTableConfig = context.Options as DataEquivalencyAssertionOptions<DataTable>;
             var dataColumnConfig = context.Options as DataEquivalencyAssertionOptions<DataColumn>;
 
-            if (((dataSetConfig is not null) && dataSetConfig.ShouldExcludeColumn(subject))
-                || ((dataTableConfig is not null) && dataTableConfig.ShouldExcludeColumn(subject))
-                || ((dataColumnConfig is not null) && dataColumnConfig.ShouldExcludeColumn(subject)))
+            if ((dataSetConfig?.ShouldExcludeColumn(subject) == true)
+                || (dataTableConfig?.ShouldExcludeColumn(subject) == true)
+                || (dataColumnConfig?.ShouldExcludeColumn(subject) == true))
             {
                 compareColumn = false;
             }

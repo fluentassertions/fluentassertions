@@ -188,7 +188,7 @@ namespace FluentAssertions.Equivalency
 
                 foreach (string tableName in expectationTableNames.Union(subjectTableNames))
                 {
-                    if ((dataConfig is not null) && dataConfig.ExcludeTableNames.Contains(tableName))
+                    if (dataConfig?.ExcludeTableNames.Contains(tableName) == true)
                     {
                         continue;
                     }

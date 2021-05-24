@@ -98,9 +98,9 @@ namespace FluentAssertions.Equivalency
                 .Select(col => col.ColumnName);
 
             bool ignoreUnmatchedColumns =
-                ((dataSetConfig is not null) && dataSetConfig.IgnoreUnmatchedColumns) ||
-                ((dataTableConfig is not null) && dataTableConfig.IgnoreUnmatchedColumns) ||
-                ((dataRowConfig is not null) && dataRowConfig.IgnoreUnmatchedColumns);
+                (dataSetConfig?.IgnoreUnmatchedColumns == true) ||
+                (dataTableConfig?.IgnoreUnmatchedColumns == true) ||
+                (dataRowConfig?.IgnoreUnmatchedColumns == true);
 
             DataRowVersion subjectVersion =
                 (subject.RowState == DataRowState.Deleted)
@@ -115,9 +115,9 @@ namespace FluentAssertions.Equivalency
             bool compareOriginalVersions =
                 (subject.RowState == DataRowState.Modified) && (expectation.RowState == DataRowState.Modified);
 
-            if (((dataSetConfig is not null) && dataSetConfig.ExcludeOriginalData)
-                || ((dataTableConfig is not null) && dataTableConfig.ExcludeOriginalData)
-                || ((dataRowConfig is not null) && dataRowConfig.ExcludeOriginalData))
+            if ((dataSetConfig?.ExcludeOriginalData == true)
+                || (dataTableConfig?.ExcludeOriginalData == true)
+                || (dataRowConfig?.ExcludeOriginalData == true))
             {
                 compareOriginalVersions = false;
             }
@@ -127,9 +127,9 @@ namespace FluentAssertions.Equivalency
                 DataColumn expectationColumn = expectation.Table.Columns[columnName];
                 DataColumn subjectColumn = subject.Table.Columns[columnName];
 
-                if (((dataSetConfig is not null) && dataSetConfig.ShouldExcludeColumn(subjectColumn))
-                    || ((dataTableConfig is not null) && dataTableConfig.ShouldExcludeColumn(subjectColumn))
-                    || ((dataRowConfig is not null) && dataRowConfig.ShouldExcludeColumn(subjectColumn)))
+                if ((dataSetConfig?.ShouldExcludeColumn(subjectColumn) == true)
+                    || (dataTableConfig?.ShouldExcludeColumn(subjectColumn) == true)
+                    || (dataRowConfig?.ShouldExcludeColumn(subjectColumn) == true))
                 {
                     continue;
                 }
