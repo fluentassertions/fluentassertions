@@ -601,6 +601,58 @@ namespace FluentAssertions.Specs.Formatting
             result.Should().Match("*TaskCompletionSource*Task*System.Int32*Status=WaitingForActivation*");
         }
 
+        private class MyKey
+        {
+            public int KeyProp { get; set; }
+        }
+
+        private class MyValue
+        {
+            public int ValueProp { get; set; }
+        }
+
+        [Fact]
+        public void When_formatting_a_dictionary_it_should_format_keys_and_values()
+        {
+            // Arrange
+            var subject = new Dictionary<MyKey, MyValue>
+            {
+                [new() { KeyProp = 13 }] = new() { ValueProp = 37 }
+            };
+
+            // Act
+            string result = Formatter.ToString(subject);
+
+            // Assert
+            result.Should().Match("*{*[*MyKey*KeyProp = 13*] = *MyValue*ValueProp = 37*}*");
+        }
+
+        [Fact]
+        public void When_formatting_an_empty_dictionary_it_should_be_clear_from_the_message()
+        {
+            // Arrange
+            var subject = new Dictionary<int, int>();
+
+            // Act
+            string result = Formatter.ToString(subject);
+
+            // Assert
+            result.Should().Match("{empty}");
+        }
+
+        [Fact]
+        public void When_formatting_a_large_dictionary_it_should_limit_the_number_of_formatted_entries()
+        {
+            // Arrange
+            var subject = Enumerable.Range(0, 50).ToDictionary(e => e, e => e);
+
+            // Act
+            string result = Formatter.ToString(subject);
+
+            // Assert
+            result.Should().Match("*…18 more…*");
+        }
+
         public class BaseStuff
         {
             public int StuffId { get; set; }

@@ -22,6 +22,7 @@ sidebar:
 * Added `[Not]BeWritable`, `[Not]BeSeekable`, `[Not]BeReadable`, `[Not]BeReadOnly`, `[Not]BeWriteOnly`, `[Not]HaveLength` , `[Not]HavePosition` for Stream and `[Not]HaveBufferSize` for BufferedStream - [#1543](https://github.com/fluentassertions/fluentassertions/pull/1543)
 * Added native support for `XDocument`, `XElement` and `XAttribute` properties and fields to `BeEquivalentTo` - [#1572](https://github.com/fluentassertions/fluentassertions/pull/1572) 
 * The equivalency failure message will include information on how tuples, anonymous types, records and other types are compared - [#1571](https://github.com/fluentassertions/fluentassertions/pull/1571)
+* Improved formatting a dictionary when key or value is a complex type - [#1577](https://github.com/fluentassertions/fluentassertions/pull/1577).
 
 **Fixes**
 * Sometimes `BeEquivalentTo` reported an incorrect message when a dictionary was missing a key - [#1454](https://github.com/fluentassertions/fluentassertions/pull/1454)

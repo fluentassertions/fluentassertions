@@ -1367,6 +1367,13 @@ namespace FluentAssertions.Formatting
         protected virtual System.Reflection.MemberInfo[] GetMembers(System.Type type) { }
         protected virtual string TypeDisplayName(System.Type type) { }
     }
+    public class DictionaryValueFormatter : FluentAssertions.Formatting.IValueFormatter
+    {
+        public DictionaryValueFormatter() { }
+        protected virtual int MaxItems { get; }
+        public virtual bool CanHandle(object value) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+    }
     public class DoubleValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public DoubleValueFormatter() { }
