@@ -151,7 +151,7 @@ namespace FluentAssertions.Specs.Formatting
             string result = Formatter.ToString(subject);
 
             // Assert
-            result.Should().Contain("Member 'ThrowingProperty' threw an exception");
+            result.Should().Contain("Member 'ThrowingProperty' threw an exception: 'CustomMessage'");
         }
 
         [Fact]
@@ -912,7 +912,7 @@ namespace FluentAssertions.Specs.Formatting
 
     internal class ExceptionThrowingClass
     {
-        public string ThrowingProperty => throw new InvalidOperationException();
+        public string ThrowingProperty => throw new InvalidOperationException("CustomMessage");
     }
 
     internal class NullThrowingToStringImplementation
