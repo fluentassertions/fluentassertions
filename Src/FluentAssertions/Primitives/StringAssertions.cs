@@ -345,25 +345,31 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> MatchRegex(Regex regularExpression, string because = "", params object[] becauseArgs)
         {
-            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression), "Cannot match string against <null>. Provide a regex pattern or use the BeNull method.");
+            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression),
+                "Cannot match string against <null>. Provide a regex pattern or use the BeNull method.");
 
             var regexStr = regularExpression.ToString();
             if (regexStr.Length == 0)
             {
-                throw new ArgumentException("Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.", nameof(regularExpression));
+                throw new ArgumentException(
+                    "Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.",
+                    nameof(regularExpression));
             }
 
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .ForCondition(Subject is not null)
                 .UsingLineBreaks
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} to match regex {0}{reason}, but it was <null>.", regexStr);
 
-            Execute.Assertion
-                .ForCondition(regularExpression.IsMatch(Subject))
-                .BecauseOf(because, becauseArgs)
-                .UsingLineBreaks
-                .FailWith("Expected {context:string} to match regex {0}{reason}, but {1} does not match.", regexStr, Subject);
+            if (success)
+            {
+                Execute.Assertion
+                    .ForCondition(regularExpression.IsMatch(Subject))
+                    .BecauseOf(because, becauseArgs)
+                    .UsingLineBreaks
+                    .FailWith("Expected {context:string} to match regex {0}{reason}, but {1} does not match.", regexStr, Subject);
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -415,25 +421,31 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> NotMatchRegex(Regex regularExpression, string because = "", params object[] becauseArgs)
         {
-            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression), "Cannot match string against <null>. Provide a regex pattern or use the NotBeNull method.");
+            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression),
+                "Cannot match string against <null>. Provide a regex pattern or use the NotBeNull method.");
 
             var regexStr = regularExpression.ToString();
             if (regexStr.Length == 0)
             {
-                throw new ArgumentException("Cannot match string against an empty regex pattern. Provide a regex pattern or use the NotBeEmpty method.", nameof(regularExpression));
+                throw new ArgumentException(
+                    "Cannot match string against an empty regex pattern. Provide a regex pattern or use the NotBeEmpty method.",
+                    nameof(regularExpression));
             }
 
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .ForCondition(Subject is not null)
                 .UsingLineBreaks
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} to not match regex {0}{reason}, but it was <null>.", regexStr);
 
-            Execute.Assertion
-                .ForCondition(!regularExpression.IsMatch(Subject))
-                .BecauseOf(because, becauseArgs)
-                .UsingLineBreaks
-                .FailWith("Did not expect {context:string} to match regex {0}{reason}, but {1} matches.", regexStr, Subject);
+            if (success)
+            {
+                Execute.Assertion
+                    .ForCondition(!regularExpression.IsMatch(Subject))
+                    .BecauseOf(because, becauseArgs)
+                    .UsingLineBreaks
+                    .FailWith("Did not expect {context:string} to match regex {0}{reason}, but {1} matches.", regexStr, Subject);
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -543,24 +555,26 @@ namespace FluentAssertions.Primitives
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end with <null>.");
 
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} {0} to end with {1}{reason}.", Subject, expected);
-            }
-
-            if (Subject.Length < expected.Length)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} to end with {0}{reason}, but {1} is too short.", expected, Subject);
-            }
-
-            Execute.Assertion
-                .ForCondition(Subject.EndsWith(expected, StringComparison.Ordinal))
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
                 .FailWith("Expected {context:string} {0} to end with {1}{reason}.", Subject, expected);
+
+            if (success)
+            {
+                success = Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(Subject.Length >= expected.Length)
+                    .FailWith("Expected {context:string} to end with {0}{reason}, but {1} is too short.", expected, Subject);
+
+                if (success)
+                {
+                    Execute.Assertion
+                        .ForCondition(Subject.EndsWith(expected, StringComparison.Ordinal))
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:string} {0} to end with {1}{reason}.", Subject, expected);
+                }
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -581,17 +595,18 @@ namespace FluentAssertions.Primitives
         {
             Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare end of string with <null>.");
 
-            if (Subject is null)
+            bool success = Execute.Assertion
+                .ForCondition(Subject is not null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:string} that does not end with {1}{reason}, but found {0}.", Subject, unexpected);
+
+            if (success)
             {
                 Execute.Assertion
+                    .ForCondition(!Subject.EndsWith(unexpected, StringComparison.Ordinal))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} that does not end with {1}{reason}, but found {0}.", Subject, unexpected);
+                    .FailWith("Expected {context:string} {0} not to end with {1}{reason}.", Subject, unexpected);
             }
-
-            Execute.Assertion
-                .ForCondition(!Subject.EndsWith(unexpected, StringComparison.Ordinal))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} {0} not to end with {1}{reason}.", Subject, unexpected);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -612,24 +627,31 @@ namespace FluentAssertions.Primitives
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end equivalence with <null>.");
 
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} that ends with equivalent of {0}{reason}, but found {1}.", expected, Subject);
-            }
-
-            if (Subject.Length < expected.Length)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} to end with equivalent of {0}{reason}, but {1} is too short.", expected, Subject);
-            }
-
-            Execute.Assertion
-                .ForCondition(Subject.EndsWith(expected, StringComparison.OrdinalIgnoreCase))
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} that ends with equivalent of {0}{reason}, but found {1}.", expected, Subject);
+                .ForCondition(Subject is not null)
+                .FailWith(
+                    "Expected {context:string} that ends with equivalent of {0}{reason}, but found {1}.", expected, Subject);
+
+            if (success)
+            {
+                success = Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(Subject.Length >= expected.Length)
+                    .FailWith(
+                        "Expected {context:string} to end with equivalent of {0}{reason}, but {1} is too short.",
+                        expected, Subject);
+
+                if (success)
+                {
+                    Execute.Assertion
+                        .ForCondition(Subject.EndsWith(expected, StringComparison.OrdinalIgnoreCase))
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith(
+                            "Expected {context:string} that ends with equivalent of {0}{reason}, but found {1}.",
+                            expected, Subject);
+                }
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -650,17 +672,22 @@ namespace FluentAssertions.Primitives
         {
             Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare end of string with <null>.");
 
-            if (Subject is null)
+            var success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith(
+                    "Expected {context:string} that does not end with equivalent of {0}{reason}, but found {1}.",
+                    unexpected, Subject);
+
+            if (success)
             {
                 Execute.Assertion
+                    .ForCondition(!Subject.EndsWith(unexpected, StringComparison.OrdinalIgnoreCase))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} that does not end with equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
+                    .FailWith(
+                        "Expected {context:string} that does not end with equivalent of {0}{reason}, but found {1}.",
+                        unexpected, Subject);
             }
-
-            Execute.Assertion
-                .ForCondition(!Subject.EndsWith(unexpected, StringComparison.OrdinalIgnoreCase))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} that does not end with equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -1070,14 +1097,19 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> HaveLength(int expected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
-                .FailWith("Expected {context:string} with length {0}{reason}, but found <null>", expected)
-                .Then
-                .ForCondition(Subject.Length == expected)
-                .FailWith("Expected {context:string} with length {0}{reason}, but found string {1} with length {2}.",
-                    expected, Subject, Subject.Length);
+                .FailWith("Expected {context:string} with length {0}{reason}, but found <null>.", expected);
+
+            if (success)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(Subject.Length == expected)
+                    .FailWith("Expected {context:string} with length {0}{reason}, but found string {1} with length {2}.",
+                        expected, Subject, Subject.Length);
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
