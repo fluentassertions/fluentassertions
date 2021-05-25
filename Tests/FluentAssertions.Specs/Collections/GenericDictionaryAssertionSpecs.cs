@@ -1335,7 +1335,7 @@ namespace FluentAssertions.Specs.Collections
             };
 
             // Act
-            Action act = () => dictionary.Should().ContainKey("Key").WhichValue.Should().Be(4);
+            Action act = () => dictionary.Should().ContainKey("Key").WhoseValue.Should().Be(4);
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("Expected*4*3*.");

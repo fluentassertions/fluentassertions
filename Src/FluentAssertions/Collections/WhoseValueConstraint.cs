@@ -2,22 +2,22 @@ using System.Collections.Generic;
 
 namespace FluentAssertions.Collections
 {
-    public class WhichValueConstraint<TCollection, TKey, TValue, TAssertions> : AndConstraint<TAssertions>
+    public class WhoseValueConstraint<TCollection, TKey, TValue, TAssertions> : AndConstraint<TAssertions>
         where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
         where TAssertions : GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="WhichValueConstraint{TCollection, TKey, TValue, TAssertions}"/> class.
+        /// Initializes a new instance of the <see cref="WhoseValueConstraint{TCollection, TKey, TValue, TAssertions}"/> class.
         /// </summary>
-        public WhichValueConstraint(TAssertions parentConstraint, TValue value)
+        public WhoseValueConstraint(TAssertions parentConstraint, TValue value)
             : base(parentConstraint)
         {
-            WhichValue = value;
+            WhoseValue = value;
         }
 
         /// <summary>
         /// Gets the value of the object referred to by the key.
         /// </summary>
-        public TValue WhichValue { get; }
+        public TValue WhoseValue { get; }
     }
 }

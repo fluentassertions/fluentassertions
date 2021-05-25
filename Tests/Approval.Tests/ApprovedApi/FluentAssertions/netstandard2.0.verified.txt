@@ -430,7 +430,7 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> Contain(System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>> expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Contain(System.Collections.Generic.KeyValuePair<TKey, TValue> expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Contain(TKey key, TValue value, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.Collections.WhichValueConstraint<TCollection, TKey, TValue, TAssertions> ContainKey(TKey expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.Collections.WhoseValueConstraint<TCollection, TKey, TValue, TAssertions> ContainKey(TKey expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> ContainKeys(params TKey[] expected) { }
         public FluentAssertions.AndConstraint<TAssertions> ContainKeys(System.Collections.Generic.IEnumerable<TKey> expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, TValue> ContainValue(TValue expected, string because = "", params object[] becauseArgs) { }
@@ -494,12 +494,12 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.SubsequentOrderingAssertions<T>> ThenBeInDescendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.SubsequentOrderingAssertions<T>> ThenBeInDescendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, System.Collections.Generic.IComparer<TSelector> comparer, string because = "", params object[] becauseArgs) { }
     }
-    public class WhichValueConstraint<TCollection, TKey, TValue, TAssertions> : FluentAssertions.AndConstraint<TAssertions>
+    public class WhoseValueConstraint<TCollection, TKey, TValue, TAssertions> : FluentAssertions.AndConstraint<TAssertions>
         where TCollection : System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>>
         where TAssertions : FluentAssertions.Collections.GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     {
-        public WhichValueConstraint(TAssertions parentConstraint, TValue value) { }
-        public TValue WhichValue { get; }
+        public WhoseValueConstraint(TAssertions parentConstraint, TValue value) { }
+        public TValue WhoseValue { get; }
     }
 }
 namespace FluentAssertions.Common

@@ -243,14 +243,14 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public WhichValueConstraint<TCollection, TKey, TValue, TAssertions> ContainKey(TKey expected,
+        public WhoseValueConstraint<TCollection, TKey, TValue, TAssertions> ContainKey(TKey expected,
             string because = "", params object[] becauseArgs)
         {
             AndConstraint<TAssertions> andConstraint = ContainKeys(new[] { expected }, because, becauseArgs);
 
             _ = TryGetValue(Subject, expected, out TValue value);
 
-            return new WhichValueConstraint<TCollection, TKey, TValue, TAssertions>(andConstraint.And, value);
+            return new WhoseValueConstraint<TCollection, TKey, TValue, TAssertions>(andConstraint.And, value);
         }
 
         /// <summary>
