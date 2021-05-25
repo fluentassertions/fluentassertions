@@ -41,6 +41,45 @@ namespace FluentAssertions.Specs.Xml
         }
 
         [Fact]
+        public void When_both_subject_and_expected_are_null_it_succeeds()
+        {
+            XAttribute theAttribute = null;
+
+            // Act
+            Action act = () => theAttribute.Should().Be(null);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_the_expected_attribute_is_null_then_it_fails()
+        {
+            XAttribute theAttribute = null;
+
+            // Act
+            Action act = () =>
+                theAttribute.Should().Be(new XAttribute("name", "value"), "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected theAttribute to be name=\"value\" *failure message*, but found <null>.");
+        }
+
+        [Fact]
+        public void When_the_attribute_is_expected_to_equal_null_it_fails()
+        {
+            XAttribute theAttribute = new XAttribute("name", "value");
+
+            // Act
+            Action act = () => theAttribute.Should().Be(null, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected theAttribute to be <null> *failure message*, but found name=\"value\".");
+        }
+
+        [Fact]
         public void When_asserting_an_xml_attribute_is_not_equal_to_a_different_xml_attribute_it_should_succeed()
         {
             // Arrange
@@ -85,6 +124,46 @@ namespace FluentAssertions.Specs.Xml
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 $"Did not expect theAttribute to be {sameAttribute} because we want to test the failure message.");
+        }
+
+        [Fact]
+        public void When_a_null_attribute_is_not_supposed_to_be_an_attribute_it_succeeds()
+        {
+            // Arrange
+            XAttribute theAttribute = null;
+
+            // Act
+            Action act = () => theAttribute.Should().NotBe(new XAttribute("name", "value"));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_an_attribute_is_not_supposed_to_be_null_it_succeeds()
+        {
+            // Arrange
+            XAttribute theAttribute = new XAttribute("name", "value");
+
+            // Act
+            Action act = () => theAttribute.Should().NotBe(null);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_a_null_attribute_is_not_supposed_to_be_null_it_fails()
+        {
+            // Arrange
+            XAttribute theAttribute = null;
+
+            // Act
+            Action act = () => theAttribute.Should().NotBe(null, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect theAttribute to be <null> *failure message*.");
         }
 
         #endregion
@@ -225,6 +304,20 @@ namespace FluentAssertions.Specs.Xml
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected theAttribute \"age\" to have value \"16\" because we want to test the failure message, but found \"36\".");
+        }
+
+        [Fact]
+        public void When_an_attribute_is_null_then_have_value_should_fail()
+        {
+            XAttribute theAttribute = null;
+
+            // Act
+            Action act = () =>
+                theAttribute.Should().HaveValue("value", "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected the attribute to have value \"value\" *failure message*, but theAttribute is <null>.");
         }
 
         #endregion

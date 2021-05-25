@@ -62,18 +62,45 @@ namespace FluentAssertions.Specs.Xml
         }
 
         [Fact]
-        public void When_asserting_the_equality_of_an_xml_element_but_is_null_it_should_throw_appropriately()
+        public void When_the_expected_element_is_null_it_fails()
         {
             // Arrange
             XElement theElement = null;
-            var expected = new XElement("other");
 
             // Act
-            Action act = () => theElement.Should().Be(expected);
+            Action act = () =>
+                theElement.Should().Be(new XElement("other"), "we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected theElement to be*other*, but found <null>.");
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected theElement to be <other /> *failure message*, but found <null>.");
+        }
+
+        [Fact]
+        public void When_element_is_expected_to_equal_null_it_fails()
+        {
+            // Arrange
+            XElement theElement = new XElement("element");
+
+            // Act
+            Action act = () => theElement.Should().Be(null, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected theElement to be <null> *failure message*, but found <element />.");
+        }
+
+        [Fact]
+        public void When_both_subject_and_expected_are_null_it_succeeds()
+        {
+            // Arrange
+            XElement theElement = null;
+
+            // Act
+            Action act = () => theElement.Should().Be(null);
+
+            // Assert
+            act.Should().NotThrow();
         }
 
         [Fact]
@@ -120,41 +147,51 @@ namespace FluentAssertions.Specs.Xml
 
             // Act
             Action act = () =>
-                theElement.Should().NotBe(sameElement);
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected theElement not to be <element />.");
-        }
-
-        [Fact]
-        public void When_asserting_an_xml_element_is_not_equal_to_the_same_xml_element_it_should_fail_with_descriptive_message()
-        {
-            // Arrange
-            var theElement = new XElement("element");
-            var sameElement = theElement;
-
-            // Act
-            Action act = () =>
                 theElement.Should().NotBe(sameElement, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected theElement not to be <element /> because we want to test the failure message.");
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect theElement to be <element /> because we want to test the failure message.");
         }
 
         [Fact]
-        public void When_asserting_the_inequality_of_an_xml_element_but_it_is_null_it_should_succeed()
+        public void When_an_element_is_not_supposed_to_be_null_it_succeeds()
         {
             // Arrange
-            XElement actual = null;
-            var expected = new XElement("other");
+            XElement theElement = new XElement("element");
 
             // Act
-            Action act = () => actual.Should().NotBe(expected);
+            Action act = () => theElement.Should().NotBe(null);
 
             // Assert
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_a_null_element_is_not_supposed_to_be_an_element_it_succeeds()
+        {
+            // Arrange
+            XElement theElement = null;
+
+            // Act
+            Action act = () => theElement.Should().NotBe(new XElement("other"));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_a_null_element_is_not_supposed_to_be_null_it_fails()
+        {
+            // Arrange
+            XElement theElement = null;
+
+            // Act
+            Action act = () => theElement.Should().NotBe(null, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect theElement to be <null> *failure message*.");
         }
 
         #endregion
@@ -390,6 +427,46 @@ namespace FluentAssertions.Specs.Xml
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected content \"text\" in theElement at \"/parent/child\" because we want to test the failure message, but found EndElement \"parent\".");
+        }
+
+        [Fact]
+        public void When_an_element_is_null_then_be_equivalent_to_null_succeeds()
+        {
+            XElement theElement = null;
+
+            // Act
+            Action act = () => theElement.Should().BeEquivalentTo(null);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_an_element_is_null_then_be_equivalent_to_an_element_fails()
+        {
+            XElement theElement = null;
+
+            // Act
+            Action act = () =>
+                theElement.Should().BeEquivalentTo(new XElement("element"), "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected theElement to be equivalent to <null> *failure message*, but found \"<element />\".");
+        }
+
+        [Fact]
+        public void When_an_element_is_equivalent_to_null_it_fails()
+        {
+            XElement theElement = new XElement("element");
+
+            // Act
+            Action act = () =>
+                theElement.Should().BeEquivalentTo(null, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected theElement to be equivalent to \"<element />\" *failure message*, but found <null>.");
         }
 
         [Fact]
@@ -644,6 +721,43 @@ namespace FluentAssertions.Specs.Xml
             act.Should().NotThrow();
         }
 
+        [Fact]
+        public void When_a_null_element_is_unexpected_equivalent_to_null_it_fails()
+        {
+            XElement theElement = null;
+
+            // Act
+            Action act = () => theElement.Should().NotBeEquivalentTo(null, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect theElement to be equivalent *failure message*, but it is.");
+        }
+
+        [Fact]
+        public void When_a_null_element_is_not_equivalent_to_an_element_it_succeeds()
+        {
+            XElement theElement = null;
+
+            // Act
+            Action act = () => theElement.Should().NotBeEquivalentTo(new XElement("element"));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_an_element_is_not_equivalent_to_null_it_succeeds()
+        {
+            XElement theElement = new XElement("element");
+
+            // Act
+            Action act = () => theElement.Should().NotBeEquivalentTo(null);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
         #endregion
 
         #region HaveValue
@@ -690,6 +804,20 @@ namespace FluentAssertions.Specs.Xml
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected theElement 'user' to have value \"stamac\" because we want to test the failure message, but found \"grega\".");
+        }
+
+        [Fact]
+        public void When_xml_element_is_null_then_have_value_should_fail()
+        {
+            XElement theElement = null;
+
+            // Act
+            Action act = () =>
+                theElement.Should().HaveValue("value", "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected the element to have value \"value\" *failure message*, but theElement is <null>.");
         }
 
         #endregion
@@ -852,6 +980,80 @@ namespace FluentAssertions.Specs.Xml
                 + " because we want to test the failure message, but found \"martin\".");
         }
 
+        [Fact]
+        public void When_xml_element_is_null_then_have_attribute_should_fail()
+        {
+            XElement theElement = null;
+
+            // Act
+            Action act = () =>
+                theElement.Should().HaveAttribute("name", "value", "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected attribute \"name\" in element to have value \"value\" *failure message*" +
+                    ", but theElement is <null>.");
+        }
+
+        [Fact]
+        public void When_xml_element_is_null_then_have_attribute_with_XName_should_fail()
+        {
+            XElement theElement = null;
+
+            // Act
+            Action act = () =>
+                theElement.Should().HaveAttribute((XName)"name", "value", "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected attribute \"name\" in element to have value \"value\" *failure message*" +
+                    ", but theElement is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_element_has_an_attribute_with_a_null_name_it_should_throw()
+        {
+            XElement theElement = new XElement("element");
+
+            // Act
+            Action act = () =>
+                theElement.Should().HaveAttribute(null, "value");
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("expectedName");
+        }
+
+        [Fact]
+        public void When_asserting_element_has_an_attribute_with_a_null_XName_it_should_throw()
+        {
+            XElement theElement = new XElement("element");
+
+            // Act
+            Action act = () =>
+                theElement.Should().HaveAttribute((XName)null, "value");
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("expectedName");
+        }
+
+        [Fact]
+        public void When_asserting_element_has_an_attribute_with_an_empty_name_it_should_throw()
+        {
+            XElement theElement = new XElement("element");
+
+            // Act
+            Action act = () =>
+                theElement.Should().HaveAttribute(string.Empty, "value");
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("expectedName");
+        }
+
         #endregion
 
         #region HaveElement
@@ -981,6 +1183,48 @@ namespace FluentAssertions.Specs.Xml
             matchedElement.Should().BeOfType<XElement>()
                 .And.HaveAttribute("attr", "1");
             matchedElement.Name.Should().Be(XName.Get("child"));
+        }
+
+        [Fact]
+        public void When_asserting_element_has_a_child_element_with_a_null_name_it_should_throw()
+        {
+            XElement theElement = new XElement("element");
+
+            // Act
+            Action act = () =>
+                theElement.Should().HaveElement(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("expected");
+        }
+
+        [Fact]
+        public void When_asserting_element_has_a_child_element_with_a_null_XName_it_should_throw()
+        {
+            XElement theElement = new XElement("element");
+
+            // Act
+            Action act = () =>
+                theElement.Should().HaveElement((XName)null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("expected");
+        }
+
+        [Fact]
+        public void When_asserting_element_has_a_child_element_with_an_empty_name_it_should_throw()
+        {
+            XElement theElement = new XElement("element");
+
+            // Act
+            Action act = () =>
+                theElement.Should().HaveElement(string.Empty);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("expected");
         }
 
         #endregion

@@ -9,16 +9,18 @@ namespace FluentAssertions.Xml.Equivalency
     internal class XmlReaderValidator
     {
         private readonly AssertionScope assertion;
-        private readonly XmlIterator subjectIterator;
-        private readonly XmlIterator expectationIterator;
+        private readonly XmlReader subjectReader;
+        private readonly XmlReader expectationReader;
+        private XmlIterator subjectIterator;
+        private XmlIterator expectationIterator;
         private Node currentNode = Node.CreateRoot();
 
         public XmlReaderValidator(XmlReader subjectReader, XmlReader expectationReader, string because, object[] becauseArgs)
         {
             assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
 
-            subjectIterator = new XmlIterator(subjectReader);
-            expectationIterator = new XmlIterator(expectationReader);
+            this.subjectReader = subjectReader;
+            this.expectationReader = expectationReader;
         }
 
         public void Validate(bool shouldBeEquivalent)
@@ -38,6 +40,21 @@ namespace FluentAssertions.Xml.Equivalency
 
         private Failure Validate()
         {
+            if (subjectReader is null && expectationReader is null)
+            {
+                return null;
+            }
+
+            Failure failure = ValidateAgainstNulls();
+
+            if (failure is not null)
+            {
+                return failure;
+            }
+
+            subjectIterator = new XmlIterator(subjectReader);
+            expectationIterator = new XmlIterator(expectationReader);
+
             while (!subjectIterator.IsEndOfDocument && !expectationIterator.IsEndOfDocument)
             {
                 if (subjectIterator.NodeType != expectationIterator.NodeType)
@@ -53,7 +70,7 @@ namespace FluentAssertions.Xml.Equivalency
                         currentNode.GetXPath());
                 }
 
-                Failure failure = null;
+                failure = null;
 
 #pragma warning disable IDE0010 // The default case handles the many missing cases
                 switch (expectationIterator.NodeType)
@@ -205,6 +222,18 @@ namespace FluentAssertions.Xml.Equivalency
                 return new Failure(
                     "Expected content to be {0} in {context:subject} at {1}{reason}, but found {2}.",
                     expected, currentNode.GetXPath(), subject);
+            }
+
+            return null;
+        }
+
+        private Failure ValidateAgainstNulls()
+        {
+            if ((expectationReader is null) != (subjectReader is null))
+            {
+                return new Failure(
+                    "Expected {context:subject} to be equivalent to {0}{reason}, but found {1}.",
+                    subjectReader, expectationReader);
             }
 
             return null;
