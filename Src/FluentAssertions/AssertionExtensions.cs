@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -101,9 +101,14 @@ namespace FluentAssertions
         /// <returns>
         /// Returns an object for asserting that the execution time matches certain conditions.
         /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="subject"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
         [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
         public static MemberExecutionTime<T> ExecutionTimeOf<T>(this T subject, Expression<Action<T>> action)
         {
+            Guard.ThrowIfArgumentIsNull(subject, nameof(subject));
+            Guard.ThrowIfArgumentIsNull(action, nameof(action));
+
             return new MemberExecutionTime<T>(subject, action);
         }
 
@@ -114,6 +119,7 @@ namespace FluentAssertions
         /// <returns>
         /// Returns an object for asserting that the execution time matches certain conditions.
         /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
         [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
         public static ExecutionTime ExecutionTime(this Action action)
         {
@@ -127,6 +133,7 @@ namespace FluentAssertions
         /// <returns>
         /// Returns an object for asserting that the execution time matches certain conditions.
         /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
         [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
         public static ExecutionTime ExecutionTime(this Func<Task> action)
         {

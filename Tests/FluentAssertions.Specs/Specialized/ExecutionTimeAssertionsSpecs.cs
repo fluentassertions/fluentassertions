@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions.Extensions;
@@ -479,6 +479,63 @@ namespace FluentAssertions.Specs.Specialized
             act.Should().Throw<ArgumentNullException>()
                 .WithParameterName("executionTime");
         }
+
+        [Fact]
+        public void When_asserting_on_null_action_it_should_throw()
+        {
+            // Arrange
+            Action someAction = null;
+
+            // Act
+            Action act = () => someAction.ExecutionTime().Should().BeLessThan(1.Days());
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("action");
+        }
+
+        [Fact]
+        public void When_asserting_on_null_func_it_should_throw()
+        {
+            // Arrange
+            Func<Task> someFunc = null;
+
+            // Act
+            Action act = () => someFunc.ExecutionTime().Should().BeLessThan(1.Days());
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("action");
+        }
+
+        [Fact]
+        public void When_asserting_execution_time_of_null_action_it_should_throw()
+        {
+            // Arrange
+            object subject = null;
+
+            // Act
+            Action act = () => subject.ExecutionTimeOf(s => s.ToString()).Should().BeLessThan(1.Days());
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("subject");
+        }
+
+        [Fact]
+        public void When_asserting_execution_time_of_null_it_should_throw()
+        {
+            // Arrange
+            var subject = new object();
+
+            // Act
+            Action act = () => subject.ExecutionTimeOf(null).Should().BeLessThan(1.Days());
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("action");
+        }
+
         #endregion
 
         internal class SleepingClass
