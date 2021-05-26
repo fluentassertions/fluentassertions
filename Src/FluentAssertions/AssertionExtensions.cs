@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -37,9 +37,14 @@ namespace FluentAssertions
         /// Invokes the specified action on a subject so that you can chain it
         /// with any of the assertions from <see cref="ActionAssertions"/>
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="subject"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
         [Pure]
         public static Action Invoking<T>(this T subject, Action<T> action)
         {
+            Guard.ThrowIfArgumentIsNull(subject, nameof(subject));
+            Guard.ThrowIfArgumentIsNull(action, nameof(action));
+
             return () => action(subject);
         }
 
@@ -47,9 +52,14 @@ namespace FluentAssertions
         /// Invokes the specified action on a subject so that you can chain it
         /// with any of the assertions from <see cref="FunctionAssertions{T}"/>
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="subject"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
         [Pure]
         public static Func<TResult> Invoking<T, TResult>(this T subject, Func<T, TResult> action)
         {
+            Guard.ThrowIfArgumentIsNull(subject, nameof(subject));
+            Guard.ThrowIfArgumentIsNull(action, nameof(action));
+
             return () => action(subject);
         }
 
