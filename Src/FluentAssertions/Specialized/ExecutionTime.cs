@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Specialized
 {
@@ -10,6 +11,7 @@ namespace FluentAssertions.Specialized
         /// Initializes a new instance of the <see cref="ExecutionTime"/> class.
         /// </summary>
         /// <param name="action">The action of which the execution time must be asserted.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
         public ExecutionTime(Action action)
             : this(action, "the action")
         {
@@ -19,6 +21,7 @@ namespace FluentAssertions.Specialized
         /// Initializes a new instance of the <see cref="ExecutionTime"/> class.
         /// </summary>
         /// <param name="action">The action of which the execution time must be asserted.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
         public ExecutionTime(Func<Task> action)
             : this(action, "the action")
         {
@@ -29,8 +32,11 @@ namespace FluentAssertions.Specialized
         /// </summary>
         /// <param name="action">The action of which the execution time must be asserted.</param>
         /// <param name="actionDescription">The description of the action to be asserted.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
         protected ExecutionTime(Action action, string actionDescription)
         {
+            Guard.ThrowIfArgumentIsNull(action, nameof(action));
+
             ActionDescription = actionDescription;
             stopwatch = new Stopwatch();
             IsRunning = true;
@@ -66,8 +72,11 @@ namespace FluentAssertions.Specialized
         /// The original constructor shall stay in place in order to keep backward-compatibility
         /// and to avoid unnecessary wrapping action in <see cref="Task"/>.
         /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
         protected ExecutionTime(Func<Task> action, string actionDescription)
         {
+            Guard.ThrowIfArgumentIsNull(action, nameof(action));
+
             ActionDescription = actionDescription;
             stopwatch = new Stopwatch();
             IsRunning = true;
