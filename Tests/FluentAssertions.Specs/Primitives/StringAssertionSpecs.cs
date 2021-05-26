@@ -769,11 +769,15 @@ namespace FluentAssertions.Specs.Primitives
             string subject = null;
 
             // Act
-            Action act = () => subject.Should().MatchRegex(new Regex(".*"), "because it should be a string");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                subject.Should().MatchRegex(new Regex(".*"), "because it should be a string");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
-             .WithMessage("Expected subject to match regex*\".*\" because it should be a string, but it was <null>.");
+                .WithMessage("Expected subject to match regex*\".*\" because it should be a string, but it was <null>.");
         }
 
         [Fact]
@@ -950,11 +954,15 @@ namespace FluentAssertions.Specs.Primitives
             string subject = null;
 
             // Act
-            Action act = () => subject.Should().NotMatchRegex(new Regex(".*"), "because it should not be a string");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                subject.Should().NotMatchRegex(new Regex(".*"), "because it should not be a string");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
-             .WithMessage("Expected subject to not match regex*\".*\" because it should not be a string, but it was <null>.");
+                .WithMessage("Expected subject to not match regex*\".*\" because it should not be a string, but it was <null>.");
         }
 
         [Fact]
@@ -1181,7 +1189,11 @@ namespace FluentAssertions.Specs.Primitives
         public void When_string_does_not_end_with_expected_phrase_it_should_throw()
         {
             // Act
-            Action act = () => "ABC".Should().EndWith("AB", "it should");
+            Action act = () =>
+            {
+                using var a = new AssertionScope();
+                "ABC".Should().EndWith("AB", "it should");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1225,9 +1237,15 @@ namespace FluentAssertions.Specs.Primitives
         [Fact]
         public void When_string_ending_is_compared_and_actual_value_is_null_then_it_should_throw()
         {
-            // Act
+            // Arrange
             string someString = null;
-            Action act = () => someString.Should().EndWith("ABC");
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                someString.Should().EndWith("ABC");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1300,9 +1318,15 @@ namespace FluentAssertions.Specs.Primitives
         [Fact]
         public void When_asserting_string_does_not_end_with_a_value_and_actual_value_is_null_it_should_throw()
         {
-            // Act
+            // Arrange
             string someString = null;
-            Action act = () => someString.Should().NotEndWith("ABC", "some {0}", "reason");
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                someString.Should().NotEndWith("ABC", "some {0}", "reason");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1547,9 +1571,15 @@ namespace FluentAssertions.Specs.Primitives
         [Fact]
         public void When_string_ending_is_compared_with_equivalent_and_actual_value_is_null_then_it_should_throw()
         {
-            // Act
+            // Arrange
             string someString = null;
-            Action act = () => someString.Should().EndWithEquivalentOf("abC");
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                someString.Should().EndWithEquivalentOf("abC");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1622,9 +1652,15 @@ namespace FluentAssertions.Specs.Primitives
         [Fact]
         public void When_asserting_string_does_not_end_with_equivalent_of_a_value_and_actual_value_is_null_it_should_throw()
         {
-            // Act
+            // Arrange
             string someString = null;
-            Action act = () => someString.Should().NotEndWithEquivalentOf("Abc", "some {0}", "reason");
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                someString.Should().NotEndWithEquivalentOf("Abc", "some {0}", "reason");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -3314,10 +3350,15 @@ namespace FluentAssertions.Specs.Primitives
             string actual = null;
 
             // Act
-            Action act = () => actual.Should().HaveLength(0);
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                actual.Should().HaveLength(0, "we want to test the failure {0}", "message");
+            };
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected actual with length 0 *failure message*, but found <null>.");
         }
 
         [Fact]
@@ -3327,24 +3368,15 @@ namespace FluentAssertions.Specs.Primitives
             string actual = "ABC";
 
             // Act
-            Action act = () => actual.Should().HaveLength(1);
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                actual.Should().HaveLength(1, "we want to test the failure {0}", "message");
+            };
 
             // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void Should_fail_with_descriptive_message_when_asserting_string_length_to_be_equal_to_different_value()
-        {
-            // Arrange
-            string actual = "ABC";
-
-            // Act
-            Action act = () => actual.Should().HaveLength(1, "because we want to test the failure {0}", "message");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected actual with length 1 because we want to test the failure message, but found string \"ABC\" with length 3.");
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected actual with length 1 *failure message*, but found string \"ABC\" with length 3.");
         }
 
         #endregion
