@@ -158,12 +158,12 @@ namespace FluentAssertions.Equivalency
 
             // These column references are in different tables in different data sets that _should_ be equivalent
             // to one another.
-            AssertionScope.Current
+            bool success = AssertionScope.Current
                 .ForCondition(subjectColumns.Length == expectationColumns.Length)
                 .FailWith("Expected {context:DataRelation} to reference {0} column(s){reason}, but found {subjectColumns.Length}",
                     expectationColumns.Length, subjectColumns.Length);
 
-            if (subjectColumns.Length == expectationColumns.Length)
+            if (success)
             {
                 for (int i = 0; i < expectationColumns.Length; i++)
                 {

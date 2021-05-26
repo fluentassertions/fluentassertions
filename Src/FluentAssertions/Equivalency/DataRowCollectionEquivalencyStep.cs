@@ -33,25 +33,28 @@ namespace FluentAssertions.Equivalency
                 var subject = (DataRowCollection)comparands.Subject;
                 var expectation = (DataRowCollection)comparands.Expectation;
 
-                AssertionScope.Current
+                bool success = AssertionScope.Current
                     .ForCondition(subject.Count == expectation.Count)
                     .FailWith("Expected {context:DataRowCollection} to contain {0} row(s){reason}, but found {1}",
                         expectation.Count, subject.Count);
 
-                switch (rowMatchMode)
+                if (success)
                 {
-                    case RowMatchMode.Index:
-                        MatchRowsByIndexAndCompare(context, nestedValidator, subject, expectation);
-                        break;
+                    switch (rowMatchMode)
+                    {
+                        case RowMatchMode.Index:
+                            MatchRowsByIndexAndCompare(context, nestedValidator, subject, expectation);
+                            break;
 
-                    case RowMatchMode.PrimaryKey:
-                        MatchRowsByPrimaryKeyAndCompare(nestedValidator, context, subject, expectation);
-                        break;
+                        case RowMatchMode.PrimaryKey:
+                            MatchRowsByPrimaryKeyAndCompare(nestedValidator, context, subject, expectation);
+                            break;
 
-                    default:
-                        AssertionScope.Current.FailWith(
-                            "Unknown RowMatchMode {0} when trying to compare {context:DataRowCollection}", rowMatchMode);
-                        break;
+                        default:
+                            AssertionScope.Current.FailWith(
+                                "Unknown RowMatchMode {0} when trying to compare {context:DataRowCollection}", rowMatchMode);
+                            break;
+                    }
                 }
             }
 
