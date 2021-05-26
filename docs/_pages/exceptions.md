@@ -43,6 +43,15 @@ act.Should().Throw<ArgumentNullException>().Where(e => e.Message.StartsWith("did
 
 However, we discovered that testing the exception message for a substring is so common, that we changed the default behavior of `WithMessage` to support wildcard expressions and match in a case-insensitive way.
 
+The pattern can be a combination of literal and wildcard characters, but it doesn't support regular expressions.
+
+The following wildcard specifiers are permitted in the pattern:
+
+| Wilcard specifier | Matches                                   |
+| ----------------- | ----------------------------------------- |
+| * (asterisk)      | Zero or more characters in that position. |
+| ? (question mark) | Exactly one character in that position.   |
+
 ```csharp
 Action act = () => subject.Foo(null);
 act

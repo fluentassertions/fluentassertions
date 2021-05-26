@@ -172,10 +172,11 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that a string matches a wildcard pattern.
+        /// Asserts that a string matches the <paramref name="wildcardPattern"/>.
         /// </summary>
         /// <param name="wildcardPattern">
-        /// The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// The pattern to match against the subject. This parameter can contain a combination of literal text and wildcard
+        /// (* and ?) characters, but it doesn't support regular expressions.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -184,6 +185,27 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <remarks>
+        /// <paramref name="wildcardPattern"/> can be a combination of literal and wildcard characters,
+        /// but it doesn't support regular expressions. The following wildcard specifiers are permitted in
+        /// <paramref name="wildcardPattern"/>.
+        /// <list type="table">
+        /// <listheader>
+        /// <term>Wildcard character</term>
+        /// <description>Description</description>
+        /// </listheader>
+        /// <item>
+        /// <term>* (asterisk)</term>
+        /// <description>Zero or more characters in that position.</description>
+        /// </item>
+        /// <item>
+        /// <term>? (question mark)</term>
+        /// <description>Exactly one character in that position.</description>
+        /// </item>
+        /// </list>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
         public AndConstraint<TAssertions> Match(string wildcardPattern, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match string against <null>. Provide a wildcard pattern or use the BeNull method.");
@@ -200,10 +222,11 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that a string does not match a wildcard pattern.
+        /// Asserts that a string does not match the <paramref name="wildcardPattern"/>.
         /// </summary>
         /// <param name="wildcardPattern">
-        /// The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// The pattern to match against the subject. This parameter can contain a combination literal text and wildcard of
+        /// (* and ?) characters, but it doesn't support regular expressions.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -212,6 +235,27 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <remarks>
+        /// <paramref name="wildcardPattern"/> can be a combination of literal and wildcard characters,
+        /// but it doesn't support regular expressions. The following wildcard specifiers are permitted in
+        /// <paramref name="wildcardPattern"/>.
+        /// <list type="table">
+        /// <listheader>
+        /// <term>Wildcard character</term>
+        /// <description>Description</description>
+        /// </listheader>
+        /// <item>
+        /// <term>* (asterisk)</term>
+        /// <description>Zero or more characters in that position.</description>
+        /// </item>
+        /// <item>
+        /// <term>? (question mark)</term>
+        /// <description>Exactly one character in that position.</description>
+        /// </item>
+        /// </list>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
         public AndConstraint<TAssertions> NotMatch(string wildcardPattern, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match string against <null>. Provide a wildcard pattern or use the NotBeNull method.");
@@ -230,10 +274,11 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that a string matches a wildcard pattern.
+        /// Asserts that a string matches the <paramref name="wildcardPattern"/>.
         /// </summary>
         /// <param name="wildcardPattern">
-        /// The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// The pattern to match against the subject. This parameter can contain a combination of literal text and wildcard
+        /// (* and ?) characters, but it doesn't support regular expressions.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -242,6 +287,27 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <remarks>
+        /// <paramref name="wildcardPattern"/> can be a combination of literal and wildcard characters,
+        /// but it doesn't support regular expressions. The following wildcard specifiers are permitted in
+        /// <paramref name="wildcardPattern"/>.
+        /// <list type="table">
+        /// <listheader>
+        /// <term>Wildcard character</term>
+        /// <description>Description</description>
+        /// </listheader>
+        /// <item>
+        /// <term>* (asterisk)</term>
+        /// <description>Zero or more characters in that position.</description>
+        /// </item>
+        /// <item>
+        /// <term>? (question mark)</term>
+        /// <description>Exactly one character in that position.</description>
+        /// </item>
+        /// </list>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
         public AndConstraint<TAssertions> MatchEquivalentOf(string wildcardPattern, string because = "",
             params object[] becauseArgs)
         {
@@ -264,10 +330,11 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that a string does not match a wildcard pattern.
+        /// Asserts that a string does not match the <paramref name="wildcardPattern"/>.
         /// </summary>
         /// <param name="wildcardPattern">
-        /// The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// The pattern to match against the subject. This parameter can contain a combination of literal text and wildcard
+        /// (* and ?) characters, but it doesn't support regular expressions.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -276,6 +343,27 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <remarks>
+        /// <paramref name="wildcardPattern"/> can be a combination of literal and wildcard characters,
+        /// but it doesn't support regular expressions. The following wildcard specifiers are permitted in
+        /// <paramref name="wildcardPattern"/>.
+        /// <list type="table">
+        /// <listheader>
+        /// <term>Wildcard character</term>
+        /// <description>Description</description>
+        /// </listheader>
+        /// <item>
+        /// <term>* (asterisk)</term>
+        /// <description>Zero or more characters in that position.</description>
+        /// </item>
+        /// <item>
+        /// <term>? (question mark)</term>
+        /// <description>Exactly one character in that position.</description>
+        /// </item>
+        /// </list>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
         public AndConstraint<TAssertions> NotMatchEquivalentOf(string wildcardPattern, string because = "",
             params object[] becauseArgs)
         {
