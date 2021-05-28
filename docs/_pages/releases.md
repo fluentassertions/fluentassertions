@@ -37,6 +37,7 @@ sidebar:
 * Better parameter checking of `PropertyInfoSelectorAssertions` - [#1565](https://github.com/fluentassertions/fluentassertions/pull/1565)
 * Better parameter checking of `MethodInfoSelectorAssertions` - [#1569](https://github.com/fluentassertions/fluentassertions/pull/1569)
 * Better parameter checking of `XDocumentAssertions`, `XElementAssertions` and `XAttributeAssertions` - [#1564](https://github.com/fluentassertions/fluentassertions/pull/1564)
+* In a chained assertion API call, a second call to `ForCondition` should not even evaluate its lambda when the previous assertion failed - [#1587](https://github.com/fluentassertions/fluentassertions/pull/1587)
 
 **Breaking Changes**
 * By default, records are now compared by their members. Can be overridden using `ComparingRecordsByValue` - [#1571](https://github.com/fluentassertions/fluentassertions/pull/1571)
