@@ -89,10 +89,23 @@ collection.Should().BeInAscendingOrder();
 collection.Should().BeInDescendingOrder();
 collection.Should().NotBeInAscendingOrder();
 collection.Should().NotBeInDescendingOrder();
+```
 
+For `String` collections there are specific methods to assert the items. For the `ContainMatch` and `NotContainMatch` methods we support wildcards.
+
+The pattern can be a combination of literal and wildcard characters, but it doesn't support regular expressions.
+
+The following wildcard specifiers are permitted in the pattern:
+
+| Wilcard specifier | Matches                                   |
+| ----------------- | ----------------------------------------- |
+| * (asterisk)      | Zero or more characters in that position. |
+| ? (question mark) | Exactly one character in that position.   |
+
+```csharp
 IEnumerable<string> stringCollection = new[] { "build succeeded", "test failed" };
-stringCollection.Should().ContainMatch("* failed");
 stringCollection.Should().AllBe("build succeeded");
+stringCollection.Should().ContainMatch("* failed");
 ```
 
 In order to assert presence of an equivalent item in a collection applying [Object graph comparison](objectgraphs.md) rules, use this:
