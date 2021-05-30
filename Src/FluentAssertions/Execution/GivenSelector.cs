@@ -11,8 +11,9 @@ namespace FluentAssertions.Execution
     public class GivenSelector<T>
     {
         private readonly AssertionScope predecessor;
-        private readonly bool continueAsserting;
         private readonly T subject;
+
+        private bool continueAsserting;
 
         internal GivenSelector(Func<T> selector, AssertionScope predecessor, bool continueAsserting)
         {
@@ -129,8 +130,8 @@ namespace FluentAssertions.Execution
         {
             if (continueAsserting)
             {
-                bool success = predecessor.FailWith(message, args);
-                return new ContinuationOfGiven<T>(this, success);
+                continueAsserting = predecessor.FailWith(message, args);
+                return new ContinuationOfGiven<T>(this, continueAsserting);
             }
 
             return new ContinuationOfGiven<T>(this, succeeded: false);

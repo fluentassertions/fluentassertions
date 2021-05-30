@@ -746,6 +746,33 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
+        public void When_the_previous_assertion_failed_it_should_not_evaluate_the_succeeding_condition()
+        {
+            // Arrange
+            bool secondConditionEvaluated = false;
+            try
+            {
+                using var _ = new AssertionScope();
+
+                // Act
+                Execute.Assertion
+                    .Given(() => (string)null)
+                    .ForCondition(s => s is not null)
+                    .FailWith("but is was null")
+                    .Then
+                    .ForCondition(s => secondConditionEvaluated = true)
+                    .FailWith("it should be 42");
+            }
+            catch
+            {
+                // Ignore
+            }
+
+            // Assert
+            secondConditionEvaluated.Should().BeFalse("because the 2nd condition should not be invoked");
+        }
+
+        [Fact]
         public void When_the_previous_assertion_failed_it_should_not_execute_the_succeeding_failure()
         {
             // Arrange
