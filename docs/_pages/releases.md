@@ -39,6 +39,7 @@ sidebar:
 * Better parameter checking of `XDocumentAssertions`, `XElementAssertions` and `XAttributeAssertions` - [#1564](https://github.com/fluentassertions/fluentassertions/pull/1564)
 
 **Breaking Changes**
+* Renamed `WhichValue` to `WhoseValue` - [#1581](https://github.com/fluentassertions/fluentassertions/pull/1581)
 * By default, records are now compared by their members. Can be overridden using `ComparingRecordsByValue` - [#1571](https://github.com/fluentassertions/fluentassertions/pull/1571)
 * Changed `becauseArgs` of `[Not]Reference(Assembly)` from `string[]` to `object[]` - [#1459](https://github.com/fluentassertions/fluentassertions/pull/1459)
 * Major overhaul on how enums are handled, see the [Migration Guide](/upgradingtov6#enums) for more details - [#1479](https://github.com/fluentassertions/fluentassertions/pull/1479).
