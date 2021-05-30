@@ -18,6 +18,6 @@
     <PackageReference Include="System.Collections" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.DataSetExtensions" Condition="'$(TargetFramework)' == 'net472'" />
   </ItemGroup>
 </Project>
