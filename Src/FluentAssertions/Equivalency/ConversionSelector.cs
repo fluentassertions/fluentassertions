@@ -4,6 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using FluentAssertions.Common;
+using FluentAssertions.Equivalency.Execution;
+using FluentAssertions.Equivalency.Steps;
 
 namespace FluentAssertions.Equivalency
 {

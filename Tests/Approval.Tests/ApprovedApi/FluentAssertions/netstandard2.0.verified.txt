@@ -640,18 +640,6 @@ namespace FluentAssertions.Data
 }
 namespace FluentAssertions.Equivalency
 {
-    public class AssertionRuleEquivalencyStep<TSubject> : FluentAssertions.Equivalency.IEquivalencyStep
-    {
-        public AssertionRuleEquivalencyStep(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate, System.Action<FluentAssertions.Equivalency.IAssertionContext<TSubject>> assertion) { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
-        public override string ToString() { }
-    }
-    public class AutoConversionStep : FluentAssertions.Equivalency.IEquivalencyStep
-    {
-        public AutoConversionStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
-        public override string ToString() { }
-    }
     public class Comparands
     {
         public Comparands() { }
@@ -662,16 +650,6 @@ namespace FluentAssertions.Equivalency
         public object Subject { get; set; }
         public System.Type GetExpectedType(FluentAssertions.Equivalency.IEquivalencyAssertionOptions options) { }
         public override string ToString() { }
-    }
-    public class ConstraintCollectionEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Data.ConstraintCollection>
-    {
-        public ConstraintCollectionEquivalencyStep() { }
-        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
-    }
-    public class ConstraintEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Data.Constraint>
-    {
-        public ConstraintEquivalencyStep() { }
-        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
     }
     public class ConversionSelector
     {
@@ -688,61 +666,10 @@ namespace FluentAssertions.Equivalency
         Ignore = 0,
         ThrowException = 1,
     }
-    public class DataColumnEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Data.DataColumn>
-    {
-        public DataColumnEquivalencyStep() { }
-        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
-    }
-    public class DataRelationEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Data.DataRelation>
-    {
-        public DataRelationEquivalencyStep() { }
-        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
-    }
-    public class DataRowCollectionEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Data.DataRowCollection>
-    {
-        public DataRowCollectionEquivalencyStep() { }
-        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
-    }
-    public class DataRowEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Data.DataRow>
-    {
-        public DataRowEquivalencyStep() { }
-        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
-    }
-    public class DataSetEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Data.DataSet>
-    {
-        public DataSetEquivalencyStep() { }
-        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
-    }
-    public class DataTableEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Data.DataTable>
-    {
-        public DataTableEquivalencyStep() { }
-        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
-    }
-    public class DictionaryEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Collections.IDictionary>
-    {
-        public DictionaryEquivalencyStep() { }
-        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
-    }
-    public class EnumEqualityStep : FluentAssertions.Equivalency.IEquivalencyStep
-    {
-        public EnumEqualityStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
-    }
     public enum EnumEquivalencyHandling
     {
         ByValue = 0,
         ByName = 1,
-    }
-    public class EnumerableEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
-    {
-        public EnumerableEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
-    }
-    public class EqualityComparerEquivalencyStep<T> : FluentAssertions.Equivalency.IEquivalencyStep
-    {
-        public EqualityComparerEquivalencyStep(System.Collections.Generic.IEqualityComparer<T> comparer) { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
-        public override string ToString() { }
     }
     public enum EqualityStrategy
     {
@@ -804,16 +731,6 @@ namespace FluentAssertions.Equivalency
         public FluentAssertions.Common.CSharpAccessModifier GetterAccessibility { get; }
         public FluentAssertions.Common.CSharpAccessModifier SetterAccessibility { get; }
         public object GetValue(object obj) { }
-    }
-    public class GenericDictionaryEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
-    {
-        public GenericDictionaryEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
-    }
-    public class GenericEnumerableEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
-    {
-        public GenericEnumerableEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
     }
     public delegate string GetSubjectId();
     public interface IAssertionContext<TSubject>
@@ -970,16 +887,6 @@ namespace FluentAssertions.Equivalency
         public FluentAssertions.Common.CSharpAccessModifier SetterAccessibility { get; }
         public object GetValue(object obj) { }
     }
-    public class ReferenceEqualityEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
-    {
-        public ReferenceEqualityEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
-    }
-    public class RunAllUserStepsEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
-    {
-        public RunAllUserStepsEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
-    }
     public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : FluentAssertions.Equivalency.IEquivalencyAssertionOptions
         where TSelf : FluentAssertions.Equivalency.SelfReferenceEquivalencyAssertionOptions<TSelf>
     {
@@ -1043,6 +950,109 @@ namespace FluentAssertions.Equivalency
                 where TMemberType : TMember { }
         }
     }
+    public static class SubjectInfoExtensions
+    {
+        public static bool WhichGetterDoesNotHave(this FluentAssertions.Equivalency.IMemberInfo memberInfo, FluentAssertions.Common.CSharpAccessModifier accessModifier) { }
+        public static bool WhichGetterHas(this FluentAssertions.Equivalency.IMemberInfo memberInfo, FluentAssertions.Common.CSharpAccessModifier accessModifier) { }
+        public static bool WhichSetterDoesNotHave(this FluentAssertions.Equivalency.IMemberInfo memberInfo, FluentAssertions.Common.CSharpAccessModifier accessModifier) { }
+        public static bool WhichSetterHas(this FluentAssertions.Equivalency.IMemberInfo memberInfo, FluentAssertions.Common.CSharpAccessModifier accessModifier) { }
+    }
+}
+namespace FluentAssertions.Equivalency.Steps
+{
+    public class AssertionRuleEquivalencyStep<TSubject> : FluentAssertions.Equivalency.IEquivalencyStep
+    {
+        public AssertionRuleEquivalencyStep(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate, System.Action<FluentAssertions.Equivalency.IAssertionContext<TSubject>> assertion) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public override string ToString() { }
+    }
+    public class AutoConversionStep : FluentAssertions.Equivalency.IEquivalencyStep
+    {
+        public AutoConversionStep() { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public override string ToString() { }
+    }
+    public class ConstraintCollectionEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Data.ConstraintCollection>
+    {
+        public ConstraintCollectionEquivalencyStep() { }
+        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+    }
+    public class ConstraintEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Data.Constraint>
+    {
+        public ConstraintEquivalencyStep() { }
+        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+    }
+    public class DataColumnEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Data.DataColumn>
+    {
+        public DataColumnEquivalencyStep() { }
+        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+    }
+    public class DataRelationEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Data.DataRelation>
+    {
+        public DataRelationEquivalencyStep() { }
+        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+    }
+    public class DataRowCollectionEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Data.DataRowCollection>
+    {
+        public DataRowCollectionEquivalencyStep() { }
+        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+    }
+    public class DataRowEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Data.DataRow>
+    {
+        public DataRowEquivalencyStep() { }
+        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+    }
+    public class DataSetEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Data.DataSet>
+    {
+        public DataSetEquivalencyStep() { }
+        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+    }
+    public class DataTableEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Data.DataTable>
+    {
+        public DataTableEquivalencyStep() { }
+        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+    }
+    public class DictionaryEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Collections.IDictionary>
+    {
+        public DictionaryEquivalencyStep() { }
+        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+    }
+    public class EnumEqualityStep : FluentAssertions.Equivalency.IEquivalencyStep
+    {
+        public EnumEqualityStep() { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+    }
+    public class EnumerableEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
+    {
+        public EnumerableEquivalencyStep() { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+    }
+    public class EqualityComparerEquivalencyStep<T> : FluentAssertions.Equivalency.IEquivalencyStep
+    {
+        public EqualityComparerEquivalencyStep(System.Collections.Generic.IEqualityComparer<T> comparer) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public override string ToString() { }
+    }
+    public class GenericDictionaryEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
+    {
+        public GenericDictionaryEquivalencyStep() { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+    }
+    public class GenericEnumerableEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
+    {
+        public GenericEnumerableEquivalencyStep() { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+    }
+    public class ReferenceEqualityEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
+    {
+        public ReferenceEqualityEquivalencyStep() { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+    }
+    public class RunAllUserStepsEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
+    {
+        public RunAllUserStepsEquivalencyStep() { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+    }
     public class SimpleEqualityEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public SimpleEqualityEquivalencyStep() { }
@@ -1057,13 +1067,6 @@ namespace FluentAssertions.Equivalency
     {
         public StructuralEqualityEquivalencyStep() { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
-    }
-    public static class SubjectInfoExtensions
-    {
-        public static bool WhichGetterDoesNotHave(this FluentAssertions.Equivalency.IMemberInfo memberInfo, FluentAssertions.Common.CSharpAccessModifier accessModifier) { }
-        public static bool WhichGetterHas(this FluentAssertions.Equivalency.IMemberInfo memberInfo, FluentAssertions.Common.CSharpAccessModifier accessModifier) { }
-        public static bool WhichSetterDoesNotHave(this FluentAssertions.Equivalency.IMemberInfo memberInfo, FluentAssertions.Common.CSharpAccessModifier accessModifier) { }
-        public static bool WhichSetterHas(this FluentAssertions.Equivalency.IMemberInfo memberInfo, FluentAssertions.Common.CSharpAccessModifier accessModifier) { }
     }
     public class ValueTypeEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {

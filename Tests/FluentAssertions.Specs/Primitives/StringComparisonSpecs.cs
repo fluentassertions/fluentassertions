@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FluentAssertions.Equivalency;
+using FluentAssertions.Equivalency.Execution;
 using FluentAssertions.Execution;
 using FluentAssertions.Specs.CultureAwareTesting;
 using Xunit;
