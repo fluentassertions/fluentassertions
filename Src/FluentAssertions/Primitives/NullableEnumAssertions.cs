@@ -27,8 +27,6 @@ namespace FluentAssertions.Primitives
         {
         }
 
-        public new TEnum? Subject => SubjectInternal;
-
         /// <summary>
         /// Asserts that a nullable <typeparamref name="TEnum"/> value is not <c>null</c>.
         /// </summary>
@@ -42,11 +40,11 @@ namespace FluentAssertions.Primitives
         public AndWhichConstraint<TAssertions, TEnum> HaveValue(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(SubjectInternal.HasValue)
+                .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:nullable date and time} to have a value{reason}, but found {0}.", SubjectInternal);
+                .FailWith("Expected {context:nullable date and time} to have a value{reason}, but found {0}.", Subject);
 
-            return new AndWhichConstraint<TAssertions, TEnum>((TAssertions)this, SubjectInternal.GetValueOrDefault());
+            return new AndWhichConstraint<TAssertions, TEnum>((TAssertions)this, Subject.GetValueOrDefault());
         }
 
         /// <summary>
@@ -77,9 +75,9 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!SubjectInternal.HasValue)
+                .ForCondition(!Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:nullable date and time} to have a value{reason}, but found {0}.", SubjectInternal);
+                .FailWith("Did not expect {context:nullable date and time} to have a value{reason}, but found {0}.", Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
