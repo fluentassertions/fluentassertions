@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
+using FluentAssertions.Equivalency.Steps;
 using FluentAssertions.Execution;
 using FluentAssertions.Formatting;
 using FluentAssertions.Primitives;

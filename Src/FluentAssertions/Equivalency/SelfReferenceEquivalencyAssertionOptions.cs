@@ -10,6 +10,7 @@ using FluentAssertions.Common;
 using FluentAssertions.Equivalency.Matching;
 using FluentAssertions.Equivalency.Ordering;
 using FluentAssertions.Equivalency.Selection;
+using FluentAssertions.Equivalency.Steps;
 using FluentAssertions.Equivalency.Tracing;
 
 namespace FluentAssertions.Equivalency

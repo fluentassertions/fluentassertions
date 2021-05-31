@@ -7,6 +7,7 @@ using BenchmarkDotNet.Engines;
 using Bogus;
 
 using FluentAssertions.Equivalency;
+using FluentAssertions.Equivalency.Steps;
 using FluentAssertions.Equivalency.Tracing;
 using FluentAssertions.Execution;
 
