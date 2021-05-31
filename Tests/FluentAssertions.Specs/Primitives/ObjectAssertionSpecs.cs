@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-
+using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
 using FluentAssertions.Primitives;
 using Xunit;
@@ -535,6 +535,24 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
+        public void When_a_null_instance_is_asserted_to_be_assignableOfT_it_should_fail()
+        {
+            // Arrange
+            object someObject = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                someObject.Should().BeAssignableTo<DateTime>("because we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage($"*assignable to {typeof(DateTime)}*failure message*found <null>*");
+        }
+
+        [Fact]
         public void When_its_own_type_instance_it_should_succeed()
         {
             // Arrange
@@ -579,9 +597,15 @@ namespace FluentAssertions.Specs.Primitives
         {
             // Arrange
             object someObject = null;
-            Action act = () => someObject.Should().BeAssignableTo(typeof(DateTime), "because we want to test the failure {0}", "message");
 
-            // Act / Assert
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                someObject.Should().BeAssignableTo(typeof(DateTime), "because we want to test the failure {0}", "message");
+            };
+
+            // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage($"*assignable to {typeof(DateTime)}*failure message*found <null>*");
         }
@@ -742,9 +766,15 @@ namespace FluentAssertions.Specs.Primitives
         {
             // Arrange
             object someObject = null;
-            Action act = () => someObject.Should().NotBeAssignableTo(typeof(DateTime), "because we want to test the failure {0}", "message");
 
-            // Act / Assert
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                someObject.Should().NotBeAssignableTo(typeof(DateTime), "because we want to test the failure {0}", "message");
+            };
+
+            // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage($"*not be assignable to {typeof(DateTime)}*failure message*found <null>*");
         }
