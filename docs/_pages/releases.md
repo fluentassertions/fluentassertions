@@ -8,6 +8,7 @@ sidebar:
 ---
 
 ## 6.0.0 Beta 1
+Changes since 6.0.0 Alpha 2
 
 **What's New**
 * Added `WithParameterName` extension to ease asserting on the parameter name for a thrown `ArgumentException` - [#1466](https://github.com/fluentassertions/fluentassertions/pull/1466).
@@ -61,6 +62,7 @@ sidebar:
 * Simplified `MemberSelectionContext` which is used by `IMemberSelectionRule` to remove the need for extensions to understand the difference between run-time and compile-time types - [#1539](https://github.com/fluentassertions/fluentassertions/pull/1539).
 
 ## 6.0.0 Alpha 2
+Changes since 6.0.0 Alpha 1
 
 **What's New**
 * Added async version of `Where` extension method to `ExceptionAssertions` to be able to check asynchronously thrown exception - [#1352](https://github.com/fluentassertions/fluentassertions/pull/1352).
