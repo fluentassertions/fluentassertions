@@ -64,9 +64,9 @@ namespace Benchmarks
 
             public bool UseRuntimeTyping => false;
 
-            public bool IncludeProperties => throw new NotImplementedException();
+            public MemberVisibility IncludedProperties => throw new NotImplementedException();
 
-            public bool IncludeFields => throw new NotImplementedException();
+            public MemberVisibility IncludedFields => throw new NotImplementedException();
 
             public bool CompareRecordsByValue => throw new NotImplementedException();
 

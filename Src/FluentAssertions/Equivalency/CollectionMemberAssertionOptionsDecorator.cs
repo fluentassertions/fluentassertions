@@ -57,9 +57,9 @@ namespace FluentAssertions.Equivalency
 
         public bool UseRuntimeTyping => inner.UseRuntimeTyping;
 
-        public bool IncludeProperties => inner.IncludeProperties;
+        public MemberVisibility IncludedProperties => inner.IncludedProperties;
 
-        public bool IncludeFields => inner.IncludeFields;
+        public MemberVisibility IncludedFields => inner.IncludedFields;
 
         public bool CompareRecordsByValue => inner.CompareRecordsByValue;
 

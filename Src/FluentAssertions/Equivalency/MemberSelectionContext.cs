@@ -20,6 +20,16 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
+        /// Gets a value indicating whether and which properties should be considered.
+        /// </summary>
+        public MemberVisibility IncludedProperties => options.IncludedProperties;
+
+        /// <summary>
+        /// Gets a value indicating whether and which fields should be considered.
+        /// </summary>
+        public MemberVisibility IncludedFields => options.IncludedFields;
+
+        /// <summary>
         /// Gets either the compile-time or run-time type depending on the options provided by the caller.
         /// </summary>
         public Type Type

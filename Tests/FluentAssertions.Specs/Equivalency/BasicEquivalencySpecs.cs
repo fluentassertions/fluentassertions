@@ -1021,7 +1021,6 @@ namespace FluentAssertions.Specs.Equivalency
             // Arrange
             var dto = new CustomerDto
             {
-                Version = 2,
                 Age = 36,
                 Birthdate = new DateTime(1973, 9, 20),
                 Name = "John"
@@ -1030,7 +1029,6 @@ namespace FluentAssertions.Specs.Equivalency
             var customer = new Customer
             {
                 Id = 1,
-                Version = 2,
                 Age = 36,
                 Birthdate = new DateTime(1973, 9, 20),
                 Name = "John"
@@ -1181,6 +1179,118 @@ namespace FluentAssertions.Specs.Equivalency
         private class ClassThatHidesBaseClassProperty : ClassWithGuidProperty
         {
             public new string[] Property { get; set; }
+        }
+
+        [Fact]
+        public void When_a_property_is_internal_it_should_be_excluded_from_the_comparison()
+        {
+            // Arrange
+            var actual = new ClassWithInternalProperty
+            {
+                PublicProperty = "public",
+                InternalProperty = "internal",
+                ProtectedInternalProperty = "internal"
+            };
+
+            var expected = new ClassWithInternalProperty
+            {
+                PublicProperty = "public",
+                InternalProperty = "also internal",
+                ProtectedInternalProperty = "also internal"
+            };
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public void When_a_property_is_internal_and_it_should_be_included_it_should_fail_the_assertion()
+        {
+            // Arrange
+            var actual = new ClassWithInternalProperty
+            {
+                PublicProperty = "public",
+                InternalProperty = "internal",
+                ProtectedInternalProperty = "internal"
+            };
+
+            var expected = new ClassWithInternalProperty
+            {
+                PublicProperty = "public",
+                InternalProperty = "also internal",
+                ProtectedInternalProperty = "also internal"
+            };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected, options => options.IncludingInternalProperties());
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*InternalProperty*also internal*internal*ProtectedInternalProperty*");
+        }
+
+        private class ClassWithInternalProperty
+        {
+            public string PublicProperty { get; set; }
+
+            internal string InternalProperty { get; set; }
+
+            protected internal string ProtectedInternalProperty { get; set; }
+        }
+
+        [Fact]
+        public void When_a_field_is_internal_it_should_be_excluded_from_the_comparison()
+        {
+            // Arrange
+            var actual = new ClassWithInternalField
+            {
+                PublicField = "public",
+                InternalField = "internal",
+                ProtectedInternalField = "internal"
+            };
+
+            var expected = new ClassWithInternalField
+            {
+                PublicField = "public",
+                InternalField = "also internal",
+                ProtectedInternalField = "also internal"
+            };
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public void When_a_field_is_internal_and_it_should_be_included_it_should_fail_the_assertion()
+        {
+            // Arrange
+            var actual = new ClassWithInternalField
+            {
+                PublicField = "public",
+                InternalField = "internal",
+                ProtectedInternalField = "internal"
+            };
+
+            var expected = new ClassWithInternalField
+            {
+                PublicField = "public",
+                InternalField = "also internal",
+                ProtectedInternalField = "also internal"
+            };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected, options => options.IncludingInternalFields());
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*InternalField*also internal*internal*ProtectedInternalField*");
+        }
+
+        private class ClassWithInternalField
+        {
+            public string PublicField;
+
+            internal string InternalField;
+
+            protected internal string ProtectedInternalField;
         }
 
         [Fact]
@@ -4415,8 +4525,6 @@ namespace FluentAssertions.Specs.Equivalency
 
     public class CustomerDto
     {
-        public long Version { get; set; }
-
         public string Name { get; set; }
 
         public int Age { get; set; }
