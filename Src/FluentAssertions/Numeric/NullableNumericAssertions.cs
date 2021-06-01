@@ -26,8 +26,6 @@ namespace FluentAssertions.Numeric
         {
         }
 
-        public new T? Subject => SubjectInternal;
-
         /// <summary>
         /// Asserts that a nullable numeric value is not <c>null</c>.
         /// </summary>

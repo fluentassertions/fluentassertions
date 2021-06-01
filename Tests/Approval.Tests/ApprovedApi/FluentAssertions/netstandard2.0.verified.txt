@@ -1574,7 +1574,6 @@ namespace FluentAssertions.Numeric
         where TAssertions : FluentAssertions.Numeric.NullableNumericAssertions<T, TAssertions>
     {
         public NullableNumericAssertions(T? value) { }
-        public T? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Match(System.Linq.Expressions.Expression<System.Func<T?, bool>> predicate, string because = "", params object[] becauseArgs) { }
@@ -1591,7 +1590,7 @@ namespace FluentAssertions.Numeric
         where TAssertions : FluentAssertions.Numeric.NumericAssertions<T, TAssertions>
     {
         public NumericAssertions(T value) { }
-        public T Subject { get; }
+        public T? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(T expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Be(T? expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeGreaterOrEqualTo(T expected, string because = "", params object[] becauseArgs) { }
@@ -1748,7 +1747,7 @@ namespace FluentAssertions.Primitives
         where TAssertions : FluentAssertions.Primitives.EnumAssertions<TEnum, TAssertions>
     {
         public EnumAssertions(TEnum subject) { }
-        public TEnum Subject { get; }
+        public TEnum? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(TEnum expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Be(TEnum? expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveFlag(TEnum expectedFlag, string because = "", params object[] becauseArgs) { }
@@ -1833,7 +1832,6 @@ namespace FluentAssertions.Primitives
         where TAssertions : FluentAssertions.Primitives.NullableEnumAssertions<TEnum, TAssertions>
     {
         public NullableEnumAssertions(TEnum? subject) { }
-        public TEnum? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, TEnum> HaveValue(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, TEnum> NotBeNull(string because = "", params object[] becauseArgs) { }
