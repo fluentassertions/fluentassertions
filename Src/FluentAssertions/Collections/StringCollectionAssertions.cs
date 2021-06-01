@@ -241,15 +241,24 @@ namespace FluentAssertions.Collections
                 throw new ArgumentException("Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the Contain method.", nameof(wildcardPattern));
             }
 
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
-                .FailWith("Expected {context:collection} to contain a match of {0}{reason}, but found <null>.", wildcardPattern)
-                .Then
-                .ForCondition(ContainsMatch(wildcardPattern))
-                .FailWith("Expected {context:collection} {0} to contain a match of {1}{reason}.", Subject, wildcardPattern);
+                .FailWith("Expected {context:collection} to contain a match of {0}{reason}, but found <null>.", wildcardPattern);
 
-            return new AndWhichConstraint<TAssertions, string>((TAssertions)this, AllThatMatch(wildcardPattern));
+            IEnumerable<string> matched = new List<string>(0);
+
+            if (success)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(ContainsMatch(wildcardPattern))
+                    .FailWith("Expected {context:collection} {0} to contain a match of {1}{reason}.", Subject, wildcardPattern);
+
+                matched = AllThatMatch(wildcardPattern);
+            }
+
+            return new AndWhichConstraint<TAssertions, string>((TAssertions)this, matched);
         }
 
         private bool ContainsMatch(string wildcardPattern)
@@ -317,13 +326,18 @@ namespace FluentAssertions.Collections
                 throw new ArgumentException("Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the NotContain method.", nameof(wildcardPattern));
             }
 
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
-                .FailWith("Did not expect {context:collection} to contain a match of {0}{reason}, but found <null>.", wildcardPattern)
-                .Then
-                .ForCondition(NotContainsMatch(wildcardPattern))
-                .FailWith("Did not expect {context:collection} {0} to contain a match of {1}{reason}.", Subject, wildcardPattern);
+                .FailWith("Did not expect {context:collection} to contain a match of {0}{reason}, but found <null>.", wildcardPattern);
+
+            if (success)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(NotContainsMatch(wildcardPattern))
+                    .FailWith("Did not expect {context:collection} {0} to contain a match of {1}{reason}.", Subject, wildcardPattern);
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
