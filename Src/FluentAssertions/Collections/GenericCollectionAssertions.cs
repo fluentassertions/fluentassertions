@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -100,6 +100,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="expectedType"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> AllBeAssignableTo(Type expectedType, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expectedType, nameof(expectedType));
@@ -243,6 +244,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="expectedType"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> AllBeOfType(Type expectedType, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expectedType, nameof(expectedType));
@@ -408,6 +410,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <c>null</c>.</exception>
         public AndConstraint<SubsequentOrderingAssertions<T>> BeInAscendingOrder(
             IComparer<T> comparer, string because = "", params object[] becauseArgs)
         {
@@ -434,6 +437,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <c>null</c>.</exception>
         public AndConstraint<SubsequentOrderingAssertions<T>> BeInAscendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
         {
@@ -521,6 +525,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <c>null</c>.</exception>
         public AndConstraint<SubsequentOrderingAssertions<T>> BeInDescendingOrder(
             IComparer<T> comparer, string because = "", params object[] becauseArgs)
         {
@@ -547,6 +552,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <c>null</c>.</exception>
         public AndConstraint<SubsequentOrderingAssertions<T>> BeInDescendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
         {
@@ -628,6 +634,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="expectedSuperset"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> BeSubsetOf(IEnumerable<T> expectedSuperset, string because = "",
             params object[] becauseArgs)
         {
@@ -694,6 +701,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <c>null</c>.</exception>
         public AndWhichConstraint<TAssertions, T> Contain(Expression<Func<T, bool>> predicate, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
@@ -732,6 +740,8 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
         public AndConstraint<TAssertions> Contain(IEnumerable<T> expected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify containment against a <null> collection");
@@ -817,6 +827,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="config"/> is <c>null</c>.</exception>
         public AndWhichConstraint<TAssertions, T> ContainEquivalentOf<TExpectation>(TExpectation expectation, Func<EquivalencyAssertionOptions<TExpectation>,
                 EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs)
         {
@@ -893,6 +904,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> ContainInOrder(IEnumerable<T> expected, string because = "",
             params object[] becauseArgs)
         {
@@ -1024,6 +1036,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <c>null</c>.</exception>
         public AndWhichConstraint<TAssertions, T> ContainSingle(Expression<Func<T, bool>> predicate,
             string because = "", params object[] becauseArgs)
         {
@@ -1233,6 +1246,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="countPredicate"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> HaveCount(Expression<Func<int, bool>> countPredicate, string because = "",
             params object[] becauseArgs)
         {
@@ -1505,6 +1519,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> HaveSameCount<TExpectation>(IEnumerable<TExpectation> otherCollection, string because = "",
             params object[] becauseArgs)
         {
@@ -1537,6 +1552,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> IntersectWith(IEnumerable<T> otherCollection, string because = "",
             params object[] becauseArgs)
         {
@@ -1714,6 +1730,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotBeInAscendingOrder(
             IComparer<T> comparer, string because = "", params object[] becauseArgs)
         {
@@ -1740,6 +1757,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotBeInAscendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
         {
@@ -1826,6 +1844,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotBeInDescendingOrder(
             IComparer<T> comparer, string because = "", params object[] becauseArgs)
         {
@@ -1852,6 +1871,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotBeInDescendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
         {
@@ -2004,6 +2024,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotContain(Expression<Func<T, bool>> predicate, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
@@ -2040,6 +2061,8 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="unexpected"/> is empty.</exception>
         public AndConstraint<TAssertions> NotContain(IEnumerable<T> unexpected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify non-containment against a <null> collection");
@@ -2126,6 +2149,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="config"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotContainEquivalentOf<TExpectation>(TExpectation unexpected, Func<EquivalencyAssertionOptions<TExpectation>,
             EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs)
         {
@@ -2205,6 +2229,7 @@ namespace FluentAssertions.Collections
         /// Elements are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </remarks>
         /// <param name="unexpected">A <see cref="Array"/> with the unexpected elements.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotContainInOrder(params T[] unexpected)
         {
             return NotContainInOrder(unexpected, string.Empty);
@@ -2224,6 +2249,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotContainInOrder(IEnumerable<T> unexpected, string because = "",
             params object[] becauseArgs)
         {
@@ -2292,6 +2318,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotContainNulls<TKey>(Expression<Func<T, TKey>> predicate, string because = "", params object[] becauseArgs)
             where TKey : class
         {
@@ -2377,6 +2404,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotEqual(IEnumerable<T> unexpected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare collection with <null>.");
@@ -2440,6 +2468,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotHaveSameCount<TExpectation>(IEnumerable<TExpectation> otherCollection, string because = "",
             params object[] becauseArgs)
         {
@@ -2478,6 +2507,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotIntersectWith(IEnumerable<T> otherCollection, string because = "",
             params object[] becauseArgs)
         {
@@ -2516,6 +2546,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> OnlyContain(
             Expression<Func<T, bool>> predicate, string because = "", params object[] becauseArgs)
         {
@@ -2554,6 +2585,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> OnlyHaveUniqueItems<TKey>(Expression<Func<T, TKey>> predicate, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
@@ -2650,6 +2682,8 @@ namespace FluentAssertions.Collections
         /// The element inspectors, which inspect each element in turn. The
         /// total number of element inspectors must exactly match the number of elements in the collection.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="elementInspectors"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="elementInspectors"/> is empty.</exception>
         public AndConstraint<TAssertions> SatisfyRespectively(params Action<T>[] elementInspectors)
         {
             return SatisfyRespectively(elementInspectors, string.Empty);
@@ -2670,6 +2704,8 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
         public AndConstraint<TAssertions> SatisfyRespectively(IEnumerable<Action<T>> expected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify against a <null> collection of inspectors");
@@ -2734,6 +2770,8 @@ namespace FluentAssertions.Collections
         /// The predicates that the elements of the collection must match.
         /// The total number of predicates must exactly match the number of elements in the collection.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="predicates"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="predicates"/> is empty.</exception>
         public AndConstraint<TAssertions> Satisfy(params Expression<Func<T, bool>>[] predicates)
         {
             return Satisfy(predicates, because: string.Empty);
@@ -2755,6 +2793,8 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="predicates"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="predicates"/> is empty.</exception>
         public AndConstraint<TAssertions> Satisfy(IEnumerable<Expression<Func<T, bool>>> predicates, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(predicates, nameof(predicates), "Cannot verify against a <null> collection of predicates");
@@ -2826,6 +2866,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="expectation"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> StartWith(IEnumerable<T> expectation, string because = "", params object[] becauseArgs)
         {
             return StartWith(expectation, (a, b) => EqualityComparer<T>.Default.Equals(a, b), because, becauseArgs);
@@ -2848,6 +2889,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="expectation"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> StartWith<TExpectation>(
             IEnumerable<TExpectation> expectation, Func<T, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs)
         {
