@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Collections;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -183,14 +184,18 @@ namespace FluentAssertions.Specs.Collections
             IEnumerable<int> collection = null;
 
             // Act
-            Action act = () => collection.Should().Satisfy(
-                new Expression<Func<int, bool>>[]
-                {
-                    element => element == 1,
-                    element => element == 2,
-                },
-                because: "we want to test the failure message ({0})",
-                becauseArgs: "args");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().Satisfy(
+                    new Expression<Func<int, bool>>[]
+                    {
+                        element => element == 1,
+                        element => element == 2,
+                    },
+                    because: "we want to test the failure message ({0})",
+                    becauseArgs: "args");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(

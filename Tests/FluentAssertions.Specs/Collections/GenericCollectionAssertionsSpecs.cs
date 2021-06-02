@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using FluentAssertions.Execution;
 using FluentAssertions.Specs.Equivalency;
 using Xunit;
 using Xunit.Sdk;
@@ -109,7 +110,11 @@ namespace FluentAssertions.Specs.Collections
             const IEnumerable<string> strings = null;
 
             // Act
-            Action act = () => strings.Should().Contain("string4", "because we're checking how it reacts to a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                strings.Should().Contain("string4", "because we're checking how it reacts to a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -138,7 +143,11 @@ namespace FluentAssertions.Specs.Collections
             const IEnumerable<string> strings = null;
 
             // Act
-            Action act = () => strings.Should().Contain(x => x == "xxx", "because we're checking how it reacts to a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                strings.Should().Contain(x => x == "xxx", "because we're checking how it reacts to a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -281,6 +290,26 @@ namespace FluentAssertions.Specs.Collections
             act.Should().NotThrow();
         }
 
+        [Fact]
+        public void When_a_collection_is_null_then_only_contains_should_fail()
+        {
+            // Arrange
+            int[] collection = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().OnlyContain(i => i <= 10, "we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected collection to contain only items matching (i <= 10) *failure message*," +
+                    " but the collection is <null>.");
+        }
+
         #endregion
 
         #region Contain Single
@@ -338,7 +367,11 @@ namespace FluentAssertions.Specs.Collections
             Expression<Func<int, bool>> expression = item => item == 2;
 
             // Act
-            Action act = () => collection.Should().ContainSingle(expression);
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().ContainSingle(expression);
+            };
 
             // Assert
             string expectedMessage =
@@ -460,7 +493,11 @@ namespace FluentAssertions.Specs.Collections
             const IEnumerable<int> collection = null;
 
             // Act
-            Action act = () => collection.Should().ContainSingle("more is not allowed");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().ContainSingle("more is not allowed");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -1535,7 +1572,11 @@ namespace FluentAssertions.Specs.Collections
             const IEnumerable<SomeClass> collection = null;
 
             // Act
-            Action act = () => collection.Should().NotBeInAscendingOrder(o => o.Text);
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().NotBeInAscendingOrder(o => o.Text);
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -1549,7 +1590,11 @@ namespace FluentAssertions.Specs.Collections
             const IEnumerable<SomeClass> collection = null;
 
             // Act
-            Action act = () => collection.Should().NotBeInAscendingOrder(Comparer<SomeClass>.Default);
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().NotBeInAscendingOrder(Comparer<SomeClass>.Default);
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -1973,13 +2018,35 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
-        public void When_asserting_collection_to_not_contain_nulls_but_collection_is_null_it_should_throw()
+        public void When_asserting_collection_to_not_contain_nulls_but_collection_is_null_it_should_fail()
+        {
+            // Arrange
+            SomeClass[] collection = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().NotContainNulls("we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection not to contain <null>s *failure message*, but collection is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_collection_to_not_contain_nulls_with_predicate_but_collection_is_null_it_should_throw()
         {
             // Arrange
             IEnumerable<SomeClass> collection = null;
 
             // Act
-            Action act = () => collection.Should().NotContainNulls(e => e.Text, "because we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().NotContainNulls(e => e.Text, "because we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -2068,8 +2135,11 @@ namespace FluentAssertions.Specs.Collections
             IEnumerable<SomeClass> collection = null;
 
             // Act
-            Action act =
-                () => collection.Should().OnlyHaveUniqueItems(e => e.Text, "because we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().OnlyHaveUniqueItems(e => e.Text, "because we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -2115,11 +2185,15 @@ namespace FluentAssertions.Specs.Collections
             IEnumerable<int> collection = null;
 
             // Act
-            Action act = () => collection.Should().SatisfyRespectively(
-                new Action<int>[]
-                {
-                    x => x.Should().Be(1)
-                }, "because we want to test the failure {0}", "message");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().SatisfyRespectively(
+                    new Action<int>[]
+                    {
+                        x => x.Should().Be(1)
+                    }, "because we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
