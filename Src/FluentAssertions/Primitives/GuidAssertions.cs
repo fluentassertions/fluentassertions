@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using FluentAssertions.Execution;
 
@@ -90,9 +90,14 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentException">The format of <paramref name="expected"/> is invalid.</exception>
         public AndConstraint<TAssertions> Be(string expected, string because = "", params object[] becauseArgs)
         {
-            var expectedGuid = new Guid(expected);
+            if (!Guid.TryParse(expected, out Guid expectedGuid))
+            {
+                throw new ArgumentException($"Unable to parse \"{expected}\" as a valid GUID", nameof(expected));
+            }
+
             return Be(expectedGuid, because, becauseArgs);
         }
 
