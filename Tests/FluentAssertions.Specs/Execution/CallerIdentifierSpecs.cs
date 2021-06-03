@@ -12,7 +12,7 @@ namespace FluentAssertions.Specs.Execution
         public void When_namespace_is_exactly_System_caller_should_be_unknown()
         {
             // Act
-            Action act = () => System.SystemNamespaceClass.DetermineCallerIdentityInNamespace();
+            Action act = () => SystemNamespaceClass.DetermineCallerIdentityInNamespace();
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("Expected function to be*");
