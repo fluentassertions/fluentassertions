@@ -44,18 +44,10 @@ namespace FluentAssertions.CallerIdentification
 
         private bool IsVerbatim()
         {
-            if (previousChar == '@')
-            {
-                return true;
-            }
-
-            if (statement.Length > 1)
-            {
-                return statement[statement.Length - 1] == '$'
-                    && statement[statement.Length - 2] == '@';
-            }
-
-            return false;
+            return previousChar == '@'
+               || (statement.Length > 1
+                   && statement[statement.Length - 1] == '$'
+                   && statement[statement.Length - 2] == '@');
         }
     }
 }

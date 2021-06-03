@@ -204,12 +204,10 @@ namespace FluentAssertions
                     currentLine++;
                 }
 
-                if (currentLine == expectedLineNumber && line != null)
-                {
-                    return GetSourceCodeStatementFrom(frame, reader, line);
-                }
-
-                return null;
+                return currentLine == expectedLineNumber
+                       && line != null
+                           ? GetSourceCodeStatementFrom(frame, reader, line)
+                           : null;
             }
             catch
             {
