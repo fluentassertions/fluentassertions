@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
@@ -116,7 +117,11 @@ namespace FluentAssertions.Specs.Primitives
             string aString = null;
 
             // Act
-            Action action = () => aString.Should().BeOfType(typeof(string));
+            Action action = () =>
+            {
+                using var _ = new AssertionScope();
+                aString.Should().BeOfType(typeof(string));
+            };
 
             // Assert
             action.Should().Throw<XunitException>()
@@ -238,7 +243,11 @@ namespace FluentAssertions.Specs.Primitives
             string aString = null;
 
             // Act
-            Action action = () => aString.Should().NotBeOfType(typeof(string));
+            Action action = () =>
+            {
+                using var _ = new AssertionScope();
+                aString.Should().NotBeOfType(typeof(string));
+            };
 
             // Assert
             action.Should().Throw<XunitException>()

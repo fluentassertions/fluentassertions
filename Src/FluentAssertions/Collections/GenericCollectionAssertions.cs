@@ -63,18 +63,30 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndWhichConstraint<TAssertions, IEnumerable<TExpectation>> AllBeAssignableTo<TExpectation>(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected type to be {0}{reason}, ", typeof(TExpectation).FullName)
-                .ForCondition(Subject.All(x => x is not null))
-                .FailWith("but found a null element.")
-                .Then
-                .ForCondition(Subject.All(x => typeof(TExpectation).IsAssignableFrom(GetType(x))))
-                .FailWith("but found {0}.", () => $"[{string.Join(", ", Subject.Select(x => GetType(x).FullName))}]")
-                .Then
-                .ClearExpectation();
+                .ForCondition(Subject is not null)
+                .FailWith("Expected type to be {0}{reason}, but found {context:the collection} is <null>.", typeof(TExpectation).FullName);
 
-            return new AndWhichConstraint<TAssertions, IEnumerable<TExpectation>>((TAssertions)this, Subject.OfType<TExpectation>());
+            IEnumerable<TExpectation> matches = new TExpectation[0];
+
+            if (success)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .WithExpectation("Expected type to be {0}{reason}, ", typeof(TExpectation).FullName)
+                    .ForCondition(Subject.All(x => x is not null))
+                    .FailWith("but found a null element.")
+                    .Then
+                    .ForCondition(Subject.All(x => typeof(TExpectation).IsAssignableFrom(GetType(x))))
+                    .FailWith("but found {0}.", () => $"[{string.Join(", ", Subject.Select(x => GetType(x).FullName))}]")
+                    .Then
+                    .ClearExpectation();
+
+                matches = Subject.OfType<TExpectation>();
+            }
+
+            return new AndWhichConstraint<TAssertions, IEnumerable<TExpectation>>((TAssertions)this, matches);
         }
 
         /// <summary>
@@ -88,6 +100,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="expectedType"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> AllBeAssignableTo(Type expectedType, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expectedType, nameof(expectedType));
@@ -95,11 +108,15 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected type to be {0}{reason}, ", expectedType.FullName)
-                .ForCondition(Subject.All(x => x is not null))
+                .Given(() => Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith("but found {context:collection} is <null>.")
+                .Then
+                .ForCondition(subject => subject.All(x => x is not null))
                 .FailWith("but found a null element.")
                 .Then
-                .ForCondition(Subject.All(x => expectedType.IsAssignableFrom(GetType(x))))
-                .FailWith("but found {0}.", () => $"[{string.Join(", ", Subject.Select(x => GetType(x).FullName))}]")
+                .ForCondition(subject => subject.All(x => expectedType.IsAssignableFrom(GetType(x))))
+                .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]")
                 .Then
                 .ClearExpectation();
 
@@ -190,18 +207,30 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndWhichConstraint<TAssertions, IEnumerable<TExpectation>> AllBeOfType<TExpectation>(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected type to be {0}{reason}, ", typeof(TExpectation).FullName)
-                .ForCondition(Subject.All(x => x is not null))
-                .FailWith("but found a null element.")
-                .Then
-                .ForCondition(Subject.All(x => typeof(TExpectation) == GetType(x)))
-                .FailWith("but found {0}.", () => $"[{string.Join(", ", Subject.Select(x => GetType(x).FullName))}]")
-                .Then
-                .ClearExpectation();
+                .ForCondition(Subject is not null)
+                .FailWith("Expected type to be {0}{reason}, but found {context:collection} is <null>.", typeof(TExpectation).FullName);
 
-            return new AndWhichConstraint<TAssertions, IEnumerable<TExpectation>>((TAssertions)this, Subject.OfType<TExpectation>());
+            IEnumerable<TExpectation> matches = new TExpectation[0];
+
+            if (success)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .WithExpectation("Expected type to be {0}{reason}, ", typeof(TExpectation).FullName)
+                    .ForCondition(Subject.All(x => x is not null))
+                    .FailWith("but found a null element.")
+                    .Then
+                    .ForCondition(Subject.All(x => typeof(TExpectation) == GetType(x)))
+                    .FailWith("but found {0}.", () => $"[{string.Join(", ", Subject.Select(x => GetType(x).FullName))}]")
+                    .Then
+                    .ClearExpectation();
+
+                matches = Subject.OfType<TExpectation>();
+            }
+
+            return new AndWhichConstraint<TAssertions, IEnumerable<TExpectation>>((TAssertions)this, matches);
         }
 
         /// <summary>
@@ -215,6 +244,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="expectedType"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> AllBeOfType(Type expectedType, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expectedType, nameof(expectedType));
@@ -222,11 +252,15 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected type to be {0}{reason}, ", expectedType.FullName)
-                .ForCondition(Subject.All(x => x is not null))
+                .Given(() => Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith("but found {context:collection} is <null>.")
+                .Then
+                .ForCondition(subject => subject.All(x => x is not null))
                 .FailWith("but found a null element.")
                 .Then
-                .ForCondition(Subject.All(x => expectedType == GetType(x)))
-                .FailWith("but found {0}.", () => $"but found [{string.Join(", ", Subject.Select(x => GetType(x).FullName))}].")
+                .ForCondition(subject => subject.All(x => expectedType == GetType(x)))
+                .FailWith("but found {0}.", subject => $"but found [{string.Join(", ", subject.Select(x => GetType(x).FullName))}].")
                 .Then
                 .ClearExpectation();
 
@@ -248,10 +282,11 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:collection} to be empty{reason}, ")
-                .ForCondition(Subject is not null)
-                .FailWith("but found {0}.", Subject)
+                .Given(() => Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith("but found <null>.")
                 .Then
-                .ForCondition(!Subject.Any())
+                .ForCondition(subject => !subject.Any())
                 .FailWith("but found {0}.", Subject)
                 .Then
                 .ClearExpectation();
@@ -375,6 +410,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <c>null</c>.</exception>
         public AndConstraint<SubsequentOrderingAssertions<T>> BeInAscendingOrder(
             IComparer<T> comparer, string because = "", params object[] becauseArgs)
         {
@@ -401,6 +437,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <c>null</c>.</exception>
         public AndConstraint<SubsequentOrderingAssertions<T>> BeInAscendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
         {
@@ -488,6 +525,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <c>null</c>.</exception>
         public AndConstraint<SubsequentOrderingAssertions<T>> BeInDescendingOrder(
             IComparer<T> comparer, string because = "", params object[] becauseArgs)
         {
@@ -514,6 +552,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <c>null</c>.</exception>
         public AndConstraint<SubsequentOrderingAssertions<T>> BeInDescendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
         {
@@ -595,29 +634,24 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="expectedSuperset"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> BeSubsetOf(IEnumerable<T> expectedSuperset, string because = "",
             params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expectedSuperset, nameof(expectedSuperset), "Cannot verify a subset against a <null> collection.");
 
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to be a subset of {0}{reason}, but found {1}.", expectedSuperset,
-                        Subject);
-            }
-
-            IEnumerable<T> excessItems = Subject.Except(expectedSuperset);
-
-            if (excessItems.Any())
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith(
-                        "Expected {context:collection} to be a subset of {0}{reason}, but items {1} are not part of the superset.",
-                        expectedSuperset, excessItems);
-            }
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected {context:collection} to be a subset of {0}{reason}, ", expectedSuperset)
+                .Given(() => Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith("but found <null>.")
+                .Then
+                .Given(subject => subject.Except(expectedSuperset))
+                .ForCondition(excessItems => !excessItems.Any())
+                .FailWith("but items {0} are not part of the superset.", excessItems => excessItems)
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -635,24 +669,25 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndWhichConstraint<TAssertions, T> Contain(T expected, string because = "", params object[] becauseArgs)
         {
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain {0}{reason}, but found {1}.", expected, Subject);
-            }
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected {context:collection} to contain {0}{reason}, but found <null>.", expected);
 
-            var collection = Subject.ConvertOrCastToCollection();
-            if (!collection.Contains(expected))
+            IEnumerable<T> matches = new T[0];
+
+            if (success)
             {
+                ICollection<T> collection = Subject.ConvertOrCastToCollection();
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
+                    .ForCondition(collection.Contains(expected))
                     .FailWith("Expected {context:collection} {0} to contain {1}{reason}.", collection, expected);
+
+                matches = collection.Where(item => EqualityComparer<T>.Default.Equals(item, expected));
             }
 
-            return new AndWhichConstraint<TAssertions, T>((TAssertions)this,
-                collection.Where(
-                    item => EqualityComparer<T>.Default.Equals(item, expected)));
+            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, matches);
         }
 
         /// <summary>
@@ -666,25 +701,31 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <c>null</c>.</exception>
         public AndWhichConstraint<TAssertions, T> Contain(Expression<Func<T, bool>> predicate, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
 
-            if (Subject is null)
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected {context:collection} to contain {0}{reason}, but found <null>.", predicate.Body);
+
+            IEnumerable<T> matches = new T[0];
+
+            if (success)
             {
+                Func<T, bool> func = predicate.Compile();
+
                 Execute.Assertion
+                    .ForCondition(Subject.Any(func))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain {0}{reason}, but found {1}.", predicate.Body, Subject);
+                    .FailWith("Expected {context:collection} {0} to have an item matching {1}{reason}.", Subject, predicate.Body);
+
+                matches = Subject.Where(func);
             }
 
-            Func<T, bool> func = predicate.Compile();
-
-            Execute.Assertion
-                .ForCondition(Subject.Any(func))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} {0} to have an item matching {1}{reason}.", Subject, predicate.Body);
-
-            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, Subject.Where(func));
+            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, matches);
         }
 
         /// <summary>
@@ -699,6 +740,8 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
         public AndConstraint<TAssertions> Contain(IEnumerable<T> expected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify containment against a <null> collection");
@@ -706,33 +749,32 @@ namespace FluentAssertions.Collections
             ICollection<T> expectedObjects = expected.ConvertOrCastToCollection();
             if (!expectedObjects.Any())
             {
-                throw new ArgumentException("Cannot verify containment against an empty collection",
-                    nameof(expected));
+                throw new ArgumentException("Cannot verify containment against an empty collection", nameof(expected));
             }
 
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain {0}{reason}, but found <null>.", expected);
-            }
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected {context:collection} to contain {0}{reason}, but found <null>.", expected);
 
-            IEnumerable<T> missingItems = expectedObjects.Except(Subject);
-            if (missingItems.Any())
+            if (success)
             {
-                if (expectedObjects.Count > 1)
+                IEnumerable<T> missingItems = expectedObjects.Except(Subject);
+                if (missingItems.Any())
                 {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} {0} to contain {1}{reason}, but could not find {2}.", Subject,
-                            expected, missingItems);
-                }
-                else
-                {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} {0} to contain {1}{reason}.", Subject,
-                            expected.First());
+                    if (expectedObjects.Count > 1)
+                    {
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith("Expected {context:collection} {0} to contain {1}{reason}, but could not find {2}.",
+                                Subject, expected, missingItems);
+                    }
+                    else
+                    {
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith("Expected {context:collection} {0} to contain {1}{reason}.", Subject, expected.First());
+                    }
                 }
             }
 
@@ -785,52 +827,54 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="config"/> is <c>null</c>.</exception>
         public AndWhichConstraint<TAssertions, T> ContainEquivalentOf<TExpectation>(TExpectation expectation, Func<EquivalencyAssertionOptions<TExpectation>,
                 EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(config, nameof(config));
 
-            if (Subject is null)
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected {context:collection} to contain equivalent of {0}{reason}, but found <null>.", expectation);
+
+            if (success)
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain equivalent of {0}{reason}, but found <null>.", expectation);
-            }
+                EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
 
-            EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
-
-            using (var scope = new AssertionScope())
-            {
-                scope.AddReportable("configuration", options.ToString());
-
-                foreach (T actualItem in Subject)
+                using (var scope = new AssertionScope())
                 {
-                    var context = new EquivalencyValidationContext(Node.From<TExpectation>(() => CallerIdentifier.DetermineCallerIdentity()), options)
+                    scope.AddReportable("configuration", options.ToString());
+
+                    foreach (T actualItem in Subject)
                     {
-                        Reason = new Reason(because, becauseArgs),
-                        TraceWriter = options.TraceWriter
-                    };
+                        var context = new EquivalencyValidationContext(Node.From<TExpectation>(() => CallerIdentifier.DetermineCallerIdentity()), options)
+                        {
+                            Reason = new Reason(because, becauseArgs),
+                            TraceWriter = options.TraceWriter
+                        };
 
-                    var comparands = new Comparands
-                    {
-                        Subject = actualItem,
-                        Expectation = expectation,
-                        CompileTimeType = typeof(TExpectation),
-                    };
+                        var comparands = new Comparands
+                        {
+                            Subject = actualItem,
+                            Expectation = expectation,
+                            CompileTimeType = typeof(TExpectation),
+                        };
 
-                    new EquivalencyValidator().AssertEquality(comparands, context);
+                        new EquivalencyValidator().AssertEquality(comparands, context);
 
-                    string[] failures = scope.Discard();
+                        string[] failures = scope.Discard();
 
-                    if (!failures.Any())
-                    {
-                        return new AndWhichConstraint<TAssertions, T>((TAssertions)this, actualItem);
+                        if (!failures.Any())
+                        {
+                            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, actualItem);
+                        }
                     }
-                }
 
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} {0} to contain equivalent of {1}{reason}.", Subject, expectation);
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:collection} {0} to contain equivalent of {1}{reason}.", Subject, expectation);
+                }
             }
 
             return new AndWhichConstraint<TAssertions, T>((TAssertions)this, default(T));
@@ -860,37 +904,40 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> ContainInOrder(IEnumerable<T> expected, string because = "",
             params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify ordered containment against a <null> collection.");
 
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain {0} in order{reason}, but found <null>.", expected);
-            }
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected {context:collection} to contain {0} in order{reason}, but found <null>.", expected);
 
-            IList<T> expectedItems = expected.ConvertOrCastToList();
-            IList<T> actualItems = Subject.ConvertOrCastToList();
-
-            Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
-            for (int index = 0; index < expectedItems.Count; index++)
+            if (success)
             {
-                T expectedItem = expectedItems[index];
-                actualItems = actualItems.SkipWhile(actualItem => !areSameOrEqual(actualItem, expectedItem)).ToArray();
-                if (actualItems.Any())
+                IList<T> expectedItems = expected.ConvertOrCastToList();
+                IList<T> actualItems = Subject.ConvertOrCastToList();
+
+                Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
+                for (int index = 0; index < expectedItems.Count; index++)
                 {
-                    actualItems = actualItems.Skip(1).ToArray();
-                }
-                else
-                {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith(
-                            "Expected {context:collection} {0} to contain items {1} in order{reason}, but {2} (index {3}) did not appear (in the right order).",
-                            Subject, expected, expectedItem, index);
+                    T expectedItem = expectedItems[index];
+                    actualItems = actualItems.SkipWhile(actualItem => !areSameOrEqual(actualItem, expectedItem)).ToArray();
+                    if (actualItems.Any())
+                    {
+                        actualItems = actualItems.Skip(1).ToArray();
+                    }
+                    else
+                    {
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith(
+                                "Expected {context:collection} {0} to contain items {1} in order{reason}" +
+                                ", but {2} (index {3}) did not appear (in the right order).",
+                                Subject, expected, expectedItem, index);
+                    }
                 }
             }
 
@@ -909,27 +956,28 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> ContainItemsAssignableTo<TExpectation>(string because = "", params object[] becauseArgs)
         {
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain element assignable to type {0}{reason}, but found <null>.",
-                        typeof(TExpectation));
-            }
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected {context:collection} to contain element assignable to type {0}{reason}, but found <null>.",
+                    typeof(TExpectation));
 
-            int index = 0;
-            foreach (T item in Subject)
+            if (success)
             {
-                if (item is not TExpectation)
+                int index = 0;
+                foreach (T item in Subject)
                 {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith(
-                            "Expected {context:collection} to contain only items of type {0}{reason}, but item {1} at index {2} is of type {3}.",
-                            typeof(TExpectation), item, index, item.GetType());
-                }
+                    if (item is not TExpectation)
+                    {
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith(
+                                "Expected {context:collection} to contain only items of type {0}{reason}" +
+                                ", but item {1} at index {2} is of type {3}.", typeof(TExpectation), item, index, item.GetType());
+                    }
 
-                ++index;
+                    ++index;
+                }
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -947,26 +995,34 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndWhichConstraint<TAssertions, T> ContainSingle(string because = "", params object[] becauseArgs)
         {
-            if (Subject is null)
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected {context:collection} to contain a single item{reason}, but found <null>.");
+
+            T match = default;
+
+            if (success)
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain a single item{reason}, but found <null>.");
+                switch (Subject.Count())
+                {
+                    case 0: // Fail, Collection is empty
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith("Expected {context:collection} to contain a single item{reason}, but the collection is empty.");
+                        break;
+                    case 1: // Success Condition
+                        match = Subject.SingleOrDefault();
+                        break;
+                    default: // Fail, Collection contains more than a single item
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith("Expected {context:collection} to contain a single item{reason}, but found {0}.", Subject);
+                        break;
+                }
             }
 
-            switch (Subject.Count())
-            {
-                case 0: // Fail, Collection is empty
-                    Execute.Assertion.BecauseOf(because, becauseArgs).FailWith("Expected {context:collection} to contain a single item{reason}, but the collection is empty.");
-                    break;
-                case 1: // Success Condition
-                    break;
-                default: // Fail, Collection contains more than a single item
-                    Execute.Assertion.BecauseOf(because, becauseArgs).FailWith("Expected {context:collection} to contain a single item{reason}, but found {0}.", Subject);
-                    break;
-            }
-
-            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, Subject.SingleOrDefault());
+            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, match);
         }
 
         /// <summary>
@@ -980,6 +1036,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <c>null</c>.</exception>
         public AndWhichConstraint<TAssertions, T> ContainSingle(Expression<Func<T, bool>> predicate,
             string because = "", params object[] becauseArgs)
         {
@@ -988,39 +1045,41 @@ namespace FluentAssertions.Collections
             string expectationPrefix =
                 "Expected {context:collection} to contain a single item matching {0}{reason}, ";
 
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith(expectationPrefix + "but found {1}.", predicate.Body, Subject);
-            }
-
-            ICollection<T> actualItems = Subject.ConvertOrCastToCollection();
-            Execute.Assertion
-                .ForCondition(actualItems.Any())
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith(expectationPrefix + "but the collection is empty.", predicate.Body);
+                .ForCondition(Subject is not null)
+                .FailWith(expectationPrefix + "but found <null>.", predicate.Body);
 
-            T[] matchingElements = actualItems.Where(predicate.Compile()).ToArray();
-            int count = matchingElements.Length;
-            if (count == 0)
+            T[] matches = new T[0];
+
+            if (success)
             {
+                ICollection<T> actualItems = Subject.ConvertOrCastToCollection();
                 Execute.Assertion
+                    .ForCondition(actualItems.Any())
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(expectationPrefix + "but no such item was found.", predicate.Body);
-            }
-            else if (count > 1)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith(expectationPrefix + "but " + count.ToString(CultureInfo.InvariantCulture) + " such items were found.", predicate.Body);
-            }
-            else
-            {
-                // Exactly 1 item was expected
+                    .FailWith(expectationPrefix + "but the collection is empty.", predicate.Body);
+
+                matches = actualItems.Where(predicate.Compile()).ToArray();
+                int count = matches.Length;
+                switch (count)
+                {
+                    case 0:
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith(expectationPrefix + "but no such item was found.", predicate.Body);
+                        break;
+                    case > 1:
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith(expectationPrefix + "but " + count.ToString(CultureInfo.InvariantCulture) + " such items were found.", predicate.Body);
+                        break;
+                    default:
+                        break;
+                }
             }
 
-            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, matchingElements);
+            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, matches);
         }
 
         /// <summary>
@@ -1156,19 +1215,22 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> HaveCount(int expected, string because = "", params object[] becauseArgs)
         {
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain {0} item(s){reason}, but found <null>.", expected);
-            }
-
-            int actualCount = Subject.Count();
-
-            Execute.Assertion
-                .ForCondition(actualCount == expected)
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} {0} to contain {1} item(s){reason}, but found {2}.", Subject, expected, actualCount);
+                .ForCondition(Subject is not null)
+                .FailWith("Expected {context:collection} to contain {0} item(s){reason}, but found <null>.", expected);
+
+            if (success)
+            {
+                int actualCount = Subject.Count();
+
+                Execute.Assertion
+                    .ForCondition(actualCount == expected)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        "Expected {context:collection} {0} to contain {1} item(s){reason}, but found {2}.",
+                        Subject, expected, actualCount);
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -1184,28 +1246,30 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="countPredicate"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> HaveCount(Expression<Func<int, bool>> countPredicate, string because = "",
             params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(countPredicate, nameof(countPredicate), "Cannot compare collection count against a <null> predicate.");
 
-            if (Subject is null)
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected {context:collection} to contain {0} items{reason}, but found <null>.", countPredicate.Body);
+
+            if (success)
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain {0} items{reason}, but found {1}.", countPredicate.Body, Subject);
-            }
+                Func<int, bool> compiledPredicate = countPredicate.Compile();
 
-            Func<int, bool> compiledPredicate = countPredicate.Compile();
+                int actualCount = Subject.Count();
 
-            int actualCount = Subject.Count();
-
-            if (!compiledPredicate(actualCount))
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} {0} to have a count {1}{reason}, but count is {2}.",
-                        Subject, countPredicate.Body, actualCount);
+                if (!compiledPredicate(actualCount))
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:collection} {0} to have a count {1}{reason}, but count is {2}.",
+                            Subject, countPredicate.Body, actualCount);
+                }
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -1224,19 +1288,18 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> HaveCountGreaterOrEqualTo(int expected, string because = "", params object[] becauseArgs)
         {
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain at least {0} item(s){reason}, but found <null>.", expected);
-            }
-
-            int actualCount = Subject.Count();
-
             Execute.Assertion
-                .ForCondition(actualCount >= expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} to contain at least {0} item(s){reason}, but found {1}.", expected, actualCount);
+                .WithExpectation("Expected {context:collection} to contain at least {0} item(s){reason}, ", expected)
+                .Given(() => Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith("but found <null>.")
+                .Then
+                .Given(subject => subject.Count())
+                .ForCondition(actualCount => actualCount >= expected)
+                .FailWith("but found {0}.", actualCount => actualCount)
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -1254,19 +1317,18 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> HaveCountGreaterThan(int expected, string because = "", params object[] becauseArgs)
         {
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain more than {0} item(s){reason}, but found <null>.", expected);
-            }
-
-            int actualCount = Subject.Count();
-
             Execute.Assertion
-                .ForCondition(actualCount > expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} to contain more than {0} item(s){reason}, but found {1}.", expected, actualCount);
+                .WithExpectation("Expected {context:collection} to contain more than {0} item(s){reason}, ", expected)
+                .Given(() => Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith("but found <null>.")
+                .Then
+                .Given(subject => subject.Count())
+                .ForCondition(actualCount => actualCount > expected)
+                .FailWith("but found {0}.", actualCount => actualCount)
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -1284,19 +1346,18 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> HaveCountLessOrEqualTo(int expected, string because = "", params object[] becauseArgs)
         {
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain at most {0} item(s){reason}, but found <null>.", expected);
-            }
-
-            int actualCount = Subject.Count();
-
             Execute.Assertion
-                .ForCondition(actualCount <= expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} to contain at most {0} item(s){reason}, but found {1}.", expected, actualCount);
+                .WithExpectation("Expected {context:collection} to contain at most {0} item(s){reason}, ", expected)
+                .Given(() => Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith("but found <null>.")
+                .Then
+                .Given(subject => subject.Count())
+                .ForCondition(actualCount => actualCount <= expected)
+                .FailWith("but found {0}.", actualCount => actualCount)
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -1314,19 +1375,18 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> HaveCountLessThan(int expected, string because = "", params object[] becauseArgs)
         {
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain fewer than {0} item(s){reason}, but found <null>.", expected);
-            }
-
-            int actualCount = Subject.Count();
-
             Execute.Assertion
-                .ForCondition(actualCount < expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} to contain fewer than {0} item(s){reason}, but found {1}.", expected, actualCount);
+                .WithExpectation("Expected {context:collection} to contain fewer than {0} item(s){reason}, ", expected)
+                .Given(() => Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith("but found <null>.")
+                .Then
+                .Given(subject => subject.Count())
+                .ForCondition(actualCount => actualCount < expected)
+                .FailWith("but found {0}.", actualCount => actualCount)
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -1347,28 +1407,30 @@ namespace FluentAssertions.Collections
         public AndWhichConstraint<TAssertions, T> HaveElementAt(int index, T element, string because = "",
             params object[] becauseArgs)
         {
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to have element at index {0}{reason}, but found {1}.", index, Subject);
-            }
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected {context:collection} to have element at index {0}{reason}, but found <null>.", index);
 
             T actual = default;
-            if (index < Subject.Count())
-            {
-                actual = Subject.ElementAt(index);
 
-                Execute.Assertion
-                    .ForCondition(ObjectExtensions.GetComparer<T>()(actual, element))
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {0} at index {1}{reason}, but found {2}.", element, index, actual);
-            }
-            else
+            if (success)
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {0} at index {1}{reason}, but found no element.", element, index);
+                if (index < Subject.Count())
+                {
+                    actual = Subject.ElementAt(index);
+
+                    Execute.Assertion
+                        .ForCondition(ObjectExtensions.GetComparer<T>()(actual, element))
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {0} at index {1}{reason}, but found {2}.", element, index, actual);
+                }
+                else
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {0} at index {1}{reason}, but found no element.", element, index);
+                }
             }
 
             return new AndWhichConstraint<TAssertions, T>((TAssertions)this, actual);
@@ -1391,13 +1453,17 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:collection} to have {0} precede {1}{reason}, ", expectation, successor)
-                .ForCondition(Subject.Any())
+                .Given(() => Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith("but the collection is <null>.")
+                .Then
+                .ForCondition(subject => subject.Any())
                 .FailWith("but the collection is empty.")
                 .Then
-                .ForCondition(HasPredecessor(successor, Subject))
+                .ForCondition(subject => HasPredecessor(successor, subject))
                 .FailWith("but found nothing.")
                 .Then
-                .Given(() => PredecessorOf(successor, Subject))
+                .Given(subject => PredecessorOf(successor, subject))
                 .ForCondition(predecessor => ObjectExtensions.GetComparer<T>()(predecessor, expectation))
                 .FailWith("but found {0}.", predecessor => predecessor)
                 .Then
@@ -1423,13 +1489,17 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:collection} to have {0} succeed {1}{reason}, ", expectation, predecessor)
-                .ForCondition(Subject.Any())
+                .Given(() => Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith("but the collection is <null>.")
+                .Then
+                .ForCondition(subject => subject.Any())
                 .FailWith("but the collection is empty.")
                 .Then
-                .ForCondition(HasSuccessor(predecessor, Subject))
+                .ForCondition(subject => HasSuccessor(predecessor, subject))
                 .FailWith("but found nothing.")
                 .Then
-                .Given(() => SuccessorOf(predecessor, Subject))
+                .Given(subject => SuccessorOf(predecessor, subject))
                 .ForCondition(successor => ObjectExtensions.GetComparer<T>()(successor, expectation))
                 .FailWith("but found {0}.", successor => successor)
                 .Then
@@ -1449,27 +1519,24 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> HaveSameCount<TExpectation>(IEnumerable<TExpectation> otherCollection, string because = "",
             params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify count against a <null> collection.");
 
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to have the same count as {0}{reason}, but found {1}.",
-                        otherCollection,
-                        Subject);
-            }
-
-            int actualCount = Subject.Count();
-            int expectedCount = otherCollection.Count();
-
             Execute.Assertion
-                .ForCondition(actualCount == expectedCount)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} to have {0} item(s){reason}, but found {1}.", expectedCount, actualCount);
+                .WithExpectation("Expected {context:collection} to have ")
+                .Given(() => Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith("the same count as {0}{reason}, but found <null>.", otherCollection)
+                .Then
+                .Given(subject => (actual: subject.Count(), expected: otherCollection.Count()))
+                .ForCondition(count => count.actual == count.expected)
+                .FailWith("{0} item(s){reason}, but found {1}.", count => count.expected, count => count.actual)
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -1485,25 +1552,24 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> IntersectWith(IEnumerable<T> otherCollection, string because = "",
             params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify intersection against a <null> collection.");
 
-            if (Subject is null)
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected {context:collection} to intersect with {0}{reason}, but found <null>.", otherCollection);
+
+            if (success)
             {
+                IEnumerable<T> sharedItems = Subject.Intersect(otherCollection);
+
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to intersect with {0}{reason}, but found {1}.", otherCollection,
-                        Subject);
-            }
-
-            IEnumerable<T> sharedItems = Subject.Intersect(otherCollection);
-
-            if (!sharedItems.Any())
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(sharedItems.Any())
                     .FailWith(
                         "Expected {context:collection} to intersect with {0}{reason}, but {1} does not contain any shared items.",
                         otherCollection, Subject);
@@ -1524,17 +1590,17 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs)
         {
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} not to be empty{reason}, but found {0}.", Subject);
-            }
-
             Execute.Assertion
-                .ForCondition(Subject.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} not to be empty{reason}.");
+                .WithExpectation("Expected {context:collection} not to be empty{reason}")
+                .Given(() => Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith(", but found <null>.")
+                .Then
+                .ForCondition(subject => subject.Any())
+                .FailWith(".")
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -1664,6 +1730,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotBeInAscendingOrder(
             IComparer<T> comparer, string because = "", params object[] becauseArgs)
         {
@@ -1690,6 +1757,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotBeInAscendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
         {
@@ -1776,6 +1844,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotBeInDescendingOrder(
             IComparer<T> comparer, string because = "", params object[] becauseArgs)
         {
@@ -1802,6 +1871,7 @@ namespace FluentAssertions.Collections
         /// <remarks>
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotBeInDescendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
         {
@@ -1878,27 +1948,30 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> NotBeSubsetOf(IEnumerable<T> unexpectedSuperset, string because = "",
             params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject is not null)
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
                 .FailWith("Cannot assert a <null> collection against a subset.");
 
-            if (ReferenceEquals(Subject, unexpectedSuperset))
+            if (success)
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Did not expect {context:collection} {0} to be a subset of {1}{reason}, but they both reference the same object.",
-                        Subject,
-                        unexpectedSuperset);
-            }
+                if (ReferenceEquals(Subject, unexpectedSuperset))
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Did not expect {context:collection} {0} to be a subset of {1}{reason}, but they both reference the same object.",
+                            Subject,
+                            unexpectedSuperset);
+                }
 
-            ICollection<T> actualItems = Subject.ConvertOrCastToCollection();
+                ICollection<T> actualItems = Subject.ConvertOrCastToCollection();
 
-            if (actualItems.Intersect(unexpectedSuperset).Count() == actualItems.Count)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Did not expect {context:collection} {0} to be a subset of {1}{reason}.", actualItems, unexpectedSuperset);
+                if (actualItems.Intersect(unexpectedSuperset).Count() == actualItems.Count)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Did not expect {context:collection} {0} to be a subset of {1}{reason}.", actualItems, unexpectedSuperset);
+                }
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -1917,24 +1990,27 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndWhichConstraint<TAssertions, T> NotContain(T unexpected, string because = "", params object[] becauseArgs)
         {
-            if (Subject is null)
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected {context:collection} to not contain {0}{reason}, but found <null>.", unexpected);
+
+            IEnumerable<T> matched = new T[0];
+
+            if (success)
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to not contain {0}{reason}, but found <null>.", unexpected);
+                ICollection<T> collection = Subject.ConvertOrCastToCollection();
+                if (collection.Contains(unexpected))
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:collection} {0} to not contain {1}{reason}.", collection, unexpected);
+                }
+
+                matched = collection.Where(item => !EqualityComparer<T>.Default.Equals(item, unexpected));
             }
 
-            var collection = Subject.ConvertOrCastToCollection();
-            if (collection.Contains(unexpected))
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} {0} to not contain {1}{reason}.", collection, unexpected);
-            }
-
-            return new AndWhichConstraint<TAssertions, T>((TAssertions)this,
-                collection.Where(
-                    item => !EqualityComparer<T>.Default.Equals(item, unexpected)));
+            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, matched);
         }
 
         /// <summary>
@@ -1948,24 +2024,24 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotContain(Expression<Func<T, bool>> predicate, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
 
-            if (Subject is null)
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected {context:collection} not to contain {0}{reason}, but found <null>.", predicate.Body);
+
+            if (success)
             {
+                Func<T, bool> compiledPredicate = predicate.Compile();
+                IEnumerable<T> unexpectedItems = Subject.Where(item => compiledPredicate(item));
+
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} not to contain {0}{reason}, but found {1}.", predicate.Body, Subject);
-            }
-
-            Func<T, bool> compiledPredicate = predicate.Compile();
-            IEnumerable<T> unexpectedItems = Subject.Where(item => compiledPredicate(item));
-
-            if (unexpectedItems.Any())
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(!unexpectedItems.Any())
                     .FailWith("Expected {context:collection} {0} to not have any items matching {1}{reason}, but found {2}.",
                         Subject, predicate.Body, unexpectedItems);
             }
@@ -1985,6 +2061,8 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="unexpected"/> is empty.</exception>
         public AndConstraint<TAssertions> NotContain(IEnumerable<T> unexpected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify non-containment against a <null> collection");
@@ -1992,33 +2070,33 @@ namespace FluentAssertions.Collections
             ICollection<T> unexpectedObjects = unexpected.ConvertOrCastToCollection();
             if (!unexpectedObjects.Any())
             {
-                throw new ArgumentException("Cannot verify non-containment against an empty collection",
-                    nameof(unexpected));
+                throw new ArgumentException("Cannot verify non-containment against an empty collection", nameof(unexpected));
             }
 
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to not contain {0}{reason}, but found <null>.", unexpected);
-            }
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected {context:collection} to not contain {0}{reason}, but found <null>.", unexpected);
 
-            IEnumerable<T> foundItems = unexpectedObjects.Intersect(Subject);
-            if (foundItems.Any())
+            if (success)
             {
-                if (unexpectedObjects.Count > 1)
+                IEnumerable<T> foundItems = unexpectedObjects.Intersect(Subject);
+                if (foundItems.Any())
                 {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} {0} to not contain {1}{reason}, but found {2}.", Subject,
-                            unexpected, foundItems);
-                }
-                else
-                {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} {0} to not contain element {1}{reason}.", Subject,
-                            unexpectedObjects.First());
+                    if (unexpectedObjects.Count > 1)
+                    {
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith("Expected {context:collection} {0} to not contain {1}{reason}, but found {2}.", Subject,
+                                unexpected, foundItems);
+                    }
+                    else
+                    {
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith("Expected {context:collection} {0} to not contain element {1}{reason}.", Subject,
+                                unexpectedObjects.First());
+                    }
                 }
             }
 
@@ -2071,68 +2149,72 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="config"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotContainEquivalentOf<TExpectation>(TExpectation unexpected, Func<EquivalencyAssertionOptions<TExpectation>,
             EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(config, nameof(config));
 
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
                 .FailWith("Expected {context:collection} not to contain equivalent of {0}{reason}, but collection is <null>.", unexpected);
 
-            EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
-
-            var foundIndices = new List<int>();
-            using (var scope = new AssertionScope())
+            if (success)
             {
-                int index = 0;
-                foreach (T actualItem in Subject)
+                EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
+
+                var foundIndices = new List<int>();
+                using (var scope = new AssertionScope())
                 {
-                    var context = new EquivalencyValidationContext(Node.From<TExpectation>(() => CallerIdentifier.DetermineCallerIdentity()), options)
+                    int index = 0;
+                    foreach (T actualItem in Subject)
                     {
-                        Reason = new Reason(because, becauseArgs),
-                        TraceWriter = options.TraceWriter
-                    };
+                        var context = new EquivalencyValidationContext(Node.From<TExpectation>(() => CallerIdentifier.DetermineCallerIdentity()), options)
+                        {
+                            Reason = new Reason(because, becauseArgs),
+                            TraceWriter = options.TraceWriter
+                        };
 
-                    var comparands = new Comparands
-                    {
-                        Subject = actualItem,
-                        Expectation = unexpected,
-                        CompileTimeType = typeof(TExpectation),
-                    };
+                        var comparands = new Comparands
+                        {
+                            Subject = actualItem,
+                            Expectation = unexpected,
+                            CompileTimeType = typeof(TExpectation),
+                        };
 
-                    new EquivalencyValidator().AssertEquality(comparands, context);
+                        new EquivalencyValidator().AssertEquality(comparands, context);
 
-                    string[] failures = scope.Discard();
+                        string[] failures = scope.Discard();
 
-                    if (!failures.Any())
-                    {
-                        foundIndices.Add(index);
+                        if (!failures.Any())
+                        {
+                            foundIndices.Add(index);
+                        }
+
+                        index++;
                     }
-
-                    index++;
                 }
-            }
 
-            if (foundIndices.Count > 0)
-            {
-                using (new AssertionScope())
+                if (foundIndices.Count > 0)
                 {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .WithExpectation("Expected {context:collection} {0} not to contain equivalent of {1}{reason}, ", Subject, unexpected)
-                        .AddReportable("configuration", options.ToString());
+                    using (new AssertionScope())
+                    {
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .WithExpectation("Expected {context:collection} {0} not to contain equivalent of {1}{reason}, ", Subject, unexpected)
+                            .AddReportable("configuration", options.ToString());
 
-                    if (foundIndices.Count == 1)
-                    {
-                        Execute.Assertion
-                            .FailWith("but found one at index {0}.", foundIndices[0]);
-                    }
-                    else
-                    {
-                        Execute.Assertion
-                            .FailWith("but found several at indices {0}.", foundIndices);
+                        if (foundIndices.Count == 1)
+                        {
+                            Execute.Assertion
+                                .FailWith("but found one at index {0}.", foundIndices[0]);
+                        }
+                        else
+                        {
+                            Execute.Assertion
+                                .FailWith("but found several at indices {0}.", foundIndices);
+                        }
                     }
                 }
             }
@@ -2147,6 +2229,7 @@ namespace FluentAssertions.Collections
         /// Elements are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </remarks>
         /// <param name="unexpected">A <see cref="Array"/> with the unexpected elements.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotContainInOrder(params T[] unexpected)
         {
             return NotContainInOrder(unexpected, string.Empty);
@@ -2166,6 +2249,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotContainInOrder(IEnumerable<T> unexpected, string because = "",
             params object[] becauseArgs)
         {
@@ -2234,31 +2318,30 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotContainNulls<TKey>(Expression<Func<T, TKey>> predicate, string because = "", params object[] becauseArgs)
             where TKey : class
         {
             Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
 
-            if (Subject is null)
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected {context:collection} not to contain <null>s{reason}, but collection is <null>.");
+
+            if (success)
             {
+                Func<T, TKey> compiledPredicate = predicate.Compile();
+
+                T[] values = Subject
+                    .Where(e => compiledPredicate(e) is null)
+                    .ToArray();
+
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} not to contain <null>s{reason}, but collection is <null>.");
-            }
-
-            Func<T, TKey> compiledPredicate = predicate.Compile();
-
-            T[] values = Subject
-                .Where(e => compiledPredicate(e) is null)
-                .ToArray();
-
-            if (values.Length > 0)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(values.Length == 0)
                     .FailWith("Expected {context:collection} not to contain <null>s on {0}{reason}, but found {1}.",
-                        predicate.Body,
-                        values);
+                        predicate.Body, values);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -2276,32 +2359,33 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> NotContainNulls(string because = "", params object[] becauseArgs)
         {
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} not to contain <null>s{reason}, but collection is <null>.");
-            }
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected {context:collection} not to contain <null>s{reason}, but collection is <null>.");
 
-            int[] indices = Subject
-                .Select((item, index) => (Item: item, Index: index))
-                .Where(e => e.Item is null)
-                .Select(e => e.Index)
-                .ToArray();
-
-            if (indices.Length > 0)
+            if (success)
             {
-                if (indices.Length > 1)
+                int[] indices = Subject
+                    .Select((item, index) => (Item: item, Index: index))
+                    .Where(e => e.Item is null)
+                    .Select(e => e.Index)
+                    .ToArray();
+
+                if (indices.Length > 0)
                 {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} not to contain <null>s{reason}, but found several at indices {0}.", indices);
-                }
-                else
-                {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} not to contain <null>s{reason}, but found one at index {0}.", indices[0]);
+                    if (indices.Length > 1)
+                    {
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith("Expected {context:collection} not to contain <null>s{reason}, but found several at indices {0}.", indices);
+                    }
+                    else
+                    {
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith("Expected {context:collection} not to contain <null>s{reason}, but found one at index {0}.", indices[0]);
+                    }
                 }
             }
 
@@ -2320,32 +2404,26 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotEqual(IEnumerable<T> unexpected, string because = "", params object[] becauseArgs)
         {
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected collections not to be equal{reason}, but found <null>.");
-            }
-
             Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare collection with <null>.");
 
-            if (ReferenceEquals(Subject, unexpected))
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected collections not to be equal{reason}, but they both reference the same object.");
-            }
-
-            ICollection<T> actualItems = Subject.ConvertOrCastToCollection();
-
-            if (actualItems.SequenceEqual(unexpected))
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Did not expect collections {0} and {1} to be equal{reason}.", unexpected, actualItems);
-            }
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected collections not to be equal{reason}, ")
+                .Given(() => Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith("but found <null>.")
+                .Then
+                .ForCondition(subject => !ReferenceEquals(subject, unexpected))
+                .FailWith("but they both reference the same object.")
+                .Then
+                .ClearExpectation()
+                .Then
+                .Given(subject => subject.ConvertOrCastToCollection())
+                .ForCondition(actualItems => !actualItems.SequenceEqual(unexpected))
+                .FailWith("Did not expect collections {0} and {1} to be equal{reason}.", actualItems => unexpected, actualItems => actualItems);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -2363,19 +2441,18 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> NotHaveCount(int unexpected, string because = "", params object[] becauseArgs)
         {
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to not contain {0} item(s){reason}, but found <null>.", unexpected);
-            }
-
-            int actualCount = Subject.Count();
-
             Execute.Assertion
-                .ForCondition(actualCount != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} to not contain {0} item(s){reason}, but found {1}.", unexpected, actualCount);
+                .WithExpectation("Expected {context:collection} to not contain {0} item(s){reason}, ", unexpected)
+                .Given(() => Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith("but found <null>.")
+                .Then
+                .Given(subject => subject.Count())
+                .ForCondition(actualCount => actualCount != unexpected)
+                .FailWith("but found {0}.", actualCount => actualCount)
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -2391,36 +2468,30 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotHaveSameCount<TExpectation>(IEnumerable<TExpectation> otherCollection, string because = "",
             params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify count against a <null> collection.");
 
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to not have the same count as {0}{reason}, but found {1}.",
-                        otherCollection,
-                        Subject);
-            }
-
-            if (ReferenceEquals(Subject, otherCollection))
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} {0} to not have the same count as {1}{reason}, but they both reference the same object.",
-                        Subject,
-                        otherCollection);
-            }
-
-            int actualCount = Subject.Count();
-            int expectedCount = otherCollection.Count();
-
             Execute.Assertion
-                .ForCondition(actualCount != expectedCount)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} to not have {0} item(s){reason}, but found {1}.", expectedCount, actualCount);
+                .Given(() => Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith(
+                    "Expected {context:collection} to not have the same count as {0}{reason}, but found <null>.",
+                    otherCollection)
+                .Then
+                .ForCondition(subject => !ReferenceEquals(subject, otherCollection))
+                .FailWith(
+                    "Expected {context:collection} {0} to not have the same count as {1}{reason}, but they both reference the same object.",
+                    subject => subject, subject => otherCollection)
+                .Then
+                .Given(subject => (actual: subject.Count(), expected: otherCollection.Count()))
+                .ForCondition(count => count.actual != count.expected)
+                .FailWith(
+                    "Expected {context:collection} to not have {0} item(s){reason}, but found {1}.",
+                    count => count.expected, count => count.actual);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -2436,38 +2507,30 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotIntersectWith(IEnumerable<T> otherCollection, string because = "",
             params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify intersection against a <null> collection.");
 
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Did not expect {context:collection} to intersect with {0}{reason}, but found {1}.", otherCollection,
-                        Subject);
-            }
-
-            if (ReferenceEquals(Subject, otherCollection))
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Did not expect {context:collection} {0} to intersect with {1}{reason}, but they both reference the same object.",
-                        Subject,
-                        otherCollection);
-            }
-
-            IEnumerable<T> sharedItems = Subject.Intersect(otherCollection);
-
-            if (sharedItems.Any())
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith(
-                        "Did not expect {context:collection} to intersect with {0}{reason}, but found the following shared items {1}.",
-                        otherCollection, sharedItems);
-            }
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .Given(() => Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith(
+                    "Did not expect {context:collection} to intersect with {0}{reason}, but found <null>.",
+                    otherCollection)
+                .Then
+                .ForCondition(subject => !ReferenceEquals(subject, otherCollection))
+                .FailWith(
+                    "Did not expect {context:collection} {0} to intersect with {1}{reason}, but they both reference the same object.",
+                    subject => subject, subject => otherCollection)
+                .Then
+                .Given(subject => subject.Intersect(otherCollection))
+                .ForCondition(sharedItems => !sharedItems.Any())
+                .FailWith(
+                    "Did not expect {context:collection} to intersect with {0}{reason}, but found the following shared items {1}.",
+                    sharedItems => otherCollection, sharedItems => sharedItems);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -2483,6 +2546,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> OnlyContain(
             Expression<Func<T, bool>> predicate, string because = "", params object[] becauseArgs)
         {
@@ -2490,21 +2554,22 @@ namespace FluentAssertions.Collections
 
             Func<T, bool> compiledPredicate = predicate.Compile();
 
-            var collection = Subject.ConvertOrCastToCollection();
             Execute.Assertion
-                .ForCondition(collection.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} to contain only items matching {0}{reason}, but the collection is empty.",
-                    predicate.Body);
-
-            IEnumerable<T> mismatchingItems = collection.Where(item => !compiledPredicate(item));
-            if (mismatchingItems.Any())
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain only items matching {0}{reason}, but {1} do(es) not match.",
-                        predicate.Body, mismatchingItems);
-            }
+                .WithExpectation("Expected {context:collection} to contain only items matching {0}{reason}, ", predicate.Body)
+                .Given(() => Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith("but the collection is <null>.")
+                .Then
+                .Given(subject => subject.ConvertOrCastToCollection())
+                .ForCondition(collection => collection.Any())
+                .FailWith("but the collection is empty.")
+                .Then
+                .Given(collection => collection.Where(item => !compiledPredicate(item)))
+                .ForCondition(mismatchingItems => !mismatchingItems.Any())
+                .FailWith("but {0} do(es) not match.", mismatchingItems => mismatchingItems)
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -2520,41 +2585,43 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> OnlyHaveUniqueItems<TKey>(Expression<Func<T, TKey>> predicate, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
 
-            if (Subject is null)
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected {context:collection} to only have unique items{reason}, but found <null>.");
+
+            if (success)
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to only have unique items{reason}, but found {0}.", Subject);
-            }
+                Func<T, TKey> compiledPredicate = predicate.Compile();
 
-            Func<T, TKey> compiledPredicate = predicate.Compile();
+                IGrouping<TKey, T>[] groupWithMultipleItems = Subject
+                    .GroupBy(compiledPredicate)
+                    .Where(g => g.Count() > 1)
+                    .ToArray();
 
-            IGrouping<TKey, T>[] groupWithMultipleItems = Subject
-                .GroupBy(compiledPredicate)
-                .Where(g => g.Count() > 1)
-                .ToArray();
-
-            if (groupWithMultipleItems.Length > 0)
-            {
-                if (groupWithMultipleItems.Length > 1)
+                if (groupWithMultipleItems.Length > 0)
                 {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} to only have unique items on {0}{reason}, but items {1} are not unique.",
-                            predicate.Body,
-                            groupWithMultipleItems.SelectMany(g => g));
-                }
-                else
-                {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} to only have unique items on {0}{reason}, but item {1} is not unique.",
-                            predicate.Body,
-                            groupWithMultipleItems[0].First());
+                    if (groupWithMultipleItems.Length > 1)
+                    {
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith("Expected {context:collection} to only have unique items on {0}{reason}, but items {1} are not unique.",
+                                predicate.Body,
+                                groupWithMultipleItems.SelectMany(g => g));
+                    }
+                    else
+                    {
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith("Expected {context:collection} to only have unique items on {0}{reason}, but item {1} is not unique.",
+                                predicate.Body,
+                                groupWithMultipleItems[0].First());
+                    }
                 }
             }
 
@@ -2573,33 +2640,34 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> OnlyHaveUniqueItems(string because = "", params object[] becauseArgs)
         {
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to only have unique items{reason}, but found {0}.", Subject);
-            }
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith("Expected {context:collection} to only have unique items{reason}, but found <null>.");
 
-            IEnumerable<T> groupWithMultipleItems = Subject
-                .GroupBy(o => o)
-                .Where(g => g.Count() > 1)
-                .Select(g => g.Key);
-
-            if (groupWithMultipleItems.Any())
+            if (success)
             {
-                if (groupWithMultipleItems.Count() > 1)
+                IEnumerable<T> groupWithMultipleItems = Subject
+                    .GroupBy(o => o)
+                    .Where(g => g.Count() > 1)
+                    .Select(g => g.Key);
+
+                if (groupWithMultipleItems.Any())
                 {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} to only have unique items{reason}, but items {0} are not unique.",
-                            groupWithMultipleItems);
-                }
-                else
-                {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} to only have unique items{reason}, but item {0} is not unique.",
-                            groupWithMultipleItems.First());
+                    if (groupWithMultipleItems.Count() > 1)
+                    {
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith("Expected {context:collection} to only have unique items{reason}, but items {0} are not unique.",
+                                groupWithMultipleItems);
+                    }
+                    else
+                    {
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith("Expected {context:collection} to only have unique items{reason}, but item {0} is not unique.",
+                                groupWithMultipleItems.First());
+                    }
                 }
             }
 
@@ -2614,6 +2682,8 @@ namespace FluentAssertions.Collections
         /// The element inspectors, which inspect each element in turn. The
         /// total number of element inspectors must exactly match the number of elements in the collection.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="elementInspectors"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="elementInspectors"/> is empty.</exception>
         public AndConstraint<TAssertions> SatisfyRespectively(params Action<T>[] elementInspectors)
         {
             return SatisfyRespectively(elementInspectors, string.Empty);
@@ -2634,6 +2704,8 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
         public AndConstraint<TAssertions> SatisfyRespectively(IEnumerable<Action<T>> expected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify against a <null> collection of inspectors");
@@ -2644,43 +2716,45 @@ namespace FluentAssertions.Collections
                 throw new ArgumentException("Cannot verify against an empty collection of inspectors", nameof(expected));
             }
 
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:collection} to satisfy all inspectors{reason}, ")
-                .ForCondition(Subject is not null)
+                .Given(() => Subject)
+                .ForCondition(subject => subject is not null)
                 .FailWith("but collection is <null>.")
                 .Then
-                .ForCondition(Subject.Any())
+                .ForCondition(subject => subject.Any())
                 .FailWith("but collection is empty.")
                 .Then
-                .ClearExpectation();
+                .ClearExpectation()
+                .Then
+                .Given(subject => (elements: subject.Count(), inspectors: elementInspectors.Count))
+                .ForCondition(count => count.elements == count.inspectors)
+                .FailWith(
+                    "Expected {context:collection} to contain exactly {0} items{reason}, but it contains {1} items",
+                    count => count.inspectors, count => count.elements);
 
-            int elementsCount = Subject.Count();
-            int inspectorsCount = elementInspectors.Count;
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(elementsCount == inspectorsCount)
-                .FailWith("Expected {context:collection} to contain exactly {0} items{reason}, but it contains {1} items",
-                    inspectorsCount, elementsCount);
-
-            string[] failuresFromInspectors;
-
-            using (CallerIdentifier.OverrideStackSearchUsingCurrentScope())
+            if (success)
             {
-                failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
-            }
+                string[] failuresFromInspectors;
 
-            if (failuresFromInspectors.Any())
-            {
-                string failureMessage = Environment.NewLine
-                    + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
+                using (CallerIdentifier.OverrideStackSearchUsingCurrentScope())
+                {
+                    failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
+                }
 
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .WithExpectation("Expected {context:collection} to satisfy all inspectors{reason}, but some inspectors are not satisfied:")
-                    .FailWithPreFormatted(failureMessage)
-                    .Then
-                    .ClearExpectation();
+                if (failuresFromInspectors.Any())
+                {
+                    string failureMessage = Environment.NewLine
+                        + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
+
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .WithExpectation("Expected {context:collection} to satisfy all inspectors{reason}, but some inspectors are not satisfied:")
+                        .FailWithPreFormatted(failureMessage)
+                        .Then
+                        .ClearExpectation();
+                }
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -2696,6 +2770,8 @@ namespace FluentAssertions.Collections
         /// The predicates that the elements of the collection must match.
         /// The total number of predicates must exactly match the number of elements in the collection.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="predicates"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="predicates"/> is empty.</exception>
         public AndConstraint<TAssertions> Satisfy(params Expression<Func<T, bool>>[] predicates)
         {
             return Satisfy(predicates, because: string.Empty);
@@ -2717,54 +2793,60 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="predicates"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="predicates"/> is empty.</exception>
         public AndConstraint<TAssertions> Satisfy(IEnumerable<Expression<Func<T, bool>>> predicates, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(predicates, nameof(predicates), "Cannot verify against a <null> collection of predicates");
 
-            var predicatesList = predicates.ConvertOrCastToList();
+            IList<Expression<Func<T, bool>>> predicatesList = predicates.ConvertOrCastToList();
             if (predicatesList.Count == 0)
             {
                 throw new ArgumentException("Cannot verify against an empty collection of predicates", nameof(predicates));
             }
 
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:collection} to satisfy all predicates{reason}, ")
-                .ForCondition(Subject is not null)
-                .FailWith("but collection is <null>.")
+                .Given(() => Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith("Expected {context:collection} to satisfy all predicates{reason}, but collection is <null>.")
                 .Then
-                .ForCondition(Subject.Any())
-                .FailWith("but collection is empty.")
-                .Then
-                .ClearExpectation();
+                .ForCondition(subject => subject.Any())
+                .FailWith("Expected {context:collection} to satisfy all predicates{reason}, but collection is empty.");
 
-            var maximumMatchingSolution = new MaximumMatchingProblem<T>(predicatesList, Subject).Solve();
-
-            if (maximumMatchingSolution.UnmatchedPredicatesExist || maximumMatchingSolution.UnmatchedElementsExist)
+            if (success)
             {
-                string message = string.Empty;
-                var doubleNewLine = Environment.NewLine + Environment.NewLine;
+                MaximumMatchingSolution<T> maximumMatchingSolution = new MaximumMatchingProblem<T>(predicatesList, Subject).Solve();
 
-                var unmatchedPredicates = maximumMatchingSolution.GetUnmatchedPredicates();
-                if (unmatchedPredicates.Any())
+                if (maximumMatchingSolution.UnmatchedPredicatesExist || maximumMatchingSolution.UnmatchedElementsExist)
                 {
-                    message += doubleNewLine + "The following predicates did not have matching elements:";
-                    message += doubleNewLine + string.Join(Environment.NewLine, unmatchedPredicates.Select(predicate => Formatter.ToString(predicate.Expression)));
+                    string message = string.Empty;
+                    var doubleNewLine = Environment.NewLine + Environment.NewLine;
+
+                    List<MaximumMatching.Predicate<T>> unmatchedPredicates = maximumMatchingSolution.GetUnmatchedPredicates();
+                    if (unmatchedPredicates.Any())
+                    {
+                        message += doubleNewLine + "The following predicates did not have matching elements:";
+                        message += doubleNewLine +
+                            string.Join(Environment.NewLine,
+                                unmatchedPredicates.Select(predicate => Formatter.ToString(predicate.Expression)));
+                    }
+
+                    List<Element<T>> unmatchedElements = maximumMatchingSolution.GetUnmatchedElements();
+                    if (unmatchedElements.Any())
+                    {
+                        message += doubleNewLine + "The following elements did not match any predicate:";
+
+                        IEnumerable<string> elementDescriptions = unmatchedElements
+                            .Select(element => $"Index: {element.Index}, Element: {Formatter.ToString(element.Value)}");
+                        message += doubleNewLine + string.Join(doubleNewLine, elementDescriptions);
+                    }
+
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .WithExpectation("Expected {context:collection} to satisfy all predicates{reason}, but:")
+                        .FailWithPreFormatted(message);
                 }
-
-                var unmatchedElements = maximumMatchingSolution.GetUnmatchedElements();
-                if (unmatchedElements.Any())
-                {
-                    message += doubleNewLine + "The following elements did not match any predicate:";
-
-                    var elementDescriptions = unmatchedElements.Select(element => $"Index: {element.Index}, Element: {Formatter.ToString(element.Value)}");
-                    message += doubleNewLine + string.Join(doubleNewLine, elementDescriptions);
-                }
-
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .WithExpectation("Expected {context:collection} to satisfy all predicates{reason}, but:")
-                    .FailWithPreFormatted(message);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -2784,6 +2866,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="expectation"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> StartWith(IEnumerable<T> expectation, string because = "", params object[] becauseArgs)
         {
             return StartWith(expectation, (a, b) => EqualityComparer<T>.Default.Equals(a, b), because, becauseArgs);
@@ -2806,6 +2889,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="expectation"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> StartWith<TExpectation>(
             IEnumerable<TExpectation> expectation, Func<T, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs)
         {
@@ -3097,39 +3181,41 @@ namespace FluentAssertions.Collections
 
             string sortOrder = (expectedOrder == SortOrder.Ascending) ? "ascending" : "descending";
 
-            if (Subject is null)
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith($"Expected {{context:collection}} to be in {sortOrder} order{{reason}}, but found <null>.");
+
+            IOrderedEnumerable<T> ordering = new List<T>(0).OrderBy(x => x);
+
+            if (success)
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to be in " + sortOrder + " order{reason}, but found <null>.");
-            }
+                IList<T> actualItems = Subject.ConvertOrCastToList();
 
-            IList<T> actualItems = Subject.ConvertOrCastToList();
+                ordering = (expectedOrder == SortOrder.Ascending)
+                    ? actualItems.OrderBy(item => item, comparer)
+                    : actualItems.OrderByDescending(item => item, comparer);
 
-            IOrderedEnumerable<T> ordering = (expectedOrder == SortOrder.Ascending)
-                ? actualItems.OrderBy(item => item, comparer)
-                : actualItems.OrderByDescending(item => item, comparer);
+                T[] orderedItems = ordering.ToArray();
+                Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
 
-            T[] orderedItems = ordering.ToArray();
-            Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
-
-            for (int index = 0; index < orderedItems.Length; index++)
-            {
-                if (!areSameOrEqual(actualItems[index], orderedItems[index]))
+                for (int index = 0; index < orderedItems.Length; index++)
                 {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} to be in " + sortOrder +
-                                  " order{reason}, but found {0} where item at index {1} is in wrong order.",
-                            actualItems, index);
+                    if (!areSameOrEqual(actualItems[index], orderedItems[index]))
+                    {
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith("Expected {context:collection} to be in " + sortOrder +
+                                      " order{reason}, but found {0} where item at index {1} is in wrong order.",
+                                actualItems, index);
 
-                    return new AndConstraint<SubsequentOrderingAssertions<T>>(
-                        new SubsequentOrderingAssertions<T>(Subject, Enumerable.Empty<T>().OrderBy(x => x)));
+                        return new AndConstraint<SubsequentOrderingAssertions<T>>(
+                            new SubsequentOrderingAssertions<T>(Subject, Enumerable.Empty<T>().OrderBy(x => x)));
+                    }
                 }
             }
 
-            return new AndConstraint<SubsequentOrderingAssertions<T>>(
-                new SubsequentOrderingAssertions<T>(Subject, ordering));
+            return new AndConstraint<SubsequentOrderingAssertions<T>>(new SubsequentOrderingAssertions<T>(Subject, ordering));
         }
 
         /// <summary>
@@ -3142,29 +3228,27 @@ namespace FluentAssertions.Collections
 
             string sortOrder = (order == SortOrder.Ascending) ? "ascending" : "descending";
 
-            if (Subject is null)
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith($"Did not expect {{context:collection}} to be in {sortOrder} order{{reason}}, but found <null>.");
+
+            if (success)
             {
+                IList<T> actualItems = Subject.ConvertOrCastToList();
+
+                T[] orderedItems = (order == SortOrder.Ascending)
+                    ? actualItems.OrderBy(item => item, comparer).ToArray()
+                    : actualItems.OrderByDescending(item => item, comparer).ToArray();
+
+                Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
+                bool itemsAreUnordered = actualItems
+                    .Where((actualItem, index) => !areSameOrEqual(actualItem, orderedItems[index]))
+                    .Any();
+
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(
-                        "Did not expect {context:collection} to be in " + sortOrder + " order{reason}, but found <null>.");
-            }
-
-            IList<T> actualItems = Subject.ConvertOrCastToList();
-
-            T[] orderedItems = (order == SortOrder.Ascending)
-                ? actualItems.OrderBy(item => item, comparer).ToArray()
-                : actualItems.OrderByDescending(item => item, comparer).ToArray();
-
-            Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
-            bool itemsAreUnordered = actualItems
-                .Where((actualItem, index) => !areSameOrEqual(actualItem, orderedItems[index]))
-                .Any();
-
-            if (!itemsAreUnordered)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(itemsAreUnordered)
                     .FailWith(
                         "Did not expect {context:collection} to be in " + sortOrder + " order{reason}, but found {0}.",
                         actualItems);

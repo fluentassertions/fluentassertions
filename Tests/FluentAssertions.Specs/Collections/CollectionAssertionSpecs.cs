@@ -148,7 +148,11 @@ namespace FluentAssertions.Specs.Collections
             int[] collection = null;
 
             // Act
-            Action act = () => collection.Should().HaveCount(1, "we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().HaveCount(1, "we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -162,8 +166,11 @@ namespace FluentAssertions.Specs.Collections
             int[] collection = null;
 
             // Act
-            Action act =
-                () => collection.Should().HaveCount(c => c < 3, "we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().HaveCount(c => c < 3, "we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -541,7 +548,11 @@ namespace FluentAssertions.Specs.Collections
             int[] collection = null;
 
             // Act
-            Action act = () => collection.Should().NotHaveCount(1, "we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().NotHaveCount(1, "we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("*not contain*1*we want to test the behaviour with a null subject*found <null>*");
@@ -595,7 +606,11 @@ namespace FluentAssertions.Specs.Collections
             int[] collection = null;
 
             // Act
-            Action act = () => collection.Should().HaveCountGreaterThan(1, "we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().HaveCountGreaterThan(1, "we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("*more than*1*we want to test the behaviour with a null subject*found <null>*");
@@ -649,7 +664,11 @@ namespace FluentAssertions.Specs.Collections
             int[] collection = null;
 
             // Act
-            Action act = () => collection.Should().HaveCountGreaterOrEqualTo(1, "we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().HaveCountGreaterOrEqualTo(1, "we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("*at least*1*we want to test the behaviour with a null subject*found <null>*");
@@ -703,7 +722,11 @@ namespace FluentAssertions.Specs.Collections
             int[] collection = null;
 
             // Act
-            Action act = () => collection.Should().HaveCountLessThan(1, "we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().HaveCountLessThan(1, "we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("*fewer than*1*we want to test the behaviour with a null subject*found <null>*");
@@ -757,7 +780,11 @@ namespace FluentAssertions.Specs.Collections
             int[] collection = null;
 
             // Act
-            Action act = () => collection.Should().HaveCountLessOrEqualTo(1, "we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().HaveCountLessOrEqualTo(1, "we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("*at most*1*we want to test the behaviour with a null subject*found <null>*");
@@ -845,14 +872,18 @@ namespace FluentAssertions.Specs.Collections
         public void When_asserting_collection_to_be_empty_but_collection_is_null_it_should_throw()
         {
             // Arrange
-            int[] collection = null;
+            IEnumerable<object> collection = null;
 
             // Act
-            Action act = () => collection.Should().BeEmpty("because we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().BeEmpty("we want to test the failure {0}", "message");
+            };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection to be empty because we want to test the behaviour with a null subject, but found <null>.");
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected collection to be empty *failure message*, but found <null>.");
         }
 
         [Fact]
@@ -866,6 +897,24 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             collection.GetEnumeratorCallCount.Should().Be(1);
+        }
+
+        [Fact]
+        public void When_asserting_collection_to_not_be_empty_but_collection_is_null_it_should_throw()
+        {
+            // Arrange
+            IEnumerable<object> collection = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().NotBeEmpty("we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected collection not to be empty *failure message*, but found <null>.");
         }
 
         #endregion
@@ -1365,8 +1414,11 @@ namespace FluentAssertions.Specs.Collections
             var collection1 = new[] { 1, 2, 3 };
 
             // Act
-            Action act =
-                () => collection.Should().NotEqual(collection1, "because we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().NotEqual(collection1, "because we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1590,7 +1642,10 @@ namespace FluentAssertions.Specs.Collections
 
             // Act
             Action act = () =>
-                    actual.Should().NotBeEquivalentTo(expectation, "because we want to test the behaviour with a null subject");
+            {
+                using var _ = new AssertionScope();
+                actual.Should().NotBeEquivalentTo(expectation, "because we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1659,6 +1714,24 @@ namespace FluentAssertions.Specs.Collections
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "*not to be equivalent*because we want to test the failure message*");
+        }
+
+        [Fact]
+        public void When_asserting_collections_not_to_be_equivalent_with_options_but_subject_collection_is_null_it_should_throw()
+        {
+            // Arrange
+            int[] actual = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                actual.Should().NotBeEquivalentTo(new[] { 1, 2, 3 }, opt => opt, "we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected actual not to be equivalent *failure message*, but found <null>.");
         }
 
         #endregion
@@ -1750,7 +1823,10 @@ namespace FluentAssertions.Specs.Collections
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 collection.Should().ContainEquivalentOf(expectation, "because we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1949,6 +2025,24 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
+        public void When_asserting_a_null_collection_to_not_contain_equivalent_of__then_it_should_fail()
+        {
+            // Arrange
+            int[] collection = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().NotContainEquivalentOf(1, config => config, "we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected collection not to contain *failure message*, but collection is <null>.");
+        }
+
+        [Fact]
         public void When_collection_does_not_contain_object_equivalent_of_unexpected_it_should_succeed()
         {
             // Arrange
@@ -2117,8 +2211,11 @@ namespace FluentAssertions.Specs.Collections
             var collection1 = new[] { 1, 2, 3 };
 
             // Act
-            Action act =
-                () => collection.Should().BeSubsetOf(collection1, "because we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().BeSubsetOf(collection1, "because we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -2139,6 +2236,24 @@ namespace FluentAssertions.Specs.Collections
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect*to be a subset of*because we want to test the behaviour with same objects*but they both reference the same object.");
+        }
+
+        [Fact]
+        public void When_asserting_collection_to_not_be_subset_against_null_collection_it_should_throw()
+        {
+            // Arrange
+            int[] collection = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().NotBeSubsetOf(new[] { 1, 2, 3 }, "we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Cannot assert a <null> collection against a subset.");
         }
 
         #endregion
@@ -2186,8 +2301,11 @@ namespace FluentAssertions.Specs.Collections
             int[] collection = null;
 
             // Act
-            Action act = () => collection.Should()
-                .Contain(1, "because we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().Contain(1, "because we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -2220,6 +2338,24 @@ namespace FluentAssertions.Specs.Collections
             // Assert
             act.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot verify containment against an empty collection*");
+        }
+
+        [Fact]
+        public void When_asserting_collection_does_contain_a_list_of_items_against_null_collection_it_should_throw()
+        {
+            // Arrange
+            int[] collection = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().Contain(new[] { 1, 2 }, "we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected collection to contain {1, 2} *failure message*, but found <null>.");
         }
 
         #endregion
@@ -2305,8 +2441,11 @@ namespace FluentAssertions.Specs.Collections
             int[] collection = null;
 
             // Act
-            Action act = () => collection.Should()
-                .NotContain(1, "because we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().NotContain(1, "because we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -2326,6 +2465,42 @@ namespace FluentAssertions.Specs.Collections
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection {1, 2, 3} to not contain {1, 2, 4} because we don't like them, but found {1, 2}.");
+        }
+
+        [Fact]
+        public void When_asserting_collection_does_not_contain_predicate_item_against_null_collection_it_should_fail()
+        {
+            // Arrange
+            int[] collection = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().NotContain(item => item == 4, "we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected collection not to contain (item == 4) *failure message*, but found <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_collection_does_not_contain_a_list_of_items_against_null_collection_it_should_fail()
+        {
+            // Arrange
+            int[] collection = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().NotContain(new[] { 1, 2, 4 }, "we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected collection to not contain {1, 2, 4} *failure message*, but found <null>.");
         }
 
         #endregion
@@ -2427,8 +2602,11 @@ namespace FluentAssertions.Specs.Collections
             int[] ints = null;
 
             // Act
-            Action act =
-                () => ints.Should().ContainInOrder(new[] { 4 }, "because we're checking how it reacts to a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                ints.Should().ContainInOrder(new[] { 4 }, "because we're checking how it reacts to a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -2508,6 +2686,24 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
+        public void When_collection_is_null_then_not_contain_in_order_should_fail()
+        {
+            // Arrange
+            int[] collection = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().NotContainInOrder(new[] { 1, 2, 3 }, "we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Cannot verify absence of ordered containment in a <null> collection.");
+        }
+
+        [Fact]
         public void When_collection_contains_contain_the_same_items_in_the_same_order_with_null_value_it_should_throw()
         {
             // Arrange
@@ -2577,7 +2773,11 @@ namespace FluentAssertions.Specs.Collections
             List<int> result = null;
 
             // Act
-            Action act = () => result.Should().BeInAscendingOrder();
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                result.Should().BeInAscendingOrder();
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -2830,6 +3030,24 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
+        public void When_collection_is_null_then_intersect_with_should_fail()
+        {
+            // Arrange
+            IEnumerable<int> collection = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().IntersectWith(new[] { 4, 5 }, "we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected collection to intersect with {4, 5} *failure message*, but found <null>.");
+        }
+
+        [Fact]
         public void When_asserting_the_items_in_an_two_non_intersecting_collections_do_not_intersect_it_should_succeed()
         {
             // Arrange
@@ -2870,6 +3088,24 @@ namespace FluentAssertions.Specs.Collections
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect*to intersect with*because we want to test the behaviour with same objects*but they both reference the same object.");
+        }
+
+        [Fact]
+        public void When_collection_is_null_then_not_intersect_with_should_fail()
+        {
+            // Arrange
+            IEnumerable<int> collection = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().NotIntersectWith(new[] { 4, 5 }, "we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect collection to intersect with {4, 5} *failure message*, but found <null>.");
         }
 
         #endregion
@@ -3005,8 +3241,11 @@ namespace FluentAssertions.Specs.Collections
             int[] collection = null;
 
             // Act
-            Action act = () => collection.Should()
-                .ContainItemsAssignableTo<string>("because we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().ContainItemsAssignableTo<string>("because we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -3062,8 +3301,11 @@ namespace FluentAssertions.Specs.Collections
             int[] collection = null;
 
             // Act
-            Action act =
-                () => collection.Should().OnlyHaveUniqueItems("because we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().OnlyHaveUniqueItems("because we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -3269,7 +3511,11 @@ namespace FluentAssertions.Specs.Collections
             string[] collection = null;
 
             // Act
-            Action act = () => collection.Should().StartWith("john");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().StartWith("john");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -3458,7 +3704,11 @@ namespace FluentAssertions.Specs.Collections
             string[] collection = null;
 
             // Act
-            Action act = () => collection.Should().EndWith("john");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().EndWith("john");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -3540,8 +3790,11 @@ namespace FluentAssertions.Specs.Collections
             int[] collection = null;
 
             // Act
-            Action act = () => collection.Should().HaveElementAt(1, 1,
-                "because we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().HaveElementAt(1, 1, "because we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -3691,6 +3944,25 @@ namespace FluentAssertions.Specs.Collections
                 .WithMessage("Expected*cris*precede*null*but found*mick*");
         }
 
+        [Fact]
+        public void When_collection_is_null_then_have_element_preceding_should_fail()
+        {
+            // Arrange
+            IEnumerable<string> collection = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().HaveElementPreceding("mick", "cris", "we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected collection to have \"cris\" precede \"mick\" *failure message*, but the collection is <null>.");
+        }
+
         #endregion
 
         #region HaveElementSucceeding
@@ -3807,6 +4079,25 @@ namespace FluentAssertions.Specs.Collections
                 .WithMessage("Expected*cris*succeed*null*but found*john*");
         }
 
+        [Fact]
+        public void When_collection_is_null_then_have_element_succeeding_should_fail()
+        {
+            // Arrange
+            IEnumerable<string> collection = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().HaveElementSucceeding("mick", "cris", "we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected collection to have \"cris\" succeed \"mick\" *failure message*, but the collection is <null>.");
+        }
+
         #endregion
 
         #region Miscellaneous
@@ -3878,8 +4169,11 @@ namespace FluentAssertions.Specs.Collections
             var collection1 = new[] { 1, 2, 3 };
 
             // Act
-            Action act = () => collection.Should().HaveSameCount(collection1,
-                "because we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().HaveSameCount(collection1, "because we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -3954,8 +4248,11 @@ namespace FluentAssertions.Specs.Collections
             var collection1 = new[] { 1, 2, 3 };
 
             // Act
-            Action act = () => collection.Should().NotHaveSameCount(collection1,
-                "because we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().NotHaveSameCount(collection1, "because we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -4009,6 +4306,24 @@ namespace FluentAssertions.Specs.Collections
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithParameterName("expectedType");
+        }
+
+        [Fact]
+        public void When_collection_is_null_then_all_be_assignable_to_should_fail()
+        {
+            // Arrange
+            IEnumerable<object> collection = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().AllBeAssignableTo(typeof(object), "we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type to be \"*.Object\" *failure message*, but found collection is <null>.");
         }
 
         [Fact]
@@ -4114,6 +4429,24 @@ namespace FluentAssertions.Specs.Collections
             collection.Should().AllBeAssignableTo<Exception>();
         }
 
+        [Fact]
+        public void When_collection_is_null_then_all_be_assignable_toOfT_should_fail()
+        {
+            // Arrange
+            IEnumerable<object> collection = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().AllBeAssignableTo<object>("we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type to be \"*.Object\" *failure message*, but found collection is <null>.");
+        }
+
         #endregion
 
         #region ShouldAllBeOfType
@@ -4130,6 +4463,24 @@ namespace FluentAssertions.Specs.Collections
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithParameterName("expectedType");
+        }
+
+        [Fact]
+        public void When_collection_is_null_then_all_be_of_type_should_fail()
+        {
+            // Arrange
+            IEnumerable<object> collection = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().AllBeOfType(typeof(object), "we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type to be \"*.Object\" *failure message*, but found collection is <null>.");
         }
 
         [Fact]
@@ -4213,6 +4564,24 @@ namespace FluentAssertions.Specs.Collections
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected type to be \"System.ArgumentException\", but found \"[System.Exception, System.ArgumentException]\".");
+        }
+
+        [Fact]
+        public void When_collection_is_null_then_all_be_of_typeOfT_should_fail()
+        {
+            // Arrange
+            IEnumerable<object> collection = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().AllBeOfType<object>("we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type to be \"*.Object\" *failure message*, but found collection is <null>.");
         }
 
         #endregion

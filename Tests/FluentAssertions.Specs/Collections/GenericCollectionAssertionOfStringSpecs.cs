@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Collections;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -1770,7 +1771,11 @@ namespace FluentAssertions.Specs.Collections
             IEnumerable<string> collection = null;
 
             // Act
-            Action action = () => collection.Should().ContainMatch("* failed", "because {0}", "we do");
+            Action action = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().ContainMatch("* failed", "because {0}", "we do");
+            };
 
             // Assert
             action.Should().Throw<XunitException>()
@@ -1882,7 +1887,7 @@ namespace FluentAssertions.Specs.Collections
         public void When_asserting_collection_to_not_have_null_match_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = null;
+            IEnumerable<string> collection = new string[] { "build succeded", "test failed" };
 
             // Act
             Action action = () => collection.Should().NotContainMatch(null);
@@ -1906,6 +1911,24 @@ namespace FluentAssertions.Specs.Collections
             action.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the NotContain method.*")
                 .WithParameterName("wildcardPattern");
+        }
+
+        [Fact]
+        public void When_asserting_null_collection_to_not_have_null_match_it_should_throw()
+        {
+            // Arrange
+            IEnumerable<string> collection = null;
+
+            // Act
+            Action action = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().NotContainMatch("* Failed", "we want to test the failure {0}", "message");
+            };
+
+            // Assert
+            action.Should().Throw<XunitException>()
+                .WithMessage("Did not expect collection to contain a match of \"* failed\" *failure message*, but found <null>.");
         }
 
         #endregion
