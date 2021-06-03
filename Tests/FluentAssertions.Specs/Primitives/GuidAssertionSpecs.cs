@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Xunit;
 using Xunit.Sdk;
 
@@ -144,6 +144,49 @@ namespace FluentAssertions.Specs.Primitives
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect Guid to be {11111111-aaaa-bbbb-cccc-999999999999} because we want to test the failure message.");
+        }
+
+        [Fact]
+        public void Should_throw_when_asserting_guid_does_not_equal_a_string_that_is_not_a_valid_guid()
+        {
+            // Arrange
+            var guid = new Guid("11111111-aaaa-bbbb-cccc-999999999999");
+
+            // Act
+            Action act = () => guid.Should().NotBe(string.Empty, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<ArgumentException>()
+                .WithParameterName("unexpected");
+        }
+
+        [Fact]
+        public void Should_succeed_when_asserting_guid_does_not_equal_a_different_guid_in_string_format()
+        {
+            // Arrange
+            var guid = new Guid("11111111-aaaa-bbbb-cccc-999999999999");
+
+            // Act
+            Action act = () =>
+                guid.Should().NotBe("55555555-ffff-eeee-dddd-444444444444");
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void Should_succeed_when_asserting_guid_does_not_equal_the_same_guid_in_string_format()
+        {
+            // Arrange
+            var guid = new Guid("11111111-aaaa-bbbb-cccc-999999999999");
+
+            // Act
+            Action act = () =>
+                guid.Should().NotBe("11111111-aaaa-bbbb-cccc-999999999999", "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect Guid to be {11111111-aaaa-bbbb-cccc-999999999999} *failure message*.");
         }
 
         #endregion

@@ -20,4 +20,7 @@ theGuid.Should().NotBe(otherGuid);
 theGuid.Should().NotBeEmpty();
 
 Guid.Empty.Should().BeEmpty();
+
+theGuid.Should().Be("11111111-aaaa-bbbb-cccc-999999999999");
+theGuid.Should().NotBe("00000000-0000-0000-0000-000000000001");
 ```

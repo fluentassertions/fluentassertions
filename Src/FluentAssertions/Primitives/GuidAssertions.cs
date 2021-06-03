@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using FluentAssertions.Execution;
 
@@ -120,6 +120,28 @@ namespace FluentAssertions.Primitives
                 .FailWith("Expected {context:Guid} to be {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="Guid"/> is not equal to the <paramref name="unexpected"/> GUID.
+        /// </summary>
+        /// <param name="unexpected">The unexpected value to compare the actual value with.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        /// <exception cref="ArgumentException">The format of <paramref name="unexpected"/> is invalid.</exception>
+        public AndConstraint<TAssertions> NotBe(string unexpected, string because = "", params object[] becauseArgs)
+        {
+            if (!Guid.TryParse(unexpected, out Guid unexpectedGuid))
+            {
+                throw new ArgumentException($"Unable to parse \"{unexpected}\" as a valid GUID", nameof(unexpected));
+            }
+
+            return NotBe(unexpectedGuid, because, becauseArgs);
         }
 
         /// <summary>
