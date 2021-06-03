@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
-
+using FluentAssertions.CallerIdentification;
 using FluentAssertions.Common;
 
 namespace FluentAssertions
@@ -227,12 +227,12 @@ namespace FluentAssertions
             }
 
             var sb = new CallerStatementBuilder();
-            CallerStatementBuilder.Result state;
+            HandlerResult state;
             do
             {
                 state = sb.Append(line);
             }
-            while (state != CallerStatementBuilder.Result.Done && (line = reader.ReadLine()) != null);
+            while (state != HandlerResult.Done && (line = reader.ReadLine()) != null);
 
             return sb.ToString();
         }
