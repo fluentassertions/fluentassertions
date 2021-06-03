@@ -8,6 +8,7 @@ namespace FluentAssertions
     {
         private readonly StringBuilder statement;
         private readonly IEnumerable<IHandler> handlers;
+        private HandlerResult result = HandlerResult.InProgress;
 
         public CallerStatementBuilder()
         {
@@ -23,9 +24,8 @@ namespace FluentAssertions
             };
         }
 
-        public HandlerResult Append(string symbols)
+        public void Append(string symbols)
         {
-            HandlerResult result = HandlerResult.InProgress;
             using var symbolEnumerator = symbols.GetEnumerator();
             while (symbolEnumerator.MoveNext() && result != HandlerResult.Done)
             {
@@ -36,9 +36,9 @@ namespace FluentAssertions
                     result = handlerEnumerator.Current.Handle(symbolEnumerator.Current);
                 }
             }
-
-            return result;
         }
+
+        public bool IsDone() => result == HandlerResult.Done;
 
         public override string ToString() => statement.ToString();
     }
