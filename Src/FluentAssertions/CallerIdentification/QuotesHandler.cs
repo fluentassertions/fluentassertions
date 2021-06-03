@@ -26,7 +26,7 @@ namespace FluentAssertions.CallerIdentification
                 else
                 {
                     isQuoteContext = true;
-                    if (IsAtEscaped())
+                    if (IsVerbatim())
                     {
                         isQuoteEscapeSymbol = '"';
                     }
@@ -42,7 +42,7 @@ namespace FluentAssertions.CallerIdentification
             return isQuoteContext ? HandlerResult.Handled : HandlerResult.InProgress;
         }
 
-        private bool IsAtEscaped()
+        private bool IsVerbatim()
         {
             if (previousChar == '@')
             {
