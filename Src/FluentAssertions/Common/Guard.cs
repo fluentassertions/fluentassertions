@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FluentAssertions.Common
 {
@@ -31,6 +33,40 @@ namespace FluentAssertions.Common
         public static void ThrowIfArgumentIsNullOrEmpty([ValidatedNotNull] string str, string paramName, string message)
         {
             if (string.IsNullOrEmpty(str))
+            {
+                throw new ArgumentNullException(paramName, message);
+            }
+        }
+
+        public static void ThrowIfArgumentIsOutOfRange<T>(T value, string paramName)
+            where T : Enum
+        {
+            if (!Enum.IsDefined(typeof(T), value))
+            {
+                throw new ArgumentOutOfRangeException(paramName);
+            }
+        }
+
+        public static void ThrowIfArgumentIsOutOfRange<T>(T value, string paramName, string message)
+            where T : Enum
+        {
+            if (!Enum.IsDefined(typeof(T), value))
+            {
+                throw new ArgumentOutOfRangeException(paramName, message);
+            }
+        }
+
+        public static void ThrowIfArgumentContainsNull<T>(IEnumerable<T> values, string paramName)
+        {
+            if (values.Any(t => t is null))
+            {
+                throw new ArgumentNullException(paramName, "Collection contains a null value");
+            }
+        }
+
+        public static void ThrowIfArgumentContainsNull<T>(IEnumerable<T> values, string paramName, string message)
+        {
+            if (values.Any(t => t is null))
             {
                 throw new ArgumentNullException(paramName, message);
             }

@@ -1,4 +1,5 @@
 using System;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency
 {
@@ -7,17 +8,38 @@ namespace FluentAssertions.Equivalency
     /// </summary>
     public class MemberSelectionContext
     {
-        /// <summary>
-        /// Gets the compile-time type of the current object. If the current object is not the root object and the type is not <see cref="object"/>,
-        /// then it returns the same <see cref="System.Type"/> as the <see cref="IObjectInfo.RuntimeType"/> property does.
-        /// </summary>
-        public Type CompileTimeType { get; set; }
+        private readonly Type compileTimeType;
+        private readonly Type runtimeType;
+        private readonly IEquivalencyAssertionOptions options;
+
+        public MemberSelectionContext(Type compileTimeType, Type runtimeType, IEquivalencyAssertionOptions options)
+        {
+            this.runtimeType = runtimeType;
+            this.compileTimeType = compileTimeType;
+            this.options = options;
+        }
 
         /// <summary>
-        /// Gets the run-time type of the current object.
+        /// Gets a value indicating whether and which properties should be considered.
         /// </summary>
-        public Type RuntimeType { get; set; }
+        public MemberVisibility IncludedProperties => options.IncludedProperties;
 
-        public IEquivalencyAssertionOptions Options { get; set; }
+        /// <summary>
+        /// Gets a value indicating whether and which fields should be considered.
+        /// </summary>
+        public MemberVisibility IncludedFields => options.IncludedFields;
+
+        /// <summary>
+        /// Gets either the compile-time or run-time type depending on the options provided by the caller.
+        /// </summary>
+        public Type Type
+        {
+            get
+            {
+                Type type = options.UseRuntimeTyping ? runtimeType : compileTimeType;
+
+                return type.NullableOrActualType();
+            }
+        }
     }
 }

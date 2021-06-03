@@ -172,10 +172,11 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that a string matches a wildcard pattern.
+        /// Asserts that a string matches the <paramref name="wildcardPattern"/>.
         /// </summary>
         /// <param name="wildcardPattern">
-        /// The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// The pattern to match against the subject. This parameter can contain a combination of literal text and wildcard
+        /// (* and ?) characters, but it doesn't support regular expressions.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -184,6 +185,27 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <remarks>
+        /// <paramref name="wildcardPattern"/> can be a combination of literal and wildcard characters,
+        /// but it doesn't support regular expressions. The following wildcard specifiers are permitted in
+        /// <paramref name="wildcardPattern"/>.
+        /// <list type="table">
+        /// <listheader>
+        /// <term>Wildcard character</term>
+        /// <description>Description</description>
+        /// </listheader>
+        /// <item>
+        /// <term>* (asterisk)</term>
+        /// <description>Zero or more characters in that position.</description>
+        /// </item>
+        /// <item>
+        /// <term>? (question mark)</term>
+        /// <description>Exactly one character in that position.</description>
+        /// </item>
+        /// </list>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
         public AndConstraint<TAssertions> Match(string wildcardPattern, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match string against <null>. Provide a wildcard pattern or use the BeNull method.");
@@ -200,10 +222,11 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that a string does not match a wildcard pattern.
+        /// Asserts that a string does not match the <paramref name="wildcardPattern"/>.
         /// </summary>
         /// <param name="wildcardPattern">
-        /// The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// The pattern to match against the subject. This parameter can contain a combination literal text and wildcard of
+        /// (* and ?) characters, but it doesn't support regular expressions.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -212,6 +235,27 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <remarks>
+        /// <paramref name="wildcardPattern"/> can be a combination of literal and wildcard characters,
+        /// but it doesn't support regular expressions. The following wildcard specifiers are permitted in
+        /// <paramref name="wildcardPattern"/>.
+        /// <list type="table">
+        /// <listheader>
+        /// <term>Wildcard character</term>
+        /// <description>Description</description>
+        /// </listheader>
+        /// <item>
+        /// <term>* (asterisk)</term>
+        /// <description>Zero or more characters in that position.</description>
+        /// </item>
+        /// <item>
+        /// <term>? (question mark)</term>
+        /// <description>Exactly one character in that position.</description>
+        /// </item>
+        /// </list>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
         public AndConstraint<TAssertions> NotMatch(string wildcardPattern, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match string against <null>. Provide a wildcard pattern or use the NotBeNull method.");
@@ -230,10 +274,11 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that a string matches a wildcard pattern.
+        /// Asserts that a string matches the <paramref name="wildcardPattern"/>.
         /// </summary>
         /// <param name="wildcardPattern">
-        /// The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// The pattern to match against the subject. This parameter can contain a combination of literal text and wildcard
+        /// (* and ?) characters, but it doesn't support regular expressions.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -242,6 +287,27 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <remarks>
+        /// <paramref name="wildcardPattern"/> can be a combination of literal and wildcard characters,
+        /// but it doesn't support regular expressions. The following wildcard specifiers are permitted in
+        /// <paramref name="wildcardPattern"/>.
+        /// <list type="table">
+        /// <listheader>
+        /// <term>Wildcard character</term>
+        /// <description>Description</description>
+        /// </listheader>
+        /// <item>
+        /// <term>* (asterisk)</term>
+        /// <description>Zero or more characters in that position.</description>
+        /// </item>
+        /// <item>
+        /// <term>? (question mark)</term>
+        /// <description>Exactly one character in that position.</description>
+        /// </item>
+        /// </list>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
         public AndConstraint<TAssertions> MatchEquivalentOf(string wildcardPattern, string because = "",
             params object[] becauseArgs)
         {
@@ -264,10 +330,11 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that a string does not match a wildcard pattern.
+        /// Asserts that a string does not match the <paramref name="wildcardPattern"/>.
         /// </summary>
         /// <param name="wildcardPattern">
-        /// The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// The pattern to match against the subject. This parameter can contain a combination of literal text and wildcard
+        /// (* and ?) characters, but it doesn't support regular expressions.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -276,6 +343,27 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <remarks>
+        /// <paramref name="wildcardPattern"/> can be a combination of literal and wildcard characters,
+        /// but it doesn't support regular expressions. The following wildcard specifiers are permitted in
+        /// <paramref name="wildcardPattern"/>.
+        /// <list type="table">
+        /// <listheader>
+        /// <term>Wildcard character</term>
+        /// <description>Description</description>
+        /// </listheader>
+        /// <item>
+        /// <term>* (asterisk)</term>
+        /// <description>Zero or more characters in that position.</description>
+        /// </item>
+        /// <item>
+        /// <term>? (question mark)</term>
+        /// <description>Exactly one character in that position.</description>
+        /// </item>
+        /// </list>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
         public AndConstraint<TAssertions> NotMatchEquivalentOf(string wildcardPattern, string because = "",
             params object[] becauseArgs)
         {
@@ -315,29 +403,60 @@ namespace FluentAssertions.Primitives
         {
             Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression), "Cannot match string against <null>. Provide a regex pattern or use the BeNull method.");
 
-            if (regularExpression.Length == 0)
-            {
-                throw new ArgumentException("Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.", nameof(regularExpression));
-            }
-
-            Execute.Assertion
-                .ForCondition(!(Subject is null))
-                .UsingLineBreaks
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} to match regex {0}{reason}, but it was <null>.", regularExpression);
-
+            Regex regex;
             try
             {
-                Execute.Assertion
-                .ForCondition(Regex.IsMatch(Subject, regularExpression))
-                .BecauseOf(because, becauseArgs)
-                .UsingLineBreaks
-                .FailWith("Expected {context:string} to match regex {0}{reason}, but {1} does not match.", regularExpression, Subject);
+                regex = new Regex(regularExpression);
             }
             catch (ArgumentException)
             {
+                Execute.Assertion.FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.",
+                    regularExpression);
+                return new AndConstraint<TAssertions>((TAssertions)this);
+            }
+
+            return MatchRegex(regex, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that a string matches a regular expression.
+        /// </summary>
+        /// <param name="regularExpression">
+        /// The regular expression with which the subject is matched.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> MatchRegex(Regex regularExpression, string because = "", params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression),
+                "Cannot match string against <null>. Provide a regex pattern or use the BeNull method.");
+
+            var regexStr = regularExpression.ToString();
+            if (regexStr.Length == 0)
+            {
+                throw new ArgumentException(
+                    "Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.",
+                    nameof(regularExpression));
+            }
+
+            bool success = Execute.Assertion
+                .ForCondition(Subject is not null)
+                .UsingLineBreaks
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:string} to match regex {0}{reason}, but it was <null>.", regexStr);
+
+            if (success)
+            {
                 Execute.Assertion
-                    .FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.", regularExpression);
+                    .ForCondition(regularExpression.IsMatch(Subject))
+                    .BecauseOf(because, becauseArgs)
+                    .UsingLineBreaks
+                    .FailWith("Expected {context:string} to match regex {0}{reason}, but {1} does not match.", regexStr, Subject);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -360,29 +479,60 @@ namespace FluentAssertions.Primitives
         {
             Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression), "Cannot match string against <null>. Provide a regex pattern or use the NotBeNull method.");
 
-            if (regularExpression.Length == 0)
-            {
-                throw new ArgumentException("Cannot match string against an empty regex pattern. Provide a regex pattern or use the NotBeEmpty method.", nameof(regularExpression));
-            }
-
-            Execute.Assertion
-                .ForCondition(!(Subject is null))
-                .UsingLineBreaks
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} to not match regex {0}{reason}, but it was <null>.", regularExpression);
-
+            Regex regex;
             try
             {
-                Execute.Assertion
-                    .ForCondition(!Regex.IsMatch(Subject, regularExpression))
-                    .BecauseOf(because, becauseArgs)
-                    .UsingLineBreaks
-                    .FailWith("Did not expect {context:string} to match regex {0}{reason}, but {1} matches.", regularExpression, Subject);
+                regex = new Regex(regularExpression);
             }
             catch (ArgumentException)
             {
                 Execute.Assertion.FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.",
                     regularExpression);
+                return new AndConstraint<TAssertions>((TAssertions)this);
+            }
+
+            return NotMatchRegex(regex, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that a string does not match a regular expression.
+        /// </summary>
+        /// <param name="regularExpression">
+        /// The regular expression with which the subject is matched.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotMatchRegex(Regex regularExpression, string because = "", params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression),
+                "Cannot match string against <null>. Provide a regex pattern or use the NotBeNull method.");
+
+            var regexStr = regularExpression.ToString();
+            if (regexStr.Length == 0)
+            {
+                throw new ArgumentException(
+                    "Cannot match string against an empty regex pattern. Provide a regex pattern or use the NotBeEmpty method.",
+                    nameof(regularExpression));
+            }
+
+            bool success = Execute.Assertion
+                .ForCondition(Subject is not null)
+                .UsingLineBreaks
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:string} to not match regex {0}{reason}, but it was <null>.", regexStr);
+
+            if (success)
+            {
+                Execute.Assertion
+                    .ForCondition(!regularExpression.IsMatch(Subject))
+                    .BecauseOf(because, becauseArgs)
+                    .UsingLineBreaks
+                    .FailWith("Did not expect {context:string} to match regex {0}{reason}, but {1} matches.", regexStr, Subject);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -493,24 +643,26 @@ namespace FluentAssertions.Primitives
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end with <null>.");
 
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} {0} to end with {1}{reason}.", Subject, expected);
-            }
-
-            if (Subject.Length < expected.Length)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} to end with {0}{reason}, but {1} is too short.", expected, Subject);
-            }
-
-            Execute.Assertion
-                .ForCondition(Subject.EndsWith(expected, StringComparison.Ordinal))
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
                 .FailWith("Expected {context:string} {0} to end with {1}{reason}.", Subject, expected);
+
+            if (success)
+            {
+                success = Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(Subject.Length >= expected.Length)
+                    .FailWith("Expected {context:string} to end with {0}{reason}, but {1} is too short.", expected, Subject);
+
+                if (success)
+                {
+                    Execute.Assertion
+                        .ForCondition(Subject.EndsWith(expected, StringComparison.Ordinal))
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:string} {0} to end with {1}{reason}.", Subject, expected);
+                }
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -531,17 +683,18 @@ namespace FluentAssertions.Primitives
         {
             Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare end of string with <null>.");
 
-            if (Subject is null)
+            bool success = Execute.Assertion
+                .ForCondition(Subject is not null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:string} that does not end with {1}{reason}, but found {0}.", Subject, unexpected);
+
+            if (success)
             {
                 Execute.Assertion
+                    .ForCondition(!Subject.EndsWith(unexpected, StringComparison.Ordinal))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} that does not end with {1}, but found {0}.", Subject, unexpected);
+                    .FailWith("Expected {context:string} {0} not to end with {1}{reason}.", Subject, unexpected);
             }
-
-            Execute.Assertion
-                .ForCondition(!Subject.EndsWith(unexpected, StringComparison.Ordinal))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} {0} not to end with {1}{reason}.", Subject, unexpected);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -562,24 +715,31 @@ namespace FluentAssertions.Primitives
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end equivalence with <null>.");
 
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} that ends with equivalent of {0}{reason}, but found {1}.", expected, Subject);
-            }
-
-            if (Subject.Length < expected.Length)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} to end with equivalent of {0}{reason}, but {1} is too short.", expected, Subject);
-            }
-
-            Execute.Assertion
-                .ForCondition(Subject.EndsWith(expected, StringComparison.OrdinalIgnoreCase))
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} that ends with equivalent of {0}{reason}, but found {1}.", expected, Subject);
+                .ForCondition(Subject is not null)
+                .FailWith(
+                    "Expected {context:string} that ends with equivalent of {0}{reason}, but found {1}.", expected, Subject);
+
+            if (success)
+            {
+                success = Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(Subject.Length >= expected.Length)
+                    .FailWith(
+                        "Expected {context:string} to end with equivalent of {0}{reason}, but {1} is too short.",
+                        expected, Subject);
+
+                if (success)
+                {
+                    Execute.Assertion
+                        .ForCondition(Subject.EndsWith(expected, StringComparison.OrdinalIgnoreCase))
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith(
+                            "Expected {context:string} that ends with equivalent of {0}{reason}, but found {1}.",
+                            expected, Subject);
+                }
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -600,17 +760,22 @@ namespace FluentAssertions.Primitives
         {
             Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare end of string with <null>.");
 
-            if (Subject is null)
+            var success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith(
+                    "Expected {context:string} that does not end with equivalent of {0}{reason}, but found {1}.",
+                    unexpected, Subject);
+
+            if (success)
             {
                 Execute.Assertion
+                    .ForCondition(!Subject.EndsWith(unexpected, StringComparison.OrdinalIgnoreCase))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} that does not end with equivalent of {0}, but found {1}.", unexpected, Subject);
+                    .FailWith(
+                        "Expected {context:string} that does not end with equivalent of {0}{reason}, but found {1}.",
+                        unexpected, Subject);
             }
-
-            Execute.Assertion
-                .ForCondition(!Subject.EndsWith(unexpected, StringComparison.OrdinalIgnoreCase))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} that does not end with equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -1020,14 +1185,19 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> HaveLength(int expected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject is object)
-                .FailWith("Expected {context:string} with length {0}{reason}, but found <null>", expected)
-                .Then
-                .ForCondition(Subject.Length == expected)
-                .FailWith("Expected {context:string} with length {0}{reason}, but found string {1} with length {2}.",
-                    expected, Subject, Subject.Length);
+                .ForCondition(Subject is not null)
+                .FailWith("Expected {context:string} with length {0}{reason}, but found <null>.", expected);
+
+            if (success)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(Subject.Length == expected)
+                    .FailWith("Expected {context:string} with length {0}{reason}, but found string {1} with length {2}.",
+                        expected, Subject, Subject.Length);
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

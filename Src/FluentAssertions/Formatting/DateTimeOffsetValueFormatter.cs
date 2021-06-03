@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Formatting
@@ -21,8 +18,7 @@ namespace FluentAssertions.Formatting
             return (value is DateTime) || (value is DateTimeOffset);
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
             DateTimeOffset dateTimeOffset;
 
@@ -35,56 +31,65 @@ namespace FluentAssertions.Formatting
                 dateTimeOffset = (DateTimeOffset)value;
             }
 
-            var fragments = new List<string>();
+            formattedGraph.AddFragment("<");
 
-            if (HasDate(dateTimeOffset))
+            bool hasDate = HasDate(dateTimeOffset);
+            if (hasDate)
             {
-                fragments.Add(dateTimeOffset.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
+                formattedGraph.AddFragment(dateTimeOffset.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
             }
 
-            if (HasTime(dateTimeOffset))
+            bool hasTime = HasTime(dateTimeOffset);
+            if (hasTime)
             {
+                if (hasDate)
+                {
+                    formattedGraph.AddFragment(" ");
+                }
+
                 if (HasNanoSeconds(dateTimeOffset))
                 {
-                    fragments.Add(dateTimeOffset.ToString("HH:mm:ss.fffffff", CultureInfo.InvariantCulture));
+                    formattedGraph.AddFragment(dateTimeOffset.ToString("HH:mm:ss.fffffff", CultureInfo.InvariantCulture));
                 }
                 else if (HasMicroSeconds(dateTimeOffset))
                 {
-                    fragments.Add(dateTimeOffset.ToString("HH:mm:ss.ffffff", CultureInfo.InvariantCulture));
+                    formattedGraph.AddFragment(dateTimeOffset.ToString("HH:mm:ss.ffffff", CultureInfo.InvariantCulture));
                 }
                 else if (HasMilliSeconds(dateTimeOffset))
                 {
-                    fragments.Add(dateTimeOffset.ToString("HH:mm:ss.fff", CultureInfo.InvariantCulture));
+                    formattedGraph.AddFragment(dateTimeOffset.ToString("HH:mm:ss.fff", CultureInfo.InvariantCulture));
                 }
                 else
                 {
-                    fragments.Add(dateTimeOffset.ToString("HH:mm:ss", CultureInfo.InvariantCulture));
+                    formattedGraph.AddFragment(dateTimeOffset.ToString("HH:mm:ss", CultureInfo.InvariantCulture));
                 }
             }
 
             if (dateTimeOffset.Offset > TimeSpan.Zero)
             {
-                fragments.Add("+" + formatChild("offset", dateTimeOffset.Offset));
+                formattedGraph.AddFragment(" +");
+                formatChild("offset", dateTimeOffset.Offset, formattedGraph);
             }
 
             if (dateTimeOffset.Offset < TimeSpan.Zero)
             {
-                fragments.Add(formatChild("offset", dateTimeOffset.Offset));
+                formattedGraph.AddFragment(" ");
+                formatChild("offset", dateTimeOffset.Offset, formattedGraph);
             }
 
-            if (!fragments.Any())
+            if (!hasDate && !hasTime)
             {
                 if (HasMilliSeconds(dateTimeOffset))
                 {
-                    fragments.Add("0001-01-01 00:00:00." + dateTimeOffset.ToString("fff", CultureInfo.InvariantCulture));
+                    formattedGraph.AddFragment("0001-01-01 00:00:00." + dateTimeOffset.ToString("fff", CultureInfo.InvariantCulture));
                 }
                 else
                 {
-                    fragments.Add("0001-01-01 00:00:00.000");
+                    formattedGraph.AddFragment("0001-01-01 00:00:00.000");
                 }
             }
 
-            return "<" + string.Join(" ", fragments.ToArray()) + ">";
+            formattedGraph.AddFragment(">");
         }
 
         private static bool HasTime(DateTimeOffset dateTime)

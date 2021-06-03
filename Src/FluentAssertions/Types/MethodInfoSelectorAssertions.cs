@@ -19,8 +19,11 @@ namespace FluentAssertions.Types
         /// Initializes a new instance of the <see cref="MethodInfoSelectorAssertions"/> class.
         /// </summary>
         /// <param name="methods">The methods to assert.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="methods"/> is <c>null</c>.</exception>
         public MethodInfoSelectorAssertions(params MethodInfo[] methods)
         {
+            Guard.ThrowIfArgumentIsNull(methods, nameof(methods));
+
             SubjectMethods = methods;
         }
 
@@ -85,22 +88,12 @@ namespace FluentAssertions.Types
 
         private MethodInfo[] GetAllNonVirtualMethodsFromSelection()
         {
-            IEnumerable<MethodInfo> query =
-                from method in SubjectMethods
-                where method.IsNonVirtual()
-                select method;
-
-            return query.ToArray();
+            return SubjectMethods.Where(method => method.IsNonVirtual()).ToArray();
         }
 
         private MethodInfo[] GetAllVirtualMethodsFromSelection()
         {
-            IEnumerable<MethodInfo> query =
-                from method in SubjectMethods
-                where !method.IsNonVirtual()
-                select method;
-
-            return query.ToArray();
+            return SubjectMethods.Where(method => !method.IsNonVirtual()).ToArray();
         }
 
         /// <summary>
@@ -208,6 +201,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the selected methods have specified <paramref name="accessModifier"/>.
         /// </summary>
+        /// <param name="accessModifier">The expected access modifier.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -231,6 +225,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the selected methods don't have specified <paramref name="accessModifier"/>
         /// </summary>
+        /// <param name="accessModifier">The expected access modifier.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -265,8 +260,9 @@ namespace FluentAssertions.Types
 
         private static string GetDescriptionsFor(IEnumerable<MethodInfo> methods)
         {
-            return string.Join(Environment.NewLine,
-                methods.Select(MethodInfoAssertions.GetDescriptionFor).ToArray());
+            IEnumerable<string> descriptions = methods.Select(method => MethodInfoAssertions.GetDescriptionFor(method));
+
+            return string.Join(Environment.NewLine, descriptions);
         }
 
         /// <summary>

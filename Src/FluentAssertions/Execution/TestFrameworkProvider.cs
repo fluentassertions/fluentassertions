@@ -9,13 +9,13 @@ namespace FluentAssertions.Execution
     {
         #region Private Definitions
 
-        private static readonly Dictionary<string, ITestFramework> Frameworks = new Dictionary<string, ITestFramework>(StringComparer.OrdinalIgnoreCase)
+        private static readonly Dictionary<string, ITestFramework> Frameworks = new(StringComparer.OrdinalIgnoreCase)
         {
             ["mspec"] = new MSpecFramework(),
             ["nspec3"] = new NSpecFramework(),
             ["nunit"] = new NUnitTestFramework(),
             ["mstestv2"] = new MSTestFrameworkV2(),
-            ["xunit2"] = new XUnit2TestFramework()
+            ["xunit2"] = new XUnit2TestFramework() // Keep this the last one as it uses a try/catch approach
         };
 
         private static ITestFramework testFramework;
@@ -51,19 +51,21 @@ namespace FluentAssertions.Execution
 
             if (!Frameworks.TryGetValue(frameworkName, out ITestFramework framework))
             {
-                var message = string.Format("FluentAssertions was configured to use {0} but the requested test framework is not supported. " +
-                    "Please use one of the supported frameworks: {1}", frameworkName, string.Join(", ", Frameworks.Keys));
+                string frameworks = string.Join(", ", Frameworks.Keys);
+                var message = $"FluentAssertions was configured to use {frameworkName} but the requested test framework is not supported. " +
+                    $"Please use one of the supported frameworks: {frameworks}";
 
                 throw new Exception(message);
             }
 
             if (!framework.IsAvailable)
             {
+                string frameworks = string.Join(", ", Frameworks.Keys);
                 var message = framework is LateBoundTestFramework lateBoundTestFramework
-                    ? string.Format("FluentAssertions was configured to use {0} but the required test framework assembly {1} could not be found. " +
-                        "Please use one of the supported frameworks: {2}", frameworkName, lateBoundTestFramework.AssemblyName, string.Join(", ", Frameworks.Keys))
-                    : string.Format("FluentAssertions was configured to use {0} but the required test framework could not be found. " +
-                        "Please use one of the supported frameworks: {1}", frameworkName, string.Join(", ", Frameworks.Keys));
+                    ? $"FluentAssertions was configured to use {frameworkName} but the required test framework assembly {lateBoundTestFramework.AssemblyName} could not be found. " +
+                        $"Please use one of the supported frameworks: {frameworks}"
+                    : $"FluentAssertions was configured to use {frameworkName} but the required test framework could not be found. " +
+                        $"Please use one of the supported frameworks: {frameworks}";
 
                 throw new Exception(message);
             }

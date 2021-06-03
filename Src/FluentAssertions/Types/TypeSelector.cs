@@ -21,6 +21,9 @@ namespace FluentAssertions.Types
 
         public TypeSelector(IEnumerable<Type> types)
         {
+            Guard.ThrowIfArgumentIsNull(types, nameof(types));
+            Guard.ThrowIfArgumentContainsNull(types, nameof(types));
+
             this.types = types.ToList();
         }
 
@@ -55,10 +58,10 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelector ThatImplement<TInterface>()
         {
-            types = types.Where(t =>
-                        typeof(TInterface).IsAssignableFrom(t)
-                        && (t != typeof(TInterface)))
-                    .ToList();
+            types = types
+                .Where(t => typeof(TInterface).IsAssignableFrom(t) && (t != typeof(TInterface)))
+                .ToList();
+
             return this;
         }
 
@@ -67,10 +70,10 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelector ThatDoNotImplement<TInterface>()
         {
-            types = types.Where(t =>
-                        !typeof(TInterface).IsAssignableFrom(t)
-                        && (t != typeof(TInterface)))
-                    .ToList();
+            types = types
+                .Where(t => !typeof(TInterface).IsAssignableFrom(t) && (t != typeof(TInterface)))
+                .ToList();
+
             return this;
         }
 
@@ -81,7 +84,6 @@ namespace FluentAssertions.Types
             where TAttribute : Attribute
         {
             types = types
-
                 .Where(t => t.IsDecoratedWith<TAttribute>())
                 .ToList();
 
@@ -95,7 +97,6 @@ namespace FluentAssertions.Types
             where TAttribute : Attribute
         {
             types = types
-
                 .Where(t => t.IsDecoratedWithOrInherit<TAttribute>())
                 .ToList();
 
@@ -109,7 +110,6 @@ namespace FluentAssertions.Types
             where TAttribute : Attribute
         {
             types = types
-
                 .Where(t => !t.IsDecoratedWith<TAttribute>())
                 .ToList();
 
@@ -123,7 +123,6 @@ namespace FluentAssertions.Types
             where TAttribute : Attribute
         {
             types = types
-
                 .Where(t => !t.IsDecoratedWithOrInherit<TAttribute>())
                 .ToList();
 

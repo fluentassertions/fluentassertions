@@ -18,6 +18,7 @@ namespace FluentAssertions.Types
         /// Initializes a new instance of the <see cref="MethodInfoSelector"/> class.
         /// </summary>
         /// <param name="type">The type from which to select methods.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
         public MethodInfoSelector(Type type)
             : this(new[] { type })
         {
@@ -27,8 +28,12 @@ namespace FluentAssertions.Types
         /// Initializes a new instance of the <see cref="MethodInfoSelector"/> class.
         /// </summary>
         /// <param name="types">The types from which to select methods.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="types"/> is <c>null</c>.</exception>
         public MethodInfoSelector(IEnumerable<Type> types)
         {
+            Guard.ThrowIfArgumentIsNull(types, nameof(types));
+            Guard.ThrowIfArgumentContainsNull(types, nameof(types));
+
             selectedMethods = types.SelectMany(t => t
                 .GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                 .Where(method => !HasSpecialName(method)));

@@ -48,12 +48,12 @@ namespace FluentAssertions.Specs.CultureAwareTesting
 
         protected override Task BeforeTestCaseFinishedAsync()
         {
-            if (originalUICulture != null)
+            if (originalUICulture is not null)
             {
                 CurrentUICulture = originalUICulture;
             }
 
-            if (originalCulture != null)
+            if (originalCulture is not null)
             {
                 CurrentCulture = originalCulture;
             }

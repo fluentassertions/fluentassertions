@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using FluentAssertions.Collections;
+using FluentAssertions.Common;
+using FluentAssertions.Data;
 #if !NETSTANDARD2_0
 using FluentAssertions.Events;
 #endif
@@ -14,6 +18,7 @@ using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
 using FluentAssertions.Reflection;
 using FluentAssertions.Specialized;
+using FluentAssertions.Streams;
 using FluentAssertions.Types;
 using FluentAssertions.Xml;
 using JetBrains.Annotations;
@@ -26,15 +31,20 @@ namespace FluentAssertions
     [DebuggerNonUserCode]
     public static class AssertionExtensions
     {
-        private static readonly AggregateExceptionExtractor Extractor = new AggregateExceptionExtractor();
+        private static readonly AggregateExceptionExtractor Extractor = new();
 
         /// <summary>
         /// Invokes the specified action on a subject so that you can chain it
         /// with any of the assertions from <see cref="ActionAssertions"/>
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="subject"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
         [Pure]
         public static Action Invoking<T>(this T subject, Action<T> action)
         {
+            Guard.ThrowIfArgumentIsNull(subject, nameof(subject));
+            Guard.ThrowIfArgumentIsNull(action, nameof(action));
+
             return () => action(subject);
         }
 
@@ -42,9 +52,14 @@ namespace FluentAssertions
         /// Invokes the specified action on a subject so that you can chain it
         /// with any of the assertions from <see cref="FunctionAssertions{T}"/>
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="subject"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
         [Pure]
         public static Func<TResult> Invoking<T, TResult>(this T subject, Func<T, TResult> action)
         {
+            Guard.ThrowIfArgumentIsNull(subject, nameof(subject));
+            Guard.ThrowIfArgumentIsNull(action, nameof(action));
+
             return () => action(subject);
         }
 
@@ -96,9 +111,14 @@ namespace FluentAssertions
         /// <returns>
         /// Returns an object for asserting that the execution time matches certain conditions.
         /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="subject"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
         [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
         public static MemberExecutionTime<T> ExecutionTimeOf<T>(this T subject, Expression<Action<T>> action)
         {
+            Guard.ThrowIfArgumentIsNull(subject, nameof(subject));
+            Guard.ThrowIfArgumentIsNull(action, nameof(action));
+
             return new MemberExecutionTime<T>(subject, action);
         }
 
@@ -109,6 +129,7 @@ namespace FluentAssertions
         /// <returns>
         /// Returns an object for asserting that the execution time matches certain conditions.
         /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
         [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
         public static ExecutionTime ExecutionTime(this Action action)
         {
@@ -122,18 +143,12 @@ namespace FluentAssertions
         /// <returns>
         /// Returns an object for asserting that the execution time matches certain conditions.
         /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
         [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
         public static ExecutionTime ExecutionTime(this Func<Task> action)
         {
             return new ExecutionTime(action);
         }
-
-        /// <summary>
-        /// Returns an <see cref="EnumAssertions"/> object that can be used to assert the
-        /// current <see cref="Enum"/>.
-        /// </summary>
-        public static EnumAssertions Should(this Enum @enum)
-            => new EnumAssertions(@enum);
 
         /// <summary>
         /// Returns an <see cref="ExecutionTimeAssertions"/> object that can be used to assert the
@@ -183,6 +198,26 @@ namespace FluentAssertions
         public static XAttributeAssertions Should(this XAttribute actualValue)
         {
             return new XAttributeAssertions(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="StreamAssertions"/> object that can be used to assert the
+        /// current <see cref="Stream"/>.
+        /// </summary>
+        [Pure]
+        public static StreamAssertions Should(this Stream actualValue)
+        {
+            return new StreamAssertions(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="BufferedStreamAssertions"/> object that can be used to assert the
+        /// current <see cref="BufferedStream"/>.
+        /// </summary>
+        [Pure]
+        public static BufferedStreamAssertions Should(this BufferedStream actualValue)
+        {
+            return new BufferedStreamAssertions(actualValue);
         }
 
         /// <summary>
@@ -283,16 +318,6 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns an <see cref="NonGenericCollectionAssertions"/> object that can be used to assert the
-        /// current <see cref="IEnumerable"/>.
-        /// </summary>
-        [Pure]
-        public static NonGenericCollectionAssertions Should(this IEnumerable actualValue)
-        {
-            return new NonGenericCollectionAssertions(actualValue);
-        }
-
-        /// <summary>
         /// Returns an <see cref="GenericCollectionAssertions{T}"/> object that can be used to assert the
         /// current <see cref="IEnumerable{T}"/>.
         /// </summary>
@@ -341,6 +366,16 @@ namespace FluentAssertions
             where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
         {
             return new GenericDictionaryAssertions<TCollection, TKey, TValue>(actualValue);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="DataColumnAssertions"/> object that can be used to assert the
+        /// current <see cref="DataColumn"/>.
+        /// </summary>
+        [Pure]
+        public static DataColumnAssertions Should(this DataColumn actualValue)
+        {
+            return new DataColumnAssertions(actualValue);
         }
 
         /// <summary>
@@ -655,11 +690,14 @@ namespace FluentAssertions
 
         /// <summary>
         /// Returns a <see cref="TypeAssertions"/> object that can be used to assert the
-        /// current <see cref="System.Type"/>.
+        /// current <see cref="Type"/>.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="typeSelector"/> is <c>null</c>.</exception>
         [Pure]
         public static TypeSelectorAssertions Should(this TypeSelector typeSelector)
         {
+            Guard.ThrowIfArgumentIsNull(typeSelector, nameof(typeSelector));
+
             return new TypeSelectorAssertions(typeSelector.ToArray());
         }
 
@@ -689,9 +727,12 @@ namespace FluentAssertions
         /// current <see cref="MethodInfoSelector"/>.
         /// </summary>
         /// <seealso cref="TypeAssertions"/>
+        /// <exception cref="ArgumentNullException"><paramref name="methodSelector"/> is <c>null</c>.</exception>
         [Pure]
         public static MethodInfoSelectorAssertions Should(this MethodInfoSelector methodSelector)
         {
+            Guard.ThrowIfArgumentIsNull(methodSelector, nameof(methodSelector));
+
             return new MethodInfoSelectorAssertions(methodSelector.ToArray());
         }
 
@@ -711,9 +752,12 @@ namespace FluentAssertions
         /// current <see cref="PropertyInfoSelector"/>.
         /// </summary>
         /// <seealso cref="TypeAssertions"/>
+        /// <exception cref="ArgumentNullException"><paramref name="propertyInfoSelector"/> is <c>null</c>.</exception>
         [Pure]
         public static PropertyInfoSelectorAssertions Should(this PropertyInfoSelector propertyInfoSelector)
         {
+            Guard.ThrowIfArgumentIsNull(propertyInfoSelector, nameof(propertyInfoSelector));
+
             return new PropertyInfoSelectorAssertions(propertyInfoSelector.ToArray());
         }
 
@@ -797,79 +841,5 @@ namespace FluentAssertions
         {
             return subject is TTo to ? to : default;
         }
-
-#pragma warning disable AV1755 // "Name of async method ... should end with Async"; Async suffix is too noisy in fluent API
-
-        /// <summary>
-        /// Asserts that the thrown exception has a message that matches <paramref name="expectedWildcardPattern" />.
-        /// </summary>
-        /// <param name="task">The <see cref="ExceptionAssertions{TException}"/> containing the thrown exception.</param>
-        /// <param name="expectedWildcardPattern">
-        /// The wildcard pattern with which the exception message is matched, where * and ? have special meanings.
-        /// </param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
-        /// </param>
-        public static async Task<ExceptionAssertions<TException>> WithMessage<TException>(
-            this Task<ExceptionAssertions<TException>> task,
-            string expectedWildcardPattern,
-            string because = "",
-            params object[] becauseArgs)
-            where TException : Exception
-        {
-            return (await task).WithMessage(expectedWildcardPattern, because, becauseArgs);
-        }
-
-        /// <summary>
-        /// Asserts that the exception matches a particular condition.
-        /// </summary>
-        /// <param name="task">The <see cref="ExceptionAssertions{TException}"/> containing the thrown exception.</param>
-        /// <param name="exceptionExpression">
-        /// The condition that the exception must match.
-        /// </param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
-        /// </param>
-        public static async Task<ExceptionAssertions<TException>> Where<TException>(
-            this Task<ExceptionAssertions<TException>> task,
-            Expression<Func<TException, bool>> exceptionExpression,
-            string because = "", params object[] becauseArgs)
-            where TException : Exception
-        {
-            return (await task).Where(exceptionExpression, because, becauseArgs);
-        }
-
-        /// <summary>
-        /// Asserts that the thrown exception contains an inner exception of type <typeparamref name="TInnerException" />.
-        /// </summary>
-        /// <typeparam name="TException">The expected type of the exception.</typeparam>
-        /// <typeparam name="TInnerException">The expected type of the inner exception.</typeparam>
-        /// <param name="task">The <see cref="ExceptionAssertions{TException}"/> containing the thrown exception.</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public static async Task<ExceptionAssertions<TInnerException>> WithInnerException<TException, TInnerException>(
-            this Task<ExceptionAssertions<TException>> task,
-            string because = "",
-            params object[] becauseArgs)
-            where TException : Exception
-            where TInnerException : Exception
-        {
-            return (await task).WithInnerException<TInnerException>(because, becauseArgs);
-        }
-
-#pragma warning restore AV1755
     }
 }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,19 +11,9 @@ namespace FluentAssertions.Common
             return (source as ICollection<T>) ?? source.ToList();
         }
 
-        public static ICollection<T> ConvertOrCastToCollection<T>(this IEnumerable source)
-        {
-            return (source as ICollection<T>) ?? source.Cast<T>().ToList();
-        }
-
         public static IList<T> ConvertOrCastToList<T>(this IEnumerable<T> source)
         {
             return (source as IList<T>) ?? source.ToList();
-        }
-
-        public static IList<T> ConvertOrCastToList<T>(this IEnumerable source)
-        {
-            return (source as IList<T>) ?? source.Cast<T>().ToList();
         }
 
         /// <summary>
@@ -51,7 +40,7 @@ namespace FluentAssertions.Common
                     return -1;
                 }
 
-                if (isFirstCompleted ^ isSecondCompleted)
+                if (isFirstCompleted != isSecondCompleted)
                 {
                     return index;
                 }

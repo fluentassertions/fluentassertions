@@ -3,7 +3,7 @@ using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Primitives
 {
     public class ReferenceTypeAssertionsSpecs
     {
@@ -342,9 +342,9 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject to be*FluentAssertions.Specs.SomeDto*{*Age = 2*Birthdate = <2009-02-22>*" +
-                    "   Name = \"Teddie\"*}, but found*FluentAssertions.Specs.SomeDto*{*Age = 37*" +
-                        "   Birthdate = <1973-09-20>*Name = \"Dennis\"*}.");
+                "Expected subject to be*FluentAssertions*SomeDto*{*Age = 2*Birthdate = <2009-02-22>*" +
+                    "  Name = \"Teddie\"*}, but found*FluentAssertions*SomeDto*{*Age = 37*" +
+                        "  Birthdate = <1973-09-20>*Name = \"Dennis\"*}.");
         }
 
         [Fact]
@@ -373,9 +373,9 @@ namespace FluentAssertions.Specs
             Action act = () => subject.Should().Be(other);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(string.Format(
-                "Expected subject to be System.Object (HashCode={0}), but found System.Object (HashCode={1}).",
-                other.GetHashCode(), subject.GetHashCode()));
+            act.Should().Throw<XunitException>()
+                .WithMessage($"Expected subject to be System.Object (HashCode={other.GetHashCode()}), " +
+                             $"but found System.Object (HashCode={subject.GetHashCode()}).");
         }
 
         #endregion
@@ -451,7 +451,7 @@ namespace FluentAssertions.Specs
 
         public override string ToString()
         {
-            return string.Format("ClassWithCustomEqualMethod({0})", Key);
+            return $"ClassWithCustomEqualMethod({Key})";
         }
     }
 }

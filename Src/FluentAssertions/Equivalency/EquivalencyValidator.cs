@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
@@ -11,117 +8,68 @@ namespace FluentAssertions.Equivalency
     /// </summary>
     public class EquivalencyValidator : IEquivalencyValidator
     {
-        #region Private Definitions
-
         private const int MaxDepth = 10;
 
-        private readonly IEquivalencyAssertionOptions config;
-
-        private readonly Dictionary<Type, bool> isComplexTypeMap = new Dictionary<Type, bool>();
-
-        #endregion
-
-        public EquivalencyValidator(IEquivalencyAssertionOptions config)
-        {
-            this.config = config;
-        }
-
-        public void AssertEquality(EquivalencyValidationContext context)
+        public void AssertEquality(Comparands comparands, EquivalencyValidationContext context)
         {
             using var scope = new AssertionScope();
-            scope.AddReportable("configuration", config.ToString());
-
+            scope.AddReportable("configuration", context.Options.ToString());
             scope.BecauseOf(context.Reason);
 
-            AssertEqualityUsing(context);
+            RecursivelyAssertEquality(comparands, context);
 
-            if (context.TraceWriter != null)
+            if (context.TraceWriter is not null)
             {
                 scope.AddReportable("trace", context.TraceWriter.ToString());
             }
         }
 
-        public void AssertEqualityUsing(IEquivalencyValidationContext context)
+        public void RecursivelyAssertEquality(Comparands comparands, IEquivalencyValidationContext context)
         {
-            if (ShouldCompareMembersThisDeep(context.CurrentNode.PathAndName))
-            {
-                UpdateScopeWithReportableContext(context);
+            var scope = AssertionScope.Current;
 
-                if (!IsCyclicReference(context))
+            if (ShouldCompareMembersThisDeep(context.CurrentNode, context.Options, scope))
+            {
+                UpdateScopeWithReportableContext(scope, comparands, context.CurrentNode);
+
+                if (!context.IsCyclicReference(comparands.Expectation))
                 {
-                    RunStepsUntilEquivalencyIsProven(context);
+                    RunStepsUntilEquivalencyIsProven(comparands, context);
                 }
             }
         }
 
-        private bool ShouldCompareMembersThisDeep(string selectedMemberPath)
+        private static bool ShouldCompareMembersThisDeep(INode currentNode, IEquivalencyAssertionOptions options,
+            AssertionScope assertionScope)
         {
-            const char memberSeparator = '.';
-            var depth = selectedMemberPath.Count(chr => chr == memberSeparator);
-            bool shouldRecurse = config.AllowInfiniteRecursion || depth < MaxDepth;
-
+            bool shouldRecurse = options.AllowInfiniteRecursion || currentNode.Depth < MaxDepth;
             if (!shouldRecurse)
             {
-                AssertionScope.Current.FailWith("The maximum recursion depth was reached.  ");
+                assertionScope.FailWith("The maximum recursion depth was reached.  ");
             }
 
             return shouldRecurse;
         }
 
-        private static void UpdateScopeWithReportableContext(IEquivalencyValidationContext context)
+        private static void UpdateScopeWithReportableContext(AssertionScope scope, Comparands comparands, INode currentNode)
         {
-            if (context.CurrentNode.Description.Length > 0)
-            {
-                AssertionScope.Current.Context = context.CurrentNode.Description;
-            }
+            scope.Context = new Lazy<string>(() => currentNode.Description);
 
-            AssertionScope.Current.TrackComparands(context.Subject, context.Expectation);
+            scope.TrackComparands(comparands.Subject, comparands.Expectation);
         }
 
-        private bool IsCyclicReference(IEquivalencyValidationContext context)
+        private void RunStepsUntilEquivalencyIsProven(Comparands comparands, IEquivalencyValidationContext context)
         {
-            CyclicReferenceDetector objectTracker = AssertionScope.Current.Get<CyclicReferenceDetector>("cyclic_reference_detector");
-            if (objectTracker is null)
+            foreach (IEquivalencyStep step in AssertionOptions.EquivalencyPlan)
             {
-                objectTracker = new CyclicReferenceDetector(config.CyclicReferenceHandling);
-                AssertionScope.Current.AddNonReportable("cyclic_reference_detector", objectTracker);
-            }
-
-            bool isComplexType = IsComplexType(context.Expectation);
-
-            var reference = new ObjectReference(context.Expectation, context.CurrentNode.PathAndName, isComplexType);
-            return objectTracker.IsCyclicReference(reference, context.Reason);
-        }
-
-        private bool IsComplexType(object expectation)
-        {
-            if (expectation is null)
-            {
-                return false;
-            }
-
-            Type type = expectation.GetType();
-
-            if (!isComplexTypeMap.TryGetValue(type, out bool isComplexType))
-            {
-                isComplexType = !type.OverridesEquals();
-                isComplexTypeMap[type] = isComplexType;
-            }
-
-            return isComplexType;
-        }
-
-        private void RunStepsUntilEquivalencyIsProven(IEquivalencyValidationContext context)
-        {
-            foreach (IEquivalencyStep step in AssertionOptions.EquivalencySteps)
-            {
-                if (step.CanHandle(context, config) && step.Handle(context, this, config))
+                if (step.Handle(comparands, context, this) == EquivalencyResult.AssertionCompleted)
                 {
                     return;
                 }
             }
 
-            throw new NotImplementedException($"No {nameof(IEquivalencyStep)} was found to handle the context. ");
+            throw new NotImplementedException(
+                $"Do not know how to compare {comparands.Subject} and {comparands.Expectation}. Please report an issue through https://www.fluentassertions.com.");
         }
     }
 }

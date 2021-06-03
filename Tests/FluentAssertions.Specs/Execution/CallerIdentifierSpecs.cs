@@ -4,7 +4,7 @@ using FluentAssertions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Execution
 {
     public class CallerIdentifierSpecs
     {
@@ -12,7 +12,7 @@ namespace FluentAssertions.Specs
         public void When_namespace_is_exactly_System_caller_should_be_unknown()
         {
             // Act
-            Action act = () => System.SystemNamespaceClass.DetermineCallerIdentityInNamespace();
+            Action act = () => SystemNamespaceClass.DetermineCallerIdentityInNamespace();
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("Expected function to be*");
@@ -67,22 +67,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_variable_is_not_captured_it_should_use_the_variable_name()
-        {
-            // Arrange & Act
-            Action act = () =>
-            {
-                string foo = "bar";
-                foo.Should().BeNull();
-            };
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo to be <null>*");
-        }
-
-        [Fact]
-        public void When_field_is_the_caller_it_should_use_the_field_name()
+        public void When_field_is_the_subject_it_should_use_the_field_name()
         {
             // Arrange & Act
             Action act = () =>
@@ -97,7 +82,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_property_is_the_caller_it_should_use_the_property_name()
+        public void When_property_is_the_subject_it_should_use_the_property_name()
         {
             // Arrange
             var foo = new Foo();
@@ -111,31 +96,31 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_method_name_contains_get_it_should_not_remove_the_prefix()
+        public void When_method_name_is_the_subject_it_should_use_the_method_name()
         {
             // Arrange
             var foo = new Foo();
 
             // Act
-            Action act = () => foo.get_BarMethod().Should().BeNull();
+            Action act = () => foo.BarMethod().Should().BeNull();
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo.get_BarMethod() to be <null>*");
+                .WithMessage("*Expected foo.BarMethod() to be <null>*");
         }
 
         [Fact]
-        public void When_method_contains_parameters_it_should_add_them_to_caller()
+        public void When_method_contains_arguments_it_should_add_them_to_caller()
         {
             // Arrange
             var foo = new Foo();
 
             // Act
-            Action act = () => foo.get_BarMethod("test").Should().BeNull();
+            Action act = () => foo.BarMethod("test").Should().BeNull();
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo.get_BarMethod(\"test\") to be <null>*");
+                .WithMessage("*Expected foo.BarMethod(\"test\") to be <null>*");
         }
 
         [Fact]
@@ -157,31 +142,31 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_parameters_contain_Should_it_should_include_that_to_the_caller()
+        public void When_arguments_contain_Should_it_should_include_that_to_the_caller()
         {
             // Arrange
             var foo = new Foo();
 
             // Act
-            Action act = () => foo.get_BarMethod(".Should()").Should().BeNull();
+            Action act = () => foo.BarMethod(".Should()").Should().BeNull();
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo.get_BarMethod(\".Should()\") to be <null>*");
+                .WithMessage("*Expected foo.BarMethod(\".Should()\") to be <null>*");
         }
 
         [Fact]
-        public void When_parameters_contain_semicolon_it_should_include_that_to_the_caller()
+        public void When_arguments_contain_semicolon_it_should_include_that_to_the_caller()
         {
             // Arrange
             var foo = new Foo();
 
             // Act
-            Action act = () => foo.get_BarMethod("test;").Should().BeNull();
+            Action act = () => foo.BarMethod("test;").Should().BeNull();
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo.get_BarMethod(\"test;\") to be <null>*");
+                .WithMessage("*Expected foo.BarMethod(\"test;\") to be <null>*");
         }
 
         [Fact]
@@ -204,59 +189,59 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_parameters_contain_escaped_quote_it_should_include_that_to_the_caller()
+        public void When_arguments_contain_escaped_quote_it_should_include_that_to_the_caller()
         {
             // Arrange
             var foo = new Foo();
 
             // Act
-            Action act = () => foo.get_BarMethod("test\";").Should().BeNull();
+            Action act = () => foo.BarMethod("test\";").Should().BeNull();
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo.get_BarMethod(\"test\\\";\") to be <null>*");
+                .WithMessage("*Expected foo.BarMethod(\"test\\\";\") to be <null>*");
         }
 
         [Fact]
-        public void When_parameters_contain_at_escaped_quote_it_should_include_that_to_the_caller()
+        public void When_arguments_contain_verbatim_string_it_should_include_that_to_the_caller()
         {
             // Arrange
             var foo = new Foo();
 
             // Act
-            Action act = () => foo.get_BarMethod(@"test"";").Should().BeNull();
+            Action act = () => foo.BarMethod(@"test"";").Should().BeNull();
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo.get_BarMethod(@\"test\"\";\") to be <null>*");
+                .WithMessage("*Expected foo.BarMethod(@\"test\"\";\") to be <null>*");
         }
 
         [Fact]
-        public void When_parameters_contain_at_and_dollar_escaped_quote_it_should_include_that_to_the_caller()
+        public void When_arguments_contain_verbatim_string_interpolation_it_should_include_that_to_the_caller()
         {
             // Arrange
             var foo = new Foo();
 
             // Act
-            Action act = () => foo.get_BarMethod(@$"test"";").Should().BeNull();
+            Action act = () => foo.BarMethod(@$"test"";").Should().BeNull();
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo.get_BarMethod(@$\"test\"\";\") to be <null>*");
+                .WithMessage("*Expected foo.BarMethod(@$\"test\"\";\") to be <null>*");
         }
 
         [Fact]
-        public void When_parameters_contain_comments_it_should_include_them_to_the_caller()
+        public void When_arguments_contain_string_with_comment_like_contents_inside_it_should_include_them_to_the_caller()
         {
             // Arrange
             var foo = new Foo();
 
             // Act
-            Action act = () => foo.get_BarMethod("test//test2/*test3*/").Should().BeNull();
+            Action act = () => foo.BarMethod("test//test2/*test3*/").Should().BeNull();
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo.get_BarMethod(\"test//test2/*test3*/\") to be <null>*");
+                .WithMessage("*Expected foo.BarMethod(\"test//test2/*test3*/\") to be <null>*");
         }
 
         [Fact]
@@ -330,11 +315,11 @@ namespace FluentAssertions.Specs
 
         public string Bar { get; } = "bar";
 
-        public string get_BarMethod() => Bar;
+        public string BarMethod() => Bar;
 
-        public string get_BarMethod(string prm) => Bar;
+        public string BarMethod(string argument) => Bar;
 
-        public Foo GetFoo(string prm) => this;
+        public Foo GetFoo(string argument) => this;
     }
 
     [SuppressMessage("Parameter is never used", "CA1801")]

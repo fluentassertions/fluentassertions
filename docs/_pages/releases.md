@@ -7,7 +7,64 @@ sidebar:
   nav: "sidebar"
 ---
 
-## 6.0.0
+## 6.0.0 Beta 1
+Changes since 6.0.0 Alpha 2
+
+**What's New**
+* Added `WithParameterName` extension to ease asserting on the parameter name for a thrown `ArgumentException` - [#1466](https://github.com/fluentassertions/fluentassertions/pull/1466).
+* Added `NotCompleteWithinAsync` to `TaskCompletionSourceAssertions` - [#1474](https://github.com/fluentassertions/fluentassertions/pull/1474).
+* Added `HaveValue(decimal)`, `HaveSameValueAs` and `HaveSameNameAs` to `EnumAssertions` - [#1479](https://github.com/fluentassertions/fluentassertions/pull/1479).
+* Added `WithResult` extension method to `CompleteWithinAsync` assertions for `Task<T>` and `TaskCompletionSource<T>` - [#1478](https://github.com/fluentassertions/fluentassertions/pull/1478).
+* Added `Satisfy` to be able to compare a collection with a set of predicates in any order - [#1500](https://github.com/fluentassertions/fluentassertions/pull/1500).
+* Added milliseconds formatting for error messages including `TimeSpan` - [#1504](https://github.com/fluentassertions/fluentassertions/pull/1504).
+* Added `AddReportable` overload to `AssertionScope` for deferring reportable value calculation only on a test failure - [#1515](https://github.com/fluentassertions/fluentassertions/pull/1515).
+* Added the possibility to set the maximum depth and other formatting settings either globally or per `AssertionScope` - [#1469](https://github.com/fluentassertions/fluentassertions/pull/1469).
+* Added `BeInAscendingOrder` and `BeInDescendingOrder` for collections taking a lambda expression - [#1526](https://github.com/fluentassertions/fluentassertions/pull/1526)
+* Added `[Not]BeWritable`, `[Not]BeSeekable`, `[Not]BeReadable`, `[Not]BeReadOnly`, `[Not]BeWriteOnly`, `[Not]HaveLength` , `[Not]HavePosition` for Stream and `[Not]HaveBufferSize` for BufferedStream - [#1543](https://github.com/fluentassertions/fluentassertions/pull/1543)
+* Added native support for `XDocument`, `XElement` and `XAttribute` properties and fields to `BeEquivalentTo` - [#1572](https://github.com/fluentassertions/fluentassertions/pull/1572) 
+* The equivalency failure message will include information on how tuples, anonymous types, records and other types are compared - [#1571](https://github.com/fluentassertions/fluentassertions/pull/1571)
+* Improved formatting a dictionary when key or value is a complex type - [#1577](https://github.com/fluentassertions/fluentassertions/pull/1577).
+
+**Fixes**
+* Sometimes `BeEquivalentTo` reported an incorrect message when a dictionary was missing a key - [#1454](https://github.com/fluentassertions/fluentassertions/pull/1454)
+* Some dictionary failures did not honor the user-provided reason - [#1456](https://github.com/fluentassertions/fluentassertions/pull/1456)
+* Restrict what types `WhenTypeIs<T>` can use and how `Using<T>` handles non-nullable types, see the [Migration Guide](/upgradingtov6#using) for more details - [#1494](https://github.com/fluentassertions/fluentassertions/pull/1494).
+* `HaveElement` did not ignore the xml namespace - [#1541](https://github.com/fluentassertions/fluentassertions/pull/1541)
+* Better parameter checking of `TypeAssertions` - [#1550](https://github.com/fluentassertions/fluentassertions/pull/1550)
+* `[Not]HaveExplicitMethod` did not mention the parameters in the failure message - [#1550](https://github.com/fluentassertions/fluentassertions/pull/1550)
+* Better parameter checking of `PropertyInfoAssertions` - [#1558](https://github.com/fluentassertions/fluentassertions/pull/1558)
+* Better parameter checking of `MethodBaseAssertions` and `MethodInfoAssertions` - [#1559](https://github.com/fluentassertions/fluentassertions/pull/1559)
+* Better parameter checking of `AssemblyAssertions` - [#1561](https://github.com/fluentassertions/fluentassertions/pull/1561)
+* Better parameter checking of `PropertyInfoSelectorAssertions` - [#1565](https://github.com/fluentassertions/fluentassertions/pull/1565)
+* Better parameter checking of `MethodInfoSelectorAssertions` - [#1569](https://github.com/fluentassertions/fluentassertions/pull/1569)
+* Better parameter checking of `XDocumentAssertions`, `XElementAssertions` and `XAttributeAssertions` - [#1564](https://github.com/fluentassertions/fluentassertions/pull/1564)
+* In a chained assertion API call, a second call to `ForCondition` should not even evaluate its lambda when the previous assertion failed - [#1587](https://github.com/fluentassertions/fluentassertions/pull/1587)
+* Improved caller name determination by supporting multiple lines, comments and semicolons - [#1435](https://github.com/fluentassertions/fluentassertions/pull/1435).
+
+**Breaking Changes**
+* Renamed `WhichValue` to `WhoseValue` - [#1581](https://github.com/fluentassertions/fluentassertions/pull/1581)
+* By default, records are now compared by their members. Can be overridden using `ComparingRecordsByValue` - [#1571](https://github.com/fluentassertions/fluentassertions/pull/1571)
+* Changed `becauseArgs` of `[Not]Reference(Assembly)` from `string[]` to `object[]` - [#1459](https://github.com/fluentassertions/fluentassertions/pull/1459)
+* Major overhaul on how enums are handled, see the [Migration Guide](/upgradingtov6#enums) for more details - [#1479](https://github.com/fluentassertions/fluentassertions/pull/1479).
+* Removed support for non-generic collections, see the [Migration Guide](/upgradingtov6#collections) for more details - [#1529](https://github.com/fluentassertions/fluentassertions/pull/1529).
+* Removed `[Not]Contain(IEnumerable<T>, params T[])` - [#1529](https://github.com/fluentassertions/fluentassertions/pull/1529).
+* Removed `BeEquivalentTo(params object[])` - [#1529](https://github.com/fluentassertions/fluentassertions/pull/1529).
+* Renamed `EquivalencyStepCollection` to `EquivalencyPlan` and `AssertionOptions.EquivalencyCollection` to `EquivalencyPlan` - [#1539](https://github.com/fluentassertions/fluentassertions/pull/1539).
+* `BeEquivalentTo` will no longer include `internal` properties and fields, unless `IncludingInternalProperties` or `IncludingInternalFields` is used - [#1575](https://github.com/fluentassertions/fluentassertions/pull/1575).
+
+**Breaking Changes (Extensibility)**
+* Pascal cased `CallerIdentifier.logger` - [#1458](https://github.com/fluentassertions/fluentassertions/pull/1458).
+* Pascal cased `SelfReferenceEquivalencyAssertionOptions.orderingRules` - [#1458](https://github.com/fluentassertions/fluentassertions/pull/1458).
+* Moved extension methods on `ExceptionAssertions` from `AssertionExtensions` to `ExceptionAssertionsExtensions` - [#1471](https://github.com/fluentassertions/fluentassertions/pull/1471).
+* Moved `Including(Expression<Func<IMemberInfo, bool>> predicate)` from `EquivalencyAssertionOptions<T>` to `SelfReferenceEquivalencyAssertionOptions<T>` - [#1495](https://github.com/fluentassertions/fluentassertions/pull/1495).
+* `Formatter.ToString()` and `IValueFormatter` now work with a `FormattingOptions` object that wraps the `UseLineBreaks` option - [#1469](https://github.com/fluentassertions/fluentassertions/pull/1469).
+* Split-up the subject and expectation from `IEquivalencyValidationContext` into a new type `Comparands`. This affected `IEquivalencyStep` - [#1539](https://github.com/fluentassertions/fluentassertions/pull/1539).
+* Moved the responsibility of `IEquivalencyStep.CanHandle` into `Handle` and replaced `Handle`'s return value with a more clearer `EquivalencyResult` - [#1539](https://github.com/fluentassertions/fluentassertions/pull/1539)
+* Simplified `MemberSelectionContext` which is used by `IMemberSelectionRule` to remove the need for extensions to understand the difference between run-time and compile-time types - [#1539](https://github.com/fluentassertions/fluentassertions/pull/1539).
+* The implementations of `IEquivalencyStep` have moved to the `FluentAssertions.Equivalency.Steps` namespace - [#1588](https://github.com/fluentassertions/fluentassertions/pull/1588).
+
+## 6.0.0 Alpha 2
+Changes since 6.0.0 Alpha 1
 
 **What's New**
 * Added async version of `Where` extension method to `ExceptionAssertions` to be able to check asynchronously thrown exception - [#1352](https://github.com/fluentassertions/fluentassertions/pull/1352).
@@ -20,13 +77,15 @@ sidebar:
 * Changed AttributeBasedFormatter to allow custom formatter selection based on the parent type - [#1418](https://github.com/fluentassertions/fluentassertions/pull/1418).
 * Added nullable overload for `Be` and `NotBe` methods of `DateTimeAssertions` and `DateTimeOffsetAssertions` - [#1427](https://github.com/fluentassertions/fluentassertions/issues/1427).
 * Added overload of `Enumerating` extension method to be able to force the enumeration of an object member -[#1433](https://github.com/fluentassertions/fluentassertions/pull/1433)
+* Add overloads of `MatchRegex` and `NotMatchRegex` that take `System.Text.RegularExpressions.Regex` -[#1436](https://github.com/fluentassertions/fluentassertions/pull/1436)
+* Added support for equivalency tests on System.Data types (`DataSet`, `DataTable`, `DataColumn`, `DataRow`, `DataRelation`, `Constraint`) - [#1419](https://github.com/fluentassertions/fluentassertions/pull/1419).
 
 **Fixes**
 * Guard against negative precision arguments for `BeCloseTo` and `BeApproximately` - [#1386](https://github.com/fluentassertions/fluentassertions/pull/1386)
 * Guard against implicitly or explicitly trying to compare primitive types by members - [#1394](https://github.com/fluentassertions/fluentassertions/pull/1394).
 * Fixed formatting of brackets in expressions passed to ContainSingle(...) - [#1406](https://github.com/fluentassertions/fluentassertions/pull/1406).
 * Fixed `Contain`, `NotContain` and `OnlyContain` to avoid multiple enumerations when the condition is false - [#1421](https://github.com/fluentassertions/fluentassertions/pull/1421).
-* Improved caller name determination by supporting multiple lines, comments and semicolons - [#1435](https://github.com/fluentassertions/fluentassertions/pull/1435).
+* Added variable name and other useful and consistent information to XML assertions - [#1440](https://github.com/fluentassertions/fluentassertions/pull/1440).
 
 **Breaking Changes**
 * Moved `[Not]HaveFlag` from `ObjectAssertions` to `EnumAssertions` - [#1375](https://github.com/fluentassertions/fluentassertions/pull/1375).
@@ -111,18 +170,18 @@ sidebar:
 * Changed return type of `[Nullable]NumericAssertions.Subject` from `IComparable` to `T?` and `T`, respectively - [#1266](https://github.com/fluentassertions/fluentassertions/pull/1266).
 * Removed `Succeeded` and `SourceSucceeded` from `Continuation` and `IAssertionScope` - [#1325](https://github.com/fluentassertions/fluentassertions/pull/1325)
 
-## 5.10.3
+## [5.10.3](https://www.nuget.org/packages/FluentAssertions/5.10.3)
 **Fixes**
 * Fixed XPath index calculation in XML comparison when child node names are repeated in repeated parent nodes - [#1273](https://github.com/fluentassertions/fluentassertions/pull/1273)
 
-## 5.10.2
+## [5.10.2](https://www.nuget.org/packages/FluentAssertions/5.10.2)
 **Fixes**
 * Added missing dependency on System.Xml - [#79](https://github.com/fluentassertions/fluentassertions/issues/79)
 
 ## 5.10.1
 This version was skipped.
 
-## 5.10.0
+## [5.10.0](https://www.nuget.org/packages/FluentAssertions/5.10.0)
 
 **What's New**
 * Added `string.Should().NotBeEquivalentTo` - [#1134](https://github.com/fluentassertions/fluentassertions/pull/1134)
@@ -156,7 +215,7 @@ Thanks to contributors [Ronald Kroon](https://github.com/ronaldkroon), [Daniel P
 
 And special thanks to [Matthias Koch](https://github.com/matkoch) to switch us over to the awesome [Nuke build system](https://nuke.build/).
 
-## 5.9.0
+## [5.9.0](https://www.nuget.org/packages/FluentAssertions/5.9.0)
 
 **What's New**
 * Added `Match` method to (nullable) numeric assertions - [#1112](https://github.com/fluentassertions/fluentassertions/pull/1112)
@@ -167,7 +226,7 @@ And special thanks to [Matthias Koch](https://github.com/matkoch) to switch us o
 
 Special thanks to contributors [@liklainy](https://github.com/Liklainy) and [Amaury Levé](https://github.com/Evangelink).
 
-## 5.8.0
+## [5.8.0](https://www.nuget.org/packages/FluentAssertions/5.8.0)
 
 **What's New**
 * Added thread-safety to tests using `AssertionScope` while running many `async` tests concurrently - [#1091](https://github.com/fluentassertions/fluentassertions/pull/1091)
@@ -182,7 +241,7 @@ Special thanks to contributors [@liklainy](https://github.com/Liklainy) and [Ama
 
 Kudos to [conklinb](https://github.com/conklinb) and [Amaury Levé](https://github.com/Evangelink) for notable contributions and my partner-in-crime [Jonas Nyrup](https://github.com/jnyrup) for some of the fixes, a lot of (internal) quality improvements and his critical eye.
 
-## 5.7.0
+## [5.7.0](https://www.nuget.org/packages/FluentAssertions/5.7.0)
 
 **What's New**
 * Added official support for .NET Core 3 (Preview 5 or later) - [#1057](https://github.com/fluentassertions/fluentassertions/pull/1057)
@@ -210,7 +269,7 @@ Kudos to [conklinb](https://github.com/conklinb) and [Amaury Levé](https://gith
 
 Kudos to [Lukas Grützmacher](https://github.com/lg2de), [Matthias Lischka](https://github.com/matthiaslischka), [Christoffer Lette](https://github.com/Lette), [Ed Ball](https://github.com/ejball), [David Omid](https://github.com/davidomid), [mu88](https://github.com/mu88), [Dmitriy Maksimov](https://github.com/DmitriyMaksimov) and [Ivan Shimko](https://github.com/vanashimko) for the contributions and [Jonas Nyrup](https://github.com/jnyrup) to make this release possible again.
 
-## 5.6.0
+## [5.6.0](https://www.nuget.org/packages/FluentAssertions/5.6.0)
 
 **Fixes**
 * Provide opt-out to `AssertionOptions(o => o.WithStrictOrdering())` -[#974](https://github.com/fluentassertions/fluentassertions/pull/974)
@@ -219,19 +278,19 @@ Kudos to [Lukas Grützmacher](https://github.com/lg2de), [Matthias Lischka](http
 
 Kudos to @BrunoJuchli, @matthiaslischka and @frederik-h for these amazing additions.
 
-## 5.5.3
+## [5.5.3](https://www.nuget.org/packages/FluentAssertions/5.5.3)
 
 **Fixes**
 * Performance fixes in `BeEquivalenTo` - [#935](https://github.com/fluentassertions/fluentassertions/pull/935)
 * Reverted 5.5.0 changes to `AssertionScope` to ensure binary compatibility - [#977](https://github.com/fluentassertions/fluentassertions/pull/977)
 
-## 5.5.2
+## [5.5.2](https://www.nuget.org/packages/FluentAssertions/5.5.2)
 
 **Fixes**
 * Allows `BeEquivalentTo` to handle a non-generic collection as the SUT - [#975](https://github.com/fluentassertions/fluentassertions/pull/975), [#973](https://github.com/fluentassertions/fluentassertions/issues/973)
 * Optimized performance of `IncludeMemberByPathSelectionRule` - [#969](https://github.com/fluentassertions/fluentassertions/pull/969)
 
-## 5.5.1
+## [5.5.1](https://www.nuget.org/packages/FluentAssertions/5.5.1)
 
 **What's New**
 * Now provides a hint when strings differ in length and contain differences - [#915](https://github.com/fluentassertions/fluentassertions/pull/915), [#907](https://github.com/fluentassertions/fluentassertions/issues/907)

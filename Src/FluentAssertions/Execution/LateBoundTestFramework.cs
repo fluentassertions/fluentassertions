@@ -13,9 +13,8 @@ namespace FluentAssertions.Execution
             Type exceptionType = assembly.GetType(ExceptionFullName);
             if (exceptionType is null)
             {
-                throw new Exception(string.Format(
-                    "Failed to create the assertion exception for the current test framework: \"{0}, {1}\"",
-                    ExceptionFullName, assembly.FullName));
+                throw new Exception(
+                    $"Failed to create the assertion exception for the current test framework: \"{ExceptionFullName}, {assembly.FullName}\"");
             }
 
             throw (Exception)Activator.CreateInstance(exceptionType, message);
@@ -31,7 +30,7 @@ namespace FluentAssertions.Execution
                     .GetAssemblies()
                     .FirstOrDefault(a => a.FullName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
 
-                return assembly != null;
+                return assembly is not null;
             }
         }
 

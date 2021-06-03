@@ -21,7 +21,7 @@ namespace FluentAssertions.Equivalency.Selection
 
         protected override void AddOrRemoveMembersFrom(List<IMember> selectedMembers, INode parent, string parentPath, MemberSelectionContext context)
         {
-            foreach (MemberInfo memberInfo in context.RuntimeType.GetNonPrivateMembers())
+            foreach (MemberInfo memberInfo in context.Type.GetNonPrivateMembers(MemberVisibility.Public | MemberVisibility.Internal))
             {
                 var memberPath = new MemberPath(memberInfo.DeclaringType, parentPath.Combine(memberInfo.Name));
                 if (memberToInclude.IsSameAs(memberPath) || memberToInclude.IsParentOrChildOf(memberPath))

@@ -4,7 +4,7 @@ using System.Linq;
 using FluentAssertions.Common;
 using Xunit;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Extensions
 {
     public class ObjectExtensionsSpecs
     {
@@ -12,7 +12,14 @@ namespace FluentAssertions.Specs
         [MemberData(nameof(GetNonEquivalentNumericData))]
         public void When_comparing_non_equivalent_boxed_numerics_it_should_fail(object actual, object expected)
         {
-            actual.IsSameOrEqualTo(expected).Should().BeFalse();
+            // Arrange
+            Func<object, object, bool> comparer = ObjectExtensions.GetComparer<object>();
+
+            // Act
+            bool success = comparer(actual, expected);
+
+            // Assert
+            success.Should().BeFalse();
         }
 
         public static IEnumerable<object[]> GetNonEquivalentNumericData()
@@ -39,7 +46,14 @@ namespace FluentAssertions.Specs
         [MemberData(nameof(GetNumericAndNumericData))]
         public void When_comparing_a_numeric_to_a_numeric_it_should_succeed(object actual, object expected)
         {
-            actual.IsSameOrEqualTo(expected).Should().BeTrue();
+            // Arrange
+            Func<object, object, bool> comparer = ObjectExtensions.GetComparer<object>();
+
+            // Act
+            bool success = comparer(actual, expected);
+
+            // Assert
+            success.Should().BeTrue();
         }
 
         public static IEnumerable<object[]> GetNumericAndNumericData()
@@ -53,11 +67,14 @@ namespace FluentAssertions.Specs
         [MemberData(nameof(GetNonNumericAndNumericData))]
         public void When_comparing_a_non_numeric_to_a_numeric_it_should_fail(object actual, object unexpected)
         {
+            // Arrange
+            Func<object, object, bool> comparer = ObjectExtensions.GetComparer<object>();
+
             // Act
-            bool isSameOrEquals = actual.IsSameOrEqualTo(unexpected);
+            bool success = comparer(actual, unexpected);
 
             // Assert
-            isSameOrEquals.Should().BeFalse();
+            success.Should().BeFalse();
         }
 
         public static IEnumerable<object[]> GetNonNumericAndNumericData()
@@ -71,11 +88,14 @@ namespace FluentAssertions.Specs
         [MemberData(nameof(GetNumericAndNonNumericData))]
         public void When_comparing_a_numeric_to_a_non_numeric_it_should_fail(object actual, object unexpected)
         {
+            // Arrange
+            Func<object, object, bool> comparer = ObjectExtensions.GetComparer<object>();
+
             // Act
-            bool isSameOrEquals = actual.IsSameOrEqualTo(unexpected);
+            bool success = comparer(actual, unexpected);
 
             // Assert
-            isSameOrEquals.Should().BeFalse();
+            success.Should().BeFalse();
         }
 
         public static IEnumerable<object[]> GetNumericAndNonNumericData()
@@ -89,11 +109,14 @@ namespace FluentAssertions.Specs
         [MemberData(nameof(GetNonNumericAndNonNumericData))]
         public void When_comparing_a_non_numeric_to_a_non_numeric_it_should_fail(object actual, object unexpected)
         {
+            // Arrange
+            Func<object, object, bool> comparer = ObjectExtensions.GetComparer<object>();
+
             // Act
-            bool isSameOrEquals = actual.IsSameOrEqualTo(unexpected);
+            bool success = comparer(actual, unexpected);
 
             // Assert
-            isSameOrEquals.Should().BeFalse();
+            success.Should().BeFalse();
         }
 
         public static IEnumerable<object[]> GetNonNumericAndNonNumericData()

@@ -33,9 +33,9 @@ namespace FluentAssertions.Xml
         public AndConstraint<XAttributeAssertions> Be(XAttribute expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.Name == expected.Name && Subject.Value == expected.Value)
+                .ForCondition(Subject?.Name == expected?.Name && Subject?.Value == expected?.Value)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML attribute to be {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context} to be {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<XAttributeAssertions>(this);
         }
@@ -55,9 +55,9 @@ namespace FluentAssertions.Xml
         public AndConstraint<XAttributeAssertions> NotBe(XAttribute unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!(Subject.Name == unexpected.Name && Subject.Value == unexpected.Value))
+                .ForCondition(!(Subject?.Name == unexpected?.Name && Subject?.Value == unexpected?.Value))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect XML attribute to be {0}{reason}.", unexpected);
+                .FailWith("Did not expect {context} to be {0}{reason}.", unexpected);
 
             return new AndConstraint<XAttributeAssertions>(this);
         }
@@ -75,11 +75,19 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XAttributeAssertions> HaveValue(string expected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject.Value == expected)
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML attribute '{0}' to have value {1}{reason}, but found {2}.",
-                    Subject.Name, expected, Subject.Value);
+                .ForCondition(Subject is not null)
+                .FailWith("Expected the attribute to have value {0}{reason}, but {context:member} is <null>.", expected);
+
+            if (success)
+            {
+                Execute.Assertion
+                    .ForCondition(Subject.Value == expected)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context} \"{0}\" to have value {1}{reason}, but found {2}.",
+                        Subject.Name, expected, Subject.Value);
+            }
 
             return new AndConstraint<XAttributeAssertions>(this);
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using FluentAssertions.Formatting;
 using Xunit;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Formatting
 {
     [Collection("FormatterSpecs")]
     public class MultidimensionalArrayFormatterSpecs

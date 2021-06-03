@@ -9,7 +9,7 @@ namespace FluentAssertions.Execution
     /// </summary>
     internal class ContextDataItems
     {
-        private readonly List<DataItem> items = new List<DataItem>();
+        private readonly List<DataItem> items = new();
 
         public IDictionary<string, object> GetReportable()
         {
@@ -19,7 +19,7 @@ namespace FluentAssertions.Execution
         public string AsStringOrDefault(string key)
         {
             DataItem item = items.SingleOrDefault(i => i.Key == key);
-            if (item != null)
+            if (item is not null)
             {
                 if (item.RequiresFormatting)
                 {
@@ -42,13 +42,16 @@ namespace FluentAssertions.Execution
 
         public void Add(DataItem item)
         {
-            DataItem existingItem = items.SingleOrDefault(i => i.Key == item.Key);
-            if (existingItem != null)
-            {
-                items.Remove(existingItem);
-            }
+            int existingItemIndex = items.FindIndex(i => i.Key == item.Key);
 
-            items.Add(item);
+            if (existingItemIndex >= 0)
+            {
+                items[existingItemIndex] = item;
+            }
+            else
+            {
+                items.Add(item);
+            }
         }
 
         public T Get<T>(string key)

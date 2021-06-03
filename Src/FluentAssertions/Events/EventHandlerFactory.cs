@@ -129,7 +129,7 @@ namespace FluentAssertions.Events
             }
 
             MethodInfo invoke = d.GetMethod("Invoke");
-            return invoke != null;
+            return invoke is not null;
         }
 
         /// <summary>

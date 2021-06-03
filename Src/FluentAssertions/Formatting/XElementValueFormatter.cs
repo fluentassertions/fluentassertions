@@ -19,14 +19,13 @@ namespace FluentAssertions.Formatting
             return value is XElement;
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
             var element = (XElement)value;
 
-            return element.HasElements
+            formattedGraph.AddFragment(element.HasElements
                 ? FormatElementWithChildren(element)
-                : FormatElementWithoutChildren(element);
+                : FormatElementWithoutChildren(element));
         }
 
         private static string FormatElementWithoutChildren(XElement element)

@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Equivalency
 {
     public class DictionaryEquivalencySpecs
     {
@@ -228,7 +228,7 @@ namespace FluentAssertions.Specs
 
             private int Parse(string key)
             {
-                return int.Parse(key);
+                return int.Parse(key, CultureInfo.InvariantCulture);
             }
         }
 
@@ -368,10 +368,11 @@ namespace FluentAssertions.Specs
             Dictionary<int, int> expectation = new Dictionary<int, int>();
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(expectation);
+            Action act = () => subject.Should().BeEquivalentTo(expectation, "because we do expect a valid dictionary");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*Dictionary*not to be*null*valid dictionary*");
         }
 
         [Fact]
@@ -526,14 +527,15 @@ namespace FluentAssertions.Specs
         public void When_an_object_implements_two_IDictionary_interfaces_it_should_fail_descriptively()
         {
             // Arrange
-            var object1 = new ClassWithTwoDictionaryImplementations();
-            var object2 = new ClassWithTwoDictionaryImplementations();
+            var object1 = (object)new ClassWithTwoDictionaryImplementations();
+            var object2 = (object)new ClassWithTwoDictionaryImplementations();
 
             // Act
             Action act = () => object1.Should().BeEquivalentTo(object2);
 
             // Assert
-            act.Should().NotThrow();
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Object1*implements multiple dictionary types*");
         }
 
         [Fact]
@@ -580,7 +582,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("config");
+                .WithParameterName("config");
         }
 
         [Fact]
@@ -765,11 +767,11 @@ namespace FluentAssertions.Specs
             };
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(expected);
+            Action act = () => subject.Should().BeEquivalentTo(expected, "because we are expecting two keys");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected*Customers*dictionary*2 item(s)*but*misses*");
+                "Expected*Customers*dictionary*2 item(s)*expecting two keys*but*misses*");
         }
 
         [Fact]
@@ -817,11 +819,11 @@ namespace FluentAssertions.Specs
             };
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(expected);
+            Action act = () => subject.Should().BeEquivalentTo(expected, "because we are not expecting anything");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*property*Dictionary*to be <null>, but found *{*}*");
+                .WithMessage("*property*Dictionary*to be <null> because we are not expecting anything, but found *{*}*");
         }
 
         [Fact]
@@ -873,22 +875,22 @@ namespace FluentAssertions.Specs
         public void When_subject_dictionary_asserted_to_be_equivalent_have_more_elements_fails_describing_additional_keys()
         {
             // Arrange
-            var dictionary1 = new Dictionary<string, string>
+            var expectation = new Dictionary<string, string>
             {
                 ["greeting"] = "hello"
             };
-            var dictionary2 = new Dictionary<string, string>
+            var subject = new Dictionary<string, string>
             {
                 ["greeting"] = "hello",
                 ["farewell"] = "goodbye"
             };
 
             // Act
-            Action action = () => dictionary2.Should().BeEquivalentTo(dictionary1);
+            Action action = () => subject.Should().BeEquivalentTo(expectation, "because we expect one pair");
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected dictionary2*to be a dictionary with 1 item(s), but*additional key(s) {\"farewell\"}*");
+                .WithMessage("Expected subject*to be a dictionary with 1 item(s) because we expect one pair, but*additional key(s) {\"farewell\"}*");
         }
 
         [Fact]
@@ -1057,6 +1059,30 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected*ReferencedEquipment[1]*Bla1*Bla2*2*index 3*");
+        }
+
+        [Fact]
+        public void When_a_dictionary_is_missing_a_key_it_should_report_the_specific_key()
+        {
+            // Arrange
+            var actual = new Dictionary<string, string>
+            {
+                { "a", "x" },
+                { "b", "x" },
+            };
+
+            var expected = new Dictionary<string, string>
+            {
+                { "a", "x" },
+                { "c", "x" }, // key mismatch
+            };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected, "because we're expecting {0}", "c");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected actual*Dictionary*key*c*because we're expecting c*");
         }
 
         [Fact]

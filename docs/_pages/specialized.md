@@ -19,5 +19,12 @@ The assertion returns the result for subsequent value assertions.
 
 ```csharp
 var tcs = new TaskCompletionSource<bool>();
-(await tcs.Should().CompleteWithinAsync(1.Seconds())).Which.Should().BeTrue();
+await tcs.Should().CompleteWithinAsync(1.Seconds()).WithResult(true);
+```
+
+Additionally it is possible to assert that the task will *not* complete within specific time.
+
+```csharp
+var tcs = new TaskCompletionSource<bool>();
+await tcs.Should().NotCompleteWithinAsync(1.Seconds());
 ```

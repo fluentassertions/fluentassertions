@@ -39,7 +39,7 @@ namespace FluentAssertions.Specialized
             where TException : Exception
         {
             Execute.Assertion
-                .ForCondition(Subject is object)
+                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} to throw {0}{reason}, but found <null>.", typeof(TException));
 
@@ -62,7 +62,7 @@ namespace FluentAssertions.Specialized
             where TException : Exception
         {
             Execute.Assertion
-                .ForCondition(Subject is object)
+                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw {0}{reason}, but found <null>.", typeof(TException));
 
@@ -84,7 +84,7 @@ namespace FluentAssertions.Specialized
         public AndConstraint<TAssertions> NotThrow(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject is object)
+                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
@@ -114,7 +114,7 @@ namespace FluentAssertions.Specialized
             where TException : Exception
         {
             Execute.Assertion
-                .ForCondition(Subject is object)
+                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} to throw exactly {0}{reason}, but found <null>.", typeof(TException));
 
@@ -124,7 +124,7 @@ namespace FluentAssertions.Specialized
             Type expectedType = typeof(TException);
 
             Execute.Assertion
-                .ForCondition(exception != null)
+                .ForCondition(exception is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {0}{reason}, but no exception was thrown.", expectedType);
 
@@ -159,7 +159,7 @@ namespace FluentAssertions.Specialized
         public AndConstraint<TAssertions> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject is object)
+                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw after {0}{reason}, but found <null>.", waitTime);
 
@@ -206,7 +206,20 @@ namespace FluentAssertions.Specialized
 
             try
             {
-                InvokeSubject();
+                // For the duration of this nested invocation, configure CallerIdentifier
+                // to match the contents of the subject rather than our own call site.
+                //
+                //   Action action = () => subject.Should().BeSomething();
+                //   action.Should().Throw<Exception>();
+                //
+                // If an assertion failure occurs, we want the message to talk about "subject"
+                // not "action".
+                using (CallerIdentifier.OnlyOneFluentAssertionScopeOnCallStack()
+                    ? CallerIdentifier.OverrideStackSearchUsingCurrentScope()
+                    : default)
+                {
+                    InvokeSubject();
+                }
             }
             catch (Exception exc)
             {

@@ -1,13 +1,14 @@
 ﻿using System;
-
 using FluentAssertions.Types;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Types
 {
     public class PropertyInfoSelectorAssertionSpecs
     {
+        #region BeVirtual
+
         [Fact]
         public void When_asserting_properties_are_virtual_and_they_are_it_should_succeed()
         {
@@ -52,10 +53,14 @@ namespace FluentAssertions.Specs
                .WithMessage("Expected all selected properties" +
                    " to be virtual because we want to test the error message," +
                    " but the following properties are not virtual:*" +
-                   "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty*" +
-                   "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.InternalNonVirtualProperty*" +
-                   "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.ProtectedNonVirtualProperty");
+                   "String FluentAssertions*ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty*" +
+                   "String FluentAssertions*ClassWithNonVirtualPublicProperties.InternalNonVirtualProperty*" +
+                   "String FluentAssertions*ClassWithNonVirtualPublicProperties.ProtectedNonVirtualProperty");
         }
+
+        #endregion
+
+        #region NotBeVirtual
 
         [Fact]
         public void When_asserting_properties_are_not_virtual_and_they_are_not_it_should_succeed()
@@ -106,6 +111,10 @@ namespace FluentAssertions.Specs
                    "*ClassWithAllPropertiesVirtual.ProtectedVirtualProperty");
         }
 
+        #endregion
+
+        #region BeDecoratedWith
+
         [Fact]
         public void When_asserting_properties_are_decorated_with_attribute_and_they_are_it_should_succeed()
         {
@@ -150,12 +159,16 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected properties to be decorated with" +
-                   " FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message," +
+                   " FluentAssertions*DummyPropertyAttribute because we want to test the error message," +
                    " but the following properties are not:*" +
-                   "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty*" +
-                   "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.InternalProperty*" +
-                   "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.ProtectedProperty");
+                   "String FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty*" +
+                   "String FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.InternalProperty*" +
+                   "String FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.ProtectedProperty");
         }
+
+        #endregion
+
+        #region NotBeDecoratedWith
 
         [Fact]
         public void When_asserting_properties_are_not_decorated_with_attribute_and_they_are_not_it_should_succeed()
@@ -208,6 +221,10 @@ namespace FluentAssertions.Specs
                    "ClassWithAllPropertiesDecoratedWithDummyAttribute.ProtectedProperty*");
         }
 
+        #endregion
+
+        #region BeWritable
+
         [Fact]
         public void When_a_read_only_property_is_expected_to_be_writable_it_should_throw_with_descriptive_message()
         {
@@ -223,8 +240,8 @@ namespace FluentAssertions.Specs
                 .WithMessage(
                     "Expected all selected properties to have a setter because we want to test the error message, " +
                     "but the following properties do not:*" +
-                    "String FluentAssertions.Specs.ClassWithReadOnlyProperties.ReadOnlyProperty*" +
-                    "String FluentAssertions.Specs.ClassWithReadOnlyProperties.ReadOnlyProperty2");
+                    "String FluentAssertions*ClassWithReadOnlyProperties.ReadOnlyProperty*" +
+                    "String FluentAssertions*ClassWithReadOnlyProperties.ReadOnlyProperty2");
         }
 
         [Fact]
@@ -239,6 +256,10 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().NotThrow();
         }
+
+        #endregion
+
+        #region NotBeWritable
 
         [Fact]
         public void When_a_writable_property_is_expected_to_be_read_only_it_should_throw_with_descriptive_message()
@@ -255,8 +276,8 @@ namespace FluentAssertions.Specs
                 .WithMessage(
                     "Expected selected properties to not have a setter because we want to test the error message, " +
                     "but the following properties do:*" +
-                    "String FluentAssertions.Specs.ClassWithWritableProperties.ReadWriteProperty*" +
-                    "String FluentAssertions.Specs.ClassWithWritableProperties.ReadWriteProperty2");
+                    "String FluentAssertions*ClassWithWritableProperties.ReadWriteProperty*" +
+                    "String FluentAssertions*ClassWithWritableProperties.ReadWriteProperty2");
         }
 
         [Fact]
@@ -271,6 +292,8 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().NotThrow();
         }
+
+        #endregion
     }
 
     #region Internal classes used in unit tests

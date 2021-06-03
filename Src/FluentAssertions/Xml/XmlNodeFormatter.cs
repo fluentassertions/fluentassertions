@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.Collections.Generic;
+using System.Xml;
 using FluentAssertions.Common;
 using FluentAssertions.Formatting;
 
@@ -11,8 +12,7 @@ namespace FluentAssertions.Xml
             return value is XmlNode;
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
             string outerXml = ((XmlNode)value).OuterXml;
 
@@ -23,7 +23,7 @@ namespace FluentAssertions.Xml
                 outerXml = outerXml.Substring(0, maxLength).TrimEnd() + "…";
             }
 
-            return outerXml.EscapePlaceholders();
+            formattedGraph.AddLine(outerXml.EscapePlaceholders());
         }
     }
 }

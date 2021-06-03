@@ -2,7 +2,7 @@ using System;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Numeric
 {
     public class NumericAssertionSpecs
     {
@@ -216,7 +216,6 @@ namespace FluentAssertions.Specs
             int? nullableValue = null;
 
             // Act
-            // ReSharper disable once ExpressionIsAlwaysNull
             Action act = () => value.Should().Be(nullableValue);
 
             // Assert
@@ -797,7 +796,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage(string.Format("Expected value to be one of {{4, 5}}, but found {0}.", value));
+                .WithMessage("Expected value to be one of {4, 5}, but found 3.");
         }
 
         [Fact]
@@ -812,8 +811,7 @@ namespace FluentAssertions.Specs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage(
-                    string.Format("Expected value to be one of {{4, 5}} because those are the valid values, but found {0}.", value));
+                .WithMessage("Expected value to be one of {4, 5} because those are the valid values, but found 3.");
         }
 
         [Fact]
@@ -1076,7 +1074,6 @@ namespace FluentAssertions.Specs
             float? value = null;
 
             // Act
-            // ReSharper disable once ExpressionIsAlwaysNull
             Action act = () => value.Should().Be(3.5F);
 
             // Assert
@@ -1223,7 +1220,6 @@ namespace FluentAssertions.Specs
             float? value = null;
 
             // Act
-            // ReSharper disable once ExpressionIsAlwaysNull
             Action act = () => value.Should().BeApproximately(3.14F, 0.001F);
 
             // Assert
@@ -1370,7 +1366,6 @@ namespace FluentAssertions.Specs
             float? value = null;
 
             // Act
-            // ReSharper disable once ExpressionIsAlwaysNull
             Action act = () => value.Should().NotBeApproximately(3.14F, 0.001F);
 
             // Assert
@@ -1431,7 +1426,6 @@ namespace FluentAssertions.Specs
             double? value = null;
 
             // Act
-            // ReSharper disable once ExpressionIsAlwaysNull
             Action act = () => value.Should().Be(3.5);
 
             // Assert
@@ -1672,7 +1666,6 @@ namespace FluentAssertions.Specs
             double? value = null;
 
             // Act
-            // ReSharper disable once ExpressionIsAlwaysNull
             Action act = () => value.Should().NotBeApproximately(3.14, 0.001);
 
             // Assert
@@ -1757,7 +1750,6 @@ namespace FluentAssertions.Specs
             decimal someValue = 3.5m;
 
             // Act
-            // ReSharper disable once ExpressionIsAlwaysNull
             Action act = () => value.Should().Be(someValue);
 
             // Assert
@@ -1895,7 +1887,6 @@ namespace FluentAssertions.Specs
             decimal? value = null;
 
             // Act
-            // ReSharper disable once ExpressionIsAlwaysNull
             Action act = () => value.Should().NotBeApproximately(3.5m, 0.001m);
 
             // Assert
@@ -3446,7 +3437,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("predicate");
+                .WithParameterName("predicate");
         }
 
         #endregion

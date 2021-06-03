@@ -8,7 +8,7 @@ using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Equivalency
 {
     /// <summary>
     /// Test Class containing specs over the extensibility points of Should().BeEquivalentTo
@@ -150,7 +150,7 @@ namespace FluentAssertions.Specs
                 }
 
                 PropertyInfo runtimeProperty = subject.GetType().GetRuntimeProperty(name);
-                return (runtimeProperty != null) ? (IMember)new Property(runtimeProperty, parent) : null;
+                return (runtimeProperty is not null) ? new Property(runtimeProperty, parent) : null;
             }
         }
 
@@ -431,6 +431,78 @@ namespace FluentAssertions.Specs
             act.Should().NotThrow();
         }
 
+        [InlineData(null, 0)]
+        [InlineData(0, null)]
+        [Theory]
+        public void When_subject_or_expectation_is_null_it_should_not_match_a_non_nullable_type(int? subjectValue, int? expectedValue)
+        {
+            // Arrange
+            var actual = new { Value = subjectValue };
+            var expected = new { Value = expectedValue };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected, opt => opt
+                .Using<int>(c => c.Subject.Should().NotBe(c.Expectation))
+                .WhenTypeIs<int>());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [InlineData(null, 0)]
+        [InlineData(0, null)]
+        [Theory]
+        public void When_subject_or_expectation_is_null_it_should_match_a_nullable_type(int? subjectValue, int? expectedValue)
+        {
+            // Arrange
+            var actual = new { Value = subjectValue };
+            var expected = new { Value = expectedValue };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected, opt => opt
+                .Using<int?>(c => c.Subject.Should().NotBe(c.Expectation))
+                .WhenTypeIs<int?>());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [InlineData(null, null)]
+        [InlineData(0, 0)]
+        [Theory]
+        public void When_types_are_nullable_it_should_match_a_nullable_type(int? subjectValue, int? expectedValue)
+        {
+            // Arrange
+            var actual = new { Value = subjectValue };
+            var expected = new { Value = expectedValue };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected, opt => opt
+                .Using<int?>(c => c.Subject.Should().NotBe(c.Expectation))
+                .WhenTypeIs<int?>());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_overriding_with_custom_assertion_it_should_be_chainable()
+        {
+            // Arrange
+            var actual = new { Nullable = (int?)1, NonNullable = 2 };
+            var expected = new { Nullable = (int?)3, NonNullable = 3 };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected, opt => opt
+                .Using<int>(c => c.Subject.Should().BeCloseTo(c.Expectation, 1))
+                .WhenTypeIs<int>()
+                .Using<int?>(c => c.Subject.Should().NotBe(c.Expectation))
+                .WhenTypeIs<int?>());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
         [Fact]
         public void When_a_nullable_property_is_overriden_with_a_custom_assertion_it_should_use_it()
         {
@@ -447,8 +519,9 @@ namespace FluentAssertions.Specs
             };
 
             // Act / Assert
-            actual.Should().BeEquivalentTo(expected,
-                opt => opt.Using<long>(c => c.Subject.Should().BeInRange(0, 10)).WhenTypeIs<long?>());
+            actual.Should().BeEquivalentTo(expected, opt => opt
+                .Using<long?>(c => c.Subject.Should().BeInRange(0, 10))
+                .WhenTypeIs<long?>());
         }
 
         internal class SimpleWithNullable
@@ -529,28 +602,31 @@ namespace FluentAssertions.Specs
                 "a different assertion rule should handle the comparison before the exception throwing assertion rule is hit");
         }
 
-        internal class AlwaysFailOnDateTimesEquivalencyStep : IEquivalencyStep
+        private class AlwaysFailOnDateTimesEquivalencyStep : IEquivalencyStep
         {
-            public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+            public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
             {
-                return context.Expectation is DateTime;
-            }
+                if (comparands.Expectation is DateTime time)
+                {
+                    throw new Exception("Failed");
+                }
 
-            public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config) =>
-                throw new Exception("Failed");
+                return EquivalencyResult.ContinueWithNext;
+            }
         }
 
-        internal class RelaxingDateTimeEquivalencyStep : IEquivalencyStep
+        private class RelaxingDateTimeEquivalencyStep : IEquivalencyStep
         {
-            public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+            public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
             {
-                return context.Expectation is DateTime;
-            }
+                if (comparands.Expectation is DateTime time)
+                {
+                    ((DateTime)comparands.Subject).Should().BeCloseTo(time, 1.Minutes());
 
-            public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
-            {
-                ((DateTime)context.Subject).Should().BeCloseTo((DateTime)context.Expectation, 1.Minutes());
-                return true;
+                    return EquivalencyResult.AssertionCompleted;
+                }
+
+                return EquivalencyResult.ContinueWithNext;
             }
         }
 
@@ -707,42 +783,41 @@ namespace FluentAssertions.Specs
             act.Should().Throw<NotSupportedException>();
         }
 
-        internal class ThrowExceptionEquivalencyStep<TException> : CanHandleAnythingEquivalencyStep
+        private class ThrowExceptionEquivalencyStep<TException> : IEquivalencyStep
             where TException : Exception, new()
         {
-            public override bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+            public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
             {
                 throw new TException();
             }
         }
 
-        internal class AlwaysHandleEquivalencyStep : CanHandleAnythingEquivalencyStep
+        private class AlwaysHandleEquivalencyStep : IEquivalencyStep
         {
-            public override bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+            public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
             {
-                return true;
+                return EquivalencyResult.AssertionCompleted;
             }
         }
 
-        internal class NeverHandleEquivalencyStep : CanHandleAnythingEquivalencyStep
+        private class NeverHandleEquivalencyStep : IEquivalencyStep
         {
-            public override bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+            public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
             {
-                return false;
+                return EquivalencyResult.ContinueWithNext;
             }
         }
 
-        private class EqualityEquivalencyStep : CanHandleAnythingEquivalencyStep
+        private class EqualityEquivalencyStep : IEquivalencyStep
         {
-            public override bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+            public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
             {
-                context.Subject.Should().Be(context.Expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
-
-                return true;
+                comparands.Subject.Should().Be(comparands.Expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
+                return EquivalencyResult.AssertionCompleted;
             }
         }
 
-        internal class DoEquivalencyStep : CanHandleAnythingEquivalencyStep
+        internal class DoEquivalencyStep : IEquivalencyStep
         {
             private readonly Action doAction;
 
@@ -751,21 +826,11 @@ namespace FluentAssertions.Specs
                 this.doAction = doAction;
             }
 
-            public override bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+            public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
             {
                 doAction();
-                return true;
+                return EquivalencyResult.AssertionCompleted;
             }
-        }
-
-        internal abstract class CanHandleAnythingEquivalencyStep : IEquivalencyStep
-        {
-            public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
-            {
-                return true;
-            }
-
-            public abstract bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config);
         }
 
         #endregion

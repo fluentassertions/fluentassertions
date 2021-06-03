@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Globalization;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Numeric
 {
     public class ComparableSpecs
     {
@@ -164,7 +165,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("config");
+                .WithParameterName("config");
         }
 
         [Fact]
@@ -300,7 +301,7 @@ namespace FluentAssertions.Specs
         #region NotBeInRange
 
         [Fact]
-        public void When_assertion_an_instance_to_not_be_in_a_certain_range_and_it_is_not__it_should_succeed()
+        public void When_assertion_an_instance_to_not_be_in_a_certain_range_and_it_is_not_it_should_succeed()
         {
             // Arrange
             var subject = new ComparableOfInt(3);
@@ -663,7 +664,7 @@ namespace FluentAssertions.Specs
 
         public override string ToString()
         {
-            return Value.ToString();
+            return Value.ToString(CultureInfo.InvariantCulture);
         }
     }
 
@@ -683,7 +684,7 @@ namespace FluentAssertions.Specs
 
         public override string ToString()
         {
-            return Value.ToString();
+            return Value.ToString(CultureInfo.InvariantCulture);
         }
     }
 

@@ -20,6 +20,9 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelectorAssertions(params Type[] types)
         {
+            Guard.ThrowIfArgumentIsNull(types, nameof(types));
+            Guard.ThrowIfArgumentContainsNull(types, nameof(types));
+
             Subject = types;
         }
 
@@ -461,7 +464,7 @@ namespace FluentAssertions.Types
 
         private static string GetDescriptionsFor(IEnumerable<Type> types)
         {
-            string[] descriptions = types.Select(GetDescriptionFor).ToArray();
+            IEnumerable<string> descriptions = types.Select(type => GetDescriptionFor(type));
             return string.Join(Environment.NewLine, descriptions);
         }
 

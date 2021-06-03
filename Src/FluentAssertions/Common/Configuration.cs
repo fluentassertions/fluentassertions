@@ -7,7 +7,7 @@ namespace FluentAssertions.Common
     {
         #region Private Definitions
 
-        private readonly object propertiesAccessLock = new object();
+        private readonly object propertiesAccessLock = new();
         private readonly IConfigurationStore store;
         private string valueFormatterAssembly;
         private ValueFormatterDetectionMode? valueFormatterDetectionMode;
@@ -52,7 +52,7 @@ namespace FluentAssertions.Common
 
         private ValueFormatterDetectionMode DetermineFormatterDetectionMode()
         {
-            if (ValueFormatterAssembly != null)
+            if (ValueFormatterAssembly is not null)
             {
                 return ValueFormatterDetectionMode.Specific;
             }
@@ -66,9 +66,8 @@ namespace FluentAssertions.Common
                 }
                 catch (ArgumentException)
                 {
-                    throw new InvalidOperationException(string.Format(
-                        "'{0}' is not a valid option for detecting value formatters. Valid options include Disabled, Specific and Scan.",
-                        setting));
+                    throw new InvalidOperationException(
+                        $"'{setting}' is not a valid option for detecting value formatters. Valid options include Disabled, Specific and Scan.");
                 }
             }
 

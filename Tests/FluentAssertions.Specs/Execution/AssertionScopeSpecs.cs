@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -8,11 +9,10 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
-using FluentAssertions.Specs.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Execution
 {
     public class AssertionScopeSpecs
     {
@@ -219,7 +219,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("assertionStrategy");
+                .WithParameterName("assertionStrategy");
         }
 
         [Fact]
@@ -262,7 +262,7 @@ namespace FluentAssertions.Specs
                     {
                         foreach (KeyValuePair<string, object> pair in context)
                         {
-                            builder.AppendFormat("\nWith {0}:\n{1}", pair.Key, pair.Value);
+                            builder.AppendFormat(CultureInfo.InvariantCulture, "\nWith {0}:\n{1}", pair.Key, pair.Value);
                         }
                     }
 
@@ -466,7 +466,7 @@ namespace FluentAssertions.Specs
             Action act = () =>
             {
                 using var _ = new AssertionScope("{}");
-                default(Array).Should().Equal(3, 2, 1);
+                default(int[]).Should().Equal(3, 2, 1);
             };
 
             // Assert
@@ -642,6 +642,52 @@ namespace FluentAssertions.Specs
                 .WithMessage("*SomeValue*AnotherValue*");
         }
 
+        [Fact]
+        public void When_using_a_deferred_reportable_value_it_is_not_calculated_if_there_are_no_failures()
+        {
+            // Arrange
+            var scope = new AssertionScope();
+            var deferredValueInvoked = false;
+
+            scope.AddReportable("MyKey", () =>
+            {
+                deferredValueInvoked = true;
+
+                return "MyValue";
+            });
+
+            // Act
+            scope.Dispose();
+
+            // Assert
+            deferredValueInvoked.Should().BeFalse();
+        }
+
+        [Fact]
+        public void When_using_a_deferred_reportable_value_it_is_calculated_if_there_is_a_failure()
+        {
+            // Arrange
+            var scope = new AssertionScope();
+            var deferredValueInvoked = false;
+
+            scope.AddReportable("MyKey", () =>
+            {
+                deferredValueInvoked = true;
+
+                return "MyValue";
+            });
+
+            AssertionScope.Current.FailWith("{MyKey}");
+
+            // Act
+            Action act = scope.Dispose;
+
+            // Assert
+            act.Should().ThrowExactly<XunitException>()
+                .WithMessage("*MyValue*");
+            deferredValueInvoked.Should().BeTrue();
+        }
+
         #endregion
 
         #region Chaining API
@@ -697,6 +743,33 @@ namespace FluentAssertions.Specs
                 .FailWith("First assertion")
                 .Then
                 .Given<object>(() => throw new InvalidOperationException());
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_failed_it_should_not_evaluate_the_succeeding_condition()
+        {
+            // Arrange
+            bool secondConditionEvaluated = false;
+            try
+            {
+                using var _ = new AssertionScope();
+
+                // Act
+                Execute.Assertion
+                    .Given(() => (string)null)
+                    .ForCondition(s => s is not null)
+                    .FailWith("but is was null")
+                    .Then
+                    .ForCondition(s => secondConditionEvaluated = true)
+                    .FailWith("it should be 42");
+            }
+            catch
+            {
+                // Ignore
+            }
+
+            // Assert
+            secondConditionEvaluated.Should().BeFalse("because the 2nd condition should not be invoked");
         }
 
         [Fact]

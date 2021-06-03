@@ -34,27 +34,13 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public Task<AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>> CompleteWithinAsync(
+        public async Task<AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>> CompleteWithinAsync(
             TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         {
-            return AssertAsync(timeSpan, because, becauseArgs,
-                "Expected {context} to complete within {0}{reason}, but found <null>.",
-                "Expected {context:task} to complete within {0}{reason}.",
-                new object[] { timeSpan });
-        }
-
-        private async Task<AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>> AssertAsync(
-            TimeSpan timeSpan,
-            string because,
-            object[] becauseArgs,
-            string failMessage1,
-            string failMessage2,
-            object[] failArgs)
-        {
             Execute.Assertion
-                .ForCondition(subject is object)
+                .ForCondition(subject is not null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failMessage1, failArgs);
+                .FailWith("Expected {context} to complete within {0}{reason}, but found <null>.", timeSpan);
 
             using var timeoutCancellationTokenSource = new CancellationTokenSource();
             Task completedTask = await Task.WhenAny(
@@ -70,9 +56,44 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(completedTask == subject.Task)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failMessage2, failArgs);
-
+                .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
             return new AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>(this, subject.Task.Result);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="Task"/> of the current <see cref="TaskCompletionSource{T}"/> will not complete within the specified time.
+        /// </summary>
+        /// <param name="timeSpan">The time span to wait for the operation.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public async Task NotCompleteWithinAsync(
+            TimeSpan timeSpan, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(subject is not null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context} to not complete within {0}{reason}, but found <null>.", timeSpan);
+
+            using var timeoutCancellationTokenSource = new CancellationTokenSource();
+            Task completedTask = await Task.WhenAny(
+                subject.Task,
+                Clock.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
+
+            if (completedTask == subject.Task)
+            {
+                timeoutCancellationTokenSource.Cancel();
+                await completedTask;
+            }
+
+            Execute.Assertion
+                .ForCondition(completedTask != subject.Task)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:task} to not complete within {0}{reason}.", timeSpan);
         }
     }
 }

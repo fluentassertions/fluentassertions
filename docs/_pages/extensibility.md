@@ -95,18 +95,19 @@ So in this case, our nicely created `ContainFile` extension method will display 
 
 ## Rendering objects with beauty ##
 
-Whenever Fluent Assertions raises an assertion exception, it will use value formatters to render the display representation of an object. Notice that these things are supposed to do more than just calling `Format`. A good formatter will include the relevant parts and hide the irrelevant parts. For instance, the `DateTimeOffsetValueFormatter` is there to give you a nice human-readable representation of a date and time with offset. It will only show the parts of that value that have non-default values. Check out the specs to see some examples of that.
+Whenever Fluent Assertions raises an assertion exception, it will use value formatters to render a display representation of an object. Notice that these things are supposed to do more than just calling `Format`. A good formatter will include the relevant parts and hide the irrelevant parts. For instance, the `DateTimeOffsetValueFormatter` is there to give you a nice human-readable representation of a date and time with offset. It will only show the parts of that value that have non-default values. Check out the [specs](https://github.com/fluentassertions/fluentassertions/blob/develop/Tests/FluentAssertions.Specs/Formatting/FormatterSpecs.cs#L127) to see some examples of that.
 
 You can hook-up your own formatters in several ways, for example by calling the static method `FluentAssertions.Formatting.Formatter.AddFormatter(IValueFormatter)`. But what does it mean to build your own? Well, a value formatter just needs to implement the two methods `IValueFormatter` declares. First, it needs to tell FA whether your formatter can handle a certain type by implementing the well-named method `CanHandle(object)`. The other one is there to, no surprises here, render it to a string.
 
 ```
-string Format(object value, FormattingContext context, FormatChild formatChild);
+void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild);
 ```
 
 Next to the actual value that needs rendering, this method accepts a couple of parameters worth mentioning.
 
+* `formattedGraph` is the object that collects the textual representation of the entire graph. It supports adding fragments of text, full lines and deals with automatic identation using its `WithIndentation` method. It also protects the performance of the rendering by throwing a `MaxLinesExceededException` when the textual representation has exceeded the configured maximum.  
 * `context.UseLineBreaks` denotes that the value should be prefixed by a newline. It is used by some assertion code to force displaying the various elements of the failure message on a separate line.
-* `context.Depth` is used when rendering a complex object that would involve multiple, potentially recursive, nested calls through `formatChild`. It allows the formatter to display its representation using an indented view.
+* `formatChild` is used when rendering a complex object that would involve multiple, potentially recursive, nested calls through `Formatter`.
 
 This is what an implementation for the DirectoryInfo would look like.
 
@@ -118,13 +119,21 @@ public class DirectoryInfoValueFormatter : IValueFormatter
         return value is DirectoryInfo;
     }
 
-    public string Format(object value, FormattingContext context, FormatChild formatChild);
+    void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
     {
-        string newline = context.UseLineBreaks ? Environment.NewLine : "";
-        string padding = new string('\t', context.Depth);
-
         var info = (DirectoryInfo)value;
-        return $"{newline}{padding} {info.FullName} ({info.GetFiles().Length} files, {info.GetDirectories().Length} directories)";
+        string result = $"{info.FullName} ({info.GetFiles().Length} files, {info.GetDirectories().Length} directories)";
+
+        if (context.UseLineBreaks)
+        {
+            // Forces the result to be added as a separate line in the final output
+            formattedGraph.AddLine(result);
+        }
+        else
+        {
+            // Appends the result to any existing fragments on the current line
+            formattedGraph.AddFragment(result);
+        }
     }
 }
 ```
@@ -184,30 +193,27 @@ Primitive types are never compared by their members and trying to call e.g. `Com
 
 ## Equivalency assertion step by step ##
 
-The entire structural equivalency API is built around the concept of a collection of equivalency steps that are run in a predefined order. Each step is an implementation of the `IEquivalencyStep` which exposes two methods: `CanHandle` and `Handle`. You can pass your own implementation to a particular assertion call by passing it into the `Using` method (which puts it behind the final default step) or directly tweak the global `AssertionOptions.EquivalencySteps` collection. Checkout the underlying `EquivalencyStepCollection` to see how it relates your custom step to the other steps. That said, the `Handle` method has the following signature:
+The entire structural equivalency API is built around the concept of a plan containing equivalency steps that are run in a predefined order. Each step is an implementation of the `IEquivalencyStep` which exposes a single method `Handle`. You can pass your own implementation to a particular assertion call by passing it into the `Using` method (which puts it behind the final default step) or directly tweak the global `AssertionOptions.EquivalencyPlan`. Checkout the underlying `EquivalencyPlan` to see how it relates your custom step to the other steps. That said, the `Handle` method has the following signature:
 
 ```csharp
-bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, 
-    IEquivalencyAssertionOptions config);
+EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator);
 ```
 
-It provides you with a couple of parameters. The `context` gives you access to information on the subject-under-test, the expectation and some information on where you are in a deeply nested structure. The `parent` allows you to perform nested assertions like the `StructuralEqualityEquivalencyStep` is doing. The `config` parameter provides you access to the effective configuration that should apply to the current assertion call. Using this knowledge, the simplest built-in step looks like this:
+It provides you with a couple of parameters. The `comparands` gives you access to the subject-under-test and the expectation. The `context` provides some additional information such as where you are in a deeply nested structure (the `CurrentNode`), or the effective configuration that should apply to the current assertion call (the `Options`). The `nestedValidator` allows you to perform nested assertions like the `StructuralEqualityEquivalencyStep` is doing. Using this knowledge, the simplest built-in step looks like this:
 
 ```csharp
 public class SimpleEqualityEquivalencyStep : IEquivalencyStep
 {
-    public bool CanHandle(IEquivalencyValidationContext context, 
-        IEquivalencyAssertionOptions config)
+    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
     {
-        return !config.IsRecursive && !context.IsRoot;
-    }
+        if (!context.Options.IsRecursive && !context.CurrentNode.IsRoot)
+        {
+            comparands.Subject.Should().Be(comparands.Expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
 
-    public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator 
-        structuralEqualityValidator, IEquivalencyAssertionOptions config)
-    {
-        context.Subject.Should().Be(context.Expectation, context.Because, context.BecauseArgs);
+            return EquivalencyResult.AssertionCompleted;
+        }
 
-        return true;
+        return EquivalencyResult.ContinueWithNext;
     }
 }
 ```
@@ -218,7 +224,7 @@ Since `Should().Be()` internally uses the `{context}` placeholder I discussed at
 
 Next to tuning the value type evaluation and changing the internal execution plan of the equivalency API, there are a couple of more specific extension methods. They are internally used by some of the methods provided by the `options` parameter, but you can add your own by calling the appropriate overloads of the `Using` methods. You can even do this globally by using the static `AssertionOptions.AssertEquivalencyUsing` method.
 
-The interface `IMemberSelectionRule` defines an abstraction that defines what members (fields and properties) of the subject need to be included in the equivalency assertion operation. The main in-out parameter is a collection of `IMember` objects representing the fields and properties that need to be included. However, if your selection rule needs to start from scratch, you should override `IncludesMembers` and return `false`. The rule will also get access to the configuration for the current invocation as well as some contextual information about the compile-time and run-time types of the current parent member. As an example, the `AllPublicPropertiesSelectionRule` looks like this:
+The interface `IMemberSelectionRule` defines an abstraction that defines what members (fields and properties) of the subject need to be included in the equivalency assertion operation. The main in-out parameter is a collection of `IMember` objects representing the fields and properties that need to be included. However, if your selection rule needs to start from scratch, you should override `IncludesMembers` and return `false`. As an example, the `AllPublicPropertiesSelectionRule` looks like this:
 
 ```csharp
 internal class AllPublicPropertiesSelectionRule : IMemberSelectionRule
@@ -228,10 +234,9 @@ internal class AllPublicPropertiesSelectionRule : IMemberSelectionRule
     public IEnumerable<IMember> SelectMembers(INode currentNode 
         IEnumerable<IMember> selectedMembers, MemberSelectionContext context)
     {
-        IEnumerable<IMember> selectedNonPrivateProperties = context.Options
-            .GetExpectationType(context.RuntimeType, context.CompileTimeType)
-            .GetNonPrivateProperties()
-            .Select(info => new Property(info, currentNode));
+            IEnumerable<IMember> selectedNonPrivateProperties = context.Type
+                .GetNonPrivateProperties()
+                .Select(info => new Property(info, currentNode));
 
         return selectedMembers.Union(selectedNonPrivateProperties).ToList();
     }

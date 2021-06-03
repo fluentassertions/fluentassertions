@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using FluentAssertions.Common;
+using FluentAssertions.Equivalency;
 
 namespace FluentAssertions.Formatting
 {
     public class DefaultValueFormatter : IValueFormatter
     {
-        private const int RootLevel = 0;
-
         /// <summary>
         /// The number of spaces to indent the members of this object by.
         /// </summary>
@@ -28,22 +26,29 @@ namespace FluentAssertions.Formatting
             return true;
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
             if (value.GetType() == typeof(object))
             {
-                return $"System.Object (HashCode={value.GetHashCode()})";
+                formattedGraph.AddFragment($"System.Object (HashCode={value.GetHashCode()})");
+                return;
             }
-
-            string prefix = context.UseLineBreaks ? Environment.NewLine : string.Empty;
 
             if (HasDefaultToStringImplementation(value))
             {
-                return prefix + GetTypeAndMemberValues(value, context, formatChild);
+                WriteTypeAndMemberValues(value, formattedGraph, formatChild);
             }
-
-            return prefix + value;
+            else
+            {
+                if (context.UseLineBreaks)
+                {
+                    formattedGraph.AddLine(value.ToString());
+                }
+                else
+                {
+                    formattedGraph.AddFragment(value.ToString());
+                }
+            }
         }
 
         /// <summary>
@@ -54,7 +59,35 @@ namespace FluentAssertions.Formatting
         /// <remarks>The default is all non-private members.</remarks>
         protected virtual MemberInfo[] GetMembers(Type type)
         {
-            return type.GetNonPrivateMembers().ToArray();
+            return type.GetNonPrivateMembers(MemberVisibility.Public).ToArray();
+        }
+
+        private static bool HasDefaultToStringImplementation(object value)
+        {
+            string str = value.ToString();
+
+            return str is null || str == value.GetType().ToString();
+        }
+
+        private void WriteTypeAndMemberValues(object obj, FormattedObjectGraph formattedGraph, FormatChild formatChild)
+        {
+            Type type = obj.GetType();
+            formattedGraph.AddLine(TypeDisplayName(type));
+            formattedGraph.AddLine("{");
+
+            MemberInfo[] members = GetMembers(type);
+            using var iterator = new Iterator<MemberInfo>(members.OrderBy(mi => mi.Name));
+            while (iterator.MoveNext())
+            {
+                WriteMemberValueTextFor(obj, iterator.Current, formattedGraph, formatChild);
+
+                if (!iterator.IsLast)
+                {
+                    formattedGraph.AddFragment(", ");
+                }
+            }
+
+            formattedGraph.AddFragmentOnNewLine("}");
         }
 
         /// <summary>
@@ -65,40 +98,7 @@ namespace FluentAssertions.Formatting
         /// <remarks>The default is <see cref="System.Type.FullName"/>.</remarks>
         protected virtual string TypeDisplayName(Type type) => type.FullName;
 
-        private static bool HasDefaultToStringImplementation(object value)
-        {
-            string str = value.ToString();
-
-            return str is null || str == value.GetType().ToString();
-        }
-
-        private string GetTypeAndMemberValues(object obj, FormattingContext context, FormatChild formatChild)
-        {
-            var builder = new StringBuilder();
-
-            if (context.Depth == RootLevel)
-            {
-                builder.AppendLine();
-                builder.AppendLine();
-            }
-
-            Type type = obj.GetType();
-            builder.AppendLine(TypeDisplayName(type));
-            builder.Append(CreateWhitespaceForLevel(context.Depth)).Append('{').AppendLine();
-
-            MemberInfo[] members = GetMembers(type);
-            foreach (var memberInfo in members.OrderBy(mi => mi.Name))
-            {
-                string memberValueText = GetMemberValueTextFor(obj, memberInfo, context, formatChild);
-                builder.AppendLine(memberValueText);
-            }
-
-            builder.Append(CreateWhitespaceForLevel(context.Depth)).Append('}');
-
-            return builder.ToString();
-        }
-
-        private string GetMemberValueTextFor(object value, MemberInfo member, FormattingContext context, FormatChild formatChild)
+        private static void WriteMemberValueTextFor(object value, MemberInfo member, FormattedObjectGraph formattedGraph, FormatChild formatChild)
         {
             object memberValue;
 
@@ -113,16 +113,12 @@ namespace FluentAssertions.Formatting
             }
             catch (Exception ex)
             {
+                ex = (ex as TargetInvocationException)?.InnerException ?? ex;
                 memberValue = $"[Member '{member.Name}' threw an exception: '{ex.Message}']";
             }
 
-            return
-                $"{CreateWhitespaceForLevel(context.Depth + 1)}{member.Name} = {formatChild(member.Name, memberValue)}";
-        }
-
-        private string CreateWhitespaceForLevel(int level)
-        {
-            return new string(' ', level * SpacesPerIndentionLevel);
+            formattedGraph.AddFragmentOnNewLine($"{new string(' ', FormattedObjectGraph.SpacesPerIndentation)}{member.Name} = ");
+            formatChild(member.Name, memberValue, formattedGraph);
         }
     }
 }

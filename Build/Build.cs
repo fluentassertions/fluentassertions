@@ -1,3 +1,4 @@
+using System.Linq;
 using Nuke.Common;
 using Nuke.Common.Execution;
 using Nuke.Common.IO;
@@ -23,26 +24,22 @@ class Build : NukeBuild
        - Microsoft VSCode           https://nuke.build/vscode
     */
 
-    public static int Main() => Execute<Build>(
-        x => x.UnitTests,
-        x => x.Pack);
+    public static int Main() => Execute<Build>(x => x.Pack);
 
-    [Solution] readonly Solution Solution;
+    [Solution(GenerateProjects = true)] readonly Solution Solution;
     [GitVersion] readonly GitVersion GitVersion;
     [PackageExecutable("nspec", "NSpecRunner.exe", Version = "3.1.0")] Tool NSpec3;
 
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
-    AbsolutePath TestsDirectory => RootDirectory / "Tests";
-    AbsolutePath TestFrameworkDirectory => TestsDirectory / "TestFrameworks";
 
     Target Clean => _ => _
-        .Before(Restore)
         .Executes(() =>
         {
             EnsureCleanDirectory(ArtifactsDirectory);
         });
 
     Target Restore => _ => _
+        .DependsOn(Clean)
         .Executes(() =>
         {
             DotNetRestore(s => s
@@ -70,7 +67,7 @@ class Build : NukeBuild
             DotNetTest(s => s
                 .SetConfiguration("Debug")
                 .CombineWith(
-                    cc => cc.SetProjectFile(Solution.GetProject("Approval.Tests"))));
+                    cc => cc.SetProjectFile(Solution.Specs.Approval_Tests)));
         });
 
     Target UnitTests => _ => _
@@ -80,16 +77,15 @@ class Build : NukeBuild
             Xunit2(s => s
                 .SetFramework("net47")
                 .AddTargetAssemblies(GlobFiles(
-                    TestsDirectory,
-                    "FluentAssertions.Specs/bin/Debug/net47/*.Specs.dll").NotEmpty()));
+                    Solution.Specs.FluentAssertions_Specs.Directory,
+                    "bin/Debug/net47/*.Specs.dll").NotEmpty()));
 
             DotNetTest(s => s
-                .SetProjectFile(Solution.GetProject("FluentAssertions.Specs"))
+                .SetProjectFile(Solution.Specs.FluentAssertions_Specs)
                 .SetConfiguration("Debug")
                 .CombineWith(
-                    cc => cc.SetFramework("netcoreapp2.0"),
-                    cc => cc.SetFramework("netcoreapp2.1"),
-                    cc => cc.SetFramework("netcoreapp3.0")));
+                    Solution.Specs.FluentAssertions_Specs.GetTargetFrameworks().Except(new[] { "net47" }),
+                    (_, v) => _.SetFramework(v)));
         });
 
     Target TestFrameworks => _ => _
@@ -99,12 +95,16 @@ class Build : NukeBuild
             DotNetTest(s => s
                 .SetConfiguration("Debug")
                 .CombineWith(
-                    cc => cc.SetProjectFile(Solution.GetProject("MSpec.Specs")),
-                    cc => cc.SetProjectFile(Solution.GetProject("MSTestV2.Specs")),
-                    cc => cc.SetProjectFile(Solution.GetProject("NUnit3.Specs")),
-                    cc => cc.SetProjectFile(Solution.GetProject("XUnit2.Specs"))));
+                    new[]
+                    {
+                        Solution.TestFrameworks.MSpec_Specs,
+                        Solution.TestFrameworks.MSTestV2_Specs,
+                        Solution.TestFrameworks.NUnit3_Specs,
+                        Solution.TestFrameworks.XUnit2_Specs
+                    },
+                    (_, v) => _.SetProjectFile(v)));
 
-            NSpec3(TestFrameworkDirectory / "NSpec3.Net47.Specs" / "bin" / "Debug" / "net47" / "NSpec3.Specs.dll");
+            NSpec3(Solution.TestFrameworks.NSpec3_Net47_Specs.Directory / "bin" / "Debug" / "net47" / "NSpec3.Specs.dll");
         });
 
     Target Pack => _ => _
@@ -114,9 +114,10 @@ class Build : NukeBuild
         .Executes(() =>
         {
             DotNetPack(s => s
-                .SetProject(Solution.GetProject("FluentAssertions"))
+                .SetProject(Solution.Core.FluentAssertions)
                 .SetOutputDirectory(ArtifactsDirectory)
                 .SetConfiguration("Release")
+                .EnableContinuousIntegrationBuild() // Necessary for deterministic builds
                 .SetVersion(GitVersion.NuGetVersionV2));
         });
 }

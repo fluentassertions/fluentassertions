@@ -13,9 +13,10 @@ namespace FluentAssertions.Execution
             {
                 try
                 {
+                    // For netfx the assembly is not in AppDomain by default, so we can't just scan AppDomain.CurrentDomain
                     assembly = Assembly.Load(new AssemblyName("xunit.assert"));
 
-                    return assembly != null;
+                    return assembly is not null;
                 }
                 catch
                 {

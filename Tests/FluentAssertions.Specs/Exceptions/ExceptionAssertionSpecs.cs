@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-#if NET47
+#if NETFRAMEWORK
 using FluentAssertions.Specs.Common;
 #endif
 using Xunit;
@@ -10,7 +10,7 @@ using Xunit.Sdk;
 
 using static FluentAssertions.Extensions.FluentTimeSpanExtensions;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Exceptions
 {
     public class ExceptionAssertionSpecs
     {
@@ -500,7 +500,7 @@ namespace FluentAssertions.Specs
 
         private static string BuildExpectedMessageForWithInnerExceptionExactly(string because, string innerExceptionMessage)
         {
-            var expectedMessage = string.Format("{0} \"{1}\"\n.", because, innerExceptionMessage);
+            var expectedMessage = $"{because} \"{innerExceptionMessage}\".";
 
             return expectedMessage;
         }
@@ -597,7 +597,7 @@ namespace FluentAssertions.Specs
 
             // Act
             act2.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("exceptionExpression");
+                .WithParameterName("exceptionExpression");
         }
 
         #endregion
@@ -745,9 +745,80 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage(
-                    string.Format("*System.ArgumentNullException*{0}*",
-                        typeof(ExceptionWithEmptyToString)));
+                .WithMessage($"*System.ArgumentNullException*{typeof(ExceptionWithEmptyToString)}*");
+        }
+
+        [Fact]
+        public void When_a_method_throws_with_a_matching_parameter_name_it_should_succeed()
+        {
+            // Arrange
+            Action throwException = () => throw new ArgumentNullException("someParameter");
+
+            // Act
+            Action act = () =>
+                throwException.Should().Throw<ArgumentException>()
+                    .WithParameterName("someParameter");
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_a_method_throws_with_a_non_matching_parameter_name_it_should_fail_with_a_descriptive_message()
+        {
+            // Arrange
+            Action throwException = () => throw new ArgumentNullException("someOtherParameter");
+
+            // Act
+            Action act = () =>
+                throwException.Should().Throw<ArgumentException>()
+                    .WithParameterName("someParameter", "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*with parameter name \"someParameter\"*we want to test the failure message*\"someOtherParameter\"*");
+        }
+
+        [Fact]
+        public void When_invoking_a_function_on_a_null_subject_it_should_throw()
+        {
+            // Arrange
+            Does someClass = null;
+
+            // Act
+            Action act = () => someClass.Invoking(d => d.ToString());
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("subject");
+        }
+
+        [Fact]
+        public void When_invoking_an_action_on_a_null_subject_it_should_throw()
+        {
+            // Arrange
+            Does someClass = null;
+
+            // Act
+            Action act = () => someClass.Invoking(d => d.Do());
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("subject");
+        }
+
+        [Fact]
+        public void When_invoking_null_it_should_throw()
+        {
+            // Arrange
+            Does someClass = Does.NotThrow();
+
+            // Act
+            Action act = () => someClass.Invoking(null).Should().NotThrow();
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("action");
         }
 
         #endregion
@@ -920,7 +991,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-                         .WithMessage("Did not expect any exceptions after 0.100s because we passed valid arguments*");
+                         .WithMessage("Did not expect any exceptions after 100ms because we passed valid arguments*");
         }
 
         [Fact]

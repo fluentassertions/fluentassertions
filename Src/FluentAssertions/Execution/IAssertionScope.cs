@@ -23,6 +23,25 @@ namespace FluentAssertions.Execution
         /// <summary>
         /// Sets the failure message when the assertion is not met, or completes the failure message set to a
         /// prior call to <see cref="FluentAssertions.Execution.AssertionScope.WithExpectation"/>.
+        /// </summary>
+        /// <remarks>
+        /// Messages may contain a few specialized placeholders.
+        /// For instance, {reason} will be replaced with the reason of the assertion as passed
+        /// to <see cref="AssertionScope.BecauseOf(FluentAssertions.Execution.Reason)"/>. Other named placeholders will be replaced with
+        /// the <see cref="FluentAssertions.Execution.AssertionScope.Current"/> scope data passed through
+        /// <see cref="FluentAssertions.Execution.AssertionScope.AddNonReportable"/> and
+        /// <see cref="FluentAssertions.Execution.AssertionScope.AddReportable(string,string)"/>. Finally, a description of the
+        /// current subject can be passed through the {context:description} placeholder. This is used in the message if no
+        /// explicit context is specified through the <see cref="AssertionScope"/> constructor.
+        /// If an expectation was set through a prior call to <see cref="FluentAssertions.Execution.AssertionScope.WithExpectation"/>,
+        /// then the failure message is appended to that expectation.
+        /// </remarks>
+        /// <param name="message">The format string that represents the failure message.</param>
+        Continuation FailWith(string message);
+
+        /// <summary>
+        /// Sets the failure message when the assertion is not met, or completes the failure message set to a
+        /// prior call to <see cref="FluentAssertions.Execution.AssertionScope.WithExpectation"/>.
         /// <paramref name="failReasonFunc"/> will not be called unless the assertion is not met.
         /// </summary>
         /// <param name="failReasonFunc">Function returning <see cref="FailReason"/> object on demand. Called only when the assertion is not met.</param>
@@ -38,7 +57,7 @@ namespace FluentAssertions.Execution
         /// to <see cref="AssertionScope.BecauseOf(FluentAssertions.Execution.Reason)"/>. Other named placeholders will be replaced with
         /// the <see cref="FluentAssertions.Execution.AssertionScope.Current"/> scope data passed through
         /// <see cref="FluentAssertions.Execution.AssertionScope.AddNonReportable"/> and
-        /// <see cref="FluentAssertions.Execution.AssertionScope.AddReportable"/>. Finally, a description of the
+        /// <see cref="FluentAssertions.Execution.AssertionScope.AddReportable(string,string)"/>. Finally, a description of the
         /// current subject can be passed through the {context:description} placeholder. This is used in the message if no
         /// explicit context is specified through the <see cref="AssertionScope"/> constructor.
         /// Note that only 10 <paramref name="args"/> are supported in combination with a {reason}.
@@ -48,6 +67,28 @@ namespace FluentAssertions.Execution
         /// <param name="message">The format string that represents the failure message.</param>
         /// <param name="args">Optional arguments to any numbered placeholders.</param>
         Continuation FailWith(string message, params object[] args);
+
+        /// <summary>
+        /// Sets the failure message when the assertion is not met, or completes the failure message set to a
+        /// prior call to <see cref="FluentAssertions.Execution.AssertionScope.WithExpectation"/>,
+        /// but postpones evaluation of the formatting arguments until the assertion really fails.
+        /// </summary>
+        /// <remarks>
+        /// In addition to the numbered <see cref="string.Format(string,object[])"/>-style placeholders, messages may contain a few
+        /// specialized placeholders as well. For instance, {reason} will be replaced with the reason of the assertion as passed
+        /// to <see cref="AssertionScope.BecauseOf(FluentAssertions.Execution.Reason)"/>. Other named placeholders will be replaced with
+        /// the <see cref="FluentAssertions.Execution.AssertionScope.Current"/> scope data passed through
+        /// <see cref="FluentAssertions.Execution.AssertionScope.AddNonReportable"/> and
+        /// <see cref="FluentAssertions.Execution.AssertionScope.AddReportable(string,string)"/>. Finally, a description of the
+        /// current subject can be passed through the {context:description} placeholder. This is used in the message if no
+        /// explicit context is specified through the <see cref="AssertionScope"/> constructor.
+        /// Note that only 10 <paramref name="argProviders"/> are supported in combination with a {reason}.
+        /// If an expectation was set through a prior call to <see cref="FluentAssertions.Execution.AssertionScope.WithExpectation"/>,
+        /// then the failure message is appended to that expectation.
+        /// </remarks>
+        /// <param name="message">The format string that represents the failure message.</param>
+        /// <param name="argProviders">Optional lazily evaluated arguments to any numbered placeholders</param>
+        public Continuation FailWith(string message, params Func<object>[] argProviders);
 
         /// <summary>
         /// Specify the reason why you expect the condition to be <c>true</c>.
@@ -77,7 +118,7 @@ namespace FluentAssertions.Execution
         /// In addition to the numbered <see cref="string.Format(string,object[])"/>-style placeholders, messages may contain a few
         /// specialized placeholders as well. For instance, {reason} will be replaced with the reason of the assertion as passed
         /// to <see cref="AssertionScope.BecauseOf(FluentAssertions.Execution.Reason)"/>. Other named placeholders will be replaced with the <see cref="AssertionScope.Current"/> scope data
-        /// passed through <see cref="AssertionScope.AddNonReportable"/> and <see cref="AssertionScope.AddReportable"/>. Finally, a description of the
+        /// passed through <see cref="AssertionScope.AddNonReportable"/> and <see cref="AssertionScope.AddReportable(string,string)"/>. Finally, a description of the
         /// current subject can be passed through the {context:description} placeholder. This is used in the message if no
         /// explicit context is specified through the <see cref="AssertionScope"/> constructor.
         /// Note that only 10 <paramref name="args"/> are supported in combination with a {reason}.

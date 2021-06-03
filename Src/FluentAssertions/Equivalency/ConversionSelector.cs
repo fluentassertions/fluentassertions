@@ -4,6 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using FluentAssertions.Common;
+using FluentAssertions.Equivalency.Execution;
+using FluentAssertions.Equivalency.Steps;
 
 namespace FluentAssertions.Equivalency
 {
@@ -25,8 +27,8 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private List<ConversionSelectorRule> inclusions = new List<ConversionSelectorRule>();
-        private List<ConversionSelectorRule> exclusions = new List<ConversionSelectorRule>();
+        private List<ConversionSelectorRule> inclusions = new();
+        private List<ConversionSelectorRule> exclusions = new();
 
         public void IncludeAll()
         {
@@ -51,9 +53,9 @@ namespace FluentAssertions.Equivalency
                 $"Do not convert member {predicate.Body}."));
         }
 
-        public bool RequiresConversion(IEquivalencyValidationContext context)
+        public bool RequiresConversion(Comparands comparands, INode currentNode)
         {
-            var objectInfo = new ObjectInfo(context);
+            var objectInfo = new ObjectInfo(comparands, currentNode);
 
             return inclusions.Any(p => p.Predicate(objectInfo)) && !exclusions.Any(p => p.Predicate(objectInfo));
         }
@@ -65,7 +67,7 @@ namespace FluentAssertions.Equivalency
                 return "Without automatic conversion.";
             }
 
-            StringBuilder descriptionBuilder = new StringBuilder();
+            var descriptionBuilder = new StringBuilder();
 
             foreach (ConversionSelectorRule inclusion in inclusions)
             {

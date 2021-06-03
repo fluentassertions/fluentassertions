@@ -10,7 +10,7 @@
     /// to BecauseOf. Other named placeholders will be replaced with
     /// the <see cref="FluentAssertions.Execution.AssertionScope.Current"/> scope data passed through
     /// <see cref="FluentAssertions.Execution.AssertionScope.AddNonReportable"/> and
-    /// <see cref="FluentAssertions.Execution.AssertionScope.AddReportable"/>. Finally, a description of the
+    /// <see cref="FluentAssertions.Execution.AssertionScope.AddReportable(string,string)"/>. Finally, a description of the
     /// current subject can be passed through the {context:description} placeholder. This is used in the message if no
     /// explicit context is specified through the <see cref="AssertionScope"/> constructor.
     /// Note that only 10 arguments are supported in combination with a {reason}.

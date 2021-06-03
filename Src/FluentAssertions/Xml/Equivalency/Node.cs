@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -6,7 +7,7 @@ namespace FluentAssertions.Xml.Equivalency
 {
     internal sealed class Node
     {
-        private readonly List<Node> children = new List<Node>();
+        private readonly List<Node> children = new();
         private readonly string name;
         private int count;
 
@@ -22,15 +23,15 @@ namespace FluentAssertions.Xml.Equivalency
         {
             var resultBuilder = new StringBuilder();
 
-            foreach (var location in GetPath().Reverse())
+            foreach (Node location in GetPath().Reverse())
             {
                 if (location.count > 1)
                 {
-                    resultBuilder.AppendFormat("/{0}[{1}]", location.name, location.count);
+                    resultBuilder.AppendFormat(CultureInfo.InvariantCulture, "/{0}[{1}]", location.name, location.count);
                 }
                 else
                 {
-                    resultBuilder.AppendFormat("/{0}", location.name);
+                    resultBuilder.AppendFormat(CultureInfo.InvariantCulture, "/{0}", location.name);
                 }
             }
 
@@ -45,7 +46,7 @@ namespace FluentAssertions.Xml.Equivalency
         private IEnumerable<Node> GetPath()
         {
             Node current = this;
-            while (current.Parent != null)
+            while (current.Parent is not null)
             {
                 yield return current;
                 current = current.Parent;
@@ -71,7 +72,7 @@ namespace FluentAssertions.Xml.Equivalency
 
         private Node AddChildNode(string name)
         {
-            Node node = new Node(this, name);
+            var node = new Node(this, name);
             children.Add(node);
             return node;
         }

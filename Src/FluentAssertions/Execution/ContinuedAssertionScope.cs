@@ -40,6 +40,26 @@ namespace FluentAssertions.Execution
             return this;
         }
 
+        public Continuation FailWith(string message)
+        {
+            if (continueAsserting)
+            {
+                return predecessor.FailWith(message);
+            }
+
+            return new Continuation(predecessor, continueAsserting: false);
+        }
+
+        public Continuation FailWith(string message, params Func<object>[] argProviders)
+        {
+            if (continueAsserting)
+            {
+                return predecessor.FailWith(message, argProviders);
+            }
+
+            return new Continuation(predecessor, continueAsserting: false);
+        }
+
         public Continuation FailWith(Func<FailReason> failReasonFunc)
         {
             if (continueAsserting)

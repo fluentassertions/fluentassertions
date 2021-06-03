@@ -4,7 +4,7 @@ using System.Reflection;
 using FluentAssertions.Common;
 using Xunit;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Types
 {
     public class TypeExtensionsSpecs
     {

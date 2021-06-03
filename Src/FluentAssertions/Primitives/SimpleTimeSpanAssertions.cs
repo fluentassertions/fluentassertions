@@ -281,11 +281,11 @@ namespace FluentAssertions.Primitives
             TimeSpan maximumValue = nearbyTime + precision;
 
             Execute.Assertion
-                .ForCondition(Subject.HasValue && (Subject.Value >= minimumValue) && (Subject.Value <= maximumValue))
+                .ForCondition((Subject >= minimumValue) && (Subject.Value <= maximumValue))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:time} to be within {0} from {1}{reason}, but found {2}.",
                     precision,
-                    nearbyTime, Subject ?? default(TimeSpan?));
+                    nearbyTime, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -323,11 +323,11 @@ namespace FluentAssertions.Primitives
             TimeSpan maximumValue = distantTime + precision;
 
             Execute.Assertion
-                .ForCondition(Subject.HasValue && !((Subject.Value >= minimumValue) && (Subject.Value <= maximumValue)))
+                .ForCondition(Subject < minimumValue || Subject > maximumValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:time} to not be within {0} from {1}{reason}, but found {2}.",
                     precision,
-                    distantTime, Subject ?? default(TimeSpan?));
+                    distantTime, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

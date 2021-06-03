@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
-#if NET47
+#if NETFRAMEWORK
 using FluentAssertions.Specs.Common;
 #endif
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Exceptions
 {
     public class FunctionExceptionAssertionSpecs
     {
@@ -513,7 +513,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             action.Should().Throw<XunitException>()
-                         .WithMessage("Did not expect any exceptions after 0.100s because we passed valid arguments*");
+                         .WithMessage("Did not expect any exceptions after 100ms because we passed valid arguments*");
         }
 
         [Fact]

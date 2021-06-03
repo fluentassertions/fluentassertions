@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
+using FluentAssertions.Equivalency.Steps;
 using FluentAssertions.Execution;
 using FluentAssertions.Formatting;
 using FluentAssertions.Primitives;
@@ -22,7 +23,7 @@ namespace FluentAssertions.Specialized
     {
         #region Private Definitions
 
-        private static readonly ExceptionMessageAssertion OuterMessageAssertion = new ExceptionMessageAssertion();
+        private static readonly ExceptionMessageAssertion OuterMessageAssertion = new();
 
         #endregion
 
@@ -50,7 +51,8 @@ namespace FluentAssertions.Specialized
         /// Asserts that the thrown exception has a message that matches <paramref name="expectedWildcardPattern" />.
         /// </summary>
         /// <param name="expectedWildcardPattern">
-        /// The wildcard pattern with which the exception message is matched, where * and ? have special meanings.
+        /// The pattern to match against the exception message. This parameter can contain a combination of literal text and
+        /// wildcard (* and ?) characters, but it doesn't support regular expressions.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -59,6 +61,25 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <remarks>
+        /// <paramref name="expectedWildcardPattern"/> can be a combination of literal and wildcard characters,
+        /// but it doesn't support regular expressions. The following wildcard specifiers are permitted in
+        /// <paramref name="expectedWildcardPattern"/>.
+        /// <list type="table">
+        /// <listheader>
+        /// <term>Wildcard character</term>
+        /// <description>Description</description>
+        /// </listheader>
+        /// <item>
+        /// <term>* (asterisk)</term>
+        /// <description>Zero or more characters in that position.</description>
+        /// </item>
+        /// <item>
+        /// <term>? (question mark)</term>
+        /// <description>Exactly one character in that position.</description>
+        /// </item>
+        /// </list>
+        /// </remarks>
         public virtual ExceptionAssertions<TException> WithMessage(string expectedWildcardPattern, string because = "",
             params object[] becauseArgs)
         {
@@ -91,10 +112,10 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected inner {0}{reason}, but ", typeof(TInnerException))
-                .ForCondition(Subject != null)
+                .ForCondition(Subject is not null)
                 .FailWith("no exception was thrown.")
                 .Then
-                .ForCondition(Subject.Any(e => e.InnerException != null))
+                .ForCondition(Subject.Any(e => e.InnerException is not null))
                 .FailWith("the thrown exception has no inner exception.")
                 .Then
                 .ClearExpectation();
@@ -178,9 +199,7 @@ namespace FluentAssertions.Specialized
                 {
                     string thrownExceptions = BuildExceptionsString(Subject);
                     Services.ThrowException(
-                        string.Format(
-                            "More than one exception was thrown.  FluentAssertions cannot determine which Exception was meant.{0}{1}",
-                            Environment.NewLine, thrownExceptions));
+                        $"More than one exception was thrown.  FluentAssertions cannot determine which Exception was meant.{Environment.NewLine}{thrownExceptions}");
                 }
 
                 return Subject.Single();
@@ -213,7 +232,7 @@ namespace FluentAssertions.Specialized
                 {
                     using (var scope = new AssertionScope())
                     {
-                        scope.Context = Context;
+                        scope.Context = new Lazy<string>(() => Context);
 
                         message.Should().MatchEquivalentOf(expectation, because, becauseArgs);
 

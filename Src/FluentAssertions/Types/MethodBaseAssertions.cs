@@ -32,15 +32,28 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="accessModifier"/>
+        /// is not a <see cref="CSharpAccessModifier"/> value.</exception>
         public AndConstraint<TAssertions> HaveAccessModifier(
             CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
         {
-            CSharpAccessModifier subjectAccessModifier = Subject.GetCSharpAccessModifier();
+            Guard.ThrowIfArgumentIsOutOfRange(accessModifier, nameof(accessModifier));
 
-            Execute.Assertion.ForCondition(accessModifier == subjectAccessModifier)
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected method " + Subject.Name + " to be {0}{reason}, but it is {1}.",
-                    accessModifier, subjectAccessModifier);
+                .ForCondition(Subject is not null)
+                .FailWith($"Expected method to be {accessModifier}{{reason}}, but {{context:member}} is <null>.");
+
+            if (success)
+            {
+                CSharpAccessModifier subjectAccessModifier = Subject.GetCSharpAccessModifier();
+
+                Execute.Assertion
+                    .ForCondition(accessModifier == subjectAccessModifier)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        $"Expected method {Subject.Name} to be {accessModifier}{{reason}}, but it is {subjectAccessModifier}.");
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -56,12 +69,26 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="accessModifier"/>
+        /// is not a <see cref="CSharpAccessModifier"/> value.</exception>
         public AndConstraint<TAssertions> NotHaveAccessModifier(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(accessModifier != Subject.GetCSharpAccessModifier())
+            Guard.ThrowIfArgumentIsOutOfRange(accessModifier, nameof(accessModifier));
+
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected method " + Subject.Name + " not to be {0}{reason}, but it is.", accessModifier);
+                .ForCondition(Subject is not null)
+                .FailWith($"Expected method not to be {accessModifier}{{reason}}, but {{context:member}} is <null>.");
+
+            if (success)
+            {
+                CSharpAccessModifier subjectAccessModifier = Subject.GetCSharpAccessModifier();
+
+                Execute.Assertion
+                    .ForCondition(accessModifier != subjectAccessModifier)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith($"Expected method {Subject.Name} not to be {accessModifier}{{reason}}, but it is.");
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

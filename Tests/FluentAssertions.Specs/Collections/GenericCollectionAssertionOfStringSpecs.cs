@@ -6,7 +6,7 @@ using FluentAssertions.Collections;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Collections
 {
     public class GenericCollectionAssertionOfStringSpecs
     {
@@ -336,7 +336,7 @@ namespace FluentAssertions.Specs
             // Assert
             action
                 .Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("equalityComparison");
+                .WithParameterName("equalityComparison");
         }
 
         [Fact]
@@ -597,7 +597,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot compare collection with <null>.*")
-                .And.ParamName.Should().Be("unexpected");
+                .WithParameterName("unexpected");
         }
 
         [Fact]
@@ -646,7 +646,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot compare collection with <null>.*")
-                .And.ParamName.Should().Be("expectation");
+                .WithParameterName("expectation");
         }
 
         [Fact]
@@ -1345,7 +1345,7 @@ namespace FluentAssertions.Specs
             IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             // Act
-            Action act = () => collection.Should().Contain(new int[0]);
+            Action act = () => collection.Should().Contain(new string[0]);
 
             // Assert
             act.Should().Throw<ArgumentException>().WithMessage(
@@ -1666,9 +1666,13 @@ namespace FluentAssertions.Specs
                 select new { method.Name, method.ReturnType };
 
             // Assert
-            methods.Should().OnlyContain(method =>
-                typeof(AndConstraint<StringCollectionAssertions<IEnumerable<string>>>)
-                    .IsAssignableFrom(method.ReturnType));
+            var expectedTypes = new[]
+            {
+                typeof(AndConstraint<StringCollectionAssertions<IEnumerable<string>>>),
+                typeof(AndConstraint<SubsequentOrderingAssertions<string>>)
+            };
+
+            methods.Should().OnlyContain(method => expectedTypes.Any(e => e.IsAssignableFrom(method.ReturnType)));
         }
 
         #region ContainMatch
@@ -1785,7 +1789,7 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot match strings in collection against <null>. Provide a wildcard pattern or use the Contain method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         [Fact]
@@ -1800,7 +1804,7 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the Contain method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         #endregion
@@ -1886,7 +1890,7 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot match strings in collection against <null>. Provide a wildcard pattern or use the NotContain method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         [Fact]
@@ -1901,7 +1905,7 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the NotContain method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         #endregion

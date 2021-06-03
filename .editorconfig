@@ -26,6 +26,7 @@ indent_size = 4
 [*.cs]
 indent_style = space
 indent_size = 4
+max_line_length = 130
 
 # New line preferences
 csharp_new_line_before_open_brace = all
@@ -133,7 +134,6 @@ dotnet_code_quality.CA1062.exclude_extension_method_this_parameter = true
 dotnet_code_quality.exclude_extension_method_this_parameter = true
 dotnet_code_quality.null_check_validation_methods = ThrowIfArgumentIsNull
 dotnet_diagnostic.CA1304.severity = error
-dotnet_diagnostic.CA1305.severity = none
 dotnet_diagnostic.CA1307.severity = error
 dotnet_diagnostic.CA1308.severity = error
 dotnet_diagnostic.CA1309.severity = error
@@ -147,7 +147,7 @@ dotnet_diagnostic.RS0030.severity = error
 dotnet_diagnostic.IDE0004.severity = error
 
 # IDE0005: Remove unnecessary usings/imports
-dotnet_diagnostic.IDE0005.severity = error
+dotnet_diagnostic.IDE0005.severity = suggestion
 
 # IDE0051: Remove unused private members (no reads or writes)
 dotnet_diagnostic.IDE0051.severity = error
@@ -261,3 +261,7 @@ dotnet_diagnostic.AV2202.severity = none
 dotnet_diagnostic.AV2305.severity = none
 # AV2407: Region should be removed
 dotnet_diagnostic.AV2407.severity = none
+
+# ReSharper/Rider
+# Convert lambda expression to method group
+resharper_convert_closure_to_method_group_highlighting=none
