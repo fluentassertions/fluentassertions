@@ -51,9 +51,8 @@ namespace FluentAssertions.CallerIdentification
 
             if (statement.Length > 1)
             {
-                var idx = statement.Length - 1;
-                return statement[idx--] == '$'
-                    && statement[idx] == '@';
+                return statement[statement.Length - 1] == '$'
+                    && statement[statement.Length - 2] == '@';
             }
 
             return false;
