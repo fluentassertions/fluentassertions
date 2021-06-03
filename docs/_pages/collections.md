@@ -80,18 +80,35 @@ IEnumerable otherCollection = new[] { 1, 2, 5, 8, 1 };
 IEnumerable anotherCollection = new[] { 10, 20, 50, 80, 10 };
 collection.Should().IntersectWith(otherCollection);
 collection.Should().NotIntersectWith(anotherCollection);
+```
 
+Asserting that a collection contains items in a certain order is as easy as using one of the several overloads of `BeInAscendingOrder` or `BeInDescendingOrder`. The default overload will use the default `Comparer` for the specified type, but overloads also exist that take an `IComparer<T>`, a property expression to sort by an object's property, or a lambda expression to avoid the need for `IComparer<T>` implementations.
+
+```csharp
 collection.Should().BeInAscendingOrder();
 collection.Should().BeInDescendingOrder();
 collection.Should().NotBeInAscendingOrder();
 collection.Should().NotBeInDescendingOrder();
-
-IEnumerable<string> stringCollection = new[] { "build succeeded", "test failed" };
-stringCollection.Should().ContainMatch("* failed");
-stringCollection.Should().AllBe("build succeeded");
 ```
 
-In order to assert presence of an equivalent item in a collection applying [Object graph comparison](/objectgraphs) rules, use this:
+For `String` collections there are specific methods to assert the items. For the `ContainMatch` and `NotContainMatch` methods we support wildcards.
+
+The pattern can be a combination of literal and wildcard characters, but it doesn't support regular expressions.
+
+The following wildcard specifiers are permitted in the pattern:
+
+| Wilcard specifier | Matches                                   |
+| ----------------- | ----------------------------------------- |
+| * (asterisk)      | Zero or more characters in that position. |
+| ? (question mark) | Exactly one character in that position.   |
+
+```csharp
+IEnumerable<string> stringCollection = new[] { "build succeeded", "test failed" };
+stringCollection.Should().AllBe("build succeeded");
+stringCollection.Should().ContainMatch("* failed");
+```
+
+In order to assert presence of an equivalent item in a collection applying [Object graph comparison](objectgraphs.md) rules, use this:
 
 ```csharp
 collection.Should().ContainEquivalentOf(boxedValue);
@@ -152,7 +169,7 @@ In case if you need to perform individual assertions on all elements of a collec
 var collection = new []
 {
     new { Id = 1, Name = "John", Attributes = new string[] { } },
-    new { Id = 2, Name = "Jane", Attributes = new string[] {"attr"} }
+    new { Id = 2, Name = "Jane", Attributes = new string[] { "attr" } }
 };
 collection.Should().SatisfyRespectively(
     first =>
@@ -167,4 +184,17 @@ collection.Should().SatisfyRespectively(
         second.Name.Should().EndWith("e");
         second.Attributes.Should().NotBeEmpty();
     });
+```
+
+If you need to perform individual assertions on all elements of a collection without setting expectation about the order of elements:
+```csharp
+var collection = new []
+{
+    new { Id = 1, Name = "John", Attributes = new string[] { } },
+    new { Id = 2, Name = "Jane", Attributes = new string[] { "attr" } }
+};
+
+collection.Should().Satisfy(
+    e => e.Id == 2 && e.Name == "Jane" && e.Attributes == null,
+    e => e.Id == 1 && e.Name == "John" && e.Attributes != null && e.Attributes.Length > 0);
 ```

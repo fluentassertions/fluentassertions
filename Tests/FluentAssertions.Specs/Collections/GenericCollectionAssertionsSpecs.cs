@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using FluentAssertions.Specs.Equivalency;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Collections
 {
     public class GenericCollectionAssertionsSpecs
     {
@@ -36,7 +37,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("predicate");
+                .WithParameterName("predicate");
         }
 
         [Fact]
@@ -102,20 +103,6 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_collection_does_not_contain_the_combination_of_a_collection_and_a_single_item_it_should_throw()
-        {
-            // Arrange
-            IEnumerable<object> strings = new[] { "string1", "string2" };
-
-            // Act
-            Action act = () => strings.Should().Contain(strings, new object[] { "string3" });
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected strings {\"string1\", \"string2\"} to contain {\"string1\", \"string2\", \"string3\"}, but could not find {\"string3\"}.");
-        }
-
-        [Fact]
         public void When_asserting_collection_contains_some_values_but_collection_is_null_it_should_throw()
         {
             // Arrange
@@ -171,20 +158,6 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected strings not to contain (x == \"xxx\") because we're checking how it reacts to a null subject, but found <null>.");
-        }
-
-        [Fact]
-        public void When_a_collection_does_contain_the_combination_of_a_collection_and_a_single_item_it_should_throw()
-        {
-            // Arrange
-            IEnumerable<object> strings = new[] { "string1", "string2" };
-
-            // Act
-            Action act = () => strings.Should().NotContain(new[] { "string3", "string4" }, new object[] { "string2" });
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected strings {\"string1\", \"string2\"} to not contain {\"string3\", \"string4\", \"string2\"}, but found {\"string2\"}.");
         }
 
         [Fact]
@@ -264,7 +237,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("predicate");
+                .WithParameterName("predicate");
         }
 
         [Fact]
@@ -323,7 +296,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("predicate");
+                .WithParameterName("predicate");
         }
 
         [Fact]
@@ -352,8 +325,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             string expectedMessage =
-                string.Format("Expected collection to contain a single item matching {0}, " +
-                              "but the collection is empty.", expression.Body);
+                $"Expected collection to contain a single item matching {expression.Body}, but the collection is empty.";
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
@@ -370,8 +342,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             string expectedMessage =
-                string.Format("Expected collection to contain a single item matching {0}, " +
-                              "but found <null>.", expression.Body);
+                $"Expected collection to contain a single item matching {expression.Body}, but found <null>.";
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
@@ -388,8 +359,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             string expectedMessage =
-                string.Format("Expected collection to contain a single item matching {0}, " +
-                              "but no such item was found.", expression.Body);
+                $"Expected collection to contain a single item matching {expression.Body}, but no such item was found.";
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
@@ -406,8 +376,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             string expectedMessage =
-                string.Format("Expected collection to contain a single item matching {0}, " +
-                              "but 3 such items were found.", expression.Body);
+                $"Expected collection to contain a single item matching {expression.Body}, but 3 such items were found.";
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
@@ -573,7 +542,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect collection to contain items in ascending order because I say so, but found {empty}.");
+                .WithMessage("Did not expect collection to be in ascending order because I say so, but found {empty}.");
         }
 
         [Fact]
@@ -600,7 +569,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect collection to contain items in descending order because I say so, but found {empty}.");
+                .WithMessage("Did not expect collection to be in descending order because I say so, but found {empty}.");
         }
 
         [Fact]
@@ -685,7 +654,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect collection to contain items in ascending order, but found {42}.");
+                .WithMessage("Did not expect collection to be in ascending order, but found {42}.");
         }
 
         [Fact]
@@ -712,7 +681,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect collection to contain items in descending order, but found {42}.");
+                .WithMessage("Did not expect collection to be in descending order, but found {42}.");
         }
 
         [Fact]
@@ -794,7 +763,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected collection*2*3*1*ordered*should be sorted*1*2*3*");
+                .WithMessage("Expected collection to be in ascending order*should be sorted*2*3*1*");
         }
 
         [Fact]
@@ -821,7 +790,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected collection*1*2*3*ordered*should be sorted*3*2*1*");
+                .WithMessage("Expected collection to be in descending order*should be sorted*1*2*3*");
         }
 
         [Fact]
@@ -848,7 +817,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected collection*3*2*1*not be ordered*should not be sorted*3*2*1*");
+                .WithMessage("Did not expect collection to be in descending order*should not be sorted*3*2*1*");
         }
 
         [Fact]
@@ -875,7 +844,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected collection*1*2*3*not be ordered*should not be sorted*1*2*3*");
+                .WithMessage("Did not expect collection to be in ascending order*should not be sorted*1*2*3*");
         }
 
         [Fact]
@@ -1193,6 +1162,370 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region Multi Element Collection - Using Lambda
+
+        #region Be In Ascending Order
+
+        [Fact]
+        public void When_strings_are_in_ascending_order_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "alpha", "beta", "theta" };
+
+            // Act
+            Action act = () => strings.Should().BeInAscendingOrder();
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_not_in_ascending_order_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "theta", "alpha", "beta" };
+
+            // Act
+            Action act = () => strings.Should().BeInAscendingOrder("of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Expected*ascending*of reasons*index 0*");
+        }
+
+        [Fact]
+        public void When_strings_are_in_ascending_order_according_to_a_custom_comparer_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "alpha", "beta", "theta" };
+
+            // Act
+            Action act = () => strings.Should().BeInAscendingOrder(new ByLastCharacterComparer());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_not_in_ascending_order_according_to_a_custom_comparer_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "dennis", "roy", "thomas" };
+
+            // Act
+            Action act = () => strings.Should().BeInAscendingOrder(new ByLastCharacterComparer(), "of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Expected*ascending*of reasons*index 1*");
+        }
+
+        [Fact]
+        public void When_strings_are_in_ascending_order_according_to_a_custom_lambda_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "alpha", "beta", "theta" };
+
+            // Act
+            Action act = () => strings.Should().BeInAscendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_not_in_ascending_order_according_to_a_custom_lambda_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "dennis", "roy", "thomas" };
+
+            // Act
+            Action act = () => strings.Should().BeInAscendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()), "of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Expected*ascending*of reasons*index 1*");
+        }
+
+        #endregion
+
+        #region Not Be In Ascending Order
+
+        [Fact]
+        public void When_strings_are_not_in_ascending_order_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "beta", "alpha", "theta" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInAscendingOrder();
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_in_ascending_order_unexpectedly_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "alpha", "beta", "theta" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInAscendingOrder("of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Did not expect*ascending*of reasons*but found*");
+        }
+
+        [Fact]
+        public void When_strings_are_not_in_ascending_order_according_to_a_custom_comparer_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "dennis", "roy", "barbara" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInAscendingOrder(new ByLastCharacterComparer());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_unexpectedly_in_ascending_order_according_to_a_custom_comparer_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "dennis", "thomas", "roy" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInAscendingOrder(new ByLastCharacterComparer(), "of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Did not expect*ascending*of reasons*but found*");
+        }
+
+        [Fact]
+        public void When_strings_are_not_in_ascending_order_according_to_a_custom_lambda_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "roy", "dennis", "thomas" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInAscendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_unexpectedly_in_ascending_order_according_to_a_custom_lambda_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "barbara", "dennis", "roy" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInAscendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()), "of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Did not expect*ascending*of reasons*but found*");
+        }
+
+        #endregion
+
+        #region Be In Descending Order
+
+        [Fact]
+        public void When_strings_are_in_descending_order_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "theta", "beta", "alpha" };
+
+            // Act
+            Action act = () => strings.Should().BeInDescendingOrder();
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_not_in_descending_order_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "theta", "alpha", "beta" };
+
+            // Act
+            Action act = () => strings.Should().BeInDescendingOrder("of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Expected*descending*of reasons*index 1*");
+        }
+
+        [Fact]
+        public void When_strings_are_in_descending_order_based_on_a_custom_comparer_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "roy", "dennis", "barbara" };
+
+            // Act
+            Action act = () => strings.Should().BeInDescendingOrder(new ByLastCharacterComparer());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_not_in_descending_order_based_on_a_custom_comparer_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "dennis", "roy", "barbara" };
+
+            // Act
+            Action act = () => strings.Should().BeInDescendingOrder(new ByLastCharacterComparer(), "of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Expected*descending*of reasons*index 0*");
+        }
+
+        [Fact]
+        public void When_strings_are_in_descending_order_based_on_a_custom_lambda_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "roy", "dennis", "barbara" };
+
+            // Act
+            Action act = () => strings.Should().BeInDescendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_not_in_descending_order_based_on_a_custom_lambda_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "dennis", "roy", "barbara" };
+
+            // Act
+            Action act = () => strings.Should().BeInDescendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()), "of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Expected*descending*of reasons*index 0*");
+        }
+
+        #endregion
+
+        #region Not Be In Descending Order
+
+        [Fact]
+        public void When_strings_are_not_in_descending_order_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "beta", "theta", "alpha" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInDescendingOrder();
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_unexpectedly_in_descending_order_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "theta", "beta", "alpha" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInDescendingOrder("of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Did not expect*descending*of reasons*but found*");
+        }
+
+        [Fact]
+        public void When_strings_are_not_in_descending_order_based_on_a_custom_comparer_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "roy", "barbara", "dennis" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInDescendingOrder(new ByLastCharacterComparer());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_unexpectedly_in_descending_order_based_on_a_custom_comparer_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "roy", "dennis", "barbara" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInDescendingOrder(new ByLastCharacterComparer(), "of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Did not expect*descending*of reasons*but found*");
+        }
+
+        [Fact]
+        public void When_strings_are_not_in_descending_order_based_on_a_custom_lambda_it_should_succeed()
+        {
+            // Arrange
+            string[] strings = { "dennis", "roy", "barbara" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInDescendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_strings_are_unexpectedly_in_descending_order_based_on_a_custom_lambda_it_should_throw()
+        {
+            // Arrange
+            string[] strings = { "roy", "dennis", "barbara" };
+
+            // Act
+            Action act = () => strings.Should().NotBeInDescendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()), "of {0}", "reasons");
+
+            // Assert
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Did not expect*descending*of reasons*but found*");
+        }
+
+        private class ByLastCharacterComparer : IComparer<string>
+        {
+            public int Compare(string x, string y)
+            {
+                return x.Last().CompareTo(y.Last());
+            }
+        }
+
+        #endregion
+
+        #endregion
+
         #region Null Collection
 
         [Fact]
@@ -1206,7 +1539,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*Text*found*null*");
+                .WithMessage("*Text*found*null*");
         }
 
         [Fact]
@@ -1220,7 +1553,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*found*null*");
+                .WithMessage("*found*null*");
         }
 
         [Fact]
@@ -1234,7 +1567,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*Text*found*null*");
+                .WithMessage("*Text*found*null*");
         }
 
         [Fact]
@@ -1248,7 +1581,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*Text*found*null*");
+                .WithMessage("*Text*found*null*");
         }
 
         [Fact]
@@ -1295,7 +1628,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert collection ordering without specifying a property*")
-                .And.ParamName.Should().Be("propertyExpression");
+                .WithParameterName("propertyExpression");
         }
 
         [Fact]
@@ -1305,12 +1638,12 @@ namespace FluentAssertions.Specs
             var collection = Enumerable.Empty<SomeClass>();
 
             // Act
-            Action act = () => collection.Should().BeInAscendingOrder(null);
+            Action act = () => collection.Should().BeInAscendingOrder(comparer: null);
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert collection ordering without specifying a comparer*")
-                .And.ParamName.Should().Be("comparer");
+                .WithParameterName("comparer");
         }
 
         [Fact]
@@ -1334,7 +1667,7 @@ namespace FluentAssertions.Specs
             var collection = Enumerable.Empty<SomeClass>();
 
             // Act
-            Action act = () => collection.Should().NotBeInAscendingOrder(null);
+            Action act = () => collection.Should().NotBeInAscendingOrder(comparer: null);
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
@@ -1583,7 +1916,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("predicate");
+                .WithParameterName("predicate");
         }
 
         [Fact]
@@ -1668,7 +2001,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("predicate");
+                .WithParameterName("predicate");
         }
 
         [Fact]

@@ -85,10 +85,11 @@ namespace FluentAssertions.Collections
                         additionalKeys);
             }
 
+            Func<TValue, TValue, bool> areSameOrEqual = ObjectExtensions.GetComparer<TValue>();
             foreach (var key in expectedKeys)
             {
                 Execute.Assertion
-                    .ForCondition(GetValue(Subject, key).IsSameOrEqualTo(GetValue(expected, key)))
+                    .ForCondition(areSameOrEqual(GetValue(Subject, key), GetValue(expected, key)))
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:dictionary} to be equal to {0}{reason}, but {1} differs at key {2}.",
                     expected, Subject, key);
@@ -135,9 +136,10 @@ namespace FluentAssertions.Collections
             IEnumerable<TKey> missingKeys = unexpectedKeys.Except(subjectKeys);
             IEnumerable<TKey> additionalKeys = subjectKeys.Except(unexpectedKeys);
 
+            Func<TValue, TValue, bool> areSameOrEqual = ObjectExtensions.GetComparer<TValue>();
             bool foundDifference = missingKeys.Any()
                 || additionalKeys.Any()
-                    || subjectKeys.Any(key => !GetValue(Subject, key).IsSameOrEqualTo(GetValue(unexpected, key)));
+                || subjectKeys.Any(key => !areSameOrEqual(GetValue(Subject, key), GetValue(unexpected, key)));
 
             if (!foundDifference)
             {
@@ -209,17 +211,20 @@ namespace FluentAssertions.Collections
 
             EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
 
-            var context = new EquivalencyValidationContext(Node.From<TExpectation>(CallerIdentifier.DetermineCallerIdentity))
+            var context = new EquivalencyValidationContext(Node.From<TExpectation>(() => CallerIdentifier.DetermineCallerIdentity()), options)
             {
-                Subject = Subject,
-                Expectation = expectation,
-                CompileTimeType = typeof(TExpectation),
                 Reason = new Reason(because, becauseArgs),
                 TraceWriter = options.TraceWriter
             };
 
-            var equivalencyValidator = new EquivalencyValidator(options);
-            equivalencyValidator.AssertEquality(context);
+            var comparands = new Comparands
+            {
+                Subject = Subject,
+                Expectation = expectation,
+                CompileTimeType = typeof(TExpectation),
+            };
+
+            new EquivalencyValidator().AssertEquality(comparands, context);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -238,14 +243,14 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public WhichValueConstraint<TCollection, TKey, TValue, TAssertions> ContainKey(TKey expected,
+        public WhoseValueConstraint<TCollection, TKey, TValue, TAssertions> ContainKey(TKey expected,
             string because = "", params object[] becauseArgs)
         {
             AndConstraint<TAssertions> andConstraint = ContainKeys(new[] { expected }, because, becauseArgs);
 
             _ = TryGetValue(Subject, expected, out TValue value);
 
-            return new WhichValueConstraint<TCollection, TKey, TValue, TAssertions>(andConstraint.And, value);
+            return new WhoseValueConstraint<TCollection, TKey, TValue, TAssertions>(andConstraint.And, value);
         }
 
         /// <summary>
@@ -521,7 +526,7 @@ namespace FluentAssertions.Collections
             IEnumerable<TValue> first, IEnumerable<TValue> second)
         {
             var secondSet = new HashSet<TValue>(second);
-            return first.Where(secondSet.Contains);
+            return first.Where(e => secondSet.Contains(e));
         }
 
         #endregion
@@ -652,7 +657,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> Contain(IEnumerable<KeyValuePair<TKey, TValue>> expected,
+        public new AndConstraint<TAssertions> Contain(IEnumerable<KeyValuePair<TKey, TValue>> expected,
             string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare dictionary with <null>.");
@@ -693,7 +698,8 @@ namespace FluentAssertions.Collections
                 }
             }
 
-            KeyValuePair<TKey, TValue>[] keyValuePairsNotSameOrEqualInSubject = expectedKeyValuePairs.Where(keyValuePair => !GetValue(Subject, keyValuePair.Key).IsSameOrEqualTo(keyValuePair.Value)).ToArray();
+            Func<TValue, TValue, bool> areSameOrEqual = ObjectExtensions.GetComparer<TValue>();
+            KeyValuePair<TKey, TValue>[] keyValuePairsNotSameOrEqualInSubject = expectedKeyValuePairs.Where(keyValuePair => !areSameOrEqual(GetValue(Subject, keyValuePair.Key), keyValuePair.Value)).ToArray();
 
             if (keyValuePairsNotSameOrEqualInSubject.Any())
             {
@@ -765,8 +771,9 @@ namespace FluentAssertions.Collections
 
             if (TryGetValue(Subject, key, out TValue actual))
             {
+                Func<TValue, TValue, bool> areSameOrEqual = ObjectExtensions.GetComparer<TValue>();
                 Execute.Assertion
-                    .ForCondition(actual.IsSameOrEqualTo(value))
+                    .ForCondition(areSameOrEqual(actual, value))
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:dictionary} to contain value {0} at key {1}{reason}, but found {2}.", value, key, actual);
             }
@@ -809,7 +816,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> NotContain(IEnumerable<KeyValuePair<TKey, TValue>> items,
+        public new AndConstraint<TAssertions> NotContain(IEnumerable<KeyValuePair<TKey, TValue>> items,
             string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(items, nameof(items), "Cannot compare dictionary with <null>.");
@@ -833,8 +840,9 @@ namespace FluentAssertions.Collections
 
             if (keyValuePairsFound.Any())
             {
+                Func<TValue, TValue, bool> areSameOrEqual = ObjectExtensions.GetComparer<TValue>();
                 KeyValuePair<TKey, TValue>[] keyValuePairsSameOrEqualInSubject = keyValuePairsFound
-                    .Where(keyValuePair => GetValue(Subject, keyValuePair.Key).IsSameOrEqualTo(keyValuePair.Value)).ToArray();
+                    .Where(keyValuePair => areSameOrEqual(GetValue(Subject, keyValuePair.Key), keyValuePair.Value)).ToArray();
 
                 if (keyValuePairsSameOrEqualInSubject.Any())
                 {
@@ -906,7 +914,7 @@ namespace FluentAssertions.Collections
             if (TryGetValue(Subject, key, out TValue actual))
             {
                 Execute.Assertion
-                    .ForCondition(!actual.IsSameOrEqualTo(value))
+                    .ForCondition(!ObjectExtensions.GetComparer<TValue>()(actual, value))
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:dictionary} not to contain value {0} at key {1}{reason}, but found it anyhow.", value, key);
             }

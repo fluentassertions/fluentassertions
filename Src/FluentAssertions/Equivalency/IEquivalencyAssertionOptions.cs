@@ -62,14 +62,19 @@ namespace FluentAssertions.Equivalency
         bool UseRuntimeTyping { get; }
 
         /// <summary>
-        /// Gets a value indicating whether properties should be considered.
+        /// Gets a value indicating whether and which properties should be considered.
         /// </summary>
-        bool IncludeProperties { get; }
+        MemberVisibility IncludedProperties { get; }
 
         /// <summary>
-        /// Gets a value indicating whether fields should be considered.
+        /// Gets a value indicating whether and which fields should be considered.
         /// </summary>
-        bool IncludeFields { get; }
+        MemberVisibility IncludedFields { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether records should be compared by value instead of their members
+        /// </summary>
+        bool CompareRecordsByValue { get; }
 
         /// <summary>
         /// Gets the currently configured tracer, or <c>null</c> if no tracing was configured.

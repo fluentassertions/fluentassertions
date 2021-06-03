@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FluentAssertions.Common
@@ -34,8 +35,14 @@ namespace FluentAssertions.Common
             {
                 IDictionary<TKey, TValue> dictionary => dictionary.ContainsKey(key),
                 IReadOnlyDictionary<TKey, TValue> readOnlyDictionary => readOnlyDictionary.ContainsKey(key),
-                _ => collection.Any(kvp => kvp.Key.IsSameOrEqualTo(key)),
+                _ => ContainsKey(collection, key),
             };
+
+            static bool ContainsKey(TCollection collection, TKey key)
+            {
+                Func<TKey, TKey, bool> areSameOrEqual = ObjectExtensions.GetComparer<TKey>();
+                return collection.Any(kvp => areSameOrEqual(kvp.Key, key));
+            }
         }
 
         public static bool TryGetValue<TCollection, TKey, TValue>(this TCollection collection, TKey key, out TValue value)
@@ -45,16 +52,16 @@ namespace FluentAssertions.Common
             {
                 IDictionary<TKey, TValue> dictionary => dictionary.TryGetValue(key, out value),
                 IReadOnlyDictionary<TKey, TValue> readOnlyDictionary => readOnlyDictionary.TryGetValue(key, out value),
-                _ => TryGetValueInternal(collection, key, out value),
+                _ => TryGetValue(collection, key, out value),
             };
-        }
 
-        private static bool TryGetValueInternal<TCollection, TKey, TValue>(this TCollection collection, TKey key, out TValue value)
-            where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
-        {
-            KeyValuePair<TKey, TValue> matchingPair = collection.FirstOrDefault(kvp => kvp.Key.IsSameOrEqualTo(key));
-            value = matchingPair.Value;
-            return matchingPair.Equals(default(KeyValuePair<TKey, TValue>));
+            static bool TryGetValue(TCollection collection, TKey key, out TValue value)
+            {
+                Func<TKey, TKey, bool> areSameOrEqual = ObjectExtensions.GetComparer<TKey>();
+                KeyValuePair<TKey, TValue> matchingPair = collection.FirstOrDefault(kvp => areSameOrEqual(kvp.Key, key));
+                value = matchingPair.Value;
+                return matchingPair.Equals(default(KeyValuePair<TKey, TValue>));
+            }
         }
 
         public static TValue GetValue<TCollection, TKey, TValue>(this TCollection collection, TKey key)
@@ -64,8 +71,14 @@ namespace FluentAssertions.Common
             {
                 IDictionary<TKey, TValue> dictionary => dictionary[key],
                 IReadOnlyDictionary<TKey, TValue> readOnlyDictionary => readOnlyDictionary[key],
-                _ => collection.First(kvp => kvp.Key.IsSameOrEqualTo(key)).Value,
+                _ => GetValue(collection, key),
             };
+
+            static TValue GetValue(TCollection collection, TKey key)
+            {
+                Func<TKey, TKey, bool> areSameOrEqual = ObjectExtensions.GetComparer<TKey>();
+                return collection.First(kvp => areSameOrEqual(kvp.Key, key)).Value;
+            }
         }
     }
 }

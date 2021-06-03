@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 
 namespace FluentAssertions.Execution
@@ -11,23 +12,18 @@ namespace FluentAssertions.Execution
         {
             get
             {
-                try
-                {
-                    assembly = Assembly.Load(new AssemblyName("nspec"));
+                assembly = AppDomain.CurrentDomain
+                    .GetAssemblies()
+                    .FirstOrDefault(a => a.FullName.StartsWith("nspec,", StringComparison.OrdinalIgnoreCase));
 
-                    if (assembly is null)
-                    {
-                        return false;
-                    }
-
-                    int majorVersion = assembly.GetName().Version.Major;
-
-                    return majorVersion >= 2;
-                }
-                catch
+                if (assembly is null)
                 {
                     return false;
                 }
+
+                int majorVersion = assembly.GetName().Version.Major;
+
+                return majorVersion >= 2;
             }
         }
 

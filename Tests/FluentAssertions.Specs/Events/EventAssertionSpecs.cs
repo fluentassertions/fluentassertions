@@ -1,4 +1,4 @@
-﻿#if NET47
+﻿#if NETFRAMEWORK
 using System.Reflection;
 using System.Reflection.Emit;
 #endif
@@ -159,7 +159,7 @@ namespace FluentAssertions.Specs.Events
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("predicate");
+                .WithParameterName("predicate");
         }
 
         [Fact]
@@ -604,7 +604,7 @@ namespace FluentAssertions.Specs.Events
 
             // Assert
             act.Should().Throw<ArgumentException>()
-                .Which.ParamName.Should().Be("expression");
+                .WithParameterName("expression");
         }
 
         #endregion
@@ -658,7 +658,7 @@ namespace FluentAssertions.Specs.Events
             });
         }
 
-#if NET47 // DefineDynamicAssembly is obsolete in .NET Core
+#if NETFRAMEWORK // DefineDynamicAssembly is obsolete in .NET Core
         [Fact]
         public void When_an_object_doesnt_expose_any_events_it_should_throw()
         {
@@ -709,7 +709,7 @@ namespace FluentAssertions.Specs.Events
             MethodBuilder emitAddRemoveEventHandler(string methodName)
             {
                 MethodBuilder method =
-                    typeBuilder.DefineMethod(string.Format("{0}.{1}_InterfaceEvent", interfaceType.FullName, methodName),
+                    typeBuilder.DefineMethod($"{interfaceType.FullName}.{methodName}_InterfaceEvent",
                         MethodAttributes.Private | MethodAttributes.Virtual | MethodAttributes.Final |
                         MethodAttributes.HideBySig |
                         MethodAttributes.NewSlot);
@@ -837,9 +837,9 @@ namespace FluentAssertions.Specs.Events
 
             public int SomeOtherProperty { get; set; }
 
-            public event PropertyChangedEventHandler PropertyChanged = (_, __) => { };
+            public event PropertyChangedEventHandler PropertyChanged = (_, _) => { };
 
-            public event Action<string, int, string> NonConventionalEvent = (_, __, ___) => { };
+            public event Action<string, int, string> NonConventionalEvent = (_, _, _) => { };
 
             public void RaiseNonConventionalEvent(string first, int second, string third)
             {

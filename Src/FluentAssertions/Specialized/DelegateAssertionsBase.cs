@@ -35,7 +35,7 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected a <{0}> to be thrown{reason}, ", typeof(TException))
-                .ForCondition(exception != null)
+                .ForCondition(exception is not null)
                 .FailWith("but no exception was thrown.")
                 .Then
                 .ForCondition(expectedExceptions.Any())

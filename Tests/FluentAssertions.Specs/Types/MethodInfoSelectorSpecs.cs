@@ -1,14 +1,56 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-
+using FluentAssertions.Types;
 using Internal.Main.Test;
 using Xunit;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Types
 {
     public class MethodInfoSelectorSpecs
     {
+        [Fact]
+        public void When_method_info_selector_is_created_with_a_null_type_it_should_throw()
+        {
+            // Arrange
+            MethodInfoSelector methodInfoSelector;
+
+            // Act
+            Action act = () => methodInfoSelector = new MethodInfoSelector((Type)null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("types");
+        }
+
+        [Fact]
+        public void When_method_info_selector_is_created_with_a_null_type_list_it_should_throw()
+        {
+            // Arrange
+            MethodInfoSelector methodInfoSelector;
+
+            // Act
+            Action act = () => methodInfoSelector = new MethodInfoSelector((Type[])null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("types");
+        }
+
+        [Fact]
+        public void When_method_info_selector_is_null_then_should_should_throw()
+        {
+            // Arrange
+            MethodInfoSelector methodInfoSelector = null;
+
+            // Act
+            Action act = () => methodInfoSelector.Should();
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("methodSelector");
+        }
+
         [Fact]
         public void When_selecting_methods_from_types_in_an_assembly_it_should_return_the_applicable_methods()
         {
@@ -266,7 +308,7 @@ namespace FluentAssertions.Specs
     internal class TestClassForMethodSelector
     {
 #pragma warning disable 67 // "event is never used"
-        public event EventHandler SomethingChanged = (_, __) => { };
+        public event EventHandler SomethingChanged = (_, _) => { };
 #pragma warning restore 67
 
         public virtual void PublicVirtualVoidMethod()

@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Globalization;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives
 {
     /// <summary>
-    /// Contains a number of methods to assert that an <see cref="Enum"/> is in the expected state.
+    /// Contains a number of methods to assert that a <typeparamref name="TEnum"/> is in the expected state.
     /// </summary>
-    public class EnumAssertions : EnumAssertions<Enum, EnumAssertions>
+    public class EnumAssertions<TEnum> : EnumAssertions<TEnum, EnumAssertions<TEnum>>
+        where TEnum : struct, Enum
     {
-        public EnumAssertions(Enum subject)
+        public EnumAssertions(TEnum subject)
             : base(subject)
         {
         }
@@ -17,15 +19,246 @@ namespace FluentAssertions.Primitives
     /// <summary>
     /// Contains a number of methods to assert that a <typeparamref name="TEnum"/> is in the expected state.
     /// </summary>
-    public class EnumAssertions<TEnum, TAssertions> : ObjectAssertions<TEnum, TAssertions>
-        where TEnum : Enum
+    public class EnumAssertions<TEnum, TAssertions>
+        where TEnum : struct, Enum
         where TAssertions : EnumAssertions<TEnum, TAssertions>
     {
-        protected override string Identifier => "enum";
-
         public EnumAssertions(TEnum subject)
-            : base(subject)
+            : this((TEnum?)subject)
         {
+        }
+
+        private protected EnumAssertions(TEnum? value)
+        {
+            SubjectInternal = value;
+        }
+
+        public TEnum Subject => SubjectInternal.Value;
+
+        private protected TEnum? SubjectInternal { get; }
+
+        /// <summary>
+        /// Asserts that the current <typeparamref name="TEnum"/> is exactly equal to the <paramref name="expected"/> value.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> Be(TEnum expected, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(SubjectInternal?.Equals(expected) == true)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected the enum to be {0}{reason}, but found {1}.",
+                    expected, SubjectInternal);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <typeparamref name="TEnum"/> is exactly equal to the <paramref name="expected"/> value.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> Be(TEnum? expected, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(Nullable.Equals(SubjectInternal, expected))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected the enum to be {0}{reason}, but found {1}.",
+                    expected, SubjectInternal);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <typeparamref name="TEnum"/> or <typeparamref name="TEnum"/> is not equal to the <paramref name="unexpected"/> value.
+        /// </summary>
+        /// <param name="unexpected">The unexpected value</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotBe(TEnum unexpected, string because = "",
+            params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(SubjectInternal?.Equals(unexpected) != true)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected the enum not to be {0}{reason}, but it is.", unexpected);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <typeparamref name="TEnum"/> or <typeparamref name="TEnum"/> is not equal to the <paramref name="unexpected"/> value.
+        /// </summary>
+        /// <param name="unexpected">The unexpected value</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotBe(TEnum? unexpected, string because = "",
+            params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(!Nullable.Equals(SubjectInternal, unexpected))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected the enum not to be {0}{reason}, but it is.", unexpected);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <typeparamref name="TEnum"/> is exactly equal to the <paramref name="expected"/> value.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> HaveValue(decimal expected, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(SubjectInternal.HasValue && (GetValue(SubjectInternal.Value) == expected))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected the enum to have value {0}{reason}, but found {1}.",
+                    expected, SubjectInternal);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <typeparamref name="TEnum"/> is exactly equal to the <paramref name="unexpected"/> value.
+        /// </summary>
+        /// <param name="unexpected">The expected value</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotHaveValue(decimal unexpected, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(!(SubjectInternal.HasValue && (GetValue(SubjectInternal.Value) == unexpected)))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected the enum to not have value {0}{reason}, but found {1}.",
+                    unexpected, SubjectInternal);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <typeparamref name="TEnum"/> has the same numeric value as <paramref name="expected"/>.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> HaveSameValueAs<T>(T expected, string because = "", params object[] becauseArgs)
+            where T : struct, Enum
+        {
+            Execute.Assertion
+                .ForCondition(SubjectInternal.HasValue && (GetValue(SubjectInternal.Value) == GetValue(expected)))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected the enum to have same value as {0}{reason}, but found {1}.",
+                    expected, SubjectInternal);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <typeparamref name="TEnum"/> does not have the same numeric value as <paramref name="unexpected"/>.
+        /// </summary>
+        /// <param name="unexpected">The expected value</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotHaveSameValueAs<T>(T unexpected, string because = "", params object[] becauseArgs)
+            where T : struct, Enum
+        {
+            Execute.Assertion
+                .ForCondition(!(SubjectInternal.HasValue && (GetValue(SubjectInternal.Value) == GetValue(unexpected))))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected the enum to not have same value as {0}{reason}, but found {1}.",
+                    unexpected, SubjectInternal);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <typeparamref name="TEnum"/> has the same name as <paramref name="expected"/>.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> HaveSameNameAs<T>(T expected, string because = "", params object[] becauseArgs)
+            where T : struct, Enum
+        {
+            Execute.Assertion
+                .ForCondition(SubjectInternal.HasValue && (GetName(SubjectInternal.Value) == GetName(expected)))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected the enum to have same name as {0}{reason}, but found {1}.",
+                    expected, SubjectInternal);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <typeparamref name="TEnum"/> does not have the same name as <paramref name="unexpected"/>.
+        /// </summary>
+        /// <param name="unexpected">The expected value</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotHaveSameNameAs<T>(T unexpected, string because = "", params object[] becauseArgs)
+            where T : struct, Enum
+        {
+            Execute.Assertion
+                .ForCondition(!(SubjectInternal.HasValue && (GetName(SubjectInternal.Value) == GetName(unexpected))))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected the enum to not have same name as {0}{reason}, but found {1}.",
+                    unexpected, SubjectInternal);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -39,20 +272,13 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<TAssertions> HaveFlag<T>(T expectedFlag, string because = "",
+        public AndConstraint<TAssertions> HaveFlag(TEnum expectedFlag, string because = "",
             params object[] becauseArgs)
-            where T : struct, TEnum
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(!(Subject is null))
-                .FailWith("Expected type to be {0}{reason}, but found <null>.", expectedFlag.GetType())
-                .Then
-                .ForCondition(Subject.GetType() == expectedFlag.GetType())
-                .FailWith("Expected the enum to be of type {0} type but found {1}{reason}.", expectedFlag.GetType(), Subject.GetType())
-                .Then
-                .ForCondition(Subject.HasFlag(expectedFlag))
-                .FailWith("The enum was expected to have flag {0} but found {1}{reason}.", expectedFlag, Subject);
+                .ForCondition(SubjectInternal?.HasFlag(expectedFlag) == true)
+                .FailWith("Expected the enum to have flag {0}{reason}, but found {1}.", expectedFlag, SubjectInternal);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -68,22 +294,27 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<TAssertions> NotHaveFlag<T>(T unexpectedFlag, string because = "",
+        public AndConstraint<TAssertions> NotHaveFlag(TEnum unexpectedFlag, string because = "",
             params object[] becauseArgs)
-            where T : struct, TEnum
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(!(Subject is null))
-                .FailWith("Expected type to be {0}{reason}, but found <null>.", unexpectedFlag.GetType())
-                .Then
-                .ForCondition(Subject.GetType() == unexpectedFlag.GetType())
-                .FailWith("Expected the enum to be of type {0} type but found {1}{reason}.", unexpectedFlag.GetType(), Subject.GetType())
-                .Then
-                .ForCondition(!Subject.HasFlag(unexpectedFlag))
-                .FailWith("Did not expect the enum to have flag {0}{reason}.", unexpectedFlag);
+                .ForCondition(SubjectInternal?.HasFlag(unexpectedFlag) != true)
+                .FailWith("Expected the enum to not have flag {0}{reason}.", unexpectedFlag);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        private static decimal GetValue<T>(T @enum)
+            where T : struct, Enum
+        {
+            return Convert.ToDecimal(@enum, CultureInfo.InvariantCulture);
+        }
+
+        private static string GetName<T>(T @enum)
+            where T : struct, Enum
+        {
+            return @enum.ToString();
         }
     }
 }

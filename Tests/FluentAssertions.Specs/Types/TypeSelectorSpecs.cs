@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using FluentAssertions.Types;
-
 using Internal.Main.Test;
 using Internal.NotOnlyClasses.Test;
 using Internal.Other.Test;
@@ -14,10 +13,52 @@ using Internal.UnwrapSelectorTestTypes.Test;
 using Xunit;
 using ISomeInterface = Internal.Main.Test.ISomeInterface;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Types
 {
     public class TypeSelectorSpecs
     {
+        [Fact]
+        public void When_type_selector_is_created_with_a_null_type_it_should_throw()
+        {
+            // Arrange
+            TypeSelector propertyInfoSelector;
+
+            // Act
+            Action act = () => propertyInfoSelector = new TypeSelector((Type)null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("types");
+        }
+
+        [Fact]
+        public void When_type_selector_is_created_with_a_null_type_list_it_should_throw()
+        {
+            // Arrange
+            TypeSelector propertyInfoSelector;
+
+            // Act
+            Action act = () => propertyInfoSelector = new TypeSelector((Type[])null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("types");
+        }
+
+        [Fact]
+        public void When_type_selector_is_null_then_should_should_throw()
+        {
+            // Arrange
+            TypeSelector propertyInfoSelector = null;
+
+            // Act
+            Action act = () => propertyInfoSelector.Should();
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("typeSelector");
+        }
+
         [Fact]
         public void When_selecting_types_that_derive_from_a_specific_class_it_should_return_the_correct_types()
         {
@@ -496,7 +537,7 @@ namespace FluentAssertions.Specs
 
             // Act
             IEnumerable<Type> types = AllTypes.From(assembly)
-                .ThatSatisfy(t => t.GetCustomAttribute<SomeAttribute>() != null);
+                .ThatSatisfy(t => t.GetCustomAttribute<SomeAttribute>() is not null);
 
             // Assert
             types.Should()
@@ -515,7 +556,7 @@ namespace FluentAssertions.Specs
                 .UnwrapTaskTypes();
 
             types.Should()
-                .BeEquivalentTo(typeof(int), typeof(void), typeof(void), typeof(string), typeof(bool));
+                .BeEquivalentTo(new[] { typeof(int), typeof(void), typeof(void), typeof(string), typeof(bool) });
         }
 
         [Fact]

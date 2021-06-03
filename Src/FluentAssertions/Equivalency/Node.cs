@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency
@@ -33,6 +34,15 @@ namespace FluentAssertions.Equivalency
         }
 
         public bool RootIsCollection { get; protected set; }
+
+        public int Depth
+        {
+            get
+            {
+                const char memberSeparator = '.';
+                return PathAndName.Count(chr => chr == memberSeparator);
+            }
+        }
 
         private static bool IsCollection(Type type)
         {
@@ -77,7 +87,7 @@ namespace FluentAssertions.Equivalency
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj))
+            if (obj is null)
             {
                 return false;
             }

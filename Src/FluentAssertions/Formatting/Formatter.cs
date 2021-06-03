@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
+using FluentAssertions.Equivalency.Execution;
+using FluentAssertions.Execution;
 using FluentAssertions.Xml;
 
 namespace FluentAssertions.Formatting
@@ -14,10 +16,11 @@ namespace FluentAssertions.Formatting
     {
         #region Private Definitions
 
-        private static readonly List<IValueFormatter> CustomFormatters = new List<IValueFormatter>();
+        private static readonly List<IValueFormatter> CustomFormatters = new();
 
-        private static readonly List<IValueFormatter> DefaultFormatters = new List<IValueFormatter>
+        private static readonly List<IValueFormatter> DefaultFormatters = new()
         {
+            new XmlReaderValueFormatter(),
             new XmlNodeFormatter(),
             new AttributeBasedFormatter(),
             new AggregateExceptionValueFormatter(),
@@ -42,10 +45,13 @@ namespace FluentAssertions.Formatting
             new SByteValueFormatter(),
             new StringValueFormatter(),
             new TaskFormatter(),
+            new PredicateLambdaExpressionValueFormatter(),
             new ExpressionValueFormatter(),
             new ExceptionValueFormatter(),
             new MultidimensionalArrayFormatter(),
+            new DictionaryValueFormatter(),
             new EnumerableValueFormatter(),
+            new EnumValueFormatter(),
             new DefaultValueFormatter()
         };
 
@@ -66,14 +72,16 @@ namespace FluentAssertions.Formatting
         /// Returns a human-readable representation of a particular object.
         /// </summary>
         /// <param name="value">The value for which to create a <see cref="string"/>.</param>
-        /// <param name="useLineBreaks">
+        /// <param name="options">
         /// Indicates whether the formatter should use line breaks when the specific <see cref="IValueFormatter"/> supports it.
         /// </param>
         /// <returns>
         /// A <see cref="string" /> that represents this instance.
         /// </returns>
-        public static string ToString(object value, bool useLineBreaks = false)
+        public static string ToString(object value, FormattingOptions options = null)
         {
+            options ??= new FormattingOptions();
+
             try
             {
                 if (isReentry)
@@ -88,11 +96,21 @@ namespace FluentAssertions.Formatting
 
                 var context = new FormattingContext
                 {
-                    Depth = graph.Depth,
-                    UseLineBreaks = useLineBreaks
+                    UseLineBreaks = options.UseLineBreaks
                 };
 
-                return Format(value, context, (path, childValue) => FormatChild(path, childValue, useLineBreaks, graph));
+                FormattedObjectGraph output = new(options.MaxLines);
+
+                try
+                {
+                    Format(value, output, context, (path, childValue,
+                        output) => FormatChild(path, childValue, output, context, options, graph));
+                }
+                catch (MaxLinesExceededException)
+                {
+                }
+
+                return output.ToString();
             }
             finally
             {
@@ -100,29 +118,28 @@ namespace FluentAssertions.Formatting
             }
         }
 
-        private static string FormatChild(string path, object childValue, bool useLineBreaks, ObjectGraph graph)
+        private static void FormatChild(string path, object value, FormattedObjectGraph output, FormattingContext context, FormattingOptions options, ObjectGraph graph)
         {
             try
             {
                 Guard.ThrowIfArgumentIsNullOrEmpty(path, nameof(path), "Formatting a child value requires a path");
 
-                if (!graph.TryPush(path, childValue))
+                if (!graph.TryPush(path, value))
                 {
-                    return $"{{Cyclic reference to type {childValue.GetType()} detected}}";
+                    output.AddFragment($"{{Cyclic reference to type {value.GetType()} detected}}");
                 }
-                else if (graph.Depth > 5)
+                else if (graph.Depth > options.MaxDepth)
                 {
-                    return "{Maximum recursion depth was reached…}";
+                    output.AddLine($"Maximum recursion depth of {options.MaxDepth} was reached. " +
+                           $" Increase {nameof(FormattingOptions.MaxDepth)} on {nameof(AssertionScope)} or {nameof(AssertionOptions)} to get more details.");
                 }
                 else
                 {
-                    var context = new FormattingContext
+                    using (output.WithIndentation())
                     {
-                        Depth = graph.Depth,
-                        UseLineBreaks = useLineBreaks
-                    };
-
-                    return Format(childValue, context, (x, y) => FormatChild(x, y, useLineBreaks, graph));
+                        Format(value, output, context, (childPath, childValue, nestedOutput) =>
+                            FormatChild(childPath, childValue, nestedOutput, context, options, graph));
+                    }
                 }
             }
             finally
@@ -131,10 +148,10 @@ namespace FluentAssertions.Formatting
             }
         }
 
-        private static string Format(object value, FormattingContext context, FormatChild formatChild)
+        private static void Format(object value, FormattedObjectGraph output, FormattingContext context, FormatChild formatChild)
         {
             IValueFormatter firstFormatterThatCanHandleValue = Formatters.First(f => f.CanHandle(value));
-            return firstFormatterThatCanHandleValue.Format(value, context, formatChild);
+            firstFormatterThatCanHandleValue.Format(value, output, context, formatChild);
         }
 
         /// <summary>
@@ -173,7 +190,7 @@ namespace FluentAssertions.Formatting
 
             public ObjectGraph(object rootObject)
             {
-                tracker = new CyclicReferenceDetector(CyclicReferenceHandling.Ignore);
+                tracker = new CyclicReferenceDetector();
                 pathStack = new Stack<string>();
                 TryPush("root", rootObject);
             }
@@ -184,7 +201,7 @@ namespace FluentAssertions.Formatting
 
                 string fullPath = GetFullPath();
                 var reference = new ObjectReference(value, fullPath);
-                return !tracker.IsCyclicReference(reference);
+                return !tracker.IsCyclicReference(reference, CyclicReferenceHandling.Ignore);
             }
 
             private string GetFullPath() => string.Join(".", pathStack.Reverse());

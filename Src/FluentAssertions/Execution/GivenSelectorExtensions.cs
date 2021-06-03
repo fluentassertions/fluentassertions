@@ -11,7 +11,7 @@ namespace FluentAssertions.Execution
             this GivenSelector<IEnumerable<T>> givenSelector)
         {
             return givenSelector
-                .ForCondition(items => !(items is null))
+                .ForCondition(items => items is not null)
                 .FailWith("but found collection is <null>.");
         }
 

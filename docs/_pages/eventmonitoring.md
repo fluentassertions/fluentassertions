@@ -38,7 +38,7 @@ This means that event monitoring only works for events that comply with the stan
 Since verifying for `PropertyChanged` events is so common, we've included a specialized shortcut to the example above:
 
 ```csharp
-subject.Should().Raise().PropertyChangeFor(x => x.SomeProperty);
+subject.Should().RaisePropertyChangeFor(x => x.SomeProperty);
 ```
 
 You can also do the opposite; asserting that a particular event was not raised.

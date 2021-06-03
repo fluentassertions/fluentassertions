@@ -16,6 +16,7 @@ namespace FluentAssertions
         /// Asserts that an object can be serialized and deserialized using the binary serializer and that it stills retains
         /// the values of all members.
         /// </summary>
+        /// <param name="assertions"></param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -33,6 +34,13 @@ namespace FluentAssertions
         /// Asserts that an object can be serialized and deserialized using the binary serializer and that it stills retains
         /// the values of all members.
         /// </summary>
+        /// <param name="assertions"></param>
+        /// <param name="options">
+        /// A reference to the <see cref="EquivalencyAssertionOptions{TExpectation}"/> configuration object that can be used
+        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
+        /// <see cref="EquivalencyAssertionOptions{TExpectation}"/> class. The global defaults are determined by the
+        /// <see cref="AssertionOptions"/> class.
+        /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -72,6 +80,7 @@ namespace FluentAssertions
         /// Asserts that an object can be serialized and deserialized using the data contract serializer and that it stills retains
         /// the values of all members.
         /// </summary>
+        /// <param name="assertions"></param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -89,6 +98,13 @@ namespace FluentAssertions
         /// Asserts that an object can be serialized and deserialized using the data contract serializer and that it stills retains
         /// the values of all members.
         /// </summary>
+        /// <param name="assertions"></param>
+        /// <param name="options">
+        /// A reference to the <see cref="EquivalencyAssertionOptions{TExpectation}"/> configuration object that can be used
+        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
+        /// <see cref="EquivalencyAssertionOptions{TExpectation}"/> class. The global defaults are determined by the
+        /// <see cref="AssertionOptions"/> class.
+        /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -171,6 +187,7 @@ namespace FluentAssertions
         /// Asserts that an object can be serialized and deserialized using the XML serializer and that it stills retains
         /// the values of all members.
         /// </summary>
+        /// <param name="assertions"></param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.

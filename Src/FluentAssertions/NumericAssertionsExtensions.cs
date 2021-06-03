@@ -675,7 +675,7 @@ namespace FluentAssertions
             }
 
             Execute.Assertion
-                .ForCondition(parent.Subject != null)
+                .ForCondition(parent.Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
 
@@ -718,7 +718,7 @@ namespace FluentAssertions
             }
 
             bool succeeded = Execute.Assertion
-                .ForCondition(expectedValue != null)
+                .ForCondition(expectedValue is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was {2}.", expectedValue, precision, parent.Subject);
 
@@ -802,7 +802,7 @@ namespace FluentAssertions
             }
 
             Execute.Assertion
-                .ForCondition(parent.Subject != null)
+                .ForCondition(parent.Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
 
@@ -845,7 +845,7 @@ namespace FluentAssertions
             }
 
             bool succeeded = Execute.Assertion
-                .ForCondition(expectedValue != null)
+                .ForCondition(expectedValue is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was {2}.", expectedValue, precision, parent.Subject);
 
@@ -929,7 +929,7 @@ namespace FluentAssertions
             }
 
             Execute.Assertion
-                .ForCondition(parent.Subject != null)
+                .ForCondition(parent.Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
 
@@ -972,7 +972,7 @@ namespace FluentAssertions
             }
 
             bool succeeded = Execute.Assertion
-                .ForCondition(expectedValue != null)
+                .ForCondition(expectedValue is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was {2}.", expectedValue, precision, parent.Subject);
 
@@ -1061,7 +1061,7 @@ namespace FluentAssertions
                 throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
             }
 
-            if (parent.Subject != null)
+            if (parent.Subject is not null)
             {
                 var nonNullableAssertions = new NumericAssertions<float>((float)parent.Subject);
                 nonNullableAssertions.NotBeApproximately(unexpectedValue, precision, because, becauseArgs);
@@ -1097,13 +1097,13 @@ namespace FluentAssertions
                 throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
             }
 
-            if (parent.Subject is null ^ unexpectedValue is null)
+            if ((parent.Subject is null) != (unexpectedValue is null))
             {
                 return new AndConstraint<NullableNumericAssertions<float>>(parent);
             }
 
             bool succeeded = Execute.Assertion
-                .ForCondition(parent.Subject != null && unexpectedValue != null)
+                .ForCondition(parent.Subject is not null && unexpectedValue is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to not approximate {0} +/- {1}{reason}, but it was {2}.", unexpectedValue, precision, parent.Subject);
 
@@ -1186,7 +1186,7 @@ namespace FluentAssertions
                 throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
             }
 
-            if (parent.Subject != null)
+            if (parent.Subject is not null)
             {
                 var nonNullableAssertions = new NumericAssertions<double>((double)parent.Subject);
                 nonNullableAssertions.NotBeApproximately(unexpectedValue, precision, because, becauseArgs);
@@ -1222,13 +1222,13 @@ namespace FluentAssertions
                 throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
             }
 
-            if (parent.Subject is null ^ unexpectedValue is null)
+            if ((parent.Subject is null) != (unexpectedValue is null))
             {
                 return new AndConstraint<NullableNumericAssertions<double>>(parent);
             }
 
             bool succeeded = Execute.Assertion
-                .ForCondition(parent.Subject != null && unexpectedValue != null)
+                .ForCondition(parent.Subject is not null && unexpectedValue is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to not approximate {0} +/- {1}{reason}, but it was {2}.", unexpectedValue, precision, parent.Subject);
 
@@ -1311,7 +1311,7 @@ namespace FluentAssertions
                 throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
             }
 
-            if (parent.Subject != null)
+            if (parent.Subject is not null)
             {
                 var nonNullableAssertions = new NumericAssertions<decimal>((decimal)parent.Subject);
                 NotBeApproximately(nonNullableAssertions, unexpectedValue, precision, because, becauseArgs);
@@ -1347,13 +1347,13 @@ namespace FluentAssertions
                 throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
             }
 
-            if (parent.Subject is null ^ unexpectedValue is null)
+            if ((parent.Subject is null) != (unexpectedValue is null))
             {
                 return new AndConstraint<NullableNumericAssertions<decimal>>(parent);
             }
 
             bool succeeded = Execute.Assertion
-                .ForCondition(parent.Subject != null && unexpectedValue != null)
+                .ForCondition(parent.Subject is not null && unexpectedValue is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to not approximate {0} +/- {1}{reason}, but it was {2}.", unexpectedValue, precision, parent.Subject);
 

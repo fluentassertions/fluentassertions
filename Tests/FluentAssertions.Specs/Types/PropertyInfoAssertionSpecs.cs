@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Linq.Expressions;
 using System.Reflection;
 using FluentAssertions.Common;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Types
 {
     public class PropertyInfoAssertionSpecs
     {
@@ -37,9 +38,24 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                .WithMessage(
-                   "Expected property String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty" +
+                   "Expected property String FluentAssertions*ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty" +
                        " to be virtual because we want to test the error message," +
                        " but it is not.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_be_virtual_should_fail()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = null;
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().BeVirtual("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected property to be virtual *failure message*, but propertyInfo is <null>.");
         }
 
         #endregion
@@ -76,6 +92,21 @@ namespace FluentAssertions.Specs
                    "Expected property *ClassWithAllPropertiesVirtual.PublicVirtualProperty" +
                        " not to be virtual because we want to test the error message," +
                        " but it is.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_not_be_virtual_should_fail()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = null;
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().NotBeVirtual("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected property not to be virtual *failure message*, but propertyInfo is <null>.");
         }
 
         #endregion
@@ -137,8 +168,8 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                .WithMessage("Expected property String " +
-                   "FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
-                   "FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message, but that attribute was not found.");
+                   "FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
+                   "FluentAssertions*DummyPropertyAttribute because we want to test the error message, but that attribute was not found.");
         }
 
         [Fact]
@@ -154,8 +185,8 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected property String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
-                        "FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message," +
+                    "Expected property String FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
+                        "FluentAssertions*DummyPropertyAttribute because we want to test the error message," +
                         " but that attribute was not found.");
         }
 
@@ -171,6 +202,70 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_subject_is_null_be_decorated_withOfT_should_fail()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = null;
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().BeDecoratedWith<DummyPropertyAttribute>("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected property to be decorated with *.DummyPropertyAttribute *failure message*, but propertyInfo is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_property_is_decorated_with_null_it_should_throw()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().BeDecoratedWith((Expression<Func<DummyPropertyAttribute, bool>>)null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("isMatchingAttributePredicate");
+        }
+
+        #endregion
+
+        #region NotBeDecoratedWithOfT
+
+        [Fact]
+        public void When_subject_is_null_not_be_decorated_withOfT_should_fail()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = null;
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().NotBeDecoratedWith<DummyPropertyAttribute>("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected property to not be decorated with *.DummyPropertyAttribute *failure message*, but propertyInfo is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_property_is_not_decorated_with_null_it_should_throw()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().NotBeDecoratedWith((Expression<Func<DummyPropertyAttribute, bool>>)null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("isMatchingAttributePredicate");
         }
 
         #endregion
@@ -218,6 +313,21 @@ namespace FluentAssertions.Specs
             action.Should().NotThrow();
         }
 
+        [Fact]
+        public void When_subject_is_null_be_writable_should_fail()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = null;
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().BeWritable("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected property to have a setter *failure message*, but propertyInfo is <null>.");
+        }
+
         #endregion
 
         #region BeReadable
@@ -261,6 +371,21 @@ namespace FluentAssertions.Specs
             action
                 .Should().Throw<XunitException>()
                 .WithMessage("Expected property WriteOnlyProperty to have a getter because we want to test the error message, but it does not.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_be_readable_should_fail()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = null;
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().BeReadable("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected property to have a getter *failure message*, but propertyInfo is <null>.");
         }
 
         #endregion
@@ -310,6 +435,21 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected propertyInfo WriteOnlyProperty not to have a setter because we want to test the error message.");
         }
 
+        [Fact]
+        public void When_subject_is_null_not_be_writable_should_fail()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = null;
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().NotBeWritable("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected property not to have a setter *failure message*, but propertyInfo is <null>.");
+        }
+
         #endregion
 
         #region NotBeReadable
@@ -357,6 +497,21 @@ namespace FluentAssertions.Specs
             action.Should().NotThrow();
         }
 
+        [Fact]
+        public void When_subject_is_null_not_be_readable_should_fail()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = null;
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().NotBeReadable("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected property not to have a getter *failure message*, but propertyInfo is <null>.");
+        }
+
         #endregion
 
         #region BeReadableAccessModifier
@@ -386,6 +541,36 @@ namespace FluentAssertions.Specs
             // Assert
             action.Should().Throw<XunitException>()
                 .WithMessage("Expected method get_WritePrivateReadProperty to be Public because we want to test the error message, but it is Private.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_be_readable_with_accessmodifier_should_fail()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = null;
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().BeReadable(CSharpAccessModifier.Public, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected property to be Public *failure message*, but propertyInfo is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_is_readable_with_an_invalid_enum_value_it_should_throw()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().BeReadable((CSharpAccessModifier)int.MaxValue);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentOutOfRangeException>()
+                .WithParameterName("accessModifier");
         }
 
         #endregion
@@ -419,6 +604,36 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected method set_ReadPrivateWriteProperty to be Public because we want to test the error message, but it is Private.");
         }
 
+        [Fact]
+        public void When_subject_is_null_be_writable_with_accessmodifier_should_fail()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = null;
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().BeWritable(CSharpAccessModifier.Public, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected property to be Public *failure message*, but propertyInfo is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_is_writable_with_an_invalid_enum_value_it_should_throw()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().BeWritable((CSharpAccessModifier)int.MaxValue);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentOutOfRangeException>()
+                .WithParameterName("accessModifier");
+        }
+
         #endregion
 
         #region Return
@@ -449,6 +664,36 @@ namespace FluentAssertions.Specs
             action.Should().Throw<XunitException>()
                 .WithMessage("Expected Type of property StringProperty to be System.Int32 because we want to test the error " +
                              "message, but it is System.String.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_return_should_fail()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = null;
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().Return(typeof(int), "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type of property to be *.Int32 *failure message*, but propertyInfo is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_property_type_is_null_it_should_throw()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().Return(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("propertyType");
         }
 
         #endregion
@@ -513,6 +758,36 @@ namespace FluentAssertions.Specs
             action.Should().Throw<XunitException>()
                 .WithMessage("Expected Type of property StringProperty not to be*String*because we want to test the error " +
                              "message, but it is.");
+        }
+
+        [Fact]
+        public void When_subject_is_null_not_return_should_fail()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = null;
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().NotReturn(typeof(int), "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type of property not to be *.Int32 *failure message*, but propertyInfo is <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_property_type_is_not_null_it_should_throw()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
+
+            // Act
+            Action act = () =>
+                propertyInfo.Should().NotReturn(null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("propertyType");
         }
 
         #endregion

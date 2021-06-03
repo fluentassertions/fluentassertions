@@ -23,8 +23,11 @@ namespace FluentAssertions.Types
         /// Initializes a new instance of the <see cref="PropertyInfoSelectorAssertions"/> class, for a number of <see cref="PropertyInfo"/> objects.
         /// </summary>
         /// <param name="properties">The properties to assert.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="properties"/> is <c>null</c>.</exception>
         public PropertyInfoSelectorAssertions(params PropertyInfo[] properties)
         {
+            Guard.ThrowIfArgumentIsNull(properties, nameof(properties));
+
             SubjectProperties = properties;
         }
 
@@ -42,15 +45,12 @@ namespace FluentAssertions.Types
         {
             PropertyInfo[] nonVirtualProperties = GetAllNonVirtualPropertiesFromSelection();
 
-            string failureMessage =
-                "Expected all selected properties to be virtual{reason}, but the following properties are not virtual:" +
-                Environment.NewLine +
-                GetDescriptionsFor(nonVirtualProperties);
-
             Execute.Assertion
                 .ForCondition(!nonVirtualProperties.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage);
+                .FailWith(
+                    "Expected all selected properties to be virtual{reason}, but the following properties are not virtual:" +
+                    Environment.NewLine + GetDescriptionsFor(nonVirtualProperties));
 
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
         }
@@ -69,15 +69,12 @@ namespace FluentAssertions.Types
         {
             PropertyInfo[] virtualProperties = GetAllVirtualPropertiesFromSelection();
 
-            string failureMessage =
-                "Expected all selected properties not to be virtual{reason}, but the following properties are virtual:" +
-                Environment.NewLine +
-                GetDescriptionsFor(virtualProperties);
-
             Execute.Assertion
                 .ForCondition(!virtualProperties.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage);
+                .FailWith(
+                    "Expected all selected properties not to be virtual{reason}, but the following properties are virtual:" +
+                    Environment.NewLine + GetDescriptionsFor(virtualProperties));
 
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
         }
@@ -96,15 +93,12 @@ namespace FluentAssertions.Types
         {
             PropertyInfo[] readOnlyProperties = GetAllReadOnlyPropertiesFromSelection();
 
-            string failureMessage =
-                "Expected all selected properties to have a setter{reason}, but the following properties do not:" +
-                Environment.NewLine +
-                GetDescriptionsFor(readOnlyProperties);
-
             Execute.Assertion
                 .ForCondition(!readOnlyProperties.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage);
+                .FailWith(
+                    "Expected all selected properties to have a setter{reason}, but the following properties do not:" +
+                    Environment.NewLine + GetDescriptionsFor(readOnlyProperties));
 
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
         }
@@ -123,15 +117,12 @@ namespace FluentAssertions.Types
         {
             PropertyInfo[] writableProperties = GetAllWritablePropertiesFromSelection();
 
-            string failureMessage =
-                "Expected selected properties to not have a setter{reason}, but the following properties do:" +
-                Environment.NewLine +
-                GetDescriptionsFor(writableProperties);
-
             Execute.Assertion
                 .ForCondition(!writableProperties.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage);
+                .FailWith(
+                    "Expected selected properties to not have a setter{reason}, but the following properties do:" +
+                    Environment.NewLine + GetDescriptionsFor(writableProperties));
 
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
         }
@@ -148,22 +139,12 @@ namespace FluentAssertions.Types
 
         private PropertyInfo[] GetAllNonVirtualPropertiesFromSelection()
         {
-            IEnumerable<PropertyInfo> query =
-                from property in SubjectProperties
-                where !property.IsVirtual()
-                select property;
-
-            return query.ToArray();
+            return SubjectProperties.Where(property => !property.IsVirtual()).ToArray();
         }
 
         private PropertyInfo[] GetAllVirtualPropertiesFromSelection()
         {
-            IEnumerable<PropertyInfo> query =
-                from property in SubjectProperties
-                where property.IsVirtual()
-                select property;
-
-            return query.ToArray();
+            return SubjectProperties.Where(property => property.IsVirtual()).ToArray();
         }
 
         /// <summary>
@@ -181,15 +162,13 @@ namespace FluentAssertions.Types
         {
             PropertyInfo[] propertiesWithoutAttribute = GetPropertiesWithout<TAttribute>();
 
-            string failureMessage =
-                "Expected all selected properties to be decorated with {0}{reason}, but the following properties are not:" +
-                Environment.NewLine +
-                GetDescriptionsFor(propertiesWithoutAttribute);
-
             Execute.Assertion
                 .ForCondition(!propertiesWithoutAttribute.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage, typeof(TAttribute));
+                .FailWith(
+                    "Expected all selected properties to be decorated with {0}{reason}" +
+                    ", but the following properties are not:" + Environment.NewLine +
+                    GetDescriptionsFor(propertiesWithoutAttribute), typeof(TAttribute));
 
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
         }
@@ -209,15 +188,13 @@ namespace FluentAssertions.Types
         {
             PropertyInfo[] propertiesWithAttribute = GetPropertiesWith<TAttribute>();
 
-            string failureMessage =
-                "Expected all selected properties not to be decorated with {0}{reason}, but the following properties are:" +
-                Environment.NewLine +
-                GetDescriptionsFor(propertiesWithAttribute);
-
             Execute.Assertion
                 .ForCondition(!propertiesWithAttribute.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage, typeof(TAttribute));
+                .FailWith(
+                    "Expected all selected properties not to be decorated with {0}{reason}" +
+                    ", but the following properties are:" + Environment.NewLine +
+                    GetDescriptionsFor(propertiesWithAttribute), typeof(TAttribute));
 
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
         }
@@ -236,7 +213,8 @@ namespace FluentAssertions.Types
 
         private static string GetDescriptionsFor(IEnumerable<PropertyInfo> properties)
         {
-            string[] descriptions = properties.Select(PropertyInfoAssertions.GetDescriptionFor).ToArray();
+            IEnumerable<string> descriptions = properties.Select(property => PropertyInfoAssertions.GetDescriptionFor(property));
+
             return string.Join(Environment.NewLine, descriptions);
         }
 

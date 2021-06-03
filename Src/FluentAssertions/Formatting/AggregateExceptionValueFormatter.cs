@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Text;
+using static System.FormattableString;
 
 namespace FluentAssertions.Formatting
 {
@@ -17,27 +17,24 @@ namespace FluentAssertions.Formatting
             return value is AggregateException;
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
             var exception = (AggregateException)value;
             if (exception.InnerExceptions.Count == 1)
             {
-                return "(aggregated) " + formatChild("inner", exception.InnerException);
+                formattedGraph.AddFragment("(aggregated) ");
+
+                formatChild("inner", exception.InnerException, formattedGraph);
             }
             else
             {
-                var builder = new StringBuilder();
-
-                builder.AppendFormat("{0} (aggregated) exceptions:\n", exception.InnerExceptions.Count);
+                formattedGraph.AddLine(Invariant($"{exception.InnerExceptions.Count} (aggregated) exceptions:"));
 
                 foreach (Exception innerException in exception.InnerExceptions)
                 {
-                    builder.AppendLine();
-                    builder.AppendLine(formatChild("InnerException", innerException));
+                    formattedGraph.AddLine(string.Empty);
+                    formatChild("InnerException", innerException, formattedGraph);
                 }
-
-                return builder.ToString();
             }
         }
     }

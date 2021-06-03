@@ -33,7 +33,7 @@ namespace FluentAssertions.Collections
     }
 
     public class StringCollectionAssertions<TCollection, TAssertions> :
-        SelfReferencingCollectionAssertions<TCollection, string, TAssertions>
+        GenericCollectionAssertions<TCollection, string, TAssertions>
         where TCollection : IEnumerable<string>
         where TAssertions : StringCollectionAssertions<TCollection, TAssertions>
     {
@@ -73,9 +73,7 @@ namespace FluentAssertions.Collections
         /// </remarks>
         public AndConstraint<TAssertions> BeEquivalentTo(params string[] expectation)
         {
-            BeEquivalentTo(expectation, config => config);
-
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return BeEquivalentTo(expectation, config => config);
         }
 
         /// <summary>
@@ -94,9 +92,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable<string> expectation, string because = "", params object[] becauseArgs)
         {
-            BeEquivalentTo(expectation, config => config, because, becauseArgs);
-
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return BeEquivalentTo(expectation, config => config, because, becauseArgs);
         }
 
         /// <summary>
@@ -127,17 +123,20 @@ namespace FluentAssertions.Collections
 
             EquivalencyAssertionOptions<IEnumerable<string>> options = config(AssertionOptions.CloneDefaults<string>()).AsCollection();
 
-            var context = new EquivalencyValidationContext(Node.From<IEnumerable<string>>(CallerIdentifier.DetermineCallerIdentity))
+            var context = new EquivalencyValidationContext(Node.From<IEnumerable<string>>(() => CallerIdentifier.DetermineCallerIdentity()), options)
             {
-                Subject = Subject,
-                Expectation = expectation,
-                CompileTimeType = typeof(IEnumerable<string>),
                 Reason = new Reason(because, becauseArgs),
                 TraceWriter = options.TraceWriter
             };
 
-            var equivalencyValidator = new EquivalencyValidator(options);
-            equivalencyValidator.AssertEquality(context);
+            var comparands = new Comparands
+            {
+                Subject = Subject,
+                Expectation = expectation,
+                CompileTimeType = typeof(IEnumerable<string>),
+            };
+
+            new EquivalencyValidator().AssertEquality(comparands, context);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -198,122 +197,11 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Expects the current collection to contain the specified elements in the exact same order. Elements are compared
-        /// using their <see cref="object.Equals(object)" /> implementation.
-        /// </summary>
-        /// <param name="expected">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
-        public AndConstraint<TAssertions> ContainInOrder(params string[] expected)
-        {
-            return base.ContainInOrder(expected.AsEnumerable());
-        }
-
-        /// <summary>
-        /// Expects the current collection to contain the specified elements in the exact same order. Elements are compared
-        /// using their <see cref="object.Equals(object)" /> implementation.
-        /// </summary>
-        /// <param name="expected">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndConstraint<TAssertions> ContainInOrder(IEnumerable<string> expected, string because = "",
-            params object[] becauseArgs)
-        {
-            return base.ContainInOrder(expected, because, becauseArgs);
-        }
-
-        /// <summary>
-        /// Asserts the current collection of strings does not contain the specified strings in the exact same order, not necessarily consecutive.
-        /// </summary>
-        /// <param name="unexpected">An <see cref="System.Array"/> of <see cref="string"/> with the unexpected elements.</param>
-        public AndConstraint<TAssertions> NotContainInOrder(params string[] unexpected)
-        {
-            return base.NotContainInOrder(unexpected.AsEnumerable());
-        }
-
-        /// <summary>
-        /// Asserts the current collection of strings does not contain the specified strings in the exact same order, not necessarily consecutive.
-        /// </summary>
-        /// <param name="unexpected">An <see cref="IEnumerable{String}"/> with the unexpected elements.</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndConstraint<TAssertions> NotContainInOrder(IEnumerable<string> unexpected, string because = "",
-            params object[] becauseArgs)
-        {
-            return base.NotContainInOrder(unexpected, because, becauseArgs);
-        }
-
-        /// <summary>
-        /// Expects the current collection to contain the specified elements in any order. Elements are compared
-        /// using their <see cref="object.Equals(object)" /> implementation.
-        /// </summary>
-        /// <param name="expected">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
-        public AndConstraint<TAssertions> Contain(IEnumerable<string> expected)
-        {
-            return base.Contain(expected);
-        }
-
-        /// <summary>
-        /// Expects the current collection to contain the specified elements in any order. Elements are compared
-        /// using their <see cref="object.Equals(object)" /> implementation.
-        /// </summary>
-        /// <param name="expected">An <see cref="IEnumerable{T}" /> with the expected elements.</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArg">
-        /// An object to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndConstraint<TAssertions> Contain(IEnumerable<string> expected, string because = null,
-            object becauseArg = null,
-            params object[] becauseArgs)
-        {
-            var args = new List<object> { becauseArg };
-            args.AddRange(becauseArgs);
-            return base.Contain(expected, because, args.ToArray());
-        }
-
-        /// <summary>
-        /// Asserts that the current collection does not contain the supplied items. Elements are compared
-        /// using their <see cref="object.Equals(object)" /> implementation.
-        /// </summary>
-        /// <param name="unexpected">An <see cref="IEnumerable{T}"/> with the unexpected elements.</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArg">
-        /// An object to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndConstraint<TAssertions> NotContain(IEnumerable<string> unexpected, string because = null,
-            object becauseArg = null,
-            params object[] becauseArgs)
-        {
-            var args = new List<object> { becauseArg };
-            args.AddRange(becauseArgs);
-            return base.NotContain(unexpected, because, args.ToArray());
-        }
-
-        /// <summary>
-        /// Asserts that the collection contains at least one string that matches a wildcard pattern.
+        /// Asserts that the collection contains at least one string that matches the <paramref name="wildcardPattern"/>.
         /// </summary>
         /// <param name="wildcardPattern">
-        /// The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// The pattern to match against the subject. This parameter can contain a combination of literal text and wildcard
+        /// (* and ?) characters, but it doesn't support regular expressions.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -322,6 +210,27 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <remarks>
+        /// <paramref name="wildcardPattern"/> can be a combination of literal and wildcard characters,
+        /// but it doesn't support regular expressions. The following wildcard specifiers are permitted in
+        /// <paramref name="wildcardPattern"/>.
+        /// <list type="table">
+        /// <listheader>
+        /// <term>Wildcard character</term>
+        /// <description>Description</description>
+        /// </listheader>
+        /// <item>
+        /// <term>* (asterisk)</term>
+        /// <description>Zero or more characters in that position.</description>
+        /// </item>
+        /// <item>
+        /// <term>? (question mark)</term>
+        /// <description>Exactly one character in that position.</description>
+        /// </item>
+        /// </list>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
         public AndWhichConstraint<TAssertions, string> ContainMatch(string wildcardPattern, string because = "",
             params object[] becauseArgs)
         {
@@ -334,7 +243,7 @@ namespace FluentAssertions.Collections
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject is object)
+                .ForCondition(Subject is not null)
                 .FailWith("Expected {context:collection} to contain a match of {0}{reason}, but found <null>.", wildcardPattern)
                 .Then
                 .ForCondition(ContainsMatch(wildcardPattern))
@@ -364,10 +273,11 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that the collection does not contain any string that matches a wildcard pattern.
+        /// Asserts that the collection does not contain any string that matches the <paramref name="wildcardPattern"/>.
         /// </summary>
         /// <param name="wildcardPattern">
-        /// The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// The pattern to match against the subject. This parameter can contain a combination of literal text and wildcard
+        /// (* and ?) characters, but it doesn't support regular expressions.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -376,6 +286,27 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <remarks>
+        /// <paramref name="wildcardPattern"/> can be a combination of literal and wildcard characters,
+        /// but it doesn't support regular expressions. The following wildcard specifiers are permitted in
+        /// <paramref name="wildcardPattern"/>.
+        /// <list type="table">
+        /// <listheader>
+        /// <term>Wildcard character</term>
+        /// <description>Description</description>
+        /// </listheader>
+        /// <item>
+        /// <term>* (asterisk)</term>
+        /// <description>Zero or more characters in that position.</description>
+        /// </item>
+        /// <item>
+        /// <term>? (question mark)</term>
+        /// <description>Exactly one character in that position.</description>
+        /// </item>
+        /// </list>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
         public AndConstraint<TAssertions> NotContainMatch(string wildcardPattern, string because = "",
             params object[] becauseArgs)
         {
@@ -388,7 +319,7 @@ namespace FluentAssertions.Collections
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject is object)
+                .ForCondition(Subject is not null)
                 .FailWith("Did not expect {context:collection} to contain a match of {0}{reason}, but found <null>.", wildcardPattern)
                 .Then
                 .ForCondition(NotContainsMatch(wildcardPattern))

@@ -16,10 +16,9 @@ namespace FluentAssertions.Formatting
             return value is byte;
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
-            return "0x" + ((byte)value).ToString("X2", CultureInfo.InvariantCulture);
+            formattedGraph.AddFragment("0x" + ((byte)value).ToString("X2", CultureInfo.InvariantCulture));
         }
     }
 }

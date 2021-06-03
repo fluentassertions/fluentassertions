@@ -16,10 +16,9 @@ namespace FluentAssertions.Formatting
             return value is PropertyInfo;
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
-            return ((PropertyInfo)value).Name;
+            formattedGraph.AddFragment(((PropertyInfo)value).Name);
         }
     }
 }

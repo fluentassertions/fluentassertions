@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Xunit;
 using static FluentAssertions.FluentActions;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Extensions
 {
     public class FluentActionsSpecs
     {

@@ -2,7 +2,7 @@ using System;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Numeric
 {
     public class NullableNumericAssertionSpecs
     {
@@ -1088,7 +1088,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("predicate");
+                .WithParameterName("predicate");
         }
 
         #endregion

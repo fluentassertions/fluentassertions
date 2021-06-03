@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Equivalency
 {
     public class BasicNonEquivalencySpecs
     {
@@ -70,10 +70,11 @@ namespace FluentAssertions.Specs
             var o2 = new { Name = "A" };
 
             // Act
-            Action act = () => o1.Should().NotBeEquivalentTo(o2);
+            Action act = () => o1.Should().NotBeEquivalentTo(o2, "some {0}", "reason");
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>()
+                .WithMessage("*some reason*");
         }
 
         [Fact]

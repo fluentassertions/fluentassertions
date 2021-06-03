@@ -1,14 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-
+using FluentAssertions.Types;
 using Internal.Main.Test;
 using Xunit;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Types
 {
     public class PropertyInfoSelectorSpecs
     {
+        [Fact]
+        public void When_property_info_selector_is_created_with_a_null_type_it_should_throw()
+        {
+            // Arrange
+            PropertyInfoSelector propertyInfoSelector;
+
+            // Act
+            Action act = () => propertyInfoSelector = new PropertyInfoSelector((Type)null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("types");
+        }
+
+        [Fact]
+        public void When_property_info_selector_is_created_with_a_null_type_list_it_should_throw()
+        {
+            // Arrange
+            PropertyInfoSelector propertyInfoSelector;
+
+            // Act
+            Action act = () => propertyInfoSelector = new PropertyInfoSelector((Type[])null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("types");
+        }
+
+        [Fact]
+        public void When_property_info_selector_is_null_then_should_should_throw()
+        {
+            // Arrange
+            PropertyInfoSelector propertyInfoSelector = null;
+
+            // Act
+            Action act = () => propertyInfoSelector.Should();
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("propertyInfoSelector");
+        }
+
         [Fact]
         public void When_selecting_properties_from_types_in_an_assembly_it_should_return_the_applicable_properties()
         {
@@ -229,7 +271,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             returnTypes.Should()
-                .BeEquivalentTo(typeof(string), typeof(string), typeof(int), typeof(int), typeof(int), typeof(int));
+                .BeEquivalentTo(new[] { typeof(string), typeof(string), typeof(int), typeof(int), typeof(int), typeof(int) });
         }
     }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -9,7 +10,7 @@ namespace FluentAssertions.Execution
 {
     internal class CollectingAssertionStrategy : IAssertionStrategy
     {
-        private readonly List<string> failureMessages = new List<string>();
+        private readonly List<string> failureMessages = new();
 
         /// <summary>
         /// Returns the messages for the assertion failures that happened until now.
@@ -40,7 +41,7 @@ namespace FluentAssertions.Execution
                 {
                     foreach (KeyValuePair<string, object> pair in context)
                     {
-                        builder.AppendFormat("\nWith {0}:\n{1}", pair.Key, pair.Value);
+                        builder.AppendFormat(CultureInfo.InvariantCulture, "\nWith {0}:\n{1}", pair.Key, pair.Value);
                     }
                 }
 

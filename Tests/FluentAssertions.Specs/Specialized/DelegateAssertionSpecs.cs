@@ -2,7 +2,7 @@
 using FluentAssertions.Specialized;
 using Xunit;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Specialized
 {
     public class DelegateAssertionSpecs
     {
@@ -17,7 +17,7 @@ namespace FluentAssertions.Specs
 
             // Act
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("extractor");
+                .WithParameterName("extractor");
         }
 
         [Fact]
@@ -32,7 +32,7 @@ namespace FluentAssertions.Specs
 
             // Act
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("clock");
+                .WithParameterName("clock");
         }
     }
 }

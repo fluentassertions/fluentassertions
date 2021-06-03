@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FluentAssertions.Execution;
+using FluentAssertions.Specs.Equivalency;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Collections
 {
     public class CollectionAssertionSpecs
     {
@@ -21,16 +22,6 @@ namespace FluentAssertions.Specs
 
             // Act / Assert
             someCollection.Should().BeNull();
-        }
-
-        [Fact]
-        public void When_a_custom_enumerable_implementation_is_expected_not_to_be_null_and_it_is_it_should_not_throw()
-        {
-            // Arrange
-            var enumerable = new CustomEnumerable();
-
-            // Act / Assert
-            enumerable.Should().NotBeNull();
         }
 
         [Fact]
@@ -79,7 +70,7 @@ namespace FluentAssertions.Specs
         public void Should_succeed_when_asserting_collection_has_a_count_that_equals_the_number_of_items()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().HaveCount(3);
@@ -89,7 +80,7 @@ namespace FluentAssertions.Specs
         public void Should_fail_when_asserting_collection_has_a_count_that_is_different_from_the_number_of_items()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().HaveCount(4);
@@ -102,14 +93,14 @@ namespace FluentAssertions.Specs
         public void When_collection_has_a_count_that_is_different_from_the_number_of_items_it_should_fail_with_descriptive_message_()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action action = () => collection.Should().HaveCount(4, "because we want to test the failure {0}", "message");
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected collection to contain 4 item(s) because we want to test the failure message, but found 3.");
+                .WithMessage("Expected collection*1*2*3* to contain 4 item(s) because we want to test the failure message, but found 3.");
         }
 
         [Fact]
@@ -154,7 +145,7 @@ namespace FluentAssertions.Specs
         public void When_collection_count_is_matched_and_collection_is_null_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
+            int[] collection = null;
 
             // Act
             Action act = () => collection.Should().HaveCount(1, "we want to test the behaviour with a null subject");
@@ -168,7 +159,7 @@ namespace FluentAssertions.Specs
         public void When_collection_count_is_matched_against_a_predicate_and_collection_is_null_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
+            int[] collection = null;
 
             // Act
             Action act =
@@ -183,7 +174,7 @@ namespace FluentAssertions.Specs
         public void When_collection_count_is_matched_against_a_predicate_it_should_not_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().HaveCount(c => c % 2 == 1);
@@ -196,40 +187,13 @@ namespace FluentAssertions.Specs
         public void When_collection_count_is_matched_against_a_predicate_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().HaveCount(c => c % 2 == 0);
 
             // Assert
             act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_counting_nongeneric_enumerable_it_should_enumerate()
-        {
-            // Arrange
-            var collection = new CountingNonGenericEnumerable(new[] { "1", "2", "3" });
-
-            // Act
-            collection.Should().HaveCount(3);
-
-            // Assert
-            collection.GetEnumeratorCallCount.Should().Be(1);
-        }
-
-        [Fact]
-        public void When_counting_nongeneric_collection_it_should_not_enumerate()
-        {
-            // Arrange
-            var collection = new CountingNonGenericCollection(new[] { 1, 2, 3 });
-
-            // Act
-            collection.Should().HaveCount(3);
-
-            // Assert
-            collection.GetCountCallCount.Should().Be(1);
-            collection.GetEnumeratorCallCount.Should().Be(0);
         }
 
         [Fact]
@@ -537,7 +501,7 @@ namespace FluentAssertions.Specs
         public void Should_succeed_when_asserting_collection_has_a_count_different_from_the_number_of_items()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().NotHaveCount(2);
@@ -547,7 +511,7 @@ namespace FluentAssertions.Specs
         public void Should_fail_when_asserting_collection_has_a_count_that_equals_the_number_of_items()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().NotHaveCount(3);
@@ -560,7 +524,7 @@ namespace FluentAssertions.Specs
         public void When_collection_has_a_count_that_equals_than_the_number_of_items_it_should_fail_with_descriptive_message_()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action action = () => collection.Should().NotHaveCount(3, "because we want to test the failure {0}", "message");
@@ -574,7 +538,7 @@ namespace FluentAssertions.Specs
         public void When_collection_count_is_same_than_and_collection_is_null_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
+            int[] collection = null;
 
             // Act
             Action act = () => collection.Should().NotHaveCount(1, "we want to test the behaviour with a null subject");
@@ -591,7 +555,7 @@ namespace FluentAssertions.Specs
         public void Should_succeed_when_asserting_collection_has_a_count_greater_than_less_the_number_of_items()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().HaveCountGreaterThan(2);
@@ -601,7 +565,7 @@ namespace FluentAssertions.Specs
         public void Should_fail_when_asserting_collection_has_a_count_greater_than_the_number_of_items()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().HaveCountGreaterThan(3);
@@ -614,7 +578,7 @@ namespace FluentAssertions.Specs
         public void When_collection_has_a_count_greater_than_the_number_of_items_it_should_fail_with_descriptive_message_()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action action = () => collection.Should().HaveCountGreaterThan(3, "because we want to test the failure {0}", "message");
@@ -628,7 +592,7 @@ namespace FluentAssertions.Specs
         public void When_collection_count_is_greater_than_and_collection_is_null_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
+            int[] collection = null;
 
             // Act
             Action act = () => collection.Should().HaveCountGreaterThan(1, "we want to test the behaviour with a null subject");
@@ -645,7 +609,7 @@ namespace FluentAssertions.Specs
         public void Should_succeed_when_asserting_collection_has_a_count_greater_or_equal_to_less_the_number_of_items()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().HaveCountGreaterOrEqualTo(3);
@@ -655,7 +619,7 @@ namespace FluentAssertions.Specs
         public void Should_fail_when_asserting_collection_has_a_count_greater_or_equal_to_the_number_of_items()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().HaveCountGreaterOrEqualTo(4);
@@ -668,7 +632,7 @@ namespace FluentAssertions.Specs
         public void When_collection_has_a_count_greater_or_equal_to_the_number_of_items_it_should_fail_with_descriptive_message_()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action action = () => collection.Should().HaveCountGreaterOrEqualTo(4, "because we want to test the failure {0}", "message");
@@ -682,7 +646,7 @@ namespace FluentAssertions.Specs
         public void When_collection_count_is_greater_or_equal_to_and_collection_is_null_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
+            int[] collection = null;
 
             // Act
             Action act = () => collection.Should().HaveCountGreaterOrEqualTo(1, "we want to test the behaviour with a null subject");
@@ -699,7 +663,7 @@ namespace FluentAssertions.Specs
         public void Should_succeed_when_asserting_collection_has_a_count_less_than_less_the_number_of_items()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().HaveCountLessThan(4);
@@ -709,7 +673,7 @@ namespace FluentAssertions.Specs
         public void Should_fail_when_asserting_collection_has_a_count_less_than_the_number_of_items()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().HaveCountLessThan(3);
@@ -722,7 +686,7 @@ namespace FluentAssertions.Specs
         public void When_collection_has_a_count_less_than_the_number_of_items_it_should_fail_with_descriptive_message_()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action action = () => collection.Should().HaveCountLessThan(3, "because we want to test the failure {0}", "message");
@@ -736,7 +700,7 @@ namespace FluentAssertions.Specs
         public void When_collection_count_is_less_than_and_collection_is_null_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
+            int[] collection = null;
 
             // Act
             Action act = () => collection.Should().HaveCountLessThan(1, "we want to test the behaviour with a null subject");
@@ -753,7 +717,7 @@ namespace FluentAssertions.Specs
         public void Should_succeed_when_asserting_collection_has_a_count_less_or_equal_to_less_the_number_of_items()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().HaveCountLessOrEqualTo(3);
@@ -763,7 +727,7 @@ namespace FluentAssertions.Specs
         public void Should_fail_when_asserting_collection_has_a_count_less_or_equal_to_the_number_of_items()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().HaveCountLessOrEqualTo(2);
@@ -776,7 +740,7 @@ namespace FluentAssertions.Specs
         public void When_collection_has_a_count_less_or_equal_to_the_number_of_items_it_should_fail_with_descriptive_message_()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action action = () => collection.Should().HaveCountLessOrEqualTo(2, "because we want to test the failure {0}", "message");
@@ -790,7 +754,7 @@ namespace FluentAssertions.Specs
         public void When_collection_count_is_less_or_equal_to_and_collection_is_null_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
+            int[] collection = null;
 
             // Act
             Action act = () => collection.Should().HaveCountLessOrEqualTo(1, "we want to test the behaviour with a null subject");
@@ -807,7 +771,7 @@ namespace FluentAssertions.Specs
         public void When_collection_is_empty_as_expected_it_should_not_throw()
         {
             // Arrange
-            IEnumerable collection = new int[0];
+            var collection = new int[0];
 
             // Act / Assert
             collection.Should().BeEmpty();
@@ -817,7 +781,7 @@ namespace FluentAssertions.Specs
         public void When_collection_is_not_empty_unexpectedly_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().BeEmpty("that's what we expect");
@@ -831,7 +795,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_collection_with_items_is_not_empty_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().NotBeEmpty();
@@ -854,7 +818,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_collection_without_items_is_not_empty_it_should_fail()
         {
             // Arrange
-            IEnumerable collection = new int[0];
+            var collection = new int[0];
 
             // Act
             Action act = () => collection.Should().NotBeEmpty();
@@ -867,7 +831,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_collection_without_items_is_not_empty_it_should_fail_with_descriptive_message_()
         {
             // Arrange
-            IEnumerable collection = new int[0];
+            var collection = new int[0];
 
             // Act
             Action act = () => collection.Should().NotBeEmpty("because we want to test the failure {0}", "message");
@@ -881,7 +845,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_collection_to_be_empty_but_collection_is_null_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
+            int[] collection = null;
 
             // Act
             Action act = () => collection.Should().BeEmpty("because we want to test the behaviour with a null subject");
@@ -912,7 +876,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_collection_to_be_not_empty_but_collection_is_null_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
+            int[] collection = null;
 
             // Act
             Action act = () => collection.Should().NotBeEmpty("because we want to test the behaviour with a null subject");
@@ -944,7 +908,7 @@ namespace FluentAssertions.Specs
             When_asserting_a_null_collection_to_be_null_or_empty_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = null;
+            int[] collection = null;
 
             // Act / Assert
             collection.Should().BeNullOrEmpty();
@@ -955,7 +919,7 @@ namespace FluentAssertions.Specs
             When_asserting_an_empty_collection_to_be_null_or_empty_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new int[0];
+            var collection = new int[0];
 
             // Act / Assert
             collection.Should().BeNullOrEmpty();
@@ -966,7 +930,7 @@ namespace FluentAssertions.Specs
             When_asserting_non_empty_collection_to_be_null_or_empty_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().BeNullOrEmpty("because we want to test the failure {0}", "message");
@@ -999,7 +963,7 @@ namespace FluentAssertions.Specs
             When_asserting_non_empty_collection_to_not_be_null_or_empty_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new[] { new object() };
+            var collection = new[] { new object() };
 
             // Act / Assert
             collection.Should().NotBeNullOrEmpty();
@@ -1010,7 +974,7 @@ namespace FluentAssertions.Specs
             When_asserting_null_collection_to_not_be_null_or_empty_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
+            int[] collection = null;
 
             // Act
             Action act = () => collection.Should().NotBeNullOrEmpty();
@@ -1024,7 +988,7 @@ namespace FluentAssertions.Specs
             When_asserting_empty_collection_to_not_be_null_or_empty_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new int[0];
+            var collection = new int[0];
 
             // Act
             Action act = () => collection.Should().NotBeNullOrEmpty();
@@ -1054,8 +1018,8 @@ namespace FluentAssertions.Specs
         public void Should_succeed_when_asserting_collection_is_equal_to_the_same_collection()
         {
             // Arrange
-            IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = new[] { 1, 2, 3 };
+            var collection1 = new[] { 1, 2, 3 };
+            var collection2 = new[] { 1, 2, 3 };
 
             // Act / Assert
             collection1.Should().Equal(collection2);
@@ -1065,7 +1029,7 @@ namespace FluentAssertions.Specs
         public void Should_succeed_when_asserting_collection_is_equal_to_the_same_list_of_elements()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().Equal(1, 2, 3);
@@ -1075,7 +1039,7 @@ namespace FluentAssertions.Specs
         public void When_both_collections_are_null_it_should_succeed()
         {
             // Arrange
-            IEnumerable nullColl = null;
+            int[] nullColl = null;
 
             // Act
             Action act = () => nullColl.Should().Equal(null);
@@ -1102,8 +1066,8 @@ namespace FluentAssertions.Specs
         public void When_two_collections_are_not_equal_because_one_item_differs_it_should_throw_using_the_reason()
         {
             // Arrange
-            IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = new[] { 1, 2, 5 };
+            var collection1 = new[] { 1, 2, 3 };
+            var collection2 = new[] { 1, 2, 5 };
 
             // Act
             Action act = () => collection1.Should().Equal(collection2, "because we want to test the failure {0}", "message");
@@ -1117,8 +1081,8 @@ namespace FluentAssertions.Specs
         public void When_two_collections_are_not_equal_because_the_actual_collection_contains_more_items_it_should_throw_using_the_reason()
         {
             // Arrange
-            IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = new[] { 1, 2 };
+            var collection1 = new[] { 1, 2, 3 };
+            var collection2 = new[] { 1, 2 };
 
             // Act
             Action act = () => collection1.Should().Equal(collection2, "because we want to test the failure {0}", "message");
@@ -1132,8 +1096,8 @@ namespace FluentAssertions.Specs
         public void When_two_collections_are_not_equal_because_the_actual_collection_contains_less_items_it_should_throw_using_the_reason()
         {
             // Arrange
-            IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = new[] { 1, 2, 3, 4 };
+            var collection1 = new[] { 1, 2, 3 };
+            var collection2 = new[] { 1, 2, 3, 4 };
 
             // Act
             Action act = () => collection1.Should().Equal(collection2, "because we want to test the failure {0}", "message");
@@ -1147,8 +1111,8 @@ namespace FluentAssertions.Specs
         public void When_two_multidimensional_collections_are_not_equal_and_it_should_format_the_collections_properly()
         {
             // Arrange
-            IEnumerable collection1 = new[] { new[] { 1, 2 }, new[] { 3, 4 } };
-            IEnumerable collection2 = new[] { new[] { 5, 6 }, new[] { 7, 8 } };
+            var collection1 = new[] { new[] { 1, 2 }, new[] { 3, 4 } };
+            var collection2 = new[] { new[] { 5, 6 }, new[] { 7, 8 } };
 
             // Act
             Action act = () => collection1.Should().Equal(collection2);
@@ -1162,8 +1126,8 @@ namespace FluentAssertions.Specs
         public void When_asserting_collections_to_be_equal_but_subject_collection_is_null_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
-            IEnumerable collection1 = new[] { 1, 2, 3 };
+            int[] collection = null;
+            var collection1 = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().Equal(collection1, "because we want to test the behaviour with a null subject");
@@ -1177,8 +1141,8 @@ namespace FluentAssertions.Specs
         public void When_asserting_collections_to_be_equal_but_expected_collection_is_null_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
-            IEnumerable collection1 = null;
+            var collection = new[] { 1, 2, 3 };
+            int[] collection1 = null;
 
             // Act
             Action act = () => collection.Should().Equal(collection1, "because we want to test the behaviour with a null subject");
@@ -1186,7 +1150,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot compare collection with <null>.*")
-                .And.ParamName.Should().Be("expectation");
+                .WithParameterName("expectation");
         }
 
         [Fact]
@@ -1281,7 +1245,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_identical_collections_to_be_equal_it_should_enumerate_the_subject_only_once()
         {
             // Arrange
-            var actual = new CountingGenericCollection<int>(new[] { 1, 2, 3 });
+            var actual = new CountingGenericEnumerable<int>(new[] { 1, 2, 3 });
             var expected = new[] { 1, 2, 3 };
 
             // Act
@@ -1295,7 +1259,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_identical_collections_to_not_be_equal_it_should_enumerate_the_subject_only_once()
         {
             // Arrange
-            var actual = new CountingGenericCollection<int>(new[] { 1, 2, 3 });
+            var actual = new CountingGenericEnumerable<int>(new[] { 1, 2, 3 });
             var expected = new[] { 1, 2, 3 };
 
             // Act
@@ -1313,10 +1277,10 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_different_collections_to_be_equal_it_should_enumerate_the_subject_at_most_twice()
+        public void When_asserting_different_collections_to_be_equal_it_should_enumerate_the_subject_once()
         {
             // Arrange
-            var actual = new CountingGenericCollection<int>(new[] { 1, 2, 3 });
+            var actual = new CountingGenericEnumerable<int>(new[] { 1, 2, 3 });
             var expected = new[] { 1, 2, 4 };
 
             // Act
@@ -1330,14 +1294,14 @@ namespace FluentAssertions.Specs
             }
 
             // Assert
-            actual.GetEnumeratorCallCount.Should().BeLessOrEqualTo(2);
+            actual.GetEnumeratorCallCount.Should().Be(1);
         }
 
         [Fact]
         public void When_asserting_different_collections_to_not_be_equal_it_should_enumerate_the_subject_only_once()
         {
             // Arrange
-            var actual = new CountingGenericCollection<int>(new[] { 1, 2, 3 });
+            var actual = new CountingGenericEnumerable<int>(new[] { 1, 2, 3 });
             var expected = new[] { 1, 2, 4 };
 
             // Act
@@ -1355,8 +1319,8 @@ namespace FluentAssertions.Specs
         public void Should_succeed_when_asserting_collection_is_not_equal_to_a_different_collection()
         {
             // Arrange
-            IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = new[] { 3, 1, 2 };
+            var collection1 = new[] { 1, 2, 3 };
+            var collection2 = new[] { 3, 1, 2 };
 
             // Act / Assert
             collection1.Should()
@@ -1367,8 +1331,8 @@ namespace FluentAssertions.Specs
         public void When_two_equal_collections_are_not_expected_to_be_equal_it_should_throw()
         {
             // Arrange
-            IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = new[] { 1, 2, 3 };
+            var collection1 = new[] { 1, 2, 3 };
+            var collection2 = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection1.Should().NotEqual(collection2);
@@ -1382,8 +1346,8 @@ namespace FluentAssertions.Specs
         public void When_two_equal_collections_are_not_expected_to_be_equal_it_should_report_a_clear_explanation()
         {
             // Arrange
-            IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = new[] { 1, 2, 3 };
+            var collection1 = new[] { 1, 2, 3 };
+            var collection2 = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection1.Should().NotEqual(collection2, "because we want to test the failure {0}", "message");
@@ -1397,8 +1361,8 @@ namespace FluentAssertions.Specs
         public void When_asserting_collections_not_to_be_equal_subject_but_collection_is_null_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
-            IEnumerable collection1 = new[] { 1, 2, 3 };
+            int[] collection = null;
+            var collection1 = new[] { 1, 2, 3 };
 
             // Act
             Action act =
@@ -1413,8 +1377,8 @@ namespace FluentAssertions.Specs
         public void When_asserting_collections_not_to_be_equal_but_expected_collection_is_null_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
-            IEnumerable collection1 = null;
+            var collection = new[] { 1, 2, 3 };
+            int[] collection1 = null;
 
             // Act
             Action act =
@@ -1423,14 +1387,14 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot compare collection with <null>.*")
-                .And.ParamName.Should().Be("unexpected");
+                .WithParameterName("unexpected");
         }
 
         [Fact]
         public void When_asserting_collections_not_to_be_equal_but_both_collections_reference_the_same_object_it_should_throw()
         {
-            IEnumerable collection1 = new[] { "one", "two", "three" };
-            IEnumerable collection2 = collection1;
+            var collection1 = new[] { "one", "two", "three" };
+            var collection2 = collection1;
 
             // Act
             Action act = () => collection1.Should().NotEqual(collection2, "because we want to test the behaviour with same objects");
@@ -1448,8 +1412,8 @@ namespace FluentAssertions.Specs
         public void When_two_collections_contain_the_same_elements_it_should_treat_them_as_equivalent()
         {
             // Arrange
-            IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = new[] { 3, 1, 2 };
+            var collection1 = new[] { 1, 2, 3 };
+            var collection2 = new[] { 3, 1, 2 };
 
             // Act / Assert
             collection1.Should().BeEquivalentTo(collection2);
@@ -1459,10 +1423,10 @@ namespace FluentAssertions.Specs
         public void When_a_collection_contains_same_elements_it_should_treat_it_as_equivalent()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act / Assert
-            collection.Should().BeEquivalentTo(3, 1, 2);
+            collection.Should().BeEquivalentTo(new[] { 3, 1, 2 });
         }
 
         [Fact]
@@ -1480,8 +1444,8 @@ namespace FluentAssertions.Specs
         public void When_collections_are_not_equivalent_it_should_throw()
         {
             // Arrange
-            IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = new[] { 1, 2 };
+            var collection1 = new[] { 1, 2, 3 };
+            var collection2 = new[] { 1, 2 };
 
             // Act
             Action act = () => collection1.Should().BeEquivalentTo(collection2, "we treat {0} alike", "all");
@@ -1495,8 +1459,8 @@ namespace FluentAssertions.Specs
         public void When_collections_with_duplicates_are_not_equivalent_it_should_throw()
         {
             // Arrange
-            IEnumerable collection1 = new[] { 1, 2, 3, 1 };
-            IEnumerable collection2 = new[] { 1, 2, 3, 3 };
+            var collection1 = new[] { 1, 2, 3, 1 };
+            var collection2 = new[] { 1, 2, 3, 3 };
 
             // Act
             Action act = () => collection1.Should().BeEquivalentTo(collection2);
@@ -1510,23 +1474,23 @@ namespace FluentAssertions.Specs
         public void When_testing_for_equivalence_against_empty_collection_it_should_throw()
         {
             // Arrange
-            IEnumerable subject = new[] { 1, 2, 3 };
-            IEnumerable otherCollection = new int[0];
+            var subject = new[] { 1, 2, 3 };
+            var otherCollection = new int[0];
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(otherCollection);
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject (of type IEnumerable) to be a collection with 0 item(s), but*contains 3 item(s)*");
+                "Expected subject (of type IEnumerable<int>) to be a collection with 0 item(s), but*contains 3 item(s)*");
         }
 
         [Fact]
         public void When_two_collections_are_both_empty_it_should_treat_them_as_equivalent()
         {
             // Arrange
-            IEnumerable subject = new int[0];
-            IEnumerable otherCollection = new int[0];
+            var subject = new int[0];
+            var otherCollection = new int[0];
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(otherCollection);
@@ -1539,8 +1503,8 @@ namespace FluentAssertions.Specs
         public void When_testing_for_equivalence_against_null_collection_it_should_throw()
         {
             // Arrange
-            IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = null;
+            var collection1 = new[] { 1, 2, 3 };
+            int[] collection2 = null;
 
             // Act
             Action act = () => collection1.Should().BeEquivalentTo(collection2);
@@ -1554,8 +1518,8 @@ namespace FluentAssertions.Specs
         public void When_asserting_collections_to_be_equivalent_but_subject_collection_is_null_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
-            IEnumerable collection1 = new[] { 1, 2, 3 };
+            int[] collection = null;
+            var collection1 = new[] { 1, 2, 3 };
 
             // Act
             Action act =
@@ -1563,15 +1527,15 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected a collection, but collection (of type IEnumerable) is <null>*");
+                "Expected collection (of type IEnumerable<int>) not to be <null>*");
         }
 
         [Fact]
         public void When_collection_is_not_equivalent_to_another_smaller_collection_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = new[] { 3, 1 };
+            var collection1 = new[] { 1, 2, 3 };
+            var collection2 = new[] { 3, 1 };
 
             // Act / Assert
             collection1.Should().NotBeEquivalentTo(collection2);
@@ -1581,8 +1545,8 @@ namespace FluentAssertions.Specs
         public void When_large_collection_is_equivalent_to_another_equally_size_collection_it_should_throw()
         {
             // Arrange
-            IEnumerable collection1 = Enumerable.Repeat(1, 10000);
-            IEnumerable collection2 = Enumerable.Repeat(1, 10000);
+            var collection1 = Enumerable.Repeat(1, 10000);
+            var collection2 = Enumerable.Repeat(1, 10000);
 
             // Act
             Action act = () => collection1.Should().NotBeEquivalentTo(collection2);
@@ -1595,8 +1559,8 @@ namespace FluentAssertions.Specs
         public void When_collection_is_not_equivalent_to_another_equally_sized_collection_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = new[] { 3, 1, 4 };
+            var collection1 = new[] { 1, 2, 3 };
+            var collection2 = new[] { 3, 1, 4 };
 
             // Act / Assert
             collection1.Should().NotBeEquivalentTo(collection2);
@@ -1606,8 +1570,8 @@ namespace FluentAssertions.Specs
         public void When_collections_are_unexpectedly_equivalent_it_should_throw()
         {
             // Arrange
-            IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = new[] { 3, 1, 2 };
+            var collection1 = new[] { 1, 2, 3 };
+            var collection2 = new[] { 3, 1, 2 };
 
             // Act
             Action act = () => collection1.Should().NotBeEquivalentTo(collection2);
@@ -1621,8 +1585,8 @@ namespace FluentAssertions.Specs
         public void When_asserting_collections_not_to_be_equivalent_but_subject_collection_is_null_it_should_throw()
         {
             // Arrange
-            IEnumerable actual = null;
-            IEnumerable expectation = new[] { 1, 2, 3 };
+            int[] actual = null;
+            var expectation = new[] { 1, 2, 3 };
 
             // Act
             Action act = () =>
@@ -1637,8 +1601,8 @@ namespace FluentAssertions.Specs
         public void When_non_empty_collection_is_not_expected_to_be_equivalent_to_an_empty_collection_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = new int[0];
+            var collection1 = new[] { 1, 2, 3 };
+            var collection2 = new int[0];
 
             // Act
             Action act = () => collection1.Should().NotBeEquivalentTo(collection2);
@@ -1651,8 +1615,8 @@ namespace FluentAssertions.Specs
         public void When_testing_collections_not_to_be_equivalent_against_null_collection_it_should_throw()
         {
             // Arrange
-            IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = null;
+            var collection1 = new[] { 1, 2, 3 };
+            int[] collection2 = null;
 
             // Act
             Action act = () => collection1.Should().NotBeEquivalentTo(collection2);
@@ -1660,15 +1624,15 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot verify inequivalence against a <null> collection.*")
-                .And.ParamName.Should().Be("unexpected");
+                .WithParameterName("unexpected");
         }
 
         [Fact]
         public void When_testing_collections_not_to_be_equivalent_against_same_collection_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
-            IEnumerable collection1 = collection;
+            var collection = new[] { 1, 2, 3 };
+            var collection1 = collection;
 
             // Act
             Action act = () => collection.Should().NotBeEquivalentTo(collection1,
@@ -1706,7 +1670,7 @@ namespace FluentAssertions.Specs
         {
             // Arrange
             var item = new Customer { Name = "John" };
-            IEnumerable collection = new[] { new Customer { Name = "Jane" }, item };
+            var collection = new[] { new Customer { Name = "Jane" }, item };
 
             // Act / Assert
             collection.Should().ContainEquivalentOf(item);
@@ -1716,7 +1680,7 @@ namespace FluentAssertions.Specs
         public void When_collection_contains_object_equivalent_of_another_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new[] { new Customer { Name = "Jane" }, new Customer { Name = "John" } };
+            var collection = new[] { new Customer { Name = "Jane" }, new Customer { Name = "John" } };
             var item = new Customer { Name = "John" };
 
             // Act / Assert
@@ -1767,7 +1731,7 @@ namespace FluentAssertions.Specs
         public void When_collection_does_not_contain_object_equivalent_of_another_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
             int item = 4;
 
             // Act
@@ -1781,7 +1745,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_collection_to_contain_equivalent_but_collection_is_null_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
+            int[] collection = null;
             int expectation = 1;
 
             // Act
@@ -1797,7 +1761,7 @@ namespace FluentAssertions.Specs
         public void When_collection_contains_equivalent_null_object_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3, (int?)null };
+            var collection = new[] { 1, 2, 3, (int?)null };
             int? item = null;
 
             // Act
@@ -1811,7 +1775,7 @@ namespace FluentAssertions.Specs
         public void When_collection_does_not_contain_equivalent_null_object_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
             int? item = null;
 
             // Act
@@ -1825,7 +1789,7 @@ namespace FluentAssertions.Specs
         public void When_empty_collection_does_not_contain_equivalent_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new int[0];
+            var collection = new int[0];
             int item = 1;
 
             // Act
@@ -1839,7 +1803,7 @@ namespace FluentAssertions.Specs
         public void When_collection_does_not_contain_equivalent_because_of_second_property_it_should_throw()
         {
             // Arrange
-            IEnumerable subject = new[]
+            var subject = new[]
             {
                 new Customer
                 {
@@ -1865,7 +1829,7 @@ namespace FluentAssertions.Specs
         public void When_collection_does_contain_equivalent_by_including_single_property_it_should_not_throw()
         {
             // Arrange
-            IEnumerable collection = new[]
+            var collection = new[]
             {
                 new Customer
                 {
@@ -1888,7 +1852,7 @@ namespace FluentAssertions.Specs
         public void When_injecting_a_null_config_to_ContainEquivalentOf_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
+            int[] collection = null;
             object item = null;
 
             // Act
@@ -1896,14 +1860,14 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("config");
+                .WithParameterName("config");
         }
 
         [Fact]
         public void When_collection_contains_object_equivalent_of_boxed_object_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
             object boxedValue = 2;
 
             // Act / Assert
@@ -1919,7 +1883,7 @@ namespace FluentAssertions.Specs
         {
             // Arrange
             var item = 1;
-            IEnumerable collection = new[] { 0, 1 };
+            var collection = new[] { 0, 1 };
 
             // Act
             Action act = () => collection.Should().NotContainEquivalentOf(item, "because we want to test the failure {0}", "message");
@@ -1934,7 +1898,7 @@ namespace FluentAssertions.Specs
         {
             // Arrange
             var item = 1;
-            IEnumerable collection = new[] { 0, 1, 1 };
+            var collection = new[] { 0, 1, 1 };
 
             // Act
             Action act = () => collection.Should().NotContainEquivalentOf(item, "because we want to test the failure {0}", "message");
@@ -1949,7 +1913,7 @@ namespace FluentAssertions.Specs
         {
             // Arrange
             var item = 1;
-            IEnumerable collection = null;
+            int[] collection = null;
 
             // Act
             Action act = () => collection.Should().NotContainEquivalentOf(item);
@@ -1962,7 +1926,7 @@ namespace FluentAssertions.Specs
         public void When_injecting_a_null_config_to_NotContainEquivalentOf_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
+            int[] collection = null;
             object item = null;
 
             // Act
@@ -1970,14 +1934,14 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("config");
+                .WithParameterName("config");
         }
 
         [Fact]
         public void When_asserting_empty_collection_to_not_contain_equivalent_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new int[0];
+            var collection = new int[0];
             int item = 4;
 
             // Act / Assert
@@ -1988,7 +1952,7 @@ namespace FluentAssertions.Specs
         public void When_collection_does_not_contain_object_equivalent_of_unexpected_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
             int item = 4;
 
             // Act / Assert
@@ -1999,7 +1963,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_collection_to_not_contain_equivalent_it_should_respect_config()
         {
             // Arrange
-            IEnumerable collection = new[]
+            var collection = new[]
             {
                 new Customer
                 {
@@ -2025,7 +1989,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_collection_to_not_contain_equivalent_it_should_allow_combining_inside_assertion_scope()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
             int another = 3;
 
             // Act
@@ -2052,8 +2016,8 @@ namespace FluentAssertions.Specs
         public void When_collection_is_subset_of_a_specified_collection_it_should_not_throw()
         {
             // Arrange
-            IEnumerable subset = new[] { 1, 2 };
-            IEnumerable superset = new[] { 1, 2, 3 };
+            var subset = new[] { 1, 2 };
+            var superset = new[] { 1, 2, 3 };
 
             // Act / Assert
             subset.Should().BeSubsetOf(superset);
@@ -2063,8 +2027,8 @@ namespace FluentAssertions.Specs
         public void When_collection_is_not_a_subset_of_another_it_should_throw_with_the_reason()
         {
             // Arrange
-            IEnumerable subset = new[] { 1, 2, 3, 6 };
-            IEnumerable superset = new[] { 1, 2, 4, 5 };
+            var subset = new[] { 1, 2, 3, 6 };
+            var superset = new[] { 1, 2, 4, 5 };
 
             // Act
             Action act = () => subset.Should().BeSubsetOf(superset, "because we want to test the failure {0}", "message");
@@ -2079,8 +2043,8 @@ namespace FluentAssertions.Specs
         public void When_an_empty_collection_is_tested_against_a_superset_it_should_succeed()
         {
             // Arrange
-            IEnumerable subset = new int[0];
-            IEnumerable superset = new[] { 1, 2, 4, 5 };
+            var subset = new int[0];
+            var superset = new[] { 1, 2, 4, 5 };
 
             // Act
             Action act = () => subset.Should().BeSubsetOf(superset);
@@ -2093,8 +2057,8 @@ namespace FluentAssertions.Specs
         public void When_a_subset_is_tested_against_a_null_superset_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
-            IEnumerable subset = new[] { 1, 2, 3 };
-            IEnumerable superset = null;
+            var subset = new[] { 1, 2, 3 };
+            int[] superset = null;
 
             // Act
             Action act = () => subset.Should().BeSubsetOf(superset);
@@ -2108,8 +2072,8 @@ namespace FluentAssertions.Specs
         public void When_a_set_is_expected_to_be_not_a_subset_it_should_succeed()
         {
             // Arrange
-            IEnumerable subject = new[] { 1, 2, 4 };
-            IEnumerable otherSet = new[] { 1, 2, 3 };
+            var subject = new[] { 1, 2, 4 };
+            var otherSet = new[] { 1, 2, 3 };
 
             // Act / Assert
             subject.Should().NotBeSubsetOf(otherSet);
@@ -2119,8 +2083,8 @@ namespace FluentAssertions.Specs
         public void When_an_empty_set_is_not_supposed_to_be_a_subset_of_another_set_it_should_throw()
         {
             // Arrange
-            IEnumerable subject = new int[] { };
-            IEnumerable otherSet = new[] { 1, 2, 3 };
+            var subject = new int[] { };
+            var otherSet = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => subject.Should().NotBeSubsetOf(otherSet);
@@ -2134,8 +2098,8 @@ namespace FluentAssertions.Specs
         public void Should_fail_when_asserting_collection_is_not_subset_of_a_superset_collection()
         {
             // Arrange
-            IEnumerable subject = new[] { 1, 2 };
-            IEnumerable otherSet = new[] { 1, 2, 3 };
+            var subject = new[] { 1, 2 };
+            var otherSet = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => subject.Should().NotBeSubsetOf(otherSet, "because I'm {0}", "mistaken");
@@ -2149,8 +2113,8 @@ namespace FluentAssertions.Specs
         public void When_asserting_collection_to_be_subset_against_null_collection_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
-            IEnumerable collection1 = new[] { 1, 2, 3 };
+            int[] collection = null;
+            var collection1 = new[] { 1, 2, 3 };
 
             // Act
             Action act =
@@ -2165,8 +2129,8 @@ namespace FluentAssertions.Specs
         public void When_asserting_collection_to_not_be_subset_against_same_collection_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
-            IEnumerable collection1 = collection;
+            var collection = new[] { 1, 2, 3 };
+            var collection1 = collection;
 
             // Act
             Action act = () => collection.Should().NotBeSubsetOf(collection1,
@@ -2185,7 +2149,7 @@ namespace FluentAssertions.Specs
         public void Should_succeed_when_asserting_collection_contains_an_item_from_the_collection()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().Contain(1);
@@ -2195,7 +2159,7 @@ namespace FluentAssertions.Specs
         public void Should_succeed_when_asserting_collection_contains_multiple_items_from_the_collection_in_any_order()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().Contain(new[] { 2, 1 });
@@ -2205,7 +2169,7 @@ namespace FluentAssertions.Specs
         public void When_a_collection_does_not_contain_single_item_it_should_throw_with_clear_explanation()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().Contain(4, "because {0}", "we do");
@@ -2219,7 +2183,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_collection_does_contain_item_against_null_collection_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
+            int[] collection = null;
 
             // Act
             Action act = () => collection.Should()
@@ -2227,14 +2191,14 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection to contain {1} because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected collection to contain 1 because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         [Fact]
         public void When_a_collection_does_not_contain_another_collection_it_should_throw_with_clear_explanation()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().Contain(new[] { 3, 4, 5 }, "because {0}", "we do");
@@ -2248,7 +2212,7 @@ namespace FluentAssertions.Specs
         public void When_the_contents_of_a_collection_are_checked_against_an_empty_collection_it_should_throw_clear_explanation()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().Contain(new int[0]);
@@ -2266,7 +2230,7 @@ namespace FluentAssertions.Specs
         public void Should_succeed_when_asserting_collection_does_not_contain_an_item_that_is_not_in_the_collection()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().NotContain(4);
@@ -2286,14 +2250,14 @@ namespace FluentAssertions.Specs
         public void When_collection_contains_an_unexpected_item_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().NotContain(1, "because we {0} like it, but found it anyhow", "don't");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection {1, 2, 3} to not contain element 1 because we don't like it, but found it anyhow.");
+                "Expected collection {1, 2, 3} to not contain 1 because we don't like it, but found it anyhow.");
         }
 
         [Fact]
@@ -2307,7 +2271,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("predicate");
+                .WithParameterName("predicate");
         }
 
         [Fact]
@@ -2338,7 +2302,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_collection_does_not_contain_item_against_null_collection_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
+            int[] collection = null;
 
             // Act
             Action act = () => collection.Should()
@@ -2346,14 +2310,14 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection to not contain {1} because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected collection to not contain 1 because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         [Fact]
         public void When_collection_contains_unexpected_items_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should()
@@ -2372,7 +2336,7 @@ namespace FluentAssertions.Specs
         public void When_two_collections_contain_the_same_items_in_the_same_order_it_should_not_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 2, 3 };
+            var collection = new[] { 1, 2, 2, 3 };
 
             // Act / Assert
             collection.Should().ContainInOrder(1, 2, 3);
@@ -2382,7 +2346,7 @@ namespace FluentAssertions.Specs
         public void When_collection_contains_null_value_it_should_not_throw()
         {
             // Arrange
-            IEnumerable collection = new object[] { 1, null, 2, "string" };
+            var collection = new object[] { 1, null, 2, "string" };
 
             // Act / Assert
             collection.Should().ContainInOrder(new object[] { 1, null, "string" });
@@ -2392,7 +2356,7 @@ namespace FluentAssertions.Specs
         public void When_the_first_collection_contains_a_duplicate_item_without_affecting_the_order_it_should_not_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3, 2 };
+            var collection = new[] { 1, 2, 3, 2 };
 
             // Act / Assert
             collection.Should().ContainInOrder(1, 2, 3);
@@ -2402,7 +2366,7 @@ namespace FluentAssertions.Specs
         public void When_two_collections_contain_the_same_duplicate_items_in_the_same_order_it_should_not_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 1, 2, 12, 2, 2 };
+            var collection = new[] { 1, 2, 1, 2, 12, 2, 2 };
 
             // Act / Assert
             collection.Should().ContainInOrder(1, 2, 1, 2, 12, 2, 2);
@@ -2412,7 +2376,7 @@ namespace FluentAssertions.Specs
         public void When_a_collection_does_not_contain_a_range_twice_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 1, 3, 12, 2, 2 };
+            var collection = new[] { 1, 2, 1, 3, 12, 2, 2 };
 
             // Act
             Action act = () => collection.Should().ContainInOrder(1, 2, 1, 1, 2);
@@ -2479,7 +2443,7 @@ namespace FluentAssertions.Specs
         public void When_two_collections_contain_the_same_items_but_in_different_order_it_should_not_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().NotContainInOrder(2, 1);
@@ -2489,7 +2453,7 @@ namespace FluentAssertions.Specs
         public void When_a_collection_does_not_contain_an_ordered_item_it_should_not_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().NotContainInOrder(4, 1);
@@ -2499,7 +2463,7 @@ namespace FluentAssertions.Specs
         public void When_a_collection_contains_less_items_it_should_not_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2 };
+            var collection = new[] { 1, 2 };
 
             // Act / Assert
             collection.Should().NotContainInOrder(1, 2, 3);
@@ -2509,7 +2473,7 @@ namespace FluentAssertions.Specs
         public void When_a_collection_does_not_contain_a_range_twice_it_should_not_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 1, 3, 12, 2, 2 };
+            var collection = new[] { 1, 2, 1, 3, 12, 2, 2 };
 
             // Act / Assert
             collection.Should().NotContainInOrder(1, 2, 1, 1, 2);
@@ -2519,7 +2483,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_collection_does_not_contain_some_values_in_order_but_collection_is_null_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
+            int[] collection = null;
 
             // Act
             Action act = () => collection.Should().NotContainInOrder(4);
@@ -2532,7 +2496,7 @@ namespace FluentAssertions.Specs
         public void When_two_collections_contain_the_same_items_in_the_same_order_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 2, 3 };
+            var collection = new[] { 1, 2, 2, 3 };
 
             // Act
             Action act = () => collection.Should().NotContainInOrder(new[] { 1, 2, 3 }, "that's what we expect");
@@ -2547,7 +2511,7 @@ namespace FluentAssertions.Specs
         public void When_collection_contains_contain_the_same_items_in_the_same_order_with_null_value_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new object[] { 1, null, 2, "string" };
+            var collection = new object[] { 1, null, 2, "string" };
 
             // Act
             Action act = () => collection.Should().NotContainInOrder(1, null, "string");
@@ -2562,7 +2526,7 @@ namespace FluentAssertions.Specs
         public void When_the_first_collection_contains_a_duplicate_item_without_affecting_the_order_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3, 2 };
+            var collection = new[] { 1, 2, 3, 2 };
 
             // Act
             Action act = () => collection.Should().NotContainInOrder(1, 2, 3);
@@ -2577,7 +2541,7 @@ namespace FluentAssertions.Specs
         public void When_two_collections_contain_the_same_duplicate_items_in_the_same_order_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 1, 2, 12, 2, 2 };
+            var collection = new[] { 1, 2, 1, 2, 12, 2, 2 };
 
             // Act
             Action act = () => collection.Should().NotContainInOrder(1, 2, 1, 2, 12, 2, 2);
@@ -2592,7 +2556,7 @@ namespace FluentAssertions.Specs
         public void When_passing_in_null_while_checking_for_absence_of_ordered_containment_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().NotContainInOrder(null);
@@ -2624,7 +2588,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_the_items_in_an_ascendingly_ordered_collection_are_ordered_ascending_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 2, 3 };
+            var collection = new[] { 1, 2, 2, 3 };
 
             // Act / Assert
             collection.Should().BeInAscendingOrder();
@@ -2634,24 +2598,24 @@ namespace FluentAssertions.Specs
         public void When_asserting_the_items_in_an_ascendingly_ordered_collection_are_ordered_ascending_using_the_given_comparer_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 2, 3 };
+            var collection = new[] { 1, 2, 2, 3 };
 
             // Act / Assert
-            collection.Should().BeInAscendingOrder(Comparer<object>.Default);
+            collection.Should().BeInAscendingOrder(Comparer<int>.Default);
         }
 
         [Fact]
         public void When_asserting_the_items_in_an_unordered_collection_are_ordered_ascending_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 6, 12, 15, 12, 17, 26 };
+            var collection = new[] { 1, 6, 12, 15, 12, 17, 26 };
 
             // Act
             Action action = () => collection.Should().BeInAscendingOrder("because numbers are ordered");
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected collection to contain items in ascending order because numbers are ordered," +
+                .WithMessage("Expected collection to be in ascending order because numbers are ordered," +
                     " but found {1, 6, 12, 15, 12, 17, 26} where item at index 3 is in wrong order.");
         }
 
@@ -2659,14 +2623,14 @@ namespace FluentAssertions.Specs
         public void When_asserting_the_items_in_an_unordered_collection_are_ordered_ascending_using_the_given_comparer_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 6, 12, 15, 12, 17, 26 };
+            var collection = new[] { 1, 6, 12, 15, 12, 17, 26 };
 
             // Act
-            Action action = () => collection.Should().BeInAscendingOrder(Comparer<object>.Default, "because numbers are ordered");
+            Action action = () => collection.Should().BeInAscendingOrder(Comparer<int>.Default, "because numbers are ordered");
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected collection to contain items in ascending order because numbers are ordered," +
+                .WithMessage("Expected collection to be in ascending order because numbers are ordered," +
                     " but found {1, 6, 12, 15, 12, 17, 26} where item at index 3 is in wrong order.");
         }
 
@@ -2688,7 +2652,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_the_items_in_an_unordered_collection_are_not_in_ascending_order_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 5, 3 };
+            var collection = new[] { 1, 5, 3 };
 
             // Act / Assert
             collection.Should().NotBeInAscendingOrder();
@@ -2698,24 +2662,24 @@ namespace FluentAssertions.Specs
         public void When_asserting_the_items_in_an_unordered_collection_are_not_in_ascending_order_using_the_given_comparer_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 5, 3 };
+            var collection = new[] { 1, 5, 3 };
 
             // Act / Assert
-            collection.Should().NotBeInAscendingOrder(Comparer<object>.Default);
+            collection.Should().NotBeInAscendingOrder(Comparer<int>.Default);
         }
 
         [Fact]
         public void When_asserting_the_items_in_an_ascendingly_ordered_collection_are_not_in_ascending_order_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 2, 3 };
+            var collection = new[] { 1, 2, 2, 3 };
 
             // Act
             Action action = () => collection.Should().NotBeInAscendingOrder("because numbers are not ordered");
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Did not expect collection to contain items in ascending order because numbers are not ordered," +
+                .WithMessage("Did not expect collection to be in ascending order because numbers are not ordered," +
                     " but found {1, 2, 2, 3}.");
         }
 
@@ -2723,14 +2687,14 @@ namespace FluentAssertions.Specs
         public void When_asserting_the_items_in_an_ascendingly_ordered_collection_are_not_in_ascending_order_using_the_given_comparer_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 2, 3 };
+            var collection = new[] { 1, 2, 2, 3 };
 
             // Act
-            Action action = () => collection.Should().NotBeInAscendingOrder(Comparer<object>.Default, "because numbers are not ordered");
+            Action action = () => collection.Should().NotBeInAscendingOrder(Comparer<int>.Default, "because numbers are not ordered");
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Did not expect collection to contain items in ascending order because numbers are not ordered," +
+                .WithMessage("Did not expect collection to be in ascending order because numbers are not ordered," +
                     " but found {1, 2, 2, 3}.");
         }
 
@@ -2738,7 +2702,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_the_items_in_an_descendingly_ordered_collection_are_ordered_descending_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new[] { "z", "y", "x" };
+            var collection = new[] { "z", "y", "x" };
 
             // Act / Assert
             collection.Should().BeInDescendingOrder();
@@ -2748,7 +2712,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_the_items_in_an_descendingly_ordered_collection_are_ordered_descending_using_the_given_comparer_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new[] { "z", "y", "x" };
+            var collection = new[] { "z", "y", "x" };
 
             // Act / Assert
             collection.Should().BeInDescendingOrder(Comparer<object>.Default);
@@ -2758,14 +2722,14 @@ namespace FluentAssertions.Specs
         public void When_asserting_the_items_in_an_unordered_collection_are_ordered_descending_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { "z", "x", "y" };
+            var collection = new[] { "z", "x", "y" };
 
             // Act
             Action action = () => collection.Should().BeInDescendingOrder("because letters are ordered");
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected collection to contain items in descending order because letters are ordered," +
+                .WithMessage("Expected collection to be in descending order because letters are ordered," +
                     " but found {\"z\", \"x\", \"y\"} where item at index 1 is in wrong order.");
         }
 
@@ -2773,14 +2737,14 @@ namespace FluentAssertions.Specs
         public void When_asserting_the_items_in_an_unordered_collection_are_ordered_descending_using_the_given_comparer_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { "z", "x", "y" };
+            var collection = new[] { "z", "x", "y" };
 
             // Act
             Action action = () => collection.Should().BeInDescendingOrder(Comparer<object>.Default, "because letters are ordered");
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected collection to contain items in descending order because letters are ordered," +
+                .WithMessage("Expected collection to be in descending order because letters are ordered," +
                     " but found {\"z\", \"x\", \"y\"} where item at index 1 is in wrong order.");
         }
 
@@ -2788,7 +2752,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_the_items_in_an_unordered_collection_are_not_in_descending_order_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new[] { "x", "y", "x" };
+            var collection = new[] { "x", "y", "x" };
 
             // Act / Assert
             collection.Should().NotBeInDescendingOrder();
@@ -2798,7 +2762,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_the_items_in_an_unordered_collection_are_not_in_descending_order_using_the_given_comparer_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new[] { "x", "y", "x" };
+            var collection = new[] { "x", "y", "x" };
 
             // Act / Assert
             collection.Should().NotBeInDescendingOrder(Comparer<object>.Default);
@@ -2808,14 +2772,14 @@ namespace FluentAssertions.Specs
         public void When_asserting_the_items_in_a_descending_ordered_collection_are_not_in_descending_order_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { "c", "b", "a" };
+            var collection = new[] { "c", "b", "a" };
 
             // Act
             Action action = () => collection.Should().NotBeInDescendingOrder("because numbers are not ordered");
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Did not expect collection to contain items in descending order because numbers are not ordered," +
+                .WithMessage("Did not expect collection to be in descending order because numbers are not ordered," +
                     " but found {\"c\", \"b\", \"a\"}.");
         }
 
@@ -2823,14 +2787,14 @@ namespace FluentAssertions.Specs
         public void When_asserting_the_items_in_a_descending_ordered_collection_are_not_in_descending_order_using_the_given_comparer_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { "c", "b", "a" };
+            var collection = new[] { "c", "b", "a" };
 
             // Act
             Action action = () => collection.Should().NotBeInDescendingOrder(Comparer<object>.Default, "because numbers are not ordered");
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Did not expect collection to contain items in descending order because numbers are not ordered," +
+                .WithMessage("Did not expect collection to be in descending order because numbers are not ordered," +
                     " but found {\"c\", \"b\", \"a\"}.");
         }
 
@@ -2842,8 +2806,8 @@ namespace FluentAssertions.Specs
         public void When_asserting_the_items_in_an_two_intersecting_collections_intersect_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
-            IEnumerable otherCollection = new[] { 3, 4, 5 };
+            var collection = new[] { 1, 2, 3 };
+            var otherCollection = new[] { 3, 4, 5 };
 
             // Act / Assert
             collection.Should().IntersectWith(otherCollection);
@@ -2853,8 +2817,8 @@ namespace FluentAssertions.Specs
         public void When_asserting_the_items_in_an_two_non_intersecting_collections_intersect_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
-            IEnumerable otherCollection = new[] { 4, 5 };
+            var collection = new[] { 1, 2, 3 };
+            var otherCollection = new[] { 4, 5 };
 
             // Act
             Action action = () => collection.Should().IntersectWith(otherCollection, "they should share items");
@@ -2869,8 +2833,8 @@ namespace FluentAssertions.Specs
         public void When_asserting_the_items_in_an_two_non_intersecting_collections_do_not_intersect_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
-            IEnumerable otherCollection = new[] { 4, 5 };
+            var collection = new[] { 1, 2, 3 };
+            var otherCollection = new[] { 4, 5 };
 
             // Act / Assert
             collection.Should().NotIntersectWith(otherCollection);
@@ -2880,8 +2844,8 @@ namespace FluentAssertions.Specs
         public void When_asserting_the_items_in_an_two_intersecting_collections_do_not_intersect_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
-            IEnumerable otherCollection = new[] { 2, 3, 4 };
+            var collection = new[] { 1, 2, 3 };
+            var otherCollection = new[] { 2, 3, 4 };
 
             // Act
             Action action = () => collection.Should().NotIntersectWith(otherCollection, "they should not share items");
@@ -2896,8 +2860,8 @@ namespace FluentAssertions.Specs
         public void When_asserting_collection_to_not_intersect_with_same_collection_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
-            IEnumerable otherCollection = collection;
+            var collection = new[] { 1, 2, 3 };
+            var otherCollection = collection;
 
             // Act
             Action act = () => collection.Should().NotIntersectWith(otherCollection,
@@ -2916,7 +2880,7 @@ namespace FluentAssertions.Specs
         public void When_collection_does_not_contain_nulls_it_should_not_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().NotContainNulls();
@@ -2926,7 +2890,7 @@ namespace FluentAssertions.Specs
         public void When_collection_contains_nulls_that_are_unexpected_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { new object(), null };
+            var collection = new[] { new object(), null };
 
             // Act
             Action act = () => collection.Should().NotContainNulls("because they are {0}", "evil");
@@ -2940,7 +2904,7 @@ namespace FluentAssertions.Specs
         public void When_collection_contains_multiple_nulls_that_are_unexpected_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { new object(), null, new object(), null };
+            var collection = new[] { new object(), null, new object(), null };
 
             // Act
             Action act = () => collection.Should().NotContainNulls("because they are {0}", "evil");
@@ -2954,7 +2918,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_collection_to_not_contain_nulls_but_collection_is_null_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
+            int[] collection = null;
 
             // Act
             Action act = () => collection.Should().NotContainNulls("because we want to test the behaviour with a null subject");
@@ -2972,7 +2936,7 @@ namespace FluentAssertions.Specs
         public void Should_succeed_when_asserting_collection_with_all_items_of_same_type_only_contains_item_of_one_type()
         {
             // Arrange
-            IEnumerable collection = new[] { "1", "2", "3" };
+            var collection = new[] { "1", "2", "3" };
 
             // Act / Assert
             collection.Should().ContainItemsAssignableTo<string>();
@@ -2982,7 +2946,7 @@ namespace FluentAssertions.Specs
         public void Should_fail_when_asserting_collection_with_items_of_different_types_only_contains_item_of_one_type()
         {
             // Arrange
-            IEnumerable collection = new List<object>
+            var collection = new List<object>
             {
                 1,
                 "2"
@@ -2999,7 +2963,7 @@ namespace FluentAssertions.Specs
         public void When_a_collection_contains_anything_other_than_strings_it_should_throw_and_report_details()
         {
             // Arrange
-            IEnumerable collection = new List<object>
+            var collection = new List<object>
             {
                 1,
                 "2"
@@ -3017,7 +2981,7 @@ namespace FluentAssertions.Specs
         public void When_a_collection_contains_anything_other_than_strings_it_should_use_the_reason()
         {
             // Arrange
-            IEnumerable collection = new List<object>
+            var collection = new List<object>
             {
                 1,
                 "2"
@@ -3038,7 +3002,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_collection_contains_item_assignable_to_against_null_collection_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
+            int[] collection = null;
 
             // Act
             Action act = () => collection.Should()
@@ -3057,7 +3021,7 @@ namespace FluentAssertions.Specs
         public void Should_succeed_when_asserting_collection_with_unique_items_contains_only_unique_items()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3, 4 };
+            var collection = new[] { 1, 2, 3, 4 };
 
             // Act / Assert
             collection.Should().OnlyHaveUniqueItems();
@@ -3067,7 +3031,7 @@ namespace FluentAssertions.Specs
         public void When_a_collection_contains_duplicate_items_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3, 3 };
+            var collection = new[] { 1, 2, 3, 3 };
 
             // Act
             Action act = () => collection.Should().OnlyHaveUniqueItems("{0} don't like {1}", "we", "duplicates");
@@ -3081,7 +3045,7 @@ namespace FluentAssertions.Specs
         public void When_a_collection_contains_multiple_duplicate_items_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 2, 3, 3 };
+            var collection = new[] { 1, 2, 2, 3, 3 };
 
             // Act
             Action act = () => collection.Should().OnlyHaveUniqueItems("{0} don't like {1}", "we", "duplicates");
@@ -3095,7 +3059,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_collection_to_only_have_unique_items_but_collection_is_null_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
+            int[] collection = null;
 
             // Act
             Action act =
@@ -3122,6 +3086,34 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected*start*ryan*because of some reason*but*john*");
+        }
+
+        [Fact]
+        public void When_collection_does_not_start_with_a_null_sequence_it_should_throw()
+        {
+            // Arrange
+            var collection = new[] { "john" };
+
+            // Act
+            Action act = () => collection.Should().StartWith((IEnumerable<string>)null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().Be("expectation");
+        }
+
+        [Fact]
+        public void When_collection_does_not_start_with_a_null_sequence_using_a_comparer_it_should_throw()
+        {
+            // Arrange
+            var collection = new[] { "john" };
+
+            // Act
+            Action act = () => collection.Should().StartWith((IEnumerable<string>)null, (_, _) => true);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().Be("expectation");
         }
 
         [Fact]
@@ -3198,7 +3190,7 @@ namespace FluentAssertions.Specs
             var collection = new[] { null, "jane", "mike" };
 
             // Act
-            Action act = () => collection.Should().StartWith(null);
+            Action act = () => collection.Should().StartWith((string)null);
 
             // Assert
             act.Should().NotThrow();
@@ -3326,6 +3318,34 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_collection_does_not_end_with_a_null_sequence_it_should_throw()
+        {
+            // Arrange
+            var collection = new[] { "john" };
+
+            // Act
+            Action act = () => collection.Should().EndWith((IEnumerable<string>)null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().Be("expectation");
+        }
+
+        [Fact]
+        public void When_collection_does_not_end_with_a_null_sequence_using_a_comparer_it_should_throw()
+        {
+            // Arrange
+            var collection = new[] { "john" };
+
+            // Act
+            Action act = () => collection.Should().EndWith((IEnumerable<string>)null, (_, _) => true);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .Which.ParamName.Should().Be("expectation");
+        }
+
+        [Fact]
         public void When_collection_does_not_end_with_a_specific_element_in_a_sequence_using_custom_equality_comparison_it_should_throw()
         {
             // Arrange
@@ -3385,7 +3405,7 @@ namespace FluentAssertions.Specs
             var collection = new[] { "jane", "mike", null };
 
             // Act
-            Action act = () => collection.Should().EndWith(null);
+            Action act = () => collection.Should().EndWith((string)null);
 
             // Assert
             act.Should().NotThrow();
@@ -3479,7 +3499,7 @@ namespace FluentAssertions.Specs
         public void When_collection_has_expected_element_at_specific_index_it_should_not_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().HaveElementAt(1, 2);
@@ -3489,7 +3509,7 @@ namespace FluentAssertions.Specs
         public void When_collection_does_not_have_the_expected_element_at_specific_index_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().HaveElementAt(1, 3, "we put it {0}", "there");
@@ -3503,7 +3523,7 @@ namespace FluentAssertions.Specs
         public void When_collection_does_not_have_an_element_at_the_specific_index_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().HaveElementAt(4, 3, "we put it {0}", "there");
@@ -3517,7 +3537,7 @@ namespace FluentAssertions.Specs
         public void When_asserting_collection_has_element_at_specific_index_against_null_collection_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
+            int[] collection = null;
 
             // Act
             Action act = () => collection.Should().HaveElementAt(1, 1,
@@ -3562,7 +3582,7 @@ namespace FluentAssertions.Specs
         public void When_collection_has_the_correct_element_preceding_another_it_should_not_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { "cris", "mick", "john" };
+            var collection = new[] { "cris", "mick", "john" };
 
             // Act
             Action act = () => collection.Should().HaveElementPreceding("mick", "cris");
@@ -3576,7 +3596,7 @@ namespace FluentAssertions.Specs
         public void When_collection_has_the_wrong_element_preceding_another_it_should_not_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { "cris", "mick", "john" };
+            var collection = new[] { "cris", "mick", "john" };
 
             // Act
             Action act = () => collection.Should().HaveElementPreceding("john", "cris", "because of some reason");
@@ -3591,7 +3611,7 @@ namespace FluentAssertions.Specs
         public void When_nothing_is_preceding_an_element_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { "cris", "mick", "john" };
+            var collection = new[] { "cris", "mick", "john" };
 
             // Act
             Action act = () => collection.Should().HaveElementPreceding("cris", "jane");
@@ -3606,7 +3626,7 @@ namespace FluentAssertions.Specs
         public void When_expecting_an_element_to_precede_another_but_collection_is_empty_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new string[0];
+            var collection = new string[0];
 
             // Act
             Action act = () => collection.Should().HaveElementPreceding("mick", "cris");
@@ -3620,7 +3640,7 @@ namespace FluentAssertions.Specs
         public void When_a_null_element_is_preceding_another_element_it_should_not_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { null, "mick", "john" };
+            var collection = new[] { null, "mick", "john" };
 
             // Act
             Action act = () => collection.Should().HaveElementPreceding("mick", null);
@@ -3634,7 +3654,7 @@ namespace FluentAssertions.Specs
         public void When_a_null_element_is_not_preceding_another_element_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { "cris", "mick", "john" };
+            var collection = new[] { "cris", "mick", "john" };
 
             // Act
             Action act = () => collection.Should().HaveElementPreceding("mick", null);
@@ -3648,7 +3668,7 @@ namespace FluentAssertions.Specs
         public void When_an_element_is_preceding_a_null_element_it_should_not_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { "mick", null, "john" };
+            var collection = new[] { "mick", null, "john" };
 
             // Act
             Action act = () => collection.Should().HaveElementPreceding(null, "mick");
@@ -3661,7 +3681,7 @@ namespace FluentAssertions.Specs
         public void When_an_element_is_not_preceding_a_null_element_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { "mick", null, "john" };
+            var collection = new[] { "mick", null, "john" };
 
             // Act
             Action act = () => collection.Should().HaveElementPreceding(null, "cris");
@@ -3680,7 +3700,7 @@ namespace FluentAssertions.Specs
         public void When_collection_has_the_correct_element_succeeding_another_it_should_not_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { "cris", "mick", "john" };
+            var collection = new[] { "cris", "mick", "john" };
 
             // Act
             Action act = () => collection.Should().HaveElementSucceeding("cris", "mick");
@@ -3694,7 +3714,7 @@ namespace FluentAssertions.Specs
         public void When_collection_has_the_wrong_element_succeeding_another_it_should_not_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { "cris", "mick", "john" };
+            var collection = new[] { "cris", "mick", "john" };
 
             // Act
             Action act = () => collection.Should().HaveElementSucceeding("mick", "cris", "because of some reason");
@@ -3709,7 +3729,7 @@ namespace FluentAssertions.Specs
         public void When_nothing_is_succeeding_an_element_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { "cris", "mick", "john" };
+            var collection = new[] { "cris", "mick", "john" };
 
             // Act
             Action act = () => collection.Should().HaveElementSucceeding("john", "jane");
@@ -3723,7 +3743,7 @@ namespace FluentAssertions.Specs
         public void When_expecting_an_element_to_succeed_another_but_the_collection_is_empty_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new string[0];
+            var collection = new string[0];
 
             // Act
             Action act = () => collection.Should().HaveElementSucceeding("mick", "cris");
@@ -3737,7 +3757,7 @@ namespace FluentAssertions.Specs
         public void When_a_null_element_is_succeeding_another_element_it_should_not_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { "mick", null, "john" };
+            var collection = new[] { "mick", null, "john" };
 
             // Act
             Action act = () => collection.Should().HaveElementSucceeding("mick", null);
@@ -3750,7 +3770,7 @@ namespace FluentAssertions.Specs
         public void When_a_null_element_is_not_succeeding_another_element_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { "cris", "mick", "john" };
+            var collection = new[] { "cris", "mick", "john" };
 
             // Act
             Action act = () => collection.Should().HaveElementSucceeding("mick", null);
@@ -3764,7 +3784,7 @@ namespace FluentAssertions.Specs
         public void When_an_element_is_succeeding_a_null_element_it_should_not_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { "mick", null, "john" };
+            var collection = new[] { "mick", null, "john" };
 
             // Act
             Action act = () => collection.Should().HaveElementSucceeding(null, "john");
@@ -3777,7 +3797,7 @@ namespace FluentAssertions.Specs
         public void When_an_element_is_not_succeeding_a_null_element_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { "mick", null, "john" };
+            var collection = new[] { "mick", null, "john" };
 
             // Act
             Action act = () => collection.Should().HaveElementSucceeding(null, "cris");
@@ -3795,7 +3815,7 @@ namespace FluentAssertions.Specs
         public void Should_support_chaining_constraints_with_and()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should()
@@ -3813,8 +3833,8 @@ namespace FluentAssertions.Specs
         public void When_both_collections_have_the_same_number_elements_it_should_succeed()
         {
             // Arrange
-            IEnumerable firstCollection = new[] { 1, 2, 3 };
-            IEnumerable secondCollection = new[] { 4, 5, 6 };
+            var firstCollection = new[] { 1, 2, 3 };
+            var secondCollection = new[] { 4, 5, 6 };
 
             // Act / Assert
             firstCollection.Should().HaveSameCount(secondCollection);
@@ -3824,8 +3844,8 @@ namespace FluentAssertions.Specs
         public void When_both_collections_do_not_have_the_same_number_of_elements_it_should_fail()
         {
             // Arrange
-            IEnumerable firstCollection = new[] { 1, 2, 3 };
-            IEnumerable secondCollection = new[] { 4, 6 };
+            var firstCollection = new[] { 1, 2, 3 };
+            var secondCollection = new[] { 4, 6 };
 
             // Act
             Action act = () => firstCollection.Should().HaveSameCount(secondCollection);
@@ -3839,8 +3859,8 @@ namespace FluentAssertions.Specs
         public void When_comparing_item_counts_and_a_reason_is_specified_it_should_it_in_the_exception()
         {
             // Arrange
-            IEnumerable firstCollection = new[] { 1, 2, 3 };
-            IEnumerable secondCollection = new[] { 4, 6 };
+            var firstCollection = new[] { 1, 2, 3 };
+            var secondCollection = new[] { 4, 6 };
 
             // Act
             Action act = () => firstCollection.Should().HaveSameCount(secondCollection, "we want to test the {0}", "reason");
@@ -3854,8 +3874,8 @@ namespace FluentAssertions.Specs
         public void When_asserting_collections_to_have_same_count_against_null_collection_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
-            IEnumerable collection1 = new[] { 1, 2, 3 };
+            int[] collection = null;
+            var collection1 = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().HaveSameCount(collection1,
@@ -3870,8 +3890,8 @@ namespace FluentAssertions.Specs
         public void When_asserting_collections_to_have_same_count_against_an_other_null_collection_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
-            IEnumerable otherCollection = null;
+            var collection = new[] { 1, 2, 3 };
+            int[] otherCollection = null;
 
             // Act
             Action act = () => collection.Should().HaveSameCount(otherCollection);
@@ -3889,8 +3909,8 @@ namespace FluentAssertions.Specs
         public void When_asserting_not_same_count_and_collections_have_different_number_elements_it_should_succeed()
         {
             // Arrange
-            IEnumerable firstCollection = new[] { 1, 2, 3 };
-            IEnumerable secondCollection = new[] { 4, 6 };
+            var firstCollection = new[] { 1, 2, 3 };
+            var secondCollection = new[] { 4, 6 };
 
             // Act / Assert
             firstCollection.Should().NotHaveSameCount(secondCollection);
@@ -3900,8 +3920,8 @@ namespace FluentAssertions.Specs
         public void When_asserting_not_same_count_and_both_collections_have_the_same_number_elements_it_should_fail()
         {
             // Arrange
-            IEnumerable firstCollection = new[] { 1, 2, 3 };
-            IEnumerable secondCollection = new[] { 4, 5, 6 };
+            var firstCollection = new[] { 1, 2, 3 };
+            var secondCollection = new[] { 4, 5, 6 };
 
             // Act
             Action act = () => firstCollection.Should().NotHaveSameCount(secondCollection);
@@ -3915,8 +3935,8 @@ namespace FluentAssertions.Specs
         public void When_comparing_not_same_item_counts_and_a_reason_is_specified_it_should_it_in_the_exception()
         {
             // Arrange
-            IEnumerable firstCollection = new[] { 1, 2, 3 };
-            IEnumerable secondCollection = new[] { 4, 5, 6 };
+            var firstCollection = new[] { 1, 2, 3 };
+            var secondCollection = new[] { 4, 5, 6 };
 
             // Act
             Action act = () => firstCollection.Should().NotHaveSameCount(secondCollection, "we want to test the {0}", "reason");
@@ -3930,8 +3950,8 @@ namespace FluentAssertions.Specs
         public void When_asserting_collections_to_not_have_same_count_against_null_collection_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = null;
-            IEnumerable collection1 = new[] { 1, 2, 3 };
+            int[] collection = null;
+            var collection1 = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().NotHaveSameCount(collection1,
@@ -3946,8 +3966,8 @@ namespace FluentAssertions.Specs
         public void When_asserting_collections_to_not_have_same_count_against_an_other_null_collection_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
-            IEnumerable otherCollection = null;
+            var collection = new[] { 1, 2, 3 };
+            int[] otherCollection = null;
 
             // Act
             Action act = () => collection.Should().NotHaveSameCount(otherCollection);
@@ -3961,8 +3981,8 @@ namespace FluentAssertions.Specs
         public void When_asserting_collections_to_not_have_same_count_but_both_collections_references_the_same_object_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new[] { 1, 2, 3 };
-            IEnumerable collection1 = collection;
+            var collection = new[] { 1, 2, 3 };
+            var collection1 = collection;
 
             // Act
             Action act = () => collection.Should().NotHaveSameCount(collection1,
@@ -3981,21 +4001,21 @@ namespace FluentAssertions.Specs
         public void When_the_types_in_a_collection_is_matched_against_a_null_type_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new int[0];
+            var collection = new int[0];
 
             // Act
             Action act = () => collection.Should().AllBeAssignableTo(null);
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("expectedType");
+                .WithParameterName("expectedType");
         }
 
         [Fact]
         public void When_all_of_the_types_in_a_collection_match_expected_type_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new int[] { 1, 2, 3 };
+            var collection = new int[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().AllBeAssignableTo<int>();
@@ -4005,7 +4025,7 @@ namespace FluentAssertions.Specs
         public void When_matching_a_collection_against_a_type_it_should_return_the_casted_items()
         {
             // Arrange
-            IEnumerable collection = new int[] { 1, 2, 3 };
+            var collection = new int[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().AllBeAssignableTo<int>()
@@ -4016,7 +4036,7 @@ namespace FluentAssertions.Specs
         public void When_all_of_the_types_in_a_collection_match_the_type_or_subtype_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new object[] { new Exception(), new ArgumentException() };
+            var collection = new object[] { new Exception(), new ArgumentException() };
 
             // Act / Assert
             collection.Should().AllBeAssignableTo<Exception>();
@@ -4026,7 +4046,7 @@ namespace FluentAssertions.Specs
         public void When_one_of_the_types_does_not_match_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
-            IEnumerable collection = new object[] { 1, "2", 3 };
+            var collection = new object[] { 1, "2", 3 };
 
             // Act
             Action act = () => collection.Should().AllBeAssignableTo<int>("because they are of different type");
@@ -4040,7 +4060,7 @@ namespace FluentAssertions.Specs
         public void When_one_of_the_elements_is_null_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
-            IEnumerable collection = new object[] { 1, null, 3 };
+            var collection = new object[] { 1, null, 3 };
 
             // Act
             Action act = () => collection.Should().AllBeAssignableTo<int>("because they are of different type");
@@ -4054,7 +4074,7 @@ namespace FluentAssertions.Specs
         public void When_collection_is_of_matching_types_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new Type[] { typeof(Exception), typeof(ArgumentException) };
+            var collection = new Type[] { typeof(Exception), typeof(ArgumentException) };
 
             // Act / Assert
             collection.Should().AllBeAssignableTo<Exception>();
@@ -4064,7 +4084,7 @@ namespace FluentAssertions.Specs
         public void When_collection_of_types_contains_one_type_that_does_not_match_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
-            IEnumerable collection = new Type[] { typeof(int), typeof(string), typeof(int) };
+            var collection = new Type[] { typeof(int), typeof(string), typeof(int) };
 
             // Act
             Action act = () => collection.Should().AllBeAssignableTo<int>("because they are of different type");
@@ -4078,7 +4098,7 @@ namespace FluentAssertions.Specs
         public void When_collection_of_types_and_objects_are_all_of_matching_types_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new object[] { typeof(int), 2, typeof(int) };
+            var collection = new object[] { typeof(int), 2, typeof(int) };
 
             // Act / Assert
             collection.Should().AllBeAssignableTo<int>();
@@ -4088,7 +4108,7 @@ namespace FluentAssertions.Specs
         public void When_collection_of_different_types_and_objects_are_all_assignable_to_type_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new object[] { typeof(Exception), new ArgumentException() };
+            var collection = new object[] { typeof(Exception), new ArgumentException() };
 
             // Act / Assert
             collection.Should().AllBeAssignableTo<Exception>();
@@ -4102,21 +4122,21 @@ namespace FluentAssertions.Specs
         public void When_the_types_in_a_collection_is_matched_against_a_null_type_exactly_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new int[0];
+            var collection = new int[0];
 
             // Act
             Action act = () => collection.Should().AllBeOfType(null);
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("expectedType");
+                .WithParameterName("expectedType");
         }
 
         [Fact]
         public void When_all_of_the_types_in_a_collection_match_expected_type_exactly_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new int[] { 1, 2, 3 };
+            var collection = new int[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().AllBeOfType<int>();
@@ -4126,7 +4146,7 @@ namespace FluentAssertions.Specs
         public void When_matching_a_collection_against_an_exact_type_it_should_return_the_casted_items()
         {
             // Arrange
-            IEnumerable collection = new int[] { 1, 2, 3 };
+            var collection = new int[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().AllBeOfType<int>()
@@ -4137,7 +4157,7 @@ namespace FluentAssertions.Specs
         public void When_one_of_the_types_does_not_match_exactly_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
-            IEnumerable collection = new object[] { new Exception(), new ArgumentException() };
+            var collection = new object[] { new Exception(), new ArgumentException() };
 
             // Act
             Action act = () => collection.Should().AllBeOfType<Exception>("because they are of different type");
@@ -4151,7 +4171,7 @@ namespace FluentAssertions.Specs
         public void When_one_of_the_elements_is_null_for_an_exact_match_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
-            IEnumerable collection = new object[] { 1, null, 3 };
+            var collection = new object[] { 1, null, 3 };
 
             // Act
             Action act = () => collection.Should().AllBeOfType<int>("because they are of different type");
@@ -4165,7 +4185,7 @@ namespace FluentAssertions.Specs
         public void When_collection_of_types_match_expected_type_exactly_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new Type[] { typeof(int), typeof(int), typeof(int) };
+            var collection = new Type[] { typeof(int), typeof(int), typeof(int) };
 
             // Act / Assert
             collection.Should().AllBeOfType<int>();
@@ -4175,7 +4195,7 @@ namespace FluentAssertions.Specs
         public void When_collection_of_types_and_objects_match_type_exactly_it_should_succeed()
         {
             // Arrange
-            IEnumerable collection = new object[] { typeof(ArgumentException), new ArgumentException() };
+            var collection = new object[] { typeof(ArgumentException), new ArgumentException() };
 
             // Act / Assert
             collection.Should().AllBeOfType<ArgumentException>();
@@ -4185,7 +4205,7 @@ namespace FluentAssertions.Specs
         public void When_collection_of_types_and_objects_do_not_match_type_exactly_it_should_throw()
         {
             // Arrange
-            IEnumerable collection = new object[] { typeof(Exception), new ArgumentException() };
+            var collection = new object[] { typeof(Exception), new ArgumentException() };
 
             // Act
             Action act = () => collection.Should().AllBeOfType<ArgumentException>();
@@ -4196,24 +4216,6 @@ namespace FluentAssertions.Specs
         }
 
         #endregion
-    }
-
-    internal class CountingNonGenericEnumerable : IEnumerable
-    {
-        private readonly IEnumerable backingSet;
-
-        public CountingNonGenericEnumerable(IEnumerable backingSet)
-        {
-            this.backingSet = backingSet;
-        }
-
-        public int GetEnumeratorCallCount { get; private set; }
-
-        public IEnumerator GetEnumerator()
-        {
-            GetEnumeratorCallCount++;
-            return backingSet.GetEnumerator();
-        }
     }
 
     internal class CountingGenericEnumerable<TElement> : IEnumerable<TElement>
@@ -4238,41 +4240,6 @@ namespace FluentAssertions.Specs
         {
             return GetEnumerator();
         }
-    }
-
-    internal class CountingNonGenericCollection : ICollection
-    {
-        private readonly ICollection backingSet;
-
-        public CountingNonGenericCollection(ICollection backingSet)
-        {
-            this.backingSet = backingSet;
-        }
-
-        public int GetEnumeratorCallCount { get; private set; }
-
-        public IEnumerator GetEnumerator()
-        {
-            GetEnumeratorCallCount++;
-            return backingSet.GetEnumerator();
-        }
-
-        public void CopyTo(Array array, int index) { throw new NotImplementedException(); }
-
-        public int GetCountCallCount { get; private set; }
-
-        public int Count
-        {
-            get
-            {
-                GetCountCallCount++;
-                return backingSet.Count;
-            }
-        }
-
-        public object SyncRoot { get; private set; }
-
-        public bool IsSynchronized { get { return true; } }
     }
 
     internal class CountingGenericCollection<TElement> : ICollection<TElement>
@@ -4321,18 +4288,7 @@ namespace FluentAssertions.Specs
         public bool IsReadOnly { get; private set; }
     }
 
-    internal class CustomEnumerable : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            foreach (string s in new[] { "a", "b", "c" })
-            {
-                yield return s;
-            }
-        }
-    }
-
-    internal class TrackingTestEnumerable : IEnumerable
+    internal class TrackingTestEnumerable : IEnumerable<int>
     {
         private readonly int[] values;
 
@@ -4344,15 +4300,17 @@ namespace FluentAssertions.Specs
 
         public TrackingEnumerator Enumerator { get; }
 
-        public IEnumerator GetEnumerator()
+        public IEnumerator<int> GetEnumerator()
         {
             Enumerator.IncreaseEnumerationCount();
             Enumerator.Reset();
             return Enumerator;
         }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
-    internal class TrackingEnumerator : IEnumerator
+    internal class TrackingEnumerator : IEnumerator<int>
     {
         private readonly int[] values;
         private int loopCount;
@@ -4386,9 +4344,10 @@ namespace FluentAssertions.Specs
             index = -1;
         }
 
-        public object Current
-        {
-            get { return values[index]; }
-        }
+        public void Dispose() { }
+
+        object IEnumerator.Current => Current;
+
+        public int Current => values[index];
     }
 }

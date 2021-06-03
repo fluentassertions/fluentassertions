@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Primitives
 {
     public class StringAssertionSpecs
     {
@@ -389,7 +390,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
                 .WithMessage("Cannot match string against <null>. Provide a wildcard pattern or use the BeNull method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         [Fact]
@@ -404,7 +405,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
                 .WithMessage("Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         #endregion
@@ -451,7 +452,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
                 .WithMessage("Cannot match string against <null>. Provide a wildcard pattern or use the NotBeNull method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         [Fact]
@@ -466,7 +467,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
                 .WithMessage("Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         #endregion
@@ -526,7 +527,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
                 .WithMessage("Cannot match string against <null>. Provide a wildcard pattern or use the BeNull method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         [Fact]
@@ -541,7 +542,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
                 .WithMessage("Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         #endregion
@@ -602,7 +603,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
                 .WithMessage("Cannot match string against <null>. Provide a wildcard pattern or use the NotBeNull method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         [Fact]
@@ -617,7 +618,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
                 .WithMessage("Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.*")
-                .And.ParamName.Should().Be("wildcardPattern");
+                .WithParameterName("wildcardPattern");
         }
 
         #endregion
@@ -625,7 +626,7 @@ namespace FluentAssertions.Specs
         #region Match Regex
 
         [Fact]
-        public void When_a_string_matches_a_regular_expression_it_should_not_throw()
+        public void When_a_string_matches_a_regular_expression_string_it_should_not_throw()
         {
             // Arrange
             string subject = "hello world!";
@@ -640,7 +641,7 @@ namespace FluentAssertions.Specs
 
         [Fact]
         [SuppressMessage("ReSharper", "StringLiteralTypo")]
-        public void When_a_string_does_not_match_a_regular_expression_it_should_throw()
+        public void When_a_string_does_not_match_a_regular_expression_string_it_should_throw()
         {
             // Arrange
             string subject = "hello world!";
@@ -654,7 +655,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_null_string_is_matched_against_a_regex_it_should_throw_with_a_clear_explanation()
+        public void When_a_null_string_is_matched_against_a_regex_string_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
             string subject = null;
@@ -668,22 +669,22 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_string_is_matched_against_a_null_regex_it_should_throw_with_a_clear_explanation()
+        public void When_a_string_is_matched_against_a_null_regex_string_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
             string subject = "hello world!";
 
             // Act
-            Action act = () => subject.Should().MatchRegex(null);
+            Action act = () => subject.Should().MatchRegex((string)null);
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
                .WithMessage("Cannot match string against <null>. Provide a regex pattern or use the BeNull method.*")
-               .And.ParamName.Should().Be("regularExpression");
+               .WithParameterName("regularExpression");
         }
 
         [Fact]
-        public void When_a_string_is_matched_against_an_invalid_regex_it_should_throw_with_a_clear_explanation()
+        public void When_a_string_is_matched_against_an_invalid_regex_string_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
             string subject = "hello world!";
@@ -698,7 +699,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_string_is_matched_against_an_invalid_regex_it_should_only_have_one_failure_message()
+        public void When_a_string_is_matched_against_an_invalid_regex_string_it_should_only_have_one_failure_message()
         {
             // Arrange
             string subject = "hello world!";
@@ -718,7 +719,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_string_is_matched_against_an_empty_regex_it_should_throw_with_a_clear_explanation()
+        public void When_a_string_is_matched_against_an_empty_regex_string_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
             string subject = "hello world";
@@ -729,7 +730,84 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
                 .WithMessage("Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.*")
-                .And.ParamName.Should().Be("regularExpression");
+                .WithParameterName("regularExpression");
+        }
+
+        [Fact]
+        public void When_a_string_matches_a_regular_expression_it_should_not_throw()
+        {
+            // Arrange
+            string subject = "hello world!";
+
+            // Act
+            // ReSharper disable once StringLiteralTypo
+            Action act = () => subject.Should().MatchRegex(new Regex("h.*\\sworld.$"));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
+        public void When_a_string_does_not_match_a_regular_expression_it_should_throw()
+        {
+            // Arrange
+            string subject = "hello world!";
+
+            // Act
+            Action act = () => subject.Should().MatchRegex(new Regex("h.*\\sworld?$"), "that's the universal greeting");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+              .WithMessage("Expected subject to match regex*\"h.*\\sworld?$\" because that's the universal greeting, but*\"hello world!\" does not match.");
+        }
+
+        [Fact]
+        public void When_a_null_string_is_matched_against_a_regex_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            string subject = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                subject.Should().MatchRegex(new Regex(".*"), "because it should be a string");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected subject to match regex*\".*\" because it should be a string, but it was <null>.");
+        }
+
+        [Fact]
+        public void When_a_string_is_matched_against_a_null_regex_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            string subject = "hello world!";
+
+            // Act
+            Action act = () => subject.Should().MatchRegex((Regex)null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+               .WithMessage("Cannot match string against <null>. Provide a regex pattern or use the BeNull method.*")
+               .WithParameterName("regularExpression");
+        }
+
+        [Fact]
+        public void When_a_string_is_matched_against_an_empty_regex_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            string subject = "hello world";
+
+            // Act
+            Action act = () => subject.Should().MatchRegex(new Regex(string.Empty));
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentException>()
+                .WithMessage("Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.*")
+                .WithParameterName("regularExpression");
         }
 
         #endregion
@@ -737,7 +815,7 @@ namespace FluentAssertions.Specs
         #region Not Match Regex
 
         [Fact]
-        public void When_a_string_does_not_match_a_regular_expression_and_it_shouldnt_it_should_not_throw()
+        public void When_a_string_does_not_match_a_regular_expression_string_and_it_shouldnt_it_should_not_throw()
         {
             // Arrange
             string subject = "hello world!";
@@ -750,7 +828,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_string_matches_a_regular_expression_but_it_shouldnt_it_should_throw()
+        public void When_a_string_matches_a_regular_expression_string_but_it_shouldnt_it_should_throw()
         {
             // Arrange
             string subject = "hello world!";
@@ -764,7 +842,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_null_string_is_negatively_matched_against_a_regex_it_should_throw_with_a_clear_explanation()
+        public void When_a_null_string_is_negatively_matched_against_a_regex_string_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
             string subject = null;
@@ -778,22 +856,22 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_string_is_negatively_matched_against_a_null_regex_it_should_throw_with_a_clear_explanation()
+        public void When_a_string_is_negatively_matched_against_a_null_regex_string_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
             string subject = "hello world!";
 
             // Act
-            Action act = () => subject.Should().NotMatchRegex(null);
+            Action act = () => subject.Should().NotMatchRegex((string)null);
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
                .WithMessage("Cannot match string against <null>. Provide a regex pattern or use the NotBeNull method.*")
-               .And.ParamName.Should().Be("regularExpression");
+               .WithParameterName("regularExpression");
         }
 
         [Fact]
-        public void When_a_string_is_negatively_matched_against_an_invalid_regex_it_should_throw_with_a_clear_explanation()
+        public void When_a_string_is_negatively_matched_against_an_invalid_regex_string_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
             string subject = "hello world!";
@@ -808,7 +886,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_string_is_negatively_matched_against_an_invalid_regex_it_only_contain_one_failure_message()
+        public void When_a_string_is_negatively_matched_against_an_invalid_regex_string_it_only_contain_one_failure_message()
         {
             // Arrange
             string subject = "hello world!";
@@ -828,7 +906,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_string_is_negatively_matched_against_an_empty_regex_it_should_throw_with_a_clear_explanation()
+        public void When_a_string_is_negatively_matched_against_an_empty_regex_string_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
             string subject = "hello world";
@@ -839,7 +917,82 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
                 .WithMessage("Cannot match string against an empty regex pattern. Provide a regex pattern or use the NotBeEmpty method.*")
-                .And.ParamName.Should().Be("regularExpression");
+                .WithParameterName("regularExpression");
+        }
+
+        [Fact]
+        public void When_a_string_does_not_match_a_regular_expression_and_it_shouldnt_it_should_not_throw()
+        {
+            // Arrange
+            string subject = "hello world!";
+
+            // Act
+            Action act = () => subject.Should().NotMatchRegex(new Regex(".*earth.*"));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_a_string_matches_a_regular_expression_but_it_shouldnt_it_should_throw()
+        {
+            // Arrange
+            string subject = "hello world!";
+
+            // Act
+            Action act = () => subject.Should().NotMatchRegex(new Regex(".*world.*"), "because that's illegal");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+              .WithMessage("Did not expect subject to match regex*\".*world.*\" because that's illegal, but*\"hello world!\" matches.");
+        }
+
+        [Fact]
+        public void When_a_null_string_is_negatively_matched_against_a_regex_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            string subject = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                subject.Should().NotMatchRegex(new Regex(".*"), "because it should not be a string");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected subject to not match regex*\".*\" because it should not be a string, but it was <null>.");
+        }
+
+        [Fact]
+        public void When_a_string_is_negatively_matched_against_a_null_regex_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            string subject = "hello world!";
+
+            // Act
+            Action act = () => subject.Should().NotMatchRegex((Regex)null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+               .WithMessage("Cannot match string against <null>. Provide a regex pattern or use the NotBeNull method.*")
+               .WithParameterName("regularExpression");
+        }
+
+        [Fact]
+        public void When_a_string_is_negatively_matched_against_an_empty_regex_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            string subject = "hello world";
+
+            // Act
+            Action act = () => subject.Should().NotMatchRegex(new Regex(string.Empty));
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentException>()
+                .WithMessage("Cannot match string against an empty regex pattern. Provide a regex pattern or use the NotBeEmpty method.*")
+                .WithParameterName("regularExpression");
         }
 
         #endregion
@@ -1036,7 +1189,11 @@ namespace FluentAssertions.Specs
         public void When_string_does_not_end_with_expected_phrase_it_should_throw()
         {
             // Act
-            Action act = () => "ABC".Should().EndWith("AB", "it should");
+            Action act = () =>
+            {
+                using var a = new AssertionScope();
+                "ABC".Should().EndWith("AB", "it should");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1080,9 +1237,15 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_ending_is_compared_and_actual_value_is_null_then_it_should_throw()
         {
-            // Act
+            // Arrange
             string someString = null;
-            Action act = () => someString.Should().EndWith("ABC");
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                someString.Should().EndWith("ABC");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1115,7 +1278,7 @@ namespace FluentAssertions.Specs
 
             // Act
             Action action = () =>
-                value.Should().NotEndWith("BC", "because of some reason");
+                value.Should().NotEndWith("BC", "because of some {0}", "reason");
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
@@ -1155,13 +1318,19 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_asserting_string_does_not_end_with_a_value_and_actual_value_is_null_it_should_throw()
         {
-            // Act
+            // Arrange
             string someString = null;
-            Action act = () => someString.Should().NotEndWith("ABC");
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                someString.Should().NotEndWith("ABC", "some {0}", "reason");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected someString that does not end with \"ABC\", but found <null>.");
+                "Expected someString that does not end with \"ABC\"*some reason*, but found <null>.");
         }
 
         #endregion
@@ -1402,9 +1571,15 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_string_ending_is_compared_with_equivalent_and_actual_value_is_null_then_it_should_throw()
         {
-            // Act
+            // Arrange
             string someString = null;
-            Action act = () => someString.Should().EndWithEquivalentOf("abC");
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                someString.Should().EndWithEquivalentOf("abC");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1437,7 +1612,7 @@ namespace FluentAssertions.Specs
 
             // Act
             Action action = () =>
-                value.Should().NotEndWithEquivalentOf("Bc", "because of some reason");
+                value.Should().NotEndWithEquivalentOf("Bc", "because of some {0}", "reason");
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
@@ -1477,13 +1652,19 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_asserting_string_does_not_end_with_equivalent_of_a_value_and_actual_value_is_null_it_should_throw()
         {
-            // Act
+            // Arrange
             string someString = null;
-            Action act = () => someString.Should().NotEndWithEquivalentOf("Abc");
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                someString.Should().NotEndWithEquivalentOf("Abc", "some {0}", "reason");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected someString that does not end with equivalent of \"Abc\", but found <null>.");
+                "Expected someString that does not end with equivalent of \"Abc\"*some reason*, but found <null>.");
         }
 
         #endregion
@@ -1524,7 +1705,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert string containment against <null>.*")
-                .And.ParamName.Should().Be("expected");
+                .WithParameterName("expected");
         }
 
         [Fact]
@@ -1537,7 +1718,7 @@ namespace FluentAssertions.Specs
             act
                 .Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.*")
-                .And.ParamName.Should().Be("expected");
+                .WithParameterName("expected");
         }
 
         [Fact]
@@ -2094,7 +2275,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot*containment*null*")
-                .And.ParamName.Should().Be("values");
+                .WithParameterName("values");
         }
 
         [Fact]
@@ -2106,7 +2287,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot*containment*empty*")
-                .And.ParamName.Should().Be("values");
+                .WithParameterName("values");
         }
 
         [Fact]
@@ -2173,17 +2354,13 @@ namespace FluentAssertions.Specs
             const string blue = "blue";
             var testString = $"{red} {green}";
 
-            const string because = "some {0} reason";
-            var becauseArgs = new[] { "special" };
-            var expectedErrorReason = string.Format(because, becauseArgs);
-
             // Act
-            Action act = () => testString.Should().ContainAll(new[] { yellow, blue }, because, becauseArgs);
+            Action act = () => testString.Should().ContainAll(new[] { yellow, blue }, "some {0} reason", "special");
 
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage($"*{testString}*contain*{yellow}*{blue}*because {expectedErrorReason}*");
+                .WithMessage($"*{testString}*contain*{yellow}*{blue}*because some special reason*");
         }
 
         [Fact]
@@ -2218,7 +2395,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot*containment*null*")
-                .And.ParamName.Should().Be("values");
+                .WithParameterName("values");
         }
 
         [Fact]
@@ -2230,7 +2407,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot*containment*empty*")
-                .And.ParamName.Should().Be("values");
+                .WithParameterName("values");
         }
 
         [Fact]
@@ -2313,17 +2490,13 @@ namespace FluentAssertions.Specs
             const string purple = "purple";
             var testString = $"{red} {green}";
 
-            const string because = "some {0} reason";
-            var becauseArgs = new[] { "special" };
-            var expectedErrorReason = string.Format(because, becauseArgs);
-
             // Act
-            Action act = () => testString.Should().ContainAny(new[] { blue, purple }, because, becauseArgs);
+            Action act = () => testString.Should().ContainAny(new[] { blue, purple }, "some {0} reason", "special");
 
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage($"*{testString}*contain at least one of*{blue}*{purple}*because {expectedErrorReason}*");
+                .WithMessage($"*{testString}*contain at least one of*{blue}*{purple}*because some special reason*");
         }
 
         #endregion
@@ -2361,7 +2534,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert string containment against <null>.*")
-                .And.ParamName.Should().Be("unexpected");
+                .WithParameterName("unexpected");
         }
 
         [Fact]
@@ -2373,7 +2546,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.*")
-                .And.ParamName.Should().Be("unexpected");
+                .WithParameterName("unexpected");
         }
 
         #endregion
@@ -2389,7 +2562,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot*containment*null*")
-                .And.ParamName.Should().Be("values");
+                .WithParameterName("values");
         }
 
         [Fact]
@@ -2401,7 +2574,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot*containment*empty*")
-                .And.ParamName.Should().Be("values");
+                .WithParameterName("values");
         }
 
         [Fact]
@@ -2431,17 +2604,13 @@ namespace FluentAssertions.Specs
             const string yellow = "yellow";
             var testString = $"{red} {green} {yellow}";
 
-            const string because = "some {0} reason";
-            var becauseArgs = new[] { "special" };
-            var expectedErrorReason = string.Format(because, becauseArgs);
-
             // Act
-            Action act = () => testString.Should().NotContainAll(new[] { red, green, yellow }, because, becauseArgs);
+            Action act = () => testString.Should().NotContainAll(new[] { red, green, yellow }, "some {0} reason", "special");
 
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage($"*not*{testString}*contain all*{red}*{green}*{yellow}*because*{expectedErrorReason}*");
+                .WithMessage($"*not*{testString}*contain all*{red}*{green}*{yellow}*because*some special reason*");
         }
 
         [Fact]
@@ -2507,7 +2676,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot*containment*null*")
-                .And.ParamName.Should().Be("values");
+                .WithParameterName("values");
         }
 
         [Fact]
@@ -2519,7 +2688,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot*containment*empty*")
-                .And.ParamName.Should().Be("values");
+                .WithParameterName("values");
         }
 
         [Fact]
@@ -2568,17 +2737,13 @@ namespace FluentAssertions.Specs
             const string yellow = "yellow";
             var testString = $"{red} {green} {yellow}";
 
-            const string because = "some {0} reason";
-            var becauseArgs = new[] { "special" };
-            var expectedErrorReason = string.Format(because, becauseArgs);
-
             // Act
-            Action act = () => testString.Should().NotContainAny(new[] { red }, because, becauseArgs);
+            Action act = () => testString.Should().NotContainAny(new[] { red }, "some {0} reason", "special");
 
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage($"*not*{testString}*contain any*{red}*because*{expectedErrorReason}*");
+                .WithMessage($"*not*{testString}*contain any*{red}*because*some special reason*");
         }
 
         [Fact]
@@ -2703,7 +2868,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Cannot assert string containment against <null>.*")
-                .And.ParamName.Should().Be("expected");
+                .WithParameterName("expected");
         }
 
         [Fact]
@@ -2716,7 +2881,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.*")
-                .And.ParamName.Should().Be("expected");
+                .WithParameterName("expected");
         }
 
         #region Exactly
@@ -3185,10 +3350,15 @@ namespace FluentAssertions.Specs
             string actual = null;
 
             // Act
-            Action act = () => actual.Should().HaveLength(0);
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                actual.Should().HaveLength(0, "we want to test the failure {0}", "message");
+            };
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected actual with length 0 *failure message*, but found <null>.");
         }
 
         [Fact]
@@ -3198,24 +3368,15 @@ namespace FluentAssertions.Specs
             string actual = "ABC";
 
             // Act
-            Action act = () => actual.Should().HaveLength(1);
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                actual.Should().HaveLength(1, "we want to test the failure {0}", "message");
+            };
 
             // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void Should_fail_with_descriptive_message_when_asserting_string_length_to_be_equal_to_different_value()
-        {
-            // Arrange
-            string actual = "ABC";
-
-            // Act
-            Action act = () => actual.Should().HaveLength(1, "because we want to test the failure {0}", "message");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected actual with length 1 because we want to test the failure message, but found string \"ABC\" with length 3.");
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected actual with length 1 *failure message*, but found string \"ABC\" with length 3.");
         }
 
         #endregion

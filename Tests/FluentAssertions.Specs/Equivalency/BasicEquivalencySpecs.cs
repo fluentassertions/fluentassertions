@@ -4,15 +4,15 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Net;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Extensions;
+using FluentAssertions.Specs.Primitives;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Equivalency
 {
     public class BasicEquivalencySpecs
     {
@@ -389,7 +389,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("type");
+                .WithParameterName("type");
         }
 
         [Fact]
@@ -405,7 +405,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("type");
+                .WithParameterName("type");
         }
 
         [Fact]
@@ -812,7 +812,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Expression <d.GetType()> cannot be used to select a member.*")
-                .And.ParamName.Should().Be("expression");
+                .WithParameterName("expression");
         }
 
         [Fact]
@@ -883,7 +883,7 @@ namespace FluentAssertions.Specs
 
             // Act
             Action act =
-                () => dto.Should().BeEquivalentTo(dto, options => options.Including((Expression<Func<CustomerDto, object>>)null));
+                () => dto.Should().BeEquivalentTo(dto, options => options.Including(null));
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithMessage(
@@ -1021,7 +1021,6 @@ namespace FluentAssertions.Specs
             // Arrange
             var dto = new CustomerDto
             {
-                Version = 2,
                 Age = 36,
                 Birthdate = new DateTime(1973, 9, 20),
                 Name = "John"
@@ -1030,7 +1029,6 @@ namespace FluentAssertions.Specs
             var customer = new Customer
             {
                 Id = 1,
-                Version = 2,
                 Age = 36,
                 Birthdate = new DateTime(1973, 9, 20),
                 Name = "John"
@@ -1181,6 +1179,118 @@ namespace FluentAssertions.Specs
         private class ClassThatHidesBaseClassProperty : ClassWithGuidProperty
         {
             public new string[] Property { get; set; }
+        }
+
+        [Fact]
+        public void When_a_property_is_internal_it_should_be_excluded_from_the_comparison()
+        {
+            // Arrange
+            var actual = new ClassWithInternalProperty
+            {
+                PublicProperty = "public",
+                InternalProperty = "internal",
+                ProtectedInternalProperty = "internal"
+            };
+
+            var expected = new ClassWithInternalProperty
+            {
+                PublicProperty = "public",
+                InternalProperty = "also internal",
+                ProtectedInternalProperty = "also internal"
+            };
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public void When_a_property_is_internal_and_it_should_be_included_it_should_fail_the_assertion()
+        {
+            // Arrange
+            var actual = new ClassWithInternalProperty
+            {
+                PublicProperty = "public",
+                InternalProperty = "internal",
+                ProtectedInternalProperty = "internal"
+            };
+
+            var expected = new ClassWithInternalProperty
+            {
+                PublicProperty = "public",
+                InternalProperty = "also internal",
+                ProtectedInternalProperty = "also internal"
+            };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected, options => options.IncludingInternalProperties());
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*InternalProperty*also internal*internal*ProtectedInternalProperty*");
+        }
+
+        private class ClassWithInternalProperty
+        {
+            public string PublicProperty { get; set; }
+
+            internal string InternalProperty { get; set; }
+
+            protected internal string ProtectedInternalProperty { get; set; }
+        }
+
+        [Fact]
+        public void When_a_field_is_internal_it_should_be_excluded_from_the_comparison()
+        {
+            // Arrange
+            var actual = new ClassWithInternalField
+            {
+                PublicField = "public",
+                InternalField = "internal",
+                ProtectedInternalField = "internal"
+            };
+
+            var expected = new ClassWithInternalField
+            {
+                PublicField = "public",
+                InternalField = "also internal",
+                ProtectedInternalField = "also internal"
+            };
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public void When_a_field_is_internal_and_it_should_be_included_it_should_fail_the_assertion()
+        {
+            // Arrange
+            var actual = new ClassWithInternalField
+            {
+                PublicField = "public",
+                InternalField = "internal",
+                ProtectedInternalField = "internal"
+            };
+
+            var expected = new ClassWithInternalField
+            {
+                PublicField = "public",
+                InternalField = "also internal",
+                ProtectedInternalField = "also internal"
+            };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected, options => options.IncludingInternalFields());
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*InternalField*also internal*internal*ProtectedInternalField*");
+        }
+
+        private class ClassWithInternalField
+        {
+            public string PublicField;
+
+            internal string InternalField;
+
+            protected internal string ProtectedInternalField;
         }
 
         [Fact]
@@ -2627,7 +2737,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("predicate");
+                .WithParameterName("predicate");
         }
 
         [Fact]
@@ -2692,7 +2802,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("predicate");
+                .WithParameterName("predicate");
         }
 
         [Fact]
@@ -2892,10 +3002,19 @@ namespace FluentAssertions.Specs
             act.Should().Throw<XunitException>().Which.Message
 
                 // Checking exception message exactly is against general guidelines
-                // but in that case it was done on purpose, so that we have at least single
+                // but in that case it was done on purpose, so that we have at least have a single
                 // test confirming that whole mechanism of gathering description from
                 // equivalency steps works.
-                .Should().MatchRegex(@"^Expected property subject.Level\.Text \(of type string\) to be ""Level2"", but ""Level1"" differs near ""1"" \(index 5\)\.[\r\n]+With configuration:[\r\n]+\- Use declared types and members[\r\n]+\- Compare enums by value[\r\n]+\- Match member by name \(or throw\)[\r\n]+\- Be strict about the order of items in byte arrays[\r\n]+\- Without automatic conversion\.[\r\n]+$");
+                .Should().Match(@"Expected property subject.Level.Text (of type string) to be ""Level2"", but ""Level1"" differs near ""1"" (index 5).*" +
+                    "With configuration:*" +
+                    "- Use declared types and members*" +
+                        "- Compare enums by value*" +
+                        "- Compare tuples by their properties*" +
+                        "- Compare anonymous types by their properties*" +
+                        "- Compare records by their members*" +
+                        "- Match member by name (or throw)*" +
+                        "- Be strict about the order of items in byte arrays*" +
+                        "- Without automatic conversion.*");
         }
 
         [Fact]
@@ -3367,7 +3486,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("config");
+                .WithParameterName("config");
         }
 
         [Fact]
@@ -3398,7 +3517,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("config");
+                .WithParameterName("config");
         }
 
         [Fact]
@@ -3515,13 +3634,149 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region Records
+
+        [Fact]
+        public void When_the_subject_is_a_record_it_should_compare_it_by_its_members()
+        {
+            var actual = new MyRecord
+            {
+                StringField = "foo",
+                CollectionProperty = new[] { "bar", "zip", "foo" }
+            };
+
+            var expected = new MyRecord
+            {
+                StringField = "foo",
+                CollectionProperty = new[] { "foo", "bar", "zip" }
+            };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public void When_the_subject_is_a_record_it_should_mention_that_in_the_configuration_output()
+        {
+            var actual = new MyRecord
+            {
+                StringField = "foo",
+            };
+
+            var expected = new MyRecord
+            {
+                StringField = "bar",
+            };
+
+            Action act = () => actual.Should().BeEquivalentTo(expected);
+
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Compare records by their members*");
+        }
+
+        [Fact]
+        public void When_a_record_should_be_treated_as_a_value_type_it_should_use_its_equality_for_comparing()
+        {
+            var actual = new MyRecord
+            {
+                StringField = "foo",
+                CollectionProperty = new[] { "bar", "zip", "foo" }
+            };
+
+            var expected = new MyRecord
+            {
+                StringField = "foo",
+                CollectionProperty = new[] { "foo", "bar", "zip" }
+            };
+
+            Action act = () => actual.Should().BeEquivalentTo(expected, o => o
+                .ComparingByValue<MyRecord>());
+
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected*of type MyRecord*but found*MyRecord*")
+                .WithMessage("*Compare*MyRecord by value*");
+        }
+
+        [Fact]
+        public void When_all_records_should_be_treated_as_value_types_it_should_use_equality_for_comparing()
+        {
+            var actual = new MyRecord
+            {
+                StringField = "foo",
+                CollectionProperty = new[] { "bar", "zip", "foo" }
+            };
+
+            var expected = new MyRecord
+            {
+                StringField = "foo",
+                CollectionProperty = new[] { "foo", "bar", "zip" }
+            };
+
+            Action act = () => actual.Should().BeEquivalentTo(expected, o => o
+                .ComparingRecordsByValue());
+
+            act.Should().Throw<XunitException>()
+                .WithMessage("*Expected*of type MyRecord*but found*MyRecord*")
+                .WithMessage("*Compare records by value*");
+        }
+
+        [Fact]
+        public void When_all_records_except_a_specific_type_should_be_treated_as_value_types_it_should_compare_that_specific_type_by_its_members()
+        {
+            var actual = new MyRecord
+            {
+                StringField = "foo",
+                CollectionProperty = new[] { "bar", "zip", "foo" }
+            };
+
+            var expected = new MyRecord
+            {
+                StringField = "foo",
+                CollectionProperty = new[] { "foo", "bar", "zip" }
+            };
+
+            actual.Should().BeEquivalentTo(expected, o => o
+                .ComparingRecordsByValue()
+                .ComparingByMembers<MyRecord>());
+        }
+
+        [Fact]
+        public void When_global_record_comparing_options_are_chained_it_should_ensure_the_last_one_wins()
+        {
+            var actual = new MyRecord
+            {
+                CollectionProperty = new[] { "bar", "zip", "foo" }
+            };
+
+            var expected = new MyRecord
+            {
+                CollectionProperty = new[] { "foo", "bar", "zip" }
+            };
+
+            actual.Should().BeEquivalentTo(expected, o => o
+                .ComparingRecordsByValue()
+                .ComparingRecordsByMembers());
+        }
+
+        private record MyRecord
+        {
+            public string StringField;
+
+            public string[] CollectionProperty { get; init; }
+        }
+
+        #endregion
+
         #region Enums
 
         [Fact]
         public void When_asserting_the_same_enum_member_is_equivalent_it_should_succeed()
         {
-            // Arrange / Act
-            Action act = () => EnumOne.One.Should().BeEquivalentTo(EnumOne.One);
+            // Arrange
+            object subject = EnumOne.One;
+            object expectation = EnumOne.One;
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation);
 
             // Assert
             act.Should().NotThrow();
@@ -3574,12 +3829,16 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_asserting_different_enum_members_are_equivalent_it_should_fail()
         {
-            // Arrange / Act
-            Action act = () => EnumOne.One.Should().BeEquivalentTo(EnumOne.Two);
+            // Arrange
+            object subject = EnumOne.One;
+            object expectation = EnumOne.Two;
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation);
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected *EnumOne.Two(3)*but*EnumOne.One(0)*");
+                .WithMessage("Expected *EnumOne.Two {value: 3}*but*EnumOne.One {value: 0}*");
         }
 
         [Fact]
@@ -3635,7 +3894,7 @@ namespace FluentAssertions.Specs
             Action act = () => subject.Should().BeEquivalentTo(expectation, config => config.ComparingEnumsByName());
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected*to equal EnumFour.Three(3) by name, but found EnumOne.Two(3)*");
+            act.Should().Throw<XunitException>().WithMessage("Expected*to equal EnumFour.Three {value: 3} by name, but found EnumOne.Two {value: 3}*");
         }
 
         [Fact]
@@ -3667,7 +3926,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_a_numeric_member_is_compared_with_an_enum_it_should_respect_the_enum_options()
+        public void When_a_numeric_member_is_compared_with_an_enum_it_should_throw()
         {
             // Arrange
             var actual = new
@@ -3684,12 +3943,169 @@ namespace FluentAssertions.Specs
             Action act = () => actual.Should().BeEquivalentTo(expected, options => options.ComparingEnumsByValue());
 
             // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_a_string_member_is_compared_with_an_enum_it_should_throw()
+        {
+            // Arrange
+            var actual = new
+            {
+                Property = "First"
+            };
+
+            var expected = new
+            {
+                Property = TestEnum.First
+            };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected, options => options.ComparingEnumsByName());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_null_enum_members_are_compared_by_name_it_should_succeed()
+        {
+            // Arrange
+            var actual = new
+            {
+                Property = null as TestEnum?
+            };
+
+            var expected = new
+            {
+                Property = null as TestEnum?
+            };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected, options => options.ComparingEnumsByName());
+
+            // Assert
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_null_enum_members_are_compared_by_value_it_should_succeed()
+        {
+            // Arrange
+            var actual = new
+            {
+                Property = null as TestEnum?
+            };
+
+            var expected = new
+            {
+                Property = null as TestEnum?
+            };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected, options => options.ComparingEnumsByValue());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_zero_and_null_enum_are_compared_by_value_it_should_throw()
+        {
+            // Arrange
+            var actual = new
+            {
+                Property = (TestEnum)0
+            };
+
+            var expected = new
+            {
+                Property = null as TestEnum?
+            };
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expected, options => options.ComparingEnumsByValue());
+
+            // Assert
+            act.Should().Throw<XunitException>();
         }
 
         public enum TestEnum
         {
             First = 1
+        }
+
+        [Fact]
+        public void When_subject_is_null_and_enum_has_some_value_it_should_throw()
+        {
+            // Arrange
+            object subject = null;
+            object expectedEnum = EnumULong.UInt64Max;
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectedEnum, x => x.ComparingEnumsByName(), "comparing enums should throw");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*to be equivalent to EnumULong.UInt64Max {value: 18446744073709551615} because comparing enums should throw, but found <null>*");
+        }
+
+        [Fact]
+        public void When_expectation_is_null_and_subject_enum_has_some_value_it_should_throw_with_a_useful_message()
+        {
+            // Arrange
+            object subjectEnum = EnumULong.UInt64Max;
+            object expected = null;
+
+            // Act
+            Action act = () => subjectEnum.Should().BeEquivalentTo(expected, x => x.ComparingEnumsByName(), "comparing enums should throw");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*to be <null> because comparing enums should throw, but found EnumULong.UInt64Max*");
+        }
+
+        [Fact]
+        public void When_both_enums_are_equal_and_greater_than_max_long_it_should_not_throw()
+        {
+            // Arrange
+            object enumOne = EnumULong.UInt64Max;
+            object enumTwo = EnumULong.UInt64Max;
+
+            // Act
+            Action act = () => enumOne.Should().BeEquivalentTo(enumTwo);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_both_enums_are_equal_and_of_different_underlying_types_it_should_not_throw()
+        {
+            // Arrange
+            object enumOne = EnumLong.Int64Max;
+            object enumTwo = EnumULong.Int64Max;
+
+            // Act
+            Action act = () => enumOne.Should().BeEquivalentTo(enumTwo);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_both_enums_are_large_and_not_equal_it_should_throw()
+        {
+            // Arrange
+            object subjectEnum = EnumLong.Int64LessOne;
+            object expectedEnum = EnumULong.UInt64Max;
+
+            // Act
+            Action act = () => subjectEnum.Should().BeEquivalentTo(expectedEnum, "comparing enums should throw");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected subjectEnum*to equal EnumULong.UInt64Max {value: 18446744073709551615} by value because comparing enums should throw, but found EnumLong.Int64LessOne {value: 9223372036854775806}*");
         }
 
         #endregion
@@ -4109,8 +4525,6 @@ namespace FluentAssertions.Specs
 
     public class CustomerDto
     {
-        public long Version { get; set; }
-
         public string Name { get; set; }
 
         public int Age { get; set; }

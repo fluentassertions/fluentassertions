@@ -1,6 +1,7 @@
-using System;
+using FluentAssertions.Equivalency.Execution;
 using FluentAssertions.Equivalency.Tracing;
 using FluentAssertions.Execution;
+using static System.FormattableString;
 
 namespace FluentAssertions.Equivalency
 {
@@ -9,116 +10,79 @@ namespace FluentAssertions.Equivalency
     /// </summary>
     public class EquivalencyValidationContext : IEquivalencyValidationContext
     {
-        private Type compileTimeType;
+        private static readonly ComplexTypeMap TypeMap = new();
         private Tracer tracer;
 
-        public EquivalencyValidationContext(INode root)
+        public EquivalencyValidationContext(INode root, IEquivalencyAssertionOptions options)
         {
+            Options = options;
             CurrentNode = root;
+            CyclicReferenceDetector = new CyclicReferenceDetector();
         }
 
         public INode CurrentNode { get; }
 
-        /// <summary>
-        /// Gets the value of the subject object graph.
-        /// </summary>
-        public object Subject { get; set; }
-
-        /// <summary>
-        /// Gets the value of the expected object graph..
-        /// </summary>
-        public object Expectation { get; set; }
-
         public Reason Reason { get; set; }
-
-        public Type CompileTimeType
-        {
-            get
-            {
-                return ((compileTimeType != typeof(object)) || Expectation is null) ? compileTimeType : RuntimeType;
-            }
-            set => compileTimeType = value;
-        }
-
-        /// <summary>
-        /// Gets the run-time type of the current expectation object.
-        /// </summary>
-        public Type RuntimeType
-        {
-            get
-            {
-                if (Expectation != null)
-                {
-                    return Expectation.GetType();
-                }
-
-                if (CurrentNode != null)
-                {
-                    return CurrentNode.Type;
-                }
-
-                return CompileTimeType;
-            }
-        }
 
         public Tracer Tracer => tracer ??= new Tracer(CurrentNode, TraceWriter);
 
-        public IEquivalencyValidationContext AsNestedMember(IMember expectationMember, IMember matchingSubjectMember)
+        public IEquivalencyAssertionOptions Options { get; }
+
+        private CyclicReferenceDetector CyclicReferenceDetector { get; set; }
+
+        public IEquivalencyValidationContext AsNestedMember(IMember expectationMember)
         {
-            return new EquivalencyValidationContext(expectationMember)
+            return new EquivalencyValidationContext(expectationMember, Options)
             {
-                Subject = matchingSubjectMember.GetValue(Subject),
-                Expectation = expectationMember.GetValue(Expectation),
                 Reason = Reason,
-                CompileTimeType = expectationMember.Type,
-                TraceWriter = TraceWriter
+                TraceWriter = TraceWriter,
+                CyclicReferenceDetector = CyclicReferenceDetector
             };
         }
 
-        public IEquivalencyValidationContext AsCollectionItem<T>(string index, object subject, T expectation)
+        public IEquivalencyValidationContext AsCollectionItem<TItem>(string index)
         {
-            return new EquivalencyValidationContext(Node.FromCollectionItem<T>(index, CurrentNode))
+            return new EquivalencyValidationContext(Node.FromCollectionItem<TItem>(index, CurrentNode), Options)
             {
-                Subject = subject,
-                Expectation = expectation,
                 Reason = Reason,
-                CompileTimeType = typeof(T),
-                TraceWriter = TraceWriter
+                TraceWriter = TraceWriter,
+                CyclicReferenceDetector = CyclicReferenceDetector
             };
         }
 
-        public IEquivalencyValidationContext AsDictionaryItem<TKey, TExpectation>(
-            TKey key,
-            object subject,
-            TExpectation expectation)
+        public IEquivalencyValidationContext AsDictionaryItem<TKey, TExpectation>(TKey key)
         {
-            return new EquivalencyValidationContext(Node.FromDictionaryItem<TExpectation>(key, CurrentNode))
+            return new EquivalencyValidationContext(Node.FromDictionaryItem<TExpectation>(key, CurrentNode), Options)
             {
-                Subject = subject,
-                Expectation = expectation,
                 Reason = Reason,
-                CompileTimeType = typeof(TExpectation),
-                TraceWriter = TraceWriter
+                TraceWriter = TraceWriter,
+                CyclicReferenceDetector = CyclicReferenceDetector
             };
         }
 
         public IEquivalencyValidationContext Clone()
         {
-            return new EquivalencyValidationContext(CurrentNode)
+            return new EquivalencyValidationContext(CurrentNode, Options)
             {
-                CompileTimeType = CompileTimeType,
-                Expectation = Expectation,
                 Reason = Reason,
-                Subject = Subject,
-                TraceWriter = TraceWriter
+                TraceWriter = TraceWriter,
+                CyclicReferenceDetector = CyclicReferenceDetector
             };
+        }
+
+        public bool IsCyclicReference(object expectation)
+        {
+            bool isComplexType = TypeMap.IsComplexType(expectation);
+
+            var reference = new ObjectReference(expectation, CurrentNode.PathAndName, isComplexType);
+            return CyclicReferenceDetector.IsCyclicReference(reference, Options.CyclicReferenceHandling, Reason);
         }
 
         public ITraceWriter TraceWriter { get; set; }
 
         public override string ToString()
         {
-            return $"{{Path=\"{CurrentNode.Description}\", Subject={Subject}, Expectation={Expectation}}}";
+            return Invariant($"{{Path=\"{CurrentNode.Description}\"}}");
         }
     }
 }

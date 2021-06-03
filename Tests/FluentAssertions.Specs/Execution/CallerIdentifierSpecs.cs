@@ -4,7 +4,7 @@ using FluentAssertions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Execution
 {
     public class CallerIdentifierSpecs
     {

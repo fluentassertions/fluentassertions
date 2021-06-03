@@ -68,7 +68,17 @@ theString.Should().EndWithEquivalentOf("a string");
 theString.Should().NotEndWithEquivalentOf("a string");
 ```
 
-We even support wildcards.
+For the `Match`, `NotMatch`, `MatchEquivalentOf`, and `NotMatchEquivalentOf` methods we support wildcards.
+
+The pattern can be a combination of literal and wildcard characters, but it doesn't support regular expressions.
+
+The following wildcard specifiers are permitted in the pattern:
+
+| Wilcard specifier | Matches                                   |
+| ----------------- | ----------------------------------------- |
+| * (asterisk)      | Zero or more characters in that position. |
+| ? (question mark) | Exactly one character in that position.   |
+
 For instance, if you would like to assert that some email address is correct, use this:
 
 ```csharp
@@ -87,5 +97,7 @@ And if wildcards aren't enough for you, you can always use some regular expressi
 
 ```csharp
 someString.Should().MatchRegex("h.*\\sworld.$");
+someString.Should().MatchRegex(new System.Text.RegularExpressions.Regex("h.*\\sworld.$"));
+subject.Should().NotMatchRegex(new System.Text.RegularExpressions.Regex(".*earth.*"));
 subject.Should().NotMatchRegex(".*earth.*");
 ```

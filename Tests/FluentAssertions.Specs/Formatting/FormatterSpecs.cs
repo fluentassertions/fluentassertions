@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ using FluentAssertions.Specs.Common;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Formatting
 {
     [Collection("FormatterSpecs")]
     public class FormatterSpecs
@@ -150,7 +151,7 @@ namespace FluentAssertions.Specs
             string result = Formatter.ToString(subject);
 
             // Assert
-            result.Should().Contain("Member 'ThrowingProperty' threw an exception");
+            result.Should().Contain("Member 'ThrowingProperty' threw an exception: 'CustomMessage'");
         }
 
         [Fact]
@@ -219,19 +220,74 @@ namespace FluentAssertions.Specs
         {
             // Arrange
             var head = new Node();
+            var node = head;
 
-            foreach (int i in Enumerable.Range(0, 20))
+            int maxDepth = 10;
+            int iterations = (maxDepth / 2) + 1; // Each iteration adds two levels of depth to the graph
+            foreach (int i in Enumerable.Range(0, iterations))
             {
                 var newHead = new Node();
-                newHead.Children.Add(head);
-                head = newHead;
+                node.Children.Add(newHead);
+                node = newHead;
             }
 
             // Act
-            string result = Formatter.ToString(head);
+            string result = Formatter.ToString(head, new FormattingOptions
+            {
+                MaxDepth = maxDepth
+            });
 
             // Assert
-            result.Should().ContainEquivalentOf("maximum recursion depth");
+            result.Should().ContainEquivalentOf($"maximum recursion depth of {maxDepth}");
+        }
+
+        [Fact]
+        public void When_the_maximum_recursion_depth_is_never_reached_it_should_render_the_entire_graph()
+        {
+            // Arrange
+            var head = new Node();
+            var node = head;
+
+            int iterations = 10;
+            foreach (int i in Enumerable.Range(0, iterations))
+            {
+                var newHead = new Node();
+                node.Children.Add(newHead);
+                node = newHead;
+            }
+
+            // Act
+            string result = Formatter.ToString(head, new FormattingOptions
+            {
+                // Each iteration adds two levels of depth to the graph
+                MaxDepth = (iterations * 2) + 1
+            });
+
+            // Assert
+            result.Should().NotContainEquivalentOf("maximum recursion depth");
+        }
+
+        [Fact]
+        public void When_formatting_a_collection_exceeds_the_max_line_count_it_should_cut_off_the_result()
+        {
+            // Arrange
+            var collection = Enumerable.Range(0, 20)
+                .Select(i => new StuffWithAField
+                {
+                    Description = $"Property {i}",
+                    Field = $"Field {i}",
+                    StuffId = i
+                })
+                .ToArray();
+
+            // Act
+            string result = Formatter.ToString(collection, new FormattingOptions
+            {
+                MaxLines = 50
+            });
+
+            // Assert
+            result.Should().Match("*Output has exceeded*50*line*");
         }
 
         [Fact]
@@ -402,7 +458,7 @@ namespace FluentAssertions.Specs
             string result = Formatter.ToString(value);
 
             // Assert
-#if NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
             result.Should().Be("0.33333334F");
 #else
             result.Should().Be("0.333333343F");
@@ -499,7 +555,7 @@ namespace FluentAssertions.Specs
             string result = Formatter.ToString(value);
 
             // Assert
-#if NETCOREAPP3_0
+#if NETCOREAPP3_0_OR_GREATER
             result.Should().Be("0.3333333333333333");
 #else
             result.Should().Be("0.33333333333333331");
@@ -543,6 +599,58 @@ namespace FluentAssertions.Specs
 
             // Assert
             result.Should().Match("*TaskCompletionSource*Task*System.Int32*Status=WaitingForActivation*");
+        }
+
+        private class MyKey
+        {
+            public int KeyProp { get; set; }
+        }
+
+        private class MyValue
+        {
+            public int ValueProp { get; set; }
+        }
+
+        [Fact]
+        public void When_formatting_a_dictionary_it_should_format_keys_and_values()
+        {
+            // Arrange
+            var subject = new Dictionary<MyKey, MyValue>
+            {
+                [new() { KeyProp = 13 }] = new() { ValueProp = 37 }
+            };
+
+            // Act
+            string result = Formatter.ToString(subject);
+
+            // Assert
+            result.Should().Match("*{*[*MyKey*KeyProp = 13*] = *MyValue*ValueProp = 37*}*");
+        }
+
+        [Fact]
+        public void When_formatting_an_empty_dictionary_it_should_be_clear_from_the_message()
+        {
+            // Arrange
+            var subject = new Dictionary<int, int>();
+
+            // Act
+            string result = Formatter.ToString(subject);
+
+            // Assert
+            result.Should().Match("{empty}");
+        }
+
+        [Fact]
+        public void When_formatting_a_large_dictionary_it_should_limit_the_number_of_formatted_entries()
+        {
+            // Arrange
+            var subject = Enumerable.Range(0, 50).ToDictionary(e => e, e => e);
+
+            // Act
+            string result = Formatter.ToString(subject);
+
+            // Assert
+            result.Should().Match("*…18 more…*");
         }
 
         public class BaseStuff
@@ -737,27 +845,28 @@ namespace FluentAssertions.Specs
             }
 
             [ValueFormatter]
-            public static string Foo(SomeClassWithCustomFormatter value)
+            public static void Foo(SomeClassWithCustomFormatter value, FormattedObjectGraph output)
             {
-                return "Property = " + value.Property;
+                output.AddFragment("Property = " + value.Property);
             }
 
             [ValueFormatter]
-            public static string Foo(SomeOtherClassWithCustomFormatter _)
+            [SuppressMessage("ReSharper", "CA1801")]
+            public static void Foo(SomeOtherClassWithCustomFormatter _, FormattedObjectGraph output)
             {
                 throw new XunitException("Should never be called");
             }
 
             [ValueFormatter]
-            public static string Foo(SomeClassInheritedFromClassWithCustomFormatterLvl2 value)
+            public static void Foo(SomeClassInheritedFromClassWithCustomFormatterLvl2 value, FormattedObjectGraph output)
             {
-                return "Property is " + value.Property;
+                output.AddFragment("Property is " + value.Property);
             }
 
             [ValueFormatter]
-            public static string Foo2(SomeClassInheritedFromClassWithCustomFormatterLvl2 value)
+            public static void Foo2(SomeClassInheritedFromClassWithCustomFormatterLvl2 value, FormattedObjectGraph output)
             {
-                return "Property is " + value.Property;
+                output.AddFragment("Property is " + value.Property);
             }
         }
 
@@ -776,7 +885,7 @@ namespace FluentAssertions.Specs
             str.Should().Match(
 "*CustomClass" + Environment.NewLine +
 "{" + Environment.NewLine +
-"        IntProperty = 0" + Environment.NewLine +
+"    IntProperty = 0" + Environment.NewLine +
 "}*");
         }
 
@@ -820,13 +929,12 @@ namespace FluentAssertions.Specs
             // Act
             string str = Formatter.ToString(values);
 
-            // Assert
             str.Should().Match(
-"{FluentAssertions.Specs.FormatterSpecs+CustomClass" + Environment.NewLine +
-"   {" + Environment.NewLine +
-"      IntProperty = 1" + Environment.NewLine +
-"      StringProperty = <null>" + Environment.NewLine +
-"   }, …1 more…}*");
+"{*FluentAssertions*FormatterSpecs+CustomClass" + Environment.NewLine +
+"    {" + Environment.NewLine +
+"        IntProperty = 1, " + Environment.NewLine +
+"        StringProperty = <null>" + Environment.NewLine +
+"    },*…1 more…*}*");
         }
 
         private class SingleItemValueFormatter : EnumerableValueFormatter
@@ -856,7 +964,7 @@ namespace FluentAssertions.Specs
 
     internal class ExceptionThrowingClass
     {
-        public string ThrowingProperty => throw new InvalidOperationException();
+        public string ThrowingProperty => throw new InvalidOperationException("CustomMessage");
     }
 
     internal class NullThrowingToStringImplementation

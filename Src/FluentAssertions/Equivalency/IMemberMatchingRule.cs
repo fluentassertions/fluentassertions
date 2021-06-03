@@ -21,6 +21,7 @@ namespace FluentAssertions.Equivalency
         /// <param name="subject">
         /// The subject object for which a matching member must be returned. Can never be <c>null</c>.
         /// </param>
+        /// <param name="parent"></param>
         /// <param name="options"></param>
         /// <returns>
         /// Returns the <see cref="IMember"/> of the property with which to compare the subject with, or <c>null</c>

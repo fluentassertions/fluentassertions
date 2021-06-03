@@ -10,7 +10,7 @@ using FluentAssertions.Primitives;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Primitives
 {
     public class ObjectAssertionSpecs
     {
@@ -128,6 +128,26 @@ namespace FluentAssertions.Specs
                 "because we want to test the failure message.");
         }
 
+        [Fact]
+        public void When_comparing_a_numeric_and_an_enum_for_equality_it_should_throw()
+        {
+            // Arrange
+            object subject = 1;
+            MyEnum expected = MyEnum.One;
+
+            // Act
+            Action act = () => subject.Should().Be(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        private enum MyEnum
+        {
+            One = 1,
+            Two = 2
+        }
+
         #endregion
 
         #region BeNull / BeNotNull
@@ -224,7 +244,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("expectedType");
+                .WithParameterName("expectedType");
         }
 
         [Fact]
@@ -238,7 +258,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("unexpectedType");
+                .WithParameterName("unexpectedType");
         }
 
         [Fact]
@@ -278,7 +298,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("expectedType");
+                .WithParameterName("expectedType");
         }
 
         [Fact]
@@ -306,7 +326,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("unexpectedType");
+                .WithParameterName("unexpectedType");
         }
 
         [Fact]
@@ -438,7 +458,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected type to be FluentAssertions.Specs.DummyBaseClass, but found FluentAssertions.Specs.DummyImplementingClass.");
+                "Expected type to be FluentAssertions*DummyBaseClass, but found FluentAssertions*DummyImplementingClass.");
         }
 
         #endregion
@@ -456,7 +476,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("type");
+                .WithParameterName("type");
         }
 
         [Fact]
@@ -605,7 +625,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("type");
+                .WithParameterName("type");
         }
 
         [Fact]
@@ -816,7 +836,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("options");
+                .WithParameterName("options");
         }
 
         [Fact]
@@ -1121,7 +1141,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
-                .Which.ParamName.Should().Be("options");
+                .WithParameterName("options");
         }
 
         public enum Color

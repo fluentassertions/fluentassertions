@@ -3,7 +3,7 @@ using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Primitives
 {
     public class SimpleTimeSpanAssertionSpecs
     {
@@ -558,7 +558,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected time to be within 0.020s from 1d, 12h, 15m and 31s because we want to test the error message, but found 1d, 12h, 15m and 30.979s.");
+                    "Expected time to be within 20ms from 1d, 12h, 15m and 31s because we want to test the error message, but found 1d, 12h, 15m, 30s and 979ms.");
         }
 
         [Fact]
@@ -574,7 +574,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected time to be within 0.020s from 1d, 12h, 15m and 31s because we want to test the error message, but found 1d, 12h, 15m and 31.021s.");
+                    "Expected time to be within 20ms from 1d, 12h, 15m and 31s because we want to test the error message, but found 1d, 12h, 15m, 31s and 21ms.");
         }
 
         [Fact]
@@ -619,7 +619,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected time to be within 0.020s from 1d, 12h, 15m and 31s because we want to test the error message, but found 1d, 12h, 15m and 30.979s.");
+                    "Expected time to be within 20ms from 1d, 12h, 15m and 31s because we want to test the error message, but found 1d, 12h, 15m, 30s and 979ms.");
         }
 
         #endregion
@@ -652,7 +652,7 @@ namespace FluentAssertions.Specs
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected time to not be within 0.020s from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m and 30.980s.");
+            act.Should().Throw<XunitException>().WithMessage("Expected time to not be within 20ms from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m, 30s and 980ms.");
         }
 
         [Fact]
@@ -666,7 +666,7 @@ namespace FluentAssertions.Specs
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected time to not be within 0.020s from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m and 31.020s.");
+            act.Should().Throw<XunitException>().WithMessage("Expected time to not be within 20ms from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m, 31s and 20ms.");
         }
 
         [Fact]
@@ -680,7 +680,7 @@ namespace FluentAssertions.Specs
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, TimeSpan.FromMilliseconds(20));
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected time to not be within 0.020s from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m and 31.020s.");
+            act.Should().Throw<XunitException>().WithMessage("Expected time to not be within 20ms from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m, 31s and 20ms.");
         }
 
         [Fact]
@@ -722,7 +722,7 @@ namespace FluentAssertions.Specs
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected time to not be within 0.035s from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m and 31.035s.");
+            act.Should().Throw<XunitException>().WithMessage("Expected time to not be within 35ms from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m, 31s and 35ms.");
         }
 
         [Fact]

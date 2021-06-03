@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using FluentAssertions.Common;
@@ -15,17 +16,17 @@ namespace FluentAssertions.Execution
     /// </summary>
     internal class MessageBuilder
     {
-        #region Private Definitions
+        private readonly FormattingOptions formattingOptions;
 
-        private readonly bool useLineBreaks;
+        #region Private Definitions
 
         private readonly char[] blanks = { '\r', '\n', ' ', '\t' };
 
         #endregion
 
-        public MessageBuilder(bool useLineBreaks)
+        public MessageBuilder(FormattingOptions formattingOptions)
         {
-            this.useLineBreaks = useLineBreaks;
+            this.formattingOptions = formattingOptions;
         }
 
         // SMELL: Too many parameters.
@@ -88,10 +89,9 @@ namespace FluentAssertions.Execution
 
         private string FormatArgumentPlaceholders(string failureMessage, object[] failureArgs)
         {
-            string[] values = failureArgs.Select(a => Formatter.ToString(a, useLineBreaks)).ToArray();
-            string formattedMessage = string.Format(failureMessage, values);
+            string[] values = failureArgs.Select(a => Formatter.ToString(a, formattingOptions)).ToArray();
 
-            return formattedMessage;
+            return string.Format(CultureInfo.InvariantCulture, failureMessage, values);
         }
 
         private string SanitizeReason(string reason)

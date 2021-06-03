@@ -37,7 +37,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(ReferenceEquals(Subject, null))
+                .ForCondition(Subject is null)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
                 .FailWith("Expected {context} to be <null>{reason}, but found {0}.", Subject);
@@ -58,7 +58,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
                 .FailWith("Expected {context} not to be <null>{reason}.");
@@ -152,7 +152,7 @@ namespace FluentAssertions.Primitives
             Guard.ThrowIfArgumentIsNull(expectedType, nameof(expectedType));
 
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier("type")
                 .FailWith("Expected {context} to be {0}{reason}, but found <null>.", expectedType);
@@ -206,7 +206,7 @@ namespace FluentAssertions.Primitives
             Guard.ThrowIfArgumentIsNull(unexpectedType, nameof(unexpectedType));
 
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier("type")
                 .FailWith("Expected {context} not to be {0}{reason}, but found <null>.", unexpectedType);
@@ -270,7 +270,7 @@ namespace FluentAssertions.Primitives
             Guard.ThrowIfArgumentIsNull(type, nameof(type));
 
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier("type")
                 .FailWith("Expected {context} to be assignable to {0}{reason}, but found <null>.", type);
@@ -330,7 +330,7 @@ namespace FluentAssertions.Primitives
             Guard.ThrowIfArgumentIsNull(type, nameof(type));
 
             Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier("type")
                 .FailWith("Expected {context} to not be assignable to {0}{reason}, but found <null>.", type);

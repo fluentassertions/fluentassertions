@@ -1,7 +1,9 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using FluentAssertions.Common;
+using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Execution
 {
@@ -16,17 +18,29 @@ namespace FluentAssertions.Execution
     {
         #region Private Definitions
 
+        private readonly FormattingOptions formattingOptions = AssertionOptions.FormattingOptions.Clone();
         private readonly IAssertionStrategy assertionStrategy;
-        private readonly ContextDataItems contextData = new ContextDataItems();
+        private readonly ContextDataItems contextData = new();
 
         private Func<string> reason;
-        private bool useLineBreaks;
 
-        private static readonly AsyncLocal<AssertionScope> CurrentScope = new AsyncLocal<AssertionScope>();
+        private static readonly AsyncLocal<AssertionScope> CurrentScope = new();
         private AssertionScope parent;
         private Func<string> expectation;
         private string fallbackIdentifier = "object";
         private bool? succeeded;
+
+        private sealed class DeferredReportable
+        {
+            private readonly Lazy<string> lazyValue;
+
+            public DeferredReportable(Func<string> valueFunc)
+            {
+                this.lazyValue = new(valueFunc);
+            }
+
+            public override string ToString() => lazyValue.Value;
+        }
 
         #endregion
 
@@ -53,7 +67,7 @@ namespace FluentAssertions.Execution
         {
             SetCurrentAssertionScope(this);
 
-            if (parent != null)
+            if (parent is not null)
             {
                 contextData.Add(parent.contextData);
                 Context = parent.Context;
@@ -75,14 +89,27 @@ namespace FluentAssertions.Execution
         public AssertionScope(string context)
             : this()
         {
+            if (!string.IsNullOrEmpty(context))
+            {
+                Context = new Lazy<string>(() => context);
+            }
+        }
+
+        /// <summary>
+        /// Starts a named scope within which multiple assertions can be executed and which will not throw until the scope is disposed.
+        /// </summary>
+        public AssertionScope(Lazy<string> context)
+            : this()
+        {
             Context = context;
         }
 
         /// <summary>
         /// Gets or sets the context of the current assertion scope, e.g. the path of the object graph
-        /// that is being asserted on.
+        /// that is being asserted on. The context is provided by a <see cref="Lazy{String}"/> which
+        /// only gets evaluated when its value is actually needed (in most cases during a failure).
         /// </summary>
-        public string Context { get; set; }
+        public Lazy<string> Context { get; set; }
 
         /// <summary>
         /// Gets the current thread-specific assertion scope.
@@ -95,16 +122,27 @@ namespace FluentAssertions.Execution
             private set => SetCurrentAssertionScope(value);
         }
 
+        /// <summary>
+        /// Forces the formatters that support it to add the necessary line breaks.
+        /// </summary>
+        /// <remarks>
+        /// This is just shorthand for modifying the <see cref="FormattingOptions"/> property.
+        /// </remarks>
         public AssertionScope UsingLineBreaks
         {
             get
             {
-                useLineBreaks = true;
+                formattingOptions.UseLineBreaks = true;
                 return this;
             }
         }
 
-        public bool Succeeded
+        /// <summary>
+        /// Exposes the options the scope will use for formatting objects in case an assertion fails.
+        /// </summary>
+        public FormattingOptions FormattingOptions => formattingOptions;
+
+        internal bool Succeeded
         {
             get => succeeded == true;
         }
@@ -127,7 +165,7 @@ namespace FluentAssertions.Execution
                 try
                 {
                     string becauseOrEmpty = because ?? string.Empty;
-                    return (becauseArgs?.Any() == true) ? string.Format(becauseOrEmpty, becauseArgs) : becauseOrEmpty;
+                    return (becauseArgs?.Any() == true) ? string.Format(CultureInfo.InvariantCulture, becauseOrEmpty, becauseArgs) : becauseOrEmpty;
                 }
                 catch (FormatException formatException)
                 {
@@ -144,7 +182,7 @@ namespace FluentAssertions.Execution
         /// In addition to the numbered <see cref="string.Format(string,object[])"/>-style placeholders, messages may contain a few
         /// specialized placeholders as well. For instance, {reason} will be replaced with the reason of the assertion as passed
         /// to <see cref="BecauseOf(FluentAssertions.Execution.Reason)"/>. Other named placeholders will be replaced with the <see cref="Current"/> scope data
-        /// passed through <see cref="AddNonReportable"/> and <see cref="AddReportable"/>. Finally, a description of the
+        /// passed through <see cref="AddNonReportable"/> and <see cref="AddReportable(string,string)"/>. Finally, a description of the
         /// current subject can be passed through the {context:description} placeholder. This is used in the message if no
         /// explicit context is specified through the <see cref="AssertionScope"/> constructor.
         /// Note that only 10 <paramref name="args"/> are supported in combination with a {reason}.
@@ -158,7 +196,7 @@ namespace FluentAssertions.Execution
             Func<string> localReason = reason;
             expectation = () =>
             {
-                var messageBuilder = new MessageBuilder(useLineBreaks);
+                var messageBuilder = new MessageBuilder(formattingOptions);
                 string reason = localReason?.Invoke() ?? string.Empty;
                 string identifier = GetIdentifier();
 
@@ -184,7 +222,7 @@ namespace FluentAssertions.Execution
 
         public GivenSelector<T> Given<T>(Func<T> selector)
         {
-            return new GivenSelector<T>(selector, this, continueAsserting: !succeeded.HasValue || succeeded.Value);
+            return new GivenSelector<T>(selector, this, continueAsserting: succeeded != false);
         }
 
         public AssertionScope ForCondition(bool condition)
@@ -214,7 +252,7 @@ namespace FluentAssertions.Execution
             return FailWith(() =>
             {
                 string localReason = reason?.Invoke() ?? string.Empty;
-                var messageBuilder = new MessageBuilder(useLineBreaks);
+                var messageBuilder = new MessageBuilder(formattingOptions);
                 string identifier = GetIdentifier();
                 FailReason failReason = failReasonFunc();
                 string result = messageBuilder.Build(failReason.Message, failReason.Args, localReason, contextData, identifier, fallbackIdentifier);
@@ -229,12 +267,12 @@ namespace FluentAssertions.Execution
         {
             try
             {
-                bool failed = !succeeded.HasValue || !succeeded.Value;
+                bool failed = succeeded != true;
                 if (failed)
                 {
                     string result = failReasonFunc();
 
-                    if (expectation != null)
+                    if (expectation is not null)
                     {
                         result = expectation() + result;
                     }
@@ -279,12 +317,14 @@ namespace FluentAssertions.Execution
 
         private string GetIdentifier()
         {
-            if (!string.IsNullOrEmpty(Context))
+            var identifier = Context?.Value;
+
+            if (string.IsNullOrEmpty(identifier))
             {
-                return Context;
+                identifier = CallerIdentifier.DetermineCallerIdentity();
             }
 
-            return CallerIdentifier.DetermineCallerIdentity();
+            return identifier;
         }
 
         /// <summary>
@@ -312,6 +352,15 @@ namespace FluentAssertions.Execution
             contextData.Add(new ContextDataItems.DataItem(key, value, reportable: true, requiresFormatting: false));
         }
 
+        /// <summary>
+        /// Adds some information to the assertion scope that will be included in the message
+        /// that is emitted if an assertion fails. The value is only calculated on failure.
+        /// </summary>
+        public void AddReportable(string key, Func<string> valueFunc)
+        {
+            contextData.Add(new ContextDataItems.DataItem(key, new DeferredReportable(valueFunc), reportable: true, requiresFormatting: false));
+        }
+
         public string[] Discard()
         {
             return assertionStrategy.DiscardFailures().ToArray();
@@ -337,7 +386,7 @@ namespace FluentAssertions.Execution
         {
             SetCurrentAssertionScope(parent);
 
-            if (parent != null)
+            if (parent is not null)
             {
                 foreach (string failureMessage in assertionStrategy.FailureMessages)
                 {

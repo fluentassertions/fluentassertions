@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions.Extensions;
@@ -6,7 +6,7 @@ using FluentAssertions.Specialized;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Specialized
 {
     public class ExecutionTimeAssertionsSpecs
     {
@@ -23,7 +23,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*(s.Sleep(610)) should be less or equal to 0.500s because we like speed, but it required*");
+                "*(s.Sleep(610)) should be less or equal to 500ms because we like speed, but it required*");
         }
 
         [Fact]
@@ -50,7 +50,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*action should be less or equal to 0.100s, but it required*");
+                "*action should be less or equal to 100ms, but it required*");
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*action should be less or equal to 0.100s, but it required more than*");
+                "*action should be less or equal to 100ms, but it required more than*");
         }
         #endregion
 
@@ -99,7 +99,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*(s.Sleep(610)) should be less than 0.500s because we like speed, but it required*");
+                "*(s.Sleep(610)) should be less than 500ms because we like speed, but it required*");
         }
 
         [Fact]
@@ -116,7 +116,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_the_execution_time_of_an_action_is_not_less_than_a_limit__it_should_throw()
+        public void When_the_execution_time_of_an_action_is_not_less_than_a_limit_it_should_throw()
         {
             // Arrange
             Action someAction = () => Thread.Sleep(510);
@@ -126,11 +126,11 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*action should be less than 0.100s, but it required*");
+                "*action should be less than 100ms, but it required*");
         }
 
         [Fact]
-        public void When_the_execution_time_of_an_async_action_is_not_less_than_a_limit__it_should_throw()
+        public void When_the_execution_time_of_an_async_action_is_not_less_than_a_limit_it_should_throw()
         {
             // Arrange
             Func<Task> someAction = () => Task.Delay(TimeSpan.FromMilliseconds(150));
@@ -140,7 +140,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*action should be less than 0.100s, but it required*");
+                "*action should be less than 100ms, but it required*");
         }
 
         [Fact]
@@ -185,7 +185,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*action should be less than 0.100s, but it required more than*");
+                "*action should be less than 100ms, but it required more than*");
         }
         #endregion
 
@@ -294,7 +294,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_the_execution_time_of_an_action_is_not_greater_than_a_limit__it_should_throw()
+        public void When_the_execution_time_of_an_action_is_not_greater_than_a_limit_it_should_throw()
         {
             // Arrange
             Action someAction = () => Thread.Sleep(100);
@@ -368,7 +368,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*(s.Sleep(200)) should be within 0.050s from 0.100s because we like speed, but it required*");
+                "*(s.Sleep(200)) should be within 50ms from 100ms because we like speed, but it required*");
         }
 
         [Fact]
@@ -386,7 +386,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_the_execution_time_of_an_action_is_not_close_to_a_limit__it_should_throw()
+        public void When_the_execution_time_of_an_action_is_not_close_to_a_limit_it_should_throw()
         {
             // Arrange
             Action someAction = () => Thread.Sleep(200);
@@ -396,7 +396,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*action should be within 0.050s from 0.100s, but it required*");
+                "*action should be within 50ms from 100ms, but it required*");
         }
 
         [Fact]
@@ -428,7 +428,7 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*action should be within 0.050s from 0.100s, but it required*");
+                "*action should be within 50ms from 100ms, but it required*");
         }
         #endregion
 
@@ -477,8 +477,65 @@ namespace FluentAssertions.Specs
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
-                .Which.ParamName.Should().Be("executionTime");
+                .WithParameterName("executionTime");
         }
+
+        [Fact]
+        public void When_asserting_on_null_action_it_should_throw()
+        {
+            // Arrange
+            Action someAction = null;
+
+            // Act
+            Action act = () => someAction.ExecutionTime().Should().BeLessThan(1.Days());
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("action");
+        }
+
+        [Fact]
+        public void When_asserting_on_null_func_it_should_throw()
+        {
+            // Arrange
+            Func<Task> someFunc = null;
+
+            // Act
+            Action act = () => someFunc.ExecutionTime().Should().BeLessThan(1.Days());
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("action");
+        }
+
+        [Fact]
+        public void When_asserting_execution_time_of_null_action_it_should_throw()
+        {
+            // Arrange
+            object subject = null;
+
+            // Act
+            Action act = () => subject.ExecutionTimeOf(s => s.ToString()).Should().BeLessThan(1.Days());
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("subject");
+        }
+
+        [Fact]
+        public void When_asserting_execution_time_of_null_it_should_throw()
+        {
+            // Arrange
+            var subject = new object();
+
+            // Act
+            Action act = () => subject.ExecutionTimeOf(null).Should().BeLessThan(1.Days());
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>()
+                .WithParameterName("action");
+        }
+
         #endregion
 
         internal class SleepingClass

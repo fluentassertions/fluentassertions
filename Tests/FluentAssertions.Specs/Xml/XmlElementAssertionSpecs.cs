@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Xml;
-using FluentAssertions.Formatting;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs.Xml
 {
     public class XmlElementAssertionSpecs
     {
@@ -32,6 +31,7 @@ namespace FluentAssertions.Specs
             // Assert
             act.Should().NotThrow();
         }
+
         #endregion
 
         #region HaveValue
@@ -69,22 +69,21 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_xml_element_has_a_specific_inner_text_but_it_has_a_different_inner_text_it_should_throw_with_descriptive_message()
+        public void
+            When_asserting_xml_element_has_a_specific_inner_text_but_it_has_a_different_inner_text_it_should_throw_with_descriptive_message()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml("<user>grega</user>");
-            var element = xmlDoc.DocumentElement;
+            var document = new XmlDocument();
+            document.LoadXml("<user>grega</user>");
+            var theElement = document.DocumentElement;
 
             // Act
             Action act = () =>
-                element.Should().HaveInnerText("stamac", "because we want to test the failure {0}", "message");
+                theElement.Should().HaveInnerText("stamac", "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected XML element \"user\" to have value \"stamac\"" +
-                    " because we want to test the failure message" +
-                        ", but found \"grega\".");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theElement to have value \"stamac\" because we want to test the failure message, but found \"grega\".");
         }
 
         #endregion
@@ -140,7 +139,8 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_xml_element_has_attribute_with_ns_and_specific_value_but_attribute_does_not_exist_it_should_fail()
+        public void
+            When_asserting_xml_element_has_attribute_with_ns_and_specific_value_but_attribute_does_not_exist_it_should_fail()
         {
             // Arrange
             var xmlDoc = new XmlDocument();
@@ -156,45 +156,50 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_xml_element_has_attribute_with_specific_value_but_attribute_does_not_exist_it_should_fail_with_descriptive_message()
+        public void
+            When_asserting_xml_element_has_attribute_with_specific_value_but_attribute_does_not_exist_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(@"<user name=""martin"" />");
-            var element = xmlDoc.DocumentElement;
+            var document = new XmlDocument();
+            document.LoadXml(@"<user name=""martin"" />");
+            var theElement = document.DocumentElement;
 
             // Act
             Action act = () =>
-                element.Should().HaveAttribute("age", "36", "because we want to test the failure {0}", "message");
+                theElement.Should().HaveAttribute("age", "36", "because we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected XML element to have attribute \"age\" with value \"36\"" +
-                    " because we want to test the failure message" +
-                        ", but found no such attribute in <user name=\"martin\"*");
+                .WithMessage("Expected theElement to have attribute \"age\" with value \"36\"" +
+                             " because we want to test the failure message" +
+                             ", but found no such attribute in <user name=\"martin\"*");
         }
 
         [Fact]
-        public void When_asserting_xml_element_has_attribute_with_ns_and_specific_value_but_attribute_does_not_exist_it_should_fail_with_descriptive_message()
+        public void
+            When_asserting_xml_element_has_attribute_with_ns_and_specific_value_but_attribute_does_not_exist_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
-            var element = xmlDoc.DocumentElement;
+            var document = new XmlDocument();
+            document.LoadXml(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
+            var theElement = document.DocumentElement;
 
             // Act
             Action act = () =>
-                element.Should().HaveAttributeWithNamespace("age", "http://www.example.com/2012/test", "36", "because we want to test the failure {0}", "message");
+                theElement.Should().HaveAttributeWithNamespace("age", "http://www.example.com/2012/test", "36",
+                    "because we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected XML element to have attribute \"{http://www.example.com/2012/test}age\" with value \"36\"" +
+                .WithMessage(
+                    "Expected theElement to have attribute \"{http://www.example.com/2012/test}age\" with value \"36\"" +
                     " because we want to test the failure message" +
-                        ", but found no such attribute in <user xmlns:a=\"http:…");
+                    ", but found no such attribute in <user xmlns:a=\"http:…");
         }
 
         [Fact]
-        public void When_asserting_xml_element_has_attribute_with_specific_value_but_attribute_has_different_value_it_should_fail()
+        public void
+            When_asserting_xml_element_has_attribute_with_specific_value_but_attribute_has_different_value_it_should_fail()
         {
             // Arrange
             var xmlDoc = new XmlDocument();
@@ -210,7 +215,8 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_xml_element_has_attribute_with_ns_and_specific_value_but_attribute_has_different_value_it_should_fail()
+        public void
+            When_asserting_xml_element_has_attribute_with_ns_and_specific_value_but_attribute_has_different_value_it_should_fail()
         {
             // Arrange
             var xmlDoc = new XmlDocument();
@@ -226,41 +232,45 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_xml_element_has_attribute_with_specific_value_but_attribute_has_different_value_it_should_fail_with_descriptive_message()
+        public void
+            When_asserting_xml_element_has_attribute_with_specific_value_but_attribute_has_different_value_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(@"<user name=""martin"" />");
-            var element = xmlDoc.DocumentElement;
+            var document = new XmlDocument();
+            document.LoadXml(@"<user name=""martin"" />");
+            var theElement = document.DocumentElement;
 
             // Act
             Action act = () =>
-                element.Should().HaveAttribute("name", "dennis", "because we want to test the failure {0}", "message");
+                theElement.Should().HaveAttribute("name", "dennis", "because we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected XML attribute \"name\" to have value \"dennis\"" +
-                    " because we want to test the failure message" +
-                        ", but found \"martin\".");
+                .WithMessage("Expected attribute \"name\" in theElement to have value \"dennis\"" +
+                             " because we want to test the failure message" +
+                             ", but found \"martin\".");
         }
 
         [Fact]
-        public void When_asserting_xml_element_has_attribute_with_ns_and_specific_value_but_attribute_has_different_value_it_should_fail_with_descriptive_message()
+        public void
+            When_asserting_xml_element_has_attribute_with_ns_and_specific_value_but_attribute_has_different_value_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
-            var element = xmlDoc.DocumentElement;
+            var document = new XmlDocument();
+            document.LoadXml(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
+            var theElement = document.DocumentElement;
 
             // Act
             Action act = () =>
-                element.Should().HaveAttributeWithNamespace("name", "http://www.example.com/2012/test", "dennis", "because we want to test the failure {0}", "message");
+                theElement.Should().HaveAttributeWithNamespace("name", "http://www.example.com/2012/test", "dennis",
+                    "because we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected XML attribute \"{http://www.example.com/2012/test}name\" to have value \"dennis\"" +
+                .WithMessage(
+                    "Expected attribute \"{http://www.example.com/2012/test}name\" in theElement to have value \"dennis\"" +
                     " because we want to test the failure message" +
-                        ", but found \"martin\".");
+                    ", but found \"martin\".");
         }
 
         #endregion
@@ -347,46 +357,45 @@ namespace FluentAssertions.Specs
         public void When_asserting_xml_element_has_child_element_but_it_does_not_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(
+            var document = new XmlDocument();
+            document.LoadXml(
                 @"<parent>
                     <child />
                   </parent>");
-            var element = xmlDoc.DocumentElement;
+            var theElement = document.DocumentElement;
 
             // Act
             Action act = () =>
-                element.Should().HaveElement("unknown", "because we want to test the failure message");
+                theElement.Should().HaveElement("unknown", "because we want to test the failure message");
 
             // Assert
-            string expectedMessage = string.Format("Expected XML element {0} to have child element \"unknown\"" +
-                " because we want to test the failure message" +
-                    ", but no such child element was found.", Formatter.ToString(element));
-
-            act.Should().Throw<XunitException>().WithMessage(expectedMessage);
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theElement to have child element \"unknown\""
+                + " because we want to test the failure message"
+                + ", but no such child element was found.");
         }
 
         [Fact]
         public void When_asserting_xml_element_has_child_element_with_ns_but_it_does_not_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(
+            var document = new XmlDocument();
+            document.LoadXml(
                 @"<parent>
                     <child />
                   </parent>");
-            var element = xmlDoc.DocumentElement;
+            var theElement = document.DocumentElement;
 
             // Act
             Action act = () =>
-                element.Should().HaveElementWithNamespace("unknown", "http://www.example.com/2012/test", "because we want to test the failure message");
+                theElement.Should().HaveElementWithNamespace("unknown", "http://www.example.com/2012/test",
+                    "because we want to test the failure message");
 
             // Assert
-            string expectedMessage = string.Format("Expected XML element {0} to have child element \"{{http://www.example.com/2012/test}}unknown\"" +
-                " because we want to test the failure message" +
-                    ", but no such child element was found.", Formatter.ToString(element));
-
-            act.Should().Throw<XunitException>().WithMessage(expectedMessage);
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected theElement to have child element \"{{http://www.example.com/2012/test}}unknown\""
+                + " because we want to test the failure message"
+                + ", but no such child element was found.");
         }
 
         [Fact]
@@ -407,6 +416,44 @@ namespace FluentAssertions.Specs
             matchedElement.Should().BeOfType<XmlElement>()
                 .And.HaveAttribute("attr", "1");
             matchedElement.Name.Should().Be("child");
+        }
+
+        [Fact]
+        public void When_asserting_xml_element_with_ns_has_child_element_and_it_does_it_should_succeed()
+        {
+            // Arrange
+            var xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(
+                @"<parent xmlns=""test"">
+                    <child>value</child>
+                </parent>");
+            var element = xmlDoc.DocumentElement;
+
+            // Act
+            Action act = () =>
+                element.Should().HaveElement("child");
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_xml_element_has_child_element_and_it_does_with_ns_it_should_succeed2()
+        {
+            // Arrange
+            var xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(
+                @"<parent>
+                    <child xmlns=""test"">value</child>
+                </parent>");
+            var element = xmlDoc.DocumentElement;
+
+            // Act
+            Action act = () =>
+                element.Should().HaveElement("child");
+
+            // Assert
+            act.Should().NotThrow();
         }
 
         #endregion

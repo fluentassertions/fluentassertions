@@ -71,6 +71,7 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <c>null</c>.</exception>
         public AndWhichConstraint<MemberInfoAssertions<TSubject, TAssertions>, TAttribute> BeDecoratedWith<TAttribute>(
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
             string because = "", params object[] becauseArgs)
@@ -78,16 +79,26 @@ namespace FluentAssertions.Types
         {
             Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
 
-            string failureMessage = string.Format("Expected {0} {1}" +
-                                                  " to be decorated with {2}{{reason}}, but that attribute was not found.",
-                                                  Identifier, SubjectDescription, typeof(TAttribute));
-
-            IEnumerable<TAttribute> attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
-
-            Execute.Assertion
-                .ForCondition(attributes.Any())
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage);
+                .ForCondition(Subject is not null)
+                .FailWith(
+                    $"Expected {Identifier} to be decorated with {typeof(TAttribute)}{{reason}}" +
+                    $", but {{context:member}} is <null>.");
+
+            IEnumerable<TAttribute> attributes = new TAttribute[0];
+
+            if (success)
+            {
+                attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
+
+                Execute.Assertion
+                    .ForCondition(attributes.Any())
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        $"Expected {Identifier} {SubjectDescription} to be decorated with {typeof(TAttribute)}{{reason}}" +
+                        $", but that attribute was not found.");
+            }
 
             return new AndWhichConstraint<MemberInfoAssertions<TSubject, TAssertions>, TAttribute>(this, attributes);
         }
@@ -106,6 +117,7 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <c>null</c>.</exception>
         public AndConstraint<TAssertions> NotBeDecoratedWith<TAttribute>(
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
             string because = "", params object[] becauseArgs)
@@ -113,28 +125,30 @@ namespace FluentAssertions.Types
         {
             Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
 
-            string failureMessage = string.Format("Expected {0} {1}" +
-                                                  " to not be decorated with {2}{{reason}}, but that attribute was found.",
-                                                  Identifier, SubjectDescription, typeof(TAttribute));
-
-            IEnumerable<TAttribute> attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
-
-            Execute.Assertion
-                .ForCondition(!attributes.Any())
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith(failureMessage);
+                .ForCondition(Subject is not null)
+                .FailWith(
+                    $"Expected {Identifier} to not be decorated with {typeof(TAttribute)}{{reason}}" +
+                    $", but {{context:member}} is <null>.");
+
+            if (success)
+            {
+                IEnumerable<TAttribute> attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
+
+                Execute.Assertion
+                    .ForCondition(!attributes.Any())
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        $"Expected {Identifier} {SubjectDescription} to not be decorated with {typeof(TAttribute)}{{reason}}" +
+                        $", but that attribute was found.");
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         protected override string Identifier => "member";
 
-        internal virtual string SubjectDescription
-        {
-            get
-            {
-                return string.Format("{0}.{1}", Subject.DeclaringType, Subject.Name);
-            }
-        }
+        internal virtual string SubjectDescription => $"{Subject.DeclaringType}.{Subject.Name}";
     }
 }
