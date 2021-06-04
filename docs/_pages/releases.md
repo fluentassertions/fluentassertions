@@ -7,6 +7,16 @@ sidebar:
   nav: "sidebar"
 ---
 
+
+## 6.0.0 Beta 2
+Changes since 6.0.0 Beta 1
+
+**What's New**
+* Added `NotBe(string)` for symmetry with `Be(string)` for GuidAssertions - [#1597](https://github.com/fluentassertions/fluentassertions/pull/1597).
+
+**Fixes**
+* Added parameter checking for `Be(string)` for GuidAssertions - [#1597](https://github.com/fluentassertions/fluentassertions/pull/1597).
+
 ## 6.0.0 Beta 1
 Changes since 6.0.0 Alpha 2
 
