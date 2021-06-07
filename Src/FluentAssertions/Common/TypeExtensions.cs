@@ -138,7 +138,11 @@ namespace FluentAssertions.Common
                    property.Name == otherProperty.Name;
         }
 
-        public static Type[] GetClosedGenericInterfaces(Type type, Type openGenericType)
+        /// <summary>
+        /// Returns the interfaces that the <paramref name="type"/> implements that are concrete
+        /// versions of the <paramref name="openGenericType"/>.
+        /// </summary>
+        public static Type[] GetClosedGenericInterfaces(this Type type, Type openGenericType)
         {
             if (type.IsGenericType && type.GetGenericTypeDefinition() == openGenericType)
             {
