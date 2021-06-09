@@ -621,7 +621,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().ThrowExactly<XunitException>()
-                .WithMessage("*MyValue*");
+                .WithMessage("MyValue*");
         }
 
         [Fact]
@@ -639,7 +639,56 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().ThrowExactly<XunitException>()
-                .WithMessage("*SomeValue*AnotherValue*");
+                .WithMessage("SomeValueAnotherValue*");
+        }
+
+        [Fact]
+        public void When_adding_reportable_values_they_should_be_reported_after_the_message()
+        {
+            // Arrange
+            var scope = new AssertionScope();
+            scope.AddReportable("SomeKey", "SomeValue");
+            scope.AddReportable("AnotherKey", "AnotherValue");
+
+            AssertionScope.Current.FailWith("{SomeKey}{AnotherKey}");
+
+            // Act
+            Action act = scope.Dispose;
+
+            // Assert
+            act.Should().ThrowExactly<XunitException>()
+                .WithMessage("*With SomeKey:\nSomeValue\nWith AnotherKey:\nAnotherValue");
+        }
+
+        [Fact]
+        public void When_adding_non_reportable_value_it_should_not_be_reported_after_the_message()
+        {
+            // Arrange
+            var scope = new AssertionScope();
+            scope.AddNonReportable("SomeKey", "SomeValue");
+
+            AssertionScope.Current.FailWith("{SomeKey}");
+
+            // Act
+            Action act = scope.Dispose;
+
+            // Assert
+            act.Should().ThrowExactly<XunitException>()
+                .Which.Message.Should().NotContain("With SomeKey:\nSomeValue");
+        }
+
+        [Fact]
+        public void When_adding_non_reportable_value_it_should_be_retrievable_from_context()
+        {
+            // Arrange
+            var scope = new AssertionScope();
+            scope.AddNonReportable("SomeKey", "SomeValue");
+
+            // Act
+            var value = scope.Get<string>("SomeKey");
+
+            // Assert
+            value.Should().Be("SomeValue");
         }
 
         [Fact]
