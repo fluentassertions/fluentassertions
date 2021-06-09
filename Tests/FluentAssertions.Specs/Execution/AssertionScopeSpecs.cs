@@ -765,6 +765,46 @@ namespace FluentAssertions.Specs.Execution
                 .WithMessage("Expectations are the \"root\" of disappointment");
         }
 
+        [Fact]
+        public void When_no_identifier_can_be_resolved_replace_context_with_object()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .ForCondition(false)
+                .FailWith("Expected {context}");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected object");
+        }
+
+        [Fact]
+        public void When_no_identifier_can_be_resolved_replace_context_with_inline_declared_fallback_identifier()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .ForCondition(false)
+                .FailWith("Expected {context:fallback}");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected fallback");
+        }
+
+        [Fact]
+        public void When_no_identifier_can_be_resolved_replace_context_with_defined_default_identifier()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .WithDefaultIdentifier("identifier")
+                .ForCondition(false)
+                .FailWith("Expected {context}");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected identifier");
+        }
+
         #endregion
 
         #region Chaining API
@@ -913,6 +953,27 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
+        public void When_the_previous_assertion_failed_it_should_not_execute_the_succeeding_default_identifier()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                Execute.Assertion
+                    .WithDefaultIdentifier("identifier")
+                    .ForCondition(false)
+                    .FailWith("Expected {context}")
+                    .Then
+                    .WithDefaultIdentifier("other")
+                    .FailWith("Expected {context}");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected identifier");
+        }
+
+        [Fact]
         public void When_the_previous_assertion_succeeded_it_should_evaluate_the_succeeding_given_statement()
         {
             // Act
@@ -958,6 +1019,26 @@ namespace FluentAssertions.Specs.Execution
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Assumptions are the \"root\" of all evil");
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_succeeded_it_should_not_affect_the_succeeding_default_identifier()
+        {
+            // Act
+            Action act = () =>
+            {
+                Execute.Assertion
+                    .WithDefaultIdentifier("identifier")
+                    .ForCondition(true)
+                    .FailWith("Expected {context}")
+                    .Then
+                    .WithDefaultIdentifier("other")
+                    .FailWith("Expected {context}");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected other");
         }
 
         #endregion

@@ -119,7 +119,12 @@ namespace FluentAssertions.Execution
         /// <inheritdoc/>
         public IAssertionScope WithDefaultIdentifier(string identifier)
         {
-            return predecessor.WithDefaultIdentifier(identifier);
+            if (continueAsserting)
+            {
+                return predecessor.WithDefaultIdentifier(identifier);
+            }
+
+            return this;
         }
 
         /// <inheritdoc/>
