@@ -737,6 +737,34 @@ namespace FluentAssertions.Specs.Execution
             deferredValueInvoked.Should().BeTrue();
         }
 
+        [Fact]
+        public void When_an_expectation_is_defined_it_should_be_preceeding_the_failure_message()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .WithExpectation("Expectations are the root ")
+                .ForCondition(false)
+                .FailWith("of disappointment");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expectations are the root of disappointment");
+        }
+
+        [Fact]
+        public void When_an_expectation_with_arguments_is_defined_it_should_be_preceeding_the_failure_message()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .WithExpectation("Expectations are the {0} ", "root")
+                .ForCondition(false)
+                .FailWith("of disappointment");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expectations are the \"root\" of disappointment");
+        }
+
         #endregion
 
         #region Chaining API
@@ -843,6 +871,48 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
+        public void When_the_previous_assertion_failed_it_should_not_execute_the_succeeding_expectation()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                Execute.Assertion
+                    .WithExpectation("Expectations are the root ")
+                    .ForCondition(false)
+                    .FailWith("of disappointment")
+                    .Then
+                    .WithExpectation("Assumptions are the root ")
+                    .FailWith("of all evil");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expectations are the root of disappointment");
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_failed_it_should_not_execute_the_succeeding_expectation_with_arguments()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                Execute.Assertion
+                    .WithExpectation("Expectations are the {0} ", "root")
+                    .ForCondition(false)
+                    .FailWith("of disappointment")
+                    .Then
+                    .WithExpectation("Assumptions are the {0} ", "root")
+                    .FailWith("of all evil");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expectations are the \"root\" of disappointment");
+        }
+
+        [Fact]
         public void When_the_previous_assertion_succeeded_it_should_evaluate_the_succeeding_given_statement()
         {
             // Act
@@ -854,6 +924,40 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             Assert.Throws<InvalidOperationException>(act);
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_succeeded_it_should_not_affect_the_succeeding_expectation()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .WithExpectation("Expectations are the root ")
+                .ForCondition(true)
+                .FailWith("of disappointment")
+                .Then
+                .WithExpectation("Assumptions are the root ")
+                .FailWith("of all evil");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Assumptions are the root of all evil");
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_succeeded_it_should_not_affect_the_succeeding_expectation_with_arguments()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .WithExpectation("Expectations are the {0} ", "root")
+                .ForCondition(true)
+                .FailWith("of disappointment")
+                .Then
+                .WithExpectation("Assumptions are the {0} ", "root")
+                .FailWith("of all evil");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Assumptions are the \"root\" of all evil");
         }
 
         #endregion
