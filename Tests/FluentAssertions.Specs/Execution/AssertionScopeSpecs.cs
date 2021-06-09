@@ -836,6 +836,51 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
+        public void When_the_previous_assertion_succeeded_it_should_not_affect_the_next_one_with_arguments()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .ForCondition(true)
+                .FailWith("First assertion")
+                .Then
+                .FailWith("Second {0}", "assertion");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Second \"assertion\"");
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_succeeded_it_should_not_affect_the_next_one_with_argument_providers()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .ForCondition(true)
+                .FailWith("First assertion")
+                .Then
+                .FailWith("Second {0}", () => "assertion");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Second \"assertion\"");
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_succeeded_it_should_not_affect_the_next_one_with_a_fail_reason_function()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .ForCondition(true)
+                .FailWith("First assertion")
+                .Then
+                .FailWith(() => new FailReason("Second {0}", "assertion"));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Second \"assertion\"");
+        }
+
+        [Fact]
         public void When_a_given_is_used_before_an_assertion_then_the_result_should_be_available_for_evaluation()
         {
             // Act
@@ -908,6 +953,63 @@ namespace FluentAssertions.Specs.Execution
 
             Assert.Single(failures);
             Assert.Contains("First assertion", failures);
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_failed_it_should_not_execute_the_succeeding_failure_with_arguments()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                Execute.Assertion
+                    .ForCondition(false)
+                    .FailWith("First assertion")
+                    .Then
+                    .FailWith("Second {0}", "assertion");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("First assertion");
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_failed_it_should_not_execute_the_succeeding_failure_with_argument_providers()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                Execute.Assertion
+                    .ForCondition(false)
+                    .FailWith("First assertion")
+                    .Then
+                    .FailWith("Second {0}", () => "assertion");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("First assertion");
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_failed_it_should_not_execute_the_succeeding_failure_with_a_fail_reason_function()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                Execute.Assertion
+                    .ForCondition(false)
+                    .FailWith("First assertion")
+                    .Then
+                    .FailWith(() => new FailReason("Second {0}", "assertion"));
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("First assertion");
         }
 
         [Fact]
