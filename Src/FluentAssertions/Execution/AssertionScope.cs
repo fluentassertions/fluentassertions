@@ -11,8 +11,8 @@ namespace FluentAssertions.Execution
     /// Represents an implicit or explicit scope within which multiple assertions can be collected.
     /// </summary>
     /// <remarks>
-    /// This class is supposed to have a very short life time and is not safe to be used in assertion that cross thread-boundaries such as when
-    /// using <c>async</c> or <c>await</c>.
+    /// This class is supposed to have a very short life time and is not safe to be used in assertion that cross thread-boundaries
+    /// such as when using <c>async</c> or <c>await</c>.
     /// </remarks>
     public sealed class AssertionScope : IAssertionScope
     {
@@ -84,7 +84,8 @@ namespace FluentAssertions.Execution
         }
 
         /// <summary>
-        /// Starts a named scope within which multiple assertions can be executed and which will not throw until the scope is disposed.
+        /// Starts a named scope within which multiple assertions can be executed
+        /// and which will not throw until the scope is disposed.
         /// </summary>
         public AssertionScope(string context)
             : this()
@@ -96,7 +97,8 @@ namespace FluentAssertions.Execution
         }
 
         /// <summary>
-        /// Starts a named scope within which multiple assertions can be executed and which will not throw until the scope is disposed.
+        /// Starts a named scope within which multiple assertions can be executed
+        /// and which will not throw until the scope is disposed.
         /// </summary>
         public AssertionScope(Lazy<string> context)
             : this()
@@ -122,12 +124,7 @@ namespace FluentAssertions.Execution
             private set => SetCurrentAssertionScope(value);
         }
 
-        /// <summary>
-        /// Forces the formatters that support it to add the necessary line breaks.
-        /// </summary>
-        /// <remarks>
-        /// This is just shorthand for modifying the <see cref="FormattingOptions"/> property.
-        /// </remarks>
+        /// <inheritdoc cref="IAssertionScope.UsingLineBreaks"/>
         public AssertionScope UsingLineBreaks
         {
             get
@@ -155,9 +152,7 @@ namespace FluentAssertions.Execution
             return BecauseOf(reason.FormattedMessage, reason.Arguments);
         }
 
-        /// <summary>
-        /// Adds an explanation of why the assertion is supposed to succeed to the scope.
-        /// </summary>
+        /// <inheritdoc cref="IAssertionScope.BecauseOf(string, object[])"/>
         public AssertionScope BecauseOf(string because, params object[] becauseArgs)
         {
             reason = () =>
@@ -175,22 +170,7 @@ namespace FluentAssertions.Execution
             return this;
         }
 
-        /// <summary>
-        /// Sets the expectation part of the failure message when the assertion is not met.
-        /// </summary>
-        /// <remarks>
-        /// In addition to the numbered <see cref="string.Format(string,object[])"/>-style placeholders, messages may contain a few
-        /// specialized placeholders as well. For instance, {reason} will be replaced with the reason of the assertion as passed
-        /// to <see cref="BecauseOf(FluentAssertions.Execution.Reason)"/>. Other named placeholders will be replaced with the <see cref="Current"/> scope data
-        /// passed through <see cref="AddNonReportable"/> and <see cref="AddReportable(string,string)"/>. Finally, a description of the
-        /// current subject can be passed through the {context:description} placeholder. This is used in the message if no
-        /// explicit context is specified through the <see cref="AssertionScope"/> constructor.
-        /// Note that only 10 <paramref name="args"/> are supported in combination with a {reason}.
-        /// If an expectation was set through a prior call to <see cref="WithExpectation"/>, then the failure message is appended to that
-        /// expectation.
-        /// </remarks>
-        /// <param name="message">The format string that represents the failure message.</param>
-        /// <param name="args">Optional arguments to any numbered placeholders.</param>
+        /// <inheritdoc cref="IAssertionScope.WithExpectation(string, object[])"/>
         public AssertionScope WithExpectation(string message, params object[] args)
         {
             Func<string> localReason = reason;
@@ -212,6 +192,7 @@ namespace FluentAssertions.Execution
             contextData.Add(new ContextDataItems.DataItem("expectation", expectation, reportable: false, requiresFormatting: true));
         }
 
+        /// <inheritdoc/>
         public Continuation ClearExpectation()
         {
             expectation = null;
@@ -225,6 +206,7 @@ namespace FluentAssertions.Execution
             return new GivenSelector<T>(selector, this, continueAsserting: succeeded != false);
         }
 
+        /// <inheritdoc cref="IAssertionScope.ForCondition(bool)"/>
         public AssertionScope ForCondition(bool condition)
         {
             succeeded = condition;
@@ -234,8 +216,11 @@ namespace FluentAssertions.Execution
 
         /// <summary>
         /// Makes assertion fail when <paramref name="actualOccurrences"/> does not match <paramref name="constraint"/>.
-        /// The occurrence description in natural language could then be inserted in failure message by using {expectedOccurrence} placeholder in
-        /// message parameters of <see cref="FluentAssertions.Execution.AssertionScope.FailWith(string, object[])"/> and its overloaded versions.
+        /// <para>
+        /// The occurrence description in natural language could then be inserted in failure message by using
+        /// <em>{expectedOccurrence}</em> placeholder in message parameters of <see cref="FailWith(string, object[])"/> and its
+        /// overloaded versions.
+        /// </para>
         /// </summary>
         /// <param name="constraint"><see cref="OccurrenceConstraint"/> defining the number of expected occurrences.</param>
         /// <param name="actualOccurrences">The number of actual occurrences.</param>
@@ -247,6 +232,7 @@ namespace FluentAssertions.Execution
             return this;
         }
 
+        /// <inheritdoc/>
         public Continuation FailWith(Func<FailReason> failReasonFunc)
         {
             return FailWith(() =>
@@ -290,25 +276,19 @@ namespace FluentAssertions.Execution
             }
         }
 
-        /// <summary>
-        /// Registers a failure message that does not contain any formatting placeholders.
-        /// </summary>
+        /// <inheritdoc/>
         public Continuation FailWith(string message)
         {
             return FailWith(() => new FailReason(message, new object[0]));
         }
 
-        /// <summary>
-        /// Registers a failure message with optional formatting arguments.
-        /// </summary>
+        /// <inheritdoc/>
         public Continuation FailWith(string message, params object[] args)
         {
             return FailWith(() => new FailReason(message, args));
         }
 
-        /// <summary>
-        /// Registers a failure message, but postpones evaluation of the formatting arguments until the assertion really fails.
-        /// </summary>
+        /// <inheritdoc/>
         public Continuation FailWith(string message, params Func<object>[] argProviders)
         {
             return FailWith(() => new FailReason(message,
@@ -379,9 +359,7 @@ namespace FluentAssertions.Execution
             return contextData.Get<T>(key);
         }
 
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose()
         {
             SetCurrentAssertionScope(parent);
@@ -401,6 +379,7 @@ namespace FluentAssertions.Execution
             }
         }
 
+        /// <inheritdoc cref="IAssertionScope.WithDefaultIdentifier(string)"/>
         public AssertionScope WithDefaultIdentifier(string identifier)
         {
             fallbackIdentifier = identifier;
