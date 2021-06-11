@@ -22,7 +22,7 @@ namespace FluentAssertions.Specs.Formatting
         public void When_the_offset_is_not_relevant_it_should_not_be_included_in_the_output()
         {
             // Act
-            string result = Formatter.ToString(new DateTimeOffset(1973, 9, 20, 12, 59, 59, 0.Hours()));
+            string result = Formatter.ToString(new DateTime(1973, 9, 20, 12, 59, 59));
 
             // Assert
             result.Should().Be("<1973-09-20 12:59:59>");
@@ -148,35 +148,6 @@ namespace FluentAssertions.Specs.Formatting
 
             // Assert
             result.Should().Be(expected);
-        }
-
-        [Fact]
-        public void
-            When_a_DateTime_is_used_it_should_format_the_same_as_a_DateTimeOffset()
-        {
-            // Arrange
-            var dateOnly = ToUtcWithoutChangingTime(new DateTime(1973, 9, 20));
-            var timeOnly = ToUtcWithoutChangingTime(1.January(0001).At(08, 20, 01));
-            var withoutMilliseconds = ToUtcWithoutChangingTime(1.May(2012).At(20, 15, 30));
-            var withMilliseconds = ToUtcWithoutChangingTime(1.May(2012).At(20, 15, 30, 318));
-
-            // Act / Assert
-            Formatter.ToString(dateOnly)
-                .Should().Be(Formatter.ToString((DateTimeOffset)dateOnly));
-
-            Formatter.ToString(timeOnly).Should()
-                .Be(Formatter.ToString((DateTimeOffset)timeOnly));
-
-            Formatter.ToString(withoutMilliseconds).Should()
-                .Be(Formatter.ToString((DateTimeOffset)withoutMilliseconds));
-
-            Formatter.ToString(withMilliseconds).Should()
-                .Be(Formatter.ToString((DateTimeOffset)withMilliseconds));
-        }
-
-        private static DateTime ToUtcWithoutChangingTime(DateTime date)
-        {
-            return DateTime.SpecifyKind(date, DateTimeKind.Utc);
         }
     }
 }

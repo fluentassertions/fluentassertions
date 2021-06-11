@@ -11,6 +11,7 @@ sidebar:
 Changes since 6.0.0 Alpha 2
 
 **What's New**
+* Added `BeExactly` assertions to verify a `DateTimeOffset` exactly, i.e both its date/time and its offset - [#1609](https://github.com/fluentassertions/fluentassertions/pull/1609).
 * Added `WithParameterName` extension to ease asserting on the parameter name for a thrown `ArgumentException` - [#1466](https://github.com/fluentassertions/fluentassertions/pull/1466).
 * Added `NotCompleteWithinAsync` to `TaskCompletionSourceAssertions` - [#1474](https://github.com/fluentassertions/fluentassertions/pull/1474).
 * Added `HaveValue(decimal)`, `HaveSameValueAs` and `HaveSameNameAs` to `EnumAssertions` - [#1479](https://github.com/fluentassertions/fluentassertions/pull/1479).

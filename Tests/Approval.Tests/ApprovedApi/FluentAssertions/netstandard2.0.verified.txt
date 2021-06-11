@@ -1691,6 +1691,8 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> BeBefore(System.DateTimeOffset expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeCloseTo(System.DateTimeOffset nearbyTime, System.TimeSpan precision, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.Primitives.DateTimeOffsetRangeAssertions<TAssertions> BeExactly(System.TimeSpan timeSpan) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeExactly(System.DateTimeOffset expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeExactly(System.DateTimeOffset? expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.Primitives.DateTimeOffsetRangeAssertions<TAssertions> BeLessThan(System.TimeSpan timeSpan) { }
         public FluentAssertions.Primitives.DateTimeOffsetRangeAssertions<TAssertions> BeMoreThan(System.TimeSpan timeSpan) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOnOrAfter(System.DateTimeOffset expected, string because = "", params object[] becauseArgs) { }
@@ -1713,6 +1715,8 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotBeAfter(System.DateTimeOffset unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeBefore(System.DateTimeOffset unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeCloseTo(System.DateTimeOffset distantTime, System.TimeSpan precision, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeExactly(System.DateTimeOffset unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeExactly(System.DateTimeOffset? unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeOnOrAfter(System.DateTimeOffset unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeOnOrBefore(System.DateTimeOffset unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeSameDateAs(System.DateTimeOffset unexpected, string because = "", params object[] becauseArgs) { }

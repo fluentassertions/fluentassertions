@@ -194,7 +194,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dateTime to be <2012-03-11 +1h>*failure message, but it was <2012-03-10 +1h>.");
+                "Expected dateTime to represent the same point in time as <2012-03-11 +1h>*failure message, but <2012-03-10 +1h> does not.");
         }
 
         [Fact]
@@ -209,7 +209,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dateTime to be <2012-03-11 +1h>*failure message, but it was <2012-03-10 +1h>.");
+                "Expected dateTime to represent the same point in time as <2012-03-11 +1h>*failure message, but <2012-03-10 +1h> does not.");
         }
 
         [Fact]
@@ -253,7 +253,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Did not expect dateTime to be <2012-03-10 +1h> because we want to test the failure message, but it was.");
+                "Did not expect dateTime to represent the same point in time as <2012-03-10 +1h> because we want to test the failure message, but it did.");
         }
 
         [Fact]
@@ -269,11 +269,11 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Did not expect dateTime to be <2012-03-10 +1h> because we want to test the failure message, but it was.");
+                "Did not expect dateTime to represent the same point in time as <2012-03-10 +1h> because we want to test the failure message, but it did.");
         }
 
         [Fact]
-        public void Should_succeed_when_asserting_nullable_numeric_value_equals_the_same_value()
+        public void Should_succeed_when_asserting_nullable_datetimeoffset_value_equals_the_same_value()
         {
             // Arrange
             DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04);
@@ -288,22 +288,18 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void Should_succeed_when_asserting_nullable_numeric_null_value_equals_null()
+        public void Should_succeed_when_asserting_nullable_datetimeoffset_null_value_equals_null()
         {
             // Arrange
             DateTimeOffset? nullableDateTimeA = null;
             DateTimeOffset? nullableDateTimeB = null;
 
-            // Act
-            Action action = () =>
-                nullableDateTimeA.Should().Be(nullableDateTimeB);
-
-            // Assert
-            action.Should().NotThrow();
+            // Act / Assert
+            nullableDateTimeA.Should().Be(nullableDateTimeB);
         }
 
         [Fact]
-        public void Should_fail_when_asserting_nullable_numeric_value_equals_a_different_value()
+        public void Should_fail_when_asserting_nullable_datetimeoffset_value_equals_a_different_value()
         {
             // Arrange
             DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04);
@@ -330,7 +326,23 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected nullableDateTime to be <2016-03-27 +1h> because we want to test the failure message, but it was <null>.");
+                .WithMessage("Expected nullableDateTime to represent the same point in time as <2016-03-27 +1h> because we want to test the failure message, but found a <null> DateTimeOffset.");
+        }
+
+        [Fact]
+        public void Should_fail_with_descriptive_message_when_asserting_non_null_value_is_equal_to_null_value()
+        {
+            // Arrange
+            DateTimeOffset? nullableDateTime = 27.March(2016).ToDateTimeOffset(1.Hours());
+            DateTimeOffset? expectation = null;
+
+            // Act
+            Action action = () =>
+                nullableDateTime.Should().Be(expectation, "because we want to test the failure {0}", "message");
+
+            // Assert
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected nullableDateTime to be <null> because we want to test the failure message, but it was <2016-03-27 +1h>.");
         }
 
         [Fact]
@@ -360,6 +372,169 @@ namespace FluentAssertions.Specs.Primitives
 
             // Act / Assert
             dateWithZeroHourOffset.Should().NotBe(dateWithOneHourOffset);
+        }
+
+        #endregion
+
+        #region (Not) BeExactly
+
+        [Fact]
+        public void Should_succeed_when_asserting_value_is_exactly_equal_to_the_same_value()
+        {
+            // Arrange
+            DateTimeOffset dateTime = new DateTime(2016, 06, 04);
+            DateTimeOffset sameDateTime = new DateTime(2016, 06, 04);
+
+            // Act / Assert
+            dateTime.Should().BeExactly(sameDateTime);
+        }
+
+        [Fact]
+        public void Should_succeed_when_asserting_value_is_exactly_equal_to_the_same_nullable_value()
+        {
+            // Arrange
+            DateTimeOffset dateTime = 4.June(2016);
+            DateTimeOffset? sameDateTime = 4.June(2016);
+
+            // Act / Assert
+            dateTime.Should().BeExactly(sameDateTime);
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_value_is_exactly_equal_to_a_different_value()
+        {
+            // Arrange
+            var dateTime = 10.March(2012).WithOffset(1.Hours());
+            var otherDateTime = dateTime.ToUniversalTime();
+
+            // Act
+            Action act = () => dateTime.Should().BeExactly(otherDateTime, "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected dateTime to be exactly <2012-03-09 23:00:00 +0h>*failure message, but it was <2012-03-10 +1h>.");
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_value_is_exactly_equal_to_a_different_nullable_value()
+        {
+            // Arrange
+            DateTimeOffset dateTime = 10.March(2012).WithOffset(1.Hours());
+            DateTimeOffset? otherDateTime = dateTime.ToUniversalTime();
+
+            // Act
+            Action act = () => dateTime.Should().BeExactly(otherDateTime, "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected dateTime to be exactly <2012-03-09 23:00:00 +0h>*failure message, but it was <2012-03-10 +1h>.");
+        }
+
+        [Fact]
+        public void Should_succeed_when_asserting_value_is_not_exactly_equal_to_a_different_value()
+        {
+            // Arrange
+            DateTimeOffset dateTime = 10.March(2012).WithOffset(1.Hours());
+            DateTimeOffset otherDateTime = dateTime.ToUniversalTime();
+
+            // Act / Assert
+            dateTime.Should().NotBeExactly(otherDateTime);
+        }
+
+        [Fact]
+        public void Should_succeed_when_asserting_value_is_not_exactly_equal_to_a_different_nullable_value()
+        {
+            // Arrange
+            DateTimeOffset dateTime = 10.March(2012).WithOffset(1.Hours());
+            DateTimeOffset? otherDateTime = dateTime.ToUniversalTime();
+
+            // Act / Assert
+            dateTime.Should().NotBeExactly(otherDateTime);
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_value_is_not_exactly_equal_to_the_same_value()
+        {
+            // Arrange
+            var dateTime = new DateTimeOffset(10.March(2012), 1.Hours());
+            var sameDateTime = new DateTimeOffset(10.March(2012), 1.Hours());
+
+            // Act
+            Action act =
+                () => dateTime.Should().NotBeExactly(sameDateTime, "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Did not expect dateTime to be exactly <2012-03-10 +1h> because we want to test the failure message, but it was.");
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_value_is_not_exactly_equal_to_the_same_nullable_value()
+        {
+            // Arrange
+            DateTimeOffset dateTime = new DateTimeOffset(10.March(2012), 1.Hours());
+            DateTimeOffset? sameDateTime = new DateTimeOffset(10.March(2012), 1.Hours());
+
+            // Act
+            Action act =
+                () => dateTime.Should().NotBeExactly(sameDateTime, "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Did not expect dateTime to be exactly <2012-03-10 +1h> because we want to test the failure message, but it was.");
+        }
+
+        [Fact]
+        public void Should_succeed_when_asserting_nullable_value_is_exactly_equal_to_the_same_nullable_value()
+        {
+            // Arrange
+            DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04);
+            DateTimeOffset? nullableDateTimeB = new DateTime(2016, 06, 04);
+
+            // Act / Assert
+            nullableDateTimeA.Should().BeExactly(nullableDateTimeB);
+        }
+
+        [Fact]
+        public void Should_succeed_when_asserting_nullable_null_value_exactly_equals_null()
+        {
+            // Arrange
+            DateTimeOffset? nullableDateTimeA = null;
+            DateTimeOffset? nullableDateTimeB = null;
+
+            // Act / Assert
+            nullableDateTimeA.Should().BeExactly(nullableDateTimeB);
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_nullable_value_exactly_equals_a_different_value()
+        {
+            // Arrange
+            DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04);
+            DateTimeOffset? nullableDateTimeB = new DateTime(2016, 06, 06);
+
+            // Act
+            Action action = () =>
+                nullableDateTimeA.Should().BeExactly(nullableDateTimeB);
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Should_fail_with_descriptive_message_when_asserting_null_value_is_exactly_equal_to_another_value()
+        {
+            // Arrange
+            DateTimeOffset? nullableDateTime = null;
+            DateTimeOffset expectation = 27.March(2016).ToDateTimeOffset(1.Hours());
+
+            // Act
+            Action action = () =>
+                nullableDateTime.Should().BeExactly(expectation, "because we want to test the failure {0}", "message");
+
+            // Assert
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected nullableDateTime to be exactly <2016-03-27 +1h> because we want to test the failure message, but found a <null> DateTimeOffset.");
         }
 
         #endregion
@@ -534,7 +709,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect time to be within 20ms from <2016-06-04 12:15:31>, but it was <2016-06-04 12:15:30.980>.");
+                .WithMessage("Did not expect time to be within 20ms from <2016-06-04 12:15:31 +0h>, but it was <2016-06-04 12:15:30.980 +0h>.");
         }
 
         [Fact]
@@ -549,7 +724,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Did not expect time to be within 20ms from <2016-06-04 12:15:31>, but it was <2016-06-04 12:15:30.980>.");
+                "Did not expect time to be within 20ms from <2016-06-04 12:15:31 +0h>, but it was <2016-06-04 12:15:30.980 +0h>.");
         }
 
         [Fact]
@@ -578,7 +753,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect time to be within 20ms from <2016-06-04 12:15:31>, but it was <2016-06-04 12:15:31.020>.");
+                .WithMessage("Did not expect time to be within 20ms from <2016-06-04 12:15:31 +0h>, but it was <2016-06-04 12:15:31.020 +0h>.");
         }
 
         [Fact]
@@ -742,7 +917,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect time to be within 100ms from <0001-01-01 00:00:00.000>, but it was <00:00:00.050>.");
+                .WithMessage("Did not expect time to be within 100ms from <0001-01-01 00:00:00.000>, but it was <00:00:00.050 +0h>.");
         }
 
         [Fact]
@@ -771,7 +946,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect time to be within 100ms from <9999-12-31 23:59:59.9999999>, but it was <9999-12-31 23:59:59.9499999>.");
+                .WithMessage("Did not expect time to be within 100ms from <9999-12-31 23:59:59.9999999 +0h>, but it was <9999-12-31 23:59:59.9499999 +0h>.");
         }
         #endregion
 
@@ -802,7 +977,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected earlierDate to be on or after <2016-06-04 00:05:00>, but it was <2016-06-04>.");
+                "Expected earlierDate to be on or after <2016-06-04 00:05:00 +0h>, but it was <2016-06-04 +0h>.");
         }
 
         [Fact]
@@ -817,7 +992,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected subject to be before <2016-06-03>, but it was <2016-06-04>.");
+                .WithMessage("Expected subject to be before <2016-06-03 +0h>, but it was <2016-06-04 +0h>.");
         }
 
         [Fact]
@@ -846,7 +1021,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected subject to be before <2016-06-04>, but it was <2016-06-04>.");
+                .WithMessage("Expected subject to be before <2016-06-04 +0h>, but it was <2016-06-04 +0h>.");
         }
 
         [Fact]
@@ -891,7 +1066,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected subject to be after <2016-06-05>, but it was <2016-06-04>.");
+                .WithMessage("Expected subject to be after <2016-06-05 +0h>, but it was <2016-06-04 +0h>.");
         }
 
         [Fact]
@@ -920,7 +1095,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected subject to be after <2016-06-04>, but it was <2016-06-04>.");
+                .WithMessage("Expected subject to be after <2016-06-04 +0h>, but it was <2016-06-04 +0h>.");
         }
 
         [Fact]
@@ -935,7 +1110,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected subject to be on or before <2016-06-03>, but it was <2016-06-04>.");
+                .WithMessage("Expected subject to be on or before <2016-06-03 +0h>, but it was <2016-06-04 +0h>.");
         }
 
         [Fact]
@@ -980,7 +1155,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject to be on or before <2016-06-03>, but it was <2016-06-04>.");
+                "Expected subject to be on or before <2016-06-03 +0h>, but it was <2016-06-04 +0h>.");
         }
 
         [Fact]
@@ -995,7 +1170,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject to be after <2016-06-05>, but it was <2016-06-04>.");
+                "Expected subject to be after <2016-06-05 +0h>, but it was <2016-06-04 +0h>.");
         }
 
         [Fact]
@@ -1024,7 +1199,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject to be after <2016-06-04>, but it was <2016-06-04>.");
+                "Expected subject to be after <2016-06-04 +0h>, but it was <2016-06-04 +0h>.");
         }
 
         [Fact]
@@ -1069,7 +1244,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected subject to be before <2016-06-03>, but it was <2016-06-04>.");
+                .WithMessage("Expected subject to be before <2016-06-03 +0h>, but it was <2016-06-04 +0h>.");
         }
 
         [Fact]
@@ -1098,7 +1273,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected subject to be before <2016-06-04>, but it was <2016-06-04>.");
+                .WithMessage("Expected subject to be before <2016-06-04 +0h>, but it was <2016-06-04 +0h>.");
         }
 
         [Fact]
@@ -1113,7 +1288,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected subject to be on or after <2016-06-05>, but it was <2016-06-04>.");
+                .WithMessage("Expected subject to be on or after <2016-06-05 +0h>, but it was <2016-06-04 +0h>.");
         }
 
         [Fact]
@@ -1893,7 +2068,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject <2009-10-01> to be more than 1d before <2009-10-02> because we like that, but it is behind by 1d.");
+                "Expected subject <2009-10-01 +0h> to be more than 1d before <2009-10-02 +0h> because we like that, but it is behind by 1d.");
         }
 
         [Fact]
@@ -1919,7 +2094,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject <2009-10-01 01:00:00> to be at least 1d before <2009-10-02> because we like that, but it is behind by 23h.");
+                "Expected subject <2009-10-01 01:00:00 +0h> to be at least 1d before <2009-10-02 +0h> because we like that, but it is behind by 23h.");
         }
 
         [Fact]
@@ -1946,7 +2121,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject <12:36:00> to be exactly 20m before <12:55:00> because 20 minutes is enough, but it is behind by 19m.");
+                "Expected subject <12:36:00 +0h> to be exactly 20m before <12:55:00 +0h> because 20 minutes is enough, but it is behind by 19m.");
         }
 
         [Fact]
@@ -1973,7 +2148,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject <2010-04-08 09:59:59> to be within 2d and 2h before <2010-04-10 12:00:00> because 50 hours is enough, but it is behind by 2d, 2h and 1s.");
+                "Expected subject <2010-04-08 09:59:59 +0h> to be within 2d and 2h before <2010-04-10 12:00:00 +0h> because 50 hours is enough, but it is behind by 2d, 2h and 1s.");
         }
 
         [Fact]
@@ -2002,7 +2177,7 @@ namespace FluentAssertions.Specs.Primitives
         public void When_a_utc_date_is_within_0s_before_itself_it_should_not_throw()
         {
             // Arrange
-            var date = DateTimeOffset.UtcNow; // local timezone differs from UTC
+            var date = DateTimeOffset.UtcNow; // local timezone differs from +0h
 
             // Act / Assert
             date.Should().BeWithin(TimeSpan.Zero).Before(date);
@@ -2012,7 +2187,7 @@ namespace FluentAssertions.Specs.Primitives
         public void When_a_utc_date_is_within_0s_after_itself_it_should_not_throw()
         {
             // Arrange
-            var date = DateTimeOffset.UtcNow; // local timezone differs from UTC
+            var date = DateTimeOffset.UtcNow; // local timezone differs from +0h
 
             // Act / Assert
             date.Should().BeWithin(TimeSpan.Zero).After(date);
@@ -2057,7 +2232,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected subject <00:00:15> to be more than 10s after <00:00:30>, but it is behind by 15s.");
+                .WithMessage("Expected subject <00:00:15 +0h> to be more than 10s after <00:00:30 +0h>, but it is behind by 15s.");
         }
 
         [Theory]
@@ -2074,7 +2249,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage($"Expected subject <00:00:{subjectSeconds}> to be at least 10s after <00:00:30>, but it is behind by {Math.Abs(subjectSeconds - targetSeconds)}s.");
+                .WithMessage($"Expected subject <00:00:{subjectSeconds} +0h> to be at least 10s after <00:00:30 +0h>, but it is behind by {Math.Abs(subjectSeconds - targetSeconds)}s.");
         }
 
         [Fact]
@@ -2089,7 +2264,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected subject <00:00:20> to be exactly 10s after <00:00:30>, but it is behind by 10s.");
+                .WithMessage("Expected subject <00:00:20 +0h> to be exactly 10s after <00:00:30 +0h>, but it is behind by 10s.");
         }
 
         [Theory]
@@ -2106,7 +2281,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage($"Expected subject <00:00:{subjectSeconds}> to be within 10s after <00:00:30>, but it is behind by {Math.Abs(subjectSeconds - targetSeconds)}s.");
+                .WithMessage($"Expected subject <00:00:{subjectSeconds} +0h> to be within 10s after <00:00:30 +0h>, but it is behind by {Math.Abs(subjectSeconds - targetSeconds)}s.");
         }
 
         [Fact]
@@ -2121,7 +2296,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected subject <00:00:25> to be less than 10s after <00:00:30>, but it is behind by 5s.");
+                .WithMessage("Expected subject <00:00:25 +0h> to be less than 10s after <00:00:30 +0h>, but it is behind by 5s.");
         }
 
         [Fact]
@@ -2136,7 +2311,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected subject <00:00:45> to be more than 10s before <00:00:30>, but it is ahead by 15s.");
+                .WithMessage("Expected subject <00:00:45 +0h> to be more than 10s before <00:00:30 +0h>, but it is ahead by 15s.");
         }
 
         [Theory]
@@ -2153,7 +2328,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage($"Expected subject <00:00:{subjectSeconds}> to be at least 10s before <00:00:30>, but it is ahead by {Math.Abs(subjectSeconds - targetSeconds)}s.");
+                .WithMessage($"Expected subject <00:00:{subjectSeconds} +0h> to be at least 10s before <00:00:30 +0h>, but it is ahead by {Math.Abs(subjectSeconds - targetSeconds)}s.");
         }
 
         [Fact]
@@ -2168,7 +2343,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected subject <00:00:40> to be exactly 10s before <00:00:30>, but it is ahead by 10s.");
+                .WithMessage("Expected subject <00:00:40 +0h> to be exactly 10s before <00:00:30 +0h>, but it is ahead by 10s.");
         }
 
         [Theory]
@@ -2185,7 +2360,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage($"Expected subject <00:00:{subjectSeconds}> to be within 10s before <00:00:30>, but it is ahead by {Math.Abs(subjectSeconds - targetSeconds)}s.");
+                .WithMessage($"Expected subject <00:00:{subjectSeconds} +0h> to be within 10s before <00:00:30 +0h>, but it is ahead by {Math.Abs(subjectSeconds - targetSeconds)}s.");
         }
 
         [Fact]
@@ -2200,7 +2375,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected subject <00:00:45> to be less than 10s before <00:00:30>, but it is ahead by 15s.");
+                .WithMessage("Expected subject <00:00:45 +0h> to be less than 10s before <00:00:30 +0h>, but it is ahead by 15s.");
         }
 
         #endregion
