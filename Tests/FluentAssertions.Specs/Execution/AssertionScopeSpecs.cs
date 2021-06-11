@@ -327,7 +327,7 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
-        public void When_an_assertion_fails_in_a_named_scope_it_should_use_the_name_as_the_assertion_context()
+        public void The_failure_message_should_use_the_name_of_the_scope_as_context()
         {
             // Act
             Action act = () =>
@@ -339,6 +339,21 @@ namespace FluentAssertions.Specs.Execution
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected foo to be equal to*");
+        }
+
+        [Fact]
+        public void The_failure_message_should_use_the_lazy_name_of_the_scope_as_context()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope(new Lazy<string>(() => "lazy foo"));
+                new[] { 1, 2, 3 }.Should().Equal(3, 2, 1);
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected lazy foo to be equal to*");
         }
 
         [Fact]
