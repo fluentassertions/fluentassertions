@@ -805,6 +805,32 @@ namespace FluentAssertions.Specs.Execution
                 .WithMessage("Expected identifier");
         }
 
+        [Fact]
+        public void The_failure_message_should_contain_the_reason()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .BecauseOf("because reasons")
+                .FailWith("Expected{reason}");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected because reasons");
+        }
+
+        [Fact]
+        public void The_failure_message_should_contain_the_reason_with_arguments()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .BecauseOf("because {0}", "reasons")
+                .FailWith("Expected{reason}");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected because reasons");
+        }
+
         #endregion
 
         #region Chaining API
@@ -878,6 +904,38 @@ namespace FluentAssertions.Specs.Execution
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Second \"assertion\"");
+        }
+
+        [Fact]
+        public void When_continuing_an_assertion_chain_the_reason_should_be_part_of_consecutive_failures()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .ForCondition(true)
+                .FailWith("First assertion")
+                .Then
+                .BecauseOf("because reasons")
+                .FailWith("Expected{reason}");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected because reasons");
+        }
+
+        [Fact]
+        public void When_continuing_an_assertion_chain_the_reason_with_arguments_should_be_part_of_consecutive_failures()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .ForCondition(true)
+                .FailWith("First assertion")
+                .Then
+                .BecauseOf("because {0}", "reasons")
+                .FailWith("Expected{reason}");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected because reasons");
         }
 
         [Fact]
@@ -1073,6 +1131,48 @@ namespace FluentAssertions.Specs.Execution
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected identifier");
+        }
+
+        [Fact]
+        public void When_continuing_a_failed_assertion_chain_consecutive_resons_are_ignored()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                Execute.Assertion
+                    .BecauseOf("because {0}", "whatever")
+                    .ForCondition(false)
+                    .FailWith("Expected{reason}")
+                    .Then
+                    .BecauseOf("because reasons")
+                    .FailWith("Expected{reason}");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected because whatever");
+        }
+
+        [Fact]
+        public void When_continuing_a_failed_assertion_chain_consecutive_resons_with_arguments_are_ignored()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                Execute.Assertion
+                    .BecauseOf("because {0}", "whatever")
+                    .ForCondition(false)
+                    .FailWith("Expected{reason}")
+                    .Then
+                    .BecauseOf("because {0}", "reasons")
+                    .FailWith("Expected{reason}");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected because whatever");
         }
 
         [Fact]
