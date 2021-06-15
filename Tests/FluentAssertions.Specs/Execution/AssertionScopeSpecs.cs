@@ -327,7 +327,7 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
-        public void When_an_assertion_fails_in_a_named_scope_it_should_use_the_name_as_the_assertion_context()
+        public void The_failure_message_should_use_the_name_of_the_scope_as_context()
         {
             // Act
             Action act = () =>
@@ -339,6 +339,21 @@ namespace FluentAssertions.Specs.Execution
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected foo to be equal to*");
+        }
+
+        [Fact]
+        public void The_failure_message_should_use_the_lazy_name_of_the_scope_as_context()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope(new Lazy<string>(() => "lazy foo"));
+                new[] { 1, 2, 3 }.Should().Equal(3, 2, 1);
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected lazy foo to be equal to*");
         }
 
         [Fact]
@@ -621,7 +636,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().ThrowExactly<XunitException>()
-                .WithMessage("*MyValue*");
+                .WithMessage("MyValue*");
         }
 
         [Fact]
@@ -639,7 +654,56 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().ThrowExactly<XunitException>()
-                .WithMessage("*SomeValue*AnotherValue*");
+                .WithMessage("SomeValueAnotherValue*");
+        }
+
+        [Fact]
+        public void When_adding_reportable_values_they_should_be_reported_after_the_message()
+        {
+            // Arrange
+            var scope = new AssertionScope();
+            scope.AddReportable("SomeKey", "SomeValue");
+            scope.AddReportable("AnotherKey", "AnotherValue");
+
+            AssertionScope.Current.FailWith("{SomeKey}{AnotherKey}");
+
+            // Act
+            Action act = scope.Dispose;
+
+            // Assert
+            act.Should().ThrowExactly<XunitException>()
+                .WithMessage("*With SomeKey:\nSomeValue\nWith AnotherKey:\nAnotherValue");
+        }
+
+        [Fact]
+        public void When_adding_non_reportable_value_it_should_not_be_reported_after_the_message()
+        {
+            // Arrange
+            var scope = new AssertionScope();
+            scope.AddNonReportable("SomeKey", "SomeValue");
+
+            AssertionScope.Current.FailWith("{SomeKey}");
+
+            // Act
+            Action act = scope.Dispose;
+
+            // Assert
+            act.Should().ThrowExactly<XunitException>()
+                .Which.Message.Should().NotContain("With SomeKey:\nSomeValue");
+        }
+
+        [Fact]
+        public void When_adding_non_reportable_value_it_should_be_retrievable_from_context()
+        {
+            // Arrange
+            var scope = new AssertionScope();
+            scope.AddNonReportable("SomeKey", "SomeValue");
+
+            // Act
+            var value = scope.Get<string>("SomeKey");
+
+            // Assert
+            value.Should().Be("SomeValue");
         }
 
         [Fact]
@@ -688,6 +752,100 @@ namespace FluentAssertions.Specs.Execution
             deferredValueInvoked.Should().BeTrue();
         }
 
+        [Fact]
+        public void When_an_expectation_is_defined_it_should_be_preceeding_the_failure_message()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .WithExpectation("Expectations are the root ")
+                .ForCondition(false)
+                .FailWith("of disappointment");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expectations are the root of disappointment");
+        }
+
+        [Fact]
+        public void When_an_expectation_with_arguments_is_defined_it_should_be_preceeding_the_failure_message()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .WithExpectation("Expectations are the {0} ", "root")
+                .ForCondition(false)
+                .FailWith("of disappointment");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expectations are the \"root\" of disappointment");
+        }
+
+        [Fact]
+        public void When_no_identifier_can_be_resolved_replace_context_with_object()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .ForCondition(false)
+                .FailWith("Expected {context}");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected object");
+        }
+
+        [Fact]
+        public void When_no_identifier_can_be_resolved_replace_context_with_inline_declared_fallback_identifier()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .ForCondition(false)
+                .FailWith("Expected {context:fallback}");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected fallback");
+        }
+
+        [Fact]
+        public void When_no_identifier_can_be_resolved_replace_context_with_defined_default_identifier()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .WithDefaultIdentifier("identifier")
+                .ForCondition(false)
+                .FailWith("Expected {context}");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected identifier");
+        }
+
+        [Fact]
+        public void The_failure_message_should_contain_the_reason()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .BecauseOf("because reasons")
+                .FailWith("Expected{reason}");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected because reasons");
+        }
+
+        [Fact]
+        public void The_failure_message_should_contain_the_reason_with_arguments()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .BecauseOf("because {0}", "reasons")
+                .FailWith("Expected{reason}");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected because reasons");
+        }
+
         #endregion
 
         #region Chaining API
@@ -716,6 +874,83 @@ namespace FluentAssertions.Specs.Execution
             {
                 throw new XunitException("Expected the second assertion to fail");
             }
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_succeeded_it_should_not_affect_the_next_one_with_arguments()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .ForCondition(true)
+                .FailWith("First assertion")
+                .Then
+                .FailWith("Second {0}", "assertion");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Second \"assertion\"");
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_succeeded_it_should_not_affect_the_next_one_with_argument_providers()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .ForCondition(true)
+                .FailWith("First assertion")
+                .Then
+                .FailWith("Second {0}", () => "assertion");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Second \"assertion\"");
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_succeeded_it_should_not_affect_the_next_one_with_a_fail_reason_function()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .ForCondition(true)
+                .FailWith("First assertion")
+                .Then
+                .FailWith(() => new FailReason("Second {0}", "assertion"));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Second \"assertion\"");
+        }
+
+        [Fact]
+        public void When_continuing_an_assertion_chain_the_reason_should_be_part_of_consecutive_failures()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .ForCondition(true)
+                .FailWith("First assertion")
+                .Then
+                .BecauseOf("because reasons")
+                .FailWith("Expected{reason}");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected because reasons");
+        }
+
+        [Fact]
+        public void When_continuing_an_assertion_chain_the_reason_with_arguments_should_be_part_of_consecutive_failures()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .ForCondition(true)
+                .FailWith("First assertion")
+                .Then
+                .BecauseOf("because {0}", "reasons")
+                .FailWith("Expected{reason}");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected because reasons");
         }
 
         [Fact]
@@ -794,6 +1029,168 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
+        public void When_the_previous_assertion_failed_it_should_not_execute_the_succeeding_failure_with_arguments()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                Execute.Assertion
+                    .ForCondition(false)
+                    .FailWith("First assertion")
+                    .Then
+                    .FailWith("Second {0}", "assertion");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("First assertion");
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_failed_it_should_not_execute_the_succeeding_failure_with_argument_providers()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                Execute.Assertion
+                    .ForCondition(false)
+                    .FailWith("First assertion")
+                    .Then
+                    .FailWith("Second {0}", () => "assertion");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("First assertion");
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_failed_it_should_not_execute_the_succeeding_failure_with_a_fail_reason_function()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                Execute.Assertion
+                    .ForCondition(false)
+                    .FailWith("First assertion")
+                    .Then
+                    .FailWith(() => new FailReason("Second {0}", "assertion"));
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("First assertion");
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_failed_it_should_not_execute_the_succeeding_expectation()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                Execute.Assertion
+                    .WithExpectation("Expectations are the root ")
+                    .ForCondition(false)
+                    .FailWith("of disappointment")
+                    .Then
+                    .WithExpectation("Assumptions are the root ")
+                    .FailWith("of all evil");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expectations are the root of disappointment");
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_failed_it_should_not_execute_the_succeeding_expectation_with_arguments()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                Execute.Assertion
+                    .WithExpectation("Expectations are the {0} ", "root")
+                    .ForCondition(false)
+                    .FailWith("of disappointment")
+                    .Then
+                    .WithExpectation("Assumptions are the {0} ", "root")
+                    .FailWith("of all evil");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expectations are the \"root\" of disappointment");
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_failed_it_should_not_execute_the_succeeding_default_identifier()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                Execute.Assertion
+                    .WithDefaultIdentifier("identifier")
+                    .ForCondition(false)
+                    .FailWith("Expected {context}")
+                    .Then
+                    .WithDefaultIdentifier("other")
+                    .FailWith("Expected {context}");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected identifier");
+        }
+
+        [Fact]
+        public void When_continuing_a_failed_assertion_chain_consecutive_resons_are_ignored()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                Execute.Assertion
+                    .BecauseOf("because {0}", "whatever")
+                    .ForCondition(false)
+                    .FailWith("Expected{reason}")
+                    .Then
+                    .BecauseOf("because reasons")
+                    .FailWith("Expected{reason}");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected because whatever");
+        }
+
+        [Fact]
+        public void When_continuing_a_failed_assertion_chain_consecutive_resons_with_arguments_are_ignored()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                Execute.Assertion
+                    .BecauseOf("because {0}", "whatever")
+                    .ForCondition(false)
+                    .FailWith("Expected{reason}")
+                    .Then
+                    .BecauseOf("because {0}", "reasons")
+                    .FailWith("Expected{reason}");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected because whatever");
+        }
+
+        [Fact]
         public void When_the_previous_assertion_succeeded_it_should_evaluate_the_succeeding_given_statement()
         {
             // Act
@@ -805,6 +1202,60 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             Assert.Throws<InvalidOperationException>(act);
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_succeeded_it_should_not_affect_the_succeeding_expectation()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .WithExpectation("Expectations are the root ")
+                .ForCondition(true)
+                .FailWith("of disappointment")
+                .Then
+                .WithExpectation("Assumptions are the root ")
+                .FailWith("of all evil");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Assumptions are the root of all evil");
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_succeeded_it_should_not_affect_the_succeeding_expectation_with_arguments()
+        {
+            // Act
+            Action act = () => Execute.Assertion
+                .WithExpectation("Expectations are the {0} ", "root")
+                .ForCondition(true)
+                .FailWith("of disappointment")
+                .Then
+                .WithExpectation("Assumptions are the {0} ", "root")
+                .FailWith("of all evil");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Assumptions are the \"root\" of all evil");
+        }
+
+        [Fact]
+        public void When_the_previous_assertion_succeeded_it_should_not_affect_the_succeeding_default_identifier()
+        {
+            // Act
+            Action act = () =>
+            {
+                Execute.Assertion
+                    .WithDefaultIdentifier("identifier")
+                    .ForCondition(true)
+                    .FailWith("Expected {context}")
+                    .Then
+                    .WithDefaultIdentifier("other")
+                    .FailWith("Expected {context}");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected other");
         }
 
         #endregion

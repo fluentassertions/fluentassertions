@@ -108,13 +108,23 @@ namespace FluentAssertions.Execution
         /// <inheritdoc/>
         public IAssertionScope WithExpectation(string message, params object[] args)
         {
-            return predecessor.WithExpectation(message, args);
+            if (continueAsserting)
+            {
+                return predecessor.WithExpectation(message, args);
+            }
+
+            return this;
         }
 
         /// <inheritdoc/>
         public IAssertionScope WithDefaultIdentifier(string identifier)
         {
-            return predecessor.WithDefaultIdentifier(identifier);
+            if (continueAsserting)
+            {
+                return predecessor.WithDefaultIdentifier(identifier);
+            }
+
+            return this;
         }
 
         /// <inheritdoc/>
