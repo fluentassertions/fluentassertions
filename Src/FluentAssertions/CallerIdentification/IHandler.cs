@@ -1,6 +1,6 @@
 ﻿namespace FluentAssertions.CallerIdentification
 {
-    public interface IHandler
+    internal interface IHandler
     {
         HandlerResult Handle(char symbol);
     }

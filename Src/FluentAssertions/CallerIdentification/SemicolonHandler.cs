@@ -2,11 +2,11 @@
 
 namespace FluentAssertions.CallerIdentification
 {
-    public class SemicolonHandler : IHandler
+    internal class SemicolonHandler : IHandler
     {
         private readonly StringBuilder statement;
 
-        public SemicolonHandler(StringBuilder statement) => this.statement = statement;
+        internal SemicolonHandler(StringBuilder statement) => this.statement = statement;
 
         public HandlerResult Handle(char symbol)
         {

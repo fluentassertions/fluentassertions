@@ -2,13 +2,13 @@
 
 namespace FluentAssertions.CallerIdentification
 {
-    public class MultiLineCommentHandler : IHandler
+    internal class MultiLineCommentHandler : IHandler
     {
         private readonly StringBuilder statement;
         private char? previousChar;
         private bool isCommentContext;
 
-        public MultiLineCommentHandler(StringBuilder statement) => this.statement = statement;
+        internal MultiLineCommentHandler(StringBuilder statement) => this.statement = statement;
 
         public HandlerResult Handle(char symbol)
         {

@@ -2,11 +2,11 @@
 
 namespace FluentAssertions.CallerIdentification
 {
-    public class AddNonEmptySymbolHandler : IHandler
+    internal class AddNonEmptySymbolHandler : IHandler
     {
         private readonly StringBuilder statement;
 
-        public AddNonEmptySymbolHandler(StringBuilder statement) => this.statement = statement;
+        internal AddNonEmptySymbolHandler(StringBuilder statement) => this.statement = statement;
 
         public HandlerResult Handle(char symbol)
         {

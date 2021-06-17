@@ -1,6 +1,6 @@
 ﻿namespace FluentAssertions.CallerIdentification
 {
-    public class SingleLineCommentHandler : IHandler
+    internal class SingleLineCommentHandler : IHandler
     {
         private char? previousChar;
         private bool isCommentContext;

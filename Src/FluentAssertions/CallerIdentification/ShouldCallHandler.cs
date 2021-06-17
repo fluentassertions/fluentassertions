@@ -2,12 +2,12 @@
 
 namespace FluentAssertions.CallerIdentification
 {
-    public class ShouldCallHandler : IHandler
+    internal class ShouldCallHandler : IHandler
     {
         private const string ShouldCall = ".Should";
         private readonly StringBuilder statement;
 
-        public ShouldCallHandler(StringBuilder statement) => this.statement = statement;
+        internal ShouldCallHandler(StringBuilder statement) => this.statement = statement;
 
         public HandlerResult Handle(char symbol)
         {

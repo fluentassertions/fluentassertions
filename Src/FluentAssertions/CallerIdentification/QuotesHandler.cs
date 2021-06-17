@@ -2,14 +2,14 @@
 
 namespace FluentAssertions.CallerIdentification
 {
-    public class QuotesHandler : IHandler
+    internal class QuotesHandler : IHandler
     {
         private readonly StringBuilder statement;
         private char isQuoteEscapeSymbol = '\\';
         private bool isQuoteContext;
         private char? previousChar;
 
-        public QuotesHandler(StringBuilder statement) => this.statement = statement;
+        internal QuotesHandler(StringBuilder statement) => this.statement = statement;
 
         public HandlerResult Handle(char symbol)
         {

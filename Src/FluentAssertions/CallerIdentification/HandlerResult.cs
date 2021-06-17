@@ -1,6 +1,6 @@
 ﻿namespace FluentAssertions.CallerIdentification
 {
-    public enum HandlerResult
+    internal enum HandlerResult
     {
         InProgress,
         Handled,
