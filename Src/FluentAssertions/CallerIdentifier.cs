@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using FluentAssertions.CallerIdentification;
 using FluentAssertions.Common;
 
 namespace FluentAssertions

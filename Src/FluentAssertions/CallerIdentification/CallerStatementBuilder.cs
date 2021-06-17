@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using FluentAssertions.CallerIdentification;
 
-namespace FluentAssertions
+namespace FluentAssertions.CallerIdentification
 {
     internal class CallerStatementBuilder
     {
@@ -10,7 +9,7 @@ namespace FluentAssertions
         private readonly IEnumerable<IHandler> handlers;
         private HandlerResult result = HandlerResult.InProgress;
 
-        public CallerStatementBuilder()
+        internal CallerStatementBuilder()
         {
             statement = new StringBuilder();
             handlers = new IHandler[]
@@ -24,7 +23,7 @@ namespace FluentAssertions
             };
         }
 
-        public void Append(string symbols)
+        internal void Append(string symbols)
         {
             using var symbolEnumerator = symbols.GetEnumerator();
             while (symbolEnumerator.MoveNext() && result != HandlerResult.Done)
@@ -38,7 +37,7 @@ namespace FluentAssertions
             }
         }
 
-        public bool IsDone() => result == HandlerResult.Done;
+        internal bool IsDone() => result == HandlerResult.Done;
 
         public override string ToString() => statement.ToString();
     }
