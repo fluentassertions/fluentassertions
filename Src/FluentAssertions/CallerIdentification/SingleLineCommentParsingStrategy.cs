@@ -4,16 +4,16 @@ namespace FluentAssertions.CallerIdentification
 {
     internal class SingleLineCommentParsingStrategy : IParsingStrategy
     {
-        private char? previousChar;
         private bool isCommentContext;
 
-        public ParsingState Parse(char symbol, StringBuilder unused)
+        public ParsingState Parse(char symbol, StringBuilder statement)
         {
             if (!isCommentContext)
             {
-                if (symbol == '/' && previousChar == '/')
+                if (symbol == '/' && statement.Length > 0 && statement[statement.Length - 1] == '/')
                 {
                     isCommentContext = true;
+                    statement.Remove(statement.Length - 1, 1);
                 }
             }
             else if (symbol == '\n')
@@ -21,8 +21,20 @@ namespace FluentAssertions.CallerIdentification
                 isCommentContext = false;
             }
 
-            previousChar = symbol;
             return isCommentContext ? ParsingState.GoToNextSymbol : ParsingState.InProgress;
+        }
+
+        public bool IsWaitingForContextEnd()
+        {
+            return isCommentContext;
+        }
+
+        public void NotifyEndOfLineReached()
+        {
+            if (isCommentContext)
+            {
+                isCommentContext = false;
+            }
         }
     }
 }

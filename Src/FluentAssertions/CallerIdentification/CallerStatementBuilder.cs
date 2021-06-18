@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace FluentAssertions.CallerIdentification
@@ -6,17 +7,17 @@ namespace FluentAssertions.CallerIdentification
     internal class CallerStatementBuilder
     {
         private readonly StringBuilder statement;
-        private readonly IEnumerable<IParsingStrategy> priorityOrderedParsingStrategies;
+        private readonly List<IParsingStrategy> priorityOrderedParsingStrategies;
         private ParsingState parsingState = ParsingState.InProgress;
 
         internal CallerStatementBuilder()
         {
             statement = new StringBuilder();
-            priorityOrderedParsingStrategies = new IParsingStrategy[]
+            priorityOrderedParsingStrategies = new List<IParsingStrategy>
             {
                 new QuotesParsingStrategy(),
-                new SingleLineCommentParsingStrategy(),
                 new MultiLineCommentParsingStrategy(),
+                new SingleLineCommentParsingStrategy(),
                 new SemicolonParsingStrategy(),
                 new ShouldCallParsingStrategy(),
                 new AddNonEmptySymbolParsingStrategy()
@@ -28,13 +29,31 @@ namespace FluentAssertions.CallerIdentification
             using var symbolEnumerator = symbols.GetEnumerator();
             while (symbolEnumerator.MoveNext() && parsingState != ParsingState.Done)
             {
+                var hasParsingStrategyWaitingForEndContext = priorityOrderedParsingStrategies
+                    .Any(s => s.IsWaitingForContextEnd());
+
                 parsingState = ParsingState.InProgress;
-                using var handlerEnumerator = priorityOrderedParsingStrategies.GetEnumerator();
-                while (handlerEnumerator.MoveNext() && parsingState == ParsingState.InProgress)
+                foreach (var parsingStrategy in
+                    priorityOrderedParsingStrategies
+                        .SkipWhile(parsingStrategy =>
+                            hasParsingStrategyWaitingForEndContext
+                            && !parsingStrategy.IsWaitingForContextEnd()))
                 {
-                    parsingState = handlerEnumerator.Current.Parse(symbolEnumerator.Current, statement);
+                    parsingState = parsingStrategy.Parse(symbolEnumerator.Current, statement);
+                    if (parsingState != ParsingState.InProgress)
+                    {
+                        break;
+                    }
                 }
             }
+
+            if (IsDone())
+            {
+                return;
+            }
+
+            priorityOrderedParsingStrategies
+                .ForEach(strategy => strategy.NotifyEndOfLineReached());
         }
 
         internal bool IsDone() => parsingState == ParsingState.Done;

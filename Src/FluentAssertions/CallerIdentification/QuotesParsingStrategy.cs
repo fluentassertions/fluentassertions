@@ -18,6 +18,9 @@ namespace FluentAssertions.CallerIdentification
                     {
                         isQuoteContext = false;
                         isQuoteEscapeSymbol = '\\';
+                        previousChar = null;
+                        statement.Append(symbol);
+                        return ParsingState.GoToNextSymbol;
                     }
                 }
                 else
@@ -37,6 +40,15 @@ namespace FluentAssertions.CallerIdentification
 
             previousChar = symbol;
             return isQuoteContext ? ParsingState.GoToNextSymbol : ParsingState.InProgress;
+        }
+
+        public bool IsWaitingForContextEnd()
+        {
+            return isQuoteContext;
+        }
+
+        public void NotifyEndOfLineReached()
+        {
         }
 
         private bool IsVerbatim(StringBuilder statement)

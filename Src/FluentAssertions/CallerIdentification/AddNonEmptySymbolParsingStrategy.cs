@@ -13,5 +13,14 @@ namespace FluentAssertions.CallerIdentification
 
             return ParsingState.GoToNextSymbol;
         }
+
+        public bool IsWaitingForContextEnd()
+        {
+            return false;
+        }
+
+        public void NotifyEndOfLineReached()
+        {
+        }
     }
 }

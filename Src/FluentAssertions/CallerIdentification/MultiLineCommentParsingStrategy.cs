@@ -4,30 +4,48 @@ namespace FluentAssertions.CallerIdentification
 {
     internal class MultiLineCommentParsingStrategy : IParsingStrategy
     {
-        private char? previousChar;
         private bool isCommentContext;
+        private char? commentContextPreviousChar;
 
         public ParsingState Parse(char symbol, StringBuilder statement)
         {
-            var result = ParsingState.InProgress;
-
             if (isCommentContext)
             {
-                result = ParsingState.GoToNextSymbol;
-                if (symbol == '/' && previousChar == '*')
+                var isEndOfMultilineComment = symbol == '/' && commentContextPreviousChar == '*';
+                if (isEndOfMultilineComment)
                 {
                     isCommentContext = false;
+                    commentContextPreviousChar = null;
                 }
-            }
-            else if (symbol == '*' && previousChar == '/')
-            {
-                result = ParsingState.GoToNextSymbol;
-                statement.Remove(statement.Length - 1, 1);
-                isCommentContext = true;
+                else
+                {
+                    commentContextPreviousChar = symbol;
+                }
+
+                return ParsingState.GoToNextSymbol;
             }
 
-            previousChar = symbol;
-            return result;
+            var isStartOfMultilineComment =
+                symbol == '*'
+                && statement.Length > 0
+                && statement[statement.Length - 1] == '/';
+            if (isStartOfMultilineComment)
+            {
+                statement.Remove(statement.Length - 1, 1);
+                isCommentContext = true;
+                return ParsingState.GoToNextSymbol;
+            }
+
+            return ParsingState.InProgress;
+        }
+
+        public bool IsWaitingForContextEnd()
+        {
+            return isCommentContext;
+        }
+
+        public void NotifyEndOfLineReached()
+        {
         }
     }
 }

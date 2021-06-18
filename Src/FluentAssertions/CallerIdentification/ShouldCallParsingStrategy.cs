@@ -4,7 +4,7 @@ namespace FluentAssertions.CallerIdentification
 {
     internal class ShouldCallParsingStrategy : IParsingStrategy
     {
-        private const string ShouldCall = ".Should";
+        private const string ShouldCall = ".Should()";
 
         public ParsingState Parse(char symbol, StringBuilder statement)
         {
@@ -26,6 +26,15 @@ namespace FluentAssertions.CallerIdentification
             }
 
             return ParsingState.InProgress;
+        }
+
+        public bool IsWaitingForContextEnd()
+        {
+            return false;
+        }
+
+        public void NotifyEndOfLineReached()
+        {
         }
     }
 }
