@@ -58,7 +58,7 @@ namespace FluentAssertions
                         && !IsDotNet(frame)
                         && !IsCustomAssertion(frame))
                     {
-                        caller = ExtractVariableNameFrom(frame) ?? caller;
+                        caller = ExtractVariableNameFrom(frame);
                         break;
                     }
                 }
@@ -74,7 +74,7 @@ namespace FluentAssertions
 
         private class StackFrameReference : IDisposable
         {
-            public int SkipStackFrameCount { get; set; }
+            public int SkipStackFrameCount { get; }
 
             private readonly StackFrameReference previousReference;
 
@@ -246,13 +246,13 @@ namespace FluentAssertions
 
         private static bool IsNumeric(string candidate)
         {
-            const NumberStyles DefaultStyle = NumberStyles.Float | NumberStyles.AllowThousands;
-            return double.TryParse(candidate, DefaultStyle, CultureInfo.InvariantCulture, out _);
+            const NumberStyles numberStyle = NumberStyles.Float | NumberStyles.AllowThousands;
+            return double.TryParse(candidate, numberStyle, CultureInfo.InvariantCulture, out _);
         }
 
         private static bool IsBooleanLiteral(string candidate)
         {
-            return candidate == "true" || candidate == "false";
+            return candidate is "true" or "false";
         }
     }
 }
