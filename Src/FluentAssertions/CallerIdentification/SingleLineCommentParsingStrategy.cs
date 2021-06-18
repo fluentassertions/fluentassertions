@@ -8,16 +8,20 @@ namespace FluentAssertions.CallerIdentification
 
         public ParsingState Parse(char symbol, StringBuilder statement)
         {
-            if (!isCommentContext)
+            if (isCommentContext)
             {
-                if (symbol == '/' && statement.Length > 0 && statement[statement.Length - 1] == '/')
-                {
-                    isCommentContext = true;
-                    statement.Remove(statement.Length - 1, 1);
-                }
+                return ParsingState.GoToNextSymbol;
             }
 
-            return isCommentContext ? ParsingState.GoToNextSymbol : ParsingState.InProgress;
+            var doesSymbolStartComment = symbol == '/' && statement.Length > 0 && statement[statement.Length - 1] == '/';
+            if (!doesSymbolStartComment)
+            {
+                return ParsingState.InProgress;
+            }
+
+            isCommentContext = true;
+            statement.Remove(statement.Length - 1, 1);
+            return ParsingState.GoToNextSymbol;
         }
 
         public bool IsWaitingForContextEnd()
