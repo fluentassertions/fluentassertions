@@ -2,16 +2,13 @@
 
 namespace FluentAssertions.CallerIdentification
 {
-    internal class QuotesHandler : IHandler
+    internal class QuotesParsingStrategy : IParsingStrategy
     {
-        private readonly StringBuilder statement;
         private char isQuoteEscapeSymbol = '\\';
         private bool isQuoteContext;
         private char? previousChar;
 
-        internal QuotesHandler(StringBuilder statement) => this.statement = statement;
-
-        public HandlerResult Handle(char symbol)
+        public ParsingState Parse(char symbol, StringBuilder statement)
         {
             if (symbol == '"')
             {
@@ -26,7 +23,7 @@ namespace FluentAssertions.CallerIdentification
                 else
                 {
                     isQuoteContext = true;
-                    if (IsVerbatim())
+                    if (IsVerbatim(statement))
                     {
                         isQuoteEscapeSymbol = '"';
                     }
@@ -39,15 +36,15 @@ namespace FluentAssertions.CallerIdentification
             }
 
             previousChar = symbol;
-            return isQuoteContext ? HandlerResult.Handled : HandlerResult.InProgress;
+            return isQuoteContext ? ParsingState.GoToNextSymbol : ParsingState.InProgress;
         }
 
-        private bool IsVerbatim()
+        private bool IsVerbatim(StringBuilder statement)
         {
             return previousChar == '@'
-               || (statement.Length > 1
-                   && statement[statement.Length - 1] == '$'
-                   && statement[statement.Length - 2] == '@');
+                   || (statement.Length > 1
+                           && statement[statement.Length - 1] == '$'
+                           && statement[statement.Length - 2] == '@');
         }
     }
 }

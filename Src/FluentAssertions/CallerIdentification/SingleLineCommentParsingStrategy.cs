@@ -1,11 +1,13 @@
-﻿namespace FluentAssertions.CallerIdentification
+﻿using System.Text;
+
+namespace FluentAssertions.CallerIdentification
 {
-    internal class SingleLineCommentHandler : IHandler
+    internal class SingleLineCommentParsingStrategy : IParsingStrategy
     {
         private char? previousChar;
         private bool isCommentContext;
 
-        public HandlerResult Handle(char symbol)
+        public ParsingState Parse(char symbol, StringBuilder unused)
         {
             if (!isCommentContext)
             {
@@ -20,7 +22,7 @@
             }
 
             previousChar = symbol;
-            return isCommentContext ? HandlerResult.Handled : HandlerResult.InProgress;
+            return isCommentContext ? ParsingState.GoToNextSymbol : ParsingState.InProgress;
         }
     }
 }

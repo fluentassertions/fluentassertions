@@ -6,38 +6,38 @@ namespace FluentAssertions.CallerIdentification
     internal class CallerStatementBuilder
     {
         private readonly StringBuilder statement;
-        private readonly IEnumerable<IHandler> handlers;
-        private HandlerResult result = HandlerResult.InProgress;
+        private readonly IEnumerable<IParsingStrategy> priorityOrderedParsingStrategies;
+        private ParsingState parsingState = ParsingState.InProgress;
 
         internal CallerStatementBuilder()
         {
             statement = new StringBuilder();
-            handlers = new IHandler[]
+            priorityOrderedParsingStrategies = new IParsingStrategy[]
             {
-                new QuotesHandler(statement),
-                new SingleLineCommentHandler(),
-                new MultiLineCommentHandler(statement),
-                new SemicolonHandler(statement),
-                new ShouldCallHandler(statement),
-                new AddNonEmptySymbolHandler(statement)
+                new QuotesParsingStrategy(),
+                new SingleLineCommentParsingStrategy(),
+                new MultiLineCommentParsingStrategy(),
+                new SemicolonParsingStrategy(),
+                new ShouldCallParsingStrategy(),
+                new AddNonEmptySymbolParsingStrategy()
             };
         }
 
         internal void Append(string symbols)
         {
             using var symbolEnumerator = symbols.GetEnumerator();
-            while (symbolEnumerator.MoveNext() && result != HandlerResult.Done)
+            while (symbolEnumerator.MoveNext() && parsingState != ParsingState.Done)
             {
-                result = HandlerResult.InProgress;
-                using var handlerEnumerator = handlers.GetEnumerator();
-                while (handlerEnumerator.MoveNext() && result == HandlerResult.InProgress)
+                parsingState = ParsingState.InProgress;
+                using var handlerEnumerator = priorityOrderedParsingStrategies.GetEnumerator();
+                while (handlerEnumerator.MoveNext() && parsingState == ParsingState.InProgress)
                 {
-                    result = handlerEnumerator.Current.Handle(symbolEnumerator.Current);
+                    parsingState = handlerEnumerator.Current.Parse(symbolEnumerator.Current, statement);
                 }
             }
         }
 
-        internal bool IsDone() => result == HandlerResult.Done;
+        internal bool IsDone() => parsingState == ParsingState.Done;
 
         public override string ToString() => statement.ToString();
     }

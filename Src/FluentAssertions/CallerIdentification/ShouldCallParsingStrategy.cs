@@ -2,14 +2,11 @@
 
 namespace FluentAssertions.CallerIdentification
 {
-    internal class ShouldCallHandler : IHandler
+    internal class ShouldCallParsingStrategy : IParsingStrategy
     {
         private const string ShouldCall = ".Should";
-        private readonly StringBuilder statement;
 
-        internal ShouldCallHandler(StringBuilder statement) => this.statement = statement;
-
-        public HandlerResult Handle(char symbol)
+        public ParsingState Parse(char symbol, StringBuilder statement)
         {
             if (statement.Length >= ShouldCall.Length)
             {
@@ -20,15 +17,15 @@ namespace FluentAssertions.CallerIdentification
                 {
                     if (statement[ldx - i] != ShouldCall[rdx - i])
                     {
-                        return HandlerResult.InProgress;
+                        return ParsingState.InProgress;
                     }
                 }
 
                 statement.Remove(statement.Length - ShouldCall.Length, ShouldCall.Length);
-                return HandlerResult.Done;
+                return ParsingState.Done;
             }
 
-            return HandlerResult.InProgress;
+            return ParsingState.InProgress;
         }
     }
 }

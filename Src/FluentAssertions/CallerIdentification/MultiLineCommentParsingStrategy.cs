@@ -2,21 +2,18 @@
 
 namespace FluentAssertions.CallerIdentification
 {
-    internal class MultiLineCommentHandler : IHandler
+    internal class MultiLineCommentParsingStrategy : IParsingStrategy
     {
-        private readonly StringBuilder statement;
         private char? previousChar;
         private bool isCommentContext;
 
-        internal MultiLineCommentHandler(StringBuilder statement) => this.statement = statement;
-
-        public HandlerResult Handle(char symbol)
+        public ParsingState Parse(char symbol, StringBuilder statement)
         {
-            var result = HandlerResult.InProgress;
+            var result = ParsingState.InProgress;
 
             if (isCommentContext)
             {
-                result = HandlerResult.Handled;
+                result = ParsingState.GoToNextSymbol;
                 if (symbol == '/' && previousChar == '*')
                 {
                     isCommentContext = false;
@@ -24,7 +21,7 @@ namespace FluentAssertions.CallerIdentification
             }
             else if (symbol == '*' && previousChar == '/')
             {
-                result = HandlerResult.Handled;
+                result = ParsingState.GoToNextSymbol;
                 statement.Remove(statement.Length - 1, 1);
                 isCommentContext = true;
             }
