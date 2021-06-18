@@ -10,12 +10,12 @@ namespace FluentAssertions.CallerIdentification
         {
             if (statement.Length >= ShouldCall.Length)
             {
-                var ldx = statement.Length - 1;
-                var rdx = ShouldCall.Length - 1;
+                var leftIndex = statement.Length - 1;
+                var rightIndex = ShouldCall.Length - 1;
 
                 for (var i = 0; i < ShouldCall.Length; i++)
                 {
-                    if (statement[ldx - i] != ShouldCall[rdx - i])
+                    if (statement[leftIndex - i] != ShouldCall[rightIndex - i])
                     {
                         return ParsingState.InProgress;
                     }
