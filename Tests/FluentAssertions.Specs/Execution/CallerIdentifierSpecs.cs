@@ -142,6 +142,29 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
+        public void When_the_caller_contains_multiple_members_across_multiple_lines_it_should_include_them_all()
+        {
+            // Arrange
+            string test1 = "test1";
+            var foo = new Foo
+            {
+                Field = "test3"
+            };
+
+            // Act
+            Action act = () => foo
+                .GetFoo(test1)
+                .GetFooStatic("test" + 2)
+                .GetFoo(foo.Field)
+                .Should()
+                .BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected foo.GetFoo(test1).GetFooStatic(\"test\"+2).GetFoo(foo.Field) to be <null>*");
+        }
+
+        [Fact]
         public void When_arguments_contain_Should_it_should_include_that_to_the_caller()
         {
             // Arrange
@@ -305,6 +328,44 @@ namespace FluentAssertions.Specs.Execution
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected foo to be <null>*");
         }
+
+        [Fact]
+        [SuppressMessage("Code should not contain multiple statements on one line", "IDE0055")]
+        [SuppressMessage("Single-line comment should be preceded by blank line", "SA1515")]
+        public void When_the_caller_with_methods_has_comments_between_it_should_ignore_them()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () =>
+            {
+                foo
+                    // some important comment
+                    .GetFoo("bob")
+                    /* another one */
+                    .BarMethod()
+                    .Should().BeNull();
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected foo.GetFoo(\"bob\").BarMethod() to be <null>*");
+        }
+
+        [Fact]
+        public void When_the_method_has_Should_prefix_it_should_read_whole_method()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () => foo.ShouldReturnSomeBool().Should().BeFalse();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected foo.ShouldReturnSomeBool() to be false*");
+        }
     }
 
     [SuppressMessage("The name of a C# element does not begin with an upper-case letter", "SA1300")]
@@ -318,6 +379,8 @@ namespace FluentAssertions.Specs.Execution
         public string BarMethod() => Bar;
 
         public string BarMethod(string argument) => Bar;
+
+        public bool ShouldReturnSomeBool() => true;
 
         public Foo GetFoo(string argument) => this;
     }
