@@ -240,6 +240,24 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
+        public void When_arguments_contain_multi_line_verbatim_string_it_should_include_that_to_the_caller()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () => foo.BarMethod(@"
+            bob dole
+            "
+                )
+                .Should().BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected foo.BarMethod(@\"            bob dole            \") to be <null>*");
+        }
+
+        [Fact]
         public void When_arguments_contain_verbatim_string_interpolation_it_should_include_that_to_the_caller()
         {
             // Arrange
@@ -254,6 +272,37 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
+        public void When_arguments_contain_concatenations_it_should_include_that_to_the_caller()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () => foo.BarMethod("1" + 2).Should().BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected foo.BarMethod(\"1\"+2) to be <null>*");
+        }
+
+        [Fact]
+        public void When_arguments_contain_multi_line_concatenations_it_should_include_that_to_the_caller()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () => foo.BarMethod("abc"
+                    + "def"
+                )
+                .Should().BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected foo.BarMethod(\"abc\"+\"def\") to be <null>*");
+        }
+
+        [Fact]
         public void When_arguments_contain_string_with_comment_like_contents_inside_it_should_include_them_to_the_caller()
         {
             // Arrange
@@ -265,6 +314,20 @@ namespace FluentAssertions.Specs.Execution
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected foo.BarMethod(\"test//test2/*test3*/\") to be <null>*");
+        }
+
+        [Fact]
+        public void When_arguments_contain_verbatim_string_with_verbatim_like_string_inside_it_should_include_them_to_the_caller()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () => foo.BarMethod(@"test @"" @$"" bob").Should().BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected foo.BarMethod(@\"test @\"\" @$\"\" bob\") to be <null>*");
         }
 
         [Fact]
