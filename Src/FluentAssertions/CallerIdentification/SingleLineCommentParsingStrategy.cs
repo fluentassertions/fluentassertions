@@ -16,10 +16,6 @@ namespace FluentAssertions.CallerIdentification
                     statement.Remove(statement.Length - 1, 1);
                 }
             }
-            else if (symbol == '\n')
-            {
-                isCommentContext = false;
-            }
 
             return isCommentContext ? ParsingState.GoToNextSymbol : ParsingState.InProgress;
         }
