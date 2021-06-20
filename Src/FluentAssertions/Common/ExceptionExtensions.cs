@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Reflection;
+using System.Runtime.ExceptionServices;
 
 namespace FluentAssertions.Common
 {
     internal static class ExceptionExtensions
     {
-        public static Exception Unwrap(this TargetInvocationException exception)
+        public static ExceptionDispatchInfo Unwrap(this TargetInvocationException exception)
         {
             Exception result = exception;
             while (result is TargetInvocationException)
@@ -13,7 +14,7 @@ namespace FluentAssertions.Common
                 result = result.InnerException;
             }
 
-            return result;
+            return ExceptionDispatchInfo.Capture(result);
         }
     }
 }
