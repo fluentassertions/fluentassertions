@@ -149,133 +149,133 @@ namespace FluentAssertions.Specs
         }
 
         [Collection("AssertionOptionsSpecs")]
-        public class Given_temporary_equivalency_steps : GivenWhenThen
+        public class Given_self_resetting_equivalency_plan : GivenWhenThen
         {
             protected override void Dispose(bool disposing)
             {
-                Steps.Reset();
+                Plan.Reset();
                 base.Dispose(disposing);
             }
 
-            protected static EquivalencyPlan Steps
+            protected static EquivalencyPlan Plan
             {
                 get { return AssertionOptions.EquivalencyPlan; }
             }
         }
 
         [Collection("AssertionOptionsSpecs")]
-        public class When_inserting_a_step : Given_temporary_equivalency_steps
+        public class When_inserting_a_step : Given_self_resetting_equivalency_plan
         {
             public When_inserting_a_step()
             {
-                When(() => Steps.Insert<MyEquivalencyStep>());
+                When(() => Plan.Insert<MyEquivalencyStep>());
             }
 
             [Fact]
             public void Then_it_should_precede_all_other_steps()
             {
-                var addedStep = Steps.LastOrDefault(s => s is MyEquivalencyStep);
+                var addedStep = Plan.LastOrDefault(s => s is MyEquivalencyStep);
 
-                Steps.Should().StartWith(addedStep);
+                Plan.Should().StartWith(addedStep);
             }
         }
 
         [Collection("AssertionOptionsSpecs")]
-        public class When_inserting_a_step_before_another : Given_temporary_equivalency_steps
+        public class When_inserting_a_step_before_another : Given_self_resetting_equivalency_plan
         {
             public When_inserting_a_step_before_another()
             {
-                When(() => Steps.InsertBefore<DictionaryEquivalencyStep, MyEquivalencyStep>());
+                When(() => Plan.InsertBefore<DictionaryEquivalencyStep, MyEquivalencyStep>());
             }
 
             [Fact]
             public void Then_it_should_precede_that_particular_step()
             {
-                var addedStep = Steps.LastOrDefault(s => s is MyEquivalencyStep);
-                var successor = Steps.LastOrDefault(s => s is DictionaryEquivalencyStep);
+                var addedStep = Plan.LastOrDefault(s => s is MyEquivalencyStep);
+                var successor = Plan.LastOrDefault(s => s is DictionaryEquivalencyStep);
 
-                Steps.Should().HaveElementPreceding(successor, addedStep);
+                Plan.Should().HaveElementPreceding(successor, addedStep);
             }
         }
 
         [Collection("AssertionOptionsSpecs")]
-        public class When_appending_a_step : Given_temporary_equivalency_steps
+        public class When_appending_a_step : Given_self_resetting_equivalency_plan
         {
             public When_appending_a_step()
             {
-                When(() => Steps.Add<MyEquivalencyStep>());
+                When(() => Plan.Add<MyEquivalencyStep>());
             }
 
             [Fact]
             public void Then_it_should_precede_the_final_builtin_step()
             {
-                var equivalencyStep = Steps.LastOrDefault(s => s is SimpleEqualityEquivalencyStep);
-                var subjectStep = Steps.LastOrDefault(s => s is MyEquivalencyStep);
+                var equivalencyStep = Plan.LastOrDefault(s => s is SimpleEqualityEquivalencyStep);
+                var subjectStep = Plan.LastOrDefault(s => s is MyEquivalencyStep);
 
-                Steps.Should().HaveElementPreceding(equivalencyStep, subjectStep);
+                Plan.Should().HaveElementPreceding(equivalencyStep, subjectStep);
             }
         }
 
         [Collection("AssertionOptionsSpecs")]
-        public class When_appending_a_step_after_another : Given_temporary_equivalency_steps
+        public class When_appending_a_step_after_another : Given_self_resetting_equivalency_plan
         {
             public When_appending_a_step_after_another()
             {
-                When(() => Steps.AddAfter<DictionaryEquivalencyStep, MyEquivalencyStep>());
+                When(() => Plan.AddAfter<DictionaryEquivalencyStep, MyEquivalencyStep>());
             }
 
             [Fact]
             public void Then_it_should_precede_the_final_builtin_step()
             {
-                var addedStep = Steps.LastOrDefault(s => s is MyEquivalencyStep);
-                var predecessor = Steps.LastOrDefault(s => s is DictionaryEquivalencyStep);
+                var addedStep = Plan.LastOrDefault(s => s is MyEquivalencyStep);
+                var predecessor = Plan.LastOrDefault(s => s is DictionaryEquivalencyStep);
 
-                Steps.Should().HaveElementSucceeding(predecessor, addedStep);
+                Plan.Should().HaveElementSucceeding(predecessor, addedStep);
             }
         }
 
         [Collection("AssertionOptionsSpecs")]
-        public class When_appending_a_step_and_no_builtin_steps_are_there : Given_temporary_equivalency_steps
+        public class When_appending_a_step_and_no_builtin_steps_are_there : Given_self_resetting_equivalency_plan
         {
             public When_appending_a_step_and_no_builtin_steps_are_there()
             {
                 When(() =>
                 {
-                    Steps.Clear();
-                    Steps.Add<MyEquivalencyStep>();
+                    Plan.Clear();
+                    Plan.Add<MyEquivalencyStep>();
                 });
             }
 
             [Fact]
             public void Then_it_should_precede_the_simple_equality_step()
             {
-                var subjectStep = Steps.LastOrDefault(s => s is MyEquivalencyStep);
+                var subjectStep = Plan.LastOrDefault(s => s is MyEquivalencyStep);
 
-                Steps.Should().EndWith(subjectStep);
+                Plan.Should().EndWith(subjectStep);
             }
         }
 
         [Collection("AssertionOptionsSpecs")]
-        public class When_removing_a_specific_step : Given_temporary_equivalency_steps
+        public class When_removing_a_specific_step : Given_self_resetting_equivalency_plan
         {
             public When_removing_a_specific_step()
             {
-                When(() => Steps.Remove<SimpleEqualityEquivalencyStep>());
+                When(() => Plan.Remove<SimpleEqualityEquivalencyStep>());
             }
 
             [Fact]
             public void Then_it_should_precede_the_simple_equality_step()
             {
-                Steps.Should().NotContain(s => s is SimpleEqualityEquivalencyStep);
+                Plan.Should().NotContain(s => s is SimpleEqualityEquivalencyStep);
             }
         }
 
         [Collection("AssertionOptionsSpecs")]
-        public class When_removing_a_specific_step_that_doesnt_exist : Given_temporary_equivalency_steps
+        public class When_removing_a_specific_step_that_doesnt_exist : Given_self_resetting_equivalency_plan
         {
             public When_removing_a_specific_step_that_doesnt_exist()
             {
-                WhenAction = () => Steps.Remove<MyEquivalencyStep>();
+                WhenAction = () => Plan.Remove<MyEquivalencyStep>();
             }
 
             [Fact]
