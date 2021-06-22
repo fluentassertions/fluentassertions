@@ -34,7 +34,7 @@ namespace Approval.Tests
             var assemblyFile = Path.GetFullPath(
                 Path.Combine(
                     GetSourceDirectory(),
-                    Path.Combine("..", "..", "Artifacts", configurationName, frameworkVersion, "FluentAssertions.dll")));
+                    Path.Combine("..", "..", "Src", "FluentAssertions", "bin", configurationName, frameworkVersion, "FluentAssertions.dll")));
 
             var assembly = Assembly.LoadFile(Path.GetFullPath(assemblyFile));
             var publicApi = assembly.GeneratePublicApi(options: null);
