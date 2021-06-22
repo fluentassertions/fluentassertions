@@ -2431,14 +2431,18 @@ namespace FluentAssertions.Types
         public TypeSelector(System.Type type) { }
         public System.Collections.Generic.IEnumerator<System.Type> GetEnumerator() { }
         public FluentAssertions.Types.TypeSelector ThatAreClasses() { }
+        public FluentAssertions.Types.TypeSelector ThatAreDecoratedWith(System.Type attribute) { }
         public FluentAssertions.Types.TypeSelector ThatAreDecoratedWith<TAttribute>()
             where TAttribute : System.Attribute { }
+        public FluentAssertions.Types.TypeSelector ThatAreDecoratedWithOrInherit(System.Type attribute) { }
         public FluentAssertions.Types.TypeSelector ThatAreDecoratedWithOrInherit<TAttribute>()
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.TypeSelector ThatAreInNamespace(string @namespace) { }
         public FluentAssertions.Types.TypeSelector ThatAreNotClasses() { }
+        public FluentAssertions.Types.TypeSelector ThatAreNotDecoratedWith(System.Type attribute) { }
         public FluentAssertions.Types.TypeSelector ThatAreNotDecoratedWith<TAttribute>()
             where TAttribute : System.Attribute { }
+        public FluentAssertions.Types.TypeSelector ThatAreNotDecoratedWithOrInherit(System.Type attribute) { }
         public FluentAssertions.Types.TypeSelector ThatAreNotDecoratedWithOrInherit<TAttribute>()
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.TypeSelector ThatAreNotInNamespace(string @namespace) { }
@@ -2446,9 +2450,13 @@ namespace FluentAssertions.Types
         public FluentAssertions.Types.TypeSelector ThatAreNotUnderNamespace(string @namespace) { }
         public FluentAssertions.Types.TypeSelector ThatAreStatic() { }
         public FluentAssertions.Types.TypeSelector ThatAreUnderNamespace(string @namespace) { }
+        public FluentAssertions.Types.TypeSelector ThatDeriveFrom(System.Type baseType) { }
         public FluentAssertions.Types.TypeSelector ThatDeriveFrom<TBase>() { }
+        public FluentAssertions.Types.TypeSelector ThatDoNotDeriveFrom(System.Type baseType) { }
         public FluentAssertions.Types.TypeSelector ThatDoNotDeriveFrom<TBase>() { }
+        public FluentAssertions.Types.TypeSelector ThatDoNotImplement(System.Type interfaceType) { }
         public FluentAssertions.Types.TypeSelector ThatDoNotImplement<TInterface>() { }
+        public FluentAssertions.Types.TypeSelector ThatImplement(System.Type interfaceType) { }
         public FluentAssertions.Types.TypeSelector ThatImplement<TInterface>() { }
         public FluentAssertions.Types.TypeSelector ThatSatisfy(System.Func<System.Type, bool> predicate) { }
         public System.Type[] ToArray() { }

@@ -25,6 +25,11 @@ namespace FluentAssertions.Common
             return type.IsDefined(typeof(TAttribute), inherit: false);
         }
 
+        public static bool IsDecoratedWith(this Type type, Type attribute)
+        {
+            return type.IsDefined(attribute, inherit: false);
+        }
+
         public static bool IsDecoratedWith<TAttribute>(this MemberInfo type)
             where TAttribute : Attribute
         {
@@ -38,6 +43,11 @@ namespace FluentAssertions.Common
             where TAttribute : Attribute
         {
             return type.IsDefined(typeof(TAttribute), inherit: true);
+        }
+
+        public static bool IsDecoratedWithOrInherit(this Type type, Type attribute)
+        {
+            return type.IsDefined(attribute, inherit: true);
         }
 
         public static bool IsDecoratedWithOrInherit<TAttribute>(this MemberInfo type)

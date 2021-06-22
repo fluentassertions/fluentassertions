@@ -40,8 +40,7 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelector ThatDeriveFrom<TBase>()
         {
-            types = types.Where(type => type.IsSubclassOf(typeof(TBase))).ToList();
-            return this;
+            return ThatDeriveFrom(typeof(TBase));
         }
 
         /// <summary>
@@ -49,8 +48,7 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelector ThatDoNotDeriveFrom<TBase>()
         {
-            types = types.Where(type => !type.IsSubclassOf(typeof(TBase))).ToList();
-            return this;
+            return ThatDoNotDeriveFrom(typeof(TBase));
         }
 
         /// <summary>
@@ -58,11 +56,7 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelector ThatImplement<TInterface>()
         {
-            types = types
-                .Where(t => typeof(TInterface).IsAssignableFrom(t) && (t != typeof(TInterface)))
-                .ToList();
-
-            return this;
+            return ThatImplement(typeof(TInterface));
         }
 
         /// <summary>
@@ -70,11 +64,7 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelector ThatDoNotImplement<TInterface>()
         {
-            types = types
-                .Where(t => !typeof(TInterface).IsAssignableFrom(t) && (t != typeof(TInterface)))
-                .ToList();
-
-            return this;
+            return ThatDoNotImplement(typeof(TInterface));
         }
 
         /// <summary>
@@ -83,11 +73,7 @@ namespace FluentAssertions.Types
         public TypeSelector ThatAreDecoratedWith<TAttribute>()
             where TAttribute : Attribute
         {
-            types = types
-                .Where(t => t.IsDecoratedWith<TAttribute>())
-                .ToList();
-
-            return this;
+            return ThatAreDecoratedWith(typeof(TAttribute));
         }
 
         /// <summary>
@@ -96,11 +82,7 @@ namespace FluentAssertions.Types
         public TypeSelector ThatAreDecoratedWithOrInherit<TAttribute>()
             where TAttribute : Attribute
         {
-            types = types
-                .Where(t => t.IsDecoratedWithOrInherit<TAttribute>())
-                .ToList();
-
-            return this;
+            return ThatAreDecoratedWithOrInherit(typeof(TAttribute));
         }
 
         /// <summary>
@@ -109,11 +91,7 @@ namespace FluentAssertions.Types
         public TypeSelector ThatAreNotDecoratedWith<TAttribute>()
             where TAttribute : Attribute
         {
-            types = types
-                .Where(t => !t.IsDecoratedWith<TAttribute>())
-                .ToList();
-
-            return this;
+            return ThatAreNotDecoratedWith(typeof(TAttribute));
         }
 
         /// <summary>
@@ -122,8 +100,94 @@ namespace FluentAssertions.Types
         public TypeSelector ThatAreNotDecoratedWithOrInherit<TAttribute>()
             where TAttribute : Attribute
         {
+            return ThatAreNotDecoratedWithOrInherit(typeof(TAttribute));
+        }
+
+        /// <summary>
+        /// Determines whether a type is a subclass of another type, but NOT the same type.
+        /// </summary>
+        public TypeSelector ThatDeriveFrom(Type baseType)
+        {
+            types = types.Where(type => type.IsSubclassOf(baseType)).ToList();
+            return this;
+        }
+
+        /// <summary>
+        /// Determines whether a type is not a subclass of another type.
+        /// </summary>
+        public TypeSelector ThatDoNotDeriveFrom(Type baseType)
+        {
+            types = types.Where(type => !type.IsSubclassOf(baseType)).ToList();
+            return this;
+        }
+
+        /// <summary>
+        /// Determines whether a type implements an interface (but is not the interface itself).
+        /// </summary>
+        public TypeSelector ThatImplement(Type interfaceType)
+        {
             types = types
-                .Where(t => !t.IsDecoratedWithOrInherit<TAttribute>())
+                .Where(t => interfaceType.IsAssignableFrom(t) && (t != interfaceType))
+                .ToList();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Determines whether a type does not implement an interface (but is not the interface itself).
+        /// </summary>
+        public TypeSelector ThatDoNotImplement(Type interfaceType)
+        {
+            types = types
+                .Where(t => !interfaceType.IsAssignableFrom(t) && (t != interfaceType))
+                .ToList();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Determines whether a type is decorated with a particular attribute.
+        /// </summary>
+        public TypeSelector ThatAreDecoratedWith(Type attribute)
+        {
+            types = types
+                .Where(t => t.IsDecoratedWith(attribute))
+                .ToList();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Determines whether a type is decorated with, or inherits from a parent class, a particular attribute.
+        /// </summary>
+        public TypeSelector ThatAreDecoratedWithOrInherit(Type attribute)
+        {
+            types = types
+                .Where(t => t.IsDecoratedWithOrInherit(attribute))
+                .ToList();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Determines whether a type is not decorated with a particular attribute.
+        /// </summary>
+        public TypeSelector ThatAreNotDecoratedWith(Type attribute)
+        {
+            types = types
+                .Where(t => !t.IsDecoratedWith(attribute))
+                .ToList();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Determines whether a type is not decorated with and does not inherit from a parent class, a particular attribute.
+        /// </summary>
+        public TypeSelector ThatAreNotDecoratedWithOrInherit(Type attribute)
+        {
+            types = types
+                .Where(t => !t.IsDecoratedWithOrInherit(attribute))
                 .ToList();
 
             return this;
