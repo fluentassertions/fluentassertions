@@ -1,9 +1,9 @@
 ﻿namespace FluentAssertions.CallerIdentification
 {
-    public enum HandlerResult
+    internal enum ParsingState
     {
         InProgress,
-        Handled,
+        GoToNextSymbol,
         Done
     }
 }

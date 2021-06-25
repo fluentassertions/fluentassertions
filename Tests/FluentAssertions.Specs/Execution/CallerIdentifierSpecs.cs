@@ -49,7 +49,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected fooShould to be <null>*");
+                .WithMessage("Expected fooShould to be <null>*");
         }
 
         [Fact]
@@ -63,7 +63,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo to be <null>*");
+                .WithMessage("Expected foo to be <null>*");
         }
 
         [Fact]
@@ -78,7 +78,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo.Field to be <null>*");
+                .WithMessage("Expected foo.Field to be <null>*");
         }
 
         [Fact]
@@ -92,7 +92,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo.Bar to be <null>*");
+                .WithMessage("Expected foo.Bar to be <null>*");
         }
 
         [Fact]
@@ -106,7 +106,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo.BarMethod() to be <null>*");
+                .WithMessage("Expected foo.BarMethod() to be <null>*");
         }
 
         [Fact]
@@ -120,7 +120,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo.BarMethod(\"test\") to be <null>*");
+                .WithMessage("Expected foo.BarMethod(\"test\") to be <null>*");
         }
 
         [Fact]
@@ -138,7 +138,30 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo.GetFoo(test1).GetFooStatic(\"test\"+2).GetFoo(foo.Field) to be <null>*");
+                .WithMessage("Expected foo.GetFoo(test1).GetFooStatic(\"test\"+2).GetFoo(foo.Field) to be <null>*");
+        }
+
+        [Fact]
+        public void When_the_caller_contains_multiple_members_across_multiple_lines_it_should_include_them_all()
+        {
+            // Arrange
+            string test1 = "test1";
+            var foo = new Foo
+            {
+                Field = "test3"
+            };
+
+            // Act
+            Action act = () => foo
+                .GetFoo(test1)
+                .GetFooStatic("test" + 2)
+                .GetFoo(foo.Field)
+                .Should()
+                .BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected foo.GetFoo(test1).GetFooStatic(\"test\"+2).GetFoo(foo.Field) to be <null>*");
         }
 
         [Fact]
@@ -152,7 +175,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo.BarMethod(\".Should()\") to be <null>*");
+                .WithMessage("Expected foo.BarMethod(\".Should()\") to be <null>*");
         }
 
         [Fact]
@@ -166,7 +189,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo.BarMethod(\"test;\") to be <null>*");
+                .WithMessage("Expected foo.BarMethod(\"test;\") to be <null>*");
         }
 
         [Fact]
@@ -185,7 +208,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo2 to be <null>*");
+                .WithMessage("Expected foo2 to be <null>*");
         }
 
         [Fact]
@@ -199,7 +222,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo.BarMethod(\"test\\\";\") to be <null>*");
+                .WithMessage("Expected foo.BarMethod(\"test\\\";\") to be <null>*");
         }
 
         [Fact]
@@ -213,7 +236,25 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo.BarMethod(@\"test\"\";\") to be <null>*");
+                .WithMessage("Expected foo.BarMethod(@\"test\"\";\") to be <null>*");
+        }
+
+        [Fact]
+        public void When_arguments_contain_multi_line_verbatim_string_it_should_include_that_to_the_caller()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () => foo.BarMethod(@"
+            bob dole
+            "
+                )
+                .Should().BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected foo.BarMethod(@\"            bob dole            \") to be <null>*");
         }
 
         [Fact]
@@ -227,7 +268,38 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo.BarMethod(@$\"test\"\";\") to be <null>*");
+                .WithMessage("Expected foo.BarMethod(@$\"test\"\";\") to be <null>*");
+        }
+
+        [Fact]
+        public void When_arguments_contain_concatenations_it_should_include_that_to_the_caller()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () => foo.BarMethod("1" + 2).Should().BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected foo.BarMethod(\"1\"+2) to be <null>*");
+        }
+
+        [Fact]
+        public void When_arguments_contain_multi_line_concatenations_it_should_include_that_to_the_caller()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () => foo.BarMethod("abc"
+                    + "def"
+                )
+                .Should().BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected foo.BarMethod(\"abc\"+\"def\") to be <null>*");
         }
 
         [Fact]
@@ -241,7 +313,21 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo.BarMethod(\"test//test2/*test3*/\") to be <null>*");
+                .WithMessage("Expected foo.BarMethod(\"test//test2/*test3*/\") to be <null>*");
+        }
+
+        [Fact]
+        public void When_arguments_contain_verbatim_string_with_verbatim_like_string_inside_it_should_include_them_to_the_caller()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () => foo.BarMethod(@"test @"" @$"" bob").Should().BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected foo.BarMethod(@\"test @\"\" @$\"\" bob\") to be <null>*");
         }
 
         [Fact]
@@ -261,7 +347,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo to be <null>*");
+                .WithMessage("Expected foo to be <null>*");
         }
 
         [Fact]
@@ -283,7 +369,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo to be <null>*");
+                .WithMessage("Expected foo to be <null>*");
         }
 
         [Fact]
@@ -303,7 +389,45 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected foo to be <null>*");
+                .WithMessage("Expected foo to be <null>*");
+        }
+
+        [Fact]
+        [SuppressMessage("Code should not contain multiple statements on one line", "IDE0055")]
+        [SuppressMessage("Single-line comment should be preceded by blank line", "SA1515")]
+        public void When_the_caller_with_methods_has_comments_between_it_should_ignore_them()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () =>
+            {
+                foo
+                    // some important comment
+                    .GetFoo("bob")
+                    /* another one */
+                    .BarMethod()
+                    .Should().BeNull();
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected foo.GetFoo(\"bob\").BarMethod() to be <null>*");
+        }
+
+        [Fact]
+        public void When_the_method_has_Should_prefix_it_should_read_whole_method()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () => foo.ShouldReturnSomeBool().Should().BeFalse();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected foo.ShouldReturnSomeBool() to be false*");
         }
     }
 
@@ -318,6 +442,8 @@ namespace FluentAssertions.Specs.Execution
         public string BarMethod() => Bar;
 
         public string BarMethod(string argument) => Bar;
+
+        public bool ShouldReturnSomeBool() => true;
 
         public Foo GetFoo(string argument) => this;
     }
