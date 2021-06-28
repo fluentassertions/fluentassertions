@@ -419,7 +419,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection to contain a single item matching (item == Format(\"{0}\", Convert(123*))), but no such item was found.");
+                "Expected collection to contain a single item matching (item == \"123\"), but no such item was found.");
         }
 
         #endregion

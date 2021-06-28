@@ -159,7 +159,7 @@ namespace FluentAssertions.Specs.Types
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected all types to be decorated with *.DummyClassAttribute that matches " +
-                    "((a.Name == \"Expected\") * a.IsEnabled) *failure message*, but no matching attribute was found on " +
+                    "(a.Name == \"Expected\") * a.IsEnabled *failure message*, but no matching attribute was found on " +
                     "the following types:*\"*.ClassWithoutAttribute*.OtherClassWithoutAttribute\".");
         }
 
@@ -244,7 +244,7 @@ namespace FluentAssertions.Specs.Types
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected all types to be decorated with or inherit *.DummyClassAttribute that matches " +
-                    "((a.Name == \"Expected\")*a.IsEnabled) *failure message*, but no matching attribute was found " +
+                    "(a.Name == \"Expected\")*a.IsEnabled *failure message*, but no matching attribute was found " +
                     "on the following types:*\"*.ClassWithoutAttribute*.OtherClassWithoutAttribute\".");
         }
 
@@ -326,7 +326,7 @@ namespace FluentAssertions.Specs.Types
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected all types to not be decorated with *.DummyClassAttribute that matches " +
-                    "((a.Name == \"Expected\") * a.IsEnabled) *failure message*, but a matching attribute was found " +
+                    "(a.Name == \"Expected\") * a.IsEnabled *failure message*, but a matching attribute was found " +
                     "on the following types:*\"*.ClassWithAttribute\".");
         }
 
@@ -388,7 +388,7 @@ namespace FluentAssertions.Specs.Types
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected all types to not be decorated with or inherit *.DummyClassAttribute that matches " +
-                    "((a.Name == \"Expected\") * a.IsEnabled) *failure message*, but a matching attribute was found " +
+                    "(a.Name == \"Expected\") * a.IsEnabled *failure message*, but a matching attribute was found " +
                     "on the following types:*\"*.ClassWithInheritedAttribute\".");
         }
 

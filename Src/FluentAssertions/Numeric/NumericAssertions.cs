@@ -434,7 +434,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(predicate.Compile()((T)SubjectInternal))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to match {0}{reason}, but found {1}.", predicate.Body, SubjectInternal);
+                .FailWith("Expected {context:value} to match {0}{reason}, but found {1}.", predicate, SubjectInternal);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

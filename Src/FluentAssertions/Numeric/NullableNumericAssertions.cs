@@ -120,7 +120,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(predicate.Compile()(Subject))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected value to match {0}{reason}, but found {1}.", predicate.Body, Subject);
+                .FailWith("Expected value to match {0}{reason}, but found {1}.", predicate, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

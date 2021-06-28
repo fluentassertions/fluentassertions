@@ -398,7 +398,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(predicate.Compile()((T)Subject))
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
-                .FailWith("Expected {context:object} to match {1}{reason}, but found {0}.", Subject, predicate.Body);
+                .FailWith("Expected {context:object} to match {1}{reason}, but found {0}.", Subject, predicate);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
