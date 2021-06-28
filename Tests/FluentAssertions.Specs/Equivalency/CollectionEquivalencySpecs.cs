@@ -190,6 +190,13 @@ namespace FluentAssertions.Specs.Equivalency
             }
         }
 
+        public class ExceptionThrowingClass
+        {
+#pragma warning disable CA1065 // this is for testing purposes.
+            public object ExceptionThrowingProperty => throw new NotImplementedException();
+#pragma warning restore CA1065
+        }
+
         [Fact]
         public void When_the_expectation_is_an_array_of_interface_type_it_should_respect_declared_types()
         {
@@ -2791,6 +2798,22 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_an_exception_is_thrown_during_data_access_the_stack_trace_contains_the_original_site()
+        {
+            // Arrange
+            var genericCollectionA = new List<ExceptionThrowingClass>() { new ExceptionThrowingClass() };
+            var genericCollectionB = new List<ExceptionThrowingClass>() { new ExceptionThrowingClass() };
+
+            var expectedTargetSite = typeof(ExceptionThrowingClass).GetProperty(nameof(ExceptionThrowingClass.ExceptionThrowingProperty)).GetMethod;
+
+            // Act
+            Action act = () => genericCollectionA.Should().BeEquivalentTo(genericCollectionB);
+
+            // Assert
+            act.Should().Throw<NotImplementedException>().And.TargetSite.Should().Be(expectedTargetSite);
         }
 
         public static IEnumerable<object[]> ArrayTestData()

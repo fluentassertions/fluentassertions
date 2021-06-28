@@ -49,7 +49,7 @@ namespace FluentAssertions.Equivalency.Steps
                 }
                 catch (TargetInvocationException e)
                 {
-                    throw e.Unwrap();
+                    e.Unwrap().Throw();
                 }
             }
 
