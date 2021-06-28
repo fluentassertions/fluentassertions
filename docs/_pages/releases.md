@@ -18,6 +18,7 @@ Changes since 6.0.0 Beta 1
 * Added parameter checking for `Be(string)` for GuidAssertions - [#1597](https://github.com/fluentassertions/fluentassertions/pull/1597).
 * Improved consistency of XML documentation on `AssertionScope`, `ContinuedAssertionScope`, and `GivenSelector<T>` methods. - [#1606](https://github.com/fluentassertions/fluentassertions/pull/1606).
 * Handle `WithDefaultIdentifier` and `WithExpectation` correctly when an `AssertionScope` continues - [#1610](https://github.com/fluentassertions/fluentassertions/pull/1610).
+* Improved stack trace when a property of an element of a generic collection throws an exception during `GenericEnumerableEquivalencyStep` in `GenericCollectionAssertions` - [#1615](https://github.com/fluentassertions/fluentassertions/pull/1615).
 
 ## 6.0.0 Beta 1
 Changes since 6.0.0 Alpha 2
