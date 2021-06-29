@@ -4,7 +4,7 @@ namespace FluentAssertions.CallerIdentification
 {
     internal class ShouldCallParsingStrategy : IParsingStrategy
     {
-        private const string ShouldCall = ".Should()";
+        private const string ShouldCall = ".Should(";
 
         public ParsingState Parse(char symbol, StringBuilder statement)
         {

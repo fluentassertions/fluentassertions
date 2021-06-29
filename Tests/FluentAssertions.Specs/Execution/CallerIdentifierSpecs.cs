@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
@@ -50,6 +52,23 @@ namespace FluentAssertions.Specs.Execution
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected fooShould to be <null>*");
+        }
+
+        [Fact]
+        public async Task When_should_is_passed_argument_context_should_still_be_found()
+        {
+            // Arrange
+            var bob = new TaskCompletionSource<bool>();
+            var timer = new FakeClock();
+
+            // Act
+            Func<Task> action = () => bob.Should(timer).NotCompleteWithinAsync(1.Seconds(), "test {0}", "testArg");
+            bob.SetResult(true);
+            timer.Complete();
+
+            // Assert
+            await action.Should().ThrowAsync<XunitException>()
+                .WithMessage("Expected bob to not complete within 1s because test testArg.");
         }
 
         [Fact]
