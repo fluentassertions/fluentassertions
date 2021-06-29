@@ -232,11 +232,11 @@ namespace FluentAssertions.Specs.Execution
             var foo = new Foo();
 
             // Act
-            Action act = () => foo.BarMethod(@"test"";").Should().BeNull();
+            Action act = () => foo.BarMethod(@"test", argument2: $@"test2", argument3: @$"test3").Should().BeNull();
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected foo.BarMethod(@\"test\"\";\") to be <null>*");
+                .WithMessage("Expected foo.BarMethod(@\"test\",argument2:$@\"test2\",argument3:@$\"test3\") to be <null>*");
         }
 
         [Fact]
@@ -442,6 +442,8 @@ namespace FluentAssertions.Specs.Execution
         public string BarMethod() => Bar;
 
         public string BarMethod(string argument) => Bar;
+
+        public string BarMethod(string argument, string argument2, string argument3) => Bar;
 
         public bool ShouldReturnSomeBool() => true;
 
