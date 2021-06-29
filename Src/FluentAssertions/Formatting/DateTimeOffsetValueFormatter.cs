@@ -21,6 +21,7 @@ namespace FluentAssertions.Formatting
         public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
             DateTimeOffset dateTimeOffset;
+            bool significantOffset = false;
 
             if (value is DateTime dateTime)
             {
@@ -29,6 +30,7 @@ namespace FluentAssertions.Formatting
             else
             {
                 dateTimeOffset = (DateTimeOffset)value;
+                significantOffset = true;
             }
 
             formattedGraph.AddFragment("<");
@@ -70,11 +72,18 @@ namespace FluentAssertions.Formatting
                 formattedGraph.AddFragment(" +");
                 formatChild("offset", dateTimeOffset.Offset, formattedGraph);
             }
-
-            if (dateTimeOffset.Offset < TimeSpan.Zero)
+            else if (dateTimeOffset.Offset < TimeSpan.Zero)
             {
                 formattedGraph.AddFragment(" ");
                 formatChild("offset", dateTimeOffset.Offset, formattedGraph);
+            }
+            else if (significantOffset && (hasDate || hasTime))
+            {
+                formattedGraph.AddFragment(" +0h");
+            }
+            else
+            {
+                // No offset added, since it was deemed unnecessary
             }
 
             if (!hasDate && !hasTime)

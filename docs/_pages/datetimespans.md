@@ -11,6 +11,8 @@ sidebar:
 
 For asserting a `DateTime` or a `DateTimeOffset` against various constraints, Fluent Assertions offers a bunch of methods that, provided that you use the extension methods for representing dates and times, really help to keep your assertions readable.
 
+Since a `DateTimeOffset` both represents a point in time and a calendar date/time with a specific offset, both scenarios can be asserted.
+
 ```csharp
 var theDatetime = 1.March(2010).At(22, 15).AsLocal();
 
@@ -34,6 +36,16 @@ theDatetime.Should().BeOneOf(
     1.March(2010).At(22, 15),
     1.March(2010).At(23, 15)
 );
+
+var theDatetimeOffset = 1.March(2010).At(22, 15).WithOffset(2.Hours());     
+
+// Asserts the point in time. 
+theDatetimeOffset.Should().Be(1.March(2010).At(21, 15).WithOffset(1.Hours()));          
+theDatetimeOffset.Should().NotBe(1.March(2010).At(21, 15).WithOffset(1.Hours())); 
+
+//Asserts the calendar date/time and the offset
+theDatetimeOffset.Should().BeExactly(1.March(2010).At(21, 15).WithOffset(1.Hours()));   
+theDatetimeOffset.Should().NotBeExactly(1.March(2010).At(21, 15).WithOffset(1.Hours()));
 ```
 
 Notice how we use extension methods like `March`, `At` to represent dates in a more human readable form. There's a lot more like these, including `2000.Microseconds()`, `3.Nanoseconds` as well as methods like `AsLocal` and `AsUtc` to convert between representations. You can even do relative calculations like `2.Hours().Before(DateTime.Now)`.
