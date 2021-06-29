@@ -186,7 +186,7 @@ namespace FluentAssertions.Specialized
                 .ForCondition(condition(SingleSubject))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected exception where {0}{reason}, but the condition was not met by:{1}{1}{2}.",
-                    exceptionExpression.Body, Environment.NewLine, Subject);
+                    exceptionExpression, Environment.NewLine, Subject);
 
             return this;
         }

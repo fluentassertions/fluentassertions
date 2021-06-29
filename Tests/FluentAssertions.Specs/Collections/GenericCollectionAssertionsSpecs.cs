@@ -318,14 +318,15 @@ namespace FluentAssertions.Specs.Collections
         {
             // Arrange
             IEnumerable<int> collection = Enumerable.Empty<int>();
-            Expression<Func<int, bool>> expression = item => item == 2;
+            var targetValue = 2;
+            Expression<Func<int, bool>> expression = item => item == targetValue;
 
             // Act
             Action act = () => collection.Should().ContainSingle(expression);
 
             // Assert
             string expectedMessage =
-                $"Expected collection to contain a single item matching {expression.Body}, but the collection is empty.";
+                $"Expected collection to contain a single item matching (item == 2), but the collection is empty.";
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
@@ -335,14 +336,15 @@ namespace FluentAssertions.Specs.Collections
         {
             // Arrange
             const IEnumerable<int> collection = null;
-            Expression<Func<int, bool>> expression = item => item == 2;
+            var targetValue = 2;
+            Expression<Func<int, bool>> expression = item => item == targetValue;
 
             // Act
             Action act = () => collection.Should().ContainSingle(expression);
 
             // Assert
             string expectedMessage =
-                $"Expected collection to contain a single item matching {expression.Body}, but found <null>.";
+                $"Expected collection to contain a single item matching (item == 2), but found <null>.";
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
@@ -352,14 +354,15 @@ namespace FluentAssertions.Specs.Collections
         {
             // Arrange
             IEnumerable<int> collection = new[] { 1, 3 };
-            Expression<Func<int, bool>> expression = item => item == 2;
+            var targetValue = 2;
+            Expression<Func<int, bool>> expression = item => item == targetValue;
 
             // Act
             Action act = () => collection.Should().ContainSingle(expression);
 
             // Assert
             string expectedMessage =
-                $"Expected collection to contain a single item matching {expression.Body}, but no such item was found.";
+                $"Expected collection to contain a single item matching (item == 2), but no such item was found.";
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
@@ -369,14 +372,15 @@ namespace FluentAssertions.Specs.Collections
         {
             // Arrange
             IEnumerable<int> collection = new[] { 1, 2, 2, 2, 3 };
-            Expression<Func<int, bool>> expression = item => item == 2;
+            var targetValue = 2;
+            Expression<Func<int, bool>> expression = item => item == targetValue;
 
             // Act
             Action act = () => collection.Should().ContainSingle(expression);
 
             // Assert
             string expectedMessage =
-                $"Expected collection to contain a single item matching {expression.Body}, but 3 such items were found.";
+                $"Expected collection to contain a single item matching (item == 2), but 3 such items were found.";
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }

@@ -674,7 +674,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain {0}{reason}, but found {1}.", predicate.Body, Subject);
+                    .FailWith("Expected {context:collection} to contain {0}{reason}, but found {1}.", predicate, Subject);
             }
 
             Func<T, bool> func = predicate.Compile();
@@ -682,7 +682,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(Subject.Any(func))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} {0} to have an item matching {1}{reason}.", Subject, predicate.Body);
+                .FailWith("Expected {context:collection} {0} to have an item matching {1}{reason}.", Subject, predicate);
 
             return new AndWhichConstraint<TAssertions, T>((TAssertions)this, Subject.Where(func));
         }
@@ -2257,7 +2257,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} not to contain <null>s on {0}{reason}, but found {1}.",
-                        predicate.Body,
+                        predicate,
                         values);
             }
 
@@ -2545,7 +2545,7 @@ namespace FluentAssertions.Collections
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
                         .FailWith("Expected {context:collection} to only have unique items on {0}{reason}, but items {1} are not unique.",
-                            predicate.Body,
+                            predicate,
                             groupWithMultipleItems.SelectMany(g => g));
                 }
                 else
@@ -2553,7 +2553,7 @@ namespace FluentAssertions.Collections
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
                         .FailWith("Expected {context:collection} to only have unique items on {0}{reason}, but item {1} is not unique.",
-                            predicate.Body,
+                            predicate,
                             groupWithMultipleItems[0].First());
                 }
             }
