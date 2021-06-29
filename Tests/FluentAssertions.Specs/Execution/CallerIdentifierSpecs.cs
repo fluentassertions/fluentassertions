@@ -351,6 +351,7 @@ namespace FluentAssertions.Specs.Execution
 
         [Fact]
         [SuppressMessage("Single - line comment should be preceded by blank line", "SA1515")]
+        [SuppressMessage("Single - line comment should be preceded by blank line", "IDE0055")]
         public void When_the_caller_contains_single_line_comment_it_should_ignore_that()
         {
             // Arrange
@@ -371,6 +372,7 @@ namespace FluentAssertions.Specs.Execution
 
         [Fact]
         [SuppressMessage("Single - line comment should be preceded by blank line", "SA1515")]
+        [SuppressMessage("Single - line comment should be preceded by blank line", "IDE0055")]
         public void When_the_caller_contains_multi_line_comment_it_should_ignore_that()
         {
             // Arrange
@@ -393,6 +395,7 @@ namespace FluentAssertions.Specs.Execution
 
         [Fact]
         [SuppressMessage("Single - line comment should be preceded by blank line", "SA1515")]
+        [SuppressMessage("Single - line comment should be preceded by blank line", "IDE0055")]
         public void When_the_caller_contains_several_comments_it_should_ignore_them()
         {
             // Arrange
