@@ -325,7 +325,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             string expectedMessage =
-                $"Expected collection to contain a single item matching {expression.Body}, but the collection is empty.";
+                $"Expected collection to contain a single item matching (item == 2), but the collection is empty.";
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
@@ -342,7 +342,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             string expectedMessage =
-                $"Expected collection to contain a single item matching {expression.Body}, but found <null>.";
+                $"Expected collection to contain a single item matching (item == 2), but found <null>.";
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
@@ -359,7 +359,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             string expectedMessage =
-                $"Expected collection to contain a single item matching {expression.Body}, but no such item was found.";
+                $"Expected collection to contain a single item matching (item == 2), but no such item was found.";
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
@@ -376,7 +376,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             string expectedMessage =
-                $"Expected collection to contain a single item matching {expression.Body}, but 3 such items were found.";
+                $"Expected collection to contain a single item matching (item == 2), but 3 such items were found.";
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
@@ -419,7 +419,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection to contain a single item matching (item == Format(\"{0}\", Convert(123*))), but no such item was found.");
+                "Expected collection to contain a single item matching (item == \"123\"), but no such item was found.");
         }
 
         #endregion

@@ -10,7 +10,7 @@ namespace FluentAssertions.Formatting
     /// </summary>
     public class PredicateLambdaExpressionValueFormatter : IValueFormatter
     {
-        public bool CanHandle(object value) => value is LambdaExpression lambdaExpression && lambdaExpression.ReturnType == typeof(bool);
+        public bool CanHandle(object value) => value is LambdaExpression lambdaExpression;
 
         public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {

@@ -674,7 +674,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain {0}{reason}, but found {1}.", predicate.Body, Subject);
+                    .FailWith("Expected {context:collection} to contain {0}{reason}, but found {1}.", predicate, Subject);
             }
 
             Func<T, bool> func = predicate.Compile();
@@ -682,7 +682,7 @@ namespace FluentAssertions.Collections
             Execute.Assertion
                 .ForCondition(Subject.Any(func))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} {0} to have an item matching {1}{reason}.", Subject, predicate.Body);
+                .FailWith("Expected {context:collection} {0} to have an item matching {1}{reason}.", Subject, predicate);
 
             return new AndWhichConstraint<TAssertions, T>((TAssertions)this, Subject.Where(func));
         }
@@ -992,14 +992,14 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(expectationPrefix + "but found {1}.", predicate.Body, Subject);
+                    .FailWith(expectationPrefix + "but found {1}.", predicate, Subject);
             }
 
             ICollection<T> actualItems = Subject.ConvertOrCastToCollection();
             Execute.Assertion
                 .ForCondition(actualItems.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(expectationPrefix + "but the collection is empty.", predicate.Body);
+                .FailWith(expectationPrefix + "but the collection is empty.", predicate);
 
             T[] matchingElements = actualItems.Where(predicate.Compile()).ToArray();
             int count = matchingElements.Length;
@@ -1007,13 +1007,13 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(expectationPrefix + "but no such item was found.", predicate.Body);
+                    .FailWith(expectationPrefix + "but no such item was found.", predicate);
             }
             else if (count > 1)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(expectationPrefix + "but " + count.ToString(CultureInfo.InvariantCulture) + " such items were found.", predicate.Body);
+                    .FailWith(expectationPrefix + "but " + count.ToString(CultureInfo.InvariantCulture) + " such items were found.", predicate);
             }
             else
             {
@@ -1193,7 +1193,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain {0} items{reason}, but found {1}.", countPredicate.Body, Subject);
+                    .FailWith("Expected {context:collection} to contain {0} items{reason}, but found {1}.", countPredicate, Subject);
             }
 
             Func<int, bool> compiledPredicate = countPredicate.Compile();
@@ -1205,7 +1205,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} {0} to have a count {1}{reason}, but count is {2}.",
-                        Subject, countPredicate.Body, actualCount);
+                        Subject, countPredicate, actualCount);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -1956,7 +1956,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} not to contain {0}{reason}, but found {1}.", predicate.Body, Subject);
+                    .FailWith("Expected {context:collection} not to contain {0}{reason}, but found {1}.", predicate, Subject);
             }
 
             Func<T, bool> compiledPredicate = predicate.Compile();
@@ -1967,7 +1967,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} {0} to not have any items matching {1}{reason}, but found {2}.",
-                        Subject, predicate.Body, unexpectedItems);
+                        Subject, predicate, unexpectedItems);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -2257,7 +2257,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} not to contain <null>s on {0}{reason}, but found {1}.",
-                        predicate.Body,
+                        predicate,
                         values);
             }
 
@@ -2495,7 +2495,7 @@ namespace FluentAssertions.Collections
                 .ForCondition(collection.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:collection} to contain only items matching {0}{reason}, but the collection is empty.",
-                    predicate.Body);
+                    predicate);
 
             IEnumerable<T> mismatchingItems = collection.Where(item => !compiledPredicate(item));
             if (mismatchingItems.Any())
@@ -2503,7 +2503,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} to contain only items matching {0}{reason}, but {1} do(es) not match.",
-                        predicate.Body, mismatchingItems);
+                        predicate, mismatchingItems);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -2545,7 +2545,7 @@ namespace FluentAssertions.Collections
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
                         .FailWith("Expected {context:collection} to only have unique items on {0}{reason}, but items {1} are not unique.",
-                            predicate.Body,
+                            predicate,
                             groupWithMultipleItems.SelectMany(g => g));
                 }
                 else
@@ -2553,7 +2553,7 @@ namespace FluentAssertions.Collections
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
                         .FailWith("Expected {context:collection} to only have unique items on {0}{reason}, but item {1} is not unique.",
-                            predicate.Body,
+                            predicate,
                             groupWithMultipleItems[0].First());
                 }
             }
