@@ -318,8 +318,7 @@ namespace FluentAssertions.Specs.Collections
         {
             // Arrange
             IEnumerable<int> collection = Enumerable.Empty<int>();
-            var targetValue = 2;
-            Expression<Func<int, bool>> expression = item => item == targetValue;
+            Expression<Func<int, bool>> expression = item => item == 2;
 
             // Act
             Action act = () => collection.Should().ContainSingle(expression);
@@ -336,8 +335,7 @@ namespace FluentAssertions.Specs.Collections
         {
             // Arrange
             const IEnumerable<int> collection = null;
-            var targetValue = 2;
-            Expression<Func<int, bool>> expression = item => item == targetValue;
+            Expression<Func<int, bool>> expression = item => item == 2;
 
             // Act
             Action act = () => collection.Should().ContainSingle(expression);
@@ -354,8 +352,7 @@ namespace FluentAssertions.Specs.Collections
         {
             // Arrange
             IEnumerable<int> collection = new[] { 1, 3 };
-            var targetValue = 2;
-            Expression<Func<int, bool>> expression = item => item == targetValue;
+            Expression<Func<int, bool>> expression = item => item == 2;
 
             // Act
             Action act = () => collection.Should().ContainSingle(expression);
@@ -372,8 +369,7 @@ namespace FluentAssertions.Specs.Collections
         {
             // Arrange
             IEnumerable<int> collection = new[] { 1, 2, 2, 2, 3 };
-            var targetValue = 2;
-            Expression<Func<int, bool>> expression = item => item == targetValue;
+            Expression<Func<int, bool>> expression = item => item == 2;
 
             // Act
             Action act = () => collection.Should().ContainSingle(expression);
