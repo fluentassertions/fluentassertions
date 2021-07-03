@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Specialized
 {
@@ -12,8 +13,8 @@ namespace FluentAssertions.Specialized
         /// <param name="action">A reference to the method or property to measure the execution time of.</param>
         /// <exception cref="NullReferenceException"><paramref name="subject"/> is <c>null</c>.</exception>
         /// <exception cref="NullReferenceException"><paramref name="action"/> is <c>null</c>.</exception>
-        public MemberExecutionTime(T subject, Expression<Action<T>> action)
-            : base(() => action.Compile()(subject), "(" + action.Body + ")")
+        public MemberExecutionTime(T subject, Expression<Action<T>> action, StartTimer createTimer)
+            : base(() => action.Compile()(subject), "(" + action.Body + ")", createTimer)
         {
         }
     }

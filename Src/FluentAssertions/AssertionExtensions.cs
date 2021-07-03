@@ -119,7 +119,7 @@ namespace FluentAssertions
             Guard.ThrowIfArgumentIsNull(subject, nameof(subject));
             Guard.ThrowIfArgumentIsNull(action, nameof(action));
 
-            return new MemberExecutionTime<T>(subject, action);
+            return new MemberExecutionTime<T>(subject, action, () => new StopwatchTimer());
         }
 
         /// <summary>
@@ -131,9 +131,11 @@ namespace FluentAssertions
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
         [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
-        public static ExecutionTime ExecutionTime(this Action action)
+        public static ExecutionTime ExecutionTime(this Action action, StartTimer createTimer = null)
         {
-            return new ExecutionTime(action);
+            createTimer ??= () => new StopwatchTimer();
+
+            return new(action, createTimer);
         }
 
         /// <summary>
@@ -147,7 +149,7 @@ namespace FluentAssertions
         [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
         public static ExecutionTime ExecutionTime(this Func<Task> action)
         {
-            return new ExecutionTime(action);
+            return new(action, () => new StopwatchTimer());
         }
 
         /// <summary>

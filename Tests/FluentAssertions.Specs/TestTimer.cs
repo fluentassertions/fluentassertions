@@ -13,5 +13,9 @@ namespace FluentAssertions.Specs
         }
 
         public TimeSpan Elapsed => getElapsed();
+
+        public void Dispose()
+        {
+        }
     }
 }
