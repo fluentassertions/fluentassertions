@@ -403,10 +403,11 @@ namespace FluentAssertions.Specs.Specialized
         public void When_the_execution_time_of_an_action_is_close_to_a_limit_it_should_not_throw()
         {
             // Arrange
-            Action someAction = () => Thread.Sleep(210);
+            Action someAction = () => { };
+            var timer = new TestTimer(() => 210.Milliseconds());
 
             // Act
-            Action act = () => someAction.ExecutionTime().Should().BeCloseTo(200.Milliseconds(), 150.Milliseconds());
+            Action act = () => someAction.ExecutionTime(() => timer).Should().BeCloseTo(200.Milliseconds(), 15.Milliseconds());
 
             // Assert
             act.Should().NotThrow();

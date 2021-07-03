@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using FluentAssertions.Common;
 
@@ -7,13 +6,15 @@ namespace FluentAssertions.Specialized
 {
     public class ExecutionTime
     {
+        private ITimer timer;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ExecutionTime"/> class.
         /// </summary>
         /// <param name="action">The action of which the execution time must be asserted.</param>
         /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
-        public ExecutionTime(Action action)
-            : this(action, "the action")
+        public ExecutionTime(Action action, StartTimer createTimer)
+            : this(action, "the action", createTimer)
         {
         }
 
@@ -22,8 +23,8 @@ namespace FluentAssertions.Specialized
         /// </summary>
         /// <param name="action">The action of which the execution time must be asserted.</param>
         /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
-        public ExecutionTime(Func<Task> action)
-            : this(action, "the action")
+        public ExecutionTime(Func<Task> action, StartTimer createTimer)
+            : this(action, "the action", createTimer)
         {
         }
 
@@ -33,12 +34,11 @@ namespace FluentAssertions.Specialized
         /// <param name="action">The action of which the execution time must be asserted.</param>
         /// <param name="actionDescription">The description of the action to be asserted.</param>
         /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
-        protected ExecutionTime(Action action, string actionDescription)
+        protected ExecutionTime(Action action, string actionDescription, StartTimer createTimer)
         {
             Guard.ThrowIfArgumentIsNull(action, nameof(action));
 
             ActionDescription = actionDescription;
-            stopwatch = new Stopwatch();
             IsRunning = true;
             Task = Task.Run(() =>
             {
@@ -46,8 +46,10 @@ namespace FluentAssertions.Specialized
                 // so that we have to get correct time readings
                 try
                 {
-                    stopwatch.Start();
-                    action();
+                    using (timer = createTimer())
+                    {
+                        action();
+                    }
                 }
                 catch (Exception exception)
                 {
@@ -56,7 +58,6 @@ namespace FluentAssertions.Specialized
                 finally
                 {
                     // ensures that we stop the stopwatch even on exceptions
-                    stopwatch.Stop();
                     IsRunning = false;
                 }
             });
@@ -73,12 +74,11 @@ namespace FluentAssertions.Specialized
         /// and to avoid unnecessary wrapping action in <see cref="Task"/>.
         /// </remarks>
         /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
-        protected ExecutionTime(Func<Task> action, string actionDescription)
+        protected ExecutionTime(Func<Task> action, string actionDescription, StartTimer createTimer)
         {
             Guard.ThrowIfArgumentIsNull(action, nameof(action));
 
             ActionDescription = actionDescription;
-            stopwatch = new Stopwatch();
             IsRunning = true;
             Task = Task.Run(async () =>
             {
@@ -86,8 +86,10 @@ namespace FluentAssertions.Specialized
                 // so that we have to get correct time readings
                 try
                 {
-                    stopwatch.Start();
-                    await action();
+                    using (timer = createTimer())
+                    {
+                        await action();
+                    }
                 }
                 catch (Exception exception)
                 {
@@ -95,14 +97,12 @@ namespace FluentAssertions.Specialized
                 }
                 finally
                 {
-                    // ensures that we stop the stopwatch even on exceptions
-                    stopwatch.Stop();
                     IsRunning = false;
                 }
             });
         }
 
-        internal TimeSpan ElapsedTime => stopwatch.Elapsed;
+        internal TimeSpan ElapsedTime => timer?.Elapsed ?? TimeSpan.Zero;
 
         internal bool IsRunning { get; private set; }
 
@@ -111,7 +111,5 @@ namespace FluentAssertions.Specialized
         internal Task Task { get; }
 
         internal Exception Exception { get; private set; }
-
-        private readonly Stopwatch stopwatch;
     }
 }
