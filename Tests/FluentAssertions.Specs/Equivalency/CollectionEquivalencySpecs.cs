@@ -883,7 +883,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             action.Should().Throw<XunitException>().Which
-                .Message.Should().Contain("subject[9] (of type string) to be \"one\", but \"two\" differs near \"two\" (index 0)")
+                .Message.Should().Contain("subject[9] to be \"one\", but \"two\" differs near \"two\" (index 0)")
                 .And.NotContain("subject[10]");
         }
 
@@ -987,7 +987,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             action.Should().Throw<XunitException>().Which
-                .Message.Should().Contain("subject[9] (of type int) to be 1, but found 2")
+                .Message.Should().Contain("subject[9] to be 1, but found 2")
                 .And.NotContain("item[10]");
         }
 

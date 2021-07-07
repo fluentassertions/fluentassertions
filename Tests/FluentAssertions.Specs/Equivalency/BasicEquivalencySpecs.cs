@@ -43,7 +43,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject (of type object) to be <null>, but found { }*");
+                "Expected subject to be <null>, but found { }*");
         }
 
         [Fact]
@@ -666,7 +666,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expectation has field onlyAProperty.Value (of type int) that the other object does not have.*");
+                .WithMessage("Expectation has field onlyAProperty.Value that the other object does not have.*");
         }
 
         [Fact]
@@ -681,7 +681,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expectation has property onlyAField.Value (of type int) that the other object does not have*");
+                .WithMessage("Expectation has property onlyAField.Value that the other object does not have*");
         }
 
         [Fact]
@@ -1753,7 +1753,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expectation has property subject.City (of type string) that the other object does not have*");
+                "Expectation has property subject.City that the other object does not have*");
         }
 
         [Fact]
@@ -1776,7 +1776,7 @@ namespace FluentAssertions.Specs.Equivalency
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected property subject.Type (of type int) to be 36, but found*\"A\"*");
+                .WithMessage("Expected property subject.Type to be 36, but found*\"A\"*");
         }
 
         [Fact]
@@ -2175,7 +2175,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected*Time (of type DateTime?) to be <null>, but found <2013-12-09 15:58:00>.*");
+                "Expected*Time to be <null>, but found <2013-12-09 15:58:00>.*");
         }
 
         [Fact]
@@ -2387,7 +2387,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected property subject.Name (of type string) to be <null>*we want to test the failure message*, but found \"Dennis\"*");
+                "Expected property subject.Name to be <null>*we want to test the failure message*, but found \"Dennis\"*");
         }
 
         [Fact]
@@ -2438,7 +2438,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected*Name (of type string) to be \"Dennis\", but \"Dennes\" differs near \"es\" (index 4)*");
+                "Expected*Name to be \"Dennis\", but \"Dennes\" differs near \"es\" (index 4)*");
         }
 
         [Fact]
@@ -3005,7 +3005,7 @@ namespace FluentAssertions.Specs.Equivalency
                 // but in that case it was done on purpose, so that we have at least have a single
                 // test confirming that whole mechanism of gathering description from
                 // equivalency steps works.
-                .Should().Match(@"Expected property subject.Level.Text (of type string) to be ""Level2"", but ""Level1"" differs near ""1"" (index 5).*" +
+                .Should().Match(@"Expected property subject.Level.Text to be ""Level2"", but ""Level1"" differs near ""1"" (index 5).*" +
                     "With configuration:*" +
                     "- Use declared types and members*" +
                         "- Compare enums by value*" +
@@ -3164,7 +3164,7 @@ namespace FluentAssertions.Specs.Equivalency
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expectation has property subject.Level.OtherProperty (of type string) that the other object does not have*");
+                .WithMessage("Expectation has property subject.Level.OtherProperty that the other object does not have*");
         }
 
         [Fact]
@@ -3263,7 +3263,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected property c1.RefOne.ValTwo (of type int) to be 2, but found 3*");
+                .WithMessage("Expected property c1.RefOne.ValTwo to be 2, but found 3*");
         }
 
         #endregion
@@ -3302,7 +3302,7 @@ namespace FluentAssertions.Specs.Equivalency
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected property cyclicRoot.Level.Root (of type CyclicRootDto) to be*but it contains a cyclic reference*");
+                .WithMessage("Expected property cyclicRoot.Level.Root to be*but it contains a cyclic reference*");
         }
 
         [Fact]
@@ -3692,7 +3692,7 @@ namespace FluentAssertions.Specs.Equivalency
                 .ComparingByValue<MyRecord>());
 
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected*of type MyRecord*but found*MyRecord*")
+                .WithMessage("*Expected*MyRecord*but found*MyRecord*")
                 .WithMessage("*Compare*MyRecord by value*");
         }
 
@@ -3715,7 +3715,7 @@ namespace FluentAssertions.Specs.Equivalency
                 .ComparingRecordsByValue());
 
             act.Should().Throw<XunitException>()
-                .WithMessage("*Expected*of type MyRecord*but found*MyRecord*")
+                .WithMessage("*Expected*MyRecord*but found*MyRecord*")
                 .WithMessage("*Compare records by value*");
         }
 
@@ -4259,7 +4259,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expectation has property subject.Age (of type int) that the other object does not have*");
+                .WithMessage("Expectation has property subject.Age that the other object does not have*");
         }
 
         [Fact]

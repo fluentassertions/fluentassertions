@@ -47,7 +47,7 @@ namespace FluentAssertions.Specs
 
                 // Assert
                 action.Should().Throw<XunitException>().WithMessage(
-                    "Expected *of type DataRow*to be non-null, but found null*");
+                    "Expected *to be non-null, but found null*");
             }
 
             [Fact]

@@ -20,7 +20,7 @@ namespace FluentAssertions.Equivalency
 
         public string Name { get; protected set; }
 
-        public virtual string Description => $"{GetSubjectId().Combine(PathAndName)} (of type {Type.ToFriendlyName()})";
+        public virtual string Description => $"{GetSubjectId().Combine(PathAndName)}";
 
         public bool IsRoot
         {

@@ -1534,7 +1534,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject (of type IEnumerable<int>) to be a collection with 0 item(s), but*contains 3 item(s)*");
+                "Expected subject to be a collection with 0 item(s), but*contains 3 item(s)*");
         }
 
         [Fact]
@@ -1579,7 +1579,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection (of type IEnumerable<int>) not to be <null>*");
+                "Expected collection not to be <null>*");
         }
 
         [Fact]

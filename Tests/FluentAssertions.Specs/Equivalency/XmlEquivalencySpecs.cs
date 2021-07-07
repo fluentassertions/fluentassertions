@@ -44,7 +44,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected EndElement \"parent\" in property subject.Document (of type XDocument) at \"/parent\", but found Element \"child2\".*");
+                "Expected EndElement \"parent\" in property subject.Document at \"/parent\", but found Element \"child2\".*");
         }
 
         [Fact]
@@ -85,7 +85,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected EndElement \"parent\" in property subject.Element (of type XElement) at \"/parent\", but found Element \"child2\"*");
+                "Expected EndElement \"parent\" in property subject.Element at \"/parent\", but found Element \"child2\"*");
         }
 
         [Fact]
@@ -125,7 +125,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                $"Expected property subject.Attribute (of type XAttribute) to be name2=\"value\" because we want to test the failure message, but found name=\"value\"*");
+                $"Expected property subject.Attribute to be name2=\"value\" because we want to test the failure message, but found name=\"value\"*");
         }
     }
 }

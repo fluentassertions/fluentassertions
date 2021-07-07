@@ -50,7 +50,7 @@ namespace FluentAssertions.Specs
 
                 // Assert
                 action.Should().Throw<XunitException>().WithMessage(
-                    "Expected *of type DataSet*to be non-null, but found null*");
+                    "Expected *to be non-null, but found null*");
             }
 
             [Fact]

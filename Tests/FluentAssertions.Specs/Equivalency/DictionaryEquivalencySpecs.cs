@@ -372,7 +372,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*Dictionary*not to be*null*valid dictionary*");
+                .WithMessage("Expected*not to be*null*valid dictionary*");
         }
 
         [Fact]
@@ -1082,7 +1082,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected actual*Dictionary*key*c*because we're expecting c*");
+                "Expected actual*key*c*because we're expecting c*");
         }
 
         [Fact]
