@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
@@ -50,6 +52,23 @@ namespace FluentAssertions.Specs.Execution
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected fooShould to be <null>*");
+        }
+
+        [Fact]
+        public async Task When_should_is_passed_argument_context_should_still_be_found()
+        {
+            // Arrange
+            var bob = new TaskCompletionSource<bool>();
+            var timer = new FakeClock();
+
+            // Act
+            Func<Task> action = () => bob.Should(timer).NotCompleteWithinAsync(1.Seconds(), "test {0}", "testArg");
+            bob.SetResult(true);
+            timer.Complete();
+
+            // Assert
+            await action.Should().ThrowAsync<XunitException>()
+                .WithMessage("Expected bob to not complete within 1s because test testArg.");
         }
 
         [Fact]
@@ -232,11 +251,11 @@ namespace FluentAssertions.Specs.Execution
             var foo = new Foo();
 
             // Act
-            Action act = () => foo.BarMethod(@"test"";").Should().BeNull();
+            Action act = () => foo.BarMethod(@"test", argument2: $@"test2", argument3: @$"test3").Should().BeNull();
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected foo.BarMethod(@\"test\"\";\") to be <null>*");
+                .WithMessage("Expected foo.BarMethod(@\"test\",argument2:$@\"test2\",argument3:@$\"test3\") to be <null>*");
         }
 
         [Fact]
@@ -332,6 +351,7 @@ namespace FluentAssertions.Specs.Execution
 
         [Fact]
         [SuppressMessage("Single - line comment should be preceded by blank line", "SA1515")]
+        [SuppressMessage("Single - line comment should be preceded by blank line", "IDE0055")]
         public void When_the_caller_contains_single_line_comment_it_should_ignore_that()
         {
             // Arrange
@@ -352,6 +372,7 @@ namespace FluentAssertions.Specs.Execution
 
         [Fact]
         [SuppressMessage("Single - line comment should be preceded by blank line", "SA1515")]
+        [SuppressMessage("Single - line comment should be preceded by blank line", "IDE0055")]
         public void When_the_caller_contains_multi_line_comment_it_should_ignore_that()
         {
             // Arrange
@@ -374,6 +395,7 @@ namespace FluentAssertions.Specs.Execution
 
         [Fact]
         [SuppressMessage("Single - line comment should be preceded by blank line", "SA1515")]
+        [SuppressMessage("Single - line comment should be preceded by blank line", "IDE0055")]
         public void When_the_caller_contains_several_comments_it_should_ignore_them()
         {
             // Arrange
@@ -442,6 +464,8 @@ namespace FluentAssertions.Specs.Execution
         public string BarMethod() => Bar;
 
         public string BarMethod(string argument) => Bar;
+
+        public string BarMethod(string argument, string argument2, string argument3) => Bar;
 
         public bool ShouldReturnSomeBool() => true;
 

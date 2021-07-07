@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Linq;
+using System.Text;
 
 namespace FluentAssertions.CallerIdentification
 {
@@ -53,10 +54,18 @@ namespace FluentAssertions.CallerIdentification
 
         private bool IsVerbatim(StringBuilder statement)
         {
-            return previousChar == '@'
-                   || (statement.Length > 1
-                           && statement[statement.Length - 1] == '$'
-                           && statement[statement.Length - 2] == '@');
+            return
+                statement.Length >= 1
+                &&
+                    new[]
+                    {
+                        "$@",
+                        "@$",
+                    }
+                    .Any(verbatimStringOpener =>
+                        previousChar == verbatimStringOpener[1]
+                        && statement[statement.Length - 1] == verbatimStringOpener[1]
+                        && statement[statement.Length - 2] == verbatimStringOpener[0]);
         }
     }
 }
