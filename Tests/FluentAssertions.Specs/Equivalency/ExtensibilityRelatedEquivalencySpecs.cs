@@ -300,7 +300,7 @@ namespace FluentAssertions.Specs.Equivalency
             // Assert
             act.Should().Throw<XunitException>()
                 .Which.Message.Should()
-                .Contain("Expected property subject.Id (of type double?) to be <null>, but found \"foo\"")
+                .Contain("Expected property subject.Id to be <null>, but found \"foo\"")
                     .And.NotContain("from expectation");
         }
 
@@ -327,7 +327,7 @@ namespace FluentAssertions.Specs.Equivalency
             // Assert
             act.Should().Throw<XunitException>()
                 .Which.Message.Should()
-                .Contain("Expected property subject.Id (of type string) to be \"bar\", but found <null>")
+                .Contain("Expected property subject.Id to be \"bar\", but found <null>")
                     .And.NotContain("from subject");
         }
 

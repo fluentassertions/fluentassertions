@@ -30,7 +30,7 @@ namespace FluentAssertions.Equivalency
 
         public Type DeclaringType { get; private set; }
 
-        public override string Description => $"property {GetSubjectId().Combine(PathAndName)} (of type {Type.ToFriendlyName()})";
+        public override string Description => $"property {GetSubjectId().Combine(PathAndName)}";
 
         public CSharpAccessModifier GetterAccessibility => propertyInfo.GetGetMethod(nonPublic: true).GetCSharpAccessModifier();
 
