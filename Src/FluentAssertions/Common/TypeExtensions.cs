@@ -471,57 +471,6 @@ namespace FluentAssertions.Common
             bool IsNamespacePrefix() => type.Namespace?.StartsWith(@namespace, StringComparison.Ordinal) == true;
         }
 
-        private static readonly Dictionary<Type, string> DefaultDictionary = new()
-        {
-            { typeof(int), "int" },
-            { typeof(uint), "uint" },
-            { typeof(long), "long" },
-            { typeof(ulong), "ulong" },
-            { typeof(short), "short" },
-            { typeof(ushort), "ushort" },
-            { typeof(byte), "byte" },
-            { typeof(sbyte), "sbyte" },
-            { typeof(bool), "bool" },
-            { typeof(float), "float" },
-            { typeof(double), "double" },
-            { typeof(decimal), "decimal" },
-            { typeof(char), "char" },
-            { typeof(string), "string" },
-            { typeof(object), "object" },
-            { typeof(void), "void" }
-        };
-
-        public static string ToFriendlyName(this Type type)
-        {
-            if (DefaultDictionary.TryGetValue(type, out string result))
-            {
-                return result;
-            }
-
-            if (type.IsArray)
-            {
-                var rank = type.GetArrayRank();
-                var commas = rank > 1
-                    ? new string(',', rank - 1)
-                    : string.Empty;
-
-                return ToFriendlyName(type.GetElementType()) + $"[{commas}]";
-            }
-
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
-            {
-                return type.GetGenericArguments()[0].ToFriendlyName() + "?";
-            }
-
-            if (type.IsGenericType)
-            {
-                return type.Name.Split('`')[0] + "<" +
-                       string.Join(", ", type.GetGenericArguments().Select(x => ToFriendlyName(x)).ToArray()) + ">";
-            }
-
-            return type.Name;
-        }
-
         public static bool IsSameOrInherits(this Type actualType, Type expectedType)
         {
             return actualType == expectedType ||
