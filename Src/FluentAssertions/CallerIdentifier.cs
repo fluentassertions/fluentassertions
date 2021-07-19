@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
-
+using FluentAssertions.CallerIdentification;
 using FluentAssertions.Common;
 
 namespace FluentAssertions
@@ -58,7 +58,7 @@ namespace FluentAssertions
                         && !IsDotNet(frame)
                         && !IsCustomAssertion(frame))
                     {
-                        caller = ExtractVariableNameFrom(frame) ?? caller;
+                        caller = ExtractVariableNameFrom(frame);
                         break;
                     }
                 }
@@ -74,7 +74,7 @@ namespace FluentAssertions
 
         private class StackFrameReference : IDisposable
         {
-            public int SkipStackFrameCount { get; set; }
+            public int SkipStackFrameCount { get; }
 
             private readonly StackFrameReference previousReference;
 
@@ -168,35 +168,22 @@ namespace FluentAssertions
         private static string ExtractVariableNameFrom(StackFrame frame)
         {
             string caller = null;
+            string statement = GetSourceCodeStatementFrom(frame);
 
-            int column = frame.GetFileColumnNumber();
-            string line = GetSourceCodeLineFrom(frame);
-
-            if ((line is not null) && (column != 0) && (line.Length > 0))
+            if (!string.IsNullOrEmpty(statement))
             {
-                string statement = line.Substring(Math.Min(column - 1, line.Length - 1));
-
                 Logger(statement);
-
-                int indexOfShould = statement.IndexOf(".Should", StringComparison.Ordinal);
-                if (indexOfShould != -1)
+                if (!IsBooleanLiteral(statement) && !IsNumeric(statement) && !IsStringLiteral(statement) &&
+                    !UsesNewKeyword(statement))
                 {
-                    string candidate = statement.Substring(0, indexOfShould);
-
-                    Logger(candidate);
-
-                    if (!IsBooleanLiteral(candidate) && !IsNumeric(candidate) && !IsStringLiteral(candidate) &&
-                        !UsesNewKeyword(candidate))
-                    {
-                        caller = candidate;
-                    }
+                    caller = statement;
                 }
             }
 
             return caller;
         }
 
-        private static string GetSourceCodeLineFrom(StackFrame frame)
+        private static string GetSourceCodeStatementFrom(StackFrame frame)
         {
             string fileName = frame.GetFileName();
             int expectedLineNumber = frame.GetFileLineNumber();
@@ -217,13 +204,34 @@ namespace FluentAssertions
                     currentLine++;
                 }
 
-                return (currentLine == expectedLineNumber) ? line : null;
+                return currentLine == expectedLineNumber
+                       && line != null
+                           ? GetSourceCodeStatementFrom(frame, reader, line)
+                           : null;
             }
             catch
             {
                 // We don't care. Just assume the symbol file is not available or unreadable
                 return null;
             }
+        }
+
+        private static string GetSourceCodeStatementFrom(StackFrame frame, StreamReader reader, string line)
+        {
+            int column = frame.GetFileColumnNumber();
+            if (column > 0)
+            {
+                line = line.Substring(Math.Min(column - 1, line.Length - 1));
+            }
+
+            var sb = new CallerStatementBuilder();
+            do
+            {
+                sb.Append(line);
+            }
+            while (!sb.IsDone() && (line = reader.ReadLine()) != null);
+
+            return sb.ToString();
         }
 
         private static bool UsesNewKeyword(string candidate)
@@ -238,13 +246,13 @@ namespace FluentAssertions
 
         private static bool IsNumeric(string candidate)
         {
-            const NumberStyles DefaultStyle = NumberStyles.Float | NumberStyles.AllowThousands;
-            return double.TryParse(candidate, DefaultStyle, CultureInfo.InvariantCulture, out _);
+            const NumberStyles numberStyle = NumberStyles.Float | NumberStyles.AllowThousands;
+            return double.TryParse(candidate, numberStyle, CultureInfo.InvariantCulture, out _);
         }
 
         private static bool IsBooleanLiteral(string candidate)
         {
-            return candidate == "true" || candidate == "false";
+            return candidate is "true" or "false";
         }
     }
 }
