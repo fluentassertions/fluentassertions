@@ -62,7 +62,10 @@ namespace FluentAssertions.Equivalency
         {
             foreach (IEquivalencyStep step in AssertionOptions.EquivalencyPlan)
             {
-                if (step.Handle(comparands, context, this) == EquivalencyResult.AssertionCompleted)
+                var result = step.Handle(comparands, context, this);
+                context.Tracer.WriteLine(_ => $"Step {step.GetType().Name} returned {result}");
+
+                if (result == EquivalencyResult.AssertionCompleted)
                 {
                     return;
                 }

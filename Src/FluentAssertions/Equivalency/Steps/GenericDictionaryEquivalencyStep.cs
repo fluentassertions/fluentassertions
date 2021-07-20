@@ -11,8 +11,8 @@ namespace FluentAssertions.Equivalency.Steps
     {
 #pragma warning disable SA1110 // Allow opening parenthesis on new line to reduce line length
         private static readonly MethodInfo AssertSameLengthMethod =
-            new Func<IDictionary<object, object>, IDictionary<object, object>, bool>
-                (AssertSameLength).GetMethodInfo().GetGenericMethodDefinition();
+            new Func<IDictionary<object, object>, IDictionary<object, object>, bool>(AssertSameLength).GetMethodInfo()
+                .GetGenericMethodDefinition();
 
         private static readonly MethodInfo AssertDictionaryEquivalenceMethod =
             new Action<EquivalencyValidationContext, IEquivalencyValidator, IEquivalencyAssertionOptions,
@@ -23,41 +23,37 @@ namespace FluentAssertions.Equivalency.Steps
         public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
             IEquivalencyValidator nestedValidator)
         {
-            Type expectationType = comparands.GetExpectedType(context.Options);
-
-            if (comparands.Expectation is null || !GetIDictionaryInterfaces(expectationType).Any())
+            if (comparands.Expectation != null)
             {
-                return EquivalencyResult.ContinueWithNext;
+                Type expectationType = comparands.GetExpectedType(context.Options);
+                bool isDictionary = DictionaryInterfaceInfo.TryGetFrom(expectationType, "expectation", out var expectedDictionary);
+                if (isDictionary)
+                {
+                    Handle(comparands, expectedDictionary, context, nestedValidator);
+
+                    return EquivalencyResult.AssertionCompleted;
+                }
             }
 
-            if (PreconditionsAreMet(comparands, expectationType))
-            {
-                AssertDictionaryEquivalence(comparands, context, nestedValidator, expectationType);
-            }
-
-            return EquivalencyResult.AssertionCompleted;
+            return EquivalencyResult.ContinueWithNext;
         }
 
-        private static Type[] GetIDictionaryInterfaces(Type type)
+        private static void Handle(Comparands comparands, DictionaryInterfaceInfo expectedDictionary,
+            IEquivalencyValidationContext context,
+            IEquivalencyValidator nestedValidator)
         {
-            // Avoid expensive calculation when the type in question can't possibly implement IDictionary<,>.
-            if (Type.GetTypeCode(type) != TypeCode.Object)
+            if (AssertSubjectIsNotNull(comparands.Subject)
+                && AssertExpectationIsNotNull(comparands.Subject, comparands.Expectation))
             {
-                return Array.Empty<Type>();
+                var (isDictionary, actualDictionary) = EnsureSubjectIsDictionary(comparands, expectedDictionary);
+                if (isDictionary)
+                {
+                    if (AssertSameLength(comparands, actualDictionary, expectedDictionary))
+                    {
+                        AssertDictionaryEquivalence(comparands, context, nestedValidator, actualDictionary, expectedDictionary);
+                    }
+                }
             }
-
-            return Common.TypeExtensions.GetClosedGenericInterfaces(
-                type,
-                typeof(IDictionary<,>));
-        }
-
-        private static bool PreconditionsAreMet(Comparands comparands, Type expectedType)
-        {
-            return AssertImplementsOnlyOneDictionaryInterface(comparands.Expectation)
-                   && AssertSubjectIsNotNull(comparands.Subject)
-                   && AssertExpectationIsNotNull(comparands.Subject, comparands.Expectation)
-                   && AssertIsCompatiblyTypedDictionary(expectedType, comparands.Subject)
-                   && AssertSameLength(comparands.Subject, expectedType, comparands.Expectation);
         }
 
         private static bool AssertSubjectIsNotNull(object subject)
@@ -74,95 +70,44 @@ namespace FluentAssertions.Equivalency.Steps
                 .FailWith("Expected {context:Subject} to be {0}{reason}, but found {1}.", null, subject);
         }
 
-        private static bool AssertImplementsOnlyOneDictionaryInterface(object expectation)
+        private static (bool isDictionary, DictionaryInterfaceInfo info) EnsureSubjectIsDictionary(Comparands comparands,
+            DictionaryInterfaceInfo expectedDictionary)
         {
-            Type[] interfaces = GetIDictionaryInterfaces(expectation.GetType());
-            bool multipleInterfaces = interfaces.Length > 1;
-            if (!multipleInterfaces)
+            bool isDictionary = DictionaryInterfaceInfo.TryGetFromWithKey(comparands.Subject.GetType(), "subject",
+                expectedDictionary.Key, out var actualDictionary);
+
+            if (!isDictionary)
             {
-                return true;
+                if (expectedDictionary.TryConvertFrom(comparands.Subject, out var convertedSubject))
+                {
+                    comparands.Subject = convertedSubject;
+                    isDictionary = DictionaryInterfaceInfo.TryGetFrom(comparands.Subject.GetType(), "subject", out actualDictionary);
+                }
             }
 
-            AssertionScope.Current.FailWith(
-                "{context:Expectation} implements multiple dictionary types.  "
-                + $"It is not known which type should be use for equivalence.{Environment.NewLine}"
-                + $"The following IDictionary interfaces are implemented: {string.Join(", ", (IEnumerable<Type>)interfaces)}");
-
-            return false;
-        }
-
-        private static bool AssertIsCompatiblyTypedDictionary(Type expectedType, object subject)
-        {
-            Type expectedDictionaryType = GetIDictionaryInterface(expectedType);
-            Type expectedKeyType = GetDictionaryKeyType(expectedDictionaryType);
-
-            Type subjectType = subject.GetType();
-            Type[] subjectDictionaryInterfaces = GetIDictionaryInterfaces(subjectType);
-            if (!subjectDictionaryInterfaces.Any())
+            if (!isDictionary)
             {
                 AssertionScope.Current.FailWith(
-                    "Expected {context:subject} to be a {0}{reason}, but found a {1}.", expectedDictionaryType, subjectType);
-
-                return false;
+                    $"Expected {{context:subject}} to be a dictionary or collection of key-value pairs that is keyed to type {expectedDictionary.Key}. " +
+                    $"It implements {actualDictionary}.");
             }
 
-            Type[] suitableDictionaryInterfaces = subjectDictionaryInterfaces.Where(
-                @interface => GetDictionaryKeyType(@interface).IsAssignableFrom(expectedKeyType)).ToArray();
-
-            if (suitableDictionaryInterfaces.Length > 1)
-            {
-                // SMELL: Code could be written to handle this better, but is it really worth the effort?
-                AssertionScope.Current.FailWith(
-                    "The subject implements multiple IDictionary interfaces. ");
-
-                return false;
-            }
-
-            if (!suitableDictionaryInterfaces.Any())
-            {
-                AssertionScope.Current.FailWith(
-                    $"The {{context:subject}} dictionary has keys of type {expectedKeyType}; "
-                    + $"however, the expectation is not keyed with any compatible types.{Environment.NewLine}"
-                    + $"The subject implements: {string.Join(",", (IEnumerable<Type>)subjectDictionaryInterfaces)}");
-
-                return false;
-            }
-
-            return true;
+            return (isDictionary, actualDictionary);
         }
 
-        private static Type GetDictionaryKeyType(Type expectedType)
+        private static bool AssertSameLength(Comparands comparands, DictionaryInterfaceInfo actualDictionary,
+            DictionaryInterfaceInfo expectedDictionary)
         {
-            return expectedType.GetGenericArguments()[0];
-        }
-
-        private static bool AssertSameLength(object subject, Type expectationType, object expectation)
-        {
-            if (subject is ICollection subjectCollection
-                && expectation is ICollection expectationCollection
+            if (comparands.Subject is ICollection subjectCollection
+                && comparands.Expectation is ICollection expectationCollection
                 && subjectCollection.Count == expectationCollection.Count)
             {
                 return true;
             }
 
-            Type subjectType = subject.GetType();
-            Type[] subjectTypeArguments = GetDictionaryTypeArguments(subjectType);
-            Type[] expectationTypeArguments = GetDictionaryTypeArguments(expectationType);
-            Type[] typeArguments = subjectTypeArguments.Concat(expectationTypeArguments).ToArray();
-
-            return (bool)AssertSameLengthMethod.MakeGenericMethod(typeArguments).Invoke(null, new[] { subject, expectation });
-        }
-
-        private static Type[] GetDictionaryTypeArguments(Type type)
-        {
-            Type dictionaryType = GetIDictionaryInterface(type);
-
-            return dictionaryType.GetGenericArguments();
-        }
-
-        private static Type GetIDictionaryInterface(Type expectedType)
-        {
-            return GetIDictionaryInterfaces(expectedType).Single();
+            return (bool)AssertSameLengthMethod
+                .MakeGenericMethod(actualDictionary.Key, actualDictionary.Value, expectedDictionary.Key, expectedDictionary.Value)
+                .Invoke(null, new[] { comparands.Subject, comparands.Expectation });
         }
 
         private static bool AssertSameLength<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(
@@ -170,8 +115,7 @@ namespace FluentAssertions.Equivalency.Steps
             where TExpectedKey : TSubjectKey
 
         // Type constraint of TExpectedKey is asymmetric in regards to TSubjectKey
-        // but it is valid. This constraint is implicitly enforced by the
-        // AssertIsCompatiblyTypedDictionary method which is called before
+        // but it is valid. This constraint is implicitly enforced by the dictionary interface info which is called before
         // the AssertSameLength method.
         {
             if (expectation.Count == subject.Count)
@@ -232,15 +176,11 @@ namespace FluentAssertions.Equivalency.Steps
         }
 
         private static void AssertDictionaryEquivalence(Comparands comparands, IEquivalencyValidationContext context,
-            IEquivalencyValidator parent, Type expectedType)
+            IEquivalencyValidator parent, DictionaryInterfaceInfo actualDictionary, DictionaryInterfaceInfo expectedDictionary)
         {
-            Type subjectType = comparands.Subject.GetType();
-            Type[] subjectTypeArguments = GetDictionaryTypeArguments(subjectType);
-            Type[] expectationTypeArguments = GetDictionaryTypeArguments(expectedType);
-            Type[] typeArguments = subjectTypeArguments.Concat(expectationTypeArguments).ToArray();
-
-            AssertDictionaryEquivalenceMethod.MakeGenericMethod(typeArguments).Invoke(null,
-                new[] { context, parent, context.Options, comparands.Subject, comparands.Expectation });
+            AssertDictionaryEquivalenceMethod
+                .MakeGenericMethod(actualDictionary.Key, actualDictionary.Value, expectedDictionary.Key, expectedDictionary.Value)
+                .Invoke(null, new[] { context, parent, context.Options, comparands.Subject, comparands.Expectation });
         }
 
         private static void AssertDictionaryEquivalence<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(
