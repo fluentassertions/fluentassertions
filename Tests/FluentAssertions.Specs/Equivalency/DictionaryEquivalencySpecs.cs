@@ -449,6 +449,21 @@ namespace FluentAssertions.Specs.Equivalency
         }
 
         [Fact]
+        public void When_a_collection_of_key_value_pairs_is_equivalent_to_the_dictionary_it_should_succeed()
+        {
+            // Arrange
+            var collection = new List<KeyValuePair<string, int>> { new("hi", 1) };
+
+            // Act / Assert
+            Action act = () => collection.Should().BeEquivalentTo(new Dictionary<string, int>()
+            {
+                { "hi", 2 }
+            });
+
+            act.Should().Throw<XunitException>().WithMessage("Expected collection[hi]*to be 2, but found 1.*");
+        }
+
+        [Fact]
         public void
             When_a_generic_dictionary_is_typed_as_object_and_runtime_typing_has_is_specified_it_should_use_the_runtime_type()
         {
@@ -534,8 +549,8 @@ namespace FluentAssertions.Specs.Equivalency
             Action act = () => object1.Should().BeEquivalentTo(object2);
 
             // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("*Object1*implements multiple dictionary types*");
+            act.Should().Throw<ArgumentException>()
+                .WithMessage("*expectation*implements multiple dictionary types*");
         }
 
         [Fact]
@@ -643,11 +658,11 @@ namespace FluentAssertions.Specs.Equivalency
             var expectation = new Dictionary<string, string> { ["greeting"] = "hello" };
 
             // Act
-            Action act = () => expectation.Should().BeEquivalentTo(actual);
+            Action act = () => actual.Should().BeEquivalentTo(expectation);
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*expectation*keys*Int32*compatible types*IDictionary`2[System.String,System.String]*");
+                .WithMessage("Expected actual to be a dictionary or collection of key-value pairs that is keyed to type System.String*");
         }
 
         [Fact]
@@ -797,7 +812,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*Customers*Dictionary`2[System.String,System.String], but found*String*");
+                .WithMessage("Expected property subject.Customers to be a dictionary or collection of key-value pairs that is keyed to type System.String*");
         }
 
         [Fact]
@@ -913,7 +928,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("*the expectation is not keyed with any compatible types*");
+                .WithMessage("Expected dictionary2 to be a dictionary or collection of key-value pairs that is keyed to type FluentAssertions.Specs.Equivalency.DictionaryEquivalencySpecs+SomeBaseKeyClass.*");
         }
 
         [Fact]
