@@ -95,25 +95,21 @@ namespace FluentAssertions.Equivalency.Steps
 
         private static DictionaryInterfaceInfo[] GetDictionaryInterfacesFrom(Type target)
         {
-            if (!Cache.TryGetValue(target, out DictionaryInterfaceInfo[] dictionaries))
+            return Cache.GetOrAdd(target, key =>
             {
-                if (Type.GetTypeCode(target) != TypeCode.Object)
+                if (Type.GetTypeCode(key) != TypeCode.Object)
                 {
-                    dictionaries = new DictionaryInterfaceInfo[0];
+                    return new DictionaryInterfaceInfo[0];
                 }
                 else
                 {
-                    dictionaries = target
+                    return key
                         .GetClosedGenericInterfaces(typeof(IDictionary<,>))
                         .Select(@interface => @interface.GetGenericArguments())
                         .Select(arguments => new DictionaryInterfaceInfo(arguments[0], arguments[1]))
                         .ToArray();
                 }
-
-                Cache.TryAdd(target, dictionaries);
-            }
-
-            return dictionaries;
+            });
         }
 
         /// <summary>
