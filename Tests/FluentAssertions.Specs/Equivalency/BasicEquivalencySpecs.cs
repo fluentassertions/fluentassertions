@@ -2050,6 +2050,39 @@ namespace FluentAssertions.Specs.Equivalency
                 .Excluding(o => o.DerivedProperty2));
         }
 
+        [Fact]
+        public void A_nested_class_without_properties_inside_a_collection_is_fine()
+        {
+            // Arrange
+            var sut = new List<BaseClassPointingToClassWithoutProperties>
+            {
+                new()
+                {
+                    Name = "theName"
+                }
+            };
+
+            // Act / Assert
+            sut.Should().BeEquivalentTo(new[]
+            {
+                new BaseClassPointingToClassWithoutProperties
+                {
+                    Name = "theName"
+                }
+            });
+        }
+
+        internal class BaseClassPointingToClassWithoutProperties
+        {
+            public string Name { get; set; }
+
+            public ClassWithoutProperty ClassWithoutProperty { get; } = new ClassWithoutProperty();
+        }
+
+        internal class ClassWithoutProperty
+        {
+        }
+
         #endregion
 
         #region Matching Rules

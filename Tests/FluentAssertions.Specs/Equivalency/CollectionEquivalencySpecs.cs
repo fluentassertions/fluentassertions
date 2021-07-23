@@ -129,10 +129,10 @@ namespace FluentAssertions.Specs.Equivalency
         {
             public string MyString { get; set; }
 
-            public MyChildObject Child { get; set; }
+            public ClassIdentifiedById Child { get; set; }
         }
 
-        public class MyChildObject
+        public class ClassIdentifiedById
         {
             public int Id { get; set; }
 
@@ -140,7 +140,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             public override bool Equals(object obj)
             {
-                return obj is MyChildObject other && other.Id == Id;
+                return obj is ClassIdentifiedById other && other.Id == Id;
             }
 
             public override int GetHashCode()
@@ -1414,7 +1414,7 @@ namespace FluentAssertions.Specs.Equivalency
             var actual = new MyObject
             {
                 MyString = "identical string",
-                Child = new MyChildObject
+                Child = new ClassIdentifiedById
                 {
                     Id = 1,
                     MyChildString = "identical string"
@@ -1424,7 +1424,7 @@ namespace FluentAssertions.Specs.Equivalency
             var expectation = new MyObject
             {
                 MyString = "identical string",
-                Child = new MyChildObject
+                Child = new ClassIdentifiedById
                 {
                     Id = 1,
                     MyChildString = "DIFFERENT STRING"
