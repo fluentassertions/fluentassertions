@@ -28,10 +28,11 @@ namespace FluentAssertions.Equivalency
             {
                 // If the root is a collection, we need treat the objects in that collection as the root of the graph because all options
                 // refer to the type of the collection items.
-                return PathAndName.Length == 0 ||
-                       (RootIsCollection && PathAndName.StartsWith("[", StringComparison.Ordinal));
+                return PathAndName.Length == 0 || (RootIsCollection && IsIndex);
             }
         }
+
+        private bool IsIndex => PathAndName.StartsWith("[", StringComparison.Ordinal) && PathAndName.EndsWith("]", StringComparison.Ordinal);
 
         public bool RootIsCollection { get; protected set; }
 
