@@ -9,7 +9,7 @@ namespace FluentAssertions.Specs.Formatting
 {
     public class PredicateLambdaExpressionValueFormatterSpecs
     {
-        private PredicateLambdaExpressionValueFormatter formatter = new();
+        private readonly PredicateLambdaExpressionValueFormatter formatter = new();
 
         [Fact]
         public void When_first_level_properties_are_tested_for_equality_against_constants_then_output_should_be_readable()
