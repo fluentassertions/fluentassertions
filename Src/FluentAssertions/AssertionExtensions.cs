@@ -114,12 +114,15 @@ namespace FluentAssertions
         /// <exception cref="ArgumentNullException"><paramref name="subject"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
         [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
-        public static MemberExecutionTime<T> ExecutionTimeOf<T>(this T subject, Expression<Action<T>> action)
+        public static MemberExecutionTime<T> ExecutionTimeOf<T>(this T subject, Expression<Action<T>> action,
+            StartTimer createTimer = null)
         {
             Guard.ThrowIfArgumentIsNull(subject, nameof(subject));
             Guard.ThrowIfArgumentIsNull(action, nameof(action));
 
-            return new MemberExecutionTime<T>(subject, action, () => new StopwatchTimer());
+            createTimer ??= () => new StopwatchTimer();
+
+            return new MemberExecutionTime<T>(subject, action, createTimer);
         }
 
         /// <summary>

@@ -34,7 +34,7 @@ namespace FluentAssertions
         public static System.Action Enumerating<T, TResult>(this T subject, System.Func<T, System.Collections.Generic.IEnumerable<TResult>> enumerable) { }
         public static FluentAssertions.Specialized.ExecutionTime ExecutionTime(this System.Func<System.Threading.Tasks.Task> action) { }
         public static FluentAssertions.Specialized.ExecutionTime ExecutionTime(this System.Action action, FluentAssertions.Common.StartTimer createTimer = null) { }
-        public static FluentAssertions.Specialized.MemberExecutionTime<T> ExecutionTimeOf<T>(this T subject, System.Linq.Expressions.Expression<System.Action<T>> action) { }
+        public static FluentAssertions.Specialized.MemberExecutionTime<T> ExecutionTimeOf<T>(this T subject, System.Linq.Expressions.Expression<System.Action<T>> action, FluentAssertions.Common.StartTimer createTimer = null) { }
         public static System.Action Invoking<T>(this T subject, System.Action<T> action) { }
         public static System.Func<TResult> Invoking<T, TResult>(this T subject, System.Func<T, TResult> action) { }
         public static FluentAssertions.Events.IMonitor<T> Monitor<T>(this T eventSource, System.Func<System.DateTime> utcNow = null) { }

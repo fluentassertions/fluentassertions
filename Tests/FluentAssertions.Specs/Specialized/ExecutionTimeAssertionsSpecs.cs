@@ -376,9 +376,10 @@ namespace FluentAssertions.Specs.Specialized
         {
             // Arrange
             var subject = new SleepingClass();
+            var timer = new TestTimer(() => 210.Milliseconds());
 
             // Act
-            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(210)).Should().BeCloseTo(200.Milliseconds(),
+            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(0), () => timer).Should().BeCloseTo(200.Milliseconds(),
                 150.Milliseconds());
 
             // Assert
