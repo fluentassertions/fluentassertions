@@ -20,9 +20,13 @@ namespace FluentAssertions.Common
             this.dottedPath = dottedPath;
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the current object represents a child member of the <paramref name="candidate"/>
+        /// or that it is the parent of that candidate.
+        /// </summary>
         public bool IsParentOrChildOf(MemberPath candidate)
         {
-            return IsParent(candidate) || IsChild(candidate);
+            return IsParentOf(candidate) || IsChildOf(candidate);
         }
 
         public bool IsSameAs(MemberPath candidate)
@@ -38,19 +42,17 @@ namespace FluentAssertions.Common
             return candidateSegments.SequenceEqual(segments);
         }
 
-        private bool IsChild(MemberPath candidate)
+        private bool IsParentOf(MemberPath candidate)
         {
-            string[] segments = GetSegments();
-            string[] candidateSegments = candidate.GetSegments();
+            string[] candidateSegments = candidate.segments;
 
             return candidateSegments.Length > segments.Length &&
                    candidateSegments.Take(segments.Length).SequenceEqual(segments);
         }
 
-        private bool IsParent(MemberPath candidate)
+        private bool IsChildOf(MemberPath candidate)
         {
-            string[] segments = GetSegments();
-            string[] candidateSegments = candidate.GetSegments();
+            string[] candidateSegments = candidate.segments;
 
             return candidateSegments.Length < segments.Length
                    && candidateSegments.SequenceEqual(segments.Take(candidateSegments.Length));
