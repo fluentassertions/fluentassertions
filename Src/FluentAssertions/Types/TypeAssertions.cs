@@ -411,7 +411,7 @@ namespace FluentAssertions.Types
 
         /// <summary>
         /// Asserts that the current <see cref="Type"/> is not decorated with and does not inherit from a parent class, an
-        /// attribute of type <typeparamref name="TAttribute"/> that matches the specified 
+        /// attribute of type <typeparamref name="TAttribute"/> that matches the specified
         /// <paramref name="isMatchingAttributePredicate"/>.
         /// </summary>
         /// <param name="isMatchingAttributePredicate">
@@ -863,7 +863,7 @@ namespace FluentAssertions.Types
 
             if (success)
             {
-                propertyInfo = Subject.GetPropertyByName(name);
+                propertyInfo = Subject.FindPropertyByName(name);
                 var propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
 
                 Execute.Assertion
@@ -921,7 +921,7 @@ namespace FluentAssertions.Types
 
             if (success)
             {
-                PropertyInfo propertyInfo = Subject.GetPropertyByName(name);
+                PropertyInfo propertyInfo = Subject.FindPropertyByName(name);
                 var propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
 
                 Execute.Assertion

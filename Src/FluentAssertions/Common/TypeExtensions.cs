@@ -360,7 +360,7 @@ namespace FluentAssertions.Common
             return type.GetParameterlessMethod(methodName) is not null;
         }
 
-        public static PropertyInfo GetPropertyByName(this Type type, string propertyName)
+        public static PropertyInfo FindPropertyByName(this Type type, string propertyName)
         {
             return type.GetProperty(propertyName, AllStaticAndInstanceMembersFlag);
         }

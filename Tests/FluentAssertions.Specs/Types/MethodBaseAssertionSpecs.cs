@@ -398,7 +398,7 @@ namespace FluentAssertions.Specs.Types
         public void When_asserting_a_protected_member_is_protected_it_succeeds()
         {
             // Arrange
-            PropertyInfo propertyInfo = typeof(TestClass).GetPropertyByName("ProtectedSetProperty");
+            PropertyInfo propertyInfo = typeof(TestClass).FindPropertyByName("ProtectedSetProperty");
 
             MethodInfo setMethod = propertyInfo.SetMethod;
 
@@ -414,7 +414,7 @@ namespace FluentAssertions.Specs.Types
         public void When_asserting_a_protected_member_is_public_it_throws_with_a_useful_message()
         {
             // Arrange
-            PropertyInfo propertyInfo = typeof(TestClass).GetPropertyByName("ProtectedSetProperty");
+            PropertyInfo propertyInfo = typeof(TestClass).FindPropertyByName("ProtectedSetProperty");
 
             MethodInfo setMethod = propertyInfo.SetMethod;
 
@@ -434,7 +434,7 @@ namespace FluentAssertions.Specs.Types
         public void When_asserting_a_public_member_is_public_it_succeeds()
         {
             // Arrange
-            PropertyInfo propertyInfo = typeof(TestClass).GetPropertyByName("PublicGetProperty");
+            PropertyInfo propertyInfo = typeof(TestClass).FindPropertyByName("PublicGetProperty");
 
             MethodInfo getMethod = propertyInfo.GetMethod;
 
@@ -450,7 +450,7 @@ namespace FluentAssertions.Specs.Types
         public void When_asserting_a_public_member_is_internal_it_throws_with_a_useful_message()
         {
             // Arrange
-            PropertyInfo propertyInfo = typeof(TestClass).GetPropertyByName("PublicGetProperty");
+            PropertyInfo propertyInfo = typeof(TestClass).FindPropertyByName("PublicGetProperty");
 
             MethodInfo getMethod = propertyInfo.GetMethod;
 
@@ -608,7 +608,7 @@ namespace FluentAssertions.Specs.Types
         public void When_asserting_a_protected_member_is_not_internal_it_succeeds()
         {
             // Arrange
-            PropertyInfo propertyInfo = typeof(TestClass).GetPropertyByName("ProtectedSetProperty");
+            PropertyInfo propertyInfo = typeof(TestClass).FindPropertyByName("ProtectedSetProperty");
             MethodInfo setMethod = propertyInfo.SetMethod;
 
             // Act
@@ -623,7 +623,7 @@ namespace FluentAssertions.Specs.Types
         public void When_asserting_a_protected_member_is_not_protected_it_throws_with_a_useful_message()
         {
             // Arrange
-            PropertyInfo propertyInfo = typeof(TestClass).GetPropertyByName("ProtectedSetProperty");
+            PropertyInfo propertyInfo = typeof(TestClass).FindPropertyByName("ProtectedSetProperty");
             MethodInfo setMethod = propertyInfo.SetMethod;
 
             // Act
@@ -641,7 +641,7 @@ namespace FluentAssertions.Specs.Types
         public void When_asserting_a_public_member_is_not_private_it_succeeds()
         {
             // Arrange
-            PropertyInfo propertyInfo = typeof(TestClass).GetPropertyByName("PublicGetProperty");
+            PropertyInfo propertyInfo = typeof(TestClass).FindPropertyByName("PublicGetProperty");
             MethodInfo getMethod = propertyInfo.GetMethod;
 
             // Act
@@ -656,7 +656,7 @@ namespace FluentAssertions.Specs.Types
         public void When_asserting_a_private_protected_member_is_not_private_it_succeeds()
         {
             // Arrange
-            PropertyInfo propertyInfo = typeof(TestClass).GetPropertyByName("PublicGetPrivateProtectedSet");
+            PropertyInfo propertyInfo = typeof(TestClass).FindPropertyByName("PublicGetPrivateProtectedSet");
             MethodInfo setMethod = propertyInfo.SetMethod;
 
             // Act
@@ -671,7 +671,7 @@ namespace FluentAssertions.Specs.Types
         public void When_asserting_a_public_member_is_not_public_it_throws_with_a_useful_message()
         {
             // Arrange
-            PropertyInfo propertyInfo = typeof(TestClass).GetPropertyByName("PublicGetProperty");
+            PropertyInfo propertyInfo = typeof(TestClass).FindPropertyByName("PublicGetProperty");
             MethodInfo getMethod = propertyInfo.GetMethod;
 
             // Act
