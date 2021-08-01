@@ -874,6 +874,8 @@ namespace FluentAssertions.Specs.Collections
             dictionary.Should().NotBeEmpty();
         }
 
+        #if !NET5_0_OR_GREATER
+
         [Fact]
         public void When_asserting_dictionary_with_items_is_not_empty_it_should_enumerate_the_dictionary_only_once()
         {
@@ -886,6 +888,8 @@ namespace FluentAssertions.Specs.Collections
             // Assert
             trackingDictionary.Enumerator.LoopCount.Should().Be(1);
         }
+
+        #endif
 
         [Fact]
         public void When_asserting_dictionary_without_items_is_not_empty_it_should_fail()
