@@ -13,7 +13,13 @@ namespace FluentAssertions.Equivalency
         private readonly PropertyInfo propertyInfo;
 
         public Property(PropertyInfo propertyInfo, INode parent)
+            : this(propertyInfo.ReflectedType, propertyInfo, parent)
         {
+        }
+
+        public Property(Type reflectedType, PropertyInfo propertyInfo, INode parent)
+        {
+            ReflectedType = reflectedType;
             this.propertyInfo = propertyInfo;
             DeclaringType = propertyInfo.DeclaringType;
             Name = propertyInfo.Name;
@@ -29,6 +35,8 @@ namespace FluentAssertions.Equivalency
         }
 
         public Type DeclaringType { get; private set; }
+
+        public Type ReflectedType { get; }
 
         public override string Description => $"property {GetSubjectId().Combine(PathAndName)}";
 

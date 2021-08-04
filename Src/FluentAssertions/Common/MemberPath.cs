@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using System.Reflection;
+using FluentAssertions.Equivalency;
 
 namespace FluentAssertions.Common
 {
@@ -9,13 +11,20 @@ namespace FluentAssertions.Common
     /// </summary>
     internal class MemberPath
     {
-        private readonly Type declaringType;
         private readonly string dottedPath;
+        private readonly Type reflectedType;
+        private readonly Type declaringType;
 
         private string[] segments;
 
-        public MemberPath(Type declaringType, string dottedPath)
+        public MemberPath(IMember member, string parentPath)
+            : this(member.ReflectedType, member.DeclaringType, parentPath.Combine(member.Name))
         {
+        }
+
+        public MemberPath(Type reflectedType, Type declaringType, string dottedPath)
+        {
+            this.reflectedType = reflectedType;
             this.declaringType = declaringType;
             this.dottedPath = dottedPath;
         }
@@ -31,35 +40,33 @@ namespace FluentAssertions.Common
 
         public bool IsSameAs(MemberPath candidate)
         {
-            if (!candidate.declaringType.IsSameOrInherits(declaringType))
+            if ((declaringType == candidate.declaringType) || declaringType.IsAssignableFrom(candidate.reflectedType))
             {
-                return false;
+                string[] candidateSegments = candidate.Segments;
+
+                return candidateSegments.SequenceEqual(Segments);
             }
 
-            string[] segments = GetSegments();
-            string[] candidateSegments = candidate.GetSegments();
-
-            return candidateSegments.SequenceEqual(segments);
+            return false;
         }
 
         private bool IsParentOf(MemberPath candidate)
         {
-            string[] candidateSegments = candidate.segments;
+            string[] candidateSegments = candidate.Segments;
 
-            return candidateSegments.Length > segments.Length &&
-                   candidateSegments.Take(segments.Length).SequenceEqual(segments);
+            return candidateSegments.Length > Segments.Length &&
+                   candidateSegments.Take(Segments.Length).SequenceEqual(Segments);
         }
 
         private bool IsChildOf(MemberPath candidate)
         {
-            string[] candidateSegments = candidate.segments;
+            string[] candidateSegments = candidate.Segments;
 
-            return candidateSegments.Length < segments.Length
-                   && candidateSegments.SequenceEqual(segments.Take(candidateSegments.Length));
+            return candidateSegments.Length < Segments.Length
+                   && candidateSegments.SequenceEqual(Segments.Take(candidateSegments.Length));
         }
 
-        private string[] GetSegments() =>
-            segments ??= dottedPath.Split(new[] { '.', '[', ']' }, StringSplitOptions.RemoveEmptyEntries);
+        private string[] Segments => segments ??= dottedPath.Split(new[] { '.', '[', ']' }, StringSplitOptions.RemoveEmptyEntries);
 
         public override string ToString()
         {

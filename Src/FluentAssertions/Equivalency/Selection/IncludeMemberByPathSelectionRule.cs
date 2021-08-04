@@ -23,7 +23,7 @@ namespace FluentAssertions.Equivalency.Selection
         {
             foreach (MemberInfo memberInfo in context.Type.GetNonPrivateMembers(MemberVisibility.Public | MemberVisibility.Internal))
             {
-                var memberPath = new MemberPath(memberInfo.DeclaringType, parentPath.Combine(memberInfo.Name));
+                var memberPath = new MemberPath(context.Type, memberInfo.DeclaringType, parentPath.Combine(memberInfo.Name));
                 if (memberToInclude.IsSameAs(memberPath) || memberToInclude.IsParentOrChildOf(memberPath))
                 {
                     selectedMembers.Add(MemberFactory.Create(memberInfo, parent));

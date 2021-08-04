@@ -2088,6 +2088,7 @@ namespace FluentAssertions.Specs.Equivalency
         [Fact]
         public void Excluding_a_covariant_property_should_work()
         {
+            // Arrange
             var actual = new DerivedWithCovariantOverride(new DerivedWithProperty { DerivedProperty = "a", BaseProperty = "a_base" })
             {
                 OtherProp = "other"
@@ -2098,8 +2099,31 @@ namespace FluentAssertions.Specs.Equivalency
                 OtherProp = "other"
             };
 
+            // Act / Assert
             actual.Should().BeEquivalentTo(expectation, opts => opts
                 .Excluding(d => d.Property));
+        }
+
+        [Fact]
+        public void Excluding_a_covariant_property_through_the_base_class_excludes_the_base_class_property()
+        {
+            // Arrange
+            var actual = new DerivedWithCovariantOverride(new DerivedWithProperty { DerivedProperty = "a", BaseProperty = "a_base" })
+            {
+                OtherProp = "other"
+            };
+
+            BaseWithAbstractProperty expectation = new DerivedWithCovariantOverride(new DerivedWithProperty { DerivedProperty = "b", BaseProperty = "b_base" })
+            {
+                OtherProp = "other"
+            };
+
+            // Act
+            Action act= () => actual.Should().BeEquivalentTo(expectation, opts => opts
+                .Excluding(d => d.Property));
+
+            // Assert
+            act.Should().Throw<InvalidOperationException>().WithMessage("No members*");
         }
 
         private class BaseWithProperty
@@ -2152,41 +2176,43 @@ namespace FluentAssertions.Specs.Equivalency
         }
 
         [Fact]
-        public void Exclude()
+        public void Excluding_an_interface_property_through_inheritance_should_work()
         {
+            // Arrange
             var actual = new IInterfaceWithTwoProperties[]
             {
-                new DerivedClassImplementingInterface() { Value1 = 1, Value2 = 2 }
-            };
-            var expected = new IInterfaceWithTwoProperties[]
-            {
-                new DerivedClassImplementingInterface() { Value1 = 999, Value2 = 2 }
+                new DerivedClassImplementingInterface { Value1 = 1, Value2 = 2 }
             };
 
-            actual.Should().BeEquivalentTo(
-                expected,
-                options => options
-                    .Excluding(a => a.Value1)
-                    .RespectingRuntimeTypes());
+            var expected = new IInterfaceWithTwoProperties[]
+            {
+                new DerivedClassImplementingInterface { Value1 = 999, Value2 = 2 }
+            };
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expected, options => options
+                .Excluding(a => a.Value1)
+                .RespectingRuntimeTypes());
         }
 
         [Fact]
-        public void Include()
+        public void Including_an_interface_property_through_inheritance_should_work()
         {
+            // Arrange
             var actual = new IInterfaceWithTwoProperties[]
             {
-                new DerivedClassImplementingInterface() { Value1 = 1, Value2 = 2 }
-            };
-            var expected = new IInterfaceWithTwoProperties[]
-            {
-                new DerivedClassImplementingInterface() { Value1 = 999, Value2 = 2 }
+                new DerivedClassImplementingInterface { Value1 = 1, Value2 = 2 }
             };
 
-            actual.Should().BeEquivalentTo(
-                expected,
-                options => options
-                    .Including(a => a.Value2)
-                    .RespectingRuntimeTypes());
+            var expected = new IInterfaceWithTwoProperties[]
+            {
+                new DerivedClassImplementingInterface { Value1 = 999, Value2 = 2 }
+            };
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expected, options => options
+                .Including(a => a.Value2)
+                .RespectingRuntimeTypes());
         }
 
         #region Matching Rules

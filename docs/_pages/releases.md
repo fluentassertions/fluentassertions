@@ -22,6 +22,7 @@ Changes since 6.0.0 Beta 1
 * Removed the type info from the failure message in equivalency checks - [#1621](https://github.com/fluentassertions/fluentassertions/pull/1621).
 * Fixed a regression so that collections of similarly typed key-value pairs should be equivalent to a dictionary - [#1603](https://github.com/fluentassertions/fluentassertions/pull/1603).
 * Fixed a regression where a nested class without suitable members inside a collection raised an exception - [#1627](https://github.com/fluentassertions/fluentassertions/pull/1627).
+* Fixed support for covariant and inherited property exclusion and inclusion in `BeEquivalentTo` - [#1631](https://github.com/fluentassertions/fluentassertions/pull/1631).
 
 
 ## 6.0.0 Beta 1

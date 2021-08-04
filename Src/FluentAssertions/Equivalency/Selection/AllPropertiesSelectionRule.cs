@@ -16,7 +16,7 @@ namespace FluentAssertions.Equivalency.Selection
         {
             IEnumerable<IMember> selectedNonPrivateProperties = context.Type
                 .GetNonPrivateProperties(context.IncludedProperties)
-                .Select(info => new Property(info, currentNode));
+                .Select(info => new Property(context.Type, info, currentNode));
 
             return selectedMembers.Union(selectedNonPrivateProperties).ToList();
         }

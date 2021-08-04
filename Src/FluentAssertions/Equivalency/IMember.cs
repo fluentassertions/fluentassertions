@@ -14,6 +14,11 @@ namespace FluentAssertions.Equivalency
         Type DeclaringType { get; }
 
         /// <summary>
+        /// Gets the type that was used to determine this member.
+        /// </summary>
+        Type ReflectedType { get; }
+
+        /// <summary>
         /// Gets the value of the member from the provided <paramref name="obj"/>
         /// </summary>
         object GetValue(object obj);
