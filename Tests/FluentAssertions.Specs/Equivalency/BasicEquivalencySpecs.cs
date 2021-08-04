@@ -1158,7 +1158,7 @@ namespace FluentAssertions.Specs.Equivalency
         }
 
         [Fact]
-        public void When_excluding_a_property_that_is_hidden_in_a_derived_class_it_should_select_the_correct_one()
+        public void Excluding_a_property_hiding_a_base_class_property_should_not_reveal_the_latter()
         {
             // Arrange
             var b1 = new ClassThatHidesBaseClassProperty();
@@ -1168,7 +1168,7 @@ namespace FluentAssertions.Specs.Equivalency
             Action act = () => b1.Should().BeEquivalentTo(b2, config => config.Excluding(b => b.Property));
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected property b1.Property*-*-*-*-*but*");
+            act.Should().Throw<InvalidOperationException>().WithMessage("*No members were found *");
         }
 
         private class ClassWithGuidProperty
@@ -2083,7 +2083,111 @@ namespace FluentAssertions.Specs.Equivalency
         {
         }
 
+#if NET5_0_OR_GREATER
+
+        [Fact]
+        public void Excluding_a_covariant_property_should_work()
+        {
+            var actual = new DerivedWithCovariantOverride(new DerivedWithProperty { DerivedProperty = "a", BaseProperty = "a_base" })
+            {
+                OtherProp = "other"
+            };
+
+            var expectation = new DerivedWithCovariantOverride(new DerivedWithProperty { DerivedProperty = "b", BaseProperty = "b_base" })
+            {
+                OtherProp = "other"
+            };
+
+            actual.Should().BeEquivalentTo(expectation, opts => opts
+                .Excluding(d => d.Property));
+        }
+
+        private class BaseWithProperty
+        {
+            public string BaseProperty { get; set; }
+        }
+
+        private class DerivedWithProperty : BaseWithProperty
+        {
+            public string DerivedProperty { get; set; }
+        }
+
+        private abstract class BaseWithAbstractProperty
+        {
+            public abstract BaseWithProperty Property { get; }
+        }
+
+        private sealed class DerivedWithCovariantOverride : BaseWithAbstractProperty
+        {
+            public override DerivedWithProperty Property { get; }
+
+            public string OtherProp { get; set; }
+
+            public DerivedWithCovariantOverride(DerivedWithProperty prop)
+            {
+                Property = prop;
+            }
+        }
+
+#endif
+
         #endregion
+
+        public interface IInterfaceWithTwoProperties
+        {
+            int Value1 { get; set; }
+
+            int Value2 { get; set; }
+        }
+
+        public class BaseProvidingSamePropertiesAsInterface
+        {
+            public int Value1 { get; set; }
+
+            public int Value2 { get; set; }
+        }
+
+        public class DerivedClassImplementingInterface : BaseProvidingSamePropertiesAsInterface, IInterfaceWithTwoProperties
+        {
+        }
+
+        [Fact]
+        public void Exclude()
+        {
+            var actual = new IInterfaceWithTwoProperties[]
+            {
+                new DerivedClassImplementingInterface() { Value1 = 1, Value2 = 2 }
+            };
+            var expected = new IInterfaceWithTwoProperties[]
+            {
+                new DerivedClassImplementingInterface() { Value1 = 999, Value2 = 2 }
+            };
+
+            actual.Should().BeEquivalentTo(
+                expected,
+                options => options
+                    .Excluding(a => a.Value1)
+                    .RespectingRuntimeTypes());
+        }
+
+        [Fact]
+        public void Include()
+        {
+            var actual = new IInterfaceWithTwoProperties[]
+            {
+                new DerivedClassImplementingInterface() { Value1 = 1, Value2 = 2 }
+            };
+            var expected = new IInterfaceWithTwoProperties[]
+            {
+                new DerivedClassImplementingInterface() { Value1 = 999, Value2 = 2 }
+            };
+
+            actual.Should().BeEquivalentTo(
+                expected,
+                options => options
+                    .Including(a => a.Value2)
+                    .RespectingRuntimeTypes());
+        }
 
         #region Matching Rules
 
