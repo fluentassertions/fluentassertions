@@ -12,15 +12,23 @@ namespace FluentAssertions.Equivalency
         private readonly FieldInfo fieldInfo;
 
         public Field(FieldInfo fieldInfo, INode parent)
+            : this(fieldInfo.ReflectedType, fieldInfo, parent)
+        {
+        }
+
+        public Field(Type reflectedType, FieldInfo fieldInfo, INode parent)
         {
             this.fieldInfo = fieldInfo;
             DeclaringType = fieldInfo.DeclaringType;
+            ReflectedType = reflectedType;
             Path = parent.PathAndName;
             GetSubjectId = parent.GetSubjectId;
             Name = fieldInfo.Name;
             Type = fieldInfo.FieldType;
             RootIsCollection = parent.RootIsCollection;
         }
+
+        public Type ReflectedType { get; }
 
         public object GetValue(object obj)
         {

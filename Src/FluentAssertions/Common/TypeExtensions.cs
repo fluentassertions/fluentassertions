@@ -227,7 +227,7 @@ namespace FluentAssertions.Common
             return GetMembersFromHierarchy(typeToReflect, type =>
             {
                 return type
-                    .GetProperties(AllInstanceMembersFlag)
+                    .GetProperties(AllInstanceMembersFlag | BindingFlags.DeclaredOnly)
                     .Where(property => property.GetMethod?.IsPrivate == false)
                     .Where(property => includeInternals || (property.GetMethod?.IsAssembly == false && property.GetMethod?.IsFamilyOrAssembly == false))
                     .ToArray();
@@ -266,38 +266,67 @@ namespace FluentAssertions.Common
         {
             if (typeToReflect.IsInterface)
             {
-                var propertyInfos = new List<TMemberInfo>();
+                return GetInterfaceMembers(typeToReflect, getMembers);
+            }
+            else
+            {
+                return GetClassMembers(typeToReflect, getMembers);
+            }
+        }
 
-                var considered = new List<Type>();
-                var queue = new Queue<Type>();
-                considered.Add(typeToReflect);
-                queue.Enqueue(typeToReflect);
+        private static List<TMemberInfo> GetInterfaceMembers<TMemberInfo>(Type typeToReflect, Func<Type, IEnumerable<TMemberInfo>> getMembers)
+            where TMemberInfo : MemberInfo
+        {
+            List<TMemberInfo> members = new();
 
-                while (queue.Count > 0)
+            var considered = new List<Type>();
+            var queue = new Queue<Type>();
+            considered.Add(typeToReflect);
+            queue.Enqueue(typeToReflect);
+
+            while (queue.Count > 0)
+            {
+                Type subType = queue.Dequeue();
+                foreach (Type subInterface in subType.GetInterfaces())
                 {
-                    Type subType = queue.Dequeue();
-                    foreach (Type subInterface in GetInterfaces(subType))
+                    if (considered.Contains(subInterface))
                     {
-                        if (considered.Contains(subInterface))
-                        {
-                            continue;
-                        }
-
-                        considered.Add(subInterface);
-                        queue.Enqueue(subInterface);
+                        continue;
                     }
 
-                    IEnumerable<TMemberInfo> typeProperties = getMembers(subType);
-
-                    IEnumerable<TMemberInfo> newPropertyInfos = typeProperties.Where(x => !propertyInfos.Contains(x));
-
-                    propertyInfos.InsertRange(0, newPropertyInfos);
+                    considered.Add(subInterface);
+                    queue.Enqueue(subInterface);
                 }
 
-                return propertyInfos.ToArray();
+                IEnumerable<TMemberInfo> typeMembers = getMembers(subType);
+
+                IEnumerable<TMemberInfo> newPropertyInfos = typeMembers.Where(x => !members.Contains(x));
+
+                members.InsertRange(0, newPropertyInfos);
             }
 
-            return getMembers(typeToReflect);
+            return members;
+        }
+
+        private static List<TMemberInfo> GetClassMembers<TMemberInfo>(Type typeToReflect, Func<Type, IEnumerable<TMemberInfo>> getMembers)
+            where TMemberInfo : MemberInfo
+        {
+            List<TMemberInfo> members = new();
+
+            while (typeToReflect != null)
+            {
+                foreach (var memberInfo in getMembers(typeToReflect))
+                {
+                    if (members.All(mi => mi.Name != memberInfo.Name))
+                    {
+                        members.Add(memberInfo);
+                    }
+                }
+
+                typeToReflect = typeToReflect.BaseType;
+            }
+
+            return members;
         }
 
         private static Type[] GetInterfaces(Type type)
@@ -360,7 +389,7 @@ namespace FluentAssertions.Common
             return type.GetParameterlessMethod(methodName) is not null;
         }
 
-        public static PropertyInfo GetPropertyByName(this Type type, string propertyName)
+        public static PropertyInfo FindPropertyByName(this Type type, string propertyName)
         {
             return type.GetProperty(propertyName, AllStaticAndInstanceMembersFlag);
         }

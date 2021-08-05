@@ -20,7 +20,7 @@ namespace FluentAssertions.Equivalency.Selection
             MemberSelectionContext context)
         {
             selectedMembers.RemoveAll(member =>
-                memberToExclude.IsSameAs(new MemberPath(member.DeclaringType, parentPath.Combine(member.Name))));
+                memberToExclude.IsSameAs(new MemberPath(member, parentPath)));
         }
 
         public override string ToString()

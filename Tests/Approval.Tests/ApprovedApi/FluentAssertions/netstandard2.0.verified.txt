@@ -727,9 +727,11 @@ namespace FluentAssertions.Equivalency
     public class Field : FluentAssertions.Equivalency.Node, FluentAssertions.Equivalency.IMember, FluentAssertions.Equivalency.INode
     {
         public Field(System.Reflection.FieldInfo fieldInfo, FluentAssertions.Equivalency.INode parent) { }
+        public Field(System.Type reflectedType, System.Reflection.FieldInfo fieldInfo, FluentAssertions.Equivalency.INode parent) { }
         public System.Type DeclaringType { get; set; }
         public override string Description { get; }
         public FluentAssertions.Common.CSharpAccessModifier GetterAccessibility { get; }
+        public System.Type ReflectedType { get; }
         public FluentAssertions.Common.CSharpAccessModifier SetterAccessibility { get; }
         public object GetValue(object obj) { }
     }
@@ -784,6 +786,7 @@ namespace FluentAssertions.Equivalency
     {
         System.Type DeclaringType { get; }
         FluentAssertions.Common.CSharpAccessModifier GetterAccessibility { get; }
+        System.Type ReflectedType { get; }
         FluentAssertions.Common.CSharpAccessModifier SetterAccessibility { get; }
         object GetValue(object obj);
     }
@@ -882,9 +885,11 @@ namespace FluentAssertions.Equivalency
     public class Property : FluentAssertions.Equivalency.Node, FluentAssertions.Equivalency.IMember, FluentAssertions.Equivalency.INode
     {
         public Property(System.Reflection.PropertyInfo propertyInfo, FluentAssertions.Equivalency.INode parent) { }
+        public Property(System.Type reflectedType, System.Reflection.PropertyInfo propertyInfo, FluentAssertions.Equivalency.INode parent) { }
         public System.Type DeclaringType { get; }
         public override string Description { get; }
         public FluentAssertions.Common.CSharpAccessModifier GetterAccessibility { get; }
+        public System.Type ReflectedType { get; }
         public FluentAssertions.Common.CSharpAccessModifier SetterAccessibility { get; }
         public object GetValue(object obj) { }
     }

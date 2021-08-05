@@ -100,7 +100,7 @@ namespace FluentAssertions.Common
             string[] reversedSegments = segments.AsEnumerable().Reverse().ToArray();
             string segmentPath = string.Join(".", reversedSegments);
 
-            return new MemberPath(declaringType, segmentPath.Replace(".[", "[", StringComparison.Ordinal));
+            return new MemberPath(typeof(TDeclaringType), declaringType, segmentPath.Replace(".[", "[", StringComparison.Ordinal));
         }
 
         private static string GetUnsupportedExpressionMessage(Expression expression) =>
