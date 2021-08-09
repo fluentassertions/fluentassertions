@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Reflection;
 using Xunit;
 using Xunit.Sdk;
 
@@ -79,7 +80,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected the enum to not have flag TestEnum.Two {value: 2}*because we want to test the failure message*");
+                .WithMessage("Expected*someObject*to not have flag TestEnum.Two {value: 2}*because we want to test the failure message*");
         }
 
         [Fact]
@@ -694,6 +695,99 @@ namespace FluentAssertions.Specs.Primitives
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("*because we want to test the failure message*");
+        }
+
+        #endregion
+
+        #region Match
+
+        [Fact]
+        public void An_enum_matching_the_predicate_should_not_throw()
+        {
+            // Arrange
+            BindingFlags flags = BindingFlags.Public;
+
+            // Act / Assert
+            flags.Should().Match(x => x == BindingFlags.Public);
+        }
+
+        [Fact]
+        public void An_enum_not_matching_the_predicate_should_throw_with_the_predicate_in_the_message()
+        {
+            // Arrange
+            BindingFlags flags = BindingFlags.Public;
+
+            // Act
+            Action act = () => flags.Should().Match(x => x == BindingFlags.Static, "that's what we need");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected*Static*because that's what we need*found*Public*");
+        }
+
+        [Fact]
+        public void An_enum_cannot_be_compared_with_a_null_predicate()
+        {
+            // Act
+            Action act = () => BindingFlags.Public.Should().Match(null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage("*null*predicate*");
+        }
+
+        #endregion
+
+        #region Be One Of
+
+        [Fact]
+        public void An_enum_that_is_one_of_the_expected_values_should_not_throw()
+        {
+            // Arrange
+            BindingFlags flags = BindingFlags.Public;
+
+            // Act / Assert
+            flags.Should().BeOneOf(BindingFlags.Public, BindingFlags.ExactBinding);
+        }
+
+        [Fact]
+        public void Throws_when_the_enums_is_not_one_of_the_expected_enums()
+        {
+            // Arrange
+            BindingFlags flags = BindingFlags.DeclaredOnly;
+
+            // Act / Assert
+            Action act = () => flags.Should().BeOneOf(new[] { BindingFlags.Public, BindingFlags.ExactBinding }, "that's what we need");
+
+            act.Should()
+                .Throw<XunitException>()
+                .WithMessage("Expected*Public*ExactBinding*because that's what we need*found*DeclaredOnly*");
+        }
+
+        [Fact]
+        public void An_enum_cannot_be_part_of_an_empty_list()
+        {
+            // Arrange
+            BindingFlags flags = BindingFlags.DeclaredOnly;
+
+            // Act / Assert
+            Action act = () => flags.Should().BeOneOf(Array.Empty<BindingFlags>());
+
+            act.Should()
+                .Throw<ArgumentException>()
+                .WithMessage("Cannot*empty list of enums*");
+        }
+
+        [Fact]
+        public void An_enum_cannot_be_part_of_a_null_list()
+        {
+            // Arrange
+            BindingFlags flags = BindingFlags.DeclaredOnly;
+
+            // Act / Assert
+            Action act = () => flags.Should().BeOneOf(null);
+
+            act.Should()
+                .Throw<ArgumentException>()
+                .WithMessage("Cannot*null list of enums*");
         }
 
         #endregion

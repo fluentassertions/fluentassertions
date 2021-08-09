@@ -7,6 +7,14 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 6.0.0 Beta 3
+Changes since 6.0.0 Beta 2
+
+**What's New**
+* Added `BeOneOf` for enum assertions - [#1637](https://github.com/fluentassertions/fluentassertions/pull/1637)
+
+**Fixes**
+* Reintroduced `Match` for enum assertions - [#1637](https://github.com/fluentassertions/fluentassertions/pull/1637)
 
 ## 6.0.0 Beta 2
 Changes since 6.0.0 Beta 1
