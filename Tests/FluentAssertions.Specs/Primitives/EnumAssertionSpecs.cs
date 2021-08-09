@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Xunit;
 using Xunit.Sdk;
 
@@ -322,7 +322,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected the enum to not have value 1*because we want to test the failure message*");
+                .WithMessage("Expected*someObject*to not have value 1*because we want to test the failure message*");
         }
 
         [Fact]

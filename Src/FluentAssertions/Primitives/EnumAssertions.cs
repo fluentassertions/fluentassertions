@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using FluentAssertions.Execution;
 
@@ -73,7 +73,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Nullable.Equals(Subject, expected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected the enum to be {0}{reason}, but found {1}.",
+                .FailWith("Expected {context:the enum} to be {0}{reason}, but found {1}.",
                     expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -118,7 +118,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!Nullable.Equals(Subject, unexpected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected the enum not to be {0}{reason}, but it is.", unexpected);
+                .FailWith("Expected {context:the enum} not to be {0}{reason}, but it is.", unexpected);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -139,7 +139,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && (GetValue(Subject.Value) == expected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected the enum to have value {0}{reason}, but found {1}.",
+                .FailWith("Expected {context:the enum} to have value {0}{reason}, but found {1}.",
                     expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -161,7 +161,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!(Subject.HasValue && (GetValue(Subject.Value) == unexpected)))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected the enum to not have value {0}{reason}, but found {1}.",
+                .FailWith("Expected {context:the enum} to not have value {0}{reason}, but found {1}.",
                     unexpected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -184,7 +184,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && (GetValue(Subject.Value) == GetValue(expected)))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected the enum to have same value as {0}{reason}, but found {1}.",
+                .FailWith("Expected {context:the enum} to have same value as {0}{reason}, but found {1}.",
                     expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -207,7 +207,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!(Subject.HasValue && (GetValue(Subject.Value) == GetValue(unexpected))))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected the enum to not have same value as {0}{reason}, but found {1}.",
+                .FailWith("Expected {context:the enum} to not have same value as {0}{reason}, but found {1}.",
                     unexpected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -230,7 +230,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject.HasValue && (GetName(Subject.Value) == GetName(expected)))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected the enum to have same name as {0}{reason}, but found {1}.",
+                .FailWith("Expected {context:the enum} to have same name as {0}{reason}, but found {1}.",
                     expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -253,7 +253,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!(Subject.HasValue && (GetName(Subject.Value) == GetName(unexpected))))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected the enum to not have same name as {0}{reason}, but found {1}.",
+                .FailWith("Expected {context:the enum} to not have same name as {0}{reason}, but found {1}.",
                     unexpected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -276,7 +276,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject?.HasFlag(expectedFlag) == true)
-                .FailWith("Expected the enum to have flag {0}{reason}, but found {1}.", expectedFlag, Subject);
+                .FailWith("Expected {context:the enum} to have flag {0}{reason}, but found {1}.", expectedFlag, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
