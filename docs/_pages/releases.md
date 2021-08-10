@@ -138,7 +138,7 @@ Changes since 6.0.0 Alpha 1
 * Added `UnwrapEnumerableTypes` to `TypeSelector` to get the `T` type from types implementing `IEnumerable<T>`
 * Added `UnwrapTaskTypes` to `TypeSelector` to get the `T` type for any type that are `Task<T>`  or `ValueTask<T>`
 * Added `[Not]BeSealed` to `TypeSelectorAssertions`
-* Added `collection.Should().NotContainEquivalentTo` to use object graph comparison rules to assert absence of an element in the collection - [#1318](https://github.com/fluentassertions/fluentassertions/pull/1318).
+* Added `collection.Should().NotContainEquivalentOf` to use object graph comparison rules to assert absence of an element in the collection - [#1318](https://github.com/fluentassertions/fluentassertions/pull/1318).
 * Added `[Not]BeInNamespace` and `[NotBeUnderNamespace]` to `TypeSelectorAssertions` - [#1329](https://github.com/fluentassertions/fluentassertions/pull/1329).
 * The `Using` option on `BeEquivalentTo` and on `AssertionOptions.AssertEquivalencyUsing` now supports custom `IOrderingRule` implementations [#1337](https://github.com/fluentassertions/fluentassertions/pull/1337).
 * Added `AllBe` to `StringCollectionAssertions` to be able to assert that all strings in collection are equal to the specified string - [#1332](https://github.com/fluentassertions/fluentassertions/pull/1332).
