@@ -269,7 +269,7 @@ namespace FluentAssertions.Types
                 .ForCondition(attributes.Any())
                 .FailWith(
                     "Expected type {0} to be decorated with {1} that matches {2}{reason}, but no matching attribute was found.",
-                    Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
+                    Subject, typeof(TAttribute), isMatchingAttributePredicate);
 
             return new AndWhichConstraint<TypeAssertions, TAttribute>(this, attributes);
         }
@@ -328,7 +328,7 @@ namespace FluentAssertions.Types
                 .ForCondition(attributes.Any())
                 .FailWith(
                     "Expected type {0} to be decorated with or inherit {1} that matches {2}{reason}" +
-                    ", but no matching attribute was found.", Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
+                    ", but no matching attribute was found.", Subject, typeof(TAttribute), isMatchingAttributePredicate);
 
             return new AndWhichConstraint<TypeAssertions, TAttribute>(this, attributes);
         }
@@ -380,7 +380,7 @@ namespace FluentAssertions.Types
                 .ForCondition(!Subject.IsDecoratedWith(isMatchingAttributePredicate))
                 .FailWith(
                     "Expected type {0} to not be decorated with {1} that matches {2}{reason}, but a matching attribute was found.",
-                    Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
+                    Subject, typeof(TAttribute), isMatchingAttributePredicate);
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -435,7 +435,7 @@ namespace FluentAssertions.Types
                 .ForCondition(!Subject.IsDecoratedWithOrInherit(isMatchingAttributePredicate))
                 .FailWith(
                     "Expected type {0} to not be decorated with or inherit {1} that matches {2}{reason}" +
-                    ", but a matching attribute was found.", Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
+                    ", but a matching attribute was found.", Subject, typeof(TAttribute), isMatchingAttributePredicate);
 
             return new AndConstraint<TypeAssertions>(this);
         }

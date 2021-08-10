@@ -98,7 +98,7 @@ namespace FluentAssertions.Specs.Specialized
             timer.Complete();
 
             // Assert
-            await action.Should().ThrowAsync<XunitException>().WithMessage("Expected await funcSubject to be 42, but found 99.");
+            await action.Should().ThrowAsync<XunitException>().WithMessage("Expected funcSubject to be 42, but found 99.");
         }
 
         [Fact]
