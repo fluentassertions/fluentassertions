@@ -47,15 +47,6 @@ namespace FluentAssertions.Common
             }
         }
 
-        public static void ThrowIfArgumentIsOutOfRange<T>(T value, string paramName, string message)
-            where T : Enum
-        {
-            if (!Enum.IsDefined(typeof(T), value))
-            {
-                throw new ArgumentOutOfRangeException(paramName, message);
-            }
-        }
-
         public static void ThrowIfArgumentContainsNull<T>(IEnumerable<T> values, string paramName)
         {
             if (values.Any(t => t is null))
@@ -69,6 +60,14 @@ namespace FluentAssertions.Common
             if (values.Any(t => t is null))
             {
                 throw new ArgumentNullException(paramName, message);
+            }
+        }
+
+        public static void ThrowIfArgumentIsEmpty<T>(IEnumerable<T> values, string paramName, string message)
+        {
+            if (!values.Any())
+            {
+                throw new ArgumentException(message, paramName);
             }
         }
 
