@@ -1048,7 +1048,7 @@ namespace FluentAssertions.Collections
             bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
-                .FailWith(expectationPrefix + "but found <null>.", predicate.Body);
+                .FailWith(expectationPrefix + "but found <null>.", predicate);
 
             T[] matches = new T[0];
 
@@ -1058,7 +1058,7 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .ForCondition(actualItems.Any())
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(expectationPrefix + "but the collection is empty.", predicate.Body);
+                    .FailWith(expectationPrefix + "but the collection is empty.", predicate);
 
                 matches = actualItems.Where(predicate.Compile()).ToArray();
                 int count = matches.Length;
@@ -1067,12 +1067,12 @@ namespace FluentAssertions.Collections
                     case 0:
                         Execute.Assertion
                             .BecauseOf(because, becauseArgs)
-                            .FailWith(expectationPrefix + "but no such item was found.", predicate.Body);
+                            .FailWith(expectationPrefix + "but no such item was found.", predicate);
                         break;
                     case > 1:
                         Execute.Assertion
                             .BecauseOf(because, becauseArgs)
-                            .FailWith(expectationPrefix + "but " + count.ToString(CultureInfo.InvariantCulture) + " such items were found.", predicate.Body);
+                            .FailWith(expectationPrefix + "but " + count.ToString(CultureInfo.InvariantCulture) + " such items were found.", predicate);
                         break;
                     default:
                         break;
@@ -2043,7 +2043,7 @@ namespace FluentAssertions.Collections
                     .BecauseOf(because, becauseArgs)
                     .ForCondition(!unexpectedItems.Any())
                     .FailWith("Expected {context:collection} {0} to not have any items matching {1}{reason}, but found {2}.",
-                        Subject, predicate.Body, unexpectedItems);
+                        Subject, predicate, unexpectedItems);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);

@@ -90,7 +90,7 @@ namespace FluentAssertions.Types
                 .FailWith("Expected all types to be decorated with {0} that matches {1}{reason}," +
                     " but no matching attribute was found on the following types:{2}{3}.",
                     typeof(TAttribute),
-                    isMatchingAttributePredicate.Body,
+                    isMatchingAttributePredicate,
                     Environment.NewLine,
                     GetDescriptionsFor(typesWithoutMatchingAttribute));
 
@@ -156,7 +156,7 @@ namespace FluentAssertions.Types
                 .FailWith("Expected all types to be decorated with or inherit {0} that matches {1}{reason}," +
                     " but no matching attribute was found on the following types:{2}{3}.",
                     typeof(TAttribute),
-                    isMatchingAttributePredicate.Body,
+                    isMatchingAttributePredicate,
                     Environment.NewLine,
                     GetDescriptionsFor(typesWithoutMatchingAttribute));
 
@@ -222,7 +222,7 @@ namespace FluentAssertions.Types
                 .FailWith("Expected all types to not be decorated with {0} that matches {1}{reason}," +
                     " but a matching attribute was found on the following types:{2}{3}.",
                     typeof(TAttribute),
-                    isMatchingAttributePredicate.Body,
+                    isMatchingAttributePredicate,
                     Environment.NewLine,
                     GetDescriptionsFor(typesWithMatchingAttribute));
 
@@ -288,7 +288,7 @@ namespace FluentAssertions.Types
                 .FailWith("Expected all types to not be decorated with or inherit {0} that matches {1}{reason}," +
                     " but a matching attribute was found on the following types:{2}{3}.",
                     typeof(TAttribute),
-                    isMatchingAttributePredicate.Body,
+                    isMatchingAttributePredicate,
                     Environment.NewLine,
                     GetDescriptionsFor(typesWithMatchingAttribute));
 

@@ -118,7 +118,7 @@ namespace FluentAssertions.Specs.Types
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected type *.ClassWithAttribute to be decorated with *.DummyClassAttribute that matches " +
-                    "((a.Name == \"Unexpected\")*a.IsEnabled), but no matching attribute was found.");
+                    "(a.Name == \"Unexpected\")*a.IsEnabled, but no matching attribute was found.");
         }
 
         #endregion
@@ -201,7 +201,7 @@ namespace FluentAssertions.Specs.Types
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected type *.ClassWithAttribute to not be decorated with *.DummyClassAttribute that matches " +
-                    "((a.Name == \"Expected\") * a.IsEnabled), but a matching attribute was found.");
+                    "(a.Name == \"Expected\") * a.IsEnabled, but a matching attribute was found.");
         }
 
         #endregion

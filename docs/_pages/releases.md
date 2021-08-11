@@ -12,9 +12,11 @@ Changes since 6.0.0 Beta 2
 
 **What's New**
 * Added `BeOneOf` for enum assertions - [#1637](https://github.com/fluentassertions/fluentassertions/pull/1637)
+* Homogenized assertion message formatting of predicate expressions - [#1619](https://github.com/fluentassertions/fluentassertions/pull/1619).
 
 **Fixes**
 * Reintroduced `Match` for enum assertions - [#1637](https://github.com/fluentassertions/fluentassertions/pull/1637)
+* Improved caller name determination by supporting multiple lines, comments and semicolons - [#1435](https://github.com/fluentassertions/fluentassertions/pull/1435).
 
 ## 6.0.0 Beta 2
 Changes since 6.0.0 Beta 1
@@ -32,13 +34,12 @@ Changes since 6.0.0 Beta 1
 * Fixed a regression where a nested class without suitable members inside a collection raised an exception - [#1627](https://github.com/fluentassertions/fluentassertions/pull/1627).
 * Fixed support for covariant and inherited property exclusion and inclusion in `BeEquivalentTo` - [#1631](https://github.com/fluentassertions/fluentassertions/pull/1631).
 
-
 ## 6.0.0 Beta 1
 Changes since 6.0.0 Alpha 2
 
 **What's New**
-* Added `BeExactly` assertions to verify a `DateTimeOffset` exactly, i.e both its date/time and its offset - [#1609](https://github.com/fluentassertions/fluentassertions/pull/1609).
 * Added `WithParameterName` extension to ease asserting on the parameter name for a thrown `ArgumentException` - [#1466](https://github.com/fluentassertions/fluentassertions/pull/1466).
+* Added `BeExactly` assertions to verify a `DateTimeOffset` exactly, i.e both its date/time and its offset - [#1609](https://github.com/fluentassertions/fluentassertions/pull/1609).
 * Added `NotCompleteWithinAsync` to `TaskCompletionSourceAssertions` - [#1474](https://github.com/fluentassertions/fluentassertions/pull/1474).
 * Added `HaveValue(decimal)`, `HaveSameValueAs` and `HaveSameNameAs` to `EnumAssertions` - [#1479](https://github.com/fluentassertions/fluentassertions/pull/1479).
 * Added `WithResult` extension method to `CompleteWithinAsync` assertions for `Task<T>` and `TaskCompletionSource<T>` - [#1478](https://github.com/fluentassertions/fluentassertions/pull/1478).
@@ -48,7 +49,7 @@ Changes since 6.0.0 Alpha 2
 * Added the possibility to set the maximum depth and other formatting settings either globally or per `AssertionScope` - [#1469](https://github.com/fluentassertions/fluentassertions/pull/1469).
 * Added `BeInAscendingOrder` and `BeInDescendingOrder` for collections taking a lambda expression - [#1526](https://github.com/fluentassertions/fluentassertions/pull/1526)
 * Added `[Not]BeWritable`, `[Not]BeSeekable`, `[Not]BeReadable`, `[Not]BeReadOnly`, `[Not]BeWriteOnly`, `[Not]HaveLength` , `[Not]HavePosition` for Stream and `[Not]HaveBufferSize` for BufferedStream - [#1543](https://github.com/fluentassertions/fluentassertions/pull/1543)
-* Added native support for `XDocument`, `XElement` and `XAttribute` properties and fields to `BeEquivalentTo` - [#1572](https://github.com/fluentassertions/fluentassertions/pull/1572) 
+* Added native support for `XDocument`, `XElement` and `XAttribute` properties and fields to `BeEquivalentTo` - [#1572](https://github.com/fluentassertions/fluentassertions/pull/1572)
 * The equivalency failure message will include information on how tuples, anonymous types, records and other types are compared - [#1571](https://github.com/fluentassertions/fluentassertions/pull/1571)
 * Improved formatting a dictionary when key or value is a complex type - [#1577](https://github.com/fluentassertions/fluentassertions/pull/1577).
 
