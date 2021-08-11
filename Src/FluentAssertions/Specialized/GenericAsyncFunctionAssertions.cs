@@ -81,7 +81,7 @@ namespace FluentAssertions.Specialized
             }
             catch (Exception exception)
             {
-                NotThrow(exception, because, becauseArgs);
+                NotThrowInternal(exception, because, becauseArgs);
                 return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, default(TResult));
             }
         }

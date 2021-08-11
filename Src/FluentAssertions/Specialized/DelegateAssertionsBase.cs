@@ -27,7 +27,7 @@ namespace FluentAssertions.Specialized
 
         private protected IClock Clock { get; }
 
-        protected ExceptionAssertions<TException> Throw<TException>(Exception exception, string because, object[] becauseArgs)
+        protected ExceptionAssertions<TException> ThrowInternal<TException>(Exception exception, string because, object[] becauseArgs)
             where TException : Exception
         {
             TException[] expectedExceptions = extractor.OfType<TException>(exception).ToArray();
@@ -49,7 +49,7 @@ namespace FluentAssertions.Specialized
             return new ExceptionAssertions<TException>(expectedExceptions);
         }
 
-        protected AndConstraint<TAssertions> NotThrow(Exception exception, string because, object[] becauseArgs)
+        protected AndConstraint<TAssertions> NotThrowInternal(Exception exception, string because, object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(exception is null)
@@ -59,7 +59,7 @@ namespace FluentAssertions.Specialized
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        protected AndConstraint<TAssertions> NotThrow<TException>(Exception exception, string because, object[] becauseArgs)
+        protected AndConstraint<TAssertions> NotThrowInternal<TException>(Exception exception, string because, object[] becauseArgs)
             where TException : Exception
         {
             IEnumerable<TException> exceptions = extractor.OfType<TException>(exception);

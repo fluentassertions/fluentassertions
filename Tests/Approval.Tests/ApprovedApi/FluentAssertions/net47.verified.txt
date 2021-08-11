@@ -2091,10 +2091,10 @@ namespace FluentAssertions.Specialized
         where TDelegate : System.Delegate
         where TAssertions : FluentAssertions.Specialized.DelegateAssertionsBase<TDelegate, TAssertions>
     {
-        protected FluentAssertions.AndConstraint<TAssertions> NotThrow(System.Exception exception, string because, object[] becauseArgs) { }
-        protected FluentAssertions.AndConstraint<TAssertions> NotThrow<TException>(System.Exception exception, string because, object[] becauseArgs)
+        protected FluentAssertions.AndConstraint<TAssertions> NotThrowInternal(System.Exception exception, string because, object[] becauseArgs) { }
+        protected FluentAssertions.AndConstraint<TAssertions> NotThrowInternal<TException>(System.Exception exception, string because, object[] becauseArgs)
             where TException : System.Exception { }
-        protected FluentAssertions.Specialized.ExceptionAssertions<TException> Throw<TException>(System.Exception exception, string because, object[] becauseArgs)
+        protected FluentAssertions.Specialized.ExceptionAssertions<TException> ThrowInternal<TException>(System.Exception exception, string because, object[] becauseArgs)
             where TException : System.Exception { }
     }
     public abstract class DelegateAssertions<TDelegate, TAssertions> : FluentAssertions.Specialized.DelegateAssertionsBase<TDelegate, TAssertions>

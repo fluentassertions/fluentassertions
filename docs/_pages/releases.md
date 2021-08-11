@@ -7,6 +7,12 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 6.0.0 Beta 4
+Changes since 6.0.0 Beta 3
+
+**Breaking Changes (Extensibility)**
+* Renamed `protected` methods on `DelegateAssertionsBase` such as `Throw` and `NotThrow` to avoid confusion - [#1642](https://github.com/fluentassertions/fluentassertions/pull/1642)
+
 ## 6.0.0 Beta 3
 Changes since 6.0.0 Beta 2
 
