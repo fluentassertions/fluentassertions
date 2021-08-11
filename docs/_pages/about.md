@@ -49,7 +49,7 @@ Because of that Fluent Assertions supports the following minimum platforms.
 
 Fluent Assertions supports the following unit test frameworks:
 
-*   MSTest2 (Visual Studio 2017, Visual Studio 2019)
+*   [MSTest V2](https://github.com/Microsoft/testfx) (Visual Studio 2017, Visual Studio 2019)
 *   [NUnit](http://www.nunit.org/)
 *   [XUnit2](https://github.com/xunit/xunit/releases)
 *   [NSpec](http://nspec.org/)
