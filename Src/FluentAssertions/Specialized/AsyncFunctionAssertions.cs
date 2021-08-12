@@ -125,7 +125,7 @@ namespace FluentAssertions.Specialized
                 .FailWith("Expected {context} to throw {0}{reason}, but found <null>.", typeof(TException));
 
             Exception exception = await InvokeWithInterceptionAsync(Subject);
-            return Throw<TException>(exception, because, becauseArgs);
+            return ThrowInternal<TException>(exception, because, becauseArgs);
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace FluentAssertions.Specialized
             }
             catch (Exception exception)
             {
-                NotThrow(exception, because, becauseArgs);
+                NotThrowInternal(exception, because, becauseArgs);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -181,7 +181,7 @@ namespace FluentAssertions.Specialized
             }
             catch (Exception exception)
             {
-                NotThrow<TException>(exception, because, becauseArgs);
+                NotThrowInternal<TException>(exception, because, becauseArgs);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);

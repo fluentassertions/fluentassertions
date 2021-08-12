@@ -45,7 +45,7 @@ namespace FluentAssertions.Specialized
 
             FailIfSubjectIsAsyncVoid();
             Exception exception = InvokeSubjectWithInterception();
-            return Throw<TException>(exception, because, becauseArgs);
+            return ThrowInternal<TException>(exception, because, becauseArgs);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace FluentAssertions.Specialized
 
             FailIfSubjectIsAsyncVoid();
             Exception exception = InvokeSubjectWithInterception();
-            return NotThrow<TException>(exception, because, becauseArgs);
+            return NotThrowInternal<TException>(exception, because, becauseArgs);
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace FluentAssertions.Specialized
 
             FailIfSubjectIsAsyncVoid();
             Exception exception = InvokeSubjectWithInterception();
-            return NotThrow(exception, because, becauseArgs);
+            return NotThrowInternal(exception, because, becauseArgs);
         }
 
         /// <summary>
