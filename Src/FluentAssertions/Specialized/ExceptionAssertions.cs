@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
+using FluentAssertions.Equivalency.Steps;
 using FluentAssertions.Execution;
 using FluentAssertions.Formatting;
 using FluentAssertions.Primitives;
@@ -13,7 +14,7 @@ using FluentAssertions.Primitives;
 namespace FluentAssertions.Specialized
 {
     /// <summary>
-    /// Contains a number of methods to assert that an <see cref = "Exception" /> is in the correct state.
+    /// Contains a number of methods to assert that an <see cref="Exception" /> is in the correct state.
     /// </summary>
     [DebuggerNonUserCode]
     public class ExceptionAssertions<TException> :
@@ -22,11 +23,12 @@ namespace FluentAssertions.Specialized
     {
         #region Private Definitions
 
-        private static readonly ExceptionMessageAssertion outerMessageAssertion = new ExceptionMessageAssertion();
+        private static readonly ExceptionMessageAssertion OuterMessageAssertion = new();
 
         #endregion
 
-        public ExceptionAssertions(IEnumerable<TException> exceptions) : base(exceptions)
+        public ExceptionAssertions(IEnumerable<TException> exceptions)
+            : base(exceptions)
         {
         }
 
@@ -46,18 +48,38 @@ namespace FluentAssertions.Specialized
         protected override string Identifier => "exception";
 
         /// <summary>
-        /// Asserts that the thrown exception has a message that matches <paramref name = "expectedWildcardPattern" />.
+        /// Asserts that the thrown exception has a message that matches <paramref name="expectedWildcardPattern" />.
         /// </summary>
-        /// <param name = "expectedWildcardPattern">
-        /// The wildcard pattern with which the exception message is matched, where * and ? have special meanings.
+        /// <param name="expectedWildcardPattern">
+        /// The pattern to match against the exception message. This parameter can contain a combination of literal text and
+        /// wildcard (* and ?) characters, but it doesn't support regular expressions.
         /// </param>
-        /// <param name = "because">
-        /// A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name = "becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref = "because" />.
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
+        /// <remarks>
+        /// <paramref name="expectedWildcardPattern"/> can be a combination of literal and wildcard characters,
+        /// but it doesn't support regular expressions. The following wildcard specifiers are permitted in
+        /// <paramref name="expectedWildcardPattern"/>.
+        /// <list type="table">
+        /// <listheader>
+        /// <term>Wildcard character</term>
+        /// <description>Description</description>
+        /// </listheader>
+        /// <item>
+        /// <term>* (asterisk)</term>
+        /// <description>Zero or more characters in that position.</description>
+        /// </item>
+        /// <item>
+        /// <term>? (question mark)</term>
+        /// <description>Exactly one character in that position.</description>
+        /// </item>
+        /// </list>
+        /// </remarks>
         public virtual ExceptionAssertions<TException> WithMessage(string expectedWildcardPattern, string because = "",
             params object[] becauseArgs)
         {
@@ -67,17 +89,22 @@ namespace FluentAssertions.Specialized
                 .ForCondition(Subject.Any())
                 .FailWith("Expected exception with message {0}{reason}, but no exception was thrown.", expectedWildcardPattern);
 
-            outerMessageAssertion.Execute(Subject.Select(exc => exc.Message).ToArray(), expectedWildcardPattern, because, becauseArgs);
+            OuterMessageAssertion.Execute(Subject.Select(exc => exc.Message).ToArray(), expectedWildcardPattern, because, becauseArgs);
 
             return this;
         }
 
         /// <summary>
-        /// Asserts that the thrown exception contains an inner exception of type <typeparamref name = "TInnerException" />.
+        /// Asserts that the thrown exception contains an inner exception of type <typeparamref name="TInnerException" />.
         /// </summary>
-        /// <typeparam name = "TInnerException">The expected type of the inner exception.</typeparam>
-        /// <param name = "because">The reason why the inner exception should be of the supplied type.</param>
-        /// <param name = "becauseArgs">The parameters used when formatting the <paramref name = "because" />.</param>
+        /// <typeparam name="TInnerException">The expected type of the inner exception.</typeparam>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
         public virtual ExceptionAssertions<TInnerException> WithInnerException<TInnerException>(string because = null,
             params object[] becauseArgs)
             where TInnerException : Exception
@@ -85,10 +112,10 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected inner {0}{reason}, but ", typeof(TInnerException))
-                .ForCondition(Subject != null)
+                .ForCondition(Subject is not null)
                 .FailWith("no exception was thrown.")
                 .Then
-                .ForCondition(Subject.Any(e => e.InnerException != null))
+                .ForCondition(Subject.Any(e => e.InnerException is not null))
                 .FailWith("the thrown exception has no inner exception.")
                 .Then
                 .ClearExpectation();
@@ -107,11 +134,16 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
-        /// Asserts that the thrown exception contains an inner exception of the exact type <typeparamref name = "TInnerException" /> (and not a derived exception type).
+        /// Asserts that the thrown exception contains an inner exception of the exact type <typeparamref name="TInnerException" /> (and not a derived exception type).
         /// </summary>
-        /// <typeparam name = "TInnerException">The expected type of the inner exception.</typeparam>
-        /// <param name = "because">The reason why the inner exception should be of the supplied type.</param>
-        /// <param name = "becauseArgs">The parameters used when formatting the <paramref name = "because" />.</param>
+        /// <typeparam name="TInnerException">The expected type of the inner exception.</typeparam>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
         public virtual ExceptionAssertions<TInnerException> WithInnerExceptionExactly<TInnerException>(string because = null,
             params object[] becauseArgs)
             where TInnerException : Exception
@@ -134,15 +166,15 @@ namespace FluentAssertions.Specialized
         /// <summary>
         /// Asserts that the exception matches a particular condition.
         /// </summary>
-        /// <param name = "exceptionExpression">
+        /// <param name="exceptionExpression">
         /// The condition that the exception must match.
         /// </param>
-        /// <param name = "because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name = "becauseArgs">
-        /// Zero or more values to use for filling in any <see cref = "string.Format(string,object[])" /> compatible placeholders.
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public ExceptionAssertions<TException> Where(Expression<Func<TException, bool>> exceptionExpression,
             string because = "", params object[] becauseArgs)
@@ -154,7 +186,7 @@ namespace FluentAssertions.Specialized
                 .ForCondition(condition(SingleSubject))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected exception where {0}{reason}, but the condition was not met by:{1}{1}{2}.",
-                    exceptionExpression.Body, Environment.NewLine, Subject);
+                    exceptionExpression, Environment.NewLine, Subject);
 
             return this;
         }
@@ -167,9 +199,7 @@ namespace FluentAssertions.Specialized
                 {
                     string thrownExceptions = BuildExceptionsString(Subject);
                     Services.ThrowException(
-                        string.Format(
-                            "More than one exception was thrown.  FluentAssertions cannot determine which Exception was meant.{0}{1}",
-                            Environment.NewLine, thrownExceptions));
+                        $"More than one exception was thrown.  FluentAssertions cannot determine which Exception was meant.{Environment.NewLine}{thrownExceptions}");
                 }
 
                 return Subject.Single();
@@ -195,31 +225,31 @@ namespace FluentAssertions.Specialized
 
             public void Execute(IEnumerable<string> messages, string expectation, string because, params object[] becauseArgs)
             {
-                using (new AssertionScope())
+                using var _ = new AssertionScope();
+                var results = new AssertionResultSet();
+
+                foreach (string message in messages)
                 {
-                    var results = new AssertionResultSet();
-
-                    foreach (string message in messages)
+                    using (var scope = new AssertionScope())
                     {
-                        using (var scope = new AssertionScope())
-                        {
-                            scope.Context = Context;
+                        scope.Context = new Lazy<string>(() => Context);
 
-                            message.Should().MatchEquivalentOf(expectation, because, becauseArgs);
+                        message.Should().MatchEquivalentOf(expectation, because, becauseArgs);
 
-                            results.AddSet(message, scope.Discard());
-                        }
-
-                        if (results.ContainsSuccessfulSet())
-                        {
-                            break;
-                        }
+                        results.AddSet(message, scope.Discard());
                     }
 
-                    foreach (string failure in results.SelectClosestMatchFor())
+                    if (results.ContainsSuccessfulSet())
                     {
-                        AssertionScope.Current.FailWith(failure.Replace("{", "{{").Replace("}", "}}"));
+                        break;
                     }
+                }
+
+                foreach (string failure in results.SelectClosestMatchFor())
+                {
+                    string replacedCurlyBraces =
+                        failure.EscapePlaceholders();
+                    AssertionScope.Current.FailWith(replacedCurlyBraces);
                 }
             }
         }

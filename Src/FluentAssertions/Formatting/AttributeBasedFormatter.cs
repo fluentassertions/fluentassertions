@@ -13,51 +13,59 @@ namespace FluentAssertions.Formatting
     /// </summary>
     public class AttributeBasedFormatter : IValueFormatter
     {
-        private MethodInfo[] formatters;
+        private Dictionary<Type, MethodInfo> formatters;
         private ValueFormatterDetectionMode detectionMode = ValueFormatterDetectionMode.Disabled;
 
         /// <summary>
         /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.
         /// </summary>
-        /// <param name="value">The value for which to create a <see cref="System.String"/>.</param>
+        /// <param name="value">The value for which to create a <see cref="string"/>.</param>
         /// <returns>
         /// <c>true</c> if the current <see cref="IValueFormatter"/> can handle the specified value; otherwise, <c>false</c>.
         /// </returns>
         public bool CanHandle(object value)
         {
-            return IsScanningEnabled && (value != null) && (GetFormatter(value) != null);
+            return IsScanningEnabled && (value is not null) && (GetFormatter(value) is not null);
         }
 
         private static bool IsScanningEnabled
         {
-            get { return (Configuration.Current.ValueFormatterDetectionMode != ValueFormatterDetectionMode.Disabled); }
+            get { return Configuration.Current.ValueFormatterDetectionMode != ValueFormatterDetectionMode.Disabled; }
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
             MethodInfo method = GetFormatter(value);
 
-            object[] parameters = new[] { value };
+            object[] parameters = new[] { value, formattedGraph };
 
-            return (string)method.Invoke(null, parameters);
+            method.Invoke(null, parameters);
         }
 
         private MethodInfo GetFormatter(object value)
         {
             Type valueType = value.GetType();
-            MethodInfo formatter = Formatters.FirstOrDefault(m => m.GetParameters().Single().ParameterType == valueType);
+            do
+            {
+                if (Formatters.TryGetValue(valueType, out var formatter))
+                {
+                    return formatter;
+                }
 
-            return formatter;
+                valueType = valueType.BaseType;
+            }
+            while (valueType is not null);
+
+            return null;
         }
 
-        public MethodInfo[] Formatters
+        private Dictionary<Type, MethodInfo> Formatters
         {
             get
             {
                 HandleValueFormatterDetectionModeChanges();
 
-                return formatters ?? (formatters = FindCustomFormatters());
+                return formatters ??= FindCustomFormatters();
             }
         }
 
@@ -70,18 +78,22 @@ namespace FluentAssertions.Formatting
             }
         }
 
-        private static MethodInfo[] FindCustomFormatters()
+        private static Dictionary<Type, MethodInfo> FindCustomFormatters()
         {
-            IEnumerable<MethodInfo> query =
+            var query =
                 from type in Services.Reflector.GetAllTypesFromAppDomain(Applicable)
-                where type != null
+                where type is not null
                 from method in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
                 where method.IsStatic
+                where method.ReturnType == typeof(void)
                 where method.IsDecoratedWithOrInherit<ValueFormatterAttribute>()
-                where method.GetParameters().Length == 1
-                select method;
+                let methodParameters = method.GetParameters()
+                where methodParameters.Length == 2
+                select new { Type = methodParameters.First().ParameterType, Method = method } into formatter
+                group formatter by formatter.Type into formatterGroup
+                select formatterGroup.First();
 
-            return query.ToArray();
+            return query.ToDictionary(f => f.Type, f => f.Method);
         }
 
         private static bool Applicable(Assembly assembly)
@@ -89,9 +101,9 @@ namespace FluentAssertions.Formatting
             Configuration configuration = Configuration.Current;
             ValueFormatterDetectionMode mode = configuration.ValueFormatterDetectionMode;
 
-            return ((mode == ValueFormatterDetectionMode.Scan) || (
+            return (mode == ValueFormatterDetectionMode.Scan) || (
                 (mode == ValueFormatterDetectionMode.Specific) &&
-                assembly.FullName.Split(',')[0].Equals(configuration.ValueFormatterAssembly, StringComparison.CurrentCultureIgnoreCase)));
+                assembly.FullName.Split(',')[0].Equals(configuration.ValueFormatterAssembly, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

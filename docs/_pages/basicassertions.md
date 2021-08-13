@@ -70,16 +70,9 @@ theObject.Should().BeBinarySerializable();
 theObject.Should().BeDataContractSerializable();
 ```
 
-Internally, `BeBinarySerializable` uses the [Object graph comparison](#object-graph-comparison) API, so if you are in need of excluding certain properties from the comparison (for instance, because its backing field is `[NonSerializable]`, you can do this:
+Internally, `BeBinarySerializable` uses the [Object graph comparison](objectgraphs.md) API, so if you are in need of excluding certain properties from the comparison (for instance, because its backing field is `[NonSerializable]`, you can do this:
 
 ```csharp
 theObject.Should().BeBinarySerializable<MyClass>(
     options => options.Excluding(s => s.SomeNonSerializableProperty));
-```
-
-Fluent Assertions has special support for `[Flags]` based enumerations, which allow you to do something like this:
-
-```csharp
-regexOptions.Should().HaveFlag(RegexOptions.Global);
-regexOptions.Should().NotHaveFlag(RegexOptions.CaseInsensitive);
 ```

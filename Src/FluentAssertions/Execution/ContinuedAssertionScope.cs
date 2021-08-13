@@ -6,31 +6,35 @@ namespace FluentAssertions.Execution
     /// Allows chaining multiple assertion scopes together using <see cref="Continuation.Then"/>.
     /// </summary>
     /// <remarks>
-    /// If the parent scope has captured a failed assertion, this class ensures that successive assertions
-    /// are no longer evaluated.
+    /// If the parent scope has captured a failed assertion,
+    /// this class ensures that successive assertions are no longer evaluated.
     /// </remarks>
-#if NET45
-    [Serializable]
-#endif
-    public class ContinuedAssertionScope : IAssertionScope
+    public sealed class ContinuedAssertionScope : IAssertionScope
     {
         private readonly AssertionScope predecessor;
-        private readonly bool predecessorSucceeded;
+        private readonly bool continueAsserting;
 
-        public ContinuedAssertionScope(AssertionScope predecessor, bool predecessorSucceeded)
+        internal ContinuedAssertionScope(AssertionScope predecessor, bool continueAsserting)
         {
-            this.predecessorSucceeded = predecessorSucceeded;
             this.predecessor = predecessor;
+            this.continueAsserting = continueAsserting;
         }
 
+        /// <inheritdoc/>
         public GivenSelector<T> Given<T>(Func<T> selector)
         {
-            return predecessor.Given(selector);
+            if (continueAsserting)
+            {
+                return predecessor.Given(selector);
+            }
+
+            return new GivenSelector<T>(() => default, predecessor, continueAsserting: false);
         }
 
+        /// <inheritdoc/>
         public IAssertionScope ForCondition(bool condition)
         {
-            if (predecessorSucceeded)
+            if (continueAsserting)
             {
                 return predecessor.ForCondition(condition);
             }
@@ -38,57 +42,101 @@ namespace FluentAssertions.Execution
             return this;
         }
 
+        /// <inheritdoc/>
+        public Continuation FailWith(string message)
+        {
+            if (continueAsserting)
+            {
+                return predecessor.FailWith(message);
+            }
+
+            return new Continuation(predecessor, continueAsserting: false);
+        }
+
+        /// <inheritdoc/>
+        public Continuation FailWith(string message, params Func<object>[] argProviders)
+        {
+            if (continueAsserting)
+            {
+                return predecessor.FailWith(message, argProviders);
+            }
+
+            return new Continuation(predecessor, continueAsserting: false);
+        }
+
+        /// <inheritdoc/>
         public Continuation FailWith(Func<FailReason> failReasonFunc)
         {
-            if (predecessorSucceeded)
+            if (continueAsserting)
             {
                 return predecessor.FailWith(failReasonFunc);
             }
 
-            return new Continuation(predecessor, false);
+            return new Continuation(predecessor, continueAsserting: false);
         }
 
+        /// <inheritdoc/>
         public Continuation FailWith(string message, params object[] args)
         {
-            if (predecessorSucceeded)
+            if (continueAsserting)
             {
                 return predecessor.FailWith(message, args);
             }
 
-            return new Continuation(predecessor, false);
+            return new Continuation(predecessor, continueAsserting: false);
         }
 
+        /// <inheritdoc/>
         public IAssertionScope BecauseOf(string because, params object[] becauseArgs)
         {
-            return predecessor.BecauseOf(because, becauseArgs);
+            if (continueAsserting)
+            {
+                return predecessor.BecauseOf(because, becauseArgs);
+            }
+
+            return this;
         }
 
+        /// <inheritdoc/>
         public Continuation ClearExpectation()
         {
             predecessor.ClearExpectation();
 
-            return new Continuation(predecessor, predecessorSucceeded);
+            return new Continuation(predecessor, continueAsserting);
         }
 
+        /// <inheritdoc/>
         public IAssertionScope WithExpectation(string message, params object[] args)
         {
-            return predecessor.WithExpectation(message, args);
+            if (continueAsserting)
+            {
+                return predecessor.WithExpectation(message, args);
+            }
+
+            return this;
         }
 
+        /// <inheritdoc/>
         public IAssertionScope WithDefaultIdentifier(string identifier)
         {
-            return predecessor.WithDefaultIdentifier(identifier);
+            if (continueAsserting)
+            {
+                return predecessor.WithDefaultIdentifier(identifier);
+            }
+
+            return this;
         }
 
+        /// <inheritdoc/>
         public IAssertionScope UsingLineBreaks => predecessor.UsingLineBreaks;
 
-        public bool Succeeded => predecessor.Succeeded;
-
+        /// <inheritdoc/>
         public string[] Discard()
         {
             return predecessor.Discard();
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             predecessor.Dispose();

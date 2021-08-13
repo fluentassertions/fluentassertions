@@ -1,5 +1,3 @@
-#if !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETSTANDARD2_0
-
 using System;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -15,13 +13,12 @@ namespace FluentAssertions.Events
         /// Generates an eventhandler for an event of type eventSignature that calls RegisterEvent on recorder
         /// when invoked.
         /// </summary>
-        public static Delegate GenerateHandler(Type eventSignature, IEventRecorder recorder)
+        public static Delegate GenerateHandler(Type eventSignature, EventRecorder recorder)
         {
             Type returnType = GetDelegateReturnType(eventSignature);
             Type[] parameters = GetDelegateParameterTypes(eventSignature);
 
             Module module = recorder.GetType()
-                .GetTypeInfo()
                 .Module;
 
             var eventHandler = new DynamicMethod(
@@ -30,7 +27,7 @@ namespace FluentAssertions.Events
                 AppendParameterListThisReference(parameters),
                 module);
 
-            MethodInfo methodToCall = typeof(IEventRecorder).GetMethod("RecordEvent",
+            MethodInfo methodToCall = typeof(EventRecorder).GetMethod(nameof(EventRecorder.RecordEvent),
                 BindingFlags.Instance | BindingFlags.Public);
 
             ILGenerator ilGen = eventHandler.GetILGenerator();
@@ -55,8 +52,7 @@ namespace FluentAssertions.Events
                 ilGen.Emit(OpCodes.Ldarg, index + 1);
 
                 // Box value-type parameters
-                if (parameters[index].GetTypeInfo()
-                    .IsValueType)
+                if (parameters[index].IsValueType)
                 {
                     ilGen.Emit(OpCodes.Box, parameters[index]);
                 }
@@ -112,8 +108,7 @@ namespace FluentAssertions.Events
         private static Type[] AppendParameterListThisReference(Type[] parameters)
         {
             var newList = new Type[parameters.Length + 1];
-
-            newList[0] = typeof(IEventRecorder);
+            newList[0] = typeof(EventRecorder);
 
             for (var index = 0; index < parameters.Length; index++)
             {
@@ -128,14 +123,13 @@ namespace FluentAssertions.Events
         /// </summary>
         private static bool TypeIsDelegate(Type d)
         {
-            if (d.GetTypeInfo()
-                .BaseType != typeof(MulticastDelegate))
+            if (d.BaseType != typeof(MulticastDelegate))
             {
                 return false;
             }
 
             MethodInfo invoke = d.GetMethod("Invoke");
-            return invoke != null;
+            return invoke is not null;
         }
 
         /// <summary>
@@ -153,5 +147,3 @@ namespace FluentAssertions.Events
         }
     }
 }
-
-#endif

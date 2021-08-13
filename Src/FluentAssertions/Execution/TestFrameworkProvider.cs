@@ -9,21 +9,13 @@ namespace FluentAssertions.Execution
     {
         #region Private Definitions
 
-        private static readonly Dictionary<string, ITestFramework> frameworks = new Dictionary<string, ITestFramework>(StringComparer.OrdinalIgnoreCase)
+        private static readonly Dictionary<string, ITestFramework> Frameworks = new(StringComparer.OrdinalIgnoreCase)
         {
-            ["gallio"] = new GallioTestFramework(),
             ["mspec"] = new MSpecFramework(),
-            ["nspec"] = new NSpec1Framework(),
-            ["nspec2"] = new NSpecFramework(),
             ["nspec3"] = new NSpecFramework(),
-            ["mbunit"] = new MbUnitTestFramework(),
             ["nunit"] = new NUnitTestFramework(),
-            ["mstest"] = new MSTestFramework(),
             ["mstestv2"] = new MSTestFrameworkV2(),
-            ["xunit"] = new XUnitTestFramework(),
-            ["xunit2"] = new XUnit2TestFramework(),
-
-            ["fallback"] = new FallbackTestFramework()
+            ["xunit2"] = new XUnit2TestFramework() // Keep this the last one as it uses a try/catch approach
         };
 
         private static ITestFramework testFramework;
@@ -43,7 +35,8 @@ namespace FluentAssertions.Execution
         private static ITestFramework DetectFramework()
         {
             ITestFramework detectedFramework = AttemptToDetectUsingAppSetting()
-                ?? AttemptToDetectUsingDynamicScanning();
+                ?? AttemptToDetectUsingDynamicScanning()
+                ?? new FallbackTestFramework();
 
             return detectedFramework;
         }
@@ -51,17 +44,30 @@ namespace FluentAssertions.Execution
         private static ITestFramework AttemptToDetectUsingAppSetting()
         {
             string frameworkName = Services.Configuration.TestFrameworkName;
-            if (string.IsNullOrEmpty(frameworkName)
-                || !frameworks.TryGetValue(frameworkName, out ITestFramework framework))
+            if (string.IsNullOrEmpty(frameworkName))
             {
                 return null;
             }
 
+            if (!Frameworks.TryGetValue(frameworkName, out ITestFramework framework))
+            {
+                string frameworks = string.Join(", ", Frameworks.Keys);
+                var message = $"FluentAssertions was configured to use {frameworkName} but the requested test framework is not supported. " +
+                    $"Please use one of the supported frameworks: {frameworks}";
+
+                throw new Exception(message);
+            }
+
             if (!framework.IsAvailable)
             {
-                throw new Exception(
-                    "FluentAssertions was configured to use " + frameworkName +
-                    " but the required test framework assembly could not be found");
+                string frameworks = string.Join(", ", Frameworks.Keys);
+                var message = framework is LateBoundTestFramework lateBoundTestFramework
+                    ? $"FluentAssertions was configured to use {frameworkName} but the required test framework assembly {lateBoundTestFramework.AssemblyName} could not be found. " +
+                        $"Please use one of the supported frameworks: {frameworks}"
+                    : $"FluentAssertions was configured to use {frameworkName} but the required test framework could not be found. " +
+                        $"Please use one of the supported frameworks: {frameworks}";
+
+                throw new Exception(message);
             }
 
             return framework;
@@ -69,7 +75,7 @@ namespace FluentAssertions.Execution
 
         private static ITestFramework AttemptToDetectUsingDynamicScanning()
         {
-            return frameworks.Values.FirstOrDefault(framework => framework.IsAvailable);
+            return Frameworks.Values.FirstOrDefault(framework => framework.IsAvailable);
         }
     }
 }

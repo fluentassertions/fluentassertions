@@ -13,14 +13,14 @@ namespace FluentAssertions.Types
         /// Initializes a new instance of the <see cref="ConstructorInfoAssertions"/> class.
         /// </summary>
         /// <param name="constructorInfo">The constructorInfo from which to select properties.</param>
-        public ConstructorInfoAssertions(ConstructorInfo constructorInfo) : base(constructorInfo)
+        public ConstructorInfoAssertions(ConstructorInfo constructorInfo)
+            : base(constructorInfo)
         {
         }
 
         internal static string GetDescriptionFor(ConstructorInfo constructorInfo)
         {
-            return string.Format("{0}({1})",
-                constructorInfo.DeclaringType, GetParameterString(constructorInfo));
+            return $"{constructorInfo.DeclaringType}({GetParameterString(constructorInfo)})";
         }
 
         internal override string SubjectDescription => GetDescriptionFor(Subject);

@@ -14,11 +14,12 @@ namespace FluentAssertions.Primitives
     /// way of specifying a <see cref="DateTime"/> or a <see cref="TimeSpan"/>.
     /// </remarks>
     [DebuggerNonUserCode]
-    public class DateTimeRangeAssertions
+    public class DateTimeRangeAssertions<TAssertions>
+        where TAssertions : DateTimeAssertions<TAssertions>
     {
         #region Private Definitions
 
-        private readonly DateTimeAssertions parentAssertions;
+        private readonly TAssertions parentAssertions;
         private readonly TimeSpanPredicate predicate;
 
         private readonly Dictionary<TimeSpanCondition, TimeSpanPredicate> predicates = new Dictionary
@@ -36,7 +37,7 @@ namespace FluentAssertions.Primitives
 
         #endregion
 
-        protected internal DateTimeRangeAssertions(DateTimeAssertions parentAssertions, DateTime? subject,
+        protected internal DateTimeRangeAssertions(TAssertions parentAssertions, DateTime? subject,
             TimeSpanCondition condition,
             TimeSpan timeSpan)
         {
@@ -54,13 +55,13 @@ namespace FluentAssertions.Primitives
         /// The <see cref="DateTime"/> to compare the subject with.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<DateTimeAssertions> Before(DateTime target, string because = "",
+        public AndConstraint<TAssertions> Before(DateTime target, string because = "",
             params object[] becauseArgs)
         {
             bool success = Execute.Assertion
@@ -74,18 +75,16 @@ namespace FluentAssertions.Primitives
             {
                 TimeSpan actual = target - subject.Value;
 
-                if (!predicate.IsMatchedBy(actual, timeSpan))
-                {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith(
-                            "Expected date and/or time {0} to be " + predicate.DisplayText +
-                            " {1} before {2}{reason}, but it differs {3}.",
-                            subject, timeSpan, target, actual);
-                }
+                Execute.Assertion
+                    .ForCondition(predicate.IsMatchedBy(actual, timeSpan))
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        "Expected {context:the date and time} {0} to be " + predicate.DisplayText +
+                        " {1} before {2}{reason}, but it is " + PositionRelativeToTarget(subject.Value, target) + " by {3}.",
+                        subject, timeSpan, target, actual.Duration());
             }
 
-            return new AndConstraint<DateTimeAssertions>(parentAssertions);
+            return new AndConstraint<TAssertions>(parentAssertions);
         }
 
         /// <summary>
@@ -95,13 +94,13 @@ namespace FluentAssertions.Primitives
         /// The <see cref="DateTime"/> to compare the subject with.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<DateTimeAssertions> After(DateTime target, string because = "",
+        public AndConstraint<TAssertions> After(DateTime target, string because = "",
             params object[] becauseArgs)
         {
             bool success = Execute.Assertion
@@ -115,18 +114,21 @@ namespace FluentAssertions.Primitives
             {
                 TimeSpan actual = subject.Value - target;
 
-                if (!predicate.IsMatchedBy(actual, timeSpan))
-                {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith(
-                            "Expected date and/or time {0} to be " + predicate.DisplayText +
-                            " {1} after {2}{reason}, but it differs {3}.",
-                            subject, timeSpan, target, actual);
-                }
+                Execute.Assertion
+                    .ForCondition(predicate.IsMatchedBy(actual, timeSpan))
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        "Expected {context:the date and time} {0} to be " + predicate.DisplayText +
+                        " {1} after {2}{reason}, but it is " + PositionRelativeToTarget(subject.Value, target) + " by {3}.",
+                        subject, timeSpan, target, actual.Duration());
             }
 
-            return new AndConstraint<DateTimeAssertions>(parentAssertions);
+            return new AndConstraint<TAssertions>(parentAssertions);
+        }
+
+        private static string PositionRelativeToTarget(DateTime actual, DateTime target)
+        {
+            return actual - target >= TimeSpan.Zero ? "ahead" : "behind";
         }
     }
 }

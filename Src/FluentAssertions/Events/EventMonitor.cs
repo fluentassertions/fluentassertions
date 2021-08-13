@@ -1,4 +1,4 @@
-﻿#if !NETSTANDARD1_3 && !NETSTANDARD1_6 && !NETSTANDARD2_0
+﻿#if !NETSTANDARD2_0
 
 using System;
 using System.Collections.Concurrent;
@@ -16,8 +16,8 @@ namespace FluentAssertions.Events
     {
         private readonly WeakReference subject;
 
-        private readonly ConcurrentDictionary<string, IEventRecorder> recorderMap =
-            new ConcurrentDictionary<string, IEventRecorder>();
+        private readonly ConcurrentDictionary<string, EventRecorder> recorderMap =
+            new ConcurrentDictionary<string, EventRecorder>();
 
         public EventMonitor(object eventSource, Func<DateTime> utcNow)
         {
@@ -34,8 +34,9 @@ namespace FluentAssertions.Events
         {
             get
             {
-                return recorderMap.ToArray()
-                    .Select(r => new EventMetadata(r.Value.EventName, r.Value.EventHandlerType))
+                return recorderMap
+                    .Values
+                    .Select(recorder => new EventMetadata(recorder.EventName, recorder.EventHandlerType))
                     .ToArray();
             }
         }
@@ -45,17 +46,11 @@ namespace FluentAssertions.Events
             get
             {
                 IEnumerable<OccurredEvent> query =
-                    from mapItem in recorderMap.ToArray()
-                    let eventName = mapItem.Key
-                    let recorder = mapItem.Value
-                    from occurrence in mapItem.Value
-                    orderby occurrence.TimestampUtc
-                    select new OccurredEvent
-                    {
-                        EventName = eventName,
-                        Parameters = occurrence.Parameters.ToArray(),
-                        TimestampUtc = occurrence.TimestampUtc
-                    };
+                    from eventName in recorderMap.Keys
+                    let recording = GetRecordingFor(eventName)
+                    from @event in recording
+                    orderby @event.TimestampUtc
+                    select @event;
 
                 return query.ToArray();
             }
@@ -63,7 +58,7 @@ namespace FluentAssertions.Events
 
         public void Clear()
         {
-            foreach (IEventRecorder recorder in recorderMap.Values)
+            foreach (EventRecorder recorder in recorderMap.Values)
             {
                 recorder.Reset();
             }
@@ -72,6 +67,16 @@ namespace FluentAssertions.Events
         public EventAssertions<T> Should()
         {
             return new EventAssertions<T>(this);
+        }
+
+        public IEventRecording GetRecordingFor(string eventName)
+        {
+            if (!recorderMap.TryGetValue(eventName, out EventRecorder recorder))
+            {
+                throw new InvalidOperationException($"Not monitoring any events named \"{eventName}\".");
+            }
+
+            return recorder;
         }
 
         private void Attach(Type typeDefiningEventsToMonitor, Func<DateTime> utcNow)
@@ -93,7 +98,7 @@ namespace FluentAssertions.Events
             }
         }
 
-        private EventInfo[] GetPublicEvents(Type type)
+        private static EventInfo[] GetPublicEvents(Type type)
         {
             if (!type.IsInterface)
             {
@@ -108,7 +113,7 @@ namespace FluentAssertions.Events
 
         public void Dispose()
         {
-            foreach (IEventRecorder recorder in recorderMap.Values)
+            foreach (EventRecorder recorder in recorderMap.Values)
             {
                 recorder.Dispose();
             }
@@ -126,16 +131,6 @@ namespace FluentAssertions.Events
                     recorder.Attach(subject, eventInfo);
                 }
             }
-        }
-
-        public IEventRecorder GetEventRecorder(string eventName)
-        {
-            if (!recorderMap.TryGetValue(eventName, out IEventRecorder recorder))
-            {
-                throw new InvalidOperationException($"Not monitoring any events named \"{eventName}\".");
-            }
-
-            return recorder;
         }
     }
 }

@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency.Selection
@@ -18,17 +16,16 @@ namespace FluentAssertions.Equivalency.Selection
             memberToExclude = pathToExclude;
         }
 
-        protected override IEnumerable<SelectedMemberInfo> OnSelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers,
-            string currentPath, IMemberInfo context)
+        protected override void AddOrRemoveMembersFrom(List<IMember> selectedMembers, INode parent, string parentPath,
+            MemberSelectionContext context)
         {
-            return selectedMembers
-                .Where(memberInfo => !memberToExclude.IsSameAs(new MemberPath(memberInfo.DeclaringType, currentPath.Combine(memberInfo.Name))))
-                .ToArray();
+            selectedMembers.RemoveAll(member =>
+                memberToExclude.IsSameAs(new MemberPath(member, parentPath)));
         }
 
         public override string ToString()
         {
-            return "Exclude member root." + memberToExclude;
+            return "Exclude member " + memberToExclude;
         }
     }
 }

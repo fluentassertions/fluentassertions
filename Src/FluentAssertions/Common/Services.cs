@@ -8,7 +8,7 @@ namespace FluentAssertions.Common
     /// </summary>
     public static class Services
     {
-        private static readonly object lockable = new object();
+        private static readonly object Lockable = new();
         private static Configuration configuration;
 
         static Services()
@@ -22,7 +22,7 @@ namespace FluentAssertions.Common
         {
             get
             {
-                lock (lockable)
+                lock (Lockable)
                 {
                     if (configuration is null)
                     {
@@ -40,17 +40,12 @@ namespace FluentAssertions.Common
 
         public static void ResetToDefaults()
         {
-#if NETSTANDARD1_3
-            Reflector = new NullReflector();
-            ConfigurationStore = new NullConfigurationStore();
-#elif NETSTANDARD1_6
-            Reflector = new NetStandardReflector();
-            ConfigurationStore = new NullConfigurationStore();
-#else
             Reflector = new FullFrameworkReflector();
+#if NETFRAMEWORK || NETCOREAPP
             ConfigurationStore = new ConfigurationStoreExceptionInterceptor(new AppSettingsConfigurationStore());
+#else
+            ConfigurationStore = new NullConfigurationStore();
 #endif
-
             ThrowException = TestFrameworkProvider.Throw;
         }
     }

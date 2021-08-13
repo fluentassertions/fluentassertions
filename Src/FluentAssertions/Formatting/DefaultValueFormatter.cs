@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Reflection;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 
@@ -9,101 +8,117 @@ namespace FluentAssertions.Formatting
 {
     public class DefaultValueFormatter : IValueFormatter
     {
-        #region Private Definitions
-
-        private const int RootLevel = 0;
-        private const int SpacesPerIndentionLevel = 3;
-
-        #endregion
+        /// <summary>
+        /// The number of spaces to indent the members of this object by.
+        /// </summary>
+        /// <remarks>The default value is 3.</remarks>
+        protected virtual int SpacesPerIndentionLevel { get; } = 3;
 
         /// <summary>
         /// Determines whether this instance can handle the specified value.
         /// </summary>
-        /// <param name = "value">The value.</param>
+        /// <param name="value">The value.</param>
         /// <returns>
         /// <c>true</c> if this instance can handle the specified value; otherwise, <c>false</c>.
         /// </returns>
-        public bool CanHandle(object value)
+        public virtual bool CanHandle(object value)
         {
             return true;
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
             if (value.GetType() == typeof(object))
             {
-                return string.Format("System.Object (HashCode={0})", value.GetHashCode());
+                formattedGraph.AddFragment($"System.Object (HashCode={value.GetHashCode()})");
+                return;
             }
-
-            string prefix = (context.UseLineBreaks ? Environment.NewLine : "");
 
             if (HasDefaultToStringImplementation(value))
             {
-                if (true)
+                WriteTypeAndMemberValues(value, formattedGraph, formatChild);
+            }
+            else
+            {
+                if (context.UseLineBreaks)
                 {
-                    return prefix + GetTypeAndPublicPropertyValues(value, context, formatChild);
+                    formattedGraph.AddLine(value.ToString());
+                }
+                else
+                {
+                    formattedGraph.AddFragment(value.ToString());
                 }
             }
+        }
 
-            return prefix + value;
+        /// <summary>
+        /// Selects which members of <paramref name="type"/> to format.
+        /// </summary>
+        /// <param name="type">The <see cref="System.Type"/> of the object being formatted.</param>
+        /// <returns>The members of <paramref name="type"/> that will be included when formatting this object.</returns>
+        /// <remarks>The default is all non-private members.</remarks>
+        protected virtual MemberInfo[] GetMembers(Type type)
+        {
+            return type.GetNonPrivateMembers(MemberVisibility.Public).ToArray();
         }
 
         private static bool HasDefaultToStringImplementation(object value)
         {
             string str = value.ToString();
 
-            return str is null || str.Equals(value.GetType().ToString());
+            return str is null || str == value.GetType().ToString();
         }
 
-        private static string GetTypeAndPublicPropertyValues(object obj, FormattingContext context, FormatChild formatChild)
+        private void WriteTypeAndMemberValues(object obj, FormattedObjectGraph formattedGraph, FormatChild formatChild)
         {
-            var builder = new StringBuilder();
-
-            if (context.Depth == RootLevel)
-            {
-                builder.AppendLine();
-                builder.AppendLine();
-            }
-
             Type type = obj.GetType();
-            builder.AppendLine(type.FullName);
-            builder.Append(CreateWhitespaceForLevel(context.Depth)).Append('{').AppendLine();
+            formattedGraph.AddLine(TypeDisplayName(type));
+            formattedGraph.AddLine("{");
 
-            IEnumerable<SelectedMemberInfo> properties = type.GetNonPrivateMembers();
-            foreach (SelectedMemberInfo propertyInfo in properties.OrderBy(pi => pi.Name))
+            MemberInfo[] members = GetMembers(type);
+            using var iterator = new Iterator<MemberInfo>(members.OrderBy(mi => mi.Name));
+            while (iterator.MoveNext())
             {
-                string propertyValueText = GetPropertyValueTextFor(obj, propertyInfo, context, formatChild);
-                builder.AppendLine(propertyValueText);
+                WriteMemberValueTextFor(obj, iterator.Current, formattedGraph, formatChild);
+
+                if (!iterator.IsLast)
+                {
+                    formattedGraph.AddFragment(", ");
+                }
             }
 
-            builder.Append(CreateWhitespaceForLevel(context.Depth)).Append('}');
-
-            return builder.ToString();
+            formattedGraph.AddFragmentOnNewLine("}");
         }
 
-        private static string GetPropertyValueTextFor(object value, SelectedMemberInfo selectedMemberInfo, FormattingContext context, FormatChild formatChild)
+        /// <summary>
+        /// Selects the name to display for <paramref name="type"/>.
+        /// </summary>
+        /// <param name="type">The <see cref="System.Type"/> of the object being formatted.</param>
+        /// <returns>The name to be displayed for <paramref name="type"/>.</returns>
+        /// <remarks>The default is <see cref="System.Type.FullName"/>.</remarks>
+        protected virtual string TypeDisplayName(Type type) => type.FullName;
+
+        private static void WriteMemberValueTextFor(object value, MemberInfo member, FormattedObjectGraph formattedGraph, FormatChild formatChild)
         {
-            object propertyValue;
+            object memberValue;
 
             try
             {
-                propertyValue = selectedMemberInfo.GetValue(value, null);
+                memberValue = member switch
+                {
+                    FieldInfo fi => fi.GetValue(value),
+                    PropertyInfo pi => pi.GetValue(value),
+                    _ => throw new InvalidOperationException()
+                };
             }
             catch (Exception ex)
             {
-                propertyValue = string.Format("[Member '{0}' threw an exception: '{1}']", selectedMemberInfo.Name, ex.Message);
+                ex = (ex as TargetInvocationException)?.InnerException ?? ex;
+                memberValue = $"[Member '{member.Name}' threw an exception: '{ex.Message}']";
             }
 
-            return string.Format("{0}{1} = {2}",
-                CreateWhitespaceForLevel(context.Depth + 1),
-                selectedMemberInfo.Name,
-                formatChild(selectedMemberInfo.Name, propertyValue));
-        }
-
-        private static string CreateWhitespaceForLevel(int level)
-        {
-            return new string(' ', level * SpacesPerIndentionLevel);
+            formattedGraph.AddFragmentOnNewLine($"{new string(' ', FormattedObjectGraph.SpacesPerIndentation)}{member.Name} = ");
+            formatChild(member.Name, memberValue, formattedGraph);
         }
     }
 }

@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
+using FluentAssertions.CallerIdentification;
 using FluentAssertions.Common;
 
 namespace FluentAssertions
@@ -11,11 +15,7 @@ namespace FluentAssertions
     /// </summary>
     public static class CallerIdentifier
     {
-#pragma warning disable CA2211 // TODO: fix in 6.0
-        public static Action<string> logger = str => { };
-#pragma warning restore CA2211
-
-#if !NETSTANDARD1_3 && !NETSTANDARD1_6
+        public static Action<string> Logger { get; set; } = _ => { };
 
         public static string DetermineCallerIdentity()
         {
@@ -23,19 +23,42 @@ namespace FluentAssertions
 
             try
             {
-                StackTrace stack = new StackTrace(true);
+                var stack = new StackTrace(fNeedFileInfo: true);
 
-                foreach (StackFrame frame in stack.GetFrames())
+                var allStackFrames = stack.GetFrames()
+                    .Where(frame => !IsCompilerServices(frame))
+                    .ToArray();
+
+                int searchStart = allStackFrames.Length - 1;
+
+                if (StartStackSearchAfterStackFrame.Value is not null)
                 {
-                    logger(frame.ToString());
+                    searchStart = Array.FindLastIndex(
+                        allStackFrames,
+                        allStackFrames.Length - StartStackSearchAfterStackFrame.Value.SkipStackFrameCount,
+                        frame => !IsCurrentAssembly(frame));
+                }
 
-                    if (frame.GetMethod() is object
+                int firstFluentAssertionsCodeIndex = Array.FindLastIndex(
+                    allStackFrames,
+                    searchStart,
+                    frame => IsCurrentAssembly(frame));
+
+                int lastUserStackFrameBeforeFluentAssertionsCodeIndex =
+                    firstFluentAssertionsCodeIndex + 1;
+
+                for (int i = lastUserStackFrameBeforeFluentAssertionsCodeIndex; i < allStackFrames.Length; i++)
+                {
+                    var frame = allStackFrames[i];
+
+                    Logger(frame.ToString());
+
+                    if (frame.GetMethod() is not null
                         && !IsDynamic(frame)
                         && !IsDotNet(frame)
-                        && !IsCurrentAssembly(frame)
                         && !IsCustomAssertion(frame))
                     {
-                        caller = ExtractVariableNameFrom(frame) ?? caller;
+                        caller = ExtractVariableNameFrom(frame);
                         break;
                     }
                 }
@@ -43,10 +66,74 @@ namespace FluentAssertions
             catch (Exception e)
             {
                 // Ignore exceptions, as determination of caller identity is only a nice-to-have
-                logger(e.ToString());
+                Logger(e.ToString());
             }
 
             return caller;
+        }
+
+        private class StackFrameReference : IDisposable
+        {
+            public int SkipStackFrameCount { get; }
+
+            private readonly StackFrameReference previousReference;
+
+            public StackFrameReference()
+            {
+                var stack = new StackTrace();
+
+                var allStackFrames = stack.GetFrames()
+                    .Where(frame => !IsCompilerServices(frame))
+                    .ToArray();
+
+                int firstUserCodeFrameIndex = 0;
+
+                while ((firstUserCodeFrameIndex < allStackFrames.Length)
+                    && IsCurrentAssembly(allStackFrames[firstUserCodeFrameIndex]))
+                {
+                    firstUserCodeFrameIndex++;
+                }
+
+                SkipStackFrameCount = allStackFrames.Length - firstUserCodeFrameIndex + 1;
+
+                previousReference = StartStackSearchAfterStackFrame.Value;
+                StartStackSearchAfterStackFrame.Value = this;
+            }
+
+            public void Dispose()
+            {
+                StartStackSearchAfterStackFrame.Value = previousReference;
+            }
+        }
+
+        private static readonly AsyncLocal<StackFrameReference> StartStackSearchAfterStackFrame = new();
+
+        internal static IDisposable OverrideStackSearchUsingCurrentScope()
+        {
+            return new StackFrameReference();
+        }
+
+        internal static bool OnlyOneFluentAssertionScopeOnCallStack()
+        {
+            var allStackFrames = new StackTrace().GetFrames()
+                .Where(frame => !IsCompilerServices(frame))
+                .ToArray();
+
+            int firstNonFluentAssertionsStackFrameIndex = Array.FindIndex(
+                allStackFrames,
+                frame => !IsCurrentAssembly(frame));
+
+            if (firstNonFluentAssertionsStackFrameIndex < 0)
+            {
+                return true;
+            }
+
+            int startOfSecondFluentAssertionsScopeStackFrameIndex = Array.FindIndex(
+                allStackFrames,
+                startIndex: firstNonFluentAssertionsStackFrameIndex + 1,
+                IsCurrentAssembly);
+
+            return startOfSecondFluentAssertionsScopeStackFrameIndex < 0;
         }
 
         private static bool IsCustomAssertion(StackFrame frame)
@@ -61,50 +148,42 @@ namespace FluentAssertions
 
         private static bool IsCurrentAssembly(StackFrame frame)
         {
-            return frame.GetMethod().DeclaringType.Assembly == typeof(CallerIdentifier).Assembly;
+            return frame.GetMethod().DeclaringType?.Assembly == typeof(CallerIdentifier).Assembly;
         }
 
         private static bool IsDotNet(StackFrame frame)
         {
             var frameNamespace = frame.GetMethod().DeclaringType.Namespace;
-            var comparisonType = StringComparison.InvariantCultureIgnoreCase;
+            var comparisonType = StringComparison.OrdinalIgnoreCase;
 
             return frameNamespace?.StartsWith("system.", comparisonType) == true ||
                 frameNamespace?.Equals("system", comparisonType) == true;
         }
 
+        private static bool IsCompilerServices(StackFrame frame)
+        {
+            return frame.GetMethod().DeclaringType?.Namespace == "System.Runtime.CompilerServices";
+        }
+
         private static string ExtractVariableNameFrom(StackFrame frame)
         {
             string caller = null;
+            string statement = GetSourceCodeStatementFrom(frame);
 
-            int column = frame.GetFileColumnNumber();
-            string line = GetSourceCodeLineFrom(frame);
-
-            if ((line != null) && (column != 0) && (line.Length > 0))
+            if (!string.IsNullOrEmpty(statement))
             {
-                string statement = line.Substring(Math.Min(column - 1, line.Length - 1));
-
-                logger(statement);
-
-                int indexOfShould = statement.IndexOf("Should", StringComparison.InvariantCulture);
-                if (indexOfShould != -1)
+                Logger(statement);
+                if (!IsBooleanLiteral(statement) && !IsNumeric(statement) && !IsStringLiteral(statement) &&
+                    !UsesNewKeyword(statement))
                 {
-                    string candidate = statement.Substring(0, indexOfShould - 1);
-
-                    logger(candidate);
-
-                    if (!IsBooleanLiteral(candidate) && !IsNumeric(candidate) && !IsStringLiteral(candidate) &&
-                        !UsesNewKeyword(candidate))
-                    {
-                        caller = candidate;
-                    }
+                    caller = statement;
                 }
             }
 
             return caller;
         }
 
-        private static string GetSourceCodeLineFrom(StackFrame frame)
+        private static string GetSourceCodeStatementFrom(StackFrame frame)
         {
             string fileName = frame.GetFileName();
             int expectedLineNumber = frame.GetFileLineNumber();
@@ -116,24 +195,43 @@ namespace FluentAssertions
 
             try
             {
-                using (StreamReader reader = new StreamReader(File.OpenRead(fileName)))
+                using var reader = new StreamReader(File.OpenRead(fileName));
+                string line;
+                int currentLine = 1;
+
+                while ((line = reader.ReadLine()) is not null && currentLine < expectedLineNumber)
                 {
-                    string line;
-                    int currentLine = 1;
-
-                    while ((line = reader.ReadLine()) != null && currentLine < expectedLineNumber)
-                    {
-                        currentLine++;
-                    }
-
-                    return (currentLine == expectedLineNumber) ? line : null;
+                    currentLine++;
                 }
+
+                return currentLine == expectedLineNumber
+                       && line != null
+                           ? GetSourceCodeStatementFrom(frame, reader, line)
+                           : null;
             }
             catch
             {
                 // We don't care. Just assume the symbol file is not available or unreadable
                 return null;
             }
+        }
+
+        private static string GetSourceCodeStatementFrom(StackFrame frame, StreamReader reader, string line)
+        {
+            int column = frame.GetFileColumnNumber();
+            if (column > 0)
+            {
+                line = line.Substring(Math.Min(column - 1, line.Length - 1));
+            }
+
+            var sb = new CallerStatementBuilder();
+            do
+            {
+                sb.Append(line);
+            }
+            while (!sb.IsDone() && (line = reader.ReadLine()) != null);
+
+            return sb.ToString();
         }
 
         private static bool UsesNewKeyword(string candidate)
@@ -148,19 +246,13 @@ namespace FluentAssertions
 
         private static bool IsNumeric(string candidate)
         {
-            return double.TryParse(candidate, out _);
+            const NumberStyles numberStyle = NumberStyles.Float | NumberStyles.AllowThousands;
+            return double.TryParse(candidate, numberStyle, CultureInfo.InvariantCulture, out _);
         }
 
         private static bool IsBooleanLiteral(string candidate)
         {
-            return candidate == "true" || candidate == "false";
+            return candidate is "true" or "false";
         }
-
-#else
-        public static string DetermineCallerIdentity()
-        {
-            return null;
-        }
-#endif
     }
 }

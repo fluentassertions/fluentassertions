@@ -1,3 +1,4 @@
+using System.Reflection;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency.Matching
@@ -7,11 +8,19 @@ namespace FluentAssertions.Equivalency.Matching
     /// </summary>
     internal class TryMatchByNameRule : IMemberMatchingRule
     {
-        public SelectedMemberInfo Match(SelectedMemberInfo expectedMember, object subject, string memberPath, IEquivalencyAssertionOptions config)
+        public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions config)
         {
-            return subject.GetType().FindMember(expectedMember.Name, expectedMember.MemberType);
+            PropertyInfo property = subject.GetType().FindProperty(expectedMember.Name, expectedMember.Type);
+            if ((property is not null) && !property.IsIndexer())
+            {
+                return new Property(property, parent);
+            }
+
+            FieldInfo field = subject.GetType().FindField(expectedMember.Name, expectedMember.Type);
+            return (field is not null) ? new Field(field, parent) : null;
         }
 
+        /// <inheritdoc />
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {

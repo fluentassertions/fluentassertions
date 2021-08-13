@@ -7,13 +7,13 @@ namespace FluentAssertions.Equivalency
     public interface IAssertionContext<TSubject>
     {
         /// <summary>
-        /// Gets the <see cref="FluentAssertions.Equivalency.SelectedMemberInfo"/> of the member that returned the current object, or <c>null</c> if the current
+        /// Gets the <see cref="IMember"/> of the member that returned the current object, or <c>null</c> if the current
         /// object represents the root object.
         /// </summary>
-        SelectedMemberInfo SubjectProperty { get; }
+        INode SelectedNode { get; }
 
         /// <summary>
-        /// Gets the value of the <see cref="SubjectProperty" />
+        /// Gets the value of the <see cref="SelectedNode" />
         /// </summary>
         TSubject Subject { get; }
 
@@ -29,7 +29,7 @@ namespace FluentAssertions.Equivalency
         string Because { get; set; }
 
         /// <summary>
-        /// Zero or more objects to format using the placeholders in <see cref="Because"/>.
+        /// Zero or more objects to format using the placeholders in <see cref="Because" />.
         /// </summary>
         object[] BecauseArgs { get; set; }
     }

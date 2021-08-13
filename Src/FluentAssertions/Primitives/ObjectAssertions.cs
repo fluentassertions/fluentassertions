@@ -9,14 +9,27 @@ namespace FluentAssertions.Primitives
     /// <summary>
     /// Contains a number of methods to assert that an <see cref="object"/> is in the expected state.
     /// </summary>
-    public class ObjectAssertions : ReferenceTypeAssertions<object, ObjectAssertions>
+    public class ObjectAssertions : ObjectAssertions<object, ObjectAssertions>
     {
-        public ObjectAssertions(object value) : base(value)
+        public ObjectAssertions(object value)
+            : base(value)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Contains a number of methods to assert that a <typeparamref name="TSubject"/> is in the expected state.
+    /// </summary>
+    public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<TSubject, TAssertions>
+        where TAssertions : ObjectAssertions<TSubject, TAssertions>
+    {
+        public ObjectAssertions(TSubject value)
+            : base(value)
         {
         }
 
         /// <summary>
-        /// Asserts that an object equals another object using its <see cref="object.Equals(object)" /> implementation.
+        /// Asserts that a <typeparamref name="TSubject"/> equals another <typeparamref name="TSubject"/> using its <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="expected">The expected value</param>
         /// <param name="because">
@@ -24,38 +37,40 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<ObjectAssertions> Be(object expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> Be(TSubject expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject.IsSameOrEqualTo(expected))
-                .FailWith("Expected {context:object} to be {0}{reason}, but found {1}.", expected,
+                .ForCondition(ObjectExtensions.GetComparer<TSubject>()(Subject, expected))
+                .WithDefaultIdentifier(Identifier)
+                .FailWith("Expected {context} to be {0}{reason}, but found {1}.", expected,
                     Subject);
 
-            return new AndConstraint<ObjectAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
-        /// Asserts that an object does not equal another object using its <see cref="object.Equals(object)" /> method.
+        /// Asserts that a <typeparamref name="TSubject"/> does not equal another <typeparamref name="TSubject"/> using its <see cref="object.Equals(object)" /> method.
         /// </summary>
         /// <param name="unexpected">The unexpected value</param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<ObjectAssertions> NotBe(object unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotBe(TSubject unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!Subject.IsSameOrEqualTo(unexpected))
+                .ForCondition(!ObjectExtensions.GetComparer<TSubject>()(Subject, unexpected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:object} to be equal to {0}{reason}.", unexpected);
+                .WithDefaultIdentifier(Identifier)
+                .FailWith("Did not expect {context} to be equal to {0}{reason}.", unexpected);
 
-            return new AndConstraint<ObjectAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -68,17 +83,18 @@ namespace FluentAssertions.Primitives
         /// items in the collection are structurally equal.
         /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
         /// </remarks>
+        /// <param name="expectation">The expected element.</param>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
-        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public void BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "",
+        public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "",
             params object[] becauseArgs)
         {
-            BeEquivalentTo(expectation, config => config, because, becauseArgs);
+            return BeEquivalentTo(expectation, config => config, because, becauseArgs);
         }
 
         /// <summary>
@@ -90,6 +106,7 @@ namespace FluentAssertions.Primitives
         /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable{T}"/> and all
         /// items in the collection are structurally equal.
         /// </remarks>
+        /// <param name="expectation">The expected element.</param>
         /// <param name="config">
         /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used
         /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
@@ -97,13 +114,13 @@ namespace FluentAssertions.Primitives
         /// <see cref="AssertionOptions"/> class.
         /// </param>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
-        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public void BeEquivalentTo<TExpectation>(TExpectation expectation,
+        public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
             params object[] becauseArgs)
         {
@@ -111,18 +128,23 @@ namespace FluentAssertions.Primitives
 
             EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
 
-            var context = new EquivalencyValidationContext
+            var context = new EquivalencyValidationContext(Node.From<TExpectation>(() =>
+                CallerIdentifier.DetermineCallerIdentity()), options)
+            {
+                Reason = new Reason(because, becauseArgs),
+                TraceWriter = options.TraceWriter
+            };
+
+            var comparands = new Comparands
             {
                 Subject = Subject,
                 Expectation = expectation,
                 CompileTimeType = typeof(TExpectation),
-                Because = because,
-                BecauseArgs = becauseArgs,
-                Tracer = options.TraceWriter
             };
 
-            var equivalencyValidator = new EquivalencyValidator(options);
-            equivalencyValidator.AssertEquality(context);
+            new EquivalencyValidator().AssertEquality(comparands, context);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -135,19 +157,20 @@ namespace FluentAssertions.Primitives
         /// items in the collection are structurally equal.
         /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
         /// </remarks>
+        /// <param name="unexpected">The unexpected element.</param>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
-        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public void NotBeEquivalentTo<TExpectation>(
+        public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(
             TExpectation unexpected,
             string because = "",
             params object[] becauseArgs)
         {
-            NotBeEquivalentTo(unexpected, config => config, because, becauseArgs);
+            return NotBeEquivalentTo(unexpected, config => config, because, becauseArgs);
         }
 
         /// <summary>
@@ -159,6 +182,7 @@ namespace FluentAssertions.Primitives
         /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable{T}"/> and all
         /// items in the collection are structurally equal.
         /// </remarks>
+        /// <param name="unexpected">The unexpected element.</param>
         /// <param name="config">
         /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used
         /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
@@ -166,13 +190,13 @@ namespace FluentAssertions.Primitives
         /// <see cref="AssertionOptions"/> class.
         /// </param>
         /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the
-        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public void NotBeEquivalentTo<TExpectation>(
+        public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(
             TExpectation unexpected,
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config,
             string because = "",
@@ -183,72 +207,17 @@ namespace FluentAssertions.Primitives
             bool hasMismatches;
             using (var scope = new AssertionScope())
             {
-                Subject.Should().BeEquivalentTo(unexpected, config, because, becauseArgs);
+                Subject.Should().BeEquivalentTo(unexpected, config);
                 hasMismatches = scope.Discard().Length > 0;
             }
 
             Execute.Assertion
                 .ForCondition(hasMismatches)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:object} not to be equivalent to {0}, but they are.", unexpected);
-        }
+                .WithDefaultIdentifier(Identifier)
+                .FailWith("Expected {context} not to be equivalent to {0}{reason}, but they are.", unexpected);
 
-        /// <summary>
-        /// Asserts that an object is an enum and has a specified flag
-        /// </summary>
-        /// <param name="expectedFlag">The expected flag.</param>
-        /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
-        /// </param>
-        public AndConstraint<ObjectAssertions> HaveFlag(Enum expectedFlag, string because = "",
-            params object[] becauseArgs)
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(!(Subject is null))
-                .FailWith("Expected type to be {0}{reason}, but found <null>.", expectedFlag.GetType())
-                .Then
-                .ForCondition(Subject.GetType() == expectedFlag.GetType())
-                .FailWith("Expected the enum to be of type {0} type but found {1}{reason}.", expectedFlag.GetType(), Subject.GetType())
-                .Then
-                .Given(() => Subject as Enum)
-                .ForCondition(@enum => @enum.HasFlag(expectedFlag))
-                .FailWith("The enum was expected to have flag {0} but found {1}{reason}.", _ => expectedFlag, @enum => @enum);
-
-            return new AndConstraint<ObjectAssertions>(this);
-        }
-
-        /// <summary>
-        /// Asserts that an object is an enum and does not have a specified flag
-        /// </summary>
-        /// <param name="unexpectedFlag">The unexpected flag.</param>
-        /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
-        /// </param>
-        public AndConstraint<ObjectAssertions> NotHaveFlag(Enum unexpectedFlag, string because = "",
-            params object[] becauseArgs)
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(!(Subject is null))
-                .FailWith("Expected type to be {0}{reason}, but found <null>.", unexpectedFlag.GetType())
-                .Then
-                .ForCondition(Subject.GetType() == unexpectedFlag.GetType())
-                .FailWith("Expected the enum to be of type {0} type but found {1}{reason}.", unexpectedFlag.GetType(), Subject.GetType())
-                .Then
-                .Given(() => Subject as Enum)
-                .ForCondition(@enum => !@enum.HasFlag(unexpectedFlag))
-                .FailWith("Did not expect the enum to have flag {0}{reason}.", unexpectedFlag);
-
-            return new AndConstraint<ObjectAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>

@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace FluentAssertions.Common
 {
-    public static class MethodInfoExtensions
+    internal static class MethodInfoExtensions
     {
         /// <summary>
         /// A sum of all possible <see cref="MethodImplOptions"/>. It's needed to calculate what options were used when decorating with <see cref="MethodImplAttribute"/>.
@@ -18,16 +18,13 @@ namespace FluentAssertions.Common
 
         internal static bool IsAsync(this MethodInfo methodInfo)
         {
-            return methodInfo.GetMatchingAttributes<Attribute>(a => a.GetType().FullName.Equals("System.Runtime.CompilerServices.AsyncStateMachineAttribute")).Any();
+            return methodInfo.GetMatchingAttributes<Attribute>(a => a.GetType().FullName == "System.Runtime.CompilerServices.AsyncStateMachineAttribute").Any();
         }
 
         internal static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this MemberInfo memberInfo, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
-            var customAttributes = memberInfo.GetCustomAttributes(
-                typeof(TAttribute), false)
-                .Cast<TAttribute>()
-                .ToList();
+            var customAttributes = memberInfo.GetCustomAttributes<TAttribute>(inherit: false).ToList();
 
             if (typeof(TAttribute) == typeof(MethodImplAttribute) && memberInfo is MethodBase methodBase)
             {
@@ -55,9 +52,7 @@ namespace FluentAssertions.Common
             int implementationFlagsMatchingImplementationOptions =
                 (int)implementationFlags & ImplementationOptionsMask.Value;
 
-            MethodImplOptions implementationOptions =
-                (MethodImplOptions)
-                implementationFlagsMatchingImplementationOptions;
+            MethodImplOptions implementationOptions = (MethodImplOptions)implementationFlagsMatchingImplementationOptions;
 
             if (implementationOptions != 0)
             {

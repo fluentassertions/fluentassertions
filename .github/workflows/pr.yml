@@ -1,0 +1,44 @@
+name: Fluent Assertions - Pull Requests
+
+on:
+  push:
+    branches: [ develop, release-6.0 ]
+  pull_request:
+    branches: [ develop, release-6.0 ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    
+    - name: Setup .NET 5
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    
+    - name: Setup .NET 3.1
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x
+        
+    - name: Setup .NET 2.1
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.1.x
+    
+    - name: Install NUKE
+      run: |
+        dotnet tool install --global Nuke.GlobalTool
+        
+    - name: Run NUKE
+      run: nuke
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        path: ./Artifacts/*

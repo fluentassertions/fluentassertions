@@ -1,6 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Reflection;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency.Selection
@@ -20,17 +19,16 @@ namespace FluentAssertions.Equivalency.Selection
 
         public override bool IncludesMembers => true;
 
-        protected override IEnumerable<SelectedMemberInfo> OnSelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers,
-            string currentPath, IMemberInfo context)
+        protected override void AddOrRemoveMembersFrom(List<IMember> selectedMembers, INode parent, string parentPath, MemberSelectionContext context)
         {
-            IEnumerable<SelectedMemberInfo> matchingMembers =
-                from member in context.RuntimeType.GetNonPrivateMembers()
-                let memberPath = new MemberPath(member.DeclaringType, currentPath.Combine(member.Name))
-                where memberToInclude.IsSameAs(memberPath) ||
-                    memberToInclude.IsParentOrChildOf(memberPath)
-                select member;
-
-            return selectedMembers.Concat(matchingMembers).ToArray();
+            foreach (MemberInfo memberInfo in context.Type.GetNonPrivateMembers(MemberVisibility.Public | MemberVisibility.Internal))
+            {
+                var memberPath = new MemberPath(context.Type, memberInfo.DeclaringType, parentPath.Combine(memberInfo.Name));
+                if (memberToInclude.IsSameAs(memberPath) || memberToInclude.IsParentOrChildOf(memberPath))
+                {
+                    selectedMembers.Add(MemberFactory.Create(memberInfo, parent));
+                }
+            }
         }
 
         public override string ToString()

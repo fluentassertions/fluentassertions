@@ -11,7 +11,7 @@ namespace FluentAssertions.Execution
             this GivenSelector<IEnumerable<T>> givenSelector)
         {
             return givenSelector
-                .ForCondition(items => !(items is null))
+                .ForCondition(items => items is not null)
                 .FailWith("but found collection is <null>.");
         }
 
@@ -19,10 +19,10 @@ namespace FluentAssertions.Execution
             this GivenSelector<ICollection<T>> givenSelector, int length)
         {
             return givenSelector
-                .ForCondition(items => ((items.Count > 0) || (length == 0)))
+                .ForCondition(items => (items.Count > 0) || (length == 0))
                 .FailWith("but found empty collection.")
                 .Then
-                .ForCondition(items => ((items.Count == 0) || (length > 0)))
+                .ForCondition(items => (items.Count == 0) || (length > 0))
                 .FailWith("but found {0}.", items => items);
         }
 

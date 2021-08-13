@@ -11,6 +11,8 @@ sidebar:
 
 For asserting a `DateTime` or a `DateTimeOffset` against various constraints, Fluent Assertions offers a bunch of methods that, provided that you use the extension methods for representing dates and times, really help to keep your assertions readable.
 
+Since a `DateTimeOffset` both represents a point in time and a calendar date/time with a specific offset, both scenarios can be asserted.
+
 ```csharp
 var theDatetime = 1.March(2010).At(22, 15).AsLocal();
 
@@ -34,6 +36,16 @@ theDatetime.Should().BeOneOf(
     1.March(2010).At(22, 15),
     1.March(2010).At(23, 15)
 );
+
+var theDatetimeOffset = 1.March(2010).At(22, 15).WithOffset(2.Hours());     
+
+// Asserts the point in time. 
+theDatetimeOffset.Should().Be(1.March(2010).At(21, 15).WithOffset(1.Hours()));          
+theDatetimeOffset.Should().NotBe(1.March(2010).At(21, 15).WithOffset(1.Hours())); 
+
+//Asserts the calendar date/time and the offset
+theDatetimeOffset.Should().BeExactly(1.March(2010).At(21, 15).WithOffset(1.Hours()));   
+theDatetimeOffset.Should().NotBeExactly(1.March(2010).At(21, 15).WithOffset(1.Hours()));
 ```
 
 Notice how we use extension methods like `March`, `At` to represent dates in a more human readable form. There's a lot more like these, including `2000.Microseconds()`, `3.Nanoseconds` as well as methods like `AsLocal` and `AsUtc` to convert between representations. You can even do relative calculations like `2.Hours().Before(DateTime.Now)`.
@@ -55,7 +67,7 @@ theDatetime.Should().NotHaveHour(23);
 theDatetime.Should().NotHaveMinute(16);
 theDatetime.Should().NotHaveSecond(1);
 
-var theDatetimeOffset = 1.March(2010).AsUtc().ToDateTimeOffset(2.Hours());
+var theDatetimeOffset = 1.March(2010).AsUtc().WithOffset(2.Hours());
 
 theDatetimeOffset.Should().HaveOffset(2);
 theDatetimeOffset.Should().NotHaveOffset(3);
@@ -72,11 +84,9 @@ theDatetime.Should().BeAtLeast(2.Days()).Before(deliveryDate);       // Equivale
 theDatetime.Should().BeExactly(24.Hours()).Before(appointment);      // Equivalent to ==
 ```
 
-To assert that a date/time is (not) within a specified number of milliseconds from another date/time value you can use this method.
+To assert that a date/time is (not) within a specified time span from another date/time value you can use this method.
 
 ```csharp
-theDatetime.Should().BeCloseTo(1.March(2010).At(22, 15), 2000); // 2000 milliseconds
-theDatetime.Should().BeCloseTo(1.March(2010).At(22, 15));       // default is 20 milliseconds
 theDatetime.Should().BeCloseTo(1.March(2010).At(22, 15), 2.Seconds());
 
 theDatetime.Should().NotBeCloseTo(2.March(2010), 1.Hours());

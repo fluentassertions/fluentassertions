@@ -8,7 +8,20 @@ namespace FluentAssertions.Primitives
     /// Contains a number of methods to assert that a nullable <see cref="Guid"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class NullableGuidAssertions : GuidAssertions
+    public class NullableGuidAssertions : NullableGuidAssertions<NullableGuidAssertions>
+    {
+        public NullableGuidAssertions(Guid? value)
+            : base(value)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Contains a number of methods to assert that a nullable <see cref="Guid"/> is in the expected state.
+    /// </summary>
+    [DebuggerNonUserCode]
+    public class NullableGuidAssertions<TAssertions> : GuidAssertions<TAssertions>
+        where TAssertions : NullableGuidAssertions<TAssertions>
     {
         public NullableGuidAssertions(Guid? value)
             : base(value)
@@ -23,16 +36,16 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NullableGuidAssertions> HaveValue(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected a value{reason}.");
 
-            return new AndConstraint<NullableGuidAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -43,9 +56,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NullableGuidAssertions> NotBeNull(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs)
         {
             return HaveValue(because, becauseArgs);
         }
@@ -58,16 +71,16 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NullableGuidAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(!Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
 
-            return new AndConstraint<NullableGuidAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -78,9 +91,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NullableGuidAssertions> BeNull(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs)
         {
             return NotHaveValue(because, becauseArgs);
         }
@@ -94,16 +107,16 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<NullableGuidAssertions> Be(Guid? expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> Be(Guid? expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject == expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:Guid} to be {0}{reason}, but found {1}.", expected, Subject);
 
-            return new AndConstraint<NullableGuidAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
     }
 }

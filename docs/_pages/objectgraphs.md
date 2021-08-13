@@ -37,13 +37,21 @@ orderDto.Should().BeEquivalentTo(order, options =>
 
 ### Value Types ###
 
-To determine whether Fluent Assertions should recurs into an object's properties or fields, it needs to understand what types have value semantics and what types should be treated as reference types. The default behavior is to treat every type that overrides `Object.Equals` as an object that was designed to have value semantics. Unfortunately, anonymous types and tuples also override this method, but because we tend to use them quite often in equivalency comparison, we always compare them by their properties.
+To determine whether Fluent Assertions should recurs into an object's properties or fields, it needs to understand what types have value semantics and what types should be treated as reference types. The default behavior is to treat every type that overrides `Object.Equals` as an object that was designed to have value semantics. Anonymous types, records and tuples also override this method, but because the community proved us that they use them quite often in equivalency comparisons, we decided to always compare them by their members.
 
-You can easily override this by using the `ComparingByValue<T>` or `ComparingByMembers<T>` options for individual assertions:
+You can easily override this by using the `ComparingByValue<T>`, `ComparingByMembers<T>`, `ComparingRecordsByValue` and `ComparingRecordsByMembers` options for individual assertions:
 
 ```csharp
 subject.Should().BeEquivalentTo(expected,
    options => options.ComparingByValue<IPAddress>());
+```
+
+For records, this works like this:
+
+```csharp
+actual.Should().BeEquivalentTo(expected, options => options
+    .ComparingRecordsByValue()
+    .ComparingByMembers<MyRecord>());
 ```
 
 Or  do the same using the global options:
@@ -52,6 +60,8 @@ Or  do the same using the global options:
 AssertionOptions.AssertEquivalencyUsing(options => options
     .ComparingByValue<DirectoryInfo>());
 ```
+
+Note that primitive types are never compared by their members and trying to call e.g. `ComparingByMembers<int>` will throw an `InvalidOperationException`.
 
 ### Auto-Conversion ###
 In the past, Fluent Assertions would attempt to convert the value of a property of the subject-under-test to the type of the corresponding property on the expectation. But a lot of people complained about this behavior where a string property representing a date and time would magically match a `DateTime` property. As of 5.0, this conversion will no longer happen. However, you can still adjust the assertion by using the `WithAutoConversion` or `WithAutoConversionFor` options:
@@ -134,13 +144,21 @@ Barring other configuration, Fluent Assertions will include all `public` propert
 This behavior can be changed:
 
 ```csharp
-// Include Fields
+// Include properties (which is the default)
+orderDto.Should().BeEquivalentTo(order, options => options
+    .IncludingProperties());
+
+// Include fields
 orderDto.Should().BeEquivalentTo(order, options => options
     .IncludingFields());
 
-// Include Properties
+// Include internal properties as well
 orderDto.Should().BeEquivalentTo(order, options => options
-    .IncludingProperties());
+    .IncludingInternalProperties());
+
+// And the internal fields
+orderDto.Should().BeEquivalentTo(order, options => options
+    .IncludingInternalFields());
 
 // Exclude Fields
 orderDto.Should().BeEquivalentTo(order, options => options
@@ -151,16 +169,14 @@ orderDto.Should().BeEquivalentTo(order, options => options
     .ExcludingProperties());
 ```
 
-This configuration affects the initial inclusion of members and happens before any `Exclude`s or other `IMemberSelectionRule`s.
-This configuration also affects matching.
-For example, that if properties are excluded, properties will not be inspected when looking for a match on the expected object.
+This configuration affects the initial inclusion of members and happens before any `Exclude`s or other `IMemberSelectionRule`s. This configuration also affects matching. For example, that if properties are excluded, properties will not be inspected when looking for a match on the expected object.
 
 ### Equivalency Comparison Behavior ###
 In addition to influencing the members that are including in the comparison, you can also override the actual assertion operation that is executed on a particular member.
 
 ```csharp
 orderDto.Should().BeEquivalentTo(order, options => options
-    .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000))
+    .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1.Seconds()))
     .When(info => info.SelectedMemberPath.EndsWith("Date")));
 ```
 
@@ -168,7 +184,7 @@ If you want to do this for all members of a certain type, you can shorten the ab
 
 ```csharp
 orderDto.Should().BeEquivalentTo(order, options => options 
-    .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000))
+    .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1.Seconds()))
     .WhenTypeIs<DateTime>());
 ```
 
@@ -180,6 +196,9 @@ An option to compare an `Enum` only by name is also available, using the followi
 ```csharp
 orderDto.Should().BeEquivalentTo(expectation, options => options.ComparingEnumsByName());
 ```
+
+Note that even though an enum's underlying value equals a numeric value or the enum's name equals some string value, we do not consider those to be equivalent.
+In other words, enums are only considered to be equivalent to enums of the same or another type, but you can control whether they should equal by name or by value.
 
 ### Collections and Dictionaries ###
 Considering our running example, you could use the following against a collection of `OrderDto`s: 
@@ -298,7 +317,7 @@ For instance, to always compare enumerations by name, use the following statemen
 
 ```csharp
 AssertionOptions.AssertEquivalencyUsing(options => 
-   options.ComparingEnumsByValue);
+   options.ComparingEnumsByName);
 ``` 
 
 All the options available to an individual call to `Should().BeEquivalentTo` are supported, with the exception of some of the overloads that are specific to the type of the subject (for obvious reasons).

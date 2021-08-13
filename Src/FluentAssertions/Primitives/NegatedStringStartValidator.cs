@@ -26,18 +26,17 @@ namespace FluentAssertions.Primitives
         {
             get
             {
-                return (stringComparison == StringComparison.CurrentCultureIgnoreCase) ||
-                    (stringComparison == StringComparison.OrdinalIgnoreCase);
+                return stringComparison == StringComparison.OrdinalIgnoreCase;
             }
         }
 
         protected override void ValidateAgainstMismatch()
         {
-            bool isMatch = subject.StartsWith(expected, stringComparison);
+            bool isMatch = Subject.StartsWith(Expected, stringComparison);
             if (isMatch)
             {
-                assertion.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.",
-                    expected, subject);
+                Assertion.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.",
+                    Expected, Subject);
             }
         }
     }

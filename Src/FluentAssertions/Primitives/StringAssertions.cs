@@ -13,12 +13,29 @@ namespace FluentAssertions.Primitives
     /// Contains a number of methods to assert that a <see cref="string"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class StringAssertions : ReferenceTypeAssertions<string, StringAssertions>
+    public class StringAssertions : StringAssertions<StringAssertions>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="System.Object" /> class.
+        /// Initializes a new instance of the <see cref="StringAssertions"/> class.
         /// </summary>
-        public StringAssertions(string value) : base(value)
+        public StringAssertions(string value)
+            : base(value)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Contains a number of methods to assert that a <see cref="string"/> is in the expected state.
+    /// </summary>
+    [DebuggerNonUserCode]
+    public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAssertions>
+        where TAssertions : StringAssertions<TAssertions>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StringAssertions{TAssertions}"/> class.
+        /// </summary>
+        public StringAssertions(string value)
+            : base(value)
         {
         }
 
@@ -31,14 +48,14 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> Be(string expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> Be(string expected, string because = "", params object[] becauseArgs)
         {
-            var stringEqualityValidator = new StringEqualityValidator(Subject, expected, StringComparison.CurrentCulture, because, becauseArgs);
+            var stringEqualityValidator = new StringEqualityValidator(Subject, expected, StringComparison.Ordinal, because, becauseArgs);
             stringEqualityValidator.Validate();
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -47,7 +64,7 @@ namespace FluentAssertions.Primitives
         /// <param name="validValues">
         /// The values that are valid.
         /// </param>
-        public AndConstraint<StringAssertions> BeOneOf(params string[] validValues)
+        public AndConstraint<TAssertions> BeOneOf(params string[] validValues)
         {
             return BeOneOf(validValues, string.Empty);
         }
@@ -63,16 +80,16 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> BeOneOf(IEnumerable<string> validValues, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeOneOf(IEnumerable<string> validValues, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(validValues.Contains(Subject))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} to be one of {0}{reason}, but found {1}.", validValues, Subject);
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -87,17 +104,17 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> BeEquivalentTo(string expected, string because = "",
+        public AndConstraint<TAssertions> BeEquivalentTo(string expected, string because = "",
             params object[] becauseArgs)
         {
             var expectation = new StringEqualityValidator(
-                Subject, expected, StringComparison.CurrentCultureIgnoreCase, because, becauseArgs);
+                Subject, expected, StringComparison.OrdinalIgnoreCase, because, becauseArgs);
 
             expectation.Validate();
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -112,9 +129,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> NotBeEquivalentTo(string unexpected, string because = "",
+        public AndConstraint<TAssertions> NotBeEquivalentTo(string unexpected, string because = "",
             params object[] becauseArgs)
         {
             bool notEquivalent;
@@ -129,7 +146,7 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} not to be equivalent to {0}{reason}, but they are.", unexpected);
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -142,78 +159,165 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> NotBe(string unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotBe(string unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject != unexpected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} not to be {0}{reason}.", unexpected);
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
-        /// Asserts that a string matches a wildcard pattern.
+        /// Asserts that a string matches the <paramref name="wildcardPattern"/>.
         /// </summary>
         /// <param name="wildcardPattern">
-        /// The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// The pattern to match against the subject. This parameter can contain a combination of literal text and wildcard
+        /// (* and ?) characters, but it doesn't support regular expressions.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> Match(string wildcardPattern, string because = "", params object[] becauseArgs)
+        /// <remarks>
+        /// <paramref name="wildcardPattern"/> can be a combination of literal and wildcard characters,
+        /// but it doesn't support regular expressions. The following wildcard specifiers are permitted in
+        /// <paramref name="wildcardPattern"/>.
+        /// <list type="table">
+        /// <listheader>
+        /// <term>Wildcard character</term>
+        /// <description>Description</description>
+        /// </listheader>
+        /// <item>
+        /// <term>* (asterisk)</term>
+        /// <description>Zero or more characters in that position.</description>
+        /// </item>
+        /// <item>
+        /// <term>? (question mark)</term>
+        /// <description>Exactly one character in that position.</description>
+        /// </item>
+        /// </list>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
+        public AndConstraint<TAssertions> Match(string wildcardPattern, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match string against <null>. Provide a wildcard pattern or use the BeNull method.");
+
+            if (wildcardPattern.Length == 0)
+            {
+                throw new ArgumentException("Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.", nameof(wildcardPattern));
+            }
+
             var stringWildcardMatchingValidator = new StringWildcardMatchingValidator(Subject, wildcardPattern, because, becauseArgs);
             stringWildcardMatchingValidator.Validate();
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
-        /// Asserts that a string does not match a wildcard pattern.
+        /// Asserts that a string does not match the <paramref name="wildcardPattern"/>.
         /// </summary>
         /// <param name="wildcardPattern">
-        /// The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// The pattern to match against the subject. This parameter can contain a combination literal text and wildcard of
+        /// (* and ?) characters, but it doesn't support regular expressions.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> NotMatch(string wildcardPattern, string because = "", params object[] becauseArgs)
+        /// <remarks>
+        /// <paramref name="wildcardPattern"/> can be a combination of literal and wildcard characters,
+        /// but it doesn't support regular expressions. The following wildcard specifiers are permitted in
+        /// <paramref name="wildcardPattern"/>.
+        /// <list type="table">
+        /// <listheader>
+        /// <term>Wildcard character</term>
+        /// <description>Description</description>
+        /// </listheader>
+        /// <item>
+        /// <term>* (asterisk)</term>
+        /// <description>Zero or more characters in that position.</description>
+        /// </item>
+        /// <item>
+        /// <term>? (question mark)</term>
+        /// <description>Exactly one character in that position.</description>
+        /// </item>
+        /// </list>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
+        public AndConstraint<TAssertions> NotMatch(string wildcardPattern, string because = "", params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match string against <null>. Provide a wildcard pattern or use the NotBeNull method.");
+
+            if (wildcardPattern.Length == 0)
+            {
+                throw new ArgumentException("Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.", nameof(wildcardPattern));
+            }
+
             new StringWildcardMatchingValidator(Subject, wildcardPattern, because, becauseArgs)
             {
                 Negate = true
             }.Validate();
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
-        /// Asserts that a string matches a wildcard pattern.
+        /// Asserts that a string matches the <paramref name="wildcardPattern"/>.
         /// </summary>
         /// <param name="wildcardPattern">
-        /// The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// The pattern to match against the subject. This parameter can contain a combination of literal text and wildcard
+        /// (* and ?) characters, but it doesn't support regular expressions.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> MatchEquivalentOf(string wildcardPattern, string because = "",
+        /// <remarks>
+        /// <paramref name="wildcardPattern"/> can be a combination of literal and wildcard characters,
+        /// but it doesn't support regular expressions. The following wildcard specifiers are permitted in
+        /// <paramref name="wildcardPattern"/>.
+        /// <list type="table">
+        /// <listheader>
+        /// <term>Wildcard character</term>
+        /// <description>Description</description>
+        /// </listheader>
+        /// <item>
+        /// <term>* (asterisk)</term>
+        /// <description>Zero or more characters in that position.</description>
+        /// </item>
+        /// <item>
+        /// <term>? (question mark)</term>
+        /// <description>Exactly one character in that position.</description>
+        /// </item>
+        /// </list>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
+        public AndConstraint<TAssertions> MatchEquivalentOf(string wildcardPattern, string because = "",
             params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match string against <null>. Provide a wildcard pattern or use the BeNull method.");
+
+            if (wildcardPattern.Length == 0)
+            {
+                throw new ArgumentException("Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.", nameof(wildcardPattern));
+            }
+
             var validator = new StringWildcardMatchingValidator(Subject, wildcardPattern, because, becauseArgs)
             {
                 IgnoreCase = true,
@@ -222,25 +326,54 @@ namespace FluentAssertions.Primitives
 
             validator.Validate();
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
-        /// Asserts that a string does not match a wildcard pattern.
+        /// Asserts that a string does not match the <paramref name="wildcardPattern"/>.
         /// </summary>
         /// <param name="wildcardPattern">
-        /// The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// The pattern to match against the subject. This parameter can contain a combination of literal text and wildcard
+        /// (* and ?) characters, but it doesn't support regular expressions.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> NotMatchEquivalentOf(string wildcardPattern, string because = "",
+        /// <remarks>
+        /// <paramref name="wildcardPattern"/> can be a combination of literal and wildcard characters,
+        /// but it doesn't support regular expressions. The following wildcard specifiers are permitted in
+        /// <paramref name="wildcardPattern"/>.
+        /// <list type="table">
+        /// <listheader>
+        /// <term>Wildcard character</term>
+        /// <description>Description</description>
+        /// </listheader>
+        /// <item>
+        /// <term>* (asterisk)</term>
+        /// <description>Zero or more characters in that position.</description>
+        /// </item>
+        /// <item>
+        /// <term>? (question mark)</term>
+        /// <description>Exactly one character in that position.</description>
+        /// </item>
+        /// </list>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
+        public AndConstraint<TAssertions> NotMatchEquivalentOf(string wildcardPattern, string because = "",
             params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match string against <null>. Provide a wildcard pattern or use the NotBeNull method.");
+
+            if (wildcardPattern.Length == 0)
+            {
+                throw new ArgumentException("Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.", nameof(wildcardPattern));
+            }
+
             var validator = new StringWildcardMatchingValidator(Subject, wildcardPattern, because, becauseArgs)
             {
                 IgnoreCase = true,
@@ -250,7 +383,7 @@ namespace FluentAssertions.Primitives
 
             validator.Validate();
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -264,33 +397,69 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> MatchRegex([RegexPattern] string regularExpression, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> MatchRegex([RegexPattern] string regularExpression, string because = "", params object[] becauseArgs)
         {
-            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression), "Cannot match string against <null>.");
+            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression), "Cannot match string against <null>. Provide a regex pattern or use the BeNull method.");
 
-            Execute.Assertion
-                .ForCondition(!(Subject is null))
-                .UsingLineBreaks
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} to match regex {0}{reason}, but it was <null>.", regularExpression);
-
+            Regex regex;
             try
             {
-                Execute.Assertion
-                .ForCondition(Regex.IsMatch(Subject, regularExpression))
-                .BecauseOf(because, becauseArgs)
-                .UsingLineBreaks
-                .FailWith("Expected {context:string} to match regex {0}{reason}, but {1} does not match.", regularExpression, Subject);
+                regex = new Regex(regularExpression);
             }
             catch (ArgumentException)
             {
-                Execute.Assertion
-                    .FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.", regularExpression);
+                Execute.Assertion.FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.",
+                    regularExpression);
+                return new AndConstraint<TAssertions>((TAssertions)this);
             }
 
-            return new AndConstraint<StringAssertions>(this);
+            return MatchRegex(regex, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that a string matches a regular expression.
+        /// </summary>
+        /// <param name="regularExpression">
+        /// The regular expression with which the subject is matched.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> MatchRegex(Regex regularExpression, string because = "", params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression),
+                "Cannot match string against <null>. Provide a regex pattern or use the BeNull method.");
+
+            var regexStr = regularExpression.ToString();
+            if (regexStr.Length == 0)
+            {
+                throw new ArgumentException(
+                    "Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.",
+                    nameof(regularExpression));
+            }
+
+            bool success = Execute.Assertion
+                .ForCondition(Subject is not null)
+                .UsingLineBreaks
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:string} to match regex {0}{reason}, but it was <null>.", regexStr);
+
+            if (success)
+            {
+                Execute.Assertion
+                    .ForCondition(regularExpression.IsMatch(Subject))
+                    .BecauseOf(because, becauseArgs)
+                    .UsingLineBreaks
+                    .FailWith("Expected {context:string} to match regex {0}{reason}, but {1} does not match.", regexStr, Subject);
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -304,33 +473,69 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> NotMatchRegex([RegexPattern] string regularExpression, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotMatchRegex([RegexPattern] string regularExpression, string because = "", params object[] becauseArgs)
         {
-            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression), "Cannot match string against <null>.");
+            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression), "Cannot match string against <null>. Provide a regex pattern or use the NotBeNull method.");
 
-            Execute.Assertion
-                .ForCondition(!(Subject is null))
-                .UsingLineBreaks
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} to not match regex {0}{reason}, but it was <null>.", regularExpression);
-
+            Regex regex;
             try
             {
-                Execute.Assertion
-                    .ForCondition(!Regex.IsMatch(Subject, regularExpression))
-                    .BecauseOf(because, becauseArgs)
-                    .UsingLineBreaks
-                    .FailWith("Did not expect {context:string} to match regex {0}{reason}, but {1} matches.", regularExpression, Subject);
+                regex = new Regex(regularExpression);
             }
             catch (ArgumentException)
             {
                 Execute.Assertion.FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.",
                     regularExpression);
+                return new AndConstraint<TAssertions>((TAssertions)this);
             }
 
-            return new AndConstraint<StringAssertions>(this);
+            return NotMatchRegex(regex, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that a string does not match a regular expression.
+        /// </summary>
+        /// <param name="regularExpression">
+        /// The regular expression with which the subject is matched.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotMatchRegex(Regex regularExpression, string because = "", params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression),
+                "Cannot match string against <null>. Provide a regex pattern or use the NotBeNull method.");
+
+            var regexStr = regularExpression.ToString();
+            if (regexStr.Length == 0)
+            {
+                throw new ArgumentException(
+                    "Cannot match string against an empty regex pattern. Provide a regex pattern or use the NotBeEmpty method.",
+                    nameof(regularExpression));
+            }
+
+            bool success = Execute.Assertion
+                .ForCondition(Subject is not null)
+                .UsingLineBreaks
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:string} to not match regex {0}{reason}, but it was <null>.", regexStr);
+
+            if (success)
+            {
+                Execute.Assertion
+                    .ForCondition(!regularExpression.IsMatch(Subject))
+                    .BecauseOf(because, becauseArgs)
+                    .UsingLineBreaks
+                    .FailWith("Did not expect {context:string} to match regex {0}{reason}, but {1} matches.", regexStr, Subject);
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -343,21 +548,16 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> StartWith(string expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> StartWith(string expected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare start of string with <null>.");
 
-            if (expected.Length == 0)
-            {
-                throw new ArgumentException("Cannot compare start of string with empty string.", nameof(expected));
-            }
-
-            var stringStartValidator = new StringStartValidator(Subject, expected, StringComparison.CurrentCulture, because, becauseArgs);
+            var stringStartValidator = new StringStartValidator(Subject, expected, StringComparison.Ordinal, because, becauseArgs);
             stringStartValidator.Validate();
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -370,21 +570,16 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> NotStartWith(string unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotStartWith(string unexpected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare start of string with <null>.");
 
-            if (unexpected.Length == 0)
-            {
-                throw new ArgumentException("Cannot compare start of string with empty string.", nameof(unexpected));
-            }
-
-            var negatedStringStartValidator = new NegatedStringStartValidator(Subject, unexpected, StringComparison.CurrentCulture, because, becauseArgs);
+            var negatedStringStartValidator = new NegatedStringStartValidator(Subject, unexpected, StringComparison.Ordinal, because, becauseArgs);
             negatedStringStartValidator.Validate();
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -397,22 +592,17 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> StartWithEquivalent(string expected, string because = "",
+        public AndConstraint<TAssertions> StartWithEquivalentOf(string expected, string because = "",
             params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string start equivalence with <null>.");
 
-            if (expected.Length == 0)
-            {
-                throw new ArgumentException("Cannot compare string start equivalence with empty string.", nameof(expected));
-            }
-
-            var stringStartValidator = new StringStartValidator(Subject, expected, StringComparison.CurrentCultureIgnoreCase, because, becauseArgs);
+            var stringStartValidator = new StringStartValidator(Subject, expected, StringComparison.OrdinalIgnoreCase, because, becauseArgs);
             stringStartValidator.Validate();
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -425,21 +615,16 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> NotStartWithEquivalentOf(string unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotStartWithEquivalentOf(string unexpected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare start of string with <null>.");
 
-            if (unexpected.Length == 0)
-            {
-                throw new ArgumentException("Cannot compare start of string with empty string.", nameof(unexpected));
-            }
-
-            var negatedStringStartValidator = new NegatedStringStartValidator(Subject, unexpected, StringComparison.CurrentCultureIgnoreCase, because, becauseArgs);
+            var negatedStringStartValidator = new NegatedStringStartValidator(Subject, unexpected, StringComparison.OrdinalIgnoreCase, because, becauseArgs);
             negatedStringStartValidator.Validate();
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -452,37 +637,34 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> EndWith(string expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> EndWith(string expected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end with <null>.");
 
-            if (expected.Length == 0)
-            {
-                throw new ArgumentException("Cannot compare string end with empty string.", nameof(expected));
-            }
-
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} {0} to end with {1}{reason}.", Subject, expected);
-            }
-
-            if (Subject.Length < expected.Length)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} to end with {0}{reason}, but {1} is too short.", expected, Subject);
-            }
-
-            Execute.Assertion
-                .ForCondition(Subject.EndsWith(expected))
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
                 .FailWith("Expected {context:string} {0} to end with {1}{reason}.", Subject, expected);
 
-            return new AndConstraint<StringAssertions>(this);
+            if (success)
+            {
+                success = Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(Subject.Length >= expected.Length)
+                    .FailWith("Expected {context:string} to end with {0}{reason}, but {1} is too short.", expected, Subject);
+
+                if (success)
+                {
+                    Execute.Assertion
+                        .ForCondition(Subject.EndsWith(expected, StringComparison.Ordinal))
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:string} {0} to end with {1}{reason}.", Subject, expected);
+                }
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -495,30 +677,26 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> NotEndWith(string unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotEndWith(string unexpected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare end of string with <null>.");
 
-            if (unexpected.Length == 0)
-            {
-                throw new ArgumentException("Cannot compare end of string with empty string.", nameof(unexpected));
-            }
+            bool success = Execute.Assertion
+                .ForCondition(Subject is not null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:string} that does not end with {1}{reason}, but found {0}.", Subject, unexpected);
 
-            if (Subject is null)
+            if (success)
             {
                 Execute.Assertion
+                    .ForCondition(!Subject.EndsWith(unexpected, StringComparison.Ordinal))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} that does not end with {1}, but found {0}.", Subject, unexpected);
+                    .FailWith("Expected {context:string} {0} not to end with {1}{reason}.", Subject, unexpected);
             }
 
-            Execute.Assertion
-                .ForCondition(!Subject.EndsWith(unexpected))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} {0} not to end with {1}{reason}.", Subject, unexpected);
-
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -531,37 +709,39 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> EndWithEquivalent(string expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> EndWithEquivalentOf(string expected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end equivalence with <null>.");
 
-            if (expected.Length == 0)
-            {
-                throw new ArgumentException("Cannot compare string end equivalence with empty string.", nameof(expected));
-            }
-
-            if (Subject is null)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} that ends with equivalent of {0}{reason}, but found {1}.", expected, Subject);
-            }
-
-            if (Subject.Length < expected.Length)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} to end with equivalent of {0}{reason}, but {1} is too short.", expected, Subject);
-            }
-
-            Execute.Assertion
-                .ForCondition(Subject.EndsWith(expected, StringComparison.CurrentCultureIgnoreCase))
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} that ends with equivalent of {0}{reason}, but found {1}.", expected, Subject);
+                .ForCondition(Subject is not null)
+                .FailWith(
+                    "Expected {context:string} that ends with equivalent of {0}{reason}, but found {1}.", expected, Subject);
 
-            return new AndConstraint<StringAssertions>(this);
+            if (success)
+            {
+                success = Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(Subject.Length >= expected.Length)
+                    .FailWith(
+                        "Expected {context:string} to end with equivalent of {0}{reason}, but {1} is too short.",
+                        expected, Subject);
+
+                if (success)
+                {
+                    Execute.Assertion
+                        .ForCondition(Subject.EndsWith(expected, StringComparison.OrdinalIgnoreCase))
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith(
+                            "Expected {context:string} that ends with equivalent of {0}{reason}, but found {1}.",
+                            expected, Subject);
+                }
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -574,30 +754,30 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> NotEndWithEquivalentOf(string unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotEndWithEquivalentOf(string unexpected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare end of string with <null>.");
 
-            if (unexpected.Length == 0)
-            {
-                throw new ArgumentException("Cannot compare end of string with empty string.", nameof(unexpected));
-            }
+            var success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
+                .FailWith(
+                    "Expected {context:string} that does not end with equivalent of {0}{reason}, but found {1}.",
+                    unexpected, Subject);
 
-            if (Subject is null)
+            if (success)
             {
                 Execute.Assertion
+                    .ForCondition(!Subject.EndsWith(unexpected, StringComparison.OrdinalIgnoreCase))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} that does not end with equivalent of {0}, but found {1}.", unexpected, Subject);
+                    .FailWith(
+                        "Expected {context:string} that does not end with equivalent of {0}{reason}, but found {1}.",
+                        unexpected, Subject);
             }
 
-            Execute.Assertion
-                .ForCondition(!Subject.EndsWith(unexpected, StringComparison.CurrentCultureIgnoreCase))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} that does not end with equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
-
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -611,9 +791,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> Contain(string expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> Contain(string expected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
 
@@ -627,7 +807,7 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} {0} to contain {1}{reason}.", Subject, expected);
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -647,9 +827,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> Contain(string expected, OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> Contain(string expected, OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
 
@@ -661,13 +841,13 @@ namespace FluentAssertions.Primitives
             int actual = Subject.CountSubstring(expected, StringComparison.Ordinal);
 
             Execute.Assertion
-                .ForCondition(occurrenceConstraint.Assert(actual))
+                .ForConstraint(occurrenceConstraint, actual)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    $"Expected {{context:string}} {{0}} to contain {{1}} {occurrenceConstraint.Mode} {occurrenceConstraint.ExpectedCount.Times()}{{reason}}, but found it {actual.Times()}.",
+                    $"Expected {{context:string}} {{0}} to contain {{1}} {{expectedOccurrence}}{{reason}}, but found it {actual.Times()}.",
                     Subject, expected);
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -680,9 +860,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> ContainEquivalentOf(string expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> ContainEquivalentOf(string expected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
 
@@ -692,11 +872,11 @@ namespace FluentAssertions.Primitives
             }
 
             Execute.Assertion
-                .ForCondition(Contains(Subject, expected, StringComparison.CurrentCultureIgnoreCase))
+                .ForCondition(Contains(Subject, expected, StringComparison.OrdinalIgnoreCase))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} {0} to contain the equivalent of {1}{reason}.", Subject, expected);
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -717,9 +897,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> ContainEquivalentOf(string expected, OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> ContainEquivalentOf(string expected, OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
 
@@ -731,13 +911,13 @@ namespace FluentAssertions.Primitives
             int actual = Subject.CountSubstring(expected, StringComparison.OrdinalIgnoreCase);
 
             Execute.Assertion
-                .ForCondition(occurrenceConstraint.Assert(actual))
+                .ForConstraint(occurrenceConstraint, actual)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    $"Expected {{context:string}} {{0}} to contain equivalent of {{1}} {occurrenceConstraint.Mode} {occurrenceConstraint.ExpectedCount.Times()}{{reason}}, but found it {actual.Times()}.",
+                    $"Expected {{context:string}} {{0}} to contain equivalent of {{1}} {{expectedOccurrence}}{{reason}}, but found it {actual.Times()}.",
                     Subject, expected);
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -751,9 +931,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> ContainAll(IEnumerable<string> values, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> ContainAll(IEnumerable<string> values, string because = "", params object[] becauseArgs)
         {
             ThrowIfValuesNullOrEmpty(values);
 
@@ -763,7 +943,7 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} {0} to contain the strings: {1}{reason}.", Subject, missing);
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -772,7 +952,7 @@ namespace FluentAssertions.Primitives
         /// <param name="values">
         /// The values that should all be present in the string
         /// </param>
-        public AndConstraint<StringAssertions> ContainAll(params string[] values)
+        public AndConstraint<TAssertions> ContainAll(params string[] values)
         {
             return ContainAll(values, because: string.Empty);
         }
@@ -788,9 +968,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> ContainAny(IEnumerable<string> values, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> ContainAny(IEnumerable<string> values, string because = "", params object[] becauseArgs)
         {
             ThrowIfValuesNullOrEmpty(values);
 
@@ -799,7 +979,7 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} {0} to contain at least one of the strings: {1}{reason}.", Subject, values.ToArray());
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -808,7 +988,7 @@ namespace FluentAssertions.Primitives
         /// <param name="values">
         /// The values that should will be tested against the string
         /// </param>
-        public AndConstraint<StringAssertions> ContainAny(params string[] values)
+        public AndConstraint<TAssertions> ContainAny(params string[] values)
         {
             return ContainAny(values, because: string.Empty);
         }
@@ -824,9 +1004,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> NotContain(string unexpected, string because = "",
+        public AndConstraint<TAssertions> NotContain(string unexpected, string because = "",
             params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot assert string containment against <null>.");
@@ -841,7 +1021,7 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:string} {0} to contain {1}{reason}.", Subject, unexpected);
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -856,9 +1036,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> NotContainAll(IEnumerable<string> values, string because = "",
+        public AndConstraint<TAssertions> NotContainAll(IEnumerable<string> values, string because = "",
             params object[] becauseArgs)
         {
             ThrowIfValuesNullOrEmpty(values);
@@ -870,7 +1050,7 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:string} {0} to contain all of the strings: {1}{reason}.", Subject, values);
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -880,7 +1060,7 @@ namespace FluentAssertions.Primitives
         /// <param name="values">
         /// The values that should not be present in the string
         /// </param>
-        public AndConstraint<StringAssertions> NotContainAll(params string[] values)
+        public AndConstraint<TAssertions> NotContainAll(params string[] values)
         {
             return NotContainAll(values, because: string.Empty);
         }
@@ -896,9 +1076,9 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> NotContainAny(IEnumerable<string> values, string because = "",
+        public AndConstraint<TAssertions> NotContainAny(IEnumerable<string> values, string because = "",
             params object[] becauseArgs)
         {
             ThrowIfValuesNullOrEmpty(values);
@@ -910,7 +1090,7 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:string} {0} to contain any of the strings: {1}{reason}.", Subject, matches);
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -919,7 +1099,7 @@ namespace FluentAssertions.Primitives
         /// <param name="values">
         /// The values that should not be present in the string
         /// </param>
-        public AndConstraint<StringAssertions> NotContainAny(params string[] values)
+        public AndConstraint<TAssertions> NotContainAny(params string[] values)
         {
             return NotContainAny(values, because: string.Empty);
         }
@@ -934,22 +1114,22 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> NotContainEquivalentOf(string unexpected, string because = "",
+        public AndConstraint<TAssertions> NotContainEquivalentOf(string unexpected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!Contains(Subject, unexpected, StringComparison.CurrentCultureIgnoreCase))
+                .ForCondition(!Contains(Subject, unexpected, StringComparison.OrdinalIgnoreCase))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:string} to contain equivalent of {0}{reason} but found {1}.", unexpected, Subject);
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         private static bool Contains(string actual, string expected, StringComparison comparison)
         {
-            return (actual ?? "").IndexOf(expected ?? "", comparison) >= 0;
+            return (actual ?? string.Empty).Contains(expected ?? string.Empty, comparison);
         }
 
         /// <summary>
@@ -960,16 +1140,16 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> BeEmpty(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeEmpty(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject?.Length == 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} to be empty{reason}, but found {0}.", Subject);
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -980,16 +1160,16 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> NotBeEmpty(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.Length > 0)
+                .ForCondition(Subject is null || Subject.Length > 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:string} to be empty{reason}.");
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -1001,97 +1181,185 @@ namespace FluentAssertions.Primitives
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> HaveLength(int expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> HaveLength(int expected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject.Length == expected)
+            bool success = Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} with length {0}{reason}, but found string {1} with length {2}.",
-                    expected, Subject, Subject.Length);
+                .ForCondition(Subject is not null)
+                .FailWith("Expected {context:string} with length {0}{reason}, but found <null>.", expected);
 
-            return new AndConstraint<StringAssertions>(this);
+            if (success)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(Subject.Length == expected)
+                    .FailWith("Expected {context:string} with length {0}{reason}, but found string {1} with length {2}.",
+                        expected, Subject, Subject.Length);
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
         /// Asserts that a string is neither <c>null</c> nor <see cref="string.Empty"/>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<StringAssertions> NotBeNullOrEmpty(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotBeNullOrEmpty(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(!string.IsNullOrEmpty(Subject))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} not to be <null> or empty{reason}, but found {0}.", Subject);
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
         /// Asserts that a string is either <c>null</c> or <see cref="string.Empty"/>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<StringAssertions> BeNullOrEmpty(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeNullOrEmpty(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(string.IsNullOrEmpty(Subject))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} to be <null> or empty{reason}, but found {0}.", Subject);
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
         /// Asserts that a string is neither <c>null</c> nor <see cref="string.Empty"/> nor white space
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<StringAssertions> NotBeNullOrWhiteSpace(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotBeNullOrWhiteSpace(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(!string.IsNullOrWhiteSpace(Subject))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} not to be <null> or whitespace{reason}, but found {0}.", Subject);
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
         /// Asserts that a string is either <c>null</c> or <see cref="string.Empty"/> or white space
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<StringAssertions> BeNullOrWhiteSpace(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeNullOrWhiteSpace(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(string.IsNullOrWhiteSpace(Subject))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:string} to be <null> or whitespace{reason}, but found {0}.", Subject);
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that all characters in a string are in upper casing.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> BeUpperCased(string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(Subject?.All(char.IsUpper) == true)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected all characters in {context:string} to be upper cased{reason}, but found {0}.", Subject);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that all characters in a string are not in upper casing.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotBeUpperCased(string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(Subject is null || Subject.Any(ch => !char.IsUpper(ch)))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Did not expect any characters in {context:string} to be upper cased{reason}.");
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that all characters in a string are in lower casing.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> BeLowerCased(string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(Subject?.All(char.IsLower) == true)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected all characters in {context:string} to be lower cased{reason}, but found {0}.", Subject);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that all characters in a string are not in lower casing.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotBeLowerCased(string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(Subject is null || Subject.Any(ch => !char.IsLower(ch)))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Did not expect any characters in {context:string} to be lower cased{reason}.");
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         private static void ThrowIfValuesNullOrEmpty(IEnumerable<string> values)

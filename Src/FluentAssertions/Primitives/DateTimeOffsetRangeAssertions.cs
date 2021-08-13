@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using FluentAssertions.Execution;
+using FluentAssertions.Extensions;
 
 namespace FluentAssertions.Primitives
 {
@@ -9,15 +10,16 @@ namespace FluentAssertions.Primitives
     /// Contains a number of methods to assert that two <see cref="DateTime"/> objects differ in the expected way.
     /// </summary>
     /// <remarks>
-    /// You can use the <see cref="FluentDateTimeExtensions"/> and <see cref="TimeSpanConversionExtensions"/>
+    /// You can use the <see cref="FluentDateTimeExtensions"/> and <see cref="FluentTimeSpanExtensions"/>
     /// for a more fluent way of specifying a <see cref="DateTime"/> or a <see cref="TimeSpan"/>.
     /// </remarks>
     [DebuggerNonUserCode]
-    public class DateTimeOffsetRangeAssertions
+    public class DateTimeOffsetRangeAssertions<TAssertions>
+        where TAssertions : DateTimeOffsetAssertions<TAssertions>
     {
         #region Private Definitions
 
-        private readonly DateTimeOffsetAssertions parentAssertions;
+        private readonly TAssertions parentAssertions;
         private readonly TimeSpanPredicate predicate;
 
         private readonly Dictionary<TimeSpanCondition, TimeSpanPredicate> predicates = new Dictionary
@@ -35,7 +37,7 @@ namespace FluentAssertions.Primitives
 
         #endregion
 
-        protected internal DateTimeOffsetRangeAssertions(DateTimeOffsetAssertions parentAssertions, DateTimeOffset? subject,
+        protected internal DateTimeOffsetRangeAssertions(TAssertions parentAssertions, DateTimeOffset? subject,
             TimeSpanCondition condition,
             TimeSpan timeSpan)
         {
@@ -53,13 +55,13 @@ namespace FluentAssertions.Primitives
         /// The <see cref="DateTimeOffset"/> to compare the subject with.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<DateTimeOffsetAssertions> Before(DateTimeOffset target, string because = "",
+        public AndConstraint<TAssertions> Before(DateTimeOffset target, string because = "",
             params object[] becauseArgs)
         {
             bool success = Execute.Assertion
@@ -72,17 +74,16 @@ namespace FluentAssertions.Primitives
             {
                 TimeSpan actual = target - subject.Value;
 
-                if (!predicate.IsMatchedBy(actual, timeSpan))
-                {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith(
-                            "Expected {context:the date and time} to be " + predicate.DisplayText +
-                            " {1} before {2}{reason}, but {0} differs {3}.", subject, timeSpan, target, actual);
-                }
+                Execute.Assertion
+                    .ForCondition(predicate.IsMatchedBy(actual, timeSpan))
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        "Expected {context:the date and time} {0} to be " + predicate.DisplayText +
+                        " {1} before {2}{reason}, but it is " + PositionRelativeToTarget(subject.Value, target) + " by {3}.",
+                        subject, timeSpan, target, actual.Duration());
             }
 
-            return new AndConstraint<DateTimeOffsetAssertions>(parentAssertions);
+            return new AndConstraint<TAssertions>(parentAssertions);
         }
 
         /// <summary>
@@ -92,13 +93,13 @@ namespace FluentAssertions.Primitives
         /// The <see cref="DateTimeOffset"/> to compare the subject with.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<DateTimeOffsetAssertions> After(DateTimeOffset target, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> After(DateTimeOffset target, string because = "", params object[] becauseArgs)
         {
             bool success = Execute.Assertion
                 .ForCondition(subject.HasValue)
@@ -110,18 +111,21 @@ namespace FluentAssertions.Primitives
             {
                 TimeSpan actual = subject.Value - target;
 
-                if (!predicate.IsMatchedBy(actual, timeSpan))
-                {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith(
-                            "Expected {context:the date and time} to be " + predicate.DisplayText +
-                            " {0} after {1}{reason}, but {2} differs {3}.",
-                            timeSpan, target, subject, actual);
-                }
+                Execute.Assertion
+                    .ForCondition(predicate.IsMatchedBy(actual, timeSpan))
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        "Expected {context:the date and time} {0} to be " + predicate.DisplayText +
+                        " {1} after {2}{reason}, but it is " + PositionRelativeToTarget(subject.Value, target) + " by {3}.",
+                        subject, timeSpan, target, actual.Duration());
             }
 
-            return new AndConstraint<DateTimeOffsetAssertions>(parentAssertions);
+            return new AndConstraint<TAssertions>(parentAssertions);
+        }
+
+        private static string PositionRelativeToTarget(DateTimeOffset actual, DateTimeOffset target)
+        {
+            return actual - target >= TimeSpan.Zero ? "ahead" : "behind";
         }
     }
 }

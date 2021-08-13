@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 
 namespace FluentAssertions.Formatting
 {
@@ -7,7 +8,7 @@ namespace FluentAssertions.Formatting
         /// <summary>
         /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.
         /// </summary>
-        /// <param name="value">The value for which to create a <see cref="System.String"/>.</param>
+        /// <param name="value">The value for which to create a <see cref="string"/>.</param>
         /// <returns>
         /// <c>true</c> if the current <see cref="IValueFormatter"/> can handle the specified value; otherwise, <c>false</c>.
         /// </returns>
@@ -16,19 +17,23 @@ namespace FluentAssertions.Formatting
             return value is double;
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
+        {
+            formattedGraph.AddFragment(Format(value));
+        }
+
+        private static string Format(object value)
         {
             double doubleValue = (double)value;
 
             if (double.IsPositiveInfinity(doubleValue))
             {
-                return typeof(double).Name + "." + nameof(double.PositiveInfinity);
+                return nameof(Double) + "." + nameof(double.PositiveInfinity);
             }
 
             if (double.IsNegativeInfinity(doubleValue))
             {
-                return typeof(double).Name + "." + nameof(double.NegativeInfinity);
+                return nameof(Double) + "." + nameof(double.NegativeInfinity);
             }
 
             if (double.IsNaN(doubleValue))
@@ -38,7 +43,7 @@ namespace FluentAssertions.Formatting
 
             string formattedValue = doubleValue.ToString("R", CultureInfo.InvariantCulture);
 
-            return (formattedValue.IndexOf('.') == -1) && (formattedValue.IndexOf('E') == -1)
+            return !formattedValue.Contains('.', StringComparison.Ordinal) && !formattedValue.Contains('E', StringComparison.Ordinal)
                 ? formattedValue + ".0"
                 : formattedValue;
         }

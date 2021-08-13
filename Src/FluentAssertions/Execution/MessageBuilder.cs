@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using FluentAssertions.Common;
@@ -15,17 +16,17 @@ namespace FluentAssertions.Execution
     /// </summary>
     internal class MessageBuilder
     {
-        #region Private Definitions
+        private readonly FormattingOptions formattingOptions;
 
-        private readonly bool useLineBreaks;
+        #region Private Definitions
 
         private readonly char[] blanks = { '\r', '\n', ' ', '\t' };
 
         #endregion
 
-        public MessageBuilder(bool useLineBreaks)
+        public MessageBuilder(FormattingOptions formattingOptions)
         {
-            this.useLineBreaks = useLineBreaks;
+            this.formattingOptions = formattingOptions;
         }
 
         // SMELL: Too many parameters.
@@ -80,7 +81,7 @@ namespace FluentAssertions.Execution
             {
                 string key = match.Groups["key"].Value;
                 string contextualTags = contextData.AsStringOrDefault(key);
-                string contextualTagsSubstituted = contextualTags?.Replace("{", "{{").Replace("}", "}}");
+                string contextualTagsSubstituted = contextualTags?.EscapePlaceholders();
 
                 return contextualTagsSubstituted ?? match.Groups["default"].Value;
             });
@@ -88,10 +89,9 @@ namespace FluentAssertions.Execution
 
         private string FormatArgumentPlaceholders(string failureMessage, object[] failureArgs)
         {
-            string[] values = failureArgs.Select(a => Formatter.ToString(a, useLineBreaks)).ToArray();
-            string formattedMessage = string.Format(failureMessage, values);
+            string[] values = failureArgs.Select(a => Formatter.ToString(a, formattingOptions)).ToArray();
 
-            return formattedMessage.Replace("{{{{", "{{").Replace("}}}}", "}}");
+            return string.Format(CultureInfo.InvariantCulture, failureMessage, values);
         }
 
         private string SanitizeReason(string reason)
@@ -99,12 +99,12 @@ namespace FluentAssertions.Execution
             if (!string.IsNullOrEmpty(reason))
             {
                 reason = EnsurePrefix("because", reason);
-                reason = reason.Replace("{", "{{").Replace("}", "}}");
+                reason = reason.EscapePlaceholders();
 
                 return StartsWithBlank(reason) ? reason : " " + reason;
             }
 
-            return "";
+            return string.Empty;
         }
 
         // SMELL: looks way too complex just to retain the leading whitespace
@@ -113,7 +113,7 @@ namespace FluentAssertions.Execution
             string leadingBlanks = ExtractLeadingBlanksFrom(text);
             string textWithoutLeadingBlanks = text.Substring(leadingBlanks.Length);
 
-            return !textWithoutLeadingBlanks.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase)
+            return !textWithoutLeadingBlanks.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)
                 ? leadingBlanks + prefix + " " + textWithoutLeadingBlanks
                 : text;
         }

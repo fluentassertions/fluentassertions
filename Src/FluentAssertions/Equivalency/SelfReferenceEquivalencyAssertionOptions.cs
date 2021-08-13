@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -9,6 +10,8 @@ using FluentAssertions.Common;
 using FluentAssertions.Equivalency.Matching;
 using FluentAssertions.Equivalency.Ordering;
 using FluentAssertions.Equivalency.Selection;
+using FluentAssertions.Equivalency.Steps;
+using FluentAssertions.Equivalency.Tracing;
 
 namespace FluentAssertions.Equivalency
 {
@@ -20,22 +23,26 @@ namespace FluentAssertions.Equivalency
     {
         #region Private Definitions
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly List<IMemberSelectionRule> selectionRules = new List<IMemberSelectionRule>();
+        // REFACTOR: group the next four fields in a dedicated class
+        private readonly ConcurrentDictionary<Type, bool> hasValueSemanticsMap = new();
+        private readonly List<Type> referenceTypes = new();
+        private readonly List<Type> valueTypes = new();
+        private readonly Func<Type, EqualityStrategy> getDefaultEqualityStrategy;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly List<IMemberMatchingRule> matchingRules = new List<IMemberMatchingRule>();
+        private readonly List<IMemberSelectionRule> selectionRules = new();
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly List<IEquivalencyStep> userEquivalencySteps = new List<IEquivalencyStep>();
+        private readonly List<IMemberMatchingRule> matchingRules = new();
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private readonly List<IEquivalencyStep> userEquivalencySteps = new();
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private CyclicReferenceHandling cyclicReferenceHandling = CyclicReferenceHandling.ThrowException;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-#pragma warning disable CA1051 // TODO: fix in 6.0
-        protected readonly OrderingRuleCollection orderingRules = new OrderingRuleCollection();
-#pragma warning restore CA1051
+        protected OrderingRuleCollection OrderingRules { get; } = new();
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool isRecursive;
@@ -46,16 +53,10 @@ namespace FluentAssertions.Equivalency
 
         private bool useRuntimeTyping;
 
-        private bool includeProperties;
+        private MemberVisibility includedProperties;
+        private MemberVisibility includedFields;
 
-        private bool includeFields;
-
-        private readonly ConcurrentDictionary<Type, bool> hasValueSemanticsMap = new ConcurrentDictionary<Type, bool>();
-
-        private readonly List<Type> referenceTypes = new List<Type>();
-        private readonly List<Type> valueTypes = new List<Type>();
-
-        private readonly Func<Type, EqualityStrategy> getDefaultEqualityStrategy = null;
+        private bool compareRecordsByValue;
 
         #endregion
 
@@ -63,7 +64,7 @@ namespace FluentAssertions.Equivalency
         {
             AddMatchingRule(new MustMatchByNameRule());
 
-            orderingRules.Add(new ByteArrayOrderingRule());
+            OrderingRules.Add(new ByteArrayOrderingRule());
         }
 
         /// <summary>
@@ -76,21 +77,22 @@ namespace FluentAssertions.Equivalency
             allowInfiniteRecursion = defaults.AllowInfiniteRecursion;
             enumEquivalencyHandling = defaults.EnumEquivalencyHandling;
             useRuntimeTyping = defaults.UseRuntimeTyping;
-            includeProperties = defaults.IncludeProperties;
-            includeFields = defaults.IncludeFields;
+            includedProperties = defaults.IncludedProperties;
+            includedFields = defaults.IncludedFields;
+            compareRecordsByValue = defaults.CompareRecordsByValue;
 
             ConversionSelector = defaults.ConversionSelector.Clone();
 
             selectionRules.AddRange(defaults.SelectionRules);
-            userEquivalencySteps.AddRange(defaults.GetUserEquivalencySteps(ConversionSelector));
+            userEquivalencySteps.AddRange(defaults.UserEquivalencySteps);
             matchingRules.AddRange(defaults.MatchingRules);
-            orderingRules = new OrderingRuleCollection(defaults.OrderingRules);
+            OrderingRules = new OrderingRuleCollection(defaults.OrderingRules);
 
             getDefaultEqualityStrategy = defaults.GetEqualityStrategy;
             TraceWriter = defaults.TraceWriter;
 
-            RemoveSelectionRule<AllPublicPropertiesSelectionRule>();
-            RemoveSelectionRule<AllPublicFieldsSelectionRule>();
+            RemoveSelectionRule<AllPropertiesSelectionRule>();
+            RemoveSelectionRule<AllFieldsSelectionRule>();
         }
 
         /// <summary>
@@ -102,14 +104,14 @@ namespace FluentAssertions.Equivalency
             {
                 bool hasConflictingRules = selectionRules.Any(rule => rule.IncludesMembers);
 
-                if (includeProperties && !hasConflictingRules)
+                if (includedProperties.HasFlag(MemberVisibility.Public) && !hasConflictingRules)
                 {
-                    yield return new AllPublicPropertiesSelectionRule();
+                    yield return new AllPropertiesSelectionRule();
                 }
 
-                if (includeFields && !hasConflictingRules)
+                if (includedFields.HasFlag(MemberVisibility.Public) && !hasConflictingRules)
                 {
-                    yield return new AllPublicFieldsSelectionRule();
+                    yield return new AllFieldsSelectionRule();
                 }
 
                 foreach (IMemberSelectionRule rule in selectionRules)
@@ -128,17 +130,16 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets an ordered collection of Equivalency steps how a subject is compared with the expectation.
         /// </summary>
-        IEnumerable<IEquivalencyStep> IEquivalencyAssertionOptions.GetUserEquivalencySteps(ConversionSelector conversionSelector) =>
-            userEquivalencySteps.Concat(new[] { new TryConversionStep(conversionSelector) });
+        IEnumerable<IEquivalencyStep> IEquivalencyAssertionOptions.UserEquivalencySteps => userEquivalencySteps;
 
-        public ConversionSelector ConversionSelector { get; } = new ConversionSelector();
+        public ConversionSelector ConversionSelector { get; } = new();
 
         /// <summary>
         /// Gets an ordered collection of rules that determine whether or not the order of collections is important. By
         /// default,
         /// ordering is irrelevant.
         /// </summary>
-        OrderingRuleCollection IEquivalencyAssertionOptions.OrderingRules => orderingRules;
+        OrderingRuleCollection IEquivalencyAssertionOptions.OrderingRules => OrderingRules;
 
         /// <summary>
         /// Gets value indicating whether the equality check will include nested collections and complex types.
@@ -156,32 +157,45 @@ namespace FluentAssertions.Equivalency
 
         bool IEquivalencyAssertionOptions.UseRuntimeTyping => useRuntimeTyping;
 
-        bool IEquivalencyAssertionOptions.IncludeProperties => includeProperties;
+        MemberVisibility IEquivalencyAssertionOptions.IncludedProperties => includedProperties;
 
-        bool IEquivalencyAssertionOptions.IncludeFields => includeFields;
+        MemberVisibility IEquivalencyAssertionOptions.IncludedFields => includedFields;
+
+        public bool CompareRecordsByValue => compareRecordsByValue;
 
         EqualityStrategy IEquivalencyAssertionOptions.GetEqualityStrategy(Type type)
         {
             EqualityStrategy strategy;
 
-            if (referenceTypes.Any(type.IsSameOrInherits))
+            if (!type.IsPrimitive && referenceTypes.Any(t => type.IsSameOrInherits(t)))
             {
                 strategy = EqualityStrategy.ForceMembers;
             }
-            else if (valueTypes.Any(type.IsSameOrInherits))
+            else if (valueTypes.Any(t => type.IsSameOrInherits(t)))
             {
                 strategy = EqualityStrategy.ForceEquals;
             }
+            else if (!type.IsPrimitive && referenceTypes.Any(t => type.IsAssignableToOpenGeneric(t)))
+            {
+                strategy = EqualityStrategy.ForceMembers;
+            }
+            else if (valueTypes.Any(t => type.IsAssignableToOpenGeneric(t)))
+            {
+                strategy = EqualityStrategy.ForceEquals;
+            }
+            else if (type.IsRecord())
+            {
+                strategy = compareRecordsByValue ? EqualityStrategy.ForceEquals : EqualityStrategy.ForceMembers;
+            }
             else
             {
-                if (getDefaultEqualityStrategy != null)
+                if (getDefaultEqualityStrategy is not null)
                 {
                     strategy = getDefaultEqualityStrategy(type);
                 }
                 else
                 {
                     bool hasValueSemantics = hasValueSemanticsMap.GetOrAdd(type, t => t.HasValueSemantics());
-
                     if (hasValueSemantics)
                     {
                         strategy = EqualityStrategy.Equals;
@@ -235,14 +249,23 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Instructs the comparison to include fields.
+        /// Instructs the comparison to include public fields.
         /// </summary>
         /// <remarks>
         /// This is part of the default behavior.
         /// </remarks>
         public TSelf IncludingFields()
         {
-            includeFields = true;
+            includedFields = MemberVisibility.Public;
+            return (TSelf)this;
+        }
+
+        /// <summary>
+        /// Instructs the comparison to include public and internal fields.
+        /// </summary>
+        public TSelf IncludingInternalFields()
+        {
+            includedFields = MemberVisibility.Public | MemberVisibility.Internal;
             return (TSelf)this;
         }
 
@@ -254,19 +277,28 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public TSelf ExcludingFields()
         {
-            includeFields = false;
+            includedFields = MemberVisibility.None;
             return (TSelf)this;
         }
 
         /// <summary>
-        /// Instructs the comparison to include properties.
+        /// Instructs the comparison to include public properties.
         /// </summary>
         /// <remarks>
         /// This is part of the default behavior.
         /// </remarks>
         public TSelf IncludingProperties()
         {
-            includeProperties = true;
+            includedProperties = MemberVisibility.Public;
+            return (TSelf)this;
+        }
+
+        /// <summary>
+        /// Instructs the comparison to include public and internal properties.
+        /// </summary>
+        public TSelf IncludingInternalProperties()
+        {
+            includedProperties = MemberVisibility.Public | MemberVisibility.Internal;
             return (TSelf)this;
         }
 
@@ -278,7 +310,7 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public TSelf ExcludingProperties()
         {
-            includeProperties = false;
+            includedProperties = MemberVisibility.None;
             return (TSelf)this;
         }
 
@@ -310,6 +342,18 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
+        /// Includes the specified member in the equality check.
+        /// </summary>
+        /// <remarks>
+        /// This overrides the default behavior of including all declared members.
+        /// </remarks>
+        public TSelf Including(Expression<Func<IMemberInfo, bool>> predicate)
+        {
+            AddSelectionRule(new IncludeMemberByPredicateSelectionRule(predicate));
+            return (TSelf)this;
+        }
+
+        /// <summary>
         /// Tries to match the members of the subject with equally named members on the expectation. Ignores those
         /// members that don't exist on the expectation and previously registered matching rules.
         /// </summary>
@@ -321,9 +365,8 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Requires the expectation to have members which are equally named to members on the subject.
+        /// Requires the subject to have members which are equally named to members on the expectation.
         /// </summary>
-        /// <returns></returns>
         public TSelf ThrowingOnMissingMembers()
         {
             ClearMatchingRules();
@@ -331,7 +374,10 @@ namespace FluentAssertions.Equivalency
             return (TSelf)this;
         }
 
-        /// <summary></summary>
+        /// <summary>
+        /// Overrides the comparison of subject and expectation to use provided <paramref name="action"/>
+        /// when the predicate is met.
+        /// </summary>
         /// <param name="action">
         /// The assertion to execute when the predicate is met.
         /// </param>
@@ -415,12 +461,11 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Adds an assertion rule to the ones already added by default, and which is evaluated before all existing rules.
+        /// Adds an ordering rule to the ones already added by default, and which is evaluated after all existing rules.
         /// </summary>
-        public TSelf Using(IAssertionRule assertionRule)
+        public TSelf Using(IOrderingRule orderingRule)
         {
-            userEquivalencySteps.Insert(0, new AssertionRuleEquivalencyStepAdapter(assertionRule));
-            return (TSelf)this;
+            return AddOrderingRule(orderingRule);
         }
 
         /// <summary>
@@ -433,12 +478,34 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
+        /// Ensures the equivalency comparison will create and use an instance of <typeparamref name="TEqualityComparer"/>
+        /// that implements <see cref="IEqualityComparer{T}"/>, any time
+        /// when a property is of type <typeparamref name="T"/>.
+        /// </summary>
+        public TSelf Using<T, TEqualityComparer>()
+            where TEqualityComparer : IEqualityComparer<T>, new()
+        {
+            return Using(new TEqualityComparer());
+        }
+
+        /// <summary>
+        /// Ensures the equivalency comparison will use the specified implementation of <see cref="IEqualityComparer{T}"/>
+        /// any time when a property is of type <typeparamref name="T"/>.
+        /// </summary>
+        public TSelf Using<T>(IEqualityComparer<T> comparer)
+        {
+            userEquivalencySteps.Insert(0, new EqualityComparerEquivalencyStep<T>(comparer));
+
+            return (TSelf)this;
+        }
+
+        /// <summary>
         /// Causes all collections to be compared in the order in which the items appear in the expectation.
         /// </summary>
         public TSelf WithStrictOrdering()
         {
-            orderingRules.Clear();
-            orderingRules.Add(new MatchAllOrderingRule());
+            OrderingRules.Clear();
+            OrderingRules.Add(new MatchAllOrderingRule());
             return (TSelf)this;
         }
 
@@ -446,9 +513,9 @@ namespace FluentAssertions.Equivalency
         /// Causes the collection identified by the provided <paramref name="predicate" /> to be compared in the order
         /// in which the items appear in the expectation.
         /// </summary>
-        public TSelf WithStrictOrderingFor(Expression<Func<IMemberInfo, bool>> predicate)
+        public TSelf WithStrictOrderingFor(Expression<Func<IObjectInfo, bool>> predicate)
         {
-            orderingRules.Add(new PredicateBasedOrderingRule(predicate));
+            OrderingRules.Add(new PredicateBasedOrderingRule(predicate));
             return (TSelf)this;
         }
 
@@ -457,8 +524,8 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public TSelf WithoutStrictOrdering()
         {
-            orderingRules.Clear();
-            orderingRules.Add(new ByteArrayOrderingRule());
+            OrderingRules.Clear();
+            OrderingRules.Add(new ByteArrayOrderingRule());
             return (TSelf)this;
         }
 
@@ -466,9 +533,9 @@ namespace FluentAssertions.Equivalency
         /// Causes the collection identified by the provided <paramref name="predicate" /> to be compared ignoring the order
         /// in which the items appear in the expectation.
         /// </summary>
-        public TSelf WithoutStrictOrderingFor(Expression<Func<IMemberInfo, bool>> predicate)
+        public TSelf WithoutStrictOrderingFor(Expression<Func<IObjectInfo, bool>> predicate)
         {
-            orderingRules.Add(new PredicateBasedOrderingRule(predicate)
+            OrderingRules.Add(new PredicateBasedOrderingRule(predicate)
             {
                 Invert = true
             });
@@ -501,18 +568,52 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
+        /// Ensures records by default are compared by value instead of their members.
+        /// </summary>
+        public TSelf ComparingRecordsByValue()
+        {
+            compareRecordsByValue = true;
+            return (TSelf)this;
+        }
+
+        /// <summary>
+        /// Ensures records by default are compared by value instead of their members.
+        /// </summary>
+        /// <remarks>
+        /// This is the default.
+        /// </remarks>
+        public TSelf ComparingRecordsByMembers()
+        {
+            compareRecordsByValue = false;
+            return (TSelf)this;
+        }
+
+        /// <summary>
         /// Marks the <typeparamref name="T" /> as a type that should be compared by its members even though it may override
         /// the <see cref="object.Equals(object)" /> method.
         /// </summary>
-        public TSelf ComparingByMembers<T>()
+        public TSelf ComparingByMembers<T>() => ComparingByMembers(typeof(T));
+
+        /// <summary>
+        /// Marks <paramref name="type" /> as a type that should be compared by its members even though it may override
+        /// the <see cref="object.Equals(object)" /> method.
+        /// </summary>
+        public TSelf ComparingByMembers(Type type)
         {
-            if (valueTypes.Any(typeof(T).IsSameOrInherits))
+            Guard.ThrowIfArgumentIsNull(type, nameof(type));
+
+            if (type.IsPrimitive)
             {
-                throw new InvalidOperationException(
-                    $"Can't compare {typeof(T).Name} by its members if it already setup to be compared by value");
+                throw new InvalidOperationException($"Cannot compare a primitive type such as {type.Name} by its members");
             }
 
-            referenceTypes.Add(typeof(T));
+            if (valueTypes.Any(t => type.IsSameOrInherits(t)))
+            {
+                throw new InvalidOperationException(
+                    $"Can't compare {type.Name} by its members if it already setup to be compared by value");
+            }
+
+            referenceTypes.Add(type);
             return (TSelf)this;
         }
 
@@ -520,15 +621,23 @@ namespace FluentAssertions.Equivalency
         /// Marks the <typeparamref name="T" /> as a value type which must be compared using its
         /// <see cref="object.Equals(object)" /> method, regardless of it overriding it or not.
         /// </summary>
-        public TSelf ComparingByValue<T>()
+        public TSelf ComparingByValue<T>() => ComparingByValue(typeof(T));
+
+        /// <summary>
+        /// Marks <paramref name="type" /> as a value type which must be compared using its
+        /// <see cref="object.Equals(object)" /> method, regardless of it overriding it or not.
+        /// </summary>
+        public TSelf ComparingByValue(Type type)
         {
-            if (referenceTypes.Any(typeof(T).IsSameOrInherits))
+            Guard.ThrowIfArgumentIsNull(type, nameof(type));
+
+            if (referenceTypes.Any(t => type.IsSameOrInherits(t)))
             {
                 throw new InvalidOperationException(
-                    $"Can't compare {typeof(T).Name} by value if it already setup to be compared by its members");
+                    $"Can't compare {type.Name} by value if it already setup to be compared by its members");
             }
 
-            valueTypes.Add(typeof(T));
+            valueTypes.Add(type);
             return (TSelf)this;
         }
 
@@ -553,9 +662,9 @@ namespace FluentAssertions.Equivalency
 
         /// <summary>
         /// Instructs the equivalency comparison to try to convert the value of
-        /// a specific property on the expectation object before running any of the other steps.
+        /// a specific member on the expectation object before running any of the other steps.
         /// </summary>
-        public TSelf WithAutoConversionFor(Expression<Func<IMemberInfo, bool>> predicate)
+        public TSelf WithAutoConversionFor(Expression<Func<IObjectInfo, bool>> predicate)
         {
             ConversionSelector.Include(predicate);
             return (TSelf)this;
@@ -563,9 +672,9 @@ namespace FluentAssertions.Equivalency
 
         /// <summary>
         /// Instructs the equivalency comparison to prevent trying to convert the value of
-        /// a specific property on the expectation object before running any of the other steps.
+        /// a specific member on the expectation object before running any of the other steps.
         /// </summary>
-        public TSelf WithoutAutoConversionFor(Expression<Func<IMemberInfo, bool>> predicate)
+        public TSelf WithoutAutoConversionFor(Expression<Func<IObjectInfo, bool>> predicate)
         {
             ConversionSelector.Exclude(predicate);
             return (TSelf)this;
@@ -580,7 +689,7 @@ namespace FluentAssertions.Equivalency
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
 
             builder.Append("- Use ")
                 .Append(useRuntimeTyping ? "runtime" : "declared")
@@ -594,12 +703,35 @@ namespace FluentAssertions.Equivalency
                 }
             }
 
-            builder.AppendFormat("- Compare enums by {0}" + Environment.NewLine,
+            builder.AppendFormat(CultureInfo.InvariantCulture,
+                "- Compare enums by {0}" + Environment.NewLine,
                 enumEquivalencyHandling == EnumEquivalencyHandling.ByName ? "name" : "value");
 
             if (cyclicReferenceHandling == CyclicReferenceHandling.Ignore)
             {
                 builder.AppendLine("- Ignoring cyclic references");
+            }
+
+            builder.AppendLine($"- Compare tuples by their properties");
+            builder.AppendLine($"- Compare anonymous types by their properties");
+
+            if (compareRecordsByValue)
+            {
+                builder.AppendLine("- Compare records by value");
+            }
+            else
+            {
+                builder.AppendLine("- Compare records by their members");
+            }
+
+            foreach (Type valueType in valueTypes)
+            {
+                builder.AppendLine($"- Compare {valueType} by value");
+            }
+
+            foreach (Type type in referenceTypes)
+            {
+                builder.AppendLine($"- Compare {type} by its members");
             }
 
             foreach (IMemberSelectionRule rule in selectionRules)
@@ -617,16 +749,18 @@ namespace FluentAssertions.Equivalency
                 builder.Append("- ").AppendLine(step.ToString());
             }
 
-            foreach (IOrderingRule rule in orderingRules)
+            foreach (IOrderingRule rule in OrderingRules)
             {
                 builder.Append("- ").AppendLine(rule.ToString());
             }
+
+            builder.Append("- ").AppendLine(ConversionSelector.ToString());
 
             return builder.ToString();
         }
 
         /// <summary>
-        /// Defines additional overrides when used with <see cref="EquivalencyAssertionOptions.When" />
+        /// Defines additional overrides when used with <see cref="SelfReferenceEquivalencyAssertionOptions{T}" />
         /// </summary>
         public class Restriction<TMember>
         {
@@ -644,6 +778,7 @@ namespace FluentAssertions.Equivalency
             /// <typeparamref name="TMemberType" />
             /// </summary>
             public TSelf WhenTypeIs<TMemberType>()
+                where TMemberType : TMember
             {
                 When(info => info.RuntimeType.IsSameOrInherits(typeof(TMemberType)));
                 return options;
@@ -657,16 +792,18 @@ namespace FluentAssertions.Equivalency
             /// the
             /// override applies.
             /// </param>
-            public TSelf When(Expression<Func<IMemberInfo, bool>> predicate)
+            public TSelf When(Expression<Func<IObjectInfo, bool>> predicate)
             {
-                options.Using(new AssertionRule<TMember>(predicate, action));
+                options.userEquivalencySteps.Insert(0,
+                    new AssertionRuleEquivalencyStep<TMember>(predicate, action));
+
                 return options;
             }
         }
 
         #region Non-fluent API
 
-        protected void RemoveSelectionRule<T>()
+        private void RemoveSelectionRule<T>()
             where T : IMemberSelectionRule
         {
             selectionRules.RemoveAll(selectionRule => selectionRule is T);
@@ -686,6 +823,12 @@ namespace FluentAssertions.Equivalency
         private TSelf AddMatchingRule(IMemberMatchingRule matchingRule)
         {
             matchingRules.Insert(0, matchingRule);
+            return (TSelf)this;
+        }
+
+        private TSelf AddOrderingRule(IOrderingRule orderingRule)
+        {
+            OrderingRules.Add(orderingRule);
             return (TSelf)this;
         }
 

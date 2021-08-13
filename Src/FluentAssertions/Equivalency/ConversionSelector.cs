@@ -4,35 +4,38 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using FluentAssertions.Common;
+using FluentAssertions.Equivalency.Execution;
+using FluentAssertions.Equivalency.Steps;
 
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
-    /// Collects the members that need to be converted by the <see cref="TryConversionStep"/>.
+    /// Collects the members that need to be converted by the <see cref="AutoConversionStep"/>.
     /// </summary>
     public class ConversionSelector
     {
         private class ConversionSelectorRule
         {
-            public Func<IMemberInfo, bool> Predicate { get; }
+            public Func<IObjectInfo, bool> Predicate { get; }
+
             public string Description { get; }
 
-            public ConversionSelectorRule(Func<IMemberInfo, bool> predicate, string description)
+            public ConversionSelectorRule(Func<IObjectInfo, bool> predicate, string description)
             {
                 Predicate = predicate;
                 Description = description;
             }
         }
 
-        private List<ConversionSelectorRule> inclusions = new List<ConversionSelectorRule>();
-        private List<ConversionSelectorRule> exclusions = new List<ConversionSelectorRule>();
+        private List<ConversionSelectorRule> inclusions = new();
+        private List<ConversionSelectorRule> exclusions = new();
 
         public void IncludeAll()
         {
             inclusions.Add(new ConversionSelectorRule(_ => true, "Try conversion of all members. "));
         }
 
-        public void Include(Expression<Func<IMemberInfo, bool>> predicate)
+        public void Include(Expression<Func<IObjectInfo, bool>> predicate)
         {
             Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
 
@@ -41,7 +44,7 @@ namespace FluentAssertions.Equivalency
                 $"Try conversion of member {predicate.Body}. "));
         }
 
-        public void Exclude(Expression<Func<IMemberInfo, bool>> predicate)
+        public void Exclude(Expression<Func<IObjectInfo, bool>> predicate)
         {
             Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
 
@@ -50,9 +53,11 @@ namespace FluentAssertions.Equivalency
                 $"Do not convert member {predicate.Body}."));
         }
 
-        public bool RequiresConversion(IMemberInfo info)
+        public bool RequiresConversion(Comparands comparands, INode currentNode)
         {
-            return inclusions.Any(p => p.Predicate(info)) && !exclusions.Any(p => p.Predicate(info));
+            var objectInfo = new ObjectInfo(comparands, currentNode);
+
+            return inclusions.Any(p => p.Predicate(objectInfo)) && !exclusions.Any(p => p.Predicate(objectInfo));
         }
 
         public override string ToString()
@@ -62,7 +67,7 @@ namespace FluentAssertions.Equivalency
                 return "Without automatic conversion.";
             }
 
-            StringBuilder descriptionBuilder = new StringBuilder();
+            var descriptionBuilder = new StringBuilder();
 
             foreach (ConversionSelectorRule inclusion in inclusions)
             {

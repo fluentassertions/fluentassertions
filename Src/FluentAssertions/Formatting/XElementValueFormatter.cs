@@ -10,23 +10,22 @@ namespace FluentAssertions.Formatting
         /// <summary>
         /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.
         /// </summary>
-        /// <param name="value">The value for which to create a <see cref="System.String"/>.</param>
+        /// <param name="value">The value for which to create a <see cref="string"/>.</param>
         /// <returns>
         /// <c>true</c> if the current <see cref="IValueFormatter"/> can handle the specified value; otherwise, <c>false</c>.
         /// </returns>
         public bool CanHandle(object value)
         {
-            return (value is XElement);
+            return value is XElement;
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
             var element = (XElement)value;
 
-            return element.HasElements
+            formattedGraph.AddFragment(element.HasElements
                 ? FormatElementWithChildren(element)
-                : FormatElementWithoutChildren(element);
+                : FormatElementWithoutChildren(element));
         }
 
         private static string FormatElementWithoutChildren(XElement element)

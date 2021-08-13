@@ -10,30 +10,33 @@ namespace FluentAssertions.Primitives
     {
         #region Private Definition
 
-        protected readonly string subject;
-        protected readonly string expected;
-        protected IAssertionScope assertion;
         private const int HumanReadableLength = 8;
+
+        protected string Subject { get; }
+
+        protected string Expected { get; }
+
+        protected IAssertionScope Assertion { get; set; }
 
         #endregion
 
         protected StringValidator(string subject, string expected, string because, object[] becauseArgs)
         {
-            assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
+            Assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
 
-            this.subject = subject;
-            this.expected = expected;
+            Subject = subject;
+            Expected = expected;
         }
 
         public void Validate()
         {
-            if ((expected != null) || (subject != null))
+            if ((Expected is not null) || (Subject is not null))
             {
                 if (ValidateAgainstNulls())
                 {
-                    if (IsLongOrMultiline(expected) || IsLongOrMultiline(subject))
+                    if (IsLongOrMultiline(Expected) || IsLongOrMultiline(Subject))
                     {
-                        assertion = assertion.UsingLineBreaks;
+                        Assertion = Assertion.UsingLineBreaks;
                     }
 
                     if (ValidateAgainstSuperfluousWhitespace())
@@ -49,9 +52,9 @@ namespace FluentAssertions.Primitives
 
         private bool ValidateAgainstNulls()
         {
-            if ((expected is null) ^ (subject is null))
+            if ((Expected is null) != (Subject is null))
             {
-                assertion.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.", expected, subject);
+                Assertion.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.", Expected, Subject);
                 return false;
             }
 
@@ -60,7 +63,7 @@ namespace FluentAssertions.Primitives
 
         private static bool IsLongOrMultiline(string value)
         {
-            return (value.Length > HumanReadableLength) || value.Contains(Environment.NewLine);
+            return (value.Length > HumanReadableLength) || value.Contains(Environment.NewLine, StringComparison.Ordinal);
         }
 
         protected virtual bool ValidateAgainstSuperfluousWhitespace()

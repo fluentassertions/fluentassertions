@@ -7,7 +7,7 @@ sidebar:
   nav: "sidebar"
 ---
 
-For asserting whether a string is null, empty or contains whitespace only, you have a wide range of methods to your disposal.
+For asserting whether a string is null, empty, contains whitespace only, or is in upper/lower case, you have a wide range of methods to your disposal.
 
 ```csharp
 string theString = "";
@@ -18,6 +18,10 @@ theString.Should().NotBeEmpty("because the string is not empty");
 theString.Should().HaveLength(0);
 theString.Should().BeNullOrWhiteSpace(); // either null, empty or whitespace only
 theString.Should().NotBeNullOrWhiteSpace();
+theString.Should().BeUpperCased();
+theString.Should().NotBeUpperCased();
+theString.Should().BeLowerCased();
+theString.Should().NotBeLowerCased();
 ```
 
 Obviously you’ll find all the methods you would expect for string assertions.
@@ -55,16 +59,26 @@ theString.Should().NotContainEquivalentOf("HeRe ThE CaSiNg Is IgNoReD As WeLl");
 
 theString.Should().StartWith("This");
 theString.Should().NotStartWith("This");
-theString.Should().StartWithEquivalent("this");
+theString.Should().StartWithEquivalentOf("this");
 theString.Should().NotStartWithEquivalentOf("this");
 
 theString.Should().EndWith("a String");
 theString.Should().NotEndWith("a String");
-theString.Should().EndWithEquivalent("a string");
+theString.Should().EndWithEquivalentOf("a string");
 theString.Should().NotEndWithEquivalentOf("a string");
 ```
 
-We even support wildcards.
+For the `Match`, `NotMatch`, `MatchEquivalentOf`, and `NotMatchEquivalentOf` methods we support wildcards.
+
+The pattern can be a combination of literal and wildcard characters, but it doesn't support regular expressions.
+
+The following wildcard specifiers are permitted in the pattern:
+
+| Wilcard specifier | Matches                                   |
+| ----------------- | ----------------------------------------- |
+| * (asterisk)      | Zero or more characters in that position. |
+| ? (question mark) | Exactly one character in that position.   |
+
 For instance, if you would like to assert that some email address is correct, use this:
 
 ```csharp
@@ -83,5 +97,7 @@ And if wildcards aren't enough for you, you can always use some regular expressi
 
 ```csharp
 someString.Should().MatchRegex("h.*\\sworld.$");
+someString.Should().MatchRegex(new System.Text.RegularExpressions.Regex("h.*\\sworld.$"));
+subject.Should().NotMatchRegex(new System.Text.RegularExpressions.Regex(".*earth.*"));
 subject.Should().NotMatchRegex(".*earth.*");
 ```

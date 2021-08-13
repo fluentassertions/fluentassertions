@@ -17,17 +17,17 @@ namespace FluentAssertions.Equivalency.Ordering
         }
 
         /// <summary>
-        /// Determines if ordering of the member referred to by the current <paramref name="memberInfo"/> is relevant.
+        /// Determines if ordering of the member referred to by the current <paramref name="objectInfo"/> is relevant.
         /// </summary>
-        public OrderStrictness Evaluate(IMemberInfo memberInfo)
+        public OrderStrictness Evaluate(IObjectInfo objectInfo)
         {
-            string currentPropertyPath = memberInfo.SelectedMemberPath;
+            string currentPropertyPath = objectInfo.Path;
             if (!ContainsIndexingQualifiers(path))
             {
                 currentPropertyPath = RemoveInitialIndexQualifier(currentPropertyPath);
             }
 
-            if (currentPropertyPath.Equals(path, StringComparison.CurrentCultureIgnoreCase))
+            if (currentPropertyPath.Equals(path, StringComparison.OrdinalIgnoreCase))
             {
                 return OrderStrictness.Strict;
             }
@@ -39,7 +39,7 @@ namespace FluentAssertions.Equivalency.Ordering
 
         private static bool ContainsIndexingQualifiers(string path)
         {
-            return path.Contains("[") && path.Contains("]");
+            return path.Contains("[", StringComparison.Ordinal) && path.Contains("]", StringComparison.Ordinal);
         }
 
         private string RemoveInitialIndexQualifier(string sourcePath)

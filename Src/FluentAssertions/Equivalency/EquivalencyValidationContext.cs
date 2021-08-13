@@ -1,126 +1,88 @@
-using System;
+using FluentAssertions.Equivalency.Execution;
+using FluentAssertions.Equivalency.Tracing;
+using FluentAssertions.Execution;
+using static System.FormattableString;
 
 namespace FluentAssertions.Equivalency
 {
+    /// <summary>
+    /// Provides information on a particular property during an assertion for structural equality of two object graphs.
+    /// </summary>
     public class EquivalencyValidationContext : IEquivalencyValidationContext
     {
-        private Type compileTimeType;
+        private static readonly ComplexTypeMap TypeMap = new();
+        private Tracer tracer;
 
-        public EquivalencyValidationContext()
+        public EquivalencyValidationContext(INode root, IEquivalencyAssertionOptions options)
         {
-            SelectedMemberDescription = "";
-            SelectedMemberPath = "";
+            Options = options;
+            CurrentNode = root;
+            CyclicReferenceDetector = new CyclicReferenceDetector();
         }
 
-        public SelectedMemberInfo SelectedMemberInfo { get; set; }
+        public INode CurrentNode { get; }
 
-        public string SelectedMemberPath { get; set; }
+        public Reason Reason { get; set; }
 
-        public string SelectedMemberDescription { get; set; }
+        public Tracer Tracer => tracer ??= new Tracer(CurrentNode, TraceWriter);
 
-        /// <summary>
-        /// Gets the value of the <see cref="IMemberInfo.SelectedMemberInfo" />
-        /// </summary>
-        public object Subject { get; set; }
+        public IEquivalencyAssertionOptions Options { get; }
 
-        /// <summary>
-        /// Gets the value of the <see cref="IEquivalencyValidationContext.MatchingExpectationProperty" />.
-        /// </summary>
-        public object Expectation { get; set; }
+        private CyclicReferenceDetector CyclicReferenceDetector { get; set; }
 
-        /// <summary>
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </summary>
-        public string Because { get; set; }
-
-        /// <summary>
-        /// Zero or more objects to format using the placeholders in <see cref="IEquivalencyValidationContext.Because" />.
-        /// </summary>
-        public object[] BecauseArgs { get; set; }
-
-        /// <summary>
-        /// Gets a value indicating whether the current context represents the root of the object graph.
-        /// </summary>
-        public bool IsRoot
+        public IEquivalencyValidationContext AsNestedMember(IMember expectationMember)
         {
-            get
+            return new EquivalencyValidationContext(expectationMember, Options)
             {
-                // SMELL: That prefix should be obtained from some kind of constant
-                return (SelectedMemberDescription.Length == 0) ||
-                       (RootIsCollection && SelectedMemberDescription.StartsWith("item[") &&
-                        !SelectedMemberDescription.Contains("."));
-            }
+                Reason = Reason,
+                TraceWriter = TraceWriter,
+                CyclicReferenceDetector = CyclicReferenceDetector
+            };
         }
 
-        /// <summary>
-        /// Gets the compile-time type of the current expectation object. If the current object is not the root object
-        /// and the type is not <see cref="object"/>,  then it returns the same <see cref="System.Type"/>
-        /// as the <see cref="IMemberInfo.RuntimeType"/> property does.
-        /// </summary>
-        public Type CompileTimeType
+        public IEquivalencyValidationContext AsCollectionItem<TItem>(string index)
         {
-            get
+            return new EquivalencyValidationContext(Node.FromCollectionItem<TItem>(index, CurrentNode), Options)
             {
-                return ((compileTimeType != typeof(object)) || Expectation is null) ? compileTimeType : RuntimeType;
-            }
-            set => compileTimeType = value;
+                Reason = Reason,
+                TraceWriter = TraceWriter,
+                CyclicReferenceDetector = CyclicReferenceDetector
+            };
         }
 
-        /// <summary>
-        /// Gets the run-time type of the current expectation object.
-        /// </summary>
-        public Type RuntimeType
+        public IEquivalencyValidationContext AsDictionaryItem<TKey, TExpectation>(TKey key)
         {
-            get
+            return new EquivalencyValidationContext(Node.FromDictionaryItem<TExpectation>(key, CurrentNode), Options)
             {
-                if (Expectation != null)
-                {
-                    return Expectation.GetType();
-                }
-
-                if (SelectedMemberInfo != null)
-                {
-                    return SelectedMemberInfo.MemberType;
-                }
-
-                return CompileTimeType;
-            }
+                Reason = Reason,
+                TraceWriter = TraceWriter,
+                CyclicReferenceDetector = CyclicReferenceDetector
+            };
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating that the root of the graph is a collection so all type-specific options apply on
-        /// the collection type and not on the root itself.
-        /// </summary>
-        public bool RootIsCollection { get; set; }
-
-        public ITraceWriter Tracer { get; set; }
-
-        public void TraceSingle(GetTraceMessage getTraceMessage)
+        public IEquivalencyValidationContext Clone()
         {
-            if (Tracer != null)
+            return new EquivalencyValidationContext(CurrentNode, Options)
             {
-                string path = SelectedMemberDescription.Length > 0 ? SelectedMemberDescription : "root";
-                Tracer.AddSingle(getTraceMessage(path));
-            }
+                Reason = Reason,
+                TraceWriter = TraceWriter,
+                CyclicReferenceDetector = CyclicReferenceDetector
+            };
         }
 
-        public IDisposable TraceBlock(GetTraceMessage getTraceMessage)
+        public bool IsCyclicReference(object expectation)
         {
-            if (Tracer != null)
-            {
-                string path = SelectedMemberDescription.Length > 0 ? SelectedMemberDescription : "root";
-                return Tracer.AddBlock(getTraceMessage(path));
-            }
-            else
-            {
-                return new Disposable(() => { });
-            }
+            bool isComplexType = TypeMap.IsComplexType(expectation);
+
+            var reference = new ObjectReference(expectation, CurrentNode.PathAndName, isComplexType);
+            return CyclicReferenceDetector.IsCyclicReference(reference, Options.CyclicReferenceHandling, Reason);
         }
+
+        public ITraceWriter TraceWriter { get; set; }
 
         public override string ToString()
         {
-            return $"{{Path=\"{SelectedMemberDescription}\", Subject={Subject}, Expectation={Expectation}}}";
+            return Invariant($"{{Path=\"{CurrentNode.Description}\"}}");
         }
     }
 }

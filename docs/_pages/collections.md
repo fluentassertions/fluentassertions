@@ -55,6 +55,7 @@ collection.Should().OnlyContain(x => x < 10);
 collection.Should().ContainItemsAssignableTo<int>();
 
 collection.Should().ContainInOrder(new[] { 1, 5, 8 });
+collection.Should().NotContainInOrder(new[] { 5, 1, 2 });
 
 collection.Should().NotContain(82);
 collection.Should().NotContain(new[] { 82, 83 });
@@ -63,6 +64,8 @@ collection.Should().NotContain(x => x > 10);
 
 object boxedValue = 2;
 collection.Should().ContainEquivalentOf(boxedValue); // Compared by object equivalence
+object unexpectedBoxedValue = 82;
+collection.Should().NotContainEquivalentOf(unexpectedBoxedValue); // Compared by object equivalence
 
 const int successor = 5;
 const int predecessor = 5;
@@ -77,17 +80,40 @@ IEnumerable otherCollection = new[] { 1, 2, 5, 8, 1 };
 IEnumerable anotherCollection = new[] { 10, 20, 50, 80, 10 };
 collection.Should().IntersectWith(otherCollection);
 collection.Should().NotIntersectWith(anotherCollection);
+```
 
+Asserting that a collection contains items in a certain order is as easy as using one of the several overloads of `BeInAscendingOrder` or `BeInDescendingOrder`. The default overload will use the default `Comparer` for the specified type, but overloads also exist that take an `IComparer<T>`, a property expression to sort by an object's property, or a lambda expression to avoid the need for `IComparer<T>` implementations.
+
+```csharp
 collection.Should().BeInAscendingOrder();
 collection.Should().BeInDescendingOrder();
 collection.Should().NotBeInAscendingOrder();
 collection.Should().NotBeInDescendingOrder();
+```
 
-IEnumerable<string> stringCollection = new[] { "build succeded", "test failed" };
+For `String` collections there are specific methods to assert the items. For the `ContainMatch` and `NotContainMatch` methods we support wildcards.
+
+The pattern can be a combination of literal and wildcard characters, but it doesn't support regular expressions.
+
+The following wildcard specifiers are permitted in the pattern:
+
+| Wilcard specifier | Matches                                   |
+| ----------------- | ----------------------------------------- |
+| * (asterisk)      | Zero or more characters in that position. |
+| ? (question mark) | Exactly one character in that position.   |
+
+```csharp
+IEnumerable<string> stringCollection = new[] { "build succeeded", "test failed" };
+stringCollection.Should().AllBe("build succeeded");
 stringCollection.Should().ContainMatch("* failed");
 ```
 
-The `collection.Should().ContainEquivalentOf(boxedValue)` asserts that a collection contains at least one object that is equivalent to the expected object. The comparison is governed by the same rules and options as the [Object graph comparison](/objectgraphs).
+In order to assert presence of an equivalent item in a collection applying [Object graph comparison](objectgraphs.md) rules, use this:
+
+```csharp
+collection.Should().ContainEquivalentOf(boxedValue);
+collection.Should().NotContainEquivalentOf(unexpectedBoxedValue)
+```
 
 Those last two methods can be used to assert a collection contains items in ascending or descending order.
 For simple types that might be fine, but for more complex types, it requires you to implement `IComparable`, something that doesn't make a whole lot of sense in all cases.
@@ -143,7 +169,7 @@ In case if you need to perform individual assertions on all elements of a collec
 var collection = new []
 {
     new { Id = 1, Name = "John", Attributes = new string[] { } },
-    new { Id = 2, Name = "Jane", Attributes = new string[] {"attr"} }
+    new { Id = 2, Name = "Jane", Attributes = new string[] { "attr" } }
 };
 collection.Should().SatisfyRespectively(
     first =>
@@ -158,4 +184,17 @@ collection.Should().SatisfyRespectively(
         second.Name.Should().EndWith("e");
         second.Attributes.Should().NotBeEmpty();
     });
+```
+
+If you need to perform individual assertions on all elements of a collection without setting expectation about the order of elements:
+```csharp
+var collection = new []
+{
+    new { Id = 1, Name = "John", Attributes = new string[] { } },
+    new { Id = 2, Name = "Jane", Attributes = new string[] { "attr" } }
+};
+
+collection.Should().Satisfy(
+    e => e.Id == 2 && e.Name == "Jane" && e.Attributes == null,
+    e => e.Id == 1 && e.Name == "John" && e.Attributes != null && e.Attributes.Length > 0);
 ```

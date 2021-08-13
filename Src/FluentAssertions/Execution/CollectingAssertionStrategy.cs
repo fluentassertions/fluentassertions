@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -7,12 +8,9 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions.Execution
 {
-#if NET45
-    [Serializable]
-#endif
     internal class CollectingAssertionStrategy : IAssertionStrategy
     {
-        private readonly List<string> failureMessages = new List<string>();
+        private readonly List<string> failureMessages = new();
 
         /// <summary>
         /// Returns the messages for the assertion failures that happened until now.
@@ -30,7 +28,7 @@ namespace FluentAssertions.Execution
         }
 
         /// <summary>
-        /// Will throw a combined exception for any failures have been collected since <see cref="StartCollecting"/> was called.
+        /// Will throw a combined exception for any failures have been collected.
         /// </summary>
         public void ThrowIfAny(IDictionary<string, object> context)
         {
@@ -43,7 +41,7 @@ namespace FluentAssertions.Execution
                 {
                     foreach (KeyValuePair<string, object> pair in context)
                     {
-                        builder.AppendFormat("\nWith {0}:\n{1}", pair.Key, pair.Value);
+                        builder.AppendFormat(CultureInfo.InvariantCulture, "\nWith {0}:\n{1}", pair.Key, pair.Value);
                     }
                 }
 

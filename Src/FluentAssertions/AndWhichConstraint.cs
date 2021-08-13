@@ -43,10 +43,8 @@ namespace FluentAssertions
                     matchedElements.Select(
                         ele => "\t" + Formatter.ToString(ele)));
 
-                string message = string.Format(
-                    "More than one object found.  FluentAssertions cannot determine which object is meant.  Found objects:{0}{1}",
-                    Environment.NewLine,
-                    foundObjects);
+                string message = "More than one object found.  FluentAssertions cannot determine which object is meant."
+                              + $"  Found objects:{Environment.NewLine}{foundObjects}";
 
                 Services.ThrowException(message);
             }

@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System;
+using System.Linq.Expressions;
 
 namespace FluentAssertions.Formatting
 {
@@ -7,7 +8,7 @@ namespace FluentAssertions.Formatting
         /// <summary>
         /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.
         /// </summary>
-        /// <param name="value">The value for which to create a <see cref="System.String"/>.</param>
+        /// <param name="value">The value for which to create a <see cref="string"/>.</param>
         /// <returns>
         /// <c>true</c> if the current <see cref="IValueFormatter"/> can handle the specified value; otherwise, <c>false</c>.
         /// </returns>
@@ -16,10 +17,9 @@ namespace FluentAssertions.Formatting
             return value is Expression;
         }
 
-        /// <inheritdoc />
-        public string Format(object value, FormattingContext context, FormatChild formatChild)
+        public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
-            return value.ToString().Replace(" = ", " == ");
+            formattedGraph.AddFragment(value.ToString().Replace(" = ", " == ", StringComparison.Ordinal));
         }
     }
 }

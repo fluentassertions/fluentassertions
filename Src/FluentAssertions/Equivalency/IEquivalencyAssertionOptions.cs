@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using FluentAssertions.Equivalency.Tracing;
 
 namespace FluentAssertions.Equivalency
 {
@@ -9,12 +10,12 @@ namespace FluentAssertions.Equivalency
     public interface IEquivalencyAssertionOptions
     {
         /// <summary>
-        /// Gets an ordered collection of selection rules that define what properties are included.
+        /// Gets an ordered collection of selection rules that define what members (e.g. properties or fields) are included.
         /// </summary>
         IEnumerable<IMemberSelectionRule> SelectionRules { get; }
 
         /// <summary>
-        /// Gets an ordered collection of matching rules that determine which subject properties are matched with which
+        /// Gets an ordered collection of matching rules that determine which subject members are matched with which
         /// expectation properties.
         /// </summary>
         IEnumerable<IMemberMatchingRule> MatchingRules { get; }
@@ -53,7 +54,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets an ordered collection of Equivalency steps how a subject is compared with the expectation.
         /// </summary>
-        IEnumerable<IEquivalencyStep> GetUserEquivalencySteps(ConversionSelector conversionSelector);
+        IEnumerable<IEquivalencyStep> UserEquivalencySteps { get; }
 
         /// <summary>
         /// Gets a value indicating whether the runtime type of the expectation should be used rather than the declared type.
@@ -61,14 +62,19 @@ namespace FluentAssertions.Equivalency
         bool UseRuntimeTyping { get; }
 
         /// <summary>
-        /// Gets a value indicating whether properties should be considered.
+        /// Gets a value indicating whether and which properties should be considered.
         /// </summary>
-        bool IncludeProperties { get; }
+        MemberVisibility IncludedProperties { get; }
 
         /// <summary>
-        /// Gets a value indicating whether fields should be considered.
+        /// Gets a value indicating whether and which fields should be considered.
         /// </summary>
-        bool IncludeFields { get; }
+        MemberVisibility IncludedFields { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether records should be compared by value instead of their members
+        /// </summary>
+        bool CompareRecordsByValue { get; }
 
         /// <summary>
         /// Gets the currently configured tracer, or <c>null</c> if no tracing was configured.
@@ -84,12 +90,12 @@ namespace FluentAssertions.Equivalency
     public enum EqualityStrategy
     {
         /// <summary>
-        /// The object overrides <see cref="object.Equals"/>, so use that.
+        /// The object overrides <see cref="object.Equals(object)"/>, so use that.
         /// </summary>
         Equals,
 
         /// <summary>
-        /// The object does not seem to override <see cref="object.Equals"/>, so compare by members
+        /// The object does not seem to override <see cref="object.Equals(object)"/>, so compare by members
         /// </summary>
         Members,
 

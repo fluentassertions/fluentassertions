@@ -1,40 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Specialized
 {
+    /// <summary>
+    /// Contains a number of methods to assert that a synchronous method yields the expected result.
+    /// </summary>
     [DebuggerNonUserCode]
-    public abstract class DelegateAssertions<TDelegate> : ReferenceTypeAssertions<Delegate, DelegateAssertions<TDelegate>> where TDelegate : Delegate
+    public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAssertionsBase<TDelegate, TAssertions>
+        where TDelegate : Delegate
+        where TAssertions : DelegateAssertions<TDelegate, TAssertions>
     {
-        private readonly IExtractExceptions extractor;
-
-        protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor) : this(@delegate, extractor, new Clock())
+        protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor)
+            : base(@delegate, extractor, new Clock())
         {
         }
 
-        private protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor, IClock clock) : base(@delegate)
+        private protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor, IClock clock)
+            : base(@delegate, extractor, clock)
         {
-            this.extractor = extractor ?? throw new ArgumentNullException(nameof(extractor));
-            Clock = clock ?? throw new ArgumentNullException(nameof(clock));
-            Subject = @delegate;
         }
-
-        /// <summary>
-        /// Gets the <typeparamref name="TDelegate"/> that is being asserted.
-        /// </summary>
-        public new TDelegate Subject { get; }
-
-        private protected IClock Clock { get; }
-
-        private protected virtual bool CanHandleAsync => false;
 
         /// <summary>
         /// Asserts that the current <see cref="Delegate" /> throws an exception of type <typeparamref name="TException"/>.
@@ -44,19 +33,19 @@ namespace FluentAssertions.Specialized
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public ExceptionAssertions<TException> Throw<TException>(string because = "", params object[] becauseArgs)
             where TException : Exception
         {
             Execute.Assertion
-                .ForCondition(Subject is object)
+                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} to throw {0}{reason}, but found <null>.", typeof(TException));
 
             FailIfSubjectIsAsyncVoid();
             Exception exception = InvokeSubjectWithInterception();
-            return Throw<TException>(exception, because, becauseArgs);
+            return ThrowInternal<TException>(exception, because, becauseArgs);
         }
 
         /// <summary>
@@ -67,19 +56,19 @@ namespace FluentAssertions.Specialized
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public void NotThrow<TException>(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotThrow<TException>(string because = "", params object[] becauseArgs)
             where TException : Exception
         {
             Execute.Assertion
-                .ForCondition(Subject is object)
+                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw {0}{reason}, but found <null>.", typeof(TException));
 
             FailIfSubjectIsAsyncVoid();
             Exception exception = InvokeSubjectWithInterception();
-            NotThrow<TException>(exception, because, becauseArgs);
+            return NotThrowInternal<TException>(exception, because, becauseArgs);
         }
 
         /// <summary>
@@ -90,18 +79,18 @@ namespace FluentAssertions.Specialized
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public void NotThrow(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotThrow(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject is object)
+                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
             FailIfSubjectIsAsyncVoid();
             Exception exception = InvokeSubjectWithInterception();
-            NotThrow(exception, because, becauseArgs);
+            return NotThrowInternal(exception, because, becauseArgs);
         }
 
         /// <summary>
@@ -115,7 +104,7 @@ namespace FluentAssertions.Specialized
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <returns>
         /// Returns an object that allows asserting additional members of the thrown exception.
@@ -125,7 +114,7 @@ namespace FluentAssertions.Specialized
             where TException : Exception
         {
             Execute.Assertion
-                .ForCondition(Subject is object)
+                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} to throw exactly {0}{reason}, but found <null>.", typeof(TException));
 
@@ -135,7 +124,7 @@ namespace FluentAssertions.Specialized
             Type expectedType = typeof(TException);
 
             Execute.Assertion
-                .ForCondition(exception != null)
+                .ForCondition(exception is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {0}{reason}, but no exception was thrown.", expectedType);
 
@@ -164,13 +153,13 @@ namespace FluentAssertions.Specialized
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
-        public void NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject is object)
+                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw after {0}{reason}, but found <null>.", waitTime);
 
@@ -194,7 +183,7 @@ namespace FluentAssertions.Specialized
                 exception = InvokeSubjectWithInterception();
                 if (exception is null)
                 {
-                    return;
+                    break;
                 }
 
                 Clock.Delay(pollInterval);
@@ -203,46 +192,10 @@ namespace FluentAssertions.Specialized
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
-        }
-
-        protected ExceptionAssertions<TException> Throw<TException>(Exception exception, string because, object[] becauseArgs)
-            where TException : Exception
-        {
-            TException[] expectedExceptions = extractor.OfType<TException>(exception).ToArray();
-
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected a <{0}> to be thrown{reason}, ", typeof(TException))
-                .ForCondition(exception != null)
-                .FailWith("but no exception was thrown.")
-                .Then
-                .ForCondition(expectedExceptions.Any())
-                .FailWith("but found <{0}>: {1}{2}.",
-                    exception?.GetType(),
-                    Environment.NewLine,
-                    exception)
-                .Then
-                .ClearExpectation();
-
-            return new ExceptionAssertions<TException>(expectedExceptions);
-        }
-
-        protected void NotThrow(Exception exception, string because, object[] becauseArgs)
-        {
-            Execute.Assertion
                 .ForCondition(exception is null)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect any exception{reason}, but found {0}.", exception);
-        }
+                .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
 
-        protected void NotThrow<TException>(Exception exception, string because, object[] becauseArgs) where TException : Exception
-        {
-            IEnumerable<TException> exceptions = extractor.OfType<TException>(exception);
-            Execute.Assertion
-                .ForCondition(!exceptions.Any())
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {0}{reason}, but found {1}.", typeof(TException), exception);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         protected abstract void InvokeSubject();
@@ -253,7 +206,20 @@ namespace FluentAssertions.Specialized
 
             try
             {
-                InvokeSubject();
+                // For the duration of this nested invocation, configure CallerIdentifier
+                // to match the contents of the subject rather than our own call site.
+                //
+                //   Action action = () => subject.Should().BeSomething();
+                //   action.Should().Throw<Exception>();
+                //
+                // If an assertion failure occurs, we want the message to talk about "subject"
+                // not "action".
+                using (CallerIdentifier.OnlyOneFluentAssertionScopeOnCallStack()
+                    ? CallerIdentifier.OverrideStackSearchUsingCurrentScope()
+                    : default)
+                {
+                    InvokeSubject();
+                }
             }
             catch (Exception exc)
             {
@@ -265,7 +231,7 @@ namespace FluentAssertions.Specialized
 
         private void FailIfSubjectIsAsyncVoid()
         {
-            if (!CanHandleAsync && Subject.GetMethodInfo().IsDecoratedWithOrInherit<AsyncStateMachineAttribute>())
+            if (Subject.GetMethodInfo().IsDecoratedWithOrInherit<AsyncStateMachineAttribute>())
             {
                 throw new InvalidOperationException("Cannot use action assertions on an async void method. Assign the async method to a variable of type Func<Task> instead of Action so that it can be awaited.");
             }

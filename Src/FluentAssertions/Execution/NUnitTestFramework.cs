@@ -2,7 +2,7 @@
 {
     internal class NUnitTestFramework : LateBoundTestFramework
     {
-        protected override string AssemblyName => "nunit.framework";
+        protected internal override string AssemblyName => "nunit.framework";
 
         protected override string ExceptionFullName => "NUnit.Framework.AssertionException";
     }

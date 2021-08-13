@@ -25,27 +25,8 @@ namespace FluentAssertions.Common
         Task DelayAsync(TimeSpan delay, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Waits for the task for a specified time.
-        /// </summary>
-        /// <param name="task">The task to be waited for.</param>
-        /// <param name="timeout">The time span to wait.</param>
-        /// <returns><c>true</c> if the task completes before specified timeout.</returns>
-        bool Wait(Task task, TimeSpan timeout);
-
-        /// <summary>
         /// Creates a timer to measure the time to complete some arbitrary executions.
         /// </summary>
         ITimer StartTimer();
-    }
-
-    /// <summary>
-    /// Abstracts a stopwatch
-    /// </summary>
-    public interface ITimer
-    {
-        /// <summary>
-        /// The time elapsed since the timer was created through <see cref="IClock.StartTimer"/>.
-        /// </summary>
-        TimeSpan Elapsed { get; }
     }
 }

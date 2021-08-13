@@ -1,39 +1,41 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
-using System.Reflection;
 
 namespace FluentAssertions.Common
 {
-    public static class ObjectExtensions
+    internal static class ObjectExtensions
     {
-        public static bool IsSameOrEqualTo(this object actual, object expected)
+        public static Func<T, T, bool> GetComparer<T>()
         {
-            if (actual is null && expected is null)
+            if (typeof(T).IsValueType)
             {
-                return true;
+                // Avoid causing any boxing for value types
+                return (actual, expected) => EqualityComparer<T>.Default.Equals(actual, expected);
             }
 
-            if (actual is null)
+            if (typeof(T) != typeof(object))
             {
-                return false;
+                // CompareNumerics is only relevant for numerics boxed in an object.
+                return (actual, expected) => actual is null
+                    ? expected is null
+                    : expected is not null && EqualityComparer<T>.Default.Equals(actual, expected);
             }
 
-            if (expected is null)
-            {
-                return false;
-            }
+            return (actual, expected) => actual is null
+                    ? expected is null
+                    : expected is not null
+                        && (EqualityComparer<T>.Default.Equals(actual, expected) || CompareNumerics(actual, expected));
+        }
 
-            if (actual.Equals(expected))
-            {
-                return true;
-            }
-
+        private static bool CompareNumerics(object actual, object expected)
+        {
             Type expectedType = expected.GetType();
             Type actualType = actual.GetType();
 
             return actualType != expectedType
-                && (actual.IsNumericType() || actualType.IsEnumType())
-                && (expected.IsNumericType() || expectedType.IsEnumType())
+                && actual.IsNumericType()
+                && expected.IsNumericType()
                 && CanConvert(actual, expected, actualType, expectedType)
                 && CanConvert(expected, actual, expectedType, actualType);
         }
@@ -56,32 +58,24 @@ namespace FluentAssertions.Common
 
         private static object ConvertTo(this object source, Type targetType)
         {
-            return IsEnumType(targetType)
-                ? Enum.ToObject(targetType, source)
-                : Convert.ChangeType(source, targetType, CultureInfo.InvariantCulture);
+            return Convert.ChangeType(source, targetType, CultureInfo.InvariantCulture);
         }
 
         private static bool IsNumericType(this object obj)
         {
-            switch (obj)
-            {
-                case int _:
-                case long _:
-                case float _:
-                case double _:
-                case decimal _:
-                case sbyte _:
-                case byte _:
-                case short _:
-                case ushort _:
-                case uint _:
-                case ulong _:
-                    return true;
-                default:
-                    return false;
-            }
+            // "is not null" is due to https://github.com/dotnet/runtime/issues/47920#issuecomment-774481505
+            return obj is not null and (
+                int or
+                long or
+                float or
+                double or
+                decimal or
+                sbyte or
+                byte or
+                short or
+                ushort or
+                uint or
+                ulong);
         }
-
-        private static bool IsEnumType(this Type type) => type.GetTypeInfo().IsEnum;
     }
 }

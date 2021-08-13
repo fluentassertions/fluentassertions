@@ -1,69 +1,57 @@
 using System;
+using FluentAssertions.Equivalency.Tracing;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
-    /// Provides information on a particular property during an assertion for structural equality of two object graphs.
+    /// Provides information on a particular property or field during an assertion for structural equality of two object graphs.
     /// </summary>
-    public interface IEquivalencyValidationContext : IMemberInfo
+    public interface IEquivalencyValidationContext
     {
         /// <summary>
-        /// Gets the value of the <see cref="MatchingExpectationProperty"/>.
+        /// Gets the <see cref="INode"/> of the member that returned the current object, or <c>null</c> if the current
+        /// object represents the root object.
         /// </summary>
-        object Expectation { get; }
+        INode CurrentNode { get; }
 
         /// <summary>
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// A formatted phrase and the placeholder values explaining why the assertion is needed.
         /// </summary>
-        string Because { get; }
+        public Reason Reason { get; }
 
         /// <summary>
-        /// Zero or more objects to format using the placeholders in <see cref="Because"/>.
+        /// Gets an object that can be used by the equivalency algorithm to provide a trace when the
+        /// <see cref="SelfReferenceEquivalencyAssertionOptions{TSelf}.WithTracing"/> option is used.
         /// </summary>
-        object[] BecauseArgs { get; }
+        Tracer Tracer { get; }
+
+        IEquivalencyAssertionOptions Options { get; }
 
         /// <summary>
-        /// Gets a value indicating whether the current context represents the root of the object graph.
+        /// Determines whether the specified object reference is a cyclic reference to the same object earlier in the
+        /// equivalency validation.
         /// </summary>
-        bool IsRoot { get; }
+        public bool IsCyclicReference(object expectation);
 
         /// <summary>
-        /// Gets the value of the <see cref="ISelectionContext.PropertyInfo"/>
+        /// Creates a context from the current object intended to assert the equivalency of a nested member.
         /// </summary>
-        object Subject { get; }
+        IEquivalencyValidationContext AsNestedMember(IMember expectationMember);
 
         /// <summary>
-        /// Gets or sets a value indicating that the root of the graph is a collection so all type-specific options apply on
-        /// the collection type and not on the root itself.
+        /// Creates a context from the current object intended to assert the equivalency of a collection item identified by <paramref name="index"/>.
         /// </summary>
-        bool RootIsCollection { get; set; }
+        IEquivalencyValidationContext AsCollectionItem<TItem>(string index);
 
         /// <summary>
-        /// Gets or sets the current trace writer or <c>null</c> if no tracing has been enabled.
+        /// Creates a context from the current object intended to assert the equivalency of a collection item identified by <paramref name="key"/>.
         /// </summary>
-        ITraceWriter Tracer { get; set; }
+        IEquivalencyValidationContext AsDictionaryItem<TKey, TExpectation>(TKey key);
 
         /// <summary>
-        /// Starts a block that scopes an operation that will be written to the currently configured <see cref="Tracer"/>
-        /// after the returned disposable is disposed..
+        /// Creates a deep clone of the current context.
         /// </summary>
-        /// <remarks>
-        /// If no tracer has been configured, the call will be ignored.
-        /// </remarks>
-        IDisposable TraceBlock(GetTraceMessage getMessage);
-
-        /// <summary>
-        /// Writes a single line to the currently configured <see cref="Tracer"/>.
-        /// </summary>
-        /// <remarks>
-        /// If no tracer has been configured, the call will be ignored.
-        /// </remarks>
-        void TraceSingle(GetTraceMessage getMessage);
+        IEquivalencyValidationContext Clone();
     }
-
-    /// <summary>
-    /// Defines a function that takes the current path and returns the trace message to log.
-    /// </summary>
-    public delegate string GetTraceMessage(string path);
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Nuke.Common;
 using Nuke.Common.Execution;
@@ -7,14 +6,10 @@ using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
-using Nuke.Common.Tools.NUnit;
 using Nuke.Common.Tools.Xunit;
-using Nuke.Common.Utilities.Collections;
-using static Nuke.Common.EnvironmentInfo;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
-using static Nuke.Common.Tools.NUnit.NUnitTasks;
 using static Nuke.Common.Tools.Xunit.XunitTasks;
 
 [CheckBuildProjectConfigurations]
@@ -22,29 +17,29 @@ using static Nuke.Common.Tools.Xunit.XunitTasks;
 [DotNetVerbosityMapping]
 class Build : NukeBuild
 {
-    /// Support plugins are available for:
-    ///   - JetBrains ReSharper        https://nuke.build/resharper
-    ///   - JetBrains Rider            https://nuke.build/rider
-    ///   - Microsoft VisualStudio     https://nuke.build/visualstudio
-    ///   - Microsoft VSCode           https://nuke.build/vscode
-    public static int Main() => Execute<Build>(
-        x => x.Test,
-        x => x.Pack);
+    /* Support plugins are available for:
+       - JetBrains ReSharper        https://nuke.build/resharper
+       - JetBrains Rider            https://nuke.build/rider
+       - Microsoft VisualStudio     https://nuke.build/visualstudio
+       - Microsoft VSCode           https://nuke.build/vscode
+    */
 
-    [Solution] readonly Solution Solution;
-    [GitVersion] readonly GitVersion GitVersion;
+    public static int Main() => Execute<Build>(x => x.Pack);
+
+    [Solution(GenerateProjects = true)] readonly Solution Solution;
+    [GitVersion(Framework = "net5.0")] readonly GitVersion GitVersion;
+    [PackageExecutable("nspec", "NSpecRunner.exe", Version = "3.1.0")] Tool NSpec3;
 
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
-    AbsolutePath TestsDirectory => RootDirectory / "Tests";
-    AbsolutePath TestFrameworkDirectory => TestsDirectory / "TestFrameworks";
+
     Target Clean => _ => _
-        .Before(Restore)
         .Executes(() =>
         {
             EnsureCleanDirectory(ArtifactsDirectory);
         });
 
     Target Restore => _ => _
+        .DependsOn(Clean)
         .Executes(() =>
         {
             DotNetRestore(s => s
@@ -59,77 +54,70 @@ class Build : NukeBuild
         {
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
-                .SetConfiguration(Configuration.Debug)
+                .SetConfiguration("Debug")
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion));
         });
 
-    const string XunitFramework = "net47";
-    [PackageExecutable("nspec", "NSpecRunner.exe", Version = "1.0.13")] Tool NSpec1;
-    [PackageExecutable("nspec", "NSpecRunner.exe", Version = "2.0.1")] Tool NSpec2;
-    [PackageExecutable("nspec", "NSpecRunner.exe", Version = "3.1.0")] Tool NSpec3;
+    Target ApiChecks => _ => _
+        .DependsOn(Compile)
+        .Executes(() =>
+        {
+            DotNetTest(s => s
+                .SetConfiguration("Debug")
+                .CombineWith(
+                    cc => cc.SetProjectFile(Solution.Specs.Approval_Tests)));
+        });
 
-    Target Test => _ => _
+    Target UnitTests => _ => _
         .DependsOn(Compile)
         .Executes(() =>
         {
             Xunit2(s => s
-                .SetFramework(XunitFramework)
+                .SetFramework("net47")
                 .AddTargetAssemblies(GlobFiles(
-                    TestsDirectory,
-                    $"Net4*.Specs/bin/Debug/**/*.Specs.dll").NotEmpty()));
+                    Solution.Specs.FluentAssertions_Specs.Directory,
+                    "bin/Debug/net47/*.Specs.dll").NotEmpty()));
 
             DotNetTest(s => s
-                .SetConfiguration(Configuration.Debug)
+                .SetProjectFile(Solution.Specs.FluentAssertions_Specs)
+                .SetConfiguration("Debug")
                 .CombineWith(
-                    cc => cc.SetProjectFile(Solution.GetProject("NetCore.Specs")),
-                    cc => cc.SetProjectFile(Solution.GetProject("NetStandard13.Specs")),
-                    cc => cc.SetProjectFile(Solution.GetProject("NetCore20.Specs")),
-                    cc => cc.SetProjectFile(Solution.GetProject("NetCore21.Specs")),
-                    cc => cc.SetProjectFile(Solution.GetProject("NetCore30.Specs"))));
+                    Solution.Specs.FluentAssertions_Specs.GetTargetFrameworks().Except(new[] { "net47" }),
+                    (_, v) => _.SetFramework(v)));
+        });
 
+    Target TestFrameworks => _ => _
+        .DependsOn(Compile)
+        .Executes(() =>
+        {
             DotNetTest(s => s
-                .SetConfiguration(Configuration.Debug)
+                .SetConfiguration("Debug")
                 .CombineWith(
-                    cc => cc.SetProjectFile(Solution.GetProject("MSpec.Specs")),
-                    cc => cc.SetProjectFile(Solution.GetProject("MSTestV2.Specs")),
-                    cc => cc.SetProjectFile(Solution.GetProject("NUnit3.Specs")),
-                    cc => cc.SetProjectFile(Solution.GetProject("XUnit2.Specs"))));
+                    new[]
+                    {
+                        Solution.TestFrameworks.MSpec_Specs,
+                        Solution.TestFrameworks.MSTestV2_Specs,
+                        Solution.TestFrameworks.NUnit3_Specs,
+                        Solution.TestFrameworks.XUnit2_Specs
+                    },
+                    (_, v) => _.SetProjectFile(v)));
 
-            Xunit2(s => s
-                .SetFramework(XunitFramework)
-                .AddTargetAssemblies(GlobFiles(
-                    TestFrameworkDirectory / "XUnit.Net45.Specs",
-                    $"**/bin/Debug/*/*.Specs.dll").NotEmpty()));
-            NUnit3(s => s
-                .SetToolPath(ToolPathResolver.GetPackageExecutable("nunit.runners", "nunit-console.exe"))
-                .SetInputFiles(GlobFiles(
-                    TestFrameworkDirectory / "NUnit2.Net45.Specs",
-                    $"**/bin/Debug/*/*.Specs.dll").NotEmpty())
-                .EnableNoResults());
-
-            // NSpec2.0.1 does not have NSpec.dll in the test runner directory, which crashes the test runner.
-            var nspecPackage =
-                NuGetPackageResolver.GetLocalInstalledPackage("NSpec", NuGetPackagesConfigFile, version: "2.0.1");
-            CopyFile(
-                nspecPackage.Directory / "lib" / "net451" / "NSpec.dll",
-                nspecPackage.Directory / "tools" / "net451" / "NSpec.dll",
-                FileExistsPolicy.Skip);
-
-            NSpec1(TestFrameworkDirectory / "NSpec.Net45.Specs" / "bin" / "Debug" / "net451" / "NSpec.Specs.dll");
-            NSpec2(TestFrameworkDirectory / "NSpec2.Net45.Specs" / "bin" / "Debug" / "net451" / "NSpec2.Specs.dll");
-            NSpec3(TestFrameworkDirectory / "NSpec3.Net45.Specs" / "bin" / "Debug" / "net451" / "NSpec3.Specs.dll");
+            NSpec3(Solution.TestFrameworks.NSpec3_Net47_Specs.Directory / "bin" / "Debug" / "net47" / "NSpec3.Specs.dll");
         });
 
     Target Pack => _ => _
-        .DependsOn(Compile)
+        .DependsOn(ApiChecks)
+        .DependsOn(TestFrameworks)
+        .DependsOn(UnitTests)
         .Executes(() =>
         {
             DotNetPack(s => s
-                .SetProject(Solution.GetProject("FluentAssertions"))
+                .SetProject(Solution.Core.FluentAssertions)
                 .SetOutputDirectory(ArtifactsDirectory)
-                .SetConfiguration(Configuration.Release)
+                .SetConfiguration("Release")
+                .EnableContinuousIntegrationBuild() // Necessary for deterministic builds
                 .SetVersion(GitVersion.NuGetVersionV2));
         });
 }

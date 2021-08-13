@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Extensions
 {
@@ -317,6 +318,15 @@ namespace FluentAssertions.Extensions
             }
 
             return self + microseconds.Microseconds();
+        }
+
+        /// <summary>
+        /// Returns new <see cref="DateTimeOffset"/> that uses <paramref name="self"/>
+        /// as its datetime and <paramref name="offset"/> as its offset.
+        /// </summary>
+        public static DateTimeOffset WithOffset(this DateTime self, TimeSpan offset)
+        {
+            return self.ToDateTimeOffset(offset);
         }
     }
 }

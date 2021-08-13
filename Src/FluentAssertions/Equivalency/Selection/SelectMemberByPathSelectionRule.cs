@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace FluentAssertions.Equivalency.Selection
@@ -14,39 +16,42 @@ namespace FluentAssertions.Equivalency.Selection
 
         public virtual bool IncludesMembers => false;
 
-        public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, IMemberInfo context,
-            IEquivalencyAssertionOptions config)
+        public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
+            MemberSelectionContext context)
         {
-            string path = context.SelectedMemberPath;
+            string currentPath = currentNode.PathAndName;
+
+            // If we're part of a collection comparison, the selected path will not include an index,
+            // so we need to to remove it from the current node as well.
             if (!ContainsIndexingQualifiers(selectedPath))
             {
-                path = RemoveInitialIndexQualifier(path);
+                currentPath = RemoveIndexQualifiers(currentPath);
             }
 
-            return OnSelectMembers(selectedMembers, path, context);
+            var members = selectedMembers.ToList();
+            AddOrRemoveMembersFrom(members, currentNode, currentPath, context);
+
+            return members;
         }
 
-        protected abstract IEnumerable<SelectedMemberInfo> OnSelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, string currentPath, IMemberInfo context);
+        protected abstract void AddOrRemoveMembersFrom(List<IMember> selectedMembers,
+            INode parent, string parentPath,
+            MemberSelectionContext context);
 
         private static bool ContainsIndexingQualifiers(string path)
         {
-            return path.Contains("[") && path.Contains("]");
+            return path.Contains("[", StringComparison.Ordinal) && path.Contains("]", StringComparison.Ordinal);
         }
 
-        private string RemoveInitialIndexQualifier(string propertyPath)
+        private static string RemoveIndexQualifiers(string path)
         {
-            var indexQualifierRegex = new Regex(@"^\[\d+]");
-
-            if (!indexQualifierRegex.IsMatch(selectedPath))
+            Match match = new Regex(@"^\[\d+]").Match(path);
+            if (match.Success)
             {
-                Match match = indexQualifierRegex.Match(propertyPath);
-                if (match.Success)
-                {
-                    propertyPath = propertyPath.Substring(match.Length);
-                }
+                path = path.Substring(match.Length);
             }
 
-            return propertyPath;
+            return path;
         }
     }
 }

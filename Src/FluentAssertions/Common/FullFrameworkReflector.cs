@@ -1,6 +1,4 @@
-﻿#if !NETSTANDARD1_3 && !NETSTANDARD1_6
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,16 +16,16 @@ namespace FluentAssertions.Common
                 .SelectMany(GetExportedTypes).ToArray();
         }
 
-        private bool IsRelevant(Assembly ass)
+        private static bool IsRelevant(Assembly ass)
         {
-            string assemblyName = ass.GetName().Name.ToLower();
+            string assemblyName = ass.GetName().Name;
 
-            return !assemblyName.StartsWith("microsoft.") &&
-                   !assemblyName.StartsWith("xunit") &&
-                   !assemblyName.StartsWith("jetbrains.") &&
-                   !assemblyName.StartsWith("system") &&
-                   !assemblyName.StartsWith("mscorlib") &&
-                   !assemblyName.StartsWith("newtonsoft");
+            return !assemblyName.StartsWith("microsoft.", StringComparison.OrdinalIgnoreCase) &&
+                   !assemblyName.StartsWith("xunit", StringComparison.OrdinalIgnoreCase) &&
+                   !assemblyName.StartsWith("jetbrains.", StringComparison.OrdinalIgnoreCase) &&
+                   !assemblyName.StartsWith("system", StringComparison.OrdinalIgnoreCase) &&
+                   !assemblyName.StartsWith("mscorlib", StringComparison.OrdinalIgnoreCase) &&
+                   !assemblyName.StartsWith("newtonsoft", StringComparison.OrdinalIgnoreCase);
         }
 
         private static bool IsDynamic(Assembly assembly)
@@ -57,5 +55,3 @@ namespace FluentAssertions.Common
         }
     }
 }
-
-#endif

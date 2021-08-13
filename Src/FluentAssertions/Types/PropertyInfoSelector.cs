@@ -18,6 +18,7 @@ namespace FluentAssertions.Types
         /// Initializes a new instance of the <see cref="PropertyInfoSelector"/> class.
         /// </summary>
         /// <param name="type">The type from which to select properties.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
         public PropertyInfoSelector(Type type)
             : this(new[] { type })
         {
@@ -27,8 +28,12 @@ namespace FluentAssertions.Types
         /// Initializes a new instance of the <see cref="PropertyInfoSelector"/> class.
         /// </summary>
         /// <param name="types">The types from which to select properties.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="types"/> is <c>null</c>.</exception>
         public PropertyInfoSelector(IEnumerable<Type> types)
         {
+            Guard.ThrowIfArgumentIsNull(types, nameof(types));
+            Guard.ThrowIfArgumentContainsNull(types, nameof(types));
+
             selectedProperties = types.SelectMany(t => t
                 .GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic));
         }
@@ -42,8 +47,8 @@ namespace FluentAssertions.Types
             {
                 selectedProperties = selectedProperties.Where(property =>
                 {
-                    MethodInfo getter = property.GetGetMethod(true);
-                    return ((getter != null) && (getter.IsPublic || getter.IsAssembly));
+                    MethodInfo getter = property.GetGetMethod(nonPublic: true);
+                    return (getter is not null) && (getter.IsPublic || getter.IsAssembly);
                 });
 
                 return this;
@@ -106,6 +111,16 @@ namespace FluentAssertions.Types
         {
             selectedProperties = selectedProperties.Where(property => property.PropertyType != typeof(TReturn));
             return this;
+        }
+
+        /// <summary>
+        /// Select return types of the properties
+        /// </summary>
+        public TypeSelector ReturnTypes()
+        {
+            var returnTypes = selectedProperties.Select(property => property.PropertyType);
+
+            return new TypeSelector(returnTypes);
         }
 
         /// <summary>
