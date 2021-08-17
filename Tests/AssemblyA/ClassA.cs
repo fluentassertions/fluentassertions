@@ -9,5 +9,10 @@ namespace AssemblyA
         {
             _ = new ClassB();
         }
+
+        public ClassC ReturnClassC()
+        {
+            return new ClassC();
+        }
     }
 }

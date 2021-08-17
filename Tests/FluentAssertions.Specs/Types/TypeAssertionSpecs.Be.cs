@@ -96,10 +96,10 @@ namespace FluentAssertions.Specs.Types
             // Arrange
 #pragma warning disable 436 // disable the warning on conflicting types, as this is the intention for the spec
 
-            Type typeFromThisAssembly = typeof(ObjectAssertions);
+            Type typeFromThisAssembly = typeof(AssemblyB.ClassC);
 
             Type typeFromOtherAssembly =
-                typeof(TypeAssertions).Assembly.GetType("FluentAssertions.Primitives.ObjectAssertions");
+                new AssemblyA.ClassA().ReturnClassC().GetType();
 
 #pragma warning restore 436
 
@@ -109,7 +109,7 @@ namespace FluentAssertions.Specs.Types
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type to be [*.ObjectAssertions, *] *failure message*, but found [*.ObjectAssertions, *].");
+                .WithMessage("Expected type to be [AssemblyB.ClassC, AssemblyB*] *failure message*, but found [AssemblyB.ClassC, FluentAssertions.Specs*].");
         }
 
         [Fact]

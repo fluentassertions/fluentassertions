@@ -426,25 +426,23 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void Then_object_type_is_same_as_expected_type_but_in_different_assembly_it_should_fail_with_assembly_qualified_name()
+        public void When_object_type_is_same_as_expected_type_but_in_different_assembly_it_should_fail_with_assembly_qualified_name()
         {
             // Arrange
-            var assertionsFromOtherAssembly = new object().Should();
+            var typeFromOtherAssembly =
+                new AssemblyA.ClassA().ReturnClassC();
 
             // Act
 #pragma warning disable 436 // disable the warning on conflicting types, as this is the intention for the spec
 
             Action act = () =>
-                assertionsFromOtherAssembly.Should().BeOfType<ObjectAssertions>();
+                typeFromOtherAssembly.Should().BeOfType<AssemblyB.ClassC>();
 
 #pragma warning restore 436
 
             // Assert
-            const string expectedMessage =
-                "Expected type to be [FluentAssertions.Primitives.ObjectAssertions, FluentAssertions.*]" +
-                ", but found [FluentAssertions.Primitives.ObjectAssertions, FluentAssertions*].";
-
-            act.Should().Throw<XunitException>().WithMessage(expectedMessage);
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type to be [AssemblyB.ClassC, FluentAssertions.Specs*], but found [AssemblyB.ClassC, AssemblyB*].");
         }
 
         [Fact]
