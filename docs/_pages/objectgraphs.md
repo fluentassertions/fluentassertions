@@ -68,7 +68,7 @@ In the past, Fluent Assertions would attempt to convert the value of a property 
 
 ```csharp
 subject.Should().BeEquivalentTo(expectation, options => options
-    .WithAutoConversionFor(x => x.SelectedMemberPath.Contains("Birthdate")));
+    .WithAutoConversionFor(x => x.Path.Contains("Birthdate")));
 ```
 
 ### Compile-time types vs. run-time types ###
@@ -117,7 +117,7 @@ The `Excluding()` method on the options object also takes a lambda expression th
 
 ```csharp
 orderDto.Should().BeEquivalentTo(order, options => options 
-    .Excluding(ctx => ctx.SelectedMemberPath == "Level.Level.Text"));
+    .Excluding(ctx => ctx.Path == "Level.Level.Text"));
 ```
 
 Maybe far-fetched, but you may even decide to exclude a member on a particular nested object by its index.
@@ -134,7 +134,7 @@ You can also take a different approach and explicitly tell Fluent Assertions whi
 ```csharp
 orderDto.Should().BeEquivalentTo(order, options => options
     .Including(o => o.OrderNumber)
-    .Including(pi => pi.SelectedMemberPath.EndsWith("Date"));
+    .Including(pi => pi.Path.EndsWith("Date"));
 ```
 
 ### Including properties and/or fields ###
@@ -177,7 +177,7 @@ In addition to influencing the members that are including in the comparison, you
 ```csharp
 orderDto.Should().BeEquivalentTo(order, options => options
     .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1.Seconds()))
-    .When(info => info.SelectedMemberPath.EndsWith("Date")));
+    .When(info => info.Path.EndsWith("Date")));
 ```
 
 If you want to do this for all members of a certain type, you can shorten the above call like this.
