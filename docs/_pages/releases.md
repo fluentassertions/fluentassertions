@@ -140,6 +140,8 @@ sidebar:
 * Renamed `EquivalencyStepCollection` to `EquivalencyPlan` and `AssertionOptions.EquivalencyCollection` to `EquivalencyPlan` - [#1539](https://github.com/fluentassertions/fluentassertions/pull/1539).
 * `BeEquivalentTo` will no longer include `internal` properties and fields, unless `IncludingInternalProperties` or `IncludingInternalFields` is used - [#1575](https://github.com/fluentassertions/fluentassertions/pull/1575).
 * Renamed `protected` methods on `DelegateAssertionsBase` such as `Throw` and `NotThrow` to avoid confusion - [#1642](https://github.com/fluentassertions/fluentassertions/pull/1642)
+* Moved the properties of `IMemberInfo.SelectedMemberInfo` to `IMemberInfo`. Renamed `IMemberInfo.SelectedMemberPath` to `Path` and replaced `SelectedMemberDescription` by a combination of `Path` and `Name` - [#1379](https://github.com/fluentassertions/fluentassertions/pull/1379)
+
 
 **Breaking Changes (Extensibility)**
 * Removed parameterless constructors from: `CollectionAssertions`, `ReferenceTypeAssertions`, `MemberInfoAssertions`, `MethodBaseAssertions` and `MethodInfoAssertions` - [#1229](https://github.com/fluentassertions/fluentassertions/pull/1229).
