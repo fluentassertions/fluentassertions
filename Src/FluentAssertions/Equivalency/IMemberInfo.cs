@@ -24,7 +24,7 @@ namespace FluentAssertions.Equivalency
         Type DeclaringType { get; }
 
         /// <summary>
-        /// Gets the full path from the root object until the current node separated by dots.
+        /// Gets the full path from the root object until and including the current node separated by dots.
         /// </summary>
         string Path { get; set; }
 
