@@ -21,7 +21,7 @@ collection.Should().NotBeEmpty()
 collection.Should().Equal(new List<int> { 1, 2, 5, 8 });
 collection.Should().Equal(1, 2, 5, 8);
 collection.Should().NotEqual(8, 2, 3, 5);
-collection.Should().BeEquivalentTo(8, 2, 1, 5);
+collection.Should().BeEquivalentTo(new[] {8, 2, 1, 5});
 collection.Should().NotBeEquivalentTo(new[] {8, 2, 3, 5});
 
 collection.Should().HaveCount(c => c > 3)
