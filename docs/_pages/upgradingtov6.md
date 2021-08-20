@@ -7,7 +7,7 @@ sidebar:
   nav: "sidebar"
 ---
 
-## Enums ##
+## Enums
 
 In Fluent Assertions v5 enums were handled by the `ObjectAssertions` class, which is what you have in hand when invoking `Should()` on any type not handled by a specialized overload of `Should()`.
 `ObjectAssertions` derives from `ReferenceTypeAssertions`, so all these assertions were available when asserting on an enum.
@@ -69,11 +69,11 @@ subject.Should().BeEquivalentTo(expectation,  opt => opt.ComparingEnumsByValue()
 If your assertions rely on the formatting of enums in failure messages, you'll notice that we have given it a facelift.
 Previously, formatting an enum would simply be a call to `ToString()`, but to provide more detail we now format `MyEnum.One` as `"MyEnum.One(1)"` instead of `"One"`.
 
-## IEquivalencyStep ##
+## IEquivalencyStep
 
 In v6, we applied some major refactorings to the equivalency validator, of which most of it is internal and therefore won't be visble to consumers of the library. But one thing that does, is that we split off the subject and expectation from the `IEquivalencyValidationContext` and move them into their own type called `Comparands`. Since this affected the `IEquivalencyStep` and we already had some ideas to simplify that abstraction, we removed the `CanHandle` method and replaced the boolean return value of `Handle` with a more self-describing `EquivalencyResult`. The consequence of this is that `Handle` must first check whether the comparands are applicable to the step and bail out with `EquivalencyResult.ContinueWithNext` if that isn't the case. There's a convenience base-class called `EquivalencyStep<T>` that remove some of that burden for you. Check out `DictionaryEquivalencyStep` for an example of that. Also, the [extensibility section](extensibility/#equivalency-assertion-step-by-step) has been updated to reflect the new signatures and types.
 
-## Using ##
+## Using
 
 Since v2, released back in late 2012, the syntax for overriding the default comparison of properties during structural equivalency has more or less been
 
@@ -152,7 +152,7 @@ subject.Should().BeEquivalentTo(expectation, opt => opt
 );
 ```
 
-## Value Formatters ##
+## Value Formatters
 
 Within Fluent Assertions, the `Formatter` class is responsible for rendering a textual representation of the objects involved in an assertion. Those objects can turn out to be entire graphs, especially when you use `BeEquivalentTo`. Rendering such a graph can be an expensive operation, so in 5.x we already had limits on how deep the `Formatter` would traverse the object graph. Because we received several performance-related issues, we decided to slightly redesign how implementations of `IValueFormatter` should work. This unfortunately required us to introduce some breaking changes in the signature of the `Format` method as well as some behavioral changes. You can read all about that in the updated [extensibility guide](/extensibility/#rendering-objects-with-beauty), but the gist of it is that instead of returning a `string`, you now need to use the `FormattedObjectGraph`, which acts like a kind of `StringBuilder`. For instance, this is what the `StringValueFormatter` now looks like:
 
@@ -172,7 +172,7 @@ public void Format(object value, FormattedObjectGraph formattedGraph, Formatting
 }
 ```
 
-## Collections ##
+## Collections
 
 As part of embracing the generic type system and improving the maintainability of the code base, we have removed support for non-generic collections.
 The overload of `Should()` taking an `IEnumerable` has been removed and the new best matching overload of `Should` (from a compiler perspective) is now the one that returns an `ObjectAssertions`.

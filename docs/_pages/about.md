@@ -55,7 +55,8 @@ Fluent Assertions supports the following unit test frameworks:
 *   [NSpec](http://nspec.org/)
 *   [MSpec](https://github.com/machine/machine.specifications)
 
-## Coding by Example ##
+## Coding by Example
+
 As you may have noticed, the purpose of this open-source project is to not only be the best assertion framework in the .NET realm, but to also demonstrate high-quality code.
 We heavily practice Test Driven Development and one of the promises TDD makes is that unit tests can be treated as your API's documentation.
 So although you are free to go through the many examples here, please consider to analyze the many [unit tests](https://github.com/fluentassertions/fluentassertions/tree/master/Tests/Shared.Specs).
@@ -64,4 +65,5 @@ So although you are free to go through the many examples here, please consider t
 My name is [Dennis Doomen](https://twitter.com/ddoomen) and I work for [Aviva Solutions](https://www.avivasolutions.nl/) in The Netherlands. I maintain a [blog](https://www.continuousimprover.com/) on my everlasting quest for knowledge that significantly improves the way you build your key systems in an agile world. Fluent Assertions is one of those aspects of that. Since 2018, [Jonas Nyrup](https://github.com/jnyrup) has joined to project and help bring it forward. 
 
 ## Versioning
+
 The version numbers of Fluent Assertions releases comply to the [Semantic Versioning](http://semver.org/) scheme. In other words, release 1.4.0 only adds backwards-compatible functionality and bug fixes compared to 1.3.0. Release 1.4.1 should only include bug fixes. And if we ever introduce breaking changes, the number increased to 2.0.0.

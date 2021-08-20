@@ -120,7 +120,7 @@ actual.Should().BeEquivalentTo(expected, options => options.AllowingMismatchedTy
 
 Apart from the default check for matching types, whether a `DataSet`, `DataTable` or `DataRow` is a vanilla object or an instance of a custom subtype is irrelevant for the purposes of comparison.
 
-## Examples:
+## Examples
 
 Asserting that a `DataTable` has certain columns:
 

@@ -7,7 +7,7 @@ sidebar:
   nav: "sidebar"
 ---
 
-## Nullable types ##
+## Nullable types
 
 ```csharp
 short? theShort = null;

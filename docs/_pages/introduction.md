@@ -12,7 +12,7 @@ sidebar:
   nav: "sidebar"
 ---
 
-## Getting started ##
+## Getting started
 
 Fluent Assertions is a set of .NET extension methods that allow you to more naturally specify the expected outcome of a TDD or BDD-style unit test. This enables a simple intuitive syntax that all starts with the following `using` statement:
 
@@ -63,7 +63,8 @@ xDocument.Should().HaveElement("child").Which.Should().BeOfType<XElement>().And.
 
 This chaining can make your unit tests a lot easier to read.
 
-## Detecting Test Frameworks ##
+## Detecting Test Frameworks
+
 Fluent Assertions supports a lot of different unit testing frameworks. Just add a reference to the corresponding test framework assembly to the unit test project. Fluent Assertions will automatically find the corresponding assembly and use it for throwing the framework-specific exceptions.
 
 If, for some unknown reason, Fluent Assertions fails to find the assembly, and you're running under .NET 4.7 or a .NET Core 3.0 project, try specifying the framework explicitly using a configuration setting in the project’s app.config. If it cannot find any of the supported frameworks, it will fall back to using a custom `AssertFailedException` exception class.
@@ -79,7 +80,8 @@ If, for some unknown reason, Fluent Assertions fails to find the assembly, and y
 
 Just add NuGet package "FluentAssertions" to your test project.
 
-## Subject Identification ##
+## Subject Identification
+
 Fluent Assertions can use the C# code of the unit test to extract the name of the subject and use that in the assertion failure. Consider for instance this statement:
 
 ```csharp
@@ -121,10 +123,7 @@ myClient.Should().BeActive("because we don't work with old clients");
 
 Without the `[CustomAssertion]` attribute, Fluent Assertions would find the line that calls `Should().BeTrue()` and treat the `customer` variable as the subject-under-test (SUT). But by applying this attribute, it will ignore this invocation and instead find the SUT by looking for a call to `Should().BeActive()` and use the `myClient` variable instead.
 
-
-
-
-## Assertion Scopes ##
+## Assertion Scopes
 
 You can batch multiple assertions into an `AssertionScope` so that FluentAssertions throws one exception at the end of the scope with all failures.
 

@@ -9,6 +9,7 @@ sidebar:
 ---
 
 ## General tips
+
 * If your assertion ends with `Should().BeTrue()`, there is most likely a better way to write it.
 * By having `Should()` as early as possible in the assertion, we are able to include more information in the failure messages.
 
@@ -29,6 +30,7 @@ If you see something missing, please consider submitting a pull request.
 {% include assertion-comparison.html header1="Assertion" header2="Improvement" caption="Types"                     examples=site.data.tips.types %}
 
 ## MSTest Migration
+
 The examples below show how you might write equivalent MSTest assertions using Fluent Assertions including the failure message from each case.
 We think this is both a useful migration guide and a convincing argument for switching.
 
@@ -40,12 +42,15 @@ If you see something missing, please consider submitting a pull request.
 {% include assertion-comparison.html header1="MSTest" header2="Fluent Assertions" idPrefix="mstest-" caption="Exceptions"        examples=site.data.mstest-migration.exceptions %}
 
 ## Using global AssertionOptions
+
 The `AssertionOptions` class allows you to globally configure how `Should().BeEquivalentTo()` works, see also [Object graph comparison](objectgraphs.md). Setting up the global configuration multiple times can lead to multi-threading issues when tests are run in parallel.
 
 In order to ensure the global AssertionOptions are configured exactly once, a test framework specific solution is required.
 
 ### xUnit.net
+
 Create a custom [xUnit.net test framework](https://xunit.net/docs/running-tests-in-parallel#runners-and-test-frameworks) where you configure equivalency assertions. This class can be shared between multiple test projects using assembly references.
+
 ```csharp
 namespace MyNamespace
 {

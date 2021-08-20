@@ -1,4 +1,4 @@
-# How to contribute 
+# How to contribute
 
 The Fluent Assertions [landing page](https://fluentassertions.com) is using Jekyll and Github Pages.
 
