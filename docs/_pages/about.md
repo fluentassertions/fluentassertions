@@ -15,7 +15,7 @@ For instance, only test a single condition per test case. If you don't, and the 
 
 That’s why we designed Fluent Assertions to help you in this area. Not only by using clearly named assertion methods, but also by making sure the failure message provides as much information as possible. Consider this example:
 
-```c#
+```csharp
 string accountNumber = "1234567890";
 accountNumber.Should().Be("0987654321");
 ```
@@ -28,7 +28,7 @@ This will be reported as:
 
 The fact that both strings are displayed on a separate line is not a coincidence and happens if any of them is longer than 8 characters. However, if that's not enough, all assertion methods take an optional explanation (the because) that supports formatting placeholders similar to String.Format which you can use to enrich the failure message. For instance, the assertion
 
-```c#
+```csharp
 var numbers = new[] { 1, 2, 3 };
 numbers.Should().Contain(item => item > 3, "at least {0} item should be larger than 3", 1);
 ```

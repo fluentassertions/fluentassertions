@@ -34,7 +34,7 @@ string otherObject = "whatever";
 theObject.Should().Be(otherObject, "because they have the same values");
 theObject.Should().NotBe(otherObject);
 ```
- 
+
 If you want to make sure two objects are not just functionally equal but refer to the exact same object in memory, use the following two methods.
 
 ```csharp

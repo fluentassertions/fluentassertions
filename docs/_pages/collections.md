@@ -127,11 +127,13 @@ collection.Should().NotBeInDescendingOrder(x => x.SomeProperty);
 ```
 
 When asserting on a projection of a collection the failure message will be less descriptive as it only knows about the projected value and not object containing that property.
+
 ```csharp
 collection.Select(x => x.SomeProperty).Should().OnlyHaveUniqueItems();
 ```
 
 Therefore we offer two overloads that takes an expression to select the property.
+
 ```csharp
 collection.Should().OnlyHaveUniqueItems(x => x.SomeProperty);
 collection.Should().NotContainNulls(x => x.SomeProperty);
@@ -156,6 +158,7 @@ persistedCustomers.Should().EndWith(customers, (c1, c2) => c1.Name == c2.Name);
 ```
 
 You can also perform assertions on all elements of a collection:
+
 ```csharp
 IEnumerable<BaseType> collection = new BaseType[] { new DerivedType() };
 
@@ -165,6 +168,7 @@ collection.Should().AllBeEquivalentTo(referenceObject);
 ```
 
 In case if you need to perform individual assertions on all elements of a collection, you can assert each element separately in the following manner:
+
 ```csharp
 var collection = new []
 {
@@ -187,6 +191,7 @@ collection.Should().SatisfyRespectively(
 ```
 
 If you need to perform individual assertions on all elements of a collection without setting expectation about the order of elements:
+
 ```csharp
 var collection = new []
 {

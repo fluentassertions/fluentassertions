@@ -34,7 +34,8 @@ We wanted to introduce new enum specific assertions, but adding those would be e
 `Be` has some workarounds to ensure that a boxed `1` and boxed `1.0` are considered to be equal.
 This approach did not work well for enums as it would consider two enums to be equal if their underlying integral values are equal.
 To put it in code, in the snippet below all four assertions would pass, but only the first one should.
-```c#
+
+```csharp
 public enum MyEnum { One = 1 }
 public enum MyOtherEnum { One = 1 }
 
@@ -54,7 +55,8 @@ Lastly, if you want to verify than an enum has a specific integral value, you ca
 When comparing object graphs with enum members, we have constrained when we consider them to be equivalent.
 An enum is now only considered to be equivalent to an enum of the same or another type, but you can control whether they should equal by name or by value.
 The practical implications are that the following examples now fails.
-```cs
+
+```csharp
 var subject = new { Value = "One" };
 var expectation = new { Value = MyOtherEnum.One };
 subject.Should().BeEquivalentTo(expectation,  opt => opt.ComparingEnumsByName());
@@ -74,14 +76,16 @@ In v6, we applied some major refactorings to the equivalency validator, of which
 ## Using ##
 
 Since v2, released back in late 2012, the syntax for overriding the default comparison of properties during structural equivalency has more or less been
-```cs
+
+```csharp
 orderDto.Should().BeEquivalentTo(order, opt => opt
     .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1.Seconds()))
     .WhenTypeIs<DateTime>());
 ```
 
 As there were no restrictions on the relationship between the generic parameters of `Using<TProperty>` and `WhenTypeIs<TMemberType>` you could write nonsense such as
-```
+
+```csharp
 var subject = new { Value = "One" };
 var expectation = new { Value = "Two" };
 
@@ -93,30 +97,31 @@ subject.Should().BeEquivalentTo(expectation, opt => opt
 
 This would compile, but then fail at runtime with
 
-```
+```text
 Expected member Value from subject to be a System.Int32, but found a System.String.
 Expected member Value from expectation to be a System.Int32, but found a System.String.
 ```
 
 In v6 we have restricted this relationship between `WhenTypeIs` and `Using`, such that `TMemberType` must be assignable to `TProperty`.
 The snippet above now gives a compile error
-```
+
+```text
 CS0311: There is no implicit reference conversion from 'string' to 'int'.
 ```
 
 This change also breaks compilation for cases that might worked before, but only due to assumptions about the runtime values.
 
-```
+```csharp
 .Using<Derived>()
 .WhenTypeIs<Base>() // assuming that all Bases are of type `Derived`
 ```
 
-```cs
+```csharp
 .Using<int>()
 .WhenTypeIs<int?>() // null is an int? but not an int
 ```
 
-```cs
+```csharp
 .Using<int?>()
 .WhenTypeIs<int>() // This would work, but there's no reason to cast int to int?
 ```
@@ -124,7 +129,8 @@ This change also breaks compilation for cases that might worked before, but only
 Besides the generic constraint, we also fixed two cases regarding non-nullable values, that we didn't handle correctly before.
 
 In the first case, we would match both `null` and `0` as an `int?`, but then cast both to `int`, which gave a `NullReferenceException`.
-```cs
+
+```csharp
 var subject = new { Value = null as int? };
 var expectation = new { Value = 0 };
 
@@ -136,7 +142,7 @@ subject.Should().BeEquivalentTo(expectation, opt => opt
 
 In the second case we would cast a `null` expectation to `default(TMember)`, which worked fine for reference types, but for e.g. `int` this meant that we considered `null` to be equal to `0`.
 
-```cs
+```csharp
 var subject = new { Value = 0 };
 var expectation = new { Value = null as int? };
 
@@ -171,7 +177,7 @@ public void Format(object value, FormattedObjectGraph formattedGraph, Formatting
 As part of embracing the generic type system and improving the maintainability of the code base, we have removed support for non-generic collections.
 The overload of `Should()` taking an `IEnumerable` has been removed and the new best matching overload of `Should` (from a compiler perspective) is now the one that returns an `ObjectAssertions`.
 
-```cs
+```csharp
 IEnumerable subject;
 
 subject.Should().HaveCount(42); // No longer compiles
@@ -184,7 +190,7 @@ To live up to this design we have removed `BeEquivalentTo(params object[])` as i
 
 In the example below all expectations are of type `I`, so `AA`, which is defined on `A`, should not be included in the comparison and all assertions should pass.
 
-```cs
+```csharp
 interface I
 {
     int II { get; set; }

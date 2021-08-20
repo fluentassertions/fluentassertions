@@ -13,11 +13,13 @@ Coincidentally, the `OrderDto` will have one or more `ProductDto`s and a corresp
 You may want to make sure that all exposed members of all the objects in the `OrderDto` object graph match the equally named members of the `Order` object graph.
 
 You may assert the structural equality of two object graphs with `Should().BeEquivalentTo()`:
+
 ```csharp
 orderDto.Should().BeEquivalentTo(order);
 ```
 
 Additionally you can check the inequality of two objects with `Should().NotBeEquivalentTo()`:
+
 ```csharp
 orderDto.Should().NotBeEquivalentTo(order);
 ```
@@ -235,6 +237,7 @@ orderDto.Should().BeEquivalentTo(expectation, options => options.WithStrictOrder
 ```
 
 In case you chose to use strict ordering by default you can still configure non-strict ordering in specific tests:
+
 ```csharp
 AssertionOptions.AssertEquivalencyUsing(options => options.WithStrictOrdering());
 
@@ -246,7 +249,7 @@ orderDto.Should().BeEquivalentTo(expectation, options => options.WithoutStrictOr
 ### Diagnostics
 `Should().BeEquivalentTo` is a very powerful feature, and one of the unique selling points of Fluent Assertions. But sometimes it can be a bit overwhelming, especially if some assertion fails under unexpected conditions. To help you understand how Fluent Assertions compared two (collections of) object graphs, the failure message will always include the relevant configuration settings:
 
-```
+```csharp
 Xunit.Sdk.XunitException
 Expected item[0] to be 0x06, but found 0x01.
 Expected item[1] to be 0x05, but found 0x02.
@@ -266,7 +269,7 @@ With configuration:
 
 However, sometimes that's not enough. For those scenarios where you need to understand a bit more, you can add the `WithTracing` option. When added to the assertion call, it would extend the above output with something like this:
 
-```
+```text
 With trace:
   Structurally comparing System.Object[] and expectation System.Byte[] at root
   {
@@ -318,6 +321,6 @@ For instance, to always compare enumerations by name, use the following statemen
 ```csharp
 AssertionOptions.AssertEquivalencyUsing(options => 
    options.ComparingEnumsByName);
-``` 
+```
 
 All the options available to an individual call to `Should().BeEquivalentTo` are supported, with the exception of some of the overloads that are specific to the type of the subject (for obvious reasons).

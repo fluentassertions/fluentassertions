@@ -16,7 +16,6 @@ using var monitoredSubject = subject.Monitor();
 
 subject.Foo();
 monitoredSubject.Should().Raise("NameChangedEvent");
-
 ```
 
 Notice that Fluent Assertions will keep monitoring the `subject` for as long as the `using` block lasts.
@@ -75,18 +74,18 @@ monitor.Should().Raise("SomeEvent");
 The `IMonitor` interface returned by `Monitor()` exposes a method named `GetRecordingFor` as well as the properties `MonitoredEvents` and `OccurredEvents` that you can use to directly interact with the monitor, e.g. to create your own extensions. For example:
 
 ```csharp
-    var eventSource = new ClassThatRaisesEventsItself();
+var eventSource = new ClassThatRaisesEventsItself();
 
-    using IMonitor monitor = eventSource.Monitor<IEventRaisingInterface>();
+using IMonitor monitor = eventSource.Monitor<IEventRaisingInterface>();
 
-    EventMetadata[] metadata = monitor.MonitoredEvents;
+EventMetadata[] metadata = monitor.MonitoredEvents;
 
-    metadata.Should().BeEquivalentTo(new[]
+metadata.Should().BeEquivalentTo(new[]
+{
+    new
     {
-        new
-        {
-            EventName = nameof(IEventRaisingInterface.InterfaceEvent),
-            HandlerType = typeof(EventHandler)
-        }
-    });
+        EventName = nameof(IEventRaisingInterface.InterfaceEvent),
+        HandlerType = typeof(EventHandler)
+    }
+});
 ```

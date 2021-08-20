@@ -76,10 +76,12 @@ act.Should().NotThrow<InvalidOperationException>();
 ```
 
 Sometimes you may want to retry an assertion until it either succeeds or a given time elapses. For instance, you could be testing a network service which should become available after a certain time, say, 10 seconds:
+
 ```csharp
 Action act = () => service.IsReady().Should().BeTrue();
 act.Should().NotThrowAfter(10.Seconds(), 100.Milliseconds());
 ```
+
 The second argument of `NotThrowAfter` specifies the time that should pass before `act` is executed again after an execution which threw an exception.
 
 

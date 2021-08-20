@@ -38,7 +38,8 @@ someAction.ExecutionTime().Should().BeLessOrEqualTo(200.Milliseconds());
 ```
 
 The supported assertions on `ExecutionTime()` are a subset of those found for `TimeSpan`s, namely:
-```
+
+```csharp
 someAction.ExecutionTime().Should().BeLessOrEqualTo(200.Milliseconds());
 someAction.ExecutionTime().Should().BeLessThan(200.Milliseconds());
 someAction.ExecutionTime().Should().BeGreaterThan(100.Milliseconds());

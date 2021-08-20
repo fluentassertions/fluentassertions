@@ -88,7 +88,7 @@ public AndConstraint<DirectoryInfoAssertions> ContainFileInAllSubdirectories(
 Whatever you pass into its constructor will be used to overwrite the default `{context}` passed to `FailWith`.
 
 ```csharp
-    .FailWith("Expected {context:directory} to contain {0}{reason}, but found     {1}.",
+    .FailWith("Expected {context:directory} to contain {0}{reason}, but found {1}.",
 ```
 
 So in this case, our nicely created `ContainFile` extension method will display the directory that it used to assert that file existed. You can do a lot more advanced stuff if you want. Just check out the code that is used by the structural equivalency API.
@@ -99,7 +99,7 @@ Whenever Fluent Assertions raises an assertion exception, it will use value form
 
 You can hook-up your own formatters in several ways, for example by calling the static method `FluentAssertions.Formatting.Formatter.AddFormatter(IValueFormatter)`. But what does it mean to build your own? Well, a value formatter just needs to implement the two methods `IValueFormatter` declares. First, it needs to tell FA whether your formatter can handle a certain type by implementing the well-named method `CanHandle(object)`. The other one is there to, no surprises here, render it to a string.
 
-```
+```csharp
 void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild);
 ```
 
@@ -163,7 +163,7 @@ Per default the first 32 items are included when formatting an enumerable.
 That might be too many or too few depending on your data.
 To create a formatter that only prints out the first 5 items, when formatting an `IEnumerable<CustomClass>` you can extend the `EnumerableValueFormatter`.
 
-```c#
+```csharp
 class EnumerableCustomClassFormatter : EnumerableValueFormatter
 {
     protected override int MaxItems => 5;

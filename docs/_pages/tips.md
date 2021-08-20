@@ -65,9 +65,11 @@ namespace MyNamespace
 ```
 
 Add the assembly level attribute so that xUnit.net picks up your custom test framework. This is required for *every* test assembly that should use your custom test framework.
+
 ```csharp
 [assembly: Xunit.TestFramework("MyNamespace.MyFramework", "MyAssembly.Facts")]
 ```
+
 Note:
 * The `nameof` operator cannot be used to reference the `MyFramework` class. If your global configuration doesn't work, ensure there is no typo in the assembly level attribute declaration and that the assembly containing the `MyFramework` class is referenced by the test assembly and gets copied to the output folder.
 * Because you have to add the assembly level attribute per assembly you can define different `AssertionOptions` per test assembly if required.
