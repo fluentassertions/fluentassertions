@@ -139,6 +139,7 @@ public class DirectoryInfoValueFormatter : IValueFormatter
 ```
 
 Say you want to customize the formatting of your `CustomClass` type to:
+
 * Increase the indentation from the default 3 to 8,
 * Exclude all `string` members and
 * Exclude the namespace of the type.
