@@ -182,15 +182,15 @@ namespace FluentAssertions.Specs.Types
     #endregion
 }
 
-namespace FluentAssertions.Primitives
+namespace AssemblyB
 {
 #pragma warning disable 436 // disable the warning on conflicting types, as this is the intention for the spec
 
     /// <summary>
-    /// A class that intentionally has the exact same name and namespace as the ObjectAssertions from the FluentAssertions
+    /// A class that intentionally has the exact same name and namespace as the ClassC from the AssemblyB
     /// assembly. This class is used to test the behavior of comparisons on such types.
     /// </summary>
-    internal class ObjectAssertions
+    internal class ClassC
     {
     }
 

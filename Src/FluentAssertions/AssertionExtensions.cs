@@ -846,5 +846,108 @@ namespace FluentAssertions
         {
             return subject is TTo to ? to : default;
         }
+
+        #region Prevent chaining on AndConstraint
+
+        /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        public static void Should<TSubject, TAssertions>(this ReferenceTypeAssertions<TSubject, TAssertions> _)
+            where TAssertions : ReferenceTypeAssertions<TSubject, TAssertions>
+        {
+            InvalidShouldCall();
+        }
+
+        /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        public static void Should<TAssertions>(this BooleanAssertions<TAssertions> _)
+            where TAssertions : BooleanAssertions<TAssertions>
+        {
+            InvalidShouldCall();
+        }
+
+        /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        public static void Should<TAssertions>(this DateTimeAssertions<TAssertions> _)
+            where TAssertions : DateTimeAssertions<TAssertions>
+        {
+            InvalidShouldCall();
+        }
+
+        /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        public static void Should<TAssertions>(this DateTimeOffsetAssertions<TAssertions> _)
+            where TAssertions : DateTimeOffsetAssertions<TAssertions>
+        {
+            InvalidShouldCall();
+        }
+
+        /// <summary>
+        /// You are asserting the <see cref="AndConstraint{T}"/> itself. Remove the <c>Should()</c> method directly following <c>And</c>.
+        /// </summary>
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        public static void Should(this ExecutionTimeAssertions _)
+        {
+            InvalidShouldCall();
+        }
+
+        /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        public static void Should<TAssertions>(this GuidAssertions<TAssertions> _)
+            where TAssertions : GuidAssertions<TAssertions>
+        {
+            InvalidShouldCall();
+        }
+
+        /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        public static void Should(this MethodInfoSelectorAssertions _)
+        {
+            InvalidShouldCall();
+        }
+
+        /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        public static void Should<TSubject, TAssertions>(this NumericAssertions<TSubject, TAssertions> _)
+            where TSubject : struct, IComparable<TSubject>
+            where TAssertions : NumericAssertions<TSubject, TAssertions>
+        {
+            InvalidShouldCall();
+        }
+
+        /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        public static void Should(this PropertyInfoSelectorAssertions _)
+        {
+            InvalidShouldCall();
+        }
+
+        /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        public static void Should<TAssertions>(this SimpleTimeSpanAssertions<TAssertions> _)
+            where TAssertions : SimpleTimeSpanAssertions<TAssertions>
+        {
+            InvalidShouldCall();
+        }
+
+        /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        public static void Should<TSubject>(this TaskCompletionSourceAssertions<TSubject> _)
+        {
+            InvalidShouldCall();
+        }
+
+        /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        public static void Should<TSubject>(this TypeSelectorAssertions _)
+        {
+            InvalidShouldCall();
+        }
+
+        private static void InvalidShouldCall()
+        {
+            throw new InvalidOperationException("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'.");
+        }
+
+        #endregion
     }
 }

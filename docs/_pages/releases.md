@@ -7,6 +7,11 @@ sidebar:
   nav: "sidebar"
 ---
 
+## Unreleased
+
+**What's New**
+* Prevent asserting directly on `AndConstraint` - [#1649](https://github.com/fluentassertions/fluentassertions/pull/1649)
+
 ## 6.0.0
 
 **What's New**
