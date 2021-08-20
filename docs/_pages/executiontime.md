@@ -8,6 +8,7 @@ sidebar:
 ---
 
 ## Members and Actions
+
 Fluent Assertions also provides a method to assert that the execution time of particular method or action does not exceed a predefined value.
 To verify the execution time of a method, use the following syntax:
 
@@ -38,7 +39,8 @@ someAction.ExecutionTime().Should().BeLessOrEqualTo(200.Milliseconds());
 ```
 
 The supported assertions on `ExecutionTime()` are a subset of those found for `TimeSpan`s, namely:
-```
+
+```csharp
 someAction.ExecutionTime().Should().BeLessOrEqualTo(200.Milliseconds());
 someAction.ExecutionTime().Should().BeLessThan(200.Milliseconds());
 someAction.ExecutionTime().Should().BeGreaterThan(100.Milliseconds());
@@ -47,6 +49,7 @@ someAction.ExecutionTime().Should().BeCloseTo(150.Milliseconds(), 50.Millisecond
 ```
 
 ## Tasks
+
 If you're dealing with a `Task`, you can also assert that it completed within a specified period of time:
 
 ```csharp

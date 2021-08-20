@@ -27,14 +27,14 @@ someObject.Should().BeOfType<Exception>()
   .Which.Message.Should().Be("Other Message");
 ```
 
-To assert that two objects are equal (through their implementation of `Object.Equals`), use 
+To assert that two objects are equal (through their implementation of `Object.Equals`), use
 
 ```csharp
 string otherObject = "whatever";
 theObject.Should().Be(otherObject, "because they have the same values");
 theObject.Should().NotBe(otherObject);
 ```
- 
+
 If you want to make sure two objects are not just functionally equal but refer to the exact same object in memory, use the following two methods.
 
 ```csharp

@@ -5,12 +5,11 @@ toc: true
 layout: single
 sidebar:
   nav: "sidebar"
-
 ---
 
 To facilitate the need for those developers which ideas don't end up in the library, Fluent Assertions offers several extension points. They are there so that they can build their own extensions with the same consistent API and behavior people are used to. And if they feel the need to alter the behavior of the built-in set of assertion methods, they can use the many hooks offered out of the box. The flip side of all of this is that we cannot just change the internals of FA without considering backwards compatibility. But looking at the many extensions available on the NuGet, it's absolutely worth it.
 
-## Building your own extensions ##
+## Building your own extensions
 
 As an example, let's create an extension method on `DirectoryInfo` like this
 
@@ -65,7 +64,7 @@ This is quite an elaborate example which shows some of the more advanced extensi
 * `FailWith` will evaluate the condition, and raise the appropriate exception specific for the detected test framework. It again can contain numbered placeholders as well as the special named placeholders `{context}` and `{reason}`. I'll explain the former in a minute, but suffice to say that it displays the text "directory" at that point. The remainder of the place holders will be filled by applying the appropriate type-specific value formatter for the provided arguments. If those arguments involve a non-primitive type such as a collection or complex type, the formatters will use recursion to always use the appropriate formatter.
 * Since we used the `Given` construct to create a projection, the parameters of `FailWith` are formed by a `params` array of `Func<T, object>` that give you access to the projection (such as the `FileInfo[]` in this particular case). But normally, it's just a `params array` of objects.
 
-## Scoping your extensions ##
+## Scoping your extensions
 
 Now what if you want to reuse your newly created extension method within some other extension method? For instance, what if you want to apply that assertion on a collection of directories? Wouldn't it be cool if you can tell your extension method about the current directory? This is where the `AssertionScope` comes into place.
 
@@ -88,18 +87,18 @@ public AndConstraint<DirectoryInfoAssertions> ContainFileInAllSubdirectories(
 Whatever you pass into its constructor will be used to overwrite the default `{context}` passed to `FailWith`.
 
 ```csharp
-    .FailWith("Expected {context:directory} to contain {0}{reason}, but found     {1}.",
+    .FailWith("Expected {context:directory} to contain {0}{reason}, but found {1}.",
 ```
 
 So in this case, our nicely created `ContainFile` extension method will display the directory that it used to assert that file existed. You can do a lot more advanced stuff if you want. Just check out the code that is used by the structural equivalency API.
 
-## Rendering objects with beauty ##
+## Rendering objects with beauty
 
 Whenever Fluent Assertions raises an assertion exception, it will use value formatters to render a display representation of an object. Notice that these things are supposed to do more than just calling `Format`. A good formatter will include the relevant parts and hide the irrelevant parts. For instance, the `DateTimeOffsetValueFormatter` is there to give you a nice human-readable representation of a date and time with offset. It will only show the parts of that value that have non-default values. Check out the [specs](https://github.com/fluentassertions/fluentassertions/blob/develop/Tests/FluentAssertions.Specs/Formatting/FormatterSpecs.cs#L127) to see some examples of that.
 
 You can hook-up your own formatters in several ways, for example by calling the static method `FluentAssertions.Formatting.Formatter.AddFormatter(IValueFormatter)`. But what does it mean to build your own? Well, a value formatter just needs to implement the two methods `IValueFormatter` declares. First, it needs to tell FA whether your formatter can handle a certain type by implementing the well-named method `CanHandle(object)`. The other one is there to, no surprises here, render it to a string.
 
-```
+```csharp
 void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild);
 ```
 
@@ -139,6 +138,7 @@ public class DirectoryInfoValueFormatter : IValueFormatter
 ```
 
 Say you want to customize the formatting of your `CustomClass` type to:
+
 * Increase the indentation from the default 3 to 8,
 * Exclude all `string` members and
 * Exclude the namespace of the type.
@@ -163,7 +163,7 @@ Per default the first 32 items are included when formatting an enumerable.
 That might be too many or too few depending on your data.
 To create a formatter that only prints out the first 5 items, when formatting an `IEnumerable<CustomClass>` you can extend the `EnumerableValueFormatter`.
 
-```c#
+```csharp
 class EnumerableCustomClassFormatter : EnumerableValueFormatter
 {
     protected override int MaxItems => 5;
@@ -172,11 +172,11 @@ class EnumerableCustomClassFormatter : EnumerableValueFormatter
 }
 ```
 
-## To be or not to be a value type ##
+## To be or not to be a value type
 
-The structural equivalency API provided by `Should().BeEquivalentTo` and is arguably the most powerful, but also the most complicated part of Fluent Assertions. And to make things worse, you can extend and adapt the default behavior quite extensively. 
+The structural equivalency API provided by `Should().BeEquivalentTo` and is arguably the most powerful, but also the most complicated part of Fluent Assertions. And to make things worse, you can extend and adapt the default behavior quite extensively.
 
-For instance, to determine whether FA needs to recursive into a complex object, it needs to know whether or not a particular type has value semantics. An object that has properties isn't necessarily a complex type that you want to recurse on. `DirectoryInfo` has properties, but you don't want FA to just traverse its properties. So you need to tell what types should be treated as value types. 
+For instance, to determine whether FA needs to recursive into a complex object, it needs to know whether or not a particular type has value semantics. An object that has properties isn't necessarily a complex type that you want to recurse on. `DirectoryInfo` has properties, but you don't want FA to just traverse its properties. So you need to tell what types should be treated as value types.
 
 The default behavior is to treat every type that overrides `Object.Equals` as on object that was designed to have value semantics. Unfortunately, anonymous types and tuples also override this method, but because we tend to use them quite often in equivalency comparison, we always compare them by their properties.
 
@@ -191,7 +191,7 @@ Similarly, you can force comparing objects that do override `Equals` by their pr
 This also works for open types, so if all concrete types of your `Option<T>` should be compared be their members you just call `ComparingByMembers(typeof(Option<>))`.
 Primitive types are never compared by their members and trying to call e.g. `ComparingByMembers<int>` will throw an `InvalidOperationException`.
 
-## Equivalency assertion step by step ##
+## Equivalency assertion step by step
 
 The entire structural equivalency API is built around the concept of a plan containing equivalency steps that are run in a predefined order. Each step is an implementation of the `IEquivalencyStep` which exposes a single method `Handle`. You can pass your own implementation to a particular assertion call by passing it into the `Using` method (which puts it behind the final default step) or directly tweak the global `AssertionOptions.EquivalencyPlan`. Checkout the underlying `EquivalencyPlan` to see how it relates your custom step to the other steps. That said, the `Handle` method has the following signature:
 
@@ -220,7 +220,7 @@ public class SimpleEqualityEquivalencyStep : IEquivalencyStep
 
 Since `Should().Be()` internally uses the `{context}` placeholder I discussed at the beginning of this article and the encompassing `EquivalencyValidator` will use the `AssertionScope` to set-up the right context, you'll get crystal-clear messages when something didn't meet the expectation. This particular extension point is pretty flexible, but the many options `Should().BeEquivalentTo` provides out-of-the-box probably means you don't need to use it.
 
-## About selection, matching and ordering ##
+## About selection, matching and ordering
 
 Next to tuning the value type evaluation and changing the internal execution plan of the equivalency API, there are a couple of more specific extension methods. They are internally used by some of the methods provided by the `options` parameter, but you can add your own by calling the appropriate overloads of the `Using` methods. You can even do this globally by using the static `AssertionOptions.AssertEquivalencyUsing` method.
 

@@ -7,7 +7,7 @@ sidebar:
   nav: "sidebar"
 ---
 
-## Dates and times ##
+## Dates and times
 
 For asserting a `DateTime` or a `DateTimeOffset` against various constraints, Fluent Assertions offers a bunch of methods that, provided that you use the extension methods for representing dates and times, really help to keep your assertions readable.
 
@@ -94,7 +94,7 @@ theDatetime.Should().NotBeCloseTo(2.March(2010), 1.Hours());
 
 This can be particularly useful if your database truncates date/time values.
 
-## TimeSpans ##
+## TimeSpans
 
 Fluent Assertions also support a few dedicated methods that apply to (nullable) `TimeSpan` instances directly:
 

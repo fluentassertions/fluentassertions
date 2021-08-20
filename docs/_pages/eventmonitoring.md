@@ -16,7 +16,6 @@ using var monitoredSubject = subject.Monitor();
 
 subject.Foo();
 monitoredSubject.Should().Raise("NameChangedEvent");
-
 ```
 
 Notice that Fluent Assertions will keep monitoring the `subject` for as long as the `using` block lasts.
@@ -33,7 +32,7 @@ monitoredSubject
 `WithSender()` will verify that all occurrences of the event had their `sender` argument set to the specified object.
 `WithArgs()` just verifies that at least one occurrence had a matching `EventArgs` object. Both will return an `IEventRecording` representing only the events that match the constraint.
 
-This means that event monitoring only works for events that comply with the standard two-argument `sender`/`args` .NET pattern. 
+This means that event monitoring only works for events that comply with the standard two-argument `sender`/`args` .NET pattern.
 
 Since verifying for `PropertyChanged` events is so common, we've included a specialized shortcut to the example above:
 
@@ -75,18 +74,18 @@ monitor.Should().Raise("SomeEvent");
 The `IMonitor` interface returned by `Monitor()` exposes a method named `GetRecordingFor` as well as the properties `MonitoredEvents` and `OccurredEvents` that you can use to directly interact with the monitor, e.g. to create your own extensions. For example:
 
 ```csharp
-    var eventSource = new ClassThatRaisesEventsItself();
+var eventSource = new ClassThatRaisesEventsItself();
 
-    using IMonitor monitor = eventSource.Monitor<IEventRaisingInterface>();
+using IMonitor monitor = eventSource.Monitor<IEventRaisingInterface>();
 
-    EventMetadata[] metadata = monitor.MonitoredEvents;
+EventMetadata[] metadata = monitor.MonitoredEvents;
 
-    metadata.Should().BeEquivalentTo(new[]
+metadata.Should().BeEquivalentTo(new[]
+{
+    new
     {
-        new
-        {
-            EventName = nameof(IEventRaisingInterface.InterfaceEvent),
-            HandlerType = typeof(EventHandler)
-        }
-    });
+        EventName = nameof(IEventRaisingInterface.InterfaceEvent),
+        HandlerType = typeof(EventHandler)
+    }
+});
 ```

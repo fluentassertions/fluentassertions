@@ -12,24 +12,24 @@ sidebar:
   nav: "sidebar"
 ---
 
-## Getting started ##
+## Getting started
 
 Fluent Assertions is a set of .NET extension methods that allow you to more naturally specify the expected outcome of a TDD or BDD-style unit test. This enables a simple intuitive syntax that all starts with the following `using` statement:
 
-```c#
+```csharp
 using FluentAssertions;
 ```
 
 This brings a lot of extension methods into the current scope. For example, to verify that a string begins, ends and contains a particular phrase.
 
-```c#
+```csharp
 string actual = "ABCDEFGHI";
 actual.Should().StartWith("AB").And.EndWith("HI").And.Contain("EF").And.HaveLength(9);
 ```
 
 To verify that all elements of a collection match a predicate and that it contains a specified number of elements.
 
-```c#
+```csharp
 IEnumerable<int> numbers = new[] { 1, 2, 3 };
 
 numbers.Should().OnlyContain(n => n > 0);
@@ -42,7 +42,7 @@ The nice thing about the second failing example is that it will throw an excepti
 
 To verify that a particular business rule is enforced using exceptions.
 
-```c#
+```csharp
 var recipe = new RecipeBuilder()
                     .With(new IngredientBuilder().For("Milk").WithQuantity(200, Unit.Milliliters))
                     .Build();
@@ -55,7 +55,7 @@ action
 
 One neat feature is the ability to chain a specific assertion on top of an assertion that acts on a collection or graph of objects.
 
-```c#
+```csharp
 dictionary.Should().ContainValue(myClass).Which.SomeProperty.Should().BeGreaterThan(0);
 someObject.Should().BeOfType<Exception>().Which.Message.Should().Be("Other Message");
 xDocument.Should().HaveElement("child").Which.Should().BeOfType<XElement>().And.HaveAttribute("attr", "1");
@@ -63,7 +63,8 @@ xDocument.Should().HaveElement("child").Which.Should().BeOfType<XElement>().And.
 
 This chaining can make your unit tests a lot easier to read.
 
-## Detecting Test Frameworks ##
+## Detecting Test Frameworks
+
 Fluent Assertions supports a lot of different unit testing frameworks. Just add a reference to the corresponding test framework assembly to the unit test project. Fluent Assertions will automatically find the corresponding assembly and use it for throwing the framework-specific exceptions.
 
 If, for some unknown reason, Fluent Assertions fails to find the assembly, and you're running under .NET 4.7 or a .NET Core 3.0 project, try specifying the framework explicitly using a configuration setting in the project’s app.config. If it cannot find any of the supported frameworks, it will fall back to using a custom `AssertFailedException` exception class.
@@ -76,9 +77,11 @@ If, for some unknown reason, Fluent Assertions fails to find the assembly, and y
   </appSettings>
 </configuration>
 ```
+
 Just add NuGet package "FluentAssertions" to your test project.
 
-## Subject Identification ##
+## Subject Identification
+
 Fluent Assertions can use the C# code of the unit test to extract the name of the subject and use that in the assertion failure. Consider for instance this statement:
 
 ```csharp
@@ -114,16 +117,13 @@ Now, if you've built your own extensions that use Fluent Assertions directly, yo
 
 And it's usage:
 
-```
+```csharp
 myClient.Should().BeActive("because we don't work with old clients");
 ```
 
 Without the `[CustomAssertion]` attribute, Fluent Assertions would find the line that calls `Should().BeTrue()` and treat the `customer` variable as the subject-under-test (SUT). But by applying this attribute, it will ignore this invocation and instead find the SUT by looking for a call to `Should().BeActive()` and use the `myClient` variable instead.
 
-
-
-
-## Assertion Scopes ##
+## Assertion Scopes
 
 You can batch multiple assertions into an `AssertionScope` so that FluentAssertions throws one exception at the end of the scope with all failures.
 
@@ -141,10 +141,11 @@ The above will batch the two failures, and throw an exception at the point of di
 
 E.g. Exception thrown at point of dispose contains:
 
-    Expected value to be 10, but found 5.
-    Expected string to be "Expected" with a length of 8, but "Actual" has a length of 6, differs near "Act" (index 0).
-    
-        at........
-        
-For more information take a look at the [AssertionScopeSpecs.cs](https://github.com/fluentassertions/fluentassertions/blob/master/Tests/Shared.Specs/AssertionScopeSpecs.cs) in Unit Tests.
+```text
+Expected value to be 10, but found 5.
+Expected string to be "Expected" with a length of 8, but "Actual" has a length of 6, differs near "Act" (index 0).
 
+    at........
+```
+
+For more information take a look at the [AssertionScopeSpecs.cs](https://github.com/fluentassertions/fluentassertions/blob/master/Tests/Shared.Specs/AssertionScopeSpecs.cs) in Unit Tests.

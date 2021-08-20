@@ -7,7 +7,7 @@ sidebar:
   nav: "sidebar"
 ---
 
-## Enums ##
+## Enums
 
 In Fluent Assertions v5 enums were handled by the `ObjectAssertions` class, which is what you have in hand when invoking `Should()` on any type not handled by a specialized overload of `Should()`.
 `ObjectAssertions` derives from `ReferenceTypeAssertions`, so all these assertions were available when asserting on an enum.
@@ -34,7 +34,8 @@ We wanted to introduce new enum specific assertions, but adding those would be e
 `Be` has some workarounds to ensure that a boxed `1` and boxed `1.0` are considered to be equal.
 This approach did not work well for enums as it would consider two enums to be equal if their underlying integral values are equal.
 To put it in code, in the snippet below all four assertions would pass, but only the first one should.
-```c#
+
+```csharp
 public enum MyEnum { One = 1 }
 public enum MyOtherEnum { One = 1 }
 
@@ -54,7 +55,8 @@ Lastly, if you want to verify than an enum has a specific integral value, you ca
 When comparing object graphs with enum members, we have constrained when we consider them to be equivalent.
 An enum is now only considered to be equivalent to an enum of the same or another type, but you can control whether they should equal by name or by value.
 The practical implications are that the following examples now fails.
-```cs
+
+```csharp
 var subject = new { Value = "One" };
 var expectation = new { Value = MyOtherEnum.One };
 subject.Should().BeEquivalentTo(expectation,  opt => opt.ComparingEnumsByName());
@@ -67,21 +69,23 @@ subject.Should().BeEquivalentTo(expectation,  opt => opt.ComparingEnumsByValue()
 If your assertions rely on the formatting of enums in failure messages, you'll notice that we have given it a facelift.
 Previously, formatting an enum would simply be a call to `ToString()`, but to provide more detail we now format `MyEnum.One` as `"MyEnum.One(1)"` instead of `"One"`.
 
-## IEquivalencyStep ##
+## IEquivalencyStep
 
 In v6, we applied some major refactorings to the equivalency validator, of which most of it is internal and therefore won't be visble to consumers of the library. But one thing that does, is that we split off the subject and expectation from the `IEquivalencyValidationContext` and move them into their own type called `Comparands`. Since this affected the `IEquivalencyStep` and we already had some ideas to simplify that abstraction, we removed the `CanHandle` method and replaced the boolean return value of `Handle` with a more self-describing `EquivalencyResult`. The consequence of this is that `Handle` must first check whether the comparands are applicable to the step and bail out with `EquivalencyResult.ContinueWithNext` if that isn't the case. There's a convenience base-class called `EquivalencyStep<T>` that remove some of that burden for you. Check out `DictionaryEquivalencyStep` for an example of that. Also, the [extensibility section](extensibility/#equivalency-assertion-step-by-step) has been updated to reflect the new signatures and types.
 
-## Using ##
+## Using
 
 Since v2, released back in late 2012, the syntax for overriding the default comparison of properties during structural equivalency has more or less been
-```cs
+
+```csharp
 orderDto.Should().BeEquivalentTo(order, opt => opt
     .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1.Seconds()))
     .WhenTypeIs<DateTime>());
 ```
 
 As there were no restrictions on the relationship between the generic parameters of `Using<TProperty>` and `WhenTypeIs<TMemberType>` you could write nonsense such as
-```
+
+```csharp
 var subject = new { Value = "One" };
 var expectation = new { Value = "Two" };
 
@@ -93,30 +97,31 @@ subject.Should().BeEquivalentTo(expectation, opt => opt
 
 This would compile, but then fail at runtime with
 
-```
+```text
 Expected member Value from subject to be a System.Int32, but found a System.String.
 Expected member Value from expectation to be a System.Int32, but found a System.String.
 ```
 
 In v6 we have restricted this relationship between `WhenTypeIs` and `Using`, such that `TMemberType` must be assignable to `TProperty`.
 The snippet above now gives a compile error
-```
+
+```text
 CS0311: There is no implicit reference conversion from 'string' to 'int'.
 ```
 
 This change also breaks compilation for cases that might worked before, but only due to assumptions about the runtime values.
 
-```
+```csharp
 .Using<Derived>()
 .WhenTypeIs<Base>() // assuming that all Bases are of type `Derived`
 ```
 
-```cs
+```csharp
 .Using<int>()
 .WhenTypeIs<int?>() // null is an int? but not an int
 ```
 
-```cs
+```csharp
 .Using<int?>()
 .WhenTypeIs<int>() // This would work, but there's no reason to cast int to int?
 ```
@@ -124,7 +129,8 @@ This change also breaks compilation for cases that might worked before, but only
 Besides the generic constraint, we also fixed two cases regarding non-nullable values, that we didn't handle correctly before.
 
 In the first case, we would match both `null` and `0` as an `int?`, but then cast both to `int`, which gave a `NullReferenceException`.
-```cs
+
+```csharp
 var subject = new { Value = null as int? };
 var expectation = new { Value = 0 };
 
@@ -136,7 +142,7 @@ subject.Should().BeEquivalentTo(expectation, opt => opt
 
 In the second case we would cast a `null` expectation to `default(TMember)`, which worked fine for reference types, but for e.g. `int` this meant that we considered `null` to be equal to `0`.
 
-```cs
+```csharp
 var subject = new { Value = 0 };
 var expectation = new { Value = null as int? };
 
@@ -146,7 +152,7 @@ subject.Should().BeEquivalentTo(expectation, opt => opt
 );
 ```
 
-## Value Formatters ##
+## Value Formatters
 
 Within Fluent Assertions, the `Formatter` class is responsible for rendering a textual representation of the objects involved in an assertion. Those objects can turn out to be entire graphs, especially when you use `BeEquivalentTo`. Rendering such a graph can be an expensive operation, so in 5.x we already had limits on how deep the `Formatter` would traverse the object graph. Because we received several performance-related issues, we decided to slightly redesign how implementations of `IValueFormatter` should work. This unfortunately required us to introduce some breaking changes in the signature of the `Format` method as well as some behavioral changes. You can read all about that in the updated [extensibility guide](/extensibility/#rendering-objects-with-beauty), but the gist of it is that instead of returning a `string`, you now need to use the `FormattedObjectGraph`, which acts like a kind of `StringBuilder`. For instance, this is what the `StringValueFormatter` now looks like:
 
@@ -166,12 +172,12 @@ public void Format(object value, FormattedObjectGraph formattedGraph, Formatting
 }
 ```
 
-## Collections ##
+## Collections
 
 As part of embracing the generic type system and improving the maintainability of the code base, we have removed support for non-generic collections.
 The overload of `Should()` taking an `IEnumerable` has been removed and the new best matching overload of `Should` (from a compiler perspective) is now the one that returns an `ObjectAssertions`.
 
-```cs
+```csharp
 IEnumerable subject;
 
 subject.Should().HaveCount(42); // No longer compiles
@@ -184,7 +190,7 @@ To live up to this design we have removed `BeEquivalentTo(params object[])` as i
 
 In the example below all expectations are of type `I`, so `AA`, which is defined on `A`, should not be included in the comparison and all assertions should pass.
 
-```cs
+```csharp
 interface I
 {
     int II { get; set; }

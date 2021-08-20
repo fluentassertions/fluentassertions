@@ -13,18 +13,20 @@ Coincidentally, the `OrderDto` will have one or more `ProductDto`s and a corresp
 You may want to make sure that all exposed members of all the objects in the `OrderDto` object graph match the equally named members of the `Order` object graph.
 
 You may assert the structural equality of two object graphs with `Should().BeEquivalentTo()`:
+
 ```csharp
 orderDto.Should().BeEquivalentTo(order);
 ```
 
 Additionally you can check the inequality of two objects with `Should().NotBeEquivalentTo()`:
+
 ```csharp
 orderDto.Should().NotBeEquivalentTo(order);
 ```
 
 All options described in the following sections are available for both `BeEquivalentTo` and `NotBeEquivalentTo`.
 
-### Recursion ###
+### Recursion
 
 The comparison is recursive by default.
 To avoid infinite recursion, Fluent Assertions will recurse up to 10 levels deep by default, but if you want to force it to go as deep as possible, use the `AllowingInfiniteRecursion` option.
@@ -35,7 +37,7 @@ orderDto.Should().BeEquivalentTo(order, options =>
     options.ExcludingNestedObjects());
 ```
 
-### Value Types ###
+### Value Types
 
 To determine whether Fluent Assertions should recurs into an object's properties or fields, it needs to understand what types have value semantics and what types should be treated as reference types. The default behavior is to treat every type that overrides `Object.Equals` as an object that was designed to have value semantics. Anonymous types, records and tuples also override this method, but because the community proved us that they use them quite often in equivalency comparisons, we decided to always compare them by their members.
 
@@ -63,7 +65,8 @@ AssertionOptions.AssertEquivalencyUsing(options => options
 
 Note that primitive types are never compared by their members and trying to call e.g. `ComparingByMembers<int>` will throw an `InvalidOperationException`.
 
-### Auto-Conversion ###
+### Auto-Conversion
+
 In the past, Fluent Assertions would attempt to convert the value of a property of the subject-under-test to the type of the corresponding property on the expectation. But a lot of people complained about this behavior where a string property representing a date and time would magically match a `DateTime` property. As of 5.0, this conversion will no longer happen. However, you can still adjust the assertion by using the `WithAutoConversion` or `WithAutoConversionFor` options:
 
 ```csharp
@@ -71,7 +74,7 @@ subject.Should().BeEquivalentTo(expectation, options => options
     .WithAutoConversionFor(x => x.Path.Contains("Birthdate")));
 ```
 
-### Compile-time types vs. run-time types ###
+### Compile-time types vs. run-time types
 
 By default, Fluent Assertions respects an object's or member's declared (compile-time) type when selecting members to process during a recursive comparison.
 That is to say if the subject is a `OrderDto` but the variable it is assigned to has type `Dto` only the members defined by the latter class would be considered when comparing the object to the `order` variable.
@@ -93,7 +96,7 @@ One exception to this rule is when the declared type is `object`.
 Since `object` doesn't expose any properties, it makes no sense to respect the declared type.
 So if the subject or member's type is `object`, it will use the run-time type for that node in the graph. This will also work better with (multidimensional) arrays.
 
-### Matching Members ###
+### Matching Members
 
 All public members of the `Order` object must be available on the `OrderDto` having the same name. If any members are missing, an exception will be thrown.
 However, you may customize this behavior.
@@ -104,7 +107,7 @@ orderDto.Should().BeEquivalentTo(order, options =>
     options.ExcludingMissingMembers());
 ```
 
-### Selecting Members ###
+### Selecting Members
 
 If you want to exclude certain (potentially deeply nested) individual members using the `Excluding()` method:
 
@@ -137,7 +140,7 @@ orderDto.Should().BeEquivalentTo(order, options => options
     .Including(pi => pi.Name == "Date"));
 ```
 
-### Including properties and/or fields ###
+### Including properties and/or fields
 
 You may also configure member inclusion more broadly.
 Barring other configuration, Fluent Assertions will include all `public` properties and fields.
@@ -171,7 +174,8 @@ orderDto.Should().BeEquivalentTo(order, options => options
 
 This configuration affects the initial inclusion of members and happens before any `Exclude`s or other `IMemberSelectionRule`s. This configuration also affects matching. For example, that if properties are excluded, properties will not be inspected when looking for a match on the expected object.
 
-### Equivalency Comparison Behavior ###
+### Equivalency Comparison Behavior
+
 In addition to influencing the members that are including in the comparison, you can also override the actual assertion operation that is executed on a particular member.
 
 ```csharp
@@ -188,7 +192,7 @@ orderDto.Should().BeEquivalentTo(order, options => options
     .WhenTypeIs<DateTime>());
 ```
 
-### Enums ###
+### Enums
 
 By default, `Should().BeEquivalentTo()` compares `Enum` members by the enum's underlying numeric value.
 An option to compare an `Enum` only by name is also available, using the following configuration :
@@ -200,8 +204,9 @@ orderDto.Should().BeEquivalentTo(expectation, options => options.ComparingEnumsB
 Note that even though an enum's underlying value equals a numeric value or the enum's name equals some string value, we do not consider those to be equivalent.
 In other words, enums are only considered to be equivalent to enums of the same or another type, but you can control whether they should equal by name or by value.
 
-### Collections and Dictionaries ###
-Considering our running example, you could use the following against a collection of `OrderDto`s: 
+### Collections and Dictionaries
+
+Considering our running example, you could use the following against a collection of `OrderDto`s:
 
 ```csharp
 orderDtos.Should().BeEquivalentTo(orders, options => options.Excluding(o => o.Customer.Name));
@@ -213,7 +218,7 @@ You can also assert that all instances of `OrderDto` are structurally equal to a
 orderDtos.Should().AllBeEquivalentTo(singleOrder);
 ```
 
-### Ordering ###
+### Ordering
 
 Fluent Assertions will, by default, ignore the order of the items in the collections, regardless of whether the collection is at the root of the object graph or tucked away in a nested property or field.
 If the order is important, you can override the default behavior with the following option:
@@ -235,6 +240,7 @@ orderDto.Should().BeEquivalentTo(expectation, options => options.WithStrictOrder
 ```
 
 In case you chose to use strict ordering by default you can still configure non-strict ordering in specific tests:
+
 ```csharp
 AssertionOptions.AssertEquivalencyUsing(options => options.WithStrictOrdering());
 
@@ -244,9 +250,10 @@ orderDto.Should().BeEquivalentTo(expectation, options => options.WithoutStrictOr
 **Notice:** For performance reasons, collections of bytes are compared in exact order. This is even true when applying `WithoutStrictOrdering()`.
 
 ### Diagnostics
+
 `Should().BeEquivalentTo` is a very powerful feature, and one of the unique selling points of Fluent Assertions. But sometimes it can be a bit overwhelming, especially if some assertion fails under unexpected conditions. To help you understand how Fluent Assertions compared two (collections of) object graphs, the failure message will always include the relevant configuration settings:
 
-```
+```csharp
 Xunit.Sdk.XunitException
 Expected item[0] to be 0x06, but found 0x01.
 Expected item[1] to be 0x05, but found 0x02.
@@ -266,7 +273,7 @@ With configuration:
 
 However, sometimes that's not enough. For those scenarios where you need to understand a bit more, you can add the `WithTracing` option. When added to the assertion call, it would extend the above output with something like this:
 
-```
+```text
 With trace:
   Structurally comparing System.Object[] and expectation System.Byte[] at root
   {
@@ -310,7 +317,8 @@ string trace = traceWriter.ToString();
 
 Alternatively, you could write your own implementation of `ITraceWriter` for special purposes e.g. writing to a file.
 
-### Global Configuration ###
+### Global Configuration
+
 Even though the structural equivalency API is pretty flexible, you might want to change some of these options on a global scale.
 This is where the static class `AssertionOptions` comes into play.
 For instance, to always compare enumerations by name, use the following statement:
@@ -318,6 +326,6 @@ For instance, to always compare enumerations by name, use the following statemen
 ```csharp
 AssertionOptions.AssertEquivalencyUsing(options => 
    options.ComparingEnumsByName);
-``` 
+```
 
 All the options available to an individual call to `Should().BeEquivalentTo` are supported, with the exception of some of the overloads that are specific to the type of the subject (for obvious reasons).

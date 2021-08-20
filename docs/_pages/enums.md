@@ -7,7 +7,7 @@ sidebar:
   nav: "sidebar"
 ---
 
-## Enums ##
+## Enums
 
 Fluent Assertions have several ways to compare enums.
 
