@@ -27,7 +27,7 @@ someObject.Should().BeOfType<Exception>()
   .Which.Message.Should().Be("Other Message");
 ```
 
-To assert that two objects are equal (through their implementation of `Object.Equals`), use 
+To assert that two objects are equal (through their implementation of `Object.Equals`), use
 
 ```csharp
 string otherObject = "whatever";

@@ -19,7 +19,6 @@ The examples below show how you might improve your existing assertions to both g
 
 If you see something missing, please consider submitting a pull request.
 
-
 {% include assertion-comparison.html header1="Assertion" header2="Improvement" caption="Collections"               examples=site.data.tips.collections %}
 {% include assertion-comparison.html header1="Assertion" header2="Improvement" caption="Comparable and Numerics"   examples=site.data.tips.comparable %}
 {% include assertion-comparison.html header1="Assertion" header2="Improvement" caption="DateTimes"                 examples=site.data.tips.datetimes %}

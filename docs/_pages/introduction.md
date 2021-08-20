@@ -149,4 +149,3 @@ Expected string to be "Expected" with a length of 8, but "Actual" has a length o
 ```
 
 For more information take a look at the [AssertionScopeSpecs.cs](https://github.com/fluentassertions/fluentassertions/blob/master/Tests/Shared.Specs/AssertionScopeSpecs.cs) in Unit Tests.
-

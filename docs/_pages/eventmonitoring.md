@@ -32,7 +32,7 @@ monitoredSubject
 `WithSender()` will verify that all occurrences of the event had their `sender` argument set to the specified object.
 `WithArgs()` just verifies that at least one occurrence had a matching `EventArgs` object. Both will return an `IEventRecording` representing only the events that match the constraint.
 
-This means that event monitoring only works for events that comply with the standard two-argument `sender`/`args` .NET pattern. 
+This means that event monitoring only works for events that comply with the standard two-argument `sender`/`args` .NET pattern.
 
 Since verifying for `PropertyChanged` events is so common, we've included a specialized shortcut to the example above:
 

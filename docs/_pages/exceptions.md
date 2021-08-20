@@ -84,7 +84,6 @@ act.Should().NotThrowAfter(10.Seconds(), 100.Milliseconds());
 
 The second argument of `NotThrowAfter` specifies the time that should pass before `act` is executed again after an execution which threw an exception.
 
-
 If the method you are testing returns an `IEnumerable` or `IEnumerable<T>` and it uses the `yield` keyword to construct that collection, just calling the method will not cause the effect you expected because the real work is not done until you actually iterate over that collection. You can use the `Enumerating()` extension method to force enumerating the collection like this.
 
 ```csharp
