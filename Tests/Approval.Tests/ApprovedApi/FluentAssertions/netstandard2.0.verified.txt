@@ -232,6 +232,9 @@ namespace FluentAssertions
         public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TInnerException>> WithInnerException<TException, TInnerException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, string because = "", params object[] becauseArgs)
             where TException : System.Exception
             where TInnerException : System.Exception { }
+        public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TInnerException>> WithInnerExceptionExactly<TException, TInnerException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, string because = "", params object[] becauseArgs)
+            where TException : System.Exception
+            where TInnerException : System.Exception { }
         public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> WithMessage<TException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, string expectedWildcardPattern, string because = "", params object[] becauseArgs)
             where TException : System.Exception { }
         public static FluentAssertions.Specialized.ExceptionAssertions<TException> WithParameterName<TException>(this FluentAssertions.Specialized.ExceptionAssertions<TException> parent, string paramName, string because = "", params object[] becauseArgs)

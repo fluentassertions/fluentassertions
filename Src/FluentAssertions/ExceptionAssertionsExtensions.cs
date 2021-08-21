@@ -81,6 +81,29 @@ namespace FluentAssertions
         }
 
         /// <summary>
+        /// Asserts that the thrown exception contains an inner exception of the exact type <typeparamref name="TInnerException" /> (and not a derived exception type).
+        /// </summary>
+        /// <typeparam name="TException">The expected type of the exception.</typeparam>
+        /// <typeparam name="TInnerException">The expected type of the inner exception.</typeparam>
+        /// <param name="task">The <see cref="ExceptionAssertions{TException}"/> containing the thrown exception.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public static async Task<ExceptionAssertions<TInnerException>> WithInnerExceptionExactly<TException, TInnerException>(
+            this Task<ExceptionAssertions<TException>> task,
+            string because = "",
+            params object[] becauseArgs)
+            where TException : Exception
+            where TInnerException : Exception
+        {
+            return (await task).WithInnerExceptionExactly<TInnerException>(because, becauseArgs);
+        }
+
+        /// <summary>
         /// Asserts that the thrown exception has a parameter which name matches <paramref name="paramName" />.
         /// </summary>
         /// <param name="parent">The <see cref="ExceptionAssertions{TException}"/> containing the thrown exception.</param>

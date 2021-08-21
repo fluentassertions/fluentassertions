@@ -833,6 +833,21 @@ namespace FluentAssertions.Specs.Exceptions
         }
 
         [Fact]
+        public async Task When_async_method_throws_the_expected_inner_exception_exactly_it_should_succeed()
+        {
+            // Arrange
+            Func<Task> task = () => Throw.Async(new AggregateException(new ArgumentException()));
+
+            // Act
+            Func<Task> action = () => task
+                .Should().ThrowAsync<AggregateException>()
+                .WithInnerExceptionExactly<AggregateException, ArgumentException>();
+
+            // Assert
+            await action.Should().NotThrowAsync();
+        }
+
+        [Fact]
         public async Task When_async_method_throws_aggregate_exception_containing_expected_exception_it_should_succeed()
         {
             // Arrange
@@ -873,6 +888,21 @@ namespace FluentAssertions.Specs.Exceptions
 
             // Assert
             await action.Should().ThrowAsync<XunitException>().WithMessage("*InvalidOperation*Argument*");
+        }
+
+        [Fact]
+        public async Task When_async_method_does_not_throw_the_expected_inner_exception_exactly_it_should_fail()
+        {
+            // Arrange
+            Func<Task> task = () => Throw.Async(new AggregateException(new ArgumentNullException()));
+
+            // Act
+            Func<Task> action = () => task
+                .Should().ThrowAsync<AggregateException>()
+                .WithInnerExceptionExactly<AggregateException, ArgumentException>();
+
+            // Assert
+            await action.Should().ThrowAsync<XunitException>().WithMessage("*ArgumentException*ArgumentNullException*");
         }
 
         [Fact]
