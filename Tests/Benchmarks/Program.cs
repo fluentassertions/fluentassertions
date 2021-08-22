@@ -6,7 +6,7 @@ namespace Benchmarks
     {
         public static void Main()
         {
-            _ = BenchmarkRunner.Run<CollectionEqualBenchmarks>();
+            _ = BenchmarkRunner.Run<Issue1657>();
         }
     }
 }

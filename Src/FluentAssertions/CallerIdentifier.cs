@@ -237,7 +237,7 @@ namespace FluentAssertions
 
         private static bool UsesNewKeyword(string candidate)
         {
-            return Regex.IsMatch(candidate, @"new(\s?\[|\s?\{|\s\w+)");
+            return Regex.IsMatch(candidate, @"new(?:\s?\[|\s?\{|\s\w+)");
         }
 
         private static bool IsStringLiteral(string candidate)

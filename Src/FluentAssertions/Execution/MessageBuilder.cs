@@ -45,7 +45,7 @@ namespace FluentAssertions.Execution
 
         private static string SubstituteIdentifier(string message, string identifier, string fallbackIdentifier)
         {
-            const string pattern = @"(\s|^)\{context(?:\:(?<default>[a-z|A-Z|\s]+))?\}";
+            const string pattern = @"(?:\s|^)\{context(?:\:(?<default>[a-z|A-Z|\s]+))?\}";
 
             message = Regex.Replace(message, pattern, match =>
             {
