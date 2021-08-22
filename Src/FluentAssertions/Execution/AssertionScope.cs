@@ -25,6 +25,7 @@ namespace FluentAssertions.Execution
         private Func<string> reason;
 
         private static readonly AsyncLocal<AssertionScope> CurrentScope = new();
+        private Func<string> callerIdentityProvider = () => CallerIdentifier.DetermineCallerIdentity();
         private AssertionScope parent;
         private Func<string> expectation;
         private string fallbackIdentifier = "object";
@@ -36,52 +37,13 @@ namespace FluentAssertions.Execution
 
             public DeferredReportable(Func<string> valueFunc)
             {
-                this.lazyValue = new(valueFunc);
+                lazyValue = new(valueFunc);
             }
 
             public override string ToString() => lazyValue.Value;
         }
 
         #endregion
-
-        /// <summary>
-        /// Starts a new scope based on the given assertion strategy and parent assertion scope
-        /// </summary>
-        /// <param name="assertionStrategy">The assertion strategy for this scope.</param>
-        /// <param name="parent">The parent assertion scope for this scope.</param>
-        /// <exception cref="ArgumentNullException">Thrown when trying to use a null strategy.</exception>
-        internal AssertionScope(IAssertionStrategy assertionStrategy, AssertionScope parent)
-        {
-            this.assertionStrategy = assertionStrategy
-                ?? throw new ArgumentNullException(nameof(assertionStrategy));
-            this.parent = parent;
-        }
-
-        /// <summary>
-        /// Starts a new scope based on the given assertion strategy.
-        /// </summary>
-        /// <param name="assertionStrategy">The assertion strategy for this scope.</param>
-        /// <exception cref="ArgumentNullException">Thrown when trying to use a null strategy.</exception>
-        public AssertionScope(IAssertionStrategy assertionStrategy)
-            : this(assertionStrategy, GetCurrentAssertionScope())
-        {
-            SetCurrentAssertionScope(this);
-
-            if (parent is not null)
-            {
-                contextData.Add(parent.contextData);
-                Context = parent.Context;
-            }
-        }
-
-        /// <summary>
-        /// Starts an unnamed scope within which multiple assertions can be executed
-        /// and which will not throw until the scope is disposed.
-        /// </summary>
-        public AssertionScope()
-            : this(new CollectingAssertionStrategy())
-        {
-        }
 
         /// <summary>
         /// Starts a named scope within which multiple assertions can be executed
@@ -97,6 +59,26 @@ namespace FluentAssertions.Execution
         }
 
         /// <summary>
+        /// Starts an unnamed scope within which multiple assertions can be executed
+        /// and which will not throw until the scope is disposed.
+        /// </summary>
+        public AssertionScope()
+            : this(new CollectingAssertionStrategy())
+        {
+        }
+
+        /// <summary>
+        /// Starts a new scope based on the given assertion strategy.
+        /// </summary>
+        /// <param name="assertionStrategy">The assertion strategy for this scope.</param>
+        /// <exception cref="ArgumentNullException">Thrown when trying to use a null strategy.</exception>
+        public AssertionScope(IAssertionStrategy assertionStrategy)
+            : this(assertionStrategy, GetCurrentAssertionScope())
+        {
+            SetCurrentAssertionScope(this);
+        }
+
+        /// <summary>
         /// Starts a named scope within which multiple assertions can be executed
         /// and which will not throw until the scope is disposed.
         /// </summary>
@@ -104,6 +86,26 @@ namespace FluentAssertions.Execution
             : this()
         {
             Context = context;
+        }
+
+        /// <summary>
+        /// Starts a new scope based on the given assertion strategy and parent assertion scope
+        /// </summary>
+        /// <param name="assertionStrategy">The assertion strategy for this scope.</param>
+        /// <param name="parent">The parent assertion scope for this scope.</param>
+        /// <exception cref="ArgumentNullException">Thrown when trying to use a null strategy.</exception>
+        private AssertionScope(IAssertionStrategy assertionStrategy, AssertionScope parent)
+        {
+            this.assertionStrategy = assertionStrategy
+                                     ?? throw new ArgumentNullException(nameof(assertionStrategy));
+            this.parent = parent;
+
+            if (parent is not null)
+            {
+                contextData.Add(parent.contextData);
+                Context = parent.Context;
+                callerIdentityProvider = parent.callerIdentityProvider;
+            }
         }
 
         /// <summary>
@@ -119,7 +121,10 @@ namespace FluentAssertions.Execution
         public static AssertionScope Current
         {
 #pragma warning disable CA2000 // AssertionScope should not be disposed here
-            get => GetCurrentAssertionScope() ?? new AssertionScope(new DefaultAssertionStrategy(), parent: null);
+            get
+            {
+                return GetCurrentAssertionScope() ?? new AssertionScope(new DefaultAssertionStrategy(), parent: null);
+            }
 #pragma warning restore CA2000
             private set => SetCurrentAssertionScope(value);
         }
@@ -298,14 +303,18 @@ namespace FluentAssertions.Execution
         private string GetIdentifier()
         {
             var identifier = Context?.Value;
-
             if (string.IsNullOrEmpty(identifier))
             {
-                identifier = CallerIdentifier.DetermineCallerIdentity();
+                identifier = CallerIdentity;
             }
 
             return identifier;
         }
+
+        /// <summary>
+        /// Gets the identity of the caller associated with the current scope.
+        /// </summary>
+        public string CallerIdentity => callerIdentityProvider();
 
         /// <summary>
         /// Adds a pre-formatted failure message to the current scope.
@@ -384,6 +393,17 @@ namespace FluentAssertions.Execution
         {
             fallbackIdentifier = identifier;
             return this;
+        }
+
+        /// <summary>
+        /// Allows the scope to assume that all assertions that happen within this scope are going to
+        /// be initiated by the same caller.
+        /// </summary>
+        public void AssumeSingleCaller()
+        {
+            // Since we know there's only one caller, we don't have to have every assertion determine the caller identity again
+            var provider = new Lazy<string>(() => CallerIdentifier.DetermineCallerIdentity());
+            callerIdentityProvider = () => provider.Value;
         }
 
         private static AssertionScope GetCurrentAssertionScope()

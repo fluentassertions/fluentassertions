@@ -352,7 +352,7 @@ namespace FluentAssertions.Collections
 
             EquivalencyAssertionOptions<IEnumerable<TExpectation>> options = config(AssertionOptions.CloneDefaults<TExpectation>()).AsCollection();
 
-            var context = new EquivalencyValidationContext(Node.From<IEnumerable<TExpectation>>(() => CallerIdentifier.DetermineCallerIdentity()), options)
+            var context = new EquivalencyValidationContext(Node.From<IEnumerable<TExpectation>>(() => AssertionScope.Current.CallerIdentity), options)
             {
                 Reason = new Reason(because, becauseArgs),
                 TraceWriter = options.TraceWriter,
@@ -848,7 +848,7 @@ namespace FluentAssertions.Collections
 
                     foreach (T actualItem in Subject)
                     {
-                        var context = new EquivalencyValidationContext(Node.From<TExpectation>(() => CallerIdentifier.DetermineCallerIdentity()), options)
+                        var context = new EquivalencyValidationContext(Node.From<TExpectation>(() => AssertionScope.Current.CallerIdentity), options)
                         {
                             Reason = new Reason(because, becauseArgs),
                             TraceWriter = options.TraceWriter
@@ -2170,7 +2170,7 @@ namespace FluentAssertions.Collections
                     int index = 0;
                     foreach (T actualItem in Subject)
                     {
-                        var context = new EquivalencyValidationContext(Node.From<TExpectation>(() => CallerIdentifier.DetermineCallerIdentity()), options)
+                        var context = new EquivalencyValidationContext(Node.From<TExpectation>(() => AssertionScope.Current.CallerIdentity), options)
                         {
                             Reason = new Reason(because, becauseArgs),
                             TraceWriter = options.TraceWriter

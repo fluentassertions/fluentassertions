@@ -2830,5 +2830,77 @@ namespace FluentAssertions.Specs.Equivalency
                    from y in arrays
                    select new object[] { x, y };
         }
+
+        [Fact]
+        public void Comparing_lots_of_complex_objects_should_still_be_fast()
+        {
+            // Arrange
+            ClassWithLotsOfProperties GetObject(int i)
+            {
+                return new ClassWithLotsOfProperties
+                {
+#pragma warning disable CA1305
+                    Id = i.ToString(),
+                    Value1 = i.ToString(),
+                    Value2 = i.ToString(),
+                    Value3 = i.ToString(),
+                    Value4 = i.ToString(),
+                    Value5 = i.ToString(),
+                    Value6 = i.ToString(),
+                    Value7 = i.ToString(),
+                    Value8 = i.ToString(),
+                    Value9 = i.ToString(),
+                    Value10 = i.ToString(),
+                    Value11 = i.ToString(),
+                    Value12 = i.ToString(),
+#pragma warning restore CA1305
+                };
+            }
+
+            var actual = new List<ClassWithLotsOfProperties>();
+            var expectation = new List<ClassWithLotsOfProperties>();
+
+            var maxAmount = 100;
+            for (var i = 0; i < maxAmount; i++)
+            {
+                actual.Add(GetObject(i));
+                expectation.Add(GetObject(maxAmount - 1 - i));
+            }
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expectation);
+
+            // Assert
+            act.ExecutionTime().Should().BeLessThan(20.Seconds());
+        }
+
+        private class ClassWithLotsOfProperties
+        {
+            public string Id { get; set; }
+
+            public string Value1 { get; set; }
+
+            public string Value2 { get; set; }
+
+            public string Value3 { get; set; }
+
+            public string Value4 { get; set; }
+
+            public string Value5 { get; set; }
+
+            public string Value6 { get; set; }
+
+            public string Value7 { get; set; }
+
+            public string Value8 { get; set; }
+
+            public string Value9 { get; set; }
+
+            public string Value10 { get; set; }
+
+            public string Value11 { get; set; }
+
+            public string Value12 { get; set; }
+        }
     }
 }
