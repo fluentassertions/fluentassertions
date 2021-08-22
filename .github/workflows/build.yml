@@ -5,7 +5,6 @@ on:
     paths-ignore: 
       - docs/**
   push:
-    branches: [ develop, release-* ]
     paths-ignore: 
       - docs/**
 
