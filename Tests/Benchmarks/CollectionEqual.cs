@@ -8,7 +8,7 @@ namespace Benchmarks
 {
     [MemoryDiagnoser]
     [SimpleJob(RuntimeMoniker.Net472)]
-    [SimpleJob(RuntimeMoniker.NetCoreApp50)]
+    [SimpleJob(RuntimeMoniker.Net50)]
     public class CollectionEqualBenchmarks
     {
         private IEnumerable<int> collection1;
