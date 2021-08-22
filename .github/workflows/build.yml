@@ -45,3 +45,10 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         path: ./Artifacts/*
+        
+    - name: Push to Nuget
+      run: dotnet nuget push ./artifacts/*.nupkg -k {ApiKey} --skip-duplicate --no-symbols true
+      if: contains(github.ref, "refs/tags/")
+      env:
+        ApiKey: ${{ secrets.NUGETAPIKEY }
+      
