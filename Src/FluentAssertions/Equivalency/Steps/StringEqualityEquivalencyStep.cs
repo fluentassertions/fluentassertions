@@ -1,5 +1,4 @@
 using System;
-using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Steps
@@ -20,7 +19,7 @@ namespace FluentAssertions.Equivalency.Steps
                 return EquivalencyResult.AssertionCompleted;
             }
 
-            bool subjectIsString = ValidateAgainstType<string>(comparands, context.CurrentNode);
+            bool subjectIsString = ValidateSubjectIsString(comparands, context.CurrentNode);
             if (subjectIsString)
             {
                 string subject = (string)comparands.Subject;
@@ -51,18 +50,15 @@ namespace FluentAssertions.Equivalency.Steps
             return true;
         }
 
-        private static bool ValidateAgainstType<T>(Comparands comparands, INode currentNode)
+        private static bool ValidateSubjectIsString(Comparands comparands, INode currentNode)
         {
-            bool subjectIsNull = comparands.Subject is null;
-            if (subjectIsNull)
+            if (comparands.Subject is string)
             {
-                // Do not know the declared type of the expectation.
                 return true;
             }
 
             return
                 AssertionScope.Current
-                    .ForCondition(comparands.Subject.GetType().IsSameOrInherits(typeof(T)))
                     .FailWith($"Expected {currentNode} to be {{0}}, but found {{1}}.",
                         comparands.RuntimeType, comparands.Subject.GetType());
         }
