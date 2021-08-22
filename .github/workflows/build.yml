@@ -50,5 +50,5 @@ jobs:
       run: dotnet nuget push ./artifacts/*.nupkg -k {ApiKey} --skip-duplicate --no-symbols true
       if: contains(github.ref, "refs/tags/")
       env:
-        ApiKey: ${{ secrets.NUGETAPIKEY }
+        ApiKey: ${{ secrets.NUGETAPIKEY }}
       
