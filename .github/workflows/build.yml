@@ -1,10 +1,13 @@
 name: Fluent Assertions - Pull Requests
 
 on:
-  push:
-    branches: [ develop, release-6.0 ]
   pull_request:
-    branches: [ develop, release-6.0 ]
+    paths-ignore: 
+      - docs/**
+  push:
+    branches: [ develop, release-* ]
+    paths-ignore: 
+      - docs/**
 
 jobs:
   build:
@@ -42,3 +45,10 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         path: ./Artifacts/*
+        
+    - name: Push to Nuget
+      run: dotnet nuget push ./artifacts/*.nupkg -k {ApiKey} --skip-duplicate --no-symbols true
+      if: contains(github.ref, 'refs/tags/')
+      env:
+        ApiKey: ${{ secrets.NUGETAPIKEY }}
+      
