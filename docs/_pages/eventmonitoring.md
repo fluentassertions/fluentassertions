@@ -20,7 +20,7 @@ monitoredSubject.Should().Raise("NameChangedEvent");
 
 Notice that Fluent Assertions will keep monitoring the `subject` for as long as the `using` block lasts.
 
-Assuming that we’re dealing with a MVVM implementation, you might want to verify that it raised its `PropertyChanged` event for a particular property:
+Assuming that we’re dealing with an MVVM implementation, you might want to verify that it raised its `PropertyChanged` event for a particular property:
 
 ```csharp
 monitoredSubject
