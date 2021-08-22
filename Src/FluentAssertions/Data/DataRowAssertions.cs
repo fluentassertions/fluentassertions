@@ -180,7 +180,7 @@ namespace FluentAssertions.Data
 
             IDataEquivalencyAssertionOptions<DataRow> options = config(AssertionOptions.CloneDefaults<DataRow, DataEquivalencyAssertionOptions<DataRow>>(e => new(e)));
 
-            var context = new EquivalencyValidationContext(Node.From<DataRow>(() => CallerIdentifier.DetermineCallerIdentity()), options)
+            var context = new EquivalencyValidationContext(Node.From<DataRow>(() => AssertionScope.Current.CallerIdentity), options)
             {
                 Reason = new Reason(because, becauseArgs),
                 TraceWriter = options.TraceWriter

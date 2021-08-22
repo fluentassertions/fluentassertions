@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
@@ -485,7 +486,7 @@ namespace System
     {
         public static void DetermineCallerIdentityInNamespace()
         {
-            Func<string> actualCaller = () => CallerIdentifier.DetermineCallerIdentity();
+            Func<string> actualCaller = () => AssertionScope.Current.CallerIdentity;
             actualCaller.Should().BeNull("we want this check to fail for the test");
         }
     }
@@ -497,7 +498,7 @@ namespace SystemPrefixed
     {
         public static void DetermineCallerIdentityInNamespace()
         {
-            Func<string> actualCaller = () => CallerIdentifier.DetermineCallerIdentity();
+            Func<string> actualCaller = () => AssertionScope.Current.CallerIdentity;
             actualCaller.Should().BeNull("we want this check to fail for the test");
         }
     }
@@ -509,7 +510,7 @@ namespace System.Data
     {
         public static void DetermineCallerIdentityInNamespace()
         {
-            Func<string> actualCaller = () => CallerIdentifier.DetermineCallerIdentity();
+            Func<string> actualCaller = () => AssertionScope.Current.CallerIdentity;
             actualCaller.Should().BeNull("we want this check to fail for the test");
         }
     }

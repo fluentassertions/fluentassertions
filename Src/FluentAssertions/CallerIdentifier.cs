@@ -13,6 +13,7 @@ namespace FluentAssertions
     /// <summary>
     /// Tries to extract the name of the variable or invocation on which the assertion is executed.
     /// </summary>
+    // REFACTOR: Should be internal and treated as an implementation detail of the AssertionScope
     public static class CallerIdentifier
     {
         public static Action<string> Logger { get; set; } = _ => { };

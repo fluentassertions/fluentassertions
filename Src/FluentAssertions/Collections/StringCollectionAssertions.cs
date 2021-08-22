@@ -123,7 +123,7 @@ namespace FluentAssertions.Collections
 
             EquivalencyAssertionOptions<IEnumerable<string>> options = config(AssertionOptions.CloneDefaults<string>()).AsCollection();
 
-            var context = new EquivalencyValidationContext(Node.From<IEnumerable<string>>(() => CallerIdentifier.DetermineCallerIdentity()), options)
+            var context = new EquivalencyValidationContext(Node.From<IEnumerable<string>>(() => AssertionScope.Current.CallerIdentity), options)
             {
                 Reason = new Reason(because, becauseArgs),
                 TraceWriter = options.TraceWriter

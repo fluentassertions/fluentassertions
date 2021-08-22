@@ -13,6 +13,8 @@ namespace FluentAssertions.Equivalency
         public void AssertEquality(Comparands comparands, EquivalencyValidationContext context)
         {
             using var scope = new AssertionScope();
+
+            scope.AssumeSingleCaller();
             scope.AddReportable("configuration", context.Options.ToString());
             scope.BecauseOf(context.Reason);
 

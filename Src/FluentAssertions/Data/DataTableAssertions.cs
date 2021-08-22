@@ -245,7 +245,7 @@ namespace FluentAssertions.Data
 
             IDataEquivalencyAssertionOptions<DataTable> options = config(AssertionOptions.CloneDefaults<DataTable, DataEquivalencyAssertionOptions<DataTable>>(e => new(e)));
 
-            var context = new EquivalencyValidationContext(Node.From<DataTable>(() => CallerIdentifier.DetermineCallerIdentity()), options)
+            var context = new EquivalencyValidationContext(Node.From<DataTable>(() => AssertionScope.Current.CallerIdentity), options)
             {
                 Reason = new Reason(because, becauseArgs),
                 TraceWriter = options.TraceWriter

@@ -14,6 +14,10 @@ sidebar:
 * Prevent asserting directly on `AndConstraint` - [#1649](https://github.com/fluentassertions/fluentassertions/pull/1649)
 * Added `WithInnerExceptionExactly` extension method on `Task<ExceptionAssertions<T>>` for easier use with `ThrowAsync` - [#1658](https://github.com/fluentassertions/fluentassertions/pull/1658)
 
+### Fixes
+
+* Resolved a significant performance degradation in `BeEquivalentTo` - [#1660](https://github.com/fluentassertions/fluentassertions/pull/1660)
+
 ## 6.0.0
 
 ### What's New

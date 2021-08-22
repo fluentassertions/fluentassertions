@@ -1226,6 +1226,7 @@ namespace FluentAssertions.Execution
         public AssertionScope(FluentAssertions.Execution.IAssertionStrategy assertionStrategy) { }
         public AssertionScope(System.Lazy<string> context) { }
         public AssertionScope(string context) { }
+        public string CallerIdentity { get; }
         public System.Lazy<string> Context { get; set; }
         public FluentAssertions.Formatting.FormattingOptions FormattingOptions { get; }
         public FluentAssertions.Execution.AssertionScope UsingLineBreaks { get; }
@@ -1234,6 +1235,7 @@ namespace FluentAssertions.Execution
         public void AddPreFormattedFailure(string formattedFailureMessage) { }
         public void AddReportable(string key, System.Func<string> valueFunc) { }
         public void AddReportable(string key, string value) { }
+        public void AssumeSingleCaller() { }
         public FluentAssertions.Execution.AssertionScope BecauseOf(FluentAssertions.Execution.Reason reason) { }
         public FluentAssertions.Execution.AssertionScope BecauseOf(string because, params object[] becauseArgs) { }
         public FluentAssertions.Execution.Continuation ClearExpectation() { }

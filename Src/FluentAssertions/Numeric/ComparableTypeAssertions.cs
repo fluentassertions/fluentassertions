@@ -108,7 +108,7 @@ namespace FluentAssertions.Numeric
             EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
 
             var context = new EquivalencyValidationContext(
-                Node.From<TExpectation>(() => CallerIdentifier.DetermineCallerIdentity()), options)
+                Node.From<TExpectation>(() => AssertionScope.Current.CallerIdentity), options)
             {
                 Reason = new Reason(because, becauseArgs),
                 TraceWriter = options.TraceWriter
