@@ -218,3 +218,35 @@ You might ask if we could not just have changed the overload signature from `par
 The answer is no (as far as we know), as the compiler prefers resolving e.g. `IEnumerable<T>` to `params IEnumerable<T>[]` over `IEnumerable<T>`.
 
 For Fluent Assertions 6.0 the implications of this are that `(1)` no longer compiles, as `BeEquivalentTo` takes an `IEnumerable<T>`, but `(2)` now works as expected.
+
+## Asserting exceptions asynchronously 
+In the past, we would invoke asynchronous code by wrapping it in a synchronously blocking call. Unfortunately this resulted in occasional deadlocks, which we fixed by temporarily clearing the `SynchronizationContext`. This worked, but felt like an ugly workaround. So in v6, we decided to fully embrace asynchronous code and make some of the assertion APIs async itself. This means that using `Should().Throw()`, `ThrowExactly()` and `NotThrow()` will no longer magically work on `async` code and you need to use the versions with the `Async` postfix instead.
+
+For background information on this decision, check out the following articles:
+
+* [Asynchronous programming with async and await](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/async/)
+* [Asynchronous Programming](https://docs.microsoft.com/en-us/dotnet/csharp/async)
+* [Don't Block on Async Code](https://blog.stephencleary.com/2012/07/dont-block-on-async-code.html)
+* [Understanding Async, Avoiding Deadlocks in C#](https://medium.com/rubrikkgroup/understanding-async-avoiding-deadlocks-e41f8f2c6f5d)
+
+## Chaining event assertions
+As part of fixing [this PR](https://github.com/fluentassertions/fluentassertions/issues/337) we had to change the event assertions work. Now, event constraining extensions like `WithArgs` and `WithSender` will return only the events that match the constraints. This means that this will no longer work:
+
+```csharp
+foo
+    .ShouldRaise("SomeEvent")
+         .WithArgs<string>(args => args == "some event payload")
+         .WithArgs<string>(args => args == "other payload");
+```
+
+In 6.0, you need to write this as:
+
+```csharp
+foo
+    .ShouldRaise("SomeEvent")
+    .WithArgs<string>(args => args == "some event payload");
+
+foo
+    .ShouldRaise("SomeEvent")
+    .WithArgs<string>(args => args == "other payload");
+```
