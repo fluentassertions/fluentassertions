@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using FluentAssertions.Collections;
 using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Collections
 {
-    /// <summary>
-    /// The tests in this class are responsible for testing the Satisfy methods
-    /// in the <see cref="GenericCollectionAssertions{TCollection, T, TAssertions}"/> class.
-    /// </summary>
-    public class GenericCollectionSatisfyAssertionSpecs
+    /// <content>
+    /// The Satisfy specs.
+    /// </content>
+    public partial class CollectionAssertionSpecs
     {
         [Fact]
         public void When_collection_element_at_each_position_matches_predicate_at_same_position_should_not_throw()
@@ -144,9 +142,9 @@ namespace FluentAssertions.Specs.Collections
 *The following predicates did not have matching elements:
 *(element.Text == ""two"") AndAlso (element.Number == 2)
 *The following elements did not match any predicate:
-*Index: 0, Element:*FluentAssertions.Specs.Collections.GenericCollectionSatisfyAssertionSpecs+SomeClass*{*Number = 1*Text = ""one""*}
-*Index: 1, Element:*FluentAssertions.Specs.Collections.GenericCollectionSatisfyAssertionSpecs+SomeClass*{*Number = 3*Text = ""two""*}
-*Index: 2, Element:*FluentAssertions.Specs.Collections.GenericCollectionSatisfyAssertionSpecs+SomeClass*{*Number = 3*Text = ""three""*}");
+*Index: 0, Element:*FluentAssertions.Specs.Collections.CollectionAssertionSpecs+SomeClass*{*Number = 1*Text = ""one""*}
+*Index: 1, Element:*FluentAssertions.Specs.Collections.CollectionAssertionSpecs+SomeClass*{*Number = 3*Text = ""two""*}
+*Index: 2, Element:*FluentAssertions.Specs.Collections.CollectionAssertionSpecs+SomeClass*{*Number = 3*Text = ""three""*}");
         }
 
         [Fact]
