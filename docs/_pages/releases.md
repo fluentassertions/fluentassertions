@@ -13,6 +13,8 @@ sidebar:
 
 ### Fixes
 
+* Prevent exceptions when asserting on `ImmutableArray<T>` - [#1668](https://github.com/fluentassertions/fluentassertions/pull/1668)
+
 ## 6.1.0
 
 ### What's New

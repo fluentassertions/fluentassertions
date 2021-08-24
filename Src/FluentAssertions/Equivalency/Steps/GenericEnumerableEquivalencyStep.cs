@@ -57,7 +57,7 @@ namespace FluentAssertions.Equivalency.Steps
         }
 
         private static void HandleImpl<T>(EnumerableEquivalencyValidator validator, object[] subject, IEnumerable<T> expectation)
-            => validator.Execute(subject, expectation?.ToArray());
+            => validator.Execute(subject, ToArray(expectation));
 
         private static bool AssertSubjectIsCollection(object subject)
         {
@@ -105,6 +105,19 @@ namespace FluentAssertions.Equivalency.Steps
             Type interfaceType = GetIEnumerableInterfaces(enumerableType).Single();
 
             return interfaceType.GetGenericArguments().Single();
+        }
+
+        private static T[] ToArray<T>(IEnumerable<T> value)
+        {
+            try
+            {
+                return value?.ToArray();
+            }
+            catch (InvalidOperationException) when (value.GetType().Name.Equals("ImmutableArray`1", StringComparison.Ordinal))
+            {
+                // This is probably a default ImmutableArray<T>
+                return Array.Empty<T>();
+            }
         }
     }
 }
