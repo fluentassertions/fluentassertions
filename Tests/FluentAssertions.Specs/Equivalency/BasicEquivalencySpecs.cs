@@ -4075,7 +4075,7 @@ namespace FluentAssertions.Specs.Equivalency
         }
 
         [Fact]
-        public void When_asserting_enums_typed_as_object_are_equivalent_it_should_fail()
+        public void When_asserting_enums_typed_as_object_are_equivalent_it_should_succeed()
         {
             // Arrange
             object e1 = EnumOne.One;
