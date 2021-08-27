@@ -4,7 +4,7 @@ namespace FluentAssertions.Common
     {
         public string GetSetting(string name)
         {
-            return "";
+            return string.Empty;
         }
     }
 }

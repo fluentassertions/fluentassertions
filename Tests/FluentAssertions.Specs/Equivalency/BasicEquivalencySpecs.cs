@@ -2119,7 +2119,7 @@ namespace FluentAssertions.Specs.Equivalency
             };
 
             // Act
-            Action act= () => actual.Should().BeEquivalentTo(expectation, opts => opts
+            Action act = () => actual.Should().BeEquivalentTo(expectation, opts => opts
                 .Excluding(d => d.Property));
 
             // Assert
