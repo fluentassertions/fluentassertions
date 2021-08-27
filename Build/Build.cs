@@ -54,7 +54,7 @@ class Build : NukeBuild
         {
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
-                .SetConfiguration("Debug")
+                .SetConfiguration("CI")
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion));
@@ -65,7 +65,8 @@ class Build : NukeBuild
         .Executes(() =>
         {
             DotNetTest(s => s
-                .SetConfiguration("Debug")
+                .SetConfiguration("Release")
+                .EnableNoBuild()
                 .CombineWith(
                     cc => cc.SetProjectFile(Solution.Specs.Approval_Tests)));
         });
@@ -83,6 +84,7 @@ class Build : NukeBuild
             DotNetTest(s => s
                 .SetProjectFile(Solution.Specs.FluentAssertions_Specs)
                 .SetConfiguration("Debug")
+                .EnableNoBuild()
                 .CombineWith(
                     Solution.Specs.FluentAssertions_Specs.GetTargetFrameworks().Except(new[] { "net47" }),
                     (_, v) => _.SetFramework(v)));
@@ -94,6 +96,7 @@ class Build : NukeBuild
         {
             DotNetTest(s => s
                 .SetConfiguration("Debug")
+                .EnableNoBuild()
                 .CombineWith(
                     new[]
                     {
