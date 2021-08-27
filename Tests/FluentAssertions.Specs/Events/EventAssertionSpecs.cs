@@ -698,15 +698,15 @@ namespace FluentAssertions.Specs.Events
             string typeName = baseType.Name + "_GeneratedForTest";
             TypeBuilder typeBuilder = moduleBuilder.DefineType(typeName, TypeAttributes.Public, baseType, new[] { interfaceType });
 
-            MethodBuilder addHandler = emitAddRemoveEventHandler("add");
+            MethodBuilder addHandler = EmitAddRemoveEventHandler("add");
             typeBuilder.DefineMethodOverride(addHandler, interfaceType.GetMethod("add_InterfaceEvent"));
-            MethodBuilder removeHandler = emitAddRemoveEventHandler("remove");
+            MethodBuilder removeHandler = EmitAddRemoveEventHandler("remove");
             typeBuilder.DefineMethodOverride(removeHandler, interfaceType.GetMethod("remove_InterfaceEvent"));
 
             Type generatedType = typeBuilder.CreateType();
             return Activator.CreateInstance(generatedType);
 
-            MethodBuilder emitAddRemoveEventHandler(string methodName)
+            MethodBuilder EmitAddRemoveEventHandler(string methodName)
             {
                 MethodBuilder method =
                     typeBuilder.DefineMethod($"{interfaceType.FullName}.{methodName}_InterfaceEvent",
