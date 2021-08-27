@@ -23,6 +23,7 @@ $DotNetChannel = "Current"
 $env:DOTNET_SKIP_FIRST_TIME_EXPERIENCE = 1
 $env:DOTNET_CLI_TELEMETRY_OPTOUT = 1
 $env:DOTNET_MULTILEVEL_LOOKUP = 0
+$env:NUKE_TELEMETRY_OPTOUT = 1
 
 ###########################################################################
 # EXECUTION
@@ -56,9 +57,9 @@ else {
     # Install by channel or version
     $DotNetDirectory = "$TempDirectory\dotnet-win"
     if (!(Test-Path variable:DotNetVersion)) {
-        ExecSafe { & $DotNetInstallFile -InstallDir $DotNetDirectory -Channel $DotNetChannel -NoPath }
+        ExecSafe { & powershell $DotNetInstallFile -InstallDir $DotNetDirectory -Channel $DotNetChannel -NoPath }
     } else {
-        ExecSafe { & $DotNetInstallFile -InstallDir $DotNetDirectory -Version $DotNetVersion -NoPath }
+        ExecSafe { & powershell $DotNetInstallFile -InstallDir $DotNetDirectory -Version $DotNetVersion -NoPath }
     }
     $env:DOTNET_EXE = "$DotNetDirectory\dotnet.exe"
 }

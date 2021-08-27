@@ -11,6 +11,6 @@
     <PackageDownload Include="GitVersion.Tool" Version="[5.7.0]" />
     <PackageDownload Include="NSpec" Version="[3.1.0]" />
     <PackageDownload Include="xunit.runner.console" Version="[2.4.1]" />
-    <PackageReference Include="Nuke.Common" Version="5.1.0" />
+    <PackageReference Include="Nuke.Common" Version="5.3.0" />
   </ItemGroup>
 </Project>
