@@ -9,10 +9,10 @@ sidebar:
 
 ```csharp
 int theInt = 5;
-theInt.Should().BeGreaterOrEqualTo(5);
-theInt.Should().BeGreaterOrEqualTo(3);
+theInt.Should().BeGreaterThanOrEqualTo(5);
+theInt.Should().BeGreaterThanOrEqualTo(3);
 theInt.Should().BeGreaterThan(4);
-theInt.Should().BeLessOrEqualTo(5);
+theInt.Should().BeLessThanOrEqualTo(5);
 theInt.Should().BeLessThan(6);
 theInt.Should().BePositive();
 theInt.Should().Be(5);

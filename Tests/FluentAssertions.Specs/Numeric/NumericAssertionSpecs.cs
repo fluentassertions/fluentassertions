@@ -446,49 +446,49 @@ namespace FluentAssertions.Specs.Numeric
         }
 
         [Fact]
-        public void When_a_value_is_greater_or_equal_to_smaller_value_it_should_not_throw()
+        public void When_a_value_is_greater_than_or_equal_to_smaller_value_it_should_not_throw()
         {
             // Arrange
             int value = 2;
             int smallerValue = 1;
 
             // Act
-            Action act = () => value.Should().BeGreaterOrEqualTo(smallerValue);
+            Action act = () => value.Should().BeGreaterThanOrEqualTo(smallerValue);
 
             // Assert
             act.Should().NotThrow();
         }
 
         [Fact]
-        public void When_a_value_is_greater_or_equal_to_same_value_it_should_not_throw()
+        public void When_a_value_is_greater_than_or_equal_to_same_value_it_should_not_throw()
         {
             // Arrange
             int value = 2;
             int sameValue = 2;
 
             // Act
-            Action act = () => value.Should().BeGreaterOrEqualTo(sameValue);
+            Action act = () => value.Should().BeGreaterThanOrEqualTo(sameValue);
 
             // Assert
             act.Should().NotThrow();
         }
 
         [Fact]
-        public void When_a_value_is_greater_or_equal_to_greater_value_it_should_throw()
+        public void When_a_value_is_greater_than_or_equal_to_greater_value_it_should_throw()
         {
             // Arrange
             int value = 2;
             int greaterValue = 3;
 
             // Act
-            Action act = () => value.Should().BeGreaterOrEqualTo(greaterValue);
+            Action act = () => value.Should().BeGreaterThanOrEqualTo(greaterValue);
 
             // Assert
             act.Should().Throw<XunitException>();
         }
 
         [Fact]
-        public void When_a_value_is_greater_or_equal_to_greater_value_it_should_throw_with_descriptive_message()
+        public void When_a_value_is_greater_than_or_equal_to_greater_value_it_should_throw_with_descriptive_message()
         {
             // Arrange
             int value = 2;
@@ -496,12 +496,12 @@ namespace FluentAssertions.Specs.Numeric
 
             // Act
             Action act =
-                () => value.Should().BeGreaterOrEqualTo(greaterValue, "because we want to test the failure {0}", "message");
+                () => value.Should().BeGreaterThanOrEqualTo(greaterValue, "because we want to test the failure {0}", "message");
 
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be greater or equal to 3 because we want to test the failure message, but found 2.");
+                .WithMessage("Expected value to be greater than or equal to 3 because we want to test the failure message, but found 2.");
         }
 
         [Fact]
@@ -520,13 +520,13 @@ namespace FluentAssertions.Specs.Numeric
         }
 
         [Fact]
-        public void When_a_nullable_numeric_null_value_is_not_greater_or_equal_to_it_should_throw()
+        public void When_a_nullable_numeric_null_value_is_not_greater_than_or_equal_to_it_should_throw()
         {
             // Arrange
             int? value = null;
 
             // Act
-            Action act = () => value.Should().BeGreaterOrEqualTo(0);
+            Action act = () => value.Should().BeGreaterThanOrEqualTo(0);
 
             // Assert
             act
@@ -597,61 +597,61 @@ namespace FluentAssertions.Specs.Numeric
         }
 
         [Fact]
-        public void When_a_value_is_less_or_equal_to_greater_value_it_should_not_throw()
+        public void When_a_value_is_less_than_or_equal_to_greater_value_it_should_not_throw()
         {
             // Arrange
             int value = 1;
             int greaterValue = 2;
 
             // Act
-            Action act = () => value.Should().BeLessOrEqualTo(greaterValue);
+            Action act = () => value.Should().BeLessThanOrEqualTo(greaterValue);
 
             // Assert
             act.Should().NotThrow();
         }
 
         [Fact]
-        public void When_a_value_is_less_or_equal_to_same_value_it_should_not_throw()
+        public void When_a_value_is_less_than_or_equal_to_same_value_it_should_not_throw()
         {
             // Arrange
             int value = 2;
             int sameValue = 2;
 
             // Act
-            Action act = () => value.Should().BeLessOrEqualTo(sameValue);
+            Action act = () => value.Should().BeLessThanOrEqualTo(sameValue);
 
             // Assert
             act.Should().NotThrow();
         }
 
         [Fact]
-        public void When_a_value_is_less_or_equal_to_smaller_value_it_should_throw()
+        public void When_a_value_is_less_than_or_equal_to_smaller_value_it_should_throw()
         {
             // Arrange
             int value = 2;
             int smallerValue = 1;
 
             // Act
-            Action act = () => value.Should().BeLessOrEqualTo(smallerValue);
+            Action act = () => value.Should().BeLessThanOrEqualTo(smallerValue);
 
             // Assert
             act.Should().Throw<XunitException>();
         }
 
         [Fact]
-        public void When_a_value_is_less_or_equal_to_smaller_value_it_should_throw_with_descriptive_message()
+        public void When_a_value_is_less_than_or_equal_to_smaller_value_it_should_throw_with_descriptive_message()
         {
             // Arrange
             int value = 2;
             int smallerValue = 1;
 
             // Act
-            Action act = () => value.Should().BeLessOrEqualTo(smallerValue, "because we want to test the failure {0}", "message");
+            Action act = () => value.Should().BeLessThanOrEqualTo(smallerValue, "because we want to test the failure {0}", "message");
 
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be less or equal to 1 because we want to test the failure message, but found 2.");
+                .WithMessage("Expected value to be less than or equal to 1 because we want to test the failure message, but found 2.");
         }
 
         [Fact]
@@ -670,13 +670,13 @@ namespace FluentAssertions.Specs.Numeric
         }
 
         [Fact]
-        public void When_a_nullable_numeric_null_value_is_not_less_or_equal_to_it_should_throw()
+        public void When_a_nullable_numeric_null_value_is_not_less_than_or_equal_to_it_should_throw()
         {
             // Arrange
             int? value = null;
 
             // Act
-            Action act = () => value.Should().BeLessOrEqualTo(0);
+            Action act = () => value.Should().BeLessThanOrEqualTo(0);
 
             // Assert
             act

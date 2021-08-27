@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
@@ -201,16 +202,19 @@ namespace FluentAssertions.Numeric
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> BeLessOrEqualTo(T expected, string because = "",
+        public AndConstraint<TAssertions> BeLessThanOrEqualTo(T expected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) <= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be less or equal to {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be less than or equal to {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public AndConstraint<TAssertions> BeLessOrEqualTo(T expected, string because = "", params object[] becauseArgs) => BeLessThanOrEqualTo(expected, because, becauseArgs);
 
         /// <summary>
         /// Asserts that the numeric value is greater than the specified <paramref name="expected"/> value.
@@ -245,16 +249,19 @@ namespace FluentAssertions.Numeric
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> BeGreaterOrEqualTo(T expected, string because = "",
+        public AndConstraint<TAssertions> BeGreaterThanOrEqualTo(T expected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) >= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be greater or equal to {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be greater than or equal to {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public AndConstraint<TAssertions> BeGreaterOrEqualTo(T expected, string because = "", params object[] becauseArgs) => BeGreaterThanOrEqualTo(expected, because, becauseArgs);
 
         /// <summary>
         /// Asserts that a value is within a range.

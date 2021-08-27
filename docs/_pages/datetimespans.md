@@ -105,9 +105,9 @@ timeSpan.Should().BeNegative();
 timeSpan.Should().Be(12.Hours());
 timeSpan.Should().NotBe(1.Days());
 timeSpan.Should().BeLessThan(someOtherTimeSpan);
-timeSpan.Should().BeLessOrEqualTo(someOtherTimeSpan);
+timeSpan.Should().BeLessThanOrEqualTo(someOtherTimeSpan);
 timeSpan.Should().BeGreaterThan(someOtherTimeSpan);
-timeSpan.Should().BeGreaterOrEqualTo(someOtherTimeSpan);
+timeSpan.Should().BeGreaterThanOrEqualTo(someOtherTimeSpan);
 ```
 
 Similarly to the [date and time assertions](#dates-and-times), `BeCloseTo` and `NotBeCloseTo` are also available for time spans:

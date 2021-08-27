@@ -1,4 +1,4 @@
-[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/fluentassertions/fluentassertions")]
+﻿[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/fluentassertions/fluentassertions")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo(@"Benchmarks, PublicKey=00240000048000009400000006020000002400005253413100040000010001002d25ff515c85b13ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f970d2a4874932fed35db546e89af2da88c194bf1b7f7ac70de7988c78406f7629c547283061282a825616eb7eb48a9514a7570942936020a9bb37dca9ff60b778309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo(@"FluentAssertions.Specs, PublicKey=00240000048000009400000006020000002400005253413100040000010001002d25ff515c85b13ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f970d2a4874932fed35db546e89af2da88c194bf1b7f7ac70de7988c78406f7629c547283061282a825616eb7eb48a9514a7570942936020a9bb37dca9ff60b778309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f")]
 [assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v3.0", FrameworkDisplayName="")]
@@ -419,8 +419,10 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> HaveCount(System.Linq.Expressions.Expression<System.Func<int, bool>> countPredicate, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveCountGreaterOrEqualTo(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveCountGreaterThan(int expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveCountGreaterThanOrEqualTo(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveCountLessOrEqualTo(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveCountLessThan(int expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveCountLessThanOrEqualTo(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, T> HaveElementAt(int index, T element, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveElementPreceding(T successor, T expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveElementSucceeding(T predecessor, T expectation, string because = "", params object[] becauseArgs) { }
@@ -1658,9 +1660,11 @@ namespace FluentAssertions.Numeric
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeGreaterOrEqualTo(T expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeGreaterThan(T expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeGreaterThanOrEqualTo(T expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeInRange(T minimumValue, T maximumValue, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeLessOrEqualTo(T expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeLessThan(T expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeLessThanOrEqualTo(T expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeRankedEquallyTo(T expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(T unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeInRange(T minimumValue, T maximumValue, string because = "", params object[] becauseArgs) { }
@@ -1697,9 +1701,11 @@ namespace FluentAssertions.Numeric
         public FluentAssertions.AndConstraint<TAssertions> Be(T? expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeGreaterOrEqualTo(T expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeGreaterThan(T expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeGreaterThanOrEqualTo(T expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeInRange(T minimumValue, T maximumValue, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeLessOrEqualTo(T expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeLessThan(T expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeLessThanOrEqualTo(T expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNegative(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOfType(System.Type expectedType, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(params T[] validValues) { }
@@ -2026,8 +2032,10 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> BeCloseTo(System.TimeSpan nearbyTime, System.TimeSpan precision, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeGreaterOrEqualTo(System.TimeSpan expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeGreaterThan(System.TimeSpan expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeGreaterThanOrEqualTo(System.TimeSpan expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeLessOrEqualTo(System.TimeSpan expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeLessThan(System.TimeSpan expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeLessThanOrEqualTo(System.TimeSpan expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNegative(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BePositive(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(System.TimeSpan unexpected, string because = "", params object[] becauseArgs) { }
@@ -2188,8 +2196,10 @@ namespace FluentAssertions.Specialized
         public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ExecutionTimeAssertions> BeCloseTo(System.TimeSpan expectedDuration, System.TimeSpan precision, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ExecutionTimeAssertions> BeGreaterOrEqualTo(System.TimeSpan minDuration, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ExecutionTimeAssertions> BeGreaterThan(System.TimeSpan minDuration, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ExecutionTimeAssertions> BeGreaterThanOrEqualTo(System.TimeSpan minDuration, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ExecutionTimeAssertions> BeLessOrEqualTo(System.TimeSpan maxDuration, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ExecutionTimeAssertions> BeLessThan(System.TimeSpan maxDuration, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ExecutionTimeAssertions> BeLessThanOrEqualTo(System.TimeSpan maxDuration, string because = "", params object[] becauseArgs) { }
     }
     public class FunctionAssertions<T> : FluentAssertions.Specialized.DelegateAssertions<System.Func<T>, FluentAssertions.Specialized.FunctionAssertions<T>>
     {

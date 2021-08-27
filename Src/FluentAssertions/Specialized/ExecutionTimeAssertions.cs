@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Specialized
@@ -53,7 +54,7 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
-        /// Asserts that the execution time of the operation is less or equal to a specified amount of time.
+        /// Asserts that the execution time of the operation is less than or equal to a specified amount of time.
         /// </summary>
         /// <param name="maxDuration">
         /// The maximum allowed duration.
@@ -65,7 +66,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<ExecutionTimeAssertions> BeLessOrEqualTo(TimeSpan maxDuration, string because = "", params object[] becauseArgs)
+        public AndConstraint<ExecutionTimeAssertions> BeLessThanOrEqualTo(TimeSpan maxDuration, string because = "", params object[] becauseArgs)
         {
             bool Condition(TimeSpan duration) => duration.CompareTo(maxDuration) <= 0;
             (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: false, rate: maxDuration);
@@ -74,13 +75,16 @@ namespace FluentAssertions.Specialized
                 .ForCondition(Condition(elapsed))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Execution of " +
-                          execution.ActionDescription + " should be less or equal to {0}{reason}, but it required " +
+                          execution.ActionDescription + " should be less than or equal to {0}{reason}, but it required " +
                           (isRunning ? "more than " : "exactly ") + "{1}.",
                     maxDuration,
                     elapsed);
 
             return new AndConstraint<ExecutionTimeAssertions>(this);
         }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public AndConstraint<ExecutionTimeAssertions> BeLessOrEqualTo(TimeSpan maxDuration, string because = "", params object[] becauseArgs) => BeLessThanOrEqualTo(maxDuration, because, becauseArgs);
 
         /// <summary>
         /// Asserts that the execution time of the operation is less than a specified amount of time.
@@ -113,7 +117,7 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
-        /// Asserts that the execution time of the operation is greater or equal to a specified amount of time.
+        /// Asserts that the execution time of the operation is greater than or equal to a specified amount of time.
         /// </summary>
         /// <param name="minDuration">
         /// The minimum allowed duration.
@@ -125,7 +129,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<ExecutionTimeAssertions> BeGreaterOrEqualTo(TimeSpan minDuration, string because = "", params object[] becauseArgs)
+        public AndConstraint<ExecutionTimeAssertions> BeGreaterThanOrEqualTo(TimeSpan minDuration, string because = "", params object[] becauseArgs)
         {
             bool Condition(TimeSpan duration) => duration.CompareTo(minDuration) >= 0;
             (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: true, rate: minDuration);
@@ -134,13 +138,16 @@ namespace FluentAssertions.Specialized
                 .ForCondition(Condition(elapsed))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Execution of " +
-                          execution.ActionDescription + " should be greater or equal to {0}{reason}, but it required " +
+                          execution.ActionDescription + " should be greater than or equal to {0}{reason}, but it required " +
                           (isRunning ? "more than " : "exactly ") + "{1}.",
                     minDuration,
                     elapsed);
 
             return new AndConstraint<ExecutionTimeAssertions>(this);
         }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public AndConstraint<ExecutionTimeAssertions> BeGreaterOrEqualTo(TimeSpan minDuration, string because = "", params object[] becauseArgs) => BeGreaterThanOrEqualTo(minDuration, because, becauseArgs);
 
         /// <summary>
         /// Asserts that the execution time of the operation is greater than a specified amount of time.
