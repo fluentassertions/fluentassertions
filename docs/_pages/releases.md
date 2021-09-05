@@ -161,6 +161,7 @@ sidebar:
 * `BeEquivalentTo` will no longer include `internal` properties and fields, unless `IncludingInternalProperties` or `IncludingInternalFields` is used - [#1575](https://github.com/fluentassertions/fluentassertions/pull/1575).
 * Renamed `protected` methods on `DelegateAssertionsBase` such as `Throw` and `NotThrow` to avoid confusion - [#1642](https://github.com/fluentassertions/fluentassertions/pull/1642)
 * Moved the properties of `IMemberInfo.SelectedMemberInfo` to `IMemberInfo`. Renamed `IMemberInfo.SelectedMemberPath` to `Path` and replaced `SelectedMemberDescription` by a combination of `Path` and `Name` - [#1379](https://github.com/fluentassertions/fluentassertions/pull/1379)
+* Changed `[Not]Be` on an `IComparable<T>` to use `Equals(object)` instead of `CompareTo(T)` and added `[Not]BeRankedEquallyTo` to use `CompareTo(T)` - [#1177](https://github.com/fluentassertions/fluentassertions/pull/1177).
 
 ### Breaking Changes (Extensibility)
 
