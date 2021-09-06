@@ -461,7 +461,7 @@ namespace FluentAssertions.Specs.Numeric
 
         #endregion
 
-        #region Be Less Or Equal To
+        #region Be Less Than Or Equal To
 
         [Fact]
         public void When_subject_is_greater_than_another_subject_and_that_is_not_expected_it_should_throw()
@@ -471,12 +471,12 @@ namespace FluentAssertions.Specs.Numeric
             var other = new ComparableOfString("City");
 
             // Act
-            Action act = () => subject.Should().BeLessOrEqualTo(other, "we want to order them");
+            Action act = () => subject.Should().BeLessThanOrEqualTo(other, "we want to order them");
 
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected subject*World*to be less or equal to*City*because we want to order them.");
+                .WithMessage("Expected subject*World*to be less than or equal to*City*because we want to order them.");
         }
 
         [Fact]
@@ -487,21 +487,21 @@ namespace FluentAssertions.Specs.Numeric
             var other = new ComparableOfString("World");
 
             // Act
-            Action act = () => subject.Should().BeLessOrEqualTo(other);
+            Action act = () => subject.Should().BeLessThanOrEqualTo(other);
 
             // Assert
             act.Should().NotThrow();
         }
 
         [Fact]
-        public void When_subject_is_less_than_another_subject_and_less_or_equal_is_expected_it_should_not_throw()
+        public void When_subject_is_less_than_another_subject_and_less_than_or_equal_is_expected_it_should_not_throw()
         {
             // Arrange
             var subject = new ComparableOfString("City");
             var other = new ComparableOfString("World");
 
             // Act
-            Action act = () => subject.Should().BeLessOrEqualTo(other);
+            Action act = () => subject.Should().BeLessThanOrEqualTo(other);
 
             // Assert
             act.Should().NotThrow();
@@ -557,7 +557,7 @@ namespace FluentAssertions.Specs.Numeric
 
         #endregion
 
-        #region Be Greater Or Equal To
+        #region Be Greater Than Or Equal To
 
         [Fact]
         public void When_subject_is_less_than_another_subject_and_that_is_not_expected_it_should_throw()
@@ -567,12 +567,12 @@ namespace FluentAssertions.Specs.Numeric
             var other = new ComparableOfString("def");
 
             // Act
-            Action act = () => subject.Should().BeGreaterOrEqualTo(other, "'d' is bigger then 'a'");
+            Action act = () => subject.Should().BeGreaterThanOrEqualTo(other, "'d' is bigger then 'a'");
 
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected subject*abc*to be greater or equal to*def*because 'd' is bigger then 'a'.");
+                .WithMessage("Expected subject*abc*to be greater than or equal to*def*because 'd' is bigger then 'a'.");
         }
 
         [Fact]
@@ -583,21 +583,21 @@ namespace FluentAssertions.Specs.Numeric
             var other = new ComparableOfString("def");
 
             // Act
-            Action act = () => subject.Should().BeGreaterOrEqualTo(other);
+            Action act = () => subject.Should().BeGreaterThanOrEqualTo(other);
 
             // Assert
             act.Should().NotThrow();
         }
 
         [Fact]
-        public void When_subject_is_greater_than_another_subject_and_greater_or_equal_is_expected_it_should_not_throw()
+        public void When_subject_is_greater_than_another_subject_and_greater_than_or_equal_is_expected_it_should_not_throw()
         {
             // Arrange
             var subject = new ComparableOfString("xyz");
             var other = new ComparableOfString("abc");
 
             // Act
-            Action act = () => subject.Should().BeGreaterOrEqualTo(other);
+            Action act = () => subject.Should().BeGreaterThanOrEqualTo(other);
 
             // Assert
             act.Should().NotThrow();

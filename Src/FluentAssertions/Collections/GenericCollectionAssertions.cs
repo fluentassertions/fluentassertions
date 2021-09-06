@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -1276,7 +1277,7 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that the number of items in the collection is greater or equal to the supplied <paramref name="expected" /> amount.
+        /// Asserts that the number of items in the collection is greater than or equal to the supplied <paramref name="expected" /> amount.
         /// </summary>
         /// <param name="expected">The number to which the actual number items in the collection will be compared.</param>
         /// <param name="because">
@@ -1286,7 +1287,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> HaveCountGreaterOrEqualTo(int expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> HaveCountGreaterThanOrEqualTo(int expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -1303,6 +1304,9 @@ namespace FluentAssertions.Collections
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public AndConstraint<TAssertions> HaveCountGreaterOrEqualTo(int expected, string because = "", params object[] becauseArgs) => HaveCountGreaterThanOrEqualTo(expected, because, becauseArgs);
 
         /// <summary>
         /// Asserts that the number of items in the collection is greater than the supplied <paramref name="expected" /> amount.
@@ -1334,7 +1338,7 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that the number of items in the collection is less or equal to the supplied <paramref name="expected" /> amount.
+        /// Asserts that the number of items in the collection is less than or equal to the supplied <paramref name="expected" /> amount.
         /// </summary>
         /// <param name="expected">The number to which the actual number items in the collection will be compared.</param>
         /// <param name="because">
@@ -1344,7 +1348,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> HaveCountLessOrEqualTo(int expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> HaveCountLessThanOrEqualTo(int expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -1361,6 +1365,9 @@ namespace FluentAssertions.Collections
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public AndConstraint<TAssertions> HaveCountLessOrEqualTo(int expected, string because = "", params object[] becauseArgs) => HaveCountLessThanOrEqualTo(expected, because, becauseArgs);
 
         /// <summary>
         /// Asserts that the number of items in the collection is less than the supplied <paramref name="expected" /> amount.

@@ -28,23 +28,22 @@ public class SomePotentiallyVerySlowClass
     }
 }
 var subject = new SomePotentiallyVerySlowClass();
-subject.ExecutionTimeOf(s => s.ExpensiveMethod()).Should().BeLessOrEqualTo(500.Milliseconds());
+subject.ExecutionTimeOf(s => s.ExpensiveMethod()).Should().BeLessThanOrEqualTo(500.Milliseconds());
 ```
 
 Alternatively, to verify the execution time of an arbitrary action, use this syntax:
 
 ```csharp
 Action someAction = () => Thread.Sleep(100);
-someAction.ExecutionTime().Should().BeLessOrEqualTo(200.Milliseconds());
+someAction.ExecutionTime().Should().BeLessThanOrEqualTo(200.Milliseconds());
 ```
 
 The supported assertions on `ExecutionTime()` are a subset of those found for `TimeSpan`s, namely:
-
 ```csharp
-someAction.ExecutionTime().Should().BeLessOrEqualTo(200.Milliseconds());
+someAction.ExecutionTime().Should().BeLessThanOrEqualTo(200.Milliseconds());
 someAction.ExecutionTime().Should().BeLessThan(200.Milliseconds());
 someAction.ExecutionTime().Should().BeGreaterThan(100.Milliseconds());
-someAction.ExecutionTime().Should().BeGreaterOrEqualTo(100.Milliseconds());
+someAction.ExecutionTime().Should().BeGreaterThanOrEqualTo(100.Milliseconds());
 someAction.ExecutionTime().Should().BeCloseTo(150.Milliseconds(), 50.Milliseconds());
 ```
 

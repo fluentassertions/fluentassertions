@@ -306,67 +306,67 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void When_asserting_value_to_be_greater_or_equal_to_smaller_value_it_should_succeed()
+        public void When_asserting_value_to_be_greater_than_or_equal_to_smaller_value_it_should_succeed()
         {
             // Arrange
             TimeSpan actual = 2.Seconds();
             TimeSpan smaller = 1.Seconds();
 
             // Act / Assert
-            actual.Should().BeGreaterOrEqualTo(smaller);
+            actual.Should().BeGreaterThanOrEqualTo(smaller);
         }
 
         [Fact]
-        public void When_asserting_null_value_to_be_greater_or_equal_to_other_value_it_should_fail()
+        public void When_asserting_null_value_to_be_greater_than_or_equal_to_other_value_it_should_fail()
         {
             // Arrange
             TimeSpan? nullTimeSpan = null;
             TimeSpan expected = 1.Seconds();
 
             // Act
-            Action act = () => nullTimeSpan.Should().BeGreaterOrEqualTo(expected, "because we want to test the failure {0}", "message");
+            Action act = () => nullTimeSpan.Should().BeGreaterThanOrEqualTo(expected, "because we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected nullTimeSpan to be greater or equal to 1s because we want to test the failure message, but found <null>.");
+                "Expected nullTimeSpan to be greater than or equal to 1s because we want to test the failure message, but found <null>.");
         }
 
         [Fact]
-        public void When_asserting_value_to_be_greater_or_equal_to_same_value_it_should_succeed()
+        public void When_asserting_value_to_be_greater_than_or_equal_to_same_value_it_should_succeed()
         {
             // Arrange
             var twoSeconds = 2.Seconds();
 
             // Act / Assert
-            twoSeconds.Should().BeGreaterOrEqualTo(twoSeconds);
+            twoSeconds.Should().BeGreaterThanOrEqualTo(twoSeconds);
         }
 
         [Fact]
-        public void When_asserting_value_to_be_greater_or_equal_to_greater_value_it_should_fail()
+        public void When_asserting_value_to_be_greater_than_or_equal_to_greater_value_it_should_fail()
         {
             // Arrange
             TimeSpan actual = 1.Seconds();
             TimeSpan expected = 2.Seconds();
 
             // Act
-            Action act = () => actual.Should().BeGreaterOrEqualTo(expected);
+            Action act = () => actual.Should().BeGreaterThanOrEqualTo(expected);
 
             // Assert
             act.Should().Throw<XunitException>();
         }
 
         [Fact]
-        public void When_asserting_value_to_be_greater_or_equal_to_greater_value_it_should_fail_with_descriptive_message()
+        public void When_asserting_value_to_be_greater_than_or_equal_to_greater_value_it_should_fail_with_descriptive_message()
         {
             // Arrange
             TimeSpan actual = 1.Seconds();
 
             // Act
-            Action act = () => actual.Should().BeGreaterOrEqualTo(2.Seconds(), "because we want to test the failure {0}", "message");
+            Action act = () => actual.Should().BeGreaterThanOrEqualTo(2.Seconds(), "because we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected actual to be greater or equal to 2s because we want to test the failure message, but found 1s.");
+                "Expected actual to be greater than or equal to 2s because we want to test the failure message, but found 1s.");
         }
 
         [Fact]
@@ -437,67 +437,67 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void When_asserting_value_to_be_less_or_equal_to_greater_value_it_should_succeed()
+        public void When_asserting_value_to_be_less_than_or_equal_to_greater_value_it_should_succeed()
         {
             // Arrange
             TimeSpan actual = 1.Seconds();
             TimeSpan greater = 2.Seconds();
 
             // Act / Assert
-            actual.Should().BeLessOrEqualTo(greater);
+            actual.Should().BeLessThanOrEqualTo(greater);
         }
 
         [Fact]
-        public void When_asserting_null_value_to_be_less_or_equal_to_other_value_it_should_fail()
+        public void When_asserting_null_value_to_be_less_than_or_equal_to_other_value_it_should_fail()
         {
             // Arrange
             TimeSpan? nullTimeSpan = null;
             TimeSpan expected = 1.Seconds();
 
             // Act
-            Action act = () => nullTimeSpan.Should().BeLessOrEqualTo(expected, "because we want to test the failure {0}", "message");
+            Action act = () => nullTimeSpan.Should().BeLessThanOrEqualTo(expected, "because we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected nullTimeSpan to be less or equal to 1s because we want to test the failure message, but found <null>.");
+                "Expected nullTimeSpan to be less than or equal to 1s because we want to test the failure message, but found <null>.");
         }
 
         [Fact]
-        public void When_asserting_value_to_be_less_or_equal_to_same_value_it_should_succeed()
+        public void When_asserting_value_to_be_less_than_or_equal_to_same_value_it_should_succeed()
         {
             // Arrange
             var twoSeconds = 2.Seconds();
 
             // Act / Assert
-            twoSeconds.Should().BeLessOrEqualTo(twoSeconds);
+            twoSeconds.Should().BeLessThanOrEqualTo(twoSeconds);
         }
 
         [Fact]
-        public void When_asserting_value_to_be_less_or_equal_to_smaller_value_it_should_fail()
+        public void When_asserting_value_to_be_less_than_or_equal_to_smaller_value_it_should_fail()
         {
             // Arrange
             TimeSpan actual = 2.Seconds();
             TimeSpan expected = 1.Seconds();
 
             // Act
-            Action act = () => actual.Should().BeLessOrEqualTo(expected);
+            Action act = () => actual.Should().BeLessThanOrEqualTo(expected);
 
             // Assert
             act.Should().Throw<XunitException>();
         }
 
         [Fact]
-        public void When_asserting_value_to_be_less_or_equal_to_smaller_value_it_should_fail_with_descriptive_message()
+        public void When_asserting_value_to_be_less_than_or_equal_to_smaller_value_it_should_fail_with_descriptive_message()
         {
             // Arrange
             TimeSpan actual = 2.Seconds();
 
             // Act
-            Action act = () => actual.Should().BeLessOrEqualTo(1.Seconds(), "because we want to test the failure {0}", "message");
+            Action act = () => actual.Should().BeLessThanOrEqualTo(1.Seconds(), "because we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected actual to be less or equal to 1s because we want to test the failure message, but found 2s.");
+                "Expected actual to be less than or equal to 1s because we want to test the failure message, but found 2s.");
         }
 
         #region Be Close To

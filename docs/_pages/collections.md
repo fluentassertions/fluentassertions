@@ -28,8 +28,8 @@ collection.Should().HaveCount(c => c > 3)
   .And.OnlyHaveUniqueItems();
 
 collection.Should().HaveCountGreaterThan(3);
-collection.Should().HaveCountGreaterOrEqualTo(4);
-collection.Should().HaveCountLessOrEqualTo(4);
+collection.Should().HaveCountGreaterThanOrEqualTo(4);
+collection.Should().HaveCountLessThanOrEqualTo(4);
 collection.Should().HaveCountLessThan(5);
 collection.Should().NotHaveCount(3);
 collection.Should().HaveSameCount(new[] { 6, 2, 0, 5 });

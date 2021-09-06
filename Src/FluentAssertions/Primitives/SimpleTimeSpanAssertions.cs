@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using FluentAssertions.Execution;
 
@@ -175,11 +176,11 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> BeLessOrEqualTo(TimeSpan expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeLessThanOrEqualTo(TimeSpan expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:time} to be less or equal to {0}{reason}, ", expected)
+                .WithExpectation("Expected {context:time} to be less than or equal to {0}{reason}, ", expected)
                 .ForCondition(Subject.HasValue)
                 .FailWith("but found <null>.")
                 .Then
@@ -190,6 +191,9 @@ namespace FluentAssertions.Primitives
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public AndConstraint<TAssertions> BeLessOrEqualTo(TimeSpan expected, string because = "", params object[] becauseArgs) => BeLessThanOrEqualTo(expected, because, becauseArgs);
 
         /// <summary>
         /// Asserts that the time difference of the current <see cref="TimeSpan"/> is greater than the
@@ -231,12 +235,12 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> BeGreaterOrEqualTo(TimeSpan expected, string because = "",
+        public AndConstraint<TAssertions> BeGreaterThanOrEqualTo(TimeSpan expected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected {context:time} to be greater or equal to {0}{reason}, ", expected)
+                .WithExpectation("Expected {context:time} to be greater than or equal to {0}{reason}, ", expected)
                 .ForCondition(Subject.HasValue)
                 .FailWith("but found <null>.")
                 .Then
@@ -247,6 +251,9 @@ namespace FluentAssertions.Primitives
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public AndConstraint<TAssertions> BeGreaterOrEqualTo(TimeSpan expected, string because = "", params object[] becauseArgs) => BeGreaterThanOrEqualTo(expected, because, becauseArgs);
 
         /// <summary>
         /// Asserts that the current <see cref="TimeSpan"/> is within the specified time
