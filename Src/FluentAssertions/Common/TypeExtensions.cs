@@ -329,11 +329,6 @@ namespace FluentAssertions.Common
             return members;
         }
 
-        private static Type[] GetInterfaces(Type type)
-        {
-            return type.GetInterfaces();
-        }
-
         private static bool HasNonPrivateGetter(PropertyInfo propertyInfo)
         {
             MethodInfo getMethod = propertyInfo.GetGetMethod(nonPublic: true);
