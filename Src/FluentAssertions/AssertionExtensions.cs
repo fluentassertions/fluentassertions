@@ -938,7 +938,16 @@ namespace FluentAssertions
 
         /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
         [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
-        public static void Should<TSubject>(this TypeSelectorAssertions _)
+        public static void Should(this TypeSelectorAssertions _)
+        {
+            InvalidShouldCall();
+        }
+
+        /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        public static void Should<TEnum, TAssertions>(this EnumAssertions<TEnum, TAssertions> _)
+            where TEnum : struct, Enum
+            where TAssertions : EnumAssertions<TEnum, TAssertions>
         {
             InvalidShouldCall();
         }

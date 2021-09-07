@@ -50,6 +50,9 @@ namespace FluentAssertions
             "ly following \'And\'", true)]
         public static void Should(this FluentAssertions.Types.PropertyInfoSelectorAssertions _) { }
         public static FluentAssertions.Types.TypeSelectorAssertions Should(this FluentAssertions.Types.TypeSelector typeSelector) { }
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
+        public static void Should(this FluentAssertions.Types.TypeSelectorAssertions _) { }
         public static FluentAssertions.Specialized.ActionAssertions Should(this System.Action action) { }
         public static FluentAssertions.Collections.StringCollectionAssertions Should(this System.Collections.Generic.IEnumerable<string> @this) { }
         public static FluentAssertions.Data.DataColumnAssertions Should(this System.Data.DataColumn actualValue) { }
@@ -121,9 +124,6 @@ namespace FluentAssertions
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
             "ly following \'And\'", true)]
         public static void Should<TSubject>(this FluentAssertions.Specialized.TaskCompletionSourceAssertions<TSubject> _) { }
-        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'", true)]
-        public static void Should<TSubject>(this FluentAssertions.Types.TypeSelectorAssertions _) { }
         public static FluentAssertions.Collections.GenericCollectionAssertions<T> Should<T>(this System.Collections.Generic.IEnumerable<T> actualValue) { }
         public static FluentAssertions.Specialized.GenericAsyncFunctionAssertions<T> Should<T>(this System.Func<System.Threading.Tasks.Task<T>> action) { }
         public static FluentAssertions.Specialized.FunctionAssertions<T> Should<T>(this System.Func<T> func) { }
@@ -134,6 +134,11 @@ namespace FluentAssertions
         public static void Should<TSubject, TAssertions>(this FluentAssertions.Numeric.NumericAssertions<TSubject, TAssertions> _)
             where TSubject :  struct, System.IComparable<TSubject>
             where TAssertions : FluentAssertions.Numeric.NumericAssertions<TSubject, TAssertions> { }
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
+        public static void Should<TEnum, TAssertions>(this FluentAssertions.Primitives.EnumAssertions<TEnum, TAssertions> _)
+            where TEnum :  struct, System.Enum
+            where TAssertions : FluentAssertions.Primitives.EnumAssertions<TEnum, TAssertions> { }
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
             "ly following \'And\'", true)]
         public static void Should<TSubject, TAssertions>(this FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions> _)
