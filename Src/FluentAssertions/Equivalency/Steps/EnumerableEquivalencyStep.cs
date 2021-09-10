@@ -51,7 +51,20 @@ namespace FluentAssertions.Equivalency.Steps
 
         internal static object[] ToArray(object value)
         {
-            return value is not null ? ((IEnumerable)value).Cast<object>().ToArray() : null;
+            if (value == null)
+            {
+                return null;
+            }
+
+            try
+            {
+                return ((IEnumerable)value).Cast<object>().ToArray();
+            }
+            catch (InvalidOperationException) when (value.GetType().Name.Equals("ImmutableArray`1", StringComparison.Ordinal))
+            {
+                // This is probably a default ImmutableArray<T>
+                return Array.Empty<object>();
+            }
         }
     }
 }

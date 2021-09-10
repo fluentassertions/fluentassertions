@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Immutable;
 using System.Linq;
 using FluentAssertions.Execution;
 using Xunit;
@@ -133,6 +134,28 @@ namespace FluentAssertions.Specs.Collections
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection not to be <null>*");
+        }
+
+        [Fact]
+        public void Default_immutable_arrays_should_be_equivalent()
+        {
+            // Arrange
+            ImmutableArray<string> collection = default;
+            ImmutableArray<string> collection1 = default;
+
+            // Act / Assert
+            collection.Should().BeEquivalentTo(collection1);
+        }
+
+        [Fact]
+        public void Default_immutable_lists_should_be_equivalent()
+        {
+            // Arrange
+            ImmutableList<string> collection = default;
+            ImmutableList<string> collection1 = default;
+
+            // Act / Assert
+            collection.Should().BeEquivalentTo(collection1);
         }
 
         #endregion
@@ -289,6 +312,28 @@ namespace FluentAssertions.Specs.Collections
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected actual not to be equivalent *failure message*, but found <null>.");
+        }
+
+        [Fact]
+        public void Default_immutable_array_should_not_be_equivalent_to_initialized_immutable_array()
+        {
+            // Arrange
+            ImmutableArray<string> collection = default;
+            ImmutableArray<string> collection1 = ImmutableArray.Create("a", "b", "c");
+
+            // Act / Assert
+            collection.Should().NotBeEquivalentTo(collection1);
+        }
+
+        [Fact]
+        public void Immutable_array_should_not_be_equivalent_to_default_immutable_array()
+        {
+            // Arrange
+            ImmutableArray<string> collection = ImmutableArray.Create("a", "b", "c");
+            ImmutableArray<string> collection1 = default;
+
+            // Act / Assert
+            collection.Should().NotBeEquivalentTo(collection1);
         }
 
         #endregion
