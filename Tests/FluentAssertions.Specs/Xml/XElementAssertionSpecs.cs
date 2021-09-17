@@ -1259,7 +1259,7 @@ namespace FluentAssertions.Specs.Xml
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected child to be a single element, but it wasn't.");
+                "Expected child to have a count of 1, but found 2.");
         }
 
         [Fact]
@@ -1271,6 +1271,8 @@ namespace FluentAssertions.Specs.Xml
                     <child />
                   </parent>");
 
+            // ReSharper disable once PossibleNullReferenceException
+            // Root is never null
             var xElement = document.Root.Element("child");
 
             // Act / Assert
@@ -1287,6 +1289,8 @@ namespace FluentAssertions.Specs.Xml
                     <child />
                   </parent>");
 
+            // ReSharper disable once PossibleNullReferenceException
+            // Root is never null
             var xElement = document.Root.Element("child");
 
             // Act
@@ -1294,7 +1298,7 @@ namespace FluentAssertions.Specs.Xml
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected child to be a single element, but it wasn't.");
+                "Expected child to have a count of 1, but found 2.");
         }
 
         [Fact]
@@ -1305,6 +1309,98 @@ namespace FluentAssertions.Specs.Xml
 
             // Act
             Action act = () => xElement.Should().BeSingle();
+
+            // Assert
+            act.Should().Throw<InvalidOperationException>().WithMessage(
+                "Cannot assert the count if the element itself is <null>.");
+        }
+
+        #endregion
+
+        #region HaveCount
+
+        [Fact]
+        public void When_asserting_document_has_a_single_child_element_and_it_does_it_should_succeed1()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act / Assert
+            document.Should().HaveElement("child").Which.Should().HaveCount(2);
+        }
+
+        [Fact]
+        public void When_asserting_document_has_single_child_element_but_it_does_have_two_it_should_fail1()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act
+            Action act = () => document.Should().HaveElement("child").Which.Should().HaveCount(2);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected child to have a count of 2, but found 3.");
+        }
+
+        [Fact]
+        public void When_asserting_xElement_is_a_single_child_element_it_should_succeed1()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                  </parent>");
+
+            // ReSharper disable once PossibleNullReferenceException
+            // Root is never null
+            var xElement = document.Root.Element("child");
+
+            // Act / Assert
+            xElement.Should().HaveCount(2);
+        }
+
+        [Fact]
+        public void When_asserting_xElement_is_not_a_single_child_element_it_should_fail1()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                    <child />
+                  </parent>");
+
+            // ReSharper disable once PossibleNullReferenceException
+            // Root is never null
+            var xElement = document.Root.Element("child");
+
+            // Act
+            Action act = () => xElement.Should().HaveCount(2);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected child to have a count of 2, but found 3.");
+        }
+
+        [Fact]
+        public void When_asserting_a_null_xElement_to_be_single_it_should_fail1()
+        {
+            // Arrange
+            XElement xElement = null;
+
+            // Act
+            Action act = () => xElement.Should().HaveCount(1);
 
             // Assert
             act.Should().Throw<InvalidOperationException>().WithMessage(
