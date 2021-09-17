@@ -13,6 +13,8 @@ sidebar:
 
 * Adding new overloads to all `GreaterOrEqualTo` and `LessOrEqualTo` assertions, adding the word `Than` - [#1673](https://github.com/fluentassertions/fluentassertions/pull/1673)
 
+* Added `BeSingle` and `HaveCount` for `XElement` - [#1681](https://github.com/fluentassertions/fluentassertions/pull/1673)
+
 ### Fixes
 
 ## 6.1.0
