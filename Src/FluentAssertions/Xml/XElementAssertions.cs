@@ -305,7 +305,7 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Asserts that the number of elements in the document matches the supplied <paramref name="expected" /> amount.
+        /// Asserts that the number of elements in the parent <see cref="XElement"/> matches the supplied <paramref name="expected" /> amount.
         /// <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">The expected number of elements in the document.</param>
@@ -330,14 +330,7 @@ namespace FluentAssertions.Xml
                 .FailWith(
                     "Expected {context:subject} to have parent element, but it has no parent element.");
 
-            XDocument parentDocument = Subject.Parent.Document;
-            Execute.Assertion
-                .ForCondition(parentDocument is not null)
-                .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected parent of {context:subject} to have a document, but it has no document.");
-
-            var xElements = parentDocument.Root.Elements(Subject.Name);
+            var xElements = Subject.Parent.Elements(Subject.Name);
             int actualCount = xElements.Count();
             Execute.Assertion
                 .ForCondition(actualCount == expected)
