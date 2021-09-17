@@ -301,6 +301,24 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndWhichConstraint<XElementAssertions, XElement> BeSingle(string because = "", params object[] becauseArgs)
         {
+            return HaveCount(1, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the number of elements in the document matches the supplied <paramref name="expected" /> amount.
+        /// <paramref name="expected"/> name.
+        /// </summary>
+        /// <param name="expected">The expected number of elements in the document.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndWhichConstraint<XElementAssertions, XElement> HaveCount(int expected, string because = "",
+            params object[] becauseArgs)
+        {
             if (Subject is null)
             {
                 throw new InvalidOperationException("Cannot assert the count if the element itself is <null>.");
@@ -320,11 +338,13 @@ namespace FluentAssertions.Xml
                     "Expected parent of {context:subject} to have a document, but it has no document.");
 
             var xElements = parentDocument.Root.Elements(Subject.Name);
+            int actualCount = xElements.Count();
             Execute.Assertion
-                .ForCondition(xElements.Count() == 1)
+                .ForCondition(actualCount == expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    $"Expected {Subject.Name} to be a single element, but it wasn't.");
+                    "Expected {0} to have a count of {1}, but found {2}.",
+                    Subject.Name, expected, actualCount);
 
             return new AndWhichConstraint<XElementAssertions, XElement>(this, Subject);
         }
