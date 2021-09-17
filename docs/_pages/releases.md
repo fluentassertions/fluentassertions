@@ -87,6 +87,8 @@ sidebar:
 * Adding new overloads to all `GreaterOrEqualTo` and `LessOrEqualTo` assertions, adding the word `Than` - [#1673](https://github.com/fluentassertions/fluentassertions/pull/1673)
 * `BeAsync()` and `NotBeAsync()` are now also available on `MethodInfoSelectorAssertions` - [#1700](https://github.com/fluentassertions/fluentassertions/pull/1700)
 
+* Added `BeSingle` and `HaveCount` for `XElement` - [#1681](https://github.com/fluentassertions/fluentassertions/pull/1673)
+
 ### Fixes
 
 * Prevent exceptions when asserting on `ImmutableArray<T>` - [#1668](https://github.com/fluentassertions/fluentassertions/pull/1668)
