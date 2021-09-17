@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using FluentAssertions.Common;
@@ -286,6 +287,46 @@ namespace FluentAssertions.Xml
             }
 
             return new AndWhichConstraint<XElementAssertions, XElement>(this, xElement);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="XElement"/> is a single element inside the parent <see cref="XElement"/>.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndWhichConstraint<XElementAssertions, XElement> BeSingle(string because = "", params object[] becauseArgs)
+        {
+            if (Subject is null)
+            {
+                throw new InvalidOperationException("Cannot assert the count if the element itself is <null>.");
+            }
+
+            Execute.Assertion
+                .ForCondition(Subject.Parent is not null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected {context:subject} to have parent element, but it has no parent element.");
+
+            XDocument parentDocument = Subject.Parent.Document;
+            Execute.Assertion
+                .ForCondition(parentDocument is not null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected parent of {context:subject} to have a document, but it has no document.");
+
+            var xElements = parentDocument.Root.Elements(Subject.Name);
+            Execute.Assertion
+                .ForCondition(xElements.Count() == 1)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    $"Expected {Subject.Name} to be a single element, but it wasn't.");
+
+            return new AndWhichConstraint<XElementAssertions, XElement>(this, Subject);
         }
 
         /// <summary>

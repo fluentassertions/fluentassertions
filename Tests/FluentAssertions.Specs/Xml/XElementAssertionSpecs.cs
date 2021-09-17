@@ -1228,5 +1228,89 @@ namespace FluentAssertions.Specs.Xml
         }
 
         #endregion
+
+        #region BeSingle
+
+        [Fact]
+        public void When_asserting_document_has_a_single_child_element_and_it_does_it_should_succeed()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                  </parent>");
+
+            // Act / Assert
+            document.Should().HaveElement("child").Which.Should().BeSingle();
+        }
+
+        [Fact]
+        public void When_asserting_document_has_single_child_element_but_it_does_have_two_it_should_fail()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act
+            Action act = () => document.Should().HaveElement("child").Which.Should().BeSingle();
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected child to be a single element, but it wasn't.");
+        }
+
+        [Fact]
+        public void When_asserting_xElement_is_a_single_child_element_it_should_succeed()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                  </parent>");
+
+            var xElement = document.Root.Element("child");
+
+            // Act / Assert
+            xElement.Should().BeSingle();
+        }
+
+        [Fact]
+        public void When_asserting_xElement_is_not_a_single_child_element_it_should_fail()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                  </parent>");
+
+            var xElement = document.Root.Element("child");
+
+            // Act
+            Action act = () => xElement.Should().BeSingle();
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected child to be a single element, but it wasn't.");
+        }
+
+        [Fact]
+        public void When_asserting_a_null_xElement_to_be_single_it_should_fail()
+        {
+            // Arrange
+            XElement xElement = null;
+
+            // Act
+            Action act = () => xElement.Should().BeSingle();
+
+            // Assert
+            act.Should().Throw<InvalidOperationException>().WithMessage(
+                "Cannot assert the count if the element itself is <null>.");
+        }
+
+        #endregion
     }
 }
