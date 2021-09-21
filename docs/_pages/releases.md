@@ -16,6 +16,7 @@ sidebar:
 ### Fixes
 
 * Prevent exceptions when asserting on `ImmutableArray<T>` - [#1668](https://github.com/fluentassertions/fluentassertions/pull/1668)
+* `At` now retains the `DateTimeKind` and keeps sub-second precision when using a `TimeSpan` - [#1687](https://github.com/fluentassertions/fluentassertions/pull/1687).
 
 ## 6.1.0
 
