@@ -294,6 +294,17 @@ namespace FluentAssertions.Specs.Extensions
         }
 
         [Fact]
+        public void Specyfing_the_time_of_day_retains_the_full_precision()
+        {
+            // Act
+            DateTime subject = 10.December(2011).At(1.Ticks());
+            DateTime expected = 10.December(2011) + 1.Ticks();
+
+            // Assert
+            subject.Should().Be(expected);
+        }
+
+        [Fact]
         public void Specifying_the_time_of_day_retains_the_datetime_kind()
         {
             // Act
