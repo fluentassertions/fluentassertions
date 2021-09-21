@@ -292,5 +292,25 @@ namespace FluentAssertions.Specs.Extensions
             // Assert
             dateTime.Should().Be(new DateTime(2011, 12, 10, 9, 30, 45));
         }
+
+        [Fact]
+        public void Specifying_the_time_of_day_retains_the_datetime_kind()
+        {
+            // Act
+            DateTime dateTime = 10.December(2011).AsUtc().At(TimeSpan.Zero);
+
+            // Assert
+            dateTime.Should().BeIn(DateTimeKind.Utc);
+        }
+
+        [Fact]
+        public void Specifying_the_time_of_day_in_hours_and_minutes_retains_the_datetime_kind()
+        {
+            // Act
+            DateTime dateTime = 10.December(2011).AsUtc().At(0, 0);
+
+            // Assert
+            dateTime.Should().BeIn(DateTimeKind.Utc);
+        }
     }
 }
