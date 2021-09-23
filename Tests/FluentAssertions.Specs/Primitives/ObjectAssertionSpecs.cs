@@ -202,6 +202,31 @@ namespace FluentAssertions.Specs.Primitives
             someObject.Should().NotBeNull();
         }
 
+#if NETCOREAPP3_0_OR_GREATER
+
+        #nullable enable
+
+        [Fact]
+        public void Should_suppress_null_warning_when_asserting_null_object_not_to_be_null()
+        {
+            // Arrange
+            object? someObject = null;
+
+            // Act
+            Action act = () =>
+            {
+                someObject.ShouldNotBeNull();
+                var result = someObject.ToString();
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected *");
+        }
+
+        #nullable disable
+
+#endif
+
         [Fact]
         public void Should_fail_when_asserting_null_object_not_to_be_null()
         {
