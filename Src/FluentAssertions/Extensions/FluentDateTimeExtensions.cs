@@ -257,11 +257,6 @@ public static class FluentDateTimeExtensions
     /// </summary>
     public static DateTime AddNanoseconds(this DateTime self, long nanoseconds)
     {
-        if (nanoseconds == 0)
-        {
-            return self;
-        }
-
         return self + nanoseconds.Nanoseconds();
     }
 
@@ -270,11 +265,6 @@ public static class FluentDateTimeExtensions
     /// </summary>
     public static DateTimeOffset AddNanoseconds(this DateTimeOffset self, long nanoseconds)
     {
-        if (nanoseconds == 0)
-        {
-            return self;
-        }
-
         return self + nanoseconds.Nanoseconds();
     }
 
@@ -299,11 +289,6 @@ public static class FluentDateTimeExtensions
     /// </summary>
     public static DateTime AddMicroseconds(this DateTime self, long microseconds)
     {
-        if (microseconds == 0)
-        {
-            return self;
-        }
-
         return self + microseconds.Microseconds();
     }
 
@@ -312,11 +297,6 @@ public static class FluentDateTimeExtensions
     /// </summary>
     public static DateTimeOffset AddMicroseconds(this DateTimeOffset self, long microseconds)
     {
-        if (microseconds == 0)
-        {
-            return self;
-        }
-
         return self + microseconds.Microseconds();
     }
 
