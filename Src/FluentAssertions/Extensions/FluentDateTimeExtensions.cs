@@ -144,12 +144,12 @@ public static class FluentDateTimeExtensions
     /// </summary>
     public static DateTime At(this DateTime date, int hours, int minutes, int seconds = 0, int milliseconds = 0, int microseconds = 0, int nanoseconds = 0)
     {
-        if (microseconds < 0 || microseconds > 999)
+        if (microseconds is < 0 or > 999)
         {
             throw new ArgumentOutOfRangeException(nameof(microseconds), "Valid values are between 0 and 999");
         }
 
-        if (nanoseconds < 0 || nanoseconds > 999)
+        if (nanoseconds is < 0 or > 999)
         {
             throw new ArgumentOutOfRangeException(nameof(nanoseconds), "Valid values are between 0 and 999");
         }
@@ -175,12 +175,12 @@ public static class FluentDateTimeExtensions
     /// </summary>
     public static DateTimeOffset At(this DateTimeOffset date, int hours, int minutes, int seconds = 0, int milliseconds = 0, int microseconds = 0, int nanoseconds = 0)
     {
-        if (microseconds < 0 || microseconds > 999)
+        if (microseconds is < 0 or > 999)
         {
             throw new ArgumentOutOfRangeException(nameof(microseconds), "Valid values are between 0 and 999");
         }
 
-        if (nanoseconds < 0 || nanoseconds > 999)
+        if (nanoseconds is < 0 or > 999)
         {
             throw new ArgumentOutOfRangeException(nameof(nanoseconds), "Valid values are between 0 and 999");
         }
