@@ -144,7 +144,7 @@ namespace FluentAssertions.Specs.Collections
             var collection = new InfiniteEnumerable();
 
             // Act
-            Action act = () => new InfiniteEnumerable().Should().BeEmpty();
+            Action act = () => collection.Should().BeEmpty();
 
             // Assert
             act.Should().Throw<XunitException>();
