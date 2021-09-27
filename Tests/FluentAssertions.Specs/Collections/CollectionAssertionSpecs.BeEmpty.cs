@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using FluentAssertions.Execution;
 using Xunit;
@@ -136,6 +137,19 @@ namespace FluentAssertions.Specs.Collections
                 .WithMessage("Expected collection not to be empty *failure message*, but found <null>.");
         }
 
+        [Fact]
+        public void When_asserting_an_infinite_collection_to_be_empty_it_should_throw_correctly()
+        {
+            // Arrange
+            var collection = new InfiniteEnumerable();
+
+            // Act
+            Action act = () => new InfiniteEnumerable().Should().BeEmpty();
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
         #endregion
 
         #region Not Be Empty
@@ -168,5 +182,25 @@ namespace FluentAssertions.Specs.Collections
         }
 
         #endregion
+
+        private class InfiniteEnumerable : IEnumerable<object>
+        {
+            public IEnumerator<object> GetEnumerator() => new InfiniteEnumerator();
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        }
+
+        private class InfiniteEnumerator : IEnumerator<object>
+        {
+            public bool MoveNext() => true;
+
+            public void Reset() { }
+
+            public object Current => new object();
+
+            object IEnumerator.Current => Current;
+
+            public void Dispose() { }
+        }
     }
 }
