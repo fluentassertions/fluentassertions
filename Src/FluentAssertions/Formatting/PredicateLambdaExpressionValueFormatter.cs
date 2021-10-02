@@ -81,6 +81,11 @@ namespace FluentAssertions.Formatting
         {
             public override Expression Visit(Expression node)
             {
+                if (node is null)
+                {
+                    return null;
+                }
+
                 if (ExpressionIsConstant(node))
                 {
                     return Expression.Constant(Expression.Lambda(node).Compile().DynamicInvoke());
