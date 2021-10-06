@@ -97,6 +97,70 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Asserts that the selected methods are async.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+        /// </param>
+        public AndConstraint<MethodInfoSelectorAssertions> BeAsync(string because = "", params object[] becauseArgs)
+        {
+            MethodInfo[] nonAsyncMethods = GetAllNonAsyncMethodsFromSelection();
+
+            string failureMessage =
+                "Expected all selected methods to be async{reason}, but the following methods are not:" +
+                Environment.NewLine +
+                GetDescriptionsFor(nonAsyncMethods);
+
+            Execute.Assertion
+                .ForCondition(!nonAsyncMethods.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith(failureMessage);
+
+            return new AndConstraint<MethodInfoSelectorAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the selected methods are not async.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+        /// </param>
+        public AndConstraint<MethodInfoSelectorAssertions> NotBeAsync(string because = "", params object[] becauseArgs)
+        {
+            MethodInfo[] asyncMethods = GetAllAsyncMethodsFromSelection();
+
+            string failureMessage =
+                "Expected all selected methods not to be async{reason}, but the following methods are:" +
+                Environment.NewLine +
+                GetDescriptionsFor(asyncMethods);
+
+            Execute.Assertion
+                .ForCondition(!asyncMethods.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith(failureMessage);
+
+            return new AndConstraint<MethodInfoSelectorAssertions>(this);
+        }
+
+        private MethodInfo[] GetAllNonAsyncMethodsFromSelection()
+        {
+            return SubjectMethods.Where(method => !method.IsAsync()).ToArray();
+        }
+
+        private MethodInfo[] GetAllAsyncMethodsFromSelection()
+        {
+            return SubjectMethods.Where(method => method.IsAsync()).ToArray();
+        }
+
+        /// <summary>
         /// Asserts that the selected methods are decorated with the specified <typeparamref name="TAttribute"/>.
         /// </summary>
         /// <param name="because">
