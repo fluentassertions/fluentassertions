@@ -12,6 +12,7 @@ sidebar:
 ### What's New
 
 * Adding new overloads to all `GreaterOrEqualTo` and `LessOrEqualTo` assertions, adding the word `Than` - [#1673](https://github.com/fluentassertions/fluentassertions/pull/1673)
+* `BeAsync()` and `NotBeAsync()` are now also available on `MethodInfoSelectorAssertions` - [#1700](https://github.com/fluentassertions/fluentassertions/pull/1700)
 
 ### Fixes
 
@@ -19,7 +20,6 @@ sidebar:
 * `At` now retains the `DateTimeKind` and keeps sub-second precision when using a `TimeSpan` - [#1687](https://github.com/fluentassertions/fluentassertions/pull/1687).
 * Removed iteration over enumerable when generating the `BeEmpty` assertion failure message - [#1692](https://github.com/fluentassertions/fluentassertions/pull/1692).
 * Prevent `ArgumentNullException` when formatting a lambda expression containing an extension method - [#1696](https://github.com/fluentassertions/fluentassertions/pull/1696)
-* `BeAsync()` and `NotBeAsync()` are now also available on `MethodInfoSelectorAssertions` - [#1623](https://github.com/fluentassertions/fluentassertions/pull/1700)
 
 ## 6.1.0
 
