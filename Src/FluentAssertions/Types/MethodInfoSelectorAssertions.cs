@@ -108,7 +108,7 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<MethodInfoSelectorAssertions> BeAsync(string because = "", params object[] becauseArgs)
         {
-            MethodInfo[] nonAsyncMethods = GetAllNonAsyncMethodsFromSelection();
+            MethodInfo[] nonAsyncMethods = SubjectMethods.Where(method => !method.IsAsync()).ToArray();
 
             string failureMessage =
                 "Expected all selected methods to be async{reason}, but the following methods are not:" +
@@ -135,7 +135,7 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<MethodInfoSelectorAssertions> NotBeAsync(string because = "", params object[] becauseArgs)
         {
-            MethodInfo[] asyncMethods = GetAllAsyncMethodsFromSelection();
+            MethodInfo[] asyncMethods = SubjectMethods.Where(method => method.IsAsync()).ToArray();
 
             string failureMessage =
                 "Expected all selected methods not to be async{reason}, but the following methods are:" +
@@ -148,16 +148,6 @@ namespace FluentAssertions.Types
                 .FailWith(failureMessage);
 
             return new AndConstraint<MethodInfoSelectorAssertions>(this);
-        }
-
-        private MethodInfo[] GetAllNonAsyncMethodsFromSelection()
-        {
-            return SubjectMethods.Where(method => !method.IsAsync()).ToArray();
-        }
-
-        private MethodInfo[] GetAllAsyncMethodsFromSelection()
-        {
-            return SubjectMethods.Where(method => method.IsAsync()).ToArray();
         }
 
         /// <summary>
