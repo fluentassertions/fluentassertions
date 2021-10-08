@@ -30,8 +30,8 @@ public class DirectoryInfoAssertions :
     ReferenceTypeAssertions<DirectoryInfo, DirectoryInfoAssertions>
 {
     public DirectoryInfoAssertions(DirectoryInfo instance)
+        : base(instance)
     {
-        Subject = instance;
     }
 
     protected override string Identifier => "directory";
