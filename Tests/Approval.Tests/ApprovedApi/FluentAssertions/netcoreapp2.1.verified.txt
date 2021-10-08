@@ -319,6 +319,10 @@ namespace FluentAssertions
         public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeBinarySerializable<T>(this FluentAssertions.Primitives.ObjectAssertions assertions, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>> options, string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeDataContractSerializable(this FluentAssertions.Primitives.ObjectAssertions assertions, string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeDataContractSerializable<T>(this FluentAssertions.Primitives.ObjectAssertions assertions, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>> options, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<T>> BeInOrderSameTypeEquivalentTo<T>(this FluentAssertions.Collections.GenericCollectionAssertions<T> collection, params T[] expectations) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<T>> BeInOrderSameTypeEquivalentTo<T>(this FluentAssertions.Collections.GenericCollectionAssertions<T> collection, System.Collections.Generic.IEnumerable<T> expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>> config, string because = "", params object[] becauseArgs) { }
+        public static void BeSameTypeEquivalentTo<T>(this FluentAssertions.Primitives.ObjectAssertions objectAssertions, T expectation, string because = "", params object[] becauseArgs) { }
+        public static void BeSameTypeEquivalentTo<T>(this FluentAssertions.Primitives.ObjectAssertions objectAssertions, T expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>> config, string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeXmlSerializable(this FluentAssertions.Primitives.ObjectAssertions assertions, string because = "", params object[] becauseArgs) { }
     }
     public abstract class OccurrenceConstraint
@@ -1134,6 +1138,10 @@ namespace FluentAssertions.Equivalency.Steps
     {
         public StructuralEqualityEquivalencyStep() { }
         public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+    }
+    public class TypeEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
+    {
+        public TypeEquivalencyStep() { }
     }
     public class ValueTypeEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {

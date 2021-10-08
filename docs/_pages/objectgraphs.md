@@ -192,6 +192,34 @@ orderDto.Should().BeEquivalentTo(order, options => options
     .WhenTypeIs<DateTime>());
 ```
 
+If working with polymorphic models where equality is often not needed by default but asserting the correct type is needed you can use the `TypeEquivalencyStep`.
+
+```csharp
+abstract class OrderStatus
+{
+    class OrderPlaced : Status {}
+
+    class OrderProcessing : Status {}
+
+    class Error : Status 
+    {
+        Exception Exception { get; }
+    }
+
+    class Success : Status 
+    {
+        string ConfirmationCode { get; }
+    }
+}
+
+orderStatusUpdates // new List<Status>{}
+    .Should()
+    .BeInOrderSameTypeEquivalentTo(
+        new Status.Placed(), 
+        new Status.OrderProcessing(), 
+        new Status.Success(confirmationCode: "Aj-78"));
+```
+
 ### Enums
 
 By default, `Should().BeEquivalentTo()` compares `Enum` members by the enum's underlying numeric value.

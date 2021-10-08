@@ -13,6 +13,7 @@ sidebar:
 
 * Adding new overloads to all `GreaterOrEqualTo` and `LessOrEqualTo` assertions, adding the word `Than` - [#1673](https://github.com/fluentassertions/fluentassertions/pull/1673)
 * `BeAsync()` and `NotBeAsync()` are now also available on `MethodInfoSelectorAssertions` - [#1700](https://github.com/fluentassertions/fluentassertions/pull/1700)
+* Added `TypeEquivalencyStep` for asserting types are equal when asserting equivalency. Useful when working with polymorphic models that do not implement equality. - [#1704](https://github.com/fluentassertions/fluentassertions/pull/1704)
 
 ### Fixes
 

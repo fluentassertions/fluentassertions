@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
+using FluentAssertions.Collections;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
+using FluentAssertions.Equivalency.Steps;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 
@@ -137,6 +141,123 @@ namespace FluentAssertions
             }
 
             return new AndConstraint<ObjectAssertions>(assertions);
+        }
+
+        /// <summary>
+        /// Asserts the source item and the expected item are equivalent objects.
+        /// Objects are considered equivalent if their types are the same and the values of their properties are the same using deep equality.
+        /// </summary>
+        /// <param name="objectAssertions">The provided item, from a fluent assertion.</param>
+        /// <param name="expectation">The expected item to compare to</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+        /// </param>
+        public static void BeSameTypeEquivalentTo<T>(
+            this ObjectAssertions objectAssertions,
+            T expectation,
+            string because = "",
+            params object[] becauseArgs)
+        {
+            BeSameTypeEquivalentTo(objectAssertions, expectation, config => config, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts the source item and the expected item are equivalent objects.
+        /// Objects are considered equivalent if their types are the same and the values of their properties are the same using deep equality.
+        /// </summary>
+        /// <param name="objectAssertions">The provided item, from a fluent assertion.</param>
+        /// <param name="expectation">The expected item to compare to</param>
+        /// <param name="config">
+        /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used
+        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
+        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the
+        /// <see cref="AssertionOptions"/> class.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+        /// </param>
+        public static void BeSameTypeEquivalentTo<T>(
+            this ObjectAssertions objectAssertions,
+            T expectation,
+            Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config,
+            string because = "",
+            params object[] becauseArgs)
+        {
+            objectAssertions
+               .BeEquivalentTo(
+                    expectation,
+                    options =>
+                       config(options)
+                           .WithStrictOrdering()
+                           .RespectingRuntimeTypes()
+                           .Using(new TypeEquivalencyStep()),
+                    because,
+                    because,
+                    becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts the items in the provided collection and the expected collection have equivalent objects at the same indexes.
+        /// Objects are considered equivalent if their types are the same and the values of their properties are the same using deep equality.
+        /// </summary>
+        /// <param name="collection">The provided collection</param>
+        /// <param name="expectations">The expected collection</param>
+        public static AndConstraint<GenericCollectionAssertions<T>> BeInOrderSameTypeEquivalentTo<T>(
+            this GenericCollectionAssertions<T> collection,
+            params T[] expectations)
+        {
+            return collection
+               .BeInOrderSameTypeEquivalentTo(
+                    Enumerable.AsEnumerable(expectations),
+                    options => options,
+                    string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts the items in the provided collection and the expected collection have equivalent objects at the same indexes.
+        /// Objects are considered equivalent if their types are the same and the values of their properties are the same using deep equality.
+        /// </summary>
+        /// <param name="collection">The provided collection</param>
+        /// <param name="expectation">The expected collection</param>
+        /// <param name="config">
+        /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used
+        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
+        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the
+        /// <see cref="AssertionOptions"/> class.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+        /// </param>
+        public static AndConstraint<GenericCollectionAssertions<T>> BeInOrderSameTypeEquivalentTo<T>(
+            this GenericCollectionAssertions<T> collection,
+            IEnumerable<T> expectation,
+            Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config,
+            string because = "",
+            params object[] becauseArgs)
+        {
+            return collection
+               .BeEquivalentTo(
+                    expectation,
+                    options =>
+                       config(options)
+                           .WithStrictOrdering()
+                           .RespectingRuntimeTypes()
+                           .Using(new TypeEquivalencyStep()),
+                    because,
+                    because,
+                    becauseArgs);
         }
 
         private static object CreateCloneUsingBinarySerializer(object subject)
