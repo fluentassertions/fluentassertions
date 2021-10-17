@@ -16,7 +16,10 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets the name of this node.
         /// </summary>
-        string Name { get; }
+        /// <example>
+        /// "Property2"
+        /// </example>
+        string Name { get; set; }
 
         /// <summary>
         /// Gets the type of this node.
@@ -26,11 +29,17 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets the path from the root object UNTIL the current node, separated by dots or index/key brackets.
         /// </summary>
+        /// <example>
+        /// "Parent[0].Property2"
+        /// </example>
         string Path { get; }
 
         /// <summary>
         /// Gets the full path from the root object up to and including the name of the node.
         /// </summary>
+        /// <example>
+        /// "Parent[0]"
+        /// </example>
         string PathAndName { get; }
 
         /// <summary>
@@ -41,6 +50,9 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets the path including the description of the subject.
         /// </summary>
+        /// <example>
+        /// "property subject.Parent[0].Property2"
+        /// </example>
         string Description { get; }
 
         /// <summary>

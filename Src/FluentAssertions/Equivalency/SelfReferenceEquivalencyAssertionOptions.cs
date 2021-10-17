@@ -822,7 +822,7 @@ namespace FluentAssertions.Equivalency
             return (TSelf)this;
         }
 
-        private TSelf AddMatchingRule(IMemberMatchingRule matchingRule)
+        protected TSelf AddMatchingRule(IMemberMatchingRule matchingRule)
         {
             matchingRules.Insert(0, matchingRule);
             return (TSelf)this;

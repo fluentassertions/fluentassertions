@@ -1,6 +1,6 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using FluentAssertions.Equivalency;
 
 namespace FluentAssertions.Common
@@ -23,9 +23,18 @@ namespace FluentAssertions.Common
         }
 
         public MemberPath(Type reflectedType, Type declaringType, string dottedPath)
+            : this(dottedPath)
         {
             this.reflectedType = reflectedType;
             this.declaringType = declaringType;
+        }
+
+        public MemberPath(string dottedPath)
+        {
+            Guard.ThrowIfArgumentIsNullOrEmpty(
+                dottedPath, nameof(dottedPath),
+                "A member path cannot be null or empty");
+
             this.dottedPath = dottedPath;
         }
 
@@ -40,7 +49,7 @@ namespace FluentAssertions.Common
 
         public bool IsSameAs(MemberPath candidate)
         {
-            if ((declaringType == candidate.declaringType) || declaringType.IsAssignableFrom(candidate.reflectedType))
+            if ((declaringType == candidate.declaringType) || declaringType?.IsAssignableFrom(candidate.reflectedType) == true)
             {
                 string[] candidateSegments = candidate.Segments;
 
@@ -66,7 +75,33 @@ namespace FluentAssertions.Common
                    && candidateSegments.SequenceEqual(Segments.Take(candidateSegments.Length));
         }
 
+        /// <summary>
+        /// Determines whether the current path is the same as <paramref name="path"/> when ignoring any specific indexes.
+        /// </summary>
+        public bool IsEquivalentTo(string path)
+        {
+            return path.WithoutSpecificCollectionIndices() == dottedPath.WithoutSpecificCollectionIndices();
+        }
+
+        public bool HasSameParentAs(MemberPath path)
+        {
+            return Segments.Length == path.Segments.Length
+                   && GetParentSegments().SequenceEqual(path.GetParentSegments());
+        }
+
+        private IEnumerable<string> GetParentSegments() => Segments.Take(Segments.Length - 1);
+
+        /// <summary>
+        /// Gets a value indicating whether the current path contains an indexer like `[1]` instead of `[]`.
+        /// </summary>
+        public bool GetContainsSpecificCollectionIndex() => dottedPath.ContainsSpecificCollectionIndex();
+
         private string[] Segments => segments ??= dottedPath.Split(new[] { '.', '[', ']' }, StringSplitOptions.RemoveEmptyEntries);
+
+        /// <summary>
+        /// Returns the name of the member the current path points to without its parent path.
+        /// </summary>
+        public string MemberName => Segments.Last();
 
         public override string ToString()
         {
