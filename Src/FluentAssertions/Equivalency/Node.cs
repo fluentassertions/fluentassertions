@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using System.Text.RegularExpressions;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency
@@ -10,6 +11,8 @@ namespace FluentAssertions.Equivalency
     /// </summary>
     public class Node : INode
     {
+        private static readonly Regex MatchFirstIndex = new(@"^\[\d+\]$");
+
         public GetSubjectId GetSubjectId { get; protected set; } = () => string.Empty;
 
         public Type Type { get; protected set; }
@@ -28,11 +31,11 @@ namespace FluentAssertions.Equivalency
             {
                 // If the root is a collection, we need treat the objects in that collection as the root of the graph because all options
                 // refer to the type of the collection items.
-                return PathAndName.Length == 0 || (RootIsCollection && IsIndex);
+                return PathAndName.Length == 0 || (RootIsCollection && IsFirstIndex);
             }
         }
 
-        private bool IsIndex => PathAndName.StartsWith("[", StringComparison.Ordinal) && PathAndName.EndsWith("]", StringComparison.Ordinal);
+        private bool IsFirstIndex => MatchFirstIndex.IsMatch(PathAndName);
 
         public bool RootIsCollection { get; protected set; }
 
