@@ -86,13 +86,21 @@ namespace FluentAssertions.Formatting
                     return null;
                 }
 
-                if (ExpressionIsConstant(node))
+                if (node is ConstantExpression)
+                {
+                    return node;
+                }
+
+                if (!HasLiftedOperator(node) && ExpressionIsConstant(node))
                 {
                     return Expression.Constant(Expression.Lambda(node).Compile().DynamicInvoke());
                 }
 
                 return base.Visit(node);
             }
+
+            private static bool HasLiftedOperator(Expression expression) =>
+                expression is BinaryExpression { IsLifted: true } or UnaryExpression { IsLifted: true };
 
             private static bool ExpressionIsConstant(Expression expression)
             {

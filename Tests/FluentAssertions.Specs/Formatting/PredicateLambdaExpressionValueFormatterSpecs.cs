@@ -3,6 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Formatting;
 using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Formatting
 {
@@ -68,6 +69,20 @@ namespace FluentAssertions.Specs.Formatting
             result.Should().Be("value(System.Int32[]).Contains(a)");
         }
 
+        [Fact]
+        public void Formatting_a_lifted_binary_operator()
+        {
+            // Arrange
+            var subject = new ClassWithNullables { Number = 42 };
+
+            // Act
+            Action act = () => subject.Should().Match<ClassWithNullables>(e => e.Number > 43);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*e.Number > *43*");
+        }
+
         private string Format(Expression<Func<SomeClass, bool>> expression) => Format<SomeClass>(expression);
 
         private string Format<T>(Expression<Func<T, bool>> expression)
@@ -78,6 +93,11 @@ namespace FluentAssertions.Specs.Formatting
 
             return graph.ToString();
         }
+    }
+
+    internal class ClassWithNullables
+    {
+        public int? Number { get; set; }
     }
 
     internal class SomeClass
