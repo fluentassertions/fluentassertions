@@ -125,4 +125,4 @@ AllTypes.From(assembly)
   .ThatAreNotInNamespace("Internal.Main.Test");
 ```
 
-There are so many possibilities and specialized methods that none of these examples do them good. Check out the [TypeAssertionSpecs.cs](https://github.com/fluentassertions/fluentassertions/blob/master/Tests/Shared.Specs/TypeAssertionSpecs.cs#L12) from the source for more examples.
+There are so many possibilities and specialized methods that none of these examples do them good. Check out the [TypeAssertionSpecs](https://github.com/fluentassertions/fluentassertions/tree/master/Tests/FluentAssertions.Specs/Types) from the source for more examples.
