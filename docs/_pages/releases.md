@@ -21,6 +21,7 @@ sidebar:
 * Removed iteration over enumerable when generating the `BeEmpty` assertion failure message - [#1692](https://github.com/fluentassertions/fluentassertions/pull/1692).
 * Prevent `ArgumentNullException` when formatting a lambda expression containing an extension method - [#1696](https://github.com/fluentassertions/fluentassertions/pull/1696)
 * `IgnoringCyclicReferences` in `BeEquivalentTo` now works while comparing value types using `ComparingByMembers` - [#1708](https://github.com/fluentassertions/fluentassertions/pull/1708) 
+* Using `BeEquivalentTo` on a collection with nested collections would complain about missing members - [#1713](https://github.com/fluentassertions/fluentassertions/pull/1713)
 
 ## 6.1.0
 
