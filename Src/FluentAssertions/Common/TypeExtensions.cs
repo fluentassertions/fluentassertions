@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -18,6 +19,11 @@ namespace FluentAssertions.Common
 
         private const BindingFlags AllStaticAndInstanceMembersFlag =
             PublicInstanceMembersFlag | BindingFlags.NonPublic | BindingFlags.Static;
+
+        private static readonly ConcurrentDictionary<Type, bool> HasValueSemanticsCache = new();
+        private static readonly ConcurrentDictionary<Type, bool> TypeIsRecordCache = new();
+        private static readonly ConcurrentDictionary<(Type Type, MemberVisibility Visibility), IEnumerable<PropertyInfo>> NonPrivatePropertiesCache = new();
+        private static readonly ConcurrentDictionary<(Type Type, MemberVisibility Visibility), IEnumerable<FieldInfo>> NonPrivateFieldsCache = new();
 
         public static bool IsDecoratedWith<TAttribute>(this Type type)
             where TAttribute : Attribute
@@ -211,13 +217,16 @@ namespace FluentAssertions.Common
 
         public static IEnumerable<PropertyInfo> GetNonPrivateProperties(this Type typeToReflect, MemberVisibility visibility)
         {
-            IEnumerable<PropertyInfo> query =
-                from propertyInfo in GetPropertiesFromHierarchy(typeToReflect, visibility)
-                where HasNonPrivateGetter(propertyInfo)
-                where !propertyInfo.IsIndexer()
-                select propertyInfo;
+            return NonPrivatePropertiesCache.GetOrAdd((typeToReflect, visibility), key =>
+            {
+                IEnumerable<PropertyInfo> query =
+                    from propertyInfo in GetPropertiesFromHierarchy(key.Type, key.Visibility)
+                    where HasNonPrivateGetter(propertyInfo)
+                    where !propertyInfo.IsIndexer()
+                    select propertyInfo;
 
-            return query.ToArray();
+                return query.ToArray();
+            });
         }
 
         private static IEnumerable<PropertyInfo> GetPropertiesFromHierarchy(Type typeToReflect, MemberVisibility memberVisibility)
@@ -236,13 +245,16 @@ namespace FluentAssertions.Common
 
         public static IEnumerable<FieldInfo> GetNonPrivateFields(this Type typeToReflect, MemberVisibility visibility)
         {
-            IEnumerable<FieldInfo> query =
-                from fieldInfo in GetFieldsFromHierarchy(typeToReflect, visibility)
-                where !fieldInfo.IsPrivate
-                where !fieldInfo.IsFamily
-                select fieldInfo;
+            return NonPrivateFieldsCache.GetOrAdd((typeToReflect, visibility), key =>
+            {
+                IEnumerable<FieldInfo> query =
+                    from fieldInfo in GetFieldsFromHierarchy(key.Type, key.Visibility)
+                    where !fieldInfo.IsPrivate
+                    where !fieldInfo.IsFamily
+                    select fieldInfo;
 
-            return query.ToArray();
+                return query.ToArray();
+            });
         }
 
         private static IEnumerable<FieldInfo> GetFieldsFromHierarchy(Type typeToReflect, MemberVisibility memberVisibility)
@@ -521,8 +533,11 @@ namespace FluentAssertions.Common
 
         public static bool HasValueSemantics(this Type type)
         {
-            return type.OverridesEquals() &&
-                   !type.IsAnonymousType() && !type.IsTuple() && !IsKeyValuePair(type);
+            return HasValueSemanticsCache.GetOrAdd(type, t =>
+                t.OverridesEquals() &&
+                !t.IsAnonymousType() &&
+                !t.IsTuple() &&
+                !IsKeyValuePair(t));
         }
 
         private static bool IsTuple(this Type type)
@@ -568,12 +583,13 @@ namespace FluentAssertions.Common
 
         public static bool IsRecord(this Type type)
         {
-            return type.GetMethod("<Clone>$") is not null &&
-                type.GetTypeInfo()
-                    .DeclaredProperties
-                    .FirstOrDefault(p => p.Name == "EqualityContract")?
-                    .GetMethod?
-                    .GetCustomAttribute(typeof(CompilerGeneratedAttribute)) is not null;
+            return TypeIsRecordCache.GetOrAdd(type, t =>
+                t.GetMethod("<Clone>$") is not null &&
+                t.GetTypeInfo()
+                     .DeclaredProperties
+                     .FirstOrDefault(p => p.Name == "EqualityContract")?
+                     .GetMethod?
+                     .GetCustomAttribute(typeof(CompilerGeneratedAttribute)) is not null);
         }
 
         private static bool IsKeyValuePair(Type type)
