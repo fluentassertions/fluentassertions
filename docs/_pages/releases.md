@@ -23,6 +23,7 @@ sidebar:
 * `IgnoringCyclicReferences` in `BeEquivalentTo` now works while comparing value types using `ComparingByMembers` - [#1708](https://github.com/fluentassertions/fluentassertions/pull/1708) 
 * Using `BeEquivalentTo` on a collection with nested collections would complain about missing members - [#1713](https://github.com/fluentassertions/fluentassertions/pull/1713)
 * Formatting a lambda expression containing lifted operators - [#1714](https://github.com/fluentassertions/fluentassertions/pull/1714).
+* Performance improvements in `BeEquivalentTo` by caching expensive Reflection operations - [#1719](https://github.com/fluentassertions/fluentassertions/pull/1719)
 
 ## 6.1.0
 

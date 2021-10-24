@@ -53,6 +53,37 @@ namespace FluentAssertions.Specs
             }
         }
 
+        [Collection("AssertionOptionsSpecs")]
+        public class When_modifying_global_settings_a_previous_assertion_should_not_have_any_effect : Given_temporary_global_assertion_options
+        {
+            public When_modifying_global_settings_a_previous_assertion_should_not_have_any_effect()
+            {
+                Given(() =>
+                {
+                    // Trigger a first equivalency check using the default global settings
+                    new MyClass { Value = 1 }.Should().BeEquivalentTo(new MyClass { Value = 1 });
+                });
+
+                When(() =>
+                {
+                    AssertionOptions.AssertEquivalencyUsing(o => o.ComparingByValue<MyClass>());
+                });
+            }
+
+            [Fact]
+            public void It_should_try_to_compare_the_classes_by_value_semantics_and_thus_throw()
+            {
+                Action act = () => new MyClass { Value = 1 }.Should().BeEquivalentTo(new MyClass { Value = 1 });
+
+                act.Should().Throw<XunitException>();
+            }
+        }
+
+        internal class MyClass
+        {
+            public int Value { get; set; }
+        }
+
         public abstract class Given_temporary_global_assertion_options : GivenWhenThen
         {
             protected override void Dispose(bool disposing)

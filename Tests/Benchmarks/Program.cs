@@ -1,4 +1,8 @@
-﻿using BenchmarkDotNet.Running;
+﻿using BenchmarkDotNet.Columns;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Exporters.Csv;
+using BenchmarkDotNet.Reports;
+using BenchmarkDotNet.Running;
 
 namespace Benchmarks
 {
@@ -6,7 +10,19 @@ namespace Benchmarks
     {
         public static void Main()
         {
-            _ = BenchmarkRunner.Run<Issue1657>();
+            var exporter = new CsvExporter(
+                CsvSeparator.CurrentCulture,
+                new SummaryStyle(
+                    cultureInfo: System.Globalization.CultureInfo.GetCultureInfo("nl-NL"),
+                    printUnitsInHeader: true,
+                    printUnitsInContent: false,
+                    timeUnit: Perfolizer.Horology.TimeUnit.Microsecond,
+                    sizeUnit: SizeUnit.KB
+                ));
+
+            var config = ManualConfig.CreateMinimumViable().AddExporter(exporter);
+
+            _ = BenchmarkRunner.Run<BeEquivalentToWithDeeplyNestedStructures>(config);
         }
     }
 }
