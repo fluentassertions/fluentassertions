@@ -46,7 +46,7 @@ jobs:
         path: ./Artifacts/*
         
     - name: Push to Nuget
-      run: dotnet nuget push ./Artifacts/*.nupkg --api-key ${ApiKey} --skip-duplicate --no-symbols true --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push .\artifacts\*.nupkg --api-key ${ApiKey} --skip-duplicate --no-symbols true --source https://api.nuget.org/v3/index.json
       if: contains(github.ref, 'refs/tags/')
       env:
         ApiKey: ${{ secrets.NUGETAPIKEY }}
