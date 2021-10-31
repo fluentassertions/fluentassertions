@@ -166,6 +166,8 @@ namespace FluentAssertions.Equivalency
 
         EqualityStrategy IEquivalencyAssertionOptions.GetEqualityStrategy(Type requestedType)
         {
+            // As the valueFactory parameter captures instance members,
+            // be aware if the cache must be cleared on mutating the members.
             return equalityStrategyCache.GetOrAdd(requestedType, type =>
             {
                 EqualityStrategy strategy;

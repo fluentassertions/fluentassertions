@@ -54,9 +54,46 @@ namespace FluentAssertions.Specs
         }
 
         [Collection("AssertionOptionsSpecs")]
-        public class When_modifying_global_settings_a_previous_assertion_should_not_have_any_effect : Given_temporary_global_assertion_options
+        public class When_modifying_global_reference_type_settings_a_previous_assertion_should_not_have_any_effect
+            : Given_temporary_global_assertion_options
         {
-            public When_modifying_global_settings_a_previous_assertion_should_not_have_any_effect()
+            public When_modifying_global_reference_type_settings_a_previous_assertion_should_not_have_any_effect()
+            {
+                Given(() =>
+                {
+                    // Trigger a first equivalency check using the default global settings
+                    new MyValueType { Value = 1 }.Should().BeEquivalentTo(new MyValueType { Value = 2 });
+                });
+
+                When(() =>
+                {
+                    AssertionOptions.AssertEquivalencyUsing(o => o.ComparingByMembers<MyValueType>());
+                });
+            }
+
+            [Fact]
+            public void It_should_try_to_compare_the_classes_by_member_semantics_and_thus_throw()
+            {
+                Action act = () => new MyValueType { Value = 1 }.Should().BeEquivalentTo(new MyValueType { Value = 2 });
+
+                act.Should().Throw<XunitException>();
+            }
+        }
+
+        internal class MyValueType
+        {
+            public int Value { get; set; }
+
+            public override bool Equals(object obj) => true;
+
+            public override int GetHashCode() => 0;
+        }
+
+        [Collection("AssertionOptionsSpecs")]
+        public class When_modifying_global_value_type_settings_a_previous_assertion_should_not_have_any_effect
+            : Given_temporary_global_assertion_options
+        {
+            public When_modifying_global_value_type_settings_a_previous_assertion_should_not_have_any_effect()
             {
                 Given(() =>
                 {

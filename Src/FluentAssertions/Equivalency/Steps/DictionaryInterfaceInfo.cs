@@ -95,7 +95,7 @@ namespace FluentAssertions.Equivalency.Steps
 
         private static DictionaryInterfaceInfo[] GetDictionaryInterfacesFrom(Type target)
         {
-            return Cache.GetOrAdd(target, key =>
+            return Cache.GetOrAdd(target, static key =>
             {
                 if (Type.GetTypeCode(key) != TypeCode.Object)
                 {
