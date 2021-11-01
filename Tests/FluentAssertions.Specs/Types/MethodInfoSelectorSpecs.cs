@@ -277,26 +277,28 @@ namespace FluentAssertions.Specs.Types
         public void When_selecting_methods_that_are_async_it_should_only_return_the_applicable_methods()
         {
             // Arrange
-            Type type = typeof(TestClassForMethodSelectorWithAsync);
+            Type type = typeof(TestClassForMethodSelectorWithAsyncAndNonAsyncMethod);
 
             // Act
-            IEnumerable<MethodInfo> methods = type.Methods().ThatAreAsync().ToArray();
+            MethodInfo[] methods = type.Methods().ThatAreAsync().ToArray();
 
             // Assert
             methods.Should().ContainSingle();
+            methods[0].Name.Should().Be("PublicVirtualVoidAsyncMethod");
         }
 
         [Fact]
         public void When_selecting_methods_that_are_not_async_it_should_only_return_the_applicable_methods()
         {
             // Arrange
-            Type type = typeof(TestClassForMethodSelector);
+            Type type = typeof(TestClassForMethodSelectorWithAsyncAndNonAsyncMethod);
 
             // Act
             MethodInfo[] methods = type.Methods().ThatAreNotAsync().ToArray();
 
             // Assert
-            methods.Length.Should().Be(7);
+            methods.Should().ContainSingle();
+            methods[0].Name.Should().Be("PublicVirtualVoidNotAsyncMethod");
         }
 
         [Fact]
@@ -394,12 +396,14 @@ namespace FluentAssertions.Specs.Types
         public override void PublicVirtualVoidMethodWithAttribute() { }
     }
 
-    internal class TestClassForMethodSelectorWithAsync
+    internal class TestClassForMethodSelectorWithAsyncAndNonAsyncMethod
     {
         public async virtual void PublicVirtualVoidAsyncMethod()
         {
-            await Task.FromResult(42);
+            await Task.Yield();
         }
+
+        public virtual void PublicVirtualVoidNotAsyncMethod() { }
     }
 
     internal class TestClassForMethodReturnTypesSelector
