@@ -239,7 +239,8 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="XDocument"/> is a single element inside the parent <see cref="XElement"/>.
+        /// Asserts that the <see cref="XDocument.Root"/> element of the current <see cref="XDocument"/> has a single
+        /// child element with the specified <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">
         /// The full name <see cref="XName"/> of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
@@ -257,7 +258,8 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Asserts that the number of elements in the parent <see cref="XDocument"/> matches the supplied <paramref name="expected" /> amount.
+        /// Asserts that the <see cref="XDocument.Root"/> element of the current <see cref="XDocument"/> has a the specified <paramref name="count"/> of
+        /// child elements with the specified <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">
         /// The full name <see cref="XName"/> of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
