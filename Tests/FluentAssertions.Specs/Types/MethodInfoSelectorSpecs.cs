@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using FluentAssertions.Types;
 using Internal.Main.Test;
 using Xunit;
@@ -273,6 +274,32 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
+        public void When_selecting_methods_that_are_async_it_should_only_return_the_applicable_methods()
+        {
+            // Arrange
+            Type type = typeof(TestClassForMethodSelectorWithAsync);
+
+            // Act
+            IEnumerable<MethodInfo> methods = type.Methods().ThatAreAsync().ToArray();
+
+            // Assert
+            methods.Should().ContainSingle();
+        }
+
+        [Fact]
+        public void When_selecting_methods_that_are_not_async_it_should_only_return_the_applicable_methods()
+        {
+            // Arrange
+            Type type = typeof(TestClassForMethodSelector);
+
+            // Act
+            MethodInfo[] methods = type.Methods().ThatAreNotAsync().ToArray();
+
+            // Assert
+            methods.Length.Should().Be(7);
+        }
+
+        [Fact]
         public void When_selecting_methods_not_decorated_with_or_inheriting_a_noninheritable_attribute_it_should_only_return_the_applicable_methods()
         {
             // Arrange
@@ -365,6 +392,14 @@ namespace FluentAssertions.Specs.Types
     internal class TestClassForMethodSelectorWithNonInheritableAttributeDerived : TestClassForMethodSelectorWithNonInheritableAttribute
     {
         public override void PublicVirtualVoidMethodWithAttribute() { }
+    }
+
+    internal class TestClassForMethodSelectorWithAsync
+    {
+        public async virtual void PublicVirtualVoidAsyncMethod()
+        {
+            await Task.FromResult(42);
+        }
     }
 
     internal class TestClassForMethodReturnTypesSelector

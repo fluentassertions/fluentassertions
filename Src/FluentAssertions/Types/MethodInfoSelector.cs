@@ -134,6 +134,24 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Only return methods that are async. 
+        /// </summary>
+        public MethodInfoSelector ThatAreAsync()
+        {
+            selectedMethods = selectedMethods.Where(method => method.IsAsync());
+            return this;
+        }
+
+        /// <summary>
+        /// Only return methods that are not async. 
+        /// </summary>
+        public MethodInfoSelector ThatAreNotAsync()
+        {
+            selectedMethods = selectedMethods.Where(method => !method.IsAsync());
+            return this;
+        }
+
+        /// <summary>
         /// Select return types of the methods
         /// </summary>
         public TypeSelector ReturnTypes()

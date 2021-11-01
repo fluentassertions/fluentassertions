@@ -10,6 +10,7 @@ sidebar:
 ## Unreleased
 
 ### What's New
+* Adding `ThatAreAsync()` and `ThatAreNotAsync()` to `MethodInfoSelector`
 
 ### Fixes
 

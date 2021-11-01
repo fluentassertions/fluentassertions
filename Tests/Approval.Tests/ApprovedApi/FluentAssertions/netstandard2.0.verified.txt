@@ -2294,10 +2294,12 @@ namespace FluentAssertions.Types
         public FluentAssertions.Types.MethodInfoSelector ThatReturnVoid { get; }
         public System.Collections.Generic.IEnumerator<System.Reflection.MethodInfo> GetEnumerator() { }
         public FluentAssertions.Types.TypeSelector ReturnTypes() { }
+        public FluentAssertions.Types.MethodInfoSelector ThatAreAsync() { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreDecoratedWith<TAttribute>()
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreDecoratedWithOrInherit<TAttribute>()
             where TAttribute : System.Attribute { }
+        public FluentAssertions.Types.MethodInfoSelector ThatAreNotAsync() { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreNotDecoratedWith<TAttribute>()
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreNotDecoratedWithOrInherit<TAttribute>()
