@@ -10,7 +10,7 @@ namespace FluentAssertions.Specs.CultureAwareTesting
 
         public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
             where TValue : new() =>
-            dictionary.GetOrAdd(key, () => new TValue());
+            dictionary.GetOrAdd(key, static () => new TValue());
 
         public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> newValue)
         {

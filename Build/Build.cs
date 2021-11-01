@@ -76,11 +76,14 @@ class Build : NukeBuild
         .DependsOn(Compile)
         .Executes(() =>
         {
-            Xunit2(s => s
-                .SetFramework("net47")
-                .AddTargetAssemblies(GlobFiles(
-                    Solution.Specs.FluentAssertions_Specs.Directory,
-                    "bin/Debug/net47/*.Specs.dll").NotEmpty()));
+            if (EnvironmentInfo.IsWin)
+            {
+                Xunit2(s => s
+                    .SetFramework("net47")
+                    .AddTargetAssemblies(GlobFiles(
+                        Solution.Specs.FluentAssertions_Specs.Directory,
+                        "bin/Debug/net47/*.Specs.dll").NotEmpty()));
+            }
 
             DotNetTest(s => s
                 .SetProjectFile(Solution.Specs.FluentAssertions_Specs)
@@ -95,20 +98,30 @@ class Build : NukeBuild
         .DependsOn(Compile)
         .Executes(() =>
         {
+            var testCombinations =
+                from project in new[]
+                {
+                    Solution.TestFrameworks.MSpec_Specs,
+                    Solution.TestFrameworks.MSTestV2_Specs,
+                    Solution.TestFrameworks.NUnit3_Specs,
+                    Solution.TestFrameworks.XUnit2_Specs
+                }
+                let frameworks = project.GetTargetFrameworks()
+                let supportedFrameworks = EnvironmentInfo.IsWin ? frameworks : frameworks.Except(new[] { "net47" })
+                from framework in supportedFrameworks
+                select new { project, framework };
+
             DotNetTest(s => s
                 .SetConfiguration("Debug")
                 .EnableNoBuild()
                 .CombineWith(
-                    new[]
-                    {
-                        Solution.TestFrameworks.MSpec_Specs,
-                        Solution.TestFrameworks.MSTestV2_Specs,
-                        Solution.TestFrameworks.NUnit3_Specs,
-                        Solution.TestFrameworks.XUnit2_Specs
-                    },
-                    (_, v) => _.SetProjectFile(v)));
+                    testCombinations,
+                    (_, v) => _.SetProjectFile(v.project).SetFramework(v.framework)));
 
-            NSpec3(Solution.TestFrameworks.NSpec3_Net47_Specs.Directory / "bin" / "Debug" / "net47" / "NSpec3.Specs.dll");
+            if (EnvironmentInfo.IsWin)
+            {
+                NSpec3(Solution.TestFrameworks.NSpec3_Net47_Specs.Directory / "bin" / "Debug" / "net47" / "NSpec3.Specs.dll");
+            }
         });
 
     Target Pack => _ => _

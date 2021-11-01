@@ -217,7 +217,7 @@ namespace FluentAssertions.Common
 
         public static IEnumerable<PropertyInfo> GetNonPrivateProperties(this Type typeToReflect, MemberVisibility visibility)
         {
-            return NonPrivatePropertiesCache.GetOrAdd((typeToReflect, visibility), key =>
+            return NonPrivatePropertiesCache.GetOrAdd((typeToReflect, visibility), static key =>
             {
                 IEnumerable<PropertyInfo> query =
                     from propertyInfo in GetPropertiesFromHierarchy(key.Type, key.Visibility)
@@ -245,7 +245,7 @@ namespace FluentAssertions.Common
 
         public static IEnumerable<FieldInfo> GetNonPrivateFields(this Type typeToReflect, MemberVisibility visibility)
         {
-            return NonPrivateFieldsCache.GetOrAdd((typeToReflect, visibility), key =>
+            return NonPrivateFieldsCache.GetOrAdd((typeToReflect, visibility), static key =>
             {
                 IEnumerable<FieldInfo> query =
                     from fieldInfo in GetFieldsFromHierarchy(key.Type, key.Visibility)
@@ -533,7 +533,7 @@ namespace FluentAssertions.Common
 
         public static bool HasValueSemantics(this Type type)
         {
-            return HasValueSemanticsCache.GetOrAdd(type, t =>
+            return HasValueSemanticsCache.GetOrAdd(type, static t =>
                 t.OverridesEquals() &&
                 !t.IsAnonymousType() &&
                 !t.IsTuple() &&
@@ -583,7 +583,7 @@ namespace FluentAssertions.Common
 
         public static bool IsRecord(this Type type)
         {
-            return TypeIsRecordCache.GetOrAdd(type, t =>
+            return TypeIsRecordCache.GetOrAdd(type, static t =>
                 t.GetMethod("<Clone>$") is not null &&
                 t.GetTypeInfo()
                      .DeclaredProperties
