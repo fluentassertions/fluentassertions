@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using FluentAssertions.Common;
@@ -287,59 +286,6 @@ namespace FluentAssertions.Xml
             }
 
             return new AndWhichConstraint<XElementAssertions, XElement>(this, xElement);
-        }
-
-        /// <summary>
-        /// Asserts that the current <see cref="XElement"/> is a single element inside the parent <see cref="XElement"/>.
-        /// </summary>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndWhichConstraint<XElementAssertions, XElement> BeSingle(string because = "", params object[] becauseArgs)
-        {
-            return HaveCount(1, because, becauseArgs);
-        }
-
-        /// <summary>
-        /// Asserts that the number of elements in the parent <see cref="XElement"/> matches the supplied <paramref name="expected" /> amount.
-        /// <paramref name="expected"/> name.
-        /// </summary>
-        /// <param name="expected">The expected number of elements in the document.</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndWhichConstraint<XElementAssertions, XElement> HaveCount(int expected, string because = "",
-            params object[] becauseArgs)
-        {
-            if (Subject is null)
-            {
-                throw new InvalidOperationException("Cannot assert the count if the element itself is <null>.");
-            }
-
-            Execute.Assertion
-                .ForCondition(Subject.Parent is not null)
-                .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected {context:subject} to have parent element, but it has no parent element.");
-
-            var xElements = Subject.Parent.Elements(Subject.Name);
-            int actualCount = xElements.Count();
-            Execute.Assertion
-                .ForCondition(actualCount == expected)
-                .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected {0} to have a count of {1}, but found {2}.",
-                    Subject.Name, expected, actualCount);
-
-            return new AndWhichConstraint<XElementAssertions, XElement>(this, Subject);
         }
 
         /// <summary>

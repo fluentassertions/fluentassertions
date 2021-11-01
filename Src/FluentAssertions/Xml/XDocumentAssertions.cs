@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -235,6 +236,69 @@ namespace FluentAssertions.Xml
                     expected.ToString());
 
             return new AndWhichConstraint<XDocumentAssertions, XElement>(this, xElement);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="XDocument"/> is a single element inside the parent <see cref="XElement"/>.
+        /// </summary>
+        /// <param name="expected">
+        /// The full name <see cref="XName"/> of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<XDocumentAssertions> HaveSingleElement(XName expected, string because = "", params object[] becauseArgs)
+        {
+            return HaveElementCount(expected, 1, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the number of elements in the parent <see cref="XDocument"/> matches the supplied <paramref name="expected" /> amount.
+        /// </summary>
+        /// <param name="expected">
+        /// The full name <see cref="XName"/> of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
+        /// </param>
+        /// <param name="count">The expected count of elements in the document.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<XDocumentAssertions> HaveElementCount(XName expected, int count, string because = "",
+            params object[] becauseArgs)
+        {
+            if (Subject is null)
+            {
+                throw new InvalidOperationException("Cannot assert the count if the document itself is <null>.");
+            }
+
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
+                "Cannot assert the document has an element count if the element name is <null>*");
+
+            Execute.Assertion
+                .ForCondition(Subject.Root is not null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected {context:subject} to have root element with child {0}{reason}, but it has no root element.",
+                    expected.ToString());
+
+            var xElements = Subject.Root.Elements(expected);
+            int actualCount = xElements.Count();
+
+            Execute.Assertion
+                .ForCondition(actualCount == count)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected {context:subject} to have {0} child element(s) {1}{reason}, but found {2}.",
+                    count, expected.ToString(), actualCount);
+
+            return new AndConstraint<XDocumentAssertions>(this);
         }
 
         /// <summary>
