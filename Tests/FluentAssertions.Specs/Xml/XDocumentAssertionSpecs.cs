@@ -1158,5 +1158,105 @@ namespace FluentAssertions.Specs.Xml
         }
 
         #endregion
+
+        #region HaveSingleElement
+
+        [Fact]
+        public void When_asserting_document_has_a_single_child_element_and_it_does_it_should_succeed()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                  </parent>");
+
+            // Act / Assert
+            document.Should().HaveSingleElement("child");
+        }
+
+        [Fact]
+        public void When_asserting_document_has_single_child_element_but_it_does_have_two_it_should_fail()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act
+            Action act = () => document.Should().HaveSingleElement("child");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected document to have 1 child element(s) \"child\", but found 2.");
+        }
+
+        [Fact]
+        public void When_asserting_a_null_xDocument_to_have_a_single_element_it_should_fail()
+        {
+            // Arrange
+            XDocument xDocument = null;
+
+            // Act
+            Action act = () => xDocument.Should().HaveSingleElement("child");
+
+            // Assert
+            act.Should().Throw<InvalidOperationException>().WithMessage(
+                "Cannot assert the count if the document itself is <null>.");
+        }
+
+        #endregion
+
+        #region HaveElementCount
+
+        [Fact]
+        public void When_asserting_document_has_two_child_elements_and_it_does_it_should_succeed()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act / Assert
+            document.Should().HaveElementCount("child", 2);
+        }
+
+        [Fact]
+        public void When_asserting_document_has_two_child_elements_but_it_does_have_three_it_should_fail()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act
+            Action act = () => document.Should().HaveElementCount("child", 2);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected document to have 2 child element(s) \"child\", but found 3.");
+        }
+
+        [Fact]
+        public void When_asserting_a_null_xDocument_to_have_a_element_count_it_should_fail()
+        {
+            // Arrange
+            XDocument xDocument = null;
+
+            // Act
+            Action act = () => xDocument.Should().HaveElementCount("child", 1);
+
+            // Assert
+            act.Should().Throw<InvalidOperationException>().WithMessage(
+                "Cannot assert the count if the document itself is <null>.");
+        }
+
+        #endregion
     }
 }
