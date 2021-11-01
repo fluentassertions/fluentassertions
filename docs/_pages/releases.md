@@ -10,7 +10,7 @@ sidebar:
 ## Unreleased
 
 ### What's New
-* Adding `ThatAreAsync()` and `ThatAreNotAsync()` to `MethodInfoSelector`
+* Adding `ThatAreAsync()` and `ThatAreNotAsync()` to `MethodInfoSelector` [#645](https://github.com/fluentassertions/fluentassertions/pull/1725)
 
 ### Fixes
 
