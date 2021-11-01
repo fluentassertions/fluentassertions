@@ -115,7 +115,7 @@ await act.Should().NotThrowAsync();
 Alternatively, you can use the `Awaiting` method like this:
 
 ```csharp
-Func<Task> act = () => asyncObject.Awaiting(x => x.ThrowAsync<ArgumentException>());
+Func<Task> act = asyncObject.Awaiting(x => x.ThrowAsync<ArgumentException>());
 await act.Should().ThrowAsync<ArgumentException>();
 ```
 

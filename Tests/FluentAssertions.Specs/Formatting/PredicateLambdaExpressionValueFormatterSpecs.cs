@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Globalization;
+using System.Linq;
 using System.Linq.Expressions;
-using FluentAssertions.Extensions;
 using FluentAssertions.Formatting;
 using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Formatting
 {
@@ -45,7 +45,47 @@ namespace FluentAssertions.Specs.Formatting
             result.Should().Be("(a.Text == \"123\") AndAlso (a.Number >= 0) AndAlso (a.Number <= 1000)");
         }
 
-        private string Format(Expression<Func<SomeClass, bool>> expression)
+        [Fact]
+        public void When_condition_contains_extension_method_then_extension_method_must_be_formatted()
+        {
+            // Act
+            string result = Format(a => a.TextIsNotBlank() && a.Number >= 0 && a.Number <= 1000);
+
+            // Assert
+            result.Should().Be("a.TextIsNotBlank() AndAlso (a.Number >= 0) AndAlso (a.Number <= 1000)");
+        }
+
+        [Fact]
+        public void When_condition_contains_linq_extension_method_then_extension_method_must_be_formatted()
+        {
+            // Arrange
+            var actual = new[] { 4 };
+            var allowed = new[] { 1, 2, 3 };
+
+            // Act
+            string result = Format<int>(a => allowed.Contains(a));
+
+            // Assert
+            result.Should().Be("value(System.Int32[]).Contains(a)");
+        }
+
+        [Fact]
+        public void Formatting_a_lifted_binary_operator()
+        {
+            // Arrange
+            var subject = new ClassWithNullables { Number = 42 };
+
+            // Act
+            Action act = () => subject.Should().Match<ClassWithNullables>(e => e.Number > 43);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*e.Number > *43*");
+        }
+
+        private string Format(Expression<Func<SomeClass, bool>> expression) => Format<SomeClass>(expression);
+
+        private string Format<T>(Expression<Func<T, bool>> expression)
         {
             var graph = new FormattedObjectGraph(maxLines: 100);
 
@@ -53,12 +93,22 @@ namespace FluentAssertions.Specs.Formatting
 
             return graph.ToString();
         }
+    }
 
-        private class SomeClass
-        {
-            public string Text { get; set; }
+    internal class ClassWithNullables
+    {
+        public int? Number { get; set; }
+    }
 
-            public int Number { get; set; }
-        }
+    internal class SomeClass
+    {
+        public string Text { get; set; }
+
+        public int Number { get; set; }
+    }
+
+    internal static class SomeClassExtensions
+    {
+        public static bool TextIsNotBlank(this SomeClass someObject) => !string.IsNullOrWhiteSpace(someObject.Text);
     }
 }

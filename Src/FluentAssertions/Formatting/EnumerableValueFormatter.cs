@@ -47,7 +47,7 @@ namespace FluentAssertions.Formatting
                 else
                 {
                     using IDisposable _ = formattedGraph.WithIndentation();
-                    string moreItemsMessage = $"…{collection.Count() - MaxItems} more…";
+                    string moreItemsMessage = value is ICollection c ? $"…{c.Count - MaxItems} more…" : "…more…";
                     AddLineOrFragment(formattedGraph, startCount, moreItemsMessage);
                 }
 

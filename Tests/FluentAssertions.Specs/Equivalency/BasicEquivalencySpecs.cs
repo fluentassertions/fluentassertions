@@ -3429,6 +3429,37 @@ namespace FluentAssertions.Specs.Equivalency
                 .WithMessage("Expected property c1.RefOne.ValTwo to be 2, but found 3*");
         }
 
+        [Fact]
+        public void Should_support_nested_collections_containing_empty_objects()
+        {
+            // Arrange
+            var orig = new[]
+            {
+                new OuterWithObject
+                {
+                    MyProperty = new[] { new Inner() }
+                }
+            };
+
+            var expectation = new[]
+            {
+                new OuterWithObject
+                {
+                    MyProperty = new[] { new Inner() }
+                }
+            };
+
+            // Act / Assert
+            orig.Should().BeEquivalentTo(expectation);
+        }
+
+        public class Inner { }
+
+        public class OuterWithObject
+        {
+            public Inner[] MyProperty { get; set; }
+        }
+
         #endregion
 
         #region Cyclic References
@@ -3754,6 +3785,72 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void Allow_ignoring_cyclic_references_in_value_types_compared_by_members()
+        {
+            // Arrange
+            var expectation = new ValueTypeCircularDependency()
+            {
+                Title = "First"
+            };
+
+            var second = new ValueTypeCircularDependency()
+            {
+                Title = "Second",
+                Previous = expectation
+            };
+
+            expectation.Next = second;
+
+            var subject = new ValueTypeCircularDependency()
+            {
+                Title = "First"
+            };
+
+            var secondCopy = new ValueTypeCircularDependency()
+            {
+                Title = "SecondDifferent",
+                Previous = subject
+            };
+
+            subject.Next = secondCopy;
+
+            // Act
+            Action act = () => subject.Should()
+                .BeEquivalentTo(expectation, opt => opt
+                .ComparingByMembers<ValueTypeCircularDependency>()
+                .IgnoringCyclicReferences());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*subject.Next.Title*Second*SecondDifferent*")
+                .Which.Message.Should().NotContain("maximum recursion depth was reached");
+        }
+
+        public class ValueTypeCircularDependency
+        {
+            public string Title { get; set; }
+
+            public ValueTypeCircularDependency Previous { get; set; }
+
+            public ValueTypeCircularDependency Next { get; set; }
+
+            public override bool Equals(object obj)
+            {
+                if (ReferenceEquals(this, obj))
+                {
+                    return true;
+                }
+
+                return (obj is ValueTypeCircularDependency baseObj) && baseObj.Title == Title;
+            }
+
+            public override int GetHashCode()
+            {
+                return Title.GetHashCode();
+            }
         }
 
         #endregion

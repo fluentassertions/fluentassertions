@@ -23,11 +23,12 @@ namespace FluentAssertions.Equivalency
     {
         #region Private Definitions
 
-        // REFACTOR: group the next four fields in a dedicated class
-        private readonly ConcurrentDictionary<Type, bool> hasValueSemanticsMap = new();
+        // REFACTOR: group the next three fields in a dedicated class
         private readonly List<Type> referenceTypes = new();
         private readonly List<Type> valueTypes = new();
         private readonly Func<Type, EqualityStrategy> getDefaultEqualityStrategy;
+
+        private readonly ConcurrentDictionary<Type, EqualityStrategy> equalityStrategyCache = new();
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly List<IMemberSelectionRule> selectionRules = new();
@@ -163,51 +164,48 @@ namespace FluentAssertions.Equivalency
 
         public bool CompareRecordsByValue => compareRecordsByValue;
 
-        EqualityStrategy IEquivalencyAssertionOptions.GetEqualityStrategy(Type type)
+        EqualityStrategy IEquivalencyAssertionOptions.GetEqualityStrategy(Type requestedType)
         {
-            EqualityStrategy strategy;
+            // As the valueFactory parameter captures instance members,
+            // be aware if the cache must be cleared on mutating the members.
+            return equalityStrategyCache.GetOrAdd(requestedType, type =>
+            {
+                EqualityStrategy strategy;
 
-            if (!type.IsPrimitive && referenceTypes.Any(t => type.IsSameOrInherits(t)))
-            {
-                strategy = EqualityStrategy.ForceMembers;
-            }
-            else if (valueTypes.Any(t => type.IsSameOrInherits(t)))
-            {
-                strategy = EqualityStrategy.ForceEquals;
-            }
-            else if (!type.IsPrimitive && referenceTypes.Any(t => type.IsAssignableToOpenGeneric(t)))
-            {
-                strategy = EqualityStrategy.ForceMembers;
-            }
-            else if (valueTypes.Any(t => type.IsAssignableToOpenGeneric(t)))
-            {
-                strategy = EqualityStrategy.ForceEquals;
-            }
-            else if (type.IsRecord())
-            {
-                strategy = compareRecordsByValue ? EqualityStrategy.ForceEquals : EqualityStrategy.ForceMembers;
-            }
-            else
-            {
-                if (getDefaultEqualityStrategy is not null)
+                if (!type.IsPrimitive && referenceTypes.Count > 0 && referenceTypes.Any(t => type.IsSameOrInherits(t)))
                 {
-                    strategy = getDefaultEqualityStrategy(type);
+                    strategy = EqualityStrategy.ForceMembers;
+                }
+                else if (valueTypes.Count > 0 && valueTypes.Any(t => type.IsSameOrInherits(t)))
+                {
+                    strategy = EqualityStrategy.ForceEquals;
+                }
+                else if (!type.IsPrimitive && referenceTypes.Count > 0 && referenceTypes.Any(t => type.IsAssignableToOpenGeneric(t)))
+                {
+                    strategy = EqualityStrategy.ForceMembers;
+                }
+                else if (valueTypes.Count > 0 && valueTypes.Any(t => type.IsAssignableToOpenGeneric(t)))
+                {
+                    strategy = EqualityStrategy.ForceEquals;
+                }
+                else if (type.IsRecord())
+                {
+                    strategy = compareRecordsByValue ? EqualityStrategy.ForceEquals : EqualityStrategy.ForceMembers;
                 }
                 else
                 {
-                    bool hasValueSemantics = hasValueSemanticsMap.GetOrAdd(type, t => t.HasValueSemantics());
-                    if (hasValueSemantics)
+                    if (getDefaultEqualityStrategy is not null)
                     {
-                        strategy = EqualityStrategy.Equals;
+                        strategy = getDefaultEqualityStrategy(type);
                     }
                     else
                     {
-                        strategy = EqualityStrategy.Members;
+                        strategy = type.HasValueSemantics() ? EqualityStrategy.Equals : EqualityStrategy.Members;
                     }
                 }
-            }
 
-            return strategy;
+                return strategy;
+            });
         }
 
         public ITraceWriter TraceWriter { get; private set; }
@@ -573,6 +571,7 @@ namespace FluentAssertions.Equivalency
         public TSelf ComparingRecordsByValue()
         {
             compareRecordsByValue = true;
+            equalityStrategyCache.Clear();
             return (TSelf)this;
         }
 
@@ -585,6 +584,7 @@ namespace FluentAssertions.Equivalency
         public TSelf ComparingRecordsByMembers()
         {
             compareRecordsByValue = false;
+            equalityStrategyCache.Clear();
             return (TSelf)this;
         }
 
@@ -614,6 +614,7 @@ namespace FluentAssertions.Equivalency
             }
 
             referenceTypes.Add(type);
+            equalityStrategyCache.Clear();
             return (TSelf)this;
         }
 
@@ -638,6 +639,7 @@ namespace FluentAssertions.Equivalency
             }
 
             valueTypes.Add(type);
+            equalityStrategyCache.Clear();
             return (TSelf)this;
         }
 

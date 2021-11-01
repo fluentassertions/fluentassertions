@@ -358,5 +358,77 @@ namespace FluentAssertions.Specs.Types
         }
 
         #endregion
+
+        #region BeAsync
+
+        [Fact]
+        public void When_asserting_methods_are_async_and_they_are_then_it_succeeds()
+        {
+            // Arrange
+            var methodSelector = new MethodInfoSelector(typeof(ClassWithAllMethodsAsync));
+
+            // Act
+            Action act = () => methodSelector.Should().BeAsync();
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_methods_are_async_but_non_async_methods_are_found_it_should_throw_with_descriptive_message()
+        {
+            // Arrange
+            var methodSelector = new MethodInfoSelector(typeof(ClassWithNonAsyncMethods));
+
+            // Act
+            Action act = () => methodSelector.Should().BeAsync("we want to test the error {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected all selected methods" +
+                    " to be async because we want to test the error message," +
+                    " but the following methods are not:" + Environment.NewLine +
+                    "Task FluentAssertions.Specs.Types.ClassWithNonAsyncMethods.PublicDoNothing" + Environment.NewLine +
+                    "Task FluentAssertions.Specs.Types.ClassWithNonAsyncMethods.InternalDoNothing" + Environment.NewLine +
+                    "Task FluentAssertions.Specs.Types.ClassWithNonAsyncMethods.ProtectedDoNothing");
+        }
+
+        #endregion
+
+        #region NotBeAsync
+
+        [Fact]
+        public void When_asserting_methods_are_not_async_and_they_are_not_then_it_succeeds()
+        {
+            // Arrange
+            var methodSelector = new MethodInfoSelector(typeof(ClassWithNonAsyncMethods));
+
+            // Act
+            Action act = () => methodSelector.Should().NotBeAsync();
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_methods_are_not_async_but_async_methods_are_found_it_should_throw_with_descriptive_message()
+        {
+            // Arrange
+            var methodSelector = new MethodInfoSelector(typeof(ClassWithAllMethodsAsync));
+
+            // Act
+            Action act = () => methodSelector.Should().NotBeAsync("we want to test the error {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected all selected methods" +
+                    " not to be async because we want to test the error message," +
+                    " but the following methods are:" + Environment.NewLine +
+                    "Task FluentAssertions.Specs.Types.ClassWithAllMethodsAsync.PublicAsyncDoNothing" + Environment.NewLine +
+                    "Task FluentAssertions.Specs.Types.ClassWithAllMethodsAsync.InternalAsyncDoNothing" + Environment.NewLine +
+                    "Task FluentAssertions.Specs.Types.ClassWithAllMethodsAsync.ProtectedAsyncDoNothing");
+        }
+
+        #endregion
     }
 }

@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>NUnit3.Specs</RootNamespace>
     <AssemblyName>NUnit3.Specs</AssemblyName>
     <CodeAnalysisRuleSet>..\..\..\TestRules.ruleset</CodeAnalysisRuleSet>
