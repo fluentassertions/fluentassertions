@@ -87,7 +87,7 @@ sidebar:
 * Adding new overloads to all `GreaterOrEqualTo` and `LessOrEqualTo` assertions, adding the word `Than` - [#1673](https://github.com/fluentassertions/fluentassertions/pull/1673)
 * `BeAsync()` and `NotBeAsync()` are now also available on `MethodInfoSelectorAssertions` - [#1700](https://github.com/fluentassertions/fluentassertions/pull/1700)
 
-* Added `HaveSingleElement` and `HaveELementCount` for `XDocument` - [#1681](https://github.com/fluentassertions/fluentassertions/pull/1684)
+* Added `HaveSingleElement` and `HaveElementCount` for `XDocument` - [#1681](https://github.com/fluentassertions/fluentassertions/pull/1684)
 
 ### Fixes
 
