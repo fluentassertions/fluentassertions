@@ -398,12 +398,12 @@ namespace FluentAssertions.Specs.Types
 
     internal class TestClassForMethodSelectorWithAsyncAndNonAsyncMethod
     {
-        public async void PublicVirtualVoidAsyncMethod()
+        public async void PublicVoidAsyncMethod()
         {
             await Task.Yield();
         }
 
-        public void PublicVirtualVoidNotAsyncMethod() { }
+        public void PublicVoidNotAsyncMethod() { }
     }
 
     internal class TestClassForMethodReturnTypesSelector
