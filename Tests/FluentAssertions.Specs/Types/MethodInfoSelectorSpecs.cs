@@ -284,7 +284,7 @@ namespace FluentAssertions.Specs.Types
 
             // Assert
             methods.Should().ContainSingle()
-                .Which.Name.Should().Be("PublicVirtualVoidAsyncMethod");
+                .Which.Name.Should().Be("PublicVoidAsyncMethod");
         }
 
         [Fact]
@@ -298,7 +298,7 @@ namespace FluentAssertions.Specs.Types
 
             // Assert
             methods.Should().ContainSingle()
-                .Which.Name.Should().Be("PublicVirtualVoidNotAsyncMethod");
+                .Which.Name.Should().Be("PublicVoidNotAsyncMethod");
         }
 
         [Fact]
