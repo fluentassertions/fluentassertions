@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using FluentAssertions.Types;
 using Internal.Main.Test;
 using Xunit;
@@ -273,6 +274,34 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
+        public void When_selecting_methods_that_are_async_it_should_only_return_the_applicable_methods()
+        {
+            // Arrange
+            Type type = typeof(TestClassForMethodSelectorWithAsyncAndNonAsyncMethod);
+
+            // Act
+            MethodInfo[] methods = type.Methods().ThatAreAsync().ToArray();
+
+            // Assert
+            methods.Should().ContainSingle()
+                .Which.Name.Should().Be("PublicVoidAsyncMethod");
+        }
+
+        [Fact]
+        public void When_selecting_methods_that_are_not_async_it_should_only_return_the_applicable_methods()
+        {
+            // Arrange
+            Type type = typeof(TestClassForMethodSelectorWithAsyncAndNonAsyncMethod);
+
+            // Act
+            MethodInfo[] methods = type.Methods().ThatAreNotAsync().ToArray();
+
+            // Assert
+            methods.Should().ContainSingle()
+                .Which.Name.Should().Be("PublicVoidNotAsyncMethod");
+        }
+
+        [Fact]
         public void When_selecting_methods_not_decorated_with_or_inheriting_a_noninheritable_attribute_it_should_only_return_the_applicable_methods()
         {
             // Arrange
@@ -365,6 +394,16 @@ namespace FluentAssertions.Specs.Types
     internal class TestClassForMethodSelectorWithNonInheritableAttributeDerived : TestClassForMethodSelectorWithNonInheritableAttribute
     {
         public override void PublicVirtualVoidMethodWithAttribute() { }
+    }
+
+    internal class TestClassForMethodSelectorWithAsyncAndNonAsyncMethod
+    {
+        public async void PublicVoidAsyncMethod()
+        {
+            await Task.Yield();
+        }
+
+        public void PublicVoidNotAsyncMethod() { }
     }
 
     internal class TestClassForMethodReturnTypesSelector
