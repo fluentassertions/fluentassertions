@@ -284,7 +284,7 @@ namespace FluentAssertions.Specs.Types
 
             // Assert
             methods.Should().ContainSingle()
-                .Which.Name.Should().Be("PublicVoidAsyncMethod");
+                .Which.Name.Should().Be("PublicAsyncMethod");
         }
 
         [Fact]
@@ -298,7 +298,7 @@ namespace FluentAssertions.Specs.Types
 
             // Assert
             methods.Should().ContainSingle()
-                .Which.Name.Should().Be("PublicVoidNotAsyncMethod");
+                .Which.Name.Should().Be("PublicNonAsyncMethod");
         }
 
         [Fact]
@@ -398,12 +398,9 @@ namespace FluentAssertions.Specs.Types
 
     internal class TestClassForMethodSelectorWithAsyncAndNonAsyncMethod
     {
-        public async void PublicVoidAsyncMethod()
-        {
-            await Task.Yield();
-        }
+        public async Task PublicAsyncMethod() => await Task.Yield();
 
-        public void PublicVoidNotAsyncMethod() { }
+        public Task PublicNonAsyncMethod() => Task.CompletedTask;
     }
 
     internal class TestClassForMethodReturnTypesSelector
