@@ -11,6 +11,7 @@ sidebar:
 
 ### What's New
 * Adding `ThatAreAsync()` and `ThatAreNotAsync()` for filtering in method assertions - [#1725](https://github.com/fluentassertions/fluentassertions/pull/1725)
+* Adding new assertions for the `HttpStatusCode` of a `HttpResponseMessage` - [#1698](https://github.com/fluentassertions/fluentassertions/discussions/1698)
 
 ### Fixes
 
