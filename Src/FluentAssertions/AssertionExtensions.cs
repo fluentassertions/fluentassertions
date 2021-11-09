@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq.Expressions;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -300,6 +301,16 @@ namespace FluentAssertions
         public static NullableBooleanAssertions Should(this bool? actualValue)
         {
             return new NullableBooleanAssertions(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="HttpResponseMessageAssertions"/> object that can be used to assert the
+        /// current <see cref="HttpResponseMessage"/>.
+        /// </summary>
+        [Pure]
+        public static HttpResponseMessageAssertions Should(this HttpResponseMessage actualValue)
+        {
+            return new HttpResponseMessageAssertions(actualValue);
         }
 
         /// <summary>
@@ -861,6 +872,14 @@ namespace FluentAssertions
         [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
         public static void Should<TAssertions>(this BooleanAssertions<TAssertions> _)
             where TAssertions : BooleanAssertions<TAssertions>
+        {
+            InvalidShouldCall();
+        }
+
+        /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        public static void Should<TAssertions>(this HttpResponseMessageAssertions<TAssertions> _)
+            where TAssertions : HttpResponseMessageAssertions<TAssertions>
         {
             InvalidShouldCall();
         }
