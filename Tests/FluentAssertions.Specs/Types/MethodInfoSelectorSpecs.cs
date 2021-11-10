@@ -332,6 +332,34 @@ namespace FluentAssertions.Specs.Types
                 .And.NotContain(m => m.Name == "PublicVirtualVoidMethodWithAttribute")
                 .And.NotContain(m => m.Name == "ProtectedVirtualVoidMethodWithAttribute");
         }
+        
+        [Fact]
+        public void When_selecting_methods_that_are_static_it_should_only_return_the_applicable_methods()
+        {
+            // Arrange
+            Type type = typeof(TestClassForMethodSelectorWithStaticAndNonStaticMethod);
+
+            // Act
+            MethodInfo[] methods = type.Methods().ThatAreStatic().ToArray();
+
+            // Assert
+            methods.Should().ContainSingle()
+                .Which.Name.Should().Be("PublicStaticMethod");
+        }
+
+        [Fact]
+        public void When_selecting_methods_that_are_not_static_it_should_only_return_the_applicable_methods()
+        {
+            // Arrange
+            Type type = typeof(TestClassForMethodSelectorWithStaticAndNonStaticMethod);
+
+            // Act
+            MethodInfo[] methods = type.Methods().ThatAreNotStatic().ToArray();
+
+            // Assert
+            methods.Should().ContainSingle()
+                .Which.Name.Should().Be("PublicNonStaticMethod");
+        }
 
         [Fact]
         public void When_selecting_methods_not_decorated_with_or_inheriting_a_noninheritable_attribute_it_should_only_return_the_applicable_methods()
@@ -433,6 +461,13 @@ namespace FluentAssertions.Specs.Types
         public async Task PublicAsyncMethod() => await Task.Yield();
 
         public Task PublicNonAsyncMethod() => Task.CompletedTask;
+    }
+
+    internal class TestClassForMethodSelectorWithStaticAndNonStaticMethod
+    {
+        public static void PublicStaticMethod() { }
+
+        public void PublicNonStaticMethod() { }
     }
 
     internal class TestClassForMethodReturnTypesSelector

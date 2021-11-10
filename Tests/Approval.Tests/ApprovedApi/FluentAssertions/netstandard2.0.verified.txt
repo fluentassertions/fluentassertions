@@ -2318,6 +2318,8 @@ namespace FluentAssertions.Types
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreNotVirtual() { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreVirtual() { }
+        public FluentAssertions.Types.MethodInfoSelector ThatAreNotStatic() { }
+        public FluentAssertions.Types.MethodInfoSelector ThatAreStatic() { }
         public FluentAssertions.Types.MethodInfoSelector ThatDoNotReturn<TReturn>() { }
         public FluentAssertions.Types.MethodInfoSelector ThatReturn<TReturn>() { }
         public System.Reflection.MethodInfo[] ToArray() { }
