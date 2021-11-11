@@ -73,6 +73,8 @@ sidebar:
         url: /xml
       - title: Execution Time
         url: /executiontime
+      - title: HttpResponseMessage
+        url: /httpresponsemessages
 
   - title: Extensibility
     url: /extensibility

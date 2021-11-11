@@ -43,7 +43,7 @@ namespace FluentAssertions.Primitives
         public HttpResponseMessage Subject { get; }
 
         /// <summary>
-        /// Asserts that the <see cref="HttpStatusCode"/> is successful.
+        /// Asserts that the <see cref="HttpStatusCode"/> is successful (2xx).
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -63,7 +63,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that the <see cref="HttpStatusCode"/> is redirection.
+        /// Asserts that the <see cref="HttpStatusCode"/> is redirection (3xx).
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion

@@ -9,18 +9,18 @@ nav: "sidebar"
 
 ```csharp
 var successfulResponse = new HttpResponseMessage(HttpStatusCode.OK);
-successfulResponse.Should().BeSuccessful("it's set to OK");
+successfulResponse.Should().BeSuccessful("it's set to OK"); // (HttpStatusCode = 2xx)
 
 var redirectResponse = new HttpResponseMessage(HttpStatusCode.Moved);
-redirectResponse.Should().BeRedirection("it's set to Moved");
+redirectResponse.Should().BeRedirection("it's set to Moved"); // (HttpStatusCode = 3xx)
 
 var clientErrorResponse = new HttpResponseMessage(HttpStatusCode.BadRequest);
-clientErrorResponse.Should().BeClientError("it's set to BadRequest");
-clientErrorResponse.Should().BeError("it's set to BadRequest");
+clientErrorResponse.Should().HaveClientError("it's set to BadRequest"); // (HttpStatusCode = 4xx)
+clientErrorResponse.Should().HaveError("it's set to BadRequest"); // (HttpStatusCode = 4xx or 5xx)
 
 var serverErrorResponse = new HttpResponseMessage(HttpStatusCode.InternalServerError);
-serverErrorResponse.Should().BeServerError("it's set to InternalServerError");
-serverErrorResponse.Should().BeError("it's set to InternalServerError");
+serverErrorResponse.Should().HaveServerError("it's set to InternalServerError"); // (HttpStatusCode = 5xx)
+serverErrorResponse.Should().HaveError("it's set to InternalServerError"); // (HttpStatusCode = 4xx or 5xx)
 
 var anotherResponse = new HttpResponseMessage(HttpStatusCode.Moved);
 anotherResponse.Should().HaveStatusCode(HttpStatusCode.Moved);
