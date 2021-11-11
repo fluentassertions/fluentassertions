@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using Xunit;
@@ -10,7 +9,8 @@ namespace FluentAssertions.Specs.Primitives
     public class HttpResponseMessageAssertionSpecs
     {
         [Theory]
-        [MemberData(nameof(GetSuccessStatusCodes))]
+        [InlineData(HttpStatusCode.OK)]
+        [InlineData(HttpStatusCode.Accepted)]
         public void Should_succeed_when_asserting_statuscode_is_successful(HttpStatusCode statusCodeOfResponse)
         {
             // Arrange
@@ -21,7 +21,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Theory]
-        [MemberData(nameof(GetRedirectionStatusCodes))]
+        [InlineData(HttpStatusCode.Moved)]
         public void Should_succeed_when_asserting_statuscode_is_redirect(HttpStatusCode statusCodeOfResponse)
         {
             // Arrange
@@ -32,7 +32,8 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Theory]
-        [MemberData(nameof(GetClientErrorStatusCodes))]
+        [InlineData(HttpStatusCode.Gone)]
+        [InlineData(HttpStatusCode.BadRequest)]
         public void Should_succeed_when_asserting_statuscode_is_client_error(HttpStatusCode statusCodeOfResponse)
         {
             // Arrange
@@ -43,7 +44,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Theory]
-        [MemberData(nameof(GetServerErrorStatusCodes))]
+        [InlineData(HttpStatusCode.InternalServerError)]
         public void Should_succeed_when_asserting_statuscode_is_server_error(HttpStatusCode statusCodeOfResponse)
         {
             // Arrange
@@ -54,8 +55,8 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Theory]
-        [MemberData(nameof(GetClientErrorStatusCodes))]
-        [MemberData(nameof(GetServerErrorStatusCodes))]
+        [InlineData(HttpStatusCode.BadRequest)]
+        [InlineData(HttpStatusCode.InternalServerError)]
         public void Should_succeed_when_asserting_statuscode_is_error(HttpStatusCode statusCodeOfResponse)
         {
             // Arrange
@@ -235,27 +236,6 @@ namespace FluentAssertions.Specs.Primitives
             // Assert
             action.Should().Throw<XunitException>()
                 .WithMessage("Expected HttpStatusCode not to be HttpStatusCode.OK {value: 200} because we want to test the failure message, but found HttpStatusCode.OK {value: 200}.*");
-        }
-
-        public static IEnumerable<object[]> GetSuccessStatusCodes() => GetStatusCodesWithinRange(200, 299);
-
-        public static IEnumerable<object[]> GetRedirectionStatusCodes() => GetStatusCodesWithinRange(300, 399);
-
-        public static IEnumerable<object[]> GetClientErrorStatusCodes() => GetStatusCodesWithinRange(400, 499);
-
-        public static IEnumerable<object[]> GetServerErrorStatusCodes() => GetStatusCodesWithinRange(500, 599);
-
-        private static IEnumerable<object[]> GetStatusCodesWithinRange(int lowerLimit, int upperLimit)
-        {
-            foreach (HttpStatusCode httpStatusCode in Enum.GetValues(typeof(HttpStatusCode)))
-            {
-                if ((int)httpStatusCode < lowerLimit || (int)httpStatusCode > upperLimit)
-                {
-                    continue;
-                }
-
-                yield return new object[] { httpStatusCode };
-            }
         }
     }
 }
