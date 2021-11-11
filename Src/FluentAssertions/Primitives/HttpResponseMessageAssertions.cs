@@ -87,7 +87,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(IsClientError() || IsServerError())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected HttpStatusCode to be an error {reason}, but found {0}.", Subject.StatusCode);
+                .FailWith("Expected HttpStatusCode to be an error{reason}, but found {0}.", Subject.StatusCode);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
