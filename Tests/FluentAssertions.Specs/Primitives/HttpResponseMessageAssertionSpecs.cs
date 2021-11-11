@@ -11,7 +11,7 @@ namespace FluentAssertions.Specs.Primitives
         [Theory]
         [InlineData(HttpStatusCode.OK)]
         [InlineData(HttpStatusCode.Accepted)]
-        public void Should_succeed_when_asserting_statuscode_is_successful(HttpStatusCode statusCodeOfResponse)
+        public void Should_succeed_when_status_code_is_successful(HttpStatusCode statusCodeOfResponse)
         {
             // Arrange
             var testee = new HttpResponseMessage(statusCodeOfResponse);
@@ -21,7 +21,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void Should_fail_when_asserting_statuscode_error_is_successful()
+        public void Should_fail_when_status_code_error_is_successful()
         {
             // Arrange
             var testee = new HttpResponseMessage(HttpStatusCode.Gone);
@@ -34,7 +34,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void Should_fail_with_descriptive_message_when_asserting_statuscode_error_is_successful()
+        public void Should_fail_with_descriptive_message_when_status_code_error_is_successful()
         {
             // Act
             Action action = () =>
@@ -48,7 +48,7 @@ namespace FluentAssertions.Specs.Primitives
 
         [Theory]
         [InlineData(HttpStatusCode.Moved)]
-        public void Should_succeed_when_asserting_statuscode_is_redirect(HttpStatusCode statusCodeOfResponse)
+        public void Should_succeed_when_status_code_is_redirect(HttpStatusCode statusCodeOfResponse)
         {
             // Arrange
             var testee = new HttpResponseMessage(statusCodeOfResponse);
@@ -58,7 +58,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void Should_fail_when_asserting_statuscode_error_is_redirection()
+        public void Should_fail_when_status_code_error_is_redirection()
         {
             // Arrange
             var testee = new HttpResponseMessage(HttpStatusCode.Gone);
@@ -71,7 +71,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void Should_fail_with_descriptive_message_when_asserting_statuscode_error_is_redirection()
+        public void Should_fail_with_descriptive_message_when_status_code_error_is_redirection()
         {
             // Act
             Action action = () =>
@@ -86,7 +86,7 @@ namespace FluentAssertions.Specs.Primitives
         [Theory]
         [InlineData(HttpStatusCode.Gone)]
         [InlineData(HttpStatusCode.BadRequest)]
-        public void Should_succeed_when_asserting_statuscode_is_client_error(HttpStatusCode statusCodeOfResponse)
+        public void Should_succeed_when_status_code_is_client_error(HttpStatusCode statusCodeOfResponse)
         {
             // Arrange
             var testee = new HttpResponseMessage(statusCodeOfResponse);
@@ -96,7 +96,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void Should_fail_when_asserting_statuscode_success_is_client_error()
+        public void Should_fail_when_status_code_success_is_client_error()
         {
             // Arrange
             var testee = new HttpResponseMessage(HttpStatusCode.OK);
@@ -109,7 +109,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void Should_fail_with_descriptive_message_when_asserting_statuscode_success_is_client_error()
+        public void Should_fail_with_descriptive_message_when_status_code_success_is_client_error()
         {
             // Act
             Action action = () =>
@@ -123,7 +123,7 @@ namespace FluentAssertions.Specs.Primitives
 
         [Theory]
         [InlineData(HttpStatusCode.InternalServerError)]
-        public void Should_succeed_when_asserting_statuscode_is_server_error(HttpStatusCode statusCodeOfResponse)
+        public void Should_succeed_when_status_code_is_server_error(HttpStatusCode statusCodeOfResponse)
         {
             // Arrange
             var testee = new HttpResponseMessage(statusCodeOfResponse);
@@ -133,7 +133,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void Should_fail_when_asserting_statuscode_success_is_server_error()
+        public void Should_fail_when_status_code_success_is_server_error()
         {
             // Arrange
             var testee = new HttpResponseMessage(HttpStatusCode.OK);
@@ -146,7 +146,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void Should_fail_with_descriptive_message_when_asserting_statuscode_success_is_server_error()
+        public void Should_fail_with_descriptive_message_when_status_code_success_is_server_error()
         {
             // Act
             Action action = () =>
@@ -161,7 +161,7 @@ namespace FluentAssertions.Specs.Primitives
         [Theory]
         [InlineData(HttpStatusCode.BadRequest)]
         [InlineData(HttpStatusCode.InternalServerError)]
-        public void Should_succeed_when_asserting_statuscode_is_error(HttpStatusCode statusCodeOfResponse)
+        public void Should_succeed_when_status_code_is_error(HttpStatusCode statusCodeOfResponse)
         {
             // Arrange
             var testee = new HttpResponseMessage(statusCodeOfResponse);
@@ -171,7 +171,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void Should_fail_when_asserting_statuscode_success_is_error()
+        public void Should_fail_when_status_code_success_is_error()
         {
             // Arrange
             var testee = new HttpResponseMessage(HttpStatusCode.OK);
@@ -184,7 +184,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void Should_fail_with_descriptive_message_when_asserting_statuscode_success_is_error()
+        public void Should_fail_with_descriptive_message_when_status_code_success_is_error()
         {
             // Act
             Action action = () =>
@@ -197,7 +197,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void Should_succeed_when_asserting_statuscode_to_be_equal_to_the_same_value()
+        public void Should_succeed_when_status_code_to_be_equal_to_the_same_value()
         {
             // Act
             Action action = () =>
@@ -208,7 +208,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void Should_fail_when_asserting_statuscode_to_be_equal_to_a_different_value()
+        public void Should_fail_when_status_code_to_be_equal_to_a_different_value()
         {
             // Act
             Action action = () =>
@@ -219,7 +219,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void Should_fail_with_descriptive_message_when_asserting_statuscode_value_to_be_equal_to_a_different_value()
+        public void Should_fail_with_descriptive_message_when_status_code_value_to_be_equal_to_a_different_value()
         {
             // Act
             Action action = () =>
@@ -231,7 +231,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void Should_succeed_when_asserting_statuscode_value_not_to_be_equal_to_the_same_value()
+        public void Should_succeed_when_status_code_value_not_to_be_equal_to_the_same_value()
         {
             // Act
             Action action = () =>
@@ -242,7 +242,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void Should_fail_when_asserting_statuscode_value_not_to_be_equal_to_a_different_value()
+        public void Should_fail_when_status_code_value_not_to_be_equal_to_a_different_value()
         {
             // Act
             Action action = () =>
@@ -253,7 +253,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void Should_fail_with_descriptive_message_when_asserting_statuscode_value_not_to_be_equal_to_a_different_value()
+        public void Should_fail_with_descriptive_message_when_status_code_value_not_to_be_equal_to_a_different_value()
         {
             // Act
             Action action = () =>
