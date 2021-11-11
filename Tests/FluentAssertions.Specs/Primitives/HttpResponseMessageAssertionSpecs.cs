@@ -39,7 +39,7 @@ namespace FluentAssertions.Specs.Primitives
             var testee = new HttpResponseMessage(statusCodeOfResponse);
 
             // Act / Assert
-            testee.Should().BeClientError();
+            testee.Should().HaveClientError();
         }
 
         [Theory]
@@ -50,7 +50,7 @@ namespace FluentAssertions.Specs.Primitives
             var testee = new HttpResponseMessage(statusCodeOfResponse);
 
             // Act / Assert
-            testee.Should().BeServerError();
+            testee.Should().HaveServerError();
         }
 
         [Theory]
@@ -62,7 +62,7 @@ namespace FluentAssertions.Specs.Primitives
             var testee = new HttpResponseMessage(statusCodeOfResponse);
 
             // Act / Assert
-            testee.Should().BeError();
+            testee.Should().HaveError();
         }
 
         [Fact]
@@ -124,7 +124,7 @@ namespace FluentAssertions.Specs.Primitives
             var testee = new HttpResponseMessage(HttpStatusCode.OK);
 
             // Act
-            Action action = () => testee.Should().BeClientError();
+            Action action = () => testee.Should().HaveClientError();
 
             // Assert
             action.Should().Throw<XunitException>();
@@ -135,7 +135,7 @@ namespace FluentAssertions.Specs.Primitives
         {
             // Act
             Action action = () =>
-                new HttpResponseMessage(HttpStatusCode.OK).Should().BeClientError("because we want to test the failure {0}", "message");
+                new HttpResponseMessage(HttpStatusCode.OK).Should().HaveClientError("because we want to test the failure {0}", "message");
 
             // Assert
             action
@@ -150,7 +150,7 @@ namespace FluentAssertions.Specs.Primitives
             var testee = new HttpResponseMessage(HttpStatusCode.OK);
 
             // Act
-            Action action = () => testee.Should().BeServerError();
+            Action action = () => testee.Should().HaveServerError();
 
             // Assert
             action.Should().Throw<XunitException>();
@@ -161,7 +161,7 @@ namespace FluentAssertions.Specs.Primitives
         {
             // Act
             Action action = () =>
-                new HttpResponseMessage(HttpStatusCode.OK).Should().BeServerError("because we want to test the failure {0}", "message");
+                new HttpResponseMessage(HttpStatusCode.OK).Should().HaveServerError("because we want to test the failure {0}", "message");
 
             // Assert
             action

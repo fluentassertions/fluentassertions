@@ -82,7 +82,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> BeError(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> HaveError(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(IsClientError() || IsServerError())
@@ -102,7 +102,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> BeClientError(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> HaveClientError(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(IsClientError())
@@ -122,7 +122,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> BeServerError(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> HaveServerError(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(IsServerError())
