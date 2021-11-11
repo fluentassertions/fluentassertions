@@ -8,19 +8,6 @@ namespace FluentAssertions.Specs.Primitives
 {
     public class HttpResponseMessageAssertionSpecs
     {
-        [Fact]
-        public void Should_fail_when_testee_is_null()
-        {
-            // Arrange
-            HttpResponseMessage testee = null;
-
-            // Act
-            Action action = () => testee.Should().BeSuccessful();
-
-            // Assert
-            action.Should().Throw<ArgumentNullException>();
-        }
-
         [Theory]
         [InlineData(HttpStatusCode.OK)]
         [InlineData(HttpStatusCode.Accepted)]
@@ -59,6 +46,31 @@ namespace FluentAssertions.Specs.Primitives
                 .WithMessage("Expected HttpStatusCode to be successful (2xx) because we want to test the failure message, but found HttpStatusCode.Gone {value: 410}.");
         }
 
+        [Fact]
+        public void Should_fail_when_asserting_success_but_response_is_null()
+        {
+            // Arrange
+            HttpResponseMessage testee = null;
+
+            // Act
+            Action action = () => testee.Should().BeSuccessful();
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Should_fail_with_descriptive_message_when_asserting_success_but_response_is_null()
+        {
+            // Act
+            Action action = () => ((HttpResponseMessage)null).Should().BeSuccessful("because we want to test the failure {0}", "message");
+
+            // Assert
+            action
+                .Should().Throw<XunitException>()
+                .WithMessage("Expected HttpStatusCode to be successful (2xx) because we want to test the failure message, but HttpResponseMessage was <null>.");
+        }
+
         [Theory]
         [InlineData(HttpStatusCode.Moved)]
         public void Should_succeed_when_status_code_is_redirect(HttpStatusCode statusCodeOfResponse)
@@ -94,6 +106,31 @@ namespace FluentAssertions.Specs.Primitives
             action
                 .Should().Throw<XunitException>()
                 .WithMessage("Expected HttpStatusCode to be redirection (3xx) because we want to test the failure message, but found HttpStatusCode.Gone {value: 410}.");
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_redirect_but_response_is_null()
+        {
+            // Arrange
+            HttpResponseMessage testee = null;
+
+            // Act
+            Action action = () => testee.Should().BeRedirection();
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Should_fail_with_descriptive_message_when_asserting_redirect_but_response_is_null()
+        {
+            // Act
+            Action action = () => ((HttpResponseMessage)null).Should().BeRedirection("because we want to test the failure {0}", "message");
+
+            // Assert
+            action
+                .Should().Throw<XunitException>()
+                .WithMessage("Expected HttpStatusCode to be redirection (3xx) because we want to test the failure message, but HttpResponseMessage was <null>.");
         }
 
         [Theory]
@@ -134,6 +171,31 @@ namespace FluentAssertions.Specs.Primitives
                 .WithMessage("Expected HttpStatusCode to be client error (4xx) because we want to test the failure message, but found HttpStatusCode.OK {value: 200}.");
         }
 
+        [Fact]
+        public void Should_fail_when_asserting_client_error_but_response_is_null()
+        {
+            // Arrange
+            HttpResponseMessage testee = null;
+
+            // Act
+            Action action = () => testee.Should().HaveClientError();
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Should_fail_with_descriptive_message_when_asserting_client_error_but_response_is_null()
+        {
+            // Act
+            Action action = () => ((HttpResponseMessage)null).Should().HaveClientError("because we want to test the failure {0}", "message");
+
+            // Assert
+            action
+                .Should().Throw<XunitException>()
+                .WithMessage("Expected HttpStatusCode to be client error (4xx) because we want to test the failure message, but HttpResponseMessage was <null>.");
+        }
+
         [Theory]
         [InlineData(HttpStatusCode.InternalServerError)]
         public void Should_succeed_when_status_code_is_server_error(HttpStatusCode statusCodeOfResponse)
@@ -169,6 +231,31 @@ namespace FluentAssertions.Specs.Primitives
             action
                 .Should().Throw<XunitException>()
                 .WithMessage("Expected HttpStatusCode to be server error (5xx) because we want to test the failure message, but found HttpStatusCode.OK {value: 200}.");
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_server_error_but_response_is_null()
+        {
+            // Arrange
+            HttpResponseMessage testee = null;
+
+            // Act
+            Action action = () => testee.Should().HaveServerError();
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Should_fail_with_descriptive_message_when_asserting_server_error_but_response_is_null()
+        {
+            // Act
+            Action action = () => ((HttpResponseMessage)null).Should().HaveServerError("because we want to test the failure {0}", "message");
+
+            // Assert
+            action
+                .Should().Throw<XunitException>()
+                .WithMessage("Expected HttpStatusCode to be server error (5xx) because we want to test the failure message, but HttpResponseMessage was <null>.");
         }
 
         [Theory]
@@ -210,6 +297,31 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
+        public void Should_fail_when_asserting_error_but_response_is_null()
+        {
+            // Arrange
+            HttpResponseMessage testee = null;
+
+            // Act
+            Action action = () => testee.Should().HaveError();
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Should_fail_with_descriptive_message_when_asserting_error_but_response_is_null()
+        {
+            // Act
+            Action action = () => ((HttpResponseMessage)null).Should().HaveError("because we want to test the failure {0}", "message");
+
+            // Assert
+            action
+                .Should().Throw<XunitException>()
+                .WithMessage("Expected HttpStatusCode to be an error because we want to test the failure message, but HttpResponseMessage was <null>.");
+        }
+
+        [Fact]
         public void Should_succeed_when_status_code_to_be_equal_to_the_same_value()
         {
             // Act
@@ -244,6 +356,31 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
+        public void Should_fail_when_asserting_certain_status_code_but_response_is_null()
+        {
+            // Arrange
+            HttpResponseMessage testee = null;
+
+            // Act
+            Action action = () => testee.Should().HaveStatusCode(HttpStatusCode.Gone);
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Should_fail_with_descriptive_message_when_asserting_certain_status_code_but_response_is_null()
+        {
+            // Act
+            Action action = () => ((HttpResponseMessage)null).Should().HaveStatusCode(HttpStatusCode.Gone, "because we want to test the failure {0}", "message");
+
+            // Assert
+            action
+                .Should().Throw<XunitException>()
+                .WithMessage("Expected HttpStatusCode to be HttpStatusCode.Gone {value: 410} because we want to test the failure message, but HttpResponseMessage was <null>.");
+        }
+
+        [Fact]
         public void Should_succeed_when_status_code_value_not_to_be_equal_to_the_same_value()
         {
             // Act
@@ -275,6 +412,31 @@ namespace FluentAssertions.Specs.Primitives
             // Assert
             action.Should().Throw<XunitException>()
                 .WithMessage("Expected HttpStatusCode not to be HttpStatusCode.OK {value: 200} because we want to test the failure message, but found HttpStatusCode.OK {value: 200}.*");
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_against_certain_status_code_but_response_is_null()
+        {
+            // Arrange
+            HttpResponseMessage testee = null;
+
+            // Act
+            Action action = () => testee.Should().NotHaveStatusCode(HttpStatusCode.Gone);
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Should_fail_with_descriptive_message_when_asserting_against_certain_status_code_but_response_is_null()
+        {
+            // Act
+            Action action = () => ((HttpResponseMessage)null).Should().NotHaveStatusCode(HttpStatusCode.Gone, "because we want to test the failure {0}", "message");
+
+            // Assert
+            action
+                .Should().Throw<XunitException>()
+                .WithMessage("Expected HttpStatusCode not to be HttpStatusCode.Gone {value: 410} because we want to test the failure message, but HttpResponseMessage was <null>.");
         }
     }
 }
