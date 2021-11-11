@@ -11,7 +11,7 @@ sidebar:
 
 ### What's New
 * Adding `ThatAreAsync()` and `ThatAreNotAsync()` for filtering in method assertions - [#1725](https://github.com/fluentassertions/fluentassertions/pull/1725)
-* Adding new assertions for the `HttpStatusCode` of a `HttpResponseMessage` - [#1698](https://github.com/fluentassertions/fluentassertions/discussions/1698)
+* Adding new assertions for the `HttpStatusCode` of a `HttpResponseMessage` - [#1737](https://github.com/fluentassertions/fluentassertions/pull/1737)
 
 ### Fixes
 
@@ -28,7 +28,7 @@ sidebar:
 * `At` now retains the `DateTimeKind` and keeps sub-second precision when using a `TimeSpan` - [#1687](https://github.com/fluentassertions/fluentassertions/pull/1687).
 * Removed iteration over enumerable when generating the `BeEmpty` assertion failure message - [#1692](https://github.com/fluentassertions/fluentassertions/pull/1692).
 * Prevent `ArgumentNullException` when formatting a lambda expression containing an extension method - [#1696](https://github.com/fluentassertions/fluentassertions/pull/1696)
-* `IgnoringCyclicReferences` in `BeEquivalentTo` now works while comparing value types using `ComparingByMembers` - [#1708](https://github.com/fluentassertions/fluentassertions/pull/1708) 
+* `IgnoringCyclicReferences` in `BeEquivalentTo` now works while comparing value types using `ComparingByMembers` - [#1708](https://github.com/fluentassertions/fluentassertions/pull/1708)
 * Using `BeEquivalentTo` on a collection with nested collections would complain about missing members - [#1713](https://github.com/fluentassertions/fluentassertions/pull/1713)
 * Formatting a lambda expression containing lifted operators - [#1714](https://github.com/fluentassertions/fluentassertions/pull/1714).
 * Performance improvements in `BeEquivalentTo` by caching expensive Reflection operations - [#1719](https://github.com/fluentassertions/fluentassertions/pull/1719)
