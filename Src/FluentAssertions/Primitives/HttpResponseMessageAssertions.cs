@@ -1,6 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives
@@ -12,6 +14,8 @@ namespace FluentAssertions.Primitives
     public class HttpResponseMessageAssertions
         : HttpResponseMessageAssertions<HttpResponseMessageAssertions>
     {
+        /// <summary>Initializes a new instance of the <see cref="HttpResponseMessageAssertions"/> class.</summary>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is <c>null</c></exception>
         public HttpResponseMessageAssertions(HttpResponseMessage value)
             : base(value)
         {
@@ -25,7 +29,13 @@ namespace FluentAssertions.Primitives
     public class HttpResponseMessageAssertions<TAssertions>
         where TAssertions : HttpResponseMessageAssertions<TAssertions>
     {
-        public HttpResponseMessageAssertions(HttpResponseMessage value) => Subject = value;
+        /// <summary>Initializes a new instance of the <see cref="HttpResponseMessageAssertions{TAssertions}"/> class.</summary>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is <c>null</c></exception>
+        public HttpResponseMessageAssertions(HttpResponseMessage value)
+        {
+            Guard.ThrowIfArgumentIsNull(value, nameof(value));
+            Subject = value;
+        }
 
         /// <summary>
         /// Gets the object which value is being asserted.

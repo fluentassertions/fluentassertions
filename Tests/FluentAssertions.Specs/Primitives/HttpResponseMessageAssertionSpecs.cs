@@ -8,6 +8,19 @@ namespace FluentAssertions.Specs.Primitives
 {
     public class HttpResponseMessageAssertionSpecs
     {
+        [Fact]
+        public void Should_fail_when_testee_is_null()
+        {
+            // Arrange
+            HttpResponseMessage testee = null;
+
+            // Act
+            Action action = () => testee.Should().BeSuccessful();
+
+            // Assert
+            action.Should().Throw<ArgumentNullException>();
+        }
+
         [Theory]
         [InlineData(HttpStatusCode.OK)]
         [InlineData(HttpStatusCode.Accepted)]
