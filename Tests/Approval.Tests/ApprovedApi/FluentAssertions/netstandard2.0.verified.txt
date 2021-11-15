@@ -120,10 +120,6 @@ namespace FluentAssertions
             where TAssertions : FluentAssertions.Primitives.GuidAssertions<TAssertions> { }
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
             "ly following \'And\'", true)]
-        public static void Should<TAssertions>(this FluentAssertions.Primitives.HttpResponseMessageAssertions<TAssertions> _)
-            where TAssertions : FluentAssertions.Primitives.HttpResponseMessageAssertions<TAssertions> { }
-        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'", true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.SimpleTimeSpanAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.SimpleTimeSpanAssertions<TAssertions> { }
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
@@ -1863,11 +1859,10 @@ namespace FluentAssertions.Primitives
     {
         public HttpResponseMessageAssertions(System.Net.Http.HttpResponseMessage value) { }
     }
-    public class HttpResponseMessageAssertions<TAssertions>
+    public class HttpResponseMessageAssertions<TAssertions> : FluentAssertions.Primitives.ObjectAssertions<System.Net.Http.HttpResponseMessage, TAssertions>
         where TAssertions : FluentAssertions.Primitives.HttpResponseMessageAssertions<TAssertions>
     {
-        public HttpResponseMessageAssertions(System.Net.Http.HttpResponseMessage value) { }
-        public System.Net.Http.HttpResponseMessage Subject { get; }
+        protected HttpResponseMessageAssertions(System.Net.Http.HttpResponseMessage value) { }
         public FluentAssertions.AndConstraint<TAssertions> BeRedirection(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeSuccessful(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveClientError(string because = "", params object[] becauseArgs) { }

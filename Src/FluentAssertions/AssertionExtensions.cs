@@ -878,14 +878,6 @@ namespace FluentAssertions
 
         /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
         [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
-        public static void Should<TAssertions>(this HttpResponseMessageAssertions<TAssertions> _)
-            where TAssertions : HttpResponseMessageAssertions<TAssertions>
-        {
-            InvalidShouldCall();
-        }
-
-        /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
-        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
         public static void Should<TAssertions>(this DateTimeAssertions<TAssertions> _)
             where TAssertions : DateTimeAssertions<TAssertions>
         {
