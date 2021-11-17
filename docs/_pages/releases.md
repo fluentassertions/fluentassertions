@@ -46,6 +46,8 @@ sidebar:
 * Change `HaveCount()` assertion message order to state expected and actual collection count before dumping its content` - [#1760](https://github.com/fluentassertions/fluentassertions/pull/1760)
 * `CompleteWithinAsync` did not take initial sync computation into account when measuring execution time - [1762](https://github.com/fluentassertions/fluentassertions/pull/1762).
 
+* Resolve an issue preventing HaveAccessModifier from correctly recognizing internal interfaces and enums - [#1741](https://github.com/fluentassertions/fluentassertions/issues/1741)
+
 ## 6.2.0
 
 ### What's New

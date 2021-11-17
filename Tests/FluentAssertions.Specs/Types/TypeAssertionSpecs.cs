@@ -136,6 +136,8 @@ namespace FluentAssertions.Specs.Types
 
     public interface IPublicInterface { }
 
+    internal interface IInternalInterface { }
+
     internal class InternalClass { }
 
     internal class Nested
