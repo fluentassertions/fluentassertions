@@ -59,6 +59,36 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
+        public void When_asserting_an_internal_member_is_internal_it_succeeds()
+        {
+            // Arrange
+            Type type = typeof(IInternalInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveAccessModifier(CSharpAccessModifier.Internal);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_an_internal_member_is_protected_internal_it_throws()
+        {
+            // Arrange
+            Type type = typeof(IInternalInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().HaveAccessModifier(
+                    CSharpAccessModifier.ProtectedInternal, "we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type IInternalInterface to be ProtectedInternal *failure message*, but it is Internal.");
+        }
+
+        [Fact]
         public void When_asserting_an_internal_type_is_protected_internal_it_throws()
         {
             // Arrange

@@ -14,6 +14,8 @@ sidebar:
 
 ### Fixes
 
+* Resolve an issue preventing HaveAccessModifier from correctly recognizing internal interfaces and enums - [#1741](https://github.com/fluentassertions/fluentassertions/issues/1741)
+
 ## 6.2.0
 
 ### What's New
