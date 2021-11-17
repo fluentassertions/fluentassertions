@@ -302,6 +302,38 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
+        public void When_selecting_methods_that_are_virtual_it_should_only_return_the_applicable_methods()
+        {
+            // Arrange
+            Type type = typeof(TestClassForMethodSelector);
+
+            // Act
+            MethodInfo[] methods = type.Methods().ThatAreVirtual().ToArray();
+
+            // Assert
+            methods.Should()
+                .NotBeEmpty()
+                .And.Contain(m => m.Name == "PublicVirtualVoidMethodWithAttribute")
+                .And.Contain(m => m.Name == "ProtectedVirtualVoidMethodWithAttribute");
+        }
+
+        [Fact]
+        public void When_selecting_methods_that_are_not_virtual_it_should_only_return_the_applicable_methods()
+        {
+            // Arrange
+            Type type = typeof(TestClassForMethodSelector);
+
+            // Act
+            MethodInfo[] methods = type.Methods().ThatAreNotVirtual().ToArray();
+
+            // Assert
+            methods.Should()
+                .NotBeEmpty()
+                .And.NotContain(m => m.Name == "PublicVirtualVoidMethodWithAttribute")
+                .And.NotContain(m => m.Name == "ProtectedVirtualVoidMethodWithAttribute");
+        }
+
+        [Fact]
         public void When_selecting_methods_not_decorated_with_or_inheriting_a_noninheritable_attribute_it_should_only_return_the_applicable_methods()
         {
             // Arrange

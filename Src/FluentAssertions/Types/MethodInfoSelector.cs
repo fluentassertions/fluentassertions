@@ -152,6 +152,24 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Only return methods that are virtual. 
+        /// </summary>
+        public MethodInfoSelector ThatAreVirtual()
+        {
+            selectedMethods = selectedMethods.Where(method => !method.IsNonVirtual());
+            return this;
+        }
+
+        /// <summary>
+        /// Only return methods that are not virtual. 
+        /// </summary>
+        public MethodInfoSelector ThatAreNotVirtual()
+        {
+            selectedMethods = selectedMethods.Where(method => method.IsNonVirtual());
+            return this;
+        }
+
+        /// <summary>
         /// Select return types of the methods
         /// </summary>
         public TypeSelector ReturnTypes()
