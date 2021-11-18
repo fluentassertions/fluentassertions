@@ -11,7 +11,7 @@ A collection object in .NET is so versatile that the number of assertions on the
 Most, if not all, are so self-explanatory that we'll just list them here.
 
 ```csharp
-IEnumerable collection = new[] { 1, 2, 5, 8 };
+IEnumerable<int> collection = new[] { 1, 2, 5, 8 };
 
 collection.Should().NotBeEmpty()
     .And.HaveCount(4)
@@ -76,8 +76,8 @@ collection.Should().BeEmpty();
 collection.Should().BeNullOrEmpty();
 collection.Should().NotBeNullOrEmpty();
 
-IEnumerable otherCollection = new[] { 1, 2, 5, 8, 1 };
-IEnumerable anotherCollection = new[] { 10, 20, 50, 80, 10 };
+IEnumerable<int> otherCollection = new[] { 1, 2, 5, 8, 1 };
+IEnumerable<int> anotherCollection = new[] { 10, 20, 50, 80, 10 };
 collection.Should().IntersectWith(otherCollection);
 collection.Should().NotIntersectWith(anotherCollection);
 ```
