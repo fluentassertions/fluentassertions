@@ -1014,7 +1014,7 @@ namespace FluentAssertions.Collections
                             .FailWith("Expected {context:collection} to contain a single item{reason}, but the collection is empty.");
                         break;
                     case 1: // Success Condition
-                        match = actualItems.SingleOrDefault();
+                        match = actualItems.Single();
                         break;
                     default: // Fail, Collection contains more than a single item
                         Execute.Assertion
