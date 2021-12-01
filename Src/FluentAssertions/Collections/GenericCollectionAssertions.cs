@@ -1005,7 +1005,8 @@ namespace FluentAssertions.Collections
 
             if (success)
             {
-                switch (Subject.Count())
+                ICollection<T> actualItems = Subject.ConvertOrCastToCollection();
+                switch (actualItems.Count)
                 {
                     case 0: // Fail, Collection is empty
                         Execute.Assertion
@@ -1013,7 +1014,7 @@ namespace FluentAssertions.Collections
                             .FailWith("Expected {context:collection} to contain a single item{reason}, but the collection is empty.");
                         break;
                     case 1: // Success Condition
-                        match = Subject.SingleOrDefault();
+                        match = actualItems.SingleOrDefault();
                         break;
                     default: // Fail, Collection contains more than a single item
                         Execute.Assertion

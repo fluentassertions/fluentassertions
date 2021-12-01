@@ -246,6 +246,34 @@ namespace FluentAssertions.Specs.Collections
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }
 
+        [Fact]
+        public void When_collection_is_IEnumerable_it_should_be_evaluated_only_once_with_predicate()
+        {
+            // Arrange
+            int evalCount = 0;
+            IEnumerable<int> collection = new[] { 1 }.Select(_ => evalCount++);
+
+            // Act
+            collection.Should().ContainSingle(_ => true);
+
+            // Assert
+            evalCount.Should().Be(1);
+        }
+
+        [Fact]
+        public void When_collection_is_IEnumerable_it_should_be_evaluated_only_once()
+        {
+            // Arrange
+            int evalCount = 0;
+            IEnumerable<int> collection = new[] { 1 }.Select(_ => evalCount++);
+
+            // Act
+            collection.Should().ContainSingle();
+
+            // Assert
+            evalCount.Should().Be(1);
+        }
+
         #endregion
     }
 }
