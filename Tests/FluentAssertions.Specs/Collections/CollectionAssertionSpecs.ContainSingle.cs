@@ -250,28 +250,26 @@ namespace FluentAssertions.Specs.Collections
         public void When_collection_is_IEnumerable_it_should_be_evaluated_only_once_with_predicate()
         {
             // Arrange
-            int evalCount = 0;
-            IEnumerable<int> collection = new[] { 1 }.Select(_ => evalCount++);
+            IEnumerable<int> collection = new OneTimeEnumerable<int>(1);
 
             // Act
-            collection.Should().ContainSingle(_ => true);
+            Action act = () => collection.Should().ContainSingle(_ => true);
 
             // Assert
-            evalCount.Should().Be(1);
+            act.Should().NotThrow();
         }
 
         [Fact]
         public void When_collection_is_IEnumerable_it_should_be_evaluated_only_once()
         {
             // Arrange
-            int evalCount = 0;
-            IEnumerable<int> collection = new[] { 1 }.Select(_ => evalCount++);
+            IEnumerable<int> collection = new OneTimeEnumerable<int>(1);
 
             // Act
-            collection.Should().ContainSingle();
+            Action act = () => collection.Should().ContainSingle();
 
             // Assert
-            evalCount.Should().Be(1);
+            act.Should().NotThrow();
         }
 
         #endregion
