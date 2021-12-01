@@ -13,7 +13,7 @@ sidebar:
 * Adding `ThatAreAsync()` and `ThatAreNotAsync()` for filtering in method assertions - [#1725](https://github.com/fluentassertions/fluentassertions/pull/1725)
 * Adding `ThatAreVirtual()` and `ThatAreNotVirtual()` for filtering in method assertions - [#1744](https://github.com/fluentassertions/fluentassertions/pull/1744)
 ### Fixes
-* Prevent multiple enumeration of `IEnumerable`s in parameter-less `ContainSingle()` - [#1752](https://github.com/fluentassertions/fluentassertions/issues/1752)
+* Prevent multiple enumeration of `IEnumerable`s in parameter-less `ContainSingle()` - [#1753](https://github.com/fluentassertions/fluentassertions/pull/1753)
 
 ## 6.2.0
 
