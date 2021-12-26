@@ -1230,8 +1230,8 @@ namespace FluentAssertions.Collections
                     .ForCondition(actualCount == expected)
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
-                        "Expected {context:collection} {0} to contain {1} item(s){reason}, but found {2}.",
-                        Subject, expected, actualCount);
+                        "Expected {context:collection} to contain {0} item(s){reason}, but found {1}: {2}.",
+                        expected, actualCount, Subject);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -1269,8 +1269,8 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} {0} to have a count {1}{reason}, but count is {2}.",
-                            Subject, countPredicate.Body, actualCount);
+                        .FailWith("Expected {context:collection} to have a count {0}{reason}, but count is {1}: {2}.",
+                            countPredicate.Body, actualCount, Subject);
                 }
             }
 
@@ -1299,7 +1299,7 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(subject => subject.Count())
                 .ForCondition(actualCount => actualCount >= expected)
-                .FailWith("but found {0}.", actualCount => actualCount)
+                .FailWith("but found {0}: {1}.", Subject.Count(), Subject)
                 .Then
                 .ClearExpectation();
 
@@ -1331,7 +1331,7 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(subject => subject.Count())
                 .ForCondition(actualCount => actualCount > expected)
-                .FailWith("but found {0}.", actualCount => actualCount)
+                .FailWith("but found {0}: {1}.", Subject.Count(), Subject)
                 .Then
                 .ClearExpectation();
 
@@ -1360,7 +1360,7 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(subject => subject.Count())
                 .ForCondition(actualCount => actualCount <= expected)
-                .FailWith("but found {0}.", actualCount => actualCount)
+                .FailWith("but found {0}: {1}.", Subject.Count(), Subject)
                 .Then
                 .ClearExpectation();
 
@@ -1392,7 +1392,7 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(subject => subject.Count())
                 .ForCondition(actualCount => actualCount < expected)
-                .FailWith("but found {0}.", actualCount => actualCount)
+                .FailWith("but found {0}: {1}.", Subject.Count(), Subject)
                 .Then
                 .ClearExpectation();
 

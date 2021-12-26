@@ -46,7 +46,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected collection*1*2*3* to contain 4 item(s) because we want to test the failure message, but found 3.");
+                .WithMessage("Expected collection to contain 4 item(s) because we want to test the failure message, but found 3: {1, 2, 3}.");
         }
 
         [Fact]
@@ -70,7 +70,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection {1, 2, 3} to have a count (c >= 4) because a minimum of 4 is required, but count is 3.");
+                "Expected collection to have a count (c >= 4) because a minimum of 4 is required, but count is 3: {1, 2, 3}.");
         }
 
         [Fact]
