@@ -1299,7 +1299,7 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(subject => subject.Count())
                 .ForCondition(actualCount => actualCount >= expected)
-                .FailWith("but found {0}: {1}.", Subject.Count(), Subject)
+                .FailWith("but found {0}: {1}.", actualCount => actualCount, actualCount => Subject)
                 .Then
                 .ClearExpectation();
 
@@ -1331,7 +1331,7 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(subject => subject.Count())
                 .ForCondition(actualCount => actualCount > expected)
-                .FailWith("but found {0}: {1}.", Subject.Count(), Subject)
+                .FailWith("but found {0}: {1}.", actualCount => actualCount, actualCount => Subject)
                 .Then
                 .ClearExpectation();
 
@@ -1360,7 +1360,7 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(subject => subject.Count())
                 .ForCondition(actualCount => actualCount <= expected)
-                .FailWith("but found {0}: {1}.", Subject.Count(), Subject)
+                .FailWith("but found {0}: {1}.", actualCount => actualCount, actualCount => Subject)
                 .Then
                 .ClearExpectation();
 
@@ -1392,7 +1392,7 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(subject => subject.Count())
                 .ForCondition(actualCount => actualCount < expected)
-                .FailWith("but found {0}: {1}.", Subject.Count(), Subject)
+                .FailWith("but found {0}: {1}.", actualCount => actualCount, actualCount => Subject)
                 .Then
                 .ClearExpectation();
 
