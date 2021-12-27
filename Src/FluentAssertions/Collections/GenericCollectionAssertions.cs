@@ -1299,7 +1299,7 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(subject => subject.Count())
                 .ForCondition(actualCount => actualCount >= expected)
-                .FailWith("but found {0}: {1}.", actualCount => actualCount, actualCount => Subject)
+                .FailWith("but found {0}: {1}.", actualCount => actualCount, _ => Subject)
                 .Then
                 .ClearExpectation();
 
@@ -1331,7 +1331,7 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(subject => subject.Count())
                 .ForCondition(actualCount => actualCount > expected)
-                .FailWith("but found {0}: {1}.", actualCount => actualCount, actualCount => Subject)
+                .FailWith("but found {0}: {1}.", actualCount => actualCount, _ => Subject)
                 .Then
                 .ClearExpectation();
 
@@ -1360,7 +1360,7 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(subject => subject.Count())
                 .ForCondition(actualCount => actualCount <= expected)
-                .FailWith("but found {0}: {1}.", actualCount => actualCount, actualCount => Subject)
+                .FailWith("but found {0}: {1}.", actualCount => actualCount, _ => Subject)
                 .Then
                 .ClearExpectation();
 
@@ -1392,7 +1392,7 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(subject => subject.Count())
                 .ForCondition(actualCount => actualCount < expected)
-                .FailWith("but found {0}: {1}.", actualCount => actualCount, actualCount => Subject)
+                .FailWith("but found {0}: {1}.", actualCount => actualCount, _ => Subject)
                 .Then
                 .ClearExpectation();
 
@@ -2431,7 +2431,7 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(subject => subject.ConvertOrCastToCollection())
                 .ForCondition(actualItems => !actualItems.SequenceEqual(unexpected))
-                .FailWith("Did not expect collections {0} and {1} to be equal{reason}.", actualItems => unexpected, actualItems => actualItems);
+                .FailWith("Did not expect collections {0} and {1} to be equal{reason}.", _ => unexpected, actualItems => actualItems);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -2493,7 +2493,7 @@ namespace FluentAssertions.Collections
                 .ForCondition(subject => !ReferenceEquals(subject, otherCollection))
                 .FailWith(
                     "Expected {context:collection} {0} to not have the same count as {1}{reason}, but they both reference the same object.",
-                    subject => subject, subject => otherCollection)
+                    subject => subject, _ => otherCollection)
                 .Then
                 .Given(subject => (actual: subject.Count(), expected: otherCollection.Count()))
                 .ForCondition(count => count.actual != count.expected)
@@ -2532,13 +2532,13 @@ namespace FluentAssertions.Collections
                 .ForCondition(subject => !ReferenceEquals(subject, otherCollection))
                 .FailWith(
                     "Did not expect {context:collection} {0} to intersect with {1}{reason}, but they both reference the same object.",
-                    subject => subject, subject => otherCollection)
+                    subject => subject, _ => otherCollection)
                 .Then
                 .Given(subject => subject.Intersect(otherCollection))
                 .ForCondition(sharedItems => !sharedItems.Any())
                 .FailWith(
                     "Did not expect {context:collection} to intersect with {0}{reason}, but found the following shared items {1}.",
-                    sharedItems => otherCollection, sharedItems => sharedItems);
+                    _ => otherCollection, sharedItems => sharedItems);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
