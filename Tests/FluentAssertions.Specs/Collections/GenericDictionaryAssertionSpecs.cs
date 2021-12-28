@@ -172,7 +172,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected dictionary {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"} to contain 4 item(s) because we want to test the failure message, but found 3.");
+                .WithMessage("Expected dictionary to contain 4 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
         }
 
         [Fact]
@@ -206,7 +206,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"} to have a count (c >= 4) because a minimum of 4 is required, but count is 3.");
+                "Expected dictionary to have a count (c >= 4) because a minimum of 4 is required, but count is 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
         }
 
         [Fact]
@@ -378,7 +378,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("*more than*3*because we want to test the failure message*3*");
+                .WithMessage("Expected dictionary to contain more than 3 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
         }
 
         [Fact]
@@ -447,7 +447,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("*at least*4*because we want to test the failure message*3*");
+                .WithMessage("Expected dictionary to contain at least 4 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
         }
 
         [Fact]
@@ -516,7 +516,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("*fewer than*3*because we want to test the failure message*3*");
+                .WithMessage("Expected dictionary to contain fewer than 3 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
         }
 
         [Fact]
@@ -585,7 +585,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("*at most*2*because we want to test the failure message*3*");
+                .WithMessage("Expected dictionary to contain at most 2 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
         }
 
         [Fact]
