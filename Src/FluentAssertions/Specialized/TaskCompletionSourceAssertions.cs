@@ -6,6 +6,8 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Specialized
 {
+#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
     public class TaskCompletionSourceAssertions<T>
     {
         private readonly TaskCompletionSource<T> subject;
@@ -95,5 +97,9 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:task} to not complete within {0}{reason}.", timeSpan);
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj) =>
+            throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
     }
 }
