@@ -10,6 +10,29 @@ namespace FluentAssertions.Specs
     public class AssertionExtensionsSpecs
     {
         [Fact]
+        public void Assertions_classes_have_overriden_equals()
+        {
+            // Arrange / Act
+            var equalsOverloads = AllTypes.From(typeof(FluentAssertions.AssertionExtensions).Assembly)
+                .ThatAreClasses()
+                .Where(t => t.IsPublic && t.Name.TrimEnd('`', '1', '2', '3').EndsWith("Assertions", StringComparison.Ordinal))
+                .Select(e => GetMostParentType(e))
+                .Distinct()
+                .Select(t => (type: t, overridesEquals: OverridesEquals(t)))
+                .ToList();
+
+            // Assert
+            equalsOverloads.Should().OnlyContain(e => e.overridesEquals);
+        }
+
+        private static bool OverridesEquals(Type t)
+        {
+            MethodInfo equals = t.GetMethod("Equals", BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public,
+                null, new[] { typeof(object) }, null);
+            return equals is not null;
+        }
+
+        [Fact]
         public void Should_methods_have_a_matching_overload_to_guard_against_chaining_and_constraints()
         {
             // Arrange / Act

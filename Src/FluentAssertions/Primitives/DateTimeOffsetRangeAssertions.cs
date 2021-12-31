@@ -6,6 +6,8 @@ using FluentAssertions.Extensions;
 
 namespace FluentAssertions.Primitives
 {
+#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
     /// <summary>
     /// Contains a number of methods to assert that two <see cref="DateTime"/> objects differ in the expected way.
     /// </summary>
@@ -127,5 +129,9 @@ namespace FluentAssertions.Primitives
         {
             return actual - target >= TimeSpan.Zero ? "ahead" : "behind";
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj) =>
+            throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
     }
 }

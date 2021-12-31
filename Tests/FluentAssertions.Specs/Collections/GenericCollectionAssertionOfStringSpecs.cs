@@ -1664,6 +1664,7 @@ namespace FluentAssertions.Specs.Collections
                 from method in methodInfo
                 where !method.IsSpecialName // Exclude Properties
                 where method.DeclaringType != typeof(object)
+                where method.Name != "Equals"
                 select new { method.Name, method.ReturnType };
 
             // Assert

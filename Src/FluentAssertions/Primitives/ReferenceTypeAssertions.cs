@@ -6,6 +6,8 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives
 {
+#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
     /// <summary>
     /// Contains a number of methods to assert that a reference type object is in the expected state.
     /// </summary>
@@ -416,5 +418,9 @@ namespace FluentAssertions.Primitives
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
         protected abstract string Identifier { get; }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj) =>
+            throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
     }
 }

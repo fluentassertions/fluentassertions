@@ -22,6 +22,8 @@ namespace FluentAssertions.Numeric
         }
     }
 
+#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
     /// <summary>
     /// Contains a number of methods to assert that an <see cref="IComparable{T}"/> is in the expected state.
     /// </summary>
@@ -443,5 +445,9 @@ namespace FluentAssertions.Numeric
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj) =>
+            throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
     }
 }

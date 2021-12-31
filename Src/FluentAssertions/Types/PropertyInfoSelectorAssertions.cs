@@ -8,6 +8,8 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Types
 {
+#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
     /// <summary>
     /// Contains assertions for the <see cref="PropertyInfo"/> objects returned by the parent <see cref="PropertyInfoSelector"/>.
     /// </summary>
@@ -224,5 +226,9 @@ namespace FluentAssertions.Types
 #pragma warning disable CA1822 // Do not change signature of a public member
         protected string Context => "property info";
 #pragma warning restore CA1822
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj) =>
+            throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
     }
 }
