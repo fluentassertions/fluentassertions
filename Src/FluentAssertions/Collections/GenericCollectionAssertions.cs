@@ -965,20 +965,18 @@ namespace FluentAssertions.Collections
 
             if (success)
             {
-                int index = 0;
-                foreach (T item in Subject)
-                {
-                    if (item is not TExpectation)
-                    {
-                        Execute.Assertion
-                            .BecauseOf(because, becauseArgs)
-                            .FailWith(
-                                "Expected {context:collection} to contain only items of type {0}{reason}" +
-                                ", but item {1} at index {2} is of type {3}.", typeof(TExpectation), item, index, item.GetType());
-                    }
-
-                    ++index;
-                }
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .WithExpectation("Expected {context:collection} to contain element assignable to type {0}{reason}, ", typeof(TExpectation).FullName)
+                    .Given(() => Subject)
+                    .ForCondition(subject => subject.Any())
+                    .FailWith("but was empty.")
+                    .Then
+                    .ForCondition(subject => subject.Any(x => typeof(TExpectation).IsAssignableFrom(GetType(x))))
+                    .FailWith("but found {0}.",
+                        subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]")
+                    .Then
+                    .ClearExpectation();
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);

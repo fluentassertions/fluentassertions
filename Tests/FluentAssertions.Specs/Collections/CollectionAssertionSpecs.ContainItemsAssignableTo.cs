@@ -24,7 +24,7 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
-        public void Should_fail_when_asserting_collection_with_items_of_different_types_only_contains_item_of_one_type()
+        public void Should_succeed_when_asserting_collection_with_items_of_different_types_only_contains_item_of_one_type()
         {
             // Arrange
             var collection = new List<object>
@@ -33,50 +33,8 @@ namespace FluentAssertions.Specs.Collections
                 "2"
             };
 
-            // Act
-            Action act = () => collection.Should().ContainItemsAssignableTo<string>();
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_a_collection_contains_anything_other_than_strings_it_should_throw_and_report_details()
-        {
-            // Arrange
-            var collection = new List<object>
-            {
-                1,
-                "2"
-            };
-
-            // Act
-            Action act = () => collection.Should().ContainItemsAssignableTo<string>();
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection to contain only items of type System.String, but item 1 at index 0 is of type System.Int32.");
-        }
-
-        [Fact]
-        public void When_a_collection_contains_anything_other_than_strings_it_should_use_the_reason()
-        {
-            // Arrange
-            var collection = new List<object>
-            {
-                1,
-                "2"
-            };
-
-            // Act
-            Action act = () => collection.Should().ContainItemsAssignableTo<string>(
-                "because we want to test the failure {0}", "message");
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage(
-                    "Expected collection to contain only items of type System.String because we want to test the failure message" +
-                        ", but item 1 at index 0 is of type System.Int32.");
+            // Act / Assert
+            collection.Should().ContainItemsAssignableTo<string>();
         }
 
         [Fact]
@@ -95,6 +53,30 @@ namespace FluentAssertions.Specs.Collections
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to contain element assignable to type System.String because we want to test the behaviour with a null subject, but found <null>.");
+        }
+
+        [Fact]
+        public void When_a_collection_is_empty_an_exception_should_be_thrown()
+        {
+            // Arrange
+            int[] collection = Array.Empty<int>();
+
+            // Act
+            Action act = () => collection.Should().ContainItemsAssignableTo<int>();
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected collection to contain element assignable to type \"System.Int32\", but was empty.");
+        }
+
+        [Fact]
+        public void Should_throw_exception_when_asserting_collection_for_missing_item_type()
+        {
+            var collection = new object[] { "1", 1.0m };
+
+            Action act = () => collection.Should().ContainItemsAssignableTo<int>();
+
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected collection to contain element assignable to type \"System.Int32\", but found \"[System.String, System.Decimal]\".");
         }
 
         #endregion
