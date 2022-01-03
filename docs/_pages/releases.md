@@ -12,6 +12,7 @@ sidebar:
 ### What's New
 
 ### Fixes
+* `ContainItemsAssignableTo` Now Expects At Least One Item Assignable to `T` - [#1765](https://github.com/fluentassertions/fluentassertions/pull/1765)
 
 ## 6.3.0
 
