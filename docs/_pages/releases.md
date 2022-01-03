@@ -4,16 +4,27 @@ permalink: /releases/
 layout: single
 classes: wide
 sidebar:
-  nav: "sidebar"
+nav: "sidebar"
 ---
 
 ## Unreleased
 
 ### What's New
-* Adding `ThatAreAsync()` and `ThatAreNotAsync()` for filtering in method assertions - [#1725](https://github.com/fluentassertions/fluentassertions/pull/1725)
-* Adding new assertions for the `HttpStatusCode` of a `HttpResponseMessage` - [#1737](https://github.com/fluentassertions/fluentassertions/pull/1737)
 
 ### Fixes
+
+## 6.3.0
+
+### What's New
+* Adding `ThatAreAsync()` and `ThatAreNotAsync()` for filtering in method assertions - [#1725](https://github.com/fluentassertions/fluentassertions/pull/1725)
+* Adding new assertions for the `HttpStatusCode` of a `HttpResponseMessage` - [#1737](https://github.com/fluentassertions/fluentassertions/pull/1737)
+* Adding `ThatAreVirtual()` and `ThatAreNotVirtual()` for filtering in method assertions - [#1744](https://github.com/fluentassertions/fluentassertions/pull/1744)
+* Adding collection content to assertion messages for `HaveCountGreaterThan()`, `HaveCountGreaterThanOrEqualTo()`, `HaveCountLessThan()` and `HaveCountLessThanOrEqualTo()` - [#1760](https://github.com/fluentassertions/fluentassertions/pull/1760)
+
+### Fixes
+* Prevent multiple enumeration of `IEnumerable`s in parameter-less `ContainSingle()` - [#1753](https://github.com/fluentassertions/fluentassertions/pull/1753)
+* Change `HaveCount()` assertion message order to state expected and actual collection count before dumping its content` - [#1760](https://github.com/fluentassertions/fluentassertions/pull/1760)
+* `CompleteWithinAsync` did not take initial sync computation into account when measuring execution time - [1762](https://github.com/fluentassertions/fluentassertions/pull/1762).
 
 ## 6.2.0
 
@@ -145,20 +156,20 @@ sidebar:
 * Dropped support for .NET Framework 4.5, .NET Standard 1.3 and 1.6 - [#1227](https://github.com/fluentassertions/fluentassertions/pull/1227).
 * Dropped support for older test frameworks such as MSTest v1, NSpec v1 and v2, XUnit v1, Gallio and MBUnit - [#1227](https://github.com/fluentassertions/fluentassertions/pull/1227).
 * Removed `[Not]Have{Im,Ex}plictConversionOperator` (they had typos) - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
-  * Use the equivalent assertions without the typo "plict" instead.
+    * Use the equivalent assertions without the typo "plict" instead.
 * Removed `NotBeAscendingInOrder`/`NotBeDescendingInOrder` - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
-  * Use `NotBeInAscendingOrder`/`NotBeInDescendingOrder` instead.
+    * Use `NotBeInAscendingOrder`/`NotBeInDescendingOrder` instead.
 * Removed `HasAttribute`, `HasMatchingAttribute` and `IsDecoratedWith(Type, bool)` `Type` extensions - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
-  * Use `IsDecoratedWith`/`IsDecoratedWithOrInherits` instead.
+    * Use `IsDecoratedWith`/`IsDecoratedWithOrInherits` instead.
 * Made `EquivalencyAssertionOptionsExtentions` `internal` (and fixed a typo in the type name) - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
 * Changed `ReferenceTypeAssertions.Subject` to be `readonly` - [#1229](https://github.com/fluentassertions/fluentassertions/pull/1229).
-  * Set the `Subject` through the constructor instead.
+    * Set the `Subject` through the constructor instead.
 * Changed `TypeAssertions.HaveAccessModifier` return type from `AndConstraint<Type>` to `AndConstraint<TypeAssertions>` - [#1159](https://github.com/fluentassertions/fluentassertions/pull/1159).
 * Changed `TypeAssertions.NotHaveAccessModifier` return type from `AndConstraint<Type>` to `AndConstraint<TypeAssertions>` - [#1159](https://github.com/fluentassertions/fluentassertions/pull/1159).
 * Changed `AllBeAssignableTo<T>` and `AllBeOfType<T>` return type from `AndConstraint<TAssertions>` to `AndWhichConstraint<TAssertions, IEnumerable<T>>` - [#1265](https://github.com/fluentassertions/fluentassertions/pull/1265).
 * The new extension on `TaskCompletionSource<T>` overlays the previously used assertions based on `ObjectAssertions`.
 * Removed `[Not]BeCloseTo` for `DateTime[Offset]` and `TimeSpan` that took an `int precision` - [#1278](https://github.com/fluentassertions/fluentassertions/pull/1278).
-  * Use the overloads that take a `TimeSpan precision` instead.
+    * Use the overloads that take a `TimeSpan precision` instead.
 * Aligned strings to be compared using `Ordinal[Ignorecase]` - [#1283](https://github.com/fluentassertions/fluentassertions/pull/1283).
 * Changed `AutoConversion` to convert using `CultureInfo.InvariantCulture` instead of `CultureInfo.CurrentCulture` - [#1283](https://github.com/fluentassertions/fluentassertions/pull/1283).
 * Renamed `StartWithEquivalent` and `EndWithEquivalent` to `StartWithEquivalentOf` and `EndWithEquivalentOf` to make the API for Equivalent methods consistent - [#1292](https://github.com/fluentassertions/fluentassertions/pull/1292).
@@ -186,7 +197,7 @@ sidebar:
 ### Breaking Changes (Extensibility)
 
 * Removed parameterless constructors from: `CollectionAssertions`, `ReferenceTypeAssertions`, `MemberInfoAssertions`, `MethodBaseAssertions` and `MethodInfoAssertions` - [#1229](https://github.com/fluentassertions/fluentassertions/pull/1229).
-  * Use the constructors taking a `subject` instead.
+    * Use the constructors taking a `subject` instead.
 * Restrict generic constraints on `[Nullable]NumericAssertions<T>` to `IComparable<T>` - [#1266](https://github.com/fluentassertions/fluentassertions/pull/1266).
 * Changed return type of `[Nullable]NumericAssertions.Subject` from `IComparable` to `T?` and `T`, respectively - [#1266](https://github.com/fluentassertions/fluentassertions/pull/1266).
 * Removed `Succeeded` and `SourceSucceeded` from `Continuation` and `IAssertionScope` - [#1325](https://github.com/fluentassertions/fluentassertions/pull/1325)
