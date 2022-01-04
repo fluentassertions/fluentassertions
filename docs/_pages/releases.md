@@ -9,6 +9,9 @@ sidebar:
 
 ## Unreleased
 
+**NOTE**
+From this release on `MethodInfoSelector` is now including static methods!
+
 ### What's New
 
 ### Fixes
