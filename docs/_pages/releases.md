@@ -9,9 +9,6 @@ sidebar:
 
 ## Unreleased
 
-**NOTE**
-From this release on `MethodInfoSelector` is now including static methods!
-
 ### What's New
 
 ### Fixes
@@ -23,9 +20,9 @@ From this release on `MethodInfoSelector` is now including static methods!
 * Adding `ThatAreVirtual()` and `ThatAreNotVirtual()` for filtering in method assertions - [#1744](https://github.com/fluentassertions/fluentassertions/pull/1744)
 * Adding `ThatAreStatic()` and `ThatAreNotStatic()` for filtering in method assertions - [#1740](https://github.com/fluentassertions/fluentassertions/pull/1740)
 * Adding collection content to assertion messages for `HaveCountGreaterThan()`, `HaveCountGreaterThanOrEqualTo()`, `HaveCountLessThan()` and `HaveCountLessThanOrEqualTo()` - [#1760](https://github.com/fluentassertions/fluentassertions/pull/1760)
-
 ### Fixes
 * Prevent multiple enumeration of `IEnumerable`s in parameter-less `ContainSingle()` - [#1753](https://github.com/fluentassertions/fluentassertions/pull/1753)
+* Querying methods on classes, e.g. `typeof(MyController).Methods()`, now also includes static methods - [#1740](https://github.com/fluentassertions/fluentassertions/pull/1740)
 * Change `HaveCount()` assertion message order to state expected and actual collection count before dumping its content` - [#1760](https://github.com/fluentassertions/fluentassertions/pull/1760)
 * `CompleteWithinAsync` did not take initial sync computation into account when measuring execution time - [1762](https://github.com/fluentassertions/fluentassertions/pull/1762).
 
