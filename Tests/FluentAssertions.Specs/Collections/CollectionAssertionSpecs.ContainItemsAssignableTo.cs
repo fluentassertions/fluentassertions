@@ -24,7 +24,7 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
-        public void Should_succeed_when_asserting_collection_with_items_of_different_types_only_contains_item_of_one_type()
+        public void Should_succeed_when_asserting_collection_with_items_of_different_types_contains_item_of_expected_type()
         {
             // Arrange
             var collection = new List<object>
