@@ -1716,7 +1716,6 @@ namespace FluentAssertions.Numeric
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(params T[] validValues) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<T> validValues, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BePositive(string because = "", params object[] becauseArgs) { }
-        public override bool Equals(object obj) { }
         public FluentAssertions.AndConstraint<TAssertions> Match(System.Linq.Expressions.Expression<System.Func<T, bool>> predicate, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(T unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(T? unexpected, string because = "", params object[] becauseArgs) { }
@@ -1738,7 +1737,6 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> Be(bool expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeFalse(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeTrue(string because = "", params object[] becauseArgs) { }
-        public override bool Equals(object obj) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(bool unexpected, string because = "", params object[] becauseArgs) { }
     }
     public class DateTimeAssertions : FluentAssertions.Primitives.DateTimeAssertions<FluentAssertions.Primitives.DateTimeAssertions>
@@ -1768,7 +1766,6 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<System.DateTime?> validValues, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeSameDateAs(System.DateTime expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.Primitives.DateTimeRangeAssertions<TAssertions> BeWithin(System.TimeSpan timeSpan) { }
-        public override bool Equals(object obj) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveDay(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveHour(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveMinute(int expected, string because = "", params object[] becauseArgs) { }
@@ -1818,7 +1815,6 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<System.DateTimeOffset?> validValues, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeSameDateAs(System.DateTimeOffset expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.Primitives.DateTimeOffsetRangeAssertions<TAssertions> BeWithin(System.TimeSpan timeSpan) { }
-        public override bool Equals(object obj) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveDay(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveHour(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveMinute(int expected, string because = "", params object[] becauseArgs) { }
@@ -1850,7 +1846,6 @@ namespace FluentAssertions.Primitives
         protected DateTimeOffsetRangeAssertions(TAssertions parentAssertions, System.DateTimeOffset? subject, FluentAssertions.Primitives.TimeSpanCondition condition, System.TimeSpan timeSpan) { }
         public FluentAssertions.AndConstraint<TAssertions> After(System.DateTimeOffset target, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Before(System.DateTimeOffset target, string because = "", params object[] becauseArgs) { }
-        public override bool Equals(object obj) { }
     }
     public class DateTimeRangeAssertions<TAssertions>
         where TAssertions : FluentAssertions.Primitives.DateTimeAssertions<TAssertions>
@@ -1858,7 +1853,6 @@ namespace FluentAssertions.Primitives
         protected DateTimeRangeAssertions(TAssertions parentAssertions, System.DateTime? subject, FluentAssertions.Primitives.TimeSpanCondition condition, System.TimeSpan timeSpan) { }
         public FluentAssertions.AndConstraint<TAssertions> After(System.DateTime target, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Before(System.DateTime target, string because = "", params object[] becauseArgs) { }
-        public override bool Equals(object obj) { }
     }
     public class EnumAssertions<TEnum> : FluentAssertions.Primitives.EnumAssertions<TEnum, FluentAssertions.Primitives.EnumAssertions<TEnum>>
         where TEnum :  struct, System.Enum
@@ -1875,7 +1869,6 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> Be(TEnum? expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(params TEnum[] validValues) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<TEnum> validValues, string because = "", params object[] becauseArgs) { }
-        public override bool Equals(object obj) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveFlag(TEnum expectedFlag, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveSameNameAs<T>(T expected, string because = "", params object[] becauseArgs)
             where T :  struct, System.Enum { }
@@ -1904,7 +1897,6 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> Be(System.Guid expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Be(string expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEmpty(string because = "", params object[] becauseArgs) { }
-        public override bool Equals(object obj) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(System.Guid unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(string unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs) { }
@@ -2022,7 +2014,6 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> BeOfType(System.Type expectedType, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, T> BeOfType<T>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeSameAs(TSubject expected, string because = "", params object[] becauseArgs) { }
-        public override bool Equals(object obj) { }
         public FluentAssertions.AndConstraint<TAssertions> Match(System.Linq.Expressions.Expression<System.Func<TSubject, bool>> predicate, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Match<T>(System.Linq.Expressions.Expression<System.Func<T, bool>> predicate, string because = "", params object[] becauseArgs)
             where T : TSubject { }
@@ -2052,7 +2043,6 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> BeLessThanOrEqualTo(System.TimeSpan expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNegative(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BePositive(string because = "", params object[] becauseArgs) { }
-        public override bool Equals(object obj) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(System.TimeSpan unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeCloseTo(System.TimeSpan distantTime, System.TimeSpan precision, string because = "", params object[] becauseArgs) { }
     }
@@ -2215,7 +2205,6 @@ namespace FluentAssertions.Specialized
         public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ExecutionTimeAssertions> BeLessOrEqualTo(System.TimeSpan maxDuration, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ExecutionTimeAssertions> BeLessThan(System.TimeSpan maxDuration, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ExecutionTimeAssertions> BeLessThanOrEqualTo(System.TimeSpan maxDuration, string because = "", params object[] becauseArgs) { }
-        public override bool Equals(object obj) { }
     }
     public class FunctionAssertions<T> : FluentAssertions.Specialized.DelegateAssertions<System.Func<T>, FluentAssertions.Specialized.FunctionAssertions<T>>
     {
@@ -2253,7 +2242,6 @@ namespace FluentAssertions.Specialized
         public TaskCompletionSourceAssertions(System.Threading.Tasks.TaskCompletionSource<T> tcs) { }
         public TaskCompletionSourceAssertions(System.Threading.Tasks.TaskCompletionSource<T> tcs, FluentAssertions.Common.IClock clock) { }
         public System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.TaskCompletionSourceAssertions<T>, T>> CompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
-        public override bool Equals(object obj) { }
         public System.Threading.Tasks.Task NotCompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
     }
 }
@@ -2367,8 +2355,6 @@ namespace FluentAssertions.Types
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreNotVirtual() { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreVirtual() { }
-        public FluentAssertions.Types.MethodInfoSelector ThatAreNotStatic() { }
-        public FluentAssertions.Types.MethodInfoSelector ThatAreStatic() { }
         public FluentAssertions.Types.MethodInfoSelector ThatDoNotReturn<TReturn>() { }
         public FluentAssertions.Types.MethodInfoSelector ThatReturn<TReturn>() { }
         public System.Reflection.MethodInfo[] ToArray() { }
@@ -2385,7 +2371,6 @@ namespace FluentAssertions.Types
         public FluentAssertions.AndConstraint<FluentAssertions.Types.MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : System.Attribute { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.MethodInfoSelectorAssertions> BeVirtual(string because = "", params object[] becauseArgs) { }
-        public override bool Equals(object obj) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.MethodInfoSelectorAssertions> NotBe(FluentAssertions.Common.CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.MethodInfoSelectorAssertions> NotBeAsync(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.MethodInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
@@ -2439,7 +2424,6 @@ namespace FluentAssertions.Types
             where TAttribute : System.Attribute { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.PropertyInfoSelectorAssertions> BeVirtual(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.PropertyInfoSelectorAssertions> BeWritable(string because = "", params object[] becauseArgs) { }
-        public override bool Equals(object obj) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.PropertyInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : System.Attribute { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.PropertyInfoSelectorAssertions> NotBeVirtual(string because = "", params object[] becauseArgs) { }
@@ -2570,7 +2554,6 @@ namespace FluentAssertions.Types
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeSelectorAssertions> BeInNamespace(string @namespace, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeSelectorAssertions> BeSealed(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeSelectorAssertions> BeUnderNamespace(string @namespace, string because = "", params object[] becauseArgs) { }
-        public override bool Equals(object obj) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : System.Attribute { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeSelectorAssertions> NotBeDecoratedWith<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
