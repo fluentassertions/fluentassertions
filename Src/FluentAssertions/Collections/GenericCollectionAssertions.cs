@@ -946,7 +946,7 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that the current collection only contains items that are assignable to the type <typeparamref name="TExpectation" />.
+        /// Asserts that the current collection contains items that are assignable to the type <typeparamref name="TExpectation" />.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -965,16 +965,15 @@ namespace FluentAssertions.Collections
 
             if (success)
             {
+                var actualItems = Subject.ConvertOrCastToCollection();
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .WithExpectation("Expected {context:collection} to contain element assignable to type {0}{reason}, ", typeof(TExpectation).FullName)
-                    .Given(() => Subject)
-                    .ForCondition(subject => subject.Any())
+                    .ForCondition(actualItems.Any())
                     .FailWith("but was empty.")
                     .Then
-                    .ForCondition(subject => subject.Any(x => typeof(TExpectation).IsAssignableFrom(GetType(x))))
-                    .FailWith("but found {0}.",
-                        subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]")
+                    .ForCondition(actualItems.Any(x => typeof(TExpectation).IsAssignableFrom(GetType(x))))
+                    .FailWith("but found {0}.", actualItems.Select(x => x.GetType()))
                     .Then
                     .ClearExpectation();
             }

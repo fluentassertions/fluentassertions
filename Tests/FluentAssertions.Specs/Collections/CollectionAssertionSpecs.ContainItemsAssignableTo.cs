@@ -76,7 +76,7 @@ namespace FluentAssertions.Specs.Collections
             Action act = () => collection.Should().ContainItemsAssignableTo<int>();
 
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected collection to contain element assignable to type \"System.Int32\", but found \"[System.String, System.Decimal]\".");
+                .WithMessage("Expected collection to contain element assignable to type \"System.Int32\", but found {System.String, System.Decimal}.");
         }
 
         #endregion
