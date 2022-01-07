@@ -109,28 +109,24 @@ namespace FluentAssertions.Specialized
             params object[] becauseArgs)
             where TInnerException : Exception
         {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected inner {0}{reason}, but ", typeof(TInnerException))
-                .ForCondition(Subject is not null)
-                .FailWith("no exception was thrown.")
-                .Then
-                .ForCondition(Subject.Any(e => e.InnerException is not null))
-                .FailWith("the thrown exception has no inner exception.")
-                .Then
-                .ClearExpectation();
+            var expectedInnerExceptions = GetExpectedInnerExceptions(typeof(TInnerException), because, becauseArgs);
+            return new ExceptionAssertions<TInnerException>(expectedInnerExceptions.Cast<TInnerException>());
+        }
 
-            TInnerException[] expectedInnerExceptions = Subject
-                .Select(e => e.InnerException)
-                .OfType<TInnerException>()
-                .ToArray();
-
-            Execute.Assertion
-                .ForCondition(expectedInnerExceptions.Any())
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected inner {0}{reason}, but found {1}.", typeof(TInnerException), SingleSubject.InnerException);
-
-            return new ExceptionAssertions<TInnerException>(expectedInnerExceptions);
+        /// <summary>
+        /// Asserts that the thrown exception contains an inner exception of type <param name="innerException" />.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public virtual ExceptionAssertions<Exception> WithInnerException(Type innerException, string because = null,
+            params object[] becauseArgs)
+        {
+            return new ExceptionAssertions<Exception>(GetExpectedInnerExceptions(innerException, because, becauseArgs));
         }
 
         /// <summary>
@@ -148,19 +144,24 @@ namespace FluentAssertions.Specialized
             params object[] becauseArgs)
             where TInnerException : Exception
         {
-            WithInnerException<TInnerException>(because, becauseArgs);
+            var exceptionExpression = GetInnerExceptionExactly(typeof(TInnerException), because, becauseArgs);
+            return new ExceptionAssertions<TInnerException>(exceptionExpression.Cast<TInnerException>());
+        }
 
-            TInnerException[] expectedExceptions = Subject
-                .Select(e => e.InnerException)
-                .OfType<TInnerException>()
-                .Where(e => e?.GetType() == typeof(TInnerException)).ToArray();
-
-            Execute.Assertion
-                .ForCondition(expectedExceptions.Any())
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected inner {0}{reason}, but found {1}.", typeof(TInnerException), SingleSubject.InnerException);
-
-            return new ExceptionAssertions<TInnerException>(expectedExceptions);
+        /// <summary>
+        /// Asserts that the thrown exception contains an inner exception of the exact type <param name="innerException" /> (and not a derived exception type).
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public virtual ExceptionAssertions<Exception> WithInnerExceptionExactly(Type innerException, string because = null,
+            params object[] becauseArgs)
+        {
+            return new ExceptionAssertions<Exception>(GetInnerExceptionExactly(innerException, because, becauseArgs));
         }
 
         /// <summary>
@@ -189,6 +190,54 @@ namespace FluentAssertions.Specialized
                     exceptionExpression, Environment.NewLine, Subject);
 
             return this;
+        }
+
+        private IEnumerable<Exception> GetExpectedInnerExceptions(Type innerException, string because = null,
+            params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(innerException, nameof(innerException));
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected inner {0}{reason}, but ", innerException)
+                .ForCondition(Subject is not null)
+                .FailWith("no exception was thrown.")
+                .Then
+                .ForCondition(Subject.Any(e => e.InnerException is not null))
+                .FailWith("the thrown exception has no inner exception.")
+                .Then
+                .ClearExpectation();
+
+            Exception[] expectedInnerExceptions = Subject
+                .Select(e => e.InnerException)
+                .Where(e => e?.GetType() == innerException)
+                .ToArray();
+
+            Execute.Assertion
+                .ForCondition(expectedInnerExceptions.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected inner {0}{reason}, but found {1}.", innerException, SingleSubject.InnerException);
+
+            return expectedInnerExceptions;
+        }
+
+        private IEnumerable<Exception> GetInnerExceptionExactly(Type innerException, string because = null,
+            params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(innerException, nameof(innerException));
+
+            WithInnerException(innerException, because, becauseArgs);
+
+            Exception[] expectedExceptions = Subject
+                .Select(e => e.InnerException)
+                .Where(e => e?.GetType() == innerException).ToArray();
+
+            Execute.Assertion
+                .ForCondition(expectedExceptions.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected inner {0}{reason}, but found {1}.", innerException, SingleSubject.InnerException);
+
+            return expectedExceptions;
         }
 
         private TException SingleSubject

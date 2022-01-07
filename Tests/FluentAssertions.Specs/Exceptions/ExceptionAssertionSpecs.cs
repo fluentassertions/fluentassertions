@@ -409,6 +409,22 @@ namespace FluentAssertions.Specs.Exceptions
                 .WithMessage("Inner Message");
         }
 
+        [Fact]
+        public void When_asserting_with_an_aggregate_exception_and_inner_exception_type_from_argument_the_asserts_should_occur_against_the_aggregate_exception()
+        {
+            // Arrange
+            Does testSubject = Does.Throw(new AggregateException("Outer Message", new Exception("Inner Message")));
+
+            // Act
+            Action act = testSubject.Do;
+
+            // Assert
+            act.Should().Throw<AggregateException>()
+                .WithMessage("Outer Message*")
+                .WithInnerException(typeof(Exception))
+                .WithMessage("Inner Message");
+        }
+
         #endregion
 
         #region Inner Exceptions
@@ -424,6 +440,19 @@ namespace FluentAssertions.Specs.Exceptions
                 .Invoking(x => x.Do())
                 .Should().Throw<Exception>()
                 .WithInnerException<ArgumentException>();
+        }
+
+        [Fact]
+        public void When_subject_throws_an_exception_with_the_expected_inner_exception_from_argument_it_should_not_do_anything()
+        {
+            // Arrange
+            Does testSubject = Does.Throw(new Exception("", new ArgumentException()));
+
+            // Act / Assert
+            testSubject
+                .Invoking(x => x.Do())
+                .Should().Throw<Exception>()
+                .WithInnerException(typeof(ArgumentException));
         }
 
         [Fact]
@@ -475,6 +504,53 @@ namespace FluentAssertions.Specs.Exceptions
                 // Act
                 act.Should().Throw<BadImageFormatException>()
                     .WithInnerExceptionExactly<ArgumentException>("because {0} should do just that", "the action");
+
+                throw new XunitException("This point should not be reached.");
+            }
+            catch (XunitException ex)
+            {
+                // Assert
+                var expectedMessage = BuildExpectedMessageForWithInnerExceptionExactly("Expected inner System.ArgumentException because the action should do just that, but found System.ArgumentNullException with message", innerException.Message);
+
+                ex.Message.Should().Be(expectedMessage);
+            }
+        }
+
+        [Fact]
+        public void WithInnerExceptionExactly_with_type_exception_when_subject_throws_expected_inner_exception_it_should_not_do_anything()
+        {
+            // Arrange
+            Action act = () => throw new BadImageFormatException("", new ArgumentNullException());
+
+            // Act / Assert
+            act.Should().Throw<BadImageFormatException>()
+                .WithInnerExceptionExactly(typeof(ArgumentNullException), "because {0} should do just that", "the action");
+        }
+
+        [Fact]
+        public void WithInnerExceptionExactly_with_type_exception_no_parameters_when_subject_throws_expected_inner_exception_it_should_not_do_anything()
+        {
+            // Arrange
+            Action act = () => throw new BadImageFormatException("", new ArgumentNullException());
+
+            // Act / Assert
+            act.Should().Throw<BadImageFormatException>()
+                .WithInnerExceptionExactly(typeof(ArgumentNullException));
+        }
+
+        [Fact]
+        public void WithInnerExceptionExactly_with_type_exception_when_subject_throws_subclass_of_expected_inner_exception_it_should_throw_with_clear_description()
+        {
+            // Arrange
+            var innerException = new ArgumentNullException();
+
+            Action act = () => throw new BadImageFormatException("", innerException);
+
+            try
+            {
+                // Act
+                act.Should().Throw<BadImageFormatException>()
+                    .WithInnerExceptionExactly(typeof(ArgumentException), "because {0} should do just that", "the action");
 
                 throw new XunitException("This point should not be reached.");
             }
@@ -582,6 +658,20 @@ namespace FluentAssertions.Specs.Exceptions
             act
                 .Should().ThrowExactly<ArgumentException>()
                 .WithInnerExceptionExactly<InvalidOperationException>()
+                .Where(i => i.Message == "InnerMessage");
+        }
+
+        [Fact]
+        public void When_an_inner_exception_matches_exactly_it_should_allow_chaining_more_asserts_on_that_exception_type_from_argument()
+        {
+            // Act
+            Action act = () =>
+                throw new ArgumentException("OuterMessage", new InvalidOperationException("InnerMessage"));
+
+            // Assert
+            act
+                .Should().ThrowExactly<ArgumentException>()
+                .WithInnerExceptionExactly(typeof(InvalidOperationException))
                 .Where(i => i.Message == "InnerMessage");
         }
 
