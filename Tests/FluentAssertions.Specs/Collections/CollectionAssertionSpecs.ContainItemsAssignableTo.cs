@@ -52,7 +52,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection to contain element assignable to type System.String because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected collection to contain at least one element assignable to type \"System.String\" because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         [Fact]
@@ -65,7 +65,7 @@ namespace FluentAssertions.Specs.Collections
             Action act = () => collection.Should().ContainItemsAssignableTo<int>();
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected collection to contain element assignable to type \"System.Int32\", but found {empty}.");
+            act.Should().Throw<XunitException>().WithMessage("Expected collection to contain at least one element assignable to type \"System.Int32\", but found {empty}.");
         }
 
         [Fact]
@@ -76,7 +76,7 @@ namespace FluentAssertions.Specs.Collections
             Action act = () => collection.Should().ContainItemsAssignableTo<int>();
 
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected collection to contain element assignable to type \"System.Int32\", but found {System.String, System.Decimal}.");
+                .WithMessage("Expected collection to contain at least one element assignable to type \"System.Int32\", but found {System.String, System.Decimal}.");
         }
 
         #endregion

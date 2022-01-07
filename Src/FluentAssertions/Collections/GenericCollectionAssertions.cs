@@ -946,7 +946,7 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that the current collection contains items that are assignable to the type <typeparamref name="TExpectation" />.
+        /// Asserts that the current collection contains at least one element that is assignable to the type <typeparamref name="TExpectation" />.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -957,21 +957,16 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> ContainItemsAssignableTo<TExpectation>(string because = "", params object[] becauseArgs)
         {
-            bool success = Execute.Assertion
+            Execute.Assertion
                 .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected {context:collection} to contain at least one element assignable to type {0}{reason}, ",
+                    typeof(TExpectation).FullName)
                 .ForCondition(Subject is not null)
-                .FailWith("Expected {context:collection} to contain element assignable to type {0}{reason}, but found <null>.",
-                    typeof(TExpectation));
-
-            if (success)
-            {
-                var actualItems = Subject.ConvertOrCastToCollection();
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .WithExpectation("Expected {context:collection} to contain element assignable to type {0}{reason}, ", typeof(TExpectation).FullName)
-                    .ForCondition(actualItems.Any(x => typeof(TExpectation).IsAssignableFrom(GetType(x))))
-                    .FailWith("but found {0}.", actualItems.Select(x => x.GetType()));
-            }
+                .FailWith("but found <null>.")
+                .Then
+                .Given(() => Subject.ConvertOrCastToCollection())
+                .ForCondition(subject => subject.Any(x => typeof(TExpectation).IsAssignableFrom(GetType(x))))
+                .FailWith("but found {0}.", subject => subject.Select(x => x.GetType()));
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
