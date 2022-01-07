@@ -35,7 +35,7 @@ namespace FluentAssertions.Types
             Guard.ThrowIfArgumentContainsNull(types, nameof(types));
 
             selectedMethods = types.SelectMany(t => t
-                .GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                .GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
                 .Where(method => !HasSpecialName(method)));
         }
 
@@ -148,6 +148,24 @@ namespace FluentAssertions.Types
         public MethodInfoSelector ThatAreNotAsync()
         {
             selectedMethods = selectedMethods.Where(method => !method.IsAsync());
+            return this;
+        }
+
+        /// <summary>
+        /// Only return methods that are static. 
+        /// </summary>
+        public MethodInfoSelector ThatAreStatic()
+        {
+            selectedMethods = selectedMethods.Where(method => method.IsStatic);
+            return this;
+        }
+
+        /// <summary>
+        /// Only return methods that are not static. 
+        /// </summary>
+        public MethodInfoSelector ThatAreNotStatic()
+        {
+            selectedMethods = selectedMethods.Where(method => !method.IsStatic);
             return this;
         }
 
