@@ -969,13 +969,8 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .WithExpectation("Expected {context:collection} to contain element assignable to type {0}{reason}, ", typeof(TExpectation).FullName)
-                    .ForCondition(actualItems.Any())
-                    .FailWith("but was empty.")
-                    .Then
                     .ForCondition(actualItems.Any(x => typeof(TExpectation).IsAssignableFrom(GetType(x))))
-                    .FailWith("but found {0}.", actualItems.Select(x => x.GetType()))
-                    .Then
-                    .ClearExpectation();
+                    .FailWith("but found {0}.", actualItems.Select(x => x.GetType()));
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
