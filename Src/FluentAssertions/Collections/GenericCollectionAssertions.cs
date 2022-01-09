@@ -966,7 +966,7 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(() => Subject.ConvertOrCastToCollection())
                 .ForCondition(subject => subject.Any(x => typeof(TExpectation).IsAssignableFrom(GetType(x))))
-                .FailWith("but found {0}.", subject => subject.Select(x => x.GetType()))
+                .FailWith("but found {0}.", subject => subject.Select(x => GetType(x)))
                 .Then
                 .ClearExpectation();
 
