@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq.Expressions;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -300,6 +301,16 @@ namespace FluentAssertions
         public static NullableBooleanAssertions Should(this bool? actualValue)
         {
             return new NullableBooleanAssertions(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="HttpResponseMessageAssertions"/> object that can be used to assert the
+        /// current <see cref="HttpResponseMessage"/>.
+        /// </summary>
+        [Pure]
+        public static HttpResponseMessageAssertions Should(this HttpResponseMessage actualValue)
+        {
+            return new HttpResponseMessageAssertions(actualValue);
         }
 
         /// <summary>

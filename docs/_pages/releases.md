@@ -11,6 +11,7 @@ sidebar:
 
 ### What's New
 * Adding `ThatAreStatic()` and `ThatAreNotStatic()` for filtering in method assertions - [#1740](https://github.com/fluentassertions/fluentassertions/pull/1740)
+* Adding new assertions for the `HttpStatusCode` of an `HttpResponseMessage` - [#1737](https://github.com/fluentassertions/fluentassertions/pull/1737)
 
 ### Fixes
 * Querying methods on classes, e.g. `typeof(MyController).Methods()`, now also includes static methods - [#1740](https://github.com/fluentassertions/fluentassertions/pull/1740)
