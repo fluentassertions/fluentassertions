@@ -122,6 +122,32 @@ namespace FluentAssertions.Specs.Specialized
             await action.Should().ThrowAsync<XunitException>();
         }
 
+        [Fact]
+        public async Task Sync_work_in_async_method_is_taken_into_account()
+        {
+            // Arrange
+            var timer = new FakeClock();
+            var taskFactory = new TaskCompletionSource<int>();
+
+            // Act
+            Func<Task> action = () =>
+            {
+                Func<Task<int>> func = () =>
+                {
+                    timer.Delay(101.Milliseconds());
+                    return taskFactory.Task;
+                };
+
+                return func.Should(timer).CompleteWithinAsync(100.Milliseconds());
+            };
+
+            taskFactory.SetResult(99);
+            timer.Complete();
+
+            // Assert
+            await action.Should().ThrowAsync<XunitException>();
+        }
+
         #endregion
 
         #region NotThrowAfterAsync

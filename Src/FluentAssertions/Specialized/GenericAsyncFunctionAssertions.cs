@@ -37,22 +37,32 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} to complete within {0}{reason}, but found <null>.", timeSpan);
 
-            using var timeoutCancellationTokenSource = new CancellationTokenSource();
+            ITimer timer = Clock.StartTimer();
             Task<TResult> task = Subject.Invoke();
+            TimeSpan remainingTime = timeSpan - timer.Elapsed;
 
-            Task completedTask =
-                await Task.WhenAny(task, Clock.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
-
-            if (completedTask == task)
-            {
-                timeoutCancellationTokenSource.Cancel();
-                await completedTask;
-            }
-
-            Execute.Assertion
-                .ForCondition(completedTask == task)
+            bool success = Execute.Assertion
+                .ForCondition(remainingTime >= TimeSpan.Zero)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
+
+            if (success)
+            {
+                using var timeoutCancellationTokenSource = new CancellationTokenSource();
+                Task completedTask =
+                    await Task.WhenAny(task, Clock.DelayAsync(remainingTime, timeoutCancellationTokenSource.Token));
+
+                if (completedTask == task)
+                {
+                    timeoutCancellationTokenSource.Cancel();
+                    await completedTask;
+                }
+
+                Execute.Assertion
+                    .ForCondition(completedTask == task)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
+            }
 
             return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, task.Result);
         }

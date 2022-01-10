@@ -4,7 +4,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Specialized
 {
-    internal class FunctionAssertionHelpers
+    internal static class FunctionAssertionHelpers
     {
         internal static T NotThrow<T>(Func<T> subject, string because, object[] becauseArgs)
         {

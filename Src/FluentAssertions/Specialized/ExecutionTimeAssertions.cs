@@ -4,6 +4,8 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Specialized
 {
+#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
     /// <summary>
     /// Provides methods for asserting that the execution time of an <see cref="Action"/> satisfies certain conditions.
     /// </summary>
@@ -225,5 +227,9 @@ namespace FluentAssertions.Specialized
 
             return new AndConstraint<ExecutionTimeAssertions>(this);
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj) =>
+            throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
     }
 }

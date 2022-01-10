@@ -46,7 +46,7 @@ namespace FluentAssertions.Specs.Collections
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("*fewer than*3*because we want to test the failure message*3*");
+                .WithMessage("Expected collection to contain fewer than 3 item(s) because we want to test the failure message, but found 3: {1, 2, 3}.");
         }
 
         [Fact]

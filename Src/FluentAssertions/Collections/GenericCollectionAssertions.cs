@@ -1005,7 +1005,8 @@ namespace FluentAssertions.Collections
 
             if (success)
             {
-                switch (Subject.Count())
+                ICollection<T> actualItems = Subject.ConvertOrCastToCollection();
+                switch (actualItems.Count)
                 {
                     case 0: // Fail, Collection is empty
                         Execute.Assertion
@@ -1013,7 +1014,7 @@ namespace FluentAssertions.Collections
                             .FailWith("Expected {context:collection} to contain a single item{reason}, but the collection is empty.");
                         break;
                     case 1: // Success Condition
-                        match = Subject.SingleOrDefault();
+                        match = actualItems.Single();
                         break;
                     default: // Fail, Collection contains more than a single item
                         Execute.Assertion
@@ -1229,8 +1230,8 @@ namespace FluentAssertions.Collections
                     .ForCondition(actualCount == expected)
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
-                        "Expected {context:collection} {0} to contain {1} item(s){reason}, but found {2}.",
-                        Subject, expected, actualCount);
+                        "Expected {context:collection} to contain {0} item(s){reason}, but found {1}: {2}.",
+                        expected, actualCount, Subject);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -1268,8 +1269,8 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} {0} to have a count {1}{reason}, but count is {2}.",
-                            Subject, countPredicate.Body, actualCount);
+                        .FailWith("Expected {context:collection} to have a count {0}{reason}, but count is {1}: {2}.",
+                            countPredicate.Body, actualCount, Subject);
                 }
             }
 
@@ -1298,7 +1299,7 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(subject => subject.Count())
                 .ForCondition(actualCount => actualCount >= expected)
-                .FailWith("but found {0}.", actualCount => actualCount)
+                .FailWith("but found {0}: {1}.", actualCount => actualCount, _ => Subject)
                 .Then
                 .ClearExpectation();
 
@@ -1330,7 +1331,7 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(subject => subject.Count())
                 .ForCondition(actualCount => actualCount > expected)
-                .FailWith("but found {0}.", actualCount => actualCount)
+                .FailWith("but found {0}: {1}.", actualCount => actualCount, _ => Subject)
                 .Then
                 .ClearExpectation();
 
@@ -1359,7 +1360,7 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(subject => subject.Count())
                 .ForCondition(actualCount => actualCount <= expected)
-                .FailWith("but found {0}.", actualCount => actualCount)
+                .FailWith("but found {0}: {1}.", actualCount => actualCount, _ => Subject)
                 .Then
                 .ClearExpectation();
 
@@ -1391,7 +1392,7 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(subject => subject.Count())
                 .ForCondition(actualCount => actualCount < expected)
-                .FailWith("but found {0}.", actualCount => actualCount)
+                .FailWith("but found {0}: {1}.", actualCount => actualCount, _ => Subject)
                 .Then
                 .ClearExpectation();
 
@@ -2430,7 +2431,7 @@ namespace FluentAssertions.Collections
                 .Then
                 .Given(subject => subject.ConvertOrCastToCollection())
                 .ForCondition(actualItems => !actualItems.SequenceEqual(unexpected))
-                .FailWith("Did not expect collections {0} and {1} to be equal{reason}.", actualItems => unexpected, actualItems => actualItems);
+                .FailWith("Did not expect collections {0} and {1} to be equal{reason}.", _ => unexpected, actualItems => actualItems);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -2492,7 +2493,7 @@ namespace FluentAssertions.Collections
                 .ForCondition(subject => !ReferenceEquals(subject, otherCollection))
                 .FailWith(
                     "Expected {context:collection} {0} to not have the same count as {1}{reason}, but they both reference the same object.",
-                    subject => subject, subject => otherCollection)
+                    subject => subject, _ => otherCollection)
                 .Then
                 .Given(subject => (actual: subject.Count(), expected: otherCollection.Count()))
                 .ForCondition(count => count.actual != count.expected)
@@ -2531,13 +2532,13 @@ namespace FluentAssertions.Collections
                 .ForCondition(subject => !ReferenceEquals(subject, otherCollection))
                 .FailWith(
                     "Did not expect {context:collection} {0} to intersect with {1}{reason}, but they both reference the same object.",
-                    subject => subject, subject => otherCollection)
+                    subject => subject, _ => otherCollection)
                 .Then
                 .Given(subject => subject.Intersect(otherCollection))
                 .ForCondition(sharedItems => !sharedItems.Any())
                 .FailWith(
                     "Did not expect {context:collection} to intersect with {0}{reason}, but found the following shared items {1}.",
-                    sharedItems => otherCollection, sharedItems => sharedItems);
+                    _ => otherCollection, sharedItems => sharedItems);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

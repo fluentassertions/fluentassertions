@@ -8,6 +8,8 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Types
 {
+#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
     /// <summary>
     /// Contains a number of methods to assert that all <see cref="Type"/>s in a <see cref="TypeSelector"/>
     /// meet certain expectations.
@@ -472,5 +474,9 @@ namespace FluentAssertions.Types
         {
             return type.ToString();
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj) =>
+            throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
     }
 }

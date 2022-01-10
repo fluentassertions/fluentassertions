@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentAssertions.Common;
 using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
@@ -26,7 +27,6 @@ namespace FluentAssertions.Specs.Specialized
         public async Task When_subject_is_null_when_expecting_to_complete_async_it_should_throw()
         {
             // Arrange
-            var timer = new FakeClock();
             var timeSpan = 0.Milliseconds();
             Func<Task> action = null;
 
@@ -53,6 +53,30 @@ namespace FluentAssertions.Specs.Specialized
 
             // Assert
             await action.Should().NotThrowAsync();
+        }
+
+        [Fact]
+        public async Task Sync_work_in_async_method_is_taken_into_account()
+        {
+            // Arrange
+            var timer = new FakeClock();
+            var taskFactory = new TaskCompletionSource<bool>();
+
+            // Act
+            Func<Task> action = () => taskFactory
+                .Awaiting(t =>
+                {
+                    timer.Delay(101.Milliseconds());
+                    return (Task)t.Task;
+                })
+                .Should(timer)
+                .CompleteWithinAsync(100.Milliseconds());
+
+            taskFactory.SetResult(true);
+            timer.Complete();
+
+            // Assert
+            await action.Should().ThrowAsync<XunitException>();
         }
 
         [UIFact]
