@@ -122,7 +122,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public virtual ExceptionAssertions<Exception> WithInnerException(Type innerException, string because = null,
+        public ExceptionAssertions<Exception> WithInnerException(Type innerException, string because = null,
             params object[] becauseArgs)
         {
             return new ExceptionAssertions<Exception>(AssertInnerExceptions(innerException, because, becauseArgs));
@@ -228,7 +228,7 @@ namespace FluentAssertions.Specialized
 
             Exception[] expectedInnerExceptions = Subject
                 .Select(e => e.InnerException)
-                .Where(e => e?.GetType() == innerException)
+                .Where(e => e != null && (e.GetType().IsSubclassOf(innerException) || e.GetType() == innerException))
                 .ToArray();
 
             Execute.Assertion

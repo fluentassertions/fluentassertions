@@ -443,6 +443,19 @@ namespace FluentAssertions.Specs.Exceptions
         }
 
         [Fact]
+        public void When_subject_throws_an_exception_with_the_expected_inner_base_exception_it_should_not_do_anything()
+        {
+            // Arrange
+            Does testSubject = Does.Throw(new Exception("", new ArgumentNullException()));
+
+            // Act / Assert
+            testSubject
+                .Invoking(x => x.Do())
+                .Should().Throw<Exception>()
+                .WithInnerException<ArgumentException>();
+        }
+
+        [Fact]
         public void When_subject_throws_an_exception_with_the_expected_inner_exception_from_argument_it_should_not_do_anything()
         {
             // Arrange
