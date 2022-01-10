@@ -143,21 +143,5 @@ namespace FluentAssertions.Specs.Specialized
                 SynchronizationContext.Current.Should().NotBeNull();
             }
         }
-
-        [UIFact]
-        public async Task When_resolving_async_to_main_thread_variable_name_used_for_assertion_should_be_detected()
-        {
-            // Arrange
-            const string someText = "Hello";
-            Func<Task> task = async () => await Task.Yield();
-
-            // Act
-            await task.Should().NotThrowAsync();
-            Action act = () => someText.Should().Be("Hi");
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("*someText*", "it should capture the variable name");
-        }
     }
 }

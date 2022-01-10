@@ -452,6 +452,22 @@ namespace FluentAssertions.Specs.Execution
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected foo.ShouldReturnSomeBool() to be false*");
         }
+
+        [UIFact]
+        public async Task Caller_identification_should_also_work_for_statements_following_async_code()
+        {
+            // Arrange
+            const string someText = "Hello";
+            Func<Task> task = async () => await Task.Yield();
+
+            // Act
+            await task.Should().NotThrowAsync();
+            Action act = () => someText.Should().Be("Hi");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("*someText*", "it should capture the variable name");
+        }
     }
 
     [SuppressMessage("The name of a C# element does not begin with an upper-case letter", "SA1300")]
