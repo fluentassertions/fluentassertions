@@ -170,7 +170,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that the value is equal to the specified <paramref name="expected"/> value.
+        /// Asserts that the <see cref="HttpStatusCode"/> is equal to the specified <paramref name="expected"/> value.
         /// </summary>
         /// <param name="expected">The expected value</param>
         /// <param name="because">
