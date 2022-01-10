@@ -10,7 +10,7 @@ sidebar:
 ## Unreleased
 
 ### What's New
-
+* Adding non-generic overloads for `WithInnerExceptionExactly` and `WithInnerException` - [#1769](https://github.com/fluentassertions/fluentassertions/pull/1769)
 ### Fixes
 
 ## 6.3.0
