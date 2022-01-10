@@ -199,7 +199,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that the value is not equal to the specified <paramref name="unexpected"/> value.
+        /// Asserts that the <see cref="HttpStatusCode"/> is not equal to the specified <paramref name="unexpected"/> value.
         /// </summary>
         /// <param name="unexpected">The unexpected value</param>
         /// <param name="because">
