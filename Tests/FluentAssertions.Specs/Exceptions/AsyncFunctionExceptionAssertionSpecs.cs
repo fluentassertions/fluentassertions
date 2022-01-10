@@ -921,6 +921,21 @@ namespace FluentAssertions.Specs.Exceptions
         }
 
         [Fact]
+        public async Task When_async_method_does_not_throw_the_expected_inner_exception_from_argument_it_should_fail()
+        {
+            // Arrange
+            Func<Task> task = () => Throw.Async(new AggregateException(new ArgumentException()));
+
+            // Act
+            Func<Task> action = () => task
+                .Should().ThrowAsync<AggregateException>()
+                .WithInnerException(typeof(InvalidOperationException));
+
+            // Assert
+            await action.Should().ThrowAsync<XunitException>().WithMessage("*InvalidOperation*Argument*");
+        }
+
+        [Fact]
         public async Task When_async_method_does_not_throw_the_expected_inner_exception_exactly_it_should_fail()
         {
             // Arrange
