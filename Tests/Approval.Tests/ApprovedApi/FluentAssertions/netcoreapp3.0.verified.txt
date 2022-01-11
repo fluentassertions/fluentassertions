@@ -1217,6 +1217,7 @@ namespace FluentAssertions.Events
         public OccurredEvent() { }
         public string EventName { get; set; }
         public object[] Parameters { get; set; }
+        public int RaisedOrderIndex { get; set; }
         public System.DateTime TimestampUtc { get; set; }
     }
 }
