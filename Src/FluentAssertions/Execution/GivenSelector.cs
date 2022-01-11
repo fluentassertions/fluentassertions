@@ -49,7 +49,7 @@ namespace FluentAssertions.Execution
         /// The <paramref name="selector"/> will not be invoked if the prior assertion failed,
         /// nor will <see cref="FailWith(string, Func{T,object}[])"/> throw any exceptions.
         /// </remarks>
-        /// <inheritdoc cref="IAssertionScope.Given"/>
+        /// <inheritdoc cref="IAssertionScope.Given{T}"/>
         public GivenSelector<TOut> Given<TOut>(Func<T, TOut> selector)
         {
             Guard.ThrowIfArgumentIsNull(selector, nameof(selector));

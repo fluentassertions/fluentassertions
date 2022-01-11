@@ -66,6 +66,7 @@ namespace FluentAssertions
         public static FluentAssertions.Primitives.NullableGuidAssertions Should(this System.Guid? actualValue) { }
         public static FluentAssertions.Streams.BufferedStreamAssertions Should(this System.IO.BufferedStream actualValue) { }
         public static FluentAssertions.Streams.StreamAssertions Should(this System.IO.Stream actualValue) { }
+        public static FluentAssertions.Primitives.HttpResponseMessageAssertions Should(this System.Net.Http.HttpResponseMessage actualValue) { }
         public static FluentAssertions.Reflection.AssemblyAssertions Should(this System.Reflection.Assembly assembly) { }
         public static FluentAssertions.Types.ConstructorInfoAssertions Should(this System.Reflection.ConstructorInfo constructorInfo) { }
         public static FluentAssertions.Types.MethodInfoAssertions Should(this System.Reflection.MethodInfo methodInfo) { }
@@ -1908,6 +1909,22 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotBe(System.Guid unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(string unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs) { }
+    }
+    public class HttpResponseMessageAssertions : FluentAssertions.Primitives.HttpResponseMessageAssertions<FluentAssertions.Primitives.HttpResponseMessageAssertions>
+    {
+        public HttpResponseMessageAssertions(System.Net.Http.HttpResponseMessage value) { }
+    }
+    public class HttpResponseMessageAssertions<TAssertions> : FluentAssertions.Primitives.ObjectAssertions<System.Net.Http.HttpResponseMessage, TAssertions>
+        where TAssertions : FluentAssertions.Primitives.HttpResponseMessageAssertions<TAssertions>
+    {
+        protected HttpResponseMessageAssertions(System.Net.Http.HttpResponseMessage value) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeRedirection(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeSuccessful(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveClientError(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveError(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveServerError(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveStatusCode(System.Net.HttpStatusCode expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHaveStatusCode(System.Net.HttpStatusCode unexpected, string because = "", params object[] becauseArgs) { }
     }
     public class NullableBooleanAssertions : FluentAssertions.Primitives.NullableBooleanAssertions<FluentAssertions.Primitives.NullableBooleanAssertions>
     {
