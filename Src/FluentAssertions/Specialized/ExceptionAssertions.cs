@@ -228,7 +228,7 @@ namespace FluentAssertions.Specialized
 
             Exception[] expectedInnerExceptions = Subject
                 .Select(e => e.InnerException)
-                .Where(e => e != null && (e.GetType().IsSubclassOf(innerException) || e.GetType() == innerException))
+                .Where(e => e != null && e.GetType().IsSameOrInherits(innerException))
                 .ToArray();
 
             Execute.Assertion
