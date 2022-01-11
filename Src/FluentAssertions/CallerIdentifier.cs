@@ -40,13 +40,11 @@ namespace FluentAssertions
                         frame => !IsCurrentAssembly(frame));
                 }
 
-                int firstFluentAssertionsCodeIndex = Array.FindLastIndex(
+                int lastUserStackFrameBeforeFluentAssertionsCodeIndex = Array.FindIndex(
                     allStackFrames,
-                    searchStart,
-                    frame => IsCurrentAssembly(frame));
-
-                int lastUserStackFrameBeforeFluentAssertionsCodeIndex =
-                    firstFluentAssertionsCodeIndex + 1;
+                    startIndex: 0,
+                    count: searchStart + 1,
+                    frame => !IsCurrentAssembly(frame) && !IsDotNet(frame));
 
                 for (int i = lastUserStackFrameBeforeFluentAssertionsCodeIndex; i < allStackFrames.Length; i++)
                 {
