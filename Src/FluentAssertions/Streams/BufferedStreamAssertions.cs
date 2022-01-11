@@ -27,6 +27,8 @@ namespace FluentAssertions.Streams
         {
         }
 
+        protected override string Identifier => "buffered stream";
+
 #if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1
         /// <summary>
         /// Asserts that the current <see cref="BufferedStream"/> has the <paramref name="expected"/> buffer size.
