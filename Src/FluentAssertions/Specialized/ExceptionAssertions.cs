@@ -157,7 +157,7 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public virtual ExceptionAssertions<Exception> WithInnerExceptionExactly(Type innerException, string because = null,
+        public ExceptionAssertions<Exception> WithInnerExceptionExactly(Type innerException, string because = null,
             params object[] becauseArgs)
         {
             return new ExceptionAssertions<Exception>(AssertInnerExceptionExactly(innerException, because, becauseArgs));
