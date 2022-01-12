@@ -10,7 +10,7 @@ namespace FluentAssertions.Specs.Execution
         [Fact]
         public void A_consecutive_subject_should_be_selected()
         {
-            // Arange
+            // Arrange
             string value = string.Empty;
 
             // Act
@@ -26,7 +26,7 @@ namespace FluentAssertions.Specs.Execution
         [Fact]
         public void After_a_failed_condition_a_consecutive_subject_should_be_ignored()
         {
-            // Arange
+            // Arrange
             string value = string.Empty;
 
             // Act
