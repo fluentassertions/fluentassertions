@@ -44,7 +44,7 @@ namespace FluentAssertions.Execution
         Continuation FailWith(string message);
 
         /// <summary>
-        /// Sets the failure message when the assertion is not met, or completes the failure message set to aprior call to
+        /// Sets the failure message when the assertion is not met, or completes the failure message set to a prior call to
         /// <see cref="AssertionScope.WithExpectation"/>.
         /// <paramref name="failReasonFunc"/> will not be called unless the assertion is not met.
         /// </summary>

@@ -177,7 +177,7 @@ namespace FluentAssertions.Data
              && (unaryExpression.NodeType == ExpressionType.Convert))
             {
                 // If the expression is a value type, then accessing it will involve an
-                // implicit boxing convertion to type object that we need to ignore.
+                // implicit boxing conversion to type object that we need to ignore.
                 expression = unaryExpression.Operand;
             }
 

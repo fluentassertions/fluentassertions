@@ -63,7 +63,7 @@ namespace FluentAssertions.Specs.Specialized
             Assembly assemblyB = FindAssembly.Containing<ClassB>();
 
             // Act
-            Action act = () => assemblyA.Should().NotReference(assemblyB, "we want to to test the failure {0}", "message");
+            Action act = () => assemblyA.Should().NotReference(assemblyB, "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -140,7 +140,7 @@ namespace FluentAssertions.Specs.Specialized
             Assembly assemblyB = FindAssembly.Containing<ClassB>();
 
             // Act
-            Action act = () => assemblyA.Should().Reference(assemblyB, "we want to to test the failure {0}", "message");
+            Action act = () => assemblyA.Should().Reference(assemblyB, "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -207,7 +207,7 @@ namespace FluentAssertions.Specs.Specialized
             // Act
             Action act = () =>
                 thisAssembly.Should().DefineType(GetType().Namespace, "WellKnownClassWithAttribute",
-                    "we want to to test the failure {0}", "message");
+                    "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
