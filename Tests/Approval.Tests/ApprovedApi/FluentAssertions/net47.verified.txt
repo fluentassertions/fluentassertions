@@ -242,9 +242,13 @@ namespace FluentAssertions
     {
         public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> Where<TException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, System.Linq.Expressions.Expression<System.Func<TException, bool>> exceptionExpression, string because = "", params object[] becauseArgs)
             where TException : System.Exception { }
+        public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<System.Exception>> WithInnerException<TException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, System.Type innerException, string because = "", params object[] becauseArgs)
+            where TException : System.Exception { }
         public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TInnerException>> WithInnerException<TException, TInnerException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, string because = "", params object[] becauseArgs)
             where TException : System.Exception
             where TInnerException : System.Exception { }
+        public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<System.Exception>> WithInnerExceptionExactly<TException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, System.Type innerException, string because = "", params object[] becauseArgs)
+            where TException : System.Exception { }
         public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TInnerException>> WithInnerExceptionExactly<TException, TInnerException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, string because = "", params object[] becauseArgs)
             where TException : System.Exception
             where TInnerException : System.Exception { }
@@ -2209,8 +2213,10 @@ namespace FluentAssertions.Specialized
         protected override string Identifier { get; }
         public TException Which { get; }
         public FluentAssertions.Specialized.ExceptionAssertions<TException> Where(System.Linq.Expressions.Expression<System.Func<TException, bool>> exceptionExpression, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.Specialized.ExceptionAssertions<System.Exception> WithInnerException(System.Type innerException, string because = null, params object[] becauseArgs) { }
         public virtual FluentAssertions.Specialized.ExceptionAssertions<TInnerException> WithInnerException<TInnerException>(string because = null, params object[] becauseArgs)
             where TInnerException : System.Exception { }
+        public FluentAssertions.Specialized.ExceptionAssertions<System.Exception> WithInnerExceptionExactly(System.Type innerException, string because = null, params object[] becauseArgs) { }
         public virtual FluentAssertions.Specialized.ExceptionAssertions<TInnerException> WithInnerExceptionExactly<TInnerException>(string because = null, params object[] becauseArgs)
             where TInnerException : System.Exception { }
         public virtual FluentAssertions.Specialized.ExceptionAssertions<TException> WithMessage(string expectedWildcardPattern, string because = "", params object[] becauseArgs) { }
