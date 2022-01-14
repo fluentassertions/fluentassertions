@@ -716,6 +716,65 @@ namespace FluentAssertions.Specs.Equivalency
         }
 
         [Fact]
+        public void When_all_deeply_nested_properties_of_a_collection_with_an_invalid_value_is_excluded_it_should_not_throw()
+        {
+            // Arrange
+            var subject = new
+            {
+                Text = "Actual",
+                Level = new
+                {
+                    Collection = new[]
+                    {
+                        new { Number = 1, Text = "Text" },
+                        new { Number = 2, Text = "Actual" }
+                    }
+                }
+            };
+
+            var expected = new
+            {
+                Text = "Expected",
+                Level = new
+                {
+                    Collection = new[]
+                    {
+                        new
+                        {
+                            Number = 1,
+                            Text = "Text",
+                            Collection2 = new[]
+                            {
+                                new { A = 1 }
+                            }
+                        },
+                        new
+                        {
+                            Number = 2,
+                            Text = "Expected",
+                            Collection2 = new[]
+                            {
+                                new { A = 1 }
+                            }
+                        }
+                    }
+                }
+            };
+
+            Action option4 = () => subject.Should().BeEquivalentTo(expected,
+                options => options
+                    .Excluding(x => x.Level.Collection).ThenExcluding(x => x.Collection2).ThenExcluding(x => x.A)
+                    .Excluding(x => x.Level.Collection).ThenExcluding(x => x.Number)
+                    .Excluding(x => x.Text));
+
+            Action test = () => subject.Should().BeEquivalentTo(expected,
+                options => options.Excluding(x => x.Level));
+
+            option4.Should().NotThrow();
+            test.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_a_dictionary_property_is_detected_it_should_ignore_the_order_of_the_pairs()
         {
             // Arrange
