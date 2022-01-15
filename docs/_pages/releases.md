@@ -18,6 +18,7 @@ sidebar:
 * `ContainItemsAssignableTo` now expects at least one item assignable to `T` - [#1765](https://github.com/fluentassertions/fluentassertions/pull/1765)
 * Querying methods on classes, e.g. `typeof(MyController).Methods()`, now also includes static methods - [#1740](https://github.com/fluentassertions/fluentassertions/pull/1740)
 * Variable name is not captured after await assertion - [#1770](https://github.com/fluentassertions/fluentassertions/pull/1770)
+* Avoid a `NullReferenceException` when testing an application compiled with .NET Native - [#1776](https://github.com/fluentassertions/fluentassertions/pull/1776)
 
 ## 6.3.0
 
