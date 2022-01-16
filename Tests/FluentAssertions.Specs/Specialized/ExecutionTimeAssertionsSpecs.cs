@@ -163,7 +163,7 @@ namespace FluentAssertions.Specs.Specialized
             Func<Task> someAction = () => Task.Delay(TimeSpan.FromMilliseconds(100));
 
             // Act
-            Action act = () => someAction.ExecutionTime().Should().BeLessThan(2.Seconds());
+            Action act = () => someAction.ExecutionTime().Should().BeLessThan(20.Seconds());
 
             // Assert
             act.Should().NotThrow();
