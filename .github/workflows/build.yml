@@ -2,10 +2,10 @@ name: build
 
 on:
   pull_request:
-    paths-ignore: 
+    paths-ignore:
       - docs/**
   push:
-    paths-ignore: 
+    paths-ignore:
       - docs/**
 
 jobs:
@@ -17,37 +17,32 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
-    
+
     - name: Setup .NET 5
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
-    
+
     - name: Setup .NET 3.1
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.x
-        
+
     - name: Setup .NET 2.1
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.1.x
-    
-    - name: Install NUKE
-      run: |
-        dotnet tool install --global Nuke.GlobalTool
-        
+
     - name: Run NUKE
-      run: nuke
+      run: ./build.ps1
+      env:
+        BranchSpec: ${{ github.ref }}
+        BuildNumber: ${{ github.run_number}}
+        ApiKey: ${{ secrets.NUGETAPIKEY }}
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
         path: ./Artifacts/*
-        
-    - name: Push to Nuget
-      run: dotnet nuget push .\artifacts\*.nupkg --api-key "$env:ApiKey" --skip-duplicate --no-symbols true --source https://api.nuget.org/v3/index.json
-      if: contains(github.ref, 'refs/tags/')
-      env:
-        ApiKey: ${{ secrets.NUGETAPIKEY }}
-      
+
+

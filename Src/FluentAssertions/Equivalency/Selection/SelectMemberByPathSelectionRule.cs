@@ -22,7 +22,7 @@ namespace FluentAssertions.Equivalency.Selection
             string currentPath = currentNode.PathAndName;
 
             // If we're part of a collection comparison, the selected path will not include an index,
-            // so we need to to remove it from the current node as well.
+            // so we need to remove it from the current node as well.
             if (!ContainsIndexingQualifiers(selectedPath))
             {
                 currentPath = RemoveIndexQualifiers(currentPath);
