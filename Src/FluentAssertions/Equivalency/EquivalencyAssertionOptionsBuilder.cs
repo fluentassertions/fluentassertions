@@ -6,11 +6,10 @@ namespace FluentAssertions.Equivalency
 {
     public class EquivalencyAssertionOptionsBuilder<TExpectation, TCurrent> : EquivalencyAssertionOptions<TExpectation>
     {
-        private readonly EquivalencyAssertionOptions<TExpectation> equivalencyAssertionOptions;
-
         public EquivalencyAssertionOptionsBuilder(EquivalencyAssertionOptions<TExpectation> equivalencyAssertionOptions)
+            : base(equivalencyAssertionOptions)
         {
-            this.equivalencyAssertionOptions = equivalencyAssertionOptions;
+
         }
 
         /// <summary>
@@ -28,14 +27,6 @@ namespace FluentAssertions.Equivalency
             Expression<Func<TCurrent, IEnumerable<TNext>>> expression)
         {
             return new EquivalencyAssertionOptionsBuilder<TExpectation, TNext>(this);
-        }
-
-        /// <summary>
-        /// Go back to "root level".
-        /// </summary>
-        public new EquivalencyAssertionOptions<TExpectation> Excluding(Expression<Func<TExpectation, object>> expression)
-        {
-            return this;
         }
     }
 }
