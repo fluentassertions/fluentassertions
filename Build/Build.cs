@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using Nuke.Common;
 using Nuke.Common.Execution;
@@ -24,19 +26,53 @@ class Build : NukeBuild
        - Microsoft VSCode           https://nuke.build/vscode
     */
 
-    public static int Main() => Execute<Build>(x => x.Pack);
+    public static int Main() => Execute<Build>(x => x.Push);
 
-    [Solution(GenerateProjects = true)] readonly Solution Solution;
-    [GitVersion(Framework = "net5.0")] readonly GitVersion GitVersion;
-    [PackageExecutable("nspec", "NSpecRunner.exe", Version = "3.1.0")] Tool NSpec3;
+    [Parameter("A branch specification such as develop or refs/pull/1775/merge")]
+    readonly string BranchSpec;
+
+    [Parameter("An incrementing build number as provided by the build engine")]
+    readonly string BuildNumber;
+
+    [Parameter("The key to push to Nuget")]
+    readonly string ApiKey;
+
+    [Solution(GenerateProjects = true)]
+    readonly Solution Solution;
+
+    [GitVersion(Framework = "net5.0")]
+    readonly GitVersion GitVersion;
+
+    [PackageExecutable("nspec", "NSpecRunner.exe", Version = "3.1.0")]
+    Tool NSpec3;
 
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
+
+    string SemVer;
 
     Target Clean => _ => _
         .Executes(() =>
         {
             EnsureCleanDirectory(ArtifactsDirectory);
         });
+
+    Target CalculateNugetVersion => _ => _
+        .Executes(() =>
+        {
+            SemVer = GitVersion.SemVer;
+            if (IsPullRequest)
+            {
+                Serilog.Log.Information(
+                    "Branch spec {branchspec} is a pull request. Adding build number {buildnumber}",
+                    BranchSpec, BuildNumber);
+
+                SemVer = string.Join('.', GitVersion.SemVer.Split('.').Take(3).Union(new [] { BuildNumber }));
+            }
+
+            Serilog.Log.Information("SemVer = {semver}", SemVer);
+        });
+
+    bool IsPullRequest => BranchSpec != null && BranchSpec.Contains("pull", StringComparison.InvariantCultureIgnoreCase);
 
     Target Restore => _ => _
         .DependsOn(Clean)
@@ -78,11 +114,18 @@ class Build : NukeBuild
         {
             if (EnvironmentInfo.IsWin)
             {
-                Xunit2(s => s
-                    .SetFramework("net47")
-                    .AddTargetAssemblies(GlobFiles(
+                Xunit2(s =>
+                {
+                    IReadOnlyCollection<string> testAssemblies = GlobFiles(
                         Solution.Specs.FluentAssertions_Specs.Directory,
-                        "bin/Debug/net47/*.Specs.dll").NotEmpty()));
+                        "bin/Debug/net47/*.Specs.dll");
+
+                    Assert.NotEmpty(testAssemblies.ToList());
+
+                    return s
+                        .SetFramework("net47")
+                        .AddTargetAssemblies(testAssemblies);
+                });
             }
 
             DotNetTest(s => s
@@ -128,6 +171,7 @@ class Build : NukeBuild
         .DependsOn(ApiChecks)
         .DependsOn(TestFrameworks)
         .DependsOn(UnitTests)
+        .DependsOn(CalculateNugetVersion)
         .Executes(() =>
         {
             DotNetPack(s => s
@@ -135,6 +179,27 @@ class Build : NukeBuild
                 .SetOutputDirectory(ArtifactsDirectory)
                 .SetConfiguration("Release")
                 .EnableContinuousIntegrationBuild() // Necessary for deterministic builds
-                .SetVersion(GitVersion.NuGetVersionV2));
+                .SetVersion(SemVer));
         });
+
+    Target Push => _ => _
+        .DependsOn(Pack)
+        .OnlyWhenDynamic(() => IsTag)
+        .Executes(() =>
+        {
+            var packages = GlobFiles(ArtifactsDirectory, "*.nupkg");
+
+            Assert.NotEmpty(packages.ToList());
+
+            DotNetNuGetPush(s => s
+                .SetApiKey(ApiKey)
+                .EnableSkipDuplicate()
+                .SetSource("https://api.nuget.org/v3/index.json")
+                .EnableNoSymbols()
+                .CombineWith(packages,
+                    (v, path) => v.SetTargetPath(path)));
+        });
+
+    bool IsTag => BranchSpec != null && BranchSpec.Contains("refs/tags", StringComparison.InvariantCultureIgnoreCase);
+
 }

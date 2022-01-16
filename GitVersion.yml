@@ -3,5 +3,11 @@ branches:
   release:
     regex: releases?[/-]
     tag: rc
+  pull-request:
+    mode: ContinuousDeployment
+    regex: ((pull|pull\-requests|pr)[/-]|[/-](merge))
+    tag: pr
+    tag-number-pattern: '[/-]?(?<number>\d+)'
+    prevent-increment-of-merged-branch-version: false
 ignore:
   sha: []
