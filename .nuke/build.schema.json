@@ -6,6 +6,10 @@
     "build": {
       "type": "object",
       "properties": {
+        "ApiKey": {
+          "type": "string",
+          "description": "The key to push to Nuget"
+        },
         "BranchSpec": {
           "type": "string",
           "description": "A branch specification such as develop or refs/pull/1775/merge"
@@ -76,6 +80,7 @@
               "Clean",
               "Compile",
               "Pack",
+              "Push",
               "Restore",
               "TestFrameworks",
               "UnitTests"
@@ -97,6 +102,7 @@
               "Clean",
               "Compile",
               "Pack",
+              "Push",
               "Restore",
               "TestFrameworks",
               "UnitTests"

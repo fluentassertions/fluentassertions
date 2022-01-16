@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using Nuke.Common;
 using Nuke.Common.Execution;
@@ -24,7 +26,7 @@ class Build : NukeBuild
        - Microsoft VSCode           https://nuke.build/vscode
     */
 
-    public static int Main() => Execute<Build>(x => x.Pack);
+    public static int Main() => Execute<Build>(x => x.Push);
 
     [Parameter("A branch specification such as develop or refs/pull/1775/merge")]
     readonly string BranchSpec;
@@ -32,10 +34,17 @@ class Build : NukeBuild
     [Parameter("An incrementing build number as provided by the build engine")]
     readonly string BuildNumber;
 
+    [Parameter("The key to push to Nuget")]
+    readonly string ApiKey;
 
-    [Solution(GenerateProjects = true)] readonly Solution Solution;
-    [GitVersion(Framework = "net5.0")] readonly GitVersion GitVersion;
-    [PackageExecutable("nspec", "NSpecRunner.exe", Version = "3.1.0")] Tool NSpec3;
+    [Solution(GenerateProjects = true)]
+    readonly Solution Solution;
+
+    [GitVersion(Framework = "net5.0")]
+    readonly GitVersion GitVersion;
+
+    [PackageExecutable("nspec", "NSpecRunner.exe", Version = "3.1.0")]
+    Tool NSpec3;
 
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
 
@@ -172,4 +181,25 @@ class Build : NukeBuild
                 .EnableContinuousIntegrationBuild() // Necessary for deterministic builds
                 .SetVersion(SemVer));
         });
+
+    Target Push => _ => _
+        .DependsOn(Pack)
+        .OnlyWhenDynamic(() => IsTag)
+        .Executes(() =>
+        {
+            var packages = GlobFiles(ArtifactsDirectory, "*.nupkg");
+
+            Assert.NotEmpty(packages.ToList());
+
+            DotNetNuGetPush(s => s
+                .SetApiKey(ApiKey)
+                .EnableSkipDuplicate()
+                .SetSource("https://api.nuget.org/v3/index.json")
+                .EnableNoSymbols()
+                .CombineWith(packages,
+                    (v, path) => v.SetTargetPath(path)));
+        });
+
+    bool IsTag => BranchSpec != null && BranchSpec.Contains("refs/tags", StringComparison.InvariantCultureIgnoreCase);
+
 }
