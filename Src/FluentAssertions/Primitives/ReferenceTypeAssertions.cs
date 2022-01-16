@@ -416,6 +416,7 @@ namespace FluentAssertions.Primitives
 
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
+        /// It should be a user-friendly name as it is included in the failure message.
         /// </summary>
         protected abstract string Identifier { get; }
 
