@@ -424,13 +424,13 @@ namespace FluentAssertions.Specs.Events
 
             // Assert
             monitor.OccurredEvents[0].EventName.Should().Be(nameof(TestEventRaisingInOrder.InterfaceEvent));
-            monitor.OccurredEvents[0].RaisedOrderIndex.Should().Be(0);
+            monitor.OccurredEvents[0].Sequence.Should().Be(0);
 
             monitor.OccurredEvents[1].EventName.Should().Be(nameof(TestEventRaisingInOrder.Interface2Event));
-            monitor.OccurredEvents[1].RaisedOrderIndex.Should().Be(1);
+            monitor.OccurredEvents[1].Sequence.Should().Be(1);
 
             monitor.OccurredEvents[2].EventName.Should().Be(nameof(TestEventRaisingInOrder.Interface3Event));
-            monitor.OccurredEvents[2].RaisedOrderIndex.Should().Be(2);
+            monitor.OccurredEvents[2].Sequence.Should().Be(2);
         }
 
         #endregion

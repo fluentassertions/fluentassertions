@@ -25,13 +25,13 @@ namespace FluentAssertions.Events
         /// <param name="eventRaiser">The object events are recorded from</param>
         /// <param name="eventName">The name of the event that's recorded</param>
         /// <param name="utcNow">A delegate to get the current date and time in UTC format.</param>
-        /// <param name="eventRaisedOrder">Class used to track order of raised events.</param>
-        public EventRecorder(object eventRaiser, string eventName, Func<DateTime> utcNow, EventRaisedOrder eventRaisedOrder)
+        /// <param name="threadSafeSequenceGenerator">Class used to generate a thread-safe sequence.</param>
+        public EventRecorder(object eventRaiser, string eventName, Func<DateTime> utcNow, ThreadSafeSequenceGenerator threadSafeSequenceGenerator)
         {
             this.utcNow = utcNow;
             EventObject = eventRaiser;
             EventName = eventName;
-            EventRaisedOrder = eventRaisedOrder;
+            this.threadSafeSequenceGenerator = threadSafeSequenceGenerator;
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace FluentAssertions.Events
         /// <inheritdoc />
         public string EventName { get; }
 
-        private EventRaisedOrder EventRaisedOrder { get; }
+        private readonly ThreadSafeSequenceGenerator threadSafeSequenceGenerator;
 
         public Type EventHandlerType { get; private set; }
 
@@ -81,7 +81,7 @@ namespace FluentAssertions.Events
         {
             lock (lockable)
             {
-                raisedEvents.Add(new RecordedEvent(utcNow(), EventRaisedOrder.Increment(), parameters));
+                raisedEvents.Add(new RecordedEvent(utcNow(), threadSafeSequenceGenerator.Increment(), parameters));
             }
         }
 
@@ -110,7 +110,7 @@ namespace FluentAssertions.Events
                     EventName = EventName,
                     Parameters = @event.Parameters,
                     TimestampUtc = @event.TimestampUtc,
-                    RaisedOrderIndex = @event.RaisedOrderIndex
+                    Sequence = @event.RaisedOrderIndex
                 };
             }
         }

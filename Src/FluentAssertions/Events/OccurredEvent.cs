@@ -25,6 +25,6 @@ namespace FluentAssertions.Events
         /// <summary>
         /// The order in which this event was raised on the monitored object.
         /// </summary>
-        public int RaisedOrderIndex { get; set; }
+        public int Sequence { get; set; }
     }
 }

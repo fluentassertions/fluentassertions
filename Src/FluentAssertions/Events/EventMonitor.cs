@@ -30,7 +30,7 @@ namespace FluentAssertions.Events
 
         public T Subject => (T)subject.Target;
 
-        private EventRaisedOrder EventRaisedOrder { get; } = new();
+        private readonly ThreadSafeSequenceGenerator threadSafeSequenceGenerator = new();
 
         public EventMetadata[] MonitoredEvents
         {
@@ -51,7 +51,7 @@ namespace FluentAssertions.Events
                     from eventName in recorderMap.Keys
                     let recording = GetRecordingFor(eventName)
                     from @event in recording
-                    orderby @event.RaisedOrderIndex
+                    orderby @event.Sequence
                     select @event;
 
                 return query.ToArray();
@@ -127,7 +127,7 @@ namespace FluentAssertions.Events
         {
             if (!recorderMap.TryGetValue(eventInfo.Name, out _))
             {
-                var recorder = new EventRecorder(subject.Target, eventInfo.Name, utcNow, EventRaisedOrder);
+                var recorder = new EventRecorder(subject.Target, eventInfo.Name, utcNow, threadSafeSequenceGenerator);
                 if (recorderMap.TryAdd(eventInfo.Name, recorder))
                 {
                     recorder.Attach(subject, eventInfo);
