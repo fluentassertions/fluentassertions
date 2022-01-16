@@ -6,6 +6,14 @@
     "build": {
       "type": "object",
       "properties": {
+        "BranchSpec": {
+          "type": "string",
+          "description": "A branch specification such as develop or refs/pull/1775/merge"
+        },
+        "BuildNumber": {
+          "type": "string",
+          "description": "An incrementing build number as provided by the build engine"
+        },
         "Continue": {
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
@@ -64,6 +72,7 @@
             "type": "string",
             "enum": [
               "ApiChecks",
+              "CalculateNugetVersion",
               "Clean",
               "Compile",
               "Pack",
@@ -84,6 +93,7 @@
             "type": "string",
             "enum": [
               "ApiChecks",
+              "CalculateNugetVersion",
               "Clean",
               "Compile",
               "Pack",

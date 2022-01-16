@@ -26,17 +26,44 @@ class Build : NukeBuild
 
     public static int Main() => Execute<Build>(x => x.Pack);
 
+    [Parameter("A branch specification such as develop or refs/pull/1775/merge")]
+    readonly string BranchSpec;
+
+    [Parameter("An incrementing build number as provided by the build engine")]
+    readonly string BuildNumber;
+
+
     [Solution(GenerateProjects = true)] readonly Solution Solution;
     [GitVersion(Framework = "net5.0")] readonly GitVersion GitVersion;
     [PackageExecutable("nspec", "NSpecRunner.exe", Version = "3.1.0")] Tool NSpec3;
 
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
 
+    string SemVer;
+
     Target Clean => _ => _
         .Executes(() =>
         {
             EnsureCleanDirectory(ArtifactsDirectory);
         });
+
+    Target CalculateNugetVersion => _ => _
+        .Executes(() =>
+        {
+            SemVer = GitVersion.SemVer;
+            if (IsPullRequest)
+            {
+                Serilog.Log.Information(
+                    "Branch spec {branchspec} is a pull request. Adding build number {buildnumber}",
+                    BranchSpec, BuildNumber);
+
+                SemVer = string.Join('.', GitVersion.SemVer.Split('.').Take(3).Union(new [] { BuildNumber }));
+            }
+
+            Serilog.Log.Information("SemVer = {semver}", SemVer);
+        });
+
+    bool IsPullRequest => BranchSpec != null && BranchSpec.Contains("pull", StringComparison.InvariantCultureIgnoreCase);
 
     Target Restore => _ => _
         .DependsOn(Clean)
@@ -135,6 +162,7 @@ class Build : NukeBuild
         .DependsOn(ApiChecks)
         .DependsOn(TestFrameworks)
         .DependsOn(UnitTests)
+        .DependsOn(CalculateNugetVersion)
         .Executes(() =>
         {
             DotNetPack(s => s
@@ -142,6 +170,6 @@ class Build : NukeBuild
                 .SetOutputDirectory(ArtifactsDirectory)
                 .SetConfiguration("Release")
                 .EnableContinuousIntegrationBuild() // Necessary for deterministic builds
-                .SetVersion(GitVersion.NuGetVersionV2));
+                .SetVersion(SemVer));
         });
 }

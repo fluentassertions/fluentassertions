@@ -32,13 +32,12 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.1.x
-    
-    - name: Install NUKE
-      run: |
-        dotnet tool install --global Nuke.GlobalTool
-        
+
     - name: Run NUKE
-      run: nuke
+      run: ./build.ps1
+      env:
+        BranchSpec: ${{ github.ref }}
+        BuildNumber: ${{ github.run_number}}
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
