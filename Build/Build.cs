@@ -78,11 +78,18 @@ class Build : NukeBuild
         {
             if (EnvironmentInfo.IsWin)
             {
-                Xunit2(s => s
-                    .SetFramework("net47")
-                    .AddTargetAssemblies(GlobFiles(
+                Xunit2(s =>
+                {
+                    IReadOnlyCollection<string> testAssemblies = GlobFiles(
                         Solution.Specs.FluentAssertions_Specs.Directory,
-                        "bin/Debug/net47/*.Specs.dll").NotEmpty()));
+                        "bin/Debug/net47/*.Specs.dll");
+
+                    Assert.NotEmpty(testAssemblies.ToList());
+
+                    return s
+                        .SetFramework("net47")
+                        .AddTargetAssemblies(testAssemblies);
+                });
             }
 
             DotNetTest(s => s
