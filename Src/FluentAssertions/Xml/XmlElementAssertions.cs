@@ -165,5 +165,7 @@ namespace FluentAssertions.Xml
 
             return new AndWhichConstraint<XmlElementAssertions, XmlElement>(this, element);
         }
+
+        protected override string Identifier => "XML element";
     }
 }

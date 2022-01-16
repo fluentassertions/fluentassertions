@@ -230,5 +230,7 @@ namespace FluentAssertions.Primitives
         private bool IsServerError() => (int)Subject.StatusCode is >= 500 and <= 599;
 
         private bool IsClientError() => (int)Subject.StatusCode is >= 400 and <= 499;
+
+        protected override string Identifier => "HTTP response message";
     }
 }

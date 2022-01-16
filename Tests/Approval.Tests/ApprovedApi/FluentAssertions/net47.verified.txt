@@ -1922,6 +1922,7 @@ namespace FluentAssertions.Primitives
         where TAssertions : FluentAssertions.Primitives.HttpResponseMessageAssertions<TAssertions>
     {
         protected HttpResponseMessageAssertions(System.Net.Http.HttpResponseMessage value) { }
+        protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> BeRedirection(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeSuccessful(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveClientError(string because = "", params object[] becauseArgs) { }
@@ -2348,7 +2349,6 @@ namespace FluentAssertions.Types
         where TAssertions : FluentAssertions.Types.MethodBaseAssertions<TSubject, TAssertions>
     {
         protected MethodBaseAssertions(TSubject subject) { }
-        protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> HaveAccessModifier(FluentAssertions.Common.CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveAccessModifier(FluentAssertions.Common.CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs) { }
     }
@@ -2645,6 +2645,7 @@ namespace FluentAssertions.Xml
     public class XmlElementAssertions : FluentAssertions.Xml.XmlNodeAssertions<System.Xml.XmlElement, FluentAssertions.Xml.XmlElementAssertions>
     {
         public XmlElementAssertions(System.Xml.XmlElement xmlElement) { }
+        protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<FluentAssertions.Xml.XmlElementAssertions> HaveAttribute(string expectedName, string expectedValue, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Xml.XmlElementAssertions> HaveAttributeWithNamespace(string expectedName, string expectedNamespace, string expectedValue, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Xml.XmlElementAssertions, System.Xml.XmlElement> HaveElement(string expectedName, string because = "", params object[] becauseArgs) { }
