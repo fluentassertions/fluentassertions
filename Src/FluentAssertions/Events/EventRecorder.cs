@@ -110,7 +110,7 @@ namespace FluentAssertions.Events
                     EventName = EventName,
                     Parameters = @event.Parameters,
                     TimestampUtc = @event.TimestampUtc,
-                    Sequence = @event.RaisedOrderIndex
+                    Sequence = @event.Sequence
                 };
             }
         }

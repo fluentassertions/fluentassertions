@@ -12,11 +12,11 @@ namespace FluentAssertions.Events
         /// <summary>
         /// Default constructor stores the parameters the event was raised with
         /// </summary>
-        public RecordedEvent(DateTime utcNow, int raisedOrderIndex, params object[] parameters)
+        public RecordedEvent(DateTime utcNow, int sequence, params object[] parameters)
         {
             Parameters = parameters;
             TimestampUtc = utcNow;
-            RaisedOrderIndex = raisedOrderIndex;
+            Sequence = sequence;
         }
 
         /// <summary>
@@ -32,6 +32,6 @@ namespace FluentAssertions.Events
         /// <summary>
         /// The order in which this event was invoked on the monitored object.
         /// </summary>
-        public int RaisedOrderIndex { get; }
+        public int Sequence { get; }
     }
 }
