@@ -25,13 +25,13 @@ namespace FluentAssertions.Events
         /// <param name="eventRaiser">The object events are recorded from</param>
         /// <param name="eventName">The name of the event that's recorded</param>
         /// <param name="utcNow">A delegate to get the current date and time in UTC format.</param>
-        /// <param name="threadSafeSequenceGenerator">Class used to generate a thread-safe sequence.</param>
-        public EventRecorder(object eventRaiser, string eventName, Func<DateTime> utcNow, ThreadSafeSequenceGenerator threadSafeSequenceGenerator)
+        /// <param name="sequenceGenerator">Class used to generate a sequence in a thread-safe manner.</param>
+        public EventRecorder(object eventRaiser, string eventName, Func<DateTime> utcNow, ThreadSafeSequenceGenerator sequenceGenerator)
         {
             this.utcNow = utcNow;
             EventObject = eventRaiser;
             EventName = eventName;
-            this.threadSafeSequenceGenerator = threadSafeSequenceGenerator;
+            this.sequenceGenerator = sequenceGenerator;
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace FluentAssertions.Events
         /// <inheritdoc />
         public string EventName { get; }
 
-        private readonly ThreadSafeSequenceGenerator threadSafeSequenceGenerator;
+        private readonly ThreadSafeSequenceGenerator sequenceGenerator;
 
         public Type EventHandlerType { get; private set; }
 
@@ -81,7 +81,7 @@ namespace FluentAssertions.Events
         {
             lock (lockable)
             {
-                raisedEvents.Add(new RecordedEvent(utcNow(), threadSafeSequenceGenerator.Increment(), parameters));
+                raisedEvents.Add(new RecordedEvent(utcNow(), sequenceGenerator.Increment(), parameters));
             }
         }
 

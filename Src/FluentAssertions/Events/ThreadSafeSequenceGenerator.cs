@@ -3,7 +3,7 @@ using System.Threading;
 namespace FluentAssertions.Events
 {
     /// <summary>
-    /// Generates a thread-safe sequence.
+    /// Generates a sequence in a thread-safe manner.
     /// </summary>
     internal sealed class ThreadSafeSequenceGenerator
     {
