@@ -2292,6 +2292,7 @@ namespace FluentAssertions.Streams
         where TAssertions : FluentAssertions.Streams.BufferedStreamAssertions<TAssertions>
     {
         public BufferedStreamAssertions(System.IO.BufferedStream stream) { }
+        protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> HaveBufferSize(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveBufferSize(int unexpected, string because = "", params object[] becauseArgs) { }
     }

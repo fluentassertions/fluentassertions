@@ -2292,6 +2292,7 @@ namespace FluentAssertions.Streams
         where TAssertions : FluentAssertions.Streams.BufferedStreamAssertions<TAssertions>
     {
         public BufferedStreamAssertions(System.IO.BufferedStream stream) { }
+        protected override string Identifier { get; }
     }
     public class StreamAssertions : FluentAssertions.Streams.StreamAssertions<System.IO.Stream, FluentAssertions.Streams.StreamAssertions>
     {
