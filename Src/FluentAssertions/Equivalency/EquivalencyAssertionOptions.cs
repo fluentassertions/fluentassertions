@@ -46,7 +46,9 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public EquivalencyAssertionOptionsBuilder<TExpectation, TNext> Excluding<TNext>(Expression<Func<TExpectation, IEnumerable<TNext>>> expression)
         {
-            return new EquivalencyAssertionOptionsBuilder<TExpectation, TNext>(this);
+            var selectionRule = new ExcludeMemberByPathSelectionRule(expression.GetMemberPath());
+            AddSelectionRule(selectionRule);
+            return new EquivalencyAssertionOptionsBuilder<TExpectation, TNext>(this, selectionRule);
         }
 
         /// <summary>
