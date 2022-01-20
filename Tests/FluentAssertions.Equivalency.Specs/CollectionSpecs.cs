@@ -595,8 +595,8 @@ namespace FluentAssertions.Equivalency.Specs
                         },
                         new
                         {
-                            Number = 2,
-                            Text = "Expected"
+                            Number = 3,
+                            Text = "Actual"
                         }
                     }
                 }
@@ -604,7 +604,7 @@ namespace FluentAssertions.Equivalency.Specs
 
             Action act = () => subject.Should().BeEquivalentTo(expected,
                 options => options
-                    .Excluding(x => x.Level.Collection).ThenExcluding(x => x.Text)
+                    .Excluding(x => x.Level.Collection).ThenExcluding(x => x.Number)
                 );
 
             act.Should().NotThrow();
