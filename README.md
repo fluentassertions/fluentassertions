@@ -13,8 +13,8 @@ See https://www.fluentassertions.com for [background information](https://fluent
 Originally authored by Dennis Doomen with Jonas Nyrup as the productive side-kick. Notable contributions were provided by Artur Krajewski, Lukas Grützmacher and David Omid.
 
 # How do I build this?
-Install Visual Studio 2019 16.9+ or JetBrains Rider 2017.1 and Build Tools 2017 and run.
-You will also need to have .NET Framework 4.7 SDK and .NET 5.0 SDK installed - check [global.json](global.json) for the current minimum required version.
+Install Visual Studio 2019 16.9+ or JetBrains Rider 2021.1.0 as well as the Build Tools 2019 (including the Universal Windows Platform build tools).
+You will also need to have .NET Framework 4.7 SDK and .NET 5.0 SDK installed. Check [global.json](global.json) for the current minimum required version.
 
 # What are these Approval.Tests?
 This is a special set of tests that use the [Verify](https://github.com/VerifyTests/Verify) project to verify whether you've introduced any breaking changes in the public API of the library.
