@@ -21,6 +21,7 @@ sidebar:
 * `OccurredEvent` ordering on monitored object is now done via thread-safe counter - [#1773](https://github.com/fluentassertions/fluentassertions/pull/1773)
 * Avoid a `NullReferenceException` when testing an application compiled with .NET Native - [#1776](https://github.com/fluentassertions/fluentassertions/pull/1776)
 * `[Not]Contain(key, value)` for dictionary-like enumerables incorrectly checked if the key was present - [#1786](https://github.com/fluentassertions/fluentassertions/pull/1786)
+* Avoid throwing a `FormatException` when caller name determination returns an unformattable string - [#1788](https://github.com/fluentassertions/fluentassertions/pull/1788)
 
 ## 6.3.0
 
