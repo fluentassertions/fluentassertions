@@ -10,6 +10,12 @@ sidebar:
 ## Unreleased
 
 ### What's New
+
+### Fixes
+
+## 6.4.0
+
+### What's New
 * Adding `ThatAreStatic()` and `ThatAreNotStatic()` for filtering in method assertions - [#1740](https://github.com/fluentassertions/fluentassertions/pull/1740)
 * Adding new assertions for the `HttpStatusCode` of an `HttpResponseMessage` - [#1737](https://github.com/fluentassertions/fluentassertions/pull/1737)
 * Adding non-generic overloads for `WithInnerExceptionExactly` and `WithInnerException` - [#1769](https://github.com/fluentassertions/fluentassertions/pull/1769)
