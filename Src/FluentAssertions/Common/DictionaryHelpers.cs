@@ -58,9 +58,17 @@ namespace FluentAssertions.Common
             static bool TryGetValue(TCollection collection, TKey key, out TValue value)
             {
                 Func<TKey, TKey, bool> areSameOrEqual = ObjectExtensions.GetComparer<TKey>();
-                KeyValuePair<TKey, TValue> matchingPair = collection.FirstOrDefault(kvp => areSameOrEqual(kvp.Key, key));
-                value = matchingPair.Value;
-                return matchingPair.Equals(default(KeyValuePair<TKey, TValue>));
+                foreach (var kvp in collection)
+                {
+                    if (areSameOrEqual(kvp.Key, key))
+                    {
+                        value = kvp.Value;
+                        return true;
+                    }
+                }
+
+                value = default;
+                return false;
             }
         }
 
