@@ -91,7 +91,14 @@ namespace FluentAssertions.Execution
         {
             string[] values = failureArgs.Select(a => Formatter.ToString(a, formattingOptions)).ToArray();
 
-            return string.Format(CultureInfo.InvariantCulture, failureMessage, values);
+            try
+            {
+                return string.Format(CultureInfo.InvariantCulture, failureMessage, values);
+            }
+            catch (FormatException formatException)
+            {
+                return $"**WARNING** failure message '{failureMessage}' could not be formatted with string.Format{Environment.NewLine}{formatException.StackTrace}";
+            }
         }
 
         private string SanitizeReason(string reason)
