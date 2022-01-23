@@ -1970,5 +1970,37 @@ namespace FluentAssertions.Specs.Collections
         }
 
         #endregion
+
+        #region SatisfyAll
+
+        [Fact]
+        public void When_string_collection_satisfies_SatisfyAll_it_should_succeed()
+        {
+            // Arrange
+            string[] collection = new[] { "John", "John" };
+
+            // Act / Assert
+            collection.Should().SatisfyAll(value => value.Should().Be("John"));
+        }
+
+        [Fact]
+        public void When_string_collection_does_not_satisfy_SatisfyAll_it_should_throw()
+        {
+            // Arrange
+            string[] collection = new[] { "Jack", "Jessica" };
+
+            // Act
+            Action act = () => collection.Should().SatisfyAll(
+                value => value.Should().Be("John"),
+                "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection to contain only items satisfying the inspector because we want to test the failure message:"
+                + "*John*Jack"
+                + "*John*Jessica*");
+        }
+
+        #endregion
     }
 }

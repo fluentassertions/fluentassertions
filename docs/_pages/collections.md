@@ -190,6 +190,23 @@ collection.Should().SatisfyRespectively(
     });
 ```
 
+If you need to perform the same assertion on all elements of a collection:
+
+```csharp
+var collection = new []
+{
+    new { Id = 1, Name = "John", Attributes = new string[] { } },
+    new { Id = 2, Name = "Jane", Attributes = new string[] { "attr" } }
+};
+collection.Should().SatisfyAll(
+    x =>
+    {
+        x.Id.Should().BePositive();
+        x.Name.Should().StartWith("J");
+        x.Attributes.Should().NotBeNull();
+    });
+```
+
 If you need to perform individual assertions on all elements of a collection without setting expectation about the order of elements:
 
 ```csharp
