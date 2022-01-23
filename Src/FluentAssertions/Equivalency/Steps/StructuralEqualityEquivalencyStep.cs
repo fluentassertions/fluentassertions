@@ -62,6 +62,13 @@ namespace FluentAssertions.Equivalency.Steps
                     CompileTimeType = selectedMember.Type
                 };
 
+                if (selectedMember.Name != matchingMember.Name)
+                {
+                    // In case the matching process selected a different member on the subject,
+                    // adjust the current member so that assertion failures report the proper name.
+                    selectedMember.Name = matchingMember.Name;
+                }
+
                 parent.RecursivelyAssertEquality(nestedComparands, context.AsNestedMember(selectedMember));
             }
         }

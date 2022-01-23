@@ -749,6 +749,10 @@ namespace FluentAssertions.Equivalency
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<System.Collections.Generic.IEnumerable<TExpectation>> AsCollection() { }
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> Excluding(System.Linq.Expressions.Expression<System.Func<TExpectation, object>> expression) { }
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> Including(System.Linq.Expressions.Expression<System.Func<TExpectation, object>> expression) { }
+        public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> WithMapping(string expectationMemberPath, string subjectMemberPath) { }
+        public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> WithMapping<TSubject>(System.Linq.Expressions.Expression<System.Func<TExpectation, object>> expectationMemberPath, System.Linq.Expressions.Expression<System.Func<TSubject, object>> subjectMemberPath) { }
+        public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> WithMapping<TNestedExpectation, TNestedSubject>(System.Linq.Expressions.Expression<System.Func<TNestedExpectation, object>> expectationMember, System.Linq.Expressions.Expression<System.Func<TNestedSubject, object>> subjectMember) { }
+        public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> WithMapping<TNestedExpectation, TNestedSubject>(string expectationMemberName, string subjectMemberName) { }
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> WithStrictOrderingFor(System.Linq.Expressions.Expression<System.Func<TExpectation, object>> expression) { }
     }
     public enum EquivalencyResult
@@ -873,7 +877,7 @@ namespace FluentAssertions.Equivalency
         string Description { get; }
         FluentAssertions.Equivalency.GetSubjectId GetSubjectId { get; }
         bool IsRoot { get; }
-        string Name { get; }
+        string Name { get; set; }
         string Path { get; }
         string PathAndName { get; }
         bool RootIsCollection { get; }
@@ -961,6 +965,7 @@ namespace FluentAssertions.Equivalency
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         protected FluentAssertions.Equivalency.OrderingRuleCollection OrderingRules { get; }
         public FluentAssertions.Equivalency.Tracing.ITraceWriter TraceWriter { get; }
+        protected TSelf AddMatchingRule(FluentAssertions.Equivalency.IMemberMatchingRule matchingRule) { }
         protected TSelf AddSelectionRule(FluentAssertions.Equivalency.IMemberSelectionRule selectionRule) { }
         public TSelf AllowingInfiniteRecursion() { }
         public TSelf ComparingByMembers(System.Type type) { }

@@ -21,7 +21,7 @@ namespace FluentAssertions.Equivalency
 
         public string PathAndName => Path.Combine(Name);
 
-        public string Name { get; protected set; }
+        public string Name { get; set; }
 
         public virtual string Description => $"{GetSubjectId().Combine(PathAndName)}";
 
