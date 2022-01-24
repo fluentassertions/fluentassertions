@@ -1,6 +1,5 @@
 ﻿using System;
 using FluentAssertions.Common;
-using FluentAssertions.Specs.Equivalency;
 using Xunit;
 using Xunit.Sdk;
 
@@ -45,7 +44,7 @@ namespace FluentAssertions.Specs.Types
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected method *.ClassWithNoMembers.NonExistentMethod(*.Int32, *.Type) to exist *failure message*" +
+                    "Expected method *ClassWithNoMembers.NonExistentMethod(*.Int32, *.Type) to exist *failure message*" +
                     ", but it does not.");
         }
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using FluentAssertions.Common;
-using FluentAssertions.Specs.Equivalency;
 using Xunit;
 using Xunit.Sdk;
 
@@ -43,7 +42,7 @@ namespace FluentAssertions.Specs.Types
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected String *.ClassWithNoMembers.PublicProperty to exist *failure message*, but it does not.");
+                .WithMessage("Expected String *ClassWithNoMembers.PublicProperty to exist *failure message*, but it does not.");
         }
 
         [Fact]

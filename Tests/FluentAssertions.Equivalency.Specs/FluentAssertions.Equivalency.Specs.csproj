@@ -8,7 +8,6 @@
     <AssemblyOriginatorKeyFile>..\..\Src\FluentAssertions\FluentAssertions.snk</AssemblyOriginatorKeyFile>
     <IsPackable>false</IsPackable>
     <CodeAnalysisRuleSet>..\..\TestRules.ruleset</CodeAnalysisRuleSet>
-    <!-- https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA0001.md -->
     <NoWarn>$(NoWarn),IDE0052,1573,1591,1712</NoWarn>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>

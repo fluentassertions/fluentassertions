@@ -2,9 +2,9 @@
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Equivalency
+namespace FluentAssertions.Equivalency.Specs
 {
-    public class BasicNonEquivalencySpecs
+    public class NonEquivalencySpecs
     {
         [Fact]
         public void When_asserting_inequivalence_of_equal_ints_as_object_it_should_fail()

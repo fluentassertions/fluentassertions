@@ -1,8 +1,7 @@
-﻿using FluentAssertions.Equivalency;
-using FluentAssertions.Equivalency.Execution;
+﻿using FluentAssertions.Equivalency.Execution;
 using Xunit;
 
-namespace FluentAssertions.Specs.Equivalency
+namespace FluentAssertions.Equivalency.Specs
 {
     public class ObjectReferenceSpecs
     {

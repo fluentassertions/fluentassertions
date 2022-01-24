@@ -1,6 +1,5 @@
 ﻿using System;
 using FluentAssertions.Execution;
-using FluentAssertions.Specs.Equivalency;
 using Xunit;
 using Xunit.Sdk;
 

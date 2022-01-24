@@ -4,15 +4,13 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FluentAssertions.Equivalency;
 using FluentAssertions.Extensions;
-using FluentAssertions.Specs.Primitives;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Equivalency
+namespace FluentAssertions.Equivalency.Specs
 {
-    public class CollectionEquivalencySpecs
+    public class CollectionSpecs
     {
         public interface IInterface
         {
@@ -38,7 +36,7 @@ namespace FluentAssertions.Specs.Equivalency
             public override bool Equals(object obj)
             {
                 return obj is SubDummy subDummy
-                    && Id == subDummy.Id;
+                       && Id == subDummy.Id;
             }
 
             public override int GetHashCode()
@@ -277,18 +275,13 @@ namespace FluentAssertions.Specs.Equivalency
         }
 
         [Fact]
-        public void When_a_collection_property_is_a_byte_array_which_does_not_match_strictly_and_order_is_not_strict_it_should_throw()
+        public void
+            When_a_collection_property_is_a_byte_array_which_does_not_match_strictly_and_order_is_not_strict_it_should_throw()
         {
             // Arrange
-            var subject = new
-            {
-                bytes = new byte[] { 1, 2, 3, 4, 5, 6 }
-            };
+            var subject = new { bytes = new byte[] { 1, 2, 3, 4, 5, 6 } };
 
-            var expectation = new
-            {
-                bytes = new byte[] { 6, 5, 4, 3, 2, 1 }
-            };
+            var expectation = new { bytes = new byte[] { 6, 5, 4, 3, 2, 1 } };
 
             // Act
             Action action = () => subject.Should().BeEquivalentTo(expectation, options => options.WithoutStrictOrdering());
@@ -336,10 +329,7 @@ namespace FluentAssertions.Specs.Equivalency
         public void When_a_nullable_collection_does_not_match_it_should_throw()
         {
             // Arrange
-            var subject = new
-            {
-                Values = (ImmutableArray<int>?)ImmutableArray.Create<int>(1, 2, 3)
-            };
+            var subject = new { Values = (ImmutableArray<int>?)ImmutableArray.Create<int>(1, 2, 3) };
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(new
@@ -352,33 +342,20 @@ namespace FluentAssertions.Specs.Equivalency
         }
 
         [Fact]
-        public void When_a_collection_contains_a_reference_to_an_object_that_is_also_in_its_parent_it_should_not_be_treated_as_a_cyclic_reference()
+        public void
+            When_a_collection_contains_a_reference_to_an_object_that_is_also_in_its_parent_it_should_not_be_treated_as_a_cyclic_reference()
         {
             // Arrange
-            var logbook = new BasicEquivalencySpecs.LogbookCode("SomeKey");
+            var logbook = new LogbookCode("SomeKey");
 
-            var logbookEntry = new BasicEquivalencySpecs.LogbookEntryProjection
+            var logbookEntry = new LogbookEntryProjection
             {
-                Logbook = logbook,
-                LogbookRelations = new[]
-                {
-                    new BasicEquivalencySpecs.LogbookRelation
-                    {
-                        Logbook = logbook
-                    }
-                }
+                Logbook = logbook, LogbookRelations = new[] { new LogbookRelation { Logbook = logbook } }
             };
 
-            var equivalentLogbookEntry = new BasicEquivalencySpecs.LogbookEntryProjection
+            var equivalentLogbookEntry = new LogbookEntryProjection
             {
-                Logbook = logbook,
-                LogbookRelations = new[]
-                {
-                    new BasicEquivalencySpecs.LogbookRelation
-                    {
-                        Logbook = logbook
-                    }
-                }
+                Logbook = logbook, LogbookRelations = new[] { new LogbookRelation { Logbook = logbook } }
             };
 
             // Act
@@ -398,32 +375,14 @@ namespace FluentAssertions.Specs.Equivalency
             {
                 Customers = new[]
                 {
-                    new Customer
-                    {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "John"
-                    },
-                    new Customer
-                    {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "Jane"
-                    }
+                    new Customer { Age = 38, Birthdate = 20.September(1973), Name = "John" },
+                    new Customer { Age = 38, Birthdate = 20.September(1973), Name = "Jane" }
                 }
             };
 
             var subject = new
             {
-                Customers = new[]
-                {
-                    new CustomerDto
-                    {
-                        Age = 24,
-                        Birthdate = 21.September(1973),
-                        Name = "John"
-                    }
-                }
+                Customers = new[] { new CustomerDto { Age = 24, Birthdate = 21.September(1973), Name = "John" } }
             };
 
             // Act
@@ -439,35 +398,14 @@ namespace FluentAssertions.Specs.Equivalency
         public void When_a_collection_contains_more_items_than_expected_it_should_throw()
         {
             // Arrange
-            var expected = new
-            {
-                Customers = new[]
-                {
-                    new Customer
-                    {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "John"
-                    }
-                }
-            };
+            var expected = new { Customers = new[] { new Customer { Age = 38, Birthdate = 20.September(1973), Name = "John" } } };
 
             var subject = new
             {
                 Customers = new[]
                 {
-                    new CustomerDto
-                    {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "Jane"
-                    },
-                    new CustomerDto
-                    {
-                        Age = 24,
-                        Birthdate = 21.September(1973),
-                        Name = "John"
-                    }
+                    new CustomerDto { Age = 38, Birthdate = 20.September(1973), Name = "Jane" },
+                    new CustomerDto { Age = 24, Birthdate = 21.September(1973), Name = "John" }
                 }
             };
 
@@ -488,18 +426,8 @@ namespace FluentAssertions.Specs.Equivalency
             {
                 Customers = new[]
                 {
-                    new Customer
-                    {
-                        Age = 32,
-                        Birthdate = 31.July(1978),
-                        Name = "Jane"
-                    },
-                    new Customer
-                    {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "John"
-                    }
+                    new Customer { Age = 32, Birthdate = 31.July(1978), Name = "Jane" },
+                    new Customer { Age = 38, Birthdate = 20.September(1973), Name = "John" }
                 }
             };
 
@@ -507,18 +435,8 @@ namespace FluentAssertions.Specs.Equivalency
             {
                 Customers = new[]
                 {
-                    new CustomerDto
-                    {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "John"
-                    },
-                    new CustomerDto
-                    {
-                        Age = 32,
-                        Birthdate = 31.July(1978),
-                        Name = "Jane"
-                    }
+                    new CustomerDto { Age = 38, Birthdate = 20.September(1973), Name = "John" },
+                    new CustomerDto { Age = 32, Birthdate = 31.July(1978), Name = "Jane" }
                 }
             };
 
@@ -533,19 +451,11 @@ namespace FluentAssertions.Specs.Equivalency
         public void When_two_deeply_nested_collections_are_equivalent_while_ignoring_the_order_it_should_not_throw()
         {
             // Arrange
-            var items = new[]
-            {
-                new int[0],
-                new int[] { 42 }
-            };
+            var items = new[] { new int[0], new int[] { 42 } };
 
             // Act / Assert
             items.Should().BeEquivalentTo(
-                new[]
-                {
-                    new int[] { 42 },
-                    new int[0]
-                }
+                new[] { new int[] { 42 }, new int[0] }
             );
         }
 
@@ -553,30 +463,11 @@ namespace FluentAssertions.Specs.Equivalency
         public void When_a_collection_property_contains_objects_with_mismatching_properties_it_should_throw()
         {
             // Arrange
-            var expected = new
-            {
-                Customers = new[]
-                {
-                    new Customer
-                    {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "John"
-                    }
-                }
-            };
+            var expected = new { Customers = new[] { new Customer { Age = 38, Birthdate = 20.September(1973), Name = "John" } } };
 
             var subject = new
             {
-                Customers = new[]
-                {
-                    new CustomerDto
-                    {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "Jane"
-                    }
-                }
+                Customers = new[] { new CustomerDto { Age = 38, Birthdate = 20.September(1973), Name = "Jane" } }
             };
 
             // Act
@@ -603,23 +494,9 @@ namespace FluentAssertions.Specs.Equivalency
         public void When_a_collection_property_was_expected_but_the_property_is_not_a_collection_it_should_throw()
         {
             // Arrange
-            var subject = new
-            {
-                Customers = "Jane, John"
-            };
+            var subject = new { Customers = "Jane, John" };
 
-            var expected = new
-            {
-                Customers = new[]
-                {
-                    new Customer
-                    {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "John"
-                    }
-                }
-            };
+            var expected = new { Customers = new[] { new Customer { Age = 38, Birthdate = 20.September(1973), Name = "John" } } };
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expected);
@@ -634,31 +511,9 @@ namespace FluentAssertions.Specs.Equivalency
         public void When_a_complex_object_graph_with_collections_matches_expectations_it_should_not_throw()
         {
             // Arrange
-            var subject = new
-            {
-                Bytes = new byte[]
-                {
-                    1, 2, 3, 4
-                },
-                Object = new
-                {
-                    A = 1,
-                    B = 2
-                }
-            };
+            var subject = new { Bytes = new byte[] { 1, 2, 3, 4 }, Object = new { A = 1, B = 2 } };
 
-            var expected = new
-            {
-                Bytes = new byte[]
-                {
-                    1, 2, 3, 4
-                },
-                Object = new
-                {
-                    A = 1,
-                    B = 2
-                }
-            };
+            var expected = new { Bytes = new byte[] { 1, 2, 3, 4 }, Object = new { A = 1, B = 2 } };
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expected);
@@ -677,15 +532,8 @@ namespace FluentAssertions.Specs.Equivalency
                 Level = new
                 {
                     Text = "Level1",
-                    Level = new
-                    {
-                        Text = "Level2"
-                    },
-                    Collection = new[]
-                    {
-                        new { Number = 1, Text = "Text" },
-                        new { Number = 2, Text = "Actual" }
-                    }
+                    Level = new { Text = "Level2" },
+                    Collection = new[] { new { Number = 1, Text = "Text" }, new { Number = 2, Text = "Actual" } }
                 }
             };
 
@@ -695,15 +543,8 @@ namespace FluentAssertions.Specs.Equivalency
                 Level = new
                 {
                     Text = "Level1",
-                    Level = new
-                    {
-                        Text = "Level2"
-                    },
-                    Collection = new[]
-                    {
-                        new { Number = 1, Text = "Text" },
-                        new { Number = 2, Text = "Expected" }
-                    }
+                    Level = new { Text = "Level2" },
+                    Collection = new[] { new { Number = 1, Text = "Text" }, new { Number = 2, Text = "Expected" } }
                 }
             };
 
@@ -719,23 +560,9 @@ namespace FluentAssertions.Specs.Equivalency
         public void When_a_dictionary_property_is_detected_it_should_ignore_the_order_of_the_pairs()
         {
             // Arrange
-            var expected = new
-            {
-                Customers = new Dictionary<string, string>
-                {
-                    ["Key2"] = "Value2",
-                    ["Key1"] = "Value1"
-                }
-            };
+            var expected = new { Customers = new Dictionary<string, string> { ["Key2"] = "Value2", ["Key1"] = "Value1" } };
 
-            var subject = new
-            {
-                Customers = new Dictionary<string, string>
-                {
-                    ["Key1"] = "Value1",
-                    ["Key2"] = "Value2"
-                }
-            };
+            var subject = new { Customers = new Dictionary<string, string> { ["Key1"] = "Value1", ["Key2"] = "Value2" } };
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expected);
@@ -760,7 +587,8 @@ namespace FluentAssertions.Specs.Equivalency
         }
 
         [Fact]
-        public void When_a_object_implements_multiple_IEnumerable_interfaces_but_the_declared_type_is_assignable_to_only_one_and_runtime_checking_is_configured_it_should_fail()
+        public void
+            When_a_object_implements_multiple_IEnumerable_interfaces_but_the_declared_type_is_assignable_to_only_one_and_runtime_checking_is_configured_it_should_fail()
         {
             // Arrange
             IEnumerable<string> collection1 = new EnumerableOfStringAndObject();
@@ -779,20 +607,9 @@ namespace FluentAssertions.Specs.Equivalency
         public void When_a_specific_property_is_included_it_should_ignore_the_rest_of_the_properties()
         {
             // Arrange
-            var result = new[]
-            {
-                new
-                {
-                    A = "aaa",
-                    B = "bbb"
-                }
-            };
+            var result = new[] { new { A = "aaa", B = "bbb" } };
 
-            var expected = new
-            {
-                A = "aaa",
-                B = "ccc"
-            };
+            var expected = new { A = "aaa", B = "ccc" };
 
             // Act
             Action act = () => result.Should().BeEquivalentTo(new[] { expected }, options => options.Including(x => x.A));
@@ -802,7 +619,8 @@ namespace FluentAssertions.Specs.Equivalency
         }
 
         [Fact]
-        public void When_a_strongly_typed_collection_is_declared_as_an_untyped_collection_and_runtime_checking_is_configured_is_should_use_the_runtime_type()
+        public void
+            When_a_strongly_typed_collection_is_declared_as_an_untyped_collection_and_runtime_checking_is_configured_is_should_use_the_runtime_type()
         {
             // Arrange
             ICollection collection1 = new List<Car> { new Car() };
@@ -888,7 +706,8 @@ namespace FluentAssertions.Specs.Equivalency
         }
 
         [Fact]
-        public void When_some_strings_in_the_collection_are_not_equal_to_expected_string_for_huge_table_execution_time_should_still_be_short()
+        public void
+            When_some_strings_in_the_collection_are_not_equal_to_expected_string_for_huge_table_execution_time_should_still_be_short()
         {
             // Arrange
             const int N = 100000;
@@ -929,9 +748,7 @@ namespace FluentAssertions.Specs.Equivalency
             // Act
             Action action = () => subject.Should().AllBeEquivalentTo(new
             {
-                Name = "someDto",
-                Age = 1,
-                Birthdate = default(DateTime)
+                Name = "someDto", Age = 1, Birthdate = default(DateTime)
             });
 
             // Assert
@@ -951,12 +768,10 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Act
             Action action = () => subject.Should().AllBeEquivalentTo(new
-            {
-                Name = "someDto",
-                Age = 1,
-                Birthdate = default(DateTime)
-            })
-            .And.HaveCount(3);
+                {
+                    Name = "someDto", Age = 1, Birthdate = default(DateTime)
+                })
+                .And.HaveCount(3);
 
             // Assert
             action.Should().NotThrow();
@@ -992,7 +807,8 @@ namespace FluentAssertions.Specs.Equivalency
         }
 
         [Fact]
-        public void When_some_subject_items_are_not_equivalent_to_expectation_for_huge_table_execution_time_should_still_be_short()
+        public void
+            When_some_subject_items_are_not_equivalent_to_expectation_for_huge_table_execution_time_should_still_be_short()
         {
             // Arrange
             const int N = 100000;
@@ -1020,7 +836,8 @@ namespace FluentAssertions.Specs.Equivalency
         }
 
         [Fact]
-        public void When_an_object_implements_multiple_IEnumerable_interfaces_but_the_declared_type_is_assignable_to_only_one_it_should_respect_the_declared_type()
+        public void
+            When_an_object_implements_multiple_IEnumerable_interfaces_but_the_declared_type_is_assignable_to_only_one_it_should_respect_the_declared_type()
         {
             // Arrange
             IEnumerable<string> collection1 = new EnumerableOfStringAndObject();
@@ -1039,30 +856,14 @@ namespace FluentAssertions.Specs.Equivalency
             // Arrange
             var subject = new[]
             {
-                new
-                {
-                    Name = "John",
-                    UnorderedCollection = new[] { 1, 2, 3, 4, 5 }
-                },
-                new
-                {
-                    Name = "Jane",
-                    UnorderedCollection = new int[0]
-                }
+                new { Name = "John", UnorderedCollection = new[] { 1, 2, 3, 4, 5 } },
+                new { Name = "Jane", UnorderedCollection = new int[0] }
             };
 
             var expectation = new[]
             {
-                new
-                {
-                    Name = "John",
-                    UnorderedCollection = new[] { 5, 4, 3, 2, 1 }
-                },
-                new
-                {
-                    Name = "Jane",
-                    UnorderedCollection = new int[0]
-                }
+                new { Name = "John", UnorderedCollection = new[] { 5, 4, 3, 2, 1 } },
+                new { Name = "Jane", UnorderedCollection = new int[0] }
             };
 
             // Act
@@ -1075,35 +876,20 @@ namespace FluentAssertions.Specs.Equivalency
         }
 
         [Fact]
-        public void When_an_unordered_collection_must_be_strict_using_a_predicate_and_order_was_reset_to_not_strict_it_should_not_throw()
+        public void
+            When_an_unordered_collection_must_be_strict_using_a_predicate_and_order_was_reset_to_not_strict_it_should_not_throw()
         {
             // Arrange
             var subject = new[]
             {
-                new
-                {
-                    Name = "John",
-                    UnorderedCollection = new[] { 1, 2, 3, 4, 5 }
-                },
-                new
-                {
-                    Name = "Jane",
-                    UnorderedCollection = new int[0]
-                }
+                new { Name = "John", UnorderedCollection = new[] { 1, 2, 3, 4, 5 } },
+                new { Name = "Jane", UnorderedCollection = new int[0] }
             };
 
             var expectation = new[]
             {
-                new
-                {
-                    Name = "John",
-                    UnorderedCollection = new[] { 5, 4, 3, 2, 1 }
-                },
-                new
-                {
-                    Name = "Jane",
-                    UnorderedCollection = new int[0]
-                }
+                new { Name = "John", UnorderedCollection = new[] { 5, 4, 3, 2, 1 } },
+                new { Name = "Jane", UnorderedCollection = new int[0] }
             };
 
             // Act
@@ -1122,30 +908,14 @@ namespace FluentAssertions.Specs.Equivalency
             // Arrange
             var subject = new[]
             {
-                new
-                {
-                    Name = "John",
-                    UnorderedCollection = new[] { 1, 2, 3, 4, 5 }
-                },
-                new
-                {
-                    Name = "Jane",
-                    UnorderedCollection = new int[0]
-                }
+                new { Name = "John", UnorderedCollection = new[] { 1, 2, 3, 4, 5 } },
+                new { Name = "Jane", UnorderedCollection = new int[0] }
             };
 
             var expectation = new[]
             {
-                new
-                {
-                    Name = "John",
-                    UnorderedCollection = new[] { 5, 4, 3, 2, 1 }
-                },
-                new
-                {
-                    Name = "Jane",
-                    UnorderedCollection = new int[0]
-                }
+                new { Name = "John", UnorderedCollection = new[] { 5, 4, 3, 2, 1 } },
+                new { Name = "Jane", UnorderedCollection = new int[0] }
             };
 
             // Act
@@ -1163,35 +933,20 @@ namespace FluentAssertions.Specs.Equivalency
         }
 
         [Fact]
-        public void When_an_unordered_collection_must_be_strict_using_an_expression_and_order_is_reset_to_not_strict_it_should_not_throw()
+        public void
+            When_an_unordered_collection_must_be_strict_using_an_expression_and_order_is_reset_to_not_strict_it_should_not_throw()
         {
             // Arrange
             var subject = new[]
             {
-                new
-                {
-                    Name = "John",
-                    UnorderedCollection = new[] { 1, 2, 3, 4, 5 }
-                },
-                new
-                {
-                    Name = "Jane",
-                    UnorderedCollection = new int[0]
-                }
+                new { Name = "John", UnorderedCollection = new[] { 1, 2, 3, 4, 5 } },
+                new { Name = "Jane", UnorderedCollection = new int[0] }
             };
 
             var expectation = new[]
             {
-                new
-                {
-                    Name = "John",
-                    UnorderedCollection = new[] { 5, 4, 3, 2, 1 }
-                },
-                new
-                {
-                    Name = "Jane",
-                    UnorderedCollection = new int[0]
-                }
+                new { Name = "John", UnorderedCollection = new[] { 5, 4, 3, 2, 1 } },
+                new { Name = "Jane", UnorderedCollection = new int[0] }
             };
 
             // Act
@@ -1212,30 +967,14 @@ namespace FluentAssertions.Specs.Equivalency
             // Arrange
             var subject = new[]
             {
-                new
-                {
-                    Name = "John",
-                    UnorderedCollection = new[] { 1, 2, 3, 4, 5 }
-                },
-                new
-                {
-                    Name = "Jane",
-                    UnorderedCollection = new int[0]
-                }
+                new { Name = "John", UnorderedCollection = new[] { 1, 2, 3, 4, 5 } },
+                new { Name = "Jane", UnorderedCollection = new int[0] }
             };
 
             var expectation = new[]
             {
-                new
-                {
-                    Name = "John",
-                    UnorderedCollection = new[] { 5, 4, 3, 2, 1 }
-                },
-                new
-                {
-                    Name = "Jane",
-                    UnorderedCollection = new int[0]
-                }
+                new { Name = "John", UnorderedCollection = new[] { 5, 4, 3, 2, 1 } },
+                new { Name = "Jane", UnorderedCollection = new int[0] }
             };
 
             // Act
@@ -1248,35 +987,20 @@ namespace FluentAssertions.Specs.Equivalency
         }
 
         [Fact]
-        public void When_an_unordered_collection_must_not_be_strict_using_a_predicate_and_order_was_reset_to_strict_it_should_throw()
+        public void
+            When_an_unordered_collection_must_not_be_strict_using_a_predicate_and_order_was_reset_to_strict_it_should_throw()
         {
             // Arrange
             var subject = new[]
             {
-                new
-                {
-                    Name = "John",
-                    UnorderedCollection = new[] { 1, 2 }
-                },
-                new
-                {
-                    Name = "Jane",
-                    UnorderedCollection = new int[0]
-                }
+                new { Name = "John", UnorderedCollection = new[] { 1, 2 } },
+                new { Name = "Jane", UnorderedCollection = new int[0] }
             };
 
             var expectation = new[]
             {
-                new
-                {
-                    Name = "John",
-                    UnorderedCollection = new[] { 2, 1 }
-                },
-                new
-                {
-                    Name = "Jane",
-                    UnorderedCollection = new int[0]
-                }
+                new { Name = "John", UnorderedCollection = new[] { 2, 1 } },
+                new { Name = "Jane", UnorderedCollection = new int[0] }
             };
 
             // Act
@@ -1292,7 +1016,8 @@ namespace FluentAssertions.Specs.Equivalency
         }
 
         [Fact]
-        public void When_asserting_equivalence_of_collections_and_configured_to_use_runtime_properties_it_should_respect_the_runtime_type()
+        public void
+            When_asserting_equivalence_of_collections_and_configured_to_use_runtime_properties_it_should_respect_the_runtime_type()
         {
             // Arrange
             ICollection collection1 = new NonGenericCollection(new[] { new Customer() });
@@ -1343,44 +1068,14 @@ namespace FluentAssertions.Specs.Equivalency
             // Arrange
             var subject = new[]
             {
-                new
-                {
-                    Value = new Customer
-                    {
-                        Name = "John",
-                        Age = 31,
-                        Id = 1
-                    }
-                },
-                new
-                {
-                    Value =new Customer
-                    {
-                        Name = "Jane",
-                        Age = 24,
-                        Id = 2
-                    }
-                }
+                new { Value = new Customer { Name = "John", Age = 31, Id = 1 } },
+                new { Value = new Customer { Name = "Jane", Age = 24, Id = 2 } }
             };
 
             var expectation = new[]
             {
-                new
-                {
-                    Value = new CustomerDto
-                    {
-                        Name = "John",
-                        Age = 30
-                    }
-                },
-                new
-                {
-                    Value = new CustomerDto
-                    {
-                        Name = "Jane",
-                        Age = 24
-                    }
-                }
+                new { Value = new CustomerDto { Name = "John", Age = 30 } },
+                new { Value = new CustomerDto { Name = "Jane", Age = 24 } }
             };
 
             // Act
@@ -1413,22 +1108,12 @@ namespace FluentAssertions.Specs.Equivalency
             // Arrange
             var actual = new MyObject
             {
-                MyString = "identical string",
-                Child = new ClassIdentifiedById
-                {
-                    Id = 1,
-                    MyChildString = "identical string"
-                }
+                MyString = "identical string", Child = new ClassIdentifiedById { Id = 1, MyChildString = "identical string" }
             };
 
             var expectation = new MyObject
             {
-                MyString = "identical string",
-                Child = new ClassIdentifiedById
-                {
-                    Id = 1,
-                    MyChildString = "DIFFERENT STRING"
-                }
+                MyString = "identical string", Child = new ClassIdentifiedById { Id = 1, MyChildString = "DIFFERENT STRING" }
             };
 
             IList<MyObject> actualList = new List<MyObject> { actual };
@@ -1447,34 +1132,12 @@ namespace FluentAssertions.Specs.Equivalency
             // Arrange
             var subject = new List<Customer>
             {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 30,
-                    Id = 2
-                }
+                new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 30, Id = 2 }
             };
 
             var expectation = new List<Customer>
             {
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 30,
-                    Id = 2
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 28,
-                    Id = 1
-                }
+                new Customer { Name = "Jane", Age = 30, Id = 2 }, new Customer { Name = "John", Age = 28, Id = 1 }
             };
 
             // Act
@@ -1492,42 +1155,14 @@ namespace FluentAssertions.Specs.Equivalency
             // Arrange
             var actualObjects = new[]
             {
-                new
-                {
-                    SubObject = new
-                    {
-                        Property1 = "John",
-                        Property2 = "John"
-                    }
-                },
-                new
-                {
-                    SubObject = new
-                    {
-                        Property1 = "John",
-                        Property2 = "John"
-                    }
-                }
+                new { SubObject = new { Property1 = "John", Property2 = "John" } },
+                new { SubObject = new { Property1 = "John", Property2 = "John" } }
             };
 
             var expectedObjects = new[]
             {
-                new
-                {
-                    SubObject = new
-                    {
-                        Property1 = "John",
-                        Property2 = "John"
-                    }
-                },
-                new
-                {
-                    SubObject = new
-                    {
-                        Property1 = "John",
-                        Property2 = "Jane"
-                    }
-                }
+                new { SubObject = new { Property1 = "John", Property2 = "John" } },
+                new { SubObject = new { Property1 = "John", Property2 = "Jane" } }
             };
 
             // Act
@@ -1701,7 +1336,8 @@ namespace FluentAssertions.Specs.Equivalency
             var subject = new List<char> { 'g', 'a' };
 
             // Act
-            Action action = () => subject.Should().AllBeEquivalentTo('g', opt => opt, "we want to test the failure {0}", "message");
+            Action action = () =>
+                subject.Should().AllBeEquivalentTo('g', opt => opt, "we want to test the failure {0}", "message");
 
             // Assert
             action.Should().Throw<XunitException>()
@@ -1742,8 +1378,8 @@ namespace FluentAssertions.Specs.Equivalency
             // Arrange
             var actual = new[,]
             {
-                { 1, 2, 3 },
-                { 4, 5, 6 }
+            { 1, 2, 3 },
+            { 4, 5, 6 }
             };
 
             // Act
@@ -1804,10 +1440,7 @@ namespace FluentAssertions.Specs.Equivalency
                 { 4, 5, 6 }
             };
 
-            var expectation = new[,]
-            {
-                { 1, 2, 3 }
-            };
+            var expectation = new[,] { { 1, 2, 3 } };
 
             // Act
             Action act = () => actual.Should().BeEquivalentTo(expectation);
@@ -1845,7 +1478,7 @@ namespace FluentAssertions.Specs.Equivalency
         public void When_the_number_of_dimensions_of_the_arrays_are_not_the_same_it_should_throw()
         {
             // Arrange
-            var actual = new[, ,]
+            var actual = new[,,]
             {
                 {
                     { 1 },
@@ -1877,22 +1510,9 @@ namespace FluentAssertions.Specs.Equivalency
         public void When_the_other_dictionary_does_not_contain_enough_items_it_should_throw()
         {
             // Arrange
-            var expected = new
-            {
-                Customers = new Dictionary<string, string>
-                {
-                    ["Key1"] = "Value1",
-                    ["Key2"] = "Value2"
-                }
-            };
+            var expected = new { Customers = new Dictionary<string, string> { ["Key1"] = "Value1", ["Key2"] = "Value2" } };
 
-            var subject = new
-            {
-                Customers = new Dictionary<string, string>
-                {
-                    ["Key1"] = "Value1"
-                }
-            };
+            var subject = new { Customers = new Dictionary<string, string> { ["Key1"] = "Value1" } };
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expected);
@@ -1906,19 +1526,9 @@ namespace FluentAssertions.Specs.Equivalency
         public void When_the_other_property_is_not_a_dictionary_it_should_throw()
         {
             // Arrange
-            var expected = new
-            {
-                Customers = "I am a string"
-            };
+            var expected = new { Customers = "I am a string" };
 
-            var subject = new
-            {
-                Customers = new Dictionary<string, string>
-                {
-                    ["Key2"] = "Value2",
-                    ["Key1"] = "Value1"
-                }
-            };
+            var subject = new { Customers = new Dictionary<string, string> { ["Key2"] = "Value2", ["Key1"] = "Value1" } };
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expected);
@@ -1929,7 +1539,8 @@ namespace FluentAssertions.Specs.Equivalency
         }
 
         [Fact]
-        public void When_the_root_object_is_referenced_from_an_object_in_a_nested_collection_it_should_treat_it_as_a_cyclic_reference()
+        public void
+            When_the_root_object_is_referenced_from_an_object_in_a_nested_collection_it_should_treat_it_as_a_cyclic_reference()
         {
             // Arrange
             var company1 = new MyCompany { Name = "Company" };
@@ -1955,30 +1566,11 @@ namespace FluentAssertions.Specs.Equivalency
         public void When_the_subject_contains_less_items_than_expected_it_should_throw()
         {
             // Arrange
-            var subject = new List<Customer>
-            {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                }
-            };
+            var subject = new List<Customer> { new Customer { Name = "John", Age = 27, Id = 1 } };
 
             var expectation = new List<Customer>
             {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
+                new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
             };
 
             // Act
@@ -1997,29 +1589,10 @@ namespace FluentAssertions.Specs.Equivalency
             // Arrange
             var subject = new List<Customer>
             {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
+                new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
             };
 
-            var expectation = new List<Customer>
-            {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                }
-            };
+            var expectation = new List<Customer> { new Customer { Name = "John", Age = 27, Id = 1 } };
 
             // Act
             Action action =
@@ -2037,46 +1610,16 @@ namespace FluentAssertions.Specs.Equivalency
             // Arrange
             var subject = new List<Customer>
             {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
+                new Customer { Name = "John", Age = 27, Id = 1 },
+                new Customer { Name = "John", Age = 27, Id = 1 },
+                new Customer { Name = "Jane", Age = 24, Id = 2 }
             };
 
             var expectation = new List<Customer>
             {
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                }
+                new Customer { Name = "Jane", Age = 24, Id = 2 },
+                new Customer { Name = "John", Age = 27, Id = 1 },
+                new Customer { Name = "John", Age = 27, Id = 1 }
             };
 
             // Act
@@ -2093,34 +1636,12 @@ namespace FluentAssertions.Specs.Equivalency
             // Arrange
             var subject = new List<Customer>
             {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
+                new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
             };
 
             var expectation = new List<Customer>
             {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                }
+                new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "John", Age = 27, Id = 1 }
             };
 
             // Act
@@ -2139,34 +1660,12 @@ namespace FluentAssertions.Specs.Equivalency
             // Arrange
             var subject = new List<Customer>
             {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                }
+                new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "John", Age = 27, Id = 1 }
             };
 
             var expectation = new List<Customer>
             {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
+                new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
             };
 
             // Act
@@ -2184,27 +1683,9 @@ namespace FluentAssertions.Specs.Equivalency
             When_two_collections_have_nested_members_of_the_contained_equivalent_but_not_equal_it_should_not_throw()
         {
             // Arrange
-            var list1 = new[]
-            {
-                new
-                {
-                    Nested = new ClassWithOnlyAProperty
-                    {
-                        Value = 1
-                    }
-                }
-            };
+            var list1 = new[] { new { Nested = new ClassWithOnlyAProperty { Value = 1 } } };
 
-            var list2 = new[]
-            {
-                new
-                {
-                    Nested = new
-                    {
-                        Value = 1
-                    }
-                }
-            };
+            var list2 = new[] { new { Nested = new { Value = 1 } } };
 
             // Act
             Action act = () => list1.Should().BeEquivalentTo(list2, opts => opts);
@@ -2235,19 +1716,12 @@ namespace FluentAssertions.Specs.Equivalency
             When_two_equivalent_dictionaries_are_compared_directly_as_if_it_is_a_collection_it_should_succeed()
         {
             // Arrange
-            var result = new Dictionary<string, int?>
-            {
-                ["C"] = null,
-                ["B"] = 0,
-                ["A"] = 0
-            };
+            var result = new Dictionary<string, int?> { ["C"] = null, ["B"] = 0, ["A"] = 0 };
 
             // Act
             Action act = () => result.Should().BeEquivalentTo(new Dictionary<string, int?>
             {
-                ["A"] = 0,
-                ["B"] = 0,
-                ["C"] = null
+                ["A"] = 0, ["B"] = 0, ["C"] = null
             });
 
             // Assert
@@ -2258,20 +1732,10 @@ namespace FluentAssertions.Specs.Equivalency
         public void When_two_equivalent_dictionaries_are_compared_directly_it_should_succeed()
         {
             // Arrange
-            var result = new Dictionary<string, int>
-            {
-                ["C"] = 0,
-                ["B"] = 0,
-                ["A"] = 0
-            };
+            var result = new Dictionary<string, int> { ["C"] = 0, ["B"] = 0, ["A"] = 0 };
 
             // Act
-            Action act = () => result.Should().BeEquivalentTo(new Dictionary<string, int>
-            {
-                ["A"] = 0,
-                ["B"] = 0,
-                ["C"] = 0
-            });
+            Action act = () => result.Should().BeEquivalentTo(new Dictionary<string, int> { ["A"] = 0, ["B"] = 0, ["C"] = 0 });
 
             // Assert
             act.Should().NotThrow();
@@ -2283,34 +1747,12 @@ namespace FluentAssertions.Specs.Equivalency
             // Arrange
             var subject = new List<Customer>
             {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
+                new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
             };
 
             var expectation = new List<Customer>
             {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 30,
-                    Id = 2
-                }
+                new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 30, Id = 2 }
             };
 
             // Act
@@ -2328,32 +1770,12 @@ namespace FluentAssertions.Specs.Equivalency
             // Arrange
             var subject = new List<Customer>
             {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
+                new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
             };
 
             var expectation = new List<CustomerDto>
             {
-                new CustomerDto
-                {
-                    Name = "John",
-                    Age = 27
-                },
-                new CustomerDto
-                {
-                    Name = "Jane",
-                    Age = 30
-                }
+                new CustomerDto { Name = "John", Age = 27 }, new CustomerDto { Name = "Jane", Age = 30 }
             };
 
             // Act
@@ -2403,7 +1825,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             var expectation = new[,]
             {
-                { 1,  2, 4 },
+                { 1, 2, 4 },
                 { 4, -5, 6 }
             };
 
@@ -2449,21 +1871,9 @@ namespace FluentAssertions.Specs.Equivalency
         public void When_two_nested_dictionaries_contain_null_values_it_should_not_crash()
         {
             // Arrange
-            var projection = new
-            {
-                ReferencedEquipment = new Dictionary<int, string>
-                {
-                    [1] = null
-                }
-            };
+            var projection = new { ReferencedEquipment = new Dictionary<int, string> { [1] = null } };
 
-            var persistedProjection = new
-            {
-                ReferencedEquipment = new Dictionary<int, string>
-                {
-                    [1] = null
-                }
-            };
+            var persistedProjection = new { ReferencedEquipment = new Dictionary<int, string> { [1] = null } };
 
             // Act
             Action act = () => persistedProjection.Should().BeEquivalentTo(projection);
@@ -2496,21 +1906,9 @@ namespace FluentAssertions.Specs.Equivalency
         public void When_two_nested_dictionaries_do_not_match_it_should_throw()
         {
             // Arrange
-            var projection = new
-            {
-                ReferencedEquipment = new Dictionary<int, string>
-                {
-                    [1] = "Bla1"
-                }
-            };
+            var projection = new { ReferencedEquipment = new Dictionary<int, string> { [1] = "Bla1" } };
 
-            var persistedProjection = new
-            {
-                ReferencedEquipment = new Dictionary<int, string>
-                {
-                    [1] = "Bla2"
-                }
-            };
+            var persistedProjection = new { ReferencedEquipment = new Dictionary<int, string> { [1] = "Bla2" } };
 
             // Act
             Action act = () => persistedProjection.Should().BeEquivalentTo(projection);
@@ -2526,34 +1924,12 @@ namespace FluentAssertions.Specs.Equivalency
             // Arrange
             var subject = new List<Customer>
             {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
+                new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
             };
 
             var expectation = new List<Customer>
             {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
+                new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
             };
 
             // Act
@@ -2570,34 +1946,12 @@ namespace FluentAssertions.Specs.Equivalency
             // Arrange
             var subject = new[]
             {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
+                new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
             };
 
             var expectation = new Collection<Customer>
             {
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                }
+                new Customer { Name = "Jane", Age = 24, Id = 2 }, new Customer { Name = "John", Age = 27, Id = 1 }
             };
 
             // Act
@@ -2615,34 +1969,12 @@ namespace FluentAssertions.Specs.Equivalency
             // Arrange
             var subject = new[]
             {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
+                new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
             };
 
             var expectation = new Collection<Customer>
             {
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                }
+                new Customer { Name = "Jane", Age = 24, Id = 2 }, new Customer { Name = "John", Age = 27, Id = 1 }
             };
 
             // Act
@@ -2665,34 +1997,12 @@ namespace FluentAssertions.Specs.Equivalency
             // Arrange
             var subject = new[]
             {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
+                new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
             };
 
             var expectation = new Collection<Customer>
             {
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                }
+                new Customer { Name = "Jane", Age = 24, Id = 2 }, new Customer { Name = "John", Age = 27, Id = 1 }
             };
 
             // Act
@@ -2709,34 +2019,12 @@ namespace FluentAssertions.Specs.Equivalency
             // Arrange
             var subject = new[]
             {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
+                new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
             };
 
             var expectation = new Collection<Customer>
             {
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                }
+                new Customer { Name = "Jane", Age = 24, Id = 2 }, new Customer { Name = "John", Age = 27, Id = 1 }
             };
 
             // Act
@@ -2791,7 +2079,8 @@ namespace FluentAssertions.Specs.Equivalency
 
         [Theory]
         [MemberData(nameof(ArrayTestData))]
-        public void When_two_unordered_lists_contain_empty_objects_they_should_still_be_structurally_equivalent<TActual, TExpected>(TActual[] actual, TExpected[] expected)
+        public void When_two_unordered_lists_contain_empty_objects_they_should_still_be_structurally_equivalent<TActual,
+            TExpected>(TActual[] actual, TExpected[] expected)
         {
             // Act
             Action act = () => actual.Should().BeEquivalentTo(expected);
@@ -2807,7 +2096,8 @@ namespace FluentAssertions.Specs.Equivalency
             var genericCollectionA = new List<ExceptionThrowingClass>() { new ExceptionThrowingClass() };
             var genericCollectionB = new List<ExceptionThrowingClass>() { new ExceptionThrowingClass() };
 
-            var expectedTargetSite = typeof(ExceptionThrowingClass).GetProperty(nameof(ExceptionThrowingClass.ExceptionThrowingProperty)).GetMethod;
+            var expectedTargetSite = typeof(ExceptionThrowingClass)
+                .GetProperty(nameof(ExceptionThrowingClass.ExceptionThrowingProperty)).GetMethod;
 
             // Act
             Action act = () => genericCollectionA.Should().BeEquivalentTo(genericCollectionB);
@@ -2820,15 +2110,12 @@ namespace FluentAssertions.Specs.Equivalency
         {
             var arrays = new object[]
             {
-                new int?[] { null, 1 },
-                new int?[] { 1, null },
-                new object[] { null, 1 },
-                new object[] { 1, null }
+                new int?[] { null, 1 }, new int?[] { 1, null }, new object[] { null, 1 }, new object[] { 1, null }
             };
 
             return from x in arrays
-                   from y in arrays
-                   select new object[] { x, y };
+                from y in arrays
+                select new object[] { x, y };
         }
 
         [Fact]
@@ -2901,6 +2188,28 @@ namespace FluentAssertions.Specs.Equivalency
             public string Value11 { get; set; }
 
             public string Value12 { get; set; }
+        }
+
+        private class LogbookEntryProjection
+        {
+            public virtual LogbookCode Logbook { get; set; }
+
+            public virtual ICollection<LogbookRelation> LogbookRelations { get; set; }
+        }
+
+        private class LogbookRelation
+        {
+            public virtual LogbookCode Logbook { get; set; }
+        }
+
+        private class LogbookCode
+        {
+            public LogbookCode(string key)
+            {
+                Key = key;
+            }
+
+            public string Key { get; protected set; }
         }
     }
 }
