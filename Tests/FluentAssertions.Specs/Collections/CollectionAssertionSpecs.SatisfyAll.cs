@@ -31,7 +31,7 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
-        public void When_collection_which_is_asserting_SatisfyAll_against_inspectors_is_null_it_should_throw()
+        public void When_collection_which_is_asserting_SatisfyAll_against_inspector_is_null_it_should_throw()
         {
             // Arrange
             IEnumerable<int> collection = null;
@@ -51,7 +51,7 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
-        public void When_collection_which_is_asserting_SatisfyAll_against_inspectors_is_empty_it_should_throw()
+        public void When_collection_which_is_asserting_SatisfyAll_against_inspector_is_empty_it_should_throw()
         {
             // Arrange
             var collection = Enumerable.Empty<int>();
@@ -68,7 +68,7 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
-        public void When_asserting_SatisfyAll_collection_satisfies_all_inspectors_it_should_succeed()
+        public void When_asserting_SatisfyAll_collection_with_all_items_satisfying_inspector_it_should_succeed()
         {
             // Arrange
             var collection = new[] { new Customer { Age = 21, Name = "John" }, new Customer { Age = 21, Name = "Jane" } };
@@ -78,7 +78,7 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
-        public void When_asserting_SatisfyAll_collection_does_not_satisfy_any_inspector_it_should_throw()
+        public void When_asserting_SatisfyAll_collection_does_not_satisfy_inspector_it_should_throw()
         {
             // Arrange
             var customers = new[]

@@ -2676,7 +2676,7 @@ namespace FluentAssertions.Collections
         /// the criteria provided by the inspector.
         /// </summary>
         /// <param name="expected">
-        /// The element inspector, which inspect each element in turn.
+        /// The element inspector, which inspects each element in turn.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
