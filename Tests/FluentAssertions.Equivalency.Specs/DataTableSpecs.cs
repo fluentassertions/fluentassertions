@@ -2,20 +2,13 @@
 using System.Data;
 using System.Globalization;
 using System.Linq;
-
 using FluentAssertions.Data;
-
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Equivalency.Specs
 {
-    /// <summary>
-    /// DataTableEquivalency specs.
-    /// </summary>
-    public partial class DataEquivalencySpecs
-    {
-        public class DataTableEquivalencySpecs : DataEquivalencySpecs
+        public class DataTableSpecs : DataSpecs
         {
             [Fact]
             public void When_DataTables_are_identical_it_should_succeed()
@@ -704,4 +697,3 @@ namespace FluentAssertions.Specs
             }
         }
     }
-}

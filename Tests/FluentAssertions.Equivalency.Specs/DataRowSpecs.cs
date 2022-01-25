@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Data;
-
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Equivalency.Specs
 {
-    /// <summary>
-    /// DataRowEquivalency specs.
-    /// </summary>
-    public partial class DataEquivalencySpecs
-    {
-        public class DataRowEquivalencySpecs
+        public class DataRowSpecs : DataSpecs
         {
             [Fact]
             public void When_DataRows_are_identical_it_should_succeed()
@@ -336,4 +330,3 @@ namespace FluentAssertions.Specs
             }
         }
     }
-}

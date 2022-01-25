@@ -20,10 +20,6 @@
     <RunAnalyzers>false</RunAnalyzers>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0' ">
-    <Compile Remove="Events\*.cs" />
-  </ItemGroup>
-
   <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
     <!--
       (SRCU = System.Runtime.CompilerServices.Unsafe)
@@ -79,8 +75,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Src\FluentAssertions\FluentAssertions.csproj" />
-    <ProjectReference Include="..\AssemblyA\AssemblyA.csproj" />
-    <ProjectReference Include="..\AssemblyB\AssemblyB.csproj" />
   </ItemGroup>
-
 </Project>

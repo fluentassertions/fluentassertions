@@ -9,9 +9,9 @@ using Newtonsoft.Json;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Equivalency
+namespace FluentAssertions.Equivalency.Specs
 {
-    public class DictionaryEquivalencySpecs
+    public class DictionarySpecs
     {
         private class NonGenericDictionary : IDictionary
         {
@@ -928,7 +928,7 @@ namespace FluentAssertions.Specs.Equivalency
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected dictionary2 to be a dictionary or collection of key-value pairs that is keyed to type FluentAssertions.Specs.Equivalency.DictionaryEquivalencySpecs+SomeBaseKeyClass.*");
+                .WithMessage("Expected dictionary2 to be a dictionary or collection of key-value pairs that is keyed to type FluentAssertions.Equivalency.Specs.DictionarySpecs+SomeBaseKeyClass.*");
         }
 
         [Fact]

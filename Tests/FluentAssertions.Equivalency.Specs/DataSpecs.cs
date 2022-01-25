@@ -5,12 +5,12 @@ using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Equivalency.Specs
 {
     /// <summary>
     /// Class containing specs related to System.Data, including many common declarations and methods.
     /// </summary>
-    public partial class DataEquivalencySpecs
+    public class DataSpecs
     {
         // Non-static member to avoid getting flagged as a "static holder type". This
         // type is inherited by the specialized specs classes it contains.
@@ -365,12 +365,12 @@ namespace FluentAssertions.Specs
                 SchemaSerializationMode = copyFrom.SchemaSerializationMode;
 
                 CopyTable<TypedDataTable1, TypedDataRow1>(
-                    from: copyFrom.TypedDataTable1,
+                    @from: copyFrom.TypedDataTable1,
                     to: TypedDataTable1,
                     randomizeRowOrder);
 
                 CopyTable<TypedDataTable2, TypedDataRow2>(
-                    from: copyFrom.TypedDataTable2,
+                    @from: copyFrom.TypedDataTable2,
                     to: TypedDataTable2,
                     randomizeRowOrder);
 
@@ -433,7 +433,7 @@ namespace FluentAssertions.Specs
 
         private static readonly Random Random = new Random();
 
-        private static TDataSet CreateDummyDataSet<TDataSet>(bool identicalTables = false, bool includeDummyData = true, bool includeRelation = true)
+        internal static TDataSet CreateDummyDataSet<TDataSet>(bool identicalTables = false, bool includeDummyData = true, bool includeRelation = true)
             where TDataSet : TypedDataSet, new()
         {
             var ret = new TDataSet();
@@ -495,7 +495,7 @@ namespace FluentAssertions.Specs
             return ret;
         }
 
-        private static void AddRelation(TypedDataSet dataSet)
+        protected static void AddRelation(TypedDataSet dataSet)
         {
             var relation = new DataRelation("TestRelation", dataSet.TypedDataTable1.RowIDColumn, dataSet.TypedDataTable2.ForeignRowIDColumn);
 
@@ -582,7 +582,7 @@ namespace FluentAssertions.Specs
                 (changeType, acceptChanges) => new object[] { changeType, acceptChanges });
 
         [SuppressMessage("Style", "IDE0010:Add missing cases", Justification = "Every enum value is covered")]
-        private static void ApplyChange(DataColumnCollection columns, ChangeType changeType)
+        protected static void ApplyChange(DataColumnCollection columns, ChangeType changeType)
         {
             switch (changeType)
             {
@@ -599,7 +599,7 @@ namespace FluentAssertions.Specs
         }
 
         [SuppressMessage("Style", "IDE0010:Add missing cases", Justification = "Every enum value is covered")]
-        private static void ApplyChange(PropertyCollection extendedProperties, ChangeType changeType)
+        protected static void ApplyChange(PropertyCollection extendedProperties, ChangeType changeType)
         {
             switch (changeType)
             {
@@ -616,7 +616,7 @@ namespace FluentAssertions.Specs
         }
 
         [SuppressMessage("Style", "IDE0010:Add missing cases", Justification = "Every enum value is covered")]
-        private static void ApplyChange(ConstraintCollection constraints, DataColumn columnForNewConstraint, ChangeType changeType)
+        protected static void ApplyChange(ConstraintCollection constraints, DataColumn columnForNewConstraint, ChangeType changeType)
         {
             switch (changeType)
             {
@@ -636,7 +636,7 @@ namespace FluentAssertions.Specs
         }
 
         [SuppressMessage("Style", "IDE0010:Add missing cases", Justification = "Every enum value is covered")]
-        private static void ApplyChange(DataRowCollection rows, DataTable dataTable, ChangeType changeType)
+        protected static void ApplyChange(DataRowCollection rows, DataTable dataTable, ChangeType changeType)
         {
             switch (changeType)
             {

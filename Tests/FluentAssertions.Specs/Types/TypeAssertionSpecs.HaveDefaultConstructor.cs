@@ -1,6 +1,5 @@
 ﻿using System;
 using FluentAssertions.Common;
-using FluentAssertions.Specs.Equivalency;
 using Xunit;
 using Xunit.Sdk;
 
@@ -81,7 +80,7 @@ namespace FluentAssertions.Specs.Types
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected constructor *.ClassWithCctorAndNonDefaultConstructor() to exist *failure message*" +
+                    "Expected constructor *ClassWithCctorAndNonDefaultConstructor() to exist *failure message*" +
                     ", but it does not.");
         }
 
@@ -147,7 +146,7 @@ namespace FluentAssertions.Specs.Types
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected constructor *.ClassWithCctor*() not to exist *failure message*, but it does.");
+                .WithMessage("Expected constructor *ClassWithCctor*() not to exist *failure message*, but it does.");
         }
 
         [Fact]
@@ -180,5 +179,21 @@ namespace FluentAssertions.Specs.Types
         }
 
         #endregion
+
+        internal class ClassWithNoMembers
+        {
+        }
+
+        internal class ClassWithCctor
+        {
+            static ClassWithCctor() { }
+        }
+
+        internal class ClassWithCctorAndNonDefaultConstructor
+        {
+            static ClassWithCctorAndNonDefaultConstructor() { }
+
+            public ClassWithCctorAndNonDefaultConstructor(int _) { }
+        }
     }
 }
