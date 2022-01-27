@@ -2686,27 +2686,29 @@ namespace FluentAssertions.Collections
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <c>null</c>.</exception>
-        public AndConstraint<TAssertions> SatisfyAll(Action<T> expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> AllSatisfy(Action<T> expected, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify against a <null> inspector");
 
-            bool success = Execute.Assertion
-                                  .BecauseOf(because, becauseArgs)
-                                  .WithExpectation("Expected {context:collection} to contain only items satisfying the inspector{reason}, ")
-                                  .Given(() => Subject)
-                                  .ForCondition(subject => subject is not null)
-                                  .FailWith("but collection is <null>.")
-                                  .Then
-                                  .ForCondition(subject => subject.Any())
-                                  .FailWith("but collection is empty.");
+            Execute.Assertion
+                   .BecauseOf(because, becauseArgs)
+                   .WithExpectation("Expected {context:collection} to contain only items satisfying the inspector{reason}, ")
+                   .Given(() => Subject)
+                   .ForCondition(subject => subject is not null)
+                   .FailWith("but collection is <null>.")
+                   .Then
+                   .ForCondition(subject => subject.Any())
+                   .FailWith("but collection is empty.")
+                   .Then
+                   .ClearExpectation();
 
-            if (success)
+            if (true)
             {
                 string[] failuresFromInspectors;
 
                 using (CallerIdentifier.OverrideStackSearchUsingCurrentScope())
                 {
-                    var elementInspectors = Subject.Select(_=>expected);
+                    var elementInspectors = Subject.Select(_ => expected);
                     failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
                 }
 

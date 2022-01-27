@@ -16,13 +16,13 @@ namespace FluentAssertions.Specs.Collections
         #region Satisfy All
 
         [Fact]
-        public void When_collection_asserting_SatisfyAll_against_null_inspector_it_should_throw_with_clear_explanation()
+        public void When_collection_asserting_against_null_inspector_it_should_throw_with_clear_explanation()
         {
             // Arrange
             IEnumerable<int> collection = new[] { 1, 2 };
 
             // Act
-            Action act = () => collection.Should().SatisfyAll(null);
+            Action act = () => collection.Should().AllSatisfy(null);
 
             // Assert
             act.Should()
@@ -31,7 +31,7 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
-        public void When_collection_which_is_asserting_SatisfyAll_against_inspector_is_null_it_should_throw()
+        public void When_collection_which_is_asserting_against_inspector_is_null_it_should_throw()
         {
             // Arrange
             IEnumerable<int> collection = null;
@@ -40,7 +40,7 @@ namespace FluentAssertions.Specs.Collections
             Action act = () =>
             {
                 using var _ = new AssertionScope();
-                collection.Should().SatisfyAll(x => x.Should().Be(1), "because we want to test the failure {0}", "message");
+                collection.Should().AllSatisfy(x => x.Should().Be(1), "because we want to test the failure {0}", "message");
             };
 
             // Assert
@@ -51,14 +51,14 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
-        public void When_collection_which_is_asserting_SatisfyAll_against_inspector_is_empty_it_should_throw()
+        public void When_collection_asserting_against_inspector_is_empty_it_should_throw()
         {
             // Arrange
             var collection = Enumerable.Empty<int>();
 
             // Act
             Action act = ()
-                => collection.Should().SatisfyAll(x => x.Should().Be(1), "because we want to test the failure {0}", "message");
+                => collection.Should().AllSatisfy(x => x.Should().Be(1), "because we want to test the failure {0}", "message");
 
             // Assert
             act.Should()
@@ -68,17 +68,17 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
-        public void When_asserting_SatisfyAll_collection_with_all_items_satisfying_inspector_it_should_succeed()
+        public void When_collection_asserting_with_all_items_satisfying_inspector_it_should_succeed()
         {
             // Arrange
             var collection = new[] { new Customer { Age = 21, Name = "John" }, new Customer { Age = 21, Name = "Jane" } };
 
             // Act / Assert
-            collection.Should().SatisfyAll(x => x.Age.Should().Be(21));
+            collection.Should().AllSatisfy(x => x.Age.Should().Be(21));
         }
 
         [Fact]
-        public void When_asserting_SatisfyAll_collection_does_not_satisfy_inspector_it_should_throw()
+        public void When_collection_asserting_with_any_item_that_does_not_satisfy_inspector_it_should_throw()
         {
             // Arrange
             var customers = new[]
@@ -89,12 +89,12 @@ namespace FluentAssertions.Specs.Collections
 
             // Act
             Action act = () => customers.Should()
-                                        .SatisfyAll(
+                                        .AllSatisfy(
                                             customer =>
                                             {
                                                 customer.Age.Should().BeLessThan(21);
                                                 customer.Items.Should()
-                                                        .SatisfyAll(item => item.Should().Be(4));
+                                                        .AllSatisfy(item => item.Should().Be(3));
                                             },
                                             "because we want to test {0}",
                                             "nested assertions");
@@ -108,25 +108,22 @@ namespace FluentAssertions.Specs.Collections
 *Expected customer.Age to be less than 21, but found 21
 *Expected customer.Items to contain only items satisfying the inspector:
 *At index 0:
-*Expected item to be 4, but found 1
+*Expected item to be 3, but found 1
 *At index 1:
-*Expected item to be 4, but found 2
+*Expected item to be 3, but found 2
 *At index 1:
-*Expected customer.Age to be less than 21, but found 22
-*Expected customer.Items to contain only items satisfying the inspector:
-*At index 0:
-*Expected item to be 4, but found 3"
+*Expected customer.Age to be less than 21, but found 22"
                );
         }
 
         [Fact]
-        public void When_SatisfyAll_inspector_message_is_not_reformatable_it_should_not_throw()
+        public void When_collection_asserting_with_inspector_message_that_is_not_reformatable_it_should_not_throw()
         {
             // Arrange
             byte[][] subject = { new byte[] { 1 } };
 
             // Act
-            Action act = () => subject.Should().SatisfyAll(e => e.Should().BeEquivalentTo(new byte[] { 2, 3, 4 }));
+            Action act = () => subject.Should().AllSatisfy(e => e.Should().BeEquivalentTo(new byte[] { 2, 3, 4 }));
 
             // Assert
             act.Should().NotThrow<FormatException>();

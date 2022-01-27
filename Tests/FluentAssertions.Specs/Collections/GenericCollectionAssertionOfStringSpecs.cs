@@ -1980,17 +1980,17 @@ namespace FluentAssertions.Specs.Collections
             string[] collection = new[] { "John", "John" };
 
             // Act / Assert
-            collection.Should().SatisfyAll(value => value.Should().Be("John"));
+            collection.Should().AllSatisfy(value => value.Should().Be("John"));
         }
 
         [Fact]
-        public void When_string_collection_does_not_satisfy_SatisfyAll_it_should_throw()
+        public void When_string_collection_contains_item_that_does_not_satisfy_inspector_it_should_throw()
         {
             // Arrange
             string[] collection = new[] { "Jack", "Jessica" };
 
             // Act
-            Action act = () => collection.Should().SatisfyAll(
+            Action act = () => collection.Should().AllSatisfy(
                 value => value.Should().Be("John"),
                 "because we want to test the failure {0}", "message");
 
