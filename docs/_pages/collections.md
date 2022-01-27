@@ -198,7 +198,7 @@ var collection = new []
     new { Id = 1, Name = "John", Attributes = new string[] { } },
     new { Id = 2, Name = "Jane", Attributes = new string[] { "attr" } }
 };
-collection.Should().SatisfyAll(
+collection.Should().AllSatisfy(
     x =>
     {
         x.Id.Should().BePositive();

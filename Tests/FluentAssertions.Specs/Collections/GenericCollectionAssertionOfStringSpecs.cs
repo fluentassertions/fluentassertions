@@ -1971,10 +1971,10 @@ namespace FluentAssertions.Specs.Collections
 
         #endregion
 
-        #region SatisfyAll
+        #region AllSatisfy
 
         [Fact]
-        public void When_string_collection_satisfies_SatisfyAll_it_should_succeed()
+        public void When_string_collection_contains_only_items_that_satisfy_inspector_it_should_succeed()
         {
             // Arrange
             string[] collection = new[] { "John", "John" };

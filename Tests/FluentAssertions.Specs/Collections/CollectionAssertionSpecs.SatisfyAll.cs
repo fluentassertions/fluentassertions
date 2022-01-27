@@ -9,11 +9,11 @@ using Xunit.Sdk;
 namespace FluentAssertions.Specs.Collections
 {
     /// <content>
-    /// The SatisfyAll specs.
+    /// The AllSatisfy specs.
     /// </content>
     public partial class CollectionAssertionSpecs
     {
-        #region Satisfy All
+        #region All Satisfy
 
         [Fact]
         public void When_collection_asserting_against_null_inspector_it_should_throw_with_clear_explanation()
