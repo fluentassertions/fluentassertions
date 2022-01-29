@@ -2690,40 +2690,42 @@ namespace FluentAssertions.Collections
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify against a <null> inspector");
 
-            var success = Execute.Assertion
-                                 .BecauseOf(because, becauseArgs)
-                                 .WithExpectation(
-                                     "Expected {context:collection} to contain only items satisfying the inspector{reason}, ")
-                                 .Given(() => Subject)
-                                 .ForCondition(subject => subject is not null)
-                                 .FailWith("but collection is <null>.")
-                                 .Then
-                                 .ForCondition(subject => subject.Any())
-                                 .FailWith("but collection is empty.")
-                                 .Then
-                                 .ClearExpectation();
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected {context:collection} to contain only items satisfying the inspector{reason}, ")
+                .Given(() => Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith("but collection is <null>.")
+                .Then
+                .ForCondition(subject => subject.Any())
+                .FailWith("but collection is empty.")
+                .Then
+                .ClearExpectation();
 
-            if (success != false) return new AndConstraint<TAssertions>((TAssertions)this);
-
-            string[] failuresFromInspectors;
-
-            using (CallerIdentifier.OverrideStackSearchUsingCurrentScope())
+            if (success)
             {
-                var elementInspectors = Subject.Select(_ => expected);
-                failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
-            }
+                string[] failuresFromInspectors;
 
-            if (failuresFromInspectors.Any())
-            {
-                string failureMessage = Environment.NewLine
-                                        + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
+                using (CallerIdentifier.OverrideStackSearchUsingCurrentScope())
+                {
+                    var elementInspectors = Subject.Select(_ => expected);
+                    failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
+                }
 
-                Execute.Assertion
-                       .BecauseOf(because, becauseArgs)
-                       .WithExpectation("Expected {context:collection} to contain only items satisfying the inspector{reason}:")
-                       .FailWithPreFormatted(failureMessage)
-                       .Then
-                       .ClearExpectation();
+                if (failuresFromInspectors.Any())
+                {
+                    string failureMessage = Environment.NewLine
+                        + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
+
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .WithExpectation("Expected {context:collection} to contain only items satisfying the inspector{reason}:")
+                        .FailWithPreFormatted(failureMessage)
+                        .Then
+                        .ClearExpectation();
+                }
+
+                return new AndConstraint<TAssertions>((TAssertions)this);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);

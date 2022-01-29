@@ -9,7 +9,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Collections
 {
-    public class GenericCollectionAssertionOfStringSpecs
+    public partial class GenericCollectionAssertionOfStringSpecs
     {
         [Fact]
         public void Should_fail_when_asserting_collection_has_a_count_that_is_different_from_the_number_of_items()
@@ -1967,38 +1967,6 @@ namespace FluentAssertions.Specs.Collections
                 "Expected collection to satisfy all inspectors because we want to test the failure message, but some inspectors are not satisfied"
                 + "*John*Jack"
                 + "*Jane*Jessica*");
-        }
-
-        #endregion
-
-        #region AllSatisfy
-
-        [Fact]
-        public void When_string_collection_contains_only_items_that_satisfy_inspector_it_should_succeed()
-        {
-            // Arrange
-            string[] collection = new[] { "John", "John" };
-
-            // Act / Assert
-            collection.Should().AllSatisfy(value => value.Should().Be("John"));
-        }
-
-        [Fact]
-        public void When_string_collection_contains_item_that_does_not_satisfy_inspector_it_should_throw()
-        {
-            // Arrange
-            string[] collection = new[] { "Jack", "Jessica" };
-
-            // Act
-            Action act = () => collection.Should().AllSatisfy(
-                value => value.Should().Be("John"),
-                "because we want to test the failure {0}", "message");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection to contain only items satisfying the inspector because we want to test the failure message:"
-                + "*John*Jack"
-                + "*John*Jessica*");
         }
 
         #endregion
