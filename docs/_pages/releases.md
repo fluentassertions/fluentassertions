@@ -15,6 +15,8 @@ sidebar:
 
 ### Fixes
 
+* Improved the documentation on `BeLowerCased` and `BeUpperCased` for strings with non-alphabetic characters - [#1792](https://github.com/fluentassertions/fluentassertions/pull/1792)
+
 ## 6.4.0
 
 ### What's New

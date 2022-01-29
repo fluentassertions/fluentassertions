@@ -1285,6 +1285,11 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Asserts that all characters in a string are in upper casing.
         /// </summary>
+        /// <remarks>
+        /// Be careful that numbers and special characters don't have casing, so  <see cref="BeUpperCased"/>
+        /// will always fail on a string that contains anything but alphabetic characters.
+        /// In those cases, we recommend using <see cref="NotBeLowerCased"/>.
+        /// </remarks>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -1325,6 +1330,11 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Asserts that all characters in a string are in lower casing.
         /// </summary>
+        /// <remarks>
+        /// Be careful that numbers and special characters don't have casing, so <see cref="BeLowerCased"/> will always fail on
+        /// a string that contains anything but alphabetic characters.
+        /// In those cases, we recommend using <see cref="NotBeUpperCased"/>.
+        /// </remarks>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
