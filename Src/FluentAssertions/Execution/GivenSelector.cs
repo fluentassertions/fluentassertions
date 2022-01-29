@@ -101,7 +101,7 @@ namespace FluentAssertions.Execution
         public ContinuationOfGiven<T> ClearExpectation()
         {
             predecessor.ClearExpectation();
-            return new ContinuationOfGiven<T>(this, predecessor.Succeeded);
+            return new ContinuationOfGiven<T>(this, continueAsserting);
         }
     }
 }
