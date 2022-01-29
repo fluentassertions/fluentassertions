@@ -201,5 +201,44 @@ namespace FluentAssertions.Specs.Execution
             act.Should().Throw<XunitException>()
                 .WithMessage("Failure");
         }
+
+        [Fact]
+        public void Clearing_the_expectation_does_not_affect_a_successful_assertion()
+        {
+            // Act
+            bool result = Execute.Assertion
+                .WithExpectation("Expectation ")
+                .Given(() => "Don't care")
+                .ForCondition(_ => true)
+                .FailWith("Should not fail")
+                .Then
+                .ClearExpectation();
+
+            // Assert
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public void Clearing_the_expectation_does_not_affect_a_failed_assertion()
+        {
+            // Act
+            using var scope = new AssertionScope();
+
+            bool result = Execute.Assertion
+                .WithExpectation("Expectation ")
+                .Given(() => "Don't care")
+                .ForCondition(_ => false)
+                .FailWith("Should fail")
+                .Then
+                .ClearExpectation();
+
+            scope.Discard();
+
+            // Assert
+            if (result)
+            {
+                throw new XunitException("the assertion failed and should return false");
+            }
+        }
     }
 }

@@ -13,7 +13,8 @@ sidebar:
 
 * Added `WithMapping` option to `BeEquivalentTo` to map members with different names between the subject and expectation - [#1742](https://github.com/fluentassertions/fluentassertions/pull/1742)
 
-### Fixes
+### Fixes (Extensibility)
+* Fixed a continuation issue when using `ClearExpectation` - [#1791](https://github.com/fluentassertions/fluentassertions/pull/1791)
 
 ## 6.4.0
 
