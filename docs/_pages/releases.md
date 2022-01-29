@@ -13,10 +13,12 @@ sidebar:
 
 * Added `WithMapping` option to `BeEquivalentTo` to map members with different names between the subject and expectation - [#1742](https://github.com/fluentassertions/fluentassertions/pull/1742)
 
+### Fixes
+* Improved the documentation on `BeLowerCased` and `BeUpperCased` for strings with non-alphabetic characters - [#1792](https://github.com/fluentassertions/fluentassertions/pull/1792)
+* Resolve an issue preventing `HaveAccessModifier` from correctly recognizing internal interfaces and enums - [#1741](https://github.com/fluentassertions/fluentassertions/issues/1741)
+
 ### Fixes (Extensibility)
 * Fixed a continuation issue when using `ClearExpectation` - [#1791](https://github.com/fluentassertions/fluentassertions/pull/1791)
-
-* Improved the documentation on `BeLowerCased` and `BeUpperCased` for strings with non-alphabetic characters - [#1792](https://github.com/fluentassertions/fluentassertions/pull/1792)
 
 ## 6.4.0
 
@@ -45,8 +47,6 @@ sidebar:
 * Prevent multiple enumeration of `IEnumerable`s in parameter-less `ContainSingle()` - [#1753](https://github.com/fluentassertions/fluentassertions/pull/1753)
 * Change `HaveCount()` assertion message order to state expected and actual collection count before dumping its content` - [#1760](https://github.com/fluentassertions/fluentassertions/pull/1760)
 * `CompleteWithinAsync` did not take initial sync computation into account when measuring execution time - [1762](https://github.com/fluentassertions/fluentassertions/pull/1762).
-
-* Resolve an issue preventing HaveAccessModifier from correctly recognizing internal interfaces and enums - [#1741](https://github.com/fluentassertions/fluentassertions/issues/1741)
 
 ## 6.2.0
 

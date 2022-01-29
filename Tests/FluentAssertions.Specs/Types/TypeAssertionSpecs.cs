@@ -140,6 +140,14 @@ namespace FluentAssertions.Specs.Types
 
     internal class InternalClass { }
 
+    internal struct InternalStruct { }
+
+    internal enum InternalEnum
+    {
+        Value1,
+        Value2
+    }
+
     internal class Nested
     {
         private class PrivateClass { }
