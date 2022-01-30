@@ -10,14 +10,16 @@ sidebar:
 ## Unreleased
 
 ### What's New
-
 * Added `AllSatisfy` for asserting all items in a collection satisfy an inspector - [#1790](https://github.com/fluentassertions/fluentassertions/pull/1790)
 * Added `WithMapping` option to `BeEquivalentTo` to map members with different names between the subject and expectation - [#1742](https://github.com/fluentassertions/fluentassertions/pull/1742)
 
+### Fixes
+* Improved the documentation on `BeLowerCased` and `BeUpperCased` for strings with non-alphabetic characters - [#1792](https://github.com/fluentassertions/fluentassertions/pull/1792)
+* Caller identification does not handle all arguments using `new` - [#1794](https://github.com/fluentassertions/fluentassertions/pull/1794)
+* Resolve an issue preventing `HaveAccessModifier` from correctly recognizing internal interfaces and enums - [#1793](https://github.com/fluentassertions/fluentassertions/issues/1793)
+
 ### Fixes (Extensibility)
 * Fixed a continuation issue when using `ClearExpectation` - [#1791](https://github.com/fluentassertions/fluentassertions/pull/1791)
-
-* Improved the documentation on `BeLowerCased` and `BeUpperCased` for strings with non-alphabetic characters - [#1792](https://github.com/fluentassertions/fluentassertions/pull/1792)
 
 ## 6.4.0
 

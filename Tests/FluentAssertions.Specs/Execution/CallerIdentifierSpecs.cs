@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using FluentAssertions.Execution;
@@ -158,7 +160,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected foo.GetFoo(test1).GetFooStatic(\"test\"+2).GetFoo(foo.Field) to be <null>*");
+                .WithMessage("Expected foo.GetFoo(test1).GetFooStatic(\"test\" + 2).GetFoo(foo.Field) to be <null>*");
         }
 
         [Fact]
@@ -181,7 +183,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected foo.GetFoo(test1).GetFooStatic(\"test\"+2).GetFoo(foo.Field) to be <null>*");
+                .WithMessage("Expected foo.GetFoo(test1).GetFooStatic(\"test\" + 2).GetFoo(foo.Field) to be <null>*");
         }
 
         [Fact]
@@ -256,7 +258,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected foo.BarMethod(@\"test\",argument2:$@\"test2\",argument3:@$\"test3\") to be <null>*");
+                .WithMessage("Expected foo.BarMethod(@\"test\", argument2: $@\"test2\", argument3: @$\"test3\") to be <null>*");
         }
 
         [Fact]
@@ -302,7 +304,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected foo.BarMethod(\"1\"+2) to be <null>*");
+                .WithMessage("Expected foo.BarMethod(\"1\" + 2) to be <null>*");
         }
 
         [Fact]
@@ -319,7 +321,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected foo.BarMethod(\"abc\"+\"def\") to be <null>*");
+                .WithMessage("Expected foo.BarMethod(\"abc\"+ \"def\") to be <null>*");
         }
 
         [Fact]
@@ -467,6 +469,76 @@ namespace FluentAssertions.Specs.Execution
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("*someText*", "it should capture the variable name");
+        }
+
+        [Fact]
+        public void A_method_taking_an_array_initializer_is_an_identifier()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () => foo.GetFoo(new[] { 1, 2, 3 }.Sum() + "")
+                .Should()
+                .BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected foo.GetFoo(new[] { 1, 2, 3 }.Sum() + \"\") to be <null>*");
+        }
+
+        [Fact]
+        public void A_method_taking_a_target_typed_new_expression_is_an_identifier()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () => foo.GetFoo(new('a', 10))
+                .Should()
+                .BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected foo.GetFoo(new('a', 10)) to be <null>*");
+        }
+
+        [Fact]
+        public void A_method_taking_a_list_is_an_identifier()
+        {
+            // Arrange
+            var foo = new Foo();
+
+            // Act
+            Action act = () => foo.GetFoo(new List<int> { 1, 2, 3 }.Sum() + "")
+                .Should()
+                .BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected foo.GetFoo(new List<int> { 1, 2, 3 }*");
+        }
+
+        [Fact]
+        public void An_array_initializer_preceding_an_assertion_is_not_an_identifier()
+        {
+            // Act
+            Action act = () => new[] { 1, 2, 3 }.Should().BeEmpty();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected collection to be empty*");
+        }
+
+        [Fact]
+        public void An_object_initializer_preceding_an_assertion_is_not_an_identifier()
+        {
+            // Act
+            Action act = () => new { Property = "blah" }.Should().BeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected object to be*");
         }
     }
 

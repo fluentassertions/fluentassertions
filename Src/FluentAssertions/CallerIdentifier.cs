@@ -173,7 +173,7 @@ namespace FluentAssertions
             {
                 Logger(statement);
                 if (!IsBooleanLiteral(statement) && !IsNumeric(statement) && !IsStringLiteral(statement) &&
-                    !UsesNewKeyword(statement))
+                    !StartsWithNewKeyword(statement))
                 {
                     caller = statement;
                 }
@@ -233,9 +233,9 @@ namespace FluentAssertions
             return sb.ToString();
         }
 
-        private static bool UsesNewKeyword(string candidate)
+        private static bool StartsWithNewKeyword(string candidate)
         {
-            return Regex.IsMatch(candidate, @"new(?:\s?\[|\s?\{|\s\w+)");
+            return Regex.IsMatch(candidate, @"(?:^|s+)new(?:\s?\[|\s?\{|\s\w+)");
         }
 
         private static bool IsStringLiteral(string candidate)
