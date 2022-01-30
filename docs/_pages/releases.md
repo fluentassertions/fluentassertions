@@ -10,7 +10,6 @@ sidebar:
 ## Unreleased
 
 ### What's New
-
 * Added `WithMapping` option to `BeEquivalentTo` to map members with different names between the subject and expectation - [#1742](https://github.com/fluentassertions/fluentassertions/pull/1742)
 
 ### Fixes
