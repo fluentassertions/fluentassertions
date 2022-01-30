@@ -2672,6 +2672,66 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
+        /// Asserts that a collection contains only items which meet
+        /// the criteria provided by the inspector.
+        /// </summary>
+        /// <param name="expected">
+        /// The element inspector, which inspects each element in turn.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+        /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <c>null</c>.</exception>
+        public AndConstraint<TAssertions> AllSatisfy(Action<T> expected, string because = "", params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify against a <null> inspector");
+
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected {context:collection} to contain only items satisfying the inspector{reason}, ")
+                .Given(() => Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith("but collection is <null>.")
+                .Then
+                .ForCondition(subject => subject.Any())
+                .FailWith("but collection is empty.")
+                .Then
+                .ClearExpectation();
+
+            if (success)
+            {
+                string[] failuresFromInspectors;
+
+                using (CallerIdentifier.OverrideStackSearchUsingCurrentScope())
+                {
+                    var elementInspectors = Subject.Select(_ => expected);
+                    failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
+                }
+
+                if (failuresFromInspectors.Any())
+                {
+                    string failureMessage = Environment.NewLine
+                        + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
+
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .WithExpectation("Expected {context:collection} to contain only items satisfying the inspector{reason}:")
+                        .FailWithPreFormatted(failureMessage)
+                        .Then
+                        .ClearExpectation();
+                }
+
+                return new AndConstraint<TAssertions>((TAssertions)this);
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
         /// Asserts that a collection contains exactly a given number of elements, which meet
         /// the criteria provided by the element inspectors.
         /// </summary>

@@ -9,7 +9,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Collections
 {
-    public class GenericCollectionAssertionOfStringSpecs
+    public partial class GenericCollectionAssertionOfStringSpecs
     {
         [Fact]
         public void Should_fail_when_asserting_collection_has_a_count_that_is_different_from_the_number_of_items()
