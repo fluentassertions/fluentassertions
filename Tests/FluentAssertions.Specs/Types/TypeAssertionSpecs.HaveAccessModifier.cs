@@ -47,7 +47,7 @@ namespace FluentAssertions.Specs.Types
                 }
 
                 [Fact]
-                public void An_internal_class_should_have_an_internal_access_modifier()
+                public void An_internal_class_has_an_internal_access_modifier()
                 {
                     // Arrange
                     Type type = typeof(InternalClass);
