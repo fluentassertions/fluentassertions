@@ -15,7 +15,7 @@ sidebar:
 
 ### Fixes
 * Improved the documentation on `BeLowerCased` and `BeUpperCased` for strings with non-alphabetic characters - [#1792](https://github.com/fluentassertions/fluentassertions/pull/1792)
-* Resolve an issue preventing `HaveAccessModifier` from correctly recognizing internal interfaces and enums - [#1741](https://github.com/fluentassertions/fluentassertions/issues/1741)
+* Resolve an issue preventing `HaveAccessModifier` from correctly recognizing internal interfaces and enums - [#1793](https://github.com/fluentassertions/fluentassertions/issues/1793)
 
 ### Fixes (Extensibility)
 * Fixed a continuation issue when using `ClearExpectation` - [#1791](https://github.com/fluentassertions/fluentassertions/pull/1791)
