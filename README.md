@@ -19,8 +19,7 @@ You will also need to have .NET Framework 4.7 SDK and .NET 5.0 SDK installed. Ch
 # What are these Approval.Tests?
 This is a special set of tests that use the [Verify](https://github.com/VerifyTests/Verify) project to verify whether you've introduced any breaking changes in the public API of the library.
 
-If you've verified the changes and decided they are valid, you can accept them  using `AcceptApiChanges.ps1` or `AcceptApiChanges.sh`.
-See also the [Contribution Guidelines.](CONTRIBUTING.md).
+If you've verified the changes and decided they are valid, you can accept them  using `AcceptApiChanges.ps1` or `AcceptApiChanges.sh`. Alternatively, you can use the [Verify Support](https://plugins.jetbrains.com/plugin/17240-verify-support) plug-in to compare the changes and accept them right from inside Rider. See also the [Contribution Guidelines.](CONTRIBUTING.md).
 
 `build.ps1`
 
