@@ -23,10 +23,10 @@ namespace FluentAssertions.Equivalency.Selection
                 memberToExclude.IsSameAs(new MemberPath(member, parentPath)));
         }
 
-        public void ExtendPath(MemberPath nextPath)
+        public void CombinePath(MemberPath nextPath)
         {
-            memberToExclude = memberToExclude.Extend(nextPath, "[*]");
-            SelectedPath = memberToExclude.ToString();
+            memberToExclude = memberToExclude.Combine(nextPath, "[*]");
+            SetSelectedPath(memberToExclude.ToString());
         }
 
         public override string ToString()

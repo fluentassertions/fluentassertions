@@ -6,14 +6,14 @@ using FluentAssertions.Equivalency.Selection;
 
 namespace FluentAssertions.Equivalency
 {
-    public class EquivalencyAssertionOptionsBuilder<TExpectation, TCurrent> : EquivalencyAssertionOptions<TExpectation>
+    public class NestedExclusionOptionBuilder<TExpectation, TCurrent> : EquivalencyAssertionOptions<TExpectation>
     {
         /// <summary>
         /// The selected path staring at the first <see cref="EquivalencyAssertionOptions{TExpectation}.Excluding{TNext}"/>.
         /// </summary>
         private readonly ExcludeMemberByPathSelectionRule currentPathSelectionRule;
 
-        internal EquivalencyAssertionOptionsBuilder(EquivalencyAssertionOptions<TExpectation> equivalencyAssertionOptions,
+        internal NestedExclusionOptionBuilder(EquivalencyAssertionOptions<TExpectation> equivalencyAssertionOptions,
             ExcludeMemberByPathSelectionRule currentPathSelectionRule)
             : base(equivalencyAssertionOptions)
         {
@@ -26,7 +26,7 @@ namespace FluentAssertions.Equivalency
         public EquivalencyAssertionOptions<TExpectation> ThenExcluding(Expression<Func<TCurrent, object>> expression)
         {
             var nextPath = expression.GetMemberPath();
-            currentPathSelectionRule.ExtendPath(nextPath);
+            currentPathSelectionRule.CombinePath(nextPath);
             return this;
         }
 
@@ -34,12 +34,12 @@ namespace FluentAssertions.Equivalency
         /// Adds the selected collection to the <see cref="ThenExcluding{TNext}"/> chain.
         /// If this is the last call to <see cref="ThenExcluding{TNext}"/>, this exists the chain.
         /// </summary>
-        public EquivalencyAssertionOptionsBuilder<TExpectation, TNext> ThenExcluding<TNext>(
+        public NestedExclusionOptionBuilder<TExpectation, TNext> ThenExcluding<TNext>(
             Expression<Func<TCurrent, IEnumerable<TNext>>> expression)
         {
             var nextPath = expression.GetMemberPath();
-            currentPathSelectionRule.ExtendPath(nextPath);
-            return new EquivalencyAssertionOptionsBuilder<TExpectation, TNext>(this, currentPathSelectionRule);
+            currentPathSelectionRule.CombinePath(nextPath);
+            return new NestedExclusionOptionBuilder<TExpectation, TNext>(this, currentPathSelectionRule);
         }
     }
 }

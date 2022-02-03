@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency.Execution;
@@ -42,13 +41,13 @@ namespace FluentAssertions.Equivalency
 
         /// <summary>
         /// Excludes the specified (nested) member from the structural equality check.
-        /// Allows to navigate deeper by using the returned <see cref="EquivalencyAssertionOptionsBuilder{TExpectation, TNext}"/>.
+        /// Allows to navigate deeper by using the returned <see cref="NestedExclusionOptionBuilder{TExpectation,TCurrent}"/>.
         /// </summary>
-        public EquivalencyAssertionOptionsBuilder<TExpectation, TNext> Excluding<TNext>(Expression<Func<TExpectation, IEnumerable<TNext>>> expression)
+        public NestedExclusionOptionBuilder<TExpectation, TNext> Excluding<TNext>(Expression<Func<TExpectation, IEnumerable<TNext>>> expression)
         {
             var selectionRule = new ExcludeMemberByPathSelectionRule(expression.GetMemberPath());
             AddSelectionRule(selectionRule);
-            return new EquivalencyAssertionOptionsBuilder<TExpectation, TNext>(this, selectionRule);
+            return new NestedExclusionOptionBuilder<TExpectation, TNext>(this, selectionRule);
         }
 
         /// <summary>

@@ -16,9 +16,9 @@ namespace FluentAssertions.Equivalency.Selection
 
         public virtual bool IncludesMembers => false;
 
-        protected string SelectedPath
+        protected void SetSelectedPath(string path)
         {
-            set => selectedPath = value;
+            this.selectedPath = path;
         }
 
         public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
