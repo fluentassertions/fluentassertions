@@ -751,18 +751,13 @@ namespace FluentAssertions.Equivalency
     {
         public EquivalencyAssertionOptions() { }
     }
-    public class EquivalencyAssertionOptionsBuilder<TExpectation, TCurrent> : FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>
-    {
-        public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> ThenExcluding(System.Linq.Expressions.Expression<System.Func<TCurrent, object>> expression) { }
-        public FluentAssertions.Equivalency.EquivalencyAssertionOptionsBuilder<TExpectation, TNext> ThenExcluding<TNext>(System.Linq.Expressions.Expression<System.Func<TCurrent, System.Collections.Generic.IEnumerable<TNext>>> expression) { }
-    }
     public class EquivalencyAssertionOptions<TExpectation> : FluentAssertions.Equivalency.SelfReferenceEquivalencyAssertionOptions<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>>
     {
         public EquivalencyAssertionOptions() { }
         public EquivalencyAssertionOptions(FluentAssertions.Equivalency.IEquivalencyAssertionOptions defaults) { }
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<System.Collections.Generic.IEnumerable<TExpectation>> AsCollection() { }
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> Excluding(System.Linq.Expressions.Expression<System.Func<TExpectation, object>> expression) { }
-        public FluentAssertions.Equivalency.EquivalencyAssertionOptionsBuilder<TExpectation, TNext> Excluding<TNext>(System.Linq.Expressions.Expression<System.Func<TExpectation, System.Collections.Generic.IEnumerable<TNext>>> expression) { }
+        public FluentAssertions.Equivalency.NestedExclusionOptionBuilder<TExpectation, TNext> Excluding<TNext>(System.Linq.Expressions.Expression<System.Func<TExpectation, System.Collections.Generic.IEnumerable<TNext>>> expression) { }
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> Including(System.Linq.Expressions.Expression<System.Func<TExpectation, object>> expression) { }
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> WithMapping(string expectationMemberPath, string subjectMemberPath) { }
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> WithMapping<TSubject>(System.Linq.Expressions.Expression<System.Func<TExpectation, object>> expectationMemberPath, System.Linq.Expressions.Expression<System.Func<TSubject, object>> subjectMemberPath) { }
@@ -926,6 +921,11 @@ namespace FluentAssertions.Equivalency
         None = 0,
         Internal = 1,
         Public = 2,
+    }
+    public class NestedExclusionOptionBuilder<TExpectation, TCurrent> : FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>
+    {
+        public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> ThenExcluding(System.Linq.Expressions.Expression<System.Func<TCurrent, object>> expression) { }
+        public FluentAssertions.Equivalency.NestedExclusionOptionBuilder<TExpectation, TNext> ThenExcluding<TNext>(System.Linq.Expressions.Expression<System.Func<TCurrent, System.Collections.Generic.IEnumerable<TNext>>> expression) { }
     }
     public class Node : FluentAssertions.Equivalency.INode
     {
