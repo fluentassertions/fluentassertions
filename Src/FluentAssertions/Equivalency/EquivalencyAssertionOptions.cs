@@ -41,7 +41,7 @@ namespace FluentAssertions.Equivalency
 
         /// <summary>
         /// Excludes the specified (nested) member from the structural equality check.
-        /// Allows to navigate deeper by using the returned <see cref="NestedExclusionOptionBuilder{TExpectation,TCurrent}"/>.
+        /// Allows to navigate deeper by using <see cref="NestedExclusionOptionBuilder{TExpectation,TCurrent}.ThenExcluding"/>.
         /// </summary>
         public NestedExclusionOptionBuilder<TExpectation, TNext> Excluding<TNext>(Expression<Func<TExpectation, IEnumerable<TNext>>> expression)
         {
