@@ -23,8 +23,10 @@ namespace FluentAssertions.Common
             return propertyInfo;
         }
 
-        private static MemberInfo AttemptToGetMemberInfoFromExpression<T, TValue>(Expression<Func<T, TValue>> expression) =>
-            (((expression.Body as UnaryExpression)?.Operand ?? expression.Body) as MemberExpression)?.Member;
+        private static MemberInfo AttemptToGetMemberInfoFromExpression<T, TValue>(Expression<Func<T, TValue>> expression)
+        {
+            return (((expression.Body as UnaryExpression)?.Operand ?? expression.Body) as MemberExpression)?.Member;
+        }
 
         /// <summary>
         /// Gets a dotted path of property names representing the property expression, including the declaring type.
@@ -79,12 +81,14 @@ namespace FluentAssertions.Common
 
                     case ExpressionType.Call:
                         var methodCallExpression = (MethodCallExpression)node;
-                        if (methodCallExpression.Method.Name != "get_Item" || methodCallExpression.Arguments.Count != 1 || methodCallExpression.Arguments[0] is not ConstantExpression)
+
+                        if (methodCallExpression.Method.Name != "get_Item" || methodCallExpression.Arguments.Count != 1 ||
+                            methodCallExpression.Arguments[index: 0] is not ConstantExpression)
                         {
                             throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
                         }
 
-                        constantExpression = (ConstantExpression)methodCallExpression.Arguments[0];
+                        constantExpression = (ConstantExpression)methodCallExpression.Arguments[index: 0];
                         node = methodCallExpression.Object;
                         segments.Add("[" + constantExpression.Value + "]");
                         break;
@@ -97,13 +101,19 @@ namespace FluentAssertions.Common
             // If any members were accessed in the expression, the first one found is the last member.
             Type declaringType = declaringTypes.FirstOrDefault() ?? typeof(TDeclaringType);
 
-            string[] reversedSegments = segments.AsEnumerable().Reverse().ToArray();
+            string[] reversedSegments = segments.AsEnumerable()
+                .Reverse()
+                .ToArray();
+
             string segmentPath = string.Join(".", reversedSegments);
 
-            return new MemberPath(typeof(TDeclaringType), declaringType, segmentPath.Replace(".[", "[", StringComparison.Ordinal));
+            return new MemberPath(typeof(TDeclaringType), declaringType,
+                segmentPath.Replace(".[", "[", StringComparison.Ordinal));
         }
 
-        private static string GetUnsupportedExpressionMessage(Expression expression) =>
-            $"Expression <{expression}> cannot be used to select a member.";
+        private static string GetUnsupportedExpressionMessage(Expression expression)
+        {
+            return $"Expression <{expression}> cannot be used to select a member.";
+        }
     }
 }

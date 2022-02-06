@@ -19,7 +19,8 @@ namespace FluentAssertions.Formatting
 
         public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
-            formattedGraph.AddFragment(value.ToString().Replace(" = ", " == ", StringComparison.Ordinal));
+            formattedGraph.AddFragment(value.ToString()
+                .Replace(" = ", " == ", StringComparison.Ordinal));
         }
     }
 }

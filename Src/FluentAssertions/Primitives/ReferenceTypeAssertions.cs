@@ -37,8 +37,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject is null)
+            Execute.Assertion.ForCondition(Subject is null)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
                 .FailWith("Expected {context} to be <null>{reason}, but found {0}.", Subject);
@@ -58,8 +57,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject is not null)
+            Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
                 .FailWith("Expected {context} not to be <null>{reason}.");
@@ -80,9 +78,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> BeSameAs(TSubject expected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .UsingLineBreaks
-                .ForCondition(ReferenceEquals(Subject, expected))
+            Execute.Assertion.UsingLineBreaks.ForCondition(ReferenceEquals(Subject, expected))
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
                 .FailWith("Expected {context} to refer to {0}{reason}, but found {1}.", expected, Subject);
@@ -103,9 +99,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> NotBeSameAs(TSubject unexpected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .UsingLineBreaks
-                .ForCondition(!ReferenceEquals(Subject, unexpected))
+            Execute.Assertion.UsingLineBreaks.ForCondition(!ReferenceEquals(Subject, unexpected))
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
                 .FailWith("Did not expect {context} to refer to {0}{reason}.", unexpected);
@@ -128,9 +122,7 @@ namespace FluentAssertions.Primitives
         {
             BeOfType(typeof(T), because, becauseArgs);
 
-            T typedSubject = (Subject is T type)
-                ? type
-                : default;
+            T typedSubject = Subject is T type ? type : default;
 
             return new AndWhichConstraint<TAssertions, T>((TAssertions)this, typedSubject);
         }
@@ -153,8 +145,7 @@ namespace FluentAssertions.Primitives
         {
             Guard.ThrowIfArgumentIsNull(expectedType, nameof(expectedType));
 
-            bool success = Execute.Assertion
-                .ForCondition(Subject is not null)
+            bool success = Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier("type")
                 .FailWith("Expected {context} to be {0}{reason}, but found <null>.", expectedType);
@@ -162,13 +153,17 @@ namespace FluentAssertions.Primitives
             if (success)
             {
                 Type subjectType = Subject.GetType();
+
                 if (expectedType.IsGenericTypeDefinition && subjectType.IsGenericType)
                 {
-                    subjectType.GetGenericTypeDefinition().Should().Be(expectedType, because, becauseArgs);
+                    subjectType.GetGenericTypeDefinition()
+                        .Should()
+                        .Be(expectedType, because, becauseArgs);
                 }
                 else
                 {
-                    subjectType.Should().Be(expectedType, because, becauseArgs);
+                    subjectType.Should()
+                        .Be(expectedType, because, becauseArgs);
                 }
             }
 
@@ -211,8 +206,7 @@ namespace FluentAssertions.Primitives
         {
             Guard.ThrowIfArgumentIsNull(unexpectedType, nameof(unexpectedType));
 
-            bool success = Execute.Assertion
-                .ForCondition(Subject is not null)
+            bool success = Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier("type")
                 .FailWith("Expected {context} not to be {0}{reason}, but found <null>.", unexpectedType);
@@ -220,13 +214,17 @@ namespace FluentAssertions.Primitives
             if (success)
             {
                 Type subjectType = Subject.GetType();
+
                 if (unexpectedType.IsGenericTypeDefinition && subjectType.IsGenericType)
                 {
-                    subjectType.GetGenericTypeDefinition().Should().NotBe(unexpectedType, because, becauseArgs);
+                    subjectType.GetGenericTypeDefinition()
+                        .Should()
+                        .NotBe(unexpectedType, because, becauseArgs);
                 }
                 else
                 {
-                    subjectType.Should().NotBe(unexpectedType, because, becauseArgs);
+                    subjectType.Should()
+                        .NotBe(unexpectedType, because, becauseArgs);
                 }
             }
 
@@ -247,24 +245,21 @@ namespace FluentAssertions.Primitives
         /// <returns>An <see cref="AndWhichConstraint{TAssertions, T}"/> which can be used to chain assertions.</returns>
         public AndWhichConstraint<TAssertions, T> BeAssignableTo<T>(string because = "", params object[] becauseArgs)
         {
-            bool success = Execute.Assertion
-                .ForCondition(Subject is not null)
+            bool success = Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier("type")
                 .FailWith("Expected {context} to be assignable to {0}{reason}, but found <null>.", typeof(T));
 
             if (success)
             {
-                Execute.Assertion
-                    .ForCondition(Subject is T)
+                Execute.Assertion.ForCondition(Subject is T)
                     .BecauseOf(because, becauseArgs)
                     .WithDefaultIdentifier(Identifier)
-                    .FailWith("Expected {context} to be assignable to {0}{reason}, but {1} is not.", typeof(T), Subject.GetType());
+                    .FailWith("Expected {context} to be assignable to {0}{reason}, but {1} is not.", typeof(T),
+                        Subject.GetType());
             }
 
-            T typedSubject = (Subject is T type)
-                ? type
-                : default;
+            T typedSubject = Subject is T type ? type : default;
 
             return new AndWhichConstraint<TAssertions, T>((TAssertions)this, typedSubject);
         }
@@ -286,8 +281,7 @@ namespace FluentAssertions.Primitives
         {
             Guard.ThrowIfArgumentIsNull(type, nameof(type));
 
-            bool success = Execute.Assertion
-                .ForCondition(Subject is not null)
+            bool success = Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier("type")
                 .FailWith("Expected {context} to be assignable to {0}{reason}, but found <null>.", type);
@@ -295,16 +289,14 @@ namespace FluentAssertions.Primitives
             if (success)
             {
                 bool isAssignable = type.IsGenericTypeDefinition
-                    ? Subject.GetType().IsAssignableToOpenGeneric(type)
+                    ? Subject.GetType()
+                        .IsAssignableToOpenGeneric(type)
                     : type.IsAssignableFrom(Subject.GetType());
 
-                Execute.Assertion
-                    .ForCondition(isAssignable)
+                Execute.Assertion.ForCondition(isAssignable)
                     .BecauseOf(because, becauseArgs)
                     .WithDefaultIdentifier(Identifier)
-                    .FailWith("Expected {context} to be assignable to {0}{reason}, but {1} is not.",
-                        type,
-                        Subject.GetType());
+                    .FailWith("Expected {context} to be assignable to {0}{reason}, but {1} is not.", type, Subject.GetType());
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -344,8 +336,7 @@ namespace FluentAssertions.Primitives
         {
             Guard.ThrowIfArgumentIsNull(type, nameof(type));
 
-            bool success = Execute.Assertion
-                .ForCondition(Subject is not null)
+            bool success = Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier("type")
                 .FailWith("Expected {context} to not be assignable to {0}{reason}, but found <null>.", type);
@@ -353,11 +344,11 @@ namespace FluentAssertions.Primitives
             if (success)
             {
                 bool isAssignable = type.IsGenericTypeDefinition
-                    ? Subject.GetType().IsAssignableToOpenGeneric(type)
+                    ? Subject.GetType()
+                        .IsAssignableToOpenGeneric(type)
                     : type.IsAssignableFrom(Subject.GetType());
 
-                Execute.Assertion
-                    .ForCondition(!isAssignable)
+                Execute.Assertion.ForCondition(!isAssignable)
                     .BecauseOf(because, becauseArgs)
                     .WithDefaultIdentifier(Identifier)
                     .FailWith("Expected {context} to not be assignable to {0}{reason}, but {1} is.", type, Subject.GetType());
@@ -378,8 +369,7 @@ namespace FluentAssertions.Primitives
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <returns>An <see cref="AndConstraint{T}" /> which can be used to chain assertions.</returns>
-        public AndConstraint<TAssertions> Match(Expression<Func<TSubject, bool>> predicate,
-            string because = "",
+        public AndConstraint<TAssertions> Match(Expression<Func<TSubject, bool>> predicate, string because = "",
             params object[] becauseArgs)
         {
             return Match<TSubject>(predicate, because, becauseArgs);
@@ -398,15 +388,13 @@ namespace FluentAssertions.Primitives
         /// </param>
         /// <returns>An <see cref="AndConstraint{T}" /> which can be used to chain assertions.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <c>null</c>.</exception>
-        public AndConstraint<TAssertions> Match<T>(Expression<Func<T, bool>> predicate,
-            string because = "",
+        public AndConstraint<TAssertions> Match<T>(Expression<Func<T, bool>> predicate, string because = "",
             params object[] becauseArgs)
             where T : TSubject
         {
             Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate), "Cannot match an object against a <null> predicate.");
 
-            Execute.Assertion
-                .ForCondition(predicate.Compile()((T)Subject))
+            Execute.Assertion.ForCondition(predicate.Compile()((T)Subject))
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
                 .FailWith("Expected {context:object} to match {1}{reason}, but found {0}.", Subject, predicate);
@@ -421,7 +409,9 @@ namespace FluentAssertions.Primitives
         protected abstract string Identifier { get; }
 
         /// <inheritdoc/>
-        public override bool Equals(object obj) =>
+        public override bool Equals(object obj)
+        {
             throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
+        }
     }
 }

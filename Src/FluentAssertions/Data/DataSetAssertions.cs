@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
-
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
@@ -35,21 +34,21 @@ namespace FluentAssertions.Data
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<DataSetAssertions<TDataSet>> HaveTableCount(int expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<DataSetAssertions<TDataSet>> HaveTableCount(int expected, string because = "",
+            params object[] becauseArgs)
         {
             if (Subject is null)
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
+                Execute.Assertion.BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:DataSet} to contain exactly {0} table(s){reason}, but found <null>.", expected);
             }
 
             int actualCount = Subject.Tables.Count;
 
-            Execute.Assertion
-                .ForCondition(actualCount == expected)
+            Execute.Assertion.ForCondition(actualCount == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:DataSet} to contain exactly {0} table(s){reason}, but found {1}.", expected, actualCount);
+                .FailWith("Expected {context:DataSet} to contain exactly {0} table(s){reason}, but found {1}.", expected,
+                    actualCount);
 
             return new AndConstraint<DataSetAssertions<TDataSet>>(this);
         }
@@ -65,21 +64,22 @@ namespace FluentAssertions.Data
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndWhichConstraint<DataSetAssertions<TDataSet>, DataTable> HaveTable(string expectedTableName, string because = "", params object[] becauseArgs)
+        public AndWhichConstraint<DataSetAssertions<TDataSet>, DataTable> HaveTable(string expectedTableName, string because = "",
+            params object[] becauseArgs)
         {
             var subjectTable = default(DataTable);
 
             if (Subject is null)
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:DataSet} to contain a table named '{0}'{reason}, but found <null>.", expectedTableName);
+                Execute.Assertion.BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:DataSet} to contain a table named '{0}'{reason}, but found <null>.",
+                        expectedTableName);
             }
             else if (!Subject.Tables.Contains(expectedTableName))
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:DataSet} to contain a table named '{0}'{reason}, but it does not.", expectedTableName);
+                Execute.Assertion.BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:DataSet} to contain a table named '{0}'{reason}, but it does not.",
+                        expectedTableName);
             }
             else
             {
@@ -109,21 +109,22 @@ namespace FluentAssertions.Data
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<DataSetAssertions<TDataSet>> HaveTables(IEnumerable<string> expectedTableNames, string because = "", params object[] becauseArgs)
+        public AndConstraint<DataSetAssertions<TDataSet>> HaveTables(IEnumerable<string> expectedTableNames, string because = "",
+            params object[] becauseArgs)
         {
             if (Subject is null)
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:DataSet} to contain {0} table(s) with specific names{reason}, but found <null>.", expectedTableNames.Count());
+                Execute.Assertion.BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:DataSet} to contain {0} table(s) with specific names{reason}, but found <null>.",
+                        expectedTableNames.Count());
             }
 
-            foreach (var expectedTableName in expectedTableNames)
+            foreach (string expectedTableName in expectedTableNames)
             {
-                Execute.Assertion
-                    .ForCondition(Subject.Tables.Contains(expectedTableName))
+                Execute.Assertion.ForCondition(Subject.Tables.Contains(expectedTableName))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:DataSet} to contain a table named '{0}'{reason}, but it does not.", expectedTableName);
+                    .FailWith("Expected {context:DataSet} to contain a table named '{0}'{reason}, but it does not.",
+                        expectedTableName);
             }
 
             return new AndConstraint<DataSetAssertions<TDataSet>>(this);
@@ -163,13 +164,10 @@ namespace FluentAssertions.Data
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<DataSetAssertions<TDataSet>> BeEquivalentTo(DataSet expectation, string because = "", params object[] becauseArgs)
+        public AndConstraint<DataSetAssertions<TDataSet>> BeEquivalentTo(DataSet expectation, string because = "",
+            params object[] becauseArgs)
         {
-            return BeEquivalentTo(
-                expectation,
-                options => options,
-                because,
-                becauseArgs);
+            return BeEquivalentTo(expectation, options => options, because, becauseArgs);
         }
 
         /// <summary>
@@ -226,11 +224,15 @@ namespace FluentAssertions.Data
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<DataSetAssertions<TDataSet>> BeEquivalentTo(DataSet expectation, Func<IDataEquivalencyAssertionOptions<DataSet>, IDataEquivalencyAssertionOptions<DataSet>> config, string because = "", params object[] becauseArgs)
+        public AndConstraint<DataSetAssertions<TDataSet>> BeEquivalentTo(DataSet expectation,
+            Func<IDataEquivalencyAssertionOptions<DataSet>, IDataEquivalencyAssertionOptions<DataSet>> config,
+            string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(config, nameof(config));
 
-            IDataEquivalencyAssertionOptions<DataSet> options = config(AssertionOptions.CloneDefaults<DataSet, DataEquivalencyAssertionOptions<DataSet>>(e => new(e)));
+            IDataEquivalencyAssertionOptions<DataSet> options =
+                config(AssertionOptions.CloneDefaults<DataSet, DataEquivalencyAssertionOptions<DataSet>>(e =>
+                    new DataEquivalencyAssertionOptions<DataSet>(e)));
 
             var comparands = new Comparands
             {
@@ -239,11 +241,12 @@ namespace FluentAssertions.Data
                 CompileTimeType = typeof(TDataSet)
             };
 
-            var context = new EquivalencyValidationContext(Node.From<DataSet>(() => AssertionScope.Current.CallerIdentity), options)
-            {
-                Reason = new Reason(because, becauseArgs),
-                TraceWriter = options.TraceWriter,
-            };
+            var context =
+                new EquivalencyValidationContext(Node.From<DataSet>(() => AssertionScope.Current.CallerIdentity), options)
+                {
+                    Reason = new Reason(because, becauseArgs),
+                    TraceWriter = options.TraceWriter
+                };
 
             var equivalencyValidator = new EquivalencyValidator();
             equivalencyValidator.AssertEquality(comparands, context);

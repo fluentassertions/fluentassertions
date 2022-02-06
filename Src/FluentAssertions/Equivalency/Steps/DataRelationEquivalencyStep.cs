@@ -10,7 +10,8 @@ namespace FluentAssertions.Equivalency.Steps
     public class DataRelationEquivalencyStep : EquivalencyStep<DataRelation>
     {
         [SuppressMessage("Style", "IDE0019:Use pattern matching", Justification = "The code is easier to read without it.")]
-        protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+        protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context,
+            IEquivalencyValidator nestedValidator)
         {
             var subject = comparands.Subject as DataRelation;
             var expectation = comparands.Expectation as DataRelation;
@@ -57,16 +58,14 @@ namespace FluentAssertions.Equivalency.Steps
         {
             if (selectedMembers.ContainsKey(nameof(expectation.RelationName)))
             {
-                AssertionScope.Current
-                    .ForCondition(subject.RelationName == expectation.RelationName)
+                AssertionScope.Current.ForCondition(subject.RelationName == expectation.RelationName)
                     .FailWith("Expected {context:DataRelation} to have RelationName of '{0}'{reason}, but found '{1}'",
                         expectation.RelationName, subject.RelationName);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.Nested)))
             {
-                AssertionScope.Current
-                    .ForCondition(subject.Nested == expectation.Nested)
+                AssertionScope.Current.ForCondition(subject.Nested == expectation.Nested)
                     .FailWith("Expected {context:DataRelation} to have Nested value of '{0}'{reason}, but found '{1}'",
                         expectation.Nested, subject.Nested);
             }
@@ -74,21 +73,19 @@ namespace FluentAssertions.Equivalency.Steps
             // Special case: Compare name only
             if (selectedMembers.ContainsKey(nameof(expectation.DataSet)))
             {
-                AssertionScope.Current
-                    .ForCondition(subject.DataSet?.DataSetName == expectation.DataSet?.DataSetName)
+                AssertionScope.Current.ForCondition(subject.DataSet?.DataSetName == expectation.DataSet?.DataSetName)
                     .FailWith("Expected containing DataSet of {context:DataRelation} to be {0}{reason}, but found {1}",
-                        expectation.DataSet?.DataSetName ?? "<null>",
-                        subject.DataSet?.DataSetName ?? "<null>");
+                        expectation.DataSet?.DataSetName ?? "<null>", subject.DataSet?.DataSetName ?? "<null>");
             }
         }
 
         private static void CompareCollections(IEquivalencyValidationContext context, Comparands comparands,
-            IEquivalencyValidator parent,
-            IEquivalencyAssertionOptions config, Dictionary<string, IMember> selectedMembers)
+            IEquivalencyValidator parent, IEquivalencyAssertionOptions config, Dictionary<string, IMember> selectedMembers)
         {
             if (selectedMembers.TryGetValue(nameof(DataRelation.ExtendedProperties), out IMember expectationMember))
             {
                 IMember matchingMember = FindMatchFor(expectationMember, context.CurrentNode, comparands.Subject, config);
+
                 if (matchingMember is not null)
                 {
                     var nestedComparands = new Comparands
@@ -104,34 +101,22 @@ namespace FluentAssertions.Equivalency.Steps
         }
 
         private static void CompareRelationConstraints(IEquivalencyValidationContext context, IEquivalencyValidator parent,
-            DataRelation subject, DataRelation expectation,
-            Dictionary<string, IMember> selectedMembers)
+            DataRelation subject, DataRelation expectation, Dictionary<string, IMember> selectedMembers)
         {
-            CompareDataRelationConstraints(
-                parent, context, subject, expectation, selectedMembers,
-                "Child",
+            CompareDataRelationConstraints(parent, context, subject, expectation, selectedMembers, "Child",
                 selectedMembers.ContainsKey(nameof(DataRelation.ChildTable)),
                 selectedMembers.ContainsKey(nameof(DataRelation.ChildColumns)),
-                selectedMembers.ContainsKey(nameof(DataRelation.ChildKeyConstraint)),
-                r => r.ChildColumns,
-                r => r.ChildTable);
+                selectedMembers.ContainsKey(nameof(DataRelation.ChildKeyConstraint)), r => r.ChildColumns, r => r.ChildTable);
 
-            CompareDataRelationConstraints(
-                parent, context, subject, expectation, selectedMembers,
-                "Parent",
+            CompareDataRelationConstraints(parent, context, subject, expectation, selectedMembers, "Parent",
                 selectedMembers.ContainsKey(nameof(DataRelation.ParentTable)),
                 selectedMembers.ContainsKey(nameof(DataRelation.ParentColumns)),
-                selectedMembers.ContainsKey(nameof(DataRelation.ParentKeyConstraint)),
-                r => r.ParentColumns,
-                r => r.ParentTable);
+                selectedMembers.ContainsKey(nameof(DataRelation.ParentKeyConstraint)), r => r.ParentColumns, r => r.ParentTable);
         }
 
-        private static void CompareDataRelationConstraints(
-            IEquivalencyValidator parent, IEquivalencyValidationContext context,
-            DataRelation subject, DataRelation expectation, Dictionary<string, IMember> selectedMembers,
-            string relationDirection,
-            bool compareTable, bool compareColumns, bool compareKeyConstraint,
-            Func<DataRelation, DataColumn[]> getColumns,
+        private static void CompareDataRelationConstraints(IEquivalencyValidator parent, IEquivalencyValidationContext context,
+            DataRelation subject, DataRelation expectation, Dictionary<string, IMember> selectedMembers, string relationDirection,
+            bool compareTable, bool compareColumns, bool compareKeyConstraint, Func<DataRelation, DataColumn[]> getColumns,
             Func<DataRelation, DataTable> getOtherTable)
         {
             if (compareColumns)
@@ -158,8 +143,7 @@ namespace FluentAssertions.Equivalency.Steps
 
             // These column references are in different tables in different data sets that _should_ be equivalent
             // to one another.
-            bool success = AssertionScope.Current
-                .ForCondition(subjectColumns.Length == expectationColumns.Length)
+            bool success = AssertionScope.Current.ForCondition(subjectColumns.Length == expectationColumns.Length)
                 .FailWith("Expected {context:DataRelation} to reference {0} column(s){reason}, but found {subjectColumns.Length}",
                     expectationColumns.Length, subjectColumns.Length);
 
@@ -170,17 +154,13 @@ namespace FluentAssertions.Equivalency.Steps
                     DataColumn subjectColumn = subjectColumns[i];
                     DataColumn expectationColumn = expectationColumns[i];
 
-                    bool columnsAreEquivalent =
-                        (subjectColumn.Table.TableName == expectationColumn.Table.TableName) &&
-                        (subjectColumn.ColumnName == expectationColumn.ColumnName);
+                    bool columnsAreEquivalent = subjectColumn.Table.TableName == expectationColumn.Table.TableName &&
+                        subjectColumn.ColumnName == expectationColumn.ColumnName;
 
-                    AssertionScope.Current
-                        .ForCondition(columnsAreEquivalent)
+                    AssertionScope.Current.ForCondition(columnsAreEquivalent)
                         .FailWith(
                             "Expected {context:DataRelation} to reference column {0} in table {1}{reason}, but found a reference to {2} in table {3} instead",
-                            expectationColumn.ColumnName,
-                            expectationColumn.Table.TableName,
-                            subjectColumn.ColumnName,
+                            expectationColumn.ColumnName, expectationColumn.Table.TableName, subjectColumn.ColumnName,
                             subjectColumn.Table.TableName);
                 }
             }
@@ -192,8 +172,7 @@ namespace FluentAssertions.Equivalency.Steps
             DataTable subjectTable = getOtherTable(subject);
             DataTable expectationTable = getOtherTable(expectation);
 
-            AssertionScope.Current
-                .ForCondition(subjectTable.TableName == expectationTable.TableName)
+            AssertionScope.Current.ForCondition(subjectTable.TableName == expectationTable.TableName)
                 .FailWith("Expected {context:DataRelation} to reference a table named {0}{reason}, but found {1} instead",
                     expectationTable.TableName, subjectTable.TableName);
         }

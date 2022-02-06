@@ -50,9 +50,10 @@ namespace FluentAssertions
         public void AddAfter<TPredecessor, TStep>()
             where TStep : IEquivalencyStep, new()
         {
-            int insertIndex = Math.Max(steps.Count - 1, 0);
+            int insertIndex = Math.Max(steps.Count - 1, val2: 0);
 
             IEquivalencyStep predecessor = steps.LastOrDefault(s => s is TPredecessor);
+
             if (predecessor is not null)
             {
                 insertIndex = Math.Min(insertIndex, steps.LastIndexOf(predecessor) + 1);
@@ -67,7 +68,7 @@ namespace FluentAssertions
         public void Insert<TStep>()
             where TStep : IEquivalencyStep, new()
         {
-            steps.Insert(0, new TStep());
+            steps.Insert(index: 0, new TStep());
         }
 
         /// <summary>
@@ -76,9 +77,10 @@ namespace FluentAssertions
         public void InsertBefore<TSuccessor, TStep>()
             where TStep : IEquivalencyStep, new()
         {
-            int insertIndex = Math.Max(steps.Count - 1, 0);
+            int insertIndex = Math.Max(steps.Count - 1, val2: 0);
 
             IEquivalencyStep equalityStep = steps.LastOrDefault(s => s is TSuccessor);
+
             if (equalityStep is not null)
             {
                 insertIndex = steps.LastIndexOf(equalityStep);
@@ -111,7 +113,7 @@ namespace FluentAssertions
 
         private static List<IEquivalencyStep> GetDefaultSteps()
         {
-            return new(18)
+            return new List<IEquivalencyStep>(capacity: 18)
             {
                 new RunAllUserStepsEquivalencyStep(),
                 new AutoConversionStep(),
@@ -136,7 +138,7 @@ namespace FluentAssertions
                 new EnumEqualityStep(),
                 new ValueTypeEquivalencyStep(),
                 new StructuralEqualityEquivalencyStep(),
-                new SimpleEqualityEquivalencyStep(),
+                new SimpleEqualityEquivalencyStep()
             };
         }
     }

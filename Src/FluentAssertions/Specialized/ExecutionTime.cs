@@ -40,6 +40,7 @@ namespace FluentAssertions.Specialized
 
             ActionDescription = actionDescription;
             IsRunning = true;
+
             Task = Task.Run(() =>
             {
                 // move stopwatch as close to action start as possible
@@ -80,6 +81,7 @@ namespace FluentAssertions.Specialized
 
             ActionDescription = actionDescription;
             IsRunning = true;
+
             Task = Task.Run(async () =>
             {
                 // move stopwatch as close to action start as possible

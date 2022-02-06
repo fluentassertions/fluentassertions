@@ -5,7 +5,8 @@
     /// </summary>
     public abstract class EquivalencyStep<T> : IEquivalencyStep
     {
-        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+            IEquivalencyValidator nestedValidator)
         {
             if (!typeof(T).IsAssignableFrom(comparands.GetExpectedType(context.Options)))
             {
@@ -18,6 +19,7 @@
         /// <summary>
         /// Implements <see cref="IEquivalencyStep.Handle"/>, but only gets called when the expected type matches <typeparamref name="T"/>.
         /// </summary>
-        protected abstract EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator);
+        protected abstract EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context,
+            IEquivalencyValidator nestedValidator);
     }
 }

@@ -17,7 +17,7 @@ namespace FluentAssertions.Common
 
             for (int index = 0; index < value.Length; index++)
             {
-                if ((index >= expected.Length) || !comparer(value[index], expected[index]))
+                if (index >= expected.Length || !comparer(value[index], expected[index]))
                 {
                     return index;
                 }
@@ -26,17 +26,19 @@ namespace FluentAssertions.Common
             return -1;
         }
 
-        private static Func<char, char, bool> GetCharComparer(StringComparison stringComparison) =>
-            stringComparison == StringComparison.Ordinal
-                ? ((x, y) => x == y)
+        private static Func<char, char, bool> GetCharComparer(StringComparison stringComparison)
+        {
+            return stringComparison == StringComparison.Ordinal
+                ? (x, y) => x == y
                 : (x, y) => char.ToUpperInvariant(x) == char.ToUpperInvariant(y);
+        }
 
         /// <summary>
         /// Gets the quoted three characters at the specified index of a string, including the index itself.
         /// </summary>
         public static string IndexedSegmentAt(this string value, int index)
         {
-            int length = Math.Min(value.Length - index, 3);
+            int length = Math.Min(value.Length - index, val2: 3);
             string formattedString = Formatter.ToString(value.Substring(index, length));
 
             return $"{formattedString} (index {index})".EscapePlaceholders();
@@ -61,14 +63,20 @@ namespace FluentAssertions.Common
         /// <summary>
         /// Replaces all characters that might conflict with formatting placeholders with their escaped counterparts.
         /// </summary>
-        public static string EscapePlaceholders(this string value) =>
-            value.Replace("{", "{{", StringComparison.Ordinal).Replace("}", "}}", StringComparison.Ordinal);
+        public static string EscapePlaceholders(this string value)
+        {
+            return value.Replace("{", "{{", StringComparison.Ordinal)
+                .Replace("}", "}}", StringComparison.Ordinal);
+        }
 
         /// <summary>
         /// Replaces all characters that might conflict with formatting placeholders with their escaped counterparts.
         /// </summary>
-        internal static string UnescapePlaceholders(this string value) =>
-            value.Replace("{{", "{", StringComparison.Ordinal).Replace("}}", "}", StringComparison.Ordinal);
+        internal static string UnescapePlaceholders(this string value)
+        {
+            return value.Replace("{{", "{", StringComparison.Ordinal)
+                .Replace("}}", "}", StringComparison.Ordinal);
+        }
 
         /// <summary>
         /// Joins a string with one or more other strings using a specified separator.
@@ -80,7 +88,7 @@ namespace FluentAssertions.Common
         {
             if (@this.Length == 0)
             {
-                return (other.Length != 0) ? other : string.Empty;
+                return other.Length != 0 ? other : string.Empty;
             }
 
             if (other.Length == 0)
@@ -117,15 +125,19 @@ namespace FluentAssertions.Common
         /// <param name="this"></param>
         public static string IndentLines(this string @this)
         {
-            return string.Join(Environment.NewLine,
-                @this.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(x => $"\t{x}"));
+            return string.Join(Environment.NewLine, @this.Split(new[]
+                {
+                    '\r',
+                    '\n'
+                }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => $"\t{x}"));
         }
 
         public static string RemoveNewLines(this string @this)
         {
             return @this.Replace("\n", string.Empty, StringComparison.Ordinal)
-                        .Replace("\r", string.Empty, StringComparison.Ordinal)
-                        .Replace("\\r\\n", string.Empty, StringComparison.Ordinal);
+                .Replace("\r", string.Empty, StringComparison.Ordinal)
+                .Replace("\\r\\n", string.Empty, StringComparison.Ordinal);
         }
 
         /// <summary>

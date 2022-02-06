@@ -37,10 +37,13 @@ namespace FluentAssertions.Execution
 
             public DeferredReportable(Func<string> valueFunc)
             {
-                lazyValue = new(valueFunc);
+                lazyValue = new Lazy<string>(valueFunc);
             }
 
-            public override string ToString() => lazyValue.Value;
+            public override string ToString()
+            {
+                return lazyValue.Value;
+            }
         }
 
         #endregion
@@ -96,8 +99,7 @@ namespace FluentAssertions.Execution
         /// <exception cref="ArgumentNullException">Thrown when trying to use a null strategy.</exception>
         private AssertionScope(IAssertionStrategy assertionStrategy, AssertionScope parent)
         {
-            this.assertionStrategy = assertionStrategy
-                                     ?? throw new ArgumentNullException(nameof(assertionStrategy));
+            this.assertionStrategy = assertionStrategy ?? throw new ArgumentNullException(nameof(assertionStrategy));
             this.parent = parent;
 
             if (parent is not null)
@@ -123,7 +125,7 @@ namespace FluentAssertions.Execution
 #pragma warning disable CA2000 // AssertionScope should not be disposed here
             get
             {
-                return GetCurrentAssertionScope() ?? new AssertionScope(new DefaultAssertionStrategy(), parent: null);
+                return GetCurrentAssertionScope() ?? new AssertionScope(new DefaultAssertionStrategy(), null);
             }
 #pragma warning restore CA2000
             private set => SetCurrentAssertionScope(value);
@@ -144,10 +146,7 @@ namespace FluentAssertions.Execution
         /// </summary>
         public FormattingOptions FormattingOptions => formattingOptions;
 
-        internal bool Succeeded
-        {
-            get => succeeded == true;
-        }
+        internal bool Succeeded => succeeded == true;
 
         /// <summary>
         /// Adds an explanation of why the assertion is supposed to succeed to the scope.
@@ -165,13 +164,18 @@ namespace FluentAssertions.Execution
                 try
                 {
                     string becauseOrEmpty = because ?? string.Empty;
-                    return (becauseArgs?.Any() == true) ? string.Format(CultureInfo.InvariantCulture, becauseOrEmpty, becauseArgs) : becauseOrEmpty;
+
+                    return becauseArgs?.Any() == true
+                        ? string.Format(CultureInfo.InvariantCulture, becauseOrEmpty, becauseArgs)
+                        : becauseOrEmpty;
                 }
                 catch (FormatException formatException)
                 {
-                    return $"**WARNING** because message '{because}' could not be formatted with string.Format{Environment.NewLine}{formatException.StackTrace}";
+                    return
+                        $"**WARNING** because message '{because}' could not be formatted with string.Format{Environment.NewLine}{formatException.StackTrace}";
                 }
             };
+
             return this;
         }
 
@@ -179,6 +183,7 @@ namespace FluentAssertions.Execution
         public AssertionScope WithExpectation(string message, params object[] args)
         {
             Func<string> localReason = reason;
+
             expectation = () =>
             {
                 var messageBuilder = new MessageBuilder(formattingOptions);
@@ -194,7 +199,9 @@ namespace FluentAssertions.Execution
         internal void TrackComparands(object subject, object expectation)
         {
             contextData.Add(new ContextDataItems.DataItem("subject", subject, reportable: false, requiresFormatting: true));
-            contextData.Add(new ContextDataItems.DataItem("expectation", expectation, reportable: false, requiresFormatting: true));
+
+            contextData.Add(
+                new ContextDataItems.DataItem("expectation", expectation, reportable: false, requiresFormatting: true));
         }
 
         /// <inheritdoc/>
@@ -208,7 +215,7 @@ namespace FluentAssertions.Execution
 
         public GivenSelector<T> Given<T>(Func<T> selector)
         {
-            return new GivenSelector<T>(selector, this, continueAsserting: succeeded != false);
+            return new GivenSelector<T>(selector, this, succeeded != false);
         }
 
         /// <inheritdoc cref="IAssertionScope.ForCondition(bool)"/>
@@ -246,19 +253,25 @@ namespace FluentAssertions.Execution
                 var messageBuilder = new MessageBuilder(formattingOptions);
                 string identifier = GetIdentifier();
                 FailReason failReason = failReasonFunc();
-                string result = messageBuilder.Build(failReason.Message, failReason.Args, localReason, contextData, identifier, fallbackIdentifier);
+
+                string result = messageBuilder.Build(failReason.Message, failReason.Args, localReason, contextData, identifier,
+                    fallbackIdentifier);
+
                 return result;
             });
         }
 
-        internal Continuation FailWithPreFormatted(string formattedFailReason) =>
-            FailWith(() => formattedFailReason);
+        internal Continuation FailWithPreFormatted(string formattedFailReason)
+        {
+            return FailWith(() => formattedFailReason);
+        }
 
         private Continuation FailWith(Func<string> failReasonFunc)
         {
             try
             {
                 bool failed = succeeded != true;
+
                 if (failed)
                 {
                     string result = failReasonFunc();
@@ -273,7 +286,7 @@ namespace FluentAssertions.Execution
                     succeeded = false;
                 }
 
-                return new Continuation(this, continueAsserting: !failed);
+                return new Continuation(this, !failed);
             }
             finally
             {
@@ -296,13 +309,13 @@ namespace FluentAssertions.Execution
         /// <inheritdoc/>
         public Continuation FailWith(string message, params Func<object>[] argProviders)
         {
-            return FailWith(() => new FailReason(message,
-                argProviders.Select(a => a()).ToArray()));
+            return FailWith(() => new FailReason(message, argProviders.Select(a => a()).ToArray()));
         }
 
         private string GetIdentifier()
         {
-            var identifier = Context?.Value;
+            string identifier = Context?.Value;
+
             if (string.IsNullOrEmpty(identifier))
             {
                 identifier = CallerIdentity;
@@ -329,7 +342,7 @@ namespace FluentAssertions.Execution
         /// </summary>
         public void AddNonReportable(string key, object value)
         {
-            contextData.Add(new ContextDataItems.DataItem(key, value, reportable: false, requiresFormatting: false));
+            contextData.Add(new ContextDataItems.DataItem(key, value, false, false));
         }
 
         /// <summary>
@@ -338,7 +351,7 @@ namespace FluentAssertions.Execution
         /// </summary>
         public void AddReportable(string key, string value)
         {
-            contextData.Add(new ContextDataItems.DataItem(key, value, reportable: true, requiresFormatting: false));
+            contextData.Add(new ContextDataItems.DataItem(key, value, true, false));
         }
 
         /// <summary>
@@ -347,7 +360,7 @@ namespace FluentAssertions.Execution
         /// </summary>
         public void AddReportable(string key, Func<string> valueFunc)
         {
-            contextData.Add(new ContextDataItems.DataItem(key, new DeferredReportable(valueFunc), reportable: true, requiresFormatting: false));
+            contextData.Add(new ContextDataItems.DataItem(key, new DeferredReportable(valueFunc), true, false));
         }
 
         public string[] Discard()
@@ -418,13 +431,25 @@ namespace FluentAssertions.Execution
 
         #region Explicit Implementation to support the interface
 
-        IAssertionScope IAssertionScope.ForCondition(bool condition) => ForCondition(condition);
+        IAssertionScope IAssertionScope.ForCondition(bool condition)
+        {
+            return ForCondition(condition);
+        }
 
-        IAssertionScope IAssertionScope.BecauseOf(string because, params object[] becauseArgs) => BecauseOf(because, becauseArgs);
+        IAssertionScope IAssertionScope.BecauseOf(string because, params object[] becauseArgs)
+        {
+            return BecauseOf(because, becauseArgs);
+        }
 
-        IAssertionScope IAssertionScope.WithExpectation(string message, params object[] args) => WithExpectation(message, args);
+        IAssertionScope IAssertionScope.WithExpectation(string message, params object[] args)
+        {
+            return WithExpectation(message, args);
+        }
 
-        IAssertionScope IAssertionScope.WithDefaultIdentifier(string identifier) => WithDefaultIdentifier(identifier);
+        IAssertionScope IAssertionScope.WithDefaultIdentifier(string identifier)
+        {
+            return WithDefaultIdentifier(identifier);
+        }
 
         IAssertionScope IAssertionScope.UsingLineBreaks => UsingLineBreaks;
 

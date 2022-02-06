@@ -28,9 +28,13 @@ namespace FluentAssertions.Equivalency.Tracing
 
         private void WriteLine(string trace)
         {
-            foreach (string traceLine in trace.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+            foreach (string traceLine in trace.Split(new[]
             {
-                builder.Append(new string(' ', depth * 2)).AppendLine(traceLine);
+                Environment.NewLine
+            }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                builder.Append(new string(c: ' ', depth * 2))
+                    .AppendLine(traceLine);
             }
         }
 

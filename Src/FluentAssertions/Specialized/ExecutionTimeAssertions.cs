@@ -68,25 +68,32 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<ExecutionTimeAssertions> BeLessThanOrEqualTo(TimeSpan maxDuration, string because = "", params object[] becauseArgs)
+        public AndConstraint<ExecutionTimeAssertions> BeLessThanOrEqualTo(TimeSpan maxDuration, string because = "",
+            params object[] becauseArgs)
         {
-            bool Condition(TimeSpan duration) => duration.CompareTo(maxDuration) <= 0;
-            (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: false, rate: maxDuration);
+            bool Condition(TimeSpan duration)
+            {
+                return duration.CompareTo(maxDuration) <= 0;
+            }
 
-            Execute.Assertion
-                .ForCondition(Condition(elapsed))
+            (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: false, maxDuration);
+
+            Execute.Assertion.ForCondition(Condition(elapsed))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Execution of " +
-                          execution.ActionDescription + " should be less than or equal to {0}{reason}, but it required " +
-                          (isRunning ? "more than " : "exactly ") + "{1}.",
-                    maxDuration,
-                    elapsed);
+                .FailWith(
+                    "Execution of " + execution.ActionDescription +
+                    " should be less than or equal to {0}{reason}, but it required " + (isRunning ? "more than " : "exactly ") +
+                    "{1}.", maxDuration, elapsed);
 
             return new AndConstraint<ExecutionTimeAssertions>(this);
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public AndConstraint<ExecutionTimeAssertions> BeLessOrEqualTo(TimeSpan maxDuration, string because = "", params object[] becauseArgs) => BeLessThanOrEqualTo(maxDuration, because, becauseArgs);
+        public AndConstraint<ExecutionTimeAssertions> BeLessOrEqualTo(TimeSpan maxDuration, string because = "",
+            params object[] becauseArgs)
+        {
+            return BeLessThanOrEqualTo(maxDuration, because, becauseArgs);
+        }
 
         /// <summary>
         /// Asserts that the execution time of the operation is less than a specified amount of time.
@@ -101,19 +108,21 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<ExecutionTimeAssertions> BeLessThan(TimeSpan maxDuration, string because = "", params object[] becauseArgs)
+        public AndConstraint<ExecutionTimeAssertions> BeLessThan(TimeSpan maxDuration, string because = "",
+            params object[] becauseArgs)
         {
-            bool Condition(TimeSpan duration) => duration.CompareTo(maxDuration) < 0;
-            (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: false, rate: maxDuration);
+            bool Condition(TimeSpan duration)
+            {
+                return duration.CompareTo(maxDuration) < 0;
+            }
 
-            Execute.Assertion
-                .ForCondition(Condition(execution.ElapsedTime))
+            (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: false, maxDuration);
+
+            Execute.Assertion.ForCondition(Condition(execution.ElapsedTime))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Execution of " +
-                          execution.ActionDescription + " should be less than {0}{reason}, but it required " +
-                          (isRunning ? "more than " : "exactly ") + "{1}.",
-                    maxDuration,
-                    elapsed);
+                .FailWith(
+                    "Execution of " + execution.ActionDescription + " should be less than {0}{reason}, but it required " +
+                    (isRunning ? "more than " : "exactly ") + "{1}.", maxDuration, elapsed);
 
             return new AndConstraint<ExecutionTimeAssertions>(this);
         }
@@ -131,25 +140,32 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<ExecutionTimeAssertions> BeGreaterThanOrEqualTo(TimeSpan minDuration, string because = "", params object[] becauseArgs)
+        public AndConstraint<ExecutionTimeAssertions> BeGreaterThanOrEqualTo(TimeSpan minDuration, string because = "",
+            params object[] becauseArgs)
         {
-            bool Condition(TimeSpan duration) => duration.CompareTo(minDuration) >= 0;
-            (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: true, rate: minDuration);
+            bool Condition(TimeSpan duration)
+            {
+                return duration.CompareTo(minDuration) >= 0;
+            }
 
-            Execute.Assertion
-                .ForCondition(Condition(elapsed))
+            (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: true, minDuration);
+
+            Execute.Assertion.ForCondition(Condition(elapsed))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Execution of " +
-                          execution.ActionDescription + " should be greater than or equal to {0}{reason}, but it required " +
-                          (isRunning ? "more than " : "exactly ") + "{1}.",
-                    minDuration,
-                    elapsed);
+                .FailWith(
+                    "Execution of " + execution.ActionDescription +
+                    " should be greater than or equal to {0}{reason}, but it required " +
+                    (isRunning ? "more than " : "exactly ") + "{1}.", minDuration, elapsed);
 
             return new AndConstraint<ExecutionTimeAssertions>(this);
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public AndConstraint<ExecutionTimeAssertions> BeGreaterOrEqualTo(TimeSpan minDuration, string because = "", params object[] becauseArgs) => BeGreaterThanOrEqualTo(minDuration, because, becauseArgs);
+        public AndConstraint<ExecutionTimeAssertions> BeGreaterOrEqualTo(TimeSpan minDuration, string because = "",
+            params object[] becauseArgs)
+        {
+            return BeGreaterThanOrEqualTo(minDuration, because, becauseArgs);
+        }
 
         /// <summary>
         /// Asserts that the execution time of the operation is greater than a specified amount of time.
@@ -164,19 +180,21 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<ExecutionTimeAssertions> BeGreaterThan(TimeSpan minDuration, string because = "", params object[] becauseArgs)
+        public AndConstraint<ExecutionTimeAssertions> BeGreaterThan(TimeSpan minDuration, string because = "",
+            params object[] becauseArgs)
         {
-            bool Condition(TimeSpan duration) => duration.CompareTo(minDuration) > 0;
-            (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: true, rate: minDuration);
+            bool Condition(TimeSpan duration)
+            {
+                return duration.CompareTo(minDuration) > 0;
+            }
 
-            Execute.Assertion
-                .ForCondition(Condition(elapsed))
+            (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: true, minDuration);
+
+            Execute.Assertion.ForCondition(Condition(elapsed))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Execution of " +
-                          execution.ActionDescription + " should be greater than {0}{reason}, but it required " +
-                          (isRunning ? "more than " : "exactly ") + "{1}.",
-                    minDuration,
-                    elapsed);
+                .FailWith(
+                    "Execution of " + execution.ActionDescription + " should be greater than {0}{reason}, but it required " +
+                    (isRunning ? "more than " : "exactly ") + "{1}.", minDuration, elapsed);
 
             return new AndConstraint<ExecutionTimeAssertions>(this);
         }
@@ -198,38 +216,45 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<ExecutionTimeAssertions> BeCloseTo(TimeSpan expectedDuration, TimeSpan precision, string because = "", params object[] becauseArgs)
+        public AndConstraint<ExecutionTimeAssertions> BeCloseTo(TimeSpan expectedDuration, TimeSpan precision,
+            string because = "", params object[] becauseArgs)
         {
             if (precision < TimeSpan.Zero)
             {
-                throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+                throw new ArgumentOutOfRangeException(nameof(precision),
+                    $"The value of {nameof(precision)} must be non-negative.");
             }
 
             TimeSpan minimumValue = expectedDuration - precision;
             TimeSpan maximumValue = expectedDuration + precision;
 
-            bool MaxCondition(TimeSpan duration) => duration <= maximumValue;
-            bool MinCondition(TimeSpan duration) => duration >= minimumValue;
+            bool MaxCondition(TimeSpan duration)
+            {
+                return duration <= maximumValue;
+            }
+
+            bool MinCondition(TimeSpan duration)
+            {
+                return duration >= minimumValue;
+            }
 
             // for polling we only use max condition, we don't want poll to stop if
             // elapsed time didn't even get to the acceptable range
-            (bool isRunning, TimeSpan elapsed) = PollUntil(MaxCondition, expectedResult: false, rate: maximumValue);
+            (bool isRunning, TimeSpan elapsed) = PollUntil(MaxCondition, expectedResult: false, maximumValue);
 
-            Execute.Assertion
-                .ForCondition(MinCondition(elapsed) && MaxCondition(elapsed))
+            Execute.Assertion.ForCondition(MinCondition(elapsed) && MaxCondition(elapsed))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Execution of " + execution.ActionDescription +
-                          " should be within {0} from {1}{reason}, but it required " +
-                          (isRunning ? "more than " : "exactly ") + "{2}.",
-                    precision,
-                    expectedDuration,
-                    elapsed);
+                .FailWith(
+                    "Execution of " + execution.ActionDescription + " should be within {0} from {1}{reason}, but it required " +
+                    (isRunning ? "more than " : "exactly ") + "{2}.", precision, expectedDuration, elapsed);
 
             return new AndConstraint<ExecutionTimeAssertions>(this);
         }
 
         /// <inheritdoc/>
-        public override bool Equals(object obj) =>
+        public override bool Equals(object obj)
+        {
             throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
+        }
     }
 }

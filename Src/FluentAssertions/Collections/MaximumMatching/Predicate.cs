@@ -32,8 +32,14 @@ namespace FluentAssertions.Collections.MaximumMatching
         /// <summary>
         /// Determines whether the predicate matches the specified element.
         /// </summary>
-        public bool Matches(TValue element) => compiledExpression(element);
+        public bool Matches(TValue element)
+        {
+            return compiledExpression(element);
+        }
 
-        public override string ToString() => $"Index: {Index}, Expression: {Formatter.ToString(Expression)}";
+        public override string ToString()
+        {
+            return $"Index: {Index}, Expression: {Formatter.ToString(Expression)}";
+        }
     }
 }

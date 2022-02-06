@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using FluentAssertions.Common;
 using FluentAssertions.Formatting;
 
@@ -20,31 +19,26 @@ namespace FluentAssertions
         public AndWhichConstraint(TParentConstraint parentConstraint, TMatchedElement matchedConstraint)
             : base(parentConstraint)
         {
-            this.matchedConstraint =
-                new Lazy<TMatchedElement>(() => matchedConstraint);
+            this.matchedConstraint = new Lazy<TMatchedElement>(() => matchedConstraint);
         }
 
         public AndWhichConstraint(TParentConstraint parentConstraint, IEnumerable<TMatchedElement> matchedConstraint)
             : base(parentConstraint)
         {
-            this.matchedConstraint =
-                new Lazy<TMatchedElement>(
-                    () => SingleOrDefault(matchedConstraint));
+            this.matchedConstraint = new Lazy<TMatchedElement>(() => SingleOrDefault(matchedConstraint));
         }
 
-        private static TMatchedElement SingleOrDefault(
-            IEnumerable<TMatchedElement> matchedConstraint)
+        private static TMatchedElement SingleOrDefault(IEnumerable<TMatchedElement> matchedConstraint)
         {
             TMatchedElement[] matchedElements = matchedConstraint.ToArray();
 
             if (matchedElements.Length > 1)
             {
                 string foundObjects = string.Join(Environment.NewLine,
-                    matchedElements.Select(
-                        ele => "\t" + Formatter.ToString(ele)));
+                    matchedElements.Select(ele => "\t" + Formatter.ToString(ele)));
 
-                string message = "More than one object found.  FluentAssertions cannot determine which object is meant."
-                              + $"  Found objects:{Environment.NewLine}{foundObjects}";
+                string message = "More than one object found.  FluentAssertions cannot determine which object is meant." +
+                    $"  Found objects:{Environment.NewLine}{foundObjects}";
 
                 Services.ThrowException(message);
             }

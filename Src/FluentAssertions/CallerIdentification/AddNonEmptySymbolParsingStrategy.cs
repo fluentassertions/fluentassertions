@@ -52,7 +52,7 @@ namespace FluentAssertions.CallerIdentification
             /// <summary>
             /// Only keep one whitespace character if more than one follow each other.
             /// </summary>
-            RemoveSuperfluousWhitespace,
+            RemoveSuperfluousWhitespace
         }
     }
 }

@@ -11,9 +11,11 @@ namespace FluentAssertions.Equivalency
     /// </summary>
     internal class MultiDimensionalArrayEquivalencyStep : IEquivalencyStep
     {
-        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+            IEquivalencyValidator nestedValidator)
         {
-            Array expectationAsArray = comparands.Expectation as Array;
+            var expectationAsArray = comparands.Expectation as Array;
+
             if (expectationAsArray is null || expectationAsArray?.Rank == 1)
             {
                 return EquivalencyResult.ContinueWithNext;
@@ -48,26 +50,21 @@ namespace FluentAssertions.Equivalency
         private static Digit BuildDigitsRepresentingAllIndices(Array subjectAsArray)
         {
             return Enumerable
-                .Range(0, subjectAsArray.Rank)
+                .Range(start: 0, subjectAsArray.Rank)
                 .Reverse()
-                .Aggregate((Digit)null, (next, rank) => new Digit(subjectAsArray.GetLength(rank), next));
+                .Aggregate((Digit)null,  (next, rank) => new Digit(subjectAsArray.GetLength(rank), next));
         }
 
         private static bool AreComparable(Comparands comparands, Array expectationAsArray)
         {
-            return
-                IsArray(comparands.Subject) &&
-                HaveSameRank(comparands.Subject, expectationAsArray) &&
+            return IsArray(comparands.Subject) && HaveSameRank(comparands.Subject, expectationAsArray) &&
                 HaveSameDimensions(comparands.Subject, expectationAsArray);
         }
 
         private static bool IsArray(object type)
         {
-            return AssertionScope.Current
-                .ForCondition(type is not null)
-                .FailWith("Cannot compare a multi-dimensional array to <null>.")
-                .Then
-                .ForCondition(type is Array)
+            return AssertionScope.Current.ForCondition(type is not null)
+                .FailWith("Cannot compare a multi-dimensional array to <null>.").Then.ForCondition(type is Array)
                 .FailWith("Cannot compare a multi-dimensional array to something else.");
         }
 
@@ -80,10 +77,8 @@ namespace FluentAssertions.Equivalency
                 int actualLength = ((Array)subject).GetLength(dimension);
                 int expectedLength = expectation.GetLength(dimension);
 
-                sameDimensions &= AssertionScope.Current
-                    .ForCondition(expectedLength == actualLength)
-                    .FailWith("Expected dimension {0} to contain {1} item(s), but found {2}.", dimension, expectedLength,
-                        actualLength);
+                sameDimensions &= AssertionScope.Current.ForCondition(expectedLength == actualLength).FailWith(
+                    "Expected dimension {0} to contain {1} item(s), but found {2}.", dimension, expectedLength, actualLength);
             }
 
             return sameDimensions;
@@ -93,10 +88,8 @@ namespace FluentAssertions.Equivalency
         {
             var subjectAsArray = (Array)subject;
 
-            return AssertionScope.Current
-                .ForCondition(subjectAsArray.Rank == expectation.Rank)
-                .FailWith("Expected {context:array} to have {0} dimension(s), but it has {1}.", expectation.Rank,
-                    subjectAsArray.Rank);
+            return AssertionScope.Current.ForCondition(subjectAsArray.Rank == expectation.Rank).FailWith(
+                "Expected {context:array} to have {0} dimension(s), but it has {1}.", expectation.Rank, subjectAsArray.Rank);
         }
     }
 
@@ -117,6 +110,7 @@ namespace FluentAssertions.Equivalency
             var indices = new List<int>();
 
             Digit digit = this;
+
             while (digit is not null)
             {
                 indices.Add(digit.index);
@@ -129,9 +123,10 @@ namespace FluentAssertions.Equivalency
         public bool Increment()
         {
             bool success = nextDigit?.Increment() == true;
+
             if (!success)
             {
-                if (index < (length - 1))
+                if (index < length - 1)
                 {
                     index++;
                     success = true;

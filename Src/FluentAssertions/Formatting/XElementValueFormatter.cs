@@ -30,7 +30,8 @@ namespace FluentAssertions.Formatting
 
         private static string FormatElementWithoutChildren(XElement element)
         {
-            return element.ToString().EscapePlaceholders();
+            return element.ToString()
+                .EscapePlaceholders();
         }
 
         private static string FormatElementWithChildren(XElement element)
@@ -39,8 +40,11 @@ namespace FluentAssertions.Formatting
 
             // Can't use env.newline because the input doc may have unix or windows style
             // line-breaks
-            string firstLine = lines.First().RemoveNewLines();
-            string lastLine = lines.Last().RemoveNewLines();
+            string firstLine = lines.First()
+                .RemoveNewLines();
+
+            string lastLine = lines.Last()
+                .RemoveNewLines();
 
             string formattedElement = firstLine + "…" + lastLine;
             return formattedElement.EscapePlaceholders();
@@ -49,7 +53,11 @@ namespace FluentAssertions.Formatting
         private static string[] SplitIntoSeparateLines(XElement element)
         {
             string formattedXml = element.ToString();
-            return formattedXml.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+
+            return formattedXml.Split(new[]
+            {
+                Environment.NewLine
+            }, StringSplitOptions.None);
         }
     }
 }

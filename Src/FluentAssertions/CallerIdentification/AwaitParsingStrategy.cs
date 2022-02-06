@@ -18,10 +18,10 @@ namespace FluentAssertions.CallerIdentification
 
         private static bool EndsWithOurKeyword(StringBuilder statement)
         {
-            var leftIndex = statement.Length - 1;
-            var rightIndex = KeywordToSkip.Length - 1;
+            int leftIndex = statement.Length - 1;
+            int rightIndex = KeywordToSkip.Length - 1;
 
-            for (var offset = 0; offset < KeywordToSkip.Length; offset++)
+            for (int offset = 0; offset < KeywordToSkip.Length; offset++)
             {
                 if (statement[leftIndex - offset] != KeywordToSkip[rightIndex - offset])
                 {
@@ -32,7 +32,10 @@ namespace FluentAssertions.CallerIdentification
             return true;
         }
 
-        private static bool IsLongEnoughToContainOurKeyword(StringBuilder statement) => statement.Length >= KeywordToSkip.Length;
+        private static bool IsLongEnoughToContainOurKeyword(StringBuilder statement)
+        {
+            return statement.Length >= KeywordToSkip.Length;
+        }
 
         public bool IsWaitingForContextEnd()
         {

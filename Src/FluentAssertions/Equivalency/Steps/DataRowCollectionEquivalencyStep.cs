@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using FluentAssertions.Data;
@@ -8,13 +9,13 @@ namespace FluentAssertions.Equivalency.Steps
 {
     public class DataRowCollectionEquivalencyStep : EquivalencyStep<DataRowCollection>
     {
-        protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+        protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context,
+            IEquivalencyValidator nestedValidator)
         {
             if (comparands.Subject is not DataRowCollection)
             {
-                AssertionScope.Current
-                    .FailWith("Expected {context:value} to be of type DataRowCollection, but found {0}",
-                        comparands.Subject.GetType());
+                AssertionScope.Current.FailWith("Expected {context:value} to be of type DataRowCollection, but found {0}",
+                    comparands.Subject.GetType());
             }
             else
             {
@@ -32,8 +33,7 @@ namespace FluentAssertions.Equivalency.Steps
                 var subject = (DataRowCollection)comparands.Subject;
                 var expectation = (DataRowCollection)comparands.Expectation;
 
-                bool success = AssertionScope.Current
-                    .ForCondition(subject.Count == expectation.Count)
+                bool success = AssertionScope.Current.ForCondition(subject.Count == expectation.Count)
                     .FailWith("Expected {context:DataRowCollection} to contain {0} row(s){reason}, but found {1}",
                         expectation.Count, subject.Count);
 
@@ -52,6 +52,7 @@ namespace FluentAssertions.Equivalency.Steps
                         default:
                             AssertionScope.Current.FailWith(
                                 "Unknown RowMatchMode {0} when trying to compare {context:DataRowCollection}", rowMatchMode);
+
                             break;
                     }
                 }
@@ -60,28 +61,34 @@ namespace FluentAssertions.Equivalency.Steps
             return EquivalencyResult.AssertionCompleted;
         }
 
-        private static void MatchRowsByIndexAndCompare(IEquivalencyValidationContext context, IEquivalencyValidator parent, DataRowCollection subject, DataRowCollection expectation)
+        private static void MatchRowsByIndexAndCompare(IEquivalencyValidationContext context, IEquivalencyValidator parent,
+            DataRowCollection subject, DataRowCollection expectation)
         {
             for (int index = 0; index < expectation.Count; index++)
             {
                 IEquivalencyValidationContext nestedContext = context.AsCollectionItem<DataRow>(index);
-                parent.RecursivelyAssertEquality(new Comparands(subject[index], expectation[index], typeof(DataRow)), nestedContext);
+
+                parent.RecursivelyAssertEquality(new Comparands(subject[index], expectation[index], typeof(DataRow)),
+                    nestedContext);
             }
         }
 
-        private static void MatchRowsByPrimaryKeyAndCompare(IEquivalencyValidator parent, IEquivalencyValidationContext context, DataRowCollection subject, DataRowCollection expectation)
+        private static void MatchRowsByPrimaryKeyAndCompare(IEquivalencyValidator parent, IEquivalencyValidationContext context,
+            DataRowCollection subject, DataRowCollection expectation)
         {
             Type[] subjectPrimaryKeyTypes = null;
             Type[] expectationPrimaryKeyTypes = null;
 
             if (subject.Count > 0)
             {
-                subjectPrimaryKeyTypes = GatherPrimaryKeyColumnTypes(subject[0].Table, "subject");
+                subjectPrimaryKeyTypes = GatherPrimaryKeyColumnTypes(subject[index: 0]
+                    .Table, "subject");
             }
 
             if (expectation.Count > 0)
             {
-                expectationPrimaryKeyTypes = GatherPrimaryKeyColumnTypes(expectation[0].Table, "expectation");
+                expectationPrimaryKeyTypes = GatherPrimaryKeyColumnTypes(expectation[index: 0]
+                    .Table, "expectation");
             }
 
             bool matchingTypes = ComparePrimaryKeyTypes(subjectPrimaryKeyTypes, expectationPrimaryKeyTypes);
@@ -96,10 +103,11 @@ namespace FluentAssertions.Equivalency.Steps
         {
             Type[] primaryKeyTypes = null;
 
-            if ((table.PrimaryKey is null) || (table.PrimaryKey.Length == 0))
+            if (table.PrimaryKey is null || table.PrimaryKey.Length == 0)
             {
-                AssertionScope.Current
-                    .FailWith("Table '{0}' containing {1} {context:DataRowCollection} does not have a primary key. RowMatchMode.PrimaryKey cannot be applied.", table.TableName, comparisonTerm);
+                AssertionScope.Current.FailWith(
+                    "Table '{0}' containing {1} {context:DataRowCollection} does not have a primary key. RowMatchMode.PrimaryKey cannot be applied.",
+                    table.TableName, comparisonTerm);
             }
             else
             {
@@ -107,7 +115,8 @@ namespace FluentAssertions.Equivalency.Steps
 
                 for (int i = 0; i < table.PrimaryKey.Length; i++)
                 {
-                    primaryKeyTypes[i] = table.PrimaryKey[i].DataType;
+                    primaryKeyTypes[i] = table.PrimaryKey[i]
+                        .DataType;
                 }
             }
 
@@ -118,11 +127,11 @@ namespace FluentAssertions.Equivalency.Steps
         {
             bool matchingTypes = false;
 
-            if ((subjectPrimaryKeyTypes is not null) && (expectationPrimaryKeyTypes is not null))
+            if (subjectPrimaryKeyTypes is not null && expectationPrimaryKeyTypes is not null)
             {
                 matchingTypes = subjectPrimaryKeyTypes.Length == expectationPrimaryKeyTypes.Length;
 
-                for (int i = 0; matchingTypes && (i < subjectPrimaryKeyTypes.Length); i++)
+                for (int i = 0; matchingTypes && i < subjectPrimaryKeyTypes.Length; i++)
                 {
                     if (subjectPrimaryKeyTypes[i] != expectationPrimaryKeyTypes[i])
                     {
@@ -132,15 +141,16 @@ namespace FluentAssertions.Equivalency.Steps
 
                 if (!matchingTypes)
                 {
-                    AssertionScope.Current
-                        .FailWith("Subject and expectation primary keys of table containing {context:DataRowCollection} do not have the same schema and cannot be compared. RowMatchMode.PrimaryKey cannot be applied.");
+                    AssertionScope.Current.FailWith(
+                        "Subject and expectation primary keys of table containing {context:DataRowCollection} do not have the same schema and cannot be compared. RowMatchMode.PrimaryKey cannot be applied.");
                 }
             }
 
             return matchingTypes;
         }
 
-        private static void GatherRowsByPrimaryKeyAndCompareData(IEquivalencyValidator parent, IEquivalencyValidationContext context, DataRowCollection subject, DataRowCollection expectation)
+        private static void GatherRowsByPrimaryKeyAndCompareData(IEquivalencyValidator parent,
+            IEquivalencyValidationContext context, DataRowCollection subject, DataRowCollection expectation)
         {
             var expectationRowByKey = expectation.Cast<DataRow>()
                 .ToDictionary(row => ExtractPrimaryKey(row));
@@ -151,8 +161,7 @@ namespace FluentAssertions.Equivalency.Steps
 
                 if (!expectationRowByKey.TryGetValue(key, out DataRow expectationRow))
                 {
-                    AssertionScope.Current
-                        .FailWith("Found unexpected row in {context:DataRowCollection} with key {0}", key);
+                    AssertionScope.Current.FailWith("Found unexpected row in {context:DataRowCollection} with key {0}", key);
                 }
                 else
                 {
@@ -167,13 +176,14 @@ namespace FluentAssertions.Equivalency.Steps
             {
                 if (expectationRowByKey.Count > 1)
                 {
-                    AssertionScope.Current
-                        .FailWith("{0} rows were expected in {context:DataRowCollection} and not found", expectationRowByKey.Count);
+                    AssertionScope.Current.FailWith("{0} rows were expected in {context:DataRowCollection} and not found",
+                        expectationRowByKey.Count);
                 }
                 else
                 {
-                    AssertionScope.Current
-                        .FailWith("Expected to find a row with key {0} in {context:DataRowCollection}{reason}, but no such row was found", expectationRowByKey.Keys.Single());
+                    AssertionScope.Current.FailWith(
+                        "Expected to find a row with key {0} in {context:DataRowCollection}{reason}, but no such row was found",
+                        expectationRowByKey.Keys.Single());
                 }
             }
         }
@@ -201,7 +211,8 @@ namespace FluentAssertions.Equivalency.Steps
 
                 for (int i = 0; i < values.Length; i++)
                 {
-                    if (!values[i].Equals(other.values[i]))
+                    if (!values[i]
+                        .Equals(other.values[i]))
                     {
                         return false;
                     }
@@ -210,7 +221,10 @@ namespace FluentAssertions.Equivalency.Steps
                 return true;
             }
 
-            public override bool Equals(object obj) => Equals(obj as CompoundKey);
+            public override bool Equals(object obj)
+            {
+                return Equals(obj as CompoundKey);
+            }
 
             public override int GetHashCode()
             {
@@ -218,7 +232,8 @@ namespace FluentAssertions.Equivalency.Steps
 
                 for (int i = 0; i < values.Length; i++)
                 {
-                    hash = (hash * 389) ^ values[i].GetHashCode();
+                    hash = (hash * 389) ^ values[i]
+                        .GetHashCode();
                 }
 
                 return hash;
@@ -234,7 +249,7 @@ namespace FluentAssertions.Equivalency.Steps
         {
             DataColumn[] primaryKey = row.Table.PrimaryKey;
 
-            var values = new object[primaryKey.Length];
+            object[] values = new object[primaryKey.Length];
 
             for (int i = 0; i < values.Length; i++)
             {

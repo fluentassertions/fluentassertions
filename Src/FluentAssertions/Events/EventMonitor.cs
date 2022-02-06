@@ -16,8 +16,7 @@ namespace FluentAssertions.Events
     {
         private readonly WeakReference subject;
 
-        private readonly ConcurrentDictionary<string, EventRecorder> recorderMap =
-            new ConcurrentDictionary<string, EventRecorder>();
+        private readonly ConcurrentDictionary<string, EventRecorder> recorderMap = new();
 
         public EventMonitor(object eventSource, Func<DateTime> utcNow)
         {
@@ -36,9 +35,7 @@ namespace FluentAssertions.Events
         {
             get
             {
-                return recorderMap
-                    .Values
-                    .Select(recorder => new EventMetadata(recorder.EventName, recorder.EventHandlerType))
+                return recorderMap.Values.Select(recorder => new EventMetadata(recorder.EventName, recorder.EventHandlerType))
                     .ToArray();
             }
         }
@@ -89,6 +86,7 @@ namespace FluentAssertions.Events
             }
 
             EventInfo[] events = GetPublicEvents(typeDefiningEventsToMonitor);
+
             if (!events.Any())
             {
                 throw new InvalidOperationException($"Type {typeDefiningEventsToMonitor.Name} does not expose any events.");
@@ -107,8 +105,10 @@ namespace FluentAssertions.Events
                 return type.GetEvents();
             }
 
-            return new[] { type }
-                .Concat(type.GetInterfaces())
+            return new[]
+                {
+                    type
+                }.Concat(type.GetInterfaces())
                 .SelectMany(i => i.GetEvents())
                 .ToArray();
         }
@@ -128,6 +128,7 @@ namespace FluentAssertions.Events
             if (!recorderMap.TryGetValue(eventInfo.Name, out _))
             {
                 var recorder = new EventRecorder(subject.Target, eventInfo.Name, utcNow, threadSafeSequenceGenerator);
+
                 if (recorderMap.TryAdd(eventInfo.Name, recorder))
                 {
                     recorder.Attach(subject, eventInfo);

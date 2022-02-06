@@ -25,7 +25,7 @@ namespace FluentAssertions.Formatting
                 reader.Read();
             }
 
-            var result = "\"" + reader.ReadOuterXml() + "\"";
+            string result = "\"" + reader.ReadOuterXml() + "\"";
 
             formattedGraph.AddFragment(result);
         }

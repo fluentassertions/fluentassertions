@@ -11,7 +11,8 @@ namespace FluentAssertions.CallerIdentification
         {
             if (isCommentContext)
             {
-                var isEndOfMultilineComment = symbol == '/' && commentContextPreviousChar == '*';
+                bool isEndOfMultilineComment = symbol == '/' && commentContextPreviousChar == '*';
+
                 if (isEndOfMultilineComment)
                 {
                     isCommentContext = false;
@@ -25,13 +26,11 @@ namespace FluentAssertions.CallerIdentification
                 return ParsingState.GoToNextSymbol;
             }
 
-            var isStartOfMultilineComment =
-                symbol == '*'
-                && statement.Length > 0
-                && statement[statement.Length - 1] == '/';
+            bool isStartOfMultilineComment = symbol == '*' && statement.Length > 0 && statement[statement.Length - 1] == '/';
+
             if (isStartOfMultilineComment)
             {
-                statement.Remove(statement.Length - 1, 1);
+                statement.Remove(statement.Length - 1, length: 1);
                 isCommentContext = true;
                 return ParsingState.GoToNextSymbol;
             }

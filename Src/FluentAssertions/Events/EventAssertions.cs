@@ -40,10 +40,10 @@ namespace FluentAssertions.Events
         public IEventRecording Raise(string eventName, string because = "", params object[] becauseArgs)
         {
             IEventRecording recording = monitor.GetRecordingFor(eventName);
+
             if (!recording.Any())
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
+                Execute.Assertion.BecauseOf(because, becauseArgs)
                     .FailWith("Expected object {0} to raise event {1}{reason}, but it did not.", monitor.Subject, eventName);
             }
 
@@ -66,10 +66,10 @@ namespace FluentAssertions.Events
         public void NotRaise(string eventName, string because = "", params object[] becauseArgs)
         {
             IEventRecording events = monitor.GetRecordingFor(eventName);
+
             if (events.Any())
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
+                Execute.Assertion.BecauseOf(because, becauseArgs)
                     .FailWith("Expected object {0} to not raise event {1}{reason}, but it did.", monitor.Subject, eventName);
             }
         }
@@ -88,29 +88,28 @@ namespace FluentAssertions.Events
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public IEventRecording RaisePropertyChangeFor(Expression<Func<T, object>> propertyExpression,
-            string because = "", params object[] becauseArgs)
+        public IEventRecording RaisePropertyChangeFor(Expression<Func<T, object>> propertyExpression, string because = "",
+            params object[] becauseArgs)
         {
-            string propertyName = propertyExpression?.GetPropertyInfo().Name;
+            string propertyName = propertyExpression?.GetPropertyInfo()
+                .Name;
 
             IEventRecording recording = monitor.GetRecordingFor(PropertyChangedEventName);
 
             if (!recording.Any())
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected object {0} to raise event {1} for property {2}{reason}, but it did not raise that event at all.",
+                Execute.Assertion.BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        "Expected object {0} to raise event {1} for property {2}{reason}, but it did not raise that event at all.",
                         monitor.Subject, PropertyChangedEventName, propertyName);
             }
 
-            var actualPropertyNames = recording
-                .SelectMany(@event => @event.Parameters.OfType<PropertyChangedEventArgs>())
+            string[] actualPropertyNames = recording.SelectMany(@event => @event.Parameters.OfType<PropertyChangedEventArgs>())
                 .Select(eventArgs => eventArgs.PropertyName)
                 .Distinct()
                 .ToArray();
 
-            Execute.Assertion
-                .ForCondition(actualPropertyNames.Contains(propertyName))
+            Execute.Assertion.ForCondition(actualPropertyNames.Contains(propertyName))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected object {0} to raise event {1} for property {2}{reason}, but it was only raised for {3}.",
                     monitor.Subject, PropertyChangedEventName, propertyName, actualPropertyNames);
@@ -131,17 +130,17 @@ namespace FluentAssertions.Events
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public void NotRaisePropertyChangeFor(Expression<Func<T, object>> propertyExpression,
-            string because = "", params object[] becauseArgs)
+        public void NotRaisePropertyChangeFor(Expression<Func<T, object>> propertyExpression, string because = "",
+            params object[] becauseArgs)
         {
             IEventRecording recording = monitor.GetRecordingFor(PropertyChangedEventName);
 
-            string propertyName = propertyExpression.GetPropertyInfo().Name;
+            string propertyName = propertyExpression.GetPropertyInfo()
+                .Name;
 
             if (recording.Any(@event => GetAffectedPropertyName(@event) == propertyName))
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
+                Execute.Assertion.BecauseOf(because, becauseArgs)
                     .FailWith("Did not expect object {0} to raise the {1} event for property {2}{reason}, but it did.",
                         monitor.Subject, PropertyChangedEventName, propertyName);
             }
@@ -149,7 +148,9 @@ namespace FluentAssertions.Events
 
         private static string GetAffectedPropertyName(OccurredEvent @event)
         {
-            return @event.Parameters.OfType<PropertyChangedEventArgs>().Single().PropertyName;
+            return @event.Parameters.OfType<PropertyChangedEventArgs>()
+                .Single()
+                .PropertyName;
         }
 
         protected override string Identifier => "subject";

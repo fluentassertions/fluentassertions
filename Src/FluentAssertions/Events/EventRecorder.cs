@@ -26,7 +26,8 @@ namespace FluentAssertions.Events
         /// <param name="eventName">The name of the event that's recorded</param>
         /// <param name="utcNow">A delegate to get the current date and time in UTC format.</param>
         /// <param name="sequenceGenerator">Class used to generate a sequence in a thread-safe manner.</param>
-        public EventRecorder(object eventRaiser, string eventName, Func<DateTime> utcNow, ThreadSafeSequenceGenerator sequenceGenerator)
+        public EventRecorder(object eventRaiser, string eventName, Func<DateTime> utcNow,
+            ThreadSafeSequenceGenerator sequenceGenerator)
         {
             this.utcNow = utcNow;
             EventObject = eventRaiser;
@@ -99,7 +100,10 @@ namespace FluentAssertions.Events
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
 
         public IEnumerator<OccurredEvent> GetEnumerator()
         {

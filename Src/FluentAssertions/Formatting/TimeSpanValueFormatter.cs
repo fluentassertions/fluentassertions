@@ -42,7 +42,7 @@ namespace FluentAssertions.Formatting
                 formattedGraph.AddFragment("default");
             }
 
-            string sign = (timeSpan.Ticks >= 0) ? string.Empty : "-";
+            string sign = timeSpan.Ticks >= 0 ? string.Empty : "-";
 
             if (fragments.Count == 1)
             {
@@ -72,10 +72,11 @@ namespace FluentAssertions.Formatting
 
         private static void AddMicrosecondsIfNotZero(TimeSpan timeSpan, List<string> fragments)
         {
-            var ticks = timeSpan.Ticks % TimeSpan.TicksPerMillisecond;
+            long ticks = timeSpan.Ticks % TimeSpan.TicksPerMillisecond;
+
             if (ticks > 0)
             {
-                var microSeconds = ticks / (double)TimeSpan.TicksPerMillisecond * 1000;
+                double microSeconds = ticks / (double)TimeSpan.TicksPerMillisecond * 1000;
                 fragments.Add(microSeconds.ToString("0.0", CultureInfo.InvariantCulture) + "µs");
             }
         }
@@ -94,7 +95,7 @@ namespace FluentAssertions.Formatting
         {
             if (timeSpan.Milliseconds > 0)
             {
-                var result = timeSpan.Milliseconds.ToString(CultureInfo.InvariantCulture);
+                string result = timeSpan.Milliseconds.ToString(CultureInfo.InvariantCulture);
 
                 fragments.Add(result + "ms");
             }

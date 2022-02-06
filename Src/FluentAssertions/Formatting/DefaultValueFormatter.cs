@@ -59,14 +59,16 @@ namespace FluentAssertions.Formatting
         /// <remarks>The default is all non-private members.</remarks>
         protected virtual MemberInfo[] GetMembers(Type type)
         {
-            return type.GetNonPrivateMembers(MemberVisibility.Public).ToArray();
+            return type.GetNonPrivateMembers(MemberVisibility.Public)
+                .ToArray();
         }
 
         private static bool HasDefaultToStringImplementation(object value)
         {
             string str = value.ToString();
 
-            return str is null || str == value.GetType().ToString();
+            return str is null || str == value.GetType()
+                .ToString();
         }
 
         private void WriteTypeAndMemberValues(object obj, FormattedObjectGraph formattedGraph, FormatChild formatChild)
@@ -77,6 +79,7 @@ namespace FluentAssertions.Formatting
 
             MemberInfo[] members = GetMembers(type);
             using var iterator = new Iterator<MemberInfo>(members.OrderBy(mi => mi.Name));
+
             while (iterator.MoveNext())
             {
                 WriteMemberValueTextFor(obj, iterator.Current, formattedGraph, formatChild);
@@ -96,9 +99,13 @@ namespace FluentAssertions.Formatting
         /// <param name="type">The <see cref="System.Type"/> of the object being formatted.</param>
         /// <returns>The name to be displayed for <paramref name="type"/>.</returns>
         /// <remarks>The default is <see cref="System.Type.FullName"/>.</remarks>
-        protected virtual string TypeDisplayName(Type type) => type.FullName;
+        protected virtual string TypeDisplayName(Type type)
+        {
+            return type.FullName;
+        }
 
-        private static void WriteMemberValueTextFor(object value, MemberInfo member, FormattedObjectGraph formattedGraph, FormatChild formatChild)
+        private static void WriteMemberValueTextFor(object value, MemberInfo member, FormattedObjectGraph formattedGraph,
+            FormatChild formatChild)
         {
             object memberValue;
 
@@ -117,7 +124,9 @@ namespace FluentAssertions.Formatting
                 memberValue = $"[Member '{member.Name}' threw an exception: '{ex.Message}']";
             }
 
-            formattedGraph.AddFragmentOnNewLine($"{new string(' ', FormattedObjectGraph.SpacesPerIndentation)}{member.Name} = ");
+            formattedGraph.AddFragmentOnNewLine(
+                $"{new string(c: ' ', FormattedObjectGraph.SpacesPerIndentation)}{member.Name} = ");
+
             formatChild(member.Name, memberValue, formattedGraph);
         }
     }

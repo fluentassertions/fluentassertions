@@ -20,7 +20,13 @@ namespace FluentAssertions.Execution
 
         #region Private Definitions
 
-        private readonly char[] blanks = { '\r', '\n', ' ', '\t' };
+        private readonly char[] blanks =
+        {
+            '\r',
+            '\n',
+            ' ',
+            '\t'
+        };
 
         #endregion
 
@@ -30,7 +36,8 @@ namespace FluentAssertions.Execution
         }
 
         // SMELL: Too many parameters.
-        public string Build(string message, object[] messageArgs, string reason, ContextDataItems contextData, string identifier, string fallbackIdentifier)
+        public string Build(string message, object[] messageArgs, string reason, ContextDataItems contextData, string identifier,
+            string fallbackIdentifier)
         {
             message = Regex.Replace(message, "{reason}", SanitizeReason(reason));
 
@@ -50,12 +57,14 @@ namespace FluentAssertions.Execution
             message = Regex.Replace(message, pattern, match =>
             {
                 const string result = " ";
+
                 if (!string.IsNullOrEmpty(identifier))
                 {
                     return result + identifier;
                 }
 
-                string defaultIdentifier = match.Groups["default"].Value;
+                string defaultIdentifier = match.Groups["default"]
+                    .Value;
 
                 if (!string.IsNullOrEmpty(defaultIdentifier))
                 {
@@ -79,17 +88,21 @@ namespace FluentAssertions.Execution
 
             return Regex.Replace(message, pattern, match =>
             {
-                string key = match.Groups["key"].Value;
+                string key = match.Groups["key"]
+                    .Value;
+
                 string contextualTags = contextData.AsStringOrDefault(key);
                 string contextualTagsSubstituted = contextualTags?.EscapePlaceholders();
 
-                return contextualTagsSubstituted ?? match.Groups["default"].Value;
+                return contextualTagsSubstituted ?? match.Groups["default"]
+                    .Value;
             });
         }
 
         private string FormatArgumentPlaceholders(string failureMessage, object[] failureArgs)
         {
-            string[] values = failureArgs.Select(a => Formatter.ToString(a, formattingOptions)).ToArray();
+            string[] values = failureArgs.Select(a => Formatter.ToString(a, formattingOptions))
+                .ToArray();
 
             try
             {
@@ -97,7 +110,8 @@ namespace FluentAssertions.Execution
             }
             catch (FormatException formatException)
             {
-                return $"**WARNING** failure message '{failureMessage}' could not be formatted with string.Format{Environment.NewLine}{formatException.StackTrace}";
+                return
+                    $"**WARNING** failure message '{failureMessage}' could not be formatted with string.Format{Environment.NewLine}{formatException.StackTrace}";
             }
         }
 
@@ -130,12 +144,12 @@ namespace FluentAssertions.Execution
             string trimmedText = text.TrimStart(blanks);
             int leadingBlanksCount = text.Length - trimmedText.Length;
 
-            return text.Substring(0, leadingBlanksCount);
+            return text.Substring(startIndex: 0, leadingBlanksCount);
         }
 
         private bool StartsWithBlank(string text)
         {
-            return (text.Length > 0) && blanks.Contains(text[0]);
+            return text.Length > 0 && blanks.Contains(text[index: 0]);
         }
     }
 }

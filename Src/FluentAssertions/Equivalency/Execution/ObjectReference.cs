@@ -33,13 +33,18 @@ namespace FluentAssertions.Equivalency.Execution
         /// <filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
-            return obj is ObjectReference other
-                && ReferenceEquals(@object, other.@object) && IsParentOrChildOf(other);
+            return obj is ObjectReference other && ReferenceEquals(@object, other.@object) && IsParentOrChildOf(other);
         }
 
-        private string[] GetPathElements() => pathElements
-            ??= path.ToUpperInvariant().Replace("][", "].[", StringComparison.Ordinal)
-                    .Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+        private string[] GetPathElements()
+        {
+            return pathElements ??= path.ToUpperInvariant()
+                .Replace("][", "].[", StringComparison.Ordinal)
+                .Split(new[]
+                {
+                    '.'
+                }, StringSplitOptions.RemoveEmptyEntries);
+        }
 
         private bool IsParentOrChildOf(ObjectReference other)
         {
@@ -49,7 +54,8 @@ namespace FluentAssertions.Equivalency.Execution
             int commonElements = Math.Min(path.Length, otherPath.Length);
             int longerPathAdditionalElements = Math.Max(path.Length, otherPath.Length) - commonElements;
 
-            return (longerPathAdditionalElements > 0) && otherPath.Take(commonElements).SequenceEqual(path.Take(commonElements));
+            return longerPathAdditionalElements > 0 && otherPath.Take(commonElements)
+                .SequenceEqual(path.Take(commonElements));
         }
 
         /// <summary>
@@ -69,6 +75,8 @@ namespace FluentAssertions.Equivalency.Execution
             return Invariant($"{{\"{path}\", {@object}}}");
         }
 
-        public bool IsComplexType => isComplexType ?? (@object is not null && !@object.GetType().OverridesEquals());
+        public bool IsComplexType =>
+            isComplexType ?? (@object is not null && !@object.GetType()
+                .OverridesEquals());
     }
 }

@@ -41,7 +41,8 @@ namespace FluentAssertions.Equivalency.Steps
 
             if ((bestMatch.Key, bestMatch.Value) == default)
             {
-                return bestResultSets[0].Value;
+                return bestResultSets[0]
+                    .Value;
             }
 
             return bestMatch.Value;
@@ -50,12 +51,17 @@ namespace FluentAssertions.Equivalency.Steps
         private KeyValuePair<object, string[]>[] GetBestResultSets()
         {
             int fewestFailures = set.Values.Min(r => r.Length);
-            return set.Where(r => r.Value.Length == fewestFailures).ToArray();
+
+            return set.Where(r => r.Value.Length == fewestFailures)
+                .ToArray();
         }
 
         /// <summary>
         /// Gets a value indicating whether this collection contains a set without any failures at all.
         /// </summary>
-        public bool ContainsSuccessfulSet() => set.Values.Any(v => v.Length == 0);
+        public bool ContainsSuccessfulSet()
+        {
+            return set.Values.Any(v => v.Length == 0);
+        }
     }
 }

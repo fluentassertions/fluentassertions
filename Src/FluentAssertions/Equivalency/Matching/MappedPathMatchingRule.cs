@@ -19,7 +19,8 @@ namespace FluentAssertions.Equivalency.Matching
 
             if (expectationPath.GetContainsSpecificCollectionIndex() || subjectPath.GetContainsSpecificCollectionIndex())
             {
-                throw new ArgumentException("Mapping properties containing a collection index must use the [] format without specific index.");
+                throw new ArgumentException(
+                    "Mapping properties containing a collection index must use the [] format without specific index.");
             }
 
             if (!expectationPath.HasSameParentAs(subjectPath))
@@ -32,7 +33,8 @@ namespace FluentAssertions.Equivalency.Matching
         {
             if (expectationPath.IsEquivalentTo(expectedMember.PathAndName))
             {
-                var member = MemberFactory.Find(subject, subjectPath.MemberName, expectedMember.Type, parent);
+                IMember member = MemberFactory.Find(subject, subjectPath.MemberName, expectedMember.Type, parent);
+
                 if (member is null)
                 {
                     throw new ArgumentException(

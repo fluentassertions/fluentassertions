@@ -2,11 +2,20 @@
 {
     public static class LessThan
     {
-        public static OccurrenceConstraint Twice() => new LessThanTimesConstraint(2);
+        public static OccurrenceConstraint Twice()
+        {
+            return new LessThanTimesConstraint(expectedCount: 2);
+        }
 
-        public static OccurrenceConstraint Thrice() => new LessThanTimesConstraint(3);
+        public static OccurrenceConstraint Thrice()
+        {
+            return new LessThanTimesConstraint(expectedCount: 3);
+        }
 
-        public static OccurrenceConstraint Times(int expected) => new LessThanTimesConstraint(expected);
+        public static OccurrenceConstraint Times(int expected)
+        {
+            return new LessThanTimesConstraint(expected);
+        }
 
         private sealed class LessThanTimesConstraint : OccurrenceConstraint
         {
@@ -17,7 +26,10 @@
 
             internal override string Mode => "less than";
 
-            internal override bool Assert(int actual) => actual < ExpectedCount;
+            internal override bool Assert(int actual)
+            {
+                return actual < ExpectedCount;
+            }
         }
     }
 }

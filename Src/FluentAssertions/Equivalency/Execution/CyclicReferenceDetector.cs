@@ -30,12 +30,10 @@ namespace FluentAssertions.Equivalency.Execution
             {
                 isCyclic = !observedReferences.Add(reference);
 
-                if (isCyclic && (handling == CyclicReferenceHandling.ThrowException))
+                if (isCyclic && handling == CyclicReferenceHandling.ThrowException)
                 {
-                    AssertionScope.Current
-                        .BecauseOf(reason)
-                        .FailWith(
-                            "Expected {context:subject} to be {expectation}{reason}, but it contains a cyclic reference.");
+                    AssertionScope.Current.BecauseOf(reason)
+                        .FailWith("Expected {context:subject} to be {expectation}{reason}, but it contains a cyclic reference.");
                 }
             }
 

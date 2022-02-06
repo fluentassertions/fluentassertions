@@ -31,7 +31,7 @@ namespace FluentAssertions.Events
 
         public IEnumerator<OccurredEvent> GetEnumerator()
         {
-            foreach (var occurredEvent in occurredEvents)
+            foreach (OccurredEvent occurredEvent in occurredEvents)
             {
                 yield return new OccurredEvent
                 {

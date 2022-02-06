@@ -22,21 +22,15 @@ namespace FluentAssertions.Primitives
             }
         }
 
-        private bool IgnoreCase
-        {
-            get
-            {
-                return stringComparison == StringComparison.OrdinalIgnoreCase;
-            }
-        }
+        private bool IgnoreCase => stringComparison == StringComparison.OrdinalIgnoreCase;
 
         protected override void ValidateAgainstMismatch()
         {
             bool isMatch = Subject.StartsWith(Expected, stringComparison);
+
             if (isMatch)
             {
-                Assertion.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.",
-                    Expected, Subject);
+                Assertion.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.", Expected, Subject);
             }
         }
     }

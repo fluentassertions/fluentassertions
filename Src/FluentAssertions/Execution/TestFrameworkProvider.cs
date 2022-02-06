@@ -34,9 +34,8 @@ namespace FluentAssertions.Execution
 
         private static ITestFramework DetectFramework()
         {
-            ITestFramework detectedFramework = AttemptToDetectUsingAppSetting()
-                ?? AttemptToDetectUsingDynamicScanning()
-                ?? new FallbackTestFramework();
+            ITestFramework detectedFramework = AttemptToDetectUsingAppSetting() ??
+                AttemptToDetectUsingDynamicScanning() ?? new FallbackTestFramework();
 
             return detectedFramework;
         }
@@ -44,6 +43,7 @@ namespace FluentAssertions.Execution
         private static ITestFramework AttemptToDetectUsingAppSetting()
         {
             string frameworkName = Services.Configuration.TestFrameworkName;
+
             if (string.IsNullOrEmpty(frameworkName))
             {
                 return null;
@@ -52,7 +52,9 @@ namespace FluentAssertions.Execution
             if (!Frameworks.TryGetValue(frameworkName, out ITestFramework framework))
             {
                 string frameworks = string.Join(", ", Frameworks.Keys);
-                var message = $"FluentAssertions was configured to use {frameworkName} but the requested test framework is not supported. " +
+
+                string message =
+                    $"FluentAssertions was configured to use {frameworkName} but the requested test framework is not supported. " +
                     $"Please use one of the supported frameworks: {frameworks}";
 
                 throw new Exception(message);
@@ -61,11 +63,12 @@ namespace FluentAssertions.Execution
             if (!framework.IsAvailable)
             {
                 string frameworks = string.Join(", ", Frameworks.Keys);
-                var message = framework is LateBoundTestFramework lateBoundTestFramework
+
+                string message = framework is LateBoundTestFramework lateBoundTestFramework
                     ? $"FluentAssertions was configured to use {frameworkName} but the required test framework assembly {lateBoundTestFramework.AssemblyName} could not be found. " +
-                        $"Please use one of the supported frameworks: {frameworks}"
+                    $"Please use one of the supported frameworks: {frameworks}"
                     : $"FluentAssertions was configured to use {frameworkName} but the required test framework could not be found. " +
-                        $"Please use one of the supported frameworks: {frameworks}";
+                    $"Please use one of the supported frameworks: {frameworks}";
 
                 throw new Exception(message);
             }

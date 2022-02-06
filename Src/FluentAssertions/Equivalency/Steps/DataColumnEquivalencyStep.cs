@@ -10,7 +10,8 @@ namespace FluentAssertions.Equivalency.Steps
     public class DataColumnEquivalencyStep : EquivalencyStep<DataColumn>
     {
         [SuppressMessage("Style", "IDE0019:Use pattern matching", Justification = "The code is easier to read without it.")]
-        protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+        protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context,
+            IEquivalencyValidator nestedValidator)
         {
             var subject = comparands.Subject as DataColumn;
             var expectation = comparands.Expectation as DataColumn;
@@ -54,9 +55,8 @@ namespace FluentAssertions.Equivalency.Steps
             var dataTableConfig = context.Options as DataEquivalencyAssertionOptions<DataTable>;
             var dataColumnConfig = context.Options as DataEquivalencyAssertionOptions<DataColumn>;
 
-            if ((dataSetConfig?.ShouldExcludeColumn(subject) == true)
-                || (dataTableConfig?.ShouldExcludeColumn(subject) == true)
-                || (dataColumnConfig?.ShouldExcludeColumn(subject) == true))
+            if (dataSetConfig?.ShouldExcludeColumn(subject) == true || dataTableConfig?.ShouldExcludeColumn(subject) == true ||
+                dataColumnConfig?.ShouldExcludeColumn(subject) == true)
             {
                 compareColumn = false;
             }
@@ -77,6 +77,7 @@ namespace FluentAssertions.Equivalency.Steps
             IEquivalencyValidationContext context)
         {
             IMember matchingMember = FindMatchFor(expectationMember, comparands.Subject, context);
+
             if (matchingMember is not null)
             {
                 var nestedComparands = new Comparands
@@ -107,26 +108,25 @@ namespace FluentAssertions.Equivalency.Steps
         // Note: This list of candidate members is duplicated in the XML documentation for the
         // DataColumn.BeEquivalentTo extension method in DataColumnAssertions.cs. If this ever
         // needs to change, keep them in sync.
-        private static readonly ISet<string> CandidateMembers =
-            new HashSet<string>()
-            {
-                nameof(DataColumn.AllowDBNull),
-                nameof(DataColumn.AutoIncrement),
-                nameof(DataColumn.AutoIncrementSeed),
-                nameof(DataColumn.AutoIncrementStep),
-                nameof(DataColumn.Caption),
-                nameof(DataColumn.ColumnName),
-                nameof(DataColumn.DataType),
-                nameof(DataColumn.DateTimeMode),
-                nameof(DataColumn.DefaultValue),
-                nameof(DataColumn.Expression),
-                nameof(DataColumn.ExtendedProperties),
-                nameof(DataColumn.MaxLength),
-                nameof(DataColumn.Namespace),
-                nameof(DataColumn.Prefix),
-                nameof(DataColumn.ReadOnly),
-                nameof(DataColumn.Unique),
-            };
+        private static readonly ISet<string> CandidateMembers = new HashSet<string>()
+        {
+            nameof(DataColumn.AllowDBNull),
+            nameof(DataColumn.AutoIncrement),
+            nameof(DataColumn.AutoIncrementSeed),
+            nameof(DataColumn.AutoIncrementStep),
+            nameof(DataColumn.Caption),
+            nameof(DataColumn.ColumnName),
+            nameof(DataColumn.DataType),
+            nameof(DataColumn.DateTimeMode),
+            nameof(DataColumn.DefaultValue),
+            nameof(DataColumn.Expression),
+            nameof(DataColumn.ExtendedProperties),
+            nameof(DataColumn.MaxLength),
+            nameof(DataColumn.Namespace),
+            nameof(DataColumn.Prefix),
+            nameof(DataColumn.ReadOnly),
+            nameof(DataColumn.Unique)
+        };
 
         private static IEnumerable<IMember> GetMembersFromExpectation(INode currentNode, Comparands comparands,
             IEquivalencyAssertionOptions config)

@@ -23,29 +23,25 @@ namespace FluentAssertions.Equivalency.Execution
         {
             get
             {
-                return inner.SelectionRules.Select(rule => new CollectionMemberSelectionRuleDecorator(rule)).ToArray();
+                return inner.SelectionRules.Select(rule => new CollectionMemberSelectionRuleDecorator(rule))
+                    .ToArray();
             }
         }
 
-        public IEnumerable<IMemberMatchingRule> MatchingRules
-        {
-            get { return inner.MatchingRules.ToArray(); }
-        }
+        public IEnumerable<IMemberMatchingRule> MatchingRules => inner.MatchingRules.ToArray();
 
         public OrderingRuleCollection OrderingRules
         {
             get
             {
-                return new OrderingRuleCollection(inner.OrderingRules.Select(rule => new CollectionMemberOrderingRuleDecorator(rule)));
+                return new OrderingRuleCollection(inner.OrderingRules.Select(rule =>
+                    new CollectionMemberOrderingRuleDecorator(rule)));
             }
         }
 
         public ConversionSelector ConversionSelector => inner.ConversionSelector;
 
-        public IEnumerable<IEquivalencyStep> UserEquivalencySteps
-        {
-            get { return inner.UserEquivalencySteps; }
-        }
+        public IEnumerable<IEquivalencyStep> UserEquivalencySteps => inner.UserEquivalencySteps;
 
         public bool IsRecursive => inner.IsRecursive;
 

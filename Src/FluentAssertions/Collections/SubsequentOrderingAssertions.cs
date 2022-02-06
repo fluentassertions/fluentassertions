@@ -7,8 +7,8 @@ using System.Linq.Expressions;
 namespace FluentAssertions.Collections
 {
     [DebuggerNonUserCode]
-    public class SubsequentOrderingAssertions<T> :
-        SubsequentOrderingGenericCollectionAssertions<IEnumerable<T>, T, SubsequentOrderingAssertions<T>>
+    public class SubsequentOrderingAssertions<T>
+        : SubsequentOrderingGenericCollectionAssertions<IEnumerable<T>, T, SubsequentOrderingAssertions<T>>
     {
         public SubsequentOrderingAssertions(IEnumerable<T> actualValue, IOrderedEnumerable<T> previousOrderedEnumerable)
             : base(actualValue, previousOrderedEnumerable)
@@ -17,26 +17,29 @@ namespace FluentAssertions.Collections
     }
 
     [DebuggerNonUserCode]
-    public class SubsequentOrderingGenericCollectionAssertions<TCollection, T> :
-        SubsequentOrderingGenericCollectionAssertions<TCollection, T, SubsequentOrderingGenericCollectionAssertions<TCollection, T>>
+    public class SubsequentOrderingGenericCollectionAssertions<TCollection, T>
+        : SubsequentOrderingGenericCollectionAssertions<TCollection, T,
+            SubsequentOrderingGenericCollectionAssertions<TCollection, T>>
         where TCollection : IEnumerable<T>
     {
-        public SubsequentOrderingGenericCollectionAssertions(TCollection actualValue, IOrderedEnumerable<T> previousOrderedEnumerable)
+        public SubsequentOrderingGenericCollectionAssertions(TCollection actualValue,
+            IOrderedEnumerable<T> previousOrderedEnumerable)
             : base(actualValue, previousOrderedEnumerable)
         {
         }
     }
 
     [DebuggerNonUserCode]
-    public class SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAssertions> :
-        GenericCollectionAssertions<TCollection, T, TAssertions>
+    public class SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAssertions>
+        : GenericCollectionAssertions<TCollection, T, TAssertions>
         where TCollection : IEnumerable<T>
         where TAssertions : SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAssertions>
     {
         private readonly IOrderedEnumerable<T> previousOrderedEnumerable;
         private bool subsequentOrdering;
 
-        public SubsequentOrderingGenericCollectionAssertions(TCollection actualValue, IOrderedEnumerable<T> previousOrderedEnumerable)
+        public SubsequentOrderingGenericCollectionAssertions(TCollection actualValue,
+            IOrderedEnumerable<T> previousOrderedEnumerable)
             : base(actualValue)
         {
             this.previousOrderedEnumerable = previousOrderedEnumerable;
@@ -86,7 +89,8 @@ namespace FluentAssertions.Collections
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
         public AndConstraint<SubsequentOrderingAssertions<T>> ThenBeInAscendingOrder<TSelector>(
-            Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
+            Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "",
+            params object[] becauseArgs)
         {
             return ThenBeOrderedBy(propertyExpression, comparer, SortOrder.Ascending, because, becauseArgs);
         }
@@ -135,16 +139,14 @@ namespace FluentAssertions.Collections
         /// Empty and single element collections are considered to be ordered both in ascending and descending order at the same time.
         /// </remarks>
         public AndConstraint<SubsequentOrderingAssertions<T>> ThenBeInDescendingOrder<TSelector>(
-            Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
+            Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "",
+            params object[] becauseArgs)
         {
             return ThenBeOrderedBy(propertyExpression, comparer, SortOrder.Descending, because, becauseArgs);
         }
 
         private AndConstraint<SubsequentOrderingAssertions<T>> ThenBeOrderedBy<TSelector>(
-            Expression<Func<T, TSelector>> propertyExpression,
-            IComparer<TSelector> comparer,
-            SortOrder direction,
-            string because,
+            Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, SortOrder direction, string because,
             object[] becauseArgs)
         {
             subsequentOrdering = true;
@@ -152,16 +154,14 @@ namespace FluentAssertions.Collections
         }
 
         internal sealed override IOrderedEnumerable<T> GetOrderedEnumerable<TSelector>(
-            Expression<Func<T, TSelector>> propertyExpression,
-            IComparer<TSelector> comparer,
-            SortOrder direction,
+            Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, SortOrder direction,
             ICollection<T> unordered)
         {
             if (subsequentOrdering)
             {
                 Func<T, TSelector> keySelector = propertyExpression.Compile();
 
-                IOrderedEnumerable<T> expectation = (direction == SortOrder.Ascending)
+                IOrderedEnumerable<T> expectation = direction == SortOrder.Ascending
                     ? previousOrderedEnumerable.ThenBy(keySelector, comparer)
                     : previousOrderedEnumerable.ThenByDescending(keySelector, comparer);
 

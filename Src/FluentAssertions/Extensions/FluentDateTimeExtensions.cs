@@ -28,7 +28,7 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static DateTime January(this int day, int year)
         {
-            return new DateTime(year, 1, day);
+            return new DateTime(year, month: 1, day);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static DateTime February(this int day, int year)
         {
-            return new DateTime(year, 2, day);
+            return new DateTime(year, month: 2, day);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static DateTime March(this int day, int year)
         {
-            return new DateTime(year, 3, day);
+            return new DateTime(year, month: 3, day);
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static DateTime April(this int day, int year)
         {
-            return new DateTime(year, 4, day);
+            return new DateTime(year, month: 4, day);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static DateTime May(this int day, int year)
         {
-            return new DateTime(year, 5, day);
+            return new DateTime(year, month: 5, day);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static DateTime June(this int day, int year)
         {
-            return new DateTime(year, 6, day);
+            return new DateTime(year, month: 6, day);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static DateTime July(this int day, int year)
         {
-            return new DateTime(year, 7, day);
+            return new DateTime(year, month: 7, day);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static DateTime August(this int day, int year)
         {
-            return new DateTime(year, 8, day);
+            return new DateTime(year, month: 8, day);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static DateTime September(this int day, int year)
         {
-            return new DateTime(year, 9, day);
+            return new DateTime(year, month: 9, day);
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static DateTime October(this int day, int year)
         {
-            return new DateTime(year, 10, day);
+            return new DateTime(year, month: 10, day);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static DateTime November(this int day, int year)
         {
-            return new DateTime(year, 11, day);
+            return new DateTime(year, month: 11, day);
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static DateTime December(this int day, int year)
         {
-            return new DateTime(year, 12, day);
+            return new DateTime(year, month: 12, day);
         }
 
         /// <summary>
@@ -142,7 +142,8 @@ namespace FluentAssertions.Extensions
         /// Returns a new <see cref="DateTime"/> value for the specified <paramref name="date"/> and time with the specified
         /// <paramref name="hours"/>, <paramref name="minutes"/> and optionally <paramref name="seconds"/>.
         /// </summary>
-        public static DateTime At(this DateTime date, int hours, int minutes, int seconds = 0, int milliseconds = 0, int microseconds = 0, int nanoseconds = 0)
+        public static DateTime At(this DateTime date, int hours, int minutes, int seconds = 0, int milliseconds = 0,
+            int microseconds = 0, int nanoseconds = 0)
         {
             if (microseconds < 0 || microseconds > 999)
             {
@@ -173,7 +174,8 @@ namespace FluentAssertions.Extensions
         /// Returns a new <see cref="DateTimeOffset"/> value for the specified <paramref name="date"/> and time with the specified
         /// <paramref name="hours"/>, <paramref name="minutes"/> and optionally <paramref name="seconds"/>.
         /// </summary>
-        public static DateTimeOffset At(this DateTimeOffset date, int hours, int minutes, int seconds = 0, int milliseconds = 0, int microseconds = 0, int nanoseconds = 0)
+        public static DateTimeOffset At(this DateTimeOffset date, int hours, int minutes, int seconds = 0, int milliseconds = 0,
+            int microseconds = 0, int nanoseconds = 0)
         {
             if (microseconds < 0 || microseconds > 999)
             {
@@ -241,7 +243,8 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static int Nanosecond(this DateTime self)
         {
-            return self.Ticks.Ticks().Nanoseconds();
+            return self.Ticks.Ticks()
+                .Nanoseconds();
         }
 
         /// <summary>
@@ -249,7 +252,8 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static int Nanosecond(this DateTimeOffset self)
         {
-            return self.Ticks.Ticks().Nanoseconds();
+            return self.Ticks.Ticks()
+                .Nanoseconds();
         }
 
         /// <summary>
@@ -283,7 +287,8 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static int Microsecond(this DateTime self)
         {
-            return self.Ticks.Ticks().Microseconds();
+            return self.Ticks.Ticks()
+                .Microseconds();
         }
 
         /// <summary>
@@ -291,7 +296,8 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static int Microsecond(this DateTimeOffset self)
         {
-            return self.Ticks.Ticks().Microseconds();
+            return self.Ticks.Ticks()
+                .Microseconds();
         }
 
         /// <summary>

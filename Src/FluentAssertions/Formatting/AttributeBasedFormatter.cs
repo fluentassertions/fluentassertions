@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Formatting
@@ -25,29 +24,32 @@ namespace FluentAssertions.Formatting
         /// </returns>
         public bool CanHandle(object value)
         {
-            return IsScanningEnabled && (value is not null) && (GetFormatter(value) is not null);
+            return IsScanningEnabled && value is not null && GetFormatter(value) is not null;
         }
 
-        private static bool IsScanningEnabled
-        {
-            get { return Configuration.Current.ValueFormatterDetectionMode != ValueFormatterDetectionMode.Disabled; }
-        }
+        private static bool IsScanningEnabled =>
+            Configuration.Current.ValueFormatterDetectionMode != ValueFormatterDetectionMode.Disabled;
 
         public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
             MethodInfo method = GetFormatter(value);
 
-            object[] parameters = new[] { value, formattedGraph };
+            object[] parameters = new[]
+            {
+                value,
+                formattedGraph
+            };
 
-            method.Invoke(null, parameters);
+            method.Invoke(obj: null, parameters);
         }
 
         private MethodInfo GetFormatter(object value)
         {
             Type valueType = value.GetType();
+
             do
             {
-                if (Formatters.TryGetValue(valueType, out var formatter))
+                if (Formatters.TryGetValue(valueType, out MethodInfo formatter))
                 {
                     return formatter;
                 }
@@ -89,8 +91,15 @@ namespace FluentAssertions.Formatting
                 where method.IsDecoratedWithOrInherit<ValueFormatterAttribute>()
                 let methodParameters = method.GetParameters()
                 where methodParameters.Length == 2
-                select new { Type = methodParameters.First().ParameterType, Method = method } into formatter
-                group formatter by formatter.Type into formatterGroup
+                select new
+                {
+                    Type = methodParameters.First()
+                        .ParameterType,
+                    Method = method
+                }
+                into formatter
+                group formatter by formatter.Type
+                into formatterGroup
                 select formatterGroup.First();
 
             return query.ToDictionary(f => f.Type, f => f.Method);
@@ -101,9 +110,9 @@ namespace FluentAssertions.Formatting
             Configuration configuration = Configuration.Current;
             ValueFormatterDetectionMode mode = configuration.ValueFormatterDetectionMode;
 
-            return (mode == ValueFormatterDetectionMode.Scan) || (
-                (mode == ValueFormatterDetectionMode.Specific) &&
-                assembly.FullName.Split(',')[0].Equals(configuration.ValueFormatterAssembly, StringComparison.OrdinalIgnoreCase));
+            return mode == ValueFormatterDetectionMode.Scan || (mode == ValueFormatterDetectionMode.Specific &&
+                assembly.FullName.Split(separator: ',')[0]
+                    .Equals(configuration.ValueFormatterAssembly, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

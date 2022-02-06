@@ -16,7 +16,7 @@ namespace FluentAssertions.Equivalency.Specs
             var subject = new { };
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo<object>(null);
+            Action act = () => subject.Should().BeEquivalentTo<object>(expectation: null);
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -65,7 +65,7 @@ namespace FluentAssertions.Equivalency.Specs
             SomeDto subject = null;
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo<object>(null);
+            Action act = () => subject.Should().BeEquivalentTo<object>(expectation: null);
 
             // Assert
             act.Should().NotThrow();
@@ -78,7 +78,7 @@ namespace FluentAssertions.Equivalency.Specs
             SomeDto subject = null;
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo<object>(null)
+            Action act = () => subject.Should().BeEquivalentTo<object>(expectation: null)
                 .And.BeNull();
 
             // Assert
@@ -92,7 +92,7 @@ namespace FluentAssertions.Equivalency.Specs
             SomeDto subject = null;
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo<object>(null, opt => opt)
+            Action act = () => subject.Should().BeEquivalentTo<object>(expectation: null, opt => opt)
                 .And.BeNull();
 
             // Assert
@@ -134,9 +134,9 @@ namespace FluentAssertions.Equivalency.Specs
 
             // DateTime is used as an example because the current implementation
             // would hit the recursion-depth limit if structural equivalence were attempted.
-            var date1 = new { Property = 1.January(2011) };
+            var date1 = new { Property = 1.January(year: 2011) };
 
-            var date2 = new { Property = 1.January(2011) };
+            var date2 = new { Property = 1.January(year: 2011) };
 
             // Act
             Action act = () => date1.Should().BeEquivalentTo(date2);
@@ -166,7 +166,7 @@ namespace FluentAssertions.Equivalency.Specs
 
             public new virtual bool Equals(object obj)
             {
-                return (obj is VirtualClass other) && other.Property == Property;
+                return obj is VirtualClass other && other.Property == Property;
             }
         }
 
@@ -282,12 +282,12 @@ namespace FluentAssertions.Equivalency.Specs
         public void When_treating_a_null_type_as_value_type_it_should_throw()
         {
             // Arrange
-            var subject = new object();
-            var expected = new object();
+            object subject = new object();
+            object expected = new object();
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expected, opt => opt
-                .ComparingByValue(null));
+                .ComparingByValue(type: null));
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
@@ -298,12 +298,12 @@ namespace FluentAssertions.Equivalency.Specs
         public void When_treating_a_null_type_as_reference_type_it_should_throw()
         {
             // Arrange
-            var subject = new object();
-            var expected = new object();
+            object subject = new object();
+            object expected = new object();
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expected, opt => opt
-                .ComparingByMembers(null));
+                .ComparingByMembers(type: null));
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
@@ -367,13 +367,20 @@ namespace FluentAssertions.Equivalency.Specs
                 Value = value;
             }
 
-            public bool Equals(Option<T> other) =>
-                EqualityComparer<T>.Default.Equals(Value, other.Value);
+            public bool Equals(Option<T> other)
+            {
+                return EqualityComparer<T>.Default.Equals(Value, other.Value);
+            }
 
-            public override bool Equals(object obj) =>
-                obj is Option<T> other && Equals(other);
+            public override bool Equals(object obj)
+            {
+                return obj is Option<T> other && Equals(other);
+            }
 
-            public override int GetHashCode() => Value?.GetHashCode() ?? 0;
+            public override int GetHashCode()
+            {
+                return Value?.GetHashCode() ?? 0;
+            }
         }
 
         [Fact]
@@ -428,9 +435,9 @@ namespace FluentAssertions.Equivalency.Specs
         public void When_a_type_originates_from_the_System_namespace_it_should_be_treated_as_a_value_type()
         {
             // Arrange
-            var subject = new { UriBuilder = new UriBuilder("http://localhost:9001/api"), };
+            var subject = new { UriBuilder = new UriBuilder("http://localhost:9001/api") };
 
-            var expected = new { UriBuilder = new UriBuilder("https://localhost:9002/bapi"), };
+            var expected = new { UriBuilder = new UriBuilder("https://localhost:9002/bapi") };
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expected);
@@ -461,7 +468,7 @@ namespace FluentAssertions.Equivalency.Specs
             // Arrange
 
             // The convoluted construction is so the compiler does not optimize the two objects to be the same.
-            object s1 = new string('h', 2);
+            object s1 = new string(c: 'h', count: 2);
             object s2 = "hh";
 
             // Act

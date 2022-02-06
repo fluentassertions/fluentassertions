@@ -34,13 +34,12 @@ namespace FluentAssertions.Types
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="accessModifier"/>
         /// is not a <see cref="CSharpAccessModifier"/> value.</exception>
-        public AndConstraint<TAssertions> HaveAccessModifier(
-            CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> HaveAccessModifier(CSharpAccessModifier accessModifier, string because = "",
+            params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsOutOfRange(accessModifier, nameof(accessModifier));
 
-            bool success = Execute.Assertion
-                .BecauseOf(because, becauseArgs)
+            bool success = Execute.Assertion.BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
                 .FailWith($"Expected method to be {accessModifier}{{reason}}, but {{context:member}} is <null>.");
 
@@ -48,8 +47,7 @@ namespace FluentAssertions.Types
             {
                 CSharpAccessModifier subjectAccessModifier = Subject.GetCSharpAccessModifier();
 
-                Execute.Assertion
-                    .ForCondition(accessModifier == subjectAccessModifier)
+                Execute.Assertion.ForCondition(accessModifier == subjectAccessModifier)
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
                         $"Expected method {Subject.Name} to be {accessModifier}{{reason}}, but it is {subjectAccessModifier}.");
@@ -71,12 +69,12 @@ namespace FluentAssertions.Types
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="accessModifier"/>
         /// is not a <see cref="CSharpAccessModifier"/> value.</exception>
-        public AndConstraint<TAssertions> NotHaveAccessModifier(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotHaveAccessModifier(CSharpAccessModifier accessModifier, string because = "",
+            params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsOutOfRange(accessModifier, nameof(accessModifier));
 
-            bool success = Execute.Assertion
-                .BecauseOf(because, becauseArgs)
+            bool success = Execute.Assertion.BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
                 .FailWith($"Expected method not to be {accessModifier}{{reason}}, but {{context:member}} is <null>.");
 
@@ -84,8 +82,7 @@ namespace FluentAssertions.Types
             {
                 CSharpAccessModifier subjectAccessModifier = Subject.GetCSharpAccessModifier();
 
-                Execute.Assertion
-                    .ForCondition(accessModifier != subjectAccessModifier)
+                Execute.Assertion.ForCondition(accessModifier != subjectAccessModifier)
                     .BecauseOf(because, becauseArgs)
                     .FailWith($"Expected method {Subject.Name} not to be {accessModifier}{{reason}}, but it is.");
             }
@@ -95,7 +92,8 @@ namespace FluentAssertions.Types
 
         internal static string GetParameterString(MethodBase methodBase)
         {
-            IEnumerable<Type> parameterTypes = methodBase.GetParameters().Select(p => p.ParameterType);
+            IEnumerable<Type> parameterTypes = methodBase.GetParameters()
+                .Select(p => p.ParameterType);
 
             return string.Join(", ", parameterTypes.Select(p => p.FullName));
         }

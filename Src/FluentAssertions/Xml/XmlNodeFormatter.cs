@@ -20,7 +20,8 @@ namespace FluentAssertions.Xml
 
             if (outerXml.Length > maxLength)
             {
-                outerXml = outerXml.Substring(0, maxLength).TrimEnd() + "…";
+                outerXml = outerXml.Substring(startIndex: 0, maxLength)
+                    .TrimEnd() + "…";
             }
 
             formattedGraph.AddLine(outerXml.EscapePlaceholders());

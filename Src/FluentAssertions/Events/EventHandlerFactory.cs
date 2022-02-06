@@ -21,11 +21,8 @@ namespace FluentAssertions.Events
             Module module = recorder.GetType()
                 .Module;
 
-            var eventHandler = new DynamicMethod(
-                eventSignature.Name + "DynamicHandler",
-                returnType,
-                AppendParameterListThisReference(parameters),
-                module);
+            var eventHandler = new DynamicMethod(eventSignature.Name + "DynamicHandler", returnType,
+                AppendParameterListThisReference(parameters), module);
 
             MethodInfo methodToCall = typeof(EventRecorder).GetMethod(nameof(EventRecorder.RecordEvent),
                 BindingFlags.Instance | BindingFlags.Public);
@@ -40,7 +37,7 @@ namespace FluentAssertions.Events
             ilGen.Emit(OpCodes.Newarr, typeof(object));
             ilGen.Emit(OpCodes.Stloc_0);
 
-            for (var index = 0; index < parameters.Length; index++)
+            for (int index = 0; index < parameters.Length; index++)
             {
                 // Push the object array onto the evaluation stack
                 ilGen.Emit(OpCodes.Ldloc_0);
@@ -52,7 +49,8 @@ namespace FluentAssertions.Events
                 ilGen.Emit(OpCodes.Ldarg, index + 1);
 
                 // Box value-type parameters
-                if (parameters[index].IsValueType)
+                if (parameters[index]
+                    .IsValueType)
                 {
                     ilGen.Emit(OpCodes.Box, parameters[index]);
                 }
@@ -68,7 +66,7 @@ namespace FluentAssertions.Events
             ilGen.Emit(OpCodes.Ldloc_0);
 
             // Call the handler
-            ilGen.EmitCall(OpCodes.Callvirt, methodToCall, null);
+            ilGen.EmitCall(OpCodes.Callvirt, methodToCall, optionalParameterTypes: null);
 
             ilGen.Emit(OpCodes.Ret);
 
@@ -94,9 +92,10 @@ namespace FluentAssertions.Events
             ParameterInfo[] parameterInfo = invoke.GetParameters();
             var parameters = new Type[parameterInfo.Length];
 
-            for (var index = 0; index < parameterInfo.Length; index++)
+            for (int index = 0; index < parameterInfo.Length; index++)
             {
-                parameters[index] = parameterInfo[index].ParameterType;
+                parameters[index] = parameterInfo[index]
+                    .ParameterType;
             }
 
             return parameters;
@@ -110,7 +109,7 @@ namespace FluentAssertions.Events
             var newList = new Type[parameters.Length + 1];
             newList[0] = typeof(EventRecorder);
 
-            for (var index = 0; index < parameters.Length; index++)
+            for (int index = 0; index < parameters.Length; index++)
             {
                 newList[index + 1] = parameters[index];
             }

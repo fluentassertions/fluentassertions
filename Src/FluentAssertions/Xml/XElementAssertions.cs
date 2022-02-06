@@ -38,8 +38,7 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XElementAssertions> Be(XElement expected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(XNode.DeepEquals(Subject, expected))
+            Execute.Assertion.ForCondition(XNode.DeepEquals(Subject, expected))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:subject} to be {0}{reason}, but found {1}.", expected, Subject);
 
@@ -61,8 +60,7 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XElementAssertions> NotBe(XElement unexpected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition((Subject is null && unexpected is not null) || !XNode.DeepEquals(Subject, unexpected))
+            Execute.Assertion.ForCondition((Subject is null && unexpected is not null) || !XNode.DeepEquals(Subject, unexpected))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:subject} to be {0}{reason}.", unexpected);
 
@@ -86,10 +84,12 @@ namespace FluentAssertions.Xml
             params object[] becauseArgs)
         {
             using (XmlReader subjectReader = Subject?.CreateReader())
-            using (XmlReader expectedReader = expected?.CreateReader())
             {
-                var xmlReaderValidator = new XmlReaderValidator(subjectReader, expectedReader, because, becauseArgs);
-                xmlReaderValidator.Validate(shouldBeEquivalent: true);
+                using (XmlReader expectedReader = expected?.CreateReader())
+                {
+                    var xmlReaderValidator = new XmlReaderValidator(subjectReader, expectedReader, because, becauseArgs);
+                    xmlReaderValidator.Validate(shouldBeEquivalent: true);
+                }
             }
 
             return new AndConstraint<XElementAssertions>(this);
@@ -112,10 +112,12 @@ namespace FluentAssertions.Xml
             params object[] becauseArgs)
         {
             using (XmlReader subjectReader = Subject?.CreateReader())
-            using (XmlReader otherReader = unexpected?.CreateReader())
             {
-                var xmlReaderValidator = new XmlReaderValidator(subjectReader, otherReader, because, becauseArgs);
-                xmlReaderValidator.Validate(shouldBeEquivalent: false);
+                using (XmlReader otherReader = unexpected?.CreateReader())
+                {
+                    var xmlReaderValidator = new XmlReaderValidator(subjectReader, otherReader, because, becauseArgs);
+                    xmlReaderValidator.Validate(shouldBeEquivalent: false);
+                }
             }
 
             return new AndConstraint<XElementAssertions>(this);
@@ -134,19 +136,16 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XElementAssertions> HaveValue(string expected, string because = "", params object[] becauseArgs)
         {
-            bool success = Execute.Assertion
-                .BecauseOf(because, becauseArgs)
+            bool success = Execute.Assertion.BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
                 .FailWith("Expected the element to have value {0}{reason}, but {context:member} is <null>.", expected);
 
             if (success)
             {
-                Execute.Assertion
-                    .ForCondition(Subject.Value == expected)
+                Execute.Assertion.ForCondition(Subject.Value == expected)
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(
-                        "Expected {context:subject} '{0}' to have value {1}{reason}, but found {2}.",
-                        Subject.Name, expected, Subject.Value);
+                    .FailWith("Expected {context:subject} '{0}' to have value {1}{reason}, but found {2}.", Subject.Name,
+                        expected, Subject.Value);
             }
 
             return new AndConstraint<XElementAssertions>(this);
@@ -195,30 +194,24 @@ namespace FluentAssertions.Xml
 
             string expectedText = expectedName.ToString();
 
-            bool success = Execute.Assertion
-                .BecauseOf(because, becauseArgs)
+            bool success = Execute.Assertion.BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
-                .FailWith(
-                    "Expected attribute {0} in element to have value {1}{reason}, but {context:member} is <null>.",
+                .FailWith("Expected attribute {0} in element to have value {1}{reason}, but {context:member} is <null>.",
                     expectedText, expectedValue);
 
             if (success)
             {
                 XAttribute attribute = Subject.Attribute(expectedName);
 
-                Execute.Assertion
-                    .ForCondition(attribute is not null)
+                Execute.Assertion.ForCondition(attribute is not null)
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
-                        "Expected {context:subject} to have attribute {0} with value {1}{reason},"
-                        + " but found no such attribute in {2}",
-                        expectedText, expectedValue, Subject);
+                        "Expected {context:subject} to have attribute {0} with value {1}{reason}," +
+                        " but found no such attribute in {2}", expectedText, expectedValue, Subject);
 
-                Execute.Assertion
-                    .ForCondition(attribute.Value == expectedValue)
+                Execute.Assertion.ForCondition(attribute.Value == expectedValue)
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(
-                        "Expected attribute {0} in {context:subject} to have value {1}{reason}, but found {2}.",
+                    .FailWith("Expected attribute {0} in {context:subject} to have value {1}{reason}, but found {2}.",
                         expectedText, expectedValue, attribute.Value);
             }
 
@@ -264,12 +257,11 @@ namespace FluentAssertions.Xml
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected));
 
-            bool success = Execute.Assertion
-                .BecauseOf(because, becauseArgs)
+            bool success = Execute.Assertion.BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
-                .FailWith(
-                    "Expected the element to have child element {0}{reason}, but {context:member} is <null>.",
-                    expected.ToString().EscapePlaceholders());
+                .FailWith("Expected the element to have child element {0}{reason}, but {context:member} is <null>.", expected
+                    .ToString()
+                    .EscapePlaceholders());
 
             XElement xElement = null;
 
@@ -277,12 +269,12 @@ namespace FluentAssertions.Xml
             {
                 xElement = Subject.Element(expected);
 
-                Execute.Assertion
-                    .ForCondition(xElement is not null)
+                Execute.Assertion.ForCondition(xElement is not null)
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
                         "Expected {context:subject} to have child element {0}{reason}, but no such child element was found.",
-                        expected.ToString().EscapePlaceholders());
+                        expected.ToString()
+                            .EscapePlaceholders());
             }
 
             return new AndWhichConstraint<XElementAssertions, XElement>(this, xElement);

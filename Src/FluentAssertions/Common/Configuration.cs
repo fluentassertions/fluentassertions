@@ -44,10 +44,7 @@ namespace FluentAssertions.Common
                 }
             }
 
-            set
-            {
-                valueFormatterDetectionMode = value;
-            }
+            set => valueFormatterDetectionMode = value;
         }
 
         private ValueFormatterDetectionMode DetermineFormatterDetectionMode()
@@ -58,11 +55,13 @@ namespace FluentAssertions.Common
             }
 
             string setting = store.GetSetting("valueFormatters");
+
             if (!string.IsNullOrEmpty(setting))
             {
                 try
                 {
-                    return (ValueFormatterDetectionMode)Enum.Parse(typeof(ValueFormatterDetectionMode), setting, ignoreCase: true);
+                    return (ValueFormatterDetectionMode)Enum.Parse(typeof(ValueFormatterDetectionMode), setting,
+                        ignoreCase: true);
                 }
                 catch (ArgumentException)
                 {
@@ -85,6 +84,7 @@ namespace FluentAssertions.Common
                 if (valueFormatterAssembly is null)
                 {
                     string assemblyName = store.GetSetting("valueFormattersAssembly");
+
                     if (!string.IsNullOrEmpty(assemblyName))
                     {
                         valueFormatterAssembly = assemblyName;

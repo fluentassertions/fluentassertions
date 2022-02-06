@@ -15,8 +15,8 @@ namespace FluentAssertions.Specialized
     /// Contains a number of methods to assert that an <see cref="Exception" /> is in the correct state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class ExceptionAssertions<TException> :
-        ReferenceTypeAssertions<IEnumerable<TException>, ExceptionAssertions<TException>>
+    public class ExceptionAssertions<TException>
+        : ReferenceTypeAssertions<IEnumerable<TException>, ExceptionAssertions<TException>>
         where TException : Exception
     {
         #region Private Definitions
@@ -81,14 +81,14 @@ namespace FluentAssertions.Specialized
         public virtual ExceptionAssertions<TException> WithMessage(string expectedWildcardPattern, string because = "",
             params object[] becauseArgs)
         {
-            AssertionScope assertion = Execute.Assertion.BecauseOf(because, becauseArgs).UsingLineBreaks;
+            AssertionScope assertion = Execute.Assertion.BecauseOf(because, becauseArgs)
+                .UsingLineBreaks;
 
-            assertion
-                .ForCondition(Subject.Any())
+            assertion.ForCondition(Subject.Any())
                 .FailWith("Expected exception with message {0}{reason}, but no exception was thrown.", expectedWildcardPattern);
 
-            OuterMessageAssertion.Execute(Subject.Select(exc => exc.Message).ToArray(), expectedWildcardPattern, because,
-                becauseArgs);
+            OuterMessageAssertion.Execute(Subject.Select(exc => exc.Message)
+                .ToArray(), expectedWildcardPattern, because, becauseArgs);
 
             return this;
         }
@@ -108,7 +108,7 @@ namespace FluentAssertions.Specialized
             params object[] becauseArgs)
             where TInnerException : Exception
         {
-            var expectedInnerExceptions = AssertInnerExceptions(typeof(TInnerException), because, becauseArgs);
+            IEnumerable<Exception> expectedInnerExceptions = AssertInnerExceptions(typeof(TInnerException), because, becauseArgs);
             return new ExceptionAssertions<TInnerException>(expectedInnerExceptions.Cast<TInnerException>());
         }
 
@@ -143,7 +143,9 @@ namespace FluentAssertions.Specialized
             params object[] becauseArgs)
             where TInnerException : Exception
         {
-            var exceptionExpression = AssertInnerExceptionExactly(typeof(TInnerException), because, becauseArgs);
+            IEnumerable<Exception> exceptionExpression =
+                AssertInnerExceptionExactly(typeof(TInnerException), because, becauseArgs);
+
             return new ExceptionAssertions<TInnerException>(exceptionExpression.Cast<TInnerException>());
         }
 
@@ -176,14 +178,14 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public ExceptionAssertions<TException> Where(Expression<Func<TException, bool>> exceptionExpression,
-            string because = "", params object[] becauseArgs)
+        public ExceptionAssertions<TException> Where(Expression<Func<TException, bool>> exceptionExpression, string because = "",
+            params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(exceptionExpression, nameof(exceptionExpression));
 
             Func<TException, bool> condition = exceptionExpression.Compile();
-            Execute.Assertion
-                .ForCondition(condition(SingleSubject))
+
+            Execute.Assertion.ForCondition(condition(SingleSubject))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected exception where {0}{reason}, but the condition was not met by:{1}{1}{2}.",
                     exceptionExpression, Environment.NewLine, Subject);
@@ -198,12 +200,11 @@ namespace FluentAssertions.Specialized
 
             AssertInnerExceptions(innerException, because, becauseArgs);
 
-            Exception[] expectedExceptions = Subject
-                .Select(e => e.InnerException)
-                .Where(e => e?.GetType() == innerException).ToArray();
+            Exception[] expectedExceptions = Subject.Select(e => e.InnerException)
+                .Where(e => e?.GetType() == innerException)
+                .ToArray();
 
-            Execute.Assertion
-                .ForCondition(expectedExceptions.Any())
+            Execute.Assertion.ForCondition(expectedExceptions.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected inner {0}{reason}, but found {1}.", innerException, SingleSubject.InnerException);
 
@@ -215,24 +216,20 @@ namespace FluentAssertions.Specialized
         {
             Guard.ThrowIfArgumentIsNull(innerException, nameof(innerException));
 
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
+            Execute.Assertion.BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected inner {0}{reason}, but ", innerException)
                 .ForCondition(Subject is not null)
                 .FailWith("no exception was thrown.")
-                .Then
-                .ForCondition(Subject.Any(e => e.InnerException is not null))
+                .Then.ForCondition(Subject.Any(e => e.InnerException is not null))
                 .FailWith("the thrown exception has no inner exception.")
-                .Then
-                .ClearExpectation();
+                .Then.ClearExpectation();
 
-            Exception[] expectedInnerExceptions = Subject
-                .Select(e => e.InnerException)
-                .Where(e => e != null && e.GetType().IsSameOrInherits(innerException))
+            Exception[] expectedInnerExceptions = Subject.Select(e => e.InnerException)
+                .Where(e => e != null && e.GetType()
+                    .IsSameOrInherits(innerException))
                 .ToArray();
 
-            Execute.Assertion
-                .ForCondition(expectedInnerExceptions.Any())
+            Execute.Assertion.ForCondition(expectedInnerExceptions.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected inner {0}{reason}, but found {1}.", innerException, SingleSubject.InnerException);
 
@@ -246,6 +243,7 @@ namespace FluentAssertions.Specialized
                 if (Subject.Count() > 1)
                 {
                     string thrownExceptions = BuildExceptionsString(Subject);
+
                     Services.ThrowException(
                         $"More than one exception was thrown.  FluentAssertions cannot determine which Exception was meant.{Environment.NewLine}{thrownExceptions}");
                 }
@@ -256,10 +254,7 @@ namespace FluentAssertions.Specialized
 
         private static string BuildExceptionsString(IEnumerable<TException> exceptions)
         {
-            return string.Join(Environment.NewLine,
-                exceptions.Select(
-                    exception =>
-                        "\t" + Formatter.ToString(exception)));
+            return string.Join(Environment.NewLine, exceptions.Select(exception => "\t" + Formatter.ToString(exception)));
         }
 
         private class ExceptionMessageAssertion
@@ -282,7 +277,8 @@ namespace FluentAssertions.Specialized
                     {
                         scope.Context = new Lazy<string>(() => Context);
 
-                        message.Should().MatchEquivalentOf(expectation, because, becauseArgs);
+                        message.Should()
+                            .MatchEquivalentOf(expectation, because, becauseArgs);
 
                         results.AddSet(message, scope.Discard());
                     }
@@ -295,8 +291,7 @@ namespace FluentAssertions.Specialized
 
                 foreach (string failure in results.SelectClosestMatchFor())
                 {
-                    string replacedCurlyBraces =
-                        failure.EscapePlaceholders();
+                    string replacedCurlyBraces = failure.EscapePlaceholders();
                     AssertionScope.Current.FailWith(replacedCurlyBraces);
                 }
             }

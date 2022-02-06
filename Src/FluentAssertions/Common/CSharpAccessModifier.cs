@@ -8,6 +8,6 @@
         Internal,
         ProtectedInternal,
         InvalidForCSharp,
-        PrivateProtected,
+        PrivateProtected
     }
 }

@@ -17,13 +17,7 @@ namespace FluentAssertions.Execution
         /// <summary>
         /// Continuous the assertion chain if the previous assertion was successful.
         /// </summary>
-        public IAssertionScope Then
-        {
-            get
-            {
-                return new ContinuedAssertionScope(sourceScope, continueAsserting);
-            }
-        }
+        public IAssertionScope Then => new ContinuedAssertionScope(sourceScope, continueAsserting);
 
         /// <summary>
         /// Provides back-wards compatibility for code that expects <see cref="AssertionScope.FailWith(string, object[])"/> to return a boolean.

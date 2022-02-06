@@ -33,6 +33,7 @@ namespace FluentAssertions.Formatting
             IEnumerable<KeyValuePair<object, object>> collection = AsEnumerable((IDictionary)value);
 
             using var iterator = new Iterator<KeyValuePair<object, object>>(collection, MaxItems);
+
             while (iterator.MoveNext())
             {
                 if (iterator.IsFirst)
@@ -42,7 +43,7 @@ namespace FluentAssertions.Formatting
 
                 if (!iterator.HasReachedMaxItems)
                 {
-                    var index = iterator.Index.ToString(CultureInfo.InvariantCulture);
+                    string index = iterator.Index.ToString(CultureInfo.InvariantCulture);
                     formattedGraph.AddFragment("[");
                     formatChild(index + ".Key", iterator.Current.Key, formattedGraph);
                     formattedGraph.AddFragment("] = ");
@@ -73,7 +74,7 @@ namespace FluentAssertions.Formatting
 
         private static void AddLineOrFragment(FormattedObjectGraph formattedGraph, int startCount, string fragment)
         {
-            if (formattedGraph.LineCount > (startCount + 1))
+            if (formattedGraph.LineCount > startCount + 1)
             {
                 formattedGraph.AddLine(fragment);
             }
@@ -86,6 +87,7 @@ namespace FluentAssertions.Formatting
         private static IEnumerable<KeyValuePair<object, object>> AsEnumerable(IDictionary dictionary)
         {
             IDictionaryEnumerator iterator = dictionary.GetEnumerator();
+
             using (iterator as IDisposable)
             {
                 while (iterator.MoveNext())

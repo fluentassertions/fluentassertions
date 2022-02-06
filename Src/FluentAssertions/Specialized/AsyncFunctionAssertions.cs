@@ -38,11 +38,10 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public async Task<AndConstraint<TAssertions>> CompleteWithinAsync(
-            TimeSpan timeSpan, string because = "", params object[] becauseArgs)
+        public async Task<AndConstraint<TAssertions>> CompleteWithinAsync(TimeSpan timeSpan, string because = "",
+            params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject is not null)
+            Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:task} to complete within {0}{reason}, but found <null>.", timeSpan);
 
@@ -50,14 +49,14 @@ namespace FluentAssertions.Specialized
             TTask task = Subject.Invoke();
             TimeSpan remainingTime = timeSpan - timer.Elapsed;
 
-            bool success = Execute.Assertion
-                .ForCondition(remainingTime >= TimeSpan.Zero)
+            bool success = Execute.Assertion.ForCondition(remainingTime >= TimeSpan.Zero)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
 
             if (success)
             {
                 using var timeoutCancellationTokenSource = new CancellationTokenSource();
+
                 Task completedTask =
                     await Task.WhenAny(task, Clock.DelayAsync(remainingTime, timeoutCancellationTokenSource.Token));
 
@@ -67,8 +66,7 @@ namespace FluentAssertions.Specialized
                     await completedTask;
                 }
 
-                Execute.Assertion
-                    .ForCondition(completedTask == task)
+                Execute.Assertion.ForCondition(completedTask == task)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
             }
@@ -98,21 +96,23 @@ namespace FluentAssertions.Specialized
         {
             Type expectedType = typeof(TException);
 
-            Execute.Assertion
-                .ForCondition(Subject is not null)
+            Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} to throw exactly {0}{reason}, but found <null>.", expectedType);
 
             Exception exception = await InvokeWithInterceptionAsync(Subject);
 
-            Execute.Assertion
-                .ForCondition(exception is not null)
+            Execute.Assertion.ForCondition(exception is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {0}{reason}, but no exception was thrown.", expectedType);
 
-            exception.Should().BeOfType(expectedType, because, becauseArgs);
+            exception.Should()
+                .BeOfType(expectedType, because, becauseArgs);
 
-            return new ExceptionAssertions<TException>(new[] { exception as TException });
+            return new ExceptionAssertions<TException>(new[]
+            {
+                exception as TException
+            });
         }
 
         /// <summary>
@@ -129,8 +129,7 @@ namespace FluentAssertions.Specialized
             params object[] becauseArgs)
             where TException : Exception
         {
-            Execute.Assertion
-                .ForCondition(Subject is not null)
+            Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} to throw {0}{reason}, but found <null>.", typeof(TException));
 
@@ -150,8 +149,7 @@ namespace FluentAssertions.Specialized
         /// </param>
         public async Task<AndConstraint<TAssertions>> NotThrowAsync(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject is not null)
+            Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
@@ -180,8 +178,7 @@ namespace FluentAssertions.Specialized
         public async Task<AndConstraint<TAssertions>> NotThrowAsync<TException>(string because = "", params object[] becauseArgs)
             where TException : Exception
         {
-            Execute.Assertion
-                .ForCondition(Subject is not null)
+            Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
@@ -220,7 +217,8 @@ namespace FluentAssertions.Specialized
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
-        public Task<AndConstraint<TAssertions>> NotThrowAfterAsync(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
+        public Task<AndConstraint<TAssertions>> NotThrowAfterAsync(TimeSpan waitTime, TimeSpan pollInterval, string because = "",
+            params object[] becauseArgs)
         {
             if (waitTime < TimeSpan.Zero)
             {
@@ -233,8 +231,7 @@ namespace FluentAssertions.Specialized
                     $"The value of {nameof(pollInterval)} must be non-negative.");
             }
 
-            Execute.Assertion
-                .ForCondition(Subject is not null)
+            Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw any exceptions after {0}{reason}, but found <null>.", waitTime);
 
@@ -249,6 +246,7 @@ namespace FluentAssertions.Specialized
                 while (invocationEndTime is null || invocationEndTime < waitTime)
                 {
                     exception = await InvokeWithInterceptionAsync(Subject);
+
                     if (exception is null)
                     {
                         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -258,8 +256,7 @@ namespace FluentAssertions.Specialized
                     invocationEndTime = timer.Elapsed;
                 }
 
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
+                Execute.Assertion.BecauseOf(because, becauseArgs)
                     .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
 
                 return new AndConstraint<TAssertions>((TAssertions)this);
@@ -279,8 +276,8 @@ namespace FluentAssertions.Specialized
                 // If an assertion failure occurs, we want the message to talk about "subject"
                 // not "await action".
                 using (CallerIdentifier.OnlyOneFluentAssertionScopeOnCallStack()
-                        ? CallerIdentifier.OverrideStackSearchUsingCurrentScope()
-                        : default)
+                    ? CallerIdentifier.OverrideStackSearchUsingCurrentScope()
+                    : default)
                 {
                     await action();
                 }

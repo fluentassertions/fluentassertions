@@ -91,7 +91,8 @@ namespace FluentAssertions
         [Pure]
         public static Func<Task> Awaiting<T>(this T subject, Func<T, ValueTask> action)
         {
-            return () => action(subject).AsTask();
+            return () => action(subject)
+                .AsTask();
         }
 
         /// <summary>
@@ -101,7 +102,8 @@ namespace FluentAssertions
         [Pure]
         public static Func<Task<TResult>> Awaiting<T, TResult>(this T subject, Func<T, ValueTask<TResult>> action)
         {
-            return () => action(subject).AsTask();
+            return () => action(subject)
+                .AsTask();
         }
 
         /// <summary>
@@ -139,7 +141,7 @@ namespace FluentAssertions
         {
             createTimer ??= () => new StopwatchTimer();
 
-            return new(action, createTimer);
+            return new ExecutionTime(action, createTimer);
         }
 
         /// <summary>
@@ -153,7 +155,7 @@ namespace FluentAssertions
         [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
         public static ExecutionTime ExecutionTime(this Func<Task> action)
         {
-            return new(action, () => new StopwatchTimer());
+            return new ExecutionTime(action, () => new StopwatchTimer());
         }
 
         /// <summary>
@@ -358,7 +360,8 @@ namespace FluentAssertions
         /// current <see cref="IDictionary{TKey, TValue}"/>.
         /// </summary>
         [Pure]
-        public static GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue> Should<TKey, TValue>(this IDictionary<TKey, TValue> actualValue)
+        public static GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue> Should<TKey, TValue>(
+            this IDictionary<TKey, TValue> actualValue)
         {
             return new GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue>(actualValue);
         }
@@ -368,7 +371,8 @@ namespace FluentAssertions
         /// current <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey, TValue}"/>.
         /// </summary>
         [Pure]
-        public static GenericDictionaryAssertions<IEnumerable<KeyValuePair<TKey, TValue>>, TKey, TValue> Should<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> actualValue)
+        public static GenericDictionaryAssertions<IEnumerable<KeyValuePair<TKey, TValue>>, TKey, TValue> Should<TKey, TValue>(
+            this IEnumerable<KeyValuePair<TKey, TValue>> actualValue)
         {
             return new GenericDictionaryAssertions<IEnumerable<KeyValuePair<TKey, TValue>>, TKey, TValue>(actualValue);
         }
@@ -378,7 +382,8 @@ namespace FluentAssertions
         /// current <typeparamref name="TCollection"/>.
         /// </summary>
         [Pure]
-        public static GenericDictionaryAssertions<TCollection, TKey, TValue> Should<TCollection, TKey, TValue>(this TCollection actualValue)
+        public static GenericDictionaryAssertions<TCollection, TKey, TValue> Should<TCollection, TKey, TValue>(
+            this TCollection actualValue)
             where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
         {
             return new GenericDictionaryAssertions<TCollection, TKey, TValue>(actualValue);
@@ -861,7 +866,8 @@ namespace FluentAssertions
         #region Prevent chaining on AndConstraint
 
         /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
-        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'",
+            error: true)]
         public static void Should<TSubject, TAssertions>(this ReferenceTypeAssertions<TSubject, TAssertions> _)
             where TAssertions : ReferenceTypeAssertions<TSubject, TAssertions>
         {
@@ -869,7 +875,8 @@ namespace FluentAssertions
         }
 
         /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
-        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'",
+            error: true)]
         public static void Should<TAssertions>(this BooleanAssertions<TAssertions> _)
             where TAssertions : BooleanAssertions<TAssertions>
         {
@@ -877,7 +884,8 @@ namespace FluentAssertions
         }
 
         /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
-        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'",
+            error: true)]
         public static void Should<TAssertions>(this DateTimeAssertions<TAssertions> _)
             where TAssertions : DateTimeAssertions<TAssertions>
         {
@@ -885,7 +893,8 @@ namespace FluentAssertions
         }
 
         /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
-        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'",
+            error: true)]
         public static void Should<TAssertions>(this DateTimeOffsetAssertions<TAssertions> _)
             where TAssertions : DateTimeOffsetAssertions<TAssertions>
         {
@@ -895,14 +904,16 @@ namespace FluentAssertions
         /// <summary>
         /// You are asserting the <see cref="AndConstraint{T}"/> itself. Remove the <c>Should()</c> method directly following <c>And</c>.
         /// </summary>
-        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'",
+            error: true)]
         public static void Should(this ExecutionTimeAssertions _)
         {
             InvalidShouldCall();
         }
 
         /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
-        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'",
+            error: true)]
         public static void Should<TAssertions>(this GuidAssertions<TAssertions> _)
             where TAssertions : GuidAssertions<TAssertions>
         {
@@ -910,14 +921,16 @@ namespace FluentAssertions
         }
 
         /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
-        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'",
+            error: true)]
         public static void Should(this MethodInfoSelectorAssertions _)
         {
             InvalidShouldCall();
         }
 
         /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
-        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'",
+            error: true)]
         public static void Should<TSubject, TAssertions>(this NumericAssertions<TSubject, TAssertions> _)
             where TSubject : struct, IComparable<TSubject>
             where TAssertions : NumericAssertions<TSubject, TAssertions>
@@ -926,14 +939,16 @@ namespace FluentAssertions
         }
 
         /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
-        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'",
+            error: true)]
         public static void Should(this PropertyInfoSelectorAssertions _)
         {
             InvalidShouldCall();
         }
 
         /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
-        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'",
+            error: true)]
         public static void Should<TAssertions>(this SimpleTimeSpanAssertions<TAssertions> _)
             where TAssertions : SimpleTimeSpanAssertions<TAssertions>
         {
@@ -941,21 +956,24 @@ namespace FluentAssertions
         }
 
         /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
-        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'",
+            error: true)]
         public static void Should<TSubject>(this TaskCompletionSourceAssertions<TSubject> _)
         {
             InvalidShouldCall();
         }
 
         /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
-        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'",
+            error: true)]
         public static void Should(this TypeSelectorAssertions _)
         {
             InvalidShouldCall();
         }
 
         /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
-        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'",
+            error: true)]
         public static void Should<TEnum, TAssertions>(this EnumAssertions<TEnum, TAssertions> _)
             where TEnum : struct, Enum
             where TAssertions : EnumAssertions<TEnum, TAssertions>
@@ -965,7 +983,8 @@ namespace FluentAssertions
 
         private static void InvalidShouldCall()
         {
-            throw new InvalidOperationException("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'.");
+            throw new InvalidOperationException(
+                "You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'.");
         }
 
         #endregion

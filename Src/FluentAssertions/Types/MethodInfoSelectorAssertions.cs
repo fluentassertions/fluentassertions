@@ -50,11 +50,9 @@ namespace FluentAssertions.Types
 
             string failureMessage =
                 "Expected all selected methods to be virtual{reason}, but the following methods are not virtual:" +
-                Environment.NewLine +
-                GetDescriptionsFor(nonVirtualMethods);
+                Environment.NewLine + GetDescriptionsFor(nonVirtualMethods);
 
-            Execute.Assertion
-                .ForCondition(!nonVirtualMethods.Any())
+            Execute.Assertion.ForCondition(!nonVirtualMethods.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(failureMessage);
 
@@ -77,11 +75,9 @@ namespace FluentAssertions.Types
 
             string failureMessage =
                 "Expected all selected methods not to be virtual{reason}, but the following methods are virtual:" +
-                Environment.NewLine +
-                GetDescriptionsFor(virtualMethods);
+                Environment.NewLine + GetDescriptionsFor(virtualMethods);
 
-            Execute.Assertion
-                .ForCondition(!virtualMethods.Any())
+            Execute.Assertion.ForCondition(!virtualMethods.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(failureMessage);
 
@@ -90,12 +86,14 @@ namespace FluentAssertions.Types
 
         private MethodInfo[] GetAllNonVirtualMethodsFromSelection()
         {
-            return SubjectMethods.Where(method => method.IsNonVirtual()).ToArray();
+            return SubjectMethods.Where(method => method.IsNonVirtual())
+                .ToArray();
         }
 
         private MethodInfo[] GetAllVirtualMethodsFromSelection()
         {
-            return SubjectMethods.Where(method => !method.IsNonVirtual()).ToArray();
+            return SubjectMethods.Where(method => !method.IsNonVirtual())
+                .ToArray();
         }
 
         /// <summary>
@@ -110,15 +108,13 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<MethodInfoSelectorAssertions> BeAsync(string because = "", params object[] becauseArgs)
         {
-            MethodInfo[] nonAsyncMethods = SubjectMethods.Where(method => !method.IsAsync()).ToArray();
+            MethodInfo[] nonAsyncMethods = SubjectMethods.Where(method => !method.IsAsync())
+                .ToArray();
 
-            string failureMessage =
-                "Expected all selected methods to be async{reason}, but the following methods are not:" +
-                Environment.NewLine +
-                GetDescriptionsFor(nonAsyncMethods);
+            string failureMessage = "Expected all selected methods to be async{reason}, but the following methods are not:" +
+                Environment.NewLine + GetDescriptionsFor(nonAsyncMethods);
 
-            Execute.Assertion
-                .ForCondition(!nonAsyncMethods.Any())
+            Execute.Assertion.ForCondition(!nonAsyncMethods.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(failureMessage);
 
@@ -137,15 +133,13 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<MethodInfoSelectorAssertions> NotBeAsync(string because = "", params object[] becauseArgs)
         {
-            MethodInfo[] asyncMethods = SubjectMethods.Where(method => method.IsAsync()).ToArray();
+            MethodInfo[] asyncMethods = SubjectMethods.Where(method => method.IsAsync())
+                .ToArray();
 
-            string failureMessage =
-                "Expected all selected methods not to be async{reason}, but the following methods are:" +
-                Environment.NewLine +
-                GetDescriptionsFor(asyncMethods);
+            string failureMessage = "Expected all selected methods not to be async{reason}, but the following methods are:" +
+                Environment.NewLine + GetDescriptionsFor(asyncMethods);
 
-            Execute.Assertion
-                .ForCondition(!asyncMethods.Any())
+            Execute.Assertion.ForCondition(!asyncMethods.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(failureMessage);
 
@@ -162,7 +156,8 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+        public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "",
+            params object[] becauseArgs)
             where TAttribute : Attribute
         {
             return BeDecoratedWith<TAttribute>(_ => true, because, becauseArgs);
@@ -192,11 +187,9 @@ namespace FluentAssertions.Types
 
             string failureMessage =
                 "Expected all selected methods to be decorated with {0}{reason}, but the following methods are not:" +
-                Environment.NewLine +
-                GetDescriptionsFor(methodsWithoutAttribute);
+                Environment.NewLine + GetDescriptionsFor(methodsWithoutAttribute);
 
-            Execute.Assertion
-                .ForCondition(!methodsWithoutAttribute.Any())
+            Execute.Assertion.ForCondition(!methodsWithoutAttribute.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(failureMessage, typeof(TAttribute));
 
@@ -213,7 +206,8 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<MethodInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+        public AndConstraint<MethodInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "",
+            params object[] becauseArgs)
             where TAttribute : Attribute
         {
             return NotBeDecoratedWith<TAttribute>(_ => true, because, becauseArgs);
@@ -243,11 +237,9 @@ namespace FluentAssertions.Types
 
             string failureMessage =
                 "Expected all selected methods to not be decorated with {0}{reason}, but the following methods are:" +
-                Environment.NewLine +
-                GetDescriptionsFor(methodsWithAttribute);
+                Environment.NewLine + GetDescriptionsFor(methodsWithAttribute);
 
-            Execute.Assertion
-                .ForCondition(!methodsWithAttribute.Any())
+            Execute.Assertion.ForCondition(!methodsWithAttribute.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(failureMessage, typeof(TAttribute));
 
@@ -265,13 +257,17 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<MethodInfoSelectorAssertions> Be(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
+        public AndConstraint<MethodInfoSelectorAssertions> Be(CSharpAccessModifier accessModifier, string because = "",
+            params object[] becauseArgs)
         {
-            var methods = SubjectMethods.Where(pi => pi.GetCSharpAccessModifier() != accessModifier).ToArray();
-            var message = $"Expected all selected methods to be {accessModifier}{{reason}}, but the following methods are not:" + Environment.NewLine + GetDescriptionsFor(methods);
+            MethodInfo[] methods = SubjectMethods.Where(pi => pi.GetCSharpAccessModifier() != accessModifier)
+                .ToArray();
 
-            Execute.Assertion
-                .ForCondition(!methods.Any())
+            string message =
+                $"Expected all selected methods to be {accessModifier}{{reason}}, but the following methods are not:" +
+                Environment.NewLine + GetDescriptionsFor(methods);
+
+            Execute.Assertion.ForCondition(!methods.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(message);
 
@@ -289,13 +285,17 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<MethodInfoSelectorAssertions> NotBe(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
+        public AndConstraint<MethodInfoSelectorAssertions> NotBe(CSharpAccessModifier accessModifier, string because = "",
+            params object[] becauseArgs)
         {
-            var methods = SubjectMethods.Where(pi => pi.GetCSharpAccessModifier() == accessModifier).ToArray();
-            var message = $"Expected all selected methods to not be {accessModifier}{{reason}}, but the following methods are:" + Environment.NewLine + GetDescriptionsFor(methods);
+            MethodInfo[] methods = SubjectMethods.Where(pi => pi.GetCSharpAccessModifier() == accessModifier)
+                .ToArray();
 
-            Execute.Assertion
-                .ForCondition(!methods.Any())
+            string message =
+                $"Expected all selected methods to not be {accessModifier}{{reason}}, but the following methods are:" +
+                Environment.NewLine + GetDescriptionsFor(methods);
+
+            Execute.Assertion.ForCondition(!methods.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(message);
 
@@ -305,13 +305,15 @@ namespace FluentAssertions.Types
         private MethodInfo[] GetMethodsWithout<TAttribute>(Expression<Func<TAttribute, bool>> isMatchingPredicate)
             where TAttribute : Attribute
         {
-            return SubjectMethods.Where(method => !method.IsDecoratedWith(isMatchingPredicate)).ToArray();
+            return SubjectMethods.Where(method => !method.IsDecoratedWith(isMatchingPredicate))
+                .ToArray();
         }
 
         private MethodInfo[] GetMethodsWith<TAttribute>(Expression<Func<TAttribute, bool>> isMatchingPredicate)
             where TAttribute : Attribute
         {
-            return SubjectMethods.Where(method => method.IsDecoratedWith(isMatchingPredicate)).ToArray();
+            return SubjectMethods.Where(method => method.IsDecoratedWith(isMatchingPredicate))
+                .ToArray();
         }
 
         private static string GetDescriptionsFor(IEnumerable<MethodInfo> methods)
@@ -329,7 +331,9 @@ namespace FluentAssertions.Types
 #pragma warning restore CA1822
 
         /// <inheritdoc/>
-        public override bool Equals(object obj) =>
+        public override bool Equals(object obj)
+        {
             throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
+        }
     }
 }

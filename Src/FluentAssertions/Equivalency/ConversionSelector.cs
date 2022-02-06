@@ -39,18 +39,14 @@ namespace FluentAssertions.Equivalency
         {
             Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
 
-            inclusions.Add(new ConversionSelectorRule(
-                predicate.Compile(),
-                $"Try conversion of member {predicate.Body}. "));
+            inclusions.Add(new ConversionSelectorRule(predicate.Compile(), $"Try conversion of member {predicate.Body}. "));
         }
 
         public void Exclude(Expression<Func<IObjectInfo, bool>> predicate)
         {
             Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
 
-            exclusions.Add(new ConversionSelectorRule(
-                predicate.Compile(),
-                $"Do not convert member {predicate.Body}."));
+            exclusions.Add(new ConversionSelectorRule(predicate.Compile(), $"Do not convert member {predicate.Body}."));
         }
 
         public bool RequiresConversion(Comparands comparands, INode currentNode)
@@ -87,7 +83,7 @@ namespace FluentAssertions.Equivalency
             return new ConversionSelector
             {
                 inclusions = new List<ConversionSelectorRule>(inclusions),
-                exclusions = new List<ConversionSelectorRule>(exclusions),
+                exclusions = new List<ConversionSelectorRule>(exclusions)
             };
         }
     }

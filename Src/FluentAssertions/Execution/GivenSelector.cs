@@ -73,7 +73,9 @@ namespace FluentAssertions.Execution
         {
             if (continueAsserting)
             {
-                object[] mappedArguments = args.Select(a => a(subject)).ToArray();
+                object[] mappedArguments = args.Select(a => a(subject))
+                    .ToArray();
+
                 return FailWith(message, mappedArguments);
             }
 

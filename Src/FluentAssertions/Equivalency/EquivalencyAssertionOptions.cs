@@ -19,8 +19,8 @@ namespace FluentAssertions.Equivalency
     /// <summary>
     /// Represents the run-time type-specific behavior of a structural equivalency assertion.
     /// </summary>
-    public class EquivalencyAssertionOptions<TExpectation> :
-        SelfReferenceEquivalencyAssertionOptions<EquivalencyAssertionOptions<TExpectation>>
+    public class EquivalencyAssertionOptions<TExpectation>
+        : SelfReferenceEquivalencyAssertionOptions<EquivalencyAssertionOptions<TExpectation>>
     {
         public EquivalencyAssertionOptions()
         {
@@ -56,8 +56,7 @@ namespace FluentAssertions.Equivalency
         /// Causes the collection identified by <paramref name="expression"/> to be compared in the order
         /// in which the items appear in the expectation.
         /// </summary>
-        public EquivalencyAssertionOptions<TExpectation> WithStrictOrderingFor(
-            Expression<Func<TExpectation, object>> expression)
+        public EquivalencyAssertionOptions<TExpectation> WithStrictOrderingFor(Expression<Func<TExpectation, object>> expression)
         {
             string expressionMemberPath = expression.GetMemberPath().ToString();
             OrderingRules.Add(new PathBasedOrderingRule(expressionMemberPath));
@@ -85,11 +84,9 @@ namespace FluentAssertions.Equivalency
         /// Fields can be mapped to properties and vice-versa.
         /// </remarks>
         public EquivalencyAssertionOptions<TExpectation> WithMapping<TSubject>(
-            Expression<Func<TExpectation, object>> expectationMemberPath,
-            Expression<Func<TSubject, object>> subjectMemberPath)
+            Expression<Func<TExpectation, object>> expectationMemberPath, Expression<Func<TSubject, object>> subjectMemberPath)
         {
-            return WithMapping(
-                expectationMemberPath.GetMemberPath().ToString().WithoutSpecificCollectionIndices(),
+            return WithMapping(expectationMemberPath.GetMemberPath().ToString().WithoutSpecificCollectionIndices(),
                 subjectMemberPath.GetMemberPath().ToString().WithoutSpecificCollectionIndices());
         }
 
@@ -108,9 +105,7 @@ namespace FluentAssertions.Equivalency
         /// if conversion options were specified.
         /// Fields can be mapped to properties and vice-versa.
         /// </remarks>
-        public EquivalencyAssertionOptions<TExpectation> WithMapping(
-            string expectationMemberPath,
-            string subjectMemberPath)
+        public EquivalencyAssertionOptions<TExpectation> WithMapping(string expectationMemberPath, string subjectMemberPath)
         {
             AddMatchingRule(new MappedPathMatchingRule(expectationMemberPath, subjectMemberPath));
 
@@ -133,8 +128,7 @@ namespace FluentAssertions.Equivalency
             Expression<Func<TNestedExpectation, object>> expectationMember,
             Expression<Func<TNestedSubject, object>> subjectMember)
         {
-            return WithMapping<TNestedExpectation, TNestedSubject>(
-                expectationMember.GetMemberPath().ToString(),
+            return WithMapping<TNestedExpectation, TNestedSubject>(expectationMember.GetMemberPath().ToString(),
                 subjectMember.GetMemberPath().ToString());
         }
 
@@ -152,12 +146,10 @@ namespace FluentAssertions.Equivalency
         /// Fields can be mapped to properties and vice-versa.
         /// </remarks>
         public EquivalencyAssertionOptions<TExpectation> WithMapping<TNestedExpectation, TNestedSubject>(
-            string expectationMemberName,
-            string subjectMemberName)
+            string expectationMemberName, string subjectMemberName)
         {
             AddMatchingRule(new MappedMemberMatchingRule<TNestedExpectation, TNestedSubject>(
-                expectationMemberName,
-                subjectMemberName));
+                expectationMemberName, subjectMemberName));
 
             return this;
         }

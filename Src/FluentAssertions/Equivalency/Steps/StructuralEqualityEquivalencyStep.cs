@@ -15,28 +15,23 @@ namespace FluentAssertions.Equivalency.Steps
                 return EquivalencyResult.ContinueWithNext;
             }
 
-            bool expectationIsNotNull = AssertionScope.Current
-                .ForCondition(comparands.Expectation is not null)
+            bool expectationIsNotNull = AssertionScope.Current.ForCondition(comparands.Expectation is not null)
                 .BecauseOf(context.Reason)
-                .FailWith(
-                    "Expected {context:subject} to be <null>{reason}, but found {0}.",
-                    comparands.Subject);
+                .FailWith("Expected {context:subject} to be <null>{reason}, but found {0}.", comparands.Subject);
 
-            bool subjectIsNotNull = AssertionScope.Current
-                .ForCondition(comparands.Subject is not null)
+            bool subjectIsNotNull = AssertionScope.Current.ForCondition(comparands.Subject is not null)
                 .BecauseOf(context.Reason)
-                .FailWith(
-                    "Expected {context:object} to be {0}{reason}, but found {1}.",
-                    comparands.Expectation,
+                .FailWith("Expected {context:object} to be {0}{reason}, but found {1}.", comparands.Expectation,
                     comparands.Subject);
 
             if (expectationIsNotNull && subjectIsNotNull)
             {
-                IMember[] selectedMembers = GetMembersFromExpectation(context.CurrentNode, comparands, context.Options).ToArray();
+                IMember[] selectedMembers = GetMembersFromExpectation(context.CurrentNode, comparands, context.Options)
+                    .ToArray();
+
                 if (context.CurrentNode.IsRoot && !selectedMembers.Any())
                 {
-                    throw new InvalidOperationException(
-                        "No members were found for comparison. " +
+                    throw new InvalidOperationException("No members were found for comparison. " +
                         "Please specify some members to include in the comparison or choose a more meaningful assertion.");
                 }
 
@@ -53,6 +48,7 @@ namespace FluentAssertions.Equivalency.Steps
             IEquivalencyValidator parent, IMember selectedMember, IEquivalencyAssertionOptions options)
         {
             IMember matchingMember = FindMatchFor(selectedMember, context.CurrentNode, comparands.Subject, options);
+
             if (matchingMember is not null)
             {
                 var nestedComparands = new Comparands

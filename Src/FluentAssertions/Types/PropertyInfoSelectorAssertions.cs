@@ -47,8 +47,7 @@ namespace FluentAssertions.Types
         {
             PropertyInfo[] nonVirtualProperties = GetAllNonVirtualPropertiesFromSelection();
 
-            Execute.Assertion
-                .ForCondition(!nonVirtualProperties.Any())
+            Execute.Assertion.ForCondition(!nonVirtualProperties.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected all selected properties to be virtual{reason}, but the following properties are not virtual:" +
@@ -71,8 +70,7 @@ namespace FluentAssertions.Types
         {
             PropertyInfo[] virtualProperties = GetAllVirtualPropertiesFromSelection();
 
-            Execute.Assertion
-                .ForCondition(!virtualProperties.Any())
+            Execute.Assertion.ForCondition(!virtualProperties.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected all selected properties not to be virtual{reason}, but the following properties are virtual:" +
@@ -95,11 +93,9 @@ namespace FluentAssertions.Types
         {
             PropertyInfo[] readOnlyProperties = GetAllReadOnlyPropertiesFromSelection();
 
-            Execute.Assertion
-                .ForCondition(!readOnlyProperties.Any())
+            Execute.Assertion.ForCondition(!readOnlyProperties.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected all selected properties to have a setter{reason}, but the following properties do not:" +
+                .FailWith("Expected all selected properties to have a setter{reason}, but the following properties do not:" +
                     Environment.NewLine + GetDescriptionsFor(readOnlyProperties));
 
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
@@ -119,11 +115,9 @@ namespace FluentAssertions.Types
         {
             PropertyInfo[] writableProperties = GetAllWritablePropertiesFromSelection();
 
-            Execute.Assertion
-                .ForCondition(!writableProperties.Any())
+            Execute.Assertion.ForCondition(!writableProperties.Any())
                 .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected selected properties to not have a setter{reason}, but the following properties do:" +
+                .FailWith("Expected selected properties to not have a setter{reason}, but the following properties do:" +
                     Environment.NewLine + GetDescriptionsFor(writableProperties));
 
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
@@ -131,22 +125,26 @@ namespace FluentAssertions.Types
 
         private PropertyInfo[] GetAllReadOnlyPropertiesFromSelection()
         {
-            return SubjectProperties.Where(property => !property.CanWrite).ToArray();
+            return SubjectProperties.Where(property => !property.CanWrite)
+                .ToArray();
         }
 
         private PropertyInfo[] GetAllWritablePropertiesFromSelection()
         {
-            return SubjectProperties.Where(property => property.CanWrite).ToArray();
+            return SubjectProperties.Where(property => property.CanWrite)
+                .ToArray();
         }
 
         private PropertyInfo[] GetAllNonVirtualPropertiesFromSelection()
         {
-            return SubjectProperties.Where(property => !property.IsVirtual()).ToArray();
+            return SubjectProperties.Where(property => !property.IsVirtual())
+                .ToArray();
         }
 
         private PropertyInfo[] GetAllVirtualPropertiesFromSelection()
         {
-            return SubjectProperties.Where(property => property.IsVirtual()).ToArray();
+            return SubjectProperties.Where(property => property.IsVirtual())
+                .ToArray();
         }
 
         /// <summary>
@@ -159,13 +157,13 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<PropertyInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+        public AndConstraint<PropertyInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "",
+            params object[] becauseArgs)
             where TAttribute : Attribute
         {
             PropertyInfo[] propertiesWithoutAttribute = GetPropertiesWithout<TAttribute>();
 
-            Execute.Assertion
-                .ForCondition(!propertiesWithoutAttribute.Any())
+            Execute.Assertion.ForCondition(!propertiesWithoutAttribute.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected all selected properties to be decorated with {0}{reason}" +
@@ -185,18 +183,18 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<PropertyInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+        public AndConstraint<PropertyInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "",
+            params object[] becauseArgs)
             where TAttribute : Attribute
         {
             PropertyInfo[] propertiesWithAttribute = GetPropertiesWith<TAttribute>();
 
-            Execute.Assertion
-                .ForCondition(!propertiesWithAttribute.Any())
+            Execute.Assertion.ForCondition(!propertiesWithAttribute.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected all selected properties not to be decorated with {0}{reason}" +
-                    ", but the following properties are:" + Environment.NewLine +
-                    GetDescriptionsFor(propertiesWithAttribute), typeof(TAttribute));
+                    ", but the following properties are:" + Environment.NewLine + GetDescriptionsFor(propertiesWithAttribute),
+                    typeof(TAttribute));
 
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
         }
@@ -204,13 +202,15 @@ namespace FluentAssertions.Types
         private PropertyInfo[] GetPropertiesWithout<TAttribute>()
             where TAttribute : Attribute
         {
-            return SubjectProperties.Where(property => !property.IsDecoratedWith<TAttribute>()).ToArray();
+            return SubjectProperties.Where(property => !property.IsDecoratedWith<TAttribute>())
+                .ToArray();
         }
 
         private PropertyInfo[] GetPropertiesWith<TAttribute>()
             where TAttribute : Attribute
         {
-            return SubjectProperties.Where(property => property.IsDecoratedWith<TAttribute>()).ToArray();
+            return SubjectProperties.Where(property => property.IsDecoratedWith<TAttribute>())
+                .ToArray();
         }
 
         private static string GetDescriptionsFor(IEnumerable<PropertyInfo> properties)
@@ -228,7 +228,9 @@ namespace FluentAssertions.Types
 #pragma warning restore CA1822
 
         /// <inheritdoc/>
-        public override bool Equals(object obj) =>
+        public override bool Equals(object obj)
+        {
             throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
+        }
     }
 }

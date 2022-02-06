@@ -15,9 +15,7 @@ namespace FluentAssertions.Collections.MaximumMatching
     /// <typeparam name="TValue">The type of elements which must be matched with predicates.</typeparam>
     internal class MaximumMatchingProblem<TValue>
     {
-        public MaximumMatchingProblem(
-            IEnumerable<Expression<Func<TValue, bool>>> predicates,
-            IEnumerable<TValue> elements)
+        public MaximumMatchingProblem(IEnumerable<Expression<Func<TValue, bool>>> predicates, IEnumerable<TValue> elements)
         {
             Predicates.AddRange(predicates.Select((predicate, index) => new Predicate<TValue>(predicate, index)));
             Elements.AddRange(elements.Select((element, index) => new Element<TValue>(element, index)));
@@ -27,6 +25,9 @@ namespace FluentAssertions.Collections.MaximumMatching
 
         public List<Element<TValue>> Elements { get; } = new();
 
-        public MaximumMatchingSolution<TValue> Solve() => new MaximumMatchingSolver<TValue>(this).Solve();
+        public MaximumMatchingSolution<TValue> Solve()
+        {
+            return new MaximumMatchingSolver<TValue>(this).Solve();
+        }
     }
 }

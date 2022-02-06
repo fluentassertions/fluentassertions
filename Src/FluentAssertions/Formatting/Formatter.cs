@@ -103,8 +103,8 @@ namespace FluentAssertions.Formatting
 
                 try
                 {
-                    Format(value, output, context, (path, childValue,
-                        output) => FormatChild(path, childValue, output, context, options, graph));
+                    Format(value, output, context,
+                        (path, childValue, output) => FormatChild(path, childValue, output, context, options, graph));
                 }
                 catch (MaxLinesExceededException)
                 {
@@ -118,7 +118,8 @@ namespace FluentAssertions.Formatting
             }
         }
 
-        private static void FormatChild(string path, object value, FormattedObjectGraph output, FormattingContext context, FormattingOptions options, ObjectGraph graph)
+        private static void FormatChild(string path, object value, FormattedObjectGraph output, FormattingContext context,
+            FormattingOptions options, ObjectGraph graph)
         {
             try
             {
@@ -131,14 +132,15 @@ namespace FluentAssertions.Formatting
                 else if (graph.Depth > options.MaxDepth)
                 {
                     output.AddLine($"Maximum recursion depth of {options.MaxDepth} was reached. " +
-                           $" Increase {nameof(FormattingOptions.MaxDepth)} on {nameof(AssertionScope)} or {nameof(AssertionOptions)} to get more details.");
+                        $" Increase {nameof(FormattingOptions.MaxDepth)} on {nameof(AssertionScope)} or {nameof(AssertionOptions)} to get more details.");
                 }
                 else
                 {
                     using (output.WithIndentation())
                     {
-                        Format(value, output, context, (childPath, childValue, nestedOutput) =>
-                            FormatChild(childPath, childValue, nestedOutput, context, options, graph));
+                        Format(value, output, context,
+                            (childPath, childValue, nestedOutput) =>
+                                FormatChild(childPath, childValue, nestedOutput, context, options, graph));
                     }
                 }
             }
@@ -172,7 +174,7 @@ namespace FluentAssertions.Formatting
         {
             if (!CustomFormatters.Contains(formatter))
             {
-                CustomFormatters.Insert(0, formatter);
+                CustomFormatters.Insert(index: 0, formatter);
             }
         }
 
@@ -204,7 +206,10 @@ namespace FluentAssertions.Formatting
                 return !tracker.IsCyclicReference(reference, CyclicReferenceHandling.Ignore);
             }
 
-            private string GetFullPath() => string.Join(".", pathStack.Reverse());
+            private string GetFullPath()
+            {
+                return string.Join(".", pathStack.Reverse());
+            }
 
             public void Pop()
             {
@@ -215,7 +220,8 @@ namespace FluentAssertions.Formatting
 
             public override string ToString()
             {
-                return string.Join(".", pathStack.Reverse().ToArray());
+                return string.Join(".", pathStack.Reverse()
+                    .ToArray());
             }
         }
     }

@@ -52,7 +52,7 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static int Nanoseconds(this TimeSpan self)
         {
-            return (int)((self.Ticks % TicksPerMicrosecond) * (1d / TicksPerNanosecond));
+            return (int)(self.Ticks % TicksPerMicrosecond * (1d / TicksPerNanosecond));
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static int Microseconds(this TimeSpan self)
         {
-            return (int)((self.Ticks % TimeSpan.TicksPerMillisecond) * (1d / TicksPerMicrosecond));
+            return (int)(self.Ticks % TimeSpan.TicksPerMillisecond * (1d / TicksPerMicrosecond));
         }
 
         /// <summary>
@@ -159,7 +159,8 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static TimeSpan Seconds(this int seconds, TimeSpan offset)
         {
-            return TimeSpan.FromSeconds(seconds).Add(offset);
+            return TimeSpan.FromSeconds(seconds)
+                .Add(offset);
         }
 
         /// <summary>
@@ -184,7 +185,8 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static TimeSpan Minutes(this int minutes, TimeSpan offset)
         {
-            return TimeSpan.FromMinutes(minutes).Add(offset);
+            return TimeSpan.FromMinutes(minutes)
+                .Add(offset);
         }
 
         /// <summary>
@@ -209,7 +211,8 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static TimeSpan Hours(this int hours, TimeSpan offset)
         {
-            return TimeSpan.FromHours(hours).Add(offset);
+            return TimeSpan.FromHours(hours)
+                .Add(offset);
         }
 
         /// <summary>
@@ -234,7 +237,8 @@ namespace FluentAssertions.Extensions
         /// </summary>
         public static TimeSpan Days(this int days, TimeSpan offset)
         {
-            return TimeSpan.FromDays(days).Add(offset);
+            return TimeSpan.FromDays(days)
+                .Add(offset);
         }
 
         /// <summary>

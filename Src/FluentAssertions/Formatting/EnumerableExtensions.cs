@@ -9,10 +9,10 @@ namespace FluentAssertions.Formatting
         {
             var buffer = new StringBuilder();
 
-            T lastItem = default(T);
+            var lastItem = default(T);
             bool first = true;
 
-            foreach (var item in items)
+            foreach (T item in items)
             {
                 if (first)
                 {

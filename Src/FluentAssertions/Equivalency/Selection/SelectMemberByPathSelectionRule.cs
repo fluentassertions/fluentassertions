@@ -34,8 +34,7 @@ namespace FluentAssertions.Equivalency.Selection
             return members;
         }
 
-        protected abstract void AddOrRemoveMembersFrom(List<IMember> selectedMembers,
-            INode parent, string parentPath,
+        protected abstract void AddOrRemoveMembersFrom(List<IMember> selectedMembers, INode parent, string parentPath,
             MemberSelectionContext context);
 
         private static bool ContainsIndexingQualifiers(string path)
@@ -46,6 +45,7 @@ namespace FluentAssertions.Equivalency.Selection
         private static string RemoveIndexQualifiers(string path)
         {
             Match match = new Regex(@"^\[\d+]").Match(path);
+
             if (match.Success)
             {
                 path = path.Substring(match.Length);

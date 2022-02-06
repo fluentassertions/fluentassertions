@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
-
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
@@ -35,21 +34,22 @@ namespace FluentAssertions.Data
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndWhichConstraint<DataRowAssertions<TDataRow>, DataColumn> HaveColumn(string expectedColumnName, string because = "", params object[] becauseArgs)
+        public AndWhichConstraint<DataRowAssertions<TDataRow>, DataColumn> HaveColumn(string expectedColumnName,
+            string because = "", params object[] becauseArgs)
         {
             var subjectColumn = default(DataColumn);
 
             if (Subject is null)
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:DataRow} to contain a column named '{0}'{reason}, but found <null>.", expectedColumnName);
+                Execute.Assertion.BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:DataRow} to contain a column named '{0}'{reason}, but found <null>.",
+                        expectedColumnName);
             }
             else if (!Subject.Table.Columns.Contains(expectedColumnName))
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:DataRow} to contain a column named '{0}'{reason}, but it does not.", expectedColumnName);
+                Execute.Assertion.BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:DataRow} to contain a column named '{0}'{reason}, but it does not.",
+                        expectedColumnName);
             }
             else
             {
@@ -79,21 +79,24 @@ namespace FluentAssertions.Data
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<DataRowAssertions<TDataRow>> HaveColumns(IEnumerable<string> expectedColumnNames, string because = "", params object[] becauseArgs)
+        public AndConstraint<DataRowAssertions<TDataRow>> HaveColumns(IEnumerable<string> expectedColumnNames,
+            string because = "", params object[] becauseArgs)
         {
             if (Subject is null)
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:DataRow} to be in a table containing {0} column(s) with specific names{reason}, but found <null>.", expectedColumnNames.Count());
+                Execute.Assertion.BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        "Expected {context:DataRow} to be in a table containing {0} column(s) with specific names{reason}, but found <null>.",
+                        expectedColumnNames.Count());
             }
 
-            foreach (var expectedColumnName in expectedColumnNames)
+            foreach (string expectedColumnName in expectedColumnNames)
             {
-                Execute.Assertion
-                    .ForCondition(Subject.Table.Columns.Contains(expectedColumnName))
+                Execute.Assertion.ForCondition(Subject.Table.Columns.Contains(expectedColumnName))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected table containing {context:DataRow} to contain a column named '{0}'{reason}, but it does not.", expectedColumnName);
+                    .FailWith(
+                        "Expected table containing {context:DataRow} to contain a column named '{0}'{reason}, but it does not.",
+                        expectedColumnName);
             }
 
             return new AndConstraint<DataRowAssertions<TDataRow>>(this);
@@ -125,13 +128,10 @@ namespace FluentAssertions.Data
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<DataRowAssertions<TDataRow>> BeEquivalentTo(DataRow expectation, string because = "", params object[] becauseArgs)
+        public AndConstraint<DataRowAssertions<TDataRow>> BeEquivalentTo(DataRow expectation, string because = "",
+            params object[] becauseArgs)
         {
-            return BeEquivalentTo(
-                expectation,
-                options => options,
-                because,
-                becauseArgs);
+            return BeEquivalentTo(expectation, options => options, because, becauseArgs);
         }
 
         /// <summary>
@@ -174,23 +174,28 @@ namespace FluentAssertions.Data
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<DataRowAssertions<TDataRow>> BeEquivalentTo(DataRow expectation, Func<IDataEquivalencyAssertionOptions<DataRow>, IDataEquivalencyAssertionOptions<DataRow>> config, string because = "", params object[] becauseArgs)
+        public AndConstraint<DataRowAssertions<TDataRow>> BeEquivalentTo(DataRow expectation,
+            Func<IDataEquivalencyAssertionOptions<DataRow>, IDataEquivalencyAssertionOptions<DataRow>> config,
+            string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(config, nameof(config));
 
-            IDataEquivalencyAssertionOptions<DataRow> options = config(AssertionOptions.CloneDefaults<DataRow, DataEquivalencyAssertionOptions<DataRow>>(e => new(e)));
+            IDataEquivalencyAssertionOptions<DataRow> options =
+                config(AssertionOptions.CloneDefaults<DataRow, DataEquivalencyAssertionOptions<DataRow>>(e =>
+                    new DataEquivalencyAssertionOptions<DataRow>(e)));
 
-            var context = new EquivalencyValidationContext(Node.From<DataRow>(() => AssertionScope.Current.CallerIdentity), options)
-            {
-                Reason = new Reason(because, becauseArgs),
-                TraceWriter = options.TraceWriter
-            };
+            var context =
+                new EquivalencyValidationContext(Node.From<DataRow>(() => AssertionScope.Current.CallerIdentity), options)
+                {
+                    Reason = new Reason(because, becauseArgs),
+                    TraceWriter = options.TraceWriter
+                };
 
             var comparands = new Comparands
             {
                 Subject = Subject,
                 Expectation = expectation,
-                CompileTimeType = typeof(TDataRow),
+                CompileTimeType = typeof(TDataRow)
             };
 
             new EquivalencyValidator().AssertEquality(comparands, context);

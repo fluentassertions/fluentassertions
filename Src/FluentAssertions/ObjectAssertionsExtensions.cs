@@ -59,18 +59,18 @@ namespace FluentAssertions
                 object deserializedObject = CreateCloneUsingBinarySerializer(assertions.Subject);
 
                 EquivalencyAssertionOptions<T> defaultOptions = AssertionOptions.CloneDefaults<T>()
-                    .RespectingRuntimeTypes().IncludingFields().IncludingProperties();
+                    .RespectingRuntimeTypes()
+                    .IncludingFields()
+                    .IncludingProperties();
 
-                ((T)deserializedObject).Should().BeEquivalentTo((T)assertions.Subject, _ => options(defaultOptions));
+                ((T)deserializedObject).Should()
+                    .BeEquivalentTo((T)assertions.Subject, _ => options(defaultOptions));
             }
             catch (Exception exc)
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
+                Execute.Assertion.BecauseOf(because, becauseArgs)
                     .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:{1}{1}{2}.",
-                        assertions.Subject,
-                        Environment.NewLine,
-                        exc.Message);
+                        assertions.Subject, Environment.NewLine, exc.Message);
             }
 
             return new AndConstraint<ObjectAssertions>(assertions);
@@ -113,27 +113,28 @@ namespace FluentAssertions
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static AndConstraint<ObjectAssertions> BeDataContractSerializable<T>(this ObjectAssertions assertions,
-            Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> options, string because = "", params object[] becauseArgs)
+            Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> options, string because = "",
+            params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(options, nameof(options));
 
             try
             {
-                var deserializedObject = CreateCloneUsingDataContractSerializer(assertions.Subject);
+                object deserializedObject = CreateCloneUsingDataContractSerializer(assertions.Subject);
 
                 EquivalencyAssertionOptions<T> defaultOptions = AssertionOptions.CloneDefaults<T>()
-                    .RespectingRuntimeTypes().IncludingFields().IncludingProperties();
+                    .RespectingRuntimeTypes()
+                    .IncludingFields()
+                    .IncludingProperties();
 
-                ((T)deserializedObject).Should().BeEquivalentTo((T)assertions.Subject, _ => options(defaultOptions));
+                ((T)deserializedObject).Should()
+                    .BeEquivalentTo((T)assertions.Subject, _ => options(defaultOptions));
             }
             catch (Exception exc)
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
+                Execute.Assertion.BecauseOf(because, becauseArgs)
                     .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:{1}{1}{2}.",
-                        assertions.Subject,
-                        Environment.NewLine,
-                        exc.Message);
+                        assertions.Subject, Environment.NewLine, exc.Message);
             }
 
             return new AndConstraint<ObjectAssertions>(assertions);
@@ -142,6 +143,7 @@ namespace FluentAssertions
         private static object CreateCloneUsingBinarySerializer(object subject)
         {
             using var stream = new MemoryStream();
+
             var binaryFormatter = new BinaryFormatter
             {
                 Binder = new SimpleBinder(subject.GetType())
@@ -163,7 +165,7 @@ namespace FluentAssertions
 
             public override Type BindToType(string assemblyName, string typeName)
             {
-                if ((type.FullName == typeName) && (type.Assembly.FullName == assemblyName))
+                if (type.FullName == typeName && type.Assembly.FullName == assemblyName)
                 {
                     return type;
                 }
@@ -202,17 +204,16 @@ namespace FluentAssertions
             {
                 object deserializedObject = CreateCloneUsingXmlSerializer(assertions.Subject);
 
-                deserializedObject.Should().BeEquivalentTo(assertions.Subject,
-                    options => options.RespectingRuntimeTypes().IncludingFields().IncludingProperties());
+                deserializedObject.Should()
+                    .BeEquivalentTo(assertions.Subject, options => options.RespectingRuntimeTypes()
+                        .IncludingFields()
+                        .IncludingProperties());
             }
             catch (Exception exc)
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
+                Execute.Assertion.BecauseOf(because, becauseArgs)
                     .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:{1}{1}{2}.",
-                        assertions.Subject,
-                        Environment.NewLine,
-                        exc.Message);
+                        assertions.Subject, Environment.NewLine, exc.Message);
             }
 
             return new AndConstraint<ObjectAssertions>(assertions);

@@ -15,25 +15,29 @@ namespace FluentAssertions.Equivalency.Matching
 
             if (config.IncludedProperties != MemberVisibility.None)
             {
-                PropertyInfo propertyInfo = subject.GetType().FindProperty(expectedMember.Name, expectedMember.Type);
-                subjectMember = (propertyInfo is not null) && !propertyInfo.IsIndexer() ? new Property(propertyInfo, parent) : null;
+                PropertyInfo propertyInfo = subject.GetType()
+                    .FindProperty(expectedMember.Name, expectedMember.Type);
+
+                subjectMember = propertyInfo is not null && !propertyInfo.IsIndexer() ? new Property(propertyInfo, parent) : null;
             }
 
-            if ((subjectMember is null) && config.IncludedFields != MemberVisibility.None)
+            if (subjectMember is null && config.IncludedFields != MemberVisibility.None)
             {
-                FieldInfo fieldInfo = subject.GetType().FindField(expectedMember.Name, expectedMember.Type);
-                subjectMember = (fieldInfo is not null) ? new Field(fieldInfo, parent) : null;
+                FieldInfo fieldInfo = subject.GetType()
+                    .FindField(expectedMember.Name, expectedMember.Type);
+
+                subjectMember = fieldInfo is not null ? new Field(fieldInfo, parent) : null;
             }
 
-            if ((subjectMember is null || !config.UseRuntimeTyping) && ExpectationImplementsMemberExplicitly(subject, expectedMember))
+            if ((subjectMember is null || !config.UseRuntimeTyping) &&
+                ExpectationImplementsMemberExplicitly(subject, expectedMember))
             {
                 subjectMember = expectedMember;
             }
 
             if (subjectMember is null)
             {
-                Execute.Assertion.FailWith(
-                    $"Expectation has {expectedMember.Description} that the other object does not have.");
+                Execute.Assertion.FailWith($"Expectation has {expectedMember.Description} that the other object does not have.");
             }
 
             return subjectMember;

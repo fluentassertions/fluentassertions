@@ -48,8 +48,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject.HasValue)
+            Execute.Assertion.ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected a value{reason}.");
 
@@ -83,8 +82,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(!Subject.HasValue)
+            Execute.Assertion.ForCondition(!Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
 
@@ -117,11 +115,9 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> Be(TimeSpan? expected, string because = "",
-            params object[] becauseArgs)
+        public AndConstraint<TAssertions> Be(TimeSpan? expected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject == expected)
+            Execute.Assertion.ForCondition(Subject == expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
 

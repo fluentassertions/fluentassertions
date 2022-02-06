@@ -44,10 +44,12 @@ namespace FluentAssertions.Xml
         public AndConstraint<TAssertions> BeEquivalentTo(XmlNode expected, string because = "", params object[] becauseArgs)
         {
             using (var subjectReader = new XmlNodeReader(Subject))
-            using (var expectedReader = new XmlNodeReader(expected))
             {
-                var xmlReaderValidator = new XmlReaderValidator(subjectReader, expectedReader, because, becauseArgs);
-                xmlReaderValidator.Validate(shouldBeEquivalent: true);
+                using (var expectedReader = new XmlNodeReader(expected))
+                {
+                    var xmlReaderValidator = new XmlReaderValidator(subjectReader, expectedReader, because, becauseArgs);
+                    xmlReaderValidator.Validate(shouldBeEquivalent: true);
+                }
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -68,10 +70,12 @@ namespace FluentAssertions.Xml
         public AndConstraint<TAssertions> NotBeEquivalentTo(XmlNode unexpected, string because = "", params object[] becauseArgs)
         {
             using (var subjectReader = new XmlNodeReader(Subject))
-            using (var unexpectedReader = new XmlNodeReader(unexpected))
             {
-                var xmlReaderValidator = new XmlReaderValidator(subjectReader, unexpectedReader, because, becauseArgs);
-                xmlReaderValidator.Validate(shouldBeEquivalent: false);
+                using (var unexpectedReader = new XmlNodeReader(unexpected))
+                {
+                    var xmlReaderValidator = new XmlReaderValidator(subjectReader, unexpectedReader, because, becauseArgs);
+                    xmlReaderValidator.Validate(shouldBeEquivalent: false);
+                }
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);

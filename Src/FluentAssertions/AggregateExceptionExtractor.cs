@@ -13,7 +13,12 @@ namespace FluentAssertions
         {
             if (typeof(T).IsSameOrInherits(typeof(AggregateException)))
             {
-                return (actualException is T exception) ? new[] { exception } : Enumerable.Empty<T>();
+                return actualException is T exception
+                    ? new[]
+                    {
+                        exception
+                    }
+                    : Enumerable.Empty<T>();
             }
 
             return GetExtractedExceptions<T>(actualException);

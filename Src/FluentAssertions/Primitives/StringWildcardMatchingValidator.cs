@@ -1,7 +1,6 @@
 using System;
 using System.Text;
 using System.Text.RegularExpressions;
-
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Primitives
@@ -40,11 +39,9 @@ namespace FluentAssertions.Primitives
 
         private static string ConvertWildcardToRegEx(string wildcardExpression)
         {
-            return "^"
-                + Regex.Escape(wildcardExpression)
-                 .Replace("\\*", ".*", StringComparison.Ordinal)
-                 .Replace("\\?", ".", StringComparison.Ordinal)
-                + "$";
+            return "^" + Regex.Escape(wildcardExpression)
+                .Replace("\\*", ".*", StringComparison.Ordinal)
+                .Replace("\\?", ".", StringComparison.Ordinal) + "$";
         }
 
         private string CleanNewLines(string input)

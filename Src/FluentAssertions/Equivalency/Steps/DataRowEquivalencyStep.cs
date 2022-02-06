@@ -12,7 +12,8 @@ namespace FluentAssertions.Equivalency.Steps
     public class DataRowEquivalencyStep : EquivalencyStep<DataRow>
     {
         [SuppressMessage("Style", "IDE0019:Use pattern matching", Justification = "The code is easier to read without it.")]
-        protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+        protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context,
+            IEquivalencyValidator nestedValidator)
         {
             var subject = comparands.Subject as DataRow;
             var expectation = comparands.Expectation as DataRow;
@@ -44,17 +45,16 @@ namespace FluentAssertions.Equivalency.Steps
                     var dataTableConfig = context.Options as DataEquivalencyAssertionOptions<DataTable>;
                     var dataRowConfig = context.Options as DataEquivalencyAssertionOptions<DataRow>;
 
-                    if (dataSetConfig?.AllowMismatchedTypes != true
-                        && dataTableConfig?.AllowMismatchedTypes != true
-                        && dataRowConfig?.AllowMismatchedTypes != true)
+                    if (dataSetConfig?.AllowMismatchedTypes != true && dataTableConfig?.AllowMismatchedTypes != true &&
+                        dataRowConfig?.AllowMismatchedTypes != true)
                     {
-                        AssertionScope.Current
-                            .ForCondition(subject.GetType() == expectation.GetType())
+                        AssertionScope.Current.ForCondition(subject.GetType() == expectation.GetType())
                             .FailWith("Expected {context:DataRow} to be of type '{0}'{reason}, but found '{1}'",
                                 expectation.GetType(), subject.GetType());
                     }
 
-                    SelectedDataRowMembers selectedMembers = GetMembersFromExpectation(comparands, context.CurrentNode, context.Options);
+                    SelectedDataRowMembers selectedMembers =
+                        GetMembersFromExpectation(comparands, context.CurrentNode, context.Options);
 
                     CompareScalarProperties(subject, expectation, selectedMembers);
 
@@ -72,16 +72,14 @@ namespace FluentAssertions.Equivalency.Steps
             // method in DataRowAssertions.cs. If this ever needs to change, keep them in sync.
             if (selectedMembers.HasErrors)
             {
-                AssertionScope.Current
-                    .ForCondition(subject.HasErrors == expectation.HasErrors)
+                AssertionScope.Current.ForCondition(subject.HasErrors == expectation.HasErrors)
                     .FailWith("Expected {context:DataRow} to have HasErrors value of '{0}'{reason}, but found '{1}' instead",
                         expectation.HasErrors, subject.HasErrors);
             }
 
             if (selectedMembers.RowState)
             {
-                AssertionScope.Current
-                    .ForCondition(subject.RowState == expectation.RowState)
+                AssertionScope.Current.ForCondition(subject.RowState == expectation.RowState)
                     .FailWith("Expected {context:DataRow} to have RowState value of '{0}'{reason}, but found '{1}' instead",
                         expectation.RowState, subject.RowState);
             }
@@ -97,56 +95,46 @@ namespace FluentAssertions.Equivalency.Steps
             IEnumerable<string> subjectColumnNames = subject.Table.Columns.OfType<DataColumn>()
                 .Select(col => col.ColumnName);
 
-            bool ignoreUnmatchedColumns =
-                (dataSetConfig?.IgnoreUnmatchedColumns == true) ||
-                (dataTableConfig?.IgnoreUnmatchedColumns == true) ||
-                (dataRowConfig?.IgnoreUnmatchedColumns == true);
+            bool ignoreUnmatchedColumns = dataSetConfig?.IgnoreUnmatchedColumns == true ||
+                dataTableConfig?.IgnoreUnmatchedColumns == true || dataRowConfig?.IgnoreUnmatchedColumns == true;
 
             DataRowVersion subjectVersion =
-                (subject.RowState == DataRowState.Deleted)
-                    ? DataRowVersion.Original
-                    : DataRowVersion.Current;
+                subject.RowState == DataRowState.Deleted ? DataRowVersion.Original : DataRowVersion.Current;
 
             DataRowVersion expectationVersion =
-                (expectation.RowState == DataRowState.Deleted)
-                    ? DataRowVersion.Original
-                    : DataRowVersion.Current;
+                expectation.RowState == DataRowState.Deleted ? DataRowVersion.Original : DataRowVersion.Current;
 
             bool compareOriginalVersions =
-                (subject.RowState == DataRowState.Modified) && (expectation.RowState == DataRowState.Modified);
+                subject.RowState == DataRowState.Modified && expectation.RowState == DataRowState.Modified;
 
-            if ((dataSetConfig?.ExcludeOriginalData == true)
-                || (dataTableConfig?.ExcludeOriginalData == true)
-                || (dataRowConfig?.ExcludeOriginalData == true))
+            if (dataSetConfig?.ExcludeOriginalData == true || dataTableConfig?.ExcludeOriginalData == true ||
+                dataRowConfig?.ExcludeOriginalData == true)
             {
                 compareOriginalVersions = false;
             }
 
-            foreach (var columnName in expectationColumnNames.Union(subjectColumnNames))
+            foreach (string columnName in expectationColumnNames.Union(subjectColumnNames))
             {
                 DataColumn expectationColumn = expectation.Table.Columns[columnName];
                 DataColumn subjectColumn = subject.Table.Columns[columnName];
 
-                if (subjectColumn is not null
-                    && ((dataSetConfig?.ShouldExcludeColumn(subjectColumn) == true)
-                        || (dataTableConfig?.ShouldExcludeColumn(subjectColumn) == true)
-                        || (dataRowConfig?.ShouldExcludeColumn(subjectColumn) == true)))
+                if (subjectColumn is not null && (dataSetConfig?.ShouldExcludeColumn(subjectColumn) == true ||
+                    dataTableConfig?.ShouldExcludeColumn(subjectColumn) == true ||
+                    dataRowConfig?.ShouldExcludeColumn(subjectColumn) == true))
                 {
                     continue;
                 }
 
                 if (!ignoreUnmatchedColumns)
                 {
-                    AssertionScope.Current
-                        .ForCondition(subjectColumn is not null)
+                    AssertionScope.Current.ForCondition(subjectColumn is not null)
                         .FailWith("Expected {context:DataRow} to have column '{0}'{reason}, but found none", columnName);
 
-                    AssertionScope.Current
-                        .ForCondition(expectationColumn is not null)
+                    AssertionScope.Current.ForCondition(expectationColumn is not null)
                         .FailWith("Found unexpected column '{0}' in {context:DataRow}", columnName);
                 }
 
-                if ((subjectColumn is not null) && (expectationColumn is not null))
+                if (subjectColumn is not null && expectationColumn is not null)
                 {
                     CompareFieldValue(context, parent, subject, expectation, subjectColumn, subjectVersion, expectationColumn,
                         expectationVersion);
@@ -160,9 +148,9 @@ namespace FluentAssertions.Equivalency.Steps
             }
         }
 
-        private static void CompareFieldValue(IEquivalencyValidationContext context, IEquivalencyValidator parent, DataRow subject,
-            DataRow expectation, DataColumn subjectColumn, DataRowVersion subjectVersion, DataColumn expectationColumn,
-            DataRowVersion expectationVersion)
+        private static void CompareFieldValue(IEquivalencyValidationContext context, IEquivalencyValidator parent,
+            DataRow subject, DataRow expectation, DataColumn subjectColumn, DataRowVersion subjectVersion,
+            DataColumn expectationColumn, DataRowVersion expectationVersion)
         {
             IEquivalencyValidationContext nestedContext = context.AsCollectionItem<object>(
                 subjectVersion == DataRowVersion.Current
@@ -172,8 +160,8 @@ namespace FluentAssertions.Equivalency.Steps
             if (nestedContext is not null)
             {
                 parent.RecursivelyAssertEquality(
-                    new Comparands(subject[subjectColumn, subjectVersion], expectation[expectationColumn, expectationVersion], typeof(object)),
-                    nestedContext);
+                    new Comparands(subject[subjectColumn, subjectVersion], expectation[expectationColumn, expectationVersion],
+                        typeof(object)), nestedContext);
             }
         }
 
@@ -184,17 +172,19 @@ namespace FluentAssertions.Equivalency.Steps
             public bool RowState { get; set; }
         }
 
-        private static readonly ConcurrentDictionary<(Type CompileTimeType, Type RuntimeType, IEquivalencyAssertionOptions Config),
+        private static readonly
+            ConcurrentDictionary<(Type CompileTimeType, Type RuntimeType, IEquivalencyAssertionOptions Config),
                 SelectedDataRowMembers> SelectedMembersCache = new();
 
         private static SelectedDataRowMembers GetMembersFromExpectation(Comparands comparands, INode currentNode,
             IEquivalencyAssertionOptions config)
         {
-            var cacheKey = (comparands.CompileTimeType, comparands.RuntimeType, config);
+            (Type CompileTimeType, Type RuntimeType, IEquivalencyAssertionOptions config) cacheKey = (comparands.CompileTimeType,
+                comparands.RuntimeType, config);
 
             if (!SelectedMembersCache.TryGetValue(cacheKey, out SelectedDataRowMembers selectedMembers))
             {
-                var members = Enumerable.Empty<IMember>();
+                IEnumerable<IMember> members = Enumerable.Empty<IMember>();
 
                 foreach (IMemberSelectionRule rule in config.SelectionRules)
                 {

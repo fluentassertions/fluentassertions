@@ -49,8 +49,7 @@ namespace FluentAssertions.Numeric
         /// </param>
         public AndConstraint<TAssertions> Be(T expected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Equals(Subject, expected))
+            Execute.Assertion.ForCondition(Equals(Subject, expected))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:object} to be equal to {0}{reason}, but found {1}.", expected, Subject);
 
@@ -101,8 +100,8 @@ namespace FluentAssertions.Numeric
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
-            Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
-            params object[] becauseArgs)
+            Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config,
+            string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(config, nameof(config));
 
@@ -119,7 +118,7 @@ namespace FluentAssertions.Numeric
             {
                 Subject = Subject,
                 Expectation = expectation,
-                CompileTimeType = typeof(TExpectation),
+                CompileTimeType = typeof(TExpectation)
             };
 
             new EquivalencyValidator().AssertEquality(comparands, context);
@@ -142,8 +141,7 @@ namespace FluentAssertions.Numeric
         /// </param>
         public AndConstraint<TAssertions> NotBe(T unexpected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(!Equals(Subject, unexpected))
+            Execute.Assertion.ForCondition(!Equals(Subject, unexpected))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:object} to be equal to {0}{reason}.", unexpected);
 
@@ -166,8 +164,7 @@ namespace FluentAssertions.Numeric
         /// </param>
         public AndConstraint<TAssertions> BeRankedEquallyTo(T expected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject.CompareTo(expected) == Equal)
+            Execute.Assertion.ForCondition(Subject.CompareTo(expected) == Equal)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:object} {0} to be ranked as equal to {1}{reason}.", Subject, expected);
 
@@ -190,8 +187,7 @@ namespace FluentAssertions.Numeric
         /// </param>
         public AndConstraint<TAssertions> NotBeRankedEquallyTo(T unexpected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject.CompareTo(unexpected) != Equal)
+            Execute.Assertion.ForCondition(Subject.CompareTo(unexpected) != Equal)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:object} {0} not to be ranked as equal to {1}{reason}.", Subject, unexpected);
 
@@ -213,8 +209,7 @@ namespace FluentAssertions.Numeric
         /// </param>
         public AndConstraint<TAssertions> BeLessThan(T expected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject.CompareTo(expected) < Equal)
+            Execute.Assertion.ForCondition(Subject.CompareTo(expected) < Equal)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:object} {0} to be less than {1}{reason}.", Subject, expected);
 
@@ -236,8 +231,7 @@ namespace FluentAssertions.Numeric
         /// </param>
         public AndConstraint<TAssertions> BeLessThanOrEqualTo(T expected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject.CompareTo(expected) <= Equal)
+            Execute.Assertion.ForCondition(Subject.CompareTo(expected) <= Equal)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:object} {0} to be less than or equal to {1}{reason}.", Subject, expected);
 
@@ -245,7 +239,10 @@ namespace FluentAssertions.Numeric
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public AndConstraint<TAssertions> BeLessOrEqualTo(T expected, string because = "", params object[] becauseArgs) => BeLessThanOrEqualTo(expected, because, becauseArgs);
+        public AndConstraint<TAssertions> BeLessOrEqualTo(T expected, string because = "", params object[] becauseArgs)
+        {
+            return BeLessThanOrEqualTo(expected, because, becauseArgs);
+        }
 
         /// <summary>
         /// Asserts that the subject is greater than another object according to its implementation of <see cref="IComparable{T}"/>.
@@ -262,8 +259,7 @@ namespace FluentAssertions.Numeric
         /// </param>
         public AndConstraint<TAssertions> BeGreaterThan(T expected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject.CompareTo(expected) > Equal)
+            Execute.Assertion.ForCondition(Subject.CompareTo(expected) > Equal)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:object} {0} to be greater than {1}{reason}.", Subject, expected);
 
@@ -285,8 +281,7 @@ namespace FluentAssertions.Numeric
         /// </param>
         public AndConstraint<TAssertions> BeGreaterThanOrEqualTo(T expected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject.CompareTo(expected) >= Equal)
+            Execute.Assertion.ForCondition(Subject.CompareTo(expected) >= Equal)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:object} {0} to be greater than or equal to {1}{reason}.", Subject, expected);
 
@@ -294,7 +289,10 @@ namespace FluentAssertions.Numeric
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public AndConstraint<TAssertions> BeGreaterOrEqualTo(T expected, string because = "", params object[] becauseArgs) => BeGreaterThanOrEqualTo(expected, because, becauseArgs);
+        public AndConstraint<TAssertions> BeGreaterOrEqualTo(T expected, string because = "", params object[] becauseArgs)
+        {
+            return BeGreaterThanOrEqualTo(expected, because, becauseArgs);
+        }
 
         /// <summary>
         /// Asserts that a value is within a range.
@@ -318,11 +316,10 @@ namespace FluentAssertions.Numeric
         public AndConstraint<TAssertions> BeInRange(T minimumValue, T maximumValue, string because = "",
             params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition((Subject.CompareTo(minimumValue) >= Equal) && (Subject.CompareTo(maximumValue) <= Equal))
+            Execute.Assertion.ForCondition(Subject.CompareTo(minimumValue) >= Equal && Subject.CompareTo(maximumValue) <= Equal)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:object} to be between {0} and {1}{reason}, but found {2}.",
-                    minimumValue, maximumValue, Subject);
+                .FailWith("Expected {context:object} to be between {0} and {1}{reason}, but found {2}.", minimumValue,
+                    maximumValue, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -350,10 +347,10 @@ namespace FluentAssertions.Numeric
             params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(!((Subject.CompareTo(minimumValue) >= Equal) && (Subject.CompareTo(maximumValue) <= Equal)))
+                .ForCondition(!(Subject.CompareTo(minimumValue) >= Equal && Subject.CompareTo(maximumValue) <= Equal))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:object} to not be between {0} and {1}{reason}, but found {2}.",
-                    minimumValue, maximumValue, Subject);
+                .FailWith("Expected {context:object} to not be between {0} and {1}{reason}, but found {2}.", minimumValue,
+                    maximumValue, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

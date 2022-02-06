@@ -8,12 +8,12 @@ namespace FluentAssertions.Common
     {
         public static ICollection<T> ConvertOrCastToCollection<T>(this IEnumerable<T> source)
         {
-            return (source as ICollection<T>) ?? source.ToList();
+            return source as ICollection<T> ?? source.ToList();
         }
 
         public static IList<T> ConvertOrCastToList<T>(this IEnumerable<T> source)
         {
-            return (source as IList<T>) ?? source.ToList();
+            return source as IList<T> ?? source.ToList();
         }
 
         /// <summary>
@@ -25,11 +25,13 @@ namespace FluentAssertions.Common
         /// <param name="second">The second sequence to compare.</param>
         /// <param name="equalityComparison">Method that is used to compare 2 elements with the same index.</param>
         /// <returns>Index at which two sequences have elements that are not equal, or -1 if enumerables are equal</returns>
-        public static int IndexOfFirstDifferenceWith<TFirst, TSecond>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, Func<TFirst, TSecond, bool> equalityComparison)
+        public static int IndexOfFirstDifferenceWith<TFirst, TSecond>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second,
+            Func<TFirst, TSecond, bool> equalityComparison)
         {
             using IEnumerator<TFirst> firstEnumerator = first.GetEnumerator();
             using IEnumerator<TSecond> secondEnumerator = second.GetEnumerator();
             int index = 0;
+
             while (true)
             {
                 bool isFirstCompleted = !firstEnumerator.MoveNext();

@@ -35,7 +35,8 @@ namespace FluentAssertions.Equivalency.Matching
             {
                 if (expectedMember.Name == expectationMemberName)
                 {
-                    var member = MemberFactory.Find(subject, subjectMemberName, expectedMember.Type, parent);
+                    IMember member = MemberFactory.Find(subject, subjectMemberName, expectedMember.Type, parent);
+
                     if (member is null)
                     {
                         throw new ArgumentException(

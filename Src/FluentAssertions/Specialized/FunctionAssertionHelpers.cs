@@ -14,16 +14,16 @@ namespace FluentAssertions.Specialized
             }
             catch (Exception exception)
             {
-                Execute.Assertion
-                .ForCondition(exception is null)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect any exception{reason}, but found {0}.", exception);
+                Execute.Assertion.ForCondition(exception is null)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Did not expect any exception{reason}, but found {0}.", exception);
 
                 return default;
             }
         }
 
-        internal static TResult NotThrowAfter<TResult>(Func<TResult> subject, IClock clock, TimeSpan waitTime, TimeSpan pollInterval, string because, object[] becauseArgs)
+        internal static TResult NotThrowAfter<TResult>(Func<TResult> subject, IClock clock, TimeSpan waitTime,
+            TimeSpan pollInterval, string because, object[] becauseArgs)
         {
             if (waitTime < TimeSpan.Zero)
             {
@@ -32,7 +32,8 @@ namespace FluentAssertions.Specialized
 
             if (pollInterval < TimeSpan.Zero)
             {
-                throw new ArgumentOutOfRangeException(nameof(pollInterval), $"The value of {nameof(pollInterval)} must be non-negative.");
+                throw new ArgumentOutOfRangeException(nameof(pollInterval),
+                    $"The value of {nameof(pollInterval)} must be non-negative.");
             }
 
             TimeSpan? invocationEndTime = null;
@@ -54,8 +55,7 @@ namespace FluentAssertions.Specialized
                 invocationEndTime = timer.Elapsed;
             }
 
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
+            Execute.Assertion.BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
 
             return default;

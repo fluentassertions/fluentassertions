@@ -40,10 +40,9 @@ namespace FluentAssertions.Specialized
         /// </param>
         public new AndWhichConstraint<FunctionAssertions<T>, T> NotThrow(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-               .ForCondition(Subject is not null)
-               .BecauseOf(because, becauseArgs)
-               .FailWith("Expected {context} not to throw{reason}, but found <null>.");
+            Execute.Assertion.ForCondition(Subject is not null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
             T result = FunctionAssertionHelpers.NotThrow(Subject, because, becauseArgs);
             return new AndWhichConstraint<FunctionAssertions<T>, T>(this, result);
@@ -72,10 +71,10 @@ namespace FluentAssertions.Specialized
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
-        public new AndWhichConstraint<FunctionAssertions<T>, T> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
+        public new AndWhichConstraint<FunctionAssertions<T>, T> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval,
+            string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject is not null)
+            Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw any exceptions after {0}{reason}, but found <null>.", waitTime);
 

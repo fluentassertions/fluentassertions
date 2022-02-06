@@ -36,18 +36,17 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public async Task<AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>> CompleteWithinAsync(
-            TimeSpan timeSpan, string because = "", params object[] becauseArgs)
+        public async Task<AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>> CompleteWithinAsync(TimeSpan timeSpan,
+            string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(subject is not null)
+            Execute.Assertion.ForCondition(subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} to complete within {0}{reason}, but found <null>.", timeSpan);
 
             using var timeoutCancellationTokenSource = new CancellationTokenSource();
+
             Task completedTask = await Task.WhenAny(
-                subject.Task,
-                Clock.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
+                subject.Task, Clock.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
 
             if (completedTask == subject.Task)
             {
@@ -55,10 +54,10 @@ namespace FluentAssertions.Specialized
                 await completedTask;
             }
 
-            Execute.Assertion
-                .ForCondition(completedTask == subject.Task)
+            Execute.Assertion.ForCondition(completedTask == subject.Task)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
+
             return new AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>(this, subject.Task.Result);
         }
 
@@ -73,18 +72,16 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public async Task NotCompleteWithinAsync(
-            TimeSpan timeSpan, string because = "", params object[] becauseArgs)
+        public async Task NotCompleteWithinAsync(TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(subject is not null)
+            Execute.Assertion.ForCondition(subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} to not complete within {0}{reason}, but found <null>.", timeSpan);
 
             using var timeoutCancellationTokenSource = new CancellationTokenSource();
+
             Task completedTask = await Task.WhenAny(
-                subject.Task,
-                Clock.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
+                subject.Task, Clock.DelayAsync(timeSpan, timeoutCancellationTokenSource.Token));
 
             if (completedTask == subject.Task)
             {
@@ -92,14 +89,15 @@ namespace FluentAssertions.Specialized
                 await completedTask;
             }
 
-            Execute.Assertion
-                .ForCondition(completedTask != subject.Task)
+            Execute.Assertion.ForCondition(completedTask != subject.Task)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:task} to not complete within {0}{reason}.", timeSpan);
         }
 
         /// <inheritdoc/>
-        public override bool Equals(object obj) =>
+        public override bool Equals(object obj)
+        {
             throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
+        }
     }
 }

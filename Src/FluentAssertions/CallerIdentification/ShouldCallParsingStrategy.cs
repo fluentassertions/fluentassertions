@@ -10,10 +10,10 @@ namespace FluentAssertions.CallerIdentification
         {
             if (statement.Length >= ShouldCall.Length)
             {
-                var leftIndex = statement.Length - 1;
-                var rightIndex = ShouldCall.Length - 1;
+                int leftIndex = statement.Length - 1;
+                int rightIndex = ShouldCall.Length - 1;
 
-                for (var i = 0; i < ShouldCall.Length; i++)
+                for (int i = 0; i < ShouldCall.Length; i++)
                 {
                     if (statement[leftIndex - i] != ShouldCall[rightIndex - i])
                     {

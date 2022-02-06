@@ -41,15 +41,13 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> BeSuccessful(string because = "", params object[] becauseArgs)
         {
-            var success = Execute.Assertion
-                .ForCondition(Subject is not null)
+            Continuation success = Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected HttpStatusCode to be successful (2xx){reason}, but HttpResponseMessage was <null>.");
 
             if (success)
             {
-                Execute.Assertion
-                    .ForCondition(Subject!.IsSuccessStatusCode)
+                Execute.Assertion.ForCondition(Subject!.IsSuccessStatusCode)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected HttpStatusCode to be successful (2xx){reason}, but found {0}.", Subject.StatusCode);
             }
@@ -69,15 +67,13 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> BeRedirection(string because = "", params object[] becauseArgs)
         {
-            var success = Execute.Assertion
-                .ForCondition(Subject is not null)
+            Continuation success = Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected HttpStatusCode to be redirection (3xx){reason}, but HttpResponseMessage was <null>.");
 
             if (success)
             {
-                Execute.Assertion
-                    .ForCondition((int)Subject!.StatusCode is >= 300 and <= 399)
+                Execute.Assertion.ForCondition((int)Subject!.StatusCode is >= 300 and <= 399)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected HttpStatusCode to be redirection (3xx){reason}, but found {0}.", Subject.StatusCode);
             }
@@ -97,15 +93,13 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> HaveError(string because = "", params object[] becauseArgs)
         {
-            var success = Execute.Assertion
-                .ForCondition(Subject is not null)
+            Continuation success = Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected HttpStatusCode to be an error{reason}, but HttpResponseMessage was <null>.");
 
             if (success)
             {
-                Execute.Assertion
-                    .ForCondition(IsClientError() || IsServerError())
+                Execute.Assertion.ForCondition(IsClientError() || IsServerError())
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected HttpStatusCode to be an error{reason}, but found {0}.", Subject.StatusCode);
             }
@@ -125,15 +119,13 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> HaveClientError(string because = "", params object[] becauseArgs)
         {
-            var success = Execute.Assertion
-                .ForCondition(Subject is not null)
+            Continuation success = Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected HttpStatusCode to be client error (4xx){reason}, but HttpResponseMessage was <null>.");
 
             if (success)
             {
-                Execute.Assertion
-                    .ForCondition(IsClientError())
+                Execute.Assertion.ForCondition(IsClientError())
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected HttpStatusCode to be client error (4xx){reason}, but found {0}.", Subject.StatusCode);
             }
@@ -153,15 +145,13 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> HaveServerError(string because = "", params object[] becauseArgs)
         {
-            var success = Execute.Assertion
-                .ForCondition(Subject is not null)
+            Continuation success = Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected HttpStatusCode to be server error (5xx){reason}, but HttpResponseMessage was <null>.");
 
             if (success)
             {
-                Execute.Assertion
-                    .ForCondition(IsServerError())
+                Execute.Assertion.ForCondition(IsServerError())
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected HttpStatusCode to be server error (5xx){reason}, but found {0}.", Subject.StatusCode);
             }
@@ -180,17 +170,16 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> HaveStatusCode(HttpStatusCode expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> HaveStatusCode(HttpStatusCode expected, string because = "",
+            params object[] becauseArgs)
         {
-            var success = Execute.Assertion
-                .ForCondition(Subject is not null)
+            Continuation success = Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected HttpStatusCode to be {0}{reason}, but HttpResponseMessage was <null>.", expected);
 
             if (success)
             {
-                Execute.Assertion
-                    .ForCondition(Subject!.StatusCode == expected)
+                Execute.Assertion.ForCondition(Subject!.StatusCode == expected)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected HttpStatusCode to be {0}{reason}, but found {1}.", expected, Subject.StatusCode);
             }
@@ -209,17 +198,16 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<TAssertions> NotHaveStatusCode(HttpStatusCode unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotHaveStatusCode(HttpStatusCode unexpected, string because = "",
+            params object[] becauseArgs)
         {
-            var success = Execute.Assertion
-                .ForCondition(Subject is not null)
+            Continuation success = Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected HttpStatusCode not to be {0}{reason}, but HttpResponseMessage was <null>.", unexpected);
 
             if (success)
             {
-                Execute.Assertion
-                    .ForCondition(Subject!.StatusCode != unexpected)
+                Execute.Assertion.ForCondition(Subject!.StatusCode != unexpected)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected HttpStatusCode not to be {0}{reason}, but found {1}.", unexpected, Subject.StatusCode);
             }
@@ -227,9 +215,15 @@ namespace FluentAssertions.Primitives
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        private bool IsServerError() => (int)Subject.StatusCode is >= 500 and <= 599;
+        private bool IsServerError()
+        {
+            return (int)Subject.StatusCode is >= 500 and <= 599;
+        }
 
-        private bool IsClientError() => (int)Subject.StatusCode is >= 400 and <= 499;
+        private bool IsClientError()
+        {
+            return (int)Subject.StatusCode is >= 400 and <= 499;
+        }
 
         protected override string Identifier => "HTTP response message";
     }

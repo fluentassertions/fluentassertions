@@ -13,12 +13,14 @@ namespace FluentAssertions.Execution
 
         public IDictionary<string, object> GetReportable()
         {
-            return items.Where(item => item.Reportable).ToDictionary(item => item.Key, item => item.Value);
+            return items.Where(item => item.Reportable)
+                .ToDictionary(item => item.Key, item => item.Value);
         }
 
         public string AsStringOrDefault(string key)
         {
             DataItem item = items.SingleOrDefault(i => i.Key == key);
+
             if (item is not null)
             {
                 if (item.RequiresFormatting)
@@ -80,7 +82,7 @@ namespace FluentAssertions.Execution
 
             public DataItem Clone()
             {
-                object value = (Value is ICloneable2 cloneable) ? cloneable.Clone() : Value;
+                object value = Value is ICloneable2 cloneable ? cloneable.Clone() : Value;
                 return new DataItem(Key, value, Reportable, RequiresFormatting);
             }
         }

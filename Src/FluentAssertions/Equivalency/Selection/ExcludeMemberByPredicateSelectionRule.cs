@@ -24,7 +24,8 @@ namespace FluentAssertions.Equivalency.Selection
         public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
             MemberSelectionContext context)
         {
-            return selectedMembers.Where(p => !predicate(new MemberToMemberInfoAdapter(p))).ToArray();
+            return selectedMembers.Where(p => !predicate(new MemberToMemberInfoAdapter(p)))
+                .ToArray();
         }
 
         /// <inheritdoc />

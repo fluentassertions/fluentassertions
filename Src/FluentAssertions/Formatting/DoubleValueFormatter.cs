@@ -43,9 +43,10 @@ namespace FluentAssertions.Formatting
 
             string formattedValue = doubleValue.ToString("R", CultureInfo.InvariantCulture);
 
-            return !formattedValue.Contains('.', StringComparison.Ordinal) && !formattedValue.Contains('E', StringComparison.Ordinal)
-                ? formattedValue + ".0"
-                : formattedValue;
+            return !formattedValue.Contains(value: '.', StringComparison.Ordinal) &&
+                !formattedValue.Contains(value: 'E', StringComparison.Ordinal)
+                    ? formattedValue + ".0"
+                    : formattedValue;
         }
     }
 }

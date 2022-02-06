@@ -23,31 +23,25 @@ namespace FluentAssertions.Primitives
             }
         }
 
-        private bool IgnoreCase
-        {
-            get
-            {
-                return stringComparison == StringComparison.OrdinalIgnoreCase;
-            }
-        }
+        private bool IgnoreCase => stringComparison == StringComparison.OrdinalIgnoreCase;
 
         protected override bool ValidateAgainstLengthDifferences()
         {
-            return Assertion
-                .ForCondition(Subject.Length >= Expected.Length)
+            return Assertion.ForCondition(Subject.Length >= Expected.Length)
                 .FailWith(ExpectationDescription + "{0}{reason}, but {1} is too short.", Expected, Subject);
         }
 
         protected override void ValidateAgainstMismatch()
         {
             bool isMismatch = !Subject.StartsWith(Expected, stringComparison);
+
             if (isMismatch)
             {
                 int indexOfMismatch = Subject.IndexOfFirstMismatch(Expected, stringComparison);
 
                 Assertion.FailWith(
-                    ExpectationDescription + "{0}{reason}, but {1} differs near " + Subject.IndexedSegmentAt(indexOfMismatch) + ".",
-                    Expected, Subject);
+                    ExpectationDescription + "{0}{reason}, but {1} differs near " + Subject.IndexedSegmentAt(indexOfMismatch) +
+                    ".", Expected, Subject);
             }
         }
     }

@@ -16,7 +16,8 @@ namespace FluentAssertions.Equivalency.Steps
         // ReSharper disable once PossibleNullReferenceException
         private static readonly MethodInfo ConvertToDictionaryMethod =
             new Func<IEnumerable<KeyValuePair<object, object>>, IDictionary<object, object>>(ConvertToDictionaryInternal)
-                .GetMethodInfo().GetGenericMethodDefinition();
+                .GetMethodInfo()
+                .GetGenericMethodDefinition();
 
         private static readonly ConcurrentDictionary<Type, DictionaryInterfaceInfo[]> Cache = new();
 
@@ -41,7 +42,8 @@ namespace FluentAssertions.Equivalency.Steps
         {
             result = null;
 
-            var interfaces = GetDictionaryInterfacesFrom(target);
+            DictionaryInterfaceInfo[] interfaces = GetDictionaryInterfacesFrom(target);
+
             if (interfaces.Length > 1)
             {
                 throw new ArgumentException(
@@ -71,15 +73,14 @@ namespace FluentAssertions.Equivalency.Steps
         {
             result = null;
 
-            var suitableDictionaryInterfaces = GetDictionaryInterfacesFrom(target)
+            DictionaryInterfaceInfo[] suitableDictionaryInterfaces = GetDictionaryInterfacesFrom(target)
                 .Where(info => info.Key.IsAssignableFrom(key))
                 .ToArray();
 
             if (suitableDictionaryInterfaces.Length > 1)
             {
                 // SMELL: Code could be written to handle this better, but is it really worth the effort?
-                AssertionScope.Current.FailWith(
-                    $"The {role} implements multiple IDictionary interfaces taking a key of {key}. ");
+                AssertionScope.Current.FailWith($"The {role} implements multiple IDictionary interfaces taking a key of {key}. ");
 
                 return false;
             }
@@ -103,8 +104,7 @@ namespace FluentAssertions.Equivalency.Steps
                 }
                 else
                 {
-                    return key
-                        .GetClosedGenericInterfaces(typeof(IDictionary<,>))
+                    return key.GetClosedGenericInterfaces(typeof(IDictionary<,>))
                         .Select(@interface => @interface.GetGenericArguments())
                         .Select(arguments => new DictionaryInterfaceInfo(arguments[0], arguments[1]))
                         .ToArray();
@@ -120,10 +120,10 @@ namespace FluentAssertions.Equivalency.Steps
         /// </returns>
         public bool TryConvertFrom(object convertable, out object dictionary)
         {
-            Type[] enumerables = convertable.GetType().GetClosedGenericInterfaces(typeof(IEnumerable<>));
+            Type[] enumerables = convertable.GetType()
+                .GetClosedGenericInterfaces(typeof(IEnumerable<>));
 
-            var suitableKeyValuePairCollection = enumerables
-                .Select(enumerable => enumerable.GenericTypeArguments[0])
+            Type suitableKeyValuePairCollection = enumerables.Select(enumerable => enumerable.GenericTypeArguments[0])
                 .Where(itemType => itemType.IsGenericType && itemType.GetGenericTypeDefinition() == typeof(KeyValuePair<,>))
                 .SingleOrDefault(itemType => itemType.GenericTypeArguments.First() == Key);
 
@@ -131,8 +131,13 @@ namespace FluentAssertions.Equivalency.Steps
             {
                 Type pairValueType = suitableKeyValuePairCollection.GenericTypeArguments.Last();
 
-                var methodInfo = ConvertToDictionaryMethod.MakeGenericMethod(Key, pairValueType);
-                dictionary = methodInfo.Invoke(null, new[] { convertable });
+                MethodInfo methodInfo = ConvertToDictionaryMethod.MakeGenericMethod(Key, pairValueType);
+
+                dictionary = methodInfo.Invoke(obj: null, new[]
+                {
+                    convertable
+                });
+
                 return true;
             }
 
@@ -146,6 +151,9 @@ namespace FluentAssertions.Equivalency.Steps
             return collection.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
         }
 
-        public override string ToString() => $"IDictionary<{Key}, {Value}>";
+        public override string ToString()
+        {
+            return $"IDictionary<{Key}, {Value}>";
+        }
     }
 }

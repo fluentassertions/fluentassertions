@@ -2,8 +2,7 @@ namespace FluentAssertions.Equivalency.Steps
 {
     internal class AssertionContext<TSubject> : IAssertionContext<TSubject>
     {
-        private AssertionContext(INode currentNode, TSubject subject, TSubject expectation, string because,
-                                object[] becauseArgs)
+        private AssertionContext(INode currentNode, TSubject subject, TSubject expectation, string because, object[] becauseArgs)
         {
             SelectedNode = currentNode;
             Subject = subject;
@@ -24,12 +23,8 @@ namespace FluentAssertions.Equivalency.Steps
 
         internal static AssertionContext<TSubject> CreateFrom(Comparands comparands, IEquivalencyValidationContext context)
         {
-            return new(
-                context.CurrentNode,
-                (TSubject)comparands.Subject,
-                (TSubject)comparands.Expectation,
-                context.Reason.FormattedMessage,
-                context.Reason.Arguments);
+            return new AssertionContext<TSubject>(context.CurrentNode, (TSubject)comparands.Subject,
+                (TSubject)comparands.Expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
         }
     }
 }

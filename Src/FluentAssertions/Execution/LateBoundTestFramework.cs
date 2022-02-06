@@ -11,6 +11,7 @@ namespace FluentAssertions.Execution
         public void Throw(string message)
         {
             Type exceptionType = assembly.GetType(ExceptionFullName);
+
             if (exceptionType is null)
             {
                 throw new Exception(
@@ -26,8 +27,7 @@ namespace FluentAssertions.Execution
             {
                 string prefix = AssemblyName + ",";
 
-                assembly = AppDomain.CurrentDomain
-                    .GetAssemblies()
+                assembly = AppDomain.CurrentDomain.GetAssemblies()
                     .FirstOrDefault(a => a.FullName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
 
                 return assembly is not null;

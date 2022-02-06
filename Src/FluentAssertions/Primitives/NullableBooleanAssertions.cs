@@ -39,8 +39,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject.HasValue)
+            Execute.Assertion.ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected a value{reason}.");
 
@@ -74,8 +73,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(!Subject.HasValue)
+            Execute.Assertion.ForCondition(!Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
 
@@ -110,8 +108,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> Be(bool? expected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject == expected)
+            Execute.Assertion.ForCondition(Subject == expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
 
@@ -130,8 +127,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> NotBeFalse(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(!Subject.HasValue || Subject.Value)
+            Execute.Assertion.ForCondition(!Subject.HasValue || Subject.Value)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:nullable boolean} not to be {0}{reason}, but found {1}.", false, Subject);
 
@@ -150,8 +146,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> NotBeTrue(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(!Subject.HasValue || !Subject.Value)
+            Execute.Assertion.ForCondition(!Subject.HasValue || !Subject.Value)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:nullable boolean} not to be {0}{reason}, but found {1}.", true, Subject);
 

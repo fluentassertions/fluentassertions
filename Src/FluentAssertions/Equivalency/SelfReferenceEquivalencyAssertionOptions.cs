@@ -180,7 +180,8 @@ namespace FluentAssertions.Equivalency
                 {
                     strategy = EqualityStrategy.ForceEquals;
                 }
-                else if (!type.IsPrimitive && referenceTypes.Count > 0 && referenceTypes.Any(t => type.IsAssignableToOpenGeneric(t)))
+                else if (!type.IsPrimitive && referenceTypes.Count > 0 &&
+                    referenceTypes.Any(t => type.IsAssignableToOpenGeneric(t)))
                 {
                     strategy = EqualityStrategy.ForceMembers;
                 }
@@ -492,7 +493,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public TSelf Using<T>(IEqualityComparer<T> comparer)
         {
-            userEquivalencySteps.Insert(0, new EqualityComparerEquivalencyStep<T>(comparer));
+            userEquivalencySteps.Insert(index: 0, new EqualityComparerEquivalencyStep<T>(comparer));
 
             return (TSelf)this;
         }
@@ -592,7 +593,10 @@ namespace FluentAssertions.Equivalency
         /// Marks the <typeparamref name="T" /> as a type that should be compared by its members even though it may override
         /// the <see cref="object.Equals(object)" /> method.
         /// </summary>
-        public TSelf ComparingByMembers<T>() => ComparingByMembers(typeof(T));
+        public TSelf ComparingByMembers<T>()
+        {
+            return ComparingByMembers(typeof(T));
+        }
 
         /// <summary>
         /// Marks <paramref name="type" /> as a type that should be compared by its members even though it may override
@@ -622,7 +626,10 @@ namespace FluentAssertions.Equivalency
         /// Marks the <typeparamref name="T" /> as a value type which must be compared using its
         /// <see cref="object.Equals(object)" /> method, regardless of it overriding it or not.
         /// </summary>
-        public TSelf ComparingByValue<T>() => ComparingByValue(typeof(T));
+        public TSelf ComparingByValue<T>()
+        {
+            return ComparingByValue(typeof(T));
+        }
 
         /// <summary>
         /// Marks <paramref name="type" /> as a value type which must be compared using its
@@ -693,9 +700,7 @@ namespace FluentAssertions.Equivalency
         {
             var builder = new StringBuilder();
 
-            builder.Append("- Use ")
-                .Append(useRuntimeTyping ? "runtime" : "declared")
-                .AppendLine(" types and members");
+            builder.Append("- Use ").Append(useRuntimeTyping ? "runtime" : "declared").AppendLine(" types and members");
 
             if (isRecursive)
             {
@@ -705,8 +710,7 @@ namespace FluentAssertions.Equivalency
                 }
             }
 
-            builder.AppendFormat(CultureInfo.InvariantCulture,
-                "- Compare enums by {0}" + Environment.NewLine,
+            builder.AppendFormat(CultureInfo.InvariantCulture, "- Compare enums by {0}" + Environment.NewLine,
                 enumEquivalencyHandling == EnumEquivalencyHandling.ByName ? "name" : "value");
 
             if (cyclicReferenceHandling == CyclicReferenceHandling.Ignore)
@@ -796,8 +800,7 @@ namespace FluentAssertions.Equivalency
             /// </param>
             public TSelf When(Expression<Func<IObjectInfo, bool>> predicate)
             {
-                options.userEquivalencySteps.Insert(0,
-                    new AssertionRuleEquivalencyStep<TMember>(predicate, action));
+                options.userEquivalencySteps.Insert(index: 0, new AssertionRuleEquivalencyStep<TMember>(predicate, action));
 
                 return options;
             }
@@ -824,7 +827,7 @@ namespace FluentAssertions.Equivalency
 
         protected TSelf AddMatchingRule(IMemberMatchingRule matchingRule)
         {
-            matchingRules.Insert(0, matchingRule);
+            matchingRules.Insert(index: 0, matchingRule);
             return (TSelf)this;
         }
 

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq.Expressions;
 using System.Reflection;
-
 using FluentAssertions.Equivalency;
 
 namespace FluentAssertions.Data
@@ -51,7 +50,10 @@ namespace FluentAssertions.Data
 
             public int Count => owner.excludeColumnNamesByTableName.Count;
 
-            public bool ContainsKey(string key) => owner.excludeColumnNamesByTableName.ContainsKey(key);
+            public bool ContainsKey(string key)
+            {
+                return owner.excludeColumnNamesByTableName.ContainsKey(key);
+            }
 
             public bool TryGetValue(string key, out ISet<string> value)
             {
@@ -70,7 +72,10 @@ namespace FluentAssertions.Data
                 }
             }
 
-            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
         }
 
         public DataEquivalencyAssertionOptions(EquivalencyAssertionOptions defaults)
@@ -152,29 +157,28 @@ namespace FluentAssertions.Data
             return this;
         }
 
-        private void ExcludeMemberOfRelatedTypeByGeneratedPredicate<TDeclaringType, TPropertyType>(Expression<Func<TDeclaringType, TPropertyType>> expression)
+        private void ExcludeMemberOfRelatedTypeByGeneratedPredicate<TDeclaringType, TPropertyType>(
+            Expression<Func<TDeclaringType, TPropertyType>> expression)
         {
             Expression<Func<IMemberInfo, bool>> predicate = BuildMemberSelectionPredicate(
-                typeof(TDeclaringType),
-                GetMemberAccessTargetMember(expression.Body));
+                typeof(TDeclaringType), GetMemberAccessTargetMember(expression.Body));
 
             Excluding(predicate);
         }
 
-        private void ExcludeMemberOfSubtypeOfRelatedTypeByGeneratedPredicate<TDeclaringType, TInheritingType, TPropertyType>(Expression<Func<TDeclaringType, TPropertyType>> expression)
+        private void ExcludeMemberOfSubtypeOfRelatedTypeByGeneratedPredicate<TDeclaringType, TInheritingType, TPropertyType>(
+            Expression<Func<TDeclaringType, TPropertyType>> expression)
             where TInheritingType : TDeclaringType
         {
             Expression<Func<IMemberInfo, bool>> predicate = BuildMemberSelectionPredicate(
-                typeof(TInheritingType),
-                GetMemberAccessTargetMember(expression.Body));
+                typeof(TInheritingType), GetMemberAccessTargetMember(expression.Body));
 
             Excluding(predicate);
         }
 
         private static MemberInfo GetMemberAccessTargetMember(Expression expression)
         {
-            if ((expression is UnaryExpression unaryExpression)
-             && (unaryExpression.NodeType == ExpressionType.Convert))
+            if (expression is UnaryExpression unaryExpression && unaryExpression.NodeType == ExpressionType.Convert)
             {
                 // If the expression is a value type, then accessing it will involve an
                 // implicit boxing conversion to type object that we need to ignore.
@@ -189,29 +193,22 @@ namespace FluentAssertions.Data
             throw new Exception("Expression must be a simple member access");
         }
 
-        private static Expression<Func<IMemberInfo, bool>> BuildMemberSelectionPredicate(Type relatedSubjectType, MemberInfo referencedMember)
+        private static Expression<Func<IMemberInfo, bool>> BuildMemberSelectionPredicate(Type relatedSubjectType,
+            MemberInfo referencedMember)
         {
             ParameterExpression predicateMemberInfoArgument = Expression.Parameter(typeof(IMemberInfo));
 
             BinaryExpression typeComparison = Expression.Equal(
-                Expression.MakeMemberAccess(
-                    predicateMemberInfoArgument,
-                    typeof(IMemberInfo).GetProperty(nameof(IMemberInfo.DeclaringType))),
-                Expression.Constant(relatedSubjectType));
+                Expression.MakeMemberAccess(predicateMemberInfoArgument,
+                    typeof(IMemberInfo).GetProperty(nameof(IMemberInfo.DeclaringType))), Expression.Constant(relatedSubjectType));
 
             BinaryExpression memberNameComparison = Expression.Equal(
-                Expression.MakeMemberAccess(
-                    predicateMemberInfoArgument,
-                    typeof(IMemberInfo).GetProperty(nameof(IMemberInfo.Name))),
-                Expression.Constant(referencedMember.Name));
+                Expression.MakeMemberAccess(predicateMemberInfoArgument,
+                    typeof(IMemberInfo).GetProperty(nameof(IMemberInfo.Name))), Expression.Constant(referencedMember.Name));
 
-            BinaryExpression predicateBody = Expression.AndAlso(
-                typeComparison,
-                memberNameComparison);
+            BinaryExpression predicateBody = Expression.AndAlso(typeComparison, memberNameComparison);
 
-            return Expression.Lambda<Func<IMemberInfo, bool>>(
-                predicateBody,
-                predicateMemberInfoArgument);
+            return Expression.Lambda<Func<IMemberInfo, bool>>(predicateBody, predicateMemberInfoArgument);
         }
 
         public new IDataEquivalencyAssertionOptions<T> Excluding(Expression<Func<IMemberInfo, bool>> predicate)
@@ -302,8 +299,8 @@ namespace FluentAssertions.Data
                 return true;
             }
 
-            if (excludeColumnNamesByTableName.TryGetValue(column.Table.TableName, out HashSet<string> excludeColumnsForTable)
-             && excludeColumnsForTable.Contains(column.ColumnName))
+            if (excludeColumnNamesByTableName.TryGetValue(column.Table.TableName, out HashSet<string> excludeColumnsForTable) &&
+                excludeColumnsForTable.Contains(column.ColumnName))
             {
                 return true;
             }

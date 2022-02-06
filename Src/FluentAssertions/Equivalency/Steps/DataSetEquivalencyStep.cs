@@ -8,7 +8,8 @@ namespace FluentAssertions.Equivalency.Steps
 {
     public class DataSetEquivalencyStep : EquivalencyStep<DataSet>
     {
-        protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+        protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context,
+            IEquivalencyValidator nestedValidator)
         {
             var subject = comparands.Subject as DataSet;
             var expectation = comparands.Expectation as DataSet;
@@ -30,7 +31,8 @@ namespace FluentAssertions.Equivalency.Steps
                     }
                     else
                     {
-                        AssertionScope.Current.FailWith("Expected {context:DataSet} to be of type {0}, but found {1} instead", expectation.GetType(), comparands.Subject.GetType());
+                        AssertionScope.Current.FailWith("Expected {context:DataSet} to be of type {0}, but found {1} instead",
+                            expectation.GetType(), comparands.Subject.GetType());
                     }
                 }
                 else
@@ -39,9 +41,9 @@ namespace FluentAssertions.Equivalency.Steps
 
                     if (dataConfig?.AllowMismatchedTypes != true)
                     {
-                        AssertionScope.Current
-                            .ForCondition(subject.GetType() == expectation.GetType())
-                            .FailWith("Expected {context:DataSet} to be of type '{0}'{reason}, but found '{1}'", expectation.GetType(), subject.GetType());
+                        AssertionScope.Current.ForCondition(subject.GetType() == expectation.GetType())
+                            .FailWith("Expected {context:DataSet} to be of type '{0}'{reason}, but found '{1}'",
+                                expectation.GetType(), subject.GetType());
                     }
 
                     var selectedMembers = GetMembersFromExpectation(comparands, context.CurrentNode, context.Options)
@@ -49,97 +51,110 @@ namespace FluentAssertions.Equivalency.Steps
 
                     CompareScalarProperties(subject, expectation, selectedMembers);
 
-                    CompareCollections(context, nestedValidator, context.Options, subject, expectation, dataConfig, selectedMembers);
+                    CompareCollections(context, nestedValidator, context.Options, subject, expectation, dataConfig,
+                        selectedMembers);
                 }
             }
 
             return EquivalencyResult.AssertionCompleted;
         }
 
-        private static void CompareScalarProperties(DataSet subject, DataSet expectation, Dictionary<string, IMember> selectedMembers)
+        private static void CompareScalarProperties(DataSet subject, DataSet expectation,
+            Dictionary<string, IMember> selectedMembers)
         {
             // Note: The members here are listed in the XML documentation for the DataSet.BeEquivalentTo extension
             // method in DataSetAssertions.cs. If this ever needs to change, keep them in sync.
             if (selectedMembers.ContainsKey(nameof(expectation.DataSetName)))
             {
-                AssertionScope.Current
-                    .ForCondition(subject.DataSetName == expectation.DataSetName)
-                    .FailWith("Expected {context:DataSet} to have DataSetName '{0}'{reason}, but found '{1}' instead", expectation.DataSetName, subject.DataSetName);
+                AssertionScope.Current.ForCondition(subject.DataSetName == expectation.DataSetName)
+                    .FailWith("Expected {context:DataSet} to have DataSetName '{0}'{reason}, but found '{1}' instead",
+                        expectation.DataSetName, subject.DataSetName);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.CaseSensitive)))
             {
-                AssertionScope.Current
-                    .ForCondition(subject.CaseSensitive == expectation.CaseSensitive)
-                    .FailWith("Expected {context:DataSet} to have CaseSensitive value of '{0}'{reason}, but found '{1}' instead", expectation.CaseSensitive, subject.CaseSensitive);
+                AssertionScope.Current.ForCondition(subject.CaseSensitive == expectation.CaseSensitive)
+                    .FailWith("Expected {context:DataSet} to have CaseSensitive value of '{0}'{reason}, but found '{1}' instead",
+                        expectation.CaseSensitive, subject.CaseSensitive);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.EnforceConstraints)))
             {
-                AssertionScope.Current
-                    .ForCondition(subject.EnforceConstraints == expectation.EnforceConstraints)
-                    .FailWith("Expected {context:DataSet} to have EnforceConstraints value of '{0}'{reason}, but found '{1}' instead", expectation.EnforceConstraints, subject.EnforceConstraints);
+                AssertionScope.Current.ForCondition(subject.EnforceConstraints == expectation.EnforceConstraints)
+                    .FailWith(
+                        "Expected {context:DataSet} to have EnforceConstraints value of '{0}'{reason}, but found '{1}' instead",
+                        expectation.EnforceConstraints, subject.EnforceConstraints);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.HasErrors)))
             {
-                AssertionScope.Current
-                    .ForCondition(subject.HasErrors == expectation.HasErrors)
-                    .FailWith("Expected {context:DataSet} to have HasErrors value of '{0}'{reason}, but found '{1}' instead", expectation.HasErrors, subject.HasErrors);
+                AssertionScope.Current.ForCondition(subject.HasErrors == expectation.HasErrors)
+                    .FailWith("Expected {context:DataSet} to have HasErrors value of '{0}'{reason}, but found '{1}' instead",
+                        expectation.HasErrors, subject.HasErrors);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.Locale)))
             {
-                AssertionScope.Current
-                    .ForCondition(subject.Locale == expectation.Locale)
-                    .FailWith("Expected {context:DataSet} to have Locale value of '{0}'{reason}, but found '{1}' instead", expectation.Locale, subject.Locale);
+                AssertionScope.Current.ForCondition(subject.Locale == expectation.Locale)
+                    .FailWith("Expected {context:DataSet} to have Locale value of '{0}'{reason}, but found '{1}' instead",
+                        expectation.Locale, subject.Locale);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.Namespace)))
             {
-                AssertionScope.Current
-                    .ForCondition(subject.Namespace == expectation.Namespace)
-                    .FailWith("Expected {context:DataSet} to have Namespace value of '{0}'{reason}, but found '{1}' instead", expectation.Namespace, subject.Namespace);
+                AssertionScope.Current.ForCondition(subject.Namespace == expectation.Namespace)
+                    .FailWith("Expected {context:DataSet} to have Namespace value of '{0}'{reason}, but found '{1}' instead",
+                        expectation.Namespace, subject.Namespace);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.Prefix)))
             {
-                AssertionScope.Current
-                    .ForCondition(subject.Prefix == expectation.Prefix)
-                    .FailWith("Expected {context:DataSet} to have Prefix value of '{0}'{reason}, but found '{1}' instead", expectation.Prefix, subject.Prefix);
+                AssertionScope.Current.ForCondition(subject.Prefix == expectation.Prefix)
+                    .FailWith("Expected {context:DataSet} to have Prefix value of '{0}'{reason}, but found '{1}' instead",
+                        expectation.Prefix, subject.Prefix);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.RemotingFormat)))
             {
-                AssertionScope.Current
-                    .ForCondition(subject.RemotingFormat == expectation.RemotingFormat)
-                    .FailWith("Expected {context:DataSet} to have RemotingFormat value of '{0}'{reason}, but found '{1}' instead", expectation.RemotingFormat, subject.RemotingFormat);
+                AssertionScope.Current.ForCondition(subject.RemotingFormat == expectation.RemotingFormat)
+                    .FailWith("Expected {context:DataSet} to have RemotingFormat value of '{0}'{reason}, but found '{1}' instead",
+                        expectation.RemotingFormat, subject.RemotingFormat);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.SchemaSerializationMode)))
             {
-                AssertionScope.Current
-                    .ForCondition(subject.SchemaSerializationMode == expectation.SchemaSerializationMode)
-                    .FailWith("Expected {context:DataSet} to have SchemaSerializationMode value of '{0}'{reason}, but found '{1}' instead", expectation.SchemaSerializationMode, subject.SchemaSerializationMode);
+                AssertionScope.Current.ForCondition(subject.SchemaSerializationMode == expectation.SchemaSerializationMode)
+                    .FailWith(
+                        "Expected {context:DataSet} to have SchemaSerializationMode value of '{0}'{reason}, but found '{1}' instead",
+                        expectation.SchemaSerializationMode, subject.SchemaSerializationMode);
             }
         }
 
-        private static void CompareCollections(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config, DataSet subject, DataSet expectation, DataEquivalencyAssertionOptions<DataSet> dataConfig, Dictionary<string, IMember> selectedMembers)
+        private static void CompareCollections(IEquivalencyValidationContext context, IEquivalencyValidator parent,
+            IEquivalencyAssertionOptions config, DataSet subject, DataSet expectation,
+            DataEquivalencyAssertionOptions<DataSet> dataConfig, Dictionary<string, IMember> selectedMembers)
         {
             // Note: The collections here are listed in the XML documentation for the DataSet.BeEquivalentTo extension
             // method in DataSetAssertions.cs. If this ever needs to change, keep them in sync.
-            CompareExtendedProperties(new Comparands(subject, expectation, typeof(DataSet)), context, parent, config, selectedMembers);
+            CompareExtendedProperties(new Comparands(subject, expectation, typeof(DataSet)), context, parent, config,
+                selectedMembers);
 
             CompareTables(context, parent, subject, expectation, dataConfig, selectedMembers);
         }
 
-        private static void CompareExtendedProperties(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config, Dictionary<string, IMember> selectedMembers)
+        private static void CompareExtendedProperties(Comparands comparands, IEquivalencyValidationContext context,
+            IEquivalencyValidator parent, IEquivalencyAssertionOptions config, Dictionary<string, IMember> selectedMembers)
         {
-            foreach (var collectionName in new[] { nameof(DataSet.ExtendedProperties), nameof(DataSet.Relations) })
+            foreach (string collectionName in new[]
+            {
+                nameof(DataSet.ExtendedProperties),
+                nameof(DataSet.Relations)
+            })
             {
                 if (selectedMembers.TryGetValue(collectionName, out IMember expectationMember))
                 {
                     IMember matchingMember = FindMatchFor(expectationMember, comparands.Subject, context.CurrentNode, config);
+
                     if (matchingMember is not null)
                     {
                         var nestedComparands = new Comparands
@@ -156,13 +171,14 @@ namespace FluentAssertions.Equivalency.Steps
             }
         }
 
-        private static void CompareTables(IEquivalencyValidationContext context, IEquivalencyValidator parent, DataSet subject, DataSet expectation, DataEquivalencyAssertionOptions<DataSet> dataConfig, Dictionary<string, IMember> selectedMembers)
+        private static void CompareTables(IEquivalencyValidationContext context, IEquivalencyValidator parent, DataSet subject,
+            DataSet expectation, DataEquivalencyAssertionOptions<DataSet> dataConfig, Dictionary<string, IMember> selectedMembers)
         {
             if (selectedMembers.ContainsKey(nameof(expectation.Tables)))
             {
-                bool success = AssertionScope.Current
-                    .ForCondition(subject.Tables.Count == expectation.Tables.Count)
-                    .FailWith("Expected {context:DataSet} to contain {0}, but found {1} table(s)", expectation.Tables.Count, subject.Tables.Count);
+                bool success = AssertionScope.Current.ForCondition(subject.Tables.Count == expectation.Tables.Count)
+                    .FailWith("Expected {context:DataSet} to contain {0}, but found {1} table(s)", expectation.Tables.Count,
+                        subject.Tables.Count);
 
                 if (!success)
                 {
@@ -176,17 +192,15 @@ namespace FluentAssertions.Equivalency.Steps
 
                     if (excludeCaseSensitive || excludeLocale)
                     {
-                        dataConfig.Excluding((IMemberInfo memberInfo) =>
-                                (memberInfo.DeclaringType == typeof(DataTable)) &&
-                            (
-                                    (excludeCaseSensitive && (memberInfo.Name == nameof(DataTable.CaseSensitive)))
-                            ||
-                                    (excludeLocale && (memberInfo.Name == nameof(DataTable.Locale)))));
+                        dataConfig.Excluding((IMemberInfo memberInfo) => memberInfo.DeclaringType == typeof(DataTable) &&
+                            ((excludeCaseSensitive && memberInfo.Name == nameof(DataTable.CaseSensitive)) ||
+                                (excludeLocale && memberInfo.Name == nameof(DataTable.Locale))));
                     }
                 }
 
                 IEnumerable<string> expectationTableNames = expectation.Tables.OfType<DataTable>()
                     .Select(table => table.TableName);
+
                 IEnumerable<string> subjectTableNames = subject.Tables.OfType<DataTable>()
                     .Select(table => table.TableName);
 
@@ -208,21 +222,22 @@ namespace FluentAssertions.Equivalency.Steps
             DataTable expectationTable = expectation.Tables[tableName];
             DataTable subjectTable = subject.Tables[tableName];
 
-            bool success = AssertionScope.Current
-                .ForCondition(subjectTable is not null)
+            bool success = AssertionScope.Current.ForCondition(subjectTable is not null)
                 .FailWith("Expected {context:DataSet} to contain table '{0}'{reason}, but did not find it", tableName)
-                .Then
-                .ForCondition(expectationTable is not null)
+                .Then.ForCondition(expectationTable is not null)
                 .FailWith("Found unexpected table '{0}' in DataSet", tableName);
 
             if (success)
             {
                 IEquivalencyValidationContext nestedContext = context.AsCollectionItem<DataTable>(tableName);
-                parent.RecursivelyAssertEquality(new Comparands(subjectTable, expectationTable, typeof(DataTable)), nestedContext);
+
+                parent.RecursivelyAssertEquality(new Comparands(subjectTable, expectationTable, typeof(DataTable)),
+                    nestedContext);
             }
         }
 
-        private static IMember FindMatchFor(IMember selectedMemberInfo, object subject, INode currentNode, IEquivalencyAssertionOptions options)
+        private static IMember FindMatchFor(IMember selectedMemberInfo, object subject, INode currentNode,
+            IEquivalencyAssertionOptions options)
         {
             IEnumerable<IMember> query =
                 from rule in options.MatchingRules
@@ -233,8 +248,7 @@ namespace FluentAssertions.Equivalency.Steps
             return query.FirstOrDefault();
         }
 
-        private static IEnumerable<IMember> GetMembersFromExpectation(Comparands comparands,
-            INode contextCurrentNode,
+        private static IEnumerable<IMember> GetMembersFromExpectation(Comparands comparands, INode contextCurrentNode,
             IEquivalencyAssertionOptions options)
         {
             IEnumerable<IMember> members = Enumerable.Empty<IMember>();

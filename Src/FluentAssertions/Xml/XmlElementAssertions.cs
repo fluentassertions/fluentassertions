@@ -36,12 +36,9 @@ namespace FluentAssertions.Xml
         public AndConstraint<XmlElementAssertions> HaveInnerText(string expected, string because = "",
             params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject.InnerText == expected)
+            Execute.Assertion.ForCondition(Subject.InnerText == expected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected {context:subject} to have value {0}{reason}, but found {1}.",
-                    expected, Subject.InnerText);
+                .FailWith("Expected {context:subject} to have value {0}{reason}, but found {1}.", expected, Subject.InnerText);
 
             return new AndConstraint<XmlElementAssertions>(this);
         }
@@ -81,31 +78,23 @@ namespace FluentAssertions.Xml
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<XmlElementAssertions> HaveAttributeWithNamespace(
-            string expectedName,
-            string expectedNamespace,
-            string expectedValue,
-            string because = "", params object[] becauseArgs)
+        public AndConstraint<XmlElementAssertions> HaveAttributeWithNamespace(string expectedName, string expectedNamespace,
+            string expectedValue, string because = "", params object[] becauseArgs)
         {
             XmlAttribute attribute = Subject.Attributes[expectedName, expectedNamespace];
 
-            string expectedFormattedName =
-                (string.IsNullOrEmpty(expectedNamespace) ? string.Empty : $"{{{expectedNamespace}}}")
-                + expectedName;
+            string expectedFormattedName = (string.IsNullOrEmpty(expectedNamespace) ? string.Empty : $"{{{expectedNamespace}}}") +
+                expectedName;
 
-            Execute.Assertion
-                .ForCondition(attribute is not null)
+            Execute.Assertion.ForCondition(attribute is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    "Expected {context:subject} to have attribute {0}"
-                    + " with value {1}{reason}, but found no such attribute in {2}",
-                    expectedFormattedName, expectedValue, Subject);
+                    "Expected {context:subject} to have attribute {0}" +
+                    " with value {1}{reason}, but found no such attribute in {2}", expectedFormattedName, expectedValue, Subject);
 
-            Execute.Assertion
-                .ForCondition(attribute.Value == expectedValue)
+            Execute.Assertion.ForCondition(attribute.Value == expectedValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected attribute {0} in {context:subject} to have value {1}{reason}, but found {2}.",
+                .FailWith("Expected attribute {0} in {context:subject} to have value {1}{reason}, but found {2}.",
                     expectedFormattedName, expectedValue, attribute.Value);
 
             return new AndConstraint<XmlElementAssertions>(this);
@@ -123,12 +112,10 @@ namespace FluentAssertions.Xml
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndWhichConstraint<XmlElementAssertions, XmlElement> HaveElement(
-            string expectedName,
-            string because = "",
+        public AndWhichConstraint<XmlElementAssertions, XmlElement> HaveElement(string expectedName, string because = "",
             params object[] becauseArgs)
         {
-            return HaveElementWithNamespace(expectedName, null, because, becauseArgs);
+            return HaveElementWithNamespace(expectedName, expectedNamespace: null, because, becauseArgs);
         }
 
         /// <summary>
@@ -144,23 +131,17 @@ namespace FluentAssertions.Xml
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndWhichConstraint<XmlElementAssertions, XmlElement> HaveElementWithNamespace(
-            string expectedName,
-            string expectedNamespace,
-            string because = "",
-            params object[] becauseArgs)
+        public AndWhichConstraint<XmlElementAssertions, XmlElement> HaveElementWithNamespace(string expectedName,
+            string expectedNamespace, string because = "", params object[] becauseArgs)
         {
             XmlElement element = expectedNamespace == null ? Subject[expectedName] : Subject[expectedName, expectedNamespace];
 
-            string expectedFormattedName =
-                (string.IsNullOrEmpty(expectedNamespace) ? string.Empty : $"{{{expectedNamespace}}}")
-                + expectedName;
+            string expectedFormattedName = (string.IsNullOrEmpty(expectedNamespace) ? string.Empty : $"{{{expectedNamespace}}}") +
+                expectedName;
 
-            Execute.Assertion
-                .ForCondition(element is not null)
+            Execute.Assertion.ForCondition(element is not null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected {context:subject} to have child element {0}{reason}, but no such child element was found.",
+                .FailWith("Expected {context:subject} to have child element {0}{reason}, but no such child element was found.",
                     expectedFormattedName.EscapePlaceholders());
 
             return new AndWhichConstraint<XmlElementAssertions, XmlElement>(this, element);

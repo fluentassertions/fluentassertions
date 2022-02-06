@@ -25,9 +25,7 @@ namespace FluentAssertions
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public static async Task<ExceptionAssertions<TException>> WithMessage<TException>(
-            this Task<ExceptionAssertions<TException>> task,
-            string expectedWildcardPattern,
-            string because = "",
+            this Task<ExceptionAssertions<TException>> task, string expectedWildcardPattern, string because = "",
             params object[] becauseArgs)
             where TException : Exception
         {
@@ -49,8 +47,7 @@ namespace FluentAssertions
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public static async Task<ExceptionAssertions<TException>> Where<TException>(
-            this Task<ExceptionAssertions<TException>> task,
-            Expression<Func<TException, bool>> exceptionExpression,
+            this Task<ExceptionAssertions<TException>> task, Expression<Func<TException, bool>> exceptionExpression,
             string because = "", params object[] becauseArgs)
             where TException : Exception
         {
@@ -71,9 +68,7 @@ namespace FluentAssertions
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static async Task<ExceptionAssertions<TInnerException>> WithInnerException<TException, TInnerException>(
-            this Task<ExceptionAssertions<TException>> task,
-            string because = "",
-            params object[] becauseArgs)
+            this Task<ExceptionAssertions<TException>> task, string because = "", params object[] becauseArgs)
             where TException : Exception
             where TInnerException : Exception
         {
@@ -93,9 +88,7 @@ namespace FluentAssertions
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static async Task<ExceptionAssertions<Exception>> WithInnerException<TException>(
-            this Task<ExceptionAssertions<TException>> task,
-            Type innerException,
-            string because = "",
+            this Task<ExceptionAssertions<TException>> task, Type innerException, string because = "",
             params object[] becauseArgs)
             where TException : Exception
         {
@@ -116,9 +109,7 @@ namespace FluentAssertions
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static async Task<ExceptionAssertions<TInnerException>> WithInnerExceptionExactly<TException, TInnerException>(
-            this Task<ExceptionAssertions<TException>> task,
-            string because = "",
-            params object[] becauseArgs)
+            this Task<ExceptionAssertions<TException>> task, string because = "", params object[] becauseArgs)
             where TException : Exception
             where TInnerException : Exception
         {
@@ -138,9 +129,7 @@ namespace FluentAssertions
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         public static async Task<ExceptionAssertions<Exception>> WithInnerExceptionExactly<TException>(
-            this Task<ExceptionAssertions<TException>> task,
-            Type innerException,
-            string because = "",
+            this Task<ExceptionAssertions<TException>> task, Type innerException, string because = "",
             params object[] becauseArgs)
             where TException : Exception
         {
@@ -159,17 +148,14 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public static ExceptionAssertions<TException> WithParameterName<TException>(
-            this ExceptionAssertions<TException> parent,
-            string paramName,
-            string because = "",
-            params object[] becauseArgs)
+        public static ExceptionAssertions<TException> WithParameterName<TException>(this ExceptionAssertions<TException> parent,
+            string paramName, string because = "", params object[] becauseArgs)
             where TException : ArgumentException
         {
-            Execute.Assertion
-                .ForCondition(parent.Which.ParamName == paramName)
+            Execute.Assertion.ForCondition(parent.Which.ParamName == paramName)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected exception with parameter name {0}{reason}, but found {1}.", paramName, parent.Which.ParamName);
+                .FailWith("Expected exception with parameter name {0}{reason}, but found {1}.", paramName,
+                    parent.Which.ParamName);
 
             return parent;
         }
@@ -187,10 +173,7 @@ namespace FluentAssertions
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public static async Task<ExceptionAssertions<TException>> WithParameterName<TException>(
-            this Task<ExceptionAssertions<TException>> task,
-            string paramName,
-            string because = "",
-            params object[] becauseArgs)
+            this Task<ExceptionAssertions<TException>> task, string paramName, string because = "", params object[] becauseArgs)
             where TException : ArgumentException
         {
             return (await task).WithParameterName(paramName, because, becauseArgs);

@@ -13,18 +13,21 @@ namespace FluentAssertions.Common
         /// A sum of all possible <see cref="MethodImplOptions"/>. It's needed to calculate what options were used when decorating with <see cref="MethodImplAttribute"/>.
         /// They are a subset of <see cref="MethodImplAttributes"/> which can be checked on a type and therefore this mask has to be applied to check only for options.
         /// </summary>
-        private static readonly Lazy<int> ImplementationOptionsMask =
-            new Lazy<int>(() => Enum.GetValues(typeof(MethodImplOptions)).Cast<int>().Sum(x => x));
+        private static readonly Lazy<int> ImplementationOptionsMask = new(() => Enum.GetValues(typeof(MethodImplOptions))
+            .Cast<int>()
+            .Sum(x => x));
 
         internal static bool IsAsync(this MethodInfo methodInfo)
         {
             return methodInfo.IsDecoratedWith<AsyncStateMachineAttribute>();
         }
 
-        internal static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this MemberInfo memberInfo, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+        internal static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this MemberInfo memberInfo,
+            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
-            var customAttributes = memberInfo.GetCustomAttributes<TAttribute>(inherit: false).ToList();
+            var customAttributes = memberInfo.GetCustomAttributes<TAttribute>(inherit: false)
+                .ToList();
 
             if (typeof(TAttribute) == typeof(MethodImplAttribute) && memberInfo is MethodBase methodBase)
             {
@@ -36,8 +39,7 @@ namespace FluentAssertions.Common
                 }
             }
 
-            return customAttributes
-                .Where(isMatchingAttributePredicate.Compile());
+            return customAttributes.Where(isMatchingAttributePredicate.Compile());
         }
 
         internal static bool IsNonVirtual(this MethodInfo method)
@@ -49,10 +51,9 @@ namespace FluentAssertions.Common
         {
             MethodImplAttributes implementationFlags = methodBase.MethodImplementationFlags;
 
-            int implementationFlagsMatchingImplementationOptions =
-                (int)implementationFlags & ImplementationOptionsMask.Value;
+            int implementationFlagsMatchingImplementationOptions = (int)implementationFlags & ImplementationOptionsMask.Value;
 
-            MethodImplOptions implementationOptions = (MethodImplOptions)implementationFlagsMatchingImplementationOptions;
+            var implementationOptions = (MethodImplOptions)implementationFlagsMatchingImplementationOptions;
 
             if (implementationOptions != 0)
             {

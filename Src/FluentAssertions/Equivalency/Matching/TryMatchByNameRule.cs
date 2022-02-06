@@ -10,14 +10,18 @@ namespace FluentAssertions.Equivalency.Matching
     {
         public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions config)
         {
-            PropertyInfo property = subject.GetType().FindProperty(expectedMember.Name, expectedMember.Type);
-            if ((property is not null) && !property.IsIndexer())
+            PropertyInfo property = subject.GetType()
+                .FindProperty(expectedMember.Name, expectedMember.Type);
+
+            if (property is not null && !property.IsIndexer())
             {
                 return new Property(property, parent);
             }
 
-            FieldInfo field = subject.GetType().FindField(expectedMember.Name, expectedMember.Type);
-            return (field is not null) ? new Field(field, parent) : null;
+            FieldInfo field = subject.GetType()
+                .FindField(expectedMember.Name, expectedMember.Type);
+
+            return field is not null ? new Field(field, parent) : null;
         }
 
         /// <inheritdoc />

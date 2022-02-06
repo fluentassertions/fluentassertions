@@ -17,38 +17,56 @@ namespace FluentAssertions
         /// Invokes the specified action so that you can assert that it throws an exception.
         /// </summary>
         [Pure]
-        public static Action Invoking(Action action) => action;
+        public static Action Invoking(Action action)
+        {
+            return action;
+        }
 
         /// <summary>
         /// Invokes the specified action so that you can assert that it throws an exception.
         /// </summary>
         [Pure]
-        public static Func<T> Invoking<T>(Func<T> func) => func;
+        public static Func<T> Invoking<T>(Func<T> func)
+        {
+            return func;
+        }
 
         /// <summary>
         /// Invokes the specified action so that you can assert that it throws an exception.
         /// </summary>
         [Pure]
-        public static Func<Task> Awaiting(Func<Task> action) => action;
+        public static Func<Task> Awaiting(Func<Task> action)
+        {
+            return action;
+        }
 
         /// <summary>
         /// Invokes the specified action so that you can assert that it throws an exception.
         /// </summary>
         [Pure]
-        public static Func<Task<T>> Awaiting<T>(Func<Task<T>> func) => func;
+        public static Func<Task<T>> Awaiting<T>(Func<Task<T>> func)
+        {
+            return func;
+        }
 
         /// <summary>
         /// Forces enumerating a collection. Should be used to assert that a method that uses the
         /// <c>yield</c> keyword throws a particular exception.
         /// </summary>
         [Pure]
-        public static Action Enumerating(Func<IEnumerable> enumerable) => enumerable.Enumerating();
+        public static Action Enumerating(Func<IEnumerable> enumerable)
+        {
+            return enumerable.Enumerating();
+        }
 
         /// <summary>
         /// Forces enumerating a collection. Should be used to assert that a method that uses the
         /// <c>yield</c> keyword throws a particular exception.
         /// </summary>
         [Pure]
-        public static Action Enumerating<T>(Func<IEnumerable<T>> enumerable) => enumerable.Enumerating();
+        public static Action Enumerating<T>(Func<IEnumerable<T>> enumerable)
+        {
+            return enumerable.Enumerating();
+        }
     }
 }

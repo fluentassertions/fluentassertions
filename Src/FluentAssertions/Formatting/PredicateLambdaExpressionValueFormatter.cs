@@ -10,17 +10,20 @@ namespace FluentAssertions.Formatting
     /// </summary>
     public class PredicateLambdaExpressionValueFormatter : IValueFormatter
     {
-        public bool CanHandle(object value) => value is LambdaExpression lambdaExpression;
+        public bool CanHandle(object value)
+        {
+            return value is LambdaExpression lambdaExpression;
+        }
 
         public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
             var lambdaExpression = (LambdaExpression)value;
 
-            var reducedExpression = ReduceConstantSubExpressions(lambdaExpression.Body);
+            Expression reducedExpression = ReduceConstantSubExpressions(lambdaExpression.Body);
 
             if (reducedExpression is BinaryExpression binaryExpression && binaryExpression.NodeType == ExpressionType.AndAlso)
             {
-                var subExpressions = ExtractChainOfExpressionsJoinedWithAndOperator(binaryExpression);
+                IEnumerable<Expression> subExpressions = ExtractChainOfExpressionsJoinedWithAndOperator(binaryExpression);
                 formattedGraph.AddFragment(string.Join(" AndAlso ", subExpressions.Select(e => e.ToString())));
             }
             else
@@ -93,14 +96,18 @@ namespace FluentAssertions.Formatting
 
                 if (!HasLiftedOperator(node) && ExpressionIsConstant(node))
                 {
-                    return Expression.Constant(Expression.Lambda(node).Compile().DynamicInvoke());
+                    return Expression.Constant(Expression.Lambda(node)
+                        .Compile()
+                        .DynamicInvoke());
                 }
 
                 return base.Visit(node);
             }
 
-            private static bool HasLiftedOperator(Expression expression) =>
-                expression is BinaryExpression { IsLifted: true } or UnaryExpression { IsLifted: true };
+            private static bool HasLiftedOperator(Expression expression)
+            {
+                return expression is BinaryExpression { IsLifted: true } or UnaryExpression { IsLifted: true };
+            }
 
             private static bool ExpressionIsConstant(Expression expression)
             {
@@ -116,7 +123,7 @@ namespace FluentAssertions.Formatting
         /// </summary>
         private class AndOperatorChainExtractor : ExpressionVisitor
         {
-            public List<Expression> AndChain { get; } = new List<Expression>();
+            public List<Expression> AndChain { get; } = new();
 
             public override Expression Visit(Expression node)
             {

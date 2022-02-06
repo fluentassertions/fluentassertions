@@ -20,7 +20,10 @@ namespace FluentAssertions.Types
         /// <param name="type">The type from which to select methods.</param>
         /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
         public MethodInfoSelector(Type type)
-            : this(new[] { type })
+            : this(new[]
+            {
+                type
+            })
         {
         }
 
@@ -35,7 +38,8 @@ namespace FluentAssertions.Types
             Guard.ThrowIfArgumentContainsNull(types, nameof(types));
 
             selectedMethods = types.SelectMany(t => t
-                .GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
+                .GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public |
+                    BindingFlags.NonPublic)
                 .Where(method => !HasSpecialName(method)));
         }
 
@@ -192,7 +196,7 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelector ReturnTypes()
         {
-            var returnTypes = selectedMethods.Select(mi => mi.ReturnType);
+            IEnumerable<Type> returnTypes = selectedMethods.Select(mi => mi.ReturnType);
 
             return new TypeSelector(returnTypes);
         }

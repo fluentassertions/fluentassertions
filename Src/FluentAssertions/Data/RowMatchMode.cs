@@ -20,6 +20,6 @@ namespace FluentAssertions.Data
         /// <see cref="DataTable"/> objects with exactly equivalent <see cref="DataTable.PrimaryKey"/>
         /// configuration.
         /// </summary>
-        PrimaryKey,
+        PrimaryKey
     }
 }

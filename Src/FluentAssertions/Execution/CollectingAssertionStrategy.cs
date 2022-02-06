@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Execution
@@ -22,7 +21,7 @@ namespace FluentAssertions.Execution
         /// </summary>
         public IEnumerable<string> DiscardFailures()
         {
-            var discardedFailures = failureMessages.ToArray();
+            string[] discardedFailures = failureMessages.ToArray();
             failureMessages.Clear();
             return discardedFailures;
         }

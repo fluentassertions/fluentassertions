@@ -25,7 +25,10 @@ namespace FluentAssertions.Formatting
 
             if (exception.StackTrace is not null)
             {
-                foreach (string line in exception.StackTrace.Split(new[] { Environment.NewLine }, StringSplitOptions.None))
+                foreach (string line in exception.StackTrace.Split(new[]
+                {
+                    Environment.NewLine
+                }, StringSplitOptions.None))
                 {
                     formattedGraph.AddLine("  " + line);
                 }

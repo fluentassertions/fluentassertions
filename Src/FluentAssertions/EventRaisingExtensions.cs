@@ -24,14 +24,15 @@ namespace FluentAssertions
 
             foreach (OccurredEvent @event in eventRecording)
             {
-                bool hasSender = Execute.Assertion
-                    .ForCondition(@event.Parameters.Any())
-                    .FailWith("Expected event from sender {0}, " +
-                              $"but event {eventRecording.EventName} does not have any parameters", expectedSender);
+                bool hasSender = Execute.Assertion.ForCondition(@event.Parameters.Any())
+                    .FailWith(
+                        "Expected event from sender {0}, " + $"but event {eventRecording.EventName} does not have any parameters",
+                        expectedSender);
 
                 if (hasSender)
                 {
                     object sender = @event.Parameters.First();
+
                     if (ReferenceEquals(sender, expectedSender))
                     {
                         eventsForSender.Add(@event);
@@ -43,11 +44,8 @@ namespace FluentAssertions
                 }
             }
 
-            Execute.Assertion
-                .ForCondition(eventsForSender.Any())
-                .FailWith("Expected sender {0}, but found {1}.",
-                    () => expectedSender,
-                    () => otherSenders.Distinct());
+            Execute.Assertion.ForCondition(eventsForSender.Any())
+                .FailWith("Expected sender {0}, but found {1}.", () => expectedSender, () => otherSenders.Distinct());
 
             return new FilteredEventRecording(eventRecording, eventsForSender);
         }
@@ -67,7 +65,9 @@ namespace FluentAssertions
 
             foreach (OccurredEvent @event in eventRecording)
             {
-                var typedParameters = @event.Parameters.OfType<T>().ToArray();
+                T[] typedParameters = @event.Parameters.OfType<T>()
+                    .ToArray();
+
                 if (typedParameters.Any())
                 {
                     hasArgumentOfRightType = true;
@@ -81,13 +81,14 @@ namespace FluentAssertions
 
             if (!hasArgumentOfRightType)
             {
-                throw new ArgumentException("No argument of event " + eventRecording.EventName + " is of type <" + typeof(T) + ">.");
+                throw new ArgumentException("No argument of event " + eventRecording.EventName + " is of type <" + typeof(T) +
+                    ">.");
             }
 
             if (!eventsMatchingPredicate.Any())
             {
-                Execute.Assertion
-                    .FailWith("Expected at least one event with arguments matching {0}, but found none.", predicate.Body);
+                Execute.Assertion.FailWith("Expected at least one event with arguments matching {0}, but found none.",
+                    predicate.Body);
             }
 
             return new FilteredEventRecording(eventRecording, eventsMatchingPredicate);
@@ -100,16 +101,20 @@ namespace FluentAssertions
         /// <remarks>
         /// If a <c>null</c> is provided as predicate argument, the corresponding event parameter value is ignored.
         /// </remarks>
-        public static IEventRecording WithArgs<T>(this IEventRecording eventRecording, params Expression<Func<T, bool>>[] predicates)
+        public static IEventRecording WithArgs<T>(this IEventRecording eventRecording,
+            params Expression<Func<T, bool>>[] predicates)
         {
-            Func<T, bool>[] compiledPredicates = predicates.Select(p => p?.Compile()).ToArray();
+            Func<T, bool>[] compiledPredicates = predicates.Select(p => p?.Compile())
+                .ToArray();
 
             bool hasArgumentOfRightType = false;
             var eventsMatchingPredicate = new List<OccurredEvent>();
 
             foreach (OccurredEvent @event in eventRecording)
             {
-                var typedParameters = @event.Parameters.OfType<T>().ToArray();
+                T[] typedParameters = @event.Parameters.OfType<T>()
+                    .ToArray();
+
                 if (typedParameters.Any())
                 {
                     hasArgumentOfRightType = true;
@@ -122,9 +127,11 @@ namespace FluentAssertions
                 }
 
                 bool isMatch = true;
+
                 for (int index = 0; index < predicates.Length && isMatch; index++)
                 {
-                    isMatch = compiledPredicates[index]?.Invoke(typedParameters[index]) ?? true;
+                    isMatch = compiledPredicates[index]
+                        ?.Invoke(typedParameters[index]) ?? true;
                 }
 
                 if (isMatch)
@@ -135,15 +142,15 @@ namespace FluentAssertions
 
             if (!hasArgumentOfRightType)
             {
-                throw new ArgumentException("No argument of event " + eventRecording.EventName + " is of type <" + typeof(T) + ">.");
+                throw new ArgumentException("No argument of event " + eventRecording.EventName + " is of type <" + typeof(T) +
+                    ">.");
             }
 
             if (!eventsMatchingPredicate.Any())
             {
-                Execute
-                    .Assertion
-                    .FailWith("Expected at least one event with arguments matching {0}, but found none.",
-                    string.Join(" | ", predicates.Where(p => p is not null).Select(p => p.Body.ToString())));
+                Execute.Assertion.FailWith("Expected at least one event with arguments matching {0}, but found none.",
+                    string.Join(" | ", predicates.Where(p => p is not null)
+                        .Select(p => p.Body.ToString())));
             }
 
             return new FilteredEventRecording(eventRecording, eventsMatchingPredicate);

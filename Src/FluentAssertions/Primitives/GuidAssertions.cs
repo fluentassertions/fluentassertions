@@ -49,8 +49,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> BeEmpty(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject == Guid.Empty)
+            Execute.Assertion.ForCondition(Subject == Guid.Empty)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:Guid} to be empty{reason}, but found {0}.", Subject);
 
@@ -69,8 +68,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject.HasValue && (Subject.Value != Guid.Empty))
+            Execute.Assertion.ForCondition(Subject.HasValue && Subject.Value != Guid.Empty)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:Guid} to be empty{reason}.");
 
@@ -116,8 +114,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> Be(Guid expected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject == expected)
+            Execute.Assertion.ForCondition(Subject == expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:Guid} to be {0}{reason}, but found {1}.", expected, Subject);
 
@@ -159,8 +156,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> NotBe(Guid unexpected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject != unexpected)
+            Execute.Assertion.ForCondition(Subject != unexpected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:Guid} to be {0}{reason}.", Subject);
 
@@ -170,7 +166,9 @@ namespace FluentAssertions.Primitives
         #endregion
 
         /// <inheritdoc/>
-        public override bool Equals(object obj) =>
+        public override bool Equals(object obj)
+        {
             throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
+        }
     }
 }

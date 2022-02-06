@@ -15,7 +15,7 @@ namespace FluentAssertions.Formatting
         /// </returns>
         public bool CanHandle(object value)
         {
-            return (value is DateTime) || (value is DateTimeOffset);
+            return value is DateTime || value is DateTimeOffset;
         }
 
         public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
@@ -36,12 +36,14 @@ namespace FluentAssertions.Formatting
             formattedGraph.AddFragment("<");
 
             bool hasDate = HasDate(dateTimeOffset);
+
             if (hasDate)
             {
                 formattedGraph.AddFragment(dateTimeOffset.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
             }
 
             bool hasTime = HasTime(dateTimeOffset);
+
             if (hasTime)
             {
                 if (hasDate)
@@ -90,7 +92,8 @@ namespace FluentAssertions.Formatting
             {
                 if (HasMilliSeconds(dateTimeOffset))
                 {
-                    formattedGraph.AddFragment("0001-01-01 00:00:00." + dateTimeOffset.ToString("fff", CultureInfo.InvariantCulture));
+                    formattedGraph.AddFragment("0001-01-01 00:00:00." +
+                        dateTimeOffset.ToString("fff", CultureInfo.InvariantCulture));
                 }
                 else
                 {
@@ -103,17 +106,13 @@ namespace FluentAssertions.Formatting
 
         private static bool HasTime(DateTimeOffset dateTime)
         {
-            return (dateTime.Hour != 0)
-                || (dateTime.Minute != 0)
-                || (dateTime.Second != 0)
-                || HasMilliSeconds(dateTime)
-                || HasMicroSeconds(dateTime)
-                || HasNanoSeconds(dateTime);
+            return dateTime.Hour != 0 || dateTime.Minute != 0 || dateTime.Second != 0 || HasMilliSeconds(dateTime) ||
+                HasMicroSeconds(dateTime) || HasNanoSeconds(dateTime);
         }
 
         private static bool HasDate(DateTimeOffset dateTime)
         {
-            return (dateTime.Day != 1) || (dateTime.Month != 1) || (dateTime.Year != 1);
+            return dateTime.Day != 1 || dateTime.Month != 1 || dateTime.Year != 1;
         }
 
         private static bool HasMilliSeconds(DateTimeOffset dateTime)
@@ -123,12 +122,14 @@ namespace FluentAssertions.Formatting
 
         private static bool HasMicroSeconds(DateTimeOffset dateTime)
         {
-            return (dateTime.Ticks % TimeSpan.FromMilliseconds(1).Ticks) > 0;
+            return dateTime.Ticks % TimeSpan.FromMilliseconds(value: 1)
+                .Ticks > 0;
         }
 
         private static bool HasNanoSeconds(DateTimeOffset dateTime)
         {
-            return (dateTime.Ticks % (TimeSpan.FromMilliseconds(1).Ticks / 1000)) > 0;
+            return dateTime.Ticks % (TimeSpan.FromMilliseconds(value: 1)
+                .Ticks / 1000) > 0;
         }
     }
 }

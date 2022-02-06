@@ -40,8 +40,12 @@ namespace FluentAssertions.Equivalency
 
         public override string Description => $"property {GetSubjectId().Combine(PathAndName)}";
 
-        public CSharpAccessModifier GetterAccessibility => propertyInfo.GetGetMethod(nonPublic: true).GetCSharpAccessModifier();
+        public CSharpAccessModifier GetterAccessibility =>
+            propertyInfo.GetGetMethod(nonPublic: true)
+                .GetCSharpAccessModifier();
 
-        public CSharpAccessModifier SetterAccessibility => propertyInfo.GetSetMethod(nonPublic: true).GetCSharpAccessModifier();
+        public CSharpAccessModifier SetterAccessibility =>
+            propertyInfo.GetSetMethod(nonPublic: true)
+                .GetCSharpAccessModifier();
     }
 }

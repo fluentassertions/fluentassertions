@@ -38,8 +38,7 @@ namespace FluentAssertions.Numeric
         /// </param>
         public AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject.HasValue)
+            Execute.Assertion.ForCondition(Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected a value{reason}.");
 
@@ -73,8 +72,7 @@ namespace FluentAssertions.Numeric
         /// </param>
         public AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(!Subject.HasValue)
+            Execute.Assertion.ForCondition(!Subject.HasValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
 
@@ -109,14 +107,12 @@ namespace FluentAssertions.Numeric
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> Match(Expression<Func<T?, bool>> predicate,
-            string because = "",
+        public AndConstraint<TAssertions> Match(Expression<Func<T?, bool>> predicate, string because = "",
             params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
 
-            Execute.Assertion
-                .ForCondition(predicate.Compile()(Subject))
+            Execute.Assertion.ForCondition(predicate.Compile()(Subject))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected value to match {0}{reason}, but found {1}.", predicate, Subject);
 

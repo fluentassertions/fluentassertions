@@ -71,8 +71,8 @@ namespace FluentAssertions.Equivalency
 
         public bool IsCyclicReference(object expectation)
         {
-            bool isComplexType = expectation is not null && Options.GetEqualityStrategy(expectation.GetType())
-                is EqualityStrategy.Members or EqualityStrategy.ForceMembers;
+            bool isComplexType = expectation is not null &&
+                Options.GetEqualityStrategy(expectation.GetType()) is EqualityStrategy.Members or EqualityStrategy.ForceMembers;
 
             var reference = new ObjectReference(expectation, CurrentNode.PathAndName, isComplexType);
             return CyclicReferenceDetector.IsCyclicReference(reference, Options.CyclicReferenceHandling, Reason);

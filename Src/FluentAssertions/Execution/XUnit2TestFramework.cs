@@ -28,6 +28,7 @@ namespace FluentAssertions.Execution
         public void Throw(string message)
         {
             Type exceptionType = assembly.GetType("Xunit.Sdk.XunitException");
+
             if (exceptionType is null)
             {
                 throw new Exception("Failed to create the XUnit assertion type");

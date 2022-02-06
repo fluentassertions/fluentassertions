@@ -14,7 +14,7 @@ namespace FluentAssertions.Equivalency.Ordering
 
         private static string GetAdjustedPropertyPath(string propertyPath)
         {
-            return propertyPath.Substring(propertyPath.IndexOf('.', StringComparison.Ordinal) + 1);
+            return propertyPath.Substring(propertyPath.IndexOf(value: '.', StringComparison.Ordinal) + 1);
         }
 
         public Type Type { get; }

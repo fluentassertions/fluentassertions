@@ -24,14 +24,13 @@ namespace FluentAssertions.Primitives
         private readonly TAssertions parentAssertions;
         private readonly TimeSpanPredicate predicate;
 
-        private readonly Dictionary<TimeSpanCondition, TimeSpanPredicate> predicates = new Dictionary
-            <TimeSpanCondition, TimeSpanPredicate>
+        private readonly Dictionary<TimeSpanCondition, TimeSpanPredicate> predicates = new()
         {
-            [TimeSpanCondition.MoreThan] = new TimeSpanPredicate((ts1, ts2) => ts1 > ts2, "more than"),
-            [TimeSpanCondition.AtLeast] = new TimeSpanPredicate((ts1, ts2) => ts1 >= ts2, "at least"),
-            [TimeSpanCondition.Exactly] = new TimeSpanPredicate((ts1, ts2) => ts1 == ts2, "exactly"),
-            [TimeSpanCondition.Within] = new TimeSpanPredicate((ts1, ts2) => ts1 <= ts2, "within"),
-            [TimeSpanCondition.LessThan] = new TimeSpanPredicate((ts1, ts2) => ts1 < ts2, "less than")
+            [TimeSpanCondition.MoreThan] = new((ts1, ts2) => ts1 > ts2, "more than"),
+            [TimeSpanCondition.AtLeast] = new((ts1, ts2) => ts1 >= ts2, "at least"),
+            [TimeSpanCondition.Exactly] = new((ts1, ts2) => ts1 == ts2, "exactly"),
+            [TimeSpanCondition.Within] = new((ts1, ts2) => ts1 <= ts2, "within"),
+            [TimeSpanCondition.LessThan] = new((ts1, ts2) => ts1 < ts2, "less than")
         };
 
         private readonly DateTime? subject;
@@ -39,8 +38,7 @@ namespace FluentAssertions.Primitives
 
         #endregion
 
-        protected internal DateTimeRangeAssertions(TAssertions parentAssertions, DateTime? subject,
-            TimeSpanCondition condition,
+        protected internal DateTimeRangeAssertions(TAssertions parentAssertions, DateTime? subject, TimeSpanCondition condition,
             TimeSpan timeSpan)
         {
             this.parentAssertions = parentAssertions;
@@ -63,22 +61,19 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<TAssertions> Before(DateTime target, string because = "",
-            params object[] becauseArgs)
+        public AndConstraint<TAssertions> Before(DateTime target, string because = "", params object[] becauseArgs)
         {
-            bool success = Execute.Assertion
-                .ForCondition(subject.HasValue)
+            bool success = Execute.Assertion.ForCondition(subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected date and/or time {0} to be " + predicate.DisplayText +
-                          " {1} before {2}{reason}, but found a <null> DateTime.",
-                    subject, timeSpan, target);
+                .FailWith(
+                    "Expected date and/or time {0} to be " + predicate.DisplayText +
+                    " {1} before {2}{reason}, but found a <null> DateTime.", subject, timeSpan, target);
 
             if (success)
             {
                 TimeSpan actual = target - subject.Value;
 
-                Execute.Assertion
-                    .ForCondition(predicate.IsMatchedBy(actual, timeSpan))
+                Execute.Assertion.ForCondition(predicate.IsMatchedBy(actual, timeSpan))
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
                         "Expected {context:the date and time} {0} to be " + predicate.DisplayText +
@@ -102,22 +97,19 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<TAssertions> After(DateTime target, string because = "",
-            params object[] becauseArgs)
+        public AndConstraint<TAssertions> After(DateTime target, string because = "", params object[] becauseArgs)
         {
-            bool success = Execute.Assertion
-                .ForCondition(subject.HasValue)
+            bool success = Execute.Assertion.ForCondition(subject.HasValue)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected date and/or time {0} to be " + predicate.DisplayText +
-                          " {1} after {2}{reason}, but found a <null> DateTime.",
-                    subject, timeSpan, target);
+                .FailWith(
+                    "Expected date and/or time {0} to be " + predicate.DisplayText +
+                    " {1} after {2}{reason}, but found a <null> DateTime.", subject, timeSpan, target);
 
             if (success)
             {
                 TimeSpan actual = subject.Value - target;
 
-                Execute.Assertion
-                    .ForCondition(predicate.IsMatchedBy(actual, timeSpan))
+                Execute.Assertion.ForCondition(predicate.IsMatchedBy(actual, timeSpan))
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
                         "Expected {context:the date and time} {0} to be " + predicate.DisplayText +
@@ -134,7 +126,9 @@ namespace FluentAssertions.Primitives
         }
 
         /// <inheritdoc/>
-        public override bool Equals(object obj) =>
+        public override bool Equals(object obj)
+        {
             throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
+        }
     }
 }

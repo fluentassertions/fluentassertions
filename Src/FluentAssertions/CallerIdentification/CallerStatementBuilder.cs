@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -13,6 +14,7 @@ namespace FluentAssertions.CallerIdentification
         internal CallerStatementBuilder()
         {
             statement = new StringBuilder();
+
             priorityOrderedParsingStrategies = new List<IParsingStrategy>
             {
                 new QuotesParsingStrategy(),
@@ -27,20 +29,20 @@ namespace FluentAssertions.CallerIdentification
 
         internal void Append(string symbols)
         {
-            using var symbolEnumerator = symbols.GetEnumerator();
+            using CharEnumerator symbolEnumerator = symbols.GetEnumerator();
+
             while (symbolEnumerator.MoveNext() && parsingState != ParsingState.Done)
             {
-                var hasParsingStrategyWaitingForEndContext = priorityOrderedParsingStrategies
-                    .Any(s => s.IsWaitingForContextEnd());
+                bool hasParsingStrategyWaitingForEndContext =
+                    priorityOrderedParsingStrategies.Any(s => s.IsWaitingForContextEnd());
 
                 parsingState = ParsingState.InProgress;
-                foreach (var parsingStrategy in
-                    priorityOrderedParsingStrategies
-                        .SkipWhile(parsingStrategy =>
-                            hasParsingStrategyWaitingForEndContext
-                            && !parsingStrategy.IsWaitingForContextEnd()))
+
+                foreach (IParsingStrategy parsingStrategy in priorityOrderedParsingStrategies.SkipWhile(parsingStrategy =>
+                    hasParsingStrategyWaitingForEndContext && !parsingStrategy.IsWaitingForContextEnd()))
                 {
                     parsingState = parsingStrategy.Parse(symbolEnumerator.Current, statement);
+
                     if (parsingState != ParsingState.InProgress)
                     {
                         break;
@@ -53,12 +55,17 @@ namespace FluentAssertions.CallerIdentification
                 return;
             }
 
-            priorityOrderedParsingStrategies
-                .ForEach(strategy => strategy.NotifyEndOfLineReached());
+            priorityOrderedParsingStrategies.ForEach(strategy => strategy.NotifyEndOfLineReached());
         }
 
-        internal bool IsDone() => parsingState == ParsingState.Done;
+        internal bool IsDone()
+        {
+            return parsingState == ParsingState.Done;
+        }
 
-        public override string ToString() => statement.ToString();
+        public override string ToString()
+        {
+            return statement.ToString();
+        }
     }
 }

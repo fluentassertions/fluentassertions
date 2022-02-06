@@ -28,9 +28,11 @@ namespace FluentAssertions.Equivalency.Selection
         {
             var members = new List<IMember>(selectedMembers);
 
-            foreach (MemberInfo memberInfo in currentNode.Type.GetNonPrivateMembers(MemberVisibility.Public | MemberVisibility.Internal))
+            foreach (MemberInfo memberInfo in currentNode.Type.GetNonPrivateMembers(MemberVisibility.Public |
+                MemberVisibility.Internal))
             {
                 IMember member = MemberFactory.Create(memberInfo, currentNode);
+
                 if (predicate(new MemberToMemberInfoAdapter(member)))
                 {
                     if (!members.Any(p => p.IsEquivalentTo(member)))

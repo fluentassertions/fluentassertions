@@ -20,6 +20,6 @@
         /// <summary>
         /// All custom value formatters in any assembly loaded in the current <see cref="System.AppDomain"/> will be detected.
         /// </summary>
-        Scan,
+        Scan
     }
 }

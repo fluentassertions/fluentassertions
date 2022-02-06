@@ -5,7 +5,8 @@ namespace FluentAssertions.Equivalency.Steps
 {
     public class StringEqualityEquivalencyStep : IEquivalencyStep
     {
-        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+            IEquivalencyValidator nestedValidator)
         {
             Type expectationType = comparands.GetExpectedType(context.Options);
 
@@ -20,6 +21,7 @@ namespace FluentAssertions.Equivalency.Steps
             }
 
             bool subjectIsString = ValidateSubjectIsString(comparands, context.CurrentNode);
+
             if (subjectIsString)
             {
                 string subject = (string)comparands.Subject;
@@ -37,12 +39,12 @@ namespace FluentAssertions.Equivalency.Steps
             object expected = comparands.Expectation;
             object subject = comparands.Subject;
 
-            bool onlyOneNull = (expected is null) != (subject is null);
+            bool onlyOneNull = expected is null != subject is null;
 
             if (onlyOneNull)
             {
-                AssertionScope.Current.FailWith(
-                    $"Expected {currentNode.Description} to be {{0}}{{reason}}, but found {{1}}.", expected, subject);
+                AssertionScope.Current.FailWith($"Expected {currentNode.Description} to be {{0}}{{reason}}, but found {{1}}.",
+                    expected, subject);
 
                 return false;
             }
@@ -57,10 +59,8 @@ namespace FluentAssertions.Equivalency.Steps
                 return true;
             }
 
-            return
-                AssertionScope.Current
-                    .FailWith($"Expected {currentNode} to be {{0}}, but found {{1}}.",
-                        comparands.RuntimeType, comparands.Subject.GetType());
+            return AssertionScope.Current.FailWith($"Expected {currentNode} to be {{0}}, but found {{1}}.",
+                comparands.RuntimeType, comparands.Subject.GetType());
         }
     }
 }

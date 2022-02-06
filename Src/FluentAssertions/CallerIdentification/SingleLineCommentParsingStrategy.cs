@@ -13,14 +13,15 @@ namespace FluentAssertions.CallerIdentification
                 return ParsingState.GoToNextSymbol;
             }
 
-            var doesSymbolStartComment = symbol == '/' && statement.Length > 0 && statement[statement.Length - 1] == '/';
+            bool doesSymbolStartComment = symbol == '/' && statement.Length > 0 && statement[statement.Length - 1] == '/';
+
             if (!doesSymbolStartComment)
             {
                 return ParsingState.InProgress;
             }
 
             isCommentContext = true;
-            statement.Remove(statement.Length - 1, 1);
+            statement.Remove(statement.Length - 1, length: 1);
             return ParsingState.GoToNextSymbol;
         }
 

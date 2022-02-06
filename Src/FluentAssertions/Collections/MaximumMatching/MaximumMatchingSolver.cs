@@ -28,11 +28,11 @@ namespace FluentAssertions.Collections.MaximumMatching
         {
             var matches = new MatchCollection();
 
-            foreach (var predicate in problem.Predicates)
+            foreach (Predicate<TValue> predicate in problem.Predicates)
             {
                 // At each step of the algorithm we search for a solution which contains the current predicate
                 // and increases the total number of matches (i.e. Augmenting Flow through the current predicate in the Ford-Fulkerson terminology).
-                var newMatches = FindMatchForPredicate(predicate, matches);
+                IEnumerable<Match> newMatches = FindMatchForPredicate(predicate, matches);
                 matches.UpdateFrom(newMatches);
             }
 
@@ -55,11 +55,12 @@ namespace FluentAssertions.Collections.MaximumMatching
             var visitedElements = new HashSet<Element<TValue>>();
             var breadthFirstSearchTracker = new BreadthFirstSearchTracker(predicate, currentMatches);
 
-            while (breadthFirstSearchTracker.TryDequeueUnMatchedPredicate(out var unmatchedPredicate))
+            while (breadthFirstSearchTracker.TryDequeueUnMatchedPredicate(out Predicate<TValue> unmatchedPredicate))
             {
-                var notVisitedMatchingElements = GetMatchingElements(unmatchedPredicate).Where(element => !visitedElements.Contains(element));
+                IEnumerable<Element<TValue>> notVisitedMatchingElements = GetMatchingElements(unmatchedPredicate)
+                    .Where(element => !visitedElements.Contains(element));
 
-                foreach (var element in notVisitedMatchingElements)
+                foreach (Element<TValue> element in notVisitedMatchingElements)
                 {
                     visitedElements.Add(element);
 
@@ -69,7 +70,12 @@ namespace FluentAssertions.Collections.MaximumMatching
                     }
                     else
                     {
-                        var finalMatch = new Match { Predicate = unmatchedPredicate, Element = element };
+                        var finalMatch = new Match
+                        {
+                            Predicate = unmatchedPredicate,
+                            Element = element
+                        };
+
                         return breadthFirstSearchTracker.GetMatchChain(finalMatch);
                     }
                 }
@@ -80,9 +86,11 @@ namespace FluentAssertions.Collections.MaximumMatching
 
         private IEnumerable<Element<TValue>> GetMatchingElements(Predicate<TValue> predicate)
         {
-            if (!matchingElementsByPredicate.TryGetValue(predicate, out var matchingElements))
+            if (!matchingElementsByPredicate.TryGetValue(predicate, out List<Element<TValue>> matchingElements))
             {
-                matchingElements = problem.Elements.Where(element => predicate.Matches(element.Value)).ToList();
+                matchingElements = problem.Elements.Where(element => predicate.Matches(element.Value))
+                    .ToList();
+
                 matchingElementsByPredicate.Add(predicate, matchingElements);
             }
 
@@ -101,7 +109,7 @@ namespace FluentAssertions.Collections.MaximumMatching
 
             public void UpdateFrom(IEnumerable<Match> matches)
             {
-                foreach (var match in matches)
+                foreach (Match match in matches)
                 {
                     matchesByElement[match.Element] = match;
                 }
@@ -109,14 +117,24 @@ namespace FluentAssertions.Collections.MaximumMatching
 
             public Predicate<TValue> GetMatchedPredicate(Element<TValue> element)
             {
-                return matchesByElement[element].Predicate;
+                return matchesByElement[element]
+                    .Predicate;
             }
 
-            public bool Contains(Element<TValue> element) => matchesByElement.ContainsKey(element);
+            public bool Contains(Element<TValue> element)
+            {
+                return matchesByElement.ContainsKey(element);
+            }
 
-            public IEnumerator<Match> GetEnumerator() => matchesByElement.Values.GetEnumerator();
+            public IEnumerator<Match> GetEnumerator()
+            {
+                return matchesByElement.Values.GetEnumerator();
+            }
 
-            IEnumerator IEnumerable.GetEnumerator() => matchesByElement.Values.GetEnumerator();
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return matchesByElement.Values.GetEnumerator();
+            }
         }
 
         private class BreadthFirstSearchTracker
@@ -147,14 +165,20 @@ namespace FluentAssertions.Collections.MaximumMatching
 
             public void ReassignElement(Element<TValue> element, Predicate<TValue> newMatchedPredicate)
             {
-                var previouslyMatchedPredicate = originalMatches.GetMatchedPredicate(element);
-                previousMatchByPredicate.Add(previouslyMatchedPredicate, new Match { Predicate = newMatchedPredicate, Element = element });
+                Predicate<TValue> previouslyMatchedPredicate = originalMatches.GetMatchedPredicate(element);
+
+                previousMatchByPredicate.Add(previouslyMatchedPredicate, new Match
+                {
+                    Predicate = newMatchedPredicate,
+                    Element = element
+                });
+
                 unmatchedPredicatesQueue.Enqueue(previouslyMatchedPredicate);
             }
 
             public IEnumerable<Match> GetMatchChain(Match lastMatch)
             {
-                var match = lastMatch;
+                Match match = lastMatch;
 
                 do
                 {

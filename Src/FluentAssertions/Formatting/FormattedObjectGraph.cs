@@ -36,7 +36,7 @@ namespace FluentAssertions.Formatting
         /// <summary>
         /// Returns the number of lines of text currently in the graph.
         /// </summary>
-        public int LineCount => lines.Count + ((lineBuilder.Length > 0) ? 1 : 0);
+        public int LineCount => lines.Count + (lineBuilder.Length > 0 ? 1 : 0);
 
         /// <summary>
         /// Starts a new line with the provided text fragment. Additional text can be added to
@@ -90,8 +90,8 @@ namespace FluentAssertions.Formatting
             if (lines.Count == maxLines)
             {
                 lines.Add(string.Empty);
-                lines.Add(
-                    $"(Output has exceeded the maximum of {maxLines} lines. " +
+
+                lines.Add($"(Output has exceeded the maximum of {maxLines} lines. " +
                     $"Increase {nameof(FormattingOptions)}.{nameof(FormattingOptions.MaxLines)} on {nameof(AssertionScope)} or {nameof(AssertionOptions)} to include more lines.)");
 
                 throw new MaxLinesExceededException();
@@ -109,6 +109,7 @@ namespace FluentAssertions.Formatting
         public IDisposable WithIndentation()
         {
             indentation++;
+
             return new Disposable(() =>
             {
                 if (indentation > 0)
@@ -123,9 +124,12 @@ namespace FluentAssertions.Formatting
         /// </summary>
         public override string ToString()
         {
-            return string.Join(Environment.NewLine, lines.Concat(new[] { lineBuilder.ToString() }));
+            return string.Join(Environment.NewLine, lines.Concat(new[]
+            {
+                lineBuilder.ToString()
+            }));
         }
 
-        private string Whitespace => new(' ', indentation * SpacesPerIndentation);
+        private string Whitespace => new(c: ' ', indentation * SpacesPerIndentation);
     }
 }

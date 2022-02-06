@@ -107,6 +107,6 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Compare the members, regardless of an <see cref="object.Equals(object)"/> override exists or not.
         /// </summary>
-        ForceMembers,
+        ForceMembers
     }
 }

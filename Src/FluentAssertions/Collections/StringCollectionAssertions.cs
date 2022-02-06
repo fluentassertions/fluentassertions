@@ -7,8 +7,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Collections
 {
-    public class StringCollectionAssertions :
-        StringCollectionAssertions<IEnumerable<string>>
+    public class StringCollectionAssertions : StringCollectionAssertions<IEnumerable<string>>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StringCollectionAssertions"/> class.
@@ -19,8 +18,8 @@ namespace FluentAssertions.Collections
         }
     }
 
-    public class StringCollectionAssertions<TCollection> :
-        StringCollectionAssertions<TCollection, StringCollectionAssertions<TCollection>>
+    public class StringCollectionAssertions<TCollection>
+        : StringCollectionAssertions<TCollection, StringCollectionAssertions<TCollection>>
         where TCollection : IEnumerable<string>
     {
         /// <summary>
@@ -32,8 +31,8 @@ namespace FluentAssertions.Collections
         }
     }
 
-    public class StringCollectionAssertions<TCollection, TAssertions> :
-        GenericCollectionAssertions<TCollection, string, TAssertions>
+    public class StringCollectionAssertions<TCollection, TAssertions>
+        : GenericCollectionAssertions<TCollection, string, TAssertions>
         where TCollection : IEnumerable<string>
         where TAssertions : StringCollectionAssertions<TCollection, TAssertions>
     {
@@ -90,7 +89,8 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable<string> expectation, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable<string> expectation, string because = "",
+            params object[] becauseArgs)
         {
             return BeEquivalentTo(expectation, config => config, because, becauseArgs);
         }
@@ -121,19 +121,22 @@ namespace FluentAssertions.Collections
         {
             Guard.ThrowIfArgumentIsNull(config, nameof(config));
 
-            EquivalencyAssertionOptions<IEnumerable<string>> options = config(AssertionOptions.CloneDefaults<string>()).AsCollection();
+            EquivalencyAssertionOptions<IEnumerable<string>> options = config(AssertionOptions.CloneDefaults<string>())
+                .AsCollection();
 
-            var context = new EquivalencyValidationContext(Node.From<IEnumerable<string>>(() => AssertionScope.Current.CallerIdentity), options)
-            {
-                Reason = new Reason(because, becauseArgs),
-                TraceWriter = options.TraceWriter
-            };
+            var context =
+                new EquivalencyValidationContext(Node.From<IEnumerable<string>>(() => AssertionScope.Current.CallerIdentity),
+                    options)
+                {
+                    Reason = new Reason(because, becauseArgs),
+                    TraceWriter = options.TraceWriter
+                };
 
             var comparands = new Comparands
             {
                 Subject = Subject,
                 Expectation = expectation,
-                CompileTimeType = typeof(IEnumerable<string>),
+                CompileTimeType = typeof(IEnumerable<string>)
             };
 
             new EquivalencyValidator().AssertEquality(comparands, context);
@@ -152,8 +155,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<TAssertions> AllBe(string expectation,
-            string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> AllBe(string expectation, string because = "", params object[] becauseArgs)
         {
             return AllBe(expectation, options => options, because, becauseArgs);
         }
@@ -176,13 +178,13 @@ namespace FluentAssertions.Collections
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public AndConstraint<TAssertions> AllBe(string expectation,
-            Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
-            string because = "",
+            Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config, string because = "",
             params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(config, nameof(config));
 
-            string[] repeatedExpectation = RepeatAsManyAs(expectation, Subject).ToArray();
+            string[] repeatedExpectation = RepeatAsManyAs(expectation, Subject)
+                .ToArray();
 
             // Because we have just manually created the collection based on single element
             // we are sure that we can force strict ordering, because ordering does not matter in terms
@@ -190,8 +192,9 @@ namespace FluentAssertions.Collections
             // in case user needs to use them. Strict ordering improves algorithmic complexity
             // from O(n^2) to O(n). For bigger tables it is necessary in order to achieve acceptable
             // execution times.
-            Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> forceStringOrderingConfig =
-                x => config(x).WithStrictOrderingFor(s => string.IsNullOrEmpty(s.Path));
+            Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> forceStringOrderingConfig = x =>
+                config(x)
+                    .WithStrictOrderingFor(s => string.IsNullOrEmpty(s.Path));
 
             return BeEquivalentTo(repeatedExpectation, forceStringOrderingConfig, because, becauseArgs);
         }
@@ -234,24 +237,25 @@ namespace FluentAssertions.Collections
         public AndWhichConstraint<TAssertions, string> ContainMatch(string wildcardPattern, string because = "",
             params object[] becauseArgs)
         {
-            Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match strings in collection against <null>. Provide a wildcard pattern or use the Contain method.");
+            Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern),
+                "Cannot match strings in collection against <null>. Provide a wildcard pattern or use the Contain method.");
 
             if (wildcardPattern.Length == 0)
             {
-                throw new ArgumentException("Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the Contain method.", nameof(wildcardPattern));
+                throw new ArgumentException(
+                    "Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the Contain method.",
+                    nameof(wildcardPattern));
             }
 
-            bool success = Execute.Assertion
-                .BecauseOf(because, becauseArgs)
+            bool success = Execute.Assertion.BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
                 .FailWith("Expected {context:collection} to contain a match of {0}{reason}, but found <null>.", wildcardPattern);
 
-            IEnumerable<string> matched = new List<string>(0);
+            IEnumerable<string> matched = new List<string>(capacity: 0);
 
             if (success)
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
+                Execute.Assertion.BecauseOf(because, becauseArgs)
                     .ForCondition(ContainsMatch(wildcardPattern))
                     .FailWith("Expected {context:collection} {0} to contain a match of {1}{reason}.", Subject, wildcardPattern);
 
@@ -264,10 +268,14 @@ namespace FluentAssertions.Collections
         private bool ContainsMatch(string wildcardPattern)
         {
             using var scope = new AssertionScope();
+
             return Subject.Any(item =>
             {
-                item.Should().Match(wildcardPattern);
-                return !scope.Discard().Any();
+                item.Should()
+                    .Match(wildcardPattern);
+
+                return !scope.Discard()
+                    .Any();
             });
         }
 
@@ -276,8 +284,12 @@ namespace FluentAssertions.Collections
             return Subject.Where(item =>
             {
                 using var scope = new AssertionScope();
-                item.Should().Match(wildcardPattern);
-                return !scope.Discard().Any();
+
+                item.Should()
+                    .Match(wildcardPattern);
+
+                return !scope.Discard()
+                    .Any();
             });
         }
 
@@ -319,24 +331,27 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> NotContainMatch(string wildcardPattern, string because = "",
             params object[] becauseArgs)
         {
-            Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match strings in collection against <null>. Provide a wildcard pattern or use the NotContain method.");
+            Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern),
+                "Cannot match strings in collection against <null>. Provide a wildcard pattern or use the NotContain method.");
 
             if (wildcardPattern.Length == 0)
             {
-                throw new ArgumentException("Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the NotContain method.", nameof(wildcardPattern));
+                throw new ArgumentException(
+                    "Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the NotContain method.",
+                    nameof(wildcardPattern));
             }
 
-            bool success = Execute.Assertion
-                .BecauseOf(because, becauseArgs)
+            bool success = Execute.Assertion.BecauseOf(because, becauseArgs)
                 .ForCondition(Subject is not null)
-                .FailWith("Did not expect {context:collection} to contain a match of {0}{reason}, but found <null>.", wildcardPattern);
+                .FailWith("Did not expect {context:collection} to contain a match of {0}{reason}, but found <null>.",
+                    wildcardPattern);
 
             if (success)
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
+                Execute.Assertion.BecauseOf(because, becauseArgs)
                     .ForCondition(NotContainsMatch(wildcardPattern))
-                    .FailWith("Did not expect {context:collection} {0} to contain a match of {1}{reason}.", Subject, wildcardPattern);
+                    .FailWith("Did not expect {context:collection} {0} to contain a match of {1}{reason}.", Subject,
+                        wildcardPattern);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -345,10 +360,14 @@ namespace FluentAssertions.Collections
         private bool NotContainsMatch(string wildcardPattern)
         {
             using var scope = new AssertionScope();
+
             return Subject.All(item =>
             {
-                item.Should().NotMatch(wildcardPattern);
-                return !scope.Discard().Any();
+                item.Should()
+                    .NotMatch(wildcardPattern);
+
+                return !scope.Discard()
+                    .Any();
             });
         }
     }

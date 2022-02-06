@@ -19,12 +19,14 @@ namespace FluentAssertions
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public static async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<T>, T>> WithResult<T>(
-            this Task<AndWhichConstraint<GenericAsyncFunctionAssertions<T>, T>> task,
-            T expected, string because = "", params object[] becauseArgs)
+            this Task<AndWhichConstraint<GenericAsyncFunctionAssertions<T>, T>> task, T expected, string because = "",
+            params object[] becauseArgs)
         {
-            var andWhichConstraint = await task;
-            var subject = andWhichConstraint.Subject;
-            subject.Should().Be(expected, because, becauseArgs);
+            AndWhichConstraint<GenericAsyncFunctionAssertions<T>, T> andWhichConstraint = await task;
+            T subject = andWhichConstraint.Subject;
+
+            subject.Should()
+                .Be(expected, because, becauseArgs);
 
             return andWhichConstraint;
         }
@@ -42,12 +44,14 @@ namespace FluentAssertions
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public static async Task<AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>> WithResult<T>(
-            this Task<AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>> task,
-            T expected, string because = "", params object[] becauseArgs)
+            this Task<AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>> task, T expected, string because = "",
+            params object[] becauseArgs)
         {
-            var andWhichConstraint = await task;
-            var subject = andWhichConstraint.Subject;
-            subject.Should().Be(expected, because, becauseArgs);
+            AndWhichConstraint<TaskCompletionSourceAssertions<T>, T> andWhichConstraint = await task;
+            T subject = andWhichConstraint.Subject;
+
+            subject.Should()
+                .Be(expected, because, becauseArgs);
 
             return andWhichConstraint;
         }

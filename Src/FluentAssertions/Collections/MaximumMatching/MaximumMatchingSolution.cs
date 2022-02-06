@@ -13,8 +13,7 @@ namespace FluentAssertions.Collections.MaximumMatching
         private readonly Dictionary<Predicate<TValue>, Element<TValue>> elementsByMatchedPredicate;
         private readonly MaximumMatchingProblem<TValue> problem;
 
-        public MaximumMatchingSolution(
-            MaximumMatchingProblem<TValue> problem,
+        public MaximumMatchingSolution(MaximumMatchingProblem<TValue> problem,
             Dictionary<Predicate<TValue>, Element<TValue>> elementsByMatchedPredicate)
         {
             this.problem = problem;
@@ -27,12 +26,14 @@ namespace FluentAssertions.Collections.MaximumMatching
 
         public List<Predicate<TValue>> GetUnmatchedPredicates()
         {
-            return problem.Predicates.Except(elementsByMatchedPredicate.Keys).ToList();
+            return problem.Predicates.Except(elementsByMatchedPredicate.Keys)
+                .ToList();
         }
 
         public List<Element<TValue>> GetUnmatchedElements()
         {
-            return problem.Elements.Except(elementsByMatchedPredicate.Values).ToList();
+            return problem.Elements.Except(elementsByMatchedPredicate.Values)
+                .ToList();
         }
     }
 }

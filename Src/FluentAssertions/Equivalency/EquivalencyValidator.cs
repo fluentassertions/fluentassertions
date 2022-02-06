@@ -28,7 +28,7 @@ namespace FluentAssertions.Equivalency
 
         public void RecursivelyAssertEquality(Comparands comparands, IEquivalencyValidationContext context)
         {
-            var scope = AssertionScope.Current;
+            AssertionScope scope = AssertionScope.Current;
 
             if (ShouldCompareMembersThisDeep(context.CurrentNode, context.Options, scope))
             {
@@ -45,6 +45,7 @@ namespace FluentAssertions.Equivalency
             AssertionScope assertionScope)
         {
             bool shouldRecurse = options.AllowInfiniteRecursion || currentNode.Depth < MaxDepth;
+
             if (!shouldRecurse)
             {
                 assertionScope.FailWith("The maximum recursion depth was reached.  ");
@@ -64,7 +65,7 @@ namespace FluentAssertions.Equivalency
         {
             foreach (IEquivalencyStep step in AssertionOptions.EquivalencyPlan)
             {
-                var result = step.Handle(comparands, context, this);
+                EquivalencyResult result = step.Handle(comparands, context, this);
                 context.Tracer.WriteLine(_ => $"Step {step.GetType().Name} returned {result}");
 
                 if (result == EquivalencyResult.AssertionCompleted)

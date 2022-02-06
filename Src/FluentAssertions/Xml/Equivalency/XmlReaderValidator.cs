@@ -59,14 +59,15 @@ namespace FluentAssertions.Xml.Equivalency
             {
                 if (subjectIterator.NodeType != expectationIterator.NodeType)
                 {
-                    var expectation = expectationIterator.NodeType == XmlNodeType.Text
+                    string expectation = expectationIterator.NodeType == XmlNodeType.Text
                         ? $"content \"{expectationIterator.Value}\""
                         : $"{expectationIterator.NodeType} \"{expectationIterator.LocalName}\"";
-                    var subject = subjectIterator.NodeType == XmlNodeType.Text
+
+                    string subject = subjectIterator.NodeType == XmlNodeType.Text
                         ? $"content \"{subjectIterator.Value}\""
                         : $"{subjectIterator.NodeType} \"{subjectIterator.LocalName}\"";
-                    return new Failure(
-                        $"Expected {expectation} in {{context:subject}} at {{0}}{{reason}}, but found {subject}.",
+
+                    return new Failure($"Expected {expectation} in {{context:subject}} at {{0}}{{reason}}, but found {subject}.",
                         currentNode.GetXPath());
                 }
 
@@ -78,6 +79,7 @@ namespace FluentAssertions.Xml.Equivalency
                 {
                     case XmlNodeType.Element:
                         failure = ValidateStartElement();
+
                         if (failure is not null)
                         {
                             return failure;
@@ -136,15 +138,13 @@ namespace FluentAssertions.Xml.Equivalency
 
             if (!expectationIterator.IsEndOfDocument)
             {
-                return new Failure(
-                    "Expected {0} in {context:subject}{reason}, but found end of document.",
+                return new Failure("Expected {0} in {context:subject}{reason}, but found end of document.",
                     expectationIterator.LocalName);
             }
 
             if (!subjectIterator.IsEndOfDocument)
             {
-                return new Failure(
-                    "Expected end of document in {context:subject}{reason}, but found {0}.",
+                return new Failure("Expected end of document in {context:subject}{reason}, but found {0}.",
                     subjectIterator.LocalName);
             }
 
@@ -158,14 +158,12 @@ namespace FluentAssertions.Xml.Equivalency
 
             foreach (AttributeData subjectAttribute in subjectAttributes)
             {
-                AttributeData expectedAttribute = expectedAttributes.SingleOrDefault(
-                    ea => ea.NamespaceUri == subjectAttribute.NamespaceUri
-                          && ea.LocalName == subjectAttribute.LocalName);
+                AttributeData expectedAttribute = expectedAttributes.SingleOrDefault(ea =>
+                    ea.NamespaceUri == subjectAttribute.NamespaceUri && ea.LocalName == subjectAttribute.LocalName);
 
                 if (expectedAttribute is null)
                 {
-                    return new Failure(
-                        "Did not expect to find attribute {0} in {context:subject} at {1}{reason}.",
+                    return new Failure("Did not expect to find attribute {0} in {context:subject} at {1}{reason}.",
                         subjectAttribute.QualifiedName, currentNode.GetXPath());
                 }
 
@@ -180,12 +178,9 @@ namespace FluentAssertions.Xml.Equivalency
             if (subjectAttributes.Count != expectedAttributes.Count)
             {
                 AttributeData missingAttribute = expectedAttributes.First(ea =>
-                    !subjectAttributes.Any(sa =>
-                        ea.NamespaceUri == sa.NamespaceUri
-                        && sa.LocalName == ea.LocalName));
+                    !subjectAttributes.Any(sa => ea.NamespaceUri == sa.NamespaceUri && sa.LocalName == ea.LocalName));
 
-                return new Failure(
-                    "Expected attribute {0} in {context:subject} at {1}{reason}, but found none.",
+                return new Failure("Expected attribute {0} in {context:subject} at {1}{reason}, but found none.",
                     missingAttribute.LocalName, currentNode.GetXPath());
             }
 
@@ -196,8 +191,7 @@ namespace FluentAssertions.Xml.Equivalency
         {
             if (subjectIterator.LocalName != expectationIterator.LocalName)
             {
-                return new Failure(
-                    "Expected local name of element in {context:subject} at {0} to be {1}{reason}, but found {2}.",
+                return new Failure("Expected local name of element in {context:subject} at {0} to be {1}{reason}, but found {2}.",
                     currentNode.GetXPath(), expectationIterator.LocalName, subjectIterator.LocalName);
             }
 
@@ -219,9 +213,8 @@ namespace FluentAssertions.Xml.Equivalency
 
             if (subject != expected)
             {
-                return new Failure(
-                    "Expected content to be {0} in {context:subject} at {1}{reason}, but found {2}.",
-                    expected, currentNode.GetXPath(), subject);
+                return new Failure("Expected content to be {0} in {context:subject} at {1}{reason}, but found {2}.", expected,
+                    currentNode.GetXPath(), subject);
             }
 
             return null;
@@ -229,11 +222,10 @@ namespace FluentAssertions.Xml.Equivalency
 
         private Failure ValidateAgainstNulls()
         {
-            if ((expectationReader is null) != (subjectReader is null))
+            if (expectationReader is null != subjectReader is null)
             {
-                return new Failure(
-                    "Expected {context:subject} to be equivalent to {0}{reason}, but found {1}.",
-                    subjectReader, expectationReader);
+                return new Failure("Expected {context:subject} to be equivalent to {0}{reason}, but found {1}.", subjectReader,
+                    expectationReader);
             }
 
             return null;

@@ -14,11 +14,11 @@ namespace FluentAssertions.Equivalency.Selection
         public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
             MemberSelectionContext context)
         {
-            IEnumerable<IMember> selectedNonPrivateFields = context.Type
-                .GetNonPrivateFields(context.IncludedFields)
+            IEnumerable<IMember> selectedNonPrivateFields = context.Type.GetNonPrivateFields(context.IncludedFields)
                 .Select(info => new Field(info, currentNode));
 
-            return selectedMembers.Union(selectedNonPrivateFields).ToList();
+            return selectedMembers.Union(selectedNonPrivateFields)
+                .ToList();
         }
 
         /// <summary>

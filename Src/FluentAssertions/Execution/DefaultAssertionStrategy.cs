@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Execution
@@ -9,13 +8,7 @@ namespace FluentAssertions.Execution
         /// <summary>
         /// Returns the messages for the assertion failures that happened until now.
         /// </summary>
-        public IEnumerable<string> FailureMessages
-        {
-            get
-            {
-                return new string[0];
-            }
-        }
+        public IEnumerable<string> FailureMessages => new string[0];
 
         /// <summary>
         /// Instructs the strategy to handle a assertion failure.

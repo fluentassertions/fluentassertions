@@ -41,12 +41,10 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> Be(TSubject expected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
+            Execute.Assertion.BecauseOf(because, becauseArgs)
                 .ForCondition(ObjectExtensions.GetComparer<TSubject>()(Subject, expected))
                 .WithDefaultIdentifier(Identifier)
-                .FailWith("Expected {context} to be {0}{reason}, but found {1}.", expected,
-                    Subject);
+                .FailWith("Expected {context} to be {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -64,8 +62,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> NotBe(TSubject unexpected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(!ObjectExtensions.GetComparer<TSubject>()(Subject, unexpected))
+            Execute.Assertion.ForCondition(!ObjectExtensions.GetComparer<TSubject>()(Subject, unexpected))
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
                 .FailWith("Did not expect {context} to be equal to {0}{reason}.", unexpected);
@@ -121,25 +118,25 @@ namespace FluentAssertions.Primitives
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
         public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
-            Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
-            params object[] becauseArgs)
+            Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config,
+            string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(config, nameof(config));
 
             EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
 
-            var context = new EquivalencyValidationContext(Node.From<TExpectation>(() =>
-                AssertionScope.Current.CallerIdentity), options)
-            {
-                Reason = new Reason(because, becauseArgs),
-                TraceWriter = options.TraceWriter
-            };
+            var context =
+                new EquivalencyValidationContext(Node.From<TExpectation>(() => AssertionScope.Current.CallerIdentity), options)
+                {
+                    Reason = new Reason(because, becauseArgs),
+                    TraceWriter = options.TraceWriter
+                };
 
             var comparands = new Comparands
             {
                 Subject = Subject,
                 Expectation = expectation,
-                CompileTimeType = typeof(TExpectation),
+                CompileTimeType = typeof(TExpectation)
             };
 
             new EquivalencyValidator().AssertEquality(comparands, context);
@@ -165,9 +162,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(
-            TExpectation unexpected,
-            string because = "",
+        public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(TExpectation unexpected, string because = "",
             params object[] becauseArgs)
         {
             return NotBeEquivalentTo(unexpected, config => config, because, becauseArgs);
@@ -196,23 +191,24 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(
-            TExpectation unexpected,
+        public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(TExpectation unexpected,
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config,
-            string because = "",
-            params object[] becauseArgs)
+            string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(config, nameof(config));
 
             bool hasMismatches;
+
             using (var scope = new AssertionScope())
             {
-                Subject.Should().BeEquivalentTo(unexpected, config);
-                hasMismatches = scope.Discard().Length > 0;
+                Subject.Should()
+                    .BeEquivalentTo(unexpected, config);
+
+                hasMismatches = scope.Discard()
+                    .Length > 0;
             }
 
-            Execute.Assertion
-                .ForCondition(hasMismatches)
+            Execute.Assertion.ForCondition(hasMismatches)
                 .BecauseOf(because, becauseArgs)
                 .WithDefaultIdentifier(Identifier)
                 .FailWith("Expected {context} not to be equivalent to {0}{reason}, but they are.", unexpected);

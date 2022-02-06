@@ -10,21 +10,25 @@ namespace FluentAssertions.Equivalency.Steps
 {
     public class EnumEqualityStep : IEquivalencyStep
     {
-        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+            IEquivalencyValidator nestedValidator)
         {
-            if (!comparands.GetExpectedType(context.Options).IsEnum)
+            if (!comparands.GetExpectedType(context.Options)
+                .IsEnum)
             {
                 return EquivalencyResult.ContinueWithNext;
             }
 
-            bool succeeded = Execute.Assertion
-                .ForCondition(comparands.Subject?.GetType().IsEnum == true)
+            bool succeeded = Execute.Assertion.ForCondition(comparands.Subject?.GetType()
+                    .IsEnum == true)
                 .FailWith(() =>
                 {
                     decimal? expectationsUnderlyingValue = ExtractDecimal(comparands.Expectation);
                     string expectationName = GetDisplayNameForEnumComparison(comparands.Expectation, expectationsUnderlyingValue);
 
-                    return new FailReason($"Expected {{context:enum}} to be equivalent to {expectationName}{{reason}}, but found {{0}}.", comparands.Subject);
+                    return new FailReason(
+                        $"Expected {{context:enum}} to be equivalent to {expectationName}{{reason}}, but found {{0}}.",
+                        comparands.Subject);
                 });
 
             if (succeeded)
@@ -40,7 +44,8 @@ namespace FluentAssertions.Equivalency.Steps
                         break;
 
                     default:
-                        throw new InvalidOperationException($"Do not know how to handle {context.Options.EnumEquivalencyHandling}");
+                        throw new InvalidOperationException(
+                            $"Do not know how to handle {context.Options.EnumEquivalencyHandling}");
                 }
             }
 
@@ -52,14 +57,14 @@ namespace FluentAssertions.Equivalency.Steps
             decimal? subjectsUnderlyingValue = ExtractDecimal(comparands.Subject);
             decimal? expectationsUnderlyingValue = ExtractDecimal(comparands.Expectation);
 
-            Execute.Assertion
-                .ForCondition(subjectsUnderlyingValue == expectationsUnderlyingValue)
+            Execute.Assertion.ForCondition(subjectsUnderlyingValue == expectationsUnderlyingValue)
                 .FailWith(() =>
                 {
                     string subjectsName = GetDisplayNameForEnumComparison(comparands.Subject, subjectsUnderlyingValue);
                     string expectationName = GetDisplayNameForEnumComparison(comparands.Expectation, expectationsUnderlyingValue);
 
-                    return new FailReason($"Expected {{context:enum}} to equal {expectationName} by value{{reason}}, but found {subjectsName}.");
+                    return new FailReason(
+                        $"Expected {{context:enum}} to equal {expectationName} by value{{reason}}, but found {subjectsName}.");
                 });
         }
 
@@ -68,8 +73,7 @@ namespace FluentAssertions.Equivalency.Steps
             string subject = comparands.Subject.ToString();
             string expected = comparands.Expectation.ToString();
 
-            Execute.Assertion
-                .ForCondition(subject == expected)
+            Execute.Assertion.ForCondition(subject == expected)
                 .FailWith(() =>
                 {
                     decimal? subjectsUnderlyingValue = ExtractDecimal(comparands.Subject);
@@ -77,8 +81,9 @@ namespace FluentAssertions.Equivalency.Steps
 
                     string subjectsName = GetDisplayNameForEnumComparison(comparands.Subject, subjectsUnderlyingValue);
                     string expectationName = GetDisplayNameForEnumComparison(comparands.Expectation, expectationsUnderlyingValue);
+
                     return new FailReason(
-                            $"Expected {{context:enum}} to equal {expectationName} by name{{reason}}, but found {subjectsName}.");
+                        $"Expected {{context:enum}} to equal {expectationName} by name{{reason}}, but found {subjectsName}.");
                 });
         }
 
@@ -89,8 +94,12 @@ namespace FluentAssertions.Equivalency.Steps
                 return "<null>";
             }
 
-            string typePart = o.GetType().Name;
-            string namePart = o.ToString().Replace(", ", "|", StringComparison.Ordinal);
+            string typePart = o.GetType()
+                .Name;
+
+            string namePart = o.ToString()
+                .Replace(", ", "|", StringComparison.Ordinal);
+
             string valuePart = v.Value.ToString(CultureInfo.InvariantCulture);
             return $"{typePart}.{namePart} {{{{value: {valuePart}}}}}";
         }

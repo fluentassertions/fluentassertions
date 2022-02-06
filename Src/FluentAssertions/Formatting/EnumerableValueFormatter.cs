@@ -33,6 +33,7 @@ namespace FluentAssertions.Formatting
             IEnumerable<object> collection = ((IEnumerable)value).Cast<object>();
 
             using var iterator = new Iterator<object>(collection, MaxItems);
+
             while (iterator.MoveNext())
             {
                 if (iterator.IsFirst)
@@ -69,7 +70,7 @@ namespace FluentAssertions.Formatting
 
         private static void AddLineOrFragment(FormattedObjectGraph formattedGraph, int startCount, string fragment)
         {
-            if (formattedGraph.LineCount > (startCount + 1))
+            if (formattedGraph.LineCount > startCount + 1)
             {
                 formattedGraph.AddLine(fragment);
             }

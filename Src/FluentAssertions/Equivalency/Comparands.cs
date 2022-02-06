@@ -32,10 +32,7 @@ namespace FluentAssertions.Equivalency
 
         public Type CompileTimeType
         {
-            get
-            {
-                return ((compileTimeType != typeof(object)) || Expectation is null) ? compileTimeType : RuntimeType;
-            }
+            get => compileTimeType != typeof(object) || Expectation is null ? compileTimeType : RuntimeType;
 
             // SMELL: Do we really need this? Can we replace it by making Comparands generic or take a constructor parameter?
             set => compileTimeType = value;

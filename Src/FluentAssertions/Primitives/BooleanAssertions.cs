@@ -8,8 +8,7 @@ namespace FluentAssertions.Primitives
     /// Contains a number of methods to assert that a <see cref="bool"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class BooleanAssertions
-        : BooleanAssertions<BooleanAssertions>
+    public class BooleanAssertions : BooleanAssertions<BooleanAssertions>
     {
         public BooleanAssertions(bool? value)
             : base(value)
@@ -48,8 +47,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> BeFalse(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject == false)
+            Execute.Assertion.ForCondition(Subject == false)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:boolean} to be false{reason}, but found {0}.", Subject);
 
@@ -68,8 +66,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> BeTrue(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject == true)
+            Execute.Assertion.ForCondition(Subject == true)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:boolean} to be true{reason}, but found {0}.", Subject);
 
@@ -89,8 +86,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> Be(bool expected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject == expected)
+            Execute.Assertion.ForCondition(Subject == expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:boolean} to be {0}{reason}, but found {1}.", expected, Subject);
 
@@ -110,8 +106,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> NotBe(bool unexpected, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject != unexpected)
+            Execute.Assertion.ForCondition(Subject != unexpected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:boolean} not to be {0}{reason}, but found {1}.", unexpected, Subject);
 
@@ -119,7 +114,9 @@ namespace FluentAssertions.Primitives
         }
 
         /// <inheritdoc/>
-        public override bool Equals(object obj) =>
+        public override bool Equals(object obj)
+        {
             throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
+        }
     }
 }

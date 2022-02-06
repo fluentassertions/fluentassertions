@@ -25,15 +25,10 @@ namespace FluentAssertions.Equivalency
 
         public virtual string Description => $"{GetSubjectId().Combine(PathAndName)}";
 
-        public bool IsRoot
-        {
-            get
-            {
-                // If the root is a collection, we need treat the objects in that collection as the root of the graph because all options
-                // refer to the type of the collection items.
-                return PathAndName.Length == 0 || (RootIsCollection && IsFirstIndex);
-            }
-        }
+        public bool IsRoot =>
+            // If the root is a collection, we need treat the objects in that collection as the root of the graph because all options
+            // refer to the type of the collection items.
+            PathAndName.Length == 0 || (RootIsCollection && IsFirstIndex);
 
         private bool IsFirstIndex => MatchFirstIndex.IsMatch(PathAndName);
 
@@ -101,7 +96,7 @@ namespace FluentAssertions.Equivalency
                 return true;
             }
 
-            if (obj.GetType() != this.GetType())
+            if (obj.GetType() != GetType())
             {
                 return false;
             }
@@ -109,7 +104,10 @@ namespace FluentAssertions.Equivalency
             return Equals((Node)obj);
         }
 
-        private bool Equals(Node other) => Type == other.Type && PathAndName == other.PathAndName;
+        private bool Equals(Node other)
+        {
+            return Type == other.Type && PathAndName == other.PathAndName;
+        }
 
         public override int GetHashCode()
         {
@@ -120,6 +118,9 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        public override string ToString() => Description;
+        public override string ToString()
+        {
+            return Description;
+        }
     }
 }

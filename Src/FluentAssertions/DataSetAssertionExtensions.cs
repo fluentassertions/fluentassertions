@@ -1,8 +1,6 @@
 ﻿using System.Data;
 using System.Diagnostics;
-
 using FluentAssertions.Data;
-
 using JetBrains.Annotations;
 
 namespace FluentAssertions

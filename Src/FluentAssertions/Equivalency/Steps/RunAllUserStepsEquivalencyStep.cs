@@ -6,7 +6,8 @@
     /// </summary>
     public class RunAllUserStepsEquivalencyStep : IEquivalencyStep
     {
-        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+            IEquivalencyValidator nestedValidator)
         {
             foreach (IEquivalencyStep step in context.Options.UserEquivalencySteps)
             {

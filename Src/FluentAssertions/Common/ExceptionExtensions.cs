@@ -9,6 +9,7 @@ namespace FluentAssertions.Common
         public static ExceptionDispatchInfo Unwrap(this TargetInvocationException exception)
         {
             Exception result = exception;
+
             while (result is TargetInvocationException)
             {
                 result = result.InnerException;

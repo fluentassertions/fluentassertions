@@ -13,8 +13,7 @@ namespace FluentAssertions.Equivalency.Steps
         private readonly Action<IAssertionContext<TSubject>> assertion;
         private readonly AutoConversionStep converter = new();
 
-        public AssertionRuleEquivalencyStep(
-            Expression<Func<IObjectInfo, bool>> predicate,
+        public AssertionRuleEquivalencyStep(Expression<Func<IObjectInfo, bool>> predicate,
             Action<IAssertionContext<TSubject>> assertion)
         {
             this.predicate = predicate.Compile();
@@ -22,9 +21,11 @@ namespace FluentAssertions.Equivalency.Steps
             description = predicate.ToString();
         }
 
-        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+            IEquivalencyValidator nestedValidator)
         {
             bool success = false;
+
             using (var scope = new AssertionScope())
             {
                 // Try without conversion
@@ -34,6 +35,7 @@ namespace FluentAssertions.Equivalency.Steps
                 }
 
                 bool converted = false;
+
                 if (!success && context.Options.ConversionSelector.RequiresConversion(comparands, context.CurrentNode))
                 {
                     // Convert into a child context
@@ -46,6 +48,7 @@ namespace FluentAssertions.Equivalency.Steps
                 {
                     // Try again after conversion
                     success = ExecuteAssertion(comparands, context);
+
                     if (success)
                     {
                         // If the assertion succeeded after conversion, discard the failures from
@@ -58,25 +61,28 @@ namespace FluentAssertions.Equivalency.Steps
             return success ? EquivalencyResult.AssertionCompleted : EquivalencyResult.ContinueWithNext;
         }
 
-        private bool AppliesTo(Comparands comparands, INode currentNode) => predicate(new ObjectInfo(comparands, currentNode));
+        private bool AppliesTo(Comparands comparands, INode currentNode)
+        {
+            return predicate(new ObjectInfo(comparands, currentNode));
+        }
 
         private bool ExecuteAssertion(Comparands comparands, IEquivalencyValidationContext context)
         {
             bool subjectIsNull = comparands.Subject is null;
 
-            bool subjectIsValidType =
-                AssertionScope.Current
-                    .ForCondition(subjectIsNull || comparands.Subject.GetType().IsSameOrInherits(typeof(TSubject)))
-                    .FailWith("Expected " + context.CurrentNode.Description + " from subject to be a {0}{reason}, but found a {1}.",
-                        typeof(TSubject), comparands.Subject?.GetType());
+            bool subjectIsValidType = AssertionScope.Current.ForCondition(subjectIsNull || comparands.Subject.GetType()
+                    .IsSameOrInherits(typeof(TSubject)))
+                .FailWith("Expected " + context.CurrentNode.Description + " from subject to be a {0}{reason}, but found a {1}.",
+                    typeof(TSubject), comparands.Subject?.GetType());
 
             bool expectationIsNull = comparands.Expectation is null;
 
-            bool expectationIsValidType =
-                AssertionScope.Current
-                    .ForCondition(expectationIsNull || comparands.Expectation.GetType().IsSameOrInherits(typeof(TSubject)))
-                    .FailWith("Expected " + context.CurrentNode.Description + " from expectation to be a {0}{reason}, but found a {1}.",
-                        typeof(TSubject), comparands.Expectation?.GetType());
+            bool expectationIsValidType = AssertionScope.Current.ForCondition(expectationIsNull || comparands.Expectation
+                    .GetType()
+                    .IsSameOrInherits(typeof(TSubject)))
+                .FailWith(
+                    "Expected " + context.CurrentNode.Description + " from expectation to be a {0}{reason}, but found a {1}.",
+                    typeof(TSubject), comparands.Expectation?.GetType());
 
             if (subjectIsValidType && expectationIsValidType)
             {
@@ -92,7 +98,10 @@ namespace FluentAssertions.Equivalency.Steps
             return false;
         }
 
-        private static bool CanBeNull<T>() => !typeof(T).IsValueType || Nullable.GetUnderlyingType(typeof(T)) is not null;
+        private static bool CanBeNull<T>()
+        {
+            return !typeof(T).IsValueType || Nullable.GetUnderlyingType(typeof(T)) is not null;
+        }
 
         /// <summary>
         /// Returns a string that represents the current object.

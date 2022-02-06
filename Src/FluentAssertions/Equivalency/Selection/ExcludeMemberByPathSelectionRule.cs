@@ -19,8 +19,7 @@ namespace FluentAssertions.Equivalency.Selection
         protected override void AddOrRemoveMembersFrom(List<IMember> selectedMembers, INode parent, string parentPath,
             MemberSelectionContext context)
         {
-            selectedMembers.RemoveAll(member =>
-                memberToExclude.IsSameAs(new MemberPath(member, parentPath)));
+            selectedMembers.RemoveAll(member => memberToExclude.IsSameAs(new MemberPath(member, parentPath)));
         }
 
         public override string ToString()

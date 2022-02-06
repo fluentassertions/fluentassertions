@@ -27,6 +27,7 @@ namespace FluentAssertions.CallerIdentification
                 else
                 {
                     isQuoteContext = true;
+
                     if (IsVerbatim(statement))
                     {
                         isQuoteEscapeSymbol = '"';
@@ -54,18 +55,13 @@ namespace FluentAssertions.CallerIdentification
 
         private bool IsVerbatim(StringBuilder statement)
         {
-            return
-                statement.Length >= 1
-                &&
-                    new[]
-                    {
-                        "$@",
-                        "@$",
-                    }
-                    .Any(verbatimStringOpener =>
-                        previousChar == verbatimStringOpener[1]
-                        && statement[statement.Length - 1] == verbatimStringOpener[1]
-                        && statement[statement.Length - 2] == verbatimStringOpener[0]);
+            return statement.Length >= 1 && new[]
+            {
+                "$@",
+                "@$"
+            }.Any(verbatimStringOpener => previousChar == verbatimStringOpener[index: 1] &&
+                statement[statement.Length - 1] == verbatimStringOpener[index: 1] &&
+                statement[statement.Length - 2] == verbatimStringOpener[index: 0]);
         }
     }
 }

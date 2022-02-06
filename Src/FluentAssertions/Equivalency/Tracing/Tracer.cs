@@ -43,10 +43,15 @@ namespace FluentAssertions.Equivalency.Tracing
             }
             else
             {
-                return new Disposable(() => { });
+                return new Disposable(() =>
+                {
+                });
             }
         }
 
-        public override string ToString() => (traceWriter is not null) ? traceWriter.ToString() : string.Empty;
+        public override string ToString()
+        {
+            return traceWriter is not null ? traceWriter.ToString() : string.Empty;
+        }
     }
 }

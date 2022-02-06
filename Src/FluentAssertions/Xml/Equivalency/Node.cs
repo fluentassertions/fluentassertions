@@ -11,7 +11,10 @@ namespace FluentAssertions.Xml.Equivalency
         private readonly string name;
         private int count;
 
-        public static Node CreateRoot() => new Node(null, null);
+        public static Node CreateRoot()
+        {
+            return new(parent: null, name: null);
+        }
 
         private Node(Node parent, string name)
         {
@@ -23,7 +26,8 @@ namespace FluentAssertions.Xml.Equivalency
         {
             var resultBuilder = new StringBuilder();
 
-            foreach (Node location in GetPath().Reverse())
+            foreach (Node location in GetPath()
+                .Reverse())
             {
                 if (location.count > 1)
                 {
@@ -46,6 +50,7 @@ namespace FluentAssertions.Xml.Equivalency
         private IEnumerable<Node> GetPath()
         {
             Node current = this;
+
             while (current.Parent is not null)
             {
                 yield return current;
@@ -57,8 +62,7 @@ namespace FluentAssertions.Xml.Equivalency
 
         public Node Push(string localName)
         {
-            Node node = children.Find(e => e.name == localName)
-                        ?? AddChildNode(localName);
+            Node node = children.Find(e => e.name == localName) ?? AddChildNode(localName);
 
             node.count++;
 

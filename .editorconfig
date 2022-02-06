@@ -1,267 +1,222 @@
+root = true
 # EditorConfig is awesome: http://EditorConfig.org
 
 # top-most EditorConfig file
-root = true
 
-# Global settings
 [*]
+charset = utf-8-bom
 end_of_line = crlf
-insert_final_newline = true
-trim_trailing_whitespace = true
-
-# Xml project files
-[*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
-indent_style = space
-indent_size = 2
-
-# Xml config files
-[*.{props,targets,ruleset,config,nuspec,resx,vsixmanifest,vsct}]
-indent_style = space
-indent_size = 2
-
-[*.{md,json}]
+trim_trailing_whitespace = false
+insert_final_newline = false
 indent_style = space
 indent_size = 4
 
-[*.cs]
-indent_style = space
-indent_size = 4
-max_line_length = 130
-
-# New line preferences
-csharp_new_line_before_open_brace = all
-csharp_new_line_before_else = true
-csharp_new_line_before_catch = true
-csharp_new_line_before_finally = true
-csharp_new_line_before_members_in_object_initializers = true
-csharp_new_line_before_members_in_anonymous_types = true
-csharp_new_line_between_query_expression_clauses = true
-
-# Indentation preferences
-csharp_indent_block_contents = true
-csharp_indent_braces = false
-csharp_indent_case_contents = true
-csharp_indent_switch_labels = true
-csharp_indent_labels = one_less_than_current
-
-# avoid this. unless absolutely necessary
-dotnet_style_qualification_for_field = false:suggestion
-dotnet_style_qualification_for_property = false:suggestion
-dotnet_style_qualification_for_method = false:suggestion
+# Microsoft .NET properties
+csharp_preferred_modifier_order = public, private, protected, internal, new, static, abstract, virtual, sealed, readonly, override, extern, unsafe, volatile, async:suggestion
+csharp_style_namespace_declarations = file_scoped:warning
+csharp_style_var_elsewhere = false:none
+csharp_style_var_for_built_in_types = false:suggestion
+dotnet_naming_rule.unity_serialized_field_rule.import_to_resharper = True
+dotnet_naming_rule.unity_serialized_field_rule.resharper_description = Unity serialized field
+dotnet_naming_rule.unity_serialized_field_rule.resharper_guid = 5f0fdb63-c892-4d2c-9324-15c80b22a7ef
+dotnet_naming_rule.unity_serialized_field_rule.severity = warning
+dotnet_naming_rule.unity_serialized_field_rule.style = lower_camel_case_style
+dotnet_naming_rule.unity_serialized_field_rule.symbols = unity_serialized_field_symbols
+dotnet_naming_rule.unity_serialized_field_rule_1.import_to_resharper = True
+dotnet_naming_rule.unity_serialized_field_rule_1.resharper_description = Unity serialized field
+dotnet_naming_rule.unity_serialized_field_rule_1.resharper_guid = 5f0fdb63-c892-4d2c-9324-15c80b22a7ef
+dotnet_naming_rule.unity_serialized_field_rule_1.severity = warning
+dotnet_naming_rule.unity_serialized_field_rule_1.style = lower_camel_case_style
+dotnet_naming_rule.unity_serialized_field_rule_1.symbols = unity_serialized_field_symbols_1
+dotnet_naming_style.lower_camel_case_style.capitalization = camel_case
+dotnet_naming_symbols.unity_serialized_field_symbols.applicable_accessibilities = *
+dotnet_naming_symbols.unity_serialized_field_symbols.applicable_kinds = 
+dotnet_naming_symbols.unity_serialized_field_symbols.resharper_applicable_kinds = unity_serialised_field
+dotnet_naming_symbols.unity_serialized_field_symbols.resharper_required_modifiers = instance
+dotnet_naming_symbols.unity_serialized_field_symbols_1.applicable_accessibilities = *
+dotnet_naming_symbols.unity_serialized_field_symbols_1.applicable_kinds = 
+dotnet_naming_symbols.unity_serialized_field_symbols_1.resharper_applicable_kinds = unity_serialised_field
+dotnet_naming_symbols.unity_serialized_field_symbols_1.resharper_required_modifiers = instance
+dotnet_style_parentheses_in_arithmetic_binary_operators = never_if_unnecessary:suggestion
+dotnet_style_parentheses_in_other_binary_operators = always_for_clarity:suggestion
+dotnet_style_parentheses_in_relational_binary_operators = never_if_unnecessary:suggestion
+dotnet_style_predefined_type_for_locals_parameters_members = true:suggestion
+dotnet_style_predefined_type_for_member_access = true:suggestion
 dotnet_style_qualification_for_event = false:suggestion
+dotnet_style_qualification_for_field = false:suggestion
+dotnet_style_qualification_for_method = false:suggestion
+dotnet_style_qualification_for_property = false:suggestion
+dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggestion
 
-# only use var when it's obvious what the variable type is
-csharp_style_var_for_built_in_types = false:none
-csharp_style_var_when_type_is_apparent = false:none
-csharp_style_var_elsewhere = false:suggestion
+# ReSharper properties
+resharper_align_multiline_binary_expressions_chain = false
+resharper_align_multiline_statement_conditions = false
+resharper_apply_auto_detected_rules = false
+resharper_autodetect_indent_settings = true
+resharper_blank_lines_after_multiline_statements = 1
+resharper_blank_lines_around_single_line_local_method = 1
+resharper_blank_lines_before_multiline_statements = 1
+resharper_braces_for_for = required
+resharper_braces_for_foreach = required
+resharper_braces_for_ifelse = required
+resharper_braces_for_while = required
+resharper_cpp_max_line_length = 130
+resharper_csharp_blank_lines_around_single_line_invocable = 1
+resharper_csharp_insert_final_newline = true
+resharper_csharp_keep_blank_lines_in_code = 1
+resharper_csharp_keep_blank_lines_in_declarations = 1
+resharper_csharp_max_line_length = 130
+resharper_csharp_place_type_constraints_on_same_line = false
+resharper_csharp_stick_comment = false
+resharper_csharp_wrap_before_first_type_parameter_constraint = true
+resharper_csharp_wrap_multiple_declaration_style = wrap_if_long
+resharper_csharp_wrap_multiple_type_parameter_constraints_style = chop_always
+resharper_fsharp_max_line_length = 130
+resharper_html_insert_final_newline = true
+resharper_html_max_line_length = 130
+resharper_indent_braces_inside_statement_conditions = false
+resharper_indent_nested_fixed_stmt = true
+resharper_indent_nested_foreach_stmt = true
+resharper_indent_nested_for_stmt = true
+resharper_indent_nested_lock_stmt = true
+resharper_indent_nested_usings_stmt = true
+resharper_indent_nested_while_stmt = true
+resharper_keep_existing_arrangement = false
+resharper_new_line_before_while = true
+resharper_place_attribute_on_same_line = false
+resharper_place_constructor_initializer_on_same_line = false
+resharper_place_simple_accessor_on_single_line = false
+resharper_place_simple_anonymousmethod_on_single_line = false
+resharper_place_simple_embedded_statement_on_same_line = false
+resharper_resx_max_line_length = 130
+resharper_shaderlab_max_line_length = 130
+resharper_show_autodetect_configure_formatting_tip = false
+resharper_T4_max_line_length = 130
+resharper_use_indent_from_vs = false
+resharper_vb_max_line_length = 130
+resharper_wrap_array_initializer_style = chop_always
+resharper_wrap_before_extends_colon = true
+resharper_wrap_before_linq_expression = true
+resharper_wrap_for_stmt_header_style = wrap_if_long
+resharper_wrap_object_and_collection_initializer_style = chop_always
+resharper_xmldoc_attribute_style = on_single_line
+resharper_xmldoc_blank_line_after_pi = false
+resharper_xmldoc_indent_child_elements = RemoveIndent
+resharper_xmldoc_indent_size = 2
+resharper_xmldoc_indent_text = RemoveIndent
+resharper_xmldoc_keep_user_linebreaks = false
+resharper_xmldoc_linebreaks_inside_tags_for_elements_longer_than = 8
+resharper_xmldoc_max_line_length = 150
+resharper_xmldoc_pi_attributes_indent = single_indent
+resharper_xmldoc_pi_attribute_style = on_single_line
+resharper_xmldoc_tab_width = 2
+resharper_xml_attribute_indent = single_indent
+resharper_xml_attribute_style = on_single_line
+resharper_xml_blank_line_after_pi = false
+resharper_xml_indent_size = 2
+resharper_xml_insert_final_newline = true
+resharper_xml_keep_user_linebreaks = false
+resharper_xml_linebreak_before_singleline_elements = true
+resharper_xml_max_blank_lines_between_tags = 1
+resharper_xml_max_line_length = 160
+resharper_xml_pi_attributes_indent = single_indent
+resharper_xml_pi_attribute_style = on_single_line
+resharper_xml_tab_width = 2
 
-# use language keywords instead of BCL types
-dotnet_style_predefined_type_for_locals_parameters_members = true:error
-dotnet_style_predefined_type_for_member_access = true:error
+# ReSharper inspection severities
+resharper_arguments_style_anonymous_function_highlighting = suggestion
+resharper_arguments_style_literal_highlighting = suggestion
+resharper_arguments_style_named_expression_highlighting = suggestion
+resharper_arguments_style_other_highlighting = suggestion
+resharper_arguments_style_string_literal_highlighting = suggestion
+resharper_arrange_attributes_highlighting = suggestion
+resharper_arrange_constructor_or_destructor_body_highlighting = suggestion
+resharper_arrange_local_function_body_highlighting = suggestion
+resharper_arrange_method_or_operator_body_highlighting = suggestion
+resharper_arrange_static_member_qualifier_highlighting = suggestion
+resharper_arrange_type_member_modifiers_highlighting = hint
+resharper_arrange_type_modifiers_highlighting = hint
+resharper_auto_property_can_be_made_get_only_local_highlighting = warning
+resharper_class_can_be_sealed_global_highlighting = warning
+resharper_class_can_be_sealed_local_highlighting = warning
+resharper_class_never_instantiated_global_highlighting = hint
+resharper_class_never_instantiated_local_highlighting = warning
+resharper_class_with_virtual_members_never_inherited_local_highlighting = warning
+resharper_compare_non_constrained_generic_with_null_highlighting = suggestion
+resharper_convert_closure_to_method_group_highlighting = none
+resharper_convert_nullable_to_short_form_highlighting = warning
+resharper_convert_to_constant_global_highlighting = suggestion
+resharper_convert_to_constant_local_highlighting = suggestion
+resharper_convert_to_local_function_highlighting = hint
+resharper_double_negation_operator_highlighting = warning
+resharper_enforce_do_while_statement_braces_highlighting = warning
+resharper_enforce_fixed_statement_braces_highlighting = warning
+resharper_enforce_foreach_statement_braces_highlighting = warning
+resharper_enforce_for_statement_braces_highlighting = warning
+resharper_enforce_if_statement_braces_highlighting = warning
+resharper_enforce_lock_statement_braces_highlighting = warning
+resharper_enforce_using_statement_braces_highlighting = warning
+resharper_enforce_while_statement_braces_highlighting = warning
+resharper_event_never_subscribed_to_local_highlighting = warning
+resharper_localizable_element_highlighting = none
+resharper_loop_can_be_partly_converted_to_query_highlighting = hint
+resharper_member_can_be_internal_highlighting = suggestion
+resharper_merge_into_logical_pattern_highlighting = warning
+resharper_merge_nested_property_patterns_highlighting = warning
+resharper_method_has_async_overload_highlighting = warning
+resharper_method_has_async_overload_with_cancellation_highlighting = warning
+resharper_pattern_always_matches_highlighting = suggestion
+resharper_public_constructor_in_abstract_class_highlighting = warning
+resharper_redundant_array_creation_expression_highlighting = suggestion
+resharper_redundant_attribute_parentheses_highlighting = suggestion
+resharper_redundant_base_qualifier_highlighting = warning
+resharper_redundant_collection_initializer_element_braces_highlighting = none
+resharper_redundant_declaration_semicolon_highlighting = suggestion
+resharper_redundant_empty_object_creation_argument_list_highlighting = suggestion
+resharper_redundant_if_else_block_highlighting = suggestion
+resharper_redundant_lambda_signature_parentheses_highlighting = suggestion
+resharper_redundant_overload_local_highlighting = warning
+resharper_redundant_query_order_by_ascending_keyword_highlighting = suggestion
+resharper_redundant_to_string_call_for_value_type_highlighting = suggestion
+resharper_remove_constructor_invocation_highlighting = suggestion
+resharper_simplify_string_interpolation_highlighting = warning
+resharper_specify_string_comparison_highlighting = warning
+resharper_string_ends_with_is_culture_specific_highlighting = warning
+resharper_string_starts_with_is_culture_specific_highlighting = warning
+resharper_suggest_discard_declaration_var_style_highlighting = warning
+resharper_suggest_var_or_type_built_in_types_highlighting = hint
+resharper_suggest_var_or_type_elsewhere_highlighting = hint
+resharper_suggest_var_or_type_simple_types_highlighting = hint
+resharper_tail_recursive_call_highlighting = suggestion
+resharper_try_cast_always_succeeds_highlighting = warning
+resharper_unnecessary_whitespace_highlighting = hint
+resharper_use_array_empty_method_highlighting = warning
+resharper_use_collection_count_property_highlighting = warning
+resharper_use_empty_types_field_highlighting = warning
+resharper_use_event_args_empty_field_highlighting = warning
+resharper_virtual_member_never_overridden_local_highlighting = warning
+resharper_web_config_module_not_resolved_highlighting = warning
+resharper_web_config_type_not_resolved_highlighting = warning
+resharper_web_config_wrong_module_highlighting = warning
 
-# name all constant fields using PascalCase
-dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = suggestion
-dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols  = constant_fields
-dotnet_naming_rule.constant_fields_should_be_pascal_case.style    = pascal_case_style
+[{*.har,*.inputactions,*.jsb2,*.jsb3,*.json,.babelrc,.eslintrc,.stylelintrc,bowerrc,jest.config}]
+indent_style = space
+indent_size = 2
 
-dotnet_naming_symbols.constant_fields.applicable_kinds   = field
-dotnet_naming_symbols.constant_fields.required_modifiers = const
+[{*.yaml,*.yml}]
+indent_style = space
+indent_size = 2
 
-dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+[{*.bash,*.sh,*.zsh}]
+indent_style = space
+indent_size = 2
 
-# Code style defaults
-csharp_using_directive_placement = outside_namespace:warning
-dotnet_sort_system_directives_first = true
-csharp_preserve_single_line_blocks = true
-csharp_preserve_single_line_statements = false
+[*.{asax,ascx,aspx,cg,cginc,compute,cs,cshtml,fs,fsi,fsscript,fsx,hlsl,hlsli,hlslinc,master,ml,mli,razor,resw,resx,shader,skin,usf,ush,vb}]
+indent_style = space
+indent_size = 4
+tab_width = 4
 
-# Expression-level preferences
-dotnet_style_object_initializer = true:suggestion
-dotnet_style_collection_initializer = true:suggestion
-dotnet_style_explicit_tuple_names = true:suggestion
-dotnet_style_coalesce_expression = true:suggestion
-dotnet_style_null_propagation = true:suggestion
-
-# Expression-bodied members
-csharp_style_expression_bodied_methods = true:none
-csharp_style_expression_bodied_constructors = false:none
-csharp_style_expression_bodied_operators = false:none
-csharp_style_expression_bodied_properties = true:none
-csharp_style_expression_bodied_indexers = true:none
-csharp_style_expression_bodied_accessors = true:none
-
-# Pattern matching
-csharp_style_pattern_matching_over_is_with_cast_check = true:error
-csharp_style_pattern_matching_over_as_with_null_check = true:error
-csharp_style_inlined_variable_declaration = true:error
-
-# Null checking preferences
-csharp_style_throw_expression = true:suggestion
-csharp_style_conditional_delegate_call = true:suggestion
-
-dotnet_style_require_accessibility_modifiers = for_non_interface_members:error
-dotnet_style_readonly_field = true:error
-
-# Space preferences
-csharp_space_after_cast = false
-csharp_space_after_colon_in_inheritance_clause = true
-csharp_space_after_comma = true
-csharp_space_after_dot = false
-csharp_space_after_keywords_in_control_flow_statements = true
-csharp_space_after_semicolon_in_for_statement = true
-csharp_space_around_binary_operators = before_and_after
-csharp_space_around_declaration_statements = do_not_ignore
-csharp_space_before_colon_in_inheritance_clause = true
-csharp_space_before_comma = false
-csharp_space_before_dot = false
-csharp_space_before_open_square_brackets = false
-csharp_space_before_semicolon_in_for_statement = false
-csharp_space_between_empty_square_brackets = false
-csharp_space_between_method_call_empty_parameter_list_parentheses = false
-csharp_space_between_method_call_name_and_opening_parenthesis = false
-csharp_space_between_method_call_parameter_list_parentheses = false
-csharp_space_between_method_declaration_empty_parameter_list_parentheses = false
-csharp_space_between_method_declaration_name_and_open_parenthesis = false
-csharp_space_between_method_declaration_parameter_list_parentheses = false
-csharp_space_between_parentheses = false
-csharp_space_between_square_brackets = false
-
-# FxCop Analyzers
-dotnet_diagnostic.CA1030.severity = none
-dotnet_diagnostic.CA1034.severity = none
-dotnet_diagnostic.CA1062.severity = suggestion
-dotnet_code_quality.CA1062.exclude_extension_method_this_parameter = true
-dotnet_code_quality.exclude_extension_method_this_parameter = true
-dotnet_code_quality.null_check_validation_methods = ThrowIfArgumentIsNull
-dotnet_diagnostic.CA1304.severity = error
-dotnet_diagnostic.CA1307.severity = error
-dotnet_diagnostic.CA1308.severity = error
-dotnet_diagnostic.CA1309.severity = error
-dotnet_diagnostic.CA3075.severity = none
-dotnet_diagnostic.CA5369.severity = none
-
-# Banned API Analyzers
-dotnet_diagnostic.RS0030.severity = error
-
-# IDE0004: Remove unnecessary cast
-dotnet_diagnostic.IDE0004.severity = error
-
-# IDE0005: Remove unnecessary usings/imports
-dotnet_diagnostic.IDE0005.severity = suggestion
-
-# IDE0051: Remove unused private members (no reads or writes)
-dotnet_diagnostic.IDE0051.severity = error
-
-# IDE0052: Remove unread private members (writes but no reads)
-dotnet_diagnostic.IDE0052.severity = error
-
-# IDE0055: Fix formatting
-dotnet_diagnostic.IDE0055.severity = error
-
-# CS1574: XML comment on 'construct' has syntactically incorrect cref attribute 'name'
-dotnet_diagnostic.CS1574.severity = error
-
-# StyleCop
-# SA1028: Code should not contain trailing whitespace
-dotnet_diagnostic.SA1028.severity = suggestion
-# SA1101: Prefix local calls with this
-dotnet_diagnostic.SA1101.severity = none
-# SA1116: The parameters should begin on the line after the declaration, whenever the parameter span across multiple lines
-dotnet_diagnostic.SA1116.severity = none
-# SA1117: The parameters should all be placed on the same line or each parameter should be placed on its own line.
-dotnet_diagnostic.SA1117.severity = none
-# SA1200: Using directive should appear within a namespace declaration
-dotnet_diagnostic.SA1200.severity = none
-# SA1124: Do not use regions
-dotnet_diagnostic.SA1124.severity = none
-# SA1201: A property should not follow a method
-dotnet_diagnostic.SA1201.severity = none
-# SA1202: 'public' members should come before 'private' members
-dotnet_diagnostic.SA1202.severity = none
-# SA1204: Static members should appear before non-static members
-dotnet_diagnostic.SA1204.severity = none
-# SA1312: variable should begin with lower-case letter
-dotnet_diagnostic.SA1312.severity = suggestion # re-enable if using statements can be discarded
-# SA1313: parameter should begin with lower-case letter
-dotnet_diagnostic.SA1313.severity = suggestion # re-enable when parameters discards are available
-# SA1316: Tuple element names should use correct casing
-dotnet_diagnostic.SA1316.severity = none
-# SA1402: File may only contain a single type. Handled better by AV1507
-dotnet_diagnostic.SA1402.severity = none
-# SA1404: Code analysis suppression should have justification
-dotnet_diagnostic.SA1404.severity = none
-# SA1413: Use trailing comma in multi-line initializers
-dotnet_diagnostic.SA1413.severity = none
-# SA1600: Elements should be documented
-dotnet_diagnostic.SA1600.severity = suggestion
-# SA1602: Enumeration items should be documented
-dotnet_diagnostic.SA1602.severity = suggestion
-# SA1611: The documentation for parameter is missing
-dotnet_diagnostic.SA1611.severity = suggestion
-# SA1612: The parameter documentation for parameter should be at position
-dotnet_diagnostic.SA1612.severity = suggestion
-# SA1614: Element parameter documentation should have text
-dotnet_diagnostic.SA1614.severity = suggestion
-# SA1615: Element return value should be documented
-dotnet_diagnostic.SA1615.severity = none
-# SA1616: Element return value documentation should have text
-dotnet_diagnostic.SA1616.severity = suggestion
-# SA1618: The documentation for type parameter is missing
-dotnet_diagnostic.SA1618.severity = suggestion
-# SA1623: The property's documentation summary text should begin with: 'Gets'
-dotnet_diagnostic.SA1623.severity = none
-# SA1629: Documentation text should end with a period
-dotnet_diagnostic.SA1629.severity = none
-# SA1633: The file header is missing or not located at the top of the file
-dotnet_diagnostic.SA1633.severity = none
-# SA1642: Constructor summary documentation should begin with standard text
-dotnet_diagnostic.SA1642.severity = suggestion
-
-# CSharpGuidelines
-dotnet_diagnostic.AV1561.max_parameter_count = 5
-# AV1008: Class should be non-static or its name should be suffixed with Extensions
-dotnet_diagnostic.AV1008.severity = none
-# AV1010: Type hides inherited member
-dotnet_diagnostic.AV1010.severity = none
-# AV1115: Member or local function contains the word 'and', which suggests doing multiple things
-dotnet_diagnostic.AV1115.severity = suggestion
-# AV1130: Return type in signature for Type should be a collection interface instead of a concrete type
-dotnet_diagnostic.AV1130.severity = none
-# AV1135: null is returned from method which has return type of string, collection or task
-dotnet_diagnostic.AV1135.severity = none # re-enable if we can distinguish between string, collection and task
-# AV1210: Catch a specific exception instead of Exception, SystemException or ApplicationException
-dotnet_diagnostic.AV1210.severity = none
-# AV1250: Evaluate LINQ query before returning it
-dotnet_diagnostic.AV1250.severity = suggestion
-# AV1500: Method 'CallerIdentifier.DetermineCallerIdentity()' contains 10 statements, which exceeds the maximum of 7 statements
-dotnet_diagnostic.AV1500.severity = none
-# AV1532: Loop statement contains nested loop
-dotnet_diagnostic.AV1532.severity = suggestion
-# AV1535: Missing block in case or default clause of switch statement
-dotnet_diagnostic.AV1535.severity = none # re-enable if we can adjust the formatting to not indent the scope braces
-# AV1537: If-else-if construct should end with an unconditional else clause
-dotnet_diagnostic.AV1537.severity = suggestion
-# AV1551: Method overload with the most parameters should be virtual
-dotnet_diagnostic.AV1551.severity = none
-# AV1555: Avoid using non-(nullable-)boolean named arguments
-dotnet_diagnostic.AV1555.severity = suggestion
-# AV1561: Method contains 5 parameters, which exceeds the maximum of 3 parameters
-dotnet_diagnostic.AV1561.severity = suggestion
-# AV1564: Parameter in public or internal member is of type bool or bool?
-dotnet_diagnostic.AV1564.severity = suggestion
-# AV1706: Parameter 'p' should have a more descriptive name
-dotnet_diagnostic.AV1706.severity = suggestion
-# AV1708: Type name contains term that should be avoided
-dotnet_diagnostic.AV1708.severity = suggestion
-# AV1710: Field contains the name of its containing type
-dotnet_diagnostic.AV1710.severity = none
-# AV2202: Replace call to Nullable<T>.HasValue with null check
-dotnet_diagnostic.AV2202.severity = none
-# AV2305: Missing XML comment for internally visible type or member
-dotnet_diagnostic.AV2305.severity = none
-# AV2407: Region should be removed
-dotnet_diagnostic.AV2407.severity = none
-
-# ReSharper/Rider
-# Convert lambda expression to method group
-resharper_convert_closure_to_method_group_highlighting=none
+[*.{appxmanifest,axaml,build,dtd,nuspec,paml,xaml,xamlx,xoml,xsd}]
+indent_style = space
+indent_size = 2
+tab_width = 2

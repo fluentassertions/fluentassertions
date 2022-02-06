@@ -6,7 +6,8 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Specialized
 {
-    public class GenericAsyncFunctionAssertions<TResult> : AsyncFunctionAssertions<Task<TResult>, GenericAsyncFunctionAssertions<TResult>>
+    public class GenericAsyncFunctionAssertions<TResult>
+        : AsyncFunctionAssertions<Task<TResult>, GenericAsyncFunctionAssertions<TResult>>
     {
         public GenericAsyncFunctionAssertions(Func<Task<TResult>> subject, IExtractExceptions extractor)
             : this(subject, extractor, new Clock())
@@ -32,8 +33,7 @@ namespace FluentAssertions.Specialized
         public new async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> CompleteWithinAsync(
             TimeSpan timeSpan, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject is not null)
+            Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} to complete within {0}{reason}, but found <null>.", timeSpan);
 
@@ -41,14 +41,14 @@ namespace FluentAssertions.Specialized
             Task<TResult> task = Subject.Invoke();
             TimeSpan remainingTime = timeSpan - timer.Elapsed;
 
-            bool success = Execute.Assertion
-                .ForCondition(remainingTime >= TimeSpan.Zero)
+            bool success = Execute.Assertion.ForCondition(remainingTime >= TimeSpan.Zero)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
 
             if (success)
             {
                 using var timeoutCancellationTokenSource = new CancellationTokenSource();
+
                 Task completedTask =
                     await Task.WhenAny(task, Clock.DelayAsync(remainingTime, timeoutCancellationTokenSource.Token));
 
@@ -58,8 +58,7 @@ namespace FluentAssertions.Specialized
                     await completedTask;
                 }
 
-                Execute.Assertion
-                    .ForCondition(completedTask == task)
+                Execute.Assertion.ForCondition(completedTask == task)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
             }
@@ -77,10 +76,10 @@ namespace FluentAssertions.Specialized
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public new async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAsync(string because = "", params object[] becauseArgs)
+        public new async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAsync(
+            string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(Subject is not null)
+            Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
@@ -119,7 +118,8 @@ namespace FluentAssertions.Specialized
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
-        public new Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAfterAsync(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
+        public new Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAfterAsync(
+            TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
         {
             if (waitTime < TimeSpan.Zero)
             {
@@ -132,8 +132,7 @@ namespace FluentAssertions.Specialized
                     $"The value of {nameof(pollInterval)} must be non-negative.");
             }
 
-            Execute.Assertion
-                .ForCondition(Subject is not null)
+            Execute.Assertion.ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context} not to throw any exceptions after {0}{reason}, but found <null>.", waitTime);
 
@@ -160,8 +159,7 @@ namespace FluentAssertions.Specialized
                     }
                 }
 
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
+                Execute.Assertion.BecauseOf(because, becauseArgs)
                     .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
 
                 return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, default(TResult));
