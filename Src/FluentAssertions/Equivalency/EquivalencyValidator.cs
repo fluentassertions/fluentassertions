@@ -22,7 +22,7 @@ namespace FluentAssertions.Equivalency
 
             if (context.TraceWriter is not null)
             {
-                scope.AddReportable("trace", context.TraceWriter.ToString());
+                scope.AppendTracing(context.TraceWriter.ToString());
             }
         }
 

@@ -1255,6 +1255,7 @@ namespace FluentAssertions.Execution
         public void AddPreFormattedFailure(string formattedFailureMessage) { }
         public void AddReportable(string key, System.Func<string> valueFunc) { }
         public void AddReportable(string key, string value) { }
+        public void AppendTracing(string tracingBlock) { }
         public void AssumeSingleCaller() { }
         public FluentAssertions.Execution.AssertionScope BecauseOf(FluentAssertions.Execution.Reason reason) { }
         public FluentAssertions.Execution.AssertionScope BecauseOf(string because, params object[] becauseArgs) { }
