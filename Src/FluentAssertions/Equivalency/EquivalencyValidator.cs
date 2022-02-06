@@ -62,13 +62,14 @@ namespace FluentAssertions.Equivalency
 
         private void RunStepsUntilEquivalencyIsProven(Comparands comparands, IEquivalencyValidationContext context)
         {
+            using var _ = context.Tracer.WriteBlock(node => node.Description);
+
             foreach (IEquivalencyStep step in AssertionOptions.EquivalencyPlan)
             {
                 var result = step.Handle(comparands, context, this);
-                context.Tracer.WriteLine(_ => $"Step {step.GetType().Name} returned {result}");
-
                 if (result == EquivalencyResult.AssertionCompleted)
                 {
+                    context.Tracer.WriteLine(_ => $"Equivalency was proven by {step.GetType().Name}");
                     return;
                 }
             }
