@@ -865,7 +865,6 @@ namespace FluentAssertions.Collections
                         new EquivalencyValidator().AssertEquality(comparands, context);
 
                         string[] failures = scope.Discard();
-
                         if (!failures.Any())
                         {
                             return new AndWhichConstraint<TAssertions, T>((TAssertions)this, actualItem);

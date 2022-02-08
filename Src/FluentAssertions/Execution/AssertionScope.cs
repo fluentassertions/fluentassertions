@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using FluentAssertions.Common;
 using FluentAssertions.Formatting;
@@ -30,6 +32,7 @@ namespace FluentAssertions.Execution
         private Func<string> expectation;
         private string fallbackIdentifier = "object";
         private bool? succeeded;
+        private readonly StringBuilder tracing = new();
 
         private sealed class DeferredReportable
         {
@@ -325,6 +328,14 @@ namespace FluentAssertions.Execution
         }
 
         /// <summary>
+        /// Adds a block of tracing to the scope for reporting when an assertion fails.
+        /// </summary>
+        public void AppendTracing(string tracingBlock)
+        {
+            tracing.Append(tracingBlock);
+        }
+
+        /// <summary>
         /// Tracks a keyed object in the current scope that is excluded from the failure message in case an assertion fails.
         /// </summary>
         public void AddNonReportable(string key, object value)
@@ -350,6 +361,10 @@ namespace FluentAssertions.Execution
             contextData.Add(new ContextDataItems.DataItem(key, new DeferredReportable(valueFunc), reportable: true, requiresFormatting: false));
         }
 
+        /// <summary>
+        /// Returns all failures that happened up to this point and ensures they will not cause
+        /// <see cref="Dispose"/> to fail the assertion.
+        /// </summary>
         public string[] Discard()
         {
             return assertionStrategy.DiscardFailures().ToArray();
@@ -380,11 +395,20 @@ namespace FluentAssertions.Execution
                     parent.assertionStrategy.HandleFailure(failureMessage);
                 }
 
+                parent.AppendTracing(tracing.ToString());
+
                 parent = null;
             }
             else
             {
-                assertionStrategy.ThrowIfAny(contextData.GetReportable());
+                IDictionary<string,object> reportable = contextData.GetReportable();
+
+                if (tracing.Length > 0)
+                {
+                    reportable.Add("trace", tracing.ToString());
+                }
+
+                assertionStrategy.ThrowIfAny(reportable);
             }
         }
 
