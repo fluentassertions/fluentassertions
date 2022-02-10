@@ -7,7 +7,7 @@ sidebar:
   nav: "sidebar"
 ---
 
-## Unreleased
+## 6.5.0
 
 ### What's New
 * Added `AllSatisfy` for asserting all items in a collection satisfy an inspector - [#1790](https://github.com/fluentassertions/fluentassertions/pull/1790)
