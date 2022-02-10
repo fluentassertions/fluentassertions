@@ -13,8 +13,7 @@ See https://www.fluentassertions.com for [background information](https://fluent
 Originally authored by Dennis Doomen with Jonas Nyrup as the productive side-kick. Notable contributions were provided by Artur Krajewski, Lukas Grützmacher and David Omid.
 
 # How do I build this?
-Install Visual Studio 2019 16.9+ or JetBrains Rider 2021.1.0 as well as the Build Tools 2019 (including the Universal Windows Platform build tools).
-You will also need to have .NET Framework 4.7 SDK and .NET 5.0 SDK installed. Check [global.json](global.json) for the current minimum required version.
+Install Visual Studio 2019 16.9+ or JetBrains Rider 2021.1.0 as well as the Build Tools 2019 (including the Universal Windows Platform build tools). You will also need to have .NET Framework 4.7 SDK and .NET 5.0 SDK installed. Check [global.json](global.json) for the current minimum required version.
 
 # What are these Approval.Tests?
 This is a special set of tests that use the [Verify](https://github.com/VerifyTests/Verify) project to verify whether you've introduced any breaking changes in the public API of the library.
@@ -24,8 +23,5 @@ If you've verified the changes and decided they are valid, you can accept them  
 `build.ps1`
 
 # Powered By
-Supported by Patreons [**Michaël Hompus**](https://hompus.nl/), [**Artur Krajewski**](https://github.com/krajek) and [**Matthias Koch**](https://ithrowexceptions.com/)
-
-Also made possible by<br>
     <a href="https://www.jetbrains.com/rider/"><img src="docs/assets/images/jetbrainsrider.svg" style="width:150px"/></a> <br/>and <br>
     <a href="https://www.semanticmerge.com/"><img src="docs/assets/images/semantic-merge.png" style="width:150px"/></a>
