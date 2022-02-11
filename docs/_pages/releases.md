@@ -12,6 +12,7 @@ sidebar:
 ### What's New
 
 ### Fixes
+* Fix regression introduced in 6.5.0 where `collection.Should().BeInAscendingOrder(x => x)` would fail - [#1802](https://github.com/fluentassertions/fluentassertions/pull/1802)
 
 ### Fixes (Extensibility)
 

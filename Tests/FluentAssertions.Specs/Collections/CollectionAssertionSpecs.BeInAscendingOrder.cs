@@ -81,6 +81,19 @@ namespace FluentAssertions.Specs.Collections
                     " but found {1, 6, 12, 15, 12, 17, 26} where item at index 3 is in wrong order.");
         }
 
+        [Fact]
+        public void Items_can_be_ordered_by_the_identity_function()
+        {
+            // Arrange
+            var collection = new[] { 1, 2 };
+
+            // Act
+            Action action = () => collection.Should().BeInAscendingOrder(x => x);
+
+            // Assert
+            action.Should().NotThrow();
+        }
+
         #endregion
 
         #region Not Be In Ascending Order
