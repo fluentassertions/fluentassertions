@@ -14,6 +14,11 @@ namespace FluentAssertions.Equivalency.Matching
 
         public MappedPathMatchingRule(string expectationMemberPath, string subjectMemberPath)
         {
+            Guard.ThrowIfArgumentIsNullOrEmpty(expectationMemberPath,
+                nameof(expectationMemberPath), "A member path cannot be null");
+            Guard.ThrowIfArgumentIsNullOrEmpty(subjectMemberPath,
+                nameof(subjectMemberPath), "A member path cannot be null");
+
             expectationPath = new MemberPath(expectationMemberPath);
             subjectPath = new MemberPath(subjectMemberPath);
 

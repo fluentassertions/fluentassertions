@@ -31,9 +31,9 @@ namespace FluentAssertions.Common
 
         public MemberPath(string dottedPath)
         {
-            Guard.ThrowIfArgumentIsNullOrEmpty(
+            Guard.ThrowIfArgumentIsNull(
                 dottedPath, nameof(dottedPath),
-                "A member path cannot be null or empty");
+                "A member path cannot be null");
 
             this.dottedPath = dottedPath;
         }
