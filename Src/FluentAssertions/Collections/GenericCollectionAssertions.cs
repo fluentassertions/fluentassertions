@@ -2993,13 +2993,11 @@ namespace FluentAssertions.Collections
                     direction,
                     unordered);
 
-                string orderString = GetExpressionOrderString(propertyExpression);
-
                 Execute.Assertion
                     .ForCondition(unordered.SequenceEqual(expectation))
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} {0} to be ordered {1}{reason} and result in {2}.",
-                        Subject, orderString, expectation);
+                        () => Subject, () => GetExpressionOrderString(propertyExpression), () => expectation);
 
                 return new AndConstraint<SubsequentOrderingAssertions<T>>(
                     new SubsequentOrderingAssertions<T>(Subject, expectation));
@@ -3188,11 +3186,13 @@ namespace FluentAssertions.Collections
             Guard.ThrowIfArgumentIsNull(propertyExpression, nameof(propertyExpression),
                 "Cannot assert collection ordering without specifying a property.");
 
+            propertyExpression.ValidateMemberPath();
+
             return Execute.Assertion
-                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
                 .FailWith("Expected {context:collection} to be ordered by {0}{reason} but found <null>.",
-                    propertyExpression.GetMemberPath());
+                    () => propertyExpression.GetMemberPath());
         }
 
         private AndConstraint<TAssertions> NotBeOrderedBy<TSelector>(
@@ -3214,13 +3214,11 @@ namespace FluentAssertions.Collections
                     direction,
                     unordered);
 
-                string orderString = GetExpressionOrderString(propertyExpression);
-
                 Execute.Assertion
                     .ForCondition(!unordered.SequenceEqual(expectation))
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} {0} to not be ordered {1}{reason} and not result in {2}.",
-                        Subject, orderString, expectation);
+                        () => Subject, () => GetExpressionOrderString(propertyExpression), () => expectation);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
