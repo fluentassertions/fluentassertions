@@ -16,5 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" Condition="'$(TargetFramework)' == 'net472'" />
+    <Reference Include="System.Net.Http" Condition="'$(TargetFramework)' == 'net472'" />
   </ItemGroup>
 </Project>
