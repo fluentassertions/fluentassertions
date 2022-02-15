@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
@@ -1488,6 +1489,90 @@ namespace FluentAssertions.Equivalency.Specs
             actual.Should().BeEquivalentTo(expected, options => options
                 .Including(a => a.Value2)
                 .RespectingRuntimeTypes());
+        }
+
+        [Theory]
+        [MemberData(nameof(TestMembers))]
+        public void Including_non_browsable_members_should_work(TestMember memberWithDifference)
+        {
+            // Arrange
+            var a = new ClassWithNonBrowsableMembers();
+            var b = new ClassWithNonBrowsableMembers();
+
+            b.ApplyDifference(memberWithDifference);
+
+            // Act & Assert
+            a.Should().NotBeEquivalentTo(b, config => config.IncludingNonBrowsableMembers());
+        }
+
+        [Theory]
+        [MemberData(nameof(TestMembers))]
+        public void Excluding_non_browsable_members_should_work(TestMember memberWithDifference)
+        {
+            // Arrange
+            var a = new ClassWithNonBrowsableMembers();
+            var b = new ClassWithNonBrowsableMembers();
+
+            b.ApplyDifference(memberWithDifference);
+
+            // Act & Assert
+            if (memberWithDifference.ToString().StartsWith("NonBrowsable", StringComparison.Ordinal))
+            {
+                a.Should().BeEquivalentTo(b, config => config.ExcludingNonBrowsableMembers());
+            }
+            else
+            {
+                a.Should().NotBeEquivalentTo(b, config => config.ExcludingNonBrowsableMembers());
+            }
+        }
+
+        public enum TestMember
+        {
+            BrowsableField,
+            BrowsableProperty,
+            AdvancedBrowsableField,
+            AdvancedBrowsableProperty,
+            NonBrowsableField,
+            NonBrowsableProperty,
+        }
+
+        public static IEnumerable<object[]> TestMembers
+            => Enum.GetValues(typeof(TestMember))
+            .OfType<TestMember>()
+            .Select(testMember => new object[] { testMember });
+
+        private class ClassWithNonBrowsableMembers
+        {
+            public int BrowsableField;
+
+            public int BrowsableProperty { get; set; }
+
+            [EditorBrowsable(EditorBrowsableState.Advanced)]
+            public int AdvancedBrowsableField;
+
+            [EditorBrowsable(EditorBrowsableState.Advanced)]
+            public int AdvancedBrowsableProperty { get; set; }
+
+            [EditorBrowsable(EditorBrowsableState.Never)]
+            public int NonBrowsableField;
+
+            [EditorBrowsable(EditorBrowsableState.Never)]
+            public int NonBrowsableProperty { get; set; }
+
+            public void ApplyDifference(TestMember member)
+            {
+                switch (member)
+                {
+                    case TestMember.BrowsableField: BrowsableField = 1; break;
+                    case TestMember.BrowsableProperty: BrowsableProperty = 1; break;
+                    case TestMember.AdvancedBrowsableField: AdvancedBrowsableField = 1; break;
+                    case TestMember.AdvancedBrowsableProperty: AdvancedBrowsableProperty = 1; break;
+                    case TestMember.NonBrowsableField: NonBrowsableField = 1; break;
+                    case TestMember.NonBrowsableProperty: NonBrowsableProperty = 1; break;
+
+                    default: throw new NotImplementedException();
+                }
+            }
         }
     }
 }

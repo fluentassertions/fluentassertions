@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Reflection;
 using FluentAssertions.Common;
 
@@ -27,6 +28,12 @@ namespace FluentAssertions.Equivalency
             Path = parent.PathAndName;
             GetSubjectId = parent.GetSubjectId;
             RootIsCollection = parent.RootIsCollection;
+
+            bool isNonBrowsable =
+                (propertyInfo.GetCustomAttribute<EditorBrowsableAttribute>() is EditorBrowsableAttribute attribute) &&
+                (attribute.State == EditorBrowsableState.Never);
+
+            IsBrowsable = !isNonBrowsable;
         }
 
         public object GetValue(object obj)
@@ -43,5 +50,7 @@ namespace FluentAssertions.Equivalency
         public CSharpAccessModifier GetterAccessibility => propertyInfo.GetGetMethod(nonPublic: true).GetCSharpAccessModifier();
 
         public CSharpAccessModifier SetterAccessibility => propertyInfo.GetSetMethod(nonPublic: true).GetCSharpAccessModifier();
+
+        public bool IsBrowsable { get; private set; }
     }
 }

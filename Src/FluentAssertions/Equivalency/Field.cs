@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Reflection;
 using FluentAssertions.Common;
 
@@ -26,6 +27,12 @@ namespace FluentAssertions.Equivalency
             Name = fieldInfo.Name;
             Type = fieldInfo.FieldType;
             RootIsCollection = parent.RootIsCollection;
+
+            bool isNonBrowsable =
+                (fieldInfo.GetCustomAttribute<EditorBrowsableAttribute>() is EditorBrowsableAttribute attribute) &&
+                (attribute.State == EditorBrowsableState.Never);
+
+            IsBrowsable = !isNonBrowsable;
         }
 
         public Type ReflectedType { get; }
@@ -42,5 +49,7 @@ namespace FluentAssertions.Equivalency
         public CSharpAccessModifier GetterAccessibility => fieldInfo.GetCSharpAccessModifier();
 
         public CSharpAccessModifier SetterAccessibility => fieldInfo.GetCSharpAccessModifier();
+
+        public bool IsBrowsable { get; private set; }
     }
 }
