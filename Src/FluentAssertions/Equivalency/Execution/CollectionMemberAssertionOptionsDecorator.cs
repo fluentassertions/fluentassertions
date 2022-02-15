@@ -61,6 +61,8 @@ namespace FluentAssertions.Equivalency.Execution
 
         public MemberVisibility IncludedFields => inner.IncludedFields;
 
+        public bool ExcludeNonBrowsable => inner.ExcludeNonBrowsable;
+
         public bool CompareRecordsByValue => inner.CompareRecordsByValue;
 
         public EqualityStrategy GetEqualityStrategy(Type type)
