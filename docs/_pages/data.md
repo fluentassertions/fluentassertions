@@ -82,6 +82,39 @@ When checking the equivalency of two `DataRow` objects, by default the `RowState
 
 In addition, if both the subject and the expectation are in the `DataRowState.Modified` state, then the `DataRowVersion.Original` values are also compared, separately from the `DataRowVersion.Current` values. This can be disabled using the `.ExcludingOriginalData()` equivalency assertion option.
 
+## Collections
+
+Each `DataSet` has a `DataTableCollection` called `Tables`, and each `DataTable` has a `DataColumnCollection` called `Columns` and a `DataRowCollection` called `Rows`. Some assertions can be performed on these collection types.
+
+The following assertions are in common to all three collection types:
+
+* `.Should().BeEmpty()`: Succeeds if the collection contains no items (tables, columns, rows).
+* `.Should().NotBeEmpty()`: Succeeds if the collection contains at least one item (table, column, row).
+* `.Should().ContainEquivalentOf(x)`: Succeeds if the collection contains an item (table, column, row) that is equivalent to the supplied item.
+* `.Should().NotContainEquivalentOf(x)`: Succeeds if the item does not contain any item (table, column, row) that is equivalent to the supplied item.
+* `.Should().HaveSameCount(x)`: Succeeds if the collection contains the same number of items as the supplied collection of the same type.
+* `.Should().NotHaveSameCount(x)`: Succeeds if the collection does not contain the same number of items as the supplied collection of the same type.
+* `.Should().HaveCount(x)`: Succeeds if the collection contains exactly the specified number of items.
+* `.Should().HaveCount(predicate)`: Succeeds if the predicate returns true for the number of items in the collection.
+* `.Should().NotHaveCount(x)`: Succeeds if the collection contains a different number of items than the supplied count.
+* `.Should().HaveCountGreaterThan(x)`: Succeeds if the collection contains more items than the supplied count.
+* `.Should().HaveCountGreaterThanOrEqualTo(x)`: Succeeds if the collection contains at least as many items as the supplied count.
+* `.Should().HaveCountLessThan(x)`: Succeeds if the collection contains fewer items than the supplied count.
+* `.Should().HaveCountLessThanOrEqualTo(x)`: Succeeds if the collection contains at most as many items as the supplied count.
+
+There are also some assertions specific to each type of collection:
+
+* `dataSet.Tables.Should().ContainTableWithName(x)`: Succeeds if the `DataSet` contains a table with the specified name.
+* `dataSet.Tables.Should().NotContainTableWithName(x)`: Succeeds if the `DataSet` does not contain a table with the specified name.
+* `dataTable.Columns.Should().ContainColumnWithName(x)`: Succeeds if the `DataTable` contains a column with the specified name.
+* `dataTable.Columns.Should().NotContainColumnWithName(x)`: Succeeds if the `DataTable` does not contain a column with the specified name.
+* `dataTable.Rows.Should().BeSubsetOf(x)`: Succeeds if the `DataTable` only contains rows equivalent to those in the supplied set of `DataRow`s.
+* `dataTable.Rows.Should().NotBeSubsetOf(x)`: Succeeds if the `DataTable` contains at least one row that is not equivalent to any in the supplied set of `DataRow`s.
+* `dataTable.Rows.Should().IntersectWith(x)`: Succeeds if the `DataTable` contains at least one row that is equivalent to any in the supplied set of `DataRow`s.
+* `dataTable.Rows.Should().NotIntersectWith(x)`: Succeeds if the `DataTable` does not contain any rows equivalent to any in the supplied set of `DataRow`s.
+* `dataTable.Rows.Should().ContainMatchingRow(predicate)`: Succeeds if the `DataTable` contains at least one row for which the supplied `predicate` returns `true`.
+* `dataTable.Rows.Should().NotContainMatchingRow(predicate)`: Succeeds if the `DataTable` does not contain any rows for which the supplied `predicate` returns `true`.
+
 ## Equivalency Assertion Options
 
 When checking equivalency, the operation can be fine-tuned by configuring the options provided to an optional configuration callback in the `.BeEquivalentTo` method.

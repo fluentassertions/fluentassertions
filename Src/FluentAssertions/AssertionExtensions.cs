@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
 using System.Reflection;
@@ -383,6 +384,33 @@ namespace FluentAssertions
             where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
         {
             return new GenericDictionaryAssertions<TCollection, TKey, TValue>(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an assertions object that can be used to assert the current <see cref="DataTableCollection"/>.
+        /// </summary>
+        [Pure]
+        public static GenericCollectionAssertions<DataTable> Should(this DataTableCollection actualValue)
+        {
+            return new GenericCollectionAssertions<DataTable>(actualValue.Cast<DataTable>());
+        }
+
+        /// <summary>
+        /// Returns an assertions object that can be used to assert the current <see cref="DataColumnCollection"/>.
+        /// </summary>
+        [Pure]
+        public static GenericCollectionAssertions<DataColumn> Should(this DataColumnCollection actualValue)
+        {
+            return new GenericCollectionAssertions<DataColumn>(actualValue.Cast<DataColumn>());
+        }
+
+        /// <summary>
+        /// Returns an assertions object that can be used to assert the current <see cref="DataRowCollection"/>.
+        /// </summary>
+        [Pure]
+        public static GenericCollectionAssertions<DataRow> Should(this DataRowCollection actualValue)
+        {
+            return new GenericCollectionAssertions<DataRow>(actualValue.Cast<DataRow>());
         }
 
         /// <summary>
