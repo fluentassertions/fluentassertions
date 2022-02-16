@@ -60,6 +60,9 @@
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="Xunit.StaFact" Version="1.1.5-alpha" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="coverlet.collector" Version="3.1.1" PrivateAssets="all">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
