@@ -11,6 +11,7 @@ namespace FluentAssertions.Equivalency
     public class Field : Node, IMember
     {
         private readonly FieldInfo fieldInfo;
+        private readonly Lazy<bool> isBrowsable;
 
         public Field(FieldInfo fieldInfo, INode parent)
             : this(fieldInfo.ReflectedType, fieldInfo, parent)
@@ -28,11 +29,8 @@ namespace FluentAssertions.Equivalency
             Type = fieldInfo.FieldType;
             RootIsCollection = parent.RootIsCollection;
 
-            bool isNonBrowsable =
-                (fieldInfo.GetCustomAttribute<EditorBrowsableAttribute>() is EditorBrowsableAttribute attribute) &&
-                (attribute.State == EditorBrowsableState.Never);
-
-            IsBrowsable = !isNonBrowsable;
+            isBrowsable = new Lazy<bool>(
+                () => fieldInfo.GetCustomAttribute<EditorBrowsableAttribute>() is not { State: EditorBrowsableState.Never });
         }
 
         public Type ReflectedType { get; }
@@ -50,6 +48,6 @@ namespace FluentAssertions.Equivalency
 
         public CSharpAccessModifier SetterAccessibility => fieldInfo.GetCSharpAccessModifier();
 
-        public bool IsBrowsable { get; private set; }
+        public bool IsBrowsable => isBrowsable.Value;
     }
 }

@@ -55,7 +55,7 @@ namespace FluentAssertions.Equivalency.Steps
             IMember matchingMember = FindMatchFor(selectedMember, context.CurrentNode, comparands.Subject, options);
             if (matchingMember is not null)
             {
-                if (matchingMember.IsBrowsable || !options.ExcludeNonBrowsable)
+                if (!options.ExcludeNonBrowsable || matchingMember.IsBrowsable)
                 {
                     var nestedComparands = new Comparands
                     {
