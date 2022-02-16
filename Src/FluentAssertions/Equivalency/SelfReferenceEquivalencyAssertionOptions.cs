@@ -576,7 +576,8 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Ensures records by default are compared by value instead of their members.
+        /// Ensures records by default are compared by its members even though it may override
+        /// the <see cref="object.Equals(object)" /> method.
         /// </summary>
         /// <remarks>
         /// This is the default.
