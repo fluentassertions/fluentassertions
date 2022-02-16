@@ -576,7 +576,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Ensures records by default are compared by its members even though it may override
+        /// Ensures records by default are compared by their members even though they override 
         /// the <see cref="object.Equals(object)" /> method.
         /// </summary>
         /// <remarks>
