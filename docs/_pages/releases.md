@@ -23,6 +23,7 @@ sidebar:
 * Added `NotBe` for nullable boolean values - [#1865](https://github.com/fluentassertions/fluentassertions/pull/1865)
 * Added a new overload to `MatchRegex()` to assert on the number of regex matches - [#1869](https://github.com/fluentassertions/fluentassertions/pull/1869)
 * Added difference to numeric assertion failure messages - [#1859](https://github.com/fluentassertions/fluentassertions/pull/1859)
+* Added the ability to assert that a `DataTableCollection` or `DataColumnCollection` contains an element by name - [1893](https://github.com/fluentassertions/fluentassertions/pull/1893)
 
 ### Fixes
 * `EnumAssertions.Be` did not determine the caller name - [#1835](https://github.com/fluentassertions/fluentassertions/pull/1835)

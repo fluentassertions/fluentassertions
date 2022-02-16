@@ -437,5 +437,78 @@ namespace FluentAssertions.Specs.Collections.Data
                 }
             }
         }
+
+        public class ContainColumnWithName
+        {
+            [Fact]
+            public void When_column_exists_it_should_succeed()
+            {
+                // Arrange
+                var dataTable = new DataTable();
+
+                dataTable.Columns.Add(new DataColumn("Column0"));
+                dataTable.Columns.Add(new DataColumn("Column1"));
+                dataTable.Columns.Add(new DataColumn("Column2"));
+
+                // Act & Assert
+                dataTable.Columns.Should().ContainColumnWithName("Column1");
+            }
+
+            [Fact]
+            public void When_column_does_not_exist_it_should_fail()
+            {
+                // Arrange
+                var dataTable = new DataTable();
+
+                dataTable.Columns.Add(new DataColumn("Column0"));
+                dataTable.Columns.Add(new DataColumn("Column1"));
+                dataTable.Columns.Add(new DataColumn("Column2"));
+
+                // Act
+                Action action =
+                    () => dataTable.Columns.Should().ContainColumnWithName("Column4", "because {0}", "we do");
+
+                // Assert
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected dataTable.Columns to contain column named \"Column4\" because we do*");
+            }
+        }
+
+        public class NotContainColumnWithName
+        {
+            [Fact]
+            public void When_column_does_not_exist_it_should_succeed()
+            {
+                // Arrange
+                var dataTable = new DataTable();
+
+                dataTable.Columns.Add(new DataColumn("Column0"));
+                dataTable.Columns.Add(new DataColumn("Column1"));
+                dataTable.Columns.Add(new DataColumn("Column2"));
+
+                // Act & Assert
+                dataTable.Columns.Should().NotContainColumnWithName("Column4");
+            }
+
+            [Fact]
+            public void When_column_exists_it_should_fail()
+            {
+                // Arrange
+                var dataTable = new DataTable();
+
+                dataTable.Columns.Add(new DataColumn("Column0"));
+                dataTable.Columns.Add(new DataColumn("Column1"));
+                dataTable.Columns.Add(new DataColumn("Column2"));
+
+                // Act
+                Action action =
+                    () => dataTable.Columns.Should().NotContainColumnWithName(
+                        "Column1", "because we {0} like it, but found it anyhow", "don't");
+
+                // Assert
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected dataTable.Columns* to not contain column named \"Column1\" because we don't like it, but found it anyhow*");
+            }
+        }
     }
 }

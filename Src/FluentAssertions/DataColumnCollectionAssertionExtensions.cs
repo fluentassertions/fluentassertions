@@ -165,5 +165,82 @@ namespace FluentAssertions
 
             return new AndConstraint<GenericCollectionAssertions<DataColumn>>(assertion);
         }
+
+        /// <summary>
+        /// Asserts that the current collection of <see cref="DataColumn"/>s contains a <see cref="DataColumn"/> with the
+        /// specified <paramref name="expectedColumnName"/> name.
+        /// </summary>
+        /// <param name="expectedColumnName">A name for a <see cref="DataColumn"/> that is expected to be in the
+        /// <see cref="DataColumnCollection"/>.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public static AndConstraint<GenericCollectionAssertions<DataColumn>> ContainColumnWithName(
+            this GenericCollectionAssertions<DataColumn> assertion, string expectedColumnName, string because = "",
+            params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(
+                expectedColumnName, nameof(expectedColumnName), "Cannot verify that the collection contains a <null> DataColumn.");
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected {context:collection} to contain column named {0}{reason}, ", expectedColumnName)
+                .Given(() => assertion.Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith("but found {0}.", assertion.Subject)
+                .Then
+                .ForCondition(
+                    (subject) => (subject is ReadOnlyNonGenericCollectionWrapper<DataColumnCollection, DataColumn> wrapper)
+                    ? wrapper.UnderlyingCollection.Contains(expectedColumnName)
+                    : assertion.Subject.Any(column => column.ColumnName == expectedColumnName))
+                .FailWith("but it does not.")
+                .Then
+                .ClearExpectation();
+
+            return new AndConstraint<GenericCollectionAssertions<DataColumn>>(assertion);
+        }
+
+        /// <summary>
+        /// Asserts that the current collection of <see cref="DataColumn"/>s does not contain a column with the the supplied
+        /// <paramref name="unexpectedColumnName" />.
+        /// </summary>
+        /// <param name="unexpectedColumnName">The column name that is not expected to be in the
+        /// <see cref="DataColumnCollection" /></param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public static AndConstraint<GenericCollectionAssertions<DataColumn>> NotContainColumnWithName(
+            this GenericCollectionAssertions<DataColumn> assertion, string unexpectedColumnName, string because = "",
+            params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(
+                unexpectedColumnName, nameof(unexpectedColumnName),
+                "Cannot verify that the collection does not contain a <null> DataColumn.");
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected {context:collection} to not contain column named {0}{reason}, ", unexpectedColumnName)
+                .Given(() => assertion.Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith("but found {0}.", assertion.Subject)
+                .Then
+                .ForCondition(
+                    (subject) => (subject is ReadOnlyNonGenericCollectionWrapper<DataColumnCollection, DataColumn> wrapper)
+                    ? !wrapper.UnderlyingCollection.Contains(unexpectedColumnName)
+                    : !assertion.Subject.Any(column => column.ColumnName == unexpectedColumnName))
+                .FailWith("but it does.")
+                .Then
+                .ClearExpectation();
+
+            return new AndConstraint<GenericCollectionAssertions<DataColumn>>(assertion);
+        }
     }
 }

@@ -541,5 +541,78 @@ namespace FluentAssertions.Specs.Collections.Data
                 }
             }
         }
+
+        public class ContainTableWithName
+        {
+            [Fact]
+            public void When_table_exists_it_should_succeed()
+            {
+                // Arrange
+                var dataSet = new DataSet();
+
+                dataSet.Tables.Add(new DataTable("Table1"));
+                dataSet.Tables.Add(new DataTable("Table2"));
+                dataSet.Tables.Add(new DataTable("Table3"));
+
+                // Act & Assert
+                dataSet.Tables.Should().ContainTableWithName("Table1");
+            }
+
+            [Fact]
+            public void When_table_does_not_exist_it_should_fail()
+            {
+                // Arrange
+                var dataSet = new DataSet();
+
+                dataSet.Tables.Add(new DataTable("Table1"));
+                dataSet.Tables.Add(new DataTable("Table2"));
+                dataSet.Tables.Add(new DataTable("Table3"));
+
+                // Act
+                Action action =
+                    () => dataSet.Tables.Should().ContainTableWithName("Table4", "because {0}", "we do");
+
+                // Assert
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected dataSet.Tables* to contain table named \"Table4\" because we do*");
+            }
+        }
+
+        public class NotContainTableWithName
+        {
+            [Fact]
+            public void When_table_does_not_exist_it_should_succeed()
+            {
+                // Arrange
+                var dataSet = new DataSet();
+
+                dataSet.Tables.Add(new DataTable("Table1"));
+                dataSet.Tables.Add(new DataTable("Table2"));
+                dataSet.Tables.Add(new DataTable("Table3"));
+
+                // Act & Assert
+                dataSet.Tables.Should().NotContainTableWithName("Table4");
+            }
+
+            [Fact]
+            public void When_table_exists_it_should_fail()
+            {
+                // Arrange
+                var dataSet = new DataSet();
+
+                dataSet.Tables.Add(new DataTable("Table1"));
+                dataSet.Tables.Add(new DataTable("Table2"));
+                dataSet.Tables.Add(new DataTable("Table3"));
+
+                // Act
+                Action action =
+                    () => dataSet.Tables.Should().NotContainTableWithName(
+                        "Table1", "because we {0} like it, but found it anyhow", "don't");
+
+                // Assert
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected dataSet.Tables* to not contain table named \"Table1\" because we don't like it, but found it anyhow*");
+            }
+        }
     }
 }
