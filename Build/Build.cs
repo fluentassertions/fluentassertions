@@ -133,6 +133,8 @@ class Build : NukeBuild
                 .SetProjectFile(Solution.Specs.FluentAssertions_Specs)
                 .SetConfiguration("Debug")
                 .EnableNoBuild()
+                .SetDataCollector("XPlat Code Coverage")
+                .SetResultsDirectory(RootDirectory / "TestResults")
                 .CombineWith(
                     Solution.Specs.FluentAssertions_Specs.GetTargetFrameworks().Except(new[] { "net47" }),
                     (_, v) => _.SetFramework(v)));
