@@ -1491,55 +1491,80 @@ namespace FluentAssertions.Equivalency.Specs
                 .RespectingRuntimeTypes());
         }
 
-        [Theory]
-        [MemberData(nameof(TestMembers))]
-        public void Including_non_browsable_members_should_work(TestMember memberWithDifference)
+        [Fact]
+        public void Including_non_browsable_members_should_work_when_browsable_field_differs()
+            => IncludingNonBrowsableMembersTest(new ClassWithNonBrowsableMembers() { BrowsableField = 1 });
+
+        [Fact]
+        public void Including_non_browsable_members_should_work_when_browsable_property_differs()
+            => IncludingNonBrowsableMembersTest(new ClassWithNonBrowsableMembers() { BrowsableProperty = 1 });
+
+        [Fact]
+        public void Including_non_browsable_members_should_work_when_advanced_browsable_field_differs()
+            => IncludingNonBrowsableMembersTest(new ClassWithNonBrowsableMembers() { AdvancedBrowsableField = 1 });
+
+        [Fact]
+        public void Including_non_browsable_members_should_work_when_advanced_browsable_property_differs()
+            => IncludingNonBrowsableMembersTest(new ClassWithNonBrowsableMembers() { AdvancedBrowsableProperty = 1 });
+
+        [Fact]
+        public void Including_non_browsable_members_should_work_when_non_browsable_field_differs()
+            => IncludingNonBrowsableMembersTest(new ClassWithNonBrowsableMembers() { NonBrowsableField = 1 });
+
+        [Fact]
+        public void Including_non_browsable_members_should_work_when_non_browsable_property_differs()
+            => IncludingNonBrowsableMembersTest(new ClassWithNonBrowsableMembers() { NonBrowsableProperty = 1 });
+
+        private void IncludingNonBrowsableMembersTest(ClassWithNonBrowsableMembers expectation)
         {
             // Arrange
-            var a = new ClassWithNonBrowsableMembers();
-            var b = new ClassWithNonBrowsableMembers();
-
-            b.ApplyDifference(memberWithDifference);
+            var subject = new ClassWithNonBrowsableMembers();
 
             // Act & Assert
-            a.Should().NotBeEquivalentTo(b, config => config.IncludingNonBrowsableMembers());
+            subject.Should().NotBeEquivalentTo(expectation, config => config.IncludingNonBrowsableMembers());
         }
 
-        [Theory]
-        [MemberData(nameof(TestMembers))]
-        public void Excluding_non_browsable_members_should_work(TestMember memberWithDifference)
+        [Fact]
+        public void Excluding_non_browsable_members_should_work_when_browsable_field_differs()
+            => ExcludingNonBrowsableMembersTest_ShouldNotBeEquivalent(new ClassWithNonBrowsableMembers() { BrowsableField = 1 });
+
+        [Fact]
+        public void Excluding_non_browsable_members_should_work_when_browsable_property_differs()
+            => ExcludingNonBrowsableMembersTest_ShouldNotBeEquivalent(new ClassWithNonBrowsableMembers() { BrowsableProperty = 1 });
+
+        [Fact]
+        public void Excluding_non_browsable_members_should_work_when_advanced_browsable_field_differs()
+            => ExcludingNonBrowsableMembersTest_ShouldNotBeEquivalent(new ClassWithNonBrowsableMembers() { AdvancedBrowsableField = 1 });
+
+        [Fact]
+        public void Excluding_non_browsable_members_should_work_when_advanced_browsable_property_differs()
+            => ExcludingNonBrowsableMembersTest_ShouldNotBeEquivalent(new ClassWithNonBrowsableMembers() { AdvancedBrowsableProperty = 1 });
+
+        private void ExcludingNonBrowsableMembersTest_ShouldNotBeEquivalent(ClassWithNonBrowsableMembers expectation)
         {
             // Arrange
-            var a = new ClassWithNonBrowsableMembers();
-            var b = new ClassWithNonBrowsableMembers();
-
-            b.ApplyDifference(memberWithDifference);
+            var subject = new ClassWithNonBrowsableMembers();
 
             // Act & Assert
-            if (memberWithDifference.ToString().StartsWith("NonBrowsable", StringComparison.Ordinal))
-            {
-                a.Should().BeEquivalentTo(b, config => config.ExcludingNonBrowsableMembers());
-            }
-            else
-            {
-                a.Should().NotBeEquivalentTo(b, config => config.ExcludingNonBrowsableMembers());
-            }
+            subject.Should().NotBeEquivalentTo(expectation, config => config.ExcludingNonBrowsableMembers());
         }
 
-        public enum TestMember
+        [Fact]
+        public void Excluding_non_browsable_members_should_work_when_non_browsable_field_differs()
+            => ExcludingNonBrowsableMembersTest_ShouldBeEquivalent(new ClassWithNonBrowsableMembers() { NonBrowsableField = 1 });
+
+        [Fact]
+        public void Excluding_non_browsable_members_should_work_when_non_browsable_property_differs()
+            => ExcludingNonBrowsableMembersTest_ShouldBeEquivalent(new ClassWithNonBrowsableMembers() { NonBrowsableProperty = 1 });
+
+        private void ExcludingNonBrowsableMembersTest_ShouldBeEquivalent(ClassWithNonBrowsableMembers expectation)
         {
-            BrowsableField,
-            BrowsableProperty,
-            AdvancedBrowsableField,
-            AdvancedBrowsableProperty,
-            NonBrowsableField,
-            NonBrowsableProperty,
-        }
+            // Arrange
+            var subject = new ClassWithNonBrowsableMembers();
 
-        public static IEnumerable<object[]> TestMembers
-            => Enum.GetValues(typeof(TestMember))
-            .OfType<TestMember>()
-            .Select(testMember => new object[] { testMember });
+            // Act & Assert
+            subject.Should().BeEquivalentTo(expectation, config => config.ExcludingNonBrowsableMembers());
+        }
 
         private class ClassWithNonBrowsableMembers
         {
@@ -1558,21 +1583,6 @@ namespace FluentAssertions.Equivalency.Specs
 
             [EditorBrowsable(EditorBrowsableState.Never)]
             public int NonBrowsableProperty { get; set; }
-
-            public void ApplyDifference(TestMember member)
-            {
-                switch (member)
-                {
-                    case TestMember.BrowsableField: BrowsableField = 1; break;
-                    case TestMember.BrowsableProperty: BrowsableProperty = 1; break;
-                    case TestMember.AdvancedBrowsableField: AdvancedBrowsableField = 1; break;
-                    case TestMember.AdvancedBrowsableProperty: AdvancedBrowsableProperty = 1; break;
-                    case TestMember.NonBrowsableField: NonBrowsableField = 1; break;
-                    case TestMember.NonBrowsableProperty: NonBrowsableProperty = 1; break;
-
-                    default: throw new NotImplementedException();
-                }
-            }
         }
     }
 }
