@@ -106,7 +106,9 @@ namespace FluentAssertions.Common
         public bool GetContainsSpecificCollectionIndex() => dottedPath.ContainsSpecificCollectionIndex();
 
         private string[] Segments =>
-            segments ??= dottedPath.Split(new[] { '.', '[', ']' }, StringSplitOptions.RemoveEmptyEntries);
+            segments ??= dottedPath
+                .Replace("[]", "[*]")
+                .Split(new[] { '.', '[', ']' }, StringSplitOptions.RemoveEmptyEntries);
 
         /// <summary>
         /// Returns the name of the member the current path points to without its parent path.
