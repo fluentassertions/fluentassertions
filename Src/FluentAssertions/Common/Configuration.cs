@@ -76,7 +76,7 @@ namespace FluentAssertions.Common
 
         /// <summary>
         /// Gets or sets the assembly name to scan for custom value formatters in case <see cref="ValueFormatterDetectionMode"/>
-        /// is set to <see cref="ValueFormatterDetectionMode.Specific"/>.
+        /// is set to <see cref="Common.ValueFormatterDetectionMode.Specific"/>.
         /// </summary>
         public string ValueFormatterAssembly
         {

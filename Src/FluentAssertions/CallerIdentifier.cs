@@ -27,7 +27,7 @@ namespace FluentAssertions
                 var stack = new StackTrace(fNeedFileInfo: true);
 
                 var allStackFrames = stack.GetFrames()
-                    .Where(frame => !IsCompilerServices(frame))
+                    .Where(frame => frame is not null && !IsCompilerServices(frame))
                     .ToArray();
 
                 int searchStart = allStackFrames.Length - 1;
@@ -40,13 +40,11 @@ namespace FluentAssertions
                         frame => !IsCurrentAssembly(frame));
                 }
 
-                int firstFluentAssertionsCodeIndex = Array.FindLastIndex(
+                int lastUserStackFrameBeforeFluentAssertionsCodeIndex = Array.FindIndex(
                     allStackFrames,
-                    searchStart,
-                    frame => IsCurrentAssembly(frame));
-
-                int lastUserStackFrameBeforeFluentAssertionsCodeIndex =
-                    firstFluentAssertionsCodeIndex + 1;
+                    startIndex: 0,
+                    count: searchStart + 1,
+                    frame => !IsCurrentAssembly(frame) && !IsDotNet(frame));
 
                 for (int i = lastUserStackFrameBeforeFluentAssertionsCodeIndex; i < allStackFrames.Length; i++)
                 {
@@ -84,7 +82,7 @@ namespace FluentAssertions
                 var stack = new StackTrace();
 
                 var allStackFrames = stack.GetFrames()
-                    .Where(frame => !IsCompilerServices(frame))
+                    .Where(frame => frame is not null && !IsCompilerServices(frame))
                     .ToArray();
 
                 int firstUserCodeFrameIndex = 0;
@@ -117,7 +115,7 @@ namespace FluentAssertions
         internal static bool OnlyOneFluentAssertionScopeOnCallStack()
         {
             var allStackFrames = new StackTrace().GetFrames()
-                .Where(frame => !IsCompilerServices(frame))
+                .Where(frame => frame is not null && !IsCompilerServices(frame))
                 .ToArray();
 
             int firstNonFluentAssertionsStackFrameIndex = Array.FindIndex(
@@ -132,29 +130,29 @@ namespace FluentAssertions
             int startOfSecondFluentAssertionsScopeStackFrameIndex = Array.FindIndex(
                 allStackFrames,
                 startIndex: firstNonFluentAssertionsStackFrameIndex + 1,
-                IsCurrentAssembly);
+                frame => IsCurrentAssembly(frame));
 
             return startOfSecondFluentAssertionsScopeStackFrameIndex < 0;
         }
 
         private static bool IsCustomAssertion(StackFrame frame)
         {
-            return frame.GetMethod().IsDecoratedWithOrInherit<CustomAssertionAttribute>();
+            return frame.GetMethod()?.IsDecoratedWithOrInherit<CustomAssertionAttribute>() == true;
         }
 
         private static bool IsDynamic(StackFrame frame)
         {
-            return frame.GetMethod().DeclaringType is null;
+            return frame.GetMethod() is { DeclaringType: null };
         }
 
         private static bool IsCurrentAssembly(StackFrame frame)
         {
-            return frame.GetMethod().DeclaringType?.Assembly == typeof(CallerIdentifier).Assembly;
+            return frame.GetMethod()?.DeclaringType?.Assembly == typeof(CallerIdentifier).Assembly;
         }
 
         private static bool IsDotNet(StackFrame frame)
         {
-            var frameNamespace = frame.GetMethod().DeclaringType.Namespace;
+            var frameNamespace = frame.GetMethod()?.DeclaringType?.Namespace;
             var comparisonType = StringComparison.OrdinalIgnoreCase;
 
             return frameNamespace?.StartsWith("system.", comparisonType) == true ||
@@ -163,7 +161,7 @@ namespace FluentAssertions
 
         private static bool IsCompilerServices(StackFrame frame)
         {
-            return frame.GetMethod().DeclaringType?.Namespace == "System.Runtime.CompilerServices";
+            return frame.GetMethod()?.DeclaringType?.Namespace == "System.Runtime.CompilerServices";
         }
 
         private static string ExtractVariableNameFrom(StackFrame frame)
@@ -175,7 +173,7 @@ namespace FluentAssertions
             {
                 Logger(statement);
                 if (!IsBooleanLiteral(statement) && !IsNumeric(statement) && !IsStringLiteral(statement) &&
-                    !UsesNewKeyword(statement))
+                    !StartsWithNewKeyword(statement))
                 {
                     caller = statement;
                 }
@@ -235,9 +233,9 @@ namespace FluentAssertions
             return sb.ToString();
         }
 
-        private static bool UsesNewKeyword(string candidate)
+        private static bool StartsWithNewKeyword(string candidate)
         {
-            return Regex.IsMatch(candidate, @"new(?:\s?\[|\s?\{|\s\w+)");
+            return Regex.IsMatch(candidate, @"(?:^|s+)new(?:\s?\[|\s?\{|\s\w+)");
         }
 
         private static bool IsStringLiteral(string candidate)

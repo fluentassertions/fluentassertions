@@ -21,5 +21,10 @@ namespace FluentAssertions.Events
         /// The exact date and time of the occurrence in <see cref="DateTimeKind.Local"/>.
         /// </summary>
         public DateTime TimestampUtc { get; set; }
+
+        /// <summary>
+        /// The order in which this event was raised on the monitored object.
+        /// </summary>
+        public int Sequence { get; set; }
     }
 }

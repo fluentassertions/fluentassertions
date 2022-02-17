@@ -103,6 +103,64 @@ namespace FluentAssertions.Common
             return new MemberPath(typeof(TDeclaringType), declaringType, segmentPath.Replace(".[", "[", StringComparison.Ordinal));
         }
 
+        /// <summary>
+        /// Validates that the expression can be used to construct a <see cref="MemberPath"/>.
+        /// </summary>
+        public static void ValidateMemberPath<TDeclaringType, TPropertyType>(
+            this Expression<Func<TDeclaringType, TPropertyType>> expression)
+        {
+            Guard.ThrowIfArgumentIsNull(expression, nameof(expression), "Expected an expression, but found <null>.");
+
+            Expression node = expression;
+
+            while (node is not null)
+            {
+#pragma warning disable IDE0010 // System.Linq.Expressions.ExpressionType has many members we do not care about
+                switch (node.NodeType)
+#pragma warning restore IDE0010
+                {
+                    case ExpressionType.Lambda:
+                        node = ((LambdaExpression)node).Body;
+                        break;
+
+                    case ExpressionType.Convert:
+                    case ExpressionType.ConvertChecked:
+                        var unaryExpression = (UnaryExpression)node;
+                        node = unaryExpression.Operand;
+                        break;
+
+                    case ExpressionType.MemberAccess:
+                        var memberExpression = (MemberExpression)node;
+                        node = memberExpression.Expression;
+
+                        break;
+
+                    case ExpressionType.ArrayIndex:
+                        var binaryExpression = (BinaryExpression)node;
+                        node = binaryExpression.Left;
+
+                        break;
+
+                    case ExpressionType.Parameter:
+                        node = null;
+                        break;
+
+                    case ExpressionType.Call:
+                        var methodCallExpression = (MethodCallExpression)node;
+                        if (methodCallExpression.Method.Name != "get_Item" || methodCallExpression.Arguments.Count != 1 || methodCallExpression.Arguments[0] is not ConstantExpression)
+                        {
+                            throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
+                        }
+
+                        node = methodCallExpression.Object;
+                        break;
+
+                    default:
+                        throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
+                }
+            }
+        }
+
         private static string GetUnsupportedExpressionMessage(Expression expression) =>
             $"Expression <{expression}> cannot be used to select a member.";
     }

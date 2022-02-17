@@ -18,7 +18,7 @@ namespace FluentAssertions.Equivalency.Steps
                 context.Tracer.WriteLine(member =>
                 {
                     string strategyName = (strategy == EqualityStrategy.Equals)
-                        ? "Equals must be used" : "object overrides Equals";
+                        ? $"{expectationType} overrides Equals" : "we are forced to use Equals";
 
                     return $"Treating {member.Description} as a value type because {strategyName}.";
                 });

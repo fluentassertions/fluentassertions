@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Common
@@ -39,6 +40,22 @@ namespace FluentAssertions.Common
             string formattedString = Formatter.ToString(value.Substring(index, length));
 
             return $"{formattedString} (index {index})".EscapePlaceholders();
+        }
+
+        /// <summary>
+        /// Replaces all numeric indices from a path like "property[0].nested" and returns "property[].nested"
+        /// </summary>
+        public static string WithoutSpecificCollectionIndices(this string indexedPath)
+        {
+            return Regex.Replace(indexedPath, @"\[\d+\]", "[]");
+        }
+
+        /// <summary>
+        /// Determines whether a string contains a specific index like `[0]` instead of just `[]`.
+        /// </summary>
+        public static bool ContainsSpecificCollectionIndex(this string indexedPath)
+        {
+            return Regex.IsMatch(indexedPath, @"\[\d+\]");
         }
 
         /// <summary>

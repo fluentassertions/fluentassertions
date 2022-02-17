@@ -174,6 +174,48 @@ orderDto.Should().BeEquivalentTo(order, options => options
 
 This configuration affects the initial inclusion of members and happens before any `Exclude`s or other `IMemberSelectionRule`s. This configuration also affects matching. For example, that if properties are excluded, properties will not be inspected when looking for a match on the expected object.
 
+### Comparing members with different names
+
+Imagine you want to compare an `Order` and an `OrderDto` using `BeEquivalentTo`, but the first type has a `Name` property and the second has a `OrderName` property. You can map those using the following option:
+
+```csharp
+// Using names with the expectation member name first. Then the subject's member name.
+orderDto.Should().BeEquivalentTo(order, options => options
+    .WithMapping("Name", "OrderName"));
+
+// Using expressions, but again, with expectation first, subject last.
+orderDto.Should().BeEquivalentTo(order, options => options
+    .WithMapping<OrderDto>(e => e.Name, s => s.OrderName));
+```
+
+Another option is to map two deeply nested members to each other. In that case, your path must start at the root:
+
+```csharp
+// Using dotted property paths 
+rootSubject.Should().BeEquivalentTo(rootExpectation, options => options
+    .WithMapping("Parent.Collection[].Member", "Parent.Collection[].Member"));
+
+// Using expressions
+rootSubject.Should().BeEquivalentTo(rootExpectation, options => options
+    .WithMapping<SubjectType>(e => e.Parent.Collection[0].Member, s => s.Parent.Collection[0].Member));
+```
+
+Note that collection indices in string-based paths are not allowed. Within expressions, you must use an index to make it a valid property path, but it'll be ignored. So both the examples are equivalent. Also, such nested paths must have the same parent. So mapping properties or fields at different levels is not (yet) supported.
+
+Now imagine those types appear somewhere in the object graph. Then you can use this overload:
+
+```csharp
+// Using names
+orderDto.Should().BeEquivalentTo(order, options => options
+    .WithMapping<Order, OrderDto>("Name", "OrderName"));
+
+// Using expressions
+orderDto.Should().BeEquivalentTo(order, options => options
+    .WithMapping<Order, OrderDto>(e => e.Name, s => s.OrderName));
+```
+
+Notice that you can also map properties to fields and vice-versa.
+
 ### Equivalency Comparison Behavior
 
 In addition to influencing the members that are including in the comparison, you can also override the actual assertion operation that is executed on a particular member.

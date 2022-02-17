@@ -4,7 +4,7 @@ namespace FluentAssertions.CallerIdentification
 {
     internal class AwaitParsingStrategy : IParsingStrategy
     {
-        private const string KeywordToSkip = "await";
+        private const string KeywordToSkip = "await ";
 
         public ParsingState Parse(char symbol, StringBuilder statement)
         {

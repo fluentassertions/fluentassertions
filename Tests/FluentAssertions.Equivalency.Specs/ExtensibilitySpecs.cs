@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using FluentAssertions.Equivalency;
 using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Equivalency
+namespace FluentAssertions.Equivalency.Specs
 {
     /// <summary>
     /// Test Class containing specs over the extensibility points of Should().BeEquivalentTo
     /// </summary>
-    public class ExtensibilityRelatedEquivalencySpecs
+    public class ExtensibilitySpecs
     {
         #region Selection Rules
 

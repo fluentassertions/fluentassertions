@@ -411,6 +411,28 @@ namespace FluentAssertions.Specs.Events
                 .Which.PropertyName.Should().Be("Boo");
         }
 
+        [Fact]
+        public void When_events_are_raised_regardless_of_time_tick_it_should_return_by_invokation_order()
+        {
+            // Arrange
+            var observable = new TestEventRaisingInOrder();
+            var utcNow = 11.January(2022).At(12, 00).AsUtc();
+            using var monitor = observable.Monitor(() => utcNow);
+
+            // Act
+            observable.RaiseAllEvents();
+
+            // Assert
+            monitor.OccurredEvents[0].EventName.Should().Be(nameof(TestEventRaisingInOrder.InterfaceEvent));
+            monitor.OccurredEvents[0].Sequence.Should().Be(0);
+
+            monitor.OccurredEvents[1].EventName.Should().Be(nameof(TestEventRaisingInOrder.Interface2Event));
+            monitor.OccurredEvents[1].Sequence.Should().Be(1);
+
+            monitor.OccurredEvents[2].EventName.Should().Be(nameof(TestEventRaisingInOrder.Interface3Event));
+            monitor.OccurredEvents[2].Sequence.Should().Be(2);
+        }
+
         #endregion
 
         #region Should(Not)RaisePropertyChanged events
@@ -817,6 +839,22 @@ namespace FluentAssertions.Specs.Events
             }
         }
 
+        private class TestEventRaisingInOrder : IEventRaisingInterface, IEventRaisingInterface2, IEventRaisingInterface3
+        {
+            public event EventHandler Interface3Event;
+
+            public event EventHandler Interface2Event;
+
+            public event EventHandler InterfaceEvent;
+
+            public void RaiseAllEvents()
+            {
+                InterfaceEvent?.Invoke(this, EventArgs.Empty);
+                Interface2Event?.Invoke(this, EventArgs.Empty);
+                Interface3Event?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
         public interface IEventRaisingInterface
         {
             event EventHandler InterfaceEvent;
@@ -825,6 +863,11 @@ namespace FluentAssertions.Specs.Events
         public interface IEventRaisingInterface2
         {
             event EventHandler Interface2Event;
+        }
+
+        public interface IEventRaisingInterface3
+        {
+            event EventHandler Interface3Event;
         }
 
         public interface IInheritsEventRaisingInterface : IEventRaisingInterface

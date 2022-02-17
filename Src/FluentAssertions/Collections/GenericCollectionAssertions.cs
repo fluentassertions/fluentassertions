@@ -865,7 +865,6 @@ namespace FluentAssertions.Collections
                         new EquivalencyValidator().AssertEquality(comparands, context);
 
                         string[] failures = scope.Discard();
-
                         if (!failures.Any())
                         {
                             return new AndWhichConstraint<TAssertions, T>((TAssertions)this, actualItem);
@@ -946,7 +945,7 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that the current collection only contains items that are assignable to the type <typeparamref name="TExpectation" />.
+        /// Asserts that the current collection contains at least one element that is assignable to the type <typeparamref name="TExpectation" />.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -957,29 +956,18 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> ContainItemsAssignableTo<TExpectation>(string because = "", params object[] becauseArgs)
         {
-            bool success = Execute.Assertion
+            Execute.Assertion
                 .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected {context:collection} to contain at least one element assignable to type {0}{reason}, ",
+                    typeof(TExpectation).FullName)
                 .ForCondition(Subject is not null)
-                .FailWith("Expected {context:collection} to contain element assignable to type {0}{reason}, but found <null>.",
-                    typeof(TExpectation));
-
-            if (success)
-            {
-                int index = 0;
-                foreach (T item in Subject)
-                {
-                    if (item is not TExpectation)
-                    {
-                        Execute.Assertion
-                            .BecauseOf(because, becauseArgs)
-                            .FailWith(
-                                "Expected {context:collection} to contain only items of type {0}{reason}" +
-                                ", but item {1} at index {2} is of type {3}.", typeof(TExpectation), item, index, item.GetType());
-                    }
-
-                    ++index;
-                }
-            }
+                .FailWith("but found <null>.")
+                .Then
+                .Given(() => Subject.ConvertOrCastToCollection())
+                .ForCondition(subject => subject.Any(x => typeof(TExpectation).IsAssignableFrom(GetType(x))))
+                .FailWith("but found {0}.", subject => subject.Select(x => GetType(x)))
+                .Then
+                .ClearExpectation();
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -2683,6 +2671,66 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
+        /// Asserts that a collection contains only items which meet
+        /// the criteria provided by the inspector.
+        /// </summary>
+        /// <param name="expected">
+        /// The element inspector, which inspects each element in turn.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+        /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <c>null</c>.</exception>
+        public AndConstraint<TAssertions> AllSatisfy(Action<T> expected, string because = "", params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify against a <null> inspector");
+
+            bool success = Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected {context:collection} to contain only items satisfying the inspector{reason}, ")
+                .Given(() => Subject)
+                .ForCondition(subject => subject is not null)
+                .FailWith("but collection is <null>.")
+                .Then
+                .ForCondition(subject => subject.Any())
+                .FailWith("but collection is empty.")
+                .Then
+                .ClearExpectation();
+
+            if (success)
+            {
+                string[] failuresFromInspectors;
+
+                using (CallerIdentifier.OverrideStackSearchUsingCurrentScope())
+                {
+                    var elementInspectors = Subject.Select(_ => expected);
+                    failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
+                }
+
+                if (failuresFromInspectors.Any())
+                {
+                    string failureMessage = Environment.NewLine
+                        + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
+
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .WithExpectation("Expected {context:collection} to contain only items satisfying the inspector{reason}:")
+                        .FailWithPreFormatted(failureMessage)
+                        .Then
+                        .ClearExpectation();
+                }
+
+                return new AndConstraint<TAssertions>((TAssertions)this);
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
         /// Asserts that a collection contains exactly a given number of elements, which meet
         /// the criteria provided by the element inspectors.
         /// </summary>
@@ -2945,13 +2993,11 @@ namespace FluentAssertions.Collections
                     direction,
                     unordered);
 
-                string orderString = GetExpressionOrderString(propertyExpression);
-
                 Execute.Assertion
                     .ForCondition(unordered.SequenceEqual(expectation))
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} {0} to be ordered {1}{reason} and result in {2}.",
-                        Subject, orderString, expectation);
+                        () => Subject, () => GetExpressionOrderString(propertyExpression), () => expectation);
 
                 return new AndConstraint<SubsequentOrderingAssertions<T>>(
                     new SubsequentOrderingAssertions<T>(Subject, expectation));
@@ -3140,11 +3186,13 @@ namespace FluentAssertions.Collections
             Guard.ThrowIfArgumentIsNull(propertyExpression, nameof(propertyExpression),
                 "Cannot assert collection ordering without specifying a property.");
 
+            propertyExpression.ValidateMemberPath();
+
             return Execute.Assertion
-                .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject is not null)
                 .FailWith("Expected {context:collection} to be ordered by {0}{reason} but found <null>.",
-                    propertyExpression.GetMemberPath());
+                    () => propertyExpression.GetMemberPath());
         }
 
         private AndConstraint<TAssertions> NotBeOrderedBy<TSelector>(
@@ -3166,13 +3214,11 @@ namespace FluentAssertions.Collections
                     direction,
                     unordered);
 
-                string orderString = GetExpressionOrderString(propertyExpression);
-
                 Execute.Assertion
                     .ForCondition(!unordered.SequenceEqual(expectation))
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} {0} to not be ordered {1}{reason} and not result in {2}.",
-                        Subject, orderString, expectation);
+                        () => Subject, () => GetExpressionOrderString(propertyExpression), () => expectation);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);

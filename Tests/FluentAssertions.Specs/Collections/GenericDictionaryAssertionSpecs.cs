@@ -874,7 +874,7 @@ namespace FluentAssertions.Specs.Collections
             dictionary.Should().NotBeEmpty();
         }
 
-        #if !NET5_0_OR_GREATER
+#if !NET5_0_OR_GREATER
 
         [Fact]
         public void When_asserting_dictionary_with_items_is_not_empty_it_should_enumerate_the_dictionary_only_once()
@@ -889,7 +889,7 @@ namespace FluentAssertions.Specs.Collections
             trackingDictionary.Enumerator.LoopCount.Should().Be(1);
         }
 
-        #endif
+#endif
 
         [Fact]
         public void When_asserting_dictionary_without_items_is_not_empty_it_should_fail()
@@ -2640,6 +2640,15 @@ namespace FluentAssertions.Specs.Collections
 
         [Theory]
         [MemberData(nameof(SingleDictionaryData))]
+        public void When_a_dictionary_like_collection_contains_the_expected_key_and_value_it_should_succeed<T>(T subject)
+            where T : IEnumerable<KeyValuePair<int, int>>
+        {
+            // Assert
+            subject.Should().Contain(1, 42);
+        }
+
+        [Theory]
+        [MemberData(nameof(SingleDictionaryData))]
         public void When_a_dictionary_like_collection_contains_the_expected_value_it_should_succeed<T>(T subject)
             where T : IEnumerable<KeyValuePair<int, int>>
         {
@@ -2673,6 +2682,19 @@ namespace FluentAssertions.Specs.Collections
                 new TrueReadOnlyDictionary<int, int>(new Dictionary<int, int>() { [1] = 42 }),
                 new List<KeyValuePair<int, int>> { new KeyValuePair<int, int>(1, 42) }
             };
+        }
+
+        [Fact]
+        public void When_a_dictionary_like_collection_contains_the_default_key_it_should_succeed()
+        {
+            // Arrange
+            var subject = new List<KeyValuePair<int, int>>() { new(0, 0) };
+
+            // Act
+            Action act = () => subject.Should().Contain(0, 0);
+
+            // Assert
+            act.Should().NotThrow();
         }
 
         /// <summary>

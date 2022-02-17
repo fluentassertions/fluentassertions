@@ -1,6 +1,5 @@
 ﻿using System;
 using FluentAssertions.Execution;
-using FluentAssertions.Specs.Equivalency;
 using Xunit;
 using Xunit.Sdk;
 
@@ -197,6 +196,33 @@ namespace FluentAssertions.Specs.Collections
 
             // Act / Assert
             collection.Should().ContainEquivalentOf(item, options => options.Including(x => x.Name));
+        }
+
+        [Fact]
+        public void Tracing_should_be_included_in_the_assertion_output()
+        {
+            // Arrange
+            var collection = new[]
+            {
+                new Customer
+                {
+                    Name = "John",
+                    Age = 18
+                },
+                new Customer
+                {
+                    Name = "Jane",
+                    Age = 18
+                }
+            };
+
+            var item = new Customer { Name = "John", Age = 21 };
+
+            // Act
+            Action act = () => collection.Should().ContainEquivalentOf(item, options => options.WithTracing());
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*Equivalency was proven*");
         }
 
         [Fact]

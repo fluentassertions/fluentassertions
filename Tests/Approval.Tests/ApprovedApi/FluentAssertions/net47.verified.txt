@@ -1,5 +1,6 @@
 ﻿[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/fluentassertions/fluentassertions")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo(@"Benchmarks, PublicKey=00240000048000009400000006020000002400005253413100040000010001002d25ff515c85b13ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f970d2a4874932fed35db546e89af2da88c194bf1b7f7ac70de7988c78406f7629c547283061282a825616eb7eb48a9514a7570942936020a9bb37dca9ff60b778309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo(@"FluentAssertions.Equivalency.Specs, PublicKey=00240000048000009400000006020000002400005253413100040000010001002d25ff515c85b13ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f970d2a4874932fed35db546e89af2da88c194bf1b7f7ac70de7988c78406f7629c547283061282a825616eb7eb48a9514a7570942936020a9bb37dca9ff60b778309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo(@"FluentAssertions.Specs, PublicKey=00240000048000009400000006020000002400005253413100040000010001002d25ff515c85b13ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f970d2a4874932fed35db546e89af2da88c194bf1b7f7ac70de7988c78406f7629c547283061282a825616eb7eb48a9514a7570942936020a9bb37dca9ff60b778309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f")]
 [assembly: System.Runtime.Versioning.TargetFramework(".NETFramework,Version=v4.7", FrameworkDisplayName=".NET Framework 4.7")]
 namespace FluentAssertions
@@ -242,9 +243,13 @@ namespace FluentAssertions
     {
         public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> Where<TException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, System.Linq.Expressions.Expression<System.Func<TException, bool>> exceptionExpression, string because = "", params object[] becauseArgs)
             where TException : System.Exception { }
+        public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<System.Exception>> WithInnerException<TException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, System.Type innerException, string because = "", params object[] becauseArgs)
+            where TException : System.Exception { }
         public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TInnerException>> WithInnerException<TException, TInnerException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, string because = "", params object[] becauseArgs)
             where TException : System.Exception
             where TInnerException : System.Exception { }
+        public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<System.Exception>> WithInnerExceptionExactly<TException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, System.Type innerException, string because = "", params object[] becauseArgs)
+            where TException : System.Exception { }
         public static System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TInnerException>> WithInnerExceptionExactly<TException, TInnerException>(this System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> task, string because = "", params object[] becauseArgs)
             where TException : System.Exception
             where TInnerException : System.Exception { }
@@ -387,6 +392,7 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> AllBeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> AllBeOfType(System.Type expectedType, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, System.Collections.Generic.IEnumerable<TExpectation>> AllBeOfType<TExpectation>(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> AllSatisfy(System.Action<T> expected, string because = "", params object[] becauseArgs) { }
         protected void AssertCollectionEndsWith<TActual, TExpectation>(System.Collections.Generic.IEnumerable<TActual> actual, System.Collections.Generic.ICollection<TExpectation> expected, System.Func<TActual, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
         protected void AssertCollectionStartsWith<TActual, TExpectation>(System.Collections.Generic.IEnumerable<TActual> actualItems, System.Collections.Generic.ICollection<TExpectation> expected, System.Func<TActual, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
         protected void AssertSubjectEquality<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> expectation, System.Func<T, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
@@ -752,6 +758,10 @@ namespace FluentAssertions.Equivalency
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<System.Collections.Generic.IEnumerable<TExpectation>> AsCollection() { }
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> Excluding(System.Linq.Expressions.Expression<System.Func<TExpectation, object>> expression) { }
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> Including(System.Linq.Expressions.Expression<System.Func<TExpectation, object>> expression) { }
+        public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> WithMapping(string expectationMemberPath, string subjectMemberPath) { }
+        public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> WithMapping<TSubject>(System.Linq.Expressions.Expression<System.Func<TExpectation, object>> expectationMemberPath, System.Linq.Expressions.Expression<System.Func<TSubject, object>> subjectMemberPath) { }
+        public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> WithMapping<TNestedExpectation, TNestedSubject>(System.Linq.Expressions.Expression<System.Func<TNestedExpectation, object>> expectationMember, System.Linq.Expressions.Expression<System.Func<TNestedSubject, object>> subjectMember) { }
+        public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> WithMapping<TNestedExpectation, TNestedSubject>(string expectationMemberName, string subjectMemberName) { }
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> WithStrictOrderingFor(System.Linq.Expressions.Expression<System.Func<TExpectation, object>> expression) { }
     }
     public enum EquivalencyResult
@@ -876,7 +886,7 @@ namespace FluentAssertions.Equivalency
         string Description { get; }
         FluentAssertions.Equivalency.GetSubjectId GetSubjectId { get; }
         bool IsRoot { get; }
-        string Name { get; }
+        string Name { get; set; }
         string Path { get; }
         string PathAndName { get; }
         bool RootIsCollection { get; }
@@ -964,6 +974,7 @@ namespace FluentAssertions.Equivalency
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         protected FluentAssertions.Equivalency.OrderingRuleCollection OrderingRules { get; }
         public FluentAssertions.Equivalency.Tracing.ITraceWriter TraceWriter { get; }
+        protected TSelf AddMatchingRule(FluentAssertions.Equivalency.IMemberMatchingRule matchingRule) { }
         protected TSelf AddSelectionRule(FluentAssertions.Equivalency.IMemberSelectionRule selectionRule) { }
         public TSelf AllowingInfiniteRecursion() { }
         public TSelf ComparingByMembers(System.Type type) { }
@@ -1217,6 +1228,7 @@ namespace FluentAssertions.Events
         public OccurredEvent() { }
         public string EventName { get; set; }
         public object[] Parameters { get; set; }
+        public int Sequence { get; set; }
         public System.DateTime TimestampUtc { get; set; }
     }
 }
@@ -1243,6 +1255,7 @@ namespace FluentAssertions.Execution
         public void AddPreFormattedFailure(string formattedFailureMessage) { }
         public void AddReportable(string key, System.Func<string> valueFunc) { }
         public void AddReportable(string key, string value) { }
+        public void AppendTracing(string tracingBlock) { }
         public void AssumeSingleCaller() { }
         public FluentAssertions.Execution.AssertionScope BecauseOf(FluentAssertions.Execution.Reason reason) { }
         public FluentAssertions.Execution.AssertionScope BecauseOf(string because, params object[] becauseArgs) { }
@@ -1918,6 +1931,7 @@ namespace FluentAssertions.Primitives
         where TAssertions : FluentAssertions.Primitives.HttpResponseMessageAssertions<TAssertions>
     {
         protected HttpResponseMessageAssertions(System.Net.Http.HttpResponseMessage value) { }
+        protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> BeRedirection(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeSuccessful(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveClientError(string because = "", params object[] becauseArgs) { }
@@ -2209,8 +2223,10 @@ namespace FluentAssertions.Specialized
         protected override string Identifier { get; }
         public TException Which { get; }
         public FluentAssertions.Specialized.ExceptionAssertions<TException> Where(System.Linq.Expressions.Expression<System.Func<TException, bool>> exceptionExpression, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.Specialized.ExceptionAssertions<System.Exception> WithInnerException(System.Type innerException, string because = null, params object[] becauseArgs) { }
         public virtual FluentAssertions.Specialized.ExceptionAssertions<TInnerException> WithInnerException<TInnerException>(string because = null, params object[] becauseArgs)
             where TInnerException : System.Exception { }
+        public FluentAssertions.Specialized.ExceptionAssertions<System.Exception> WithInnerExceptionExactly(System.Type innerException, string because = null, params object[] becauseArgs) { }
         public virtual FluentAssertions.Specialized.ExceptionAssertions<TInnerException> WithInnerExceptionExactly<TInnerException>(string because = null, params object[] becauseArgs)
             where TInnerException : System.Exception { }
         public virtual FluentAssertions.Specialized.ExceptionAssertions<TException> WithMessage(string expectedWildcardPattern, string because = "", params object[] becauseArgs) { }
@@ -2284,6 +2300,7 @@ namespace FluentAssertions.Streams
         where TAssertions : FluentAssertions.Streams.BufferedStreamAssertions<TAssertions>
     {
         public BufferedStreamAssertions(System.IO.BufferedStream stream) { }
+        protected override string Identifier { get; }
     }
     public class StreamAssertions : FluentAssertions.Streams.StreamAssertions<System.IO.Stream, FluentAssertions.Streams.StreamAssertions>
     {
@@ -2342,7 +2359,6 @@ namespace FluentAssertions.Types
         where TAssertions : FluentAssertions.Types.MethodBaseAssertions<TSubject, TAssertions>
     {
         protected MethodBaseAssertions(TSubject subject) { }
-        protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> HaveAccessModifier(FluentAssertions.Common.CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveAccessModifier(FluentAssertions.Common.CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs) { }
     }
@@ -2639,6 +2655,7 @@ namespace FluentAssertions.Xml
     public class XmlElementAssertions : FluentAssertions.Xml.XmlNodeAssertions<System.Xml.XmlElement, FluentAssertions.Xml.XmlElementAssertions>
     {
         public XmlElementAssertions(System.Xml.XmlElement xmlElement) { }
+        protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<FluentAssertions.Xml.XmlElementAssertions> HaveAttribute(string expectedName, string expectedValue, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Xml.XmlElementAssertions> HaveAttributeWithNamespace(string expectedName, string expectedNamespace, string expectedValue, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Xml.XmlElementAssertions, System.Xml.XmlElement> HaveElement(string expectedName, string because = "", params object[] becauseArgs) { }

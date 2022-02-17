@@ -18,11 +18,18 @@ theString.Should().NotBeEmpty("because the string is not empty");
 theString.Should().HaveLength(0);
 theString.Should().BeNullOrWhiteSpace(); // either null, empty or whitespace only
 theString.Should().NotBeNullOrWhiteSpace();
+```
+
+To ensure the characters in a string are all (not) upper or lower cased, you can use the following assertions.
+
+```csharp
 theString.Should().BeUpperCased();
 theString.Should().NotBeUpperCased();
 theString.Should().BeLowerCased();
 theString.Should().NotBeLowerCased();
 ```
+
+However, be careful that numbers and special characters don't have casing, so `BeUpperCased` and `BeLowerCased` will always fail on a string that contains anything but alphabetic characters. In those cases, we recommend using `NotBeUpperCased` or `NotBeLowerCased`.
 
 Obviously you’ll find all the methods you would expect for string assertions.
 

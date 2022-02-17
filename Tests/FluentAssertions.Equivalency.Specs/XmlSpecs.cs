@@ -3,9 +3,9 @@ using System.Xml.Linq;
 using Xunit;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.Equivalency
+namespace FluentAssertions.Equivalency.Specs
 {
-    public class XmlEquivalencySpecs
+    public class XmlSpecs
     {
         [Fact]
         public void When_asserting_a_xml_selfclosing_document_is_equivalent_to_a_different_xml_document_with_same_structure_it_should_succeed()

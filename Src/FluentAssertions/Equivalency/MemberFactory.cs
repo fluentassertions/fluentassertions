@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency
 {
@@ -18,6 +19,18 @@ namespace FluentAssertions.Equivalency
             }
 
             throw new NotSupportedException($"Don't know how to deal with a {memberInfo.MemberType}");
+        }
+
+        internal static IMember Find(object target, string memberName, Type preferredMemberType, INode parent)
+        {
+            PropertyInfo property = target.GetType().FindProperty(memberName, preferredMemberType);
+            if ((property is not null) && !property.IsIndexer())
+            {
+                return new Property(property, parent);
+            }
+
+            FieldInfo field = target.GetType().FindField(memberName, preferredMemberType);
+            return (field is not null) ? new Field(field, parent) : null;
         }
     }
 }
