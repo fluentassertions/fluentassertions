@@ -5,328 +5,328 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Equivalency.Specs
 {
-        public class DataRowSpecs : DataSpecs
+    public class DataRowSpecs : DataSpecs
+    {
+        [Fact]
+        public void When_DataRows_are_identical_it_should_succeed()
         {
-            [Fact]
-            public void When_DataRows_are_identical_it_should_succeed()
-            {
-                // Arrange
-                var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
-                var dataSet2 = new TypedDataSetSubclass(dataSet1);
-
-                var dataTable1 = dataSet1.TypedDataTable1;
-                var dataTable2 = dataSet2.TypedDataTable1;
-
-                // Act & Assert
-                dataTable1[0].Should().BeEquivalentTo(dataTable2[0]);
-            }
-
-            [Fact]
-            public void When_DataRows_are_both_null_it_should_succeed()
-            {
-                // Act & Assert
-                ((DataRow)null).Should().BeEquivalentTo(null);
-            }
-
-            [Fact]
-            public void When_DataRow_is_null_and_isnt_expected_to_be_it_should_fail()
-            {
-                // Arrange
-                var dataSet = CreateDummyDataSet<TypedDataSet>();
-
-                var dataTable = dataSet.TypedDataTable1;
-
-                // Act
-                Action action = () => ((DataRow)null).Should().BeEquivalentTo(dataTable[0]);
-
-                // Assert
-                action.Should().Throw<XunitException>().WithMessage(
-                    "Expected *to be non-null, but found null*");
-            }
-
-            [Fact]
-            public void When_DataRow_is_expected_to_be_null_and_isnt_it_should_fail()
-            {
-                // Arrange
-                var dataSet = CreateDummyDataSet<TypedDataSet>();
-
-                var dataTable = dataSet.TypedDataTable1;
-
-                // Act
-                Action action = () => dataTable[0].Should().BeEquivalentTo(null);
-
-                // Assert
-                action.Should().Throw<XunitException>();
-            }
-
-            [Fact]
-            public void When_DataRow_subject_is_deleted_and_RowState_is_excluded_it_should_succeed()
-            {
-                // Arrange
-                var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
-                var dataSet2 = new TypedDataSetSubclass(dataSet1);
-
-                var dataTable1 = dataSet1.TypedDataTable2;
-                var dataTable2 = dataSet2.TypedDataTable2;
-
-                var dataRow1 = dataTable1[0];
-                var dataRow2 = dataTable2[0];
-
-                dataRow1.Delete();
-
-                // Act & Assert
-                dataRow1.Should().BeEquivalentTo(dataRow2, config => config
-                    .Excluding(row => row.RowState));
-            }
-
-            [Fact]
-            public void When_DataRow_expectation_is_deleted_and_RowState_is_excluded_it_should_succeed()
-            {
-                // Arrange
-                var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
-                var dataSet2 = new TypedDataSetSubclass(dataSet1);
-
-                var dataTable1 = dataSet1.TypedDataTable2;
-                var dataTable2 = dataSet2.TypedDataTable2;
-
-                var dataRow1 = dataTable1[0];
-                var dataRow2 = dataTable2[0];
-
-                dataRow2.Delete();
-
-                // Act & Assert
-                dataRow1.Should().BeEquivalentTo(dataRow2, config => config
-                    .Excluding(row => row.RowState));
-            }
-
-            [Fact]
-            public void When_DataRow_is_deleted_it_should_succeed()
-            {
-                // Arrange
-                var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
-                var dataSet2 = new TypedDataSetSubclass(dataSet1);
-
-                var dataTable1 = dataSet1.TypedDataTable2;
-                var dataTable2 = dataSet2.TypedDataTable2;
-
-                var dataRow1 = dataTable1[0];
-                var dataRow2 = dataTable2[0];
+            // Arrange
+            var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
+            var dataSet2 = new TypedDataSetSubclass(dataSet1);
+
+            var dataTable1 = dataSet1.TypedDataTable1;
+            var dataTable2 = dataSet2.TypedDataTable1;
+
+            // Act & Assert
+            dataTable1[0].Should().BeEquivalentTo(dataTable2[0]);
+        }
+
+        [Fact]
+        public void When_DataRows_are_both_null_it_should_succeed()
+        {
+            // Act & Assert
+            ((DataRow)null).Should().BeEquivalentTo(null);
+        }
+
+        [Fact]
+        public void When_DataRow_is_null_and_isnt_expected_to_be_it_should_fail()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSet>();
+
+            var dataTable = dataSet.TypedDataTable1;
+
+            // Act
+            Action action = () => ((DataRow)null).Should().BeEquivalentTo(dataTable[0]);
+
+            // Assert
+            action.Should().Throw<XunitException>().WithMessage(
+                "Expected *to be non-null, but found null*");
+        }
+
+        [Fact]
+        public void When_DataRow_is_expected_to_be_null_and_isnt_it_should_fail()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSet>();
+
+            var dataTable = dataSet.TypedDataTable1;
+
+            // Act
+            Action action = () => dataTable[0].Should().BeEquivalentTo(null);
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_DataRow_subject_is_deleted_and_RowState_is_excluded_it_should_succeed()
+        {
+            // Arrange
+            var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
+            var dataSet2 = new TypedDataSetSubclass(dataSet1);
+
+            var dataTable1 = dataSet1.TypedDataTable2;
+            var dataTable2 = dataSet2.TypedDataTable2;
+
+            var dataRow1 = dataTable1[0];
+            var dataRow2 = dataTable2[0];
+
+            dataRow1.Delete();
+
+            // Act & Assert
+            dataRow1.Should().BeEquivalentTo(dataRow2, config => config
+                .Excluding(row => row.RowState));
+        }
+
+        [Fact]
+        public void When_DataRow_expectation_is_deleted_and_RowState_is_excluded_it_should_succeed()
+        {
+            // Arrange
+            var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
+            var dataSet2 = new TypedDataSetSubclass(dataSet1);
+
+            var dataTable1 = dataSet1.TypedDataTable2;
+            var dataTable2 = dataSet2.TypedDataTable2;
+
+            var dataRow1 = dataTable1[0];
+            var dataRow2 = dataTable2[0];
+
+            dataRow2.Delete();
+
+            // Act & Assert
+            dataRow1.Should().BeEquivalentTo(dataRow2, config => config
+                .Excluding(row => row.RowState));
+        }
+
+        [Fact]
+        public void When_DataRow_is_deleted_it_should_succeed()
+        {
+            // Arrange
+            var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
+            var dataSet2 = new TypedDataSetSubclass(dataSet1);
+
+            var dataTable1 = dataSet1.TypedDataTable2;
+            var dataTable2 = dataSet2.TypedDataTable2;
+
+            var dataRow1 = dataTable1[0];
+            var dataRow2 = dataTable2[0];
+
+            dataRow1.Delete();
+            dataRow2.Delete();
+
+            // Act & Assert
+            dataRow1.Should().BeEquivalentTo(dataRow2);
+        }
 
-                dataRow1.Delete();
-                dataRow2.Delete();
-
-                // Act & Assert
-                dataRow1.Should().BeEquivalentTo(dataRow2);
-            }
+        [Fact]
+        public void When_DataRow_is_modified_and_original_data_differs_it_should_fail()
+        {
+            // Arrange
+            var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
+            var dataSet2 = new TypedDataSetSubclass(dataSet1);
 
-            [Fact]
-            public void When_DataRow_is_modified_and_original_data_differs_it_should_fail()
-            {
-                // Arrange
-                var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
-                var dataSet2 = new TypedDataSetSubclass(dataSet1);
+            var dataTable1 = dataSet1.TypedDataTable2;
+            var dataTable2 = dataSet2.TypedDataTable2;
 
-                var dataTable1 = dataSet1.TypedDataTable2;
-                var dataTable2 = dataSet2.TypedDataTable2;
+            var dataRow1 = dataTable1[0];
+            var dataRow2 = dataTable2[0];
 
-                var dataRow1 = dataTable1[0];
-                var dataRow2 = dataTable2[0];
+            dataRow1.Decimal++;
+            dataTable1.AcceptChanges();
+            dataRow1.Decimal--;
+
+            dataRow2.Decimal--;
+            dataTable2.AcceptChanges();
+            dataRow2.Decimal++;
 
-                dataRow1.Decimal++;
-                dataTable1.AcceptChanges();
-                dataRow1.Decimal--;
+            // Act
+            Action action = () => dataRow1.Should().BeEquivalentTo(dataRow2);
 
-                dataRow2.Decimal--;
-                dataTable2.AcceptChanges();
-                dataRow2.Decimal++;
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
 
-                // Act
-                Action action = () => dataRow1.Should().BeEquivalentTo(dataRow2);
+        [Fact]
+        public void When_DataRow_is_modified_and_original_data_differs_and_original_data_is_excluded_it_should_succeed()
+        {
+            // Arrange
+            var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
+            var dataSet2 = new TypedDataSetSubclass(dataSet1);
 
-                // Assert
-                action.Should().Throw<XunitException>();
-            }
+            var dataTable1 = dataSet1.TypedDataTable2;
+            var dataTable2 = dataSet2.TypedDataTable2;
 
-            [Fact]
-            public void When_DataRow_is_modified_and_original_data_differs_and_original_data_is_excluded_it_should_succeed()
-            {
-                // Arrange
-                var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
-                var dataSet2 = new TypedDataSetSubclass(dataSet1);
+            var dataRow1 = dataTable1[0];
+            var dataRow2 = dataTable2[0];
 
-                var dataTable1 = dataSet1.TypedDataTable2;
-                var dataTable2 = dataSet2.TypedDataTable2;
+            dataRow1.Decimal++;
+            dataTable1.AcceptChanges();
+            dataRow1.Decimal--;
 
-                var dataRow1 = dataTable1[0];
-                var dataRow2 = dataTable2[0];
+            dataRow2.Decimal--;
+            dataTable2.AcceptChanges();
+            dataRow2.Decimal++;
 
-                dataRow1.Decimal++;
-                dataTable1.AcceptChanges();
-                dataRow1.Decimal--;
+            // Act & Assert
+            dataRow1.Should().BeEquivalentTo(dataRow2, config => config
+                .ExcludingOriginalData());
+        }
 
-                dataRow2.Decimal--;
-                dataTable2.AcceptChanges();
-                dataRow2.Decimal++;
+        [Fact]
+        public void When_DataRow_type_does_not_match_and_AllowMismatchedType_not_enabled_it_should_fail()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSet>(identicalTables: true);
+            var dataSet2 = new TypedDataSetSubclass(dataSet);
 
-                // Act & Assert
-                dataRow1.Should().BeEquivalentTo(dataRow2, config => config
-                    .ExcludingOriginalData());
-            }
+            var dataTable = dataSet.TypedDataTable1;
+            var dataTableOfMismatchedType = dataSet2.TypedDataTable2;
 
-            [Fact]
-            public void When_DataRow_type_does_not_match_and_AllowMismatchedType_not_enabled_it_should_fail()
-            {
-                // Arrange
-                var dataSet = CreateDummyDataSet<TypedDataSet>(identicalTables: true);
-                var dataSet2 = new TypedDataSetSubclass(dataSet);
+            dataSet2.Tables.Remove(dataTable.TableName);
+            dataTableOfMismatchedType.TableName = dataTable.TableName;
 
-                var dataTable = dataSet.TypedDataTable1;
-                var dataTableOfMismatchedType = dataSet2.TypedDataTable2;
+            // Act
+            Action action = () => dataTable[0].Should().BeEquivalentTo(dataTableOfMismatchedType[0]);
 
-                dataSet2.Tables.Remove(dataTable.TableName);
-                dataTableOfMismatchedType.TableName = dataTable.TableName;
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
 
-                // Act
-                Action action = () => dataTable[0].Should().BeEquivalentTo(dataTableOfMismatchedType[0]);
+        [Fact]
+        public void When_DataRow_type_does_not_match_and_AllowMismatchedType_is_enabled_it_should_succeed()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSet>(identicalTables: true);
+            var dataSet2 = new TypedDataSetSubclass(dataSet);
 
-                // Assert
-                action.Should().Throw<XunitException>();
-            }
+            var dataTable = dataSet.TypedDataTable1;
+            var dataTableOfMismatchedType = dataSet2.TypedDataTable2;
 
-            [Fact]
-            public void When_DataRow_type_does_not_match_and_AllowMismatchedType_is_enabled_it_should_succeed()
-            {
-                // Arrange
-                var dataSet = CreateDummyDataSet<TypedDataSet>(identicalTables: true);
-                var dataSet2 = new TypedDataSetSubclass(dataSet);
+            dataSet2.Tables.Remove(dataTable.TableName);
+            dataTableOfMismatchedType.TableName = dataTable.TableName;
 
-                var dataTable = dataSet.TypedDataTable1;
-                var dataTableOfMismatchedType = dataSet2.TypedDataTable2;
+            // Act & Assert
+            dataTable[0].Should().BeEquivalentTo(dataTableOfMismatchedType[0], options => options.AllowingMismatchedTypes());
+        }
 
-                dataSet2.Tables.Remove(dataTable.TableName);
-                dataTableOfMismatchedType.TableName = dataTable.TableName;
+        [Fact]
+        public void When_HasErrors_does_not_match_and_property_is_not_excluded_it_should_fail()
+        {
+            // Arrange
+            var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
 
-                // Act & Assert
-                dataTable[0].Should().BeEquivalentTo(dataTableOfMismatchedType[0], options => options.AllowingMismatchedTypes());
-            }
+            var dataSet2 = new TypedDataSetSubclass(dataSet1);
 
-            [Fact]
-            public void When_HasErrors_does_not_match_and_property_is_not_excluded_it_should_fail()
-            {
-                // Arrange
-                var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
+            var dataRow1 = dataSet1.TypedDataTable1[0];
+            var dataRow2 = dataSet2.TypedDataTable1[0];
 
-                var dataSet2 = new TypedDataSetSubclass(dataSet1);
+            dataRow2.RowError = "Manually added error";
 
-                var dataRow1 = dataSet1.TypedDataTable1[0];
-                var dataRow2 = dataSet2.TypedDataTable1[0];
+            // Act
+            Action action = () => dataRow1.Should().BeEquivalentTo(dataRow2);
 
-                dataRow2.RowError = "Manually added error";
+            // Assert
+            action.Should().Throw<XunitException>().Which.Message.Should().Contain("HasErrors");
+        }
 
-                // Act
-                Action action = () => dataRow1.Should().BeEquivalentTo(dataRow2);
+        [Fact]
+        public void When_HasErrors_does_not_match_and_property_is_excluded_it_should_succeed()
+        {
+            // Arrange
+            var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
 
-                // Assert
-                action.Should().Throw<XunitException>().Which.Message.Should().Contain("HasErrors");
-            }
+            var dataSet2 = new TypedDataSetSubclass(dataSet1);
 
-            [Fact]
-            public void When_HasErrors_does_not_match_and_property_is_excluded_it_should_succeed()
-            {
-                // Arrange
-                var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
+            var dataRow1 = dataSet1.TypedDataTable1[0];
+            var dataRow2 = dataSet2.TypedDataTable1[0];
 
-                var dataSet2 = new TypedDataSetSubclass(dataSet1);
+            dataRow2.RowError = "Manually added error";
 
-                var dataRow1 = dataSet1.TypedDataTable1[0];
-                var dataRow2 = dataSet2.TypedDataTable1[0];
+            // Act & Assert
+            dataRow1.Should().BeEquivalentTo(dataRow2, config => config.Excluding(dataRow => dataRow.HasErrors));
+        }
 
-                dataRow2.RowError = "Manually added error";
+        [Fact]
+        public void When_RowState_does_not_match_and_property_is_not_excluded_it_should_fail()
+        {
+            // Arrange
+            var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
 
-                // Act & Assert
-                dataRow1.Should().BeEquivalentTo(dataRow2, config => config.Excluding(dataRow => dataRow.HasErrors));
-            }
+            var dataSet2 = new TypedDataSetSubclass(dataSet1);
 
-            [Fact]
-            public void When_RowState_does_not_match_and_property_is_not_excluded_it_should_fail()
-            {
-                // Arrange
-                var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
+            var dataRow1 = dataSet1.TypedDataTable1[0];
+            var dataRow2 = dataSet2.TypedDataTable1[0];
 
-                var dataSet2 = new TypedDataSetSubclass(dataSet1);
+            dataRow1.DateTime = DateTime.UtcNow;
+            dataRow2.DateTime = dataRow1.DateTime;
 
-                var dataRow1 = dataSet1.TypedDataTable1[0];
-                var dataRow2 = dataSet2.TypedDataTable1[0];
+            dataSet2.AcceptChanges();
 
-                dataRow1.DateTime = DateTime.UtcNow;
-                dataRow2.DateTime = dataRow1.DateTime;
+            // Act
+            Action action = () => dataRow1.Should().BeEquivalentTo(dataRow2);
 
-                dataSet2.AcceptChanges();
+            // Assert
+            action.Should().Throw<XunitException>().Which.Message.Should().Contain("RowState");
+        }
 
-                // Act
-                Action action = () => dataRow1.Should().BeEquivalentTo(dataRow2);
+        [Fact]
+        public void When_RowState_does_not_match_and_property_is_excluded_it_should_succeed()
+        {
+            // Arrange
+            var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
 
-                // Assert
-                action.Should().Throw<XunitException>().Which.Message.Should().Contain("RowState");
-            }
+            var dataSet2 = new TypedDataSetSubclass(dataSet1);
 
-            [Fact]
-            public void When_RowState_does_not_match_and_property_is_excluded_it_should_succeed()
-            {
-                // Arrange
-                var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
+            var dataRow1 = dataSet1.TypedDataTable1[0];
+            var dataRow2 = dataSet2.TypedDataTable1[0];
 
-                var dataSet2 = new TypedDataSetSubclass(dataSet1);
+            dataRow1.DateTime = DateTime.UtcNow;
+            dataRow2.DateTime = dataRow1.DateTime;
 
-                var dataRow1 = dataSet1.TypedDataTable1[0];
-                var dataRow2 = dataSet2.TypedDataTable1[0];
+            dataSet2.AcceptChanges();
 
-                dataRow1.DateTime = DateTime.UtcNow;
-                dataRow2.DateTime = dataRow1.DateTime;
+            // Act & Assert
+            dataRow1.Should().BeEquivalentTo(dataRow2, config => config.Excluding(dataRow => dataRow.RowState));
+        }
 
-                dataSet2.AcceptChanges();
+        [Fact]
+        public void When_data_does_not_match_and_column_is_not_excluded_it_should_fail()
+        {
+            // Arrange
+            var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
 
-                // Act & Assert
-                dataRow1.Should().BeEquivalentTo(dataRow2, config => config.Excluding(dataRow => dataRow.RowState));
-            }
+            var dataSet2 = new TypedDataSetSubclass(dataSet1);
 
-            [Fact]
-            public void When_data_does_not_match_and_column_is_not_excluded_it_should_fail()
-            {
-                // Arrange
-                var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
+            var dataRow1 = dataSet1.TypedDataTable1[0];
+            var dataRow2 = dataSet2.TypedDataTable1[0];
 
-                var dataSet2 = new TypedDataSetSubclass(dataSet1);
+            dataRow2.String = Guid.NewGuid().ToString();
+            dataSet2.AcceptChanges();
 
-                var dataRow1 = dataSet1.TypedDataTable1[0];
-                var dataRow2 = dataSet2.TypedDataTable1[0];
+            // Act
+            Action action = () => dataRow1.Should().BeEquivalentTo(dataRow2);
 
-                dataRow2.String = Guid.NewGuid().ToString();
-                dataSet2.AcceptChanges();
+            // Assert
+            action.Should().Throw<XunitException>().Which.Message.Should().Contain(dataRow2.String);
+        }
 
-                // Act
-                Action action = () => dataRow1.Should().BeEquivalentTo(dataRow2);
+        [Fact]
+        public void When_data_does_not_match_and_column_is_excluded_it_should_succeed()
+        {
+            // Arrange
+            var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
 
-                // Assert
-                action.Should().Throw<XunitException>().Which.Message.Should().Contain(dataRow2.String);
-            }
+            var dataSet2 = new TypedDataSetSubclass(dataSet1);
 
-            [Fact]
-            public void When_data_does_not_match_and_column_is_excluded_it_should_succeed()
-            {
-                // Arrange
-                var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
+            var dataRow1 = dataSet1.TypedDataTable1[0];
+            var dataRow2 = dataSet2.TypedDataTable1[0];
 
-                var dataSet2 = new TypedDataSetSubclass(dataSet1);
+            dataRow2.DateTime = DateTime.UtcNow;
+            dataSet2.AcceptChanges();
 
-                var dataRow1 = dataSet1.TypedDataTable1[0];
-                var dataRow2 = dataSet2.TypedDataTable1[0];
-
-                dataRow2.DateTime = DateTime.UtcNow;
-                dataSet2.AcceptChanges();
-
-                // Act & Assert
-                dataRow1.Should().BeEquivalentTo(dataRow2, config => config.ExcludingColumn(dataSet2.TypedDataTable1.DateTimeColumn));
-            }
+            // Act & Assert
+            dataRow1.Should().BeEquivalentTo(dataRow2, config => config.ExcludingColumn(dataSet2.TypedDataTable1.DateTimeColumn));
         }
     }
+}
