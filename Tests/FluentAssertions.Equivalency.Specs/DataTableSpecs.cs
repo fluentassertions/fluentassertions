@@ -695,5 +695,135 @@ namespace FluentAssertions.Equivalency.Specs
             // Act & Assert
             dataTable1.Should().BeEquivalentTo(dataTable2, options => options.UsingRowMatchMode(RowMatchMode.PrimaryKey));
         }
+
+        [Fact]
+        public void When_asserting_HaveRowCount_if_the_row_count_matches_it_should_succeed()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+            var dataTable = dataSet.TypedDataTable1;
+
+            int rowCount = dataTable.Rows.Count;
+
+            // Act & Assert
+            dataTable.Should().HaveRowCount(rowCount);
+        }
+
+        [Fact]
+        public void When_asserting_HaveRowCount_on_empty_table_if_the_row_count_matches_it_should_succeed()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+            var dataTable = dataSet.TypedDataTable2;
+
+            dataTable.Rows.Clear();
+            dataTable.AcceptChanges();
+
+            // Act & Assert
+            dataTable.Should().HaveRowCount(0);
+        }
+
+        [Fact]
+        public void When_asserting_HaveRowCount_if_the_row_count_does_not_match_it_should_fail()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+            var dataTable = dataSet.TypedDataTable1;
+
+            int rowCount = dataTable.Rows.Count;
+
+            // Act
+            Action action =
+                () => dataTable.Should().HaveRowCount(rowCount * 2);
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_asserting_HaveColumn_if_the_column_is_present_it_should_succeed()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+            var dataTable = dataSet.TypedDataTable1;
+
+            var expectedColumnName = dataTable.Columns[0].ColumnName;
+
+            // Act & Assert
+            dataTable.Should().HaveColumn(expectedColumnName);
+        }
+
+        [Fact]
+        public void When_asserting_HaveColumn_if_the_column_is_not_present_it_should_fail()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+            var dataTable = dataSet.TypedDataTable1;
+
+            // Act
+            Action action =
+                () => dataTable.Should().HaveColumn("Unicorn");
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_asserting_HaveColumns_and_all_columns_are_present_it_should_succeed()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+            var dataTable = dataSet.TypedDataTable1;
+
+            var existingColumnNames = dataTable.Columns.OfType<DataColumn>()
+                .Select(column => column.ColumnName);
+
+            // Act & Assert
+            dataTable.Should().HaveColumns(existingColumnNames);
+        }
+
+        [Fact]
+        public void When_asserting_HaveColumns_and_at_least_one_column_is_not_present_it_should_fail()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+            var dataTable = dataSet.TypedDataTable1;
+
+            var columnNames = dataTable.Columns.OfType<DataColumn>()
+                .Select(column => column.ColumnName)
+                .Concat(new[] { "Unicorn" });
+
+            // Act
+            Action action =
+                () => dataTable.Should().HaveColumns(columnNames);
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_asserting_HaveColumns_and_none_of_the_columns_is_present_it_should_fail()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+            var dataTable = dataSet.TypedDataTable1;
+
+            var nonExistingColumnNames = new[] { "Unicorn", "Dragon" };
+
+            // Act
+            Action action =
+                () => dataTable.Should().HaveColumns(nonExistingColumnNames);
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
     }
 }

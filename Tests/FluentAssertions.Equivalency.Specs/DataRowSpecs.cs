@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+
 using Xunit;
 using Xunit.Sdk;
 
@@ -327,6 +330,92 @@ namespace FluentAssertions.Equivalency.Specs
 
             // Act & Assert
             dataRow1.Should().BeEquivalentTo(dataRow2, config => config.ExcludingColumn(dataSet2.TypedDataTable1.DateTimeColumn));
+        }
+
+        [Fact]
+        public void When_data_has_column_asserting_HaveColumn_should_succeed()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+            var dataRow = dataSet.TypedDataTable1[0];
+
+            // Act & Assert
+            dataRow.Should().HaveColumn("ForeignRowID");
+        }
+
+        [Fact]
+        public void When_data_does_not_have_column_asserting_HaveColumn_should_fail()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+            var dataRow = dataSet.TypedDataTable1[0];
+
+            // Act
+            Action action =
+                () => dataRow.Should().HaveColumn("Unicorn");
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_data_has_all_columns_asserting_HaveColumns_should_succeed()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+            var dataRow = dataSet.TypedDataTable1[0];
+
+            var columnNames = dataRow.Table.Columns.OfType<DataColumn>()
+                .Take(3)
+                .Select(column => column.ColumnName);
+
+            // Act & Assert
+            dataRow.Should().HaveColumns(columnNames);
+        }
+
+        [Fact]
+        public void When_data_has_only_some_columns_asserting_HaveColumns_should_fail()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+            var dataRow = dataSet.TypedDataTable1[0];
+
+            var columnNames = dataRow.Table.Columns.OfType<DataColumn>()
+                .Take(3)
+                .Select(column => column.ColumnName)
+                .Concat(new[] { "Unicorn" });
+
+            // Act
+            Action action =
+                () => dataRow.Should().HaveColumns(columnNames);
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_data_has_no_matching_columns_asserting_HaveColumns_should_fail()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+            var dataRow = dataSet.TypedDataTable1[0];
+
+            var columnNames = new List<string>();
+
+            columnNames.Add("Unicorn");
+            columnNames.Add("Dragon");
+
+            // Act
+            Action action =
+                () => dataRow.Should().HaveColumns(columnNames);
+
+            // Assert
+            action.Should().Throw<XunitException>();
         }
     }
 }

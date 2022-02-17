@@ -2,6 +2,8 @@
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Linq;
+
 using Xunit;
 using Xunit.Sdk;
 
@@ -606,6 +608,109 @@ namespace FluentAssertions.Equivalency.Specs
 
             // Act
             Action action = () => dataSet1.Should().BeEquivalentTo(dataSet2);
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_asserting_table_count_if_it_matches_it_should_succeed()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+            var correctTableCount = dataSet.Tables.Count;
+
+            // Act & Assert
+            dataSet.Should().HaveTableCount(correctTableCount);
+        }
+
+        [Fact]
+        public void When_asserting_table_count_if_it_does_not_match_it_should_fail()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+            var correctTableCount = dataSet.Tables.Count;
+
+            // Act
+            Action action =
+                () => dataSet.Should().HaveTableCount(correctTableCount + 1);
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_asserting_HaveTable_and_table_is_present_it_should_succeed()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+            var existingTableName = dataSet.Tables[0].TableName;
+
+            // Act & Assert
+            dataSet.Should().HaveTable(existingTableName);
+        }
+
+        [Fact]
+        public void When_asserting_HaveTable_and_table_is_not_present_it_should_fail()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+            string nonExistingTableName = "Unicorn";
+
+            // Act
+            Action action =
+                () => dataSet.Should().HaveTable(nonExistingTableName);
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_asserting_HaveTables_and_all_tables_are_present_it_should_succeed()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+            var existingTableNames = dataSet.Tables.OfType<DataTable>()
+                .Select(table => table.TableName);
+
+            // Act & Assert
+            dataSet.Should().HaveTables(existingTableNames);
+        }
+
+        [Fact]
+        public void When_asserting_HaveTables_and_at_least_one_table_is_not_present_it_should_fail()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+            var tableNames = dataSet.Tables.OfType<DataTable>()
+                .Select(table => table.TableName)
+                .Concat(new[] { "Unicorn" });
+
+            // Act
+            Action action =
+                () => dataSet.Should().HaveTables(tableNames);
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_asserting_HaveTables_and_none_of_the_tables_is_present_it_should_fail()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+            var nonExistentTableNames = new[] { "Unicorn", "Dragon" };
+
+            // Act
+            Action action =
+                () => dataSet.Should().HaveTables(nonExistentTableNames);
 
             // Assert
             action.Should().Throw<XunitException>();
