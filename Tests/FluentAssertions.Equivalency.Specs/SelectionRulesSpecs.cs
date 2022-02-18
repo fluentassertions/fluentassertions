@@ -1492,30 +1492,36 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void Including_non_browsable_members_should_work_when_browsable_field_differs()
-            => IncludingNonBrowsableMembersTest(new ClassWithNonBrowsableMembers() { BrowsableField = 1 });
+        public void Including_non_browsable_members_when_testing_NotEquivalent_should_work_when_browsable_field_differs()
+            => NotBeEquivalentTo_IncludingNonBrowsableMembers_should_detect_difference_with_any_member_even_non_browsable_test_common(
+                new ClassWithNonBrowsableMembers() { BrowsableField = 1 });
 
         [Fact]
-        public void Including_non_browsable_members_should_work_when_browsable_property_differs()
-            => IncludingNonBrowsableMembersTest(new ClassWithNonBrowsableMembers() { BrowsableProperty = 1 });
+        public void Including_non_browsable_members_when_testing_NotEquivalent_should_work_when_browsable_property_differs()
+            => NotBeEquivalentTo_IncludingNonBrowsableMembers_should_detect_difference_with_any_member_even_non_browsable_test_common(
+                new ClassWithNonBrowsableMembers() { BrowsableProperty = 1 });
 
         [Fact]
-        public void Including_non_browsable_members_should_work_when_advanced_browsable_field_differs()
-            => IncludingNonBrowsableMembersTest(new ClassWithNonBrowsableMembers() { AdvancedBrowsableField = 1 });
+        public void Including_non_browsable_members_when_testing_NotEquivalent_should_work_when_advanced_browsable_field_differs()
+            => NotBeEquivalentTo_IncludingNonBrowsableMembers_should_detect_difference_with_any_member_even_non_browsable_test_common(
+                new ClassWithNonBrowsableMembers() { AdvancedBrowsableField = 1 });
 
         [Fact]
-        public void Including_non_browsable_members_should_work_when_advanced_browsable_property_differs()
-            => IncludingNonBrowsableMembersTest(new ClassWithNonBrowsableMembers() { AdvancedBrowsableProperty = 1 });
+        public void Including_non_browsable_members_when_testing_NotEquivalent_should_work_when_advanced_browsable_property_differs()
+            => NotBeEquivalentTo_IncludingNonBrowsableMembers_should_detect_difference_with_any_member_even_non_browsable_test_common(
+                new ClassWithNonBrowsableMembers() { AdvancedBrowsableProperty = 1 });
 
         [Fact]
-        public void Including_non_browsable_members_should_work_when_non_browsable_field_differs()
-            => IncludingNonBrowsableMembersTest(new ClassWithNonBrowsableMembers() { NonBrowsableField = 1 });
+        public void Including_non_browsable_members_when_testing_NotEquivalent_should_work_when_non_browsable_field_differs()
+            => NotBeEquivalentTo_IncludingNonBrowsableMembers_should_detect_difference_with_any_member_even_non_browsable_test_common(
+                new ClassWithNonBrowsableMembers() { NonBrowsableField = 1 });
 
         [Fact]
-        public void Including_non_browsable_members_should_work_when_non_browsable_property_differs()
-            => IncludingNonBrowsableMembersTest(new ClassWithNonBrowsableMembers() { NonBrowsableProperty = 1 });
+        public void Including_non_browsable_members_when_testing_NotEquivalent_should_work_when_non_browsable_property_differs()
+            => NotBeEquivalentTo_IncludingNonBrowsableMembers_should_detect_difference_with_any_member_even_non_browsable_test_common(
+                new ClassWithNonBrowsableMembers() { NonBrowsableProperty = 1 });
 
-        private void IncludingNonBrowsableMembersTest(ClassWithNonBrowsableMembers expectation)
+        private void NotBeEquivalentTo_IncludingNonBrowsableMembers_should_detect_difference_with_any_member_even_non_browsable_test_common(ClassWithNonBrowsableMembers expectation)
         {
             // Arrange
             var subject = new ClassWithNonBrowsableMembers();
@@ -1525,22 +1531,26 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void Excluding_non_browsable_members_should_work_when_browsable_field_differs()
-            => ExcludingNonBrowsableMembersTest_ShouldNotBeEquivalent(new ClassWithNonBrowsableMembers() { BrowsableField = 1 });
+        public void Excluding_non_browsable_members_when_testing_NotEquivalentTo_should_work_when_browsable_field_differs()
+            => NotBeEquivalentTo_ExcludingNonBrowsableMembers_should_detect_difference_with_regular_browsable_member_test_common(
+                new ClassWithNonBrowsableMembers() { BrowsableField = 1 });
 
         [Fact]
-        public void Excluding_non_browsable_members_should_work_when_browsable_property_differs()
-            => ExcludingNonBrowsableMembersTest_ShouldNotBeEquivalent(new ClassWithNonBrowsableMembers() { BrowsableProperty = 1 });
+        public void Excluding_non_browsable_members_when_testing_NotEquivalentTo_should_work_when_browsable_property_differs()
+            => NotBeEquivalentTo_ExcludingNonBrowsableMembers_should_detect_difference_with_regular_browsable_member_test_common(
+                new ClassWithNonBrowsableMembers() { BrowsableProperty = 1 });
 
         [Fact]
-        public void Excluding_non_browsable_members_should_work_when_advanced_browsable_field_differs()
-            => ExcludingNonBrowsableMembersTest_ShouldNotBeEquivalent(new ClassWithNonBrowsableMembers() { AdvancedBrowsableField = 1 });
+        public void Excluding_non_browsable_members_when_testing_NotEquivalentTo_should_work_when_advanced_browsable_field_differs()
+            => NotBeEquivalentTo_ExcludingNonBrowsableMembers_should_detect_difference_with_regular_browsable_member_test_common(
+                new ClassWithNonBrowsableMembers() { AdvancedBrowsableField = 1 });
 
         [Fact]
-        public void Excluding_non_browsable_members_should_work_when_advanced_browsable_property_differs()
-            => ExcludingNonBrowsableMembersTest_ShouldNotBeEquivalent(new ClassWithNonBrowsableMembers() { AdvancedBrowsableProperty = 1 });
+        public void Excluding_non_browsable_members_when_testing_NotEquivalentTo_should_work_when_advanced_browsable_property_differs()
+            => NotBeEquivalentTo_ExcludingNonBrowsableMembers_should_detect_difference_with_regular_browsable_member_test_common(
+                new ClassWithNonBrowsableMembers() { AdvancedBrowsableProperty = 1 });
 
-        private void ExcludingNonBrowsableMembersTest_ShouldNotBeEquivalent(ClassWithNonBrowsableMembers expectation)
+        private void NotBeEquivalentTo_ExcludingNonBrowsableMembers_should_detect_difference_with_regular_browsable_member_test_common(ClassWithNonBrowsableMembers expectation)
         {
             // Arrange
             var subject = new ClassWithNonBrowsableMembers();
@@ -1550,14 +1560,16 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void Excluding_non_browsable_members_should_work_when_non_browsable_field_differs()
-            => ExcludingNonBrowsableMembersTest_ShouldBeEquivalent(new ClassWithNonBrowsableMembers() { NonBrowsableField = 1 });
+        public void Excluding_non_browsable_members_when_testing_NotEquivalentTo_should_work_when_non_browsable_field_differs()
+            => NotBeEquivalentTo_ExcludingNonBrowsableMembers_should_non_detect_difference_with_non_browsable_member_test_common(
+                new ClassWithNonBrowsableMembers() { NonBrowsableField = 1 });
 
         [Fact]
-        public void Excluding_non_browsable_members_should_work_when_non_browsable_property_differs()
-            => ExcludingNonBrowsableMembersTest_ShouldBeEquivalent(new ClassWithNonBrowsableMembers() { NonBrowsableProperty = 1 });
+        public void Excluding_non_browsable_members_when_testing_NotEquivalentTo_should_work_when_non_browsable_property_differs()
+            => NotBeEquivalentTo_ExcludingNonBrowsableMembers_should_non_detect_difference_with_non_browsable_member_test_common(
+                new ClassWithNonBrowsableMembers() { NonBrowsableProperty = 1 });
 
-        private void ExcludingNonBrowsableMembersTest_ShouldBeEquivalent(ClassWithNonBrowsableMembers expectation)
+        private void NotBeEquivalentTo_ExcludingNonBrowsableMembers_should_non_detect_difference_with_non_browsable_member_test_common(ClassWithNonBrowsableMembers expectation)
         {
             // Arrange
             var subject = new ClassWithNonBrowsableMembers();
