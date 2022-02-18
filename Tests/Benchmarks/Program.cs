@@ -22,7 +22,7 @@ namespace Benchmarks
 
             var config = ManualConfig.CreateMinimumViable().AddExporter(exporter);
 
-            _ = BenchmarkRunner.Run<BeEquivalentToWithDeeplyNestedStructures>(config);
+            _ = BenchmarkRunner.Run<CheckIfMemberIsBrowsableBenchmarks>(config);
         }
     }
 }

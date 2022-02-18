@@ -32,5 +32,10 @@ namespace FluentAssertions.Equivalency
         /// Gets the access modifier for the setter of this member.
         /// </summary>
         CSharpAccessModifier SetterAccessibility { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the member is browsable in the source code editor. This is controlled with the [EditorBrowsable] attribute.
+        /// </summary>
+        bool IsBrowsable { get; }
     }
 }
