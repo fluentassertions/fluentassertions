@@ -332,7 +332,7 @@ namespace FluentAssertions.Specs.Types
                 .And.NotContain(m => m.Name == "PublicVirtualVoidMethodWithAttribute")
                 .And.NotContain(m => m.Name == "ProtectedVirtualVoidMethodWithAttribute");
         }
-        
+
         [Fact]
         public void When_selecting_methods_that_are_static_it_should_only_return_the_applicable_methods()
         {

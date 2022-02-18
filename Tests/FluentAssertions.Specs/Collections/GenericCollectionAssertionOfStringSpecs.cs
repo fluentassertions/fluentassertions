@@ -1714,7 +1714,7 @@ namespace FluentAssertions.Specs.Collections
             // Act
             Action action = () =>
             {
-                string item = collection.Should().ContainMatch("* failed").Which;
+                _ = collection.Should().ContainMatch("* failed").Which;
             };
 
             // Assert

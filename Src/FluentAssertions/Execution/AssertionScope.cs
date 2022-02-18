@@ -401,7 +401,7 @@ namespace FluentAssertions.Execution
             }
             else
             {
-                IDictionary<string,object> reportable = contextData.GetReportable();
+                IDictionary<string, object> reportable = contextData.GetReportable();
 
                 if (tracing.Length > 0)
                 {

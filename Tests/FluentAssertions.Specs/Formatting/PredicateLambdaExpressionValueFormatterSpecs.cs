@@ -59,7 +59,6 @@ namespace FluentAssertions.Specs.Formatting
         public void When_condition_contains_linq_extension_method_then_extension_method_must_be_formatted()
         {
             // Arrange
-            var actual = new[] { 4 };
             var allowed = new[] { 1, 2, 3 };
 
             // Act
