@@ -114,7 +114,18 @@ namespace FluentAssertions
                         assertion.Subject);
             }
 
-            if (!assertion.Subject.Any(column => column.ColumnName == expectedColumnName))
+            bool containsColumn;
+
+            if (assertion.Subject is NonGenericCollectionWrapper<DataColumnCollection, DataColumn> wrapper)
+            {
+                containsColumn = wrapper.UnderlyingCollection.Contains(expectedColumnName);
+            }
+            else
+            {
+                containsColumn = assertion.Subject.Any(column => column.ColumnName == expectedColumnName);
+            }
+
+            if (!containsColumn)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -150,7 +161,18 @@ namespace FluentAssertions
                         assertion.Subject);
             }
 
-            if (assertion.Subject.Any(column => column.ColumnName == unexpectedColumnName))
+            bool containsColumn;
+
+            if (assertion.Subject is NonGenericCollectionWrapper<DataColumnCollection, DataColumn> wrapper)
+            {
+                containsColumn = wrapper.UnderlyingCollection.Contains(unexpectedColumnName);
+            }
+            else
+            {
+                containsColumn = assertion.Subject.Any(column => column.ColumnName == unexpectedColumnName);
+            }
+
+            if (containsColumn)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)

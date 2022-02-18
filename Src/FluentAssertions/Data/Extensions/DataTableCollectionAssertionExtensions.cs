@@ -101,7 +101,18 @@ namespace FluentAssertions
                         assertion.Subject);
             }
 
-            if (!assertion.Subject.Any(table => table.TableName == expectedTableName))
+            bool containsTable;
+
+            if (assertion.Subject is NonGenericCollectionWrapper<DataTableCollection, DataTable> wrapper)
+            {
+                containsTable = wrapper.UnderlyingCollection.Contains(expectedTableName);
+            }
+            else
+            {
+                containsTable = assertion.Subject.Any(table => table.TableName == expectedTableName);
+            }
+
+            if (!containsTable)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -137,7 +148,18 @@ namespace FluentAssertions
                         assertion.Subject);
             }
 
-            if (assertion.Subject.Any(table => table.TableName == unexpectedTableName))
+            bool containsTable;
+
+            if (assertion.Subject is NonGenericCollectionWrapper<DataTableCollection, DataTable> wrapper)
+            {
+                containsTable = wrapper.UnderlyingCollection.Contains(unexpectedTableName);
+            }
+            else
+            {
+                containsTable = assertion.Subject.Any(table => table.TableName == unexpectedTableName);
+            }
+
+            if (containsTable)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
