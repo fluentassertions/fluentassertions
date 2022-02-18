@@ -12,7 +12,7 @@ namespace FluentAssertions.Equivalency
     public class Property : Node, IMember
     {
         private readonly PropertyInfo propertyInfo;
-        private Lazy<bool> isBrowsable;
+        private bool? isBrowsable;
 
         public Property(PropertyInfo propertyInfo, INode parent)
             : this(propertyInfo.ReflectedType, propertyInfo, parent)
@@ -29,9 +29,6 @@ namespace FluentAssertions.Equivalency
             Path = parent.PathAndName;
             GetSubjectId = parent.GetSubjectId;
             RootIsCollection = parent.RootIsCollection;
-
-            isBrowsable = new Lazy<bool>(
-                () => propertyInfo.GetCustomAttribute<EditorBrowsableAttribute>() is not { State: EditorBrowsableState.Never });
         }
 
         public object GetValue(object obj)
@@ -49,6 +46,17 @@ namespace FluentAssertions.Equivalency
 
         public CSharpAccessModifier SetterAccessibility => propertyInfo.GetSetMethod(nonPublic: true).GetCSharpAccessModifier();
 
-        public bool IsBrowsable => isBrowsable.Value;
+        public bool IsBrowsable
+        {
+            get
+            {
+                if (isBrowsable == null)
+                {
+                    isBrowsable = propertyInfo.GetCustomAttribute<EditorBrowsableAttribute>() is not { State: EditorBrowsableState.Never };
+                }
+
+                return isBrowsable.Value;
+            }
+        }
     }
 }

@@ -1620,7 +1620,7 @@ namespace FluentAssertions.Equivalency.Specs
 
             // Act
             Action action =
-                () => subject.Should().BeEquivalentTo(expectation, config => config.IncludingNonBrowsableMembers());
+                () => subject.Should().BeEquivalentTo(expectation, config => config.ExcludingNonBrowsableMembers());
 
             // Assert
             action.Should().Throw<XunitException>();
@@ -1635,7 +1635,7 @@ namespace FluentAssertions.Equivalency.Specs
 
             // Act
             Action action =
-                () => subject.Should().BeEquivalentTo(expectation, config => config.IncludingNonBrowsableMembers());
+                () => subject.Should().BeEquivalentTo(expectation, config => config.ExcludingNonBrowsableMembers());
 
             // Assert
             action.Should().Throw<XunitException>();
@@ -1650,7 +1650,7 @@ namespace FluentAssertions.Equivalency.Specs
 
             // Act
             Action action =
-                () => subject.Should().BeEquivalentTo(expectation, config => config.IncludingNonBrowsableMembers());
+                () => subject.Should().BeEquivalentTo(expectation, config => config.ExcludingNonBrowsableMembers());
 
             // Assert
             action.Should().Throw<XunitException>();
@@ -1665,7 +1665,7 @@ namespace FluentAssertions.Equivalency.Specs
 
             // Act
             Action action =
-                () => subject.Should().BeEquivalentTo(expectation, config => config.IncludingNonBrowsableMembers());
+                () => subject.Should().BeEquivalentTo(expectation, config => config.ExcludingNonBrowsableMembers());
 
             // Assert
             action.Should().Throw<XunitException>();
@@ -1680,7 +1680,7 @@ namespace FluentAssertions.Equivalency.Specs
 
             // Act
             Action action =
-                () => subject.Should().BeEquivalentTo(expectation, config => config.IncludingNonBrowsableMembers());
+                () => subject.Should().BeEquivalentTo(expectation, config => config.ExcludingNonBrowsableMembers());
 
             // Assert
             action.Should().Throw<XunitException>();
@@ -1695,7 +1695,7 @@ namespace FluentAssertions.Equivalency.Specs
 
             // Act
             Action action =
-                () => subject.Should().BeEquivalentTo(expectation, config => config.IncludingNonBrowsableMembers());
+                () => subject.Should().BeEquivalentTo(expectation, config => config.ExcludingNonBrowsableMembers());
 
             // Assert
             action.Should().Throw<XunitException>();
