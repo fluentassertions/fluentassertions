@@ -16,7 +16,7 @@ namespace FluentAssertions.Specs
             // Act
             Action act = () =>
             {
-                var item = continuation.Which;
+                _ = continuation.Which;
             };
 
             // Assert
