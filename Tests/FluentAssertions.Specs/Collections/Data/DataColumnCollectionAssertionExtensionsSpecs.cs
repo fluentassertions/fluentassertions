@@ -32,6 +32,70 @@ namespace FluentAssertions.Specs.Collections.Data
             return column;
         }
 
+        #region BeSameAs & NotBeSameAs
+        [Fact]
+        public void When_testing_that_references_to_the_same_object_are_the_same_it_should_succeed()
+        {
+            // Arrange
+            var dataTable = new DataTable("Test");
+
+            var columnCollection1 = dataTable.Columns;
+            var columnCollection2 = columnCollection1;
+
+            // Act & Assert
+            columnCollection1.Should().BeSameAs(columnCollection2);
+        }
+
+        [Fact]
+        public void When_testing_that_references_to_the_same_object_are_not_the_same_it_should_fail()
+        {
+            // Arrange
+            var dataTable = new DataTable("Test");
+
+            var columnCollection1 = dataTable.Columns;
+            var columnCollection2 = columnCollection1;
+
+            // Act
+            Action action =
+                () => columnCollection1.Should().NotBeSameAs(columnCollection2);
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_testing_that_references_to_different_objects_are_the_same_it_should_fail()
+        {
+            // Arrange
+            var dataTable1 = new DataTable("Test1");
+            var dataTable2 = new DataTable("Test2");
+
+            var columnCollection1 = dataTable1.Columns;
+            var columnCollection2 = dataTable2.Columns;
+
+            // Act
+            Action action =
+                () => columnCollection1.Should().BeSameAs(columnCollection2);
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_testing_that_references_to_different_objects_are_not_the_same_it_should_succeed()
+        {
+            // Arrange
+            var dataTable1 = new DataTable("Test1");
+            var dataTable2 = new DataTable("Test2");
+
+            var columnCollection1 = dataTable1.Columns;
+            var columnCollection2 = dataTable2.Columns;
+
+            // Act & Assert
+            columnCollection1.Should().NotBeSameAs(columnCollection2);
+        }
+        #endregion
+
         #region HaveSameCount & NotHaveSameCount
         [Fact]
         public void When_DataColumnCollection_and_DataTable_have_the_same_number_elements_it_should_succeed()

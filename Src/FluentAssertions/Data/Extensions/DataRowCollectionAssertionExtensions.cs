@@ -14,6 +14,71 @@ namespace FluentAssertions
     public static class DataRowCollectionAssertionExtensions
     {
         /// <summary>
+        /// Asserts that an object reference refers to the exact same object as another object reference.
+        /// </summary>
+        /// <param name="expected">The expected object</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+        /// </param>
+        public static AndConstraint<GenericCollectionAssertions<DataRow>> BeSameAs(this GenericCollectionAssertions<DataRow> assertion, DataRowCollection expected, string because = "", params object[] becauseArgs)
+        {
+            if (assertion.Subject is NonGenericCollectionWrapper<DataRowCollection, DataRow> wrapper)
+            {
+                var actualSubject = wrapper.UnderlyingCollection;
+
+                Execute.Assertion
+                    .UsingLineBreaks
+                    .ForCondition(ReferenceEquals(actualSubject, expected))
+                    .BecauseOf(because, becauseArgs)
+                    .WithDefaultIdentifier("collection")
+                    .FailWith("Expected {context} to refer to {0}{reason}, but found {1}.", expected, actualSubject);
+            }
+            else
+            {
+                Execute.Assertion
+                    .UsingLineBreaks
+                    .ForCondition(false)
+                    .BecauseOf(because, becauseArgs)
+                    .WithDefaultIdentifier("collection")
+                    .FailWith("Expected {context} to refer to DataRowCollection{reason}, but found {1}.", expected);
+            }
+
+            return new AndConstraint<GenericCollectionAssertions<DataRow>>(assertion);
+        }
+
+        /// <summary>
+        /// Asserts that an object reference refers to a different object than another object reference refers to.
+        /// </summary>
+        /// <param name="unexpected">The unexpected object</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+        /// </param>
+        public static AndConstraint<GenericCollectionAssertions<DataRow>> NotBeSameAs(this GenericCollectionAssertions<DataRow> assertion, DataRowCollection unexpected, string because = "", params object[] becauseArgs)
+        {
+            if (assertion.Subject is NonGenericCollectionWrapper<DataRowCollection, DataRow> wrapper)
+            {
+                var actualSubject = wrapper.UnderlyingCollection;
+
+                Execute.Assertion
+                    .UsingLineBreaks
+                    .ForCondition(!ReferenceEquals(actualSubject, unexpected))
+                    .BecauseOf(because, becauseArgs)
+                    .WithDefaultIdentifier("collection")
+                    .FailWith("Did not expect {context} to refer to {0}{reason}.", unexpected);
+            }
+
+            return new AndConstraint<GenericCollectionAssertions<DataRow>>(assertion);
+        }
+
+        /// <summary>
         /// Assert that the current collection has the same number of elements as <paramref name="otherCollection" />.
         /// </summary>
         /// <param name="otherCollection">The other collection with the same expected number of elements</param>
@@ -50,7 +115,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Assert that the current <see cref="DataRowCollection"/> does not have the same number of tables as <paramref name="otherCollection" />.
+        /// Assert that the current <see cref="DataRowCollection"/> does not have the same number of rows as <paramref name="otherCollection" />.
         /// </summary>
         /// <param name="otherCollection">The other <see cref="DataRowCollection"/> with the unexpected number of elements</param>
         /// <param name="because">
@@ -551,7 +616,7 @@ namespace FluentAssertions
             return new AndConstraint<GenericCollectionAssertions<DataRow>>(assertion);
         }
         /// <summary>
-        /// Asserts that the <see cref="DataRowCollection"/> shares one or more tables with the specified <paramref name="otherCollection"/>.
+        /// Asserts that the <see cref="DataRowCollection"/> shares one or more rows with the specified <paramref name="otherCollection"/>.
         /// See the documentation for <see cref="DataRowAssertions{TDataRow}"/> for information about when <see cref="DataRow"/>
         /// objects are considered equivalent.
         /// </summary>
@@ -570,7 +635,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Asserts that the <see cref="DataRowCollection"/> shares one or more tables with the specified <paramref name="otherRows"/>.
+        /// Asserts that the <see cref="DataRowCollection"/> shares one or more rows with the specified <paramref name="otherRows"/>.
         /// See the documentation for <see cref="DataRowAssertions{TDataRow}"/> for information about when <see cref="DataRow"/>
         /// objects are considered equivalent.
         /// </summary>
@@ -589,7 +654,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Asserts that the <see cref="DataRowCollection"/> shares one or more tables with the specified <paramref name="otherRows"/>.
+        /// Asserts that the <see cref="DataRowCollection"/> shares one or more rows with the specified <paramref name="otherRows"/>.
         /// See the documentation for <see cref="DataRowAssertions{TDataRow}"/> for information about when <see cref="DataRow"/>
         /// objects are considered equivalent.
         /// </summary>

@@ -37,6 +37,80 @@ namespace FluentAssertions.Specs.Collections.Data
             return table;
         }
 
+        #region BeSameAs & NotBeSameAs
+        [Fact]
+        public void When_testing_that_references_to_the_same_object_are_the_same_it_should_succeed()
+        {
+            // Arrange
+            var dataSet = new DataSet();
+
+            dataSet.Tables.Add(CreateTestDataTable(seed: 1));
+
+            var tableCollection1 = dataSet.Tables;
+            var tableCollection2 = tableCollection1;
+
+            // Act & Assert
+            tableCollection1.Should().BeSameAs(tableCollection2);
+        }
+
+        [Fact]
+        public void When_testing_that_references_to_the_same_object_are_not_the_same_it_should_fail()
+        {
+            // Arrange
+            var dataSet = new DataSet();
+
+            dataSet.Tables.Add(CreateTestDataTable(seed: 1));
+
+            var tableCollection1 = dataSet.Tables;
+            var tableCollection2 = tableCollection1;
+
+            // Act
+            Action action =
+                () => tableCollection1.Should().NotBeSameAs(tableCollection2);
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_testing_that_references_to_different_objects_are_the_same_it_should_fail()
+        {
+            // Arrange
+            var dataSet1 = new DataSet();
+            var dataSet2 = new DataSet();
+
+            dataSet1.Tables.Add(CreateTestDataTable(seed: 1));
+            dataSet2.Tables.Add(CreateTestDataTable(seed: 1));
+
+            var tableCollection1 = dataSet1.Tables;
+            var tableCollection2 = dataSet2.Tables;
+
+            // Act
+            Action action =
+                () => tableCollection1.Should().BeSameAs(tableCollection2);
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_testing_that_references_to_different_objects_are_not_the_same_it_should_succeed()
+        {
+            // Arrange
+            var dataSet1 = new DataSet();
+            var dataSet2 = new DataSet();
+
+            dataSet1.Tables.Add(CreateTestDataTable(seed: 1));
+            dataSet2.Tables.Add(CreateTestDataTable(seed: 1));
+
+            var tableCollection1 = dataSet1.Tables;
+            var tableCollection2 = dataSet2.Tables;
+
+            // Act & Assert
+            tableCollection1.Should().NotBeSameAs(tableCollection2);
+        }
+        #endregion
+
         #region HaveSameCount & NotHaveSameCount
         [Fact]
         public void When_DataTableCollection_and_DataSet_have_the_same_number_elements_it_should_succeed()

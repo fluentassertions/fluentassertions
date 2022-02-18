@@ -1,14 +1,81 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 using FluentAssertions.Collections;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
+using FluentAssertions.Primitives;
 
 namespace FluentAssertions
 {
     public static class DataTableCollectionAssertionExtensions
     {
+        /// <summary>
+        /// Asserts that an object reference refers to the exact same object as another object reference.
+        /// </summary>
+        /// <param name="expected">The expected object</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+        /// </param>
+        public static AndConstraint<GenericCollectionAssertions<DataTable>> BeSameAs(this GenericCollectionAssertions<DataTable> assertion, DataTableCollection expected, string because = "", params object[] becauseArgs)
+        {
+            if (assertion.Subject is NonGenericCollectionWrapper<DataTableCollection, DataTable> wrapper)
+            {
+                var actualSubject = wrapper.UnderlyingCollection;
+
+                Execute.Assertion
+                    .UsingLineBreaks
+                    .ForCondition(ReferenceEquals(actualSubject, expected))
+                    .BecauseOf(because, becauseArgs)
+                    .WithDefaultIdentifier("collection")
+                    .FailWith("Expected {context} to refer to {0}{reason}, but found {1}.", expected, actualSubject);
+            }
+            else
+            {
+                Execute.Assertion
+                    .UsingLineBreaks
+                    .ForCondition(false)
+                    .BecauseOf(because, becauseArgs)
+                    .WithDefaultIdentifier("collection")
+                    .FailWith("Expected {context} to refer to DataTableCollection{reason}, but found {1}.", expected);
+            }
+
+            return new AndConstraint<GenericCollectionAssertions<DataTable>>(assertion);
+        }
+
+        /// <summary>
+        /// Asserts that an object reference refers to a different object than another object reference refers to.
+        /// </summary>
+        /// <param name="unexpected">The unexpected object</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+        /// </param>
+        public static AndConstraint<GenericCollectionAssertions<DataTable>> NotBeSameAs(this GenericCollectionAssertions<DataTable> assertion, DataTableCollection unexpected, string because = "", params object[] becauseArgs)
+        {
+            if (assertion.Subject is NonGenericCollectionWrapper<DataTableCollection, DataTable> wrapper)
+            {
+                var actualSubject = wrapper.UnderlyingCollection;
+
+                Execute.Assertion
+                    .UsingLineBreaks
+                    .ForCondition(!ReferenceEquals(actualSubject, unexpected))
+                    .BecauseOf(because, becauseArgs)
+                    .WithDefaultIdentifier("collection")
+                    .FailWith("Did not expect {context} to refer to {0}{reason}.", unexpected);
+            }
+
+            return new AndConstraint<GenericCollectionAssertions<DataTable>>(assertion);
+        }
+
         /// <summary>
         /// Assert that the current <see cref="DataTableCollection"/> has the same number of tables as <paramref name="otherDataSet" />.
         /// </summary>

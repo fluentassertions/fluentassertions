@@ -10,6 +10,71 @@ namespace FluentAssertions
     public static class DataColumnCollectionAssertionExtensions
     {
         /// <summary>
+        /// Asserts that an object reference refers to the exact same object as another object reference.
+        /// </summary>
+        /// <param name="expected">The expected object</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+        /// </param>
+        public static AndConstraint<GenericCollectionAssertions<DataColumn>> BeSameAs(this GenericCollectionAssertions<DataColumn> assertion, DataColumnCollection expected, string because = "", params object[] becauseArgs)
+        {
+            if (assertion.Subject is NonGenericCollectionWrapper<DataColumnCollection, DataColumn> wrapper)
+            {
+                var actualSubject = wrapper.UnderlyingCollection;
+
+                Execute.Assertion
+                    .UsingLineBreaks
+                    .ForCondition(ReferenceEquals(actualSubject, expected))
+                    .BecauseOf(because, becauseArgs)
+                    .WithDefaultIdentifier("collection")
+                    .FailWith("Expected {context} to refer to {0}{reason}, but found {1}.", expected, actualSubject);
+            }
+            else
+            {
+                Execute.Assertion
+                    .UsingLineBreaks
+                    .ForCondition(false)
+                    .BecauseOf(because, becauseArgs)
+                    .WithDefaultIdentifier("collection")
+                    .FailWith("Expected {context} to refer to DataColumnCollection{reason}, but found {1}.", expected);
+            }
+
+            return new AndConstraint<GenericCollectionAssertions<DataColumn>>(assertion);
+        }
+
+        /// <summary>
+        /// Asserts that an object reference refers to a different object than another object reference refers to.
+        /// </summary>
+        /// <param name="unexpected">The unexpected object</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+        /// </param>
+        public static AndConstraint<GenericCollectionAssertions<DataColumn>> NotBeSameAs(this GenericCollectionAssertions<DataColumn> assertion, DataColumnCollection unexpected, string because = "", params object[] becauseArgs)
+        {
+            if (assertion.Subject is NonGenericCollectionWrapper<DataColumnCollection, DataColumn> wrapper)
+            {
+                var actualSubject = wrapper.UnderlyingCollection;
+
+                Execute.Assertion
+                    .UsingLineBreaks
+                    .ForCondition(!ReferenceEquals(actualSubject, unexpected))
+                    .BecauseOf(because, becauseArgs)
+                    .WithDefaultIdentifier("collection")
+                    .FailWith("Did not expect {context} to refer to {0}{reason}.", unexpected);
+            }
+
+            return new AndConstraint<GenericCollectionAssertions<DataColumn>>(assertion);
+        }
+
+        /// <summary>
         /// Assert that the current collection has the same number of elements as <paramref name="otherCollection" />.
         /// </summary>
         /// <param name="otherCollection">The other collection with the same expected number of elements</param>
