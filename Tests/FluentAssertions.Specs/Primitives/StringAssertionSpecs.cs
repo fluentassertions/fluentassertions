@@ -3657,7 +3657,7 @@ namespace FluentAssertions.Specs.Primitives
             string actual = "a1";
 
             // Act / Assert
-            Action act = () => actual.Should().NotBeUpperCased();
+            actual.Should().NotBeUpperCased();
         }
 
         [Fact]
@@ -3792,7 +3792,7 @@ namespace FluentAssertions.Specs.Primitives
             string actual = "A1";
 
             // Act / Assert
-            Action act = () => actual.Should().NotBeLowerCased();
+            actual.Should().NotBeLowerCased();
         }
 
         [Fact]
