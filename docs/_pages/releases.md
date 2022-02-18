@@ -10,6 +10,7 @@ sidebar:
 ## Unreleased
 
 ### What's New
+* Annotated `[Not]MatchRegex(string)` with `[StringSyntax("Regex")]` which IDEs can use to colorize the regular expression argument - [#1816](https://github.com/fluentassertions/fluentassertions/pull/1816)
 * Added the ability to exclude fields & properties marked as non-browsable in the code editor from structural equality equivalency comparisons - [#1807](https://github.com/fluentassertions/fluentassertions/pull/1807)
 
 ### Fixes
