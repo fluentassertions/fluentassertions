@@ -1552,6 +1552,36 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
+        public void When_explicitly_browsable_field_differs_including_non_browsable_members_should_not_affect_result()
+        {
+            // Arrange
+            var subject = new ClassWithNonBrowsableMembers() { ExplicitlyBrowsableField = 0 };
+            var expectation = new ClassWithNonBrowsableMembers() { ExplicitlyBrowsableField = 1 };
+
+            // Act
+            Action action =
+                () => subject.Should().BeEquivalentTo(expectation, config => config.IncludingNonBrowsableMembers());
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_explicitly_browsable_property_differs_including_non_browsable_members_should_not_affect_result()
+        {
+            // Arrange
+            var subject = new ClassWithNonBrowsableMembers() { ExplicitlyBrowsableProperty = 0 };
+            var expectation = new ClassWithNonBrowsableMembers() { ExplicitlyBrowsableProperty = 1 };
+
+            // Act
+            Action action =
+                () => subject.Should().BeEquivalentTo(expectation, config => config.IncludingNonBrowsableMembers());
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
         public void When_non_browsable_field_differs_including_non_browsable_members_should_not_affect_result()
         {
             // Arrange
@@ -1642,6 +1672,36 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
+        public void When_explicilty_browsable_field_differs_excluding_non_browsable_members_should_not_affect_result()
+        {
+            // Arrange
+            var subject = new ClassWithNonBrowsableMembers() { ExplicitlyBrowsableField = 0 };
+            var expectation = new ClassWithNonBrowsableMembers() { ExplicitlyBrowsableField = 1 };
+
+            // Act
+            Action action =
+                () => subject.Should().BeEquivalentTo(expectation, config => config.IncludingNonBrowsableMembers());
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_explicilty_browsable_property_differs_excluding_non_browsable_members_should_not_affect_result()
+        {
+            // Arrange
+            var subject = new ClassWithNonBrowsableMembers() { ExplicitlyBrowsableProperty = 0 };
+            var expectation = new ClassWithNonBrowsableMembers() { ExplicitlyBrowsableProperty = 1 };
+
+            // Act
+            Action action =
+                () => subject.Should().BeEquivalentTo(expectation, config => config.IncludingNonBrowsableMembers());
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
         public void When_non_browsable_field_differs_excluding_non_browsable_members_should_make_it_succeed()
         {
             // Arrange
@@ -1668,6 +1728,12 @@ namespace FluentAssertions.Equivalency.Specs
             public int BrowsableField;
 
             public int BrowsableProperty { get; set; }
+
+            [EditorBrowsable(EditorBrowsableState.Always)]
+            public int ExplicitlyBrowsableField;
+
+            [EditorBrowsable(EditorBrowsableState.Always)]
+            public int ExplicitlyBrowsableProperty { get; set; }
 
             [EditorBrowsable(EditorBrowsableState.Advanced)]
             public int AdvancedBrowsableField;
