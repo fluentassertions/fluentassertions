@@ -115,13 +115,18 @@ class Build : NukeBuild
         .DependsOn(Compile)
         .Executes(() =>
         {
+            Project[] projects = new[]
+            {
+                Solution.Specs.FluentAssertions_Specs,
+                Solution.Specs.FluentAssertions_Equivalency_Specs
+            };
+
             if (EnvironmentInfo.IsWin)
             {
                 Xunit2(s =>
                 {
-                    IReadOnlyCollection<string> testAssemblies = GlobFiles(
-                        Solution.Specs.FluentAssertions_Specs.Directory,
-                        "bin/Debug/net47/*.Specs.dll");
+                    IEnumerable<string> testAssemblies = projects
+                        .SelectMany(project => GlobFiles(project.Directory, "bin/Debug/net47/*.Specs.dll"));
 
                     Assert.NotEmpty(testAssemblies.ToList());
 
@@ -132,14 +137,20 @@ class Build : NukeBuild
             }
 
             DotNetTest(s => s
-                .SetProjectFile(Solution.Specs.FluentAssertions_Specs)
                 .SetConfiguration("Debug")
                 .EnableNoBuild()
                 .SetDataCollector("XPlat Code Coverage")
                 .SetResultsDirectory(RootDirectory / "TestResults")
                 .CombineWith(
-                    Solution.Specs.FluentAssertions_Specs.GetTargetFrameworks().Except(new[] { "net47" }),
-                    (_, v) => _.SetFramework(v)));
+                    projects,
+                    (_, project) => _
+                        .SetProjectFile(project)
+                        .CombineWith(
+                            project.GetTargetFrameworks().Except(new[] { "net47" }),
+                            (_, framework) => _.SetFramework(framework)
+                        )
+                )
+            );
 
             ReportGenerator(s => s
                 .SetProcessToolPath(ToolPathResolver.GetPackageExecutable("ReportGenerator", "ReportGenerator.dll", framework: "net5.0"))
