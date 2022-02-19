@@ -11,7 +11,7 @@ namespace FluentAssertions.Equivalency.Specs
     public class DataTableSpecs : DataSpecs
     {
         [Fact]
-        public void When_DataTables_are_identical_it_should_succeed()
+        public void When_data_tables_are_identical_equivalence_test_should_succeed()
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -25,14 +25,14 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_DataTables_are_both_null_it_should_succeed()
+        public void When_data_tables_are_both_null_equivalence_test_should_succeed()
         {
             // Act & Assert
             ((DataTable)null).Should().BeEquivalentTo(null);
         }
 
         [Fact]
-        public void When_DataTable_is_null_and_isnt_expected_to_be_it_should_fail()
+        public void When_data_table_is_null_and_isnt_expected_to_be_equivalence_test_should_fail()
         {
             // Arrange
             var typedDataSet = CreateDummyDataSet<TypedDataSet>();
@@ -48,7 +48,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_DataTable_is_expected_to_be_null_and_isnt_it_should_fail()
+        public void When_data_table_is_expected_to_be_null_and_isnt_equivalence_test_should_fail()
         {
             // Arrange
             var typedDataSet = CreateDummyDataSet<TypedDataSet>();
@@ -63,7 +63,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_DataTable_type_does_not_match_and_AllowMismatchedType_not_enabled_it_should_fail()
+        public void When_data_table_type_does_not_match_and_assertion_is_not_configured_to_allow_mismatched_types_equivalence_test_should_fail()
         {
             // Arrange
             var typedDataSet = CreateDummyDataSet<TypedDataSet>(identicalTables: true);
@@ -80,7 +80,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_DataTable_type_does_not_match_and_AllowMismatchedType_is_enabled_it_should_succeed()
+        public void When_data_table_type_does_not_match_but_assertion_is_configured_to_allow_mismatched_types_equivalence_test_should_succeed()
         {
             // Arrange
             var typedDataSet = CreateDummyDataSet<TypedDataSet>(identicalTables: true);
@@ -94,7 +94,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_TableName_does_not_match_and_property_is_not_excluded_it_should_fail()
+        public void When_data_table_name_does_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail()
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -113,7 +113,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_TableName_does_not_match_and_property_is_excluded_it_should_succeed()
+        public void When_data_table_name_does_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed()
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>(identicalTables: true);
@@ -134,7 +134,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_CaseSensitive_does_not_match_and_property_is_not_excluded_it_should_fail()
+        public void When_data_table_case_sensitivity_does_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail()
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -154,7 +154,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_CaseSensitive_does_not_match_and_property_is_excluded_it_should_succeed()
+        public void When_data_table_case_sensitivity_does_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed()
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -171,7 +171,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_DisplayExpression_does_not_match_and_property_is_not_excluded_it_should_fail()
+        public void When_data_table_display_expression_does_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail()
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -191,7 +191,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_DisplayExpression_does_not_match_and_property_is_excluded_it_should_succeed()
+        public void When_data_table_display_expression_does_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed()
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -208,7 +208,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_HasErrors_does_not_match_and_property_is_not_excluded_it_should_fail()
+        public void When_one_data_table_has_errors_and_the_other_does_not_and_the_property_that_indicates_the_presence_of_errors_is_not_excluded_equivalence_test_should_fail()
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -228,7 +228,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_HasErrors_does_not_match_and_property_is_excluded_it_should_succeed()
+        public void When_one_data_table_has_errors_and_the_other_does_not_but_the_property_that_indicates_the_presence_of_errors_is_excluded_equivalence_test_should_succeed()
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -247,7 +247,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_Locale_does_not_match_and_property_is_not_excluded_it_should_fail()
+        public void When_data_table_locale_does_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail()
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -267,7 +267,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_Locale_does_not_match_and_property_is_excluded_it_should_succeed()
+        public void When_data_table_locale_does_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed()
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -284,7 +284,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_Namespace_does_not_match_and_property_is_not_excluded_it_should_fail()
+        public void When_data_table_namespace_does_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail()
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -304,7 +304,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_Namespace_does_not_match_and_property_is_excluded_it_should_succeed()
+        public void When_data_table_namespace_does_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed()
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -323,7 +323,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_Prefix_does_not_match_and_property_is_not_excluded_it_should_fail()
+        public void When_data_table_prefix_does_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail()
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -343,7 +343,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_Prefix_does_not_match_and_property_is_excluded_it_should_succeed()
+        public void When_data_table_prefix_does_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed()
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -360,7 +360,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_RemotingFormat_does_not_match_and_property_is_not_excluded_it_should_fail()
+        public void When_data_table_remoting_format_does_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail()
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -383,7 +383,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_RemotingFormat_does_not_match_and_property_is_excluded_it_should_succeed()
+        public void When_data_table_remoting_format_does_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed()
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -406,7 +406,7 @@ namespace FluentAssertions.Equivalency.Specs
 
         [Theory]
         [MemberData(nameof(AllChangeTypes))]
-        public void When_Columns_do_not_match_and_property_is_not_excluded_it_should_fail(ChangeType changeType)
+        public void When_data_table_columns_do_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail(ChangeType changeType)
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -427,7 +427,7 @@ namespace FluentAssertions.Equivalency.Specs
 
         [Theory]
         [MemberData(nameof(AllChangeTypes))]
-        public void When_Columns_do_not_match_and_Columns_and_Rows_are_excluded_it_should_succeed(ChangeType changeType)
+        public void When_data_table_columns_do_not_match_but_columns_and_rows_are_excluded_equivalence_test_should_succeed(ChangeType changeType)
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -447,7 +447,7 @@ namespace FluentAssertions.Equivalency.Specs
 
         [Theory]
         [MemberData(nameof(AllChangeTypes))]
-        public void When_ExtendedProperties_do_not_match_and_property_is_not_excluded_it_should_fail(ChangeType changeType)
+        public void When_data_table_extended_properties_do_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail(ChangeType changeType)
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -468,7 +468,7 @@ namespace FluentAssertions.Equivalency.Specs
 
         [Theory]
         [MemberData(nameof(AllChangeTypes))]
-        public void When_ExtendedProperties_do_not_match_and_property_is_excluded_it_should_succeed(ChangeType changeType)
+        public void When_data_table_extended_properties_do_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed(ChangeType changeType)
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -485,7 +485,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_PrimaryKey_does_not_match_and_property_is_not_excluded_it_should_fail()
+        public void When_data_table_primary_key_does_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail()
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -508,7 +508,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_PrimaryKey_does_not_match_and_property_is_excluded_it_should_succeed()
+        public void When_data_table_primary_key_does_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed()
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -541,7 +541,7 @@ namespace FluentAssertions.Equivalency.Specs
         [Theory]
         [InlineData(NumberOfColumnsInConstraintDifference.SingleColumn)]
         [InlineData(NumberOfColumnsInConstraintDifference.MultipleColumns)]
-        public void When_columns_for_constraint_do_not_match_message_should_list_all_columns_involved(NumberOfColumnsInConstraintDifference difference)
+        public void When_columns_for_constraint_in_data_table_do_not_match_message_should_list_all_columns_involved(NumberOfColumnsInConstraintDifference difference)
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -593,7 +593,7 @@ namespace FluentAssertions.Equivalency.Specs
 
         [Theory]
         [MemberData(nameof(AllChangeTypes))]
-        public void When_Constraints_do_not_match_and_property_is_not_excluded_it_should_fail(ChangeType changeType)
+        public void When_data_table_constraints_do_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail(ChangeType changeType)
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -614,7 +614,7 @@ namespace FluentAssertions.Equivalency.Specs
 
         [Theory]
         [MemberData(nameof(AllChangeTypes))]
-        public void When_Constraints_do_not_match_and_property_is_excluded_it_should_succeed(ChangeType changeType)
+        public void When_data_table_constraints_do_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed(ChangeType changeType)
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -634,7 +634,7 @@ namespace FluentAssertions.Equivalency.Specs
 
         [Theory]
         [MemberData(nameof(AllChangeTypesWithAcceptChangesValues))]
-        public void When_Rows_do_not_match_and_property_is_not_excluded_it_should_fail(ChangeType changeType, bool acceptChanges)
+        public void When_data_table_rows_do_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail(ChangeType changeType, bool acceptChanges)
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -660,7 +660,7 @@ namespace FluentAssertions.Equivalency.Specs
 
         [Theory]
         [MemberData(nameof(AllChangeTypesWithAcceptChangesValues))]
-        public void When_Rows_do_not_match_and_property_is_excluded_it_should_succeed(ChangeType changeType, bool acceptChanges)
+        public void When_data_table_rows_do_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed(ChangeType changeType, bool acceptChanges)
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -682,7 +682,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_data_matches_in_different_order_and_RowMatchMode_is_PrimaryKey_it_should_succeed()
+        public void When_data_table_data_matches_in_different_order_and_the_row_match_mode_is_by_primary_key_equivalence_test_should_succeed()
         {
             // Arrange
             var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -697,7 +697,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_asserting_HaveRowCount_if_the_row_count_matches_it_should_succeed()
+        public void When_data_table_has_expected_row_count_it_should_succeed()
         {
             // Arrange
             var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -711,7 +711,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_asserting_HaveRowCount_on_empty_table_if_the_row_count_matches_it_should_succeed()
+        public void When_empty_data_table_has_expected_row_count_of_zero_it_should_succeed()
         {
             // Arrange
             var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -726,7 +726,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_asserting_HaveRowCount_if_the_row_count_does_not_match_it_should_fail()
+        public void When_data_table_does_not_have_expected_row_count_does_not_match_it_should_fail()
         {
             // Arrange
             var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -744,7 +744,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_asserting_HaveColumn_if_the_column_is_present_it_should_succeed()
+        public void When_data_table_has_expected_column_it_should_succeed()
         {
             // Arrange
             var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -758,7 +758,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_asserting_HaveColumn_if_the_column_is_not_present_it_should_fail()
+        public void When_data_table_does_not_have_expected_column_it_should_fail()
         {
             // Arrange
             var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -774,7 +774,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_asserting_HaveColumns_and_all_columns_are_present_it_should_succeed()
+        public void When_data_table_has_all_expected_columns_it_should_succeed()
         {
             // Arrange
             var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -789,7 +789,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_asserting_HaveColumns_and_at_least_one_column_is_not_present_it_should_fail()
+        public void When_data_table_has_only_some_expected_columns_then_asserting_that_it_has_all_of_them_should_fail()
         {
             // Arrange
             var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -809,7 +809,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_asserting_HaveColumns_and_none_of_the_columns_is_present_it_should_fail()
+        public void When_data_table_has_none_of_the_expected_columns_then_asserting_that_it_has_all_of_them_should_fail()
         {
             // Arrange
             var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
