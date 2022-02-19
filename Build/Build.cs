@@ -151,7 +151,13 @@ class Build : NukeBuild
                         )
                 )
             );
+        });
 
+    Target CodeCoverage => _ => _
+        .DependsOn(TestFrameworks)
+        .DependsOn(UnitTests)
+        .Executes(() =>
+        {
             ReportGenerator(s => s
                 .SetProcessToolPath(ToolPathResolver.GetPackageExecutable("ReportGenerator", "ReportGenerator.dll", framework: "net5.0"))
                 .SetTargetDirectory(RootDirectory / "TestResults" / "reports")
@@ -184,6 +190,8 @@ class Build : NukeBuild
             DotNetTest(s => s
                 .SetConfiguration("Debug")
                 .EnableNoBuild()
+                .SetDataCollector("XPlat Code Coverage")
+                .SetResultsDirectory(RootDirectory / "TestResults")
                 .CombineWith(
                     testCombinations,
                     (_, v) => _.SetProjectFile(v.project).SetFramework(v.framework)));
@@ -198,6 +206,7 @@ class Build : NukeBuild
         .DependsOn(ApiChecks)
         .DependsOn(TestFrameworks)
         .DependsOn(UnitTests)
+        .DependsOn(CodeCoverage)
         .DependsOn(CalculateNugetVersion)
         .Executes(() =>
         {
