@@ -43,13 +43,13 @@ namespace FluentAssertions.Data
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:DataRow} to contain a column named '{0}'{reason}, but found <null>.", expectedColumnName);
+                    .FailWith("Expected {context:DataRow} to contain a column named {0}{reason}, but found <null>.", expectedColumnName);
             }
             else if (!Subject.Table.Columns.Contains(expectedColumnName))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:DataRow} to contain a column named '{0}'{reason}, but it does not.", expectedColumnName);
+                    .FailWith("Expected {context:DataRow} to contain a column named {0}{reason}, but it does not.", expectedColumnName);
             }
             else
             {
@@ -93,7 +93,7 @@ namespace FluentAssertions.Data
                 Execute.Assertion
                     .ForCondition(Subject.Table.Columns.Contains(expectedColumnName))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected table containing {context:DataRow} to contain a column named '{0}'{reason}, but it does not.", expectedColumnName);
+                    .FailWith("Expected table containing {context:DataRow} to contain a column named {0}{reason}, but it does not.", expectedColumnName);
             }
 
             return new AndConstraint<DataRowAssertions<TDataRow>>(this);

@@ -59,7 +59,7 @@ namespace FluentAssertions.Equivalency.Steps
             {
                 AssertionScope.Current
                     .ForCondition(subject.RelationName == expectation.RelationName)
-                    .FailWith("Expected {context:DataRelation} to have RelationName of '{0}'{reason}, but found '{1}'",
+                    .FailWith("Expected {context:DataRelation} to have RelationName of {0}{reason}, but found {1}",
                         expectation.RelationName, subject.RelationName);
             }
 
@@ -67,7 +67,7 @@ namespace FluentAssertions.Equivalency.Steps
             {
                 AssertionScope.Current
                     .ForCondition(subject.Nested == expectation.Nested)
-                    .FailWith("Expected {context:DataRelation} to have Nested value of '{0}'{reason}, but found '{1}'",
+                    .FailWith("Expected {context:DataRelation} to have Nested value of {0}{reason}, but found {1}",
                         expectation.Nested, subject.Nested);
             }
 

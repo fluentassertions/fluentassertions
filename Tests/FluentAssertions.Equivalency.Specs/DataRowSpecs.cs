@@ -59,7 +59,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataTable[0].Should().BeEquivalentTo(null);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataTable[0] value to be null, but found *");
         }
 
         [Fact]
@@ -147,7 +147,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataRow1.Should().BeEquivalentTo(dataRow2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataRow1[Decimal, DataRowVersion.Original] to be *, but found *");
         }
 
         [Fact]
@@ -196,7 +196,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataTable[0].Should().BeEquivalentTo(dataTableOfMismatchedType[0]);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataTable[0] to be of type *TypedDataRow2, but found *TypedDataRow1*");
         }
 
         [Fact]
@@ -362,7 +362,7 @@ namespace FluentAssertions.Equivalency.Specs
                 () => dataRow.Should().HaveColumn("Unicorn");
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataRow to contain a column named *Unicorn*");
         }
 
         [Fact]
@@ -399,7 +399,7 @@ namespace FluentAssertions.Equivalency.Specs
                 () => dataRow.Should().HaveColumns(subsetOfColumnNamesWithUnicorn);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected table containing dataRow to contain a column named *Unicorn*");
         }
 
         [Fact]
@@ -420,7 +420,7 @@ namespace FluentAssertions.Equivalency.Specs
                 () => dataRow.Should().HaveColumns(columnNames);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected table containing dataRow to contain a column named *Unicorn*");
         }
     }
 }

@@ -50,7 +50,7 @@ namespace FluentAssertions.Equivalency.Steps
                     {
                         AssertionScope.Current
                             .ForCondition(subject.GetType() == expectation.GetType())
-                            .FailWith("Expected {context:DataRow} to be of type '{0}'{reason}, but found '{1}'",
+                            .FailWith("Expected {context:DataRow} to be of type {0}{reason}, but found {1}",
                                 expectation.GetType(), subject.GetType());
                     }
 
@@ -74,7 +74,7 @@ namespace FluentAssertions.Equivalency.Steps
             {
                 AssertionScope.Current
                     .ForCondition(subject.HasErrors == expectation.HasErrors)
-                    .FailWith("Expected {context:DataRow} to have HasErrors value of '{0}'{reason}, but found '{1}' instead",
+                    .FailWith("Expected {context:DataRow} to have HasErrors value of {0}{reason}, but found {1} instead",
                         expectation.HasErrors, subject.HasErrors);
             }
 
@@ -82,7 +82,7 @@ namespace FluentAssertions.Equivalency.Steps
             {
                 AssertionScope.Current
                     .ForCondition(subject.RowState == expectation.RowState)
-                    .FailWith("Expected {context:DataRow} to have RowState value of '{0}'{reason}, but found '{1}' instead",
+                    .FailWith("Expected {context:DataRow} to have RowState value of {0}{reason}, but found {1} instead",
                         expectation.RowState, subject.RowState);
             }
         }
@@ -139,11 +139,11 @@ namespace FluentAssertions.Equivalency.Steps
                 {
                     AssertionScope.Current
                         .ForCondition(subjectColumn is not null)
-                        .FailWith("Expected {context:DataRow} to have column '{0}'{reason}, but found none", columnName);
+                        .FailWith("Expected {context:DataRow} to have column {0}{reason}, but found none", columnName);
 
                     AssertionScope.Current
                         .ForCondition(expectationColumn is not null)
-                        .FailWith("Found unexpected column '{0}' in {context:DataRow}", columnName);
+                        .FailWith("Found unexpected column {0} in {context:DataRow}", columnName);
                 }
 
                 if ((subjectColumn is not null) && (expectationColumn is not null))

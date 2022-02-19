@@ -59,7 +59,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataTable.Should().BeEquivalentTo(null);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataTable value to be null, but found TypedDataTable1*");
         }
 
         [Fact]
@@ -76,7 +76,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataTable.Should().BeEquivalentTo(dataTableOfMismatchedType);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataTable to be of type *TypedDataTable1*, but found *System.Data.DataTable*");
         }
 
         [Fact]
@@ -109,7 +109,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataTable1.Should().BeEquivalentTo(dataTable2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataTable1 to have TableName *different*, but found *TypedDataTable1* instead*");
         }
 
         [Fact]
@@ -150,7 +150,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataTable1.Should().BeEquivalentTo(dataTable2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataTable1 to have CaseSensitive value of True, but found False instead*");
         }
 
         [Fact]
@@ -187,7 +187,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataTable1.Should().BeEquivalentTo(dataTable2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataTable1 to have DisplayExpression value of *String*");
         }
 
         [Fact]
@@ -264,7 +264,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataTable1.Should().BeEquivalentTo(dataTable2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataTable1 to have Locale value of *fr-CA*, but found *en-US* instead*");
         }
 
         [Fact]
@@ -302,7 +302,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataTable1.Should().BeEquivalentTo(dataTable2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataTable1 to have Namespace value of *different*, but found *");
         }
 
         [Fact]
@@ -341,7 +341,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataTable1.Should().BeEquivalentTo(dataTable2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataTable1 to have Prefix value of *different*, but found * instead*");
         }
 
         [Fact]
@@ -381,7 +381,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataTable1.Should().BeEquivalentTo(dataTable2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataTable1 to have RemotingFormat value of *Binary*, but found *Xml* instead*");
         }
 
         [Fact]
@@ -424,7 +424,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataTable1.Should().BeEquivalentTo(dataTable2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected property dataTable1.Column* to be *, but *");
         }
 
         [Theory]
@@ -465,7 +465,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataTable1.Should().BeEquivalentTo(dataTable2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected *dataTable1.ExtendedProperties* to be *, but *");
         }
 
         [Theory]
@@ -497,6 +497,9 @@ namespace FluentAssertions.Equivalency.Specs
             var dataTable1 = typedDataSet1.ToUntypedDataSet().Tables["TypedDataTable2"];
             var dataTable2 = typedDataSet2.ToUntypedDataSet().Tables["TypedDataTable2"];
 
+            dataTable1.Columns.Cast<DataColumn>().Skip(2).ToList()
+                .ForEach(col => col.AllowDBNull = false);
+
             dataTable2.PrimaryKey = dataTable2.Columns.Cast<DataColumn>().Skip(2).ToArray();
             dataTable2.Columns[0].Unique = true;
 
@@ -506,7 +509,7 @@ namespace FluentAssertions.Equivalency.Specs
                     .Excluding(dataTable => dataTable.Constraints));
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected property dataTable1.PrimaryKey to be a collection with * item(s), but *contains * item(s) less than*");
         }
 
         [Fact]
@@ -607,11 +610,16 @@ namespace FluentAssertions.Equivalency.Specs
 
             ApplyChange(dataTable2.Constraints, dataTable2.Columns["Decimal"], changeType);
 
+            string expectedExceptionPattern =
+                changeType == ChangeType.Changed
+                ? "Found unexpected constraint named *Constraint2* in property dataTable1.Constraints*"
+                : "Expected property dataTable1.Columns[*].Unique to be *, but found *";
+
             // Act
             Action action = () => dataTable1.Should().BeEquivalentTo(dataTable2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage(expectedExceptionPattern);
         }
 
         [Theory]
@@ -653,11 +661,26 @@ namespace FluentAssertions.Equivalency.Specs
                 dataTable2.AcceptChanges();
             }
 
+            string exceptionPattern;
+
+            if (changeType == ChangeType.Changed)
+            {
+                exceptionPattern =
+                    acceptChanges
+                    ? "Expected dataTable1.Rows[1][String] to be *different* with a length of *, but * has a length of *, differs near *"
+                    : "Expected dataTable1.Rows[1] to have RowState value of *Modified*, but found *Unchanged* instead*";
+            }
+            else
+            {
+                exceptionPattern =
+                    "Expected property dataTable1.Rows to contain * row(s), but found 10*";
+            }
+
             // Act
             Action action = () => dataTable1.Should().BeEquivalentTo(dataTable2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage(exceptionPattern);
         }
 
         [Theory]
@@ -744,7 +767,7 @@ namespace FluentAssertions.Equivalency.Specs
                 () => dataTable.Should().HaveRowCount(incorrectRowCount);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataTable to contain exactly * row(s), but found *");
         }
 
         [Fact]
@@ -774,7 +797,7 @@ namespace FluentAssertions.Equivalency.Specs
                 () => dataTable.Should().HaveColumn("Unicorn");
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataTable to contain a column named *Unicorn*, but it does not.");
         }
 
         [Fact]
@@ -809,7 +832,7 @@ namespace FluentAssertions.Equivalency.Specs
                 () => dataTable.Should().HaveColumns(columnNames);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataTable to contain a column named *Unicorn*, but it does not.");
         }
 
         [Fact]
@@ -827,7 +850,7 @@ namespace FluentAssertions.Equivalency.Specs
                 () => dataTable.Should().HaveColumns(nonExistingColumnNames);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataTable to contain a column named *Unicorn*, but it does not.");
         }
     }
 }

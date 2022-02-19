@@ -61,7 +61,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataSet.Should().BeEquivalentTo(null);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataSet value to be null, but found *");
         }
 
         [Fact]
@@ -78,7 +78,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataSet.Should().BeEquivalentTo(dataSetOfMismatchedType);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataSet to be of type *TypedDataSetSubclass, but found System.Data.DataSet*");
         }
 
         [Fact]
@@ -114,7 +114,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataSet1.Should().BeEquivalentTo(dataSet2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataSet1 to have DataSetName *different*");
         }
 
         [Fact]
@@ -153,7 +153,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataSet1.Should().BeEquivalentTo(dataSet2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataSet1 to have CaseSensitive value of True, but found False instead*");
         }
 
         [Fact]
@@ -190,7 +190,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataSet1.Should().BeEquivalentTo(dataSet2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataSet1 to have EnforceConstraints value of False, but found True instead*");
         }
 
         [Fact]
@@ -266,7 +266,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataSet1.Should().BeEquivalentTo(dataSet2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataSet1 to have Locale value of fr-CA, but found en-US instead*");
         }
 
         [Fact]
@@ -304,7 +304,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataSet1.Should().BeEquivalentTo(dataSet2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataSet1 to have Namespace value of *different*");
         }
 
         [Fact]
@@ -344,7 +344,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataSet1.Should().BeEquivalentTo(dataSet2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataSet1 to have Prefix value of *different*");
         }
 
         [Fact]
@@ -384,7 +384,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataSet1.Should().BeEquivalentTo(dataSet2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataSet1 to have RemotingFormat value of SerializationFormat.Binary*, but found *Xml* instead*");
         }
 
         [Fact]
@@ -427,7 +427,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataSet1.Should().BeEquivalentTo(dataSet2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected *dataSet1.ExtendedProperties* to be *, but *");
         }
 
         [Theory]
@@ -490,7 +490,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataSet1.Should().BeEquivalentTo(dataSet2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected *dataSet1.Relations* to *, but *");
         }
 
         [Theory]
@@ -592,7 +592,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataSet1.Should().BeEquivalentTo(dataSet2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataSet1.Relations[0].ExtendedProperties* to reference column *ForeignRowID* in table *Different*, but found a reference to *ForeignRowID* in table *TypedDataTable2* instead*");
         }
 
         [Fact]
@@ -612,7 +612,7 @@ namespace FluentAssertions.Equivalency.Specs
             Action action = () => dataSet1.Should().BeEquivalentTo(dataSet2);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataSet1[TypedDataTable2].Rows[0] to have RowState value of *Modified*, but found *Unchanged* instead*");
         }
 
         [Fact]
@@ -642,7 +642,7 @@ namespace FluentAssertions.Equivalency.Specs
                 () => dataSet.Should().HaveTableCount(incorrectTableCount);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataSet to contain exactly 3 table(s), but found 2.");
         }
 
         [Fact]
@@ -670,7 +670,7 @@ namespace FluentAssertions.Equivalency.Specs
                 () => dataSet.Should().HaveTable(nonExistingTableName);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataSet to contain a table named *Unicorn*");
         }
 
         [Fact]
@@ -701,7 +701,7 @@ namespace FluentAssertions.Equivalency.Specs
                 () => dataSet.Should().HaveTables(tableNames);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataSet to contain a table named *Unicorn*, but it does not.");
         }
 
         [Fact]
@@ -717,7 +717,7 @@ namespace FluentAssertions.Equivalency.Specs
                 () => dataSet.Should().HaveTables(nonExistentTableNames);
 
             // Assert
-            action.Should().Throw<XunitException>();
+            action.Should().Throw<XunitException>().WithMessage("Expected dataSet to contain a table named *Unicorn*, but it does not.");
         }
     }
 }
