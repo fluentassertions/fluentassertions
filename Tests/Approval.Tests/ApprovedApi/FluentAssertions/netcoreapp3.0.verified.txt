@@ -182,7 +182,7 @@ namespace FluentAssertions
         public static System.Action<string> Logger { get; set; }
         public static string DetermineCallerIdentity() { }
     }
-    [System.AttributeUsage(System.AttributeTargets.Method | System.AttributeTargets.All, AllowMultiple=false)]
+    [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple=false)]
     public class CustomAssertionAttribute : System.Attribute
     {
         public CustomAssertionAttribute() { }
@@ -228,8 +228,8 @@ namespace FluentAssertions
     }
     public static class EventRaisingExtensions
     {
-        public static FluentAssertions.Events.IEventRecording WithArgs<T>(this FluentAssertions.Events.IEventRecording eventRecording, params System.Linq.Expressions.Expression<>[] predicates) { }
         public static FluentAssertions.Events.IEventRecording WithArgs<T>(this FluentAssertions.Events.IEventRecording eventRecording, System.Linq.Expressions.Expression<System.Func<T, bool>> predicate) { }
+        public static FluentAssertions.Events.IEventRecording WithArgs<T>(this FluentAssertions.Events.IEventRecording eventRecording, params System.Linq.Expressions.Expression<System.Func<T, bool>>[] predicates) { }
         public static FluentAssertions.Events.IEventRecording WithSender(this FluentAssertions.Events.IEventRecording eventRecording, object expectedSender) { }
     }
     public static class Exactly
@@ -472,9 +472,9 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> OnlyContain(System.Linq.Expressions.Expression<System.Func<T, bool>> predicate, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> OnlyHaveUniqueItems(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> OnlyHaveUniqueItems<TKey>(System.Linq.Expressions.Expression<System.Func<T, TKey>> predicate, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> Satisfy(params System.Linq.Expressions.Expression<>[] predicates) { }
+        public FluentAssertions.AndConstraint<TAssertions> Satisfy(params System.Linq.Expressions.Expression<System.Func<T, bool>>[] predicates) { }
         public FluentAssertions.AndConstraint<TAssertions> Satisfy(System.Collections.Generic.IEnumerable<System.Linq.Expressions.Expression<System.Func<T, bool>>> predicates, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> SatisfyRespectively(params System.Action<>[] elementInspectors) { }
+        public FluentAssertions.AndConstraint<TAssertions> SatisfyRespectively(params System.Action<T>[] elementInspectors) { }
         public FluentAssertions.AndConstraint<TAssertions> SatisfyRespectively(System.Collections.Generic.IEnumerable<System.Action<T>> expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> StartWith(System.Collections.Generic.IEnumerable<T> expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> StartWith(T element, string because = "", params object[] becauseArgs) { }
@@ -494,7 +494,7 @@ namespace FluentAssertions.Collections
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> Contain(params System.Collections.Generic.KeyValuePair<, >[] expected) { }
+        public FluentAssertions.AndConstraint<TAssertions> Contain(params System.Collections.Generic.KeyValuePair<TKey, TValue>[] expected) { }
         public FluentAssertions.AndConstraint<TAssertions> Contain(System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>> expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Contain(System.Collections.Generic.KeyValuePair<TKey, TValue> expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Contain(TKey key, TValue value, string because = "", params object[] becauseArgs) { }
@@ -506,7 +506,7 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> ContainValues(System.Collections.Generic.IEnumerable<TValue> expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Equal<T>(T expected, string because = "", params object[] becauseArgs)
             where T : System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>> { }
-        public FluentAssertions.AndConstraint<TAssertions> NotContain(params System.Collections.Generic.KeyValuePair<, >[] items) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotContain(params System.Collections.Generic.KeyValuePair<TKey, TValue>[] items) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContain(System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>> items, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContain(System.Collections.Generic.KeyValuePair<TKey, TValue> item, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContain(TKey key, TValue value, string because = "", params object[] becauseArgs) { }
@@ -1270,7 +1270,7 @@ namespace FluentAssertions.Execution
         public void Dispose() { }
         public FluentAssertions.Execution.Continuation FailWith(System.Func<FluentAssertions.Execution.FailReason> failReasonFunc) { }
         public FluentAssertions.Execution.Continuation FailWith(string message) { }
-        public FluentAssertions.Execution.Continuation FailWith(string message, params System.Func<>[] argProviders) { }
+        public FluentAssertions.Execution.Continuation FailWith(string message, params System.Func<object>[] argProviders) { }
         public FluentAssertions.Execution.Continuation FailWith(string message, params object[] args) { }
         public FluentAssertions.Execution.AssertionScope ForCondition(bool condition) { }
         public FluentAssertions.Execution.AssertionScope ForConstraint(FluentAssertions.OccurrenceConstraint constraint, int actualOccurrences) { }
@@ -1299,7 +1299,7 @@ namespace FluentAssertions.Execution
         public void Dispose() { }
         public FluentAssertions.Execution.Continuation FailWith(System.Func<FluentAssertions.Execution.FailReason> failReasonFunc) { }
         public FluentAssertions.Execution.Continuation FailWith(string message) { }
-        public FluentAssertions.Execution.Continuation FailWith(string message, params System.Func<>[] argProviders) { }
+        public FluentAssertions.Execution.Continuation FailWith(string message, params System.Func<object>[] argProviders) { }
         public FluentAssertions.Execution.Continuation FailWith(string message, params object[] args) { }
         public FluentAssertions.Execution.IAssertionScope ForCondition(bool condition) { }
         public FluentAssertions.Execution.GivenSelector<T> Given<T>(System.Func<T> selector) { }
@@ -1320,7 +1320,7 @@ namespace FluentAssertions.Execution
     {
         public FluentAssertions.Execution.ContinuationOfGiven<T> ClearExpectation() { }
         public FluentAssertions.Execution.ContinuationOfGiven<T> FailWith(string message) { }
-        public FluentAssertions.Execution.ContinuationOfGiven<T> FailWith(string message, params System.Func<, >[] args) { }
+        public FluentAssertions.Execution.ContinuationOfGiven<T> FailWith(string message, params System.Func<T, object>[] args) { }
         public FluentAssertions.Execution.ContinuationOfGiven<T> FailWith(string message, params object[] args) { }
         public FluentAssertions.Execution.GivenSelector<T> ForCondition(System.Func<T, bool> predicate) { }
         public FluentAssertions.Execution.GivenSelector<TOut> Given<TOut>(System.Func<T, TOut> selector) { }
@@ -1333,7 +1333,7 @@ namespace FluentAssertions.Execution
         string[] Discard();
         FluentAssertions.Execution.Continuation FailWith(System.Func<FluentAssertions.Execution.FailReason> failReasonFunc);
         FluentAssertions.Execution.Continuation FailWith(string message);
-        FluentAssertions.Execution.Continuation FailWith(string message, params System.Func<>[] argProviders);
+        FluentAssertions.Execution.Continuation FailWith(string message, params System.Func<object>[] argProviders);
         FluentAssertions.Execution.Continuation FailWith(string message, params object[] args);
         FluentAssertions.Execution.IAssertionScope ForCondition(bool condition);
         FluentAssertions.Execution.GivenSelector<T> Given<T>(System.Func<T> selector);
@@ -1639,7 +1639,7 @@ namespace FluentAssertions.Formatting
         public bool CanHandle(object value) { }
         public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
-    [System.AttributeUsage(System.AttributeTargets.Method | System.AttributeTargets.All, AllowMultiple=false)]
+    [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple=false)]
     public class ValueFormatterAttribute : System.Attribute
     {
         public ValueFormatterAttribute() { }
@@ -1783,7 +1783,7 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> BeOnOrAfter(System.DateTime expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOnOrBefore(System.DateTime expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(params System.DateTime[] validValues) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeOneOf(params System.Nullable<>[] validValues) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeOneOf(params System.Nullable<System.DateTime>[] validValues) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<System.DateTime> validValues, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<System.DateTime?> validValues, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeSameDateAs(System.DateTime expected, string because = "", params object[] becauseArgs) { }
@@ -1833,7 +1833,7 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> BeOnOrAfter(System.DateTimeOffset expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOnOrBefore(System.DateTimeOffset expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(params System.DateTimeOffset[] validValues) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeOneOf(params System.Nullable<>[] validValues) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeOneOf(params System.Nullable<System.DateTimeOffset>[] validValues) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<System.DateTimeOffset> validValues, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<System.DateTimeOffset?> validValues, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeSameDateAs(System.DateTimeOffset expected, string because = "", params object[] becauseArgs) { }

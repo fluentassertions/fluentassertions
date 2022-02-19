@@ -25,7 +25,6 @@ namespace Approval.Tests
         [InlineData("netcoreapp3.0")]
         public Task ApproveApi(string frameworkVersion)
         {
-            VerifierSettings.DisableClipboard();
             string codeBase = Assembly.GetExecutingAssembly().Location;
             var uri = new UriBuilder(new Uri(codeBase));
             string assemblyPath = Uri.UnescapeDataString(uri.Path);
