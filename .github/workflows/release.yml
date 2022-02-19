@@ -1,0 +1,29 @@
+changelog:
+  exclude:
+    labels:
+      - changelog-ignore
+    authors: [ ]
+  categories:
+    - title: Breaking Changes
+      labels:
+        - "breaking change"
+    - title: New features
+      labels:
+        - "feature"
+    - title: Improvements
+      labels:
+        - "enhancement"
+        - "performance"
+    - title: Fixes
+      labels:
+        - "bug"
+        - "regression"
+    - title: Fixes (extensibility)
+      labels:
+        - "extensibility"
+    - title: Documentation
+      labels:
+        - "documentation"
+    - title: Others
+      labels: 
+        - "*"
