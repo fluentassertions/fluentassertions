@@ -381,6 +381,138 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act.Should().Throw<XunitException>();
             }
+
+            [Fact]
+            public void When_asserting_that_a_float_value_is_equal_to_a_different_value_it_should_throw()
+            {
+                // Arrange
+                float value = 3.5F;
+
+                // Act
+                Action act = () => value.Should().Be(3.4F, "we want to test the error message");
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage(
+                        "Expected value to be *3.4* because we want to test the error message, but found *3.5*");
+            }
+
+            [Fact]
+            public void When_asserting_that_a_float_value_is_equal_to_the_same_value_it_should_not_throw()
+            {
+                // Arrange
+                float value = 3.5F;
+
+                // Act
+                Action act = () => value.Should().Be(3.5F);
+
+                // Assert
+                act.Should().NotThrow();
+            }
+
+            [Fact]
+            public void When_asserting_that_a_null_float_value_is_equal_to_some_value_it_should_throw()
+            {
+                // Arrange
+                float? value = null;
+
+                // Act
+                Action act = () => value.Should().Be(3.5F);
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("Expected value to be *3.5* but found <null>.");
+            }
+
+            [Fact]
+            public void When_asserting_that_a_double_value_is_equal_to_a_different_value_it_should_throw()
+            {
+                // Arrange
+                double value = 3.5;
+
+                // Act
+                Action act = () => value.Should().Be(3.4, "we want to test the error message");
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage(
+                        "Expected value to be 3.4 because we want to test the error message, but found 3.5.");
+            }
+
+            [Fact]
+            public void When_asserting_that_a_double_value_is_equal_to_the_same_value_it_should_not_throw()
+            {
+                // Arrange
+                double value = 3.5;
+
+                // Act
+                Action act = () => value.Should().Be(3.5);
+
+                // Assert
+                act.Should().NotThrow();
+            }
+
+            [Fact]
+            public void When_asserting_that_a_null_double_value_is_equal_to_some_value_it_should_throw()
+            {
+                // Arrange
+                double? value = null;
+
+                // Act
+                Action act = () => value.Should().Be(3.5);
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("Expected value to be 3.5, but found <null>.");
+            }
+
+            [Fact]
+            public void When_asserting_that_a_decimal_value_is_equal_to_a_different_value_it_should_throw()
+            {
+                // Arrange
+                decimal value = 3.5m;
+
+                // Act
+                Action act = () => value.Should().Be(3.4m, "we want to test the error message");
+
+                // Assert
+                act.Should().Throw<XunitException>()
+                    .WithMessage(
+                        "Expected value to be*3.4* because we want to test the error message, but found*3.5*");
+            }
+
+            [Fact]
+            public void When_asserting_that_a_decimal_value_is_equal_to_the_same_value_it_should_not_throw()
+            {
+                // Arrange
+                decimal value = 3.5m;
+
+                // Act
+                Action act = () => value.Should().Be(3.5m);
+
+                // Assert
+                act.Should().NotThrow();
+            }
+
+            [Fact]
+            public void When_asserting_that_a_null_decimal_value_is_equal_to_some_value_it_should_throw()
+            {
+                // Arrange
+                decimal? value = null;
+                decimal someValue = 3.5m;
+
+                // Act
+                Action act = () => value.Should().Be(someValue);
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("Expected value to be*3.5*, but found <null>.");
+            }
         }
 
         public class BeGreaterThanOrEqualTo
@@ -1030,52 +1162,8 @@ namespace FluentAssertions.Specs.Numeric
             }
         }
 
-        public class Floats
+        public class BeApproximately
         {
-            [Fact]
-            public void When_asserting_that_a_float_value_is_equal_to_a_different_value_it_should_throw()
-            {
-                // Arrange
-                float value = 3.5F;
-
-                // Act
-                Action act = () => value.Should().Be(3.4F, "we want to test the error message");
-
-                // Assert
-                act
-                    .Should().Throw<XunitException>()
-                    .WithMessage(
-                        "Expected value to be *3.4* because we want to test the error message, but found *3.5*");
-            }
-
-            [Fact]
-            public void When_asserting_that_a_float_value_is_equal_to_the_same_value_it_should_not_throw()
-            {
-                // Arrange
-                float value = 3.5F;
-
-                // Act
-                Action act = () => value.Should().Be(3.5F);
-
-                // Assert
-                act.Should().NotThrow();
-            }
-
-            [Fact]
-            public void When_asserting_that_a_null_float_value_is_equal_to_some_value_it_should_throw()
-            {
-                // Arrange
-                float? value = null;
-
-                // Act
-                Action act = () => value.Should().Be(3.5F);
-
-                // Assert
-                act
-                    .Should().Throw<XunitException>()
-                    .WithMessage("Expected value to be *3.5* but found <null>.");
-            }
-
             [Fact]
             public void When_approximating_a_float_with_a_negative_precision_it_should_throw()
             {
@@ -1224,6 +1312,234 @@ namespace FluentAssertions.Specs.Numeric
             }
 
             [Fact]
+            public void When_approximating_a_double_with_a_negative_precision_it_should_throw()
+            {
+                // Arrange
+                double value = 3.1415927;
+
+                // Act
+                Action act = () => value.Should().BeApproximately(3.14, -0.1);
+
+                // Assert
+                act.Should().Throw<ArgumentOutOfRangeException>()
+                    .WithMessage("* value of precision must be non-negative*");
+            }
+
+            [Fact]
+            public void When_double_is_not_approximating_a_range_it_should_throw()
+            {
+                // Arrange
+                double value = 3.1415927;
+
+                // Act
+                Action act = () => value.Should().BeApproximately(3.14, 0.001, "rockets will crash otherwise");
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage(
+                        "Expected value to approximate 3.14 +/- 0.001 because rockets will crash otherwise, but 3.1415927 differed by 0.001592*");
+            }
+
+            [Fact]
+            public void When_double_is_indeed_approximating_a_value_it_should_not_throw()
+            {
+                // Arrange
+                double value = 3.1415927;
+
+                // Act
+                Action act = () => value.Should().BeApproximately(3.14, 0.1);
+
+                // Assert
+                act.Should().NotThrow();
+            }
+
+            [Fact]
+            public void When_approximating_a_double_towards_nan_it_should_not_throw()
+            {
+                // Arrange
+                double value = double.NaN;
+
+                // Act
+                Action act = () => value.Should().BeApproximately(3.14F, 0.1F);
+
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
+
+            [Fact]
+            public void When_approximating_positive_infinity_double_towards_positive_infinity_it_should_not_throw()
+            {
+                // Arrange
+                double value = double.PositiveInfinity;
+
+                // Act
+                Action act = () => value.Should().BeApproximately(double.PositiveInfinity, 0.1);
+
+                // Assert
+                act.Should().NotThrow();
+            }
+
+            [Fact]
+            public void When_approximating_negative_infinity_double_towards_negative_infinity_it_should_not_throw()
+            {
+                // Arrange
+                double value = double.NegativeInfinity;
+
+                // Act
+                Action act = () => value.Should().BeApproximately(double.NegativeInfinity, 0.1);
+
+                // Assert
+                act.Should().NotThrow();
+            }
+
+            [Fact]
+            public void When_double_is_not_approximating_positive_infinity_it_should_throw()
+            {
+                // Arrange
+                double value = double.PositiveInfinity;
+
+                // Act
+                Action act = () => value.Should().BeApproximately(double.MaxValue, 0.1);
+
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
+
+            [Fact]
+            public void When_double_is_not_approximating_negative_infinity_it_should_throw()
+            {
+                // Arrange
+                double value = double.NegativeInfinity;
+
+                // Act
+                Action act = () => value.Should().BeApproximately(double.MinValue, 0.1);
+
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
+
+            [InlineData(9D)]
+            [InlineData(11D)]
+            [Theory]
+            public void When_double_is_approximating_a_value_on_boundaries_it_should_not_throw(double value)
+            {
+                // Act
+                Action act = () => value.Should().BeApproximately(10D, 1D);
+
+                // Assert
+                act.Should().NotThrow();
+            }
+
+            [InlineData(9D)]
+            [InlineData(11D)]
+            [Theory]
+            public void When_double_is_not_approximating_a_value_on_boundaries_it_should_throw(double value)
+            {
+                // Act
+                Action act = () => value.Should().BeApproximately(10D, 0.9D);
+
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
+
+            [Fact]
+            public void When_approximating_a_decimale_with_a_negative_precision_it_should_throw()
+            {
+                // Arrange
+                decimal value = 3.1415927M;
+
+                // Act
+                Action act = () => value.Should().BeApproximately(3.14m, -0.1m);
+
+                // Assert
+                act.Should().Throw<ArgumentOutOfRangeException>()
+                    .WithMessage("* value of precision must be non-negative*");
+            }
+
+            [Fact]
+            public void When_decimal_is_not_approximating_a_range_it_should_throw()
+            {
+                // Arrange
+                decimal value = 3.5011m;
+
+                // Act
+                Action act = () => value.Should().BeApproximately(3.5m, 0.001m, "rockets will crash otherwise");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected value to approximate*3.5* +/-*0.001* because rockets will crash otherwise, but *3.5011* differed by*0.0011*");
+            }
+
+            [Fact]
+            public void When_decimal_is_indeed_approximating_a_value_it_should_not_throw()
+            {
+                // Arrange
+                decimal value = 3.5011m;
+
+                // Act
+                Action act = () => value.Should().BeApproximately(3.5m, 0.01m);
+
+                // Assert
+                act.Should().NotThrow();
+            }
+
+            [Fact]
+            public void When_decimal_is_approximating_a_value_on_lower_boundary_it_should_not_throw()
+            {
+                // Act
+                decimal value = 9m;
+
+                // Act
+                Action act = () => value.Should().BeApproximately(10m, 1m);
+
+                // Assert
+                act.Should().NotThrow();
+            }
+
+            [Fact]
+            public void When_decimal_is_approximating_a_value_on_upper_boundary_it_should_not_throw()
+            {
+                // Act
+                decimal value = 11m;
+
+                // Act
+                Action act = () => value.Should().BeApproximately(10m, 1m);
+
+                // Assert
+                act.Should().NotThrow();
+            }
+
+            [Fact]
+            public void When_decimal_is_not_approximating_a_value_on_lower_boundary_it_should_throw()
+            {
+                // Act
+                decimal value = 9m;
+
+                // Act
+                Action act = () => value.Should().BeApproximately(10m, 0.9m);
+
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
+
+            [Fact]
+            public void When_decimal_is_not_approximating_a_value_on_upper_boundary_it_should_throw()
+            {
+                // Act
+                decimal value = 11m;
+
+                // Act
+                Action act = () => value.Should().BeApproximately(10m, 0.9m);
+
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
+        }
+
+        public class NotBeApproximately
+        {
+            [Fact]
             public void When_not_approximating_a_float_with_a_negative_precision_it_should_throw()
             {
                 // Arrange
@@ -1369,185 +1685,6 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act.Should().NotThrow();
             }
-        }
-
-        public class Doubles
-        {
-            [Fact]
-            public void When_approximating_a_double_with_a_negative_precision_it_should_throw()
-            {
-                // Arrange
-                double value = 3.1415927;
-
-                // Act
-                Action act = () => value.Should().BeApproximately(3.14, -0.1);
-
-                // Assert
-                act.Should().Throw<ArgumentOutOfRangeException>()
-                    .WithMessage("* value of precision must be non-negative*");
-            }
-
-            [Fact]
-            public void When_asserting_that_a_double_value_is_equal_to_a_different_value_it_should_throw()
-            {
-                // Arrange
-                double value = 3.5;
-
-                // Act
-                Action act = () => value.Should().Be(3.4, "we want to test the error message");
-
-                // Assert
-                act
-                    .Should().Throw<XunitException>()
-                    .WithMessage(
-                        "Expected value to be 3.4 because we want to test the error message, but found 3.5.");
-            }
-
-            [Fact]
-            public void When_asserting_that_a_double_value_is_equal_to_the_same_value_it_should_not_throw()
-            {
-                // Arrange
-                double value = 3.5;
-
-                // Act
-                Action act = () => value.Should().Be(3.5);
-
-                // Assert
-                act.Should().NotThrow();
-            }
-
-            [Fact]
-            public void When_asserting_that_a_null_double_value_is_equal_to_some_value_it_should_throw()
-            {
-                // Arrange
-                double? value = null;
-
-                // Act
-                Action act = () => value.Should().Be(3.5);
-
-                // Assert
-                act
-                    .Should().Throw<XunitException>()
-                    .WithMessage("Expected value to be 3.5, but found <null>.");
-            }
-
-            [Fact]
-            public void When_double_is_not_approximating_a_range_it_should_throw()
-            {
-                // Arrange
-                double value = 3.1415927;
-
-                // Act
-                Action act = () => value.Should().BeApproximately(3.14, 0.001, "rockets will crash otherwise");
-
-                // Assert
-                act
-                    .Should().Throw<XunitException>()
-                    .WithMessage(
-                        "Expected value to approximate 3.14 +/- 0.001 because rockets will crash otherwise, but 3.1415927 differed by 0.001592*");
-            }
-
-            [Fact]
-            public void When_double_is_indeed_approximating_a_value_it_should_not_throw()
-            {
-                // Arrange
-                double value = 3.1415927;
-
-                // Act
-                Action act = () => value.Should().BeApproximately(3.14, 0.1);
-
-                // Assert
-                act.Should().NotThrow();
-            }
-
-            [Fact]
-            public void When_approximating_a_double_towards_nan_it_should_not_throw()
-            {
-                // Arrange
-                double value = double.NaN;
-
-                // Act
-                Action act = () => value.Should().BeApproximately(3.14F, 0.1F);
-
-                // Assert
-                act.Should().Throw<XunitException>();
-            }
-
-            [Fact]
-            public void When_approximating_positive_infinity_double_towards_positive_infinity_it_should_not_throw()
-            {
-                // Arrange
-                double value = double.PositiveInfinity;
-
-                // Act
-                Action act = () => value.Should().BeApproximately(double.PositiveInfinity, 0.1);
-
-                // Assert
-                act.Should().NotThrow();
-            }
-
-            [Fact]
-            public void When_approximating_negative_infinity_double_towards_negative_infinity_it_should_not_throw()
-            {
-                // Arrange
-                double value = double.NegativeInfinity;
-
-                // Act
-                Action act = () => value.Should().BeApproximately(double.NegativeInfinity, 0.1);
-
-                // Assert
-                act.Should().NotThrow();
-            }
-
-            [Fact]
-            public void When_double_is_not_approximating_positive_infinity_it_should_throw()
-            {
-                // Arrange
-                double value = double.PositiveInfinity;
-
-                // Act
-                Action act = () => value.Should().BeApproximately(double.MaxValue, 0.1);
-
-                // Assert
-                act.Should().Throw<XunitException>();
-            }
-
-            [Fact]
-            public void When_double_is_not_approximating_negative_infinity_it_should_throw()
-            {
-                // Arrange
-                double value = double.NegativeInfinity;
-
-                // Act
-                Action act = () => value.Should().BeApproximately(double.MinValue, 0.1);
-
-                // Assert
-                act.Should().Throw<XunitException>();
-            }
-
-            [InlineData(9D)]
-            [InlineData(11D)]
-            [Theory]
-            public void When_double_is_approximating_a_value_on_boundaries_it_should_not_throw(double value)
-            {
-                // Act
-                Action act = () => value.Should().BeApproximately(10D, 1D);
-
-                // Assert
-                act.Should().NotThrow();
-            }
-
-            [InlineData(9D)]
-            [InlineData(11D)]
-            [Theory]
-            public void When_double_is_not_approximating_a_value_on_boundaries_it_should_throw(double value)
-            {
-                // Act
-                Action act = () => value.Should().BeApproximately(10D, 0.9D);
-
-                // Assert
-                act.Should().Throw<XunitException>();
-            }
 
             [Fact]
             public void When_not_approximating_a_double_with_a_negative_precision_it_should_throw()
@@ -1691,146 +1828,6 @@ namespace FluentAssertions.Specs.Numeric
             {
                 // Act
                 Action act = () => value.Should().NotBeApproximately(10D, 1D);
-
-                // Assert
-                act.Should().Throw<XunitException>();
-            }
-        }
-
-        public class Decimals
-        {
-            [Fact]
-            public void When_approximating_a_decimale_with_a_negative_precision_it_should_throw()
-            {
-                // Arrange
-                decimal value = 3.1415927M;
-
-                // Act
-                Action act = () => value.Should().BeApproximately(3.14m, -0.1m);
-
-                // Assert
-                act.Should().Throw<ArgumentOutOfRangeException>()
-                    .WithMessage("* value of precision must be non-negative*");
-            }
-
-            [Fact]
-            public void When_asserting_that_a_decimal_value_is_equal_to_a_different_value_it_should_throw()
-            {
-                // Arrange
-                decimal value = 3.5m;
-
-                // Act
-                Action act = () => value.Should().Be(3.4m, "we want to test the error message");
-
-                // Assert
-                act.Should().Throw<XunitException>()
-                    .WithMessage(
-                        "Expected value to be*3.4* because we want to test the error message, but found*3.5*");
-            }
-
-            [Fact]
-            public void When_asserting_that_a_decimal_value_is_equal_to_the_same_value_it_should_not_throw()
-            {
-                // Arrange
-                decimal value = 3.5m;
-
-                // Act
-                Action act = () => value.Should().Be(3.5m);
-
-                // Assert
-                act.Should().NotThrow();
-            }
-
-            [Fact]
-            public void When_asserting_that_a_null_decimal_value_is_equal_to_some_value_it_should_throw()
-            {
-                // Arrange
-                decimal? value = null;
-                decimal someValue = 3.5m;
-
-                // Act
-                Action act = () => value.Should().Be(someValue);
-
-                // Assert
-                act
-                    .Should().Throw<XunitException>()
-                    .WithMessage("Expected value to be*3.5*, but found <null>.");
-            }
-
-            [Fact]
-            public void When_decimal_is_not_approximating_a_range_it_should_throw()
-            {
-                // Arrange
-                decimal value = 3.5011m;
-
-                // Act
-                Action act = () => value.Should().BeApproximately(3.5m, 0.001m, "rockets will crash otherwise");
-
-                // Assert
-                act.Should().Throw<XunitException>().WithMessage(
-                    "Expected value to approximate*3.5* +/-*0.001* because rockets will crash otherwise, but *3.5011* differed by*0.0011*");
-            }
-
-            [Fact]
-            public void When_decimal_is_indeed_approximating_a_value_it_should_not_throw()
-            {
-                // Arrange
-                decimal value = 3.5011m;
-
-                // Act
-                Action act = () => value.Should().BeApproximately(3.5m, 0.01m);
-
-                // Assert
-                act.Should().NotThrow();
-            }
-
-            [Fact]
-            public void When_decimal_is_approximating_a_value_on_lower_boundary_it_should_not_throw()
-            {
-                // Act
-                decimal value = 9m;
-
-                // Act
-                Action act = () => value.Should().BeApproximately(10m, 1m);
-
-                // Assert
-                act.Should().NotThrow();
-            }
-
-            [Fact]
-            public void When_decimal_is_approximating_a_value_on_upper_boundary_it_should_not_throw()
-            {
-                // Act
-                decimal value = 11m;
-
-                // Act
-                Action act = () => value.Should().BeApproximately(10m, 1m);
-
-                // Assert
-                act.Should().NotThrow();
-            }
-
-            [Fact]
-            public void When_decimal_is_not_approximating_a_value_on_lower_boundary_it_should_throw()
-            {
-                // Act
-                decimal value = 9m;
-
-                // Act
-                Action act = () => value.Should().BeApproximately(10m, 0.9m);
-
-                // Assert
-                act.Should().Throw<XunitException>();
-            }
-
-            [Fact]
-            public void When_decimal_is_not_approximating_a_value_on_upper_boundary_it_should_throw()
-            {
-                // Act
-                decimal value = 11m;
-
-                // Act
-                Action act = () => value.Should().BeApproximately(10m, 0.9m);
 
                 // Assert
                 act.Should().Throw<XunitException>();
