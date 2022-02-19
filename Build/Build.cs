@@ -163,6 +163,7 @@ class Build : NukeBuild
                 .SetTargetDirectory(RootDirectory / "TestResults" / "reports")
                 .AddReports(RootDirectory / "TestResults/**/coverage.cobertura.xml")
                 .AddReportTypes("HtmlInline_AzurePipelines_Dark", "lcov")
+                .SetClassFilters("-System.Diagnostics.CodeAnalysis.StringSyntaxAttribute")
                 .SetAssemblyFilters("+FluentAssertions"));
 
             string link = RootDirectory / "TestResults" / "reports" / "index.html";
