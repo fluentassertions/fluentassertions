@@ -256,6 +256,7 @@ namespace FluentAssertions.Equivalency.Specs
 
             var typedDataSet2 = new TypedDataSetSubclass(typedDataSet1);
 
+            typedDataSet1.Locale = new CultureInfo("en-US");
             typedDataSet2.Locale = new CultureInfo("fr-CA");
 
             var dataSet1 = typedDataSet1.ToUntypedDataSet();
@@ -276,6 +277,7 @@ namespace FluentAssertions.Equivalency.Specs
 
             var typedDataSet2 = new TypedDataSetSubclass(typedDataSet1);
 
+            typedDataSet1.Locale = new CultureInfo("en-US");
             typedDataSet2.Locale = new CultureInfo("fr-CA");
 
             var dataSet1 = typedDataSet1.ToUntypedDataSet();
@@ -633,9 +635,11 @@ namespace FluentAssertions.Equivalency.Specs
 
             var correctTableCount = dataSet.Tables.Count;
 
+            var incorrectTableCount = correctTableCount + 1;
+
             // Act
             Action action =
-                () => dataSet.Should().HaveTableCount(correctTableCount + 1);
+                () => dataSet.Should().HaveTableCount(incorrectTableCount);
 
             // Assert
             action.Should().Throw<XunitException>();

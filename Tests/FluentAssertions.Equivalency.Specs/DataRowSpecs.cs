@@ -163,6 +163,9 @@ namespace FluentAssertions.Equivalency.Specs
             var dataRow1 = dataTable1[0];
             var dataRow2 = dataTable2[0];
 
+            // Set the Decimal property to be the same for both rows, but by doing ++ and -- in
+            // different orders, the AcceptChanges call will load different values into the
+            // original data for each row.
             dataRow1.Decimal++;
             dataTable1.AcceptChanges();
             dataRow1.Decimal--;
@@ -340,8 +343,10 @@ namespace FluentAssertions.Equivalency.Specs
 
             var dataRow = dataSet.TypedDataTable1[0];
 
+            string expectedColumnName = dataSet.TypedDataTable1.Columns.OfType<DataColumn>().Last().ColumnName;
+
             // Act & Assert
-            dataRow.Should().HaveColumn("ForeignRowID");
+            dataRow.Should().HaveColumn(expectedColumnName);
         }
 
         [Fact]
@@ -368,12 +373,12 @@ namespace FluentAssertions.Equivalency.Specs
 
             var dataRow = dataSet.TypedDataTable1[0];
 
-            var columnNames = dataRow.Table.Columns.OfType<DataColumn>()
-                .Take(3)
+            var subsetOfColumnNames = dataRow.Table.Columns.OfType<DataColumn>()
+                .Take(dataRow.Table.Columns.Count - 2)
                 .Select(column => column.ColumnName);
 
             // Act & Assert
-            dataRow.Should().HaveColumns(columnNames);
+            dataRow.Should().HaveColumns(subsetOfColumnNames);
         }
 
         [Fact]
@@ -384,14 +389,14 @@ namespace FluentAssertions.Equivalency.Specs
 
             var dataRow = dataSet.TypedDataTable1[0];
 
-            var columnNames = dataRow.Table.Columns.OfType<DataColumn>()
-                .Take(3)
+            var subsetOfColumnNamesWithUnicorn = dataRow.Table.Columns.OfType<DataColumn>()
+                .Take(dataRow.Table.Columns.Count - 2)
                 .Select(column => column.ColumnName)
                 .Concat(new[] { "Unicorn" });
 
             // Act
             Action action =
-                () => dataRow.Should().HaveColumns(columnNames);
+                () => dataRow.Should().HaveColumns(subsetOfColumnNamesWithUnicorn);
 
             // Assert
             action.Should().Throw<XunitException>();

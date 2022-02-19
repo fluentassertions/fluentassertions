@@ -254,6 +254,7 @@ namespace FluentAssertions.Equivalency.Specs
 
             var typedDataSet2 = new TypedDataSetSubclass(typedDataSet1);
 
+            typedDataSet1.Locale = new CultureInfo("en-US");
             typedDataSet2.Locale = new CultureInfo("fr-CA");
 
             var dataTable1 = typedDataSet1.ToUntypedDataSet().Tables["TypedDataTable1"];
@@ -274,6 +275,7 @@ namespace FluentAssertions.Equivalency.Specs
 
             var typedDataSet2 = new TypedDataSetSubclass(typedDataSet1);
 
+            typedDataSet1.Locale = new CultureInfo("en-US");
             typedDataSet2.Locale = new CultureInfo("fr-CA");
 
             var dataTable1 = typedDataSet1.ToUntypedDataSet().Tables["TypedDataTable1"];
@@ -704,10 +706,10 @@ namespace FluentAssertions.Equivalency.Specs
 
             var dataTable = dataSet.TypedDataTable1;
 
-            int rowCount = dataTable.Rows.Count;
+            int correctRowCount = dataTable.Rows.Count;
 
             // Act & Assert
-            dataTable.Should().HaveRowCount(rowCount);
+            dataTable.Should().HaveRowCount(correctRowCount);
         }
 
         [Fact]
@@ -733,11 +735,13 @@ namespace FluentAssertions.Equivalency.Specs
 
             var dataTable = dataSet.TypedDataTable1;
 
-            int rowCount = dataTable.Rows.Count;
+            int correctRowCount = dataTable.Rows.Count;
+
+            int incorrectRowCount = correctRowCount * 2;
 
             // Act
             Action action =
-                () => dataTable.Should().HaveRowCount(rowCount * 2);
+                () => dataTable.Should().HaveRowCount(incorrectRowCount);
 
             // Assert
             action.Should().Throw<XunitException>();
