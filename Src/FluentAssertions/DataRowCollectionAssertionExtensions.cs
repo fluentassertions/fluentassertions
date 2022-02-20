@@ -42,7 +42,7 @@ namespace FluentAssertions
                     .UsingLineBreaks
                     .ForCondition(false)
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:row collection} to refer to DataRowCollection{reason}, but found {1} (different underlying object).", expected);
+                    .FailWith("Expected {context:row collection} to refer to DataRowCollection{reason}, but found {0} (different type).", expected);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataRow>>(assertion);

@@ -73,7 +73,26 @@ namespace FluentAssertions.Specs.Collections.Data
 
                 // Assert
                 action.Should().Throw<XunitException>().WithMessage(
-                    "Expected tableCollection1 to refer to *, but found *.");
+                    "Expected tableCollection1 to refer to *, but found * (different underlying object).");
+            }
+
+            [Fact]
+            public void When_generic_collection_is_tested_against_typed_collection_it_should_fail()
+            {
+                // Arrange
+                var dataSet = new DataSet();
+
+                var tableCollection = dataSet.Tables;
+
+                var genericCollection = tableCollection.Cast<DataTable>();
+
+                // Act
+                Action action =
+                    () => genericCollection.Should().BeSameAs(tableCollection, because: "we {0}", "care");
+
+                // Assert
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected genericCollection to refer to DataTableCollection because we care, but found * (different type).");
             }
         }
 
