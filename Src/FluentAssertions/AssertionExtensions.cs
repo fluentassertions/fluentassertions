@@ -387,7 +387,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns an assertions object that can be used to assert the current <see cref="DataTableCollection"/>.
+        /// Returns an assertions object that provides methods for asserting the state of a <see cref="DataTableCollection"/>.
         /// </summary>
         [Pure]
         public static GenericCollectionAssertions<DataTable> Should(this DataTableCollection actualValue)
@@ -397,7 +397,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns an assertions object that can be used to assert the current <see cref="DataColumnCollection"/>.
+        /// Returns an assertions object that provides methods for asserting the state of a <see cref="DataColumnCollection"/>.
         /// </summary>
         [Pure]
         public static GenericCollectionAssertions<DataColumn> Should(this DataColumnCollection actualValue)
@@ -407,7 +407,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns an assertions object that can be used to assert the current <see cref="DataRowCollection"/>.
+        /// Returns an assertions object that provides methods for asserting the state of a <see cref="DataRowCollection"/>.
         /// </summary>
         [Pure]
         public static GenericCollectionAssertions<DataRow> Should(this DataRowCollection actualValue)
