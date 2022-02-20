@@ -94,22 +94,32 @@ namespace FluentAssertions
         {
             Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify count against a <null> collection.");
 
-            if (assertion.Subject is null)
+            if (assertion.Subject is NonGenericCollectionWrapper<DataRowCollection, DataRow> wrapper)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to have the same count as {0}{reason}, but found {1}.",
-                        otherCollection,
-                        assertion.Subject);
+                    .WithExpectation("Expected {context:collection} to have ")
+                    .Given(() => (actual: wrapper.Count, expected: otherCollection.Count))
+                    .ForCondition(count => count.actual == count.expected)
+                    .FailWith("{0} row(s){reason}, but found {1} row(s).", count => count.expected, count => count.actual)
+                    .Then
+                    .ClearExpectation();
             }
-
-            int actualCount = assertion.Subject.Count();
-            int expectedCount = otherCollection.Count;
-
-            Execute.Assertion
-                .ForCondition(actualCount == expectedCount)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} to have {0} row(s){reason}, but found {1}.", expectedCount, actualCount);
+            else
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .WithExpectation("Expected {context:collection} to have ")
+                    .Given(() => assertion.Subject)
+                    .ForCondition(subject => subject is not null)
+                    .FailWith("the same count as {0}{reason}, but found <null>.", otherCollection)
+                    .Then
+                    .Given((subject) => (actual: subject.Count(), expected: otherCollection.Count))
+                    .ForCondition(count => count.actual == count.expected)
+                    .FailWith("{0} row(s){reason}, but found {1}.", count => count.expected, count => count.actual)
+                    .Then
+                    .ClearExpectation();
+            }
 
             return new AndConstraint<GenericCollectionAssertions<DataRow>>(assertion);
         }
@@ -130,31 +140,32 @@ namespace FluentAssertions
         {
             Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify count against a <null> collection.");
 
-            if (assertion.Subject is null)
+            if (assertion.Subject is NonGenericCollectionWrapper<DataRowCollection, DataRow> wrapper)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to not have the same count as {0}{reason}, but found {1}.",
-                        otherCollection,
-                        assertion.Subject);
+                    .WithExpectation("Expected {context:collection} to not have ")
+                    .Given(() => (actual: wrapper.Count, expected: otherCollection.Count))
+                    .ForCondition(count => count.actual != count.expected)
+                    .FailWith("{0} row(s){reason}, but found {1} row(s).", count => count.expected, count => count.actual)
+                    .Then
+                    .ClearExpectation();
             }
-
-            if (ReferenceEquals(assertion.Subject, otherCollection))
+            else
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} {0} to not have the same count as {1}{reason}, but they both reference the same object.",
-                        assertion.Subject,
-                        otherCollection);
+                    .WithExpectation("Expected {context:collection} to not have ")
+                    .Given(() => assertion.Subject)
+                    .ForCondition(subject => subject is not null)
+                    .FailWith("the same count as {0}{reason}, but found <null>.", otherCollection)
+                    .Then
+                    .Given((subject) => (actual: subject.Count(), expected: otherCollection.Count))
+                    .ForCondition(count => count.actual != count.expected)
+                    .FailWith("{0} row(s){reason}, but found {1}.", count => count.expected, count => count.actual)
+                    .Then
+                    .ClearExpectation();
             }
-
-            int actualCount = assertion.Subject.Count();
-            int expectedCount = otherCollection.Count;
-
-            Execute.Assertion
-                .ForCondition(actualCount != expectedCount)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} to not have {0} row(s){reason}, but found {1}.", expectedCount, actualCount);
 
             return new AndConstraint<GenericCollectionAssertions<DataRow>>(assertion);
         }

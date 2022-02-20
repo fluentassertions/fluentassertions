@@ -113,20 +113,25 @@ namespace FluentAssertions.Specs.Collections.Data
 
         #region HaveSameCount & NotHaveSameCount
         [Fact]
-        public void When_DataTableCollection_and_DataSet_have_the_same_number_elements_it_should_succeed()
+        public void When_asserting_same_count_if_expectation_is_null_it_should_fail()
         {
             // Arrange
-            var firstDataSet = new DataSet();
-            var secondDataSet = new DataSet();
+            var dataSet = new DataSet();
 
             for (int seed = 0; seed < 3; seed++)
             {
-                firstDataSet.Tables.Add(CreateTestDataTable(seed));
-                secondDataSet.Tables.Add(CreateTestDataTable(seed + 10));
+                dataSet.Tables.Add(CreateTestDataTable(seed));
             }
 
-            // Act & Assert
-            firstDataSet.Tables.Should().HaveSameCount(secondDataSet);
+            var nullReference = default(DataTableCollection);
+
+            // Act
+            Action action =
+                () => dataSet.Tables.Should().HaveSameCount(nullReference);
+
+            // Assert
+            action.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot verify count against a <null> collection.*");
         }
 
         [Fact]
@@ -147,7 +152,7 @@ namespace FluentAssertions.Specs.Collections.Data
         }
 
         [Fact]
-        public void When_both_DataTableCollections_do_not_have_the_same_number_of_elements_it_should_fail()
+        public void When_two_DataTableCollections_do_not_have_the_same_number_of_elements_it_should_fail()
         {
             // Arrange
             var firstDataSet = new DataSet();
@@ -167,11 +172,52 @@ namespace FluentAssertions.Specs.Collections.Data
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected firstDataSet.Tables to have 2 item(s), but found 3.");
+                "Expected firstDataSet.Tables to have 2 table(s), but found 3 table(s).");
         }
 
         [Fact]
-        public void When_comparing_table_counts_and_a_reason_is_specified_it_should_it_in_the_exception()
+        public void When_count_of_generic_data_column_collection_count_is_compared_with_null_it_should_fail()
+        {
+            // Arrange
+            var dataSet = new DataSet();
+
+            for (int seed = 0; seed < 3; seed++)
+            {
+                dataSet.Tables.Add(CreateTestDataTable(seed));
+            }
+
+            List<DataTable> nullDataTables = null;
+
+            // Act
+            Action action =
+                () => nullDataTables.Should().HaveSameCount(dataSet.Tables, because: "we {0}", "care");
+
+            // Assert
+            action.Should().Throw<XunitException>().WithMessage(
+                "Expected nullDataTables to have the same count as * because we care, but found <null>.");
+        }
+
+        [Fact]
+        public void When_count_of_generic_data_column_collection_is_compared_with_DataTableCollection_with_same_number_of_elements_it_should_succeed()
+        {
+            // Arrange
+            var firstDataSet = new DataSet();
+            var secondDataSet = new DataSet();
+
+            for (int seed = 0; seed < 3; seed++)
+            {
+                firstDataSet.Tables.Add(CreateTestDataTable(seed));
+                secondDataSet.Tables.Add(CreateTestDataTable(seed + 10));
+            }
+
+            var genericDataTableCollection = firstDataSet.Tables.Cast<DataTable>();
+
+            // Act & Assert
+            genericDataTableCollection.Should().HaveSameCount(secondDataSet.Tables);
+        }
+
+        [Fact]
+        public void When_generic_data_column_collection_is_compared_with_DataTableCollection_with_different_number_of_elements_it_should_fail()
         {
             // Arrange
             var firstDataSet = new DataSet();
@@ -185,17 +231,41 @@ namespace FluentAssertions.Specs.Collections.Data
 
             secondDataSet.Tables.RemoveAt(1);
 
+            var genericDataTableCollection = firstDataSet.Tables.Cast<DataTable>();
+
             // Act
             Action action =
-                () => firstDataSet.Tables.Should().HaveSameCount(secondDataSet, "we want to test the {0}", "reason");
+                () => genericDataTableCollection.Should().HaveSameCount(secondDataSet.Tables, because: "we {0}", "care");
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected firstDataSet.Tables to have 2 item(s) because we want to test the reason, but found 3.");
+                "Expected genericDataTableCollection to have 2 table(s) because we care, but found 3.");
         }
 
         [Fact]
-        public void When_asserting_not_same_count_and_DataTableCollections_have_different_number_elements_it_should_succeed()
+        public void When_asserting_not_same_count_if_expectation_is_null_it_should_fail()
+        {
+            // Arrange
+            var dataSet = new DataSet();
+
+            for (int seed = 0; seed < 3; seed++)
+            {
+                dataSet.Tables.Add(CreateTestDataTable(seed));
+            }
+
+            var nullReference = default(DataTableCollection);
+
+            // Act
+            Action action =
+                () => dataSet.Tables.Should().NotHaveSameCount(nullReference);
+
+            // Assert
+            action.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot verify count against a <null> collection.*");
+        }
+
+        [Fact]
+        public void When_asserting_not_same_count_and_two_DataTableCollections_have_different_number_elements_it_should_succeed()
         {
             // Arrange
             var firstDataSet = new DataSet();
@@ -210,11 +280,11 @@ namespace FluentAssertions.Specs.Collections.Data
             secondDataSet.Tables.RemoveAt(1);
 
             // Act & Assert
-            firstDataSet.Tables.Should().NotHaveSameCount(secondDataSet);
+            firstDataSet.Tables.Should().NotHaveSameCount(secondDataSet.Tables);
         }
 
         [Fact]
-        public void When_asserting_not_same_count_and_both_DataTableCollections_have_the_same_number_tables_it_should_fail()
+        public void When_asserting_not_same_count_and_two_DataTableCollections_have_the_same_number_columns_it_should_fail()
         {
             // Arrange
             var firstDataSet = new DataSet();
@@ -228,15 +298,37 @@ namespace FluentAssertions.Specs.Collections.Data
 
             // Act
             Action action =
-                () => firstDataSet.Tables.Should().NotHaveSameCount(secondDataSet);
+                () => firstDataSet.Tables.Should().NotHaveSameCount(secondDataSet.Tables, because: "we {0}", "care");
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected firstDataSet.Tables to not have 3 item(s), but found 3.");
+                "Expected firstDataSet.Tables to not have 3 table(s) because we care, but found 3 table(s).");
         }
 
         [Fact]
-        public void When_comparing_not_same_table_counts_and_a_reason_is_specified_it_should_it_in_the_exception()
+        public void When_asserting_not_same_count_and_count_of_generic_data_column_collection_count_is_compared_with_null_it_should_fail()
+        {
+            // Arrange
+            var dataSet = new DataSet();
+
+            for (int seed = 0; seed < 3; seed++)
+            {
+                dataSet.Tables.Add(CreateTestDataTable(seed));
+            }
+
+            List<DataTable> nullDataTables = null;
+
+            // Act
+            Action action =
+                () => nullDataTables.Should().NotHaveSameCount(dataSet.Tables, because: "we {0}", "care");
+
+            // Assert
+            action.Should().Throw<XunitException>().WithMessage(
+                "Expected nullDataTables to not have the same count as * because we care, but found <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_not_same_count_and_count_of_generic_data_column_collection_is_compared_with_DataTableCollection_with_same_number_of_elements_it_should_fail()
         {
             // Arrange
             var firstDataSet = new DataSet();
@@ -248,13 +340,36 @@ namespace FluentAssertions.Specs.Collections.Data
                 secondDataSet.Tables.Add(CreateTestDataTable(seed + 10));
             }
 
+            var genericDataTableCollection = firstDataSet.Tables.Cast<DataTable>();
+
             // Act
             Action action =
-                () => firstDataSet.Tables.Should().NotHaveSameCount(secondDataSet.Tables, "we want to test the {0}", "reason");
+                () => genericDataTableCollection.Should().NotHaveSameCount(secondDataSet.Tables, because: "we {0}", "care");
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected firstDataSet.Tables to not have 3 item(s) because we want to test the reason, but found 3.");
+                "Expected genericDataTableCollection to not have 3 table(s) because we care, but found 3.");
+        }
+
+        [Fact]
+        public void When_asserting_not_same_count_and_generic_data_column_collection_is_compared_with_DataTableCollection_with_different_number_of_elements_it_should_succeed()
+        {
+            // Arrange
+            var firstDataSet = new DataSet();
+            var secondDataSet = new DataSet();
+
+            for (int seed = 0; seed < 3; seed++)
+            {
+                firstDataSet.Tables.Add(CreateTestDataTable(seed));
+                secondDataSet.Tables.Add(CreateTestDataTable(seed + 10));
+            }
+
+            secondDataSet.Tables.RemoveAt(1);
+
+            var genericDataTableCollection = firstDataSet.Tables.Cast<DataTable>();
+
+            // Act & Assert
+            genericDataTableCollection.Should().NotHaveSameCount(secondDataSet.Tables);
         }
         #endregion
 
