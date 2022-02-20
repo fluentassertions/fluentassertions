@@ -101,7 +101,8 @@ namespace FluentAssertions.Specs.Collections.Data
                     () => rowCollection1.Should().BeSameAs(rowCollection2);
 
                 // Assert
-                action.Should().Throw<XunitException>();
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected rowCollection1 to refer to *, but found * (different underlying object).");
             }
         }
 
@@ -121,7 +122,7 @@ namespace FluentAssertions.Specs.Collections.Data
                     () => rowCollection1.Should().NotBeSameAs(rowCollection2);
 
                 // Assert
-                action.Should().Throw<XunitException>();
+                action.Should().Throw<XunitException>().WithMessage("Did not expect rowCollection1 to refer to *.");
             }
 
             [Fact]
@@ -426,7 +427,7 @@ namespace FluentAssertions.Specs.Collections.Data
 
                 // Assert
                 action.Should().Throw<ArgumentNullException>().WithMessage(
-                    "Cannot verify count against a <null> collection.*");
+                    "Cannot verify a subset against a <null> collection.*");
             }
 
             [Fact]
@@ -468,7 +469,8 @@ namespace FluentAssertions.Specs.Collections.Data
                     () => dataTable1.Rows.Should().BeSubsetOf(dataTable2.Rows);
 
                 // Assert
-                action.Should().Throw<XunitException>();
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected dataTable1.Rows to be a subset of *, but items * are not part of the superset.");
             }
         }
 
@@ -493,7 +495,7 @@ namespace FluentAssertions.Specs.Collections.Data
 
                 // Assert
                 action.Should().Throw<ArgumentNullException>().WithMessage(
-                    "Cannot verify count against a <null> collection.*");
+                    "Cannot verify a subset against a <null> collection.*");
             }
 
             [Fact]
@@ -535,7 +537,8 @@ namespace FluentAssertions.Specs.Collections.Data
                     () => dataTable1.Rows.Should().NotBeSubsetOf(dataTable2.Rows);
 
                 // Assert
-                action.Should().Throw<XunitException>();
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected dataTable1.Rows to not be a subset of the supplied set, but all items are part of the superset.");
             }
         }
 
@@ -578,7 +581,8 @@ namespace FluentAssertions.Specs.Collections.Data
                     () => dataTable1.Rows.Should().IntersectWith(dataTable2.Rows);
 
                 // Assert
-                action.Should().Throw<XunitException>();
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected dataTable1.Rows to intersect the supplied set, but all items are part of the superset.");
             }
         }
 
@@ -621,7 +625,8 @@ namespace FluentAssertions.Specs.Collections.Data
                     () => dataTable1.Rows.Should().NotIntersectWith(dataTable2.Rows);
 
                 // Assert
-                action.Should().Throw<XunitException>();
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected dataTable1.Rows to not intersect the supplied set, but at least one row is in common.");
             }
         }
     }

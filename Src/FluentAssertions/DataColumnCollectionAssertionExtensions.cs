@@ -31,7 +31,7 @@ namespace FluentAssertions
                     .UsingLineBreaks
                     .ForCondition(ReferenceEquals(actualSubject, expectation))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:column collection} to refer to {0}{reason}, but found {1}.", expectation, actualSubject);
+                    .FailWith("Expected {context:column collection} to refer to {0}{reason}, but found {1} (different underlying object).", expectation, actualSubject);
             }
             else
             {
@@ -39,7 +39,7 @@ namespace FluentAssertions
                     .UsingLineBreaks
                     .ForCondition(false)
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:column collection} to refer to DataColumnCollection{reason}, but found {1}.", expectation);
+                    .FailWith("Expected {context:column collection} to refer to DataColumnCollection{reason}, but found {1} (different underlying object).", expectation);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataColumn>>(assertion);

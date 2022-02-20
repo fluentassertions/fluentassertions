@@ -72,7 +72,8 @@ namespace FluentAssertions.Specs.Collections.Data
                     () => tableCollection1.Should().BeSameAs(tableCollection2);
 
                 // Assert
-                action.Should().Throw<XunitException>();
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected tableCollection1 to refer to *, but found *.");
             }
         }
 
@@ -94,7 +95,8 @@ namespace FluentAssertions.Specs.Collections.Data
                     () => tableCollection1.Should().NotBeSameAs(tableCollection2);
 
                 // Assert
-                action.Should().Throw<XunitException>();
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Did not expect tableCollection1 to refer to *.");
             }
 
             [Fact]

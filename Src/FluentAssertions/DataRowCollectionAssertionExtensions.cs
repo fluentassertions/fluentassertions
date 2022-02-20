@@ -34,7 +34,7 @@ namespace FluentAssertions
                     .UsingLineBreaks
                     .ForCondition(ReferenceEquals(actualSubject, expectation))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:row collection} to refer to {0}{reason}, but found {1}.", expectation, actualSubject);
+                    .FailWith("Expected {context:row collection} to refer to {0}{reason}, but found {1} (different underlying object).", expectation, actualSubject);
             }
             else
             {
@@ -42,7 +42,7 @@ namespace FluentAssertions
                     .UsingLineBreaks
                     .ForCondition(false)
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:row collection} to refer to DataRowCollection{reason}, but found {1}.", expectation);
+                    .FailWith("Expected {context:row collection} to refer to DataRowCollection{reason}, but found {1} (different underlying object).", expectation);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataRow>>(assertion);
@@ -382,6 +382,8 @@ namespace FluentAssertions
         public static AndConstraint<GenericCollectionAssertions<DataRow>> BeSubsetOf(this GenericCollectionAssertions<DataRow> assertion, DataRowCollection supersetExpectation, string because = "",
             params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(supersetExpectation, nameof(supersetExpectation), "Cannot verify a subset against a <null> collection.");
+
             return BeSubsetOf(assertion, supersetExpectation.OfType<DataRow>(), because, becauseArgs);
         }
 
@@ -495,6 +497,8 @@ namespace FluentAssertions
         public static AndConstraint<GenericCollectionAssertions<DataRow>> NotBeSubsetOf(this GenericCollectionAssertions<DataRow> assertion, DataRowCollection unexpectedSuperset, string because = "",
             params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(unexpectedSuperset, nameof(unexpectedSuperset), "Cannot verify a subset against a <null> collection.");
+
             return NotBeSubsetOf(assertion, unexpectedSuperset.OfType<DataRow>(), because, becauseArgs);
         }
 
