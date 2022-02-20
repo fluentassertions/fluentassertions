@@ -126,12 +126,12 @@ namespace FluentAssertions
         {
             Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify count against a <null> collection.");
 
-            if (assertion.Subject is NonGenericCollectionWrapper<DataTableCollection, DataTable> wrapper)
+            if (assertion.Subject is ICollection<DataTable> collection)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .WithExpectation("Expected {context:collection} to have ")
-                    .Given(() => (actual: wrapper.Count, expected: otherCollection.Count))
+                    .Given(() => (actual: collection.Count, expected: otherCollection.Count))
                     .ForCondition(count => count.actual == count.expected)
                     .FailWith("{0} table(s){reason}, but found {1} table(s).", count => count.expected, count => count.actual)
                     .Then
@@ -172,12 +172,12 @@ namespace FluentAssertions
         {
             Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify count against a <null> collection.");
 
-            if (assertion.Subject is NonGenericCollectionWrapper<DataTableCollection, DataTable> wrapper)
+            if (assertion.Subject is ICollection<DataTable> collection)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .WithExpectation("Expected {context:collection} to not have ")
-                    .Given(() => (actual: wrapper.Count, expected: otherCollection.Count))
+                    .Given(() => (actual: collection.Count, expected: otherCollection.Count))
                     .ForCondition(count => count.actual != count.expected)
                     .FailWith("{0} table(s){reason}, but found {1} table(s).", count => count.expected, count => count.actual)
                     .Then
