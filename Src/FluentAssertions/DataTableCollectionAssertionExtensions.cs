@@ -12,7 +12,7 @@ namespace FluentAssertions
         /// <summary>
         /// Asserts that an object reference refers to the exact same object as another object reference.
         /// </summary>
-        /// <param name="expectation">The expected object</param>
+        /// <param name="expected">The expected object</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -20,7 +20,7 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public static AndConstraint<GenericCollectionAssertions<DataTable>> BeSameAs(this GenericCollectionAssertions<DataTable> assertion, DataTableCollection expectation, string because = "", params object[] becauseArgs)
+        public static AndConstraint<GenericCollectionAssertions<DataTable>> BeSameAs(this GenericCollectionAssertions<DataTable> assertion, DataTableCollection expected, string because = "", params object[] becauseArgs)
         {
             if (assertion.Subject is NonGenericCollectionWrapper<DataTableCollection, DataTable> wrapper)
             {
@@ -28,9 +28,9 @@ namespace FluentAssertions
 
                 Execute.Assertion
                     .UsingLineBreaks
-                    .ForCondition(ReferenceEquals(actualSubject, expectation))
+                    .ForCondition(ReferenceEquals(actualSubject, expected))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:table collection} to refer to {0}{reason}, but found {1}.", expectation, actualSubject);
+                    .FailWith("Expected {context:table collection} to refer to {0}{reason}, but found {1}.", expected, actualSubject);
             }
             else
             {
@@ -38,7 +38,7 @@ namespace FluentAssertions
                     .UsingLineBreaks
                     .ForCondition(false)
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:table collection} to refer to DataTableCollection{reason}, but found {1}.", expectation);
+                    .FailWith("Expected {context:table collection} to refer to DataTableCollection{reason}, but found {1}.", expected);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataTable>>(assertion);
@@ -170,9 +170,9 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Asserts that the current collection of <see cref="DataTable"/>s contains a <see cref="DataTable"/> with the specified <paramref name="tableNameExpectation"/> name.
+        /// Asserts that the current collection of <see cref="DataTable"/>s contains a <see cref="DataTable"/> with the specified <paramref name="expectedTableName"/> name.
         /// </summary>
-        /// <param name="tableNameExpectation">A name for a <see cref="DataTable"/> that is expected to be in the <see cref="DataTableCollection"/>.</param>
+        /// <param name="expectedTableName">A name for a <see cref="DataTable"/> that is expected to be in the <see cref="DataTableCollection"/>.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -180,16 +180,16 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public static AndConstraint<GenericCollectionAssertions<DataTable>> ContainTableWithName(this GenericCollectionAssertions<DataTable> assertion, string tableNameExpectation, string because = "",
+        public static AndConstraint<GenericCollectionAssertions<DataTable>> ContainTableWithName(this GenericCollectionAssertions<DataTable> assertion, string expectedTableName, string because = "",
             params object[] becauseArgs)
         {
-            Guard.ThrowIfArgumentIsNull(tableNameExpectation, nameof(tableNameExpectation), "Cannot verify that the collection contains a <null> DataTable.");
+            Guard.ThrowIfArgumentIsNull(expectedTableName, nameof(expectedTableName), "Cannot verify that the collection contains a <null> DataTable.");
 
             if (assertion.Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expeected {context:collection} to contain table named {0}{reason}, but found {1}.", tableNameExpectation,
+                    .FailWith("Expeected {context:collection} to contain table named {0}{reason}, but found {1}.", expectedTableName,
                         assertion.Subject);
             }
 
@@ -197,11 +197,11 @@ namespace FluentAssertions
 
             if (assertion.Subject is NonGenericCollectionWrapper<DataTableCollection, DataTable> wrapper)
             {
-                containsTable = wrapper.UnderlyingCollection.Contains(tableNameExpectation);
+                containsTable = wrapper.UnderlyingCollection.Contains(expectedTableName);
             }
             else
             {
-                containsTable = assertion.Subject.Any(table => table.TableName == tableNameExpectation);
+                containsTable = assertion.Subject.Any(table => table.TableName == expectedTableName);
             }
 
             if (!containsTable)
@@ -210,7 +210,7 @@ namespace FluentAssertions
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
                         "Expected {context:collection} to contain table named {0}{reason}, but it does not.",
-                        tableNameExpectation);
+                        expectedTableName);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataTable>>(assertion);

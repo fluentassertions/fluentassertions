@@ -16,7 +16,7 @@ namespace FluentAssertions
         /// <summary>
         /// Asserts that an object reference refers to the exact same object as another object reference.
         /// </summary>
-        /// <param name="expectation">The expected object</param>
+        /// <param name="expected">The expected object</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -24,7 +24,7 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public static AndConstraint<GenericCollectionAssertions<DataRow>> BeSameAs(this GenericCollectionAssertions<DataRow> assertion, DataRowCollection expectation, string because = "", params object[] becauseArgs)
+        public static AndConstraint<GenericCollectionAssertions<DataRow>> BeSameAs(this GenericCollectionAssertions<DataRow> assertion, DataRowCollection expected, string because = "", params object[] becauseArgs)
         {
             if (assertion.Subject is NonGenericCollectionWrapper<DataRowCollection, DataRow> wrapper)
             {
@@ -32,9 +32,9 @@ namespace FluentAssertions
 
                 Execute.Assertion
                     .UsingLineBreaks
-                    .ForCondition(ReferenceEquals(actualSubject, expectation))
+                    .ForCondition(ReferenceEquals(actualSubject, expected))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:row collection} to refer to {0}{reason}, but found {1} (different underlying object).", expectation, actualSubject);
+                    .FailWith("Expected {context:row collection} to refer to {0}{reason}, but found {1} (different underlying object).", expected, actualSubject);
             }
             else
             {
@@ -42,7 +42,7 @@ namespace FluentAssertions
                     .UsingLineBreaks
                     .ForCondition(false)
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:row collection} to refer to DataRowCollection{reason}, but found {1} (different underlying object).", expectation);
+                    .FailWith("Expected {context:row collection} to refer to DataRowCollection{reason}, but found {1} (different underlying object).", expected);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataRow>>(assertion);
@@ -146,7 +146,7 @@ namespace FluentAssertions
         /// See the documentation for <see cref="DataRowAssertions{TDataRow}"/> for information about when <see cref="DataRow"/>
         /// objects are considered equivalent.
         /// </remarks>
-        /// <param name="expectation">The expected <see cref="DataRow"/>.</param>
+        /// <param name="expected">The expected <see cref="DataRow"/>.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -154,10 +154,10 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public static AndConstraint<GenericCollectionAssertions<DataRow>> ContainEquivalentOf(this GenericCollectionAssertions<DataRow> assertion, DataRow expectation, string because = "",
+        public static AndConstraint<GenericCollectionAssertions<DataRow>> ContainEquivalentOf(this GenericCollectionAssertions<DataRow> assertion, DataRow expected, string because = "",
             params object[] becauseArgs)
         {
-            return ContainEquivalentOf(assertion, expectation, config => config, because, becauseArgs);
+            return ContainEquivalentOf(assertion, expected, config => config, because, becauseArgs);
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace FluentAssertions
         /// See the documentation for <see cref="DataRowAssertions{TDataRow}"/> for information about when <see cref="DataRow"/>
         /// objects are considered equivalent.
         /// </remarks>
-        /// <param name="expectation">The expected <see cref="DataRow"/>.</param>
+        /// <param name="expected">The expected <see cref="DataRow"/>.</param>
         /// <param name="config">
         /// A reference to the <see cref="EquivalencyAssertionOptions{DataRow}"/> configuration object that can be used
         /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
@@ -181,7 +181,7 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public static AndConstraint<GenericCollectionAssertions<DataRow>> ContainEquivalentOf(this GenericCollectionAssertions<DataRow> assertion, DataRow expectation, Func<EquivalencyAssertionOptions<DataRow>,
+        public static AndConstraint<GenericCollectionAssertions<DataRow>> ContainEquivalentOf(this GenericCollectionAssertions<DataRow> assertion, DataRow expected, Func<EquivalencyAssertionOptions<DataRow>,
                 EquivalencyAssertionOptions<DataRow>> config, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(config, nameof(config));
@@ -190,7 +190,7 @@ namespace FluentAssertions
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain equivalent of {0}{reason}, but found <null>.", expectation);
+                    .FailWith("Expected {context:collection} to contain equivalent of {0}{reason}, but found <null>.", expected);
             }
 
             EquivalencyAssertionOptions<DataRow> options = config(AssertionOptions.CloneDefaults<DataRow>());
@@ -211,7 +211,7 @@ namespace FluentAssertions
                     var comparands = new Comparands
                     {
                         Subject = actualItem,
-                        Expectation = expectation,
+                        Expectation = expected,
                         CompileTimeType = typeof(DataRow),
                     };
 
@@ -227,7 +227,7 @@ namespace FluentAssertions
 
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} {0} to contain equivalent of {1}{reason}.", assertion.Subject, expectation);
+                    .FailWith("Expected {context:collection} {0} to contain equivalent of {1}{reason}.", assertion.Subject, expected);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataRow>>(assertion);
@@ -367,11 +367,11 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Asserts that the <see cref="DataRowCollection"/> is a subset of the <paramref name="supersetExpectation" />.
+        /// Asserts that the <see cref="DataRowCollection"/> is a subset of the <paramref name="expectedSuperset" />.
         /// See the documentation for <see cref="DataRowAssertions{TDataRow}"/> for information about when <see cref="DataRow"/>
         /// objects are considered equivalent.
         /// </summary>
-        /// <param name="supersetExpectation">A <see cref="DataRowCollection"/> with the expected superset.</param>
+        /// <param name="expectedSuperset">A <see cref="DataRowCollection"/> with the expected superset.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -379,20 +379,20 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public static AndConstraint<GenericCollectionAssertions<DataRow>> BeSubsetOf(this GenericCollectionAssertions<DataRow> assertion, DataRowCollection supersetExpectation, string because = "",
+        public static AndConstraint<GenericCollectionAssertions<DataRow>> BeSubsetOf(this GenericCollectionAssertions<DataRow> assertion, DataRowCollection expectedSuperset, string because = "",
             params object[] becauseArgs)
         {
-            Guard.ThrowIfArgumentIsNull(supersetExpectation, nameof(supersetExpectation), "Cannot verify a subset against a <null> collection.");
+            Guard.ThrowIfArgumentIsNull(expectedSuperset, nameof(expectedSuperset), "Cannot verify a subset against a <null> collection.");
 
-            return BeSubsetOf(assertion, supersetExpectation.OfType<DataRow>(), because, becauseArgs);
+            return BeSubsetOf(assertion, expectedSuperset.OfType<DataRow>(), because, becauseArgs);
         }
 
         /// <summary>
-        /// Asserts that the <see cref="DataRowCollection"/> is a subset of the <paramref name="supersetExpectation" />.
+        /// Asserts that the <see cref="DataRowCollection"/> is a subset of the <paramref name="expectedSuperset" />.
         /// See the documentation for <see cref="DataRowAssertions{TDataRow}"/> for information about when <see cref="DataRow"/>
         /// objects are considered equivalent.
         /// </summary>
-        /// <param name="supersetExpectation">An <see cref="IEnumerable{DataRow}"/> with the expected superset.</param>
+        /// <param name="expectedSuperset">An <see cref="IEnumerable{DataRow}"/> with the expected superset.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -400,18 +400,18 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public static AndConstraint<GenericCollectionAssertions<DataRow>> BeSubsetOf(this GenericCollectionAssertions<DataRow> assertion, IEnumerable<DataRow> supersetExpectation, string because = "",
+        public static AndConstraint<GenericCollectionAssertions<DataRow>> BeSubsetOf(this GenericCollectionAssertions<DataRow> assertion, IEnumerable<DataRow> expectedSuperset, string because = "",
             params object[] becauseArgs)
         {
-            return BeSubsetOf(assertion, supersetExpectation, config => config, because, becauseArgs);
+            return BeSubsetOf(assertion, expectedSuperset, config => config, because, becauseArgs);
         }
 
         /// <summary>
-        /// Asserts that the <see cref="DataRowCollection"/> is a subset of the <paramref name="supersetExpectation" />.
+        /// Asserts that the <see cref="DataRowCollection"/> is a subset of the <paramref name="expectedSuperset" />.
         /// See the documentation for <see cref="DataRowAssertions{TDataRow}"/> for information about when <see cref="DataRow"/>
         /// objects are considered equivalent.
         /// </summary>
-        /// <param name="supersetExpectation">An <see cref="IEnumerable{DataRow}"/> with the expected superset.</param>
+        /// <param name="expectedSuperset">An <see cref="IEnumerable{DataRow}"/> with the expected superset.</param>
         /// <param name="config">
         /// A reference to the <see cref="EquivalencyAssertionOptions{DataRow}"/> configuration object that can be used
         /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
@@ -425,24 +425,24 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public static AndConstraint<GenericCollectionAssertions<DataRow>> BeSubsetOf(this GenericCollectionAssertions<DataRow> assertion, IEnumerable<DataRow> supersetExpectation, Func<EquivalencyAssertionOptions<DataRow>,
+        public static AndConstraint<GenericCollectionAssertions<DataRow>> BeSubsetOf(this GenericCollectionAssertions<DataRow> assertion, IEnumerable<DataRow> expectedSuperset, Func<EquivalencyAssertionOptions<DataRow>,
             EquivalencyAssertionOptions<DataRow>> config, string because = "", params object[] becauseArgs)
         {
-            Guard.ThrowIfArgumentIsNull(supersetExpectation, nameof(supersetExpectation), "Cannot verify a subset against a <null> collection.");
+            Guard.ThrowIfArgumentIsNull(expectedSuperset, nameof(expectedSuperset), "Cannot verify a subset against a <null> collection.");
             Guard.ThrowIfArgumentIsNull(config, nameof(config));
 
             if (assertion.Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to be a subset of {0}{reason}, but found {1}.", supersetExpectation,
+                    .FailWith("Expected {context:collection} to be a subset of {0}{reason}, but found {1}.", expectedSuperset,
                         assertion.Subject);
             }
 
             EquivalencyAssertionOptions<DataRow> options = config(AssertionOptions.CloneDefaults<DataRow>());
 
             var actualItems = new List<DataRow>(assertion.Subject.OfType<DataRow>());
-            var expectedItems = new List<DataRow>(supersetExpectation.OfType<DataRow>());
+            var expectedItems = new List<DataRow>(expectedSuperset.OfType<DataRow>());
 
             using (var scope = new AssertionScope())
             {
@@ -475,7 +475,7 @@ namespace FluentAssertions
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
                         "Expected {context:collection} to be a subset of {0}{reason}, but items {1} are not part of the superset.",
-                        supersetExpectation, expectedItems);
+                        expectedSuperset, expectedItems);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataRow>>(assertion);
