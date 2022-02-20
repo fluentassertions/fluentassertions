@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Linq;
 
 using FluentAssertions.Collections;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
 
 namespace FluentAssertions
 {
@@ -14,7 +12,7 @@ namespace FluentAssertions
         /// <summary>
         /// Asserts that an object reference refers to the exact same object as another object reference.
         /// </summary>
-        /// <param name="expected">The expected object</param>
+        /// <param name="expectation">The expected object</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -22,7 +20,7 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public static AndConstraint<GenericCollectionAssertions<DataTable>> BeSameAs(this GenericCollectionAssertions<DataTable> assertion, DataTableCollection expected, string because = "", params object[] becauseArgs)
+        public static AndConstraint<GenericCollectionAssertions<DataTable>> BeSameAs(this GenericCollectionAssertions<DataTable> assertion, DataTableCollection expectation, string because = "", params object[] becauseArgs)
         {
             if (assertion.Subject is NonGenericCollectionWrapper<DataTableCollection, DataTable> wrapper)
             {
@@ -30,10 +28,9 @@ namespace FluentAssertions
 
                 Execute.Assertion
                     .UsingLineBreaks
-                    .ForCondition(ReferenceEquals(actualSubject, expected))
+                    .ForCondition(ReferenceEquals(actualSubject, expectation))
                     .BecauseOf(because, becauseArgs)
-                    .WithDefaultIdentifier("collection")
-                    .FailWith("Expected {context} to refer to {0}{reason}, but found {1}.", expected, actualSubject);
+                    .FailWith("Expected {context:table collection} to refer to {0}{reason}, but found {1}.", expectation, actualSubject);
             }
             else
             {
@@ -41,8 +38,7 @@ namespace FluentAssertions
                     .UsingLineBreaks
                     .ForCondition(false)
                     .BecauseOf(because, becauseArgs)
-                    .WithDefaultIdentifier("collection")
-                    .FailWith("Expected {context} to refer to DataTableCollection{reason}, but found {1}.", expected);
+                    .FailWith("Expected {context:table collection} to refer to DataTableCollection{reason}, but found {1}.", expectation);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataTable>>(assertion);
@@ -69,15 +65,14 @@ namespace FluentAssertions
                     .UsingLineBreaks
                     .ForCondition(!ReferenceEquals(actualSubject, unexpected))
                     .BecauseOf(because, becauseArgs)
-                    .WithDefaultIdentifier("collection")
-                    .FailWith("Did not expect {context} to refer to {0}{reason}.", unexpected);
+                    .FailWith("Did not expect {context:table collection} to refer to {0}{reason}.", unexpected);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataTable>>(assertion);
         }
 
         /// <summary>
-        /// Assert that the current <see cref="DataTableCollection"/> has the same number of tables as <paramref name="otherDataSet" />.
+        /// Assert that the current collection of <see cref="DataTable"/>s has the same number of tables as <paramref name="otherDataSet" />.
         /// </summary>
         /// <param name="otherDataSet">The other <see cref="DataSet"/> with the same expected number of tables</param>
         /// <param name="because">
@@ -94,7 +89,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Assert that the current <see cref="DataTableCollection"/> does not have the same number of tables as <paramref name="otherDataSet" />.
+        /// Assert that the current collection of <see cref="DataTable"/>s does not have the same number of tables as <paramref name="otherDataSet" />.
         /// </summary>
         /// <param name="otherDataSet">The other <see cref="DataSet"/> with the unexpected number of tables</param>
         /// <param name="because">
@@ -111,7 +106,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Assert that the current <see cref="DataTableCollection"/> has the same number of tables as <paramref name="otherCollection" />.
+        /// Assert that the current collection of <see cref="DataTable"/>s has the same number of tables as <paramref name="otherCollection" />.
         /// </summary>
         /// <param name="otherCollection">The other <see cref="DataSet"/> with the same expected number of tables</param>
         /// <param name="because">
@@ -143,7 +138,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Assert that the current <see cref="DataTableCollection"/> does not have the same number of tables as <paramref name="otherCollection" />.
+        /// Assert that the current collection of <see cref="DataTable"/>s does not have the same number of tables as <paramref name="otherCollection" />.
         /// </summary>
         /// <param name="otherCollection">The other <see cref="DataTableCollection"/> with the unexpected number of tables</param>
         /// <param name="because">
@@ -175,9 +170,9 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="DataTableCollection"/> contains a <see cref="DataTable"/> with the specified <paramref name="expectedTableName"/> name.
+        /// Asserts that the current collection of <see cref="DataTable"/>s contains a <see cref="DataTable"/> with the specified <paramref name="tableNameExpectation"/> name.
         /// </summary>
-        /// <param name="expectedTableName">A name for a <see cref="DataTable"/> that is expected to be in the <see cref="DataTableCollection"/>.</param>
+        /// <param name="tableNameExpectation">A name for a <see cref="DataTable"/> that is expected to be in the <see cref="DataTableCollection"/>.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -185,16 +180,16 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public static AndConstraint<GenericCollectionAssertions<DataTable>> ContainTableWithName(this GenericCollectionAssertions<DataTable> assertion, string expectedTableName, string because = "",
+        public static AndConstraint<GenericCollectionAssertions<DataTable>> ContainTableWithName(this GenericCollectionAssertions<DataTable> assertion, string tableNameExpectation, string because = "",
             params object[] becauseArgs)
         {
-            Guard.ThrowIfArgumentIsNull(expectedTableName, nameof(expectedTableName), "Cannot verify that the collection contains a <null> DataTable.");
+            Guard.ThrowIfArgumentIsNull(tableNameExpectation, nameof(tableNameExpectation), "Cannot verify that the collection contains a <null> DataTable.");
 
             if (assertion.Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expeected {context:collection} to contain table named {0}{reason}, but found {1}.", expectedTableName,
+                    .FailWith("Expeected {context:collection} to contain table named {0}{reason}, but found {1}.", tableNameExpectation,
                         assertion.Subject);
             }
 
@@ -202,11 +197,11 @@ namespace FluentAssertions
 
             if (assertion.Subject is NonGenericCollectionWrapper<DataTableCollection, DataTable> wrapper)
             {
-                containsTable = wrapper.UnderlyingCollection.Contains(expectedTableName);
+                containsTable = wrapper.UnderlyingCollection.Contains(tableNameExpectation);
             }
             else
             {
-                containsTable = assertion.Subject.Any(table => table.TableName == expectedTableName);
+                containsTable = assertion.Subject.Any(table => table.TableName == tableNameExpectation);
             }
 
             if (!containsTable)
@@ -215,14 +210,14 @@ namespace FluentAssertions
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
                         "Expected {context:collection} to contain table named {0}{reason}, but it does not.",
-                        expectedTableName);
+                        tableNameExpectation);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataTable>>(assertion);
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="DataTableCollection"/> does not contain a table with the the supplied <paramref name="unexpectedTableName" />.
+        /// Asserts that the current collection of <see cref="DataTable"/>s does not contain a table with the the supplied <paramref name="unexpectedTableName" />.
         /// </summary>
         /// <param name="unexpectedTableName">The table name that is not expected to be in the <see cref="DataTableCollection"/></param>
         /// <param name="because">

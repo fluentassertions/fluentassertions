@@ -399,6 +399,50 @@ namespace FluentAssertions.Specs.Collections.Data
 
         #region BeSubsetOf & NotBeSubsetOf
         [Fact]
+        public void When_asserting_subset_if_expectation_is_null_it_should_fail()
+        {
+            // Arrange
+            var dataTable = CreateTestDataTable();
+
+            for (int i = 0; i < 10; i++)
+            {
+                AddTestDataRow(dataTable, i);
+            }
+
+            var nullReference = default(DataRowCollection);
+
+            // Act
+            Action action =
+                () => dataTable.Rows.Should().BeSubsetOf(nullReference);
+
+            // Assert
+            action.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot verify count against a <null> collection.*");
+        }
+
+        [Fact]
+        public void When_asserting_not_subset_if_expectation_is_null_it_should_fail()
+        {
+            // Arrange
+            var dataTable = CreateTestDataTable();
+
+            for (int i = 0; i < 10; i++)
+            {
+                AddTestDataRow(dataTable, i);
+            }
+
+            var nullReference = default(DataRowCollection);
+
+            // Act
+            Action action =
+                () => dataTable.Rows.Should().NotBeSubsetOf(nullReference);
+
+            // Assert
+            action.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot verify count against a <null> collection.*");
+        }
+
+        [Fact]
         public void Should_succeed_when_asserting_DataRowCollection_that_is_a_subset_of_another_collection_is_a_subset()
         {
             // Arrange

@@ -13,7 +13,7 @@ namespace FluentAssertions
         /// <summary>
         /// Asserts that an object reference refers to the exact same object as another object reference.
         /// </summary>
-        /// <param name="expected">The expected object</param>
+        /// <param name="expectation">The expected object</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -21,7 +21,7 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public static AndConstraint<GenericCollectionAssertions<DataColumn>> BeSameAs(this GenericCollectionAssertions<DataColumn> assertion, DataColumnCollection expected, string because = "", params object[] becauseArgs)
+        public static AndConstraint<GenericCollectionAssertions<DataColumn>> BeSameAs(this GenericCollectionAssertions<DataColumn> assertion, DataColumnCollection expectation, string because = "", params object[] becauseArgs)
         {
             if (assertion.Subject is NonGenericCollectionWrapper<DataColumnCollection, DataColumn> wrapper)
             {
@@ -29,10 +29,9 @@ namespace FluentAssertions
 
                 Execute.Assertion
                     .UsingLineBreaks
-                    .ForCondition(ReferenceEquals(actualSubject, expected))
+                    .ForCondition(ReferenceEquals(actualSubject, expectation))
                     .BecauseOf(because, becauseArgs)
-                    .WithDefaultIdentifier("collection")
-                    .FailWith("Expected {context} to refer to {0}{reason}, but found {1}.", expected, actualSubject);
+                    .FailWith("Expected {context:column collection} to refer to {0}{reason}, but found {1}.", expectation, actualSubject);
             }
             else
             {
@@ -40,8 +39,7 @@ namespace FluentAssertions
                     .UsingLineBreaks
                     .ForCondition(false)
                     .BecauseOf(because, becauseArgs)
-                    .WithDefaultIdentifier("collection")
-                    .FailWith("Expected {context} to refer to DataColumnCollection{reason}, but found {1}.", expected);
+                    .FailWith("Expected {context:column collection} to refer to DataColumnCollection{reason}, but found {1}.", expectation);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataColumn>>(assertion);
@@ -68,8 +66,7 @@ namespace FluentAssertions
                     .UsingLineBreaks
                     .ForCondition(!ReferenceEquals(actualSubject, unexpected))
                     .BecauseOf(because, becauseArgs)
-                    .WithDefaultIdentifier("collection")
-                    .FailWith("Did not expect {context} to refer to {0}{reason}.", unexpected);
+                    .FailWith("Did not expect {context:column collection} to refer to {0}{reason}.", unexpected);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataColumn>>(assertion);
@@ -108,7 +105,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Assert that the current <see cref="DataColumnCollection"/> does not have the same number of columns as <paramref name="otherCollection" />.
+        /// Assert that the current collection of <see cref="DataColumn"/>s does not have the same number of columns as <paramref name="otherCollection" />.
         /// </summary>
         /// <param name="otherCollection">The other <see cref="DataColumnCollection"/> with the unexpected number of elements</param>
         /// <param name="because">
@@ -140,9 +137,9 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="DataColumnCollection"/> contains a <see cref="DataColumn"/> with the specified <paramref name="expectedColumnName"/> name.
+        /// Asserts that the current collection of <see cref="DataColumn"/>s contains a <see cref="DataColumn"/> with the specified <paramref name="columnNameExpectation"/> name.
         /// </summary>
-        /// <param name="expectedColumnName">A name for a <see cref="DataColumn"/> that is expected to be in the <see cref="DataColumnCollection"/>.</param>
+        /// <param name="columnNameExpectation">A name for a <see cref="DataColumn"/> that is expected to be in the <see cref="DataColumnCollection"/>.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -150,16 +147,16 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public static AndConstraint<GenericCollectionAssertions<DataColumn>> ContainColumnWithName(this GenericCollectionAssertions<DataColumn> assertion, string expectedColumnName, string because = "",
+        public static AndConstraint<GenericCollectionAssertions<DataColumn>> ContainColumnWithName(this GenericCollectionAssertions<DataColumn> assertion, string columnNameExpectation, string because = "",
             params object[] becauseArgs)
         {
-            Guard.ThrowIfArgumentIsNull(expectedColumnName, nameof(expectedColumnName), "Cannot verify that the collection contains a <null> DataColumn.");
+            Guard.ThrowIfArgumentIsNull(columnNameExpectation, nameof(columnNameExpectation), "Cannot verify that the collection contains a <null> DataColumn.");
 
             if (assertion.Subject is null)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expeected {context:collection} to contain column named {0}{reason}, but found {1}.", expectedColumnName,
+                    .FailWith("Expeected {context:collection} to contain column named {0}{reason}, but found {1}.", columnNameExpectation,
                         assertion.Subject);
             }
 
@@ -167,11 +164,11 @@ namespace FluentAssertions
 
             if (assertion.Subject is NonGenericCollectionWrapper<DataColumnCollection, DataColumn> wrapper)
             {
-                containsColumn = wrapper.UnderlyingCollection.Contains(expectedColumnName);
+                containsColumn = wrapper.UnderlyingCollection.Contains(columnNameExpectation);
             }
             else
             {
-                containsColumn = assertion.Subject.Any(column => column.ColumnName == expectedColumnName);
+                containsColumn = assertion.Subject.Any(column => column.ColumnName == columnNameExpectation);
             }
 
             if (!containsColumn)
@@ -180,14 +177,14 @@ namespace FluentAssertions
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
                         "Expected {context:collection} to contain column named {0}{reason}, but it does not.",
-                        expectedColumnName);
+                        columnNameExpectation);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataColumn>>(assertion);
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="DataColumnCollection"/> does not contain a column with the the supplied <paramref name="unexpectedColumnName" />.
+        /// Asserts that the current collection of <see cref="DataColumn"/>s does not contain a column with the the supplied <paramref name="unexpectedColumnName" />.
         /// </summary>
         /// <param name="unexpectedColumnName">The column name that is not expected to be in the <see cref="DataColumnCollection"/></param>
         /// <param name="because">
