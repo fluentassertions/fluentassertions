@@ -24,5 +24,5 @@ If you've verified the changes and decided they are valid, you can accept them  
 `build.ps1`
 
 # Powered By
-    <a href="https://www.jetbrains.com/rider/"><img src="docs/assets/images/jetbrainsrider.svg" style="width:150px"/></a> <br/>and <br>
-    <a href="https://www.semanticmerge.com/"><img src="docs/assets/images/semantic-merge.png" style="width:150px"/></a>
+<a href="https://www.jetbrains.com/rider/"><img src="docs/assets/images/jetbrainsrider.svg" style="width:150px"/></a> <br/>and <br>
+<a href="https://www.semanticmerge.com/"><img src="docs/assets/images/semantic-merge.png" style="width:150px"/></a>
