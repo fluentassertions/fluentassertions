@@ -172,7 +172,7 @@ namespace FluentAssertions.Specs.Collections.Data
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected firstDataSet.Tables to have 2 table(s), but found 3 table(s).");
+                "Expected firstDataSet.Tables to have 2 table(s), but found 3.");
         }
 
         [Fact]
@@ -302,7 +302,7 @@ namespace FluentAssertions.Specs.Collections.Data
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected firstDataSet.Tables to not have 3 table(s) because we care, but found 3 table(s).");
+                "Expected firstDataSet.Tables to not have 3 table(s) because we care, but found 3.");
         }
 
         [Fact]

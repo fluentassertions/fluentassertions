@@ -196,7 +196,7 @@ namespace FluentAssertions.Specs.Collections.Data
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected firstDataTable.Rows to have 2 row(s), but found 3 row(s).");
+                "Expected firstDataTable.Rows to have 2 row(s), but found 3.");
         }
 
         [Fact]
@@ -326,7 +326,7 @@ namespace FluentAssertions.Specs.Collections.Data
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected firstDataTable.Rows to not have 3 row(s) because we care, but found 3 row(s).");
+                "Expected firstDataTable.Rows to not have 3 row(s) because we care, but found 3.");
         }
 
         [Fact]

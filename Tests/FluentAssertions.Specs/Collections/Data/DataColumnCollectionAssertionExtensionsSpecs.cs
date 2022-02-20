@@ -157,7 +157,7 @@ namespace FluentAssertions.Specs.Collections.Data
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected firstDataTable.Columns to have 2 column(s), but found 3 column(s).");
+                "Expected firstDataTable.Columns to have 2 column(s), but found 3.");
         }
 
         [Fact]
@@ -287,7 +287,7 @@ namespace FluentAssertions.Specs.Collections.Data
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
-                "Expected firstDataTable.Columns to not have 3 column(s) because we care, but found 3 column(s).");
+                "Expected firstDataTable.Columns to not have 3 column(s) because we care, but found 3.");
         }
 
         [Fact]
