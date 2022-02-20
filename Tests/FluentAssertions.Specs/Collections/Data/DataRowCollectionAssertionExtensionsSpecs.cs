@@ -164,112 +164,118 @@ namespace FluentAssertions.Specs.Collections.Data
                     "Cannot verify count against a <null> collection.*");
             }
 
-            [Fact]
-            public void When_two_DataRowCollections_have_the_same_number_of_rows_it_should_succeed()
+            public class DataRowCollectionAssertions
             {
-                // Arrange
-                var firstDataTable = new DataTable();
-                var secondDataTable = new DataTable();
-
-                for (int seed = 0; seed < 3; seed++)
+                [Fact]
+                public void When_two_collections_have_the_same_number_of_rows_it_should_succeed()
                 {
-                    AddTestDataRow(firstDataTable, seed);
-                    AddTestDataRow(secondDataTable, seed + 10);
+                    // Arrange
+                    var firstDataTable = new DataTable();
+                    var secondDataTable = new DataTable();
+
+                    for (int seed = 0; seed < 3; seed++)
+                    {
+                        AddTestDataRow(firstDataTable, seed);
+                        AddTestDataRow(secondDataTable, seed + 10);
+                    }
+
+                    // Act & Assert
+                    firstDataTable.Rows.Should().HaveSameCount(secondDataTable.Rows);
                 }
 
-                // Act & Assert
-                firstDataTable.Rows.Should().HaveSameCount(secondDataTable.Rows);
+                [Fact]
+                public void When_two_collections_do_not_have_the_same_number_of_rows_it_should_fail()
+                {
+                    // Arrange
+                    var firstDataTable = new DataTable();
+                    var secondDataTable = new DataTable();
+
+                    for (int seed = 0; seed < 3; seed++)
+                    {
+                        AddTestDataRow(firstDataTable, seed);
+                        AddTestDataRow(secondDataTable, seed + 10);
+                    }
+
+                    secondDataTable.Rows.RemoveAt(1);
+
+                    // Act
+                    Action action =
+                        () => firstDataTable.Rows.Should().HaveSameCount(secondDataTable.Rows);
+
+                    // Assert
+                    action.Should().Throw<XunitException>().WithMessage(
+                        "Expected firstDataTable.Rows to have 2 row(s), but found 3.");
+                }
             }
 
-            [Fact]
-            public void When_two_DataRowCollections_do_not_have_the_same_number_of_rows_it_should_fail()
+            public class GenericCollectionAssertions
             {
-                // Arrange
-                var firstDataTable = new DataTable();
-                var secondDataTable = new DataTable();
-
-                for (int seed = 0; seed < 3; seed++)
+                [Fact]
+                public void When_collection_is_compared_with_null_it_should_fail()
                 {
-                    AddTestDataRow(firstDataTable, seed);
-                    AddTestDataRow(secondDataTable, seed + 10);
+                    // Arrange
+                    var dataTable = new DataTable();
+
+                    for (int seed = 0; seed < 3; seed++)
+                    {
+                        AddTestDataRow(dataTable, seed);
+                    }
+
+                    List<DataRow> nullDataRows = null;
+
+                    // Act
+                    Action action =
+                        () => nullDataRows.Should().HaveSameCount(dataTable.Rows, because: "we {0}", "care");
+
+                    // Assert
+                    action.Should().Throw<XunitException>().WithMessage(
+                        "Expected nullDataRows to have the same count as * because we care, but found <null>.");
                 }
 
-                secondDataTable.Rows.RemoveAt(1);
-
-                // Act
-                Action action =
-                    () => firstDataTable.Rows.Should().HaveSameCount(secondDataTable.Rows);
-
-                // Assert
-                action.Should().Throw<XunitException>().WithMessage(
-                    "Expected firstDataTable.Rows to have 2 row(s), but found 3.");
-            }
-
-            [Fact]
-            public void When_generic_collection_is_compared_with_null_it_should_fail()
-            {
-                // Arrange
-                var dataTable = new DataTable();
-
-                for (int seed = 0; seed < 3; seed++)
+                [Fact]
+                public void When_collection_is_compared_with_typed_collection_with_same_number_of_rows_it_should_succeed()
                 {
-                    AddTestDataRow(dataTable, seed);
+                    // Arrange
+                    var firstDataTable = new DataTable();
+                    var secondDataTable = new DataTable();
+
+                    for (int seed = 0; seed < 3; seed++)
+                    {
+                        AddTestDataRow(firstDataTable, seed);
+                        AddTestDataRow(secondDataTable, seed + 10);
+                    }
+
+                    var genericDataRowCollection = firstDataTable.Rows.Cast<DataRow>();
+
+                    // Act & Assert
+                    genericDataRowCollection.Should().HaveSameCount(secondDataTable.Rows);
                 }
 
-                List<DataRow> nullDataRows = null;
-
-                // Act
-                Action action =
-                    () => nullDataRows.Should().HaveSameCount(dataTable.Rows, because: "we {0}", "care");
-
-                // Assert
-                action.Should().Throw<XunitException>().WithMessage(
-                    "Expected nullDataRows to have the same count as * because we care, but found <null>.");
-            }
-
-            [Fact]
-            public void When_generic_collection_is_compared_with_DataRowCollection_with_same_number_of_rows_it_should_succeed()
-            {
-                // Arrange
-                var firstDataTable = new DataTable();
-                var secondDataTable = new DataTable();
-
-                for (int seed = 0; seed < 3; seed++)
+                [Fact]
+                public void When_collection_is_compared_with_typed_collection_with_different_number_of_rows_it_should_fail()
                 {
-                    AddTestDataRow(firstDataTable, seed);
-                    AddTestDataRow(secondDataTable, seed + 10);
+                    // Arrange
+                    var firstDataTable = new DataTable();
+                    var secondDataTable = new DataTable();
+
+                    for (int seed = 0; seed < 3; seed++)
+                    {
+                        AddTestDataRow(firstDataTable, seed);
+                        AddTestDataRow(secondDataTable, seed + 10);
+                    }
+
+                    secondDataTable.Rows.RemoveAt(1);
+
+                    var genericDataRowCollection = firstDataTable.Rows.Cast<DataRow>();
+
+                    // Act
+                    Action action =
+                        () => genericDataRowCollection.Should().HaveSameCount(secondDataTable.Rows, because: "we {0}", "care");
+
+                    // Assert
+                    action.Should().Throw<XunitException>().WithMessage(
+                        "Expected genericDataRowCollection to have 2 row(s) because we care, but found 3.");
                 }
-
-                var genericDataRowCollection = firstDataTable.Rows.Cast<DataRow>();
-
-                // Act & Assert
-                genericDataRowCollection.Should().HaveSameCount(secondDataTable.Rows);
-            }
-
-            [Fact]
-            public void When_generic_collection_is_compared_with_DataRowCollection_with_different_number_of_rows_it_should_fail()
-            {
-                // Arrange
-                var firstDataTable = new DataTable();
-                var secondDataTable = new DataTable();
-
-                for (int seed = 0; seed < 3; seed++)
-                {
-                    AddTestDataRow(firstDataTable, seed);
-                    AddTestDataRow(secondDataTable, seed + 10);
-                }
-
-                secondDataTable.Rows.RemoveAt(1);
-
-                var genericDataRowCollection = firstDataTable.Rows.Cast<DataRow>();
-
-                // Act
-                Action action =
-                    () => genericDataRowCollection.Should().HaveSameCount(secondDataTable.Rows, because: "we {0}", "care");
-
-                // Assert
-                action.Should().Throw<XunitException>().WithMessage(
-                    "Expected genericDataRowCollection to have 2 row(s) because we care, but found 3.");
             }
         }
 
@@ -297,112 +303,118 @@ namespace FluentAssertions.Specs.Collections.Data
                     "Cannot verify count against a <null> collection.*");
             }
 
-            [Fact]
-            public void When_two_DataRowCollections_have_different_number_of_rows_it_should_succeed()
+            public class DataRowCollectionAssertions
             {
-                // Arrange
-                var firstDataTable = new DataTable();
-                var secondDataTable = new DataTable();
-
-                for (int seed = 0; seed < 3; seed++)
+                [Fact]
+                public void When_two_collections_have_different_number_of_rows_it_should_succeed()
                 {
-                    AddTestDataRow(firstDataTable, seed);
-                    AddTestDataRow(secondDataTable, seed + 10);
+                    // Arrange
+                    var firstDataTable = new DataTable();
+                    var secondDataTable = new DataTable();
+
+                    for (int seed = 0; seed < 3; seed++)
+                    {
+                        AddTestDataRow(firstDataTable, seed);
+                        AddTestDataRow(secondDataTable, seed + 10);
+                    }
+
+                    secondDataTable.Rows.RemoveAt(1);
+
+                    // Act & Assert
+                    firstDataTable.Rows.Should().NotHaveSameCount(secondDataTable.Rows);
                 }
 
-                secondDataTable.Rows.RemoveAt(1);
+                [Fact]
+                public void When_two_collections_have_the_same_number_rows_it_should_fail()
+                {
+                    // Arrange
+                    var firstDataTable = new DataTable();
+                    var secondDataTable = new DataTable();
 
-                // Act & Assert
-                firstDataTable.Rows.Should().NotHaveSameCount(secondDataTable.Rows);
+                    for (int seed = 0; seed < 3; seed++)
+                    {
+                        AddTestDataRow(firstDataTable, seed);
+                        AddTestDataRow(secondDataTable, seed + 10);
+                    }
+
+                    // Act
+                    Action action =
+                        () => firstDataTable.Rows.Should().NotHaveSameCount(secondDataTable.Rows, because: "we {0}", "care");
+
+                    // Assert
+                    action.Should().Throw<XunitException>().WithMessage(
+                        "Expected firstDataTable.Rows to not have 3 row(s) because we care, but found 3.");
+                }
             }
 
-            [Fact]
-            public void When_two_DataRowCollections_have_the_same_number_rows_it_should_fail()
+            public class GenericCollectionAssertions
             {
-                // Arrange
-                var firstDataTable = new DataTable();
-                var secondDataTable = new DataTable();
-
-                for (int seed = 0; seed < 3; seed++)
+                [Fact]
+                public void When_collection_is_compared_with_null_it_should_fail()
                 {
-                    AddTestDataRow(firstDataTable, seed);
-                    AddTestDataRow(secondDataTable, seed + 10);
+                    // Arrange
+                    var dataTable = new DataTable();
+
+                    for (int seed = 0; seed < 3; seed++)
+                    {
+                        AddTestDataRow(dataTable, seed);
+                    }
+
+                    List<DataRow> nullDataRows = null;
+
+                    // Act
+                    Action action =
+                        () => nullDataRows.Should().NotHaveSameCount(dataTable.Rows, because: "we {0}", "care");
+
+                    // Assert
+                    action.Should().Throw<XunitException>().WithMessage(
+                        "Expected nullDataRows to not have the same count as * because we care, but found <null>.");
                 }
 
-                // Act
-                Action action =
-                    () => firstDataTable.Rows.Should().NotHaveSameCount(secondDataTable.Rows, because: "we {0}", "care");
-
-                // Assert
-                action.Should().Throw<XunitException>().WithMessage(
-                    "Expected firstDataTable.Rows to not have 3 row(s) because we care, but found 3.");
-            }
-
-            [Fact]
-            public void When_generic_collection_is_compared_with_null_it_should_fail()
-            {
-                // Arrange
-                var dataTable = new DataTable();
-
-                for (int seed = 0; seed < 3; seed++)
+                [Fact]
+                public void When_collection_is_compared_with_typed_collection_with_same_number_of_rows_it_should_fail()
                 {
-                    AddTestDataRow(dataTable, seed);
+                    // Arrange
+                    var firstDataTable = new DataTable();
+                    var secondDataTable = new DataTable();
+
+                    for (int seed = 0; seed < 3; seed++)
+                    {
+                        AddTestDataRow(firstDataTable, seed);
+                        AddTestDataRow(secondDataTable, seed + 10);
+                    }
+
+                    var genericDataRowCollection = firstDataTable.Rows.Cast<DataRow>();
+
+                    // Act
+                    Action action =
+                        () => genericDataRowCollection.Should().NotHaveSameCount(secondDataTable.Rows, because: "we {0}", "care");
+
+                    // Assert
+                    action.Should().Throw<XunitException>().WithMessage(
+                        "Expected genericDataRowCollection to not have 3 row(s) because we care, but found 3.");
                 }
 
-                List<DataRow> nullDataRows = null;
-
-                // Act
-                Action action =
-                    () => nullDataRows.Should().NotHaveSameCount(dataTable.Rows, because: "we {0}", "care");
-
-                // Assert
-                action.Should().Throw<XunitException>().WithMessage(
-                    "Expected nullDataRows to not have the same count as * because we care, but found <null>.");
-            }
-
-            [Fact]
-            public void When_generic_collection_is_compared_with_DataRowCollection_with_same_number_of_rows_it_should_fail()
-            {
-                // Arrange
-                var firstDataTable = new DataTable();
-                var secondDataTable = new DataTable();
-
-                for (int seed = 0; seed < 3; seed++)
+                [Fact]
+                public void When_collection_is_compared_with_typed_collection_with_different_number_of_rows_it_should_succeed()
                 {
-                    AddTestDataRow(firstDataTable, seed);
-                    AddTestDataRow(secondDataTable, seed + 10);
+                    // Arrange
+                    var firstDataTable = new DataTable();
+                    var secondDataTable = new DataTable();
+
+                    for (int seed = 0; seed < 3; seed++)
+                    {
+                        AddTestDataRow(firstDataTable, seed);
+                        AddTestDataRow(secondDataTable, seed + 10);
+                    }
+
+                    secondDataTable.Rows.RemoveAt(1);
+
+                    var genericDataRowCollection = firstDataTable.Rows.Cast<DataRow>();
+
+                    // Act & Assert
+                    genericDataRowCollection.Should().NotHaveSameCount(secondDataTable.Rows);
                 }
-
-                var genericDataRowCollection = firstDataTable.Rows.Cast<DataRow>();
-
-                // Act
-                Action action =
-                    () => genericDataRowCollection.Should().NotHaveSameCount(secondDataTable.Rows, because: "we {0}", "care");
-
-                // Assert
-                action.Should().Throw<XunitException>().WithMessage(
-                    "Expected genericDataRowCollection to not have 3 row(s) because we care, but found 3.");
-            }
-
-            [Fact]
-            public void When_generic_collection_is_compared_with_DataRowCollection_with_different_number_of_rows_it_should_succeed()
-            {
-                // Arrange
-                var firstDataTable = new DataTable();
-                var secondDataTable = new DataTable();
-
-                for (int seed = 0; seed < 3; seed++)
-                {
-                    AddTestDataRow(firstDataTable, seed);
-                    AddTestDataRow(secondDataTable, seed + 10);
-                }
-
-                secondDataTable.Rows.RemoveAt(1);
-
-                var genericDataRowCollection = firstDataTable.Rows.Cast<DataRow>();
-
-                // Act & Assert
-                genericDataRowCollection.Should().NotHaveSameCount(secondDataTable.Rows);
             }
         }
 

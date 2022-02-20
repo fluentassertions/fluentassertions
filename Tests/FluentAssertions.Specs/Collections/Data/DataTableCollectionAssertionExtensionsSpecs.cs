@@ -141,112 +141,118 @@ namespace FluentAssertions.Specs.Collections.Data
                     "Cannot verify count against a <null> collection.*");
             }
 
-            [Fact]
-            public void When_two_DataTableCollections_have_the_same_number_of_tables_it_should_succeed()
+            public class DataTableCollectionAssertions
             {
-                // Arrange
-                var firstDataSet = new DataSet();
-                var secondDataSet = new DataSet();
-
-                for (int seed = 0; seed < 3; seed++)
+                [Fact]
+                public void When_collections_have_the_same_number_of_tables_it_should_succeed()
                 {
-                    firstDataSet.Tables.Add(CreateTestDataTable(seed));
-                    secondDataSet.Tables.Add(CreateTestDataTable(seed + 10));
+                    // Arrange
+                    var firstDataSet = new DataSet();
+                    var secondDataSet = new DataSet();
+
+                    for (int seed = 0; seed < 3; seed++)
+                    {
+                        firstDataSet.Tables.Add(CreateTestDataTable(seed));
+                        secondDataSet.Tables.Add(CreateTestDataTable(seed + 10));
+                    }
+
+                    // Act & Assert
+                    firstDataSet.Tables.Should().HaveSameCount(secondDataSet.Tables);
                 }
 
-                // Act & Assert
-                firstDataSet.Tables.Should().HaveSameCount(secondDataSet.Tables);
+                [Fact]
+                public void When_collections_do_not_have_the_same_number_of_tables_it_should_fail()
+                {
+                    // Arrange
+                    var firstDataSet = new DataSet();
+                    var secondDataSet = new DataSet();
+
+                    for (int seed = 0; seed < 3; seed++)
+                    {
+                        firstDataSet.Tables.Add(CreateTestDataTable(seed));
+                        secondDataSet.Tables.Add(CreateTestDataTable(seed + 10));
+                    }
+
+                    secondDataSet.Tables.RemoveAt(1);
+
+                    // Act
+                    Action action =
+                        () => firstDataSet.Tables.Should().HaveSameCount(secondDataSet.Tables);
+
+                    // Assert
+                    action.Should().Throw<XunitException>().WithMessage(
+                        "Expected firstDataSet.Tables to have 2 table(s), but found 3.");
+                }
             }
 
-            [Fact]
-            public void When_two_DataTableCollections_do_not_have_the_same_number_of_tables_it_should_fail()
+            public class GenericCollectionAssertions
             {
-                // Arrange
-                var firstDataSet = new DataSet();
-                var secondDataSet = new DataSet();
-
-                for (int seed = 0; seed < 3; seed++)
+                [Fact]
+                public void When_collection_is_compared_with_null_it_should_fail()
                 {
-                    firstDataSet.Tables.Add(CreateTestDataTable(seed));
-                    secondDataSet.Tables.Add(CreateTestDataTable(seed + 10));
+                    // Arrange
+                    var dataSet = new DataSet();
+
+                    for (int seed = 0; seed < 3; seed++)
+                    {
+                        dataSet.Tables.Add(CreateTestDataTable(seed));
+                    }
+
+                    List<DataTable> nullDataTables = null;
+
+                    // Act
+                    Action action =
+                        () => nullDataTables.Should().HaveSameCount(dataSet.Tables, because: "we {0}", "care");
+
+                    // Assert
+                    action.Should().Throw<XunitException>().WithMessage(
+                        "Expected nullDataTables to have the same count as * because we care, but found <null>.");
                 }
 
-                secondDataSet.Tables.RemoveAt(1);
-
-                // Act
-                Action action =
-                    () => firstDataSet.Tables.Should().HaveSameCount(secondDataSet.Tables);
-
-                // Assert
-                action.Should().Throw<XunitException>().WithMessage(
-                    "Expected firstDataSet.Tables to have 2 table(s), but found 3.");
-            }
-
-            [Fact]
-            public void When_generic_collection_is_compared_with_null_it_should_fail()
-            {
-                // Arrange
-                var dataSet = new DataSet();
-
-                for (int seed = 0; seed < 3; seed++)
+                [Fact]
+                public void When_collection_is_compared_with_typed_collection_with_same_number_of_tables_it_should_succeed()
                 {
-                    dataSet.Tables.Add(CreateTestDataTable(seed));
+                    // Arrange
+                    var firstDataSet = new DataSet();
+                    var secondDataSet = new DataSet();
+
+                    for (int seed = 0; seed < 3; seed++)
+                    {
+                        firstDataSet.Tables.Add(CreateTestDataTable(seed));
+                        secondDataSet.Tables.Add(CreateTestDataTable(seed + 10));
+                    }
+
+                    var genericDataTableCollection = firstDataSet.Tables.Cast<DataTable>();
+
+                    // Act & Assert
+                    genericDataTableCollection.Should().HaveSameCount(secondDataSet.Tables);
                 }
 
-                List<DataTable> nullDataTables = null;
-
-                // Act
-                Action action =
-                    () => nullDataTables.Should().HaveSameCount(dataSet.Tables, because: "we {0}", "care");
-
-                // Assert
-                action.Should().Throw<XunitException>().WithMessage(
-                    "Expected nullDataTables to have the same count as * because we care, but found <null>.");
-            }
-
-            [Fact]
-            public void When_generic_collection_is_compared_with_DataTableCollection_with_same_number_of_tables_it_should_succeed()
-            {
-                // Arrange
-                var firstDataSet = new DataSet();
-                var secondDataSet = new DataSet();
-
-                for (int seed = 0; seed < 3; seed++)
+                [Fact]
+                public void When_collection_is_compared_with_typed_collection_with_different_number_of_tables_it_should_fail()
                 {
-                    firstDataSet.Tables.Add(CreateTestDataTable(seed));
-                    secondDataSet.Tables.Add(CreateTestDataTable(seed + 10));
+                    // Arrange
+                    var firstDataSet = new DataSet();
+                    var secondDataSet = new DataSet();
+
+                    for (int seed = 0; seed < 3; seed++)
+                    {
+                        firstDataSet.Tables.Add(CreateTestDataTable(seed));
+                        secondDataSet.Tables.Add(CreateTestDataTable(seed + 10));
+                    }
+
+                    secondDataSet.Tables.RemoveAt(1);
+
+                    var genericDataTableCollection = firstDataSet.Tables.Cast<DataTable>();
+
+                    // Act
+                    Action action =
+                        () => genericDataTableCollection.Should().HaveSameCount(secondDataSet.Tables, because: "we {0}", "care");
+
+                    // Assert
+                    action.Should().Throw<XunitException>().WithMessage(
+                        "Expected genericDataTableCollection to have 2 table(s) because we care, but found 3.");
                 }
-
-                var genericDataTableCollection = firstDataSet.Tables.Cast<DataTable>();
-
-                // Act & Assert
-                genericDataTableCollection.Should().HaveSameCount(secondDataSet.Tables);
-            }
-
-            [Fact]
-            public void When_generic_collection_is_compared_with_DataTableCollection_with_different_number_of_tables_it_should_fail()
-            {
-                // Arrange
-                var firstDataSet = new DataSet();
-                var secondDataSet = new DataSet();
-
-                for (int seed = 0; seed < 3; seed++)
-                {
-                    firstDataSet.Tables.Add(CreateTestDataTable(seed));
-                    secondDataSet.Tables.Add(CreateTestDataTable(seed + 10));
-                }
-
-                secondDataSet.Tables.RemoveAt(1);
-
-                var genericDataTableCollection = firstDataSet.Tables.Cast<DataTable>();
-
-                // Act
-                Action action =
-                    () => genericDataTableCollection.Should().HaveSameCount(secondDataSet.Tables, because: "we {0}", "care");
-
-                // Assert
-                action.Should().Throw<XunitException>().WithMessage(
-                    "Expected genericDataTableCollection to have 2 table(s) because we care, but found 3.");
             }
         }
 
@@ -274,112 +280,118 @@ namespace FluentAssertions.Specs.Collections.Data
                     "Cannot verify count against a <null> collection.*");
             }
 
-            [Fact]
-            public void When_two_DataTableCollections_have_different_number_of_tables_it_should_succeed()
+            public class DataTableCollectionAssertions
             {
-                // Arrange
-                var firstDataSet = new DataSet();
-                var secondDataSet = new DataSet();
-
-                for (int seed = 0; seed < 3; seed++)
+                [Fact]
+                public void When_two_collections_have_different_number_of_tables_it_should_succeed()
                 {
-                    firstDataSet.Tables.Add(CreateTestDataTable(seed));
-                    secondDataSet.Tables.Add(CreateTestDataTable(seed + 10));
+                    // Arrange
+                    var firstDataSet = new DataSet();
+                    var secondDataSet = new DataSet();
+
+                    for (int seed = 0; seed < 3; seed++)
+                    {
+                        firstDataSet.Tables.Add(CreateTestDataTable(seed));
+                        secondDataSet.Tables.Add(CreateTestDataTable(seed + 10));
+                    }
+
+                    secondDataSet.Tables.RemoveAt(1);
+
+                    // Act & Assert
+                    firstDataSet.Tables.Should().NotHaveSameCount(secondDataSet.Tables);
                 }
 
-                secondDataSet.Tables.RemoveAt(1);
+                [Fact]
+                public void When_two_collections_have_the_same_number_of_tables_it_should_fail()
+                {
+                    // Arrange
+                    var firstDataSet = new DataSet();
+                    var secondDataSet = new DataSet();
 
-                // Act & Assert
-                firstDataSet.Tables.Should().NotHaveSameCount(secondDataSet.Tables);
+                    for (int seed = 0; seed < 3; seed++)
+                    {
+                        firstDataSet.Tables.Add(CreateTestDataTable(seed));
+                        secondDataSet.Tables.Add(CreateTestDataTable(seed + 10));
+                    }
+
+                    // Act
+                    Action action =
+                        () => firstDataSet.Tables.Should().NotHaveSameCount(secondDataSet.Tables, because: "we {0}", "care");
+
+                    // Assert
+                    action.Should().Throw<XunitException>().WithMessage(
+                        "Expected firstDataSet.Tables to not have 3 table(s) because we care, but found 3.");
+                }
             }
 
-            [Fact]
-            public void When_two_DataTableCollections_have_the_same_number_of_tables_it_should_fail()
+            public class GenericCollectionAssertions
             {
-                // Arrange
-                var firstDataSet = new DataSet();
-                var secondDataSet = new DataSet();
-
-                for (int seed = 0; seed < 3; seed++)
+                [Fact]
+                public void When_collection_is_compared_with_null_it_should_fail()
                 {
-                    firstDataSet.Tables.Add(CreateTestDataTable(seed));
-                    secondDataSet.Tables.Add(CreateTestDataTable(seed + 10));
+                    // Arrange
+                    var dataSet = new DataSet();
+
+                    for (int seed = 0; seed < 3; seed++)
+                    {
+                        dataSet.Tables.Add(CreateTestDataTable(seed));
+                    }
+
+                    List<DataTable> nullDataTables = null;
+
+                    // Act
+                    Action action =
+                        () => nullDataTables.Should().NotHaveSameCount(dataSet.Tables, because: "we {0}", "care");
+
+                    // Assert
+                    action.Should().Throw<XunitException>().WithMessage(
+                        "Expected nullDataTables to not have the same count as * because we care, but found <null>.");
                 }
 
-                // Act
-                Action action =
-                    () => firstDataSet.Tables.Should().NotHaveSameCount(secondDataSet.Tables, because: "we {0}", "care");
-
-                // Assert
-                action.Should().Throw<XunitException>().WithMessage(
-                    "Expected firstDataSet.Tables to not have 3 table(s) because we care, but found 3.");
-            }
-
-            [Fact]
-            public void When_generic_collection_is_compared_with_null_it_should_fail()
-            {
-                // Arrange
-                var dataSet = new DataSet();
-
-                for (int seed = 0; seed < 3; seed++)
+                [Fact]
+                public void When_collection_is_compared_with_typed_collection_with_same_number_of_tables_it_should_fail()
                 {
-                    dataSet.Tables.Add(CreateTestDataTable(seed));
+                    // Arrange
+                    var firstDataSet = new DataSet();
+                    var secondDataSet = new DataSet();
+
+                    for (int seed = 0; seed < 3; seed++)
+                    {
+                        firstDataSet.Tables.Add(CreateTestDataTable(seed));
+                        secondDataSet.Tables.Add(CreateTestDataTable(seed + 10));
+                    }
+
+                    var genericDataTableCollection = firstDataSet.Tables.Cast<DataTable>();
+
+                    // Act
+                    Action action =
+                        () => genericDataTableCollection.Should().NotHaveSameCount(secondDataSet.Tables, because: "we {0}", "care");
+
+                    // Assert
+                    action.Should().Throw<XunitException>().WithMessage(
+                        "Expected genericDataTableCollection to not have 3 table(s) because we care, but found 3.");
                 }
 
-                List<DataTable> nullDataTables = null;
-
-                // Act
-                Action action =
-                    () => nullDataTables.Should().NotHaveSameCount(dataSet.Tables, because: "we {0}", "care");
-
-                // Assert
-                action.Should().Throw<XunitException>().WithMessage(
-                    "Expected nullDataTables to not have the same count as * because we care, but found <null>.");
-            }
-
-            [Fact]
-            public void When_generic_collection_is_compared_with_DataTableCollection_with_same_number_of_tables_it_should_fail()
-            {
-                // Arrange
-                var firstDataSet = new DataSet();
-                var secondDataSet = new DataSet();
-
-                for (int seed = 0; seed < 3; seed++)
+                [Fact]
+                public void When_collection_is_compared_with_typed_collection_with_different_number_of_tables_it_should_succeed()
                 {
-                    firstDataSet.Tables.Add(CreateTestDataTable(seed));
-                    secondDataSet.Tables.Add(CreateTestDataTable(seed + 10));
+                    // Arrange
+                    var firstDataSet = new DataSet();
+                    var secondDataSet = new DataSet();
+
+                    for (int seed = 0; seed < 3; seed++)
+                    {
+                        firstDataSet.Tables.Add(CreateTestDataTable(seed));
+                        secondDataSet.Tables.Add(CreateTestDataTable(seed + 10));
+                    }
+
+                    secondDataSet.Tables.RemoveAt(1);
+
+                    var genericDataTableCollection = firstDataSet.Tables.Cast<DataTable>();
+
+                    // Act & Assert
+                    genericDataTableCollection.Should().NotHaveSameCount(secondDataSet.Tables);
                 }
-
-                var genericDataTableCollection = firstDataSet.Tables.Cast<DataTable>();
-
-                // Act
-                Action action =
-                    () => genericDataTableCollection.Should().NotHaveSameCount(secondDataSet.Tables, because: "we {0}", "care");
-
-                // Assert
-                action.Should().Throw<XunitException>().WithMessage(
-                    "Expected genericDataTableCollection to not have 3 table(s) because we care, but found 3.");
-            }
-
-            [Fact]
-            public void When_generic_collection_is_compared_with_DataTableCollection_with_different_number_of_tables_it_should_succeed()
-            {
-                // Arrange
-                var firstDataSet = new DataSet();
-                var secondDataSet = new DataSet();
-
-                for (int seed = 0; seed < 3; seed++)
-                {
-                    firstDataSet.Tables.Add(CreateTestDataTable(seed));
-                    secondDataSet.Tables.Add(CreateTestDataTable(seed + 10));
-                }
-
-                secondDataSet.Tables.RemoveAt(1);
-
-                var genericDataTableCollection = firstDataSet.Tables.Cast<DataTable>();
-
-                // Act & Assert
-                genericDataTableCollection.Should().NotHaveSameCount(secondDataSet.Tables);
             }
         }
 
