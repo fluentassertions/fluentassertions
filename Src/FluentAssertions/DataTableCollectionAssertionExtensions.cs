@@ -40,11 +40,10 @@ namespace FluentAssertions
             {
                 Execute.Assertion
                     .UsingLineBreaks
-                    .ForCondition(false)
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
                         "Expected {context:table collection} to refer to DataTableCollection{reason}, but found {0} (different type).",
-                        expected);
+                        assertion.Subject);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataTable>>(assertion);
