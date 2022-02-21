@@ -438,5 +438,154 @@ namespace FluentAssertions.Specs.Collections.Data
                 }
             }
         }
+
+        // These tests are present to ensure that we can trust DataRow equivalency in the context of ContainEquivalentOf.
+        public class ContainEquivalentOf
+        {
+            [Fact]
+            public void When_subject_is_null_it_should_fail()
+            {
+                // Arrange
+                var subject = default(DataRowCollection);
+
+                var expectation = new DataTable().Rows;
+
+                // Act
+                Action action =
+                    () => subject.Should().ContainEquivalentOf(expectation, because: "we {0}", "care");
+
+                // Assert
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected * to contain equivalent of * because we care, but found <null>.*");
+            }
+
+            [Fact]
+            public void When_collection_contains_equivalent_row_it_should_succeed()
+            {
+                // Arrange
+                var dataTable = CreateTestDataTable();
+
+                const int MaxSeed = 3;
+
+                for (int seed = 1; seed <= MaxSeed; seed++)
+                {
+                    AddTestDataRow(dataTable, seed);
+                }
+
+                var subjectTable = CreateTestDataTable();
+
+                AddTestDataRow(subjectTable, MaxSeed - 1);
+
+                var subjectRow = subjectTable.Rows[0];
+
+                // Act & Assert
+                dataTable.Rows.Should().ContainEquivalentOf(subjectRow);
+            }
+
+            [Fact]
+            public void When_collection_does_not_contain_equivalent_row_it_should_fail()
+            {
+                // Arrange
+                var dataTable = CreateTestDataTable();
+
+                const int MaxSeed = 3;
+
+                for (int seed = 1; seed <= MaxSeed; seed++)
+                {
+                    AddTestDataRow(dataTable, seed);
+                }
+
+                var subjectTable = CreateTestDataTable();
+
+                int seedNotInTable = MaxSeed + 1;
+
+                AddTestDataRow(subjectTable, seedNotInTable);
+
+                var subjectRow = subjectTable.Rows[0];
+
+                // Act
+                Action action =
+                    () => dataTable.Rows.Should().ContainEquivalentOf(subjectRow, because: "we {0}", "care");
+
+                // Assert
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected dataTable.Rows * to contain equivalent of System.Data.DataRow* because we care.*");
+            }
+        }
+
+        // These tests are present to ensure that we can trust DataRow equivalency in the context of NotContainEquivalentOf.
+        public class NotContainEquivalentOf
+        {
+            [Fact]
+            public void When_subject_is_null_it_should_fail()
+            {
+                // Arrange
+                var subject = default(DataRowCollection);
+
+                var expectation = new DataTable().Rows;
+
+                // Act
+                Action action =
+                    () => subject.Should().NotContainEquivalentOf(expectation, because: "we {0}", "care");
+
+                // Assert
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected * not to contain equivalent of * because we care, but collection is <null>.*");
+            }
+
+            [Fact]
+            public void When_collection_contains_equivalent_row_it_should_fail()
+            {
+                // Arrange
+                var dataTable = CreateTestDataTable();
+
+                const int MaxSeed = 3;
+
+                for (int seed = 1; seed <= MaxSeed; seed++)
+                {
+                    AddTestDataRow(dataTable, seed);
+                }
+
+                var subjectTable = CreateTestDataTable();
+
+                AddTestDataRow(subjectTable, MaxSeed - 1);
+
+                var subjectRow = subjectTable.Rows[0];
+
+                // Act
+                Action action =
+                    () => dataTable.Rows.Should().NotContainEquivalentOf(subjectRow, because: "we {0}", "care");
+
+                // Assert
+                action.Should().Throw<XunitException>()
+                    .WithMessage("Expected dataTable.Rows * not to contain equivalent of System.Data.DataRow* because we " +
+                        "care, but found one at index 1.*");
+            }
+
+            [Fact]
+            public void When_collection_does_not_contain_equivalent_row_it_should_succeed()
+            {
+                // Arrange
+                var dataTable = CreateTestDataTable();
+
+                const int MaxSeed = 3;
+
+                for (int seed = 1; seed <= MaxSeed; seed++)
+                {
+                    AddTestDataRow(dataTable, seed);
+                }
+
+                var subjectTable = CreateTestDataTable();
+
+                int seedNotInTable = MaxSeed + 1;
+
+                AddTestDataRow(subjectTable, seedNotInTable);
+
+                var subjectRow = subjectTable.Rows[0];
+
+                // Act & Assert
+                dataTable.Rows.Should().NotContainEquivalentOf(subjectRow);
+            }
+        }
     }
 }
