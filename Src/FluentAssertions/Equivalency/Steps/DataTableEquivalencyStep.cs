@@ -45,7 +45,7 @@ namespace FluentAssertions.Equivalency.Steps
                     {
                         AssertionScope.Current
                             .ForCondition(subject.GetType() == expectation.GetType())
-                            .FailWith("Expected {context:DataTable} to be of type '{0}'{reason}, but found '{1}'", expectation.GetType(), subject.GetType());
+                            .FailWith("Expected {context:DataTable} to be of type {0}{reason}, but found {1}", expectation.GetType(), subject.GetType());
                     }
 
                     var selectedMembers = GetMembersFromExpectation(context.CurrentNode, comparands, context.Options)
@@ -68,56 +68,56 @@ namespace FluentAssertions.Equivalency.Steps
             {
                 AssertionScope.Current
                     .ForCondition(subject.TableName == expectation.TableName)
-                    .FailWith("Expected {context:DataTable} to have TableName '{0}'{reason}, but found '{1}' instead", expectation.TableName, subject.TableName);
+                    .FailWith("Expected {context:DataTable} to have TableName {0}{reason}, but found {1} instead", expectation.TableName, subject.TableName);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.CaseSensitive)))
             {
                 AssertionScope.Current
                     .ForCondition(subject.CaseSensitive == expectation.CaseSensitive)
-                    .FailWith("Expected {context:DataTable} to have CaseSensitive value of '{0}'{reason}, but found '{1}' instead", expectation.CaseSensitive, subject.CaseSensitive);
+                    .FailWith("Expected {context:DataTable} to have CaseSensitive value of {0}{reason}, but found {1} instead", expectation.CaseSensitive, subject.CaseSensitive);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.DisplayExpression)))
             {
                 AssertionScope.Current
                     .ForCondition(subject.DisplayExpression == expectation.DisplayExpression)
-                    .FailWith("Expected {context:DataTable} to have DisplayExpression value of '{0}'{reason}, but found '{1}' instead", expectation.DisplayExpression, subject.DisplayExpression);
+                    .FailWith("Expected {context:DataTable} to have DisplayExpression value of {0}{reason}, but found {1} instead", expectation.DisplayExpression, subject.DisplayExpression);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.HasErrors)))
             {
                 AssertionScope.Current
                     .ForCondition(subject.HasErrors == expectation.HasErrors)
-                    .FailWith("Expected {context:DataTable} to have HasErrors value of '{0}'{reason}, but found '{1}' instead", expectation.HasErrors, subject.HasErrors);
+                    .FailWith("Expected {context:DataTable} to have HasErrors value of {0}{reason}, but found {1} instead", expectation.HasErrors, subject.HasErrors);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.Locale)))
             {
                 AssertionScope.Current
                     .ForCondition(subject.Locale == expectation.Locale)
-                    .FailWith("Expected {context:DataTable} to have Locale value of '{0}'{reason}, but found '{1}' instead", expectation.Locale, subject.Locale);
+                    .FailWith("Expected {context:DataTable} to have Locale value of {0}{reason}, but found {1} instead", expectation.Locale, subject.Locale);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.Namespace)))
             {
                 AssertionScope.Current
                     .ForCondition(subject.Namespace == expectation.Namespace)
-                    .FailWith("Expected {context:DataTable} to have Namespace value of '{0}'{reason}, but found '{1}' instead", expectation.Namespace, subject.Namespace);
+                    .FailWith("Expected {context:DataTable} to have Namespace value of {0}{reason}, but found {1} instead", expectation.Namespace, subject.Namespace);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.Prefix)))
             {
                 AssertionScope.Current
                     .ForCondition(subject.Prefix == expectation.Prefix)
-                    .FailWith("Expected {context:DataTable} to have Prefix value of '{0}'{reason}, but found '{1}' instead", expectation.Prefix, subject.Prefix);
+                    .FailWith("Expected {context:DataTable} to have Prefix value of {0}{reason}, but found {1} instead", expectation.Prefix, subject.Prefix);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.RemotingFormat)))
             {
                 AssertionScope.Current
                     .ForCondition(subject.RemotingFormat == expectation.RemotingFormat)
-                    .FailWith("Expected {context:DataTable} to have RemotingFormat value of '{0}'{reason}, but found '{1}' instead", expectation.RemotingFormat, subject.RemotingFormat);
+                    .FailWith("Expected {context:DataTable} to have RemotingFormat value of {0}{reason}, but found {1} instead", expectation.RemotingFormat, subject.RemotingFormat);
             }
         }
 
