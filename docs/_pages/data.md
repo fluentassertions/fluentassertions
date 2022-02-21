@@ -102,13 +102,6 @@ The following assertions are in common to all three collection types:
 * `.Should().HaveCountLessThan(x)`: Succeeds if the collection contains fewer items than the supplied count.
 * `.Should().HaveCountLessThanOrEqualTo(x)`: Succeeds if the collection contains at most as many items as the supplied count.
 
-There are also some assertions specific to each type of collection:
-
-* `dataSet.Tables.Should().ContainTableWithName(x)`: Succeeds if the `DataSet` contains a table with the specified name.
-* `dataSet.Tables.Should().NotContainTableWithName(x)`: Succeeds if the `DataSet` does not contain a table with the specified name.
-* `dataTable.Columns.Should().ContainColumnWithName(x)`: Succeeds if the `DataTable` contains a column with the specified name.
-* `dataTable.Columns.Should().NotContainColumnWithName(x)`: Succeeds if the `DataTable` does not contain a column with the specified name.
-
 ## Equivalency Assertion Options
 
 When checking equivalency, the operation can be fine-tuned by configuring the options provided to an optional configuration callback in the `.BeEquivalentTo` method.
