@@ -102,6 +102,13 @@ The following assertions are in common to all three collection types:
 * `.Should().HaveCountLessThan(x)`: Succeeds if the collection contains fewer items than the supplied count.
 * `.Should().HaveCountLessThanOrEqualTo(x)`: Succeeds if the collection contains at most as many items as the supplied count.
 
+There are also some assertions specific to each type of collection:
+
+* `dataTable.Rows.Should().BeSubsetOf(x)`: Succeeds if the `DataTable` only contains rows equivalent to those in the supplied set of `DataRow`s.
+* `dataTable.Rows.Should().NotBeSubsetOf(x)`: Succeeds if the `DataTable` contains at least one row that is not equivalent to any in the supplied set of `DataRow`s.
+* `dataTable.Rows.Should().IntersectWith(x)`: Succeeds if the `DataTable` contains at least one row that is equivalent to any in the supplied set of `DataRow`s.
+* `dataTable.Rows.Should().NotIntersectWith(x)`: Succeeds if the `DataTable` does not contain any rows equivalent to any in the supplied set of `DataRow`s.
+
 ## Equivalency Assertion Options
 
 When checking equivalency, the operation can be fine-tuned by configuring the options provided to an optional configuration callback in the `.BeEquivalentTo` method.

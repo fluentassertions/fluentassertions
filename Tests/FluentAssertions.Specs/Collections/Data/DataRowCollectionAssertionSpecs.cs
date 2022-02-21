@@ -604,5 +604,433 @@ namespace FluentAssertions.Specs.Collections.Data
                 dataTable.Rows.Should().NotContainEquivalentOf(subjectRow);
             }
         }
+
+        public class BeSubsetOf
+        {
+            [Fact]
+            public void When_subject_is_null_it_should_fail()
+            {
+                // Arrange
+                var subject = default(DataRowCollection);
+
+                var expectation = new DataTable().Rows;
+
+                // Act
+                Action action =
+                    () => subject.Should().BeSubsetOf(expectation, because: "we {0}", "care");
+
+                // Assert
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected * to be a subset of * because we care, but found <null>.*");
+            }
+
+            [Fact]
+            public void When_expectation_is_null_it_should_fail()
+            {
+                // Arrange
+                var dataTable = new DataTable();
+
+                var nullReference = default(DataRowCollection);
+
+                // Act
+                Action action =
+                    () => dataTable.Rows.Should().BeSubsetOf(nullReference);
+
+                // Assert
+                action.Should().Throw<ArgumentNullException>().WithMessage(
+                    "Cannot verify a subset against a <null> collection.*");
+            }
+
+            [Fact]
+            public void When_subject_is_subset_it_should_succeed()
+            {
+                // Arrange
+                var dataTable1 = new DataTable();
+                var dataTable2 = new DataTable();
+
+                dataTable1.Columns.Add("RowID", typeof(Guid));
+                dataTable1.Columns.Add("Description", typeof(string));
+                dataTable1.Columns.Add("Number", typeof(int));
+                dataTable1.Columns.Add("Flag", typeof(bool));
+                dataTable1.Columns.Add("Timestamp", typeof(DateTime));
+
+                dataTable2.Columns.Add("RowID", typeof(Guid));
+                dataTable2.Columns.Add("Description", typeof(string));
+                dataTable2.Columns.Add("Number", typeof(int));
+                dataTable2.Columns.Add("Flag", typeof(bool));
+                dataTable2.Columns.Add("Timestamp", typeof(DateTime));
+
+                dataTable1.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true, new DateTime(641752306337096884));
+                dataTable1.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
+                dataTable1.Rows.Add(new Guid("a905569d-db07-3ae3-63a0-322750a4a3bd"), "265101196", 1836839534, true, new DateTime(625984215542645543));
+                dataTable1.Rows.Add(new Guid("bc4519c8-fdeb-06e2-4a08-cc98c4273aba"), "1167815425", 1020794303, true, new DateTime(628837589454161696));
+                dataTable1.Rows.Add(new Guid("cf85ddf4-1ece-d1e2-3171-650938abd2b7"), "2070529654", 204749072, true, new DateTime(631690961218194202));
+
+                dataTable2.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true, new DateTime(641752306337096884));
+                dataTable2.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
+                dataTable2.Rows.Add(new Guid("a905569d-db07-3ae3-63a0-322750a4a3bd"), "265101196", 1836839534, true, new DateTime(625984215542645543));
+                dataTable2.Rows.Add(new Guid("bc4519c8-fdeb-06e2-4a08-cc98c4273aba"), "1167815425", 1020794303, true, new DateTime(628837589454161696));
+                dataTable2.Rows.Add(new Guid("cf85ddf4-1ece-d1e2-3171-650938abd2b7"), "2070529654", 204749072, true, new DateTime(631690961218194202));
+                dataTable2.Rows.Add(new Guid("e2c4a01f-40b1-9de1-18d9-ff7aab2e6ab3"), "825760236", 1536187488, true, new DateTime(634544335129710355));
+                dataTable2.Rows.Add(new Guid("f604634b-6295-68e1-ff41-99ea1fb201b0"), "1728474465", 720142257, true, new DateTime(637397706893742861));
+                dataTable2.Rows.Add(new Guid("09442776-8478-34e0-e6aa-335b933599ad"), "483705047", 2051580673, true, new DateTime(640251080805259014));
+                dataTable2.Rows.Add(new Guid("1c84eaa2-a65c-ffdf-ce12-cccc06b931a9"), "1386419276", 1235535442, true, new DateTime(621629618246775167));
+                dataTable2.Rows.Add(new Guid("2fc3adcd-c83f-cbdf-b57a-663d7a3cc8a6"), "141649858", 419490211, true, new DateTime(624482990010807673));
+
+                // Act & Assert
+                dataTable1.Rows.Should().BeSubsetOf(dataTable2.Rows);
+            }
+
+            [Fact]
+            public void When_subject_is_not_subset_it_should_fail()
+            {
+                // Arrange
+                var dataTable1 = new DataTable();
+                var dataTable2 = new DataTable();
+
+                dataTable1.Columns.Add("RowID", typeof(Guid));
+                dataTable1.Columns.Add("Description", typeof(string));
+                dataTable1.Columns.Add("Number", typeof(int));
+                dataTable1.Columns.Add("Flag", typeof(bool));
+                dataTable1.Columns.Add("Timestamp", typeof(DateTime));
+
+                dataTable2.Columns.Add("RowID", typeof(Guid));
+                dataTable2.Columns.Add("Description", typeof(string));
+                dataTable2.Columns.Add("Number", typeof(int));
+                dataTable2.Columns.Add("Flag", typeof(bool));
+                dataTable2.Columns.Add("Timestamp", typeof(DateTime));
+
+                dataTable1.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true, new DateTime(641752306337096884));
+                dataTable1.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
+                dataTable1.Rows.Add(new Guid("a905569d-db07-3ae3-63a0-322750a4a3bd"), "265101196", 1836839534, true, new DateTime(625984215542645543));
+                dataTable1.Rows.Add(new Guid("bc4519c8-fdeb-06e2-4a08-cc98c4273aba"), "1167815425", 1020794303, true, new DateTime(628837589454161696));
+                dataTable1.Rows.Add(new Guid("cf85ddf4-1ece-d1e2-3171-650938abd2b7"), "2070529654", 204749072, true, new DateTime(631690961218194202));
+                dataTable1.Rows.Add(new Guid("e2c4a01f-40b1-9de1-18d9-ff7aab2e6ab3"), "825760236", 1536187488, true, new DateTime(634544335129710355));
+
+                dataTable2.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true, new DateTime(641752306337096884));
+                dataTable2.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
+                dataTable2.Rows.Add(new Guid("a905569d-db07-3ae3-63a0-322750a4a3bd"), "265101196", 1836839534, true, new DateTime(625984215542645543));
+                dataTable2.Rows.Add(new Guid("bc4519c8-fdeb-06e2-4a08-cc98c4273aba"), "1167815425", 1020794303, true, new DateTime(628837589454161696));
+                dataTable2.Rows.Add(new Guid("cf85ddf4-1ece-d1e2-3171-650938abd2b7"), "2070529654", 204749072, true, new DateTime(631690961218194202));
+
+                // Act
+                Action action =
+                    () => dataTable1.Rows.Should().BeSubsetOf(dataTable2.Rows);
+
+                // Assert
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected dataTable1.Rows to be a subset of *, but item(s) * are not part of the superset.");
+            }
+        }
+
+        public class NotBeSubsetOf
+        {
+            [Fact]
+            public void When_subject_is_null_it_should_fail()
+            {
+                // Arrange
+                var subject = default(DataRowCollection);
+
+                var expectation = new DataTable().Rows;
+
+                // Act
+                Action action =
+                    () => subject.Should().NotBeSubsetOf(expectation, because: "we {0}", "care");
+
+                // Assert
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected * to not be a subset of * because we care, but found <null>.*");
+            }
+
+            [Fact]
+            public void When_expectation_is_null_it_should_fail()
+            {
+                // Arrange
+                var dataTable = new DataTable();
+
+                var nullReference = default(DataRowCollection);
+
+                // Act
+                Action action =
+                    () => dataTable.Rows.Should().NotBeSubsetOf(nullReference);
+
+                // Assert
+                action.Should().Throw<ArgumentNullException>().WithMessage(
+                    "Cannot verify a subset against a <null> collection.*");
+            }
+
+            [Fact]
+            public void When_subject_is_not_subset_it_should_succeed()
+            {
+                // Arrange
+                var dataTable1 = new DataTable();
+                var dataTable2 = new DataTable();
+
+                dataTable1.Columns.Add("RowID", typeof(Guid));
+                dataTable1.Columns.Add("Description", typeof(string));
+                dataTable1.Columns.Add("Number", typeof(int));
+                dataTable1.Columns.Add("Flag", typeof(bool));
+                dataTable1.Columns.Add("Timestamp", typeof(DateTime));
+
+                dataTable2.Columns.Add("RowID", typeof(Guid));
+                dataTable2.Columns.Add("Description", typeof(string));
+                dataTable2.Columns.Add("Number", typeof(int));
+                dataTable2.Columns.Add("Flag", typeof(bool));
+                dataTable2.Columns.Add("Timestamp", typeof(DateTime));
+
+                dataTable1.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true, new DateTime(641752306337096884));
+                dataTable1.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
+                dataTable1.Rows.Add(new Guid("a905569d-db07-3ae3-63a0-322750a4a3bd"), "265101196", 1836839534, true, new DateTime(625984215542645543));
+
+                dataTable2.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true, new DateTime(641752306337096884));
+                dataTable2.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
+
+                // Act & Assert
+                dataTable1.Rows.Should().NotBeSubsetOf(dataTable2.Rows);
+            }
+
+            [Fact]
+            public void When_subject_is_subset_it_should_fail()
+            {
+                // Arrange
+                var dataTable1 = new DataTable();
+                var dataTable2 = new DataTable();
+
+                dataTable1.Columns.Add("RowID", typeof(Guid));
+                dataTable1.Columns.Add("Description", typeof(string));
+                dataTable1.Columns.Add("Number", typeof(int));
+                dataTable1.Columns.Add("Flag", typeof(bool));
+                dataTable1.Columns.Add("Timestamp", typeof(DateTime));
+
+                dataTable2.Columns.Add("RowID", typeof(Guid));
+                dataTable2.Columns.Add("Description", typeof(string));
+                dataTable2.Columns.Add("Number", typeof(int));
+                dataTable2.Columns.Add("Flag", typeof(bool));
+                dataTable2.Columns.Add("Timestamp", typeof(DateTime));
+
+                dataTable1.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true, new DateTime(641752306337096884));
+                dataTable1.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
+                dataTable1.Rows.Add(new Guid("a905569d-db07-3ae3-63a0-322750a4a3bd"), "265101196", 1836839534, true, new DateTime(625984215542645543));
+                dataTable1.Rows.Add(new Guid("bc4519c8-fdeb-06e2-4a08-cc98c4273aba"), "1167815425", 1020794303, true, new DateTime(628837589454161696));
+                dataTable1.Rows.Add(new Guid("cf85ddf4-1ece-d1e2-3171-650938abd2b7"), "2070529654", 204749072, true, new DateTime(631690961218194202));
+
+                dataTable2.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true, new DateTime(641752306337096884));
+                dataTable2.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
+                dataTable2.Rows.Add(new Guid("a905569d-db07-3ae3-63a0-322750a4a3bd"), "265101196", 1836839534, true, new DateTime(625984215542645543));
+                dataTable2.Rows.Add(new Guid("bc4519c8-fdeb-06e2-4a08-cc98c4273aba"), "1167815425", 1020794303, true, new DateTime(628837589454161696));
+                dataTable2.Rows.Add(new Guid("cf85ddf4-1ece-d1e2-3171-650938abd2b7"), "2070529654", 204749072, true, new DateTime(631690961218194202));
+                dataTable2.Rows.Add(new Guid("e2c4a01f-40b1-9de1-18d9-ff7aab2e6ab3"), "825760236", 1536187488, true, new DateTime(634544335129710355));
+                dataTable2.Rows.Add(new Guid("f604634b-6295-68e1-ff41-99ea1fb201b0"), "1728474465", 720142257, true, new DateTime(637397706893742861));
+                dataTable2.Rows.Add(new Guid("09442776-8478-34e0-e6aa-335b933599ad"), "483705047", 2051580673, true, new DateTime(640251080805259014));
+                dataTable2.Rows.Add(new Guid("1c84eaa2-a65c-ffdf-ce12-cccc06b931a9"), "1386419276", 1235535442, true, new DateTime(621629618246775167));
+                dataTable2.Rows.Add(new Guid("2fc3adcd-c83f-cbdf-b57a-663d7a3cc8a6"), "141649858", 419490211, true, new DateTime(624482990010807673));
+
+                // Act
+                Action action =
+                    () => dataTable1.Rows.Should().NotBeSubsetOf(dataTable2.Rows);
+
+                // Assert
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected dataTable1.Rows to not be a subset of *, but all items are part of the superset.");
+            }
+        }
+
+        public class IntersectWith
+        {
+            [Fact]
+            public void When_subject_is_null_it_should_fail()
+            {
+                // Arrange
+                var subject = default(DataRowCollection);
+
+                var expectation = new DataTable().Rows;
+
+                // Act
+                Action action =
+                    () => subject.Should().IntersectWith(expectation, because: "we {0}", "care");
+
+                // Assert
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected * to intersect * because we care, but found <null>.*");
+            }
+
+            [Fact]
+            public void When_subject_intersects_expectation_it_should_succeed()
+            {
+                // Arrange
+                var dataTable1 = new DataTable();
+                var dataTable2 = new DataTable();
+
+                dataTable1.Columns.Add("RowID", typeof(Guid));
+                dataTable1.Columns.Add("Description", typeof(string));
+                dataTable1.Columns.Add("Number", typeof(int));
+                dataTable1.Columns.Add("Flag", typeof(bool));
+                dataTable1.Columns.Add("Timestamp", typeof(DateTime));
+
+                dataTable2.Columns.Add("RowID", typeof(Guid));
+                dataTable2.Columns.Add("Description", typeof(string));
+                dataTable2.Columns.Add("Number", typeof(int));
+                dataTable2.Columns.Add("Flag", typeof(bool));
+                dataTable2.Columns.Add("Timestamp", typeof(DateTime));
+
+                // The last 3 rows of dataTable1 and the first 3 rows of dataTable2 in common.
+                dataTable1.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true, new DateTime(641752306337096884));
+                dataTable1.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
+                dataTable1.Rows.Add(new Guid("a905569d-db07-3ae3-63a0-322750a4a3bd"), "265101196", 1836839534, true, new DateTime(625984215542645543));
+                dataTable1.Rows.Add(new Guid("bc4519c8-fdeb-06e2-4a08-cc98c4273aba"), "1167815425", 1020794303, true, new DateTime(628837589454161696));
+                dataTable1.Rows.Add(new Guid("cf85ddf4-1ece-d1e2-3171-650938abd2b7"), "2070529654", 204749072, true, new DateTime(631690961218194202));
+                dataTable1.Rows.Add(new Guid("e2c4a01f-40b1-9de1-18d9-ff7aab2e6ab3"), "825760236", 1536187488, true, new DateTime(634544335129710355));
+
+                dataTable2.Rows.Add(new Guid("bc4519c8-fdeb-06e2-4a08-cc98c4273aba"), "1167815425", 1020794303, true, new DateTime(628837589454161696));
+                dataTable2.Rows.Add(new Guid("cf85ddf4-1ece-d1e2-3171-650938abd2b7"), "2070529654", 204749072, true, new DateTime(631690961218194202));
+                dataTable2.Rows.Add(new Guid("e2c4a01f-40b1-9de1-18d9-ff7aab2e6ab3"), "825760236", 1536187488, true, new DateTime(634544335129710355));
+                dataTable2.Rows.Add(new Guid("f604634b-6295-68e1-ff41-99ea1fb201b0"), "1728474465", 720142257, true, new DateTime(637397706893742861));
+                dataTable2.Rows.Add(new Guid("09442776-8478-34e0-e6aa-335b933599ad"), "483705047", 2051580673, true, new DateTime(640251080805259014));
+                dataTable2.Rows.Add(new Guid("1c84eaa2-a65c-ffdf-ce12-cccc06b931a9"), "1386419276", 1235535442, true, new DateTime(621629618246775167));
+
+                // Act & Assert
+                dataTable1.Rows.Should().IntersectWith(dataTable2.Rows);
+            }
+
+            [Fact]
+            public void When_subject_does_not_intersect_expectation_it_should_fail()
+            {
+                // Arrange
+                var dataTable1 = new DataTable();
+                var dataTable2 = new DataTable();
+
+                dataTable1.Columns.Add("RowID", typeof(Guid));
+                dataTable1.Columns.Add("Description", typeof(string));
+                dataTable1.Columns.Add("Number", typeof(int));
+                dataTable1.Columns.Add("Flag", typeof(bool));
+                dataTable1.Columns.Add("Timestamp", typeof(DateTime));
+
+                dataTable2.Columns.Add("RowID", typeof(Guid));
+                dataTable2.Columns.Add("Description", typeof(string));
+                dataTable2.Columns.Add("Number", typeof(int));
+                dataTable2.Columns.Add("Flag", typeof(bool));
+                dataTable2.Columns.Add("Timestamp", typeof(DateTime));
+
+                // No rows in common.
+                dataTable1.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true, new DateTime(641752306337096884));
+                dataTable1.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
+                dataTable1.Rows.Add(new Guid("a905569d-db07-3ae3-63a0-322750a4a3bd"), "265101196", 1836839534, true, new DateTime(625984215542645543));
+                dataTable1.Rows.Add(new Guid("bc4519c8-fdeb-06e2-4a08-cc98c4273aba"), "1167815425", 1020794303, true, new DateTime(628837589454161696));
+                dataTable1.Rows.Add(new Guid("cf85ddf4-1ece-d1e2-3171-650938abd2b7"), "2070529654", 204749072, true, new DateTime(631690961218194202));
+
+                dataTable2.Rows.Add(new Guid("e2c4a01f-40b1-9de1-18d9-ff7aab2e6ab3"), "825760236", 1536187488, true, new DateTime(634544335129710355));
+                dataTable2.Rows.Add(new Guid("f604634b-6295-68e1-ff41-99ea1fb201b0"), "1728474465", 720142257, true, new DateTime(637397706893742861));
+                dataTable2.Rows.Add(new Guid("09442776-8478-34e0-e6aa-335b933599ad"), "483705047", 2051580673, true, new DateTime(640251080805259014));
+                dataTable2.Rows.Add(new Guid("1c84eaa2-a65c-ffdf-ce12-cccc06b931a9"), "1386419276", 1235535442, true, new DateTime(621629618246775167));
+                dataTable2.Rows.Add(new Guid("2fc3adcd-c83f-cbdf-b57a-663d7a3cc8a6"), "141649858", 419490211, true, new DateTime(624482990010807673));
+
+                // Act
+                Action action =
+                    () => dataTable1.Rows.Should().IntersectWith(dataTable2.Rows);
+
+                // Assert
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected dataTable1.Rows to intersect the supplied set, but couldn't find any items in common.");
+            }
+        }
+
+        public class NotIntersectWith
+        {
+            [Fact]
+            public void When_subject_is_null_it_should_fail()
+            {
+                // Arrange
+                var subject = default(DataRowCollection);
+
+                var expectation = new DataTable().Rows;
+
+                // Act
+                Action action =
+                    () => subject.Should().NotIntersectWith(expectation, because: "we {0}", "care");
+
+                // Assert
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected * to not intersect * because we care, but found <null>.*");
+            }
+
+            [Fact]
+            public void When_subject_does_not_intersect_expectation_it_should_succeed()
+            {
+                // Arrange
+                var dataTable1 = new DataTable();
+                var dataTable2 = new DataTable();
+
+                dataTable1.Columns.Add("RowID", typeof(Guid));
+                dataTable1.Columns.Add("Description", typeof(string));
+                dataTable1.Columns.Add("Number", typeof(int));
+                dataTable1.Columns.Add("Flag", typeof(bool));
+                dataTable1.Columns.Add("Timestamp", typeof(DateTime));
+
+                dataTable2.Columns.Add("RowID", typeof(Guid));
+                dataTable2.Columns.Add("Description", typeof(string));
+                dataTable2.Columns.Add("Number", typeof(int));
+                dataTable2.Columns.Add("Flag", typeof(bool));
+                dataTable2.Columns.Add("Timestamp", typeof(DateTime));
+
+                // No rows in common.
+                dataTable1.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true, new DateTime(641752306337096884));
+                dataTable1.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
+                dataTable1.Rows.Add(new Guid("a905569d-db07-3ae3-63a0-322750a4a3bd"), "265101196", 1836839534, true, new DateTime(625984215542645543));
+                dataTable1.Rows.Add(new Guid("bc4519c8-fdeb-06e2-4a08-cc98c4273aba"), "1167815425", 1020794303, true, new DateTime(628837589454161696));
+                dataTable1.Rows.Add(new Guid("cf85ddf4-1ece-d1e2-3171-650938abd2b7"), "2070529654", 204749072, true, new DateTime(631690961218194202));
+
+                dataTable2.Rows.Add(new Guid("e2c4a01f-40b1-9de1-18d9-ff7aab2e6ab3"), "825760236", 1536187488, true, new DateTime(634544335129710355));
+                dataTable2.Rows.Add(new Guid("f604634b-6295-68e1-ff41-99ea1fb201b0"), "1728474465", 720142257, true, new DateTime(637397706893742861));
+                dataTable2.Rows.Add(new Guid("09442776-8478-34e0-e6aa-335b933599ad"), "483705047", 2051580673, true, new DateTime(640251080805259014));
+                dataTable2.Rows.Add(new Guid("1c84eaa2-a65c-ffdf-ce12-cccc06b931a9"), "1386419276", 1235535442, true, new DateTime(621629618246775167));
+                dataTable2.Rows.Add(new Guid("2fc3adcd-c83f-cbdf-b57a-663d7a3cc8a6"), "141649858", 419490211, true, new DateTime(624482990010807673));
+
+                // Act & Assert
+                dataTable1.Rows.Should().NotIntersectWith(dataTable2.Rows);
+            }
+
+            [Fact]
+            public void When_subject_intersects_expectation_it_should_fail()
+            {
+                // Arrange
+                var dataTable1 = new DataTable();
+                var dataTable2 = new DataTable();
+
+                dataTable1.Columns.Add("RowID", typeof(Guid));
+                dataTable1.Columns.Add("Description", typeof(string));
+                dataTable1.Columns.Add("Number", typeof(int));
+                dataTable1.Columns.Add("Flag", typeof(bool));
+                dataTable1.Columns.Add("Timestamp", typeof(DateTime));
+
+                dataTable2.Columns.Add("RowID", typeof(Guid));
+                dataTable2.Columns.Add("Description", typeof(string));
+                dataTable2.Columns.Add("Number", typeof(int));
+                dataTable2.Columns.Add("Flag", typeof(bool));
+                dataTable2.Columns.Add("Timestamp", typeof(DateTime));
+
+                // The last 3 rows of dataTable1 and the first 3 rows of dataTable2 in common.
+                dataTable1.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true, new DateTime(641752306337096884));
+                dataTable1.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
+                dataTable1.Rows.Add(new Guid("a905569d-db07-3ae3-63a0-322750a4a3bd"), "265101196", 1836839534, true, new DateTime(625984215542645543));
+                dataTable1.Rows.Add(new Guid("bc4519c8-fdeb-06e2-4a08-cc98c4273aba"), "1167815425", 1020794303, true, new DateTime(628837589454161696));
+                dataTable1.Rows.Add(new Guid("cf85ddf4-1ece-d1e2-3171-650938abd2b7"), "2070529654", 204749072, true, new DateTime(631690961218194202));
+                dataTable1.Rows.Add(new Guid("e2c4a01f-40b1-9de1-18d9-ff7aab2e6ab3"), "825760236", 1536187488, true, new DateTime(634544335129710355));
+
+                dataTable2.Rows.Add(new Guid("bc4519c8-fdeb-06e2-4a08-cc98c4273aba"), "1167815425", 1020794303, true, new DateTime(628837589454161696));
+                dataTable2.Rows.Add(new Guid("cf85ddf4-1ece-d1e2-3171-650938abd2b7"), "2070529654", 204749072, true, new DateTime(631690961218194202));
+                dataTable2.Rows.Add(new Guid("e2c4a01f-40b1-9de1-18d9-ff7aab2e6ab3"), "825760236", 1536187488, true, new DateTime(634544335129710355));
+                dataTable2.Rows.Add(new Guid("f604634b-6295-68e1-ff41-99ea1fb201b0"), "1728474465", 720142257, true, new DateTime(637397706893742861));
+                dataTable2.Rows.Add(new Guid("09442776-8478-34e0-e6aa-335b933599ad"), "483705047", 2051580673, true, new DateTime(640251080805259014));
+                dataTable2.Rows.Add(new Guid("1c84eaa2-a65c-ffdf-ce12-cccc06b931a9"), "1386419276", 1235535442, true, new DateTime(621629618246775167));
+
+                // Act
+                Action action =
+                    () => dataTable1.Rows.Should().NotIntersectWith(dataTable2.Rows);
+
+                // Assert
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected dataTable1.Rows to not intersect the supplied set, but found row in common: *.");
+            }
+        }
     }
 }
