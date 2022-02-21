@@ -21,7 +21,7 @@ namespace FluentAssertions.Common
         /// <returns>True if segments are equal, false if not.</returns>
         public bool Equals(string x, string y)
         {
-            if (x == null || y == null)
+            if (x is null || y is null)
             {
                 return x == y;
             }
