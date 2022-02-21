@@ -40,7 +40,7 @@ namespace FluentAssertions.Common
         }
 
         private static bool EqualsAnyIndexQualifier(string segment)
-            => IndexQualifierRegex.IsMatch(segment) || segment == AnyIndexQualifier;
+            => segment == AnyIndexQualifier || IndexQualifierRegex.IsMatch(segment);
 
         public int GetHashCode(string obj)
         {
