@@ -156,7 +156,7 @@ namespace FluentAssertions
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expeected {context:collection} to contain column named {0}{reason}, but found {1}.", expectedColumnName,
+                    .FailWith("Expected {context:collection} to contain column named {0}{reason}, but found {1}.", expectedColumnName,
                         assertion.Subject);
             }
 
@@ -203,7 +203,7 @@ namespace FluentAssertions
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expeected {context:collection} to not contain column named {0}{reason}, but found {1}.", unexpectedColumnName,
+                    .FailWith("Expected {context:collection} to not contain column named {0}{reason}, but found {1}.", unexpectedColumnName,
                         assertion.Subject);
             }
 

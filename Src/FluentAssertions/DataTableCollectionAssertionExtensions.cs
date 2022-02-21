@@ -189,7 +189,7 @@ namespace FluentAssertions
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expeected {context:collection} to contain table named {0}{reason}, but found {1}.", expectedTableName,
+                    .FailWith("Expected {context:collection} to contain table named {0}{reason}, but found {1}.", expectedTableName,
                         assertion.Subject);
             }
 
@@ -236,7 +236,7 @@ namespace FluentAssertions
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expeected {context:collection} to not contain table named {0}{reason}, but found {1}.", unexpectedTableName,
+                    .FailWith("Expected {context:collection} to not contain table named {0}{reason}, but found {1}.", unexpectedTableName,
                         assertion.Subject);
             }
 

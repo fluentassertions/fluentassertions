@@ -393,7 +393,7 @@ namespace FluentAssertions
         public static GenericCollectionAssertions<DataTable> Should(this DataTableCollection actualValue)
         {
             return new GenericCollectionAssertions<DataTable>(
-                new NonGenericCollectionWrapper<DataTableCollection, DataTable>(actualValue));
+                NonGenericCollectionWrapper.Create(actualValue));
         }
 
         /// <summary>
@@ -403,7 +403,7 @@ namespace FluentAssertions
         public static GenericCollectionAssertions<DataColumn> Should(this DataColumnCollection actualValue)
         {
             return new GenericCollectionAssertions<DataColumn>(
-                new NonGenericCollectionWrapper<DataColumnCollection, DataColumn>(actualValue));
+                NonGenericCollectionWrapper.Create(actualValue));
         }
 
         /// <summary>
@@ -413,7 +413,7 @@ namespace FluentAssertions
         public static GenericCollectionAssertions<DataRow> Should(this DataRowCollection actualValue)
         {
             return new GenericCollectionAssertions<DataRow>(
-                new NonGenericCollectionWrapper<DataRowCollection, DataRow>(actualValue));
+                NonGenericCollectionWrapper.Create(actualValue));
         }
 
         /// <summary>

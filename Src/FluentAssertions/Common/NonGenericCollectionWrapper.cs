@@ -1,10 +1,38 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 namespace FluentAssertions.Common
 {
+    internal static class NonGenericCollectionWrapper
+    {
+        public static NonGenericCollectionWrapper<DataTableCollection, DataTable> Create(DataTableCollection collection)
+        {
+            return
+                (collection != null)
+                ? new NonGenericCollectionWrapper<DataTableCollection, DataTable>(collection)
+                : null;
+        }
+
+        public static NonGenericCollectionWrapper<DataColumnCollection, DataColumn> Create(DataColumnCollection collection)
+        {
+            return
+                (collection != null)
+                ? new NonGenericCollectionWrapper<DataColumnCollection, DataColumn>(collection)
+                : null;
+        }
+
+        public static NonGenericCollectionWrapper<DataRowCollection, DataRow> Create(DataRowCollection collection)
+        {
+            return
+                (collection != null)
+                ? new NonGenericCollectionWrapper<DataRowCollection, DataRow>(collection)
+                : null;
+        }
+    }
+
     internal class NonGenericCollectionWrapper<TCollection, TItem> : ICollection<TItem>, IEnumerable<TItem>
         where TCollection : ICollection, IEnumerable
     {
