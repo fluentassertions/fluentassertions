@@ -21,7 +21,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Selects a property to use. This exists the <see cref="ThenExcluding"/> chain.
+        /// Selects a property to use. This ends the <see cref="ThenExcluding"/> chain.
         /// </summary>
         public EquivalencyAssertionOptions<TExpectation> ThenExcluding(Expression<Func<TCurrent, object>> expression)
         {
@@ -32,7 +32,7 @@ namespace FluentAssertions.Equivalency
 
         /// <summary>
         /// Adds the selected collection to the <see cref="ThenExcluding{TNext}"/> chain.
-        /// If this is the last call to <see cref="ThenExcluding{TNext}"/>, this exists the chain.
+        /// If this is the last call to <see cref="ThenExcluding{TNext}"/>, this ends the chain.
         /// </summary>
         public NestedExclusionOptionBuilder<TExpectation, TNext> ThenExcluding<TNext>(
             Expression<Func<TCurrent, IEnumerable<TNext>>> expression)
