@@ -61,7 +61,6 @@
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <Compile Remove="Events/*.cs" />
     <Compile Remove="EventRaisingExtensions.cs" />
-    <Compile Remove="Equivalency\EquivalencyAssertionOptionsBuilder.cs" />
   </ItemGroup>
   <ItemGroup Condition=" !('$(TargetFramework)' == 'net47' Or '$(TargetFramework)' == 'netstandard2.0') ">
     <Compile Remove="SystemExtensions.cs" />
