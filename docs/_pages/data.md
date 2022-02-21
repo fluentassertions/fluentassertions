@@ -108,12 +108,6 @@ There are also some assertions specific to each type of collection:
 * `dataSet.Tables.Should().NotContainTableWithName(x)`: Succeeds if the `DataSet` does not contain a table with the specified name.
 * `dataTable.Columns.Should().ContainColumnWithName(x)`: Succeeds if the `DataTable` contains a column with the specified name.
 * `dataTable.Columns.Should().NotContainColumnWithName(x)`: Succeeds if the `DataTable` does not contain a column with the specified name.
-* `dataTable.Rows.Should().BeSubsetOf(x)`: Succeeds if the `DataTable` only contains rows equivalent to those in the supplied set of `DataRow`s.
-* `dataTable.Rows.Should().NotBeSubsetOf(x)`: Succeeds if the `DataTable` contains at least one row that is not equivalent to any in the supplied set of `DataRow`s.
-* `dataTable.Rows.Should().IntersectWith(x)`: Succeeds if the `DataTable` contains at least one row that is equivalent to any in the supplied set of `DataRow`s.
-* `dataTable.Rows.Should().NotIntersectWith(x)`: Succeeds if the `DataTable` does not contain any rows equivalent to any in the supplied set of `DataRow`s.
-* `dataTable.Rows.Should().ContainMatchingRow(predicate)`: Succeeds if the `DataTable` contains at least one row for which the supplied `predicate` returns `true`.
-* `dataTable.Rows.Should().NotContainMatchingRow(predicate)`: Succeeds if the `DataTable` does not contain any rows for which the supplied `predicate` returns `true`.
 
 ## Equivalency Assertion Options
 
