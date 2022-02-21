@@ -9,7 +9,7 @@ namespace FluentAssertions.Equivalency
     public class NestedExclusionOptionBuilder<TExpectation, TCurrent> : EquivalencyAssertionOptions<TExpectation>
     {
         /// <summary>
-        /// The selected path staring at the first <see cref="EquivalencyAssertionOptions{TExpectation}.Excluding{TNext}"/>.
+        /// The selected path starting at the first <see cref="EquivalencyAssertionOptions{TExpectation}.Excluding{TNext}"/>.
         /// </summary>
         private readonly ExcludeMemberByPathSelectionRule currentPathSelectionRule;
 
