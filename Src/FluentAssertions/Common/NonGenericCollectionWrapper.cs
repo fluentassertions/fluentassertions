@@ -40,6 +40,8 @@ namespace FluentAssertions.Common
 
         public NonGenericCollectionWrapper(TCollection collection)
         {
+            Guard.ThrowIfArgumentIsNull(collection, nameof(collection));
+
             UnderlyingCollection = collection;
         }
 
