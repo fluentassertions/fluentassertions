@@ -250,7 +250,8 @@ namespace FluentAssertions.Specs.Collections.Data
 
                     // Act
                     Action action =
-                        () => genericDataColumnCollection.Should().HaveSameCount(secondDataTable.Columns, because: "we {0}", "care");
+                        () => genericDataColumnCollection.Should().HaveSameCount(secondDataTable.Columns,
+                            because: "we {0}", "care");
 
                     // Assert
                     action.Should().Throw<XunitException>().WithMessage(
@@ -319,7 +320,8 @@ namespace FluentAssertions.Specs.Collections.Data
 
                     // Act
                     Action action =
-                        () => firstDataTable.Columns.Should().NotHaveSameCount(secondDataTable.Columns, because: "we {0}", "care");
+                        () => firstDataTable.Columns.Should().NotHaveSameCount(secondDataTable.Columns,
+                            because: "we {0}", "care");
 
                     // Assert
                     action.Should().Throw<XunitException>().WithMessage(
@@ -368,7 +370,8 @@ namespace FluentAssertions.Specs.Collections.Data
 
                     // Act
                     Action action =
-                        () => genericDataColumnCollection.Should().NotHaveSameCount(secondDataTable.Columns, because: "we {0}", "care");
+                        () => genericDataColumnCollection.Should().NotHaveSameCount(secondDataTable.Columns,
+                            because: "we {0}", "care");
 
                     // Assert
                     action.Should().Throw<XunitException>().WithMessage(
@@ -466,7 +469,8 @@ namespace FluentAssertions.Specs.Collections.Data
 
                 // Act
                 Action action =
-                    () => dataTable.Columns.Should().NotContainColumnWithName("Column1", "because we {0} like it, but found it anyhow", "don't");
+                    () => dataTable.Columns.Should().NotContainColumnWithName(
+                        "Column1", "because we {0} like it, but found it anyhow", "don't");
 
                 // Assert
                 action.Should().Throw<XunitException>().WithMessage(

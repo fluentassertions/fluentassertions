@@ -24,7 +24,9 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public static AndConstraint<GenericCollectionAssertions<DataRow>> BeSameAs(this GenericCollectionAssertions<DataRow> assertion, DataRowCollection expected, string because = "", params object[] becauseArgs)
+        public static AndConstraint<GenericCollectionAssertions<DataRow>> BeSameAs(
+            this GenericCollectionAssertions<DataRow> assertion, DataRowCollection expected, string because = "",
+            params object[] becauseArgs)
         {
             if (assertion.Subject is NonGenericCollectionWrapper<DataRowCollection, DataRow> wrapper)
             {
@@ -34,7 +36,9 @@ namespace FluentAssertions
                     .UsingLineBreaks
                     .ForCondition(ReferenceEquals(actualSubject, expected))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:row collection} to refer to {0}{reason}, but found {1} (different underlying object).", expected, actualSubject);
+                    .FailWith(
+                        "Expected {context:row collection} to refer to {0}{reason}, but found {1} (different underlying object).",
+                        expected, actualSubject);
             }
             else
             {
@@ -42,7 +46,9 @@ namespace FluentAssertions
                     .UsingLineBreaks
                     .ForCondition(false)
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:row collection} to refer to DataRowCollection{reason}, but found {0} (different type).", expected);
+                    .FailWith(
+                        "Expected {context:row collection} to refer to DataRowCollection{reason}, but found {0} (different type).",
+                        expected);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataRow>>(assertion);
@@ -59,7 +65,9 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public static AndConstraint<GenericCollectionAssertions<DataRow>> NotBeSameAs(this GenericCollectionAssertions<DataRow> assertion, DataRowCollection unexpected, string because = "", params object[] becauseArgs)
+        public static AndConstraint<GenericCollectionAssertions<DataRow>> NotBeSameAs(
+            this GenericCollectionAssertions<DataRow> assertion, DataRowCollection unexpected, string because = "",
+            params object[] becauseArgs)
         {
             if (assertion.Subject is NonGenericCollectionWrapper<DataRowCollection, DataRow> wrapper)
             {
@@ -76,7 +84,8 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Assert that the current collection of <see cref="DataRow"/>s has the same number of rows as <paramref name="otherCollection" />.
+        /// Assert that the current collection of <see cref="DataRow"/>s has the same number of rows as
+        /// <paramref name="otherCollection" />.
         /// </summary>
         /// <param name="otherCollection">The other collection with the same expected number of elements</param>
         /// <param name="because">
@@ -86,10 +95,12 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public static AndConstraint<GenericCollectionAssertions<DataRow>> HaveSameCount(this GenericCollectionAssertions<DataRow> assertion, DataRowCollection otherCollection, string because = "",
+        public static AndConstraint<GenericCollectionAssertions<DataRow>> HaveSameCount(
+            this GenericCollectionAssertions<DataRow> assertion, DataRowCollection otherCollection, string because = "",
             params object[] becauseArgs)
         {
-            Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify count against a <null> collection.");
+            Guard.ThrowIfArgumentIsNull(
+                otherCollection, nameof(otherCollection), "Cannot verify count against a <null> collection.");
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -108,7 +119,8 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Assert that the current collection of <see cref="DataRow"/>s does not have the same number of rows as <paramref name="otherCollection" />.
+        /// Assert that the current collection of <see cref="DataRow"/>s does not have the same number of rows as
+        /// <paramref name="otherCollection" />.
         /// </summary>
         /// <param name="otherCollection">The other <see cref="DataRowCollection"/> with the unexpected number of elements</param>
         /// <param name="because">
@@ -118,10 +130,12 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public static AndConstraint<GenericCollectionAssertions<DataRow>> NotHaveSameCount(this GenericCollectionAssertions<DataRow> assertion, DataRowCollection otherCollection, string because = "",
+        public static AndConstraint<GenericCollectionAssertions<DataRow>> NotHaveSameCount(
+            this GenericCollectionAssertions<DataRow> assertion, DataRowCollection otherCollection, string because = "",
             params object[] becauseArgs)
         {
-            Guard.ThrowIfArgumentIsNull(otherCollection, nameof(otherCollection), "Cannot verify count against a <null> collection.");
+            Guard.ThrowIfArgumentIsNull(
+                otherCollection, nameof(otherCollection), "Cannot verify count against a <null> collection.");
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -140,7 +154,8 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Asserts that a <see cref="DataRowCollection"/> contains at least one <see cref="DataRow"/> equivalent to another <see cref="DataRow"/>.
+        /// Asserts that a <see cref="DataRowCollection"/> contains at least one <see cref="DataRow"/> equivalent to another
+        /// <see cref="DataRow"/>.
         /// </summary>
         /// <remarks>
         /// See the documentation for <see cref="DataRowAssertions{TDataRow}"/> for information about when <see cref="DataRow"/>
@@ -154,7 +169,8 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public static AndConstraint<GenericCollectionAssertions<DataRow>> ContainEquivalentOf(this GenericCollectionAssertions<DataRow> assertion, DataRow expected, string because = "",
+        public static AndConstraint<GenericCollectionAssertions<DataRow>> ContainEquivalentOf(
+            this GenericCollectionAssertions<DataRow> assertion, DataRow expected, string because = "",
             params object[] becauseArgs)
         {
             return ContainEquivalentOf(assertion, expected, config => config, because, becauseArgs);
@@ -181,8 +197,9 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public static AndConstraint<GenericCollectionAssertions<DataRow>> ContainEquivalentOf(this GenericCollectionAssertions<DataRow> assertion, DataRow expected, Func<EquivalencyAssertionOptions<DataRow>,
-                EquivalencyAssertionOptions<DataRow>> config, string because = "", params object[] becauseArgs)
+        public static AndConstraint<GenericCollectionAssertions<DataRow>> ContainEquivalentOf(
+            this GenericCollectionAssertions<DataRow> assertion, DataRow expected, Func<EquivalencyAssertionOptions<DataRow>,
+            EquivalencyAssertionOptions<DataRow>> config, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(config, nameof(config));
 
@@ -202,7 +219,8 @@ namespace FluentAssertions
 
                 foreach (object actualItem in actualItems)
                 {
-                    var context = new EquivalencyValidationContext(Node.From<DataRow>(() => CallerIdentifier.DetermineCallerIdentity()), options)
+                    var context = new EquivalencyValidationContext(
+                        Node.From<DataRow>(() => CallerIdentifier.DetermineCallerIdentity()), options)
                     {
                         Reason = new Reason(because, becauseArgs),
                         TraceWriter = options.TraceWriter
@@ -227,7 +245,8 @@ namespace FluentAssertions
 
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} {0} to contain equivalent of {1}{reason}.", assertion.Subject, expected);
+                    .FailWith(
+                        "Expected {context:collection} {0} to contain equivalent of {1}{reason}.", assertion.Subject, expected);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataRow>>(assertion);
@@ -248,7 +267,8 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public static AndConstraint<GenericCollectionAssertions<DataRow>> NotContainEquivalentOf(this GenericCollectionAssertions<DataRow> assertion, DataRow unexpected, string because = "",
+        public static AndConstraint<GenericCollectionAssertions<DataRow>> NotContainEquivalentOf(
+            this GenericCollectionAssertions<DataRow> assertion, DataRow unexpected, string because = "",
             params object[] becauseArgs)
         {
             return NotContainEquivalentOf(assertion, unexpected, config => config, because, becauseArgs);
@@ -275,7 +295,8 @@ namespace FluentAssertions
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
         /// </param>
-        public static AndConstraint<GenericCollectionAssertions<DataRow>> NotContainEquivalentOf(this GenericCollectionAssertions<DataRow> assertion, DataRow unexpected, Func<EquivalencyAssertionOptions<DataRow>,
+        public static AndConstraint<GenericCollectionAssertions<DataRow>> NotContainEquivalentOf(
+            this GenericCollectionAssertions<DataRow> assertion, DataRow unexpected, Func<EquivalencyAssertionOptions<DataRow>,
             EquivalencyAssertionOptions<DataRow>> config, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(config, nameof(config));
@@ -283,7 +304,9 @@ namespace FluentAssertions
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(assertion.Subject is not null)
-                .FailWith("Expected {context:collection} not to contain equivalent of {0}{reason}, but collection is <null>.", unexpected);
+                .FailWith(
+                    "Expected {context:collection} not to contain equivalent of {0}{reason}, but collection is <null>.",
+                    unexpected);
 
             EquivalencyAssertionOptions<DataRow> options = config(AssertionOptions.CloneDefaults<DataRow>());
 
@@ -293,7 +316,8 @@ namespace FluentAssertions
                 int index = 0;
                 foreach (object actualItem in assertion.Subject)
                 {
-                    var context = new EquivalencyValidationContext(Node.From<DataRow>(CallerIdentifier.DetermineCallerIdentity), options)
+                    var context = new EquivalencyValidationContext(
+                        Node.From<DataRow>(CallerIdentifier.DetermineCallerIdentity), options)
                     {
                         Reason = new Reason(because, becauseArgs),
                         TraceWriter = options.TraceWriter
@@ -325,7 +349,8 @@ namespace FluentAssertions
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .WithExpectation("Expected {context:collection} {0} not to contain equivalent of {1}{reason}, ", assertion.Subject, unexpected)
+                        .WithExpectation("Expected {context:collection} {0} not to contain equivalent of {1}{reason}, ",
+                            assertion.Subject, unexpected)
                         .AddReportable("configuration", options.ToString());
 
                     if (foundIndices.Count == 1)

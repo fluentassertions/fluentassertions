@@ -58,7 +58,9 @@ namespace FluentAssertions.Specs.Collections.Data
                 }
                 else if (column.DataType == typeof(DateTime))
                 {
-                    row[column] = new DateTime(1970, 1, 1).AddTicks(random.Next() & 0x7FFFFFFF).AddSeconds(random.Next() & 0x7FFFFFFF);
+                    row[column] = new DateTime(1970, 1, 1)
+                        .AddTicks(random.Next() & 0x7FFFFFFF)
+                        .AddSeconds(random.Next() & 0x7FFFFFFF);
                 }
                 else
                 {

@@ -384,7 +384,8 @@ namespace FluentAssertions.Specs.Collections.Data
 
                     // Act
                     Action action =
-                        () => genericDataTableCollection.Should().NotHaveSameCount(secondDataSet.Tables, because: "we {0}", "care");
+                        () => genericDataTableCollection.Should().NotHaveSameCount(secondDataSet.Tables,
+                        because: "we {0}", "care");
 
                     // Assert
                     action.Should().Throw<XunitException>().WithMessage(
@@ -482,7 +483,8 @@ namespace FluentAssertions.Specs.Collections.Data
 
                 // Act
                 Action action =
-                    () => dataSet.Tables.Should().NotContainTableWithName("Table1", "because we {0} like it, but found it anyhow", "don't");
+                    () => dataSet.Tables.Should().NotContainTableWithName(
+                        "Table1", "because we {0} like it, but found it anyhow", "don't");
 
                 // Assert
                 action.Should().Throw<XunitException>().WithMessage(
