@@ -525,7 +525,7 @@ namespace FluentAssertions.Equivalency.Specs
         {
             var row = table.NewRow();
 
-            foreach (var column in table.Columns.OfType<DataColumn>())
+            foreach (var column in table.Columns.Cast<DataColumn>())
             {
                 if (column.ColumnName.StartsWith("Foreign", StringComparison.Ordinal))
                 {

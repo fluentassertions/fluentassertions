@@ -91,10 +91,10 @@ namespace FluentAssertions.Equivalency.Steps
             DataRow subject, DataRow expectation, DataEquivalencyAssertionOptions<DataSet> dataSetConfig,
             DataEquivalencyAssertionOptions<DataTable> dataTableConfig, DataEquivalencyAssertionOptions<DataRow> dataRowConfig)
         {
-            IEnumerable<string> expectationColumnNames = expectation.Table.Columns.OfType<DataColumn>()
+            IEnumerable<string> expectationColumnNames = expectation.Table.Columns.Cast<DataColumn>()
                 .Select(col => col.ColumnName);
 
-            IEnumerable<string> subjectColumnNames = subject.Table.Columns.OfType<DataColumn>()
+            IEnumerable<string> subjectColumnNames = subject.Table.Columns.Cast<DataColumn>()
                 .Select(col => col.ColumnName);
 
             bool ignoreUnmatchedColumns =

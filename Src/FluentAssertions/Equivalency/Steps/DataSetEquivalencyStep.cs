@@ -185,9 +185,9 @@ namespace FluentAssertions.Equivalency.Steps
                     }
                 }
 
-                IEnumerable<string> expectationTableNames = expectation.Tables.OfType<DataTable>()
+                IEnumerable<string> expectationTableNames = expectation.Tables.Cast<DataTable>()
                     .Select(table => table.TableName);
-                IEnumerable<string> subjectTableNames = subject.Tables.OfType<DataTable>()
+                IEnumerable<string> subjectTableNames = subject.Tables.Cast<DataTable>()
                     .Select(table => table.TableName);
 
                 foreach (string tableName in expectationTableNames.Union(subjectTableNames))

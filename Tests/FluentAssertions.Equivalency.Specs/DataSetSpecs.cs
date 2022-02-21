@@ -679,7 +679,7 @@ namespace FluentAssertions.Equivalency.Specs
             // Arrange
             var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
 
-            var existingTableNames = dataSet.Tables.OfType<DataTable>()
+            var existingTableNames = dataSet.Tables.Cast<DataTable>()
                 .Select(table => table.TableName);
 
             // Act & Assert
@@ -692,7 +692,7 @@ namespace FluentAssertions.Equivalency.Specs
             // Arrange
             var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
 
-            var tableNames = dataSet.Tables.OfType<DataTable>()
+            var tableNames = dataSet.Tables.Cast<DataTable>()
                 .Select(table => table.TableName)
                 .Concat(new[] { "Unicorn" });
 

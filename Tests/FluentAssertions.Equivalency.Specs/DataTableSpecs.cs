@@ -565,11 +565,11 @@ namespace FluentAssertions.Equivalency.Specs
                     _ => throw new Exception("Sanity failure")
                 };
 
-            var dataTable1ColumnsForConstraint = dataTable1.Columns.OfType<DataColumn>()
+            var dataTable1ColumnsForConstraint = dataTable1.Columns.Cast<DataColumn>()
                 .Take(dataTable1.Columns.Count - differenceCount)
                 .ToArray();
 
-            var dataTable2ColumnsForConstraint = dataTable2.Columns.OfType<DataColumn>()
+            var dataTable2ColumnsForConstraint = dataTable2.Columns.Cast<DataColumn>()
                 .Skip(differenceCount)
                 .ToArray();
 
@@ -808,7 +808,7 @@ namespace FluentAssertions.Equivalency.Specs
 
             var dataTable = dataSet.TypedDataTable1;
 
-            var existingColumnNames = dataTable.Columns.OfType<DataColumn>()
+            var existingColumnNames = dataTable.Columns.Cast<DataColumn>()
                 .Select(column => column.ColumnName);
 
             // Act & Assert
@@ -823,7 +823,7 @@ namespace FluentAssertions.Equivalency.Specs
 
             var dataTable = dataSet.TypedDataTable1;
 
-            var columnNames = dataTable.Columns.OfType<DataColumn>()
+            var columnNames = dataTable.Columns.Cast<DataColumn>()
                 .Select(column => column.ColumnName)
                 .Concat(new[] { "Unicorn" });
 

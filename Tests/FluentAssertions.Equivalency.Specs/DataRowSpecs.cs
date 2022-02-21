@@ -343,7 +343,7 @@ namespace FluentAssertions.Equivalency.Specs
 
             var dataRow = dataSet.TypedDataTable1[0];
 
-            string expectedColumnName = dataSet.TypedDataTable1.Columns.OfType<DataColumn>().Last().ColumnName;
+            string expectedColumnName = dataSet.TypedDataTable1.Columns.Cast<DataColumn>().Last().ColumnName;
 
             // Act & Assert
             dataRow.Should().HaveColumn(expectedColumnName);
@@ -373,7 +373,7 @@ namespace FluentAssertions.Equivalency.Specs
 
             var dataRow = dataSet.TypedDataTable1[0];
 
-            var subsetOfColumnNames = dataRow.Table.Columns.OfType<DataColumn>()
+            var subsetOfColumnNames = dataRow.Table.Columns.Cast<DataColumn>()
                 .Take(dataRow.Table.Columns.Count - 2)
                 .Select(column => column.ColumnName);
 
@@ -389,7 +389,7 @@ namespace FluentAssertions.Equivalency.Specs
 
             var dataRow = dataSet.TypedDataTable1[0];
 
-            var subsetOfColumnNamesWithUnicorn = dataRow.Table.Columns.OfType<DataColumn>()
+            var subsetOfColumnNamesWithUnicorn = dataRow.Table.Columns.Cast<DataColumn>()
                 .Take(dataRow.Table.Columns.Count - 2)
                 .Select(column => column.ColumnName)
                 .Concat(new[] { "Unicorn" });
