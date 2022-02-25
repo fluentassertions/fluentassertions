@@ -61,7 +61,9 @@ namespace FluentAssertions.Equivalency.Execution
 
         public MemberVisibility IncludedFields => inner.IncludedFields;
 
-        public bool ExcludeNonBrowsable => inner.ExcludeNonBrowsable;
+        public bool IgnoreNonBrowsableOnSubject => inner.IgnoreNonBrowsableOnSubject;
+
+        public bool ExcludeNonBrowsableOnExpectation => inner.ExcludeNonBrowsableOnExpectation;
 
         public bool CompareRecordsByValue => inner.CompareRecordsByValue;
 

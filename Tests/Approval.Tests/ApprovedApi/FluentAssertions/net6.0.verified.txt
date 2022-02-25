@@ -815,6 +815,7 @@ namespace FluentAssertions.Equivalency
         public System.Type DeclaringType { get; set; }
         public override string Description { get; }
         public FluentAssertions.Common.CSharpAccessModifier GetterAccessibility { get; }
+        public bool IsBrowsable { get; }
         public System.Type ReflectedType { get; }
         public FluentAssertions.Common.CSharpAccessModifier SetterAccessibility { get; }
         public object GetValue(object obj) { }
@@ -835,6 +836,8 @@ namespace FluentAssertions.Equivalency
         FluentAssertions.Equivalency.ConversionSelector ConversionSelector { get; }
         FluentAssertions.Equivalency.CyclicReferenceHandling CyclicReferenceHandling { get; }
         FluentAssertions.Equivalency.EnumEquivalencyHandling EnumEquivalencyHandling { get; }
+        bool ExcludeNonBrowsableOnExpectation { get; }
+        bool IgnoreNonBrowsableOnSubject { get; }
         FluentAssertions.Equivalency.MemberVisibility IncludedFields { get; }
         FluentAssertions.Equivalency.MemberVisibility IncludedProperties { get; }
         bool IsRecursive { get; }
@@ -870,6 +873,7 @@ namespace FluentAssertions.Equivalency
     {
         System.Type DeclaringType { get; }
         FluentAssertions.Common.CSharpAccessModifier GetterAccessibility { get; }
+        bool IsBrowsable { get; }
         System.Type ReflectedType { get; }
         FluentAssertions.Common.CSharpAccessModifier SetterAccessibility { get; }
         object GetValue(object obj);
@@ -973,6 +977,7 @@ namespace FluentAssertions.Equivalency
         public System.Type DeclaringType { get; }
         public override string Description { get; }
         public FluentAssertions.Common.CSharpAccessModifier GetterAccessibility { get; }
+        public bool IsBrowsable { get; }
         public System.Type ReflectedType { get; }
         public FluentAssertions.Common.CSharpAccessModifier SetterAccessibility { get; }
         public object GetValue(object obj) { }
@@ -1001,8 +1006,10 @@ namespace FluentAssertions.Equivalency
         public TSelf ExcludingFields() { }
         public TSelf ExcludingMissingMembers() { }
         public TSelf ExcludingNestedObjects() { }
+        public TSelf ExcludingNonBrowsableMembers() { }
         public TSelf ExcludingProperties() { }
         public TSelf IgnoringCyclicReferences() { }
+        public TSelf IgnoringNonBrowsableMembersOnSubject() { }
         public TSelf Including(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }
         public TSelf IncludingAllDeclaredProperties() { }
         public TSelf IncludingAllRuntimeProperties() { }
@@ -1010,6 +1017,7 @@ namespace FluentAssertions.Equivalency
         public TSelf IncludingInternalFields() { }
         public TSelf IncludingInternalProperties() { }
         public TSelf IncludingNestedObjects() { }
+        public TSelf IncludingNonBrowsableMembers() { }
         public TSelf IncludingProperties() { }
         public TSelf RespectingDeclaredTypes() { }
         public TSelf RespectingRuntimeTypes() { }

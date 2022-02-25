@@ -74,10 +74,16 @@ namespace FluentAssertions.Equivalency
         MemberVisibility IncludedFields { get; }
 
         /// <summary>
-        /// Gets a value indicating whether members marked with [EditorBrowsable]
+        /// Gets a value indicating whether members on the subject marked with [EditorBrowsable]
+        /// and an EditorBrowsableState of Never should be treated as though they don't exist.
+        /// </summary>
+        bool IgnoreNonBrowsableOnSubject { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether members on the expectation marked with [EditorBrowsable]
         /// and an EditorBrowsableState of Never should be excluded.
         /// </summary>
-        bool ExcludeNonBrowsable { get; }
+        bool ExcludeNonBrowsableOnExpectation { get; }
 
         /// <summary>
         /// Gets a value indicating whether records should be compared by value instead of their members

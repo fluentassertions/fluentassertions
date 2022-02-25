@@ -56,7 +56,8 @@ namespace FluentAssertions.Equivalency
 
         private MemberVisibility includedProperties;
         private MemberVisibility includedFields;
-        private bool excludeNonBrowsable;
+        private bool ignoreNonBrowsableOnSubject;
+        private bool excludeNonBrowsableOnExpectation;
 
         private bool compareRecordsByValue;
 
@@ -81,7 +82,8 @@ namespace FluentAssertions.Equivalency
             useRuntimeTyping = defaults.UseRuntimeTyping;
             includedProperties = defaults.IncludedProperties;
             includedFields = defaults.IncludedFields;
-            excludeNonBrowsable = defaults.ExcludeNonBrowsable;
+            ignoreNonBrowsableOnSubject = defaults.IgnoreNonBrowsableOnSubject;
+            excludeNonBrowsableOnExpectation = defaults.ExcludeNonBrowsableOnExpectation;
             compareRecordsByValue = defaults.CompareRecordsByValue;
 
             ConversionSelector = defaults.ConversionSelector.Clone();
@@ -115,6 +117,11 @@ namespace FluentAssertions.Equivalency
                 if (includedFields.HasFlag(MemberVisibility.Public) && !hasConflictingRules)
                 {
                     yield return new AllFieldsSelectionRule();
+                }
+
+                if (excludeNonBrowsableOnExpectation)
+                {
+                    yield return new ExcludeNonBrowsableMembersRule();
                 }
 
                 foreach (IMemberSelectionRule rule in selectionRules)
@@ -164,7 +171,9 @@ namespace FluentAssertions.Equivalency
 
         MemberVisibility IEquivalencyAssertionOptions.IncludedFields => includedFields;
 
-        bool IEquivalencyAssertionOptions.ExcludeNonBrowsable => excludeNonBrowsable;
+        bool IEquivalencyAssertionOptions.IgnoreNonBrowsableOnSubject => ignoreNonBrowsableOnSubject;
+
+        bool IEquivalencyAssertionOptions.ExcludeNonBrowsableOnExpectation => excludeNonBrowsableOnExpectation;
 
         public bool CompareRecordsByValue => compareRecordsByValue;
 
@@ -322,17 +331,25 @@ namespace FluentAssertions.Equivalency
         /// <returns></returns>
         public TSelf IncludingNonBrowsableMembers()
         {
-            excludeNonBrowsable = false;
+            excludeNonBrowsableOnExpectation = false;
             return (TSelf)this;
         }
 
         /// <summary>
         /// Instructs the comparison to exclude non-browsable members (members with an EditorBrowsableState of Never).
+        /// They can be marked non-browsable in the subject or the expectation. It is not required that they be marked
+        /// non-browsable in both the subject and the expectation.
         /// </summary>
         /// <returns></returns>
         public TSelf ExcludingNonBrowsableMembers()
         {
-            excludeNonBrowsable = true;
+            excludeNonBrowsableOnExpectation = true;
+            return (TSelf)this;
+        }
+
+        public TSelf IgnoringNonBrowsableMembersOnSubject()
+        {
+            ignoreNonBrowsableOnSubject = true;
             return (TSelf)this;
         }
 
@@ -722,6 +739,11 @@ namespace FluentAssertions.Equivalency
                 .Append(useRuntimeTyping ? "runtime" : "declared")
                 .AppendLine(" types and members");
 
+            if (ignoreNonBrowsableOnSubject)
+            {
+                builder.AppendLine("- Do not consider members marked non-browsable on the subject");
+            }
+
             if (isRecursive)
             {
                 if (allowInfiniteRecursion)
@@ -751,15 +773,6 @@ namespace FluentAssertions.Equivalency
                 builder.AppendLine("- Compare records by their members");
             }
 
-            if (excludeNonBrowsable)
-            {
-                builder.AppendLine("- Exclude non-browsable members");
-            }
-            else
-            {
-                builder.AppendLine("- Include non-browsable members");
-            }
-
             foreach (Type valueType in valueTypes)
             {
                 builder.AppendLine($"- Compare {valueType} by value");
@@ -768,6 +781,15 @@ namespace FluentAssertions.Equivalency
             foreach (Type type in referenceTypes)
             {
                 builder.AppendLine($"- Compare {type} by its members");
+            }
+
+            if (excludeNonBrowsableOnExpectation)
+            {
+                builder.AppendLine("- Exclude non-browsable members");
+            }
+            else
+            {
+                builder.AppendLine("- Include non-browsable members");
             }
 
             foreach (IMemberSelectionRule rule in selectionRules)
