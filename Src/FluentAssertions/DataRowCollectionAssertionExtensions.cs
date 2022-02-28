@@ -151,5 +151,5 @@ namespace FluentAssertions
 
             return new AndConstraint<GenericCollectionAssertions<DataRow>>(assertion);
         }
-        }
+    }
 }

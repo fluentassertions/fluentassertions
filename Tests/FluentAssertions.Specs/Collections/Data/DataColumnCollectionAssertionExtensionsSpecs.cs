@@ -123,6 +123,23 @@ namespace FluentAssertions.Specs.Collections.Data
         public class HaveSameCount
         {
             [Fact]
+            public void When_subject_is_null_it_should_fail()
+            {
+                // Arrange
+                var subject = default(DataColumnCollection);
+
+                var expectation = new DataTable().Columns;
+
+                // Act
+                Action action =
+                    () => subject.Should().HaveSameCount(expectation, because: "we {0}", "care");
+
+                // Assert
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected * to have the same count as * because we care, but found <null>.*");
+            }
+
+            [Fact]
             public void When_expectation_is_null_it_should_fail()
             {
                 // Arrange
@@ -262,6 +279,23 @@ namespace FluentAssertions.Specs.Collections.Data
 
         public class NotHaveSameCount
         {
+            [Fact]
+            public void When_subject_is_null_it_should_fail()
+            {
+                // Arrange
+                var subject = default(DataColumnCollection);
+
+                var expectation = new DataTable().Columns;
+
+                // Act
+                Action action =
+                    () => subject.Should().NotHaveSameCount(expectation, because: "we {0}", "care");
+
+                // Assert
+                action.Should().Throw<XunitException>().WithMessage(
+                    "Expected * to not have the same count as * because we care, but found <null>.*");
+            }
+
             [Fact]
             public void When_expectation_is_null_it_should_fail()
             {
