@@ -186,10 +186,9 @@ namespace FluentAssertions.Specs.Collections.Data
                 // Arrange
                 var dataTable = new DataTable();
 
-                for (int seed = 0; seed < 3; seed++)
-                {
-                    AddTestDataRow(dataTable, seed);
-                }
+                AddTestDataRow(dataTable, 0);
+                AddTestDataRow(dataTable, 1);
+                AddTestDataRow(dataTable, 2);
 
                 var nullReference = default(DataRowCollection);
 
@@ -211,11 +210,13 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataTable = new DataTable();
                     var secondDataTable = new DataTable();
 
-                    for (int seed = 0; seed < 3; seed++)
-                    {
-                        AddTestDataRow(firstDataTable, seed);
-                        AddTestDataRow(secondDataTable, seed + 10);
-                    }
+                    AddTestDataRow(firstDataTable, 0);
+                    AddTestDataRow(firstDataTable, 1);
+                    AddTestDataRow(firstDataTable, 2);
+
+                    AddTestDataRow(secondDataTable, 10);
+                    AddTestDataRow(secondDataTable, 11);
+                    AddTestDataRow(secondDataTable, 12);
 
                     // Act & Assert
                     firstDataTable.Rows.Should().HaveSameCount(secondDataTable.Rows);
@@ -228,13 +229,12 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataTable = new DataTable();
                     var secondDataTable = new DataTable();
 
-                    for (int seed = 0; seed < 3; seed++)
-                    {
-                        AddTestDataRow(firstDataTable, seed);
-                        AddTestDataRow(secondDataTable, seed + 10);
-                    }
+                    AddTestDataRow(firstDataTable, 0);
+                    AddTestDataRow(firstDataTable, 1);
+                    AddTestDataRow(firstDataTable, 2);
 
-                    secondDataTable.Rows.RemoveAt(1);
+                    AddTestDataRow(secondDataTable, 10);
+                    AddTestDataRow(secondDataTable, 12);
 
                     // Act
                     Action action =
@@ -254,10 +254,9 @@ namespace FluentAssertions.Specs.Collections.Data
                     // Arrange
                     var dataTable = new DataTable();
 
-                    for (int seed = 0; seed < 3; seed++)
-                    {
-                        AddTestDataRow(dataTable, seed);
-                    }
+                    AddTestDataRow(dataTable, 0);
+                    AddTestDataRow(dataTable, 1);
+                    AddTestDataRow(dataTable, 2);
 
                     List<DataRow> nullDataRows = null;
 
@@ -277,11 +276,13 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataTable = new DataTable();
                     var secondDataTable = new DataTable();
 
-                    for (int seed = 0; seed < 3; seed++)
-                    {
-                        AddTestDataRow(firstDataTable, seed);
-                        AddTestDataRow(secondDataTable, seed + 10);
-                    }
+                    AddTestDataRow(firstDataTable, 0);
+                    AddTestDataRow(firstDataTable, 1);
+                    AddTestDataRow(firstDataTable, 2);
+
+                    AddTestDataRow(secondDataTable, 10);
+                    AddTestDataRow(secondDataTable, 11);
+                    AddTestDataRow(secondDataTable, 12);
 
                     var genericDataRowCollection = firstDataTable.Rows.Cast<DataRow>();
 
@@ -296,13 +297,12 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataTable = new DataTable();
                     var secondDataTable = new DataTable();
 
-                    for (int seed = 0; seed < 3; seed++)
-                    {
-                        AddTestDataRow(firstDataTable, seed);
-                        AddTestDataRow(secondDataTable, seed + 10);
-                    }
+                    AddTestDataRow(firstDataTable, 0);
+                    AddTestDataRow(firstDataTable, 1);
+                    AddTestDataRow(firstDataTable, 2);
 
-                    secondDataTable.Rows.RemoveAt(1);
+                    AddTestDataRow(secondDataTable, 10);
+                    AddTestDataRow(secondDataTable, 12);
 
                     var genericDataRowCollection = firstDataTable.Rows.Cast<DataRow>();
 
@@ -342,10 +342,9 @@ namespace FluentAssertions.Specs.Collections.Data
                 // Arrange
                 var dataTable = new DataTable();
 
-                for (int seed = 0; seed < 3; seed++)
-                {
-                    AddTestDataRow(dataTable, seed);
-                }
+                AddTestDataRow(dataTable, 0);
+                AddTestDataRow(dataTable, 1);
+                AddTestDataRow(dataTable, 2);
 
                 var nullReference = default(DataRowCollection);
 
@@ -367,13 +366,12 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataTable = new DataTable();
                     var secondDataTable = new DataTable();
 
-                    for (int seed = 0; seed < 3; seed++)
-                    {
-                        AddTestDataRow(firstDataTable, seed);
-                        AddTestDataRow(secondDataTable, seed + 10);
-                    }
+                    AddTestDataRow(firstDataTable, 0);
+                    AddTestDataRow(firstDataTable, 1);
+                    AddTestDataRow(firstDataTable, 2);
 
-                    secondDataTable.Rows.RemoveAt(1);
+                    AddTestDataRow(secondDataTable, 10);
+                    AddTestDataRow(secondDataTable, 12);
 
                     // Act & Assert
                     firstDataTable.Rows.Should().NotHaveSameCount(secondDataTable.Rows);
@@ -386,11 +384,13 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataTable = new DataTable();
                     var secondDataTable = new DataTable();
 
-                    for (int seed = 0; seed < 3; seed++)
-                    {
-                        AddTestDataRow(firstDataTable, seed);
-                        AddTestDataRow(secondDataTable, seed + 10);
-                    }
+                    AddTestDataRow(firstDataTable, 0);
+                    AddTestDataRow(firstDataTable, 1);
+                    AddTestDataRow(firstDataTable, 2);
+
+                    AddTestDataRow(secondDataTable, 10);
+                    AddTestDataRow(secondDataTable, 11);
+                    AddTestDataRow(secondDataTable, 12);
 
                     // Act
                     Action action =
@@ -410,10 +410,9 @@ namespace FluentAssertions.Specs.Collections.Data
                     // Arrange
                     var dataTable = new DataTable();
 
-                    for (int seed = 0; seed < 3; seed++)
-                    {
-                        AddTestDataRow(dataTable, seed);
-                    }
+                    AddTestDataRow(dataTable, 0);
+                    AddTestDataRow(dataTable, 1);
+                    AddTestDataRow(dataTable, 2);
 
                     List<DataRow> nullDataRows = null;
 
@@ -433,11 +432,13 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataTable = new DataTable();
                     var secondDataTable = new DataTable();
 
-                    for (int seed = 0; seed < 3; seed++)
-                    {
-                        AddTestDataRow(firstDataTable, seed);
-                        AddTestDataRow(secondDataTable, seed + 10);
-                    }
+                    AddTestDataRow(firstDataTable, 0);
+                    AddTestDataRow(firstDataTable, 1);
+                    AddTestDataRow(firstDataTable, 2);
+
+                    AddTestDataRow(secondDataTable, 10);
+                    AddTestDataRow(secondDataTable, 11);
+                    AddTestDataRow(secondDataTable, 12);
 
                     var genericDataRowCollection = firstDataTable.Rows.Cast<DataRow>();
 
@@ -457,13 +458,12 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataTable = new DataTable();
                     var secondDataTable = new DataTable();
 
-                    for (int seed = 0; seed < 3; seed++)
-                    {
-                        AddTestDataRow(firstDataTable, seed);
-                        AddTestDataRow(secondDataTable, seed + 10);
-                    }
+                    AddTestDataRow(firstDataTable, 0);
+                    AddTestDataRow(firstDataTable, 1);
+                    AddTestDataRow(firstDataTable, 2);
 
-                    secondDataTable.Rows.RemoveAt(1);
+                    AddTestDataRow(secondDataTable, 10);
+                    AddTestDataRow(secondDataTable, 12);
 
                     var genericDataRowCollection = firstDataTable.Rows.Cast<DataRow>();
 
@@ -501,10 +501,9 @@ namespace FluentAssertions.Specs.Collections.Data
 
                 const int MaxSeed = 3;
 
-                for (int seed = 1; seed <= MaxSeed; seed++)
-                {
-                    AddTestDataRow(dataTable, seed);
-                }
+                AddTestDataRow(dataTable, 0);
+                AddTestDataRow(dataTable, 1);
+                AddTestDataRow(dataTable, 2);
 
                 var subjectTable = CreateTestDataTable();
 
@@ -522,18 +521,15 @@ namespace FluentAssertions.Specs.Collections.Data
                 // Arrange
                 var dataTable = CreateTestDataTable();
 
-                const int MaxSeed = 3;
-
-                for (int seed = 1; seed <= MaxSeed; seed++)
-                {
-                    AddTestDataRow(dataTable, seed);
-                }
+                AddTestDataRow(dataTable, 1);
+                AddTestDataRow(dataTable, 2);
+                AddTestDataRow(dataTable, 3);
 
                 var subjectTable = CreateTestDataTable();
 
-                int seedNotInTable = MaxSeed + 1;
+                const int SeedNotInTable = 4;
 
-                AddTestDataRow(subjectTable, seedNotInTable);
+                AddTestDataRow(subjectTable, SeedNotInTable);
 
                 var subjectRow = subjectTable.Rows[0];
 
@@ -573,16 +569,13 @@ namespace FluentAssertions.Specs.Collections.Data
                 // Arrange
                 var dataTable = CreateTestDataTable();
 
-                const int MaxSeed = 3;
-
-                for (int seed = 1; seed <= MaxSeed; seed++)
-                {
-                    AddTestDataRow(dataTable, seed);
-                }
+                AddTestDataRow(dataTable, 1);
+                AddTestDataRow(dataTable, 2);
+                AddTestDataRow(dataTable, 3);
 
                 var subjectTable = CreateTestDataTable();
 
-                AddTestDataRow(subjectTable, MaxSeed - 1);
+                AddTestDataRow(subjectTable, 2);
 
                 var subjectRow = subjectTable.Rows[0];
 
@@ -602,18 +595,15 @@ namespace FluentAssertions.Specs.Collections.Data
                 // Arrange
                 var dataTable = CreateTestDataTable();
 
-                const int MaxSeed = 3;
-
-                for (int seed = 1; seed <= MaxSeed; seed++)
-                {
-                    AddTestDataRow(dataTable, seed);
-                }
+                AddTestDataRow(dataTable, 1);
+                AddTestDataRow(dataTable, 2);
+                AddTestDataRow(dataTable, 3);
 
                 var subjectTable = CreateTestDataTable();
 
-                int seedNotInTable = MaxSeed + 1;
+                const int SeedNotInTable = 4;
 
-                AddTestDataRow(subjectTable, seedNotInTable);
+                AddTestDataRow(subjectTable, SeedNotInTable);
 
                 var subjectRow = subjectTable.Rows[0];
 
