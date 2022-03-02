@@ -186,10 +186,6 @@ namespace FluentAssertions.Specs.Collections.Data
                 // Arrange
                 var dataTable = new DataTable();
 
-                AddTestDataRow(dataTable, 0);
-                AddTestDataRow(dataTable, 1);
-                AddTestDataRow(dataTable, 2);
-
                 var nullReference = default(DataRowCollection);
 
                 // Act
@@ -341,10 +337,6 @@ namespace FluentAssertions.Specs.Collections.Data
             {
                 // Arrange
                 var dataTable = new DataTable();
-
-                AddTestDataRow(dataTable, 0);
-                AddTestDataRow(dataTable, 1);
-                AddTestDataRow(dataTable, 2);
 
                 var nullReference = default(DataRowCollection);
 
