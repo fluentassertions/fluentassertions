@@ -14,24 +14,13 @@ namespace FluentAssertions.Specs.Collections.Data
 {
     public static class DataTableCollectionAssertionExtensionsSpecs
     {
-        private static DataTable CreateTestDataTable(int seed)
+        private static DataTable CreateTestDataTableWithColumns(string name, params Type[] columnTypes)
         {
-            var table = new DataTable("Table" + seed);
+            var table = new DataTable(name);
 
-            var random = new Random(seed);
-
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < columnTypes.Length; i++)
             {
-                var columnType =
-                    random.Next(4) switch
-                    {
-                        0 => typeof(int),
-                        1 => typeof(string),
-                        2 => typeof(bool),
-                        _ => typeof(DateTime),
-                    };
-
-                table.Columns.Add($"Column{i}", columnType);
+                table.Columns.Add($"Column{i}", columnTypes[i]);
             }
 
             return table;
@@ -45,7 +34,7 @@ namespace FluentAssertions.Specs.Collections.Data
                 // Arrange
                 var dataSet = new DataSet();
 
-                dataSet.Tables.Add(CreateTestDataTable(seed: 1));
+                dataSet.Tables.Add(new DataTable("Table1"));
 
                 var tableCollection1 = dataSet.Tables;
                 var tableCollection2 = tableCollection1;
@@ -61,8 +50,8 @@ namespace FluentAssertions.Specs.Collections.Data
                 var dataSet1 = new DataSet();
                 var dataSet2 = new DataSet();
 
-                dataSet1.Tables.Add(CreateTestDataTable(seed: 1));
-                dataSet2.Tables.Add(CreateTestDataTable(seed: 1));
+                dataSet1.Tables.Add(new DataTable("Table1"));
+                dataSet2.Tables.Add(new DataTable("Table1"));
 
                 var tableCollection1 = dataSet1.Tables;
                 var tableCollection2 = dataSet2.Tables;
@@ -104,7 +93,7 @@ namespace FluentAssertions.Specs.Collections.Data
                 // Arrange
                 var dataSet = new DataSet();
 
-                dataSet.Tables.Add(CreateTestDataTable(seed: 1));
+                dataSet.Tables.Add(new DataTable("Table1"));
 
                 var tableCollection1 = dataSet.Tables;
                 var tableCollection2 = tableCollection1;
@@ -125,8 +114,8 @@ namespace FluentAssertions.Specs.Collections.Data
                 var dataSet1 = new DataSet();
                 var dataSet2 = new DataSet();
 
-                dataSet1.Tables.Add(CreateTestDataTable(seed: 1));
-                dataSet2.Tables.Add(CreateTestDataTable(seed: 1));
+                dataSet1.Tables.Add(new DataTable("Table1"));
+                dataSet2.Tables.Add(new DataTable("Table1"));
 
                 var tableCollection1 = dataSet1.Tables;
                 var tableCollection2 = dataSet2.Tables;
@@ -161,10 +150,6 @@ namespace FluentAssertions.Specs.Collections.Data
                 // Arrange
                 var dataSet = new DataSet();
 
-                dataSet.Tables.Add(CreateTestDataTable(0));
-                dataSet.Tables.Add(CreateTestDataTable(1));
-                dataSet.Tables.Add(CreateTestDataTable(2));
-
                 var nullReference = default(DataTableCollection);
 
                 // Act
@@ -185,13 +170,13 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataSet = new DataSet();
                     var secondDataSet = new DataSet();
 
-                    firstDataSet.Tables.Add(CreateTestDataTable(0));
-                    firstDataSet.Tables.Add(CreateTestDataTable(1));
-                    firstDataSet.Tables.Add(CreateTestDataTable(2));
+                    firstDataSet.Tables.Add(new DataTable("Table0"));
+                    firstDataSet.Tables.Add(new DataTable("Table1"));
+                    firstDataSet.Tables.Add(new DataTable("Table2"));
 
-                    secondDataSet.Tables.Add(CreateTestDataTable(10));
-                    secondDataSet.Tables.Add(CreateTestDataTable(11));
-                    secondDataSet.Tables.Add(CreateTestDataTable(12));
+                    secondDataSet.Tables.Add(CreateTestDataTableWithColumns("Table10", typeof(int)));
+                    secondDataSet.Tables.Add(new DataTable("Table11"));
+                    secondDataSet.Tables.Add(new DataTable("Table12"));
 
                     // Act & Assert
                     firstDataSet.Tables.Should().HaveSameCount(secondDataSet.Tables);
@@ -204,12 +189,12 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataSet = new DataSet();
                     var secondDataSet = new DataSet();
 
-                    firstDataSet.Tables.Add(CreateTestDataTable(0));
-                    firstDataSet.Tables.Add(CreateTestDataTable(1));
-                    firstDataSet.Tables.Add(CreateTestDataTable(2));
+                    firstDataSet.Tables.Add(new DataTable("Table0"));
+                    firstDataSet.Tables.Add(new DataTable("Table1"));
+                    firstDataSet.Tables.Add(new DataTable("Table2"));
 
-                    secondDataSet.Tables.Add(CreateTestDataTable(10));
-                    secondDataSet.Tables.Add(CreateTestDataTable(12));
+                    secondDataSet.Tables.Add(new DataTable("Table10"));
+                    secondDataSet.Tables.Add(new DataTable("Table12"));
 
                     // Act
                     Action action =
@@ -229,9 +214,9 @@ namespace FluentAssertions.Specs.Collections.Data
                     // Arrange
                     var dataSet = new DataSet();
 
-                    dataSet.Tables.Add(CreateTestDataTable(0));
-                    dataSet.Tables.Add(CreateTestDataTable(1));
-                    dataSet.Tables.Add(CreateTestDataTable(2));
+                    dataSet.Tables.Add(new DataTable("Table0"));
+                    dataSet.Tables.Add(new DataTable("Table1"));
+                    dataSet.Tables.Add(new DataTable("Table2"));
 
                     List<DataTable> nullDataTables = null;
 
@@ -251,13 +236,13 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataSet = new DataSet();
                     var secondDataSet = new DataSet();
 
-                    firstDataSet.Tables.Add(CreateTestDataTable(0));
-                    firstDataSet.Tables.Add(CreateTestDataTable(1));
-                    firstDataSet.Tables.Add(CreateTestDataTable(2));
+                    firstDataSet.Tables.Add(new DataTable("Table0"));
+                    firstDataSet.Tables.Add(new DataTable("Table1"));
+                    firstDataSet.Tables.Add(new DataTable("Table2"));
 
-                    secondDataSet.Tables.Add(CreateTestDataTable(10));
-                    secondDataSet.Tables.Add(CreateTestDataTable(11));
-                    secondDataSet.Tables.Add(CreateTestDataTable(12));
+                    secondDataSet.Tables.Add(CreateTestDataTableWithColumns("Table10", typeof(int)));
+                    secondDataSet.Tables.Add(new DataTable("Table11"));
+                    secondDataSet.Tables.Add(new DataTable("Table12"));
 
                     var genericDataTableCollection = firstDataSet.Tables.Cast<DataTable>();
 
@@ -272,12 +257,12 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataSet = new DataSet();
                     var secondDataSet = new DataSet();
 
-                    firstDataSet.Tables.Add(CreateTestDataTable(0));
-                    firstDataSet.Tables.Add(CreateTestDataTable(1));
-                    firstDataSet.Tables.Add(CreateTestDataTable(2));
+                    firstDataSet.Tables.Add(new DataTable("Table0"));
+                    firstDataSet.Tables.Add(new DataTable("Table1"));
+                    firstDataSet.Tables.Add(new DataTable("Table2"));
 
-                    secondDataSet.Tables.Add(CreateTestDataTable(10));
-                    secondDataSet.Tables.Add(CreateTestDataTable(12));
+                    secondDataSet.Tables.Add(new DataTable("Table10"));
+                    secondDataSet.Tables.Add(new DataTable("Table12"));
 
                     var genericDataTableCollection = firstDataSet.Tables.Cast<DataTable>();
 
@@ -317,9 +302,9 @@ namespace FluentAssertions.Specs.Collections.Data
                 // Arrange
                 var dataSet = new DataSet();
 
-                dataSet.Tables.Add(CreateTestDataTable(0));
-                dataSet.Tables.Add(CreateTestDataTable(1));
-                dataSet.Tables.Add(CreateTestDataTable(2));
+                dataSet.Tables.Add(new DataTable("Table0"));
+                dataSet.Tables.Add(new DataTable("Table1"));
+                dataSet.Tables.Add(new DataTable("Table2"));
 
                 var nullReference = default(DataTableCollection);
 
@@ -341,12 +326,12 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataSet = new DataSet();
                     var secondDataSet = new DataSet();
 
-                    firstDataSet.Tables.Add(CreateTestDataTable(0));
-                    firstDataSet.Tables.Add(CreateTestDataTable(1));
-                    firstDataSet.Tables.Add(CreateTestDataTable(2));
+                    firstDataSet.Tables.Add(new DataTable("Table0"));
+                    firstDataSet.Tables.Add(new DataTable("Table1"));
+                    firstDataSet.Tables.Add(new DataTable("Table2"));
 
-                    secondDataSet.Tables.Add(CreateTestDataTable(10));
-                    secondDataSet.Tables.Add(CreateTestDataTable(12));
+                    secondDataSet.Tables.Add(new DataTable("Table10"));
+                    secondDataSet.Tables.Add(new DataTable("Table12"));
 
                     // Act & Assert
                     firstDataSet.Tables.Should().NotHaveSameCount(secondDataSet.Tables);
@@ -359,13 +344,13 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataSet = new DataSet();
                     var secondDataSet = new DataSet();
 
-                    firstDataSet.Tables.Add(CreateTestDataTable(0));
-                    firstDataSet.Tables.Add(CreateTestDataTable(1));
-                    firstDataSet.Tables.Add(CreateTestDataTable(2));
+                    firstDataSet.Tables.Add(new DataTable("Table0"));
+                    firstDataSet.Tables.Add(new DataTable("Table1"));
+                    firstDataSet.Tables.Add(new DataTable("Table2"));
 
-                    secondDataSet.Tables.Add(CreateTestDataTable(10));
-                    secondDataSet.Tables.Add(CreateTestDataTable(11));
-                    secondDataSet.Tables.Add(CreateTestDataTable(12));
+                    secondDataSet.Tables.Add(new DataTable("Table10"));
+                    secondDataSet.Tables.Add(new DataTable("Table11"));
+                    secondDataSet.Tables.Add(new DataTable("Table12"));
 
                     // Act
                     Action action =
@@ -385,9 +370,9 @@ namespace FluentAssertions.Specs.Collections.Data
                     // Arrange
                     var dataSet = new DataSet();
 
-                    dataSet.Tables.Add(CreateTestDataTable(0));
-                    dataSet.Tables.Add(CreateTestDataTable(1));
-                    dataSet.Tables.Add(CreateTestDataTable(2));
+                    dataSet.Tables.Add(new DataTable("Table0"));
+                    dataSet.Tables.Add(new DataTable("Table1"));
+                    dataSet.Tables.Add(new DataTable("Table2"));
 
                     List<DataTable> nullDataTables = null;
 
@@ -407,13 +392,13 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataSet = new DataSet();
                     var secondDataSet = new DataSet();
 
-                    firstDataSet.Tables.Add(CreateTestDataTable(0));
-                    firstDataSet.Tables.Add(CreateTestDataTable(1));
-                    firstDataSet.Tables.Add(CreateTestDataTable(2));
+                    firstDataSet.Tables.Add(new DataTable("Table0"));
+                    firstDataSet.Tables.Add(new DataTable("Table1"));
+                    firstDataSet.Tables.Add(new DataTable("Table2"));
 
-                    secondDataSet.Tables.Add(CreateTestDataTable(10));
-                    secondDataSet.Tables.Add(CreateTestDataTable(11));
-                    secondDataSet.Tables.Add(CreateTestDataTable(12));
+                    secondDataSet.Tables.Add(new DataTable("Table10"));
+                    secondDataSet.Tables.Add(new DataTable("Table11"));
+                    secondDataSet.Tables.Add(new DataTable("Table12"));
 
                     var genericDataTableCollection = firstDataSet.Tables.Cast<DataTable>();
 
@@ -434,12 +419,12 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataSet = new DataSet();
                     var secondDataSet = new DataSet();
 
-                    firstDataSet.Tables.Add(CreateTestDataTable(0));
-                    firstDataSet.Tables.Add(CreateTestDataTable(1));
-                    firstDataSet.Tables.Add(CreateTestDataTable(2));
+                    firstDataSet.Tables.Add(new DataTable("Table0"));
+                    firstDataSet.Tables.Add(new DataTable("Table1"));
+                    firstDataSet.Tables.Add(new DataTable("Table2"));
 
-                    secondDataSet.Tables.Add(CreateTestDataTable(10));
-                    secondDataSet.Tables.Add(CreateTestDataTable(12));
+                    secondDataSet.Tables.Add(new DataTable("Table10"));
+                    secondDataSet.Tables.Add(new DataTable("Table12"));
 
                     var genericDataTableCollection = firstDataSet.Tables.Cast<DataTable>();
 
