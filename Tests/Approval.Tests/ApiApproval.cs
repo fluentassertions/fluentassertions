@@ -19,6 +19,7 @@ namespace Approval.Tests
     {
         [Theory]
         [InlineData("net47")]
+        [InlineData("net6.0")]
         [InlineData("netstandard2.0")]
         [InlineData("netstandard2.1")]
         [InlineData("netcoreapp2.1")]

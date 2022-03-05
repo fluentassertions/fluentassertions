@@ -39,7 +39,7 @@ will fail with:
 
 ## Supported Frameworks and Libraries
 
-Fluent Assertions cross-compiles to .NET Framework 4.7, as well as .NET Core 2.1 and 3.0, .NET Standard 2.0 and 2.1.
+Fluent Assertions cross-compiles to .NET Framework 4.7, as well as .NET Core 2.1 and 3.0, .NET 6, .NET Standard 2.0 and 2.1.
 
 Because of that Fluent Assertions supports the following minimum platforms.
 

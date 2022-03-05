@@ -147,9 +147,11 @@ namespace FluentAssertions
                 Binder = new SimpleBinder(subject.GetType())
             };
 
+#pragma warning disable SYSLIB0011 // BinaryFormatter is obsoleted, GH-issue 1779 tracks the upcoming removal in .NET 8.0
             binaryFormatter.Serialize(stream, subject);
             stream.Position = 0;
             return binaryFormatter.Deserialize(stream);
+#pragma warning restore SYSLIB0011
         }
 
         private class SimpleBinder : SerializationBinder
