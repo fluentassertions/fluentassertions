@@ -14,18 +14,6 @@ namespace FluentAssertions.Specs.Collections.Data
 {
     public static class DataTableCollectionAssertionExtensionsSpecs
     {
-        private static DataTable CreateTestDataTableWithColumns(string name, params Type[] columnTypes)
-        {
-            var table = new DataTable(name);
-
-            for (int i = 0; i < columnTypes.Length; i++)
-            {
-                table.Columns.Add($"Column{i}", columnTypes[i]);
-            }
-
-            return table;
-        }
-
         public class BeSameAs
         {
             [Fact]
@@ -174,9 +162,12 @@ namespace FluentAssertions.Specs.Collections.Data
                     firstDataSet.Tables.Add(new DataTable("Table1"));
                     firstDataSet.Tables.Add(new DataTable("Table2"));
 
-                    secondDataSet.Tables.Add(CreateTestDataTableWithColumns("Table10", typeof(int)));
+                    secondDataSet.Tables.Add(new DataTable("Table10"));
                     secondDataSet.Tables.Add(new DataTable("Table11"));
                     secondDataSet.Tables.Add(new DataTable("Table12"));
+
+                    // Ensure that the table schema isn't important for the count comparison.
+                    secondDataSet.Tables[0].Columns.Add("Column1", typeof(int));
 
                     // Act & Assert
                     firstDataSet.Tables.Should().HaveSameCount(secondDataSet.Tables);
@@ -240,9 +231,12 @@ namespace FluentAssertions.Specs.Collections.Data
                     firstDataSet.Tables.Add(new DataTable("Table1"));
                     firstDataSet.Tables.Add(new DataTable("Table2"));
 
-                    secondDataSet.Tables.Add(CreateTestDataTableWithColumns("Table10", typeof(int)));
+                    secondDataSet.Tables.Add(new DataTable("Table10"));
                     secondDataSet.Tables.Add(new DataTable("Table11"));
                     secondDataSet.Tables.Add(new DataTable("Table12"));
+
+                    // Ensure that the table schema isn't important for the count comparison.
+                    secondDataSet.Tables[0].Columns.Add("Column1", typeof(int));
 
                     var genericDataTableCollection = firstDataSet.Tables.Cast<DataTable>();
 

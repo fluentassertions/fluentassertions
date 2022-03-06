@@ -15,64 +15,6 @@ namespace FluentAssertions.Specs.Collections.Data
 {
     public static class DataRowCollectionAssertionExtensionsSpecs
     {
-        private static DataTable CreateTestDataTable()
-        {
-            var dataTable = new DataTable();
-
-            dataTable.Columns.Add("RowID", typeof(Guid));
-            dataTable.Columns.Add("Description", typeof(string));
-            dataTable.Columns.Add("Number", typeof(int));
-            dataTable.Columns.Add("Flag", typeof(bool));
-            dataTable.Columns.Add("Timestamp", typeof(DateTime));
-
-            return dataTable;
-        }
-
-        private static DataRow AddTestDataRow(DataTable dataTable, int seed)
-        {
-            var row = dataTable.Rows.Add();
-
-            var random = new Random(seed);
-
-            foreach (var column in dataTable.Columns.OfType<DataColumn>())
-            {
-                if (column.DataType == typeof(Guid))
-                {
-                    byte[] guidBytes = new byte[16];
-
-                    random.NextBytes(guidBytes);
-
-                    row[column] = new Guid(guidBytes);
-                }
-                else if (column.DataType == typeof(int))
-                {
-                    row[column] = random.Next();
-                }
-                else if (column.DataType == typeof(string))
-                {
-                    row[column] = random.Next().ToString(CultureInfo.InvariantCulture);
-                }
-                else if (column.DataType == typeof(bool))
-                {
-                    row[column] = (random.Next() & 2) != 0;
-                }
-                else if (column.DataType == typeof(DateTime))
-                {
-                    row[column] = new DateTime(1970, 1, 1)
-                        .AddTicks(random.Next() & 0x7FFFFFFF)
-                        .AddSeconds(random.Next() & 0x7FFFFFFF);
-                }
-                else
-                {
-                    throw new Exception("Unable to populate column data because the data type is unexpected: " + column.DataType);
-                }
-            }
-
-            row.AcceptChanges();
-
-            return row;
-        }
-
         public class BeSameAs
         {
             [Fact]
@@ -206,13 +148,13 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataTable = new DataTable();
                     var secondDataTable = new DataTable();
 
-                    AddTestDataRow(firstDataTable, 0);
-                    AddTestDataRow(firstDataTable, 1);
-                    AddTestDataRow(firstDataTable, 2);
+                    firstDataTable.Rows.Add();
+                    firstDataTable.Rows.Add();
+                    firstDataTable.Rows.Add();
 
-                    AddTestDataRow(secondDataTable, 10);
-                    AddTestDataRow(secondDataTable, 11);
-                    AddTestDataRow(secondDataTable, 12);
+                    secondDataTable.Rows.Add();
+                    secondDataTable.Rows.Add();
+                    secondDataTable.Rows.Add();
 
                     // Act & Assert
                     firstDataTable.Rows.Should().HaveSameCount(secondDataTable.Rows);
@@ -225,12 +167,12 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataTable = new DataTable();
                     var secondDataTable = new DataTable();
 
-                    AddTestDataRow(firstDataTable, 0);
-                    AddTestDataRow(firstDataTable, 1);
-                    AddTestDataRow(firstDataTable, 2);
+                    firstDataTable.Rows.Add();
+                    firstDataTable.Rows.Add();
+                    firstDataTable.Rows.Add();
 
-                    AddTestDataRow(secondDataTable, 10);
-                    AddTestDataRow(secondDataTable, 12);
+                    secondDataTable.Rows.Add();
+                    secondDataTable.Rows.Add();
 
                     // Act
                     Action action =
@@ -250,10 +192,6 @@ namespace FluentAssertions.Specs.Collections.Data
                     // Arrange
                     var dataTable = new DataTable();
 
-                    AddTestDataRow(dataTable, 0);
-                    AddTestDataRow(dataTable, 1);
-                    AddTestDataRow(dataTable, 2);
-
                     List<DataRow> nullDataRows = null;
 
                     // Act
@@ -272,13 +210,13 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataTable = new DataTable();
                     var secondDataTable = new DataTable();
 
-                    AddTestDataRow(firstDataTable, 0);
-                    AddTestDataRow(firstDataTable, 1);
-                    AddTestDataRow(firstDataTable, 2);
+                    firstDataTable.Rows.Add();
+                    firstDataTable.Rows.Add();
+                    firstDataTable.Rows.Add();
 
-                    AddTestDataRow(secondDataTable, 10);
-                    AddTestDataRow(secondDataTable, 11);
-                    AddTestDataRow(secondDataTable, 12);
+                    secondDataTable.Rows.Add();
+                    secondDataTable.Rows.Add();
+                    secondDataTable.Rows.Add();
 
                     var genericDataRowCollection = firstDataTable.Rows.Cast<DataRow>();
 
@@ -293,12 +231,12 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataTable = new DataTable();
                     var secondDataTable = new DataTable();
 
-                    AddTestDataRow(firstDataTable, 0);
-                    AddTestDataRow(firstDataTable, 1);
-                    AddTestDataRow(firstDataTable, 2);
+                    firstDataTable.Rows.Add();
+                    firstDataTable.Rows.Add();
+                    firstDataTable.Rows.Add();
 
-                    AddTestDataRow(secondDataTable, 10);
-                    AddTestDataRow(secondDataTable, 12);
+                    secondDataTable.Rows.Add();
+                    secondDataTable.Rows.Add();
 
                     var genericDataRowCollection = firstDataTable.Rows.Cast<DataRow>();
 
@@ -358,12 +296,12 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataTable = new DataTable();
                     var secondDataTable = new DataTable();
 
-                    AddTestDataRow(firstDataTable, 0);
-                    AddTestDataRow(firstDataTable, 1);
-                    AddTestDataRow(firstDataTable, 2);
+                    firstDataTable.Rows.Add();
+                    firstDataTable.Rows.Add();
+                    firstDataTable.Rows.Add();
 
-                    AddTestDataRow(secondDataTable, 10);
-                    AddTestDataRow(secondDataTable, 12);
+                    secondDataTable.Rows.Add();
+                    secondDataTable.Rows.Add();
 
                     // Act & Assert
                     firstDataTable.Rows.Should().NotHaveSameCount(secondDataTable.Rows);
@@ -376,13 +314,13 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataTable = new DataTable();
                     var secondDataTable = new DataTable();
 
-                    AddTestDataRow(firstDataTable, 0);
-                    AddTestDataRow(firstDataTable, 1);
-                    AddTestDataRow(firstDataTable, 2);
+                    firstDataTable.Rows.Add();
+                    firstDataTable.Rows.Add();
+                    firstDataTable.Rows.Add();
 
-                    AddTestDataRow(secondDataTable, 10);
-                    AddTestDataRow(secondDataTable, 11);
-                    AddTestDataRow(secondDataTable, 12);
+                    secondDataTable.Rows.Add();
+                    secondDataTable.Rows.Add();
+                    secondDataTable.Rows.Add();
 
                     // Act
                     Action action =
@@ -402,9 +340,9 @@ namespace FluentAssertions.Specs.Collections.Data
                     // Arrange
                     var dataTable = new DataTable();
 
-                    AddTestDataRow(dataTable, 0);
-                    AddTestDataRow(dataTable, 1);
-                    AddTestDataRow(dataTable, 2);
+                    dataTable.Rows.Add();
+                    dataTable.Rows.Add();
+                    dataTable.Rows.Add();
 
                     List<DataRow> nullDataRows = null;
 
@@ -424,13 +362,13 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataTable = new DataTable();
                     var secondDataTable = new DataTable();
 
-                    AddTestDataRow(firstDataTable, 0);
-                    AddTestDataRow(firstDataTable, 1);
-                    AddTestDataRow(firstDataTable, 2);
+                    firstDataTable.Rows.Add();
+                    firstDataTable.Rows.Add();
+                    firstDataTable.Rows.Add();
 
-                    AddTestDataRow(secondDataTable, 10);
-                    AddTestDataRow(secondDataTable, 11);
-                    AddTestDataRow(secondDataTable, 12);
+                    secondDataTable.Rows.Add();
+                    secondDataTable.Rows.Add();
+                    secondDataTable.Rows.Add();
 
                     var genericDataRowCollection = firstDataTable.Rows.Cast<DataRow>();
 
@@ -450,12 +388,12 @@ namespace FluentAssertions.Specs.Collections.Data
                     var firstDataTable = new DataTable();
                     var secondDataTable = new DataTable();
 
-                    AddTestDataRow(firstDataTable, 0);
-                    AddTestDataRow(firstDataTable, 1);
-                    AddTestDataRow(firstDataTable, 2);
+                    firstDataTable.Rows.Add();
+                    firstDataTable.Rows.Add();
+                    firstDataTable.Rows.Add();
 
-                    AddTestDataRow(secondDataTable, 10);
-                    AddTestDataRow(secondDataTable, 12);
+                    secondDataTable.Rows.Add();
+                    secondDataTable.Rows.Add();
 
                     var genericDataRowCollection = firstDataTable.Rows.Cast<DataRow>();
 
@@ -489,17 +427,27 @@ namespace FluentAssertions.Specs.Collections.Data
             public void When_collection_contains_equivalent_row_it_should_succeed()
             {
                 // Arrange
-                var dataTable = CreateTestDataTable();
+                var dataTable = new DataTable();
 
-                const int MaxSeed = 3;
+                dataTable.Columns.Add("RowID", typeof(Guid));
+                dataTable.Columns.Add("Description", typeof(string));
+                dataTable.Columns.Add("Number", typeof(int));
+                dataTable.Columns.Add("Flag", typeof(bool));
+                dataTable.Columns.Add("Timestamp", typeof(DateTime));
 
-                AddTestDataRow(dataTable, 0);
-                AddTestDataRow(dataTable, 1);
-                AddTestDataRow(dataTable, 2);
+                dataTable.Rows.Add(new Guid("6f460c1a-755d-d8e4-ad67-65d5f519dbc8"), "1851925803", 2137491580, true, new DateTime(638898932425580731));
+                dataTable.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true, new DateTime(641752306337096884));
+                dataTable.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
 
-                var subjectTable = CreateTestDataTable();
+                var subjectTable = new DataTable();
 
-                AddTestDataRow(subjectTable, MaxSeed - 1);
+                subjectTable.Columns.Add("RowID", typeof(Guid));
+                subjectTable.Columns.Add("Description", typeof(string));
+                subjectTable.Columns.Add("Number", typeof(int));
+                subjectTable.Columns.Add("Flag", typeof(bool));
+                subjectTable.Columns.Add("Timestamp", typeof(DateTime));
+
+                subjectTable.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
 
                 var subjectRow = subjectTable.Rows[0];
 
@@ -511,17 +459,27 @@ namespace FluentAssertions.Specs.Collections.Data
             public void When_collection_does_not_contain_equivalent_row_it_should_fail()
             {
                 // Arrange
-                var dataTable = CreateTestDataTable();
+                var dataTable = new DataTable();
 
-                AddTestDataRow(dataTable, 1);
-                AddTestDataRow(dataTable, 2);
-                AddTestDataRow(dataTable, 3);
+                dataTable.Columns.Add("RowID", typeof(Guid));
+                dataTable.Columns.Add("Description", typeof(string));
+                dataTable.Columns.Add("Number", typeof(int));
+                dataTable.Columns.Add("Flag", typeof(bool));
+                dataTable.Columns.Add("Timestamp", typeof(DateTime));
 
-                var subjectTable = CreateTestDataTable();
+                dataTable.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true, new DateTime(641752306337096884));
+                dataTable.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
+                dataTable.Rows.Add(new Guid("a905569d-db07-3ae3-63a0-322750a4a3bd"), "265101196", 1836839534, true, new DateTime(625984215542645543));
 
-                const int SeedNotInTable = 4;
+                var subjectTable = new DataTable();
 
-                AddTestDataRow(subjectTable, SeedNotInTable);
+                subjectTable.Columns.Add("RowID", typeof(Guid));
+                subjectTable.Columns.Add("Description", typeof(string));
+                subjectTable.Columns.Add("Number", typeof(int));
+                subjectTable.Columns.Add("Flag", typeof(bool));
+                subjectTable.Columns.Add("Timestamp", typeof(DateTime));
+
+                subjectTable.Rows.Add(new Guid("bc4519c8-fdeb-06e2-4a08-cc98c4273aba"), "1167815425", 1020794303, true, new DateTime(628837589454161696));
 
                 var subjectRow = subjectTable.Rows[0];
 
@@ -559,15 +517,27 @@ namespace FluentAssertions.Specs.Collections.Data
             public void When_collection_contains_equivalent_row_it_should_fail()
             {
                 // Arrange
-                var dataTable = CreateTestDataTable();
+                var dataTable = new DataTable();
 
-                AddTestDataRow(dataTable, 1);
-                AddTestDataRow(dataTable, 2);
-                AddTestDataRow(dataTable, 3);
+                dataTable.Columns.Add("RowID", typeof(Guid));
+                dataTable.Columns.Add("Description", typeof(string));
+                dataTable.Columns.Add("Number", typeof(int));
+                dataTable.Columns.Add("Flag", typeof(bool));
+                dataTable.Columns.Add("Timestamp", typeof(DateTime));
 
-                var subjectTable = CreateTestDataTable();
+                dataTable.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true, new DateTime(641752306337096884));
+                dataTable.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
+                dataTable.Rows.Add(new Guid("a905569d-db07-3ae3-63a0-322750a4a3bd"), "265101196", 1836839534, true, new DateTime(625984215542645543));
 
-                AddTestDataRow(subjectTable, 2);
+                var subjectTable = new DataTable();
+
+                subjectTable.Columns.Add("RowID", typeof(Guid));
+                subjectTable.Columns.Add("Description", typeof(string));
+                subjectTable.Columns.Add("Number", typeof(int));
+                subjectTable.Columns.Add("Flag", typeof(bool));
+                subjectTable.Columns.Add("Timestamp", typeof(DateTime));
+
+                subjectTable.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
 
                 var subjectRow = subjectTable.Rows[0];
 
@@ -585,17 +555,27 @@ namespace FluentAssertions.Specs.Collections.Data
             public void When_collection_does_not_contain_equivalent_row_it_should_succeed()
             {
                 // Arrange
-                var dataTable = CreateTestDataTable();
+                var dataTable = new DataTable();
 
-                AddTestDataRow(dataTable, 1);
-                AddTestDataRow(dataTable, 2);
-                AddTestDataRow(dataTable, 3);
+                dataTable.Columns.Add("RowID", typeof(Guid));
+                dataTable.Columns.Add("Description", typeof(string));
+                dataTable.Columns.Add("Number", typeof(int));
+                dataTable.Columns.Add("Flag", typeof(bool));
+                dataTable.Columns.Add("Timestamp", typeof(DateTime));
 
-                var subjectTable = CreateTestDataTable();
+                dataTable.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true, new DateTime(641752306337096884));
+                dataTable.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
+                dataTable.Rows.Add(new Guid("a905569d-db07-3ae3-63a0-322750a4a3bd"), "265101196", 1836839534, true, new DateTime(625984215542645543));
 
-                const int SeedNotInTable = 4;
+                var subjectTable = new DataTable();
 
-                AddTestDataRow(subjectTable, SeedNotInTable);
+                subjectTable.Columns.Add("RowID", typeof(Guid));
+                subjectTable.Columns.Add("Description", typeof(string));
+                subjectTable.Columns.Add("Number", typeof(int));
+                subjectTable.Columns.Add("Flag", typeof(bool));
+                subjectTable.Columns.Add("Timestamp", typeof(DateTime));
+
+                subjectTable.Rows.Add(new Guid("bc4519c8-fdeb-06e2-4a08-cc98c4273aba"), "1167815425", 1020794303, true, new DateTime(628837589454161696));
 
                 var subjectRow = subjectTable.Rows[0];
 
