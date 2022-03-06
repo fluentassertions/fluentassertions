@@ -6,205 +6,222 @@ namespace FluentAssertions.Specs.Numeric
 {
     public class NullableNumericAssertionSpecs
     {
-        [Fact]
-        public void Should_succeed_when_asserting_nullable_numeric_value_with_value_to_have_a_value()
+        public class HaveValue
         {
-            // Arrange
-            int? nullableInteger = 1;
+            [Fact]
+            public void Should_succeed_when_asserting_nullable_numeric_value_with_value_to_have_a_value()
+            {
+                // Arrange
+                int? nullableInteger = 1;
 
-            // Act / Assert
-            nullableInteger.Should().HaveValue();
+                // Act / Assert
+                nullableInteger.Should().HaveValue();
+            }
+
+            [Fact]
+            public void Should_fail_when_asserting_nullable_numeric_value_without_a_value_to_have_a_value()
+            {
+                // Arrange
+                int? nullableInteger = null;
+
+                // Act
+                Action act = () => nullableInteger.Should().HaveValue();
+
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
+
+            [Fact]
+            public void
+                Should_fail_with_descriptive_message_when_asserting_nullable_numeric_value_without_a_value_to_have_a_value()
+            {
+                // Arrange
+                int? nullableInteger = null;
+
+                // Act
+                Action act = () => nullableInteger.Should().HaveValue("because we want to test the failure {0}", "message");
+
+                // Assert
+                act.Should().Throw<XunitException>()
+                    .WithMessage("Expected a value because we want to test the failure message.");
+            }
         }
 
-        [Fact]
-        public void Should_succeed_when_asserting_nullable_numeric_value_with_value_to_not_be_null()
+        public class NotHaveValue
         {
-            // Arrange
-            int? nullableInteger = 1;
+            [Fact]
+            public void Should_succeed_when_asserting_nullable_numeric_value_without_a_value_to_not_have_a_value()
+            {
+                // Arrange
+                int? nullableInteger = null;
 
-            // Act / Assert
-            nullableInteger.Should().NotBeNull();
+                // Act / Assert
+                nullableInteger.Should().NotHaveValue();
+            }
+
+            [Fact]
+            public void Should_fail_when_asserting_nullable_numeric_value_with_a_value_to_not_have_a_value()
+            {
+                // Arrange
+                int? nullableInteger = 1;
+
+                // Act
+                Action act = () => nullableInteger.Should().NotHaveValue();
+
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
+
+            [Fact]
+            public void When_nullable_value_with_unexpected_value_is_found_it_should_throw_with_message()
+            {
+                // Arrange
+                int? nullableInteger = 1;
+
+                // Act
+                Action action = () => nullableInteger.Should().NotHaveValue("it was {0} expected", "not");
+
+                // Assert
+                action
+                    .Should().Throw<XunitException>()
+                    .WithMessage("Did not expect a value because it was not expected, but found 1.");
+            }
         }
 
-        [Fact]
-        public void Should_fail_when_asserting_nullable_numeric_value_without_a_value_to_have_a_value()
+        public class NotBeNull
         {
-            // Arrange
-            int? nullableInteger = null;
+            [Fact]
+            public void Should_succeed_when_asserting_nullable_numeric_value_with_value_to_not_be_null()
+            {
+                // Arrange
+                int? nullableInteger = 1;
 
-            // Act
-            Action act = () => nullableInteger.Should().HaveValue();
+                // Act / Assert
+                nullableInteger.Should().NotBeNull();
+            }
 
-            // Assert
-            act.Should().Throw<XunitException>();
+            [Fact]
+            public void Should_fail_when_asserting_nullable_numeric_value_without_a_value_to_not_be_null()
+            {
+                // Arrange
+                int? nullableInteger = null;
+
+                // Act
+                Action act = () => nullableInteger.Should().NotBeNull();
+
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
+
+            [Fact]
+            public void
+                Should_fail_with_descriptive_message_when_asserting_nullable_numeric_value_without_a_value_to_not_be_null()
+            {
+                // Arrange
+                int? nullableInteger = null;
+
+                // Act
+                Action act = () => nullableInteger.Should().NotBeNull("because we want to test the failure {0}", "message");
+
+                // Assert
+                act.Should().Throw<XunitException>()
+                    .WithMessage("Expected a value because we want to test the failure message.");
+            }
         }
 
-        [Fact]
-        public void Should_fail_when_asserting_nullable_numeric_value_without_a_value_to_not_be_null()
+        public class BeNull
         {
-            // Arrange
-            int? nullableInteger = null;
+            [Fact]
+            public void Should_succeed_when_asserting_nullable_numeric_value_without_a_value_to_be_null()
+            {
+                // Arrange
+                int? nullableInteger = null;
 
-            // Act
-            Action act = () => nullableInteger.Should().NotBeNull();
+                // Act / Assert
+                nullableInteger.Should().BeNull();
+            }
 
-            // Assert
-            act.Should().Throw<XunitException>();
+            [Fact]
+            public void Should_fail_when_asserting_nullable_numeric_value_with_a_value_to_be_null()
+            {
+                // Arrange
+                int? nullableInteger = 1;
+
+                // Act
+                Action act = () => nullableInteger.Should().BeNull();
+
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
+
+            [Fact]
+            public void Should_fail_with_descriptive_message_when_asserting_nullable_numeric_value_with_a_value_to_be_null()
+            {
+                // Arrange
+                int? nullableInteger = 1;
+
+                // Act
+                Action act = () => nullableInteger.Should().BeNull("because we want to test the failure {0}", "message");
+
+                // Assert
+                act.Should().Throw<XunitException>()
+                    .WithMessage("Did not expect a value because we want to test the failure message, but found 1.");
+            }
         }
 
-        [Fact]
-        public void Should_fail_with_descriptive_message_when_asserting_nullable_numeric_value_without_a_value_to_have_a_value()
+        public class Be
         {
-            // Arrange
-            int? nullableInteger = null;
+            [Fact]
+            public void Should_succeed_when_asserting_nullable_numeric_value_equals_an_equal_value()
+            {
+                // Arrange
+                int? nullableIntegerA = 1;
+                int? nullableIntegerB = 1;
 
-            // Act
-            Action act = () => nullableInteger.Should().HaveValue("because we want to test the failure {0}", "message");
+                // Act / Assert
+                nullableIntegerA.Should().Be(nullableIntegerB);
+            }
 
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected a value because we want to test the failure message.");
-        }
+            [Fact]
+            public void Should_succeed_when_asserting_nullable_numeric_null_value_equals_null()
+            {
+                // Arrange
+                int? nullableIntegerA = null;
+                int? nullableIntegerB = null;
 
-        [Fact]
-        public void Should_fail_with_descriptive_message_when_asserting_nullable_numeric_value_without_a_value_to_not_be_null()
-        {
-            // Arrange
-            int? nullableInteger = null;
+                // Act / Assert
+                nullableIntegerA.Should().Be(nullableIntegerB);
+            }
 
-            // Act
-            Action act = () => nullableInteger.Should().NotBeNull("because we want to test the failure {0}", "message");
+            [Fact]
+            public void Should_fail_when_asserting_nullable_numeric_value_equals_a_different_value()
+            {
+                // Arrange
+                int? nullableIntegerA = 1;
+                int? nullableIntegerB = 2;
 
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected a value because we want to test the failure message.");
-        }
+                // Act
+                Action act = () => nullableIntegerA.Should().Be(nullableIntegerB);
 
-        [Fact]
-        public void Should_succeed_when_asserting_nullable_numeric_value_without_a_value_to_not_have_a_value()
-        {
-            // Arrange
-            int? nullableInteger = null;
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
 
-            // Act / Assert
-            nullableInteger.Should().NotHaveValue();
-        }
+            [Fact]
+            public void Should_fail_with_descriptive_message_when_asserting_nullable_numeric_value_equals_a_different_value()
+            {
+                // Arrange
+                int? nullableIntegerA = 1;
+                int? nullableIntegerB = 2;
 
-        [Fact]
-        public void Should_succeed_when_asserting_nullable_numeric_value_without_a_value_to_be_null()
-        {
-            // Arrange
-            int? nullableInteger = null;
+                // Act
+                Action act = () =>
+                    nullableIntegerA.Should().Be(nullableIntegerB, "because we want to test the failure {0}", "message");
 
-            // Act / Assert
-            nullableInteger.Should().BeNull();
-        }
-
-        [Fact]
-        public void Should_fail_when_asserting_nullable_numeric_value_with_a_value_to_not_have_a_value()
-        {
-            // Arrange
-            int? nullableInteger = 1;
-
-            // Act
-            Action act = () => nullableInteger.Should().NotHaveValue();
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void Should_fail_when_asserting_nullable_numeric_value_with_a_value_to_be_null()
-        {
-            // Arrange
-            int? nullableInteger = 1;
-
-            // Act
-            Action act = () => nullableInteger.Should().BeNull();
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_nullable_value_with_unexpected_value_is_found_it_should_throw_with_message()
-        {
-            // Arrange
-            int? nullableInteger = 1;
-
-            // Act
-            Action action = () => nullableInteger.Should().NotHaveValue("it was {0} expected", "not");
-
-            // Assert
-            action
-                .Should().Throw<XunitException>()
-                .WithMessage("Did not expect a value because it was not expected, but found 1.");
-        }
-
-        [Fact]
-        public void Should_fail_with_descriptive_message_when_asserting_nullable_numeric_value_with_a_value_to_be_null()
-        {
-            // Arrange
-            int? nullableInteger = 1;
-
-            // Act
-            Action act = () => nullableInteger.Should().BeNull("because we want to test the failure {0}", "message");
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect a value because we want to test the failure message, but found 1.");
-        }
-
-        [Fact]
-        public void Should_succeed_when_asserting_nullable_numeric_value_equals_an_equal_value()
-        {
-            // Arrange
-            int? nullableIntegerA = 1;
-            int? nullableIntegerB = 1;
-
-            // Act / Assert
-            nullableIntegerA.Should().Be(nullableIntegerB);
-        }
-
-        [Fact]
-        public void Should_succeed_when_asserting_nullable_numeric_null_value_equals_null()
-        {
-            // Arrange
-            int? nullableIntegerA = null;
-            int? nullableIntegerB = null;
-
-            // Act / Assert
-            nullableIntegerA.Should().Be(nullableIntegerB);
-        }
-
-        [Fact]
-        public void Should_fail_when_asserting_nullable_numeric_value_equals_a_different_value()
-        {
-            // Arrange
-            int? nullableIntegerA = 1;
-            int? nullableIntegerB = 2;
-
-            // Act
-            Action act = () => nullableIntegerA.Should().Be(nullableIntegerB);
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void Should_fail_with_descriptive_message_when_asserting_nullable_numeric_value_equals_a_different_value()
-        {
-            // Arrange
-            int? nullableIntegerA = 1;
-            int? nullableIntegerB = 2;
-
-            // Act
-            Action act = () =>
-                nullableIntegerA.Should().Be(nullableIntegerB, "because we want to test the failure {0}", "message");
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected*2 because we want to test the failure message, but found 1.");
+                // Assert
+                act.Should().Throw<XunitException>()
+                    .WithMessage("Expected*2 because we want to test the failure message, but found 1.");
+            }
         }
 
         public class BeApproximately
@@ -351,7 +368,7 @@ namespace FluentAssertions.Specs.Numeric
                     .Should().Throw<XunitException>()
                     .WithMessage("Expected value to approximate 1.0 +/- 0.1, but 3.14* differed by*");
             }
-            
+
             [Fact]
             public void A_double_cannot_approximate_NaN()
             {
@@ -366,7 +383,7 @@ namespace FluentAssertions.Specs.Numeric
                     .Should().Throw<ArgumentException>()
                     .WithMessage("*NaN*");
             }
-            
+
             [Fact]
             public void When_approximating_a_nullable_float_with_a_negative_precision_it_should_throw()
             {
@@ -496,7 +513,7 @@ namespace FluentAssertions.Specs.Numeric
                     .WithMessage(
                         "Expected value to approximate *1* +/- *0.1* but 3.14* differed by*");
             }
-            
+
             [Fact]
             public void A_float_cannot_approximate_NaN()
             {
@@ -800,7 +817,7 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act.Should().Throw<XunitException>();
             }
-            
+
             [Fact]
             public void A_double_cannot_approximate_NaN()
             {
@@ -957,7 +974,7 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act.Should().Throw<XunitException>();
             }
-            
+
             [Fact]
             public void A_float_cannot_approximate_NaN()
             {
