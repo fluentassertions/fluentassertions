@@ -214,7 +214,7 @@ namespace FluentAssertions.Equivalency.Specs
             {
             }
 
-            public TypedDataSet(bool swapTableOrder = false)
+            public TypedDataSet(bool swapTableOrder)
             {
                 if (swapTableOrder)
                 {
