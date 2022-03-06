@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net47;net5.0</TargetFrameworks>
+    <TargetFrameworks>net47;net6.0</TargetFrameworks>
     <RootNamespace>XUnit2.Specs</RootNamespace>
     <AssemblyName>XUnit2.Specs</AssemblyName>
     <CodeAnalysisRuleSet>..\..\..\TestRules.ruleset</CodeAnalysisRuleSet>

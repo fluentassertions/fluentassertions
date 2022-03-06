@@ -42,7 +42,7 @@ class Build : NukeBuild
     [Solution(GenerateProjects = true)]
     readonly Solution Solution;
 
-    [GitVersion(Framework = "net5.0")]
+    [GitVersion(Framework = "net6.0")]
     readonly GitVersion GitVersion;
 
     [PackageExecutable("nspec", "NSpecRunner.exe", Version = "3.1.0")]
@@ -159,7 +159,7 @@ class Build : NukeBuild
         .Executes(() =>
         {
             ReportGenerator(s => s
-                .SetProcessToolPath(ToolPathResolver.GetPackageExecutable("ReportGenerator", "ReportGenerator.dll", framework: "net5.0"))
+                .SetProcessToolPath(ToolPathResolver.GetPackageExecutable("ReportGenerator", "ReportGenerator.dll", framework: "net6.0"))
                 .SetTargetDirectory(RootDirectory / "TestResults" / "reports")
                 .AddReports(RootDirectory / "TestResults/**/coverage.cobertura.xml")
                 .AddReportTypes("HtmlInline_AzurePipelines_Dark", "lcov")
