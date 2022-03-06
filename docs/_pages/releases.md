@@ -14,6 +14,7 @@ sidebar:
 * Added the ability to exclude fields & properties marked as non-browsable in the code editor from structural equality equivalency comparisons - [#1807](https://github.com/fluentassertions/fluentassertions/pull/1807)
 
 ### Fixes
+* `EnumAssertions.Be` did not determine the caller name - [#1835](https://github.com/fluentassertions/fluentassertions/pull/1835)
 
 ### Fixes (Extensibility)
 
