@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Xml.Linq;
 using FluentAssertions.Formatting;
 using Xunit;
@@ -874,7 +874,7 @@ namespace FluentAssertions.Specs.Xml
         }
 
         [Fact]
-        public void When_asserting_a_document_has_a_null_root_element_it_should_fail()
+        public void When_asserting_a_document_has_a_root_element_with_a_null_name_it_should_fail()
         {
             // Arrange
             var theDocument = XDocument.Parse(
@@ -884,6 +884,23 @@ namespace FluentAssertions.Specs.Xml
 
             // Act
             Action act = () => theDocument.Should().HaveRoot(null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot assert the document has a root element if the expected name is <null>*");
+        }
+
+        [Fact]
+        public void When_asserting_a_document_has_a_root_element_with_a_null_xname_it_should_fail()
+        {
+            // Arrange
+            var theDocument = XDocument.Parse(
+                @"<parent>
+                    <child />
+                  </parent>");
+
+            // Act
+            Action act = () => theDocument.Should().HaveRoot((XName)null);
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithMessage(
@@ -1093,7 +1110,21 @@ namespace FluentAssertions.Specs.Xml
         }
 
         [Fact]
-        public void When_asserting_a_document_has_a_null_element_it_should_fail()
+        public void When_asserting_a_document_without_root_element_has_an_element_it_should_fail()
+        {
+            // Arrange
+            XDocument document = new();
+
+            // Act
+            Action act = () => document.Should().HaveElement("unknown");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected document to have root element with child \"unknown\", but it has no root element.");
+        }
+
+        [Fact]
+        public void When_asserting_a_document_has_an_element_with_a_null_name_it_should_fail()
         {
             // Arrange
             var document = XDocument.Parse(
@@ -1106,6 +1137,23 @@ namespace FluentAssertions.Specs.Xml
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot assert the document has an element if the expected name is <null>*");
+        }
+
+        [Fact]
+        public void When_asserting_a_document_has_an_element_with_a_null_xname_it_should_fail()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                  </parent>");
+
+            // Act
+            Action act = () => document.Should().HaveElement((XName)null);
+
+            // Assert
+            act.Should().ThrowExactly<ArgumentNullException>().WithMessage(
                 "Cannot assert the document has an element if the expected name is <null>*");
         }
 
