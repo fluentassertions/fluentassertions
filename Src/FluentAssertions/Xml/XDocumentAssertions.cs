@@ -132,7 +132,7 @@ namespace FluentAssertions.Xml
             params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
-                "Cannot assert the document has a root element if the element name is <null>*");
+                "Cannot assert the document has a root element if the expected name is <null>*");
 
             return HaveRoot(XNamespace.None + expected, because, becauseArgs);
         }
@@ -157,7 +157,7 @@ namespace FluentAssertions.Xml
             }
 
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
-                "Cannot assert the document has a root element if the element name is <null>*");
+                "Cannot assert the document has a root element if the expected name is <null>*");
 
             XElement root = Subject.Root;
 
@@ -189,7 +189,7 @@ namespace FluentAssertions.Xml
             params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
-                "Cannot assert the document has an element if the element name is <null>*");
+                "Cannot assert the document has an element if the expected name is <null>*");
 
             return HaveElement(XNamespace.None + expected, because, becauseArgs);
         }
@@ -217,7 +217,7 @@ namespace FluentAssertions.Xml
             }
 
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
-                    "Cannot assert the document has an element if the element name is <null>*");
+                    "Cannot assert the document has an element if the expected name is <null>*");
 
             Execute.Assertion
                 .ForCondition(Subject.Root is not null)

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+using System;
 using System.Xml.Linq;
 using FluentAssertions.Formatting;
 using Xunit;
@@ -888,7 +887,7 @@ namespace FluentAssertions.Specs.Xml
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithMessage(
-                "Cannot assert the document has a root element if the element name is <null>*");
+                "Cannot assert the document has a root element if the expected name is <null>*");
         }
 
         [Fact]
@@ -1107,7 +1106,7 @@ namespace FluentAssertions.Specs.Xml
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithMessage(
-                "Cannot assert the document has an element if the element name is <null>*");
+                "Cannot assert the document has an element if the expected name is <null>*");
         }
 
         #endregion
