@@ -6,13 +6,13 @@ namespace FluentAssertions.Specs.Exceptions
     public class InvokingFunctionSpecs
     {
         [Fact]
-        public void When_invoking_a_function_on_a_null_subject_it_should_throw()
+        public void Invoking_on_null_is_not_allowed()
         {
             // Arrange
             Does someClass = null;
 
             // Act
-            Action act = () => someClass.Invoking(d => d.ToString());
+            Action act = () => someClass.Invoking(d => d.Return());
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
@@ -20,13 +20,13 @@ namespace FluentAssertions.Specs.Exceptions
         }
 
         [Fact]
-        public void When_invoking_a_function_with_null_it_should_throw()
+        public void Invoking_with_null_is_not_allowed()
         {
             // Arrange
-            object someClass = new();
+            Does someClass = Does.NotThrow();
 
             // Act
-            Action act = () => someClass.Invoking((Func<object, string>)null);
+            Action act = () => someClass.Invoking((Func<Does, object>)null);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()

@@ -6,7 +6,7 @@ namespace FluentAssertions.Specs.Exceptions
     public class InvokingActionSpecs
     {
         [Fact]
-        public void When_invoking_an_action_on_a_null_subject_it_should_throw()
+        public void Invoking_on_null_is_not_allowed()
         {
             // Arrange
             Does someClass = null;
@@ -20,13 +20,13 @@ namespace FluentAssertions.Specs.Exceptions
         }
 
         [Fact]
-        public void When_invoking_an_action_with_null_it_should_throw()
+        public void Invoking_with_null_is_not_allowed()
         {
             // Arrange
             Does someClass = Does.NotThrow();
 
             // Act
-            Action act = () => someClass.Invoking(null).Should().NotThrow();
+            Action act = () => someClass.Invoking(null);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
