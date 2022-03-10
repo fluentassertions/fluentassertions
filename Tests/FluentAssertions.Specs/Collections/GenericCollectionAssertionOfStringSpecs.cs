@@ -1459,6 +1459,17 @@ namespace FluentAssertions.Specs.Collections
         }
 
         [Fact]
+        public void When_two_arrays_contain_the_same_elements_it_should_treat_them_as_equivalent()
+        {
+            // Arrange
+            string[] array1 = new[] { "one", "two", "three" };
+            string[] array2 = new[] { "three", "two", "one" };
+
+            // Act / Assert
+            array1.Should().BeEquivalentTo(array2);
+        }
+
+        [Fact]
         public void When_two_collections_contain_the_same_items_but_in_different_order_it_should_throw_with_a_clear_explanation()
         {
             // Act
