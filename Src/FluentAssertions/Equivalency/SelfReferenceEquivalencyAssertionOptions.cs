@@ -376,12 +376,12 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Tries to match the members of the subject with equally named members on the expectation. Ignores those
-        /// members that don't exist on the expectation and previously registered matching rules.
+        /// Tries to match the members of the expectation with equally named members on the subject. Ignores those
+        /// members that don't exist on the subject and previously registered matching rules.
         /// </summary>
         public TSelf ExcludingMissingMembers()
         {
-            ClearMatchingRules();
+            matchingRules.RemoveAll(x => x is MustMatchByNameRule);
             matchingRules.Add(new TryMatchByNameRule());
             return (TSelf)this;
         }
@@ -391,7 +391,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public TSelf ThrowingOnMissingMembers()
         {
-            ClearMatchingRules();
+            matchingRules.RemoveAll(x => x is TryMatchByNameRule);
             matchingRules.Add(new MustMatchByNameRule());
             return (TSelf)this;
         }
@@ -463,7 +463,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public void WithoutMatchingRules()
         {
-            ClearMatchingRules();
+            matchingRules.Clear();
         }
 
         /// <summary>
@@ -844,12 +844,7 @@ namespace FluentAssertions.Equivalency
         {
             selectionRules.RemoveAll(selectionRule => selectionRule is T);
         }
-
-        private void ClearMatchingRules()
-        {
-            matchingRules.Clear();
-        }
-
+        
         protected TSelf AddSelectionRule(IMemberSelectionRule selectionRule)
         {
             selectionRules.Add(selectionRule);

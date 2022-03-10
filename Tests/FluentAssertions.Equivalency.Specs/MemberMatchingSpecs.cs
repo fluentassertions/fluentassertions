@@ -429,6 +429,52 @@ namespace FluentAssertions.Equivalency.Specs
                 .WithMessage("*does not have member NonExistingProperty*");
         }
 
+        [Fact]
+        public void Exclusion_of_missing_members_works_with_mapping()
+        {
+            // Arrange
+            var subject = new
+            {
+                Property1 = 1
+            };
+
+            var expectation = new
+            {
+                Property2 = 2, 
+                Ignore = 3
+            };
+
+            // Act / Assert
+            subject.Should()
+                .NotBeEquivalentTo(expectation, opt => opt
+                    .WithMapping("Property2", "Property1")
+                    .ExcludingMissingMembers()
+                );
+        }
+
+        [Fact]
+        public void Mapping_works_with_exclusion_of_missing_members()
+        {
+            // Arrange
+            var subject = new
+            {
+                Property1 = 1
+            };
+
+            var expectation = new
+            {
+                Property2 = 2, 
+                Ignore = 3
+            };
+
+            // Act / Assert
+            subject.Should()
+                .NotBeEquivalentTo(expectation, opt => opt
+                    .ExcludingMissingMembers()
+                    .WithMapping("Property2", "Property1")
+                );
+        }
+
         internal class ParentOfExpectationWithProperty2
         {
             public ExpectationWithProperty2[] Parent { get; }
