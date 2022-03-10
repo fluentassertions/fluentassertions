@@ -35,7 +35,13 @@ namespace FluentAssertions.Equivalency.Matching
 
         public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions options)
         {
-            if (expectationPath.IsEquivalentTo(expectedMember.PathAndName))
+            MemberPath path = expectationPath;
+            if (expectedMember.RootIsCollection)
+            {
+                path = path.WithCollectionAsRoot();
+            }
+            
+            if (path.IsEquivalentTo(expectedMember.PathAndName))
             {
                 var member = MemberFactory.Find(subject, subjectPath.MemberName, expectedMember.Type, parent);
                 if (member is null)
