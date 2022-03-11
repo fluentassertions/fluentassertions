@@ -434,6 +434,30 @@ namespace FluentAssertions
             return new NullableDateTimeOffsetAssertions(actualValue);
         }
 
+#if NET6_0_OR_GREATER
+
+        /// <summary>
+        /// Returns an <see cref="DateOnlyAssertions"/> object that can be used to assert the
+        /// current <see cref="DateOnly"/>.
+        /// </summary>
+        [Pure]
+        public static DateOnlyAssertions Should(this DateOnly actualValue)
+        {
+            return new DateOnlyAssertions(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="NullableDateOnlyAssertions"/> object that can be used to assert the
+        /// current nullable <see cref="DateOnly"/>.
+        /// </summary>
+        [Pure]
+        public static NullableDateOnlyAssertions Should(this DateOnly? actualValue)
+        {
+            return new NullableDateOnlyAssertions(actualValue);
+        }
+
+#endif
+
         /// <summary>
         /// Returns an <see cref="ComparableTypeAssertions{T}"/> object that can be used to assert the
         /// current <see cref="IComparable{T}"/>.
