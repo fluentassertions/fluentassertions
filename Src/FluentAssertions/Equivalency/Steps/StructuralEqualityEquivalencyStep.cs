@@ -55,24 +55,21 @@ namespace FluentAssertions.Equivalency.Steps
             IMember matchingMember = FindMatchFor(selectedMember, context.CurrentNode, comparands.Subject, options);
             if (matchingMember is not null)
             {
-                if (!options.ExcludeNonBrowsable || matchingMember.IsBrowsable)
+                var nestedComparands = new Comparands
                 {
-                    var nestedComparands = new Comparands
-                    {
-                        Subject = matchingMember.GetValue(comparands.Subject),
-                        Expectation = selectedMember.GetValue(comparands.Expectation),
-                        CompileTimeType = selectedMember.Type
-                    };
+                    Subject = matchingMember.GetValue(comparands.Subject),
+                    Expectation = selectedMember.GetValue(comparands.Expectation),
+                    CompileTimeType = selectedMember.Type
+                };
 
-                    if (selectedMember.Name != matchingMember.Name)
-                    {
-                        // In case the matching process selected a different member on the subject,
-                        // adjust the current member so that assertion failures report the proper name.
-                        selectedMember.Name = matchingMember.Name;
-                    }
-
-                    parent.RecursivelyAssertEquality(nestedComparands, context.AsNestedMember(selectedMember));
+                if (selectedMember.Name != matchingMember.Name)
+                {
+                    // In case the matching process selected a different member on the subject,
+                    // adjust the current member so that assertion failures report the proper name.
+                    selectedMember.Name = matchingMember.Name;
                 }
+
+                parent.RecursivelyAssertEquality(nestedComparands, context.AsNestedMember(selectedMember));
             }
         }
 

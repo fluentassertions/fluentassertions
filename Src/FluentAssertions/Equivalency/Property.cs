@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel;
 using System.Reflection;
 using FluentAssertions.Common;
 
@@ -12,7 +11,6 @@ namespace FluentAssertions.Equivalency
     public class Property : Node, IMember
     {
         private readonly PropertyInfo propertyInfo;
-        private bool? isBrowsable;
 
         public Property(PropertyInfo propertyInfo, INode parent)
             : this(propertyInfo.ReflectedType, propertyInfo, parent)
@@ -45,18 +43,5 @@ namespace FluentAssertions.Equivalency
         public CSharpAccessModifier GetterAccessibility => propertyInfo.GetGetMethod(nonPublic: true).GetCSharpAccessModifier();
 
         public CSharpAccessModifier SetterAccessibility => propertyInfo.GetSetMethod(nonPublic: true).GetCSharpAccessModifier();
-
-        public bool IsBrowsable
-        {
-            get
-            {
-                if (isBrowsable == null)
-                {
-                    isBrowsable = propertyInfo.GetCustomAttribute<EditorBrowsableAttribute>() is not { State: EditorBrowsableState.Never };
-                }
-
-                return isBrowsable.Value;
-            }
-        }
     }
 }

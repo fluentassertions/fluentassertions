@@ -216,27 +216,6 @@ orderDto.Should().BeEquivalentTo(order, options => options
 
 Notice that you can also map properties to fields and vice-versa.
 
-### Hidden Members
-
-Sometimes types have members out of necessity, to satisfy a contract, but they aren't logically a part of the type. In this case, they are often marked with the attribute `[EditorBrowsable(EditorBrowsableState.Never)]`, so that the object can satisfy the contract but the members don't show up in IntelliSense when writing code that uses the type.
-
-If you want to compare objects that have such fields, but you want to exclude the non-browsable "hidden" members (for instance, their implementations often simply throw `NotImplementedException`), you can call `ExcludingNonBrowsableMembers` on the options object:
-
-```csharp
-class DataType
-{
-    public int X { get; }
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public int Y => throw new NotImplementedException();
-}
-
-DataType original, derived;
-
-derived.Should().BeEquivalentTo(original, options => options
-    .ExcludingNonBrowsableMembers());
-```
-
 ### Equivalency Comparison Behavior
 
 In addition to influencing the members that are including in the comparison, you can also override the actual assertion operation that is executed on a particular member.
