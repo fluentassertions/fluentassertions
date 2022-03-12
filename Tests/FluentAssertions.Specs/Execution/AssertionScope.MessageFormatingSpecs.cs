@@ -43,23 +43,25 @@ namespace FluentAssertions.Specs.Execution
             }
         }
 
-        [Fact]
-        public void The_failure_message_should_use_the_name_of_the_scope_as_context()
+        [InlineData("foo")]
+        [InlineData("{}")]
+        [Theory]
+        public void Message_should_use_the_name_of_the_scope_as_context(string context)
         {
             // Act
             Action act = () =>
             {
-                using var _ = new AssertionScope("foo");
+                using var _ = new AssertionScope(context);
                 new[] { 1, 2, 3 }.Should().Equal(3, 2, 1);
             };
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected foo to be equal to*");
+                .WithMessage($"Expected {context} to be equal to*");
         }
 
         [Fact]
-        public void The_failure_message_should_use_the_lazy_name_of_the_scope_as_context()
+        public void Message_should_use_the_lazy_name_of_the_scope_as_context()
         {
             // Act
             Action act = () =>
@@ -74,7 +76,7 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
-        public void When_an_assertion_fails_on_ContainKey_succeeding_message_should_be_included()
+        public void Message_should_contain_each_unique_failed_assertion_seperately()
         {
             // Act
             Action act = () =>
@@ -87,11 +89,13 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*to contain key 0*Expected*to contain key 1*");
+                .WithMessage(
+                    "Expected * to contain key 0.\n" +
+                    "Expected * to contain key 1.\n");
         }
 
         [Fact]
-        public void When_an_assertion_fails_on_ContainSingle_succeeding_message_should_be_included()
+        public void Message_should_contain_the_same_failed_assertion_seperately_if_called_multiple_times()
         {
             // Act
             Action act = () =>
@@ -104,50 +108,13 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*to contain a single item, but the collection is empty*" +
-                "Expected*to contain a single item, but the collection is empty*");
-        }
-
-        [Fact]
-        public void When_an_assertion_fails_on_BeOfType_succeeding_message_should_be_included()
-        {
-            // Act
-            Action act = () =>
-            {
-                using var _ = new AssertionScope();
-                var item = string.Empty;
-                item.Should().BeOfType<int>();
-                item.Should().BeOfType<long>();
-            };
-
-            // Assert
-            act.Should().Throw<XunitException>()
                 .WithMessage(
-                "Expected type to be System.Int32, but found System.String.*" +
-                "Expected type to be System.Int64, but found System.String.");
+                    "Expected * to contain a single item, but the collection is empty.\n" +
+                    "Expected * to contain a single item, but the collection is empty.\n");
         }
 
         [Fact]
-        public void When_an_assertion_fails_on_BeAssignableTo_succeeding_message_should_be_included()
-        {
-            // Act
-            Action act = () =>
-            {
-                using var _ = new AssertionScope();
-                var item = string.Empty;
-                item.Should().BeAssignableTo<int>();
-                item.Should().BeAssignableTo<long>();
-            };
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage(
-                "Expected * to be assignable to System.Int32, but System.String is not.*" +
-                "Expected * to be assignable to System.Int64, but System.String is not.");
-        }
-
-        [Fact]
-        public void When_parentheses_are_used_in_the_because_arguments_it_should_render_them_correctly()
+        public void Because_reason_should_keep_parentheses_in_arguments_as_literals()
         {
             // Act
             Action act = () => 1.Should().Be(2, "can't use these in becauseArgs: {0} {1}", "{", "}");
@@ -158,7 +125,7 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
-        public void When_becauseArgs_is_null_it_should_render_reason_correctly()
+        public void Because_reason_should_ignore_undefined_arguments()
         {
             // Act
             object[] becauseArgs = null;
@@ -166,25 +133,25 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*it should still work*");
+                .WithMessage("*because it should still work*");
         }
 
         [Fact]
-        public void When_invalid_format_is_used_in_because_parameter_without_becauseArgs_it_should_still_render_reason_correctly()
+        public void Because_reason_should_threat_parentheses_as_literals_if_no_arguments_are_defined()
         {
             // Act
-            Action act = () => 1.Should().Be(2, "use of {} is okay if there are no because parameters");
+            Action act = () => 1.Should().Be(2, "use of {} is okay if there are no because arguments");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*because use of {} is okay if there are no because parameters*");
+                .WithMessage("*because use of {} is okay if there are no because arguments*");
         }
 
         [Fact]
-        public void When_invalid_format_is_used_in_because_parameter_along_with_becauseArgs_it_should_render_default_text()
+        public void Because_reason_should_inform_about_invalid_parentheses_with_a_default_message()
         {
             // Act
-            Action act = () => 1.Should().Be(2, "use of {} is considered invalid in because parameter with becauseArgs", "additional becauseArgs parameter");
+            Action act = () => 1.Should().Be(2, "use of {} is considered invalid in because parameter with becauseArgs", "additional becauseArgs argument");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -192,22 +159,7 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
-        public void When_an_assertion_fails_in_a_scope_with_braces_it_should_use_the_name_as_the_assertion_context()
-        {
-            // Act
-            Action act = () =>
-            {
-                using var _ = new AssertionScope("{}");
-                default(int[]).Should().Equal(3, 2, 1);
-            };
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected {} to be equal to*");
-        }
-
-        [Fact]
-        public void When_parentheses_are_used_in_literal_values_it_should_render_them_correctly()
+        public void Message_should_keep_parentheses_in_literal_values()
         {
             // Act
             Action act = () => "{foo}".Should().Be("{bar}");
@@ -218,10 +170,10 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
-        public void When_message_contains_double_braces_they_should_not_be_replaced_with_context()
+        public void Message_should_contain_literal_value_if_marked_with_double_parentheses()
         {
             // Arrange
-            var scope = new AssertionScope();
+            var scope = new AssertionScope("context");
 
             AssertionScope.Current.FailWith("{{empty}}");
 
@@ -230,7 +182,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().ThrowExactly<XunitException>()
-                .WithMessage("*empty*");
+                .WithMessage("{empty}*");
         }
 
         [InlineData("\r")]
@@ -238,8 +190,13 @@ namespace FluentAssertions.Specs.Execution
         [InlineData("\\\r")]
         [InlineData("\\\\r")]
         [InlineData("\\\\\r")]
+        [InlineData("\n")]
+        [InlineData("\\n")]
+        [InlineData("\\\n")]
+        [InlineData("\\\\n")]
+        [InlineData("\\\\\n")]
         [Theory]
-        public void When_message_contains_backslash_followed_by_r_is_should_format_correctly(string str)
+        public void Message_should_not_have_modified_carriage_return_or_line_feed_control_characters(string str)
         {
             // Arrange
             var scope = new AssertionScope();
@@ -259,50 +216,13 @@ namespace FluentAssertions.Specs.Execution
         [InlineData("\\\r")]
         [InlineData("\\\\r")]
         [InlineData("\\\\\r")]
-        [Theory]
-        public void When_message_argument_contains_backslash_followed_by_r_is_should_format_correctly(string str)
-        {
-            // Arrange
-            var scope = new AssertionScope();
-
-            AssertionScope.Current.FailWith("\\{0}\\A", str);
-
-            // Act
-            Action act = scope.Dispose;
-
-            // Assert
-            act.Should().ThrowExactly<XunitException>()
-                .WithMessage("\\\"" + str + "\"\\A*");
-        }
-
         [InlineData("\n")]
         [InlineData("\\n")]
         [InlineData("\\\n")]
         [InlineData("\\\\n")]
         [InlineData("\\\\\n")]
         [Theory]
-        public void When_message_contains_backslash_followed_by_n_is_should_format_correctly(string str)
-        {
-            // Arrange
-            var scope = new AssertionScope();
-
-            AssertionScope.Current.FailWith(str);
-
-            // Act
-            Action act = scope.Dispose;
-
-            // Assert
-            act.Should().ThrowExactly<XunitException>()
-                .WithMessage(str);
-        }
-
-        [InlineData("\n")]
-        [InlineData("\\n")]
-        [InlineData("\\\n")]
-        [InlineData("\\\\n")]
-        [InlineData("\\\\\n")]
-        [Theory]
-        public void When_message_argument_contains_backslash_followed_by_n_is_should_format_correctly(string str)
+        public void Message_should_not_have_modified_carriage_return_or_line_feed_control_characters_in_supplied_arguments(string str)
         {
             // Arrange
             var scope = new AssertionScope();
@@ -318,29 +238,29 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
-        public void When_subject_has_trailing_backslash_the_failure_message_should_contain_the_trailing_backslash()
+        public void Message_should_not_have_trailing_backslashes_removed_from_subject()
         {
             // Arrange / Act
             Action act = () => "A\\".Should().Be("A");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage(@"* near ""\"" *", "trailing backslashes should not be removed from failure message");
+                .WithMessage(@"* near ""\"" *");
         }
 
         [Fact]
-        public void When_expectation_has_trailing_backslash_the_failure_message_should_contain_the_trailing_backslash()
+        public void Message_should_not_have_trailing_backslashes_removed_from_expectation()
         {
             // Arrange / Act
             Action act = () => "A".Should().Be("A\\");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage(@"* to be ""A\"" *", "trailing backslashes should not be removed from failure message");
+                .WithMessage(@"* to be ""A\"" *");
         }
 
         [Fact]
-        public void When_message_starts_with_single_braces_they_should_be_replaced_with_context()
+        public void Message_should_have_named_placeholder_be_replaced_by_reportable_value()
         {
             // Arrange
             var scope = new AssertionScope();
@@ -357,7 +277,7 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
-        public void When_message_starts_with_two_single_braces_they_should_be_replaced_with_context()
+        public void Message_should_have_named_placeholders_be_replaced_by_reportable_values()
         {
             // Arrange
             var scope = new AssertionScope();
@@ -375,7 +295,7 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
-        public void When_adding_reportable_values_they_should_be_reported_after_the_message()
+        public void Message_should_have_reportable_values_appended_at_the_end()
         {
             // Arrange
             var scope = new AssertionScope();
@@ -393,7 +313,7 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
-        public void When_adding_non_reportable_value_it_should_not_be_reported_after_the_message()
+        public void Message_should_not_have_nonreportable_values_appended_at_the_end()
         {
             // Arrange
             var scope = new AssertionScope();
@@ -410,7 +330,7 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
-        public void When_adding_non_reportable_value_it_should_be_retrievable_from_context()
+        public void Message_should_have_named_placeholder_be_replaced_by_nonreportable_value()
         {
             // Arrange
             var scope = new AssertionScope();
@@ -424,7 +344,7 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
-        public void When_using_a_deferred_reportable_value_it_is_not_calculated_if_there_are_no_failures()
+        public void Deferred_reportable_values_should_not_be_calculated_in_absence_of_failures()
         {
             // Arrange
             var scope = new AssertionScope();
@@ -445,7 +365,7 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
-        public void When_using_a_deferred_reportable_value_it_is_calculated_if_there_is_a_failure()
+        public void Message_should_have_named_placeholder_be_replaced_by_defered_reportable_value()
         {
             // Arrange
             var scope = new AssertionScope();
@@ -465,12 +385,12 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().ThrowExactly<XunitException>()
-                .WithMessage("*MyValue*");
+                .WithMessage("MyValue*");
             deferredValueInvoked.Should().BeTrue();
         }
 
         [Fact]
-        public void When_an_expectation_is_defined_it_should_be_preceeding_the_failure_message()
+        public void Message_should_start_with_the_defined_expectation()
         {
             // Act
             Action act = () => Execute.Assertion
@@ -484,7 +404,7 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
-        public void When_an_expectation_with_arguments_is_defined_it_should_be_preceeding_the_failure_message()
+        public void Message_should_start_with_the_defined_expectation_and_arguments()
         {
             // Act
             Action act = () => Execute.Assertion
@@ -498,7 +418,7 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
-        public void When_no_identifier_can_be_resolved_replace_context_with_object()
+        public void Message_should_contain_object_as_context_if_identifier_can_not_be_resolved()
         {
             // Act
             Action act = () => Execute.Assertion
@@ -511,7 +431,7 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
-        public void When_no_identifier_can_be_resolved_replace_context_with_inline_declared_fallback_identifier()
+        public void Message_should_contain_the_fallback_value_as_context_if_identifier_can_not_be_resolved()
         {
             // Act
             Action act = () => Execute.Assertion
@@ -524,7 +444,7 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
-        public void When_no_identifier_can_be_resolved_replace_context_with_defined_default_identifier()
+        public void Message_should_contain_the_default_identifier_as_context_if_identifier_can_not_be_resolved()
         {
             // Act
             Action act = () => Execute.Assertion
@@ -538,7 +458,7 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
-        public void The_failure_message_should_contain_the_reason()
+        public void Message_should_contain_the_reason_as_defined()
         {
             // Act
             Action act = () => Execute.Assertion
@@ -551,7 +471,7 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
-        public void The_failure_message_should_contain_the_reason_with_arguments()
+        public void Message_should_contain_the_reason_as_defined_with_arguments()
         {
             // Act
             Action act = () => Execute.Assertion
