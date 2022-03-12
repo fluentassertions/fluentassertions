@@ -22,10 +22,7 @@ namespace FluentAssertions.Formatting
         public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
             var dateOnly = (DateOnly)value;
-
-            formattedGraph.AddFragment("<");
-            formattedGraph.AddFragment(dateOnly.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
-            formattedGraph.AddFragment(">");
+            formattedGraph.AddFragment(dateOnly.ToString("<yyyy-MM-dd>", CultureInfo.InvariantCulture));
         }
     }
 }

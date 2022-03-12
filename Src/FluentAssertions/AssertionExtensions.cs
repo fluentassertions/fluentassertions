@@ -916,6 +916,18 @@ namespace FluentAssertions
             InvalidShouldCall();
         }
 
+#if  NET6_0_OR_GREATER
+
+        /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        public static void Should<TAssertions>(this DateOnlyAssertions<TAssertions> _)
+            where TAssertions : DateOnlyAssertions<TAssertions>
+        {
+            InvalidShouldCall();
+        }
+
+#endif
+
         /// <summary>
         /// You are asserting the <see cref="AndConstraint{T}"/> itself. Remove the <c>Should()</c> method directly following <c>And</c>.
         /// </summary>

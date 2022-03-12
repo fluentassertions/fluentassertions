@@ -58,6 +58,8 @@ namespace FluentAssertions
         public static FluentAssertions.Specialized.ActionAssertions Should(this System.Action action) { }
         public static FluentAssertions.Collections.StringCollectionAssertions Should(this System.Collections.Generic.IEnumerable<string> @this) { }
         public static FluentAssertions.Data.DataColumnAssertions Should(this System.Data.DataColumn actualValue) { }
+        public static FluentAssertions.Primitives.DateOnlyAssertions Should(this System.DateOnly actualValue) { }
+        public static FluentAssertions.Primitives.NullableDateOnlyAssertions Should(this System.DateOnly? actualValue) { }
         public static FluentAssertions.Primitives.DateTimeAssertions Should(this System.DateTime actualValue) { }
         public static FluentAssertions.Primitives.NullableDateTimeAssertions Should(this System.DateTime? actualValue) { }
         public static FluentAssertions.Primitives.DateTimeOffsetAssertions Should(this System.DateTimeOffset actualValue) { }
@@ -108,6 +110,10 @@ namespace FluentAssertions
             "ly following \'And\'", true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.BooleanAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.BooleanAssertions<TAssertions> { }
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
+        public static void Should<TAssertions>(this FluentAssertions.Primitives.DateOnlyAssertions<TAssertions> _)
+            where TAssertions : FluentAssertions.Primitives.DateOnlyAssertions<TAssertions> { }
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
             "ly following \'And\'", true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.DateTimeAssertions<TAssertions> _)
@@ -1436,6 +1442,12 @@ namespace FluentAssertions.Formatting
         public bool CanHandle(object value) { }
         public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
+    public class DateOnlyValueFormatter : FluentAssertions.Formatting.IValueFormatter
+    {
+        public DateOnlyValueFormatter() { }
+        public bool CanHandle(object value) { }
+        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
+    }
     public class DateTimeOffsetValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public DateTimeOffsetValueFormatter() { }
@@ -1755,6 +1767,39 @@ namespace FluentAssertions.Primitives
         public override bool Equals(object obj) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(bool unexpected, string because = "", params object[] becauseArgs) { }
     }
+    public class DateOnlyAssertions : FluentAssertions.Primitives.DateOnlyAssertions<FluentAssertions.Primitives.DateOnlyAssertions>
+    {
+        public DateOnlyAssertions(System.DateOnly? value) { }
+    }
+    public class DateOnlyAssertions<TAssertions>
+        where TAssertions : FluentAssertions.Primitives.DateOnlyAssertions<TAssertions>
+    {
+        public DateOnlyAssertions(System.DateOnly? value) { }
+        public System.DateOnly? Subject { get; }
+        public FluentAssertions.AndConstraint<TAssertions> Be(System.DateOnly expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> Be(System.DateOnly? expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeAfter(System.DateOnly expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeBefore(System.DateOnly expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeOnOrAfter(System.DateOnly expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeOnOrBefore(System.DateOnly expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeOneOf(params System.DateOnly[] validValues) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeOneOf(params System.Nullable<System.DateOnly>[] validValues) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<System.DateOnly> validValues, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<System.DateOnly?> validValues, string because = "", params object[] becauseArgs) { }
+        public override bool Equals(object obj) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveDay(int expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveMonth(int expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveYear(int expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBe(System.DateOnly unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBe(System.DateOnly? unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeAfter(System.DateOnly unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeBefore(System.DateOnly unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeOnOrAfter(System.DateOnly unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeOnOrBefore(System.DateOnly unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHaveDay(int unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHaveMonth(int unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHaveYear(int unexpected, string because = "", params object[] becauseArgs) { }
+    }
     public class DateTimeAssertions : FluentAssertions.Primitives.DateTimeAssertions<FluentAssertions.Primitives.DateTimeAssertions>
     {
         public DateTimeAssertions(System.DateTime? value) { }
@@ -1954,6 +1999,19 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotBeFalse(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeTrue(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs) { }
+    }
+    public class NullableDateOnlyAssertions : FluentAssertions.Primitives.NullableDateOnlyAssertions<FluentAssertions.Primitives.NullableDateOnlyAssertions>
+    {
+        public NullableDateOnlyAssertions(System.DateOnly? expected) { }
+    }
+    public class NullableDateOnlyAssertions<TAssertions> : FluentAssertions.Primitives.DateOnlyAssertions<TAssertions>
+        where TAssertions : FluentAssertions.Primitives.NullableDateOnlyAssertions<TAssertions>
+    {
+        public NullableDateOnlyAssertions(System.DateOnly? expected) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs) { }
     }
     public class NullableDateTimeAssertions : FluentAssertions.Primitives.NullableDateTimeAssertions<FluentAssertions.Primitives.NullableDateTimeAssertions>

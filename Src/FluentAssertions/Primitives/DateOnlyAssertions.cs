@@ -11,10 +11,6 @@ namespace FluentAssertions.Primitives
     /// <summary>
     /// Contains a number of methods to assert that a <see cref="DateOnly"/> is in the expected state.
     /// </summary>
-    /// /// <remarks>
-    /// You can use the <see cref="FluentAssertions.Extensions.FluentDateOnlyExtensions"/>
-    /// for a more fluent way of specifying a <see cref="DateOnly"/>.
-    /// </remarks>
     [DebuggerNonUserCode]
     public class DateOnlyAssertions : DateOnlyAssertions<DateOnlyAssertions>
     {
@@ -29,10 +25,6 @@ namespace FluentAssertions.Primitives
     /// <summary>
     /// Contains a number of methods to assert that a <see cref="DateOnly"/> is in the expected state.
     /// </summary>
-    /// /// <remarks>
-    /// You can use the <see cref="FluentAssertions.Extensions.FluentDateOnlyExtensions"/>
-    /// for a more fluent way of specifying a <see cref="DateOnly"/>.
-    /// </remarks>
     [DebuggerNonUserCode]
     public class DateOnlyAssertions<TAssertions>
         where TAssertions : DateOnlyAssertions<TAssertions>

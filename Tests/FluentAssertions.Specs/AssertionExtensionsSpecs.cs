@@ -32,8 +32,6 @@ namespace FluentAssertions.Specs
             return equals is not null;
         }
 
-#if !NET6_0_OR_GREATER
-
         [Fact]
         public void Should_methods_have_a_matching_overload_to_guard_against_chaining_and_constraints()
         {
@@ -65,8 +63,6 @@ namespace FluentAssertions.Specs
 
         private static bool IsGuardOverload(MethodInfo m) =>
             m.ReturnType == typeof(void) && m.IsDefined(typeof(ObsoleteAttribute));
-
-#endif
 
         private static Type GetMostParentType(Type type)
         {
