@@ -336,11 +336,14 @@ namespace FluentAssertions.Specs.Execution
             var scope = new AssertionScope();
             scope.AddNonReportable("SomeKey", "SomeValue");
 
+            AssertionScope.Current.FailWith("{SomeKey}");
+
             // Act
-            var value = scope.Get<string>("SomeKey");
+            Action act = scope.Dispose;
 
             // Assert
-            value.Should().Be("SomeValue");
+            act.Should().ThrowExactly<XunitException>()
+                .WithMessage("SomeValue");
         }
 
         [Fact]
@@ -385,7 +388,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             act.Should().ThrowExactly<XunitException>()
-                .WithMessage("MyValue*");
+                .WithMessage("MyValue*\n\nWith MyKey:\nMyValue\n");
             deferredValueInvoked.Should().BeTrue();
         }
 
