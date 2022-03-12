@@ -631,7 +631,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<float> Should(this float actualValue)
         {
-            return new NumericAssertions<float>(actualValue);
+            return new FloatAssertions(actualValue);
         }
 
         /// <summary>
@@ -651,7 +651,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<double> Should(this double actualValue)
         {
-            return new NumericAssertions<double>(actualValue);
+            return new DoubleAssertions(actualValue);
         }
 
         /// <summary>

@@ -752,6 +752,11 @@ namespace FluentAssertions
             float expectedValue, float precision, string because = "",
             params object[] becauseArgs)
         {
+            if (float.IsNaN(expectedValue))
+            {
+                throw new ArgumentException("Cannot determine approximation of a float to NaN", nameof(expectedValue)); 
+            }
+            
             if (precision < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
@@ -879,6 +884,11 @@ namespace FluentAssertions
             double expectedValue, double precision, string because = "",
             params object[] becauseArgs)
         {
+            if (double.IsNaN(expectedValue))
+            {
+                throw new ArgumentException("Cannot determine approximation of a double to NaN", nameof(expectedValue)); 
+            }
+            
             if (precision < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
@@ -1137,6 +1147,11 @@ namespace FluentAssertions
             float unexpectedValue, float precision, string because = "",
             params object[] becauseArgs)
         {
+            if (float.IsNaN(unexpectedValue))
+            {
+                throw new ArgumentException("Cannot determine approximation of a float to NaN", nameof(unexpectedValue)); 
+            }
+            
             if (precision < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
@@ -1262,6 +1277,11 @@ namespace FluentAssertions
             double unexpectedValue, double precision, string because = "",
             params object[] becauseArgs)
         {
+            if (double.IsNaN(unexpectedValue))
+            {
+                throw new ArgumentException("Cannot determine approximation of a double to NaN", nameof(unexpectedValue));
+            }
+            
             if (precision < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
