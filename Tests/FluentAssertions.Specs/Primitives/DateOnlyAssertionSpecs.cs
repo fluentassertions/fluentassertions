@@ -837,6 +837,26 @@ namespace FluentAssertions.Specs.Primitives
             action.Should().NotThrow();
         }
         #endregion
+
+        #region And Chaining
+        [Fact]
+        public void Should_support_chaining_constraints_with_and()
+        {
+            // Arrange
+            DateOnly earlierDateOnly = new(2016, 06, 03);
+            DateOnly? nullableDateOnly = new(2016, 06, 04);
+
+            // Act
+            Action action = () =>
+                nullableDateOnly.Should()
+                    .HaveValue()
+                    .And
+                    .BeAfter(earlierDateOnly);
+
+            // Assert
+            action.Should().NotThrow();
+        }
+        #endregion
     }
 }
 

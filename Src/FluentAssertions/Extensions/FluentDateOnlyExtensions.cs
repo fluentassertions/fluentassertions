@@ -12,20 +12,22 @@ namespace FluentAssertions.Extensions
     public static class FluentDateOnlyExtensions
     {
         /// <summary>
-        /// Returns a new <see cref="DateOnly"/> value that is <paramref name="dayDifference"/> days before the
+        /// Returns a new <see cref="DateOnly"/> value that is the current <see cref="TimeSpan"/> before the
         /// specified <paramref name="sourceDateOnly"/>.
         /// </summary>
-        public static DateOnly Before(this int dayDifference, DateOnly sourceDateOnly)
+        public static DateOnly Before(this TimeSpan timeDifference, DateOnly sourceDateOnly)
         {
+            var dayDifference = (int)timeDifference.TotalDays;
             return sourceDateOnly.AddDays(-1 * dayDifference);
         }
 
         /// <summary>
-        /// Returns a new <see cref="DateOnly"/> value that is <paramref name="dayDifference"/> days after the
+        /// Returns a new <see cref="DateOnly"/> value that is the current <see cref="TimeSpan"/> after the
         /// specified <paramref name="sourceDateOnly"/>.
         /// </summary>
-        public static DateOnly After(this int dayDifference, DateOnly sourceDateOnly)
+        public static DateOnly After(this TimeSpan timeDifference, DateOnly sourceDateOnly)
         {
+            var dayDifference = (int)timeDifference.TotalDays;
             return sourceDateOnly.AddDays(dayDifference);
         }
     }
