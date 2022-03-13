@@ -12,8 +12,8 @@ namespace FluentAssertions.Primitives
     [DebuggerNonUserCode]
     public class NullableDateOnlyAssertions : NullableDateOnlyAssertions<NullableDateOnlyAssertions>
     {
-        public NullableDateOnlyAssertions(DateOnly? expected)
-            : base(expected)
+        public NullableDateOnlyAssertions(DateOnly? value)
+            : base(value)
         {
         }
     }
@@ -25,8 +25,8 @@ namespace FluentAssertions.Primitives
     public class NullableDateOnlyAssertions<TAssertions> : DateOnlyAssertions<TAssertions>
         where TAssertions : NullableDateOnlyAssertions<TAssertions>
     {
-        public NullableDateOnlyAssertions(DateOnly? expected)
-            : base(expected)
+        public NullableDateOnlyAssertions(DateOnly? value)
+            : base(value)
         {
         }
 

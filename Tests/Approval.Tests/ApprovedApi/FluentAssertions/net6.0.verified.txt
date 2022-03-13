@@ -2003,12 +2003,12 @@ namespace FluentAssertions.Primitives
     }
     public class NullableDateOnlyAssertions : FluentAssertions.Primitives.NullableDateOnlyAssertions<FluentAssertions.Primitives.NullableDateOnlyAssertions>
     {
-        public NullableDateOnlyAssertions(System.DateOnly? expected) { }
+        public NullableDateOnlyAssertions(System.DateOnly? value) { }
     }
     public class NullableDateOnlyAssertions<TAssertions> : FluentAssertions.Primitives.DateOnlyAssertions<TAssertions>
         where TAssertions : FluentAssertions.Primitives.NullableDateOnlyAssertions<TAssertions>
     {
-        public NullableDateOnlyAssertions(System.DateOnly? expected) { }
+        public NullableDateOnlyAssertions(System.DateOnly? value) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs) { }
