@@ -456,6 +456,26 @@ namespace FluentAssertions
             return new NullableDateOnlyAssertions(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="TimeOnlyAssertions"/> object that can be used to assert the
+        /// current <see cref="TimeOnly"/>.
+        /// </summary>
+        [Pure]
+        public static TimeOnlyAssertions Should(this TimeOnly actualValue)
+        {
+            return new TimeOnlyAssertions(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="NullableTimeOnlyAssertions"/> object that can be used to assert the
+        /// current nullable <see cref="TimeOnly"/>.
+        /// </summary>
+        [Pure]
+        public static NullableTimeOnlyAssertions Should(this TimeOnly? actualValue)
+        {
+            return new NullableTimeOnlyAssertions(actualValue);
+        }
+
 #endif
 
         /// <summary>
@@ -922,6 +942,14 @@ namespace FluentAssertions
         [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
         public static void Should<TAssertions>(this DateOnlyAssertions<TAssertions> _)
             where TAssertions : DateOnlyAssertions<TAssertions>
+        {
+            InvalidShouldCall();
+        }
+
+        /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        public static void Should<TAssertions>(this TimeOnlyAssertions<TAssertions> _)
+            where TAssertions : TimeOnlyAssertions<TAssertions>
         {
             InvalidShouldCall();
         }
