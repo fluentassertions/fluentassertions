@@ -149,6 +149,54 @@ namespace FluentAssertions.Specs.Collections.Data
                     "Cannot verify count against a <null> collection.*");
             }
 
+            public class DataSetAssertions
+            {
+                [Fact]
+                public void When_collections_have_the_same_number_of_tables_it_should_succeed()
+                {
+                    // Arrange
+                    var firstDataSet = new DataSet();
+                    var secondDataSet = new DataSet();
+
+                    firstDataSet.Tables.Add(new DataTable("Table0"));
+                    firstDataSet.Tables.Add(new DataTable("Table1"));
+                    firstDataSet.Tables.Add(new DataTable("Table2"));
+
+                    secondDataSet.Tables.Add(new DataTable("Table10"));
+                    secondDataSet.Tables.Add(new DataTable("Table11"));
+                    secondDataSet.Tables.Add(new DataTable("Table12"));
+
+                    // Ensure that the table schema isn't important for the count comparison.
+                    secondDataSet.Tables[0].Columns.Add("Column1", typeof(int));
+
+                    // Act & Assert
+                    firstDataSet.Tables.Should().HaveSameCount(secondDataSet, because: "we {0}", "care");
+                }
+
+                [Fact]
+                public void When_collections_do_not_have_the_same_number_of_tables_it_should_fail()
+                {
+                    // Arrange
+                    var firstDataSet = new DataSet();
+                    var secondDataSet = new DataSet();
+
+                    firstDataSet.Tables.Add(new DataTable("Table0"));
+                    firstDataSet.Tables.Add(new DataTable("Table1"));
+                    firstDataSet.Tables.Add(new DataTable("Table2"));
+
+                    secondDataSet.Tables.Add(new DataTable("Table10"));
+                    secondDataSet.Tables.Add(new DataTable("Table12"));
+
+                    // Act
+                    Action action =
+                        () => firstDataSet.Tables.Should().HaveSameCount(secondDataSet, because: "we {0}", "care");
+
+                    // Assert
+                    action.Should().Throw<XunitException>().WithMessage(
+                        "Expected firstDataSet.Tables to have 2 table(s) because we care, but found 3.");
+                }
+            }
+
             public class DataTableCollectionAssertions
             {
                 [Fact]
@@ -349,6 +397,51 @@ namespace FluentAssertions.Specs.Collections.Data
                     // Act
                     Action action =
                         () => firstDataSet.Tables.Should().NotHaveSameCount(secondDataSet.Tables, because: "we {0}", "care");
+
+                    // Assert
+                    action.Should().Throw<XunitException>().WithMessage(
+                        "Expected firstDataSet.Tables to not have 3 table(s) because we care, but found 3.");
+                }
+            }
+
+            public class DataSetAssertions
+            {
+                [Fact]
+                public void When_two_collections_have_different_number_of_tables_it_should_succeed()
+                {
+                    // Arrange
+                    var firstDataSet = new DataSet();
+                    var secondDataSet = new DataSet();
+
+                    firstDataSet.Tables.Add(new DataTable("Table0"));
+                    firstDataSet.Tables.Add(new DataTable("Table1"));
+                    firstDataSet.Tables.Add(new DataTable("Table2"));
+
+                    secondDataSet.Tables.Add(new DataTable("Table10"));
+                    secondDataSet.Tables.Add(new DataTable("Table12"));
+
+                    // Act & Assert
+                    firstDataSet.Tables.Should().NotHaveSameCount(secondDataSet, because: "we {0}", "care");
+                }
+
+                [Fact]
+                public void When_two_collections_have_the_same_number_of_tables_it_should_fail()
+                {
+                    // Arrange
+                    var firstDataSet = new DataSet();
+                    var secondDataSet = new DataSet();
+
+                    firstDataSet.Tables.Add(new DataTable("Table0"));
+                    firstDataSet.Tables.Add(new DataTable("Table1"));
+                    firstDataSet.Tables.Add(new DataTable("Table2"));
+
+                    secondDataSet.Tables.Add(new DataTable("Table10"));
+                    secondDataSet.Tables.Add(new DataTable("Table11"));
+                    secondDataSet.Tables.Add(new DataTable("Table12"));
+
+                    // Act
+                    Action action =
+                        () => firstDataSet.Tables.Should().NotHaveSameCount(secondDataSet, because: "we {0}", "care");
 
                     // Assert
                     action.Should().Throw<XunitException>().WithMessage(
