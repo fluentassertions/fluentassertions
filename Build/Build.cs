@@ -50,12 +50,15 @@ class Build : NukeBuild
 
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
 
+    AbsolutePath TestResultsDirectory => RootDirectory / "TestResults";
+
     string SemVer;
 
     Target Clean => _ => _
         .Executes(() =>
         {
             EnsureCleanDirectory(ArtifactsDirectory);
+            EnsureCleanDirectory(TestResultsDirectory);
         });
 
     Target CalculateNugetVersion => _ => _
@@ -140,7 +143,10 @@ class Build : NukeBuild
                 .SetConfiguration("Debug")
                 .EnableNoBuild()
                 .SetDataCollector("XPlat Code Coverage")
-                .SetResultsDirectory(RootDirectory / "TestResults")
+                .SetResultsDirectory(TestResultsDirectory)
+                .AddRunSetting(
+                    "DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.DoesNotReturnAttribute",
+                    "DoesNotReturnAttribute")
                 .CombineWith(
                     projects,
                     (_, project) => _
@@ -160,14 +166,15 @@ class Build : NukeBuild
         {
             ReportGenerator(s => s
                 .SetProcessToolPath(ToolPathResolver.GetPackageExecutable("ReportGenerator", "ReportGenerator.dll", framework: "net6.0"))
-                .SetTargetDirectory(RootDirectory / "TestResults" / "reports")
-                .AddReports(RootDirectory / "TestResults/**/coverage.cobertura.xml")
+                .SetTargetDirectory(TestResultsDirectory / "reports")
+                .AddReports(TestResultsDirectory / "**/coverage.cobertura.xml")
                 .AddReportTypes("HtmlInline_AzurePipelines_Dark", "lcov")
-                .SetClassFilters("-System.Diagnostics.CodeAnalysis.StringSyntaxAttribute")
+                .SetClassFilters(
+                    "-System.Diagnostics.CodeAnalysis.StringSyntaxAttribute",
+                    "-System.Diagnostics.CodeAnalysis.DoesNotReturnAttribute")
                 .SetAssemblyFilters("+FluentAssertions"));
 
-            string link = RootDirectory / "TestResults" / "reports" / "index.html";
-
+            string link = TestResultsDirectory / "reports" / "index.html";
             Serilog.Log.Information($"Code coverage report: \x1b]8;;file://{link.Replace('\\', '/')}\x1b\\{link}\x1b]8;;\x1b\\");
         });
 
@@ -192,7 +199,10 @@ class Build : NukeBuild
                 .SetConfiguration("Debug")
                 .EnableNoBuild()
                 .SetDataCollector("XPlat Code Coverage")
-                .SetResultsDirectory(RootDirectory / "TestResults")
+                .SetResultsDirectory(TestResultsDirectory)
+                .AddRunSetting(
+                    "DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.DoesNotReturnAttribute",
+                    "DoesNotReturnAttribute")
                 .CombineWith(
                     testCombinations,
                     (_, v) => _.SetProjectFile(v.project).SetFramework(v.framework)));
