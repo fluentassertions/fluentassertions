@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -1570,6 +1571,24 @@ namespace FluentAssertions.Specs.Collections
             // Assert
             act.Should().Throw<XunitException>();
         }
+
+        [Fact]
+        public void When_an_assertion_fails_on_ContainKey_succeeding_message_should_be_included()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                var values = new Dictionary<int, int>();
+                values.Should().ContainKey(0);
+                values.Should().ContainKey(1);
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*to contain key 0*Expected*to contain key 1*");
+        }
+
         #endregion
 
         #region ContainValue
