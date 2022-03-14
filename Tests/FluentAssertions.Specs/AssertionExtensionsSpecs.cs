@@ -42,6 +42,7 @@ namespace FluentAssertions.Specs
         [InlineData(typeof(DateTimeOffsetAssertions<DateTimeOffsetAssertions>))]
 #if NET6_0_OR_GREATER
         [InlineData(typeof(DateOnlyAssertions<DateOnlyAssertions>))]
+        [InlineData(typeof(TimeOnlyAssertions<TimeOnlyAssertions>))]
 #endif
         [InlineData(typeof(ExecutionTimeAssertions))]
         [InlineData(typeof(GuidAssertions<GuidAssertions>))]
