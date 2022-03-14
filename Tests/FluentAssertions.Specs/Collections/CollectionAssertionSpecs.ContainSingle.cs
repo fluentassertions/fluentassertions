@@ -13,8 +13,6 @@ namespace FluentAssertions.Specs.Collections
     /// </content>
     public partial class CollectionAssertionSpecs
     {
-        #region Contain Single
-
         [Fact]
         public void When_injecting_a_null_predicate_into_ContainSingle_it_should_throw()
         {
@@ -272,6 +270,22 @@ namespace FluentAssertions.Specs.Collections
             act.Should().NotThrow();
         }
 
-        #endregion
+        [Fact]
+        public void When_an_assertion_fails_on_ContainSingle_succeeding_message_should_be_included()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                var values = new List<int>();
+                values.Should().ContainSingle();
+                values.Should().ContainSingle();
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*to contain a single item, but the collection is empty*" +
+                "Expected*to contain a single item, but the collection is empty*");
+        }
     }
 }
