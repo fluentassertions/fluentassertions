@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace FluentAssertions.Execution
 {
     /// <summary>
@@ -13,6 +15,7 @@ namespace FluentAssertions.Execution
         /// <summary>
         /// Throws a framework-specific exception to indicate a failing unit test.
         /// </summary>
+        [DoesNotReturn]
         public void Throw(string message)
         {
             throw new AssertionFailedException(message);

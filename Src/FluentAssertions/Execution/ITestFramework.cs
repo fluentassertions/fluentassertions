@@ -1,4 +1,6 @@
-﻿namespace FluentAssertions.Execution
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace FluentAssertions.Execution
 {
     /// <summary>
     /// Represents an abstraction of a particular test framework such as MSTest, nUnit, etc.
@@ -13,6 +15,7 @@
         /// <summary>
         /// Throws a framework-specific exception to indicate a failing unit test.
         /// </summary>
+        [DoesNotReturn]
         void Throw(string message);
     }
 }
