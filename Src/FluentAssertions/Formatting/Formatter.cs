@@ -33,6 +33,7 @@ namespace FluentAssertions.Formatting
             new DateTimeOffsetValueFormatter(),
 #if NET6_0_OR_GREATER
             new DateOnlyValueFormatter(),
+            new TimeOnlyValueFormatter(),
 #endif
             new TimeSpanValueFormatter(),
             new Int32ValueFormatter(),
