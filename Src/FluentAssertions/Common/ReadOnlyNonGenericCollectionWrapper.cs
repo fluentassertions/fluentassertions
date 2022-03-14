@@ -33,10 +33,10 @@ namespace FluentAssertions.Common
         }
     }
 
-    internal class ReadOnlyNonGenericCollectionWrapper<TCollection, TItem> : ICollection<TItem>, IEnumerable<TItem>
-        where TCollection : ICollection, IEnumerable
+    internal class ReadOnlyNonGenericCollectionWrapper<TCollection, TItem> : ICollection<TItem>
+        where TCollection : ICollection
     {
-        public TCollection UnderlyingCollection { get; private set; }
+        public TCollection UnderlyingCollection { get; }
 
         public ReadOnlyNonGenericCollectionWrapper(TCollection collection)
         {

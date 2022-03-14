@@ -187,7 +187,7 @@ namespace FluentAssertions.Specs.Collections.Data
                 }
             }
 
-            public class GeneicCollectionAssertions
+            public class GenericCollectionAssertions
             {
                 [Fact]
                 public void When_collection_is_compared_with_null_it_should_fail()
