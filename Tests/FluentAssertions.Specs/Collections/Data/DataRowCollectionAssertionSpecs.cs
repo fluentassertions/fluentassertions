@@ -13,7 +13,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Collections.Data
 {
-    public static class DataRowCollectionAssertionExtensionsSpecs
+    public static class DataRowCollectionAssertionSpecs
     {
         public class BeSameAs
         {
