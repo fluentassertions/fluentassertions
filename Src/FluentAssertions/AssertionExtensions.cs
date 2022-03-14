@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq.Expressions;
 using System.Net.Http;
@@ -1027,6 +1028,7 @@ namespace FluentAssertions
             InvalidShouldCall();
         }
 
+        [DoesNotReturn]
         private static void InvalidShouldCall()
         {
             throw new InvalidOperationException("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'.");

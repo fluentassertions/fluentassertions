@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace FluentAssertions.Execution
@@ -25,6 +26,7 @@ namespace FluentAssertions.Execution
             }
         }
 
+        [DoesNotReturn]
         public void Throw(string message)
         {
             Type exceptionType = assembly.GetType("Xunit.Sdk.XunitException");
