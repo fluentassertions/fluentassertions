@@ -42,12 +42,14 @@ namespace FluentAssertions
             }
             else
             {
-                Execute.Assertion
-                    .UsingLineBreaks
+                string exceptionMessage = AssertionScope.Current
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(
-                        "Expected {context:row collection} to refer to DataRowCollection{reason}, but found {0} (different type).",
-                        assertion.Subject);
+                    .FormatFailureMessage(
+                        "Invalid expectation: Expected {context:column collection} to refer to an instance of " +
+                        "DataRowCollection{reason}, but found " +
+                        TypeDescriptionUtility.GetDescriptionOfObjectType(assertion.Subject)) + ".";
+
+                throw new InvalidOperationException(exceptionMessage);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataRow>>(assertion);
@@ -77,6 +79,17 @@ namespace FluentAssertions
                     .ForCondition(!ReferenceEquals(actualSubject, unexpected))
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Did not expect {context:row collection} to refer to {0}{reason}.", unexpected);
+            }
+            else
+            {
+                string exceptionMessage = AssertionScope.Current
+                    .BecauseOf(because, becauseArgs)
+                    .FormatFailureMessage(
+                        "Invalid expectation: Expected {context:column collection} to refer to a difference instance of " +
+                        "DataRowCollection{reason}, but found " +
+                        TypeDescriptionUtility.GetDescriptionOfObjectType(assertion.Subject)) + ".";
+
+                throw new InvalidOperationException(exceptionMessage);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataRow>>(assertion);

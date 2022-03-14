@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 
 using FluentAssertions.Collections;
@@ -25,6 +27,9 @@ namespace FluentAssertions
             this GenericCollectionAssertions<DataColumn> assertion, DataColumnCollection expected, string because = "",
             params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(
+                expected, nameof(expected), "Cannot verify same reference against a <null> collection (use BeNull instead?).");
+
             if (assertion.Subject is ReadOnlyNonGenericCollectionWrapper<DataColumnCollection, DataColumn> wrapper)
             {
                 var actualSubject = wrapper.UnderlyingCollection;
@@ -39,12 +44,14 @@ namespace FluentAssertions
             }
             else
             {
-                Execute.Assertion
-                    .UsingLineBreaks
+                string exceptionMessage = AssertionScope.Current
                     .BecauseOf(because, becauseArgs)
-                    .FailWith(
-                        "Expected {context:column collection} to refer to DataColumnCollection{reason}, but found {0} (different type).",
-                        assertion.Subject);
+                    .FormatFailureMessage(
+                        "Invalid expectation: Expected {context:column collection} to refer to an instance of " +
+                        "DataColumnCollection{reason}, but found " +
+                        TypeDescriptionUtility.GetDescriptionOfObjectType(assertion.Subject)) + ".";
+
+                throw new InvalidOperationException(exceptionMessage);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataColumn>>(assertion);
@@ -65,6 +72,9 @@ namespace FluentAssertions
             this GenericCollectionAssertions<DataColumn> assertion, DataColumnCollection unexpected, string because = "",
             params object[] becauseArgs)
         {
+            Guard.ThrowIfArgumentIsNull(
+                unexpected, nameof(unexpected), "Cannot verify same reference against a <null> collection (use NotBeNull instead?).");
+
             if (assertion.Subject is ReadOnlyNonGenericCollectionWrapper<DataColumnCollection, DataColumn> wrapper)
             {
                 var actualSubject = wrapper.UnderlyingCollection;
@@ -74,6 +84,17 @@ namespace FluentAssertions
                     .ForCondition(!ReferenceEquals(actualSubject, unexpected))
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Did not expect {context:column collection} to refer to {0}{reason}.", unexpected);
+            }
+            else
+            {
+                string exceptionMessage = AssertionScope.Current
+                    .BecauseOf(because, becauseArgs)
+                    .FormatFailureMessage(
+                        "Invalid expectation: Expected {context:column collection} to refer to a different instance of " +
+                        "DataColumnCollection{reason}, but found " +
+                        TypeDescriptionUtility.GetDescriptionOfObjectType(assertion.Subject)) + ".";
+
+                throw new InvalidOperationException(exceptionMessage);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataColumn>>(assertion);

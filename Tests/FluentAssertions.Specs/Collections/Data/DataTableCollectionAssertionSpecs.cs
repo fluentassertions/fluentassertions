@@ -68,8 +68,9 @@ namespace FluentAssertions.Specs.Collections.Data
                     () => genericCollection.Should().BeSameAs(tableCollection, because: "we {0}", "care");
 
                 // Assert
-                action.Should().Throw<XunitException>().WithMessage(
-                    "Expected genericCollection to refer to DataTableCollection because we care, but found * (different type).");
+                action.Should().Throw<InvalidOperationException>().WithMessage(
+                    "Invalid expectation: Expected genericCollection to refer to an instance of DataTableCollection " +
+                    "because we care, but found *.");
             }
         }
 
@@ -110,6 +111,26 @@ namespace FluentAssertions.Specs.Collections.Data
 
                 // Act & Assert
                 tableCollection1.Should().NotBeSameAs(tableCollection2);
+            }
+
+            [Fact]
+            public void When_generic_collection_is_tested_against_typed_collection_it_should_fail()
+            {
+                // Arrange
+                var dataSet = new DataSet();
+
+                var tableCollection = dataSet.Tables;
+
+                var genericCollection = tableCollection.Cast<DataTable>();
+
+                // Act
+                Action action =
+                    () => genericCollection.Should().NotBeSameAs(tableCollection, because: "we {0}", "care");
+
+                // Assert
+                action.Should().Throw<InvalidOperationException>().WithMessage(
+                    "Invalid expectation: Expected genericCollection to refer to a different instance of " +
+                    "DataTableCollection because we care, but found *.");
             }
         }
 
