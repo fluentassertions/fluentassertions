@@ -28,7 +28,7 @@ namespace FluentAssertions
             this GenericCollectionAssertions<DataRow> assertion, DataRowCollection expected, string because = "",
             params object[] becauseArgs)
         {
-            if (assertion.Subject is NonGenericCollectionWrapper<DataRowCollection, DataRow> wrapper)
+            if (assertion.Subject is ReadOnlyNonGenericCollectionWrapper<DataRowCollection, DataRow> wrapper)
             {
                 var actualSubject = wrapper.UnderlyingCollection;
 
@@ -68,7 +68,7 @@ namespace FluentAssertions
             this GenericCollectionAssertions<DataRow> assertion, DataRowCollection unexpected, string because = "",
             params object[] becauseArgs)
         {
-            if (assertion.Subject is NonGenericCollectionWrapper<DataRowCollection, DataRow> wrapper)
+            if (assertion.Subject is ReadOnlyNonGenericCollectionWrapper<DataRowCollection, DataRow> wrapper)
             {
                 var actualSubject = wrapper.UnderlyingCollection;
 

@@ -6,39 +6,39 @@ using System.Linq;
 
 namespace FluentAssertions.Common
 {
-    internal static class NonGenericCollectionWrapper
+    internal static class ReadOnlyNonGenericCollectionWrapper
     {
-        public static NonGenericCollectionWrapper<DataTableCollection, DataTable> Create(DataTableCollection collection)
+        public static ReadOnlyNonGenericCollectionWrapper<DataTableCollection, DataTable> Create(DataTableCollection collection)
         {
             return
                 (collection != null)
-                ? new NonGenericCollectionWrapper<DataTableCollection, DataTable>(collection)
+                ? new ReadOnlyNonGenericCollectionWrapper<DataTableCollection, DataTable>(collection)
                 : null;
         }
 
-        public static NonGenericCollectionWrapper<DataColumnCollection, DataColumn> Create(DataColumnCollection collection)
+        public static ReadOnlyNonGenericCollectionWrapper<DataColumnCollection, DataColumn> Create(DataColumnCollection collection)
         {
             return
                 (collection != null)
-                ? new NonGenericCollectionWrapper<DataColumnCollection, DataColumn>(collection)
+                ? new ReadOnlyNonGenericCollectionWrapper<DataColumnCollection, DataColumn>(collection)
                 : null;
         }
 
-        public static NonGenericCollectionWrapper<DataRowCollection, DataRow> Create(DataRowCollection collection)
+        public static ReadOnlyNonGenericCollectionWrapper<DataRowCollection, DataRow> Create(DataRowCollection collection)
         {
             return
                 (collection != null)
-                ? new NonGenericCollectionWrapper<DataRowCollection, DataRow>(collection)
+                ? new ReadOnlyNonGenericCollectionWrapper<DataRowCollection, DataRow>(collection)
                 : null;
         }
     }
 
-    internal class NonGenericCollectionWrapper<TCollection, TItem> : ICollection<TItem>, IEnumerable<TItem>
+    internal class ReadOnlyNonGenericCollectionWrapper<TCollection, TItem> : ICollection<TItem>, IEnumerable<TItem>
         where TCollection : ICollection, IEnumerable
     {
         public TCollection UnderlyingCollection { get; private set; }
 
-        public NonGenericCollectionWrapper(TCollection collection)
+        public ReadOnlyNonGenericCollectionWrapper(TCollection collection)
         {
             Guard.ThrowIfArgumentIsNull(collection, nameof(collection));
 
