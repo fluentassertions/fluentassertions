@@ -44,14 +44,12 @@ namespace FluentAssertions
             }
             else
             {
-                string exceptionMessage = AssertionScope.Current
+                Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FormatFailureMessage(
+                    .FailWith(
                         "Invalid expectation: Expected {context:column collection} to refer to an instance of " +
                         "DataColumnCollection{reason}, but found " +
-                        TypeDescriptionUtility.GetDescriptionOfObjectType(assertion.Subject)) + ".";
-
-                throw new InvalidOperationException(exceptionMessage);
+                        TypeDescriptionUtility.GetDescriptionOfObjectType(assertion.Subject) + ".");
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataColumn>>(assertion);
@@ -87,14 +85,12 @@ namespace FluentAssertions
             }
             else
             {
-                string exceptionMessage = AssertionScope.Current
+                Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FormatFailureMessage(
+                    .FailWith(
                         "Invalid expectation: Expected {context:column collection} to refer to a different instance of " +
                         "DataColumnCollection{reason}, but found " +
-                        TypeDescriptionUtility.GetDescriptionOfObjectType(assertion.Subject)) + ".";
-
-                throw new InvalidOperationException(exceptionMessage);
+                        TypeDescriptionUtility.GetDescriptionOfObjectType(assertion.Subject) + ".");
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataColumn>>(assertion);
