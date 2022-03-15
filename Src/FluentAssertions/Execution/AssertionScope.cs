@@ -245,19 +245,13 @@ namespace FluentAssertions.Execution
         {
             return FailWith(() =>
             {
+                string localReason = reason?.Invoke() ?? string.Empty;
+                var messageBuilder = new MessageBuilder(formattingOptions);
+                string identifier = GetIdentifier();
                 FailReason failReason = failReasonFunc();
-
-                return FormatFailureMessage(failReason.Message, failReason.Args);
+                string result = messageBuilder.Build(failReason.Message, failReason.Args, localReason, contextData, identifier, fallbackIdentifier);
+                return result;
             });
-        }
-
-        internal string FormatFailureMessage(string message, params object[] args)
-        {
-            string localReason = reason?.Invoke() ?? string.Empty;
-            var messageBuilder = new MessageBuilder(formattingOptions);
-            string identifier = GetIdentifier();
-            string result = messageBuilder.Build(message, args, localReason, contextData, identifier, fallbackIdentifier);
-            return result;
         }
 
         internal Continuation FailWithPreFormatted(string formattedFailReason) =>
