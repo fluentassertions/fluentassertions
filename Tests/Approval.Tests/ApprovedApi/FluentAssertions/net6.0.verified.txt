@@ -1017,7 +1017,6 @@ namespace FluentAssertions.Equivalency
         public TSelf IncludingInternalFields() { }
         public TSelf IncludingInternalProperties() { }
         public TSelf IncludingNestedObjects() { }
-        public TSelf IncludingNonBrowsableMembers() { }
         public TSelf IncludingProperties() { }
         public TSelf RespectingDeclaredTypes() { }
         public TSelf RespectingRuntimeTypes() { }

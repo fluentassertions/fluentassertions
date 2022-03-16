@@ -10,7 +10,7 @@ namespace FluentAssertions.Equivalency.Selection
 
         public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers, MemberSelectionContext context)
         {
-            return selectedMembers.Where(member => member.IsBrowsable);
+            return selectedMembers.Where(member => member.IsBrowsable).ToList();
         }
     }
 }

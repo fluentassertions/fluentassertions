@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -326,19 +327,9 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Instructs the comparison to include non-browsable members (members with an EditorBrowsableState of Never).
-        /// </summary>
-        /// <returns></returns>
-        public TSelf IncludingNonBrowsableMembers()
-        {
-            excludeNonBrowsableOnExpectation = false;
-            return (TSelf)this;
-        }
-
-        /// <summary>
-        /// Instructs the comparison to exclude non-browsable members (members with an EditorBrowsableState of Never).
-        /// They can be marked non-browsable in the subject or the expectation. It is not required that they be marked
-        /// non-browsable in both the subject and the expectation.
+        /// Instructs the comparison to exclude non-browsable members in the expectation (members set to
+        /// <see cref="EditorBrowsableState.Never"/>). It is not required that they be marked non-browsable in the subject. Use
+        /// <see cref="IgnoringNonBrowsableMembersOnSubject"/> to ignore non-browsable members in the subject.
         /// </summary>
         /// <returns></returns>
         public TSelf ExcludingNonBrowsableMembers()
@@ -347,6 +338,11 @@ namespace FluentAssertions.Equivalency
             return (TSelf)this;
         }
 
+        /// <summary>
+        /// Instructs the comparison to treat non-browsable members in the subject as though they do not exist. If you need to
+        /// ignore non-browsable members in the expectation, use <see cref="ExcludingNonBrowsableMembers"/>.
+        /// </summary>
+        /// <returns></returns>
         public TSelf IgnoringNonBrowsableMembersOnSubject()
         {
             ignoreNonBrowsableOnSubject = true;

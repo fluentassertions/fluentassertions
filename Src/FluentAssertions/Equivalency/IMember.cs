@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel;
+
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency
@@ -34,7 +36,8 @@ namespace FluentAssertions.Equivalency
         CSharpAccessModifier SetterAccessibility { get; }
 
         /// <summary>
-        /// Gets a value indicating whether the member is browsable in the source code editor. This is controlled with the [EditorBrowsable] attribute.
+        /// Gets a value indicating whether the member is browsable in the source code editor. This is controlled with
+        /// <see cref="EditorBrowsableAttribute"/>.
         /// </summary>
         bool IsBrowsable { get; }
     }
