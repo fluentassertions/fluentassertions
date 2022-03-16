@@ -189,7 +189,7 @@ namespace FluentAssertions.Numeric
             {
                 throw new ArgumentException("A value can never be less than NaN", nameof(expected));
             }
-           
+
             Execute.Assertion
                 .ForCondition(Subject.HasValue && !IsNaN(Subject.Value) && Subject.Value.CompareTo(expected) < 0)
                 .BecauseOf(because, becauseArgs)
@@ -216,7 +216,7 @@ namespace FluentAssertions.Numeric
             {
                 throw new ArgumentException("A value can never be less than or equal to NaN", nameof(expected));
             }
-            
+
             Execute.Assertion
                 .ForCondition(Subject.HasValue && !IsNaN(Subject.Value) && Subject.Value.CompareTo(expected) <= 0)
                 .BecauseOf(because, becauseArgs)
@@ -273,7 +273,7 @@ namespace FluentAssertions.Numeric
             {
                 throw new ArgumentException("A value can never be greater than or equal to a NaN", nameof(expected));
             }
-            
+
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) >= 0)
                 .BecauseOf(because, becauseArgs)
@@ -309,9 +309,9 @@ namespace FluentAssertions.Numeric
         {
             if (IsNaN(minimumValue) || IsNaN(maximumValue))
             {
-                throw new ArgumentException("A range cannot begin or end with NaN");  
+                throw new ArgumentException("A range cannot begin or end with NaN");
             }
-            
+
             Execute.Assertion
                 .ForCondition(Subject.HasValue && (Subject.Value.CompareTo(minimumValue) >= 0) && (Subject.Value.CompareTo(maximumValue) <= 0))
                 .BecauseOf(because, becauseArgs)
@@ -347,7 +347,7 @@ namespace FluentAssertions.Numeric
             {
                 throw new ArgumentException("A range cannot begin or end with NaN");
             }
-            
+
             Execute.Assertion
                 .ForCondition(Subject.HasValue && !((Subject.Value.CompareTo(minimumValue) >= 0) && (Subject.Value.CompareTo(maximumValue) <= 0)))
                 .BecauseOf(because, becauseArgs)
@@ -480,6 +480,6 @@ namespace FluentAssertions.Numeric
         public override bool Equals(object obj) =>
             throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
 
-        private protected virtual bool IsNaN(T value) => false; 
+        private protected virtual bool IsNaN(T value) => false;
     }
 }

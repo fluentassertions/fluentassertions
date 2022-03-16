@@ -678,7 +678,7 @@ namespace FluentAssertions.Specs.Numeric
                     .Should().Throw<XunitException>()
                     .WithMessage("Expected value to be greater than 3 because we want to test the failure message, but found 2.");
             }
-            
+
             [Fact]
             public void NaN_is_never_greater_than_another_float()
             {
@@ -1198,7 +1198,7 @@ namespace FluentAssertions.Specs.Numeric
             public void A_NaN_is_never_in_range_of_two_doubles()
             {
                 // Arrange
-                float value = float.NaN;
+                double value = double.NaN;
 
                 // Act
                 Action act = () => value.Should().BeInRange(4, 5);
