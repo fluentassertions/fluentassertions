@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FluentAssertions
+namespace FluentAssertions.Common
 {
     internal static class TypeDescriptionUtility
     {
