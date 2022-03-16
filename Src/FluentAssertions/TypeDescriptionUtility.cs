@@ -9,7 +9,7 @@ namespace FluentAssertions
             return (obj is null) ? "<null>" : GetTypeDescription(obj.GetType());
         }
 
-        public static string GetTypeDescription(Type type)
+        private static string GetTypeDescription(Type type)
         {
             return
                 ((type.Namespace == "System.Linq") && type.IsGenericType)
