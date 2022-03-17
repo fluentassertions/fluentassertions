@@ -46,8 +46,8 @@ namespace FluentAssertions
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
                         "Invalid expectation: Expected {context:column collection} to refer to an instance of " +
-                        "DataRowCollection{reason}, but found " +
-                        TypeDescriptionUtility.GetDescriptionOfObjectType(assertion.Subject) + ".");
+                        "DataRowCollection{reason}, but found {0}.",
+                        assertion.Subject);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataRow>>(assertion);
@@ -84,8 +84,8 @@ namespace FluentAssertions
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
                         "Invalid expectation: Expected {context:column collection} to refer to a different instance of " +
-                        "DataRowCollection{reason}, but found " +
-                        TypeDescriptionUtility.GetDescriptionOfObjectType(assertion.Subject) + ".");
+                        "DataRowCollection{reason}, but found {0}.",
+                        assertion.Subject);
             }
 
             return new AndConstraint<GenericCollectionAssertions<DataRow>>(assertion);
