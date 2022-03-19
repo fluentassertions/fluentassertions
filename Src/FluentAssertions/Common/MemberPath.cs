@@ -107,7 +107,7 @@ namespace FluentAssertions.Common
 
         private string[] Segments =>
             segments ??= dottedPath
-                .Replace("[]", "[*]")
+                .Replace("[]", "[*]", StringComparison.Ordinal)
                 .Split(new[] { '.', '[', ']' }, StringSplitOptions.RemoveEmptyEntries);
 
         /// <summary>

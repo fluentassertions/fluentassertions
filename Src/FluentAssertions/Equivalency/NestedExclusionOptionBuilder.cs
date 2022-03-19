@@ -9,7 +9,7 @@ namespace FluentAssertions.Equivalency
     public class NestedExclusionOptionBuilder<TExpectation, TCurrent> : EquivalencyAssertionOptions<TExpectation>
     {
         /// <summary>
-        /// The selected path starting at the first <see cref="EquivalencyAssertionOptions{TExpectation}.Excluding{TNext}"/>.
+        /// The selected path starting at the first <see cref="EquivalencyAssertionOptions{TExpectation}.For{TNext}"/>.
         /// </summary>
         private readonly ExcludeMemberByPathSelectionRule currentPathSelectionRule;
 
@@ -21,9 +21,9 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Selects a property to use. This ends the <see cref="ThenExcluding"/> chain.
+        /// Selects a property to use. This ends the <see cref="Exclude"/> chain.
         /// </summary>
-        public EquivalencyAssertionOptions<TExpectation> ThenExcluding(Expression<Func<TCurrent, object>> expression)
+        public EquivalencyAssertionOptions<TExpectation> Exclude(Expression<Func<TCurrent, object>> expression)
         {
             var nextPath = expression.GetMemberPath();
             currentPathSelectionRule.CombinePath(nextPath);
@@ -31,10 +31,10 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Adds the selected collection to the <see cref="ThenExcluding{TNext}"/> chain.
-        /// If this is the last call to <see cref="ThenExcluding{TNext}"/>, this ends the chain.
+        /// Adds the selected collection to the <see cref="For{TNext}"/> chain.
+        /// If this is the last call to <see cref="For{TNext}"/>, this ends the chain.
         /// </summary>
-        public NestedExclusionOptionBuilder<TExpectation, TNext> ThenExcluding<TNext>(
+        public NestedExclusionOptionBuilder<TExpectation, TNext> For<TNext>(
             Expression<Func<TCurrent, IEnumerable<TNext>>> expression)
         {
             var nextPath = expression.GetMemberPath();

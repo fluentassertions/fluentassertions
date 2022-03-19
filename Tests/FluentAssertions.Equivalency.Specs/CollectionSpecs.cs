@@ -556,7 +556,7 @@ namespace FluentAssertions.Equivalency.Specs
             act.Should().NotThrow();
         }
 
-        public class ThenExcluding
+        public class For
         {
             [Fact]
             public void When_property_in_collection_is_excluded_it_should_not_throw()
@@ -605,8 +605,8 @@ namespace FluentAssertions.Equivalency.Specs
                 // Act / Assert
                 subject.Should().BeEquivalentTo(expected,
                     options => options
-                        .Excluding(x => x.Level.Collection)
-                        .ThenExcluding(x => x.Number));
+                        .For(x => x.Level.Collection)
+                        .Exclude(x => x.Number));
             }
 
             [Fact]
@@ -680,8 +680,8 @@ namespace FluentAssertions.Equivalency.Specs
                 // Act / Assert
                 subject.Should().BeEquivalentTo(expected,
                     options => options
-                        .Excluding(x => x.Level.Collection)
-                        .ThenExcluding(x => x.NextCollection));
+                        .For(x => x.Level.Collection)
+                        .Exclude(x => x.NextCollection));
             }
 
             [Fact]
@@ -757,9 +757,9 @@ namespace FluentAssertions.Equivalency.Specs
                 // Act / Assert
                 subject.Should().BeEquivalentTo(expected,
                     options => options
-                        .Excluding(x => x.Level.Collection)
-                        .ThenExcluding(x => x.NextCollection)
-                        .ThenExcluding(x => x.Text)
+                        .For(x => x.Level.Collection)
+                        .For(x => x.NextCollection)
+                        .Exclude(x => x.Text)
                 );
             }
 
@@ -812,7 +812,7 @@ namespace FluentAssertions.Equivalency.Specs
                 // Act / Assert
                 subject.Should().BeEquivalentTo(expected,
                     options => options
-                        .Excluding(x => x.Level.Collection).ThenExcluding(x => x.Text)
+                        .For(x => x.Level.Collection).Exclude(x => x.Text)
                         .Excluding(x => x.Text));
             }
 
@@ -866,7 +866,7 @@ namespace FluentAssertions.Equivalency.Specs
                 subject.Should().BeEquivalentTo(expected,
                     options => options
                         .Excluding(x => x.Text)
-                        .Excluding(x => x.Level.Collection).ThenExcluding(x => x.Text));
+                        .For(x => x.Level.Collection).Exclude(x => x.Text));
             }
         }
 
