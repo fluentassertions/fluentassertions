@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq.Expressions;
 using System.Net.Http;
@@ -434,6 +435,50 @@ namespace FluentAssertions
             return new NullableDateTimeOffsetAssertions(actualValue);
         }
 
+#if NET6_0_OR_GREATER
+
+        /// <summary>
+        /// Returns an <see cref="DateOnlyAssertions"/> object that can be used to assert the
+        /// current <see cref="DateOnly"/>.
+        /// </summary>
+        [Pure]
+        public static DateOnlyAssertions Should(this DateOnly actualValue)
+        {
+            return new DateOnlyAssertions(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="NullableDateOnlyAssertions"/> object that can be used to assert the
+        /// current nullable <see cref="DateOnly"/>.
+        /// </summary>
+        [Pure]
+        public static NullableDateOnlyAssertions Should(this DateOnly? actualValue)
+        {
+            return new NullableDateOnlyAssertions(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="TimeOnlyAssertions"/> object that can be used to assert the
+        /// current <see cref="TimeOnly"/>.
+        /// </summary>
+        [Pure]
+        public static TimeOnlyAssertions Should(this TimeOnly actualValue)
+        {
+            return new TimeOnlyAssertions(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="NullableTimeOnlyAssertions"/> object that can be used to assert the
+        /// current nullable <see cref="TimeOnly"/>.
+        /// </summary>
+        [Pure]
+        public static NullableTimeOnlyAssertions Should(this TimeOnly? actualValue)
+        {
+            return new NullableTimeOnlyAssertions(actualValue);
+        }
+
+#endif
+
         /// <summary>
         /// Returns an <see cref="ComparableTypeAssertions{T}"/> object that can be used to assert the
         /// current <see cref="IComparable{T}"/>.
@@ -631,7 +676,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<float> Should(this float actualValue)
         {
-            return new NumericAssertions<float>(actualValue);
+            return new FloatAssertions(actualValue);
         }
 
         /// <summary>
@@ -651,7 +696,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<double> Should(this double actualValue)
         {
-            return new NumericAssertions<double>(actualValue);
+            return new DoubleAssertions(actualValue);
         }
 
         /// <summary>
@@ -892,6 +937,26 @@ namespace FluentAssertions
             InvalidShouldCall();
         }
 
+#if  NET6_0_OR_GREATER
+
+        /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        public static void Should<TAssertions>(this DateOnlyAssertions<TAssertions> _)
+            where TAssertions : DateOnlyAssertions<TAssertions>
+        {
+            InvalidShouldCall();
+        }
+
+        /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        public static void Should<TAssertions>(this TimeOnlyAssertions<TAssertions> _)
+            where TAssertions : TimeOnlyAssertions<TAssertions>
+        {
+            InvalidShouldCall();
+        }
+
+#endif
+
         /// <summary>
         /// You are asserting the <see cref="AndConstraint{T}"/> itself. Remove the <c>Should()</c> method directly following <c>And</c>.
         /// </summary>
@@ -963,6 +1028,7 @@ namespace FluentAssertions
             InvalidShouldCall();
         }
 
+        [DoesNotReturn]
         private static void InvalidShouldCall()
         {
             throw new InvalidOperationException("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'.");

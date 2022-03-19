@@ -632,6 +632,25 @@ namespace FluentAssertions.Specs.Primitives
                 .WithMessage($"*assignable to {typeof(System.Collections.Generic.IList<>)}*failure message*{typeof(DummyImplementingClass)} is not*");
         }
 
+        [Fact]
+        public void When_an_assertion_fails_on_BeAssignableTo_succeeding_message_should_be_included()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                var item = string.Empty;
+                item.Should().BeAssignableTo<int>();
+                item.Should().BeAssignableTo<long>();
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                "Expected * to be assignable to System.Int32, but System.String is not.*" +
+                "Expected * to be assignable to System.Int64, but System.String is not.");
+        }
+
         #endregion
 
         #region NotBeAssignableTo

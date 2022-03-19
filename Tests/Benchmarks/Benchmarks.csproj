@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net5;net472</TargetFrameworks>
+    <TargetFrameworks>net6;net472</TargetFrameworks>
     <LangVersion>9.0</LangVersion>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\Src\FluentAssertions\FluentAssertions.snk</AssemblyOriginatorKeyFile>
@@ -11,7 +11,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
-    <PackageReference Include="Bogus" Version="33.0.2" />
+    <PackageReference Include="Bogus" Version="34.0.1" />
     <PackageReference Include="System.Collections" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>

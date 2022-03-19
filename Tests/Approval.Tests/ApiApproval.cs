@@ -19,13 +19,13 @@ namespace Approval.Tests
     {
         [Theory]
         [InlineData("net47")]
+        [InlineData("net6.0")]
         [InlineData("netstandard2.0")]
         [InlineData("netstandard2.1")]
         [InlineData("netcoreapp2.1")]
         [InlineData("netcoreapp3.0")]
         public Task ApproveApi(string frameworkVersion)
         {
-            VerifierSettings.DisableClipboard();
             string codeBase = Assembly.GetExecutingAssembly().Location;
             var uri = new UriBuilder(new Uri(codeBase));
             string assemblyPath = Uri.UnescapeDataString(uri.Path);

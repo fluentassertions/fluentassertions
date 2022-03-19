@@ -10,8 +10,14 @@ sidebar:
 ## Unreleased
 
 ### What's New
+* Annotated `[Not]MatchRegex(string)` with `[StringSyntax("Regex")]` which IDEs can use to colorize the regular expression argument - [#1816](https://github.com/fluentassertions/fluentassertions/pull/1816)
+* Added support for .NET6 `DateOnly` struct - [#1844](https://github.com/fluentassertions/fluentassertions/pull/1844)
+* Added support for .NET6 `TimeOnly` struct - [#1848](https://github.com/fluentassertions/fluentassertions/pull/1848)
 
 ### Fixes
+* `EnumAssertions.Be` did not determine the caller name - [#1835](https://github.com/fluentassertions/fluentassertions/pull/1835)
+* Ensure `ExcludingMissingMembers` doesn't undo usage of `WithMapping` in `BeEquivalentTo` - [#1838](https://github.com/fluentassertions/fluentassertions/pull/1838)
+* Better handling of NaN in various numeric assertions - [#1822](https://github.com/fluentassertions/fluentassertions/pull/1822)
 
 ### Fixes (Extensibility)
 

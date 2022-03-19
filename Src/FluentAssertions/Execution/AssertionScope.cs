@@ -23,6 +23,7 @@ namespace FluentAssertions.Execution
         private readonly FormattingOptions formattingOptions = AssertionOptions.FormattingOptions.Clone();
         private readonly IAssertionStrategy assertionStrategy;
         private readonly ContextDataItems contextData = new();
+        private readonly StringBuilder tracing = new();
 
         private Func<string> reason;
 
@@ -32,7 +33,6 @@ namespace FluentAssertions.Execution
         private Func<string> expectation;
         private string fallbackIdentifier = "object";
         private bool? succeeded;
-        private readonly StringBuilder tracing = new();
 
         private sealed class DeferredReportable
         {
@@ -401,7 +401,7 @@ namespace FluentAssertions.Execution
             }
             else
             {
-                IDictionary<string,object> reportable = contextData.GetReportable();
+                IDictionary<string, object> reportable = contextData.GetReportable();
 
                 if (tracing.Length > 0)
                 {

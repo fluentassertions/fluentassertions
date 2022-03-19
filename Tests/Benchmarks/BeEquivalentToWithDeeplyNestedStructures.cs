@@ -8,7 +8,7 @@ namespace Benchmarks
 {
     [MemoryDiagnoser]
     [SimpleJob(RuntimeMoniker.Net472)]
-    [SimpleJob(RuntimeMoniker.Net50)]
+    [SimpleJob(RuntimeMoniker.Net60)]
     public class BeEquivalentToWithDeeplyNestedStructures
     {
         public class ComplexType

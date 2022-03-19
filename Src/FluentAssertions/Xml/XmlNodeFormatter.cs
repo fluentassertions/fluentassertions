@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Xml;
+﻿using System.Xml;
 using FluentAssertions.Common;
 using FluentAssertions.Formatting;
 

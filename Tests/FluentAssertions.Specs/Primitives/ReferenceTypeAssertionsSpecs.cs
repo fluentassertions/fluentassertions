@@ -143,6 +143,25 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
+        public void When_an_assertion_fails_on_BeOfType_succeeding_message_should_be_included()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                var item = string.Empty;
+                item.Should().BeOfType<int>();
+                item.Should().BeOfType<long>();
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                "Expected type to be System.Int32, but found System.String.*" +
+                "Expected type to be System.Int64, but found System.String.");
+        }
+
+        [Fact]
         public void When_object_is_of_the_unexpected_type_it_should_throw()
         {
             // Arrange

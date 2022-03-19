@@ -169,7 +169,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*because we want to test the failure message*");
+                .WithMessage("*subject*because we want to test the failure message*");
         }
 
         [Theory]
