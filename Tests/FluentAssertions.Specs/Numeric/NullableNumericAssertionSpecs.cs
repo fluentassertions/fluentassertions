@@ -220,7 +220,7 @@ namespace FluentAssertions.Specs.Numeric
 
                 // Assert
                 act.Should().Throw<XunitException>()
-                    .WithMessage("Expected*2 because we want to test the failure message, but found 1.");
+                    .WithMessage("Expected*2 because we want to test the failure message, but found 1 (which differs by -1).");
             }
         }
 

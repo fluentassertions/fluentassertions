@@ -71,7 +71,7 @@ namespace FluentAssertions.Specs.Specialized
 
             // Assert
             await action.Should().ThrowAsync<XunitException>()
-                .WithMessage("Expected *testSubject* to be 42, but found 99.");
+                .WithMessage("Expected *testSubject* to be 42, but found 99 (which differs by 57).");
         }
 
         [Fact]

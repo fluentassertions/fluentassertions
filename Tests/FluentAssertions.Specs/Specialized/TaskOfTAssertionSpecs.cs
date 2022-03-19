@@ -76,7 +76,7 @@ namespace FluentAssertions.Specs.Specialized
             // Assert
             // TODO message currently shows "Expected (await funcSubject to be...", but should be "Expected funcSubject to be...",
             // maybe with or without await.
-            await action.Should().ThrowAsync<XunitException>().WithMessage("*to be 42, but found 99.");
+            await action.Should().ThrowAsync<XunitException>().WithMessage("*to be 42, but found 99 (which differs by 57).");
         }
 
         [Fact]

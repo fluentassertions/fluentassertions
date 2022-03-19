@@ -239,7 +239,7 @@ namespace FluentAssertions.Specs.Collections
             Action act = () => collection.Should().ContainSingle().Which.Should().BeGreaterThan(4);
 
             // Assert
-            const string expectedMessage = "Expected collection to be greater than 4, but found 3.";
+            const string expectedMessage = "Expected collection to be greater than 4, but found 3 (which differs by -1).";
 
             act.Should().Throw<XunitException>().WithMessage(expectedMessage);
         }

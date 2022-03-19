@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
+using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Numeric
 {
@@ -13,10 +14,10 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that an <see cref="IComparable{T}"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class NumericAssertions<T> : NumericAssertions<T, NumericAssertions<T>>
+    public abstract class NumericAssertions<T> : NumericAssertions<T, NumericAssertions<T>>
         where T : struct, IComparable<T>
     {
-        public NumericAssertions(T value)
+        protected NumericAssertions(T value)
             : base(value)
         {
         }
@@ -28,11 +29,11 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that an <see cref="IComparable{T}"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class NumericAssertions<T, TAssertions>
+    public abstract class NumericAssertions<T, TAssertions>
         where T : struct, IComparable<T>
         where TAssertions : NumericAssertions<T, TAssertions>
     {
-        public NumericAssertions(T value)
+        protected NumericAssertions(T value)
             : this((T?)value)
         {
         }
@@ -43,6 +44,8 @@ namespace FluentAssertions.Numeric
         }
 
         public T? Subject { get; }
+
+        private protected virtual T? CalculateDifference(T? actual, T expected) => throw new NotImplementedException();
 
         /// <summary>
         /// Asserts that the integral number value is exactly the same as the <paramref name="expected"/> value.
@@ -60,7 +63,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) == 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -83,7 +86,7 @@ namespace FluentAssertions.Numeric
                     (!Subject.HasValue && !expected.HasValue)
                     || (Subject.HasValue && expected.HasValue && Subject.Value.CompareTo(expected.Value) == 0))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -193,8 +196,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject.HasValue && !IsNaN(Subject.Value) && Subject.Value.CompareTo(expected) < 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be less than {0}{reason}, but found {1}.", expected, Subject);
-
+                .FailWith("Expected {context:value} to be less than {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
@@ -220,7 +222,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject.HasValue && !IsNaN(Subject.Value) && Subject.Value.CompareTo(expected) <= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be less than or equal to {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be less than or equal to {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -250,7 +252,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) > 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be greater than {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be greater than {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -277,7 +279,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) >= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be greater than or equal to {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be greater than or equal to {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -481,5 +483,16 @@ namespace FluentAssertions.Numeric
             throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
 
         private protected virtual bool IsNaN(T value) => false;
+
+        private string GenerateDifferenceMessage(T? expected)
+        {
+            return !expected.HasValue ? "." : GenerateDifferenceMessage(expected.Value);
+        }
+
+        private string GenerateDifferenceMessage(T expected)
+        {
+            var difference = CalculateDifference(Subject, expected);
+            return difference is null ? "." : $" (which differs by {difference}).";
+        }
     }
 }
