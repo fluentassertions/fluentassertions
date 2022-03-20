@@ -161,6 +161,11 @@ namespace FluentAssertions.Equivalency
 
             return this;
         }
+
+        public EquivalencyAssertionOptions<TExpectation> WithStrictTyping()
+        {
+            return this;
+        }
     }
 
     /// <summary>
