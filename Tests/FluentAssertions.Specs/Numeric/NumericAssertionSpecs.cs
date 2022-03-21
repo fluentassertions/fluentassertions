@@ -242,7 +242,7 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage("Expected value to be 2 because we want to test the failure message, but found 1 (which differs by -1).");
+                    .WithMessage("Expected value to be 2 because we want to test the failure message, but found 1.");
             }
 
             [Fact]
@@ -491,7 +491,7 @@ namespace FluentAssertions.Specs.Numeric
                 act
                     .Should().Throw<XunitException>()
                     .WithMessage(
-                        "Expected value to be 3.4 because we want to test the error message, but found 3.5 (which differs by 0.1*.");
+                        "Expected value to be 3.4 because we want to test the error message, but found 3.5*.");
             }
 
             [Fact]
@@ -676,7 +676,7 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage("Expected value to be greater than 3 because we want to test the failure message, but found 2 (which differs by -1).");
+                    .WithMessage("Expected value to be greater than 3 because we want to test the failure message, but found 2.");
             }
 
             [Fact]
@@ -785,7 +785,7 @@ namespace FluentAssertions.Specs.Numeric
                 act
                     .Should().Throw<XunitException>()
                     .WithMessage(
-                        "Expected value to be greater than or equal to 3 because we want to test the failure message, but found 2 (which differs by -1).");
+                        "Expected value to be greater than or equal to 3 because we want to test the failure message, but found 2.");
             }
 
             [Fact]
@@ -924,7 +924,7 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage("Expected value to be less than 1 because we want to test the failure message, but found 2 (which differs by 1).");
+                    .WithMessage("Expected value to be less than 1 because we want to test the failure message, but found 2.");
             }
 
             [Fact]
@@ -1032,7 +1032,7 @@ namespace FluentAssertions.Specs.Numeric
                 act
                     .Should().Throw<XunitException>()
                     .WithMessage(
-                        "Expected value to be less than or equal to 1 because we want to test the failure message, but found 2 (which differs by 1).");
+                        "Expected value to be less than or equal to 1 because we want to test the failure message, but found 2.");
             }
 
             [Fact]

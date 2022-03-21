@@ -3,12 +3,12 @@
 namespace FluentAssertions.Numeric
 {
     /// <summary>
-    /// Contains a number of methods to assert that a nullable <see cref="int"/> is in the expected state.
+    /// Contains a number of methods to assert that a <see cref="int"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class NullableIntAssertions : NullableNumericAssertions<int>
+    public class Int32Assertions : NumericAssertions<int>
     {
-        public NullableIntAssertions(int? value)
+        public Int32Assertions(int value)
             : base(value)
         {
         }

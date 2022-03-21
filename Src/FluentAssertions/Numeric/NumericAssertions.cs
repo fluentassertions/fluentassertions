@@ -45,8 +45,6 @@ namespace FluentAssertions.Numeric
 
         public T? Subject { get; }
 
-        private protected virtual T? CalculateDifference(T? actual, T expected) => throw new NotImplementedException();
-
         /// <summary>
         /// Asserts that the integral number value is exactly the same as the <paramref name="expected"/> value.
         /// </summary>
@@ -484,15 +482,52 @@ namespace FluentAssertions.Numeric
 
         private protected virtual bool IsNaN(T value) => false;
 
+        /// <summary>
+        /// A method to generate additional information upon comparison failures.
+        /// </summary>
+        /// <param name="expected">The value to compare the current numeric value with.</param>
+        /// <returns>
+        /// Returns the difference between the integral number value and the <paramref name="expected" /> value.
+        /// </returns>
+        private protected abstract T? CalculateDifferenceForFailureMessage(T expected);
+
+        /// <summary>
+        /// A method to determine what is the minimal difference threshold from which to generate a "difference failure message".
+        /// </summary>
+        /// <returns>
+        /// The minimal difference threshold from which to generate a failure message.
+        /// </returns>
+        private protected abstract T GetMinimalDifferenceThresholdForFailureMessage();
+
+        /// <summary>
+        /// A method to determine what is the maximal difference value from which to generate a "difference failure message".
+        /// </summary>
+        /// <returns>
+        /// The maximal difference value from which to generate a failure message.
+        /// </returns>
+        private protected abstract T GetMaximalDifferenceThresholdForFailureMessage();
+
         private string GenerateDifferenceMessage(T? expected)
         {
-            return !expected.HasValue ? "." : GenerateDifferenceMessage(expected.Value);
-        }
+            const string noDifferenceMessage = ".";
+            if (!Subject.HasValue || !expected.HasValue)
+            {
+                return noDifferenceMessage;
+            }
 
-        private string GenerateDifferenceMessage(T expected)
-        {
-            var difference = CalculateDifference(Subject, expected);
-            return difference is null ? "." : $" (which differs by {difference}).";
+            var difference = CalculateDifferenceForFailureMessage(expected.Value);
+            if (difference is null)
+            {
+                return noDifferenceMessage;
+            }
+
+            if (difference.Value.CompareTo(GetMinimalDifferenceThresholdForFailureMessage()) < 0 ||
+                difference.Value.CompareTo(GetMaximalDifferenceThresholdForFailureMessage()) > 0)
+            {
+                return $" (difference of {difference}).";
+            }
+
+            return noDifferenceMessage;
         }
     }
 }

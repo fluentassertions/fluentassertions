@@ -1705,9 +1705,9 @@ namespace FluentAssertions.Numeric
     {
         public FloatAssertions(float value) { }
     }
-    public class IntAssertions : FluentAssertions.Numeric.NumericAssertions<int>
+    public class Int32Assertions : FluentAssertions.Numeric.NumericAssertions<int>
     {
-        public IntAssertions(int value) { }
+        public Int32Assertions(int value) { }
     }
     public class LongAssertions : FluentAssertions.Numeric.NumericAssertions<long>
     {

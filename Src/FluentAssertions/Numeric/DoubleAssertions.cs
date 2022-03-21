@@ -15,6 +15,10 @@ namespace FluentAssertions.Numeric
 
         private protected override bool IsNaN(double value) => double.IsNaN(value);
 
-        private protected override double? CalculateDifference(double? actual, double expected) => actual - expected;
+        private protected override double? CalculateDifferenceForFailureMessage(double expected) => Subject - expected;
+
+        private protected override double GetMinimalDifferenceThresholdForFailureMessage() => 0;
+
+        private protected override double GetMaximalDifferenceThresholdForFailureMessage() => 0;
     }
 }

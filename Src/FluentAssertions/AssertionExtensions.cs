@@ -496,7 +496,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<int> Should(this int actualValue)
         {
-            return new IntAssertions(actualValue);
+            return new Int32Assertions(actualValue);
         }
 
         /// <summary>
