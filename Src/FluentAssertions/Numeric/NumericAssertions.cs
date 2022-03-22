@@ -488,24 +488,9 @@ namespace FluentAssertions.Numeric
         /// <param name="expected">The value to compare the current numeric value with.</param>
         /// <returns>
         /// Returns the difference between the integral number value and the <paramref name="expected" /> value.
+        /// Returns `null` if the compared numbers are small enough that a difference message is irrelevant.
         /// </returns>
         private protected abstract T? CalculateDifferenceForFailureMessage(T expected);
-
-        /// <summary>
-        /// A method to determine what is the minimal difference threshold from which to generate a "difference failure message".
-        /// </summary>
-        /// <returns>
-        /// The minimal difference threshold from which to generate a failure message.
-        /// </returns>
-        private protected abstract T GetMinimalDifferenceThresholdForFailureMessage();
-
-        /// <summary>
-        /// A method to determine what is the maximal difference value from which to generate a "difference failure message".
-        /// </summary>
-        /// <returns>
-        /// The maximal difference value from which to generate a failure message.
-        /// </returns>
-        private protected abstract T GetMaximalDifferenceThresholdForFailureMessage();
 
         private string GenerateDifferenceMessage(T? expected)
         {
@@ -516,18 +501,7 @@ namespace FluentAssertions.Numeric
             }
 
             var difference = CalculateDifferenceForFailureMessage(expected.Value);
-            if (difference is null)
-            {
-                return noDifferenceMessage;
-            }
-
-            if (difference.Value.CompareTo(GetMinimalDifferenceThresholdForFailureMessage()) < 0 ||
-                difference.Value.CompareTo(GetMaximalDifferenceThresholdForFailureMessage()) > 0)
-            {
-                return $" (difference of {difference}).";
-            }
-
-            return noDifferenceMessage;
+            return difference is null ? noDifferenceMessage : $" (difference of {difference}).";
         }
     }
 }

@@ -13,10 +13,10 @@ namespace FluentAssertions.Numeric
         {
         }
 
-        private protected override double? CalculateDifferenceForFailureMessage(double expected) => Subject - expected;
-
-        private protected override double GetMinimalDifferenceThresholdForFailureMessage() => 0;
-
-        private protected override double GetMaximalDifferenceThresholdForFailureMessage() => 0;
+        private protected override double? CalculateDifferenceForFailureMessage(double expected)
+        {
+            var difference = Subject - expected;
+            return difference != 0 ? difference : null;
+        }
     }
 }

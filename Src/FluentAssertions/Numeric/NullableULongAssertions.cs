@@ -13,10 +13,15 @@ namespace FluentAssertions.Numeric
         {
         }
 
-        private protected override ulong? CalculateDifferenceForFailureMessage(ulong expected) => Subject - expected;
+        private protected override ulong? CalculateDifferenceForFailureMessage(ulong expected)
+        {
+            if (Subject!.Value < 10 && expected < 10)
+            {
+                return null;
+            }
 
-        private protected override ulong GetMinimalDifferenceThresholdForFailureMessage() => 0;
-
-        private protected override ulong GetMaximalDifferenceThresholdForFailureMessage() => 10;
+            var difference = Subject - expected;
+            return difference != 0 ? difference : null;
+        }
     }
 }

@@ -112,7 +112,7 @@ namespace FluentAssertions.Specs.Collections
 *At index 1:
 *Expected item to be 3, but found 2
 *At index 1:
-*Expected customer.Age to be less than 21, but found 22"
+*Expected customer.Age to be less than 21, but found 22 (difference of 1)"
                         );
             }
 
