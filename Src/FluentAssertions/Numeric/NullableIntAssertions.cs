@@ -15,7 +15,7 @@ namespace FluentAssertions.Numeric
 
         private protected override int? CalculateDifferenceForFailureMessage(int expected)
         {
-            if (Subject!.Value > 0 && Subject!.Value < 10 && expected > 0 && expected < 10)
+            if (Subject is > 0 and < 10 && expected is > 0 and < 10)
             {
                 return null;
             }

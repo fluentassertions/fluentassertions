@@ -194,6 +194,7 @@ namespace FluentAssertions.Numeric
                 .ForCondition(Subject.HasValue && !IsNaN(Subject.Value) && Subject.Value.CompareTo(expected) < 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to be less than {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
+
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
