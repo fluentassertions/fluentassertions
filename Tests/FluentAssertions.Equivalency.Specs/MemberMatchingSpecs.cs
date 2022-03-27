@@ -475,6 +475,44 @@ namespace FluentAssertions.Equivalency.Specs
                 );
         }
 
+        [Fact]
+        public void Can_map_members_of_a_root_collection()
+        {
+            // Arrange
+            var entity = new Entity
+            {
+                EntityId = 1,
+                Name = "Test"
+            };
+            
+            var dto = new EntityDto
+            {
+                Id = 1,
+                Name = "Test"
+            };
+          
+            var entityCol = new[] { entity };
+            var dtoCol = new[] { dto };
+
+            // Act / Assert
+            dtoCol.Should().BeEquivalentTo(entityCol, c =>
+                c.WithMapping<EntityDto>(s => s.EntityId, d => d.Id));
+        }
+
+        private class Entity
+        {
+            public int EntityId { get; init; }
+
+            public string Name { get; init; }
+        }
+
+        private class EntityDto
+        {
+            public int Id { get; init; }
+
+            public string Name { get; init; }
+        }
+
         internal class ParentOfExpectationWithProperty2
         {
             public ExpectationWithProperty2[] Parent { get; }

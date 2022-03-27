@@ -19,6 +19,7 @@ sidebar:
 * `EnumAssertions.Be` did not determine the caller name - [#1835](https://github.com/fluentassertions/fluentassertions/pull/1835)
 * Ensure `ExcludingMissingMembers` doesn't undo usage of `WithMapping` in `BeEquivalentTo` - [#1838](https://github.com/fluentassertions/fluentassertions/pull/1838)
 * Better handling of NaN in various numeric assertions - [#1822](https://github.com/fluentassertions/fluentassertions/pull/1822)
+* `WithMapping` in `BeEquivalentTo` now also works when the root is a collection - [#1858](https://github.com/fluentassertions/fluentassertions/pull/1858)
 
 ### Fixes (Extensibility)
 
