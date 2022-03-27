@@ -1632,6 +1632,23 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
+        public void When_non_browsable_property_on_subject_is_ignored_but_is_present_on_expectation_it_should_fail()
+        {
+            // Arrange
+            var subject = new ClassWhereMemberThatCouldBeNonBrowsableIsNonBrowsable() { PropertyThatMightBeNonBrowsable = 0 };
+            var expectation = new ClassWhereMemberThatCouldBeNonBrowsableIsBrowsable() { PropertyThatMightBeNonBrowsable = 1 };
+
+            // Act
+            Action action =
+                () => subject.Should().BeEquivalentTo(expectation, config => config.IgnoringNonBrowsableMembersOnSubject());
+
+            // Assert
+            action.Should().Throw<XunitException>().WithMessage(
+                $"Expectation has * subject.*ThatMightBeNonBrowsable that is non-browsable in the other object, and non-browsable " +
+                $"members on the subject are ignored with the current configuration*");
+        }
+
+        [Fact]
         public void When_property_is_non_browsable_only_in_expectation_excluding_non_browsable_members_should_make_it_succeed()
         {
             // Arrange
