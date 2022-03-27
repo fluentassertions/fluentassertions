@@ -1737,16 +1737,16 @@ namespace FluentAssertions.Numeric
     {
         public NullableLongAssertions(long? value) { }
     }
-    public abstract class NullableNumericAssertions<T> : FluentAssertions.Numeric.NullableNumericAssertions<T, FluentAssertions.Numeric.NullableNumericAssertions<T>>
+    public class NullableNumericAssertions<T> : FluentAssertions.Numeric.NullableNumericAssertions<T, FluentAssertions.Numeric.NullableNumericAssertions<T>>
         where T :  struct, System.IComparable<T>
     {
-        protected NullableNumericAssertions(T? value) { }
+        public NullableNumericAssertions(T? value) { }
     }
-    public abstract class NullableNumericAssertions<T, TAssertions> : FluentAssertions.Numeric.NumericAssertions<T, TAssertions>
+    public class NullableNumericAssertions<T, TAssertions> : FluentAssertions.Numeric.NumericAssertions<T, TAssertions>
         where T :  struct, System.IComparable<T>
         where TAssertions : FluentAssertions.Numeric.NullableNumericAssertions<T, TAssertions>
     {
-        protected NullableNumericAssertions(T? value) { }
+        public NullableNumericAssertions(T? value) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Match(System.Linq.Expressions.Expression<System.Func<T?, bool>> predicate, string because = "", params object[] becauseArgs) { }
@@ -1773,16 +1773,16 @@ namespace FluentAssertions.Numeric
     {
         public NullableUShortAssertions(ushort? value) { }
     }
-    public abstract class NumericAssertions<T> : FluentAssertions.Numeric.NumericAssertions<T, FluentAssertions.Numeric.NumericAssertions<T>>
+    public class NumericAssertions<T> : FluentAssertions.Numeric.NumericAssertions<T, FluentAssertions.Numeric.NumericAssertions<T>>
         where T :  struct, System.IComparable<T>
     {
-        protected NumericAssertions(T value) { }
+        public NumericAssertions(T value) { }
     }
-    public abstract class NumericAssertions<T, TAssertions>
+    public class NumericAssertions<T, TAssertions>
         where T :  struct, System.IComparable<T>
         where TAssertions : FluentAssertions.Numeric.NumericAssertions<T, TAssertions>
     {
-        protected NumericAssertions(T value) { }
+        public NumericAssertions(T value) { }
         public T? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(T expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Be(T? expected, string because = "", params object[] becauseArgs) { }

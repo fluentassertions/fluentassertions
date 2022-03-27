@@ -6,7 +6,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
-using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Numeric
 {
@@ -14,10 +13,10 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that an <see cref="IComparable{T}"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public abstract class NumericAssertions<T> : NumericAssertions<T, NumericAssertions<T>>
+    public class NumericAssertions<T> : NumericAssertions<T, NumericAssertions<T>>
         where T : struct, IComparable<T>
     {
-        protected NumericAssertions(T value)
+        public NumericAssertions(T value)
             : base(value)
         {
         }
@@ -29,11 +28,11 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that an <see cref="IComparable{T}"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public abstract class NumericAssertions<T, TAssertions>
+    public class NumericAssertions<T, TAssertions>
         where T : struct, IComparable<T>
         where TAssertions : NumericAssertions<T, TAssertions>
     {
-        protected NumericAssertions(T value)
+        public NumericAssertions(T value)
             : this((T?)value)
         {
         }
@@ -487,10 +486,10 @@ namespace FluentAssertions.Numeric
         /// </summary>
         /// <param name="expected">The value to compare the current numeric value with.</param>
         /// <returns>
-        /// Returns the difference between the integral number value and the <paramref name="expected" /> value.
+        /// Returns the difference between a number value and the <paramref name="expected" /> value.
         /// Returns `null` if the compared numbers are small enough that a difference message is irrelevant.
         /// </returns>
-        private protected abstract T? CalculateDifferenceForFailureMessage(T expected);
+        private protected virtual T? CalculateDifferenceForFailureMessage(T expected) => null;
 
         private string GenerateDifferenceMessage(T? expected)
         {

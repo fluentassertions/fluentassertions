@@ -11,7 +11,7 @@ namespace FluentAssertions.Specs.Numeric
             [Theory]
             [InlineData(8, 5)]
             [InlineData(1, 9)]
-            public void When_an_int_difference_between_small_numbers_it_should_not_add_difference_message(int value, int expected)
+            public void The_difference_between_small_ints_is_not_included_in_the_message(int value, int expected)
             {
                 // Act
                 Action act = () =>
@@ -24,11 +24,11 @@ namespace FluentAssertions.Specs.Numeric
             }
 
             [Theory]
-            [InlineData(50, 20)]
-            [InlineData(20, 50)]
-            [InlineData(123, -123)]
-            [InlineData(-123, 123)]
-            public void When_an_int_difference_between_large_numbers_it_should_add_difference_message(int value, int expected)
+            [InlineData(50, 20, 30)]
+            [InlineData(20, 50, -30)]
+            [InlineData(123, -123, 246)]
+            [InlineData(-123, 123, -246)]
+            public void The_difference_between_ints_is_included_in_the_message(int value, int expected, int expectedDifference)
             {
                 // Act
                 Action act = () =>
@@ -37,13 +37,13 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage($"Expected value to be {expected} because we want to test the failure message, but found {value} (difference of {value - expected}).");
+                    .WithMessage($"Expected value to be {expected} because we want to test the failure message, but found {value} (difference of {expectedDifference}).");
             }
 
             [Theory]
             [InlineData(8, 5)]
             [InlineData(1, 9)]
-            public void When_a_nullable_int_difference_between_small_numbers_it_should_not_add_difference_message(int? value, int expected)
+            public void The_difference_between_small_nullable_ints_is_not_included_in_the_message(int? value, int expected)
             {
                 // Act
                 Action act = () =>
@@ -56,7 +56,7 @@ namespace FluentAssertions.Specs.Numeric
             }
 
             [Fact]
-            public void When_a_int_is_compared_to_null_it_should_not_add_difference_message()
+            public void The_difference_between_int_and_null_is_not_included_in_the_message()
             {
                 // Arrange
                 int? value = null;
@@ -69,11 +69,11 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage($"Expected value to be {expected} because we want to test the failure message, but found <null>.");
+                    .WithMessage("Expected value to be 12 because we want to test the failure message, but found <null>.");
             }
 
             [Fact]
-            public void When_a_null_is_compared_to_value_it_should_not_add_difference_message()
+            public void The_difference_between_null_and_int_is_not_included_in_the_message()
             {
                 // Arrange
                 const int value = 12;
@@ -90,11 +90,11 @@ namespace FluentAssertions.Specs.Numeric
             }
 
             [Theory]
-            [InlineData(50, 20)]
-            [InlineData(20, 50)]
-            [InlineData(123, -123)]
-            [InlineData(-123, 123)]
-            public void When_a_nullable_int_difference_between_large_numbers_it_should_add_difference_message(int? value, int expected)
+            [InlineData(50, 20, 30)]
+            [InlineData(20, 50, -30)]
+            [InlineData(123, -123, 246)]
+            [InlineData(-123, 123, -246)]
+            public void The_difference_between_nullable_ints_is_included_in_the_message(int? value, int expected, int expectedDifference)
             {
                 // Act
                 Action act = () =>
@@ -103,13 +103,13 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage($"Expected value to be {expected} because we want to test the failure message, but found {value} (difference of {value - expected}).");
+                    .WithMessage($"Expected value to be {expected} because we want to test the failure message, but found {value} (difference of {expectedDifference}).");
             }
 
             [Theory]
             [InlineData(8, 5)]
             [InlineData(1, 9)]
-            public void When_a_long_difference_between_small_numbers_it_should_not_add_difference_message(long value, long expected)
+            public void The_difference_between_small_longs_is_not_included_in_the_message(long value, long expected)
             {
                 // Act
                 Action act = () =>
@@ -122,9 +122,9 @@ namespace FluentAssertions.Specs.Numeric
             }
 
             [Theory]
-            [InlineData(50, 20)]
-            [InlineData(20, 50)]
-            public void When_a_long_difference_between_large_numbers_it_should_add_difference_message(long value, long expected)
+            [InlineData(50, 20, 30)]
+            [InlineData(20, 50, -30)]
+            public void The_difference_between_longs_is_included_in_the_message(long value, long expected, long expectedDifference)
             {
                 // Act
                 Action act = () =>
@@ -133,13 +133,13 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage($"Expected value to be {expected}L because we want to test the failure message, but found {value}L (difference of {value - expected}).");
+                    .WithMessage($"Expected value to be {expected}L because we want to test the failure message, but found {value}L (difference of {expectedDifference}).");
             }
 
             [Theory]
             [InlineData(8, 5)]
             [InlineData(1, 9)]
-            public void When_a_nullable_long_difference_between_small_numbers_it_should_not_add_difference_message(long? value, long expected)
+            public void The_difference_between_small_nullable_longs_is_not_included_in_the_message(long? value, long expected)
             {
                 // Act
                 Action act = () =>
@@ -152,9 +152,9 @@ namespace FluentAssertions.Specs.Numeric
             }
 
             [Theory]
-            [InlineData(50, 20)]
-            [InlineData(20, 50)]
-            public void When_a_nullable_long_difference_between_large_numbers_it_should_add_difference_message(long? value, long expected)
+            [InlineData(50, 20, 30)]
+            [InlineData(20, 50, -30)]
+            public void The_difference_between_nullable_longs_is_included_in_the_message(long? value, long expected, long expectedDifference)
             {
                 // Act
                 Action act = () =>
@@ -163,13 +163,13 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage($"Expected value to be {expected}L because we want to test the failure message, but found {value}L (difference of {value - expected}).");
+                    .WithMessage($"Expected value to be {expected}L because we want to test the failure message, but found {value}L (difference of {expectedDifference}).");
             }
 
             [Theory]
             [InlineData(8, 5)]
             [InlineData(1, 9)]
-            public void When_a_short_difference_between_small_numbers_it_should_not_add_difference_message(short value, short expected)
+            public void The_difference_between_small_shorts_is_not_included_in_the_message(short value, short expected)
             {
                 // Act
                 Action act = () =>
@@ -182,9 +182,9 @@ namespace FluentAssertions.Specs.Numeric
             }
 
             [Theory]
-            [InlineData(50, 20)]
-            [InlineData(20, 50)]
-            public void When_a_short_difference_between_large_numbers_it_should_add_difference_message(short value, short expected)
+            [InlineData(50, 20, 30)]
+            [InlineData(20, 50, -30)]
+            public void The_difference_between_shorts_is_included_in_the_message(short value, short expected, short expectedDifference)
             {
                 // Act
                 Action act = () =>
@@ -193,11 +193,11 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage($"Expected value to be {expected}s because we want to test the failure message, but found {value}s (difference of {value - expected}).");
+                    .WithMessage($"Expected value to be {expected}s because we want to test the failure message, but found {value}s (difference of {expectedDifference}).");
             }
 
             [Fact]
-            public void When_a_nullable_short_difference_between_small_numbers_it_should_not_add_difference_message()
+            public void The_difference_between_small_nullable_shorts_is_not_included_in_the_message()
             {
                 // Arrange
                 short? value = 2;
@@ -210,11 +210,11 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage($"Expected value to be {expected}s because we want to test the failure message, but found {value}s.");
+                    .WithMessage("Expected value to be 1s because we want to test the failure message, but found 2s.");
             }
 
             [Fact]
-            public void When_a_nullable_short_difference_between_large_numbers_it_should_add_difference_message()
+            public void The_difference_between_nullable_shorts_is_included_in_the_message()
             {
                 // Arrange
                 short? value = 15;
@@ -227,11 +227,11 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage($"Expected value to be {expected}s because we want to test the failure message, but found {value}s (difference of {value - expected}).");
+                    .WithMessage("Expected value to be 2s because we want to test the failure message, but found 15s (difference of 13).");
             }
 
             [Fact]
-            public void When_a_ulong_difference_between_small_numbers_it_should_not_add_difference_message()
+            public void The_difference_between_small_ulongs_is_not_included_in_the_message()
             {
                 // Arrange
                 const ulong value = 9;
@@ -244,14 +244,16 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage($"Expected value to be {expected}UL because we want to test the failure message, but found {value}UL.");
+                    .WithMessage("Expected value to be 4UL because we want to test the failure message, but found 9UL.");
             }
 
-            [Theory]
-            [InlineData(50, 20)]
-            [InlineData(20, 50)]
-            public void When_a_ulong_difference_between_large_numbers_it_should_add_difference_message(ulong value, ulong expected)
+            [Fact]
+            public void The_difference_between_ulongs_is_included_in_the_message()
             {
+                // Arrange
+                const ulong value = 50;
+                const ulong expected = 20;
+
                 // Act
                 Action act = () =>
                     value.Should().Be(expected, "because we want to test the failure {0}", "message");
@@ -259,11 +261,11 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage($"Expected value to be {expected}UL because we want to test the failure message, but found {value}UL (difference of {value - expected}).");
+                    .WithMessage("Expected value to be 20UL because we want to test the failure message, but found 50UL (difference of 30).");
             }
 
             [Fact]
-            public void When_a_nullable_ulong_difference_between_small_numbers_it_should_not_add_difference_message()
+            public void The_difference_between_small_nullable_ulongs_is_not_included_in_the_message()
             {
                 // Arrange
                 ulong? value = 7;
@@ -276,11 +278,11 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage($"Expected value to be {expected}UL because we want to test the failure message, but found {value}UL.");
+                    .WithMessage("Expected value to be 4UL because we want to test the failure message, but found 7UL.");
             }
 
             [Fact]
-            public void When_a_nullable_ulong_difference_between_large_numbers_it_should_add_difference_message()
+            public void The_difference_between_nullable_ulongs_is_included_in_the_message()
             {
                 // Arrange
                 ulong? value = 50;
@@ -293,11 +295,11 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage($"Expected value to be {expected}UL because we want to test the failure message, but found {value}UL (difference of {value - expected}).");
+                    .WithMessage("Expected value to be 20UL because we want to test the failure message, but found 50UL (difference of 30).");
             }
 
             [Fact]
-            public void When_a_nullable_ushort_difference_between_large_numbers_it_should_add_difference_message()
+            public void The_difference_between_ushorts_is_included_in_the_message()
             {
                 // Arrange
                 ushort? value = 11;
@@ -310,11 +312,11 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage($"Expected value to be {expected}us because we want to test the failure message, but found {value}us (difference of {value - expected}).");
+                    .WithMessage("Expected value to be 2us because we want to test the failure message, but found 11us (difference of 9).");
             }
 
             [Fact]
-            public void When_a_double_difference_between_large_numbers_it_should_add_difference_message()
+            public void The_difference_between_doubles_is_included_in_the_message()
             {
                 // Arrange
                 const double value = 1.5;
@@ -327,11 +329,11 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage($"Expected value to be 1.0 because we want to test the failure message, but found {value} (difference of {value - expected}).");
+                    .WithMessage("Expected value to be 1.0 because we want to test the failure message, but found 1.5 (difference of 0.5).");
             }
 
             [Fact]
-            public void When_a_nullable_double_difference_between_large_numbers_it_should_add_difference_message()
+            public void The_difference_between_nullable_doubles_is_included_in_the_message()
             {
                 // Arrange
                 double? value = 1.5;
@@ -344,11 +346,11 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage($"Expected value to be 1.0 because we want to test the failure message, but found {value} (difference of {value - expected}).");
+                    .WithMessage("Expected value to be 1.0 because we want to test the failure message, but found 1.5 (difference of 0.5).");
             }
 
             [Fact]
-            public void When_a_float_difference_between_large_numbers_it_should_add_difference_message()
+            public void The_difference_between_floats_is_included_in_the_message()
             {
                 // Arrange
                 const float value = 1.5F;
@@ -361,11 +363,11 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage($"Expected value to be 1F because we want to test the failure message, but found 1.5F (difference of {value - expected}).");
+                    .WithMessage("Expected value to be 1F because we want to test the failure message, but found 1.5F (difference of 0.5).");
             }
 
             [Fact]
-            public void When_a_nullable_float_difference_between_large_numbers_it_should_add_difference_message()
+            public void The_difference_between_nullable_floats_is_included_in_the_message()
             {
                 // Arrange
                 float? value = 1.5F;
@@ -378,11 +380,11 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage($"Expected value to be 1F because we want to test the failure message, but found 1.5F (difference of {value - expected}).");
+                    .WithMessage("Expected value to be 1F because we want to test the failure message, but found 1.5F (difference of 0.5).");
             }
 
             [Fact]
-            public void When_a_decimal_difference_between_large_numbers_it_should_add_difference_message()
+            public void The_difference_between_decimals_is_included_in_the_message()
             {
                 // Arrange
                 const decimal value = 1.5m;
@@ -395,11 +397,11 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage($"Expected value to be 1m because we want to test the failure message, but found 1.5m (difference of {value - expected}).");
+                    .WithMessage("Expected value to be 1m because we want to test the failure message, but found 1.5m (difference of 0.5).");
             }
 
             [Fact]
-            public void When_a_nullable_decimal_difference_between_large_numbers_it_should_add_difference_message()
+            public void The_difference_between_nullable_decimals_is_included_in_the_message()
             {
                 // Arrange
                 decimal? value = 1.5m;
@@ -412,11 +414,11 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage($"Expected value to be 1m because we want to test the failure message, but found 1.5m (difference of {value - expected}).");
+                    .WithMessage("Expected value to be 1m because we want to test the failure message, but found 1.5m (difference of 0.5).");
             }
 
             [Fact]
-            public void When_a_sbyte_difference_between_large_numbers_it_should_add_difference_message()
+            public void The_difference_between_sbytes_is_included_in_the_message()
             {
                 // Arrange
                 const sbyte value = 1;
@@ -429,11 +431,11 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage($"Expected value to be {expected}y because we want to test the failure message, but found {value}y (difference of {value - expected}).");
+                    .WithMessage("Expected value to be 3y because we want to test the failure message, but found 1y (difference of -2).");
             }
 
             [Fact]
-            public void When_a_nullable_sbyte_difference_between_large_numbers_it_should_add_difference_message()
+            public void The_difference_between_nullable_sbytes_is_included_in_the_message()
             {
                 // Arrange
                 sbyte? value = 1;
@@ -446,14 +448,14 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage($"Expected value to be {expected}y because we want to test the failure message, but found {value}y (difference of {value - expected}).");
+                    .WithMessage("Expected value to be 3y because we want to test the failure message, but found 1y (difference of -2).");
             }
         }
 
         public class BeLessThan
         {
             [Fact]
-            public void When_an_int_value_is_equal_to_expected_value_it_should_not_add_difference_message()
+            public void The_difference_between_equal_ints_is_not_included_in_the_message()
             {
                 // Arrange
                 const int value = 15;
@@ -470,7 +472,7 @@ namespace FluentAssertions.Specs.Numeric
             }
 
             [Fact]
-            public void When_an_int_value_is_less_than_expected_value_with_small_numbers_it_should_not_add_difference_message()
+            public void The_difference_between_small_ints_is_not_included_in_the_message()
             {
                 // Arrange
                 const int value = 4;
@@ -487,7 +489,7 @@ namespace FluentAssertions.Specs.Numeric
             }
 
             [Fact]
-            public void When_an_int_value_is_less_than_expected_value_with_large_numbers_it_should_add_difference_message()
+            public void The_difference_between_ints_is_included_in_the_message()
             {
                 // Arrange
                 const int value = 52;
@@ -502,63 +504,12 @@ namespace FluentAssertions.Specs.Numeric
                     .Should().Throw<XunitException>()
                     .WithMessage("Expected value to be less than 22 because we want to test the failure message, but found 52 (difference of 30).");
             }
-
-            [Fact]
-            public void When_a_float_value_is_equal_to_expected_value_it_should_not_add_difference_message()
-            {
-                // Arrange
-                const float value = 2.3F;
-                const float expected = 2.3F;
-
-                // Act
-                Action act = () =>
-                    value.Should().BeGreaterThan(expected, "because we want to test the failure {0}", "message");
-
-                // Assert
-                act
-                    .Should().Throw<XunitException>()
-                    .WithMessage("Expected value to be greater than 2.3F because we want to test the failure message, but found 2.3F.");
-            }
-
-            [Fact]
-            public void When_a_ushort_value_is_equal_to_expected_value_it_should_not_add_difference_message()
-            {
-                // Arrange
-                ushort? value = 11;
-                const ushort expected = 11;
-
-                // Act
-                Action act = () =>
-                    value.Should().BeGreaterThan(expected, "because we want to test the failure {0}", "message");
-
-                // Assert
-                act
-                    .Should().Throw<XunitException>()
-                    .WithMessage("Expected value to be greater than 11us because we want to test the failure message, but found 11us.");
-            }
-
-            [Fact]
-            public void When_a_sbyte_value_is_equal_to_expected_value_it_should_not_add_difference_message()
-            {
-                // Arrange
-                const sbyte value = 3;
-                const sbyte expected = 3;
-
-                // Act
-                Action act = () =>
-                    value.Should().BeGreaterThan(expected, "because we want to test the failure {0}", "message");
-
-                // Assert
-                act
-                    .Should().Throw<XunitException>()
-                    .WithMessage("Expected value to be greater than 3y because we want to test the failure message, but found 3y.");
-            }
         }
 
         public class BeLessThanOrEqualTo
         {
             [Fact]
-            public void When_an_int_value_is_less_than_expected_value_with_small_numbers_it_should_not_add_difference_message()
+            public void The_difference_between_small_ints_is_not_included_in_the_message()
             {
                 // Arrange
                 const int value = 4;
@@ -575,7 +526,7 @@ namespace FluentAssertions.Specs.Numeric
             }
 
             [Fact]
-            public void When_an_int_value_is_less_than_expected_value_with_large_numbers_it_should_add_difference_message()
+            public void The_difference_between_ints_is_included_in_the_message()
             {
                 // Arrange
                 const int value = 52;
@@ -595,7 +546,7 @@ namespace FluentAssertions.Specs.Numeric
         public class BeGreaterThan
         {
             [Fact]
-            public void When_an_int_value_is_equal_to_expected_value_it_should_not_add_difference_message()
+            public void The_difference_between_equal_ints_is_not_included_in_the_message()
             {
                 // Arrange
                 const int value = 15;
@@ -612,7 +563,7 @@ namespace FluentAssertions.Specs.Numeric
             }
 
             [Fact]
-            public void When_an_int_value_is_greater_than_expected_value_with_small_numbers_it_should_not_add_difference_message()
+            public void The_difference_between_small_ints_is_not_included_in_the_message()
             {
                 // Arrange
                 const int value = 2;
@@ -629,7 +580,7 @@ namespace FluentAssertions.Specs.Numeric
             }
 
             [Fact]
-            public void When_an_int_value_is_greater_than_expected_value_with_large_numbers_it_should_add_difference_message()
+            public void The_difference_between_ints_is_included_in_the_message()
             {
                 // Arrange
                 const int value = 22;
@@ -646,7 +597,7 @@ namespace FluentAssertions.Specs.Numeric
             }
 
             [Fact]
-            public void When_a_double_value_is_equal_to_expected_value_it_should_not_add_difference_message()
+            public void The_difference_between_equal_doubles_is_not_included_in_the_message()
             {
                 // Arrange
                 const double value = 1.3;
@@ -661,12 +612,63 @@ namespace FluentAssertions.Specs.Numeric
                     .Should().Throw<XunitException>()
                     .WithMessage("Expected value to be greater than 1.3 because we want to test the failure message, but found 1.3.");
             }
+
+            [Fact]
+            public void The_difference_between_equal_floats_is_not_included_in_the_message()
+            {
+                // Arrange
+                const float value = 2.3F;
+                const float expected = 2.3F;
+
+                // Act
+                Action act = () =>
+                    value.Should().BeGreaterThan(expected, "because we want to test the failure {0}", "message");
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("Expected value to be greater than 2.3F because we want to test the failure message, but found 2.3F.");
+            }
+
+            [Fact]
+            public void The_difference_between_equal_ushorts_is_not_included_in_the_message()
+            {
+                // Arrange
+                ushort? value = 11;
+                const ushort expected = 11;
+
+                // Act
+                Action act = () =>
+                    value.Should().BeGreaterThan(expected, "because we want to test the failure {0}", "message");
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("Expected value to be greater than 11us because we want to test the failure message, but found 11us.");
+            }
+
+            [Fact]
+            public void The_difference_between_equal_sbytes_is_not_included_in_the_message()
+            {
+                // Arrange
+                const sbyte value = 3;
+                const sbyte expected = 3;
+
+                // Act
+                Action act = () =>
+                    value.Should().BeGreaterThan(expected, "because we want to test the failure {0}", "message");
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("Expected value to be greater than 3y because we want to test the failure message, but found 3y.");
+            }
         }
 
         public class BeGreaterThanOrEqualTo
         {
             [Fact]
-            public void When_an_int_value_is_greater_than_expected_value_with_small_numbers_it_should_not_add_difference_message()
+            public void The_difference_between_small_ints_is_not_included_in_the_message()
             {
                 // Arrange
                 const int value = 2;
@@ -683,7 +685,7 @@ namespace FluentAssertions.Specs.Numeric
             }
 
             [Fact]
-            public void When_an_int_value_is_greater_than_expected_value_with_large_numbers_it_should_add_difference_message()
+            public void The_difference_between_ints_is_included_in_the_message()
             {
                 // Arrange
                 const int value = 22;

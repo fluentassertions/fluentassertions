@@ -7,21 +7,21 @@ using FluentAssertions.Execution;
 namespace FluentAssertions.Numeric
 {
     [DebuggerNonUserCode]
-    public abstract class NullableNumericAssertions<T> : NullableNumericAssertions<T, NullableNumericAssertions<T>>
+    public class NullableNumericAssertions<T> : NullableNumericAssertions<T, NullableNumericAssertions<T>>
         where T : struct, IComparable<T>
     {
-        protected NullableNumericAssertions(T? value)
+        public NullableNumericAssertions(T? value)
             : base(value)
         {
         }
     }
 
     [DebuggerNonUserCode]
-    public abstract class NullableNumericAssertions<T, TAssertions> : NumericAssertions<T, TAssertions>
+    public class NullableNumericAssertions<T, TAssertions> : NumericAssertions<T, TAssertions>
         where T : struct, IComparable<T>
         where TAssertions : NullableNumericAssertions<T, TAssertions>
     {
-        protected NullableNumericAssertions(T? value)
+        public NullableNumericAssertions(T? value)
             : base(value)
         {
         }
