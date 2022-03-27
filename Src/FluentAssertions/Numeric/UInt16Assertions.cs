@@ -3,12 +3,12 @@
 namespace FluentAssertions.Numeric
 {
     /// <summary>
-    /// Contains a number of methods to assert that a nullable <see cref="ushort"/> is in the expected state.
+    /// Contains a number of methods to assert that a <see cref="ushort"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class NullableUShortAssertions : NullableNumericAssertions<ushort>
+    public class UInt16Assertions : NumericAssertions<ushort>
     {
-        public NullableUShortAssertions(ushort? value)
+        public UInt16Assertions(ushort value)
             : base(value)
         {
         }

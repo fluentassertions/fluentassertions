@@ -6,9 +6,9 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that a nullable <see cref="long"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class NullableLongAssertions : NullableNumericAssertions<long>
+    public class NullableInt64Assertions : NullableNumericAssertions<long>
     {
-        public NullableLongAssertions(long? value)
+        public NullableInt64Assertions(long? value)
             : base(value)
         {
         }

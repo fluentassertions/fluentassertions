@@ -3,24 +3,24 @@
 namespace FluentAssertions.Numeric
 {
     /// <summary>
-    /// Contains a number of methods to assert that a <see cref="ulong"/> is in the expected state.
+    /// Contains a number of methods to assert that a <see cref="short"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class ULongAssertions : NumericAssertions<ulong>
+    public class Int16Assertions : NumericAssertions<short>
     {
-        public ULongAssertions(ulong value)
+        public Int16Assertions(short value)
             : base(value)
         {
         }
 
-        private protected override ulong? CalculateDifferenceForFailureMessage(ulong expected)
+        private protected override short? CalculateDifferenceForFailureMessage(short expected)
         {
             if (Subject < 10 && expected < 10)
             {
                 return null;
             }
 
-            var difference = Subject - expected;
+            var difference = (short?)(Subject - expected);
             return difference != 0 ? difference : null;
         }
     }

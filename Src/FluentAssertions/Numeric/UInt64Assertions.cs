@@ -3,19 +3,19 @@
 namespace FluentAssertions.Numeric
 {
     /// <summary>
-    /// Contains a number of methods to assert that a <see cref="long"/> is in the expected state.
+    /// Contains a number of methods to assert that a <see cref="ulong"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class LongAssertions : NumericAssertions<long>
+    public class UInt64Assertions : NumericAssertions<ulong>
     {
-        public LongAssertions(long value)
+        public UInt64Assertions(ulong value)
             : base(value)
         {
         }
 
-        private protected override long? CalculateDifferenceForFailureMessage(long expected)
+        private protected override ulong? CalculateDifferenceForFailureMessage(ulong expected)
         {
-            if (Subject is > 0 and < 10 && expected is > 0 and < 10)
+            if (Subject < 10 && expected < 10)
             {
                 return null;
             }

@@ -680,7 +680,7 @@ namespace FluentAssertions
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
 
-            var nonNullableAssertions = new FloatAssertions(parent.Subject.Value);
+            var nonNullableAssertions = new SingleAssertions(parent.Subject.Value);
             nonNullableAssertions.BeApproximately(expectedValue, precision, because, becauseArgs);
 
             return new AndConstraint<NullableNumericAssertions<float>>(parent);
@@ -1073,7 +1073,7 @@ namespace FluentAssertions
 
             if (parent.Subject is not null)
             {
-                var nonNullableAssertions = new FloatAssertions(parent.Subject.Value);
+                var nonNullableAssertions = new SingleAssertions(parent.Subject.Value);
                 nonNullableAssertions.NotBeApproximately(unexpectedValue, precision, because, becauseArgs);
             }
 

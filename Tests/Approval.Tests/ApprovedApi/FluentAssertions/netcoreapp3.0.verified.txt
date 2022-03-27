@@ -1701,17 +1701,17 @@ namespace FluentAssertions.Numeric
     {
         public DoubleAssertions(double value) { }
     }
-    public class FloatAssertions : FluentAssertions.Numeric.NumericAssertions<float>
+    public class Int16Assertions : FluentAssertions.Numeric.NumericAssertions<short>
     {
-        public FloatAssertions(float value) { }
+        public Int16Assertions(short value) { }
     }
     public class Int32Assertions : FluentAssertions.Numeric.NumericAssertions<int>
     {
         public Int32Assertions(int value) { }
     }
-    public class LongAssertions : FluentAssertions.Numeric.NumericAssertions<long>
+    public class Int64Assertions : FluentAssertions.Numeric.NumericAssertions<long>
     {
-        public LongAssertions(long value) { }
+        public Int64Assertions(long value) { }
     }
     public class NullableByteAssertions : FluentAssertions.Numeric.NullableNumericAssertions<byte>
     {
@@ -1725,17 +1725,17 @@ namespace FluentAssertions.Numeric
     {
         public NullableDoubleAssertions(double? value) { }
     }
-    public class NullableFloatAssertions : FluentAssertions.Numeric.NullableNumericAssertions<float>
+    public class NullableInt16Assertions : FluentAssertions.Numeric.NullableNumericAssertions<short>
     {
-        public NullableFloatAssertions(float? value) { }
+        public NullableInt16Assertions(short? value) { }
     }
-    public class NullableIntAssertions : FluentAssertions.Numeric.NullableNumericAssertions<int>
+    public class NullableInt32Assertions : FluentAssertions.Numeric.NullableNumericAssertions<int>
     {
-        public NullableIntAssertions(int? value) { }
+        public NullableInt32Assertions(int? value) { }
     }
-    public class NullableLongAssertions : FluentAssertions.Numeric.NullableNumericAssertions<long>
+    public class NullableInt64Assertions : FluentAssertions.Numeric.NullableNumericAssertions<long>
     {
-        public NullableLongAssertions(long? value) { }
+        public NullableInt64Assertions(long? value) { }
     }
     public class NullableNumericAssertions<T> : FluentAssertions.Numeric.NullableNumericAssertions<T, FluentAssertions.Numeric.NullableNumericAssertions<T>>
         where T :  struct, System.IComparable<T>
@@ -1757,21 +1757,21 @@ namespace FluentAssertions.Numeric
     {
         public NullableSByteAssertions(sbyte? value) { }
     }
-    public class NullableShortAssertions : FluentAssertions.Numeric.NullableNumericAssertions<short>
+    public class NullableSingleAssertions : FluentAssertions.Numeric.NullableNumericAssertions<float>
     {
-        public NullableShortAssertions(short? value) { }
+        public NullableSingleAssertions(float? value) { }
     }
-    public class NullableUIntAssertions : FluentAssertions.Numeric.NullableNumericAssertions<uint>
+    public class NullableUInt16Assertions : FluentAssertions.Numeric.NullableNumericAssertions<ushort>
     {
-        public NullableUIntAssertions(uint? value) { }
+        public NullableUInt16Assertions(ushort? value) { }
     }
-    public class NullableULongAssertions : FluentAssertions.Numeric.NullableNumericAssertions<ulong>
+    public class NullableUInt32Assertions : FluentAssertions.Numeric.NullableNumericAssertions<uint>
     {
-        public NullableULongAssertions(ulong? value) { }
+        public NullableUInt32Assertions(uint? value) { }
     }
-    public class NullableUShortAssertions : FluentAssertions.Numeric.NullableNumericAssertions<ushort>
+    public class NullableUInt64Assertions : FluentAssertions.Numeric.NullableNumericAssertions<ulong>
     {
-        public NullableUShortAssertions(ushort? value) { }
+        public NullableUInt64Assertions(ulong? value) { }
     }
     public class NumericAssertions<T> : FluentAssertions.Numeric.NumericAssertions<T, FluentAssertions.Numeric.NumericAssertions<T>>
         where T :  struct, System.IComparable<T>
@@ -1809,21 +1809,21 @@ namespace FluentAssertions.Numeric
     {
         public SByteAssertions(sbyte value) { }
     }
-    public class ShortAssertions : FluentAssertions.Numeric.NumericAssertions<short>
+    public class SingleAssertions : FluentAssertions.Numeric.NumericAssertions<float>
     {
-        public ShortAssertions(short value) { }
+        public SingleAssertions(float value) { }
     }
-    public class UIntAssertions : FluentAssertions.Numeric.NumericAssertions<uint>
+    public class UInt16Assertions : FluentAssertions.Numeric.NumericAssertions<ushort>
     {
-        public UIntAssertions(uint value) { }
+        public UInt16Assertions(ushort value) { }
     }
-    public class ULongAssertions : FluentAssertions.Numeric.NumericAssertions<ulong>
+    public class UInt32Assertions : FluentAssertions.Numeric.NumericAssertions<uint>
     {
-        public ULongAssertions(ulong value) { }
+        public UInt32Assertions(uint value) { }
     }
-    public class UShortAssertions : FluentAssertions.Numeric.NumericAssertions<ushort>
+    public class UInt64Assertions : FluentAssertions.Numeric.NumericAssertions<ulong>
     {
-        public UShortAssertions(ushort value) { }
+        public UInt64Assertions(ulong value) { }
     }
 }
 namespace FluentAssertions.Primitives

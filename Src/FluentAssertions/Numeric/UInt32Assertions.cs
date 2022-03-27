@@ -3,17 +3,17 @@
 namespace FluentAssertions.Numeric
 {
     /// <summary>
-    /// Contains a number of methods to assert that a nullable <see cref="ulong"/> is in the expected state.
+    /// Contains a number of methods to assert that a <see cref="uint"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class NullableULongAssertions : NullableNumericAssertions<ulong>
+    public class UInt32Assertions : NumericAssertions<uint>
     {
-        public NullableULongAssertions(ulong? value)
+        public UInt32Assertions(uint value)
             : base(value)
         {
         }
 
-        private protected override ulong? CalculateDifferenceForFailureMessage(ulong expected)
+        private protected override uint? CalculateDifferenceForFailureMessage(uint expected)
         {
             if (Subject < 10 && expected < 10)
             {

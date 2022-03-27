@@ -3,17 +3,15 @@
 namespace FluentAssertions.Numeric
 {
     /// <summary>
-    /// Contains a number of methods to assert that a <see cref="float"/> is in the expected state.
+    /// Contains a number of methods to assert that a nullable <see cref="float"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class FloatAssertions : NumericAssertions<float>
+    public class NullableSingleAssertions : NullableNumericAssertions<float>
     {
-        public FloatAssertions(float value)
+        public NullableSingleAssertions(float? value)
             : base(value)
         {
         }
-
-        private protected override bool IsNaN(float value) => float.IsNaN(value);
 
         private protected override float? CalculateDifferenceForFailureMessage(float expected)
         {
