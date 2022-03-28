@@ -121,7 +121,7 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Asserts that the value is not equal to the specified <paramref name="unexpected"/> value.
         /// </summary>
-        /// <param name="unexpected">The expected value</param>
+        /// <param name="unexpected">The unexpected value</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
