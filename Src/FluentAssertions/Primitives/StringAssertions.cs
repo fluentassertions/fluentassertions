@@ -387,6 +387,16 @@ namespace FluentAssertions.Primitives
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
+        public AndConstraint<TAssertions> MatchRegex([RegexPattern][StringSyntax("Regex")] string regularExpression,
+            OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
+        {
+            MatchRegex(regularExpression, because, becauseArgs);
+
+            MatchRegex(new Regex(regularExpression), occurrenceConstraint, because, becauseArgs);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
         /// <summary>
         /// Asserts that a string matches a regular expression.
         /// </summary>
@@ -420,6 +430,21 @@ namespace FluentAssertions.Primitives
             return MatchRegex(regex, because, becauseArgs);
         }
 
+        public AndConstraint<TAssertions> MatchRegex(Regex regularExpression,
+            OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
+        {
+            int actual = regularExpression.Matches(Subject).Count;
+
+            Execute.Assertion
+                .ForConstraint(occurrenceConstraint, actual)
+                .UsingLineBreaks
+                .BecauseOf(because, becauseArgs)
+                .FailWith($"Expected {{context:string}} to match regex {{0}} {{expectedOccurrence}}{{reason}}, but found it {actual.Times()}.",
+                    regularExpression.ToString());
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
         /// <summary>
         /// Asserts that a string matches a regular expression.
         /// </summary>
@@ -433,7 +458,8 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> MatchRegex(Regex regularExpression, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> MatchRegex(Regex regularExpression,
+            string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression),
                 "Cannot match string against <null>. Provide a regex pattern or use the BeNull method.");

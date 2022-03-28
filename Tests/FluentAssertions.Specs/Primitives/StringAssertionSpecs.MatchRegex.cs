@@ -199,6 +199,35 @@ namespace FluentAssertions.Specs.Primitives
                 .WithParameterName("regularExpression");
         }
 
+        [Fact]
+        public void When_a_string_is_matched_against_a_regex_and_the_count_of_matches_are_exactly_the_expected_it_passes()
+        {
+            // Arrange
+            string subject = "hello world";
+
+            // Act
+            Action act = () => subject.Should().MatchRegex(new Regex("hello.*"), Exactly.Once());
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_a_string_is_matched_against_a_regex_and_the_count_of_matches_are_not_the_expected_it_fails()
+        {
+            // Arrange
+            string subject = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt " +
+                "ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et " +
+                "ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
+
+            // Act
+            Action act = () => subject.Should().MatchRegex("Lorem.*", Exactly.Twice());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage($"Expected string to match regex*\"Lorem.*\" exactly 2 times, but found it 1 time.");
+        }
+
         #endregion
 
         #region Not Match Regex

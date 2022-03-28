@@ -58,8 +58,6 @@ namespace FluentAssertions
         public static FluentAssertions.Specialized.ActionAssertions Should(this System.Action action) { }
         public static FluentAssertions.Collections.StringCollectionAssertions Should(this System.Collections.Generic.IEnumerable<string> @this) { }
         public static FluentAssertions.Data.DataColumnAssertions Should(this System.Data.DataColumn actualValue) { }
-        public static FluentAssertions.Primitives.DateOnlyAssertions Should(this System.DateOnly actualValue) { }
-        public static FluentAssertions.Primitives.NullableDateOnlyAssertions Should(this System.DateOnly? actualValue) { }
         public static FluentAssertions.Primitives.DateTimeAssertions Should(this System.DateTime actualValue) { }
         public static FluentAssertions.Primitives.NullableDateTimeAssertions Should(this System.DateTime? actualValue) { }
         public static FluentAssertions.Primitives.DateTimeOffsetAssertions Should(this System.DateTimeOffset actualValue) { }
@@ -74,8 +72,6 @@ namespace FluentAssertions
         public static FluentAssertions.Types.ConstructorInfoAssertions Should(this System.Reflection.ConstructorInfo constructorInfo) { }
         public static FluentAssertions.Types.MethodInfoAssertions Should(this System.Reflection.MethodInfo methodInfo) { }
         public static FluentAssertions.Types.PropertyInfoAssertions Should(this System.Reflection.PropertyInfo propertyInfo) { }
-        public static FluentAssertions.Primitives.TimeOnlyAssertions Should(this System.TimeOnly actualValue) { }
-        public static FluentAssertions.Primitives.NullableTimeOnlyAssertions Should(this System.TimeOnly? actualValue) { }
         public static FluentAssertions.Primitives.SimpleTimeSpanAssertions Should(this System.TimeSpan actualValue) { }
         public static FluentAssertions.Primitives.NullableSimpleTimeSpanAssertions Should(this System.TimeSpan? actualValue) { }
         public static FluentAssertions.Types.TypeAssertions Should(this System.Type subject) { }
@@ -114,10 +110,6 @@ namespace FluentAssertions
             where TAssertions : FluentAssertions.Primitives.BooleanAssertions<TAssertions> { }
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
             "ly following \'And\'", true)]
-        public static void Should<TAssertions>(this FluentAssertions.Primitives.DateOnlyAssertions<TAssertions> _)
-            where TAssertions : FluentAssertions.Primitives.DateOnlyAssertions<TAssertions> { }
-        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'", true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.DateTimeAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.DateTimeAssertions<TAssertions> { }
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
@@ -132,10 +124,6 @@ namespace FluentAssertions
             "ly following \'And\'", true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.SimpleTimeSpanAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.SimpleTimeSpanAssertions<TAssertions> { }
-        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'", true)]
-        public static void Should<TAssertions>(this FluentAssertions.Primitives.TimeOnlyAssertions<TAssertions> _)
-            where TAssertions : FluentAssertions.Primitives.TimeOnlyAssertions<TAssertions> { }
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
             "ly following \'And\'", true)]
         public static void Should<TSubject>(this FluentAssertions.Specialized.TaskCompletionSourceAssertions<TSubject> _) { }
@@ -1448,12 +1436,6 @@ namespace FluentAssertions.Formatting
         public bool CanHandle(object value) { }
         public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
-    public class DateOnlyValueFormatter : FluentAssertions.Formatting.IValueFormatter
-    {
-        public DateOnlyValueFormatter() { }
-        public bool CanHandle(object value) { }
-        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
-    }
     public class DateTimeOffsetValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public DateTimeOffsetValueFormatter() { }
@@ -1627,12 +1609,6 @@ namespace FluentAssertions.Formatting
         public bool CanHandle(object value) { }
         public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
     }
-    public class TimeOnlyValueFormatter : FluentAssertions.Formatting.IValueFormatter
-    {
-        public TimeOnlyValueFormatter() { }
-        public bool CanHandle(object value) { }
-        public void Format(object value, FluentAssertions.Formatting.FormattedObjectGraph formattedGraph, FluentAssertions.Formatting.FormattingContext context, FluentAssertions.Formatting.FormatChild formatChild) { }
-    }
     public class TimeSpanValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
         public TimeSpanValueFormatter() { }
@@ -1778,39 +1754,6 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> BeTrue(string because = "", params object[] becauseArgs) { }
         public override bool Equals(object obj) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(bool unexpected, string because = "", params object[] becauseArgs) { }
-    }
-    public class DateOnlyAssertions : FluentAssertions.Primitives.DateOnlyAssertions<FluentAssertions.Primitives.DateOnlyAssertions>
-    {
-        public DateOnlyAssertions(System.DateOnly? value) { }
-    }
-    public class DateOnlyAssertions<TAssertions>
-        where TAssertions : FluentAssertions.Primitives.DateOnlyAssertions<TAssertions>
-    {
-        public DateOnlyAssertions(System.DateOnly? value) { }
-        public System.DateOnly? Subject { get; }
-        public FluentAssertions.AndConstraint<TAssertions> Be(System.DateOnly expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> Be(System.DateOnly? expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeAfter(System.DateOnly expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeBefore(System.DateOnly expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeOnOrAfter(System.DateOnly expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeOnOrBefore(System.DateOnly expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeOneOf(params System.DateOnly[] validValues) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeOneOf(params System.Nullable<System.DateOnly>[] validValues) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<System.DateOnly> validValues, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<System.DateOnly?> validValues, string because = "", params object[] becauseArgs) { }
-        public override bool Equals(object obj) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveDay(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveMonth(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveYear(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBe(System.DateOnly unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBe(System.DateOnly? unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeAfter(System.DateOnly unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeBefore(System.DateOnly unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeOnOrAfter(System.DateOnly unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeOnOrBefore(System.DateOnly unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotHaveDay(int unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotHaveMonth(int unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotHaveYear(int unexpected, string because = "", params object[] becauseArgs) { }
     }
     public class DateTimeAssertions : FluentAssertions.Primitives.DateTimeAssertions<FluentAssertions.Primitives.DateTimeAssertions>
     {
@@ -2013,19 +1956,6 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotBeTrue(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs) { }
     }
-    public class NullableDateOnlyAssertions : FluentAssertions.Primitives.NullableDateOnlyAssertions<FluentAssertions.Primitives.NullableDateOnlyAssertions>
-    {
-        public NullableDateOnlyAssertions(System.DateOnly? value) { }
-    }
-    public class NullableDateOnlyAssertions<TAssertions> : FluentAssertions.Primitives.DateOnlyAssertions<TAssertions>
-        where TAssertions : FluentAssertions.Primitives.NullableDateOnlyAssertions<TAssertions>
-    {
-        public NullableDateOnlyAssertions(System.DateOnly? value) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs) { }
-    }
     public class NullableDateTimeAssertions : FluentAssertions.Primitives.NullableDateTimeAssertions<FluentAssertions.Primitives.NullableDateTimeAssertions>
     {
         public NullableDateTimeAssertions(System.DateTime? expected) { }
@@ -2090,19 +2020,6 @@ namespace FluentAssertions.Primitives
     {
         public NullableSimpleTimeSpanAssertions(System.TimeSpan? value) { }
         public FluentAssertions.AndConstraint<TAssertions> Be(System.TimeSpan? expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs) { }
-    }
-    public class NullableTimeOnlyAssertions : FluentAssertions.Primitives.NullableTimeOnlyAssertions<FluentAssertions.Primitives.NullableTimeOnlyAssertions>
-    {
-        public NullableTimeOnlyAssertions(System.TimeOnly? value) { }
-    }
-    public class NullableTimeOnlyAssertions<TAssertions> : FluentAssertions.Primitives.TimeOnlyAssertions<TAssertions>
-        where TAssertions : FluentAssertions.Primitives.NullableTimeOnlyAssertions<TAssertions>
-    {
-        public NullableTimeOnlyAssertions(System.TimeOnly? value) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs) { }
@@ -2203,6 +2120,8 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> MatchEquivalentOf(string wildcardPattern, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> MatchRegex(string regularExpression, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> MatchRegex(System.Text.RegularExpressions.Regex regularExpression, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> MatchRegex(string regularExpression, FluentAssertions.OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> MatchRegex(System.Text.RegularExpressions.Regex regularExpression, FluentAssertions.OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(string unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo(string unexpected, string because = "", params object[] becauseArgs) { }
@@ -2226,41 +2145,6 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotStartWithEquivalentOf(string unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> StartWith(string expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> StartWithEquivalentOf(string expected, string because = "", params object[] becauseArgs) { }
-    }
-    public class TimeOnlyAssertions : FluentAssertions.Primitives.TimeOnlyAssertions<FluentAssertions.Primitives.TimeOnlyAssertions>
-    {
-        public TimeOnlyAssertions(System.TimeOnly? value) { }
-    }
-    public class TimeOnlyAssertions<TAssertions>
-        where TAssertions : FluentAssertions.Primitives.TimeOnlyAssertions<TAssertions>
-    {
-        public TimeOnlyAssertions(System.TimeOnly? value) { }
-        public System.TimeOnly? Subject { get; }
-        public FluentAssertions.AndConstraint<TAssertions> Be(System.TimeOnly expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> Be(System.TimeOnly? expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeAfter(System.TimeOnly expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeBefore(System.TimeOnly expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeOnOrAfter(System.TimeOnly expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeOnOrBefore(System.TimeOnly expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeOneOf(params System.Nullable<System.TimeOnly>[] validValues) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeOneOf(params System.TimeOnly[] validValues) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<System.TimeOnly> validValues, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<System.TimeOnly?> validValues, string because = "", params object[] becauseArgs) { }
-        public override bool Equals(object obj) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveHours(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveMilliseconds(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveMinutes(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> HaveSeconds(int expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBe(System.TimeOnly unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBe(System.TimeOnly? unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeAfter(System.TimeOnly unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeBefore(System.TimeOnly unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeOnOrAfter(System.TimeOnly unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeOnOrBefore(System.TimeOnly unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotHaveHours(int unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotHaveMilliseconds(int unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotHaveMinutes(int unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotHaveSeconds(int unexpected, string because = "", params object[] becauseArgs) { }
     }
     public enum TimeSpanCondition
     {

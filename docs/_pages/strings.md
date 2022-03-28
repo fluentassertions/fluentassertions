@@ -108,3 +108,10 @@ someString.Should().MatchRegex(new System.Text.RegularExpressions.Regex("h.*\\sw
 subject.Should().NotMatchRegex(new System.Text.RegularExpressions.Regex(".*earth.*"));
 subject.Should().NotMatchRegex(".*earth.*");
 ```
+
+And if that's not enough, you can count the occurrence of a regular expression:
+
+```csharp
+someString.Should().MatchRegex("h.*\\sworld.$", Exactly.Once());
+someString.Should().MatchRegex(new System.Text.RegularExpressions.Regex("h.*\\sworld.$"), AtLeast.Twice());
+```
