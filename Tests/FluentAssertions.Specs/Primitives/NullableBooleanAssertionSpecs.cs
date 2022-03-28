@@ -201,7 +201,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void When_asserting_boolean_null_value_not_to_be_equal_to_same_boolean_null_value_should_fail()
+        public void When_asserting_boolean_null_value_not_to_be_equal_to_same_value_should_fail()
         {
             // Arrange
             bool? nullableBoolean = null;
@@ -232,7 +232,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void When_asserting_boolean_value_not_to_be_equal_to_boolean_value_it_should_succeed()
+        public void When_asserting_boolean_null_value_not_to_be_equal_to_different_value_it_should_succeed()
         {
             // Arrange
             bool? nullableBoolean = true;

@@ -119,9 +119,9 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that the value is not equal to the specified <paramref name="expected"/> value.
+        /// Asserts that the value is not equal to the specified <paramref name="unexpected"/> value.
         /// </summary>
-        /// <param name="expected">The expected value</param>
+        /// <param name="unexpected">The expected value</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -129,12 +129,12 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<TAssertions> NotBe(bool? expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotBe(bool? unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject != expected)
+                .ForCondition(Subject != unexpected)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:nullable boolean} not to be {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:nullable boolean} not to be {0}{reason}, but found {1}.", unexpected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
