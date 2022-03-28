@@ -201,6 +201,22 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
+        public void When_asserting_boolean_null_value_not_to_be_equal_to_same_value_should_fail()
+        {
+            // Arrange
+            bool? nullableBoolean = null;
+            bool? differentNullableBoolean = null;
+
+            // Act
+            Action action = () =>
+                nullableBoolean.Should().NotBe(differentNullableBoolean, "we want to test the failure {0}", "message");
+
+            // Assert
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected nullableBoolean not to be <null> because we want to test the failure message, but found <null>.");
+        }
+
+        [Fact]
         public void When_asserting_boolean_null_value_to_be_equal_to_null_it_should_succeed()
         {
             // Arrange
@@ -210,6 +226,21 @@ namespace FluentAssertions.Specs.Primitives
             // Act
             Action action = () =>
                 nullableBoolean.Should().Be(otherNullableBoolean);
+
+            // Assert
+            action.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_boolean_null_value_not_to_be_equal_to_different_value_it_should_succeed()
+        {
+            // Arrange
+            bool? nullableBoolean = true;
+            bool? otherNullableBoolean = null;
+
+            // Act
+            Action action = () =>
+                nullableBoolean.Should().NotBe(otherNullableBoolean);
 
             // Assert
             action.Should().NotThrow();
