@@ -701,5 +701,95 @@ namespace FluentAssertions.Specs.Numeric
                     .WithMessage("Expected value to be greater than or equal to 52 because we want to test the failure message, but found 22 (difference of -30).");
             }
         }
+
+        public class Overflow
+        {
+            [Fact]
+            public void The_difference_between_overflowed_ints_is_not_included_in_the_message()
+            {
+                // Act
+                Action act = () =>
+                    int.MinValue.Should().Be(int.MaxValue, "because we want to test the failure {0}", "message");
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("Expected int.MinValue to be 2147483647 because we want to test the failure message, but found -2147483648.");
+            }
+
+            [Fact]
+            public void The_difference_between_overflowed_nullable_ints_is_not_included_in_the_message()
+            {
+                // Arrange
+                int? minValue = int.MinValue;
+
+                // Act
+                Action act = () =>
+                    minValue.Should().Be(int.MaxValue, "because we want to test the failure {0}", "message");
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("Expected minValue to be 2147483647 because we want to test the failure message, but found -2147483648.");
+            }
+
+            [Fact]
+            public void The_difference_between_overflowed_longs_is_not_included_in_the_message()
+            {
+                // Act
+                Action act = () =>
+                    long.MinValue.Should().Be(long.MaxValue, "because we want to test the failure {0}", "message");
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("Expected long.MinValue to be 9223372036854775807L because we want to test the failure message, but found -9223372036854775808L.");
+            }
+
+            [Fact]
+            public void The_difference_between_overflowed_nullable_longs_is_not_included_in_the_message()
+            {
+                // Arrange
+                long? minValue = long.MinValue;
+
+                // Act
+                Action act = () =>
+                    minValue.Should().Be(long.MaxValue, "because we want to test the failure {0}", "message");
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("Expected minValue to be 9223372036854775807L because we want to test the failure message, but found -9223372036854775808L.");
+            }
+
+            [Fact]
+            public void The_difference_between_overflowed_decimals_is_not_included_in_the_message()
+            {
+                // Act
+                Action act = () =>
+                    decimal.MinValue.Should().Be(decimal.MaxValue, "because we want to test the failure {0}", "message");
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("Expected decimal.MinValue to be 79228162514264337593543950335M because we want to test the failure message, but found -79228162514264337593543950335M.");
+            }
+
+            [Fact]
+            public void The_difference_between_overflowed_nullable_decimals_is_not_included_in_the_message()
+            {
+                // Arrange
+                decimal? minValue = decimal.MinValue;
+
+                // Act
+                Action act = () =>
+                    minValue.Should().Be(decimal.MaxValue, "because we want to test the failure {0}", "message");
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("Expected minValue to be 79228162514264337593543950335M because we want to test the failure message, but found -79228162514264337593543950335M.");
+            }
+        }
     }
 }

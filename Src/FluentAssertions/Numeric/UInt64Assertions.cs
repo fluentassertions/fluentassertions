@@ -6,9 +6,9 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that a <see cref="ulong"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class UInt64Assertions : NumericAssertions<ulong>
+    internal class UInt64Assertions : NumericAssertions<ulong>
     {
-        public UInt64Assertions(ulong value)
+        internal UInt64Assertions(ulong value)
             : base(value)
         {
         }

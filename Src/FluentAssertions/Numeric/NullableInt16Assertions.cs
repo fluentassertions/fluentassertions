@@ -6,9 +6,9 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that a nullable <see cref="short"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class NullableInt16Assertions : NullableNumericAssertions<short>
+    internal class NullableInt16Assertions : NullableNumericAssertions<short>
     {
-        public NullableInt16Assertions(short? value)
+        internal NullableInt16Assertions(short? value)
             : base(value)
         {
         }

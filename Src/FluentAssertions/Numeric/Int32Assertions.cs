@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace FluentAssertions.Numeric
 {
@@ -6,9 +7,9 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that a <see cref="int"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class Int32Assertions : NumericAssertions<int>
+    internal class Int32Assertions : NumericAssertions<int>
     {
-        public Int32Assertions(int value)
+        internal Int32Assertions(int value)
             : base(value)
         {
         }
@@ -20,8 +21,15 @@ namespace FluentAssertions.Numeric
                 return null;
             }
 
-            var difference = Subject - expected;
-            return difference != 0 ? difference : null;
+            try
+            {
+                var difference = checked(Subject - expected);
+                return difference != 0 ? difference : null;
+            }
+            catch (OverflowException)
+            {
+                return null;
+            }
         }
     }
 }

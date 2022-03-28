@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace FluentAssertions.Numeric
 {
@@ -6,17 +7,24 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that a <see cref="decimal"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class DecimalAssertions : NumericAssertions<decimal>
+    internal class DecimalAssertions : NumericAssertions<decimal>
     {
-        public DecimalAssertions(decimal value)
+        internal DecimalAssertions(decimal value)
             : base(value)
         {
         }
 
         private protected override decimal? CalculateDifferenceForFailureMessage(decimal expected)
         {
-            var difference = Subject - expected;
-            return difference != 0 ? difference : null;
+            try
+            {
+                var difference = checked(Subject - expected);
+                return difference != 0 ? difference : null;
+            }
+            catch (OverflowException)
+            {
+                return null;
+            }
         }
     }
 }

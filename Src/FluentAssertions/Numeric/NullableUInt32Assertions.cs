@@ -6,9 +6,9 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that a nullable <see cref="uint"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class NullableUInt32Assertions : NullableNumericAssertions<uint>
+    internal class NullableUInt32Assertions : NullableNumericAssertions<uint>
     {
-        public NullableUInt32Assertions(uint? value)
+        internal NullableUInt32Assertions(uint? value)
             : base(value)
         {
         }

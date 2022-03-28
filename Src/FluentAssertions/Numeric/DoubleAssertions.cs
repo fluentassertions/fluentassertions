@@ -6,9 +6,9 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that a <see cref="double"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class DoubleAssertions : NumericAssertions<double>
+    internal class DoubleAssertions : NumericAssertions<double>
     {
-        public DoubleAssertions(double value)
+        internal DoubleAssertions(double value)
             : base(value)
         {
         }

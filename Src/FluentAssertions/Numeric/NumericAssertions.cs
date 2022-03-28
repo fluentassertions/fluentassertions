@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
+using static System.FormattableString;
 
 namespace FluentAssertions.Numeric
 {
@@ -501,7 +502,7 @@ namespace FluentAssertions.Numeric
             }
 
             var difference = CalculateDifferenceForFailureMessage(expected.Value);
-            return difference is null ? noDifferenceMessage : $" (difference of {difference}).";
+            return difference is null ? noDifferenceMessage : Invariant($" (difference of {difference}).");
         }
     }
 }

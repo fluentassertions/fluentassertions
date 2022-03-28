@@ -6,9 +6,9 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that a <see cref="float"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class SingleAssertions : NumericAssertions<float>
+    internal class SingleAssertions : NumericAssertions<float>
     {
-        public SingleAssertions(float value)
+        internal SingleAssertions(float value)
             : base(value)
         {
         }

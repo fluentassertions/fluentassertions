@@ -6,9 +6,9 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that a nullable <see cref="ulong"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class NullableUInt64Assertions : NullableNumericAssertions<ulong>
+    internal class NullableUInt64Assertions : NullableNumericAssertions<ulong>
     {
-        public NullableUInt64Assertions(ulong? value)
+        internal NullableUInt64Assertions(ulong? value)
             : base(value)
         {
         }

@@ -6,9 +6,9 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that a nullable <see cref="float"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class NullableSingleAssertions : NullableNumericAssertions<float>
+    internal class NullableSingleAssertions : NullableNumericAssertions<float>
     {
-        public NullableSingleAssertions(float? value)
+        internal NullableSingleAssertions(float? value)
             : base(value)
         {
         }

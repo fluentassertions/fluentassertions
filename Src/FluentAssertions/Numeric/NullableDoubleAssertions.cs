@@ -6,9 +6,9 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that a nullable <see cref="double"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class NullableDoubleAssertions : NullableNumericAssertions<double>
+    internal class NullableDoubleAssertions : NullableNumericAssertions<double>
     {
-        public NullableDoubleAssertions(double? value)
+        internal NullableDoubleAssertions(double? value)
             : base(value)
         {
         }

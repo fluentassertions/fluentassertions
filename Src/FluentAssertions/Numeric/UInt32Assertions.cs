@@ -6,9 +6,9 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that a <see cref="uint"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class UInt32Assertions : NumericAssertions<uint>
+    internal class UInt32Assertions : NumericAssertions<uint>
     {
-        public UInt32Assertions(uint value)
+        internal UInt32Assertions(uint value)
             : base(value)
         {
         }

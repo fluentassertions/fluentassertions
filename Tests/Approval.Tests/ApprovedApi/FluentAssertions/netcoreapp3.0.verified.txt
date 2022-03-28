@@ -1665,10 +1665,6 @@ namespace FluentAssertions.Formatting
 }
 namespace FluentAssertions.Numeric
 {
-    public class ByteAssertions : FluentAssertions.Numeric.NumericAssertions<byte>
-    {
-        public ByteAssertions(byte value) { }
-    }
     public class ComparableTypeAssertions<T> : FluentAssertions.Numeric.ComparableTypeAssertions<T, FluentAssertions.Numeric.ComparableTypeAssertions<T>>
     {
         public ComparableTypeAssertions(System.IComparable<T> value) { }
@@ -1693,50 +1689,6 @@ namespace FluentAssertions.Numeric
         public FluentAssertions.AndConstraint<TAssertions> NotBeInRange(T minimumValue, T maximumValue, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeRankedEquallyTo(T unexpected, string because = "", params object[] becauseArgs) { }
     }
-    public class DecimalAssertions : FluentAssertions.Numeric.NumericAssertions<decimal>
-    {
-        public DecimalAssertions(decimal value) { }
-    }
-    public class DoubleAssertions : FluentAssertions.Numeric.NumericAssertions<double>
-    {
-        public DoubleAssertions(double value) { }
-    }
-    public class Int16Assertions : FluentAssertions.Numeric.NumericAssertions<short>
-    {
-        public Int16Assertions(short value) { }
-    }
-    public class Int32Assertions : FluentAssertions.Numeric.NumericAssertions<int>
-    {
-        public Int32Assertions(int value) { }
-    }
-    public class Int64Assertions : FluentAssertions.Numeric.NumericAssertions<long>
-    {
-        public Int64Assertions(long value) { }
-    }
-    public class NullableByteAssertions : FluentAssertions.Numeric.NullableNumericAssertions<byte>
-    {
-        public NullableByteAssertions(byte? value) { }
-    }
-    public class NullableDecimalAssertions : FluentAssertions.Numeric.NullableNumericAssertions<decimal>
-    {
-        public NullableDecimalAssertions(decimal? value) { }
-    }
-    public class NullableDoubleAssertions : FluentAssertions.Numeric.NullableNumericAssertions<double>
-    {
-        public NullableDoubleAssertions(double? value) { }
-    }
-    public class NullableInt16Assertions : FluentAssertions.Numeric.NullableNumericAssertions<short>
-    {
-        public NullableInt16Assertions(short? value) { }
-    }
-    public class NullableInt32Assertions : FluentAssertions.Numeric.NullableNumericAssertions<int>
-    {
-        public NullableInt32Assertions(int? value) { }
-    }
-    public class NullableInt64Assertions : FluentAssertions.Numeric.NullableNumericAssertions<long>
-    {
-        public NullableInt64Assertions(long? value) { }
-    }
     public class NullableNumericAssertions<T> : FluentAssertions.Numeric.NullableNumericAssertions<T, FluentAssertions.Numeric.NullableNumericAssertions<T>>
         where T :  struct, System.IComparable<T>
     {
@@ -1752,26 +1704,6 @@ namespace FluentAssertions.Numeric
         public FluentAssertions.AndConstraint<TAssertions> Match(System.Linq.Expressions.Expression<System.Func<T?, bool>> predicate, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveValue(string because = "", params object[] becauseArgs) { }
-    }
-    public class NullableSByteAssertions : FluentAssertions.Numeric.NullableNumericAssertions<sbyte>
-    {
-        public NullableSByteAssertions(sbyte? value) { }
-    }
-    public class NullableSingleAssertions : FluentAssertions.Numeric.NullableNumericAssertions<float>
-    {
-        public NullableSingleAssertions(float? value) { }
-    }
-    public class NullableUInt16Assertions : FluentAssertions.Numeric.NullableNumericAssertions<ushort>
-    {
-        public NullableUInt16Assertions(ushort? value) { }
-    }
-    public class NullableUInt32Assertions : FluentAssertions.Numeric.NullableNumericAssertions<uint>
-    {
-        public NullableUInt32Assertions(uint? value) { }
-    }
-    public class NullableUInt64Assertions : FluentAssertions.Numeric.NullableNumericAssertions<ulong>
-    {
-        public NullableUInt64Assertions(ulong? value) { }
     }
     public class NumericAssertions<T> : FluentAssertions.Numeric.NumericAssertions<T, FluentAssertions.Numeric.NumericAssertions<T>>
         where T :  struct, System.IComparable<T>
@@ -1804,26 +1736,6 @@ namespace FluentAssertions.Numeric
         public FluentAssertions.AndConstraint<TAssertions> NotBe(T? unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeInRange(T minimumValue, T maximumValue, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeOfType(System.Type unexpectedType, string because = "", params object[] becauseArgs) { }
-    }
-    public class SByteAssertions : FluentAssertions.Numeric.NumericAssertions<sbyte>
-    {
-        public SByteAssertions(sbyte value) { }
-    }
-    public class SingleAssertions : FluentAssertions.Numeric.NumericAssertions<float>
-    {
-        public SingleAssertions(float value) { }
-    }
-    public class UInt16Assertions : FluentAssertions.Numeric.NumericAssertions<ushort>
-    {
-        public UInt16Assertions(ushort value) { }
-    }
-    public class UInt32Assertions : FluentAssertions.Numeric.NumericAssertions<uint>
-    {
-        public UInt32Assertions(uint value) { }
-    }
-    public class UInt64Assertions : FluentAssertions.Numeric.NumericAssertions<ulong>
-    {
-        public UInt64Assertions(ulong value) { }
     }
 }
 namespace FluentAssertions.Primitives

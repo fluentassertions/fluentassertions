@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace FluentAssertions.Numeric
 {
@@ -6,9 +7,9 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that a nullable <see cref="long"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class NullableInt64Assertions : NullableNumericAssertions<long>
+    internal class NullableInt64Assertions : NullableNumericAssertions<long>
     {
-        public NullableInt64Assertions(long? value)
+        internal NullableInt64Assertions(long? value)
             : base(value)
         {
         }
@@ -20,8 +21,15 @@ namespace FluentAssertions.Numeric
                 return null;
             }
 
-            var difference = Subject - expected;
-            return difference != 0 ? difference : null;
+            try
+            {
+                var difference = checked(Subject - expected);
+                return difference != 0 ? difference : null;
+            }
+            catch (OverflowException)
+            {
+                return null;
+            }
         }
     }
 }

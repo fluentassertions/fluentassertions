@@ -6,9 +6,9 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that a <see cref="short"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class Int16Assertions : NumericAssertions<short>
+    internal class Int16Assertions : NumericAssertions<short>
     {
-        public Int16Assertions(short value)
+        internal Int16Assertions(short value)
             : base(value)
         {
         }

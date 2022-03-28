@@ -6,9 +6,9 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that a <see cref="ushort"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class UInt16Assertions : NumericAssertions<ushort>
+    internal class UInt16Assertions : NumericAssertions<ushort>
     {
-        public UInt16Assertions(ushort value)
+        internal UInt16Assertions(ushort value)
             : base(value)
         {
         }

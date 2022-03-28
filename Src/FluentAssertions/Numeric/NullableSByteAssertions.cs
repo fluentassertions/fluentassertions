@@ -6,9 +6,9 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that a nullable <see cref="sbyte"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class NullableSByteAssertions : NullableNumericAssertions<sbyte>
+    internal class NullableSByteAssertions : NullableNumericAssertions<sbyte>
     {
-        public NullableSByteAssertions(sbyte? value)
+        internal NullableSByteAssertions(sbyte? value)
             : base(value)
         {
         }

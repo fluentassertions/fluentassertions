@@ -6,9 +6,9 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that a <see cref="byte"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class ByteAssertions : NumericAssertions<byte>
+    internal class ByteAssertions : NumericAssertions<byte>
     {
-        public ByteAssertions(byte value)
+        internal ByteAssertions(byte value)
             : base(value)
         {
         }
