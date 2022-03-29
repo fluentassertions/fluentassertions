@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 
 namespace FluentAssertions.Numeric
 {
@@ -12,6 +12,8 @@ namespace FluentAssertions.Numeric
             : base(value)
         {
         }
+
+        private protected override bool IsNaN(double value) => double.IsNaN(value);
 
         private protected override double? CalculateDifferenceForFailureMessage(double expected)
         {

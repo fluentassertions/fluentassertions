@@ -13,6 +13,8 @@ namespace FluentAssertions.Numeric
         {
         }
 
+        private protected override bool IsNaN(float value) => float.IsNaN(value);
+
         private protected override float? CalculateDifferenceForFailureMessage(float expected)
         {
             var difference = Subject - expected;
