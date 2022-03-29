@@ -225,7 +225,7 @@ namespace FluentAssertions.Specs.Primitives
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage($"Expected string to match regex*\"Lorem.*\" exactly 2 times, but found it 1 time.");
+                .WithMessage($"Expected subject to match regex*\"Lorem.*\" exactly 2 times, but found it 1 time.");
         }
 
         #endregion
