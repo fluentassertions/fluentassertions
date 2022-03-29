@@ -387,14 +387,40 @@ namespace FluentAssertions.Primitives
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
+        /// <summary>
+        /// Asserts that a string matches a regular expression with expected occurrence
+        /// </summary>
+        /// <param name="regularExpression">
+        /// The regular expression with which the subject is matched.
+        /// </param>
+        /// <param name="occurrenceConstraint">
+        /// The excpected occurences of regex matches
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
         public AndConstraint<TAssertions> MatchRegex([RegexPattern][StringSyntax("Regex")] string regularExpression,
             OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
         {
-            MatchRegex(regularExpression, because, becauseArgs);
+            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression), "Cannot match string against <null>. Provide a regex pattern or use the BeNull method.");
 
-            MatchRegex(new Regex(regularExpression), occurrenceConstraint, because, becauseArgs);
+            Regex regex;
+            try
+            {
+                regex = new Regex(regularExpression);
+            }
+            catch (ArgumentException)
+            {
+                Execute.Assertion.FailWith("Cannot match {context:string} against {0} because it is not a valid regular expression.",
+                    regularExpression);
+                return new AndConstraint<TAssertions>((TAssertions)this);
+            }
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return MatchRegex(regex, occurrenceConstraint, because, becauseArgs);
         }
 
         /// <summary>
@@ -430,17 +456,53 @@ namespace FluentAssertions.Primitives
             return MatchRegex(regex, because, becauseArgs);
         }
 
+        /// <summary>
+        /// Asserts that a string matches a regular expression with expected occurrence
+        /// </summary>
+        /// <param name="regularExpression">
+        /// The regular expression with which the subject is matched.
+        /// </param>
+        /// <param name="occurrenceConstraint">
+        /// The excpected occurences of regex matches
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
         public AndConstraint<TAssertions> MatchRegex(Regex regularExpression,
             OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
         {
-            int actual = regularExpression.Matches(Subject).Count;
+            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression),
+                    "Cannot match string against <null>. Provide a regex pattern or use the BeNull method.");
 
-            Execute.Assertion
-                .ForConstraint(occurrenceConstraint, actual)
+            var regexStr = regularExpression.ToString();
+            if (regexStr.Length == 0)
+            {
+                throw new ArgumentException(
+                    "Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.",
+                    nameof(regularExpression));
+            }
+
+            bool success = Execute.Assertion
+                .ForCondition(Subject is not null)
                 .UsingLineBreaks
                 .BecauseOf(because, becauseArgs)
-                .FailWith($"Expected {{context:string}} to match regex {{0}} {{expectedOccurrence}}{{reason}}, but found it {actual.Times()}.",
-                    regularExpression.ToString());
+                .FailWith("Expected {context:string} to match regex {0}{reason}, but it was <null>.", regexStr);
+
+            if (success)
+            {
+                int actual = regularExpression.Matches(Subject).Count;
+
+                Execute.Assertion
+                    .ForConstraint(occurrenceConstraint, actual)
+                    .UsingLineBreaks
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith($"Expected {{context:string}} to match regex {{0}} {{expectedOccurrence}}{{reason}}, but found it {actual.Times()}.",
+                        regularExpression.ToString());
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

@@ -228,6 +228,33 @@ namespace FluentAssertions.Specs.Primitives
                 .WithMessage($"Expected subject to match regex*\"Lorem.*\" exactly 2 times, but found it 1 time.");
         }
 
+        [Fact]
+        public void When_a_string_is_matched_against_a_regex_and_the_expected_count_is_zero_and_string_not_matches_it_passes()
+        {
+            // Arrange
+            string subject = "a";
+
+            // Act
+            Action act = () => subject.Should().MatchRegex("b", Exactly.Times(0));
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_a_string_is_matched_against_a_regex_and_the_expected_count_is_zero_and_string_matches_it_fails()
+        {
+            // Arrange
+            string subject = "a";
+
+            // Act
+            Action act = () => subject.Should().MatchRegex("a", Exactly.Times(0));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage($"Expected subject to match regex*\"a\" exactly 0 times, but found it 1 time.");
+        }
+
         #endregion
 
         #region Not Match Regex
