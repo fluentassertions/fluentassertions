@@ -109,7 +109,7 @@ subject.Should().NotMatchRegex(new System.Text.RegularExpressions.Regex(".*earth
 subject.Should().NotMatchRegex(".*earth.*");
 ```
 
-And if that's not enough, you can count the occurrence of a regular expression:
+And if that's not enough, you can assert on the number of matches of a regular expression:
 
 ```csharp
 someString.Should().MatchRegex("h.*\\sworld.$", Exactly.Once());
