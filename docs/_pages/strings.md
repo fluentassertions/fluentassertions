@@ -113,5 +113,5 @@ And if that's not enough, you can assert on the number of matches of a regular e
 
 ```csharp
 someString.Should().MatchRegex("h.*\\sworld.$", Exactly.Once());
-someString.Should().MatchRegex(new System.Text.RegularExpressions.Regex("h.*\\sworld.$"), AtLeast.Twice());
+someString.Should().MatchRegex(new Regex("h.*\\sworld.$"), AtLeast.Twice());
 ```
