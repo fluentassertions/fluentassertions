@@ -13,12 +13,14 @@ namespace FluentAssertions.Equivalency.Specs
             // Arrange
             var subject = new Root
             {
-                Text = "Root", Level = new Level1 { Text = "Level1", Level = new Level2 { Text = "Level2" } }
+                Text = "Root",
+                Level = new Level1 { Text = "Level1", Level = new Level2 { Text = "Level2" } }
             };
 
             var expected = new RootDto
             {
-                Text = "Root", Level = new Level1Dto { Text = "Level1", Level = new Level2Dto { Text = "Level2" } }
+                Text = "Root",
+                Level = new Level1Dto { Text = "Level1", Level = new Level2Dto { Text = "Level2" } }
             };
 
             // Act
@@ -53,7 +55,8 @@ namespace FluentAssertions.Equivalency.Specs
             {
                 Property = new ClassWithValueSemanticsOnSingleProperty
                 {
-                    Key = "123", NestedProperty = "Should be ignored"
+                    Key = "123",
+                    NestedProperty = "Should be ignored"
                 }
             };
 
@@ -61,7 +64,8 @@ namespace FluentAssertions.Equivalency.Specs
             {
                 Property = new ClassWithValueSemanticsOnSingleProperty
                 {
-                    Key = "123", NestedProperty = "Should be ignored as well"
+                    Key = "123",
+                    NestedProperty = "Should be ignored as well"
                 }
             };
 
@@ -249,7 +253,8 @@ namespace FluentAssertions.Equivalency.Specs
             // Arrange
             var root = new Root
             {
-                Text = "Root", Level = new Level1 { Text = "Level1", Level = new Level2 { Text = "Level2" } }
+                Text = "Root",
+                Level = new Level1 { Text = "Level1", Level = new Level2 { Text = "Level2" } }
             };
 
             var rootDto = new RootDto
