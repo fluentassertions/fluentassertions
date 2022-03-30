@@ -11,9 +11,8 @@ namespace FluentAssertions.Equivalency.Steps
         protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
         {
             var subject = comparands.Subject as DataSet;
-            var expectation = comparands.Expectation as DataSet;
 
-            if (expectation is null)
+            if (comparands.Expectation is not DataSet expectation)
             {
                 if (subject is not null)
                 {
