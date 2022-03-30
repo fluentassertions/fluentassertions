@@ -394,7 +394,10 @@ namespace FluentAssertions.Primitives
         /// The regular expression with which the subject is matched.
         /// </param>
         /// <param name="occurrenceConstraint">
-        /// The excpected occurences of regex matches
+        /// A constraint specifying the expected amount of times a regex should match a string.
+        /// It can be created by invoking static methods Once, Twice, Thrice, or Times(int)
+        /// on the classes <see cref="Exactly"/>, <see cref="AtLeast"/>, <see cref="MoreThan"/>, <see cref="AtMost"/>, and <see cref="LessThan"/>.
+        /// For example, <see cref="Exactly.Times(int)"/> or <see cref="LessThan.Twice()"/>.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -406,7 +409,8 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> MatchRegex([RegexPattern][StringSyntax("Regex")] string regularExpression,
             OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
         {
-            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression), "Cannot match string against <null>. Provide a regex pattern or use the BeNull method.");
+            Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression),
+                "Cannot match string against <null>. Provide a regex pattern or use the BeNull method.");
 
             Regex regex;
             try
@@ -463,7 +467,10 @@ namespace FluentAssertions.Primitives
         /// The regular expression with which the subject is matched.
         /// </param>
         /// <param name="occurrenceConstraint">
-        /// The excpected occurences of regex matches
+        /// A constraint specifying the expected amount of times a regex should match a string.
+        /// It can be created by invoking static methods Once, Twice, Thrice, or Times(int)
+        /// on the classes <see cref="Exactly"/>, <see cref="AtLeast"/>, <see cref="MoreThan"/>, <see cref="AtMost"/>, and <see cref="LessThan"/>.
+        /// For example, <see cref="Exactly.Times(int)"/> or <see cref="LessThan.Twice()"/>.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -476,7 +483,7 @@ namespace FluentAssertions.Primitives
             OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression),
-                    "Cannot match string against <null>. Provide a regex pattern or use the BeNull method.");
+                "Cannot match string against <null>. Provide a regex pattern or use the BeNull method.");
 
             var regexStr = regularExpression.ToString();
             if (regexStr.Length == 0)
@@ -501,7 +508,7 @@ namespace FluentAssertions.Primitives
                     .UsingLineBreaks
                     .BecauseOf(because, becauseArgs)
                     .FailWith($"Expected {{context:string}} to match regex {{0}} {{expectedOccurrence}}{{reason}}, but found it {actual.Times()}.",
-                        regularExpression.ToString());
+                        regexStr);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
