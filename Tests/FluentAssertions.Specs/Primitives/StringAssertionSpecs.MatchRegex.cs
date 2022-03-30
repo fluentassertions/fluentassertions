@@ -274,7 +274,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void When_the_subject_is_empty_and_expected_count_is_zero_and_the_regex_matches_it_passes()
+        public void When_the_subject_is_empty_and_expected_count_is_zero_it_passes()
         {
             // Arrange
             string subject = string.Empty;
@@ -283,7 +283,7 @@ namespace FluentAssertions.Specs.Primitives
             Action act = () =>
             {
                 using var _ = new AssertionScope();
-                subject.Should().MatchRegex(".+", Exactly.Times(0));
+                subject.Should().MatchRegex("a", Exactly.Times(0));
             };
 
             // Assert
