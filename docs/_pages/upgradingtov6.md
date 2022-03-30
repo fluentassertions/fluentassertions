@@ -29,7 +29,7 @@ This design had several downsides.
 A lot, if not most, of the assertions listed above are irrelevant for enums.
 Conversely, `HaveFlag` is only relevant for enums, but it was always available even though your object was not an enum.
 We wanted to introduce new enum specific assertions, but adding those would be even more auto-complete noise for non enums.
-`HaveFlag` was written long before the enum type constraint was introduced i C# 7.3, so checking whether the subject and expectation was the same of enum was performed on runtime instead of compile-time.
+`HaveFlag` was written long before the enum type constraint was introduced in C# 7.3, so checking whether the subject and expectation was the same of enum was performed on runtime instead of compile-time.
 
 `Be` has some workarounds to ensure that a boxed `1` and boxed `1.0` are considered to be equal.
 This approach did not work well for enums as it would consider two enums to be equal if their underlying integral values are equal.
@@ -71,7 +71,7 @@ Previously, formatting an enum would simply be a call to `ToString()`, but to pr
 
 ## IEquivalencyStep
 
-In v6, we applied some major refactorings to the equivalency validator, of which most of it is internal and therefore won't be visble to consumers of the library. But one thing that does, is that we split off the subject and expectation from the `IEquivalencyValidationContext` and move them into their own type called `Comparands`. Since this affected the `IEquivalencyStep` and we already had some ideas to simplify that abstraction, we removed the `CanHandle` method and replaced the boolean return value of `Handle` with a more self-describing `EquivalencyResult`. The consequence of this is that `Handle` must first check whether the comparands are applicable to the step and bail out with `EquivalencyResult.ContinueWithNext` if that isn't the case. There's a convenience base-class called `EquivalencyStep<T>` that remove some of that burden for you. Check out `DictionaryEquivalencyStep` for an example of that. Also, the [extensibility section](extensibility/#equivalency-assertion-step-by-step) has been updated to reflect the new signatures and types.
+In v6, we applied some major refactoring to the equivalency validator, of which most of it is internal and therefore won't be visible to consumers of the library. But one thing that does, is that we split off the subject and expectation from the `IEquivalencyValidationContext` and move them into their own type called `Comparands`. Since this affected the `IEquivalencyStep` and we already had some ideas to simplify that abstraction, we removed the `CanHandle` method and replaced the boolean return value of `Handle` with a more self-describing `EquivalencyResult`. The consequence of this is that `Handle` must first check whether the comparands are applicable to the step and bail out with `EquivalencyResult.ContinueWithNext` if that isn't the case. There's a convenience base-class called `EquivalencyStep<T>` that remove some of that burden for you. Check out `DictionaryEquivalencyStep` for an example of that. Also, the [extensibility section](extensibility/#equivalency-assertion-step-by-step) has been updated to reflect the new signatures and types.
 
 ## Using
 
@@ -212,9 +212,9 @@ items.Should().BeEquivalentTo(new I[] { new A() }, opt => opt); // (4)
 
 In Fluent Assertions 5.0 `(1)` and `(2)` both used the `BeEquivalentTo(params object[])` overload, which meant the expectation was seen as `object`s with runtime time `A` and now `AA` was unexpectedly included in the comparison.
 Case `(3)` works as expected, as `List<T>` is not implicitly convertible to `T[]` and the compiler picks `BeEquivalentTo(IEnumerable<I>)`, which retains the compile time information about the expectation being objects of type `I`.
-A case which led to some confusion among our users was that `(2)` changed behavior when adding assertion options, as shown in `(4)`, as `BeEquivalentTo(IEnumerable<T>, Func<EquivalencyAssertionOptions<I>>)` was now picked because `I[]` is implicitly covertible to `IEnumerable<I>`.
+A case which led to some confusion among our users was that `(2)` changed behavior when adding assertion options, as shown in `(4)`, as `BeEquivalentTo(IEnumerable<T>, Func<EquivalencyAssertionOptions<I>>)` was now picked because `I[]` is implicitly convertible to `IEnumerable<I>`.
 
-You might ask if we could not just have changed the overload signature from `params object[]` to `params T[]` to solve the type problem while keeping the convient overload.
+You might ask if we could not just have changed the overload signature from `params object[]` to `params T[]` to solve the type problem while keeping the convenient overload.
 The answer is no (as far as we know), as the compiler prefers resolving e.g. `IEnumerable<T>` to `params IEnumerable<T>[]` over `IEnumerable<T>`.
 
 For Fluent Assertions 6.0 the implications of this are that `(1)` no longer compiles, as `BeEquivalentTo` takes an `IEnumerable<T>`, but `(2)` now works as expected.
