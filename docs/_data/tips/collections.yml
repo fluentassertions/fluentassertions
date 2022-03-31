@@ -180,6 +180,18 @@
     Expected collection to contain a single item, but found {"", "", ""}.
 
 - old: |
+    actual.Any(item => typeof(string).IsAssignableFrom(item.GetType())).Should().BeTrue();
+
+  new: |
+    actual.Should().ContainItemsAssignableTo<string>();
+  
+  old-message: |
+    Expected True, but found False.
+
+  new-message: |
+    Expected collection to contain at least one element assignable to type "System.String", but found {System.Int32}.
+    
+- old: |
     actual.Should().HaveCount(0);
 
   new: |
