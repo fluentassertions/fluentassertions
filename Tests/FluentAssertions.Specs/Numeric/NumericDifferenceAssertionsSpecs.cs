@@ -106,6 +106,23 @@ namespace FluentAssertions.Specs.Numeric
                     .WithMessage($"Expected value to be {expected} because we want to test the failure message, but found {value} (difference of {expectedDifference}).");
             }
 
+            [Fact]
+            public void The_difference_between_nullable_uints_is_included_in_the_message()
+            {
+                // Arrange
+                uint? value = 29;
+                const uint expected = 19;
+
+                // Act
+                Action act = () =>
+                    value.Should().Be(expected, "because we want to test the failure {0}", "message");
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("Expected value to be 19u because we want to test the failure message, but found 29u (difference of 10).");
+            }
+
             [Theory]
             [InlineData(8, 5)]
             [InlineData(1, 9)]
@@ -597,6 +614,23 @@ namespace FluentAssertions.Specs.Numeric
             }
 
             [Fact]
+            public void The_difference_between_equal_nullable_uints_is_not_included_in_the_message()
+            {
+                // Arrange
+                uint? value = 15;
+                const uint expected = 15;
+
+                // Act
+                Action act = () =>
+                    value.Should().BeGreaterThan(expected, "because we want to test the failure {0}", "message");
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("Expected value to be greater than 15u because we want to test the failure message, but found 15u.");
+            }
+
+            [Fact]
             public void The_difference_between_equal_doubles_is_not_included_in_the_message()
             {
                 // Arrange
@@ -662,6 +696,23 @@ namespace FluentAssertions.Specs.Numeric
                 act
                     .Should().Throw<XunitException>()
                     .WithMessage("Expected value to be greater than 3y because we want to test the failure message, but found 3y.");
+            }
+
+            [Fact]
+            public void The_difference_between_equal_nullable_ulongs_is_not_included_in_the_message()
+            {
+                // Arrange
+                ulong? value = 15;
+                const ulong expected = 15;
+
+                // Act
+                Action act = () =>
+                    value.Should().BeGreaterThan(expected, "because we want to test the failure {0}", "message");
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("Expected value to be greater than 15UL because we want to test the failure message, but found 15UL.");
             }
         }
 
