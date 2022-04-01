@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace FluentAssertions.Numeric
 {
@@ -20,8 +21,15 @@ namespace FluentAssertions.Numeric
                 return null;
             }
 
-            var difference = Subject - expected;
-            return difference != 0 ? difference : null;
+            try
+            {
+                var difference = checked(Subject - expected);
+                return difference != 0 ? difference : null;
+            }
+            catch (OverflowException)
+            {
+                return null;
+            }
         }
     }
 }
