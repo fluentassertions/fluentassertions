@@ -162,5 +162,31 @@ namespace FluentAssertions.Specs.Common
             // Assert
             act.Should().NotThrow();
         }
+
+        [Fact]
+        public void When_enum_member_is_not_available_it_throws()
+        {
+            // Arrange
+            var actual = (CSharpAccessModifier)1000;
+
+            // Act
+            Action act = () => Guard.ThrowIfArgumentIsOutOfRange<CSharpAccessModifier>(actual, nameof(actual));
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public void When_enum_member_is_available_it_does_not_throw()
+        {
+            // Arrange
+            var actual = (CSharpAccessModifier)1;
+
+            // Act
+            Action act = () => Guard.ThrowIfArgumentIsOutOfRange<CSharpAccessModifier>(actual, nameof(actual));
+
+            // Assert
+            act.Should().NotThrow();
+        }
     }
 }
