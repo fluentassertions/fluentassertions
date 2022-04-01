@@ -52,7 +52,7 @@ namespace FluentAssertions.Common
             if (values.Any(t => t is null))
             {
                 throw new ArgumentNullException(paramName, "Collection contains a null value");
-            };
+            }
         }
 
         public static void ThrowIfArgumentContainsNull<T>(IEnumerable<T> values, string paramName, string message)
