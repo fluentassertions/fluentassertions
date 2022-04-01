@@ -200,7 +200,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void When_a_string_is_matched_against_a_regex_and_the_count_of_matches_fits_into_the_expected_it_passes()
+        public void When_a_string_is_matched_and_the_count_of_matches_fits_into_the_expected_it_passes()
         {
             // Arrange
             string subject = "hello world";
@@ -213,7 +213,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void When_a_string_is_matched_against_a_regex_and_the_count_of_matches_do_not_fit_the_expected_it_fails()
+        public void When_a_string_is_matched_and_the_count_of_matches_do_not_fit_the_expected_it_fails()
         {
             // Arrange
             string subject = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt " +
@@ -229,7 +229,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void When_a_string_is_matched_against_a_regex_and_the_expected_count_is_zero_and_string_not_matches_it_passes()
+        public void When_a_string_is_matched_and_the_expected_count_is_zero_and_string_not_matches_it_passes()
         {
             // Arrange
             string subject = "a";
@@ -242,7 +242,7 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
-        public void When_a_string_is_matched_against_a_regex_and_the_expected_count_is_zero_and_string_matches_it_fails()
+        public void When_a_string_is_matched_and_the_expected_count_is_zero_and_string_matches_it_fails()
         {
             // Arrange
             string subject = "a";
