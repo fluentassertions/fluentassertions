@@ -8,7 +8,10 @@ namespace FluentAssertions.Common
     {
         public static void ThrowIfArgumentIsNull<T>([ValidatedNotNull] T obj, string paramName)
         {
-            ThrowIfArgumentIsNull(obj, paramName, string.Empty);
+            if (obj is null)
+            {
+                throw new ArgumentNullException(paramName);
+            }
         }
 
         public static void ThrowIfArgumentIsNull<T>([ValidatedNotNull] T obj, string paramName, string message)
@@ -21,7 +24,10 @@ namespace FluentAssertions.Common
 
         public static void ThrowIfArgumentIsNullOrEmpty([ValidatedNotNull] string str, string paramName)
         {
-            ThrowIfArgumentIsNullOrEmpty(str, paramName, string.Empty);
+            if (string.IsNullOrEmpty(str))
+            {
+                throw new ArgumentNullException(paramName);
+            }
         }
 
         public static void ThrowIfArgumentIsNullOrEmpty([ValidatedNotNull] string str, string paramName, string message)
@@ -43,7 +49,10 @@ namespace FluentAssertions.Common
 
         public static void ThrowIfArgumentContainsNull<T>(IEnumerable<T> values, string paramName)
         {
-            ThrowIfArgumentContainsNull(values, paramName, "Collection contains a null value");
+            if (values.Any(t => t is null))
+            {
+                throw new ArgumentNullException(paramName, "Collection contains a null value");
+            };
         }
 
         public static void ThrowIfArgumentContainsNull<T>(IEnumerable<T> values, string paramName, string message)
