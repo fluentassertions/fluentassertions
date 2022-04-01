@@ -2204,6 +2204,8 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> MatchEquivalentOf(string wildcardPattern, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> MatchRegex(string regularExpression, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> MatchRegex(System.Text.RegularExpressions.Regex regularExpression, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> MatchRegex(string regularExpression, FluentAssertions.OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> MatchRegex(System.Text.RegularExpressions.Regex regularExpression, FluentAssertions.OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(string unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo(string unexpected, string because = "", params object[] becauseArgs) { }
