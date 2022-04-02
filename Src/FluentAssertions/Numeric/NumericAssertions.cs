@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
+using static System.FormattableString;
 
 namespace FluentAssertions.Numeric
 {
@@ -60,7 +61,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) == 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -83,7 +84,7 @@ namespace FluentAssertions.Numeric
                     (!Subject.HasValue && !expected.HasValue)
                     || (Subject.HasValue && expected.HasValue && Subject.Value.CompareTo(expected.Value) == 0))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -193,7 +194,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject.HasValue && !IsNaN(Subject.Value) && Subject.Value.CompareTo(expected) < 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be less than {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be less than {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -220,7 +221,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject.HasValue && !IsNaN(Subject.Value) && Subject.Value.CompareTo(expected) <= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be less than or equal to {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be less than or equal to {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -250,7 +251,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) > 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be greater than {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be greater than {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -277,7 +278,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) >= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be greater than or equal to {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be greater than or equal to {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -481,5 +482,27 @@ namespace FluentAssertions.Numeric
             throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
 
         private protected virtual bool IsNaN(T value) => false;
+
+        /// <summary>
+        /// A method to generate additional information upon comparison failures.
+        /// </summary>
+        /// <param name="expected">The value to compare the current numeric value with.</param>
+        /// <returns>
+        /// Returns the difference between a number value and the <paramref name="expected" /> value.
+        /// Returns `null` if the compared numbers are small enough that a difference message is irrelevant.
+        /// </returns>
+        private protected virtual T? CalculateDifferenceForFailureMessage(T expected) => null;
+
+        private string GenerateDifferenceMessage(T? expected)
+        {
+            const string noDifferenceMessage = ".";
+            if (!Subject.HasValue || !expected.HasValue)
+            {
+                return noDifferenceMessage;
+            }
+
+            var difference = CalculateDifferenceForFailureMessage(expected.Value);
+            return difference is null ? noDifferenceMessage : Invariant($" (difference of {difference}).");
+        }
     }
 }

@@ -496,7 +496,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<int> Should(this int actualValue)
         {
-            return new NumericAssertions<int>(actualValue);
+            return new Int32Assertions(actualValue);
         }
 
         /// <summary>
@@ -506,7 +506,7 @@ namespace FluentAssertions
         [Pure]
         public static NullableNumericAssertions<int> Should(this int? actualValue)
         {
-            return new NullableNumericAssertions<int>(actualValue);
+            return new NullableInt32Assertions(actualValue);
         }
 
         /// <summary>
@@ -516,7 +516,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<uint> Should(this uint actualValue)
         {
-            return new NumericAssertions<uint>(actualValue);
+            return new UInt32Assertions(actualValue);
         }
 
         /// <summary>
@@ -526,7 +526,7 @@ namespace FluentAssertions
         [Pure]
         public static NullableNumericAssertions<uint> Should(this uint? actualValue)
         {
-            return new NullableNumericAssertions<uint>(actualValue);
+            return new NullableUInt32Assertions(actualValue);
         }
 
         /// <summary>
@@ -536,7 +536,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<decimal> Should(this decimal actualValue)
         {
-            return new NumericAssertions<decimal>(actualValue);
+            return new DecimalAssertions(actualValue);
         }
 
         /// <summary>
@@ -546,7 +546,7 @@ namespace FluentAssertions
         [Pure]
         public static NullableNumericAssertions<decimal> Should(this decimal? actualValue)
         {
-            return new NullableNumericAssertions<decimal>(actualValue);
+            return new NullableDecimalAssertions(actualValue);
         }
 
         /// <summary>
@@ -556,7 +556,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<byte> Should(this byte actualValue)
         {
-            return new NumericAssertions<byte>(actualValue);
+            return new ByteAssertions(actualValue);
         }
 
         /// <summary>
@@ -566,7 +566,7 @@ namespace FluentAssertions
         [Pure]
         public static NullableNumericAssertions<byte> Should(this byte? actualValue)
         {
-            return new NullableNumericAssertions<byte>(actualValue);
+            return new NullableByteAssertions(actualValue);
         }
 
         /// <summary>
@@ -576,7 +576,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<sbyte> Should(this sbyte actualValue)
         {
-            return new NumericAssertions<sbyte>(actualValue);
+            return new SByteAssertions(actualValue);
         }
 
         /// <summary>
@@ -586,7 +586,7 @@ namespace FluentAssertions
         [Pure]
         public static NullableNumericAssertions<sbyte> Should(this sbyte? actualValue)
         {
-            return new NullableNumericAssertions<sbyte>(actualValue);
+            return new NullableSByteAssertions(actualValue);
         }
 
         /// <summary>
@@ -596,7 +596,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<short> Should(this short actualValue)
         {
-            return new NumericAssertions<short>(actualValue);
+            return new Int16Assertions(actualValue);
         }
 
         /// <summary>
@@ -606,7 +606,7 @@ namespace FluentAssertions
         [Pure]
         public static NullableNumericAssertions<short> Should(this short? actualValue)
         {
-            return new NullableNumericAssertions<short>(actualValue);
+            return new NullableInt16Assertions(actualValue);
         }
 
         /// <summary>
@@ -616,7 +616,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<ushort> Should(this ushort actualValue)
         {
-            return new NumericAssertions<ushort>(actualValue);
+            return new UInt16Assertions(actualValue);
         }
 
         /// <summary>
@@ -626,7 +626,7 @@ namespace FluentAssertions
         [Pure]
         public static NullableNumericAssertions<ushort> Should(this ushort? actualValue)
         {
-            return new NullableNumericAssertions<ushort>(actualValue);
+            return new NullableUInt16Assertions(actualValue);
         }
 
         /// <summary>
@@ -636,7 +636,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<long> Should(this long actualValue)
         {
-            return new NumericAssertions<long>(actualValue);
+            return new Int64Assertions(actualValue);
         }
 
         /// <summary>
@@ -646,7 +646,7 @@ namespace FluentAssertions
         [Pure]
         public static NullableNumericAssertions<long> Should(this long? actualValue)
         {
-            return new NullableNumericAssertions<long>(actualValue);
+            return new NullableInt64Assertions(actualValue);
         }
 
         /// <summary>
@@ -656,7 +656,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<ulong> Should(this ulong actualValue)
         {
-            return new NumericAssertions<ulong>(actualValue);
+            return new UInt64Assertions(actualValue);
         }
 
         /// <summary>
@@ -666,7 +666,7 @@ namespace FluentAssertions
         [Pure]
         public static NullableNumericAssertions<ulong> Should(this ulong? actualValue)
         {
-            return new NullableNumericAssertions<ulong>(actualValue);
+            return new NullableUInt64Assertions(actualValue);
         }
 
         /// <summary>
@@ -676,7 +676,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<float> Should(this float actualValue)
         {
-            return new FloatAssertions(actualValue);
+            return new SingleAssertions(actualValue);
         }
 
         /// <summary>
@@ -686,7 +686,7 @@ namespace FluentAssertions
         [Pure]
         public static NullableNumericAssertions<float> Should(this float? actualValue)
         {
-            return new NullableFloatAssertions(actualValue);
+            return new NullableSingleAssertions(actualValue);
         }
 
         /// <summary>
