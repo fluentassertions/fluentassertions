@@ -8,10 +8,12 @@ using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
+using Nuke.Common.Tools.ReportGenerator;
 using Nuke.Common.Tools.Xunit;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
+using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 using static Nuke.Common.Tools.Xunit.XunitTasks;
 
 [CheckBuildProjectConfigurations]
@@ -40,7 +42,7 @@ class Build : NukeBuild
     [Solution(GenerateProjects = true)]
     readonly Solution Solution;
 
-    [GitVersion(Framework = "net5.0")]
+    [GitVersion(Framework = "net6.0")]
     readonly GitVersion GitVersion;
 
     [PackageExecutable("nspec", "NSpecRunner.exe", Version = "3.1.0")]
@@ -48,12 +50,15 @@ class Build : NukeBuild
 
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
 
+    AbsolutePath TestResultsDirectory => RootDirectory / "TestResults";
+
     string SemVer;
 
     Target Clean => _ => _
         .Executes(() =>
         {
             EnsureCleanDirectory(ArtifactsDirectory);
+            EnsureCleanDirectory(TestResultsDirectory);
         });
 
     Target CalculateNugetVersion => _ => _
@@ -66,7 +71,7 @@ class Build : NukeBuild
                     "Branch spec {branchspec} is a pull request. Adding build number {buildnumber}",
                     BranchSpec, BuildNumber);
 
-                SemVer = string.Join('.', GitVersion.SemVer.Split('.').Take(3).Union(new [] { BuildNumber }));
+                SemVer = string.Join('.', GitVersion.SemVer.Split('.').Take(3).Union(new[] { BuildNumber }));
             }
 
             Serilog.Log.Information("SemVer = {semver}", SemVer);
@@ -91,6 +96,7 @@ class Build : NukeBuild
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
                 .SetConfiguration("CI")
+                .EnableNoLogo()
                 .EnableNoRestore()
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
@@ -112,13 +118,18 @@ class Build : NukeBuild
         .DependsOn(Compile)
         .Executes(() =>
         {
+            Project[] projects = new[]
+            {
+                Solution.Specs.FluentAssertions_Specs,
+                Solution.Specs.FluentAssertions_Equivalency_Specs
+            };
+
             if (EnvironmentInfo.IsWin)
             {
                 Xunit2(s =>
                 {
-                    IReadOnlyCollection<string> testAssemblies = GlobFiles(
-                        Solution.Specs.FluentAssertions_Specs.Directory,
-                        "bin/Debug/net47/*.Specs.dll");
+                    IEnumerable<string> testAssemblies = projects
+                        .SelectMany(project => GlobFiles(project.Directory, "bin/Debug/net47/*.Specs.dll"));
 
                     Assert.NotEmpty(testAssemblies.ToList());
 
@@ -129,12 +140,42 @@ class Build : NukeBuild
             }
 
             DotNetTest(s => s
-                .SetProjectFile(Solution.Specs.FluentAssertions_Specs)
                 .SetConfiguration("Debug")
                 .EnableNoBuild()
+                .SetDataCollector("XPlat Code Coverage")
+                .SetResultsDirectory(TestResultsDirectory)
+                .AddRunSetting(
+                    "DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.DoesNotReturnAttribute",
+                    "DoesNotReturnAttribute")
                 .CombineWith(
-                    Solution.Specs.FluentAssertions_Specs.GetTargetFrameworks().Except(new[] { "net47" }),
-                    (_, v) => _.SetFramework(v)));
+                    projects,
+                    (_, project) => _
+                        .SetProjectFile(project)
+                        .CombineWith(
+                            project.GetTargetFrameworks().Except(new[] { "net47" }),
+                            (_, framework) => _.SetFramework(framework)
+                        )
+                )
+            );
+        });
+
+    Target CodeCoverage => _ => _
+        .DependsOn(TestFrameworks)
+        .DependsOn(UnitTests)
+        .Executes(() =>
+        {
+            ReportGenerator(s => s
+                .SetProcessToolPath(ToolPathResolver.GetPackageExecutable("ReportGenerator", "ReportGenerator.dll", framework: "net6.0"))
+                .SetTargetDirectory(TestResultsDirectory / "reports")
+                .AddReports(TestResultsDirectory / "**/coverage.cobertura.xml")
+                .AddReportTypes("HtmlInline_AzurePipelines_Dark", "lcov")
+                .SetClassFilters(
+                    "-System.Diagnostics.CodeAnalysis.StringSyntaxAttribute",
+                    "-System.Diagnostics.CodeAnalysis.DoesNotReturnAttribute")
+                .SetAssemblyFilters("+FluentAssertions"));
+
+            string link = TestResultsDirectory / "reports" / "index.html";
+            Serilog.Log.Information($"Code coverage report: \x1b]8;;file://{link.Replace('\\', '/')}\x1b\\{link}\x1b]8;;\x1b\\");
         });
 
     Target TestFrameworks => _ => _
@@ -157,6 +198,11 @@ class Build : NukeBuild
             DotNetTest(s => s
                 .SetConfiguration("Debug")
                 .EnableNoBuild()
+                .SetDataCollector("XPlat Code Coverage")
+                .SetResultsDirectory(TestResultsDirectory)
+                .AddRunSetting(
+                    "DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.DoesNotReturnAttribute",
+                    "DoesNotReturnAttribute")
                 .CombineWith(
                     testCombinations,
                     (_, v) => _.SetProjectFile(v.project).SetFramework(v.framework)));
@@ -171,6 +217,7 @@ class Build : NukeBuild
         .DependsOn(ApiChecks)
         .DependsOn(TestFrameworks)
         .DependsOn(UnitTests)
+        .DependsOn(CodeCoverage)
         .DependsOn(CalculateNugetVersion)
         .Executes(() =>
         {
@@ -178,6 +225,8 @@ class Build : NukeBuild
                 .SetProject(Solution.Core.FluentAssertions)
                 .SetOutputDirectory(ArtifactsDirectory)
                 .SetConfiguration("Release")
+                .EnableNoLogo()
+                .EnableNoRestore()
                 .EnableContinuousIntegrationBuild() // Necessary for deterministic builds
                 .SetVersion(SemVer));
         });
@@ -187,7 +236,7 @@ class Build : NukeBuild
         .OnlyWhenDynamic(() => IsTag)
         .Executes(() =>
         {
-            var packages = GlobFiles(ArtifactsDirectory, "*.nupkg");
+            IReadOnlyCollection<string> packages = GlobFiles(ArtifactsDirectory, "*.nupkg");
 
             Assert.NotEmpty(packages.ToList());
 
@@ -201,5 +250,4 @@ class Build : NukeBuild
         });
 
     bool IsTag => BranchSpec != null && BranchSpec.Contains("refs/tags", StringComparison.InvariantCultureIgnoreCase);
-
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
@@ -27,6 +28,7 @@ namespace FluentAssertions.Execution
             }
         }
 
+        [DoesNotReturn]
         public void Throw(string message)
         {
             Type exceptionType = assembly.GetType("NSpec.Domain.AssertionException");

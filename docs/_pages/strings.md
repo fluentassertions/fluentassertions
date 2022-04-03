@@ -104,7 +104,14 @@ And if wildcards aren't enough for you, you can always use some regular expressi
 
 ```csharp
 someString.Should().MatchRegex("h.*\\sworld.$");
-someString.Should().MatchRegex(new System.Text.RegularExpressions.Regex("h.*\\sworld.$"));
-subject.Should().NotMatchRegex(new System.Text.RegularExpressions.Regex(".*earth.*"));
+someString.Should().MatchRegex(new Regex("h.*\\sworld.$"));
+subject.Should().NotMatchRegex(new Regex(".*earth.*"));
 subject.Should().NotMatchRegex(".*earth.*");
+```
+
+And if that's not enough, you can assert on the number of matches of a regular expression:
+
+```csharp
+someString.Should().MatchRegex("h.*\\sworld.$", Exactly.Once());
+someString.Should().MatchRegex(new Regex("h.*\\sworld.$"), AtLeast.Twice());
 ```

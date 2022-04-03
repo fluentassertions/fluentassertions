@@ -13,36 +13,36 @@ jobs:
 
     runs-on: windows-latest
 
+    env:
+      DOTNET_NOLOGO: true
+
     steps:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
 
-    - name: Setup .NET 5
+    - name: Setup .NET SDKs
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.x
-
-    - name: Setup .NET 3.1
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.x
-
-    - name: Setup .NET 2.1
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 2.1.x
+        dotnet-version: |
+          2.1.x
+          3.1.x
+          6.0.x
 
     - name: Run NUKE
       run: ./build.ps1
       env:
         BranchSpec: ${{ github.ref }}
-        BuildNumber: ${{ github.run_number}}
+        BuildNumber: ${{ github.run_number }}
         ApiKey: ${{ secrets.NUGETAPIKEY }}
+
+    - name: coveralls
+      uses: coverallsapp/github-action@1.1.3
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: TestResults/reports/lcov.info
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
         path: ./Artifacts/*
-
-

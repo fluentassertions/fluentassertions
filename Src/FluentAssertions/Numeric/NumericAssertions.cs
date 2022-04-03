@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -60,7 +60,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) == 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -83,7 +83,7 @@ namespace FluentAssertions.Numeric
                     (!Subject.HasValue && !expected.HasValue)
                     || (Subject.HasValue && expected.HasValue && Subject.Value.CompareTo(expected.Value) == 0))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -165,7 +165,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<TAssertions> BeNegative(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.HasValue && Subject.Value.CompareTo(default(T)) < 0)
+                .ForCondition(Subject.HasValue && !IsNaN(Subject.Value) && Subject.Value.CompareTo(default(T)) < 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to be negative{reason}, but found {0}.", Subject);
 
@@ -185,10 +185,15 @@ namespace FluentAssertions.Numeric
         /// </param>
         public AndConstraint<TAssertions> BeLessThan(T expected, string because = "", params object[] becauseArgs)
         {
+            if (IsNaN(expected))
+            {
+                throw new ArgumentException("A value can never be less than NaN", nameof(expected));
+            }
+
             Execute.Assertion
-                .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) < 0)
+                .ForCondition(Subject.HasValue && !IsNaN(Subject.Value) && Subject.Value.CompareTo(expected) < 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be less than {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be less than {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -207,10 +212,15 @@ namespace FluentAssertions.Numeric
         public AndConstraint<TAssertions> BeLessThanOrEqualTo(T expected, string because = "",
             params object[] becauseArgs)
         {
+            if (IsNaN(expected))
+            {
+                throw new ArgumentException("A value can never be less than or equal to NaN", nameof(expected));
+            }
+
             Execute.Assertion
-                .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) <= 0)
+                .ForCondition(Subject.HasValue && !IsNaN(Subject.Value) && Subject.Value.CompareTo(expected) <= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be less than or equal to {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be less than or equal to {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -232,10 +242,15 @@ namespace FluentAssertions.Numeric
         public AndConstraint<TAssertions> BeGreaterThan(T expected, string because = "",
             params object[] becauseArgs)
         {
+            if (IsNaN(expected))
+            {
+                throw new ArgumentException("A value can never be greater than NaN", nameof(expected));
+            }
+
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) > 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be greater than {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be greater than {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -254,10 +269,15 @@ namespace FluentAssertions.Numeric
         public AndConstraint<TAssertions> BeGreaterThanOrEqualTo(T expected, string because = "",
             params object[] becauseArgs)
         {
+            if (IsNaN(expected))
+            {
+                throw new ArgumentException("A value can never be greater than or equal to a NaN", nameof(expected));
+            }
+
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) >= 0)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be greater than or equal to {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be greater than or equal to {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -287,6 +307,11 @@ namespace FluentAssertions.Numeric
         public AndConstraint<TAssertions> BeInRange(T minimumValue, T maximumValue, string because = "",
             params object[] becauseArgs)
         {
+            if (IsNaN(minimumValue) || IsNaN(maximumValue))
+            {
+                throw new ArgumentException("A range cannot begin or end with NaN");
+            }
+
             Execute.Assertion
                 .ForCondition(Subject.HasValue && (Subject.Value.CompareTo(minimumValue) >= 0) && (Subject.Value.CompareTo(maximumValue) <= 0))
                 .BecauseOf(because, becauseArgs)
@@ -318,6 +343,11 @@ namespace FluentAssertions.Numeric
         public AndConstraint<TAssertions> NotBeInRange(T minimumValue, T maximumValue, string because = "",
             params object[] becauseArgs)
         {
+            if (IsNaN(minimumValue) || IsNaN(maximumValue))
+            {
+                throw new ArgumentException("A range cannot begin or end with NaN");
+            }
+
             Execute.Assertion
                 .ForCondition(Subject.HasValue && !((Subject.Value.CompareTo(minimumValue) >= 0) && (Subject.Value.CompareTo(maximumValue) <= 0)))
                 .BecauseOf(because, becauseArgs)
@@ -449,5 +479,30 @@ namespace FluentAssertions.Numeric
         /// <inheritdoc/>
         public override bool Equals(object obj) =>
             throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
+
+        private protected virtual bool IsNaN(T value) => false;
+
+        /// <summary>
+        /// A method to generate additional information upon comparison failures.
+        /// </summary>
+        /// <param name="subject">The current numeric value verified to be non-null.</param>
+        /// <param name="expected">The value to compare the current numeric value with.</param>
+        /// <returns>
+        /// Returns the difference between a number value and the <paramref name="expected" /> value.
+        /// Returns `null` if the compared numbers are small enough that a difference message is irrelevant.
+        /// </returns>
+        private protected virtual string CalculateDifferenceForFailureMessage(T subject, T expected) => null;
+
+        private string GenerateDifferenceMessage(T? expected)
+        {
+            const string noDifferenceMessage = ".";
+            if (Subject is not T subject || expected is not T expectedValue)
+            {
+                return noDifferenceMessage;
+            }
+
+            var difference = CalculateDifferenceForFailureMessage(subject, expectedValue);
+            return difference is null ? noDifferenceMessage : $" (difference of {difference}).";
+        }
     }
 }

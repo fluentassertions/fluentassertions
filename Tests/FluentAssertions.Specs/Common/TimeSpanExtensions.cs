@@ -3,7 +3,7 @@
 namespace FluentAssertions.Specs.Common
 {
     /// <summary>
-    /// Implements extensions to <see cref="TimeSpan"/> available in .NET Core 2, but not in .NET Framework.
+    /// Implements extensions to <see cref="TimeSpan"/> available in .NET Core 2+, but not in .NET Framework.
     /// </summary>
     public static class TimeSpanExtensions
     {

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq.Expressions;
 using System.Net.Http;
@@ -434,6 +435,50 @@ namespace FluentAssertions
             return new NullableDateTimeOffsetAssertions(actualValue);
         }
 
+#if NET6_0_OR_GREATER
+
+        /// <summary>
+        /// Returns an <see cref="DateOnlyAssertions"/> object that can be used to assert the
+        /// current <see cref="DateOnly"/>.
+        /// </summary>
+        [Pure]
+        public static DateOnlyAssertions Should(this DateOnly actualValue)
+        {
+            return new DateOnlyAssertions(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="NullableDateOnlyAssertions"/> object that can be used to assert the
+        /// current nullable <see cref="DateOnly"/>.
+        /// </summary>
+        [Pure]
+        public static NullableDateOnlyAssertions Should(this DateOnly? actualValue)
+        {
+            return new NullableDateOnlyAssertions(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="TimeOnlyAssertions"/> object that can be used to assert the
+        /// current <see cref="TimeOnly"/>.
+        /// </summary>
+        [Pure]
+        public static TimeOnlyAssertions Should(this TimeOnly actualValue)
+        {
+            return new TimeOnlyAssertions(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="NullableTimeOnlyAssertions"/> object that can be used to assert the
+        /// current nullable <see cref="TimeOnly"/>.
+        /// </summary>
+        [Pure]
+        public static NullableTimeOnlyAssertions Should(this TimeOnly? actualValue)
+        {
+            return new NullableTimeOnlyAssertions(actualValue);
+        }
+
+#endif
+
         /// <summary>
         /// Returns an <see cref="ComparableTypeAssertions{T}"/> object that can be used to assert the
         /// current <see cref="IComparable{T}"/>.
@@ -451,7 +496,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<int> Should(this int actualValue)
         {
-            return new NumericAssertions<int>(actualValue);
+            return new Int32Assertions(actualValue);
         }
 
         /// <summary>
@@ -461,7 +506,7 @@ namespace FluentAssertions
         [Pure]
         public static NullableNumericAssertions<int> Should(this int? actualValue)
         {
-            return new NullableNumericAssertions<int>(actualValue);
+            return new NullableInt32Assertions(actualValue);
         }
 
         /// <summary>
@@ -471,7 +516,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<uint> Should(this uint actualValue)
         {
-            return new NumericAssertions<uint>(actualValue);
+            return new UInt32Assertions(actualValue);
         }
 
         /// <summary>
@@ -481,7 +526,7 @@ namespace FluentAssertions
         [Pure]
         public static NullableNumericAssertions<uint> Should(this uint? actualValue)
         {
-            return new NullableNumericAssertions<uint>(actualValue);
+            return new NullableUInt32Assertions(actualValue);
         }
 
         /// <summary>
@@ -491,7 +536,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<decimal> Should(this decimal actualValue)
         {
-            return new NumericAssertions<decimal>(actualValue);
+            return new DecimalAssertions(actualValue);
         }
 
         /// <summary>
@@ -501,7 +546,7 @@ namespace FluentAssertions
         [Pure]
         public static NullableNumericAssertions<decimal> Should(this decimal? actualValue)
         {
-            return new NullableNumericAssertions<decimal>(actualValue);
+            return new NullableDecimalAssertions(actualValue);
         }
 
         /// <summary>
@@ -511,7 +556,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<byte> Should(this byte actualValue)
         {
-            return new NumericAssertions<byte>(actualValue);
+            return new ByteAssertions(actualValue);
         }
 
         /// <summary>
@@ -521,7 +566,7 @@ namespace FluentAssertions
         [Pure]
         public static NullableNumericAssertions<byte> Should(this byte? actualValue)
         {
-            return new NullableNumericAssertions<byte>(actualValue);
+            return new NullableByteAssertions(actualValue);
         }
 
         /// <summary>
@@ -531,7 +576,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<sbyte> Should(this sbyte actualValue)
         {
-            return new NumericAssertions<sbyte>(actualValue);
+            return new SByteAssertions(actualValue);
         }
 
         /// <summary>
@@ -541,7 +586,7 @@ namespace FluentAssertions
         [Pure]
         public static NullableNumericAssertions<sbyte> Should(this sbyte? actualValue)
         {
-            return new NullableNumericAssertions<sbyte>(actualValue);
+            return new NullableSByteAssertions(actualValue);
         }
 
         /// <summary>
@@ -551,7 +596,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<short> Should(this short actualValue)
         {
-            return new NumericAssertions<short>(actualValue);
+            return new Int16Assertions(actualValue);
         }
 
         /// <summary>
@@ -561,7 +606,7 @@ namespace FluentAssertions
         [Pure]
         public static NullableNumericAssertions<short> Should(this short? actualValue)
         {
-            return new NullableNumericAssertions<short>(actualValue);
+            return new NullableInt16Assertions(actualValue);
         }
 
         /// <summary>
@@ -571,7 +616,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<ushort> Should(this ushort actualValue)
         {
-            return new NumericAssertions<ushort>(actualValue);
+            return new UInt16Assertions(actualValue);
         }
 
         /// <summary>
@@ -581,7 +626,7 @@ namespace FluentAssertions
         [Pure]
         public static NullableNumericAssertions<ushort> Should(this ushort? actualValue)
         {
-            return new NullableNumericAssertions<ushort>(actualValue);
+            return new NullableUInt16Assertions(actualValue);
         }
 
         /// <summary>
@@ -591,7 +636,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<long> Should(this long actualValue)
         {
-            return new NumericAssertions<long>(actualValue);
+            return new Int64Assertions(actualValue);
         }
 
         /// <summary>
@@ -601,7 +646,7 @@ namespace FluentAssertions
         [Pure]
         public static NullableNumericAssertions<long> Should(this long? actualValue)
         {
-            return new NullableNumericAssertions<long>(actualValue);
+            return new NullableInt64Assertions(actualValue);
         }
 
         /// <summary>
@@ -611,7 +656,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<ulong> Should(this ulong actualValue)
         {
-            return new NumericAssertions<ulong>(actualValue);
+            return new UInt64Assertions(actualValue);
         }
 
         /// <summary>
@@ -621,7 +666,7 @@ namespace FluentAssertions
         [Pure]
         public static NullableNumericAssertions<ulong> Should(this ulong? actualValue)
         {
-            return new NullableNumericAssertions<ulong>(actualValue);
+            return new NullableUInt64Assertions(actualValue);
         }
 
         /// <summary>
@@ -631,7 +676,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<float> Should(this float actualValue)
         {
-            return new NumericAssertions<float>(actualValue);
+            return new SingleAssertions(actualValue);
         }
 
         /// <summary>
@@ -641,7 +686,7 @@ namespace FluentAssertions
         [Pure]
         public static NullableNumericAssertions<float> Should(this float? actualValue)
         {
-            return new NullableNumericAssertions<float>(actualValue);
+            return new NullableSingleAssertions(actualValue);
         }
 
         /// <summary>
@@ -651,7 +696,7 @@ namespace FluentAssertions
         [Pure]
         public static NumericAssertions<double> Should(this double actualValue)
         {
-            return new NumericAssertions<double>(actualValue);
+            return new DoubleAssertions(actualValue);
         }
 
         /// <summary>
@@ -661,7 +706,7 @@ namespace FluentAssertions
         [Pure]
         public static NullableNumericAssertions<double> Should(this double? actualValue)
         {
-            return new NullableNumericAssertions<double>(actualValue);
+            return new NullableDoubleAssertions(actualValue);
         }
 
         /// <summary>
@@ -892,6 +937,26 @@ namespace FluentAssertions
             InvalidShouldCall();
         }
 
+#if  NET6_0_OR_GREATER
+
+        /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        public static void Should<TAssertions>(this DateOnlyAssertions<TAssertions> _)
+            where TAssertions : DateOnlyAssertions<TAssertions>
+        {
+            InvalidShouldCall();
+        }
+
+        /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        public static void Should<TAssertions>(this TimeOnlyAssertions<TAssertions> _)
+            where TAssertions : TimeOnlyAssertions<TAssertions>
+        {
+            InvalidShouldCall();
+        }
+
+#endif
+
         /// <summary>
         /// You are asserting the <see cref="AndConstraint{T}"/> itself. Remove the <c>Should()</c> method directly following <c>And</c>.
         /// </summary>
@@ -963,6 +1028,7 @@ namespace FluentAssertions
             InvalidShouldCall();
         }
 
+        [DoesNotReturn]
         private static void InvalidShouldCall()
         {
             throw new InvalidOperationException("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'.");

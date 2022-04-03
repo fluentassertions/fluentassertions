@@ -103,7 +103,6 @@ namespace FluentAssertions.Equivalency.Specs
             var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
             var dataSet2 = new TypedDataSetSubclass(dataSet1);
 
-            var dataTable1 = dataSet1.TypedDataTable1;
             var dataTable2 = dataSet2.TypedDataTable1;
 
             dataTable2.DecimalColumn.Unique = true;

@@ -44,26 +44,14 @@ namespace FluentAssertions.Primitives
         {
             int indexOfMismatch = Subject.IndexOfFirstMismatch(Expected, comparisonMode);
 
-            // If there is no difference it means that either
-            // * subject starts with expected or
-            // * expected starts with subject
+            // If there is no difference it means that expected starts with subject and subject is shorter than expected
             if (indexOfMismatch == -1)
             {
-                // If subject is shorter we are sure that expected starts with subject
-                if (Subject.Length < Expected.Length)
-                {
-                    // Subject is shorter so we point at its last character.
-                    // We would like to point at next character as it is the real
-                    // index of first mismatch, but we need to point at character existing in
-                    // subject, so the next best thing is the last subject character.
-                    indexOfMismatch = Math.Max(0, Subject.Length - 1);
-                }
-                else
-                {
-                    // If subject is longer we are sure that subject starts with expected
-                    // and we point at first character after expected.
-                    indexOfMismatch = Expected.Length;
-                }
+                // Subject is shorter so we point at its last character.
+                // We would like to point at next character as it is the real
+                // index of first mismatch, but we need to point at character existing in
+                // subject, so the next best thing is the last subject character.
+                indexOfMismatch = Math.Max(0, Subject.Length - 1);
             }
 
             return Subject.IndexedSegmentAt(indexOfMismatch);

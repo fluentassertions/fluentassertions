@@ -73,13 +73,13 @@ namespace FluentAssertions.Data
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:DataSet} to contain a table named '{0}'{reason}, but found <null>.", expectedTableName);
+                    .FailWith("Expected {context:DataSet} to contain a table named {0}{reason}, but found <null>.", expectedTableName);
             }
             else if (!Subject.Tables.Contains(expectedTableName))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:DataSet} to contain a table named '{0}'{reason}, but it does not.", expectedTableName);
+                    .FailWith("Expected {context:DataSet} to contain a table named {0}{reason}, but it does not.", expectedTableName);
             }
             else
             {
@@ -123,7 +123,7 @@ namespace FluentAssertions.Data
                 Execute.Assertion
                     .ForCondition(Subject.Tables.Contains(expectedTableName))
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:DataSet} to contain a table named '{0}'{reason}, but it does not.", expectedTableName);
+                    .FailWith("Expected {context:DataSet} to contain a table named {0}{reason}, but it does not.", expectedTableName);
             }
 
             return new AndConstraint<DataSetAssertions<TDataSet>>(this);

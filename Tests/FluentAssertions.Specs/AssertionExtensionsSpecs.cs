@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using FluentAssertions.Numeric;
+using FluentAssertions.Primitives;
+using FluentAssertions.Specialized;
 using FluentAssertions.Types;
 using Xunit;
 
@@ -32,6 +35,50 @@ namespace FluentAssertions.Specs
             return equals is not null;
         }
 
+        [Theory]
+        [InlineData(typeof(ReferenceTypeAssertions<object, ObjectAssertions>))]
+        [InlineData(typeof(BooleanAssertions<BooleanAssertions>))]
+        [InlineData(typeof(DateTimeAssertions<DateTimeAssertions>))]
+        [InlineData(typeof(DateTimeOffsetAssertions<DateTimeOffsetAssertions>))]
+#if NET6_0_OR_GREATER
+        [InlineData(typeof(DateOnlyAssertions<DateOnlyAssertions>))]
+        [InlineData(typeof(TimeOnlyAssertions<TimeOnlyAssertions>))]
+#endif
+        [InlineData(typeof(ExecutionTimeAssertions))]
+        [InlineData(typeof(GuidAssertions<GuidAssertions>))]
+        [InlineData(typeof(MethodInfoSelectorAssertions))]
+        [InlineData(typeof(NumericAssertions<int, NumericAssertions<int>>))]
+        [InlineData(typeof(PropertyInfoSelectorAssertions))]
+        [InlineData(typeof(SimpleTimeSpanAssertions<SimpleTimeSpanAssertions>))]
+        [InlineData(typeof(TaskCompletionSourceAssertions<int>))]
+        [InlineData(typeof(TypeSelectorAssertions))]
+        [InlineData(typeof(EnumAssertions<StringComparison, EnumAssertions<StringComparison>>))]
+        public void Fake_should_method_throws(Type type)
+        {
+            // Arrange
+            MethodInfo fakeOverload = AllTypes.From(typeof(FluentAssertions.AssertionExtensions).Assembly)
+                .ThatAreClasses()
+                .ThatAreStatic()
+                .Where(t => t.IsPublic)
+                .SelectMany(t => t.GetMethods(BindingFlags.Static | BindingFlags.Public))
+                .Single(m => m.Name == "Should" && IsGuardOverload(m)
+                    && m.GetParameters().Single().ParameterType.Name == type.Name);
+
+            if (type.IsConstructedGenericType)
+            {
+                fakeOverload = fakeOverload.MakeGenericMethod(type.GenericTypeArguments);
+            }
+
+            // Act
+            Action act = () => fakeOverload.Invoke(null, new object[] { null });
+
+            // Assert
+            act.Should()
+                .ThrowExactly<TargetInvocationException>()
+                .WithInnerExceptionExactly<InvalidOperationException>()
+                .WithMessage("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'.");
+        }
+
         [Fact]
         public void Should_methods_have_a_matching_overload_to_guard_against_chaining_and_constraints()
         {
@@ -58,7 +105,8 @@ namespace FluentAssertions.Specs
             // Assert
             fakeOverloads.Should().BeEquivalentTo(realOverloads, opt => opt
                 .Using<Type>(ctx => ctx.Subject.Name.Should().Be(ctx.Expectation.Name))
-                .WhenTypeIs<Type>());
+                .WhenTypeIs<Type>(),
+                "AssertionExtensions.cs should have a guard overload of Should calling InvalidShouldCall()");
         }
 
         private static bool IsGuardOverload(MethodInfo m) =>

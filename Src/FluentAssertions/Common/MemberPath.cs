@@ -96,6 +96,14 @@ namespace FluentAssertions.Common
         /// </summary>
         public bool GetContainsSpecificCollectionIndex() => dottedPath.ContainsSpecificCollectionIndex();
 
+        /// <summary>
+        /// Returns a copy of the current object as if it represented an un-indexed item in a collection.
+        /// </summary>
+        public MemberPath WithCollectionAsRoot()
+        {
+            return new MemberPath(reflectedType, declaringType, "[]." + dottedPath);
+        }
+
         private string[] Segments => segments ??= dottedPath.Split(new[] { '.', '[', ']' }, StringSplitOptions.RemoveEmptyEntries);
 
         /// <summary>

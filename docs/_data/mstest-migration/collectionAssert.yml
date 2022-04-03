@@ -122,12 +122,12 @@
     CollectionAssert.AllItemsAreInstancesOfType(actual, typeof(T));
 
   new: |
-    actual.Should().ContainItemsAssignableTo<T>();
+    actual.Should().AllBeAssignableTo<T>();
 
   old-message: |
     CollectionAssert.AllItemsAreInstancesOfType failed. Element at index 0 is not of expected type. Expected type:<UnitTests2.MyIdenticalClass>. Actual type:<UnitTests2.MyClass>.
 
   new-message: |
-    Expected collection to contain only items of type UnitTests2.MyIdenticalClass, but item SomeProperty: 1, OtherProperty: item at index 0 is of type UnitTests2.MyClass.
+    Expected type to be "T", but found [System.String],
 
 

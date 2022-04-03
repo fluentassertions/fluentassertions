@@ -41,7 +41,7 @@ namespace FluentAssertions.Equivalency.Steps
                     {
                         AssertionScope.Current
                             .ForCondition(subject.GetType() == expectation.GetType())
-                            .FailWith("Expected {context:DataSet} to be of type '{0}'{reason}, but found '{1}'", expectation.GetType(), subject.GetType());
+                            .FailWith("Expected {context:DataSet} to be of type {0}{reason}, but found {1}", expectation.GetType(), subject.GetType());
                     }
 
                     var selectedMembers = GetMembersFromExpectation(comparands, context.CurrentNode, context.Options)
@@ -64,63 +64,63 @@ namespace FluentAssertions.Equivalency.Steps
             {
                 AssertionScope.Current
                     .ForCondition(subject.DataSetName == expectation.DataSetName)
-                    .FailWith("Expected {context:DataSet} to have DataSetName '{0}'{reason}, but found '{1}' instead", expectation.DataSetName, subject.DataSetName);
+                    .FailWith("Expected {context:DataSet} to have DataSetName {0}{reason}, but found {1} instead", expectation.DataSetName, subject.DataSetName);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.CaseSensitive)))
             {
                 AssertionScope.Current
                     .ForCondition(subject.CaseSensitive == expectation.CaseSensitive)
-                    .FailWith("Expected {context:DataSet} to have CaseSensitive value of '{0}'{reason}, but found '{1}' instead", expectation.CaseSensitive, subject.CaseSensitive);
+                    .FailWith("Expected {context:DataSet} to have CaseSensitive value of {0}{reason}, but found {1} instead", expectation.CaseSensitive, subject.CaseSensitive);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.EnforceConstraints)))
             {
                 AssertionScope.Current
                     .ForCondition(subject.EnforceConstraints == expectation.EnforceConstraints)
-                    .FailWith("Expected {context:DataSet} to have EnforceConstraints value of '{0}'{reason}, but found '{1}' instead", expectation.EnforceConstraints, subject.EnforceConstraints);
+                    .FailWith("Expected {context:DataSet} to have EnforceConstraints value of {0}{reason}, but found {1} instead", expectation.EnforceConstraints, subject.EnforceConstraints);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.HasErrors)))
             {
                 AssertionScope.Current
                     .ForCondition(subject.HasErrors == expectation.HasErrors)
-                    .FailWith("Expected {context:DataSet} to have HasErrors value of '{0}'{reason}, but found '{1}' instead", expectation.HasErrors, subject.HasErrors);
+                    .FailWith("Expected {context:DataSet} to have HasErrors value of {0}{reason}, but found {1} instead", expectation.HasErrors, subject.HasErrors);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.Locale)))
             {
                 AssertionScope.Current
                     .ForCondition(subject.Locale == expectation.Locale)
-                    .FailWith("Expected {context:DataSet} to have Locale value of '{0}'{reason}, but found '{1}' instead", expectation.Locale, subject.Locale);
+                    .FailWith("Expected {context:DataSet} to have Locale value of {0}{reason}, but found {1} instead", expectation.Locale, subject.Locale);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.Namespace)))
             {
                 AssertionScope.Current
                     .ForCondition(subject.Namespace == expectation.Namespace)
-                    .FailWith("Expected {context:DataSet} to have Namespace value of '{0}'{reason}, but found '{1}' instead", expectation.Namespace, subject.Namespace);
+                    .FailWith("Expected {context:DataSet} to have Namespace value of {0}{reason}, but found {1} instead", expectation.Namespace, subject.Namespace);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.Prefix)))
             {
                 AssertionScope.Current
                     .ForCondition(subject.Prefix == expectation.Prefix)
-                    .FailWith("Expected {context:DataSet} to have Prefix value of '{0}'{reason}, but found '{1}' instead", expectation.Prefix, subject.Prefix);
+                    .FailWith("Expected {context:DataSet} to have Prefix value of {0}{reason}, but found {1} instead", expectation.Prefix, subject.Prefix);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.RemotingFormat)))
             {
                 AssertionScope.Current
                     .ForCondition(subject.RemotingFormat == expectation.RemotingFormat)
-                    .FailWith("Expected {context:DataSet} to have RemotingFormat value of '{0}'{reason}, but found '{1}' instead", expectation.RemotingFormat, subject.RemotingFormat);
+                    .FailWith("Expected {context:DataSet} to have RemotingFormat value of {0}{reason}, but found {1} instead", expectation.RemotingFormat, subject.RemotingFormat);
             }
 
             if (selectedMembers.ContainsKey(nameof(expectation.SchemaSerializationMode)))
             {
                 AssertionScope.Current
                     .ForCondition(subject.SchemaSerializationMode == expectation.SchemaSerializationMode)
-                    .FailWith("Expected {context:DataSet} to have SchemaSerializationMode value of '{0}'{reason}, but found '{1}' instead", expectation.SchemaSerializationMode, subject.SchemaSerializationMode);
+                    .FailWith("Expected {context:DataSet} to have SchemaSerializationMode value of {0}{reason}, but found {1} instead", expectation.SchemaSerializationMode, subject.SchemaSerializationMode);
             }
         }
 
@@ -185,9 +185,9 @@ namespace FluentAssertions.Equivalency.Steps
                     }
                 }
 
-                IEnumerable<string> expectationTableNames = expectation.Tables.OfType<DataTable>()
+                IEnumerable<string> expectationTableNames = expectation.Tables.Cast<DataTable>()
                     .Select(table => table.TableName);
-                IEnumerable<string> subjectTableNames = subject.Tables.OfType<DataTable>()
+                IEnumerable<string> subjectTableNames = subject.Tables.Cast<DataTable>()
                     .Select(table => table.TableName);
 
                 foreach (string tableName in expectationTableNames.Union(subjectTableNames))
@@ -210,10 +210,10 @@ namespace FluentAssertions.Equivalency.Steps
 
             bool success = AssertionScope.Current
                 .ForCondition(subjectTable is not null)
-                .FailWith("Expected {context:DataSet} to contain table '{0}'{reason}, but did not find it", tableName)
+                .FailWith("Expected {context:DataSet} to contain table {0}{reason}, but did not find it", tableName)
                 .Then
                 .ForCondition(expectationTable is not null)
-                .FailWith("Found unexpected table '{0}' in DataSet", tableName);
+                .FailWith("Found unexpected table {0} in DataSet", tableName);
 
             if (success)
             {

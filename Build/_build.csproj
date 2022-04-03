@@ -1,15 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace></RootNamespace>
     <NoWarn>CS0649;CS0169</NoWarn>
     <NukeRootDirectory>..\</NukeRootDirectory>
     <NukeScriptDirectory>..\</NukeScriptDirectory>
   </PropertyGroup>
   <ItemGroup>
-    <PackageDownload Include="GitVersion.Tool" Version="[5.8.1]" />
+    <PackageDownload Include="GitVersion.Tool" Version="[5.9.0]" />
     <PackageDownload Include="NSpec" Version="[3.1.0]" />
+    <PackageDownload Include="ReportGenerator" Version="[5.1.3]" />
     <PackageDownload Include="xunit.runner.console" Version="[2.4.1]" />
     <PackageReference Include="Nuke.Common" Version="6.0.1" />
   </ItemGroup>

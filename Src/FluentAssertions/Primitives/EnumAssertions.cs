@@ -57,7 +57,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(Subject?.Equals(expected) == true)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected the enum to be {0}{reason}, but found {1}.",
+                .FailWith("Expected {context:the enum} to be {0}{reason}, but found {1}.",
                     expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
