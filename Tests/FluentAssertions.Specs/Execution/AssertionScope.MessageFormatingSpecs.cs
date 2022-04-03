@@ -31,16 +31,8 @@ namespace FluentAssertions.Specs.Execution
             Action act = scope.Dispose;
 
             // Assert
-            try
-            {
-                act();
-            }
-            catch (Exception exception)
-            {
-                int matches = new Regex(".*Failure.*").Matches(exception.Message).Count;
-
-                matches.Should().Be(4);
-            }
+            act.Should().Throw<XunitException>()
+                .Which.Message.Should().Contain("Failure", Exactly.Times(4));
         }
 
         [InlineData("foo")]

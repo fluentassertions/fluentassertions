@@ -50,7 +50,7 @@ namespace FluentAssertions.Specs.Exceptions
         public void WithInnerExceptionExactly_no_parameters_when_subject_throws_subclass_of_expected_inner_exception_it_should_throw_with_clear_description()
         {
             // Arrange
-            var innerException = new ArgumentNullException();
+            var innerException = new ArgumentNullException("InnerExceptionMessage", (Exception)null);
 
             Action act = () => throw new BadImageFormatException("", innerException);
 
@@ -65,9 +65,7 @@ namespace FluentAssertions.Specs.Exceptions
             catch (XunitException ex)
             {
                 // Assert
-                var expectedMessage = BuildExpectedMessageForWithInnerExceptionExactly("Expected inner System.ArgumentException, but found System.ArgumentNullException with message", innerException.Message);
-
-                ex.Message.Should().Be(expectedMessage);
+                ex.Message.Should().Match("Expected*ArgumentException*found*ArgumentNullException*InnerExceptionMessage*");
             }
         }
 
@@ -86,7 +84,7 @@ namespace FluentAssertions.Specs.Exceptions
         public void WithInnerExceptionExactly_when_subject_throws_subclass_of_expected_inner_exception_it_should_throw_with_clear_description()
         {
             // Arrange
-            var innerException = new ArgumentNullException();
+            var innerException = new ArgumentNullException("InnerExceptionMessage", (Exception)null);
 
             Action act = () => throw new BadImageFormatException("", innerException);
 
@@ -101,9 +99,7 @@ namespace FluentAssertions.Specs.Exceptions
             catch (XunitException ex)
             {
                 // Assert
-                var expectedMessage = BuildExpectedMessageForWithInnerExceptionExactly("Expected inner System.ArgumentException because the action should do just that, but found System.ArgumentNullException with message", innerException.Message);
-
-                ex.Message.Should().Be(expectedMessage);
+                ex.Message.Should().Match("Expected*ArgumentException*the action should do just that*ArgumentNullException*InnerExceptionMessage*");
             }
         }
 
@@ -133,7 +129,7 @@ namespace FluentAssertions.Specs.Exceptions
         public void WithInnerExceptionExactly_with_type_exception_when_subject_throws_subclass_of_expected_inner_exception_it_should_throw_with_clear_description()
         {
             // Arrange
-            var innerException = new ArgumentNullException();
+            var innerException = new ArgumentNullException("InnerExceptionMessage", (Exception)null);
 
             Action act = () => throw new BadImageFormatException("", innerException);
 
@@ -148,9 +144,7 @@ namespace FluentAssertions.Specs.Exceptions
             catch (XunitException ex)
             {
                 // Assert
-                var expectedMessage = BuildExpectedMessageForWithInnerExceptionExactly("Expected inner System.ArgumentException because the action should do just that, but found System.ArgumentNullException with message", innerException.Message);
-
-                ex.Message.Should().Be(expectedMessage);
+                ex.Message.Should().Match("Expected*ArgumentException*the action should do just that*ArgumentNullException*InnerExceptionMessage*");
             }
         }
 
@@ -165,18 +159,11 @@ namespace FluentAssertions.Specs.Exceptions
                     .WithInnerExceptionExactly<ArgumentNullException>("because {0} should do just that", "the action");
         }
 
-        private static string BuildExpectedMessageForWithInnerExceptionExactly(string because, string innerExceptionMessage)
-        {
-            var expectedMessage = $"{because} \"{innerExceptionMessage}\".";
-
-            return expectedMessage;
-        }
-
         [Fact]
         public void When_subject_throws_an_exception_with_an_unexpected_inner_exception_it_should_throw_with_clear_description()
         {
             // Arrange
-            var innerException = new NullReferenceException();
+            var innerException = new NullReferenceException("InnerExceptionMessage");
 
             Does testSubject = Does.Throw(new Exception("", innerException));
 
@@ -193,10 +180,8 @@ namespace FluentAssertions.Specs.Exceptions
             catch (XunitException exc)
             {
                 // Assert
-                exc.Message.Should().StartWith(
-                    "Expected inner System.ArgumentException because Does.Do should do just that, but found System.NullReferenceException");
-
-                exc.Message.Should().Contain(innerException.Message);
+                exc.Message.Should().Match(
+                    "Expected*ArgumentException*Does.Do should do just that*NullReferenceException*InnerExceptionMessage*");
             }
         }
 

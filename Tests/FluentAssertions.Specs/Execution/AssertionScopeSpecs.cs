@@ -132,9 +132,7 @@ namespace FluentAssertions.Specs.Execution
             }
             catch (Exception exception)
             {
-                exception.Message.Should().Contain("Failure1");
-                exception.Message.Should().Contain("Failure2");
-                exception.Message.Should().Contain("Failure3");
+                exception.Message.Should().ContainAll("Failure1", "Failure2", "Failure3");
             }
         }
 
@@ -165,9 +163,8 @@ namespace FluentAssertions.Specs.Execution
             }
             catch (Exception exception)
             {
-                exception.Message.Should().Contain("Failure1");
-                exception.Message.Should().Contain("Failure2");
-                exception.Message.Should().NotContain("Failure3");
+                exception.Message.Should().ContainAll("Failure1", "Failure2")
+                    .And.NotContain("Failure3");
             }
         }
 
