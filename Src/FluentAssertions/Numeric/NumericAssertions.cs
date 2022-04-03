@@ -6,7 +6,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
-using static System.FormattableString;
 
 namespace FluentAssertions.Numeric
 {
@@ -486,23 +485,24 @@ namespace FluentAssertions.Numeric
         /// <summary>
         /// A method to generate additional information upon comparison failures.
         /// </summary>
+        /// <param name="subject">The current numeric value verified to be non-null.</param>
         /// <param name="expected">The value to compare the current numeric value with.</param>
         /// <returns>
         /// Returns the difference between a number value and the <paramref name="expected" /> value.
         /// Returns `null` if the compared numbers are small enough that a difference message is irrelevant.
         /// </returns>
-        private protected virtual T? CalculateDifferenceForFailureMessage(T expected) => null;
+        private protected virtual string CalculateDifferenceForFailureMessage(T subject, T expected) => null;
 
         private string GenerateDifferenceMessage(T? expected)
         {
             const string noDifferenceMessage = ".";
-            if (!Subject.HasValue || !expected.HasValue)
+            if (Subject is not T subject || expected is not T expectedValue)
             {
                 return noDifferenceMessage;
             }
 
-            var difference = CalculateDifferenceForFailureMessage(expected.Value);
-            return difference is null ? noDifferenceMessage : Invariant($" (difference of {difference}).");
+            var difference = CalculateDifferenceForFailureMessage(subject, expectedValue);
+            return difference is null ? noDifferenceMessage : $" (difference of {difference}).";
         }
     }
 }

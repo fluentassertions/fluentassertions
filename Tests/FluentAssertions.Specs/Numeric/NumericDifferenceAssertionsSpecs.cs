@@ -756,119 +756,119 @@ namespace FluentAssertions.Specs.Numeric
         public class Overflow
         {
             [Fact]
-            public void The_difference_between_overflowed_ints_is_not_included_in_the_message()
+            public void The_difference_between_overflowed_ints_is_included_in_the_message()
             {
                 // Act
                 Action act = () =>
-                    int.MinValue.Should().Be(int.MaxValue, "because we want to test the failure {0}", "message");
+                    int.MinValue.Should().Be(int.MaxValue);
 
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage("Expected int.MinValue to be 2147483647 because we want to test the failure message, but found -2147483648.");
+                    .WithMessage("Expected int.MinValue to be 2147483647*found -2147483648 (difference of -4294967295).");
             }
 
             [Fact]
-            public void The_difference_between_overflowed_nullable_ints_is_not_included_in_the_message()
+            public void The_difference_between_overflowed_nullable_ints_is_included_in_the_message()
             {
                 // Arrange
                 int? minValue = int.MinValue;
 
                 // Act
                 Action act = () =>
-                    minValue.Should().Be(int.MaxValue, "because we want to test the failure {0}", "message");
+                    minValue.Should().Be(int.MaxValue);
 
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage("Expected minValue to be 2147483647 because we want to test the failure message, but found -2147483648.");
+                    .WithMessage("Expected minValue to be 2147483647*found -2147483648 (difference of -4294967295).");
             }
 
             [Fact]
-            public void The_difference_between_overflowed_uints_is_not_included_in_the_message()
+            public void The_difference_between_overflowed_uints_is_included_in_the_message()
             {
                 // Act
                 Action act = () =>
-                    uint.MinValue.Should().Be(uint.MaxValue, "because we want to test the failure {0}", "message");
+                    uint.MinValue.Should().Be(uint.MaxValue);
 
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage("Expected uint.MinValue to be 4294967295u because we want to test the failure message, but found 0u.");
+                    .WithMessage("Expected uint.MinValue to be 4294967295u*found 0u (difference of -4294967295).");
             }
 
             [Fact]
-            public void The_difference_between_overflowed_nullable_uints_is_not_included_in_the_message()
+            public void The_difference_between_overflowed_nullable_uints_is_included_in_the_message()
             {
                 // Arrange
                 uint? minValue = uint.MinValue;
 
                 // Act
                 Action act = () =>
-                    minValue.Should().Be(uint.MaxValue, "because we want to test the failure {0}", "message");
+                    minValue.Should().Be(uint.MaxValue);
 
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage("Expected minValue to be 4294967295u because we want to test the failure message, but found 0u.");
+                    .WithMessage("Expected minValue to be 4294967295u*found 0u (difference of -4294967295).");
             }
 
             [Fact]
-            public void The_difference_between_overflowed_longs_is_not_included_in_the_message()
+            public void The_difference_between_overflowed_longs_is_included_in_the_message()
             {
                 // Act
                 Action act = () =>
-                    long.MinValue.Should().Be(long.MaxValue, "because we want to test the failure {0}", "message");
+                    long.MinValue.Should().Be(long.MaxValue);
 
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage("Expected long.MinValue to be 9223372036854775807L because we want to test the failure message, but found -9223372036854775808L.");
+                    .WithMessage("Expected long.MinValue to be 9223372036854775807L*found -9223372036854775808L (difference of -18446744073709551615).");
             }
 
             [Fact]
-            public void The_difference_between_overflowed_nullable_longs_is_not_included_in_the_message()
+            public void The_difference_between_overflowed_nullable_longs_is_included_in_the_message()
             {
                 // Arrange
                 long? minValue = long.MinValue;
 
                 // Act
                 Action act = () =>
-                    minValue.Should().Be(long.MaxValue, "because we want to test the failure {0}", "message");
+                    minValue.Should().Be(long.MaxValue);
 
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage("Expected minValue to be 9223372036854775807L because we want to test the failure message, but found -9223372036854775808L.");
+                    .WithMessage("Expected minValue to be 9223372036854775807L*found -9223372036854775808L (difference of -18446744073709551615).");
             }
 
             [Fact]
-            public void The_difference_between_overflowed_ulongs_is_not_included_in_the_message()
+            public void The_difference_between_overflowed_ulongs_is_included_in_the_message()
             {
                 // Act
                 Action act = () =>
-                    ulong.MinValue.Should().Be(ulong.MaxValue, "because we want to test the failure {0}", "message");
+                    ulong.MinValue.Should().Be(ulong.MaxValue);
 
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage("Expected ulong.MinValue to be 18446744073709551615UL because we want to test the failure message, but found 0UL.");
+                    .WithMessage("Expected ulong.MinValue to be 18446744073709551615UL*found 0UL (difference of -18446744073709551615).");
             }
 
             [Fact]
-            public void The_difference_between_overflowed_nullable_ulongs_is_not_included_in_the_message()
+            public void The_difference_between_overflowed_nullable_ulongs_is_included_in_the_message()
             {
                 // Arrange
                 ulong? minValue = ulong.MinValue;
 
                 // Act
                 Action act = () =>
-                    minValue.Should().Be(ulong.MaxValue, "because we want to test the failure {0}", "message");
+                    minValue.Should().Be(ulong.MaxValue);
 
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage("Expected minValue to be 18446744073709551615UL because we want to test the failure message, but found 0UL.");
+                    .WithMessage("Expected minValue to be 18446744073709551615UL*found 0UL (difference of -18446744073709551615).");
             }
 
             [Fact]
@@ -876,12 +876,12 @@ namespace FluentAssertions.Specs.Numeric
             {
                 // Act
                 Action act = () =>
-                    decimal.MinValue.Should().Be(decimal.MaxValue, "because we want to test the failure {0}", "message");
+                    decimal.MinValue.Should().Be(decimal.MaxValue);
 
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage("Expected decimal.MinValue to be 79228162514264337593543950335M because we want to test the failure message, but found -79228162514264337593543950335M.");
+                    .WithMessage("Expected decimal.MinValue to be 79228162514264337593543950335M*found -79228162514264337593543950335M.");
             }
 
             [Fact]
@@ -892,12 +892,12 @@ namespace FluentAssertions.Specs.Numeric
 
                 // Act
                 Action act = () =>
-                    minValue.Should().Be(decimal.MaxValue, "because we want to test the failure {0}", "message");
+                    minValue.Should().Be(decimal.MaxValue);
 
                 // Assert
                 act
                     .Should().Throw<XunitException>()
-                    .WithMessage("Expected minValue to be 79228162514264337593543950335M because we want to test the failure message, but found -79228162514264337593543950335M.");
+                    .WithMessage("Expected minValue to be 79228162514264337593543950335M*found -79228162514264337593543950335M.");
             }
         }
     }

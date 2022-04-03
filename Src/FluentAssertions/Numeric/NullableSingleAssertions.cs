@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Globalization;
 
 namespace FluentAssertions.Numeric
 {
@@ -15,10 +16,10 @@ namespace FluentAssertions.Numeric
 
         private protected override bool IsNaN(float value) => float.IsNaN(value);
 
-        private protected override float? CalculateDifferenceForFailureMessage(float expected)
+        private protected override string CalculateDifferenceForFailureMessage(float subject, float expected)
         {
-            var difference = Subject - expected;
-            return difference != 0 ? difference : null;
+            float difference = subject - expected;
+            return difference != 0 ? difference.ToString("R", CultureInfo.InvariantCulture) : null;
         }
     }
 }
