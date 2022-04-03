@@ -1,5 +1,5 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using System.Globalization;
 
 namespace FluentAssertions.Numeric
 {
@@ -14,22 +14,15 @@ namespace FluentAssertions.Numeric
         {
         }
 
-        private protected override ulong? CalculateDifferenceForFailureMessage(ulong expected)
+        private protected override string CalculateDifferenceForFailureMessage(ulong subject, ulong expected)
         {
-            if (Subject < 10 && expected < 10)
+            if (subject < 10 && expected < 10)
             {
                 return null;
             }
 
-            try
-            {
-                var difference = checked(Subject - expected);
-                return difference != 0 ? difference : null;
-            }
-            catch (OverflowException)
-            {
-                return null;
-            }
+            decimal difference = (decimal)subject - expected;
+            return difference != 0 ? difference.ToString(CultureInfo.InvariantCulture) : null;
         }
     }
 }

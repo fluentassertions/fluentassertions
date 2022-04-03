@@ -1,5 +1,5 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using System.Globalization;
 
 namespace FluentAssertions.Numeric
 {
@@ -14,22 +14,15 @@ namespace FluentAssertions.Numeric
         {
         }
 
-        private protected override long? CalculateDifferenceForFailureMessage(long expected)
+        private protected override string CalculateDifferenceForFailureMessage(long subject, long expected)
         {
-            if (Subject is > 0 and < 10 && expected is > 0 and < 10)
+            if (subject is > 0 and < 10 && expected is > 0 and < 10)
             {
                 return null;
             }
 
-            try
-            {
-                var difference = checked(Subject - expected);
-                return difference != 0 ? difference : null;
-            }
-            catch (OverflowException)
-            {
-                return null;
-            }
+            decimal difference = (decimal)subject - expected;
+            return difference != 0 ? difference.ToString(CultureInfo.InvariantCulture) : null;
         }
     }
 }

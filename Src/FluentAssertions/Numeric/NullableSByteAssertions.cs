@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Globalization;
 
 namespace FluentAssertions.Numeric
 {
@@ -13,10 +14,10 @@ namespace FluentAssertions.Numeric
         {
         }
 
-        private protected override sbyte? CalculateDifferenceForFailureMessage(sbyte expected)
+        private protected override string CalculateDifferenceForFailureMessage(sbyte subject, sbyte expected)
         {
-            var difference = (sbyte?)(Subject - expected);
-            return difference != 0 ? difference : null;
+            int difference = subject - expected;
+            return difference != 0 ? difference.ToString(CultureInfo.InvariantCulture) : null;
         }
     }
 }
