@@ -19,7 +19,7 @@ namespace FluentAssertions.Numeric
         private protected override string CalculateDifferenceForFailureMessage(float subject, float expected)
         {
             float difference = subject - expected;
-            return difference != 0 ? difference.ToString(CultureInfo.InvariantCulture) : null;
+            return difference != 0 ? difference.ToString("R", CultureInfo.InvariantCulture) : null;
         }
     }
 }
