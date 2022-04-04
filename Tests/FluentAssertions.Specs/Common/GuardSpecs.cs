@@ -162,5 +162,31 @@ namespace FluentAssertions.Specs.Common
             // Assert
             act.Should().NotThrow();
         }
+
+        [Fact]
+        public void When_collection_has_no_elements_it_throws()
+        {
+            // Arrange
+            var actual = new object[0];
+
+            // Act
+            Action act = () => Guard.ThrowIfArgumentIsEmpty(actual, nameof(actual), "");
+
+            // Assert
+            act.Should().Throw<ArgumentException>();
+        }
+
+        [Fact]
+        public void When_collection_is_not_empty_it_does_not_throw()
+        {
+            // Arrange
+            var actual = new object[] { new object() };
+
+            // Act
+            Action act = () => Guard.ThrowIfArgumentIsEmpty(actual, nameof(actual), "");
+
+            // Assert
+            act.Should().NotThrow();
+        }
     }
 }
