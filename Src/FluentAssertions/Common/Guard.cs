@@ -55,14 +55,6 @@ namespace FluentAssertions.Common
             }
         }
 
-        public static void ThrowIfArgumentContainsNull<T>(IEnumerable<T> values, string paramName, string message)
-        {
-            if (values.Any(t => t is null))
-            {
-                throw new ArgumentNullException(paramName, message);
-            }
-        }
-
         public static void ThrowIfArgumentIsEmpty<T>(IEnumerable<T> values, string paramName, string message)
         {
             if (!values.Any())
