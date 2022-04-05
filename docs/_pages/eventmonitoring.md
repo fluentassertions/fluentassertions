@@ -89,3 +89,7 @@ metadata.Should().BeEquivalentTo(new[]
     }
 });
 ```
+
+## Limitations
+
+This feature is not available in .netstandard2.0, because `System.Reflection` is required to generate event handlers dynamically. 
