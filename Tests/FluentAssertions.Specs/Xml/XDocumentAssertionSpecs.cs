@@ -1162,7 +1162,7 @@ namespace FluentAssertions.Specs.Xml
         #region HaveSingleElement
 
         [Fact]
-        public void When_asserting_document_has_a_single_child_element_and_it_does_it_should_succeed()
+        public void A_single_expected_child_element_with_the_specified_name_should_be_accepted()
         {
             // Arrange
             var document = XDocument.Parse(
@@ -1175,7 +1175,7 @@ namespace FluentAssertions.Specs.Xml
         }
 
         [Fact]
-        public void When_asserting_document_has_single_child_element_but_it_does_have_two_it_should_fail()
+        public void Multiple_child_elements_with_the_specified_name_should_fail_the_test()
         {
             // Arrange
             var document = XDocument.Parse(
@@ -1185,15 +1185,15 @@ namespace FluentAssertions.Specs.Xml
                   </parent>");
 
             // Act
-            Action act = () => document.Should().HaveSingleElement("child");
+            Action act = () => document.Should().HaveSingleElement("child", "because we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected document to have 1 child element(s) \"child\", but found 2.");
+                "Expected document to have 1 child element(s) \"child\"*failure message*, but found 2.");
         }
 
         [Fact]
-        public void When_asserting_a_null_xDocument_to_have_a_single_element_it_should_fail()
+        public void Cannot_ensure_a_single_element_if_the_document_is_null()
         {
             // Arrange
             XDocument xDocument = null;
@@ -1202,7 +1202,7 @@ namespace FluentAssertions.Specs.Xml
             Action act = () => xDocument.Should().HaveSingleElement("child");
 
             // Assert
-            act.Should().Throw<InvalidOperationException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Cannot assert the count if the document itself is <null>.");
         }
 
@@ -1253,7 +1253,7 @@ namespace FluentAssertions.Specs.Xml
             Action act = () => xDocument.Should().HaveElementCount("child", 1);
 
             // Assert
-            act.Should().Throw<InvalidOperationException>().WithMessage(
+            act.Should().Throw<XunitException>().WithMessage(
                 "Cannot assert the count if the document itself is <null>.");
         }
 

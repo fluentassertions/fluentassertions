@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Xml;
@@ -252,13 +253,13 @@ namespace FluentAssertions.Xml
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<XDocumentAssertions> HaveSingleElement(XName expected, string because = "", params object[] becauseArgs)
+        public AndWhichConstraint<XDocumentAssertions, XElement> HaveSingleElement(XName expected, string because = "", params object[] becauseArgs)
         {
             return HaveElementCount(expected, 1, because, becauseArgs);
         }
 
         /// <summary>
-        /// Asserts that the <see cref="XDocument.Root"/> element of the current <see cref="XDocument"/> has a the specified <paramref name="count"/> of
+        /// Asserts that the <see cref="XDocument.Root"/> element of the current <see cref="XDocument"/> has the specified <paramref name="count"/> of
         /// child elements with the specified <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">
@@ -272,35 +273,39 @@ namespace FluentAssertions.Xml
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndConstraint<XDocumentAssertions> HaveElementCount(XName expected, int count, string because = "",
+        public AndWhichConstraint<XDocumentAssertions, XElement> HaveElementCount(XName expected, int count, string because = "",
             params object[] becauseArgs)
         {
-            if (Subject is null)
-            {
-                throw new InvalidOperationException("Cannot assert the count if the document itself is <null>.");
-            }
+            Execute.Assertion
+                .ForCondition(Subject is not null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Cannot assert the count if the document itself is <null>.");
 
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
-                "Cannot assert the document has an element count if the element name is <null>*");
+                "Cannot assert the document has an element count if the element name is <null>.");
 
-            Execute.Assertion
+            bool success = Execute.Assertion
                 .ForCondition(Subject.Root is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:subject} to have root element with child {0}{reason}, but it has no root element.",
                     expected.ToString());
 
-            var xElements = Subject.Root.Elements(expected);
-            int actualCount = xElements.Count();
+            IEnumerable<XElement> xElements = Enumerable.Empty<XElement>();
+            if (success)
+            {
+                xElements = Subject.Root.Elements(expected);
+                int actualCount = xElements.Count();
 
-            Execute.Assertion
-                .ForCondition(actualCount == count)
-                .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected {context:subject} to have {0} child element(s) {1}{reason}, but found {2}.",
-                    count, expected.ToString(), actualCount);
+                Execute.Assertion
+                    .ForCondition(actualCount == count)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        "Expected {context:subject} to have {0} child element(s) {1}{reason}, but found {2}.",
+                        count, expected.ToString(), actualCount);
+            }
 
-            return new AndConstraint<XDocumentAssertions>(this);
+            return new AndWhichConstraint<XDocumentAssertions, XElement>(this, xElements.First());
         }
 
         /// <summary>
