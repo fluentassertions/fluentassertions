@@ -201,6 +201,32 @@ namespace FluentAssertions.Xml
         /// child element with the specified <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">
+        /// The name of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
+        /// </param>
+        /// <param name="occurrenceConstraint">
+        /// A constraint of the expected count of elements in the document.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndWhichConstraint<XDocumentAssertions, XElement> HaveElement(string expected, OccurrenceConstraint occurrenceConstraint,
+            string because = "", params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
+                "Cannot assert the document has an element if the expected name is <null>*");
+
+            return HaveElement(XNamespace.None + expected, occurrenceConstraint, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="XDocument.Root"/> element of the current <see cref="XDocument"/> has a direct
+        /// child element with the specified <paramref name="expected"/> name.
+        /// </summary>
+        /// <param name="expected">
         /// The full name <see cref="XName"/> of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
         /// </param>
         /// <param name="because">
@@ -240,6 +266,8 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
+        /// Special overload for <see cref="HaveElement(string, OccurrenceConstraint, string, object[])"/> with
+        /// occurrence <see cref="Exactly.Once()"/>.
         /// Asserts that the <see cref="XDocument.Root"/> element of the current <see cref="XDocument"/> has a single
         /// child element with the specified <paramref name="expected"/> name.
         /// </summary>
@@ -255,17 +283,19 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndWhichConstraint<XDocumentAssertions, XElement> HaveSingleElement(XName expected, string because = "", params object[] becauseArgs)
         {
-            return HaveElementCount(expected, 1, because, becauseArgs);
+            return HaveElement(expected, Exactly.Once(), because, becauseArgs);
         }
 
         /// <summary>
-        /// Asserts that the <see cref="XDocument.Root"/> element of the current <see cref="XDocument"/> has the specified <paramref name="count"/> of
+        /// Asserts that the <see cref="XDocument.Root"/> element of the current <see cref="XDocument"/> has the specified <paramref name="occurrenceConstraint"/> of
         /// child elements with the specified <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">
         /// The full name <see cref="XName"/> of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
         /// </param>
-        /// <param name="count">The expected count of elements in the document.</param>
+        /// <param name="occurrenceConstraint">
+        /// A constraint of the expected count of elements in the document.
+        /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -273,7 +303,8 @@ namespace FluentAssertions.Xml
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndWhichConstraint<XDocumentAssertions, XElement> HaveElementCount(XName expected, int count, string because = "",
+        public AndWhichConstraint<XDocumentAssertions, XElement> HaveElement(XName expected,
+            OccurrenceConstraint occurrenceConstraint, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -292,17 +323,18 @@ namespace FluentAssertions.Xml
                     expected.ToString());
 
             IEnumerable<XElement> xElements = Enumerable.Empty<XElement>();
+
             if (success)
             {
                 xElements = Subject.Root.Elements(expected);
                 int actualCount = xElements.Count();
 
                 Execute.Assertion
-                    .ForCondition(actualCount == count)
+                    .ForConstraint(occurrenceConstraint, actualCount)
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
                         "Expected {context:subject} to have {0} child element(s) {1}{reason}, but found {2}.",
-                        count, expected.ToString(), actualCount);
+                        occurrenceConstraint.ExpectedCount, expected.ToString(), actualCount);
             }
 
             return new AndWhichConstraint<XDocumentAssertions, XElement>(this, xElements.First());

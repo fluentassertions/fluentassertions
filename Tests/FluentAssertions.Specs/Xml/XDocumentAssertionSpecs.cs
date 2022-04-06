@@ -1175,6 +1175,38 @@ namespace FluentAssertions.Specs.Xml
         }
 
         [Fact]
+        public void Chaining_which_after_asserting_on_singularity_passes()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child foo=""bar""/>
+                  </parent>");
+
+            // Act / Assert
+            document.Should().HaveSingleElement("child").Which.Should().HaveAttribute("foo", "bar");
+        }
+        
+        [Fact]
+        public void Chaining_which_after_asserting_on_singularity_fails_if_element_is_not_single()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child foo=""bar""/>
+                    <child foo=""bar""/>
+                  </parent>");
+
+            // Act
+            Action act = () => document.Should().HaveSingleElement("child")
+                                 .Which.Should().HaveAttribute("foo", "bar");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected document to have 1 child element(s) \"child\", but found 2.");
+        }
+
+        [Fact]
         public void Multiple_child_elements_with_the_specified_name_should_fail_the_test()
         {
             // Arrange
@@ -1185,7 +1217,8 @@ namespace FluentAssertions.Specs.Xml
                   </parent>");
 
             // Act
-            Action act = () => document.Should().HaveSingleElement("child", "because we want to test the failure {0}", "message");
+            Action act = () => document.Should().HaveSingleElement("child",
+                "because we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1208,7 +1241,7 @@ namespace FluentAssertions.Specs.Xml
 
         #endregion
 
-        #region HaveElementCount
+        #region HaveElement (with occurrence)
 
         [Fact]
         public void When_asserting_document_has_two_child_elements_and_it_does_it_should_succeed()
@@ -1221,7 +1254,7 @@ namespace FluentAssertions.Specs.Xml
                   </parent>");
 
             // Act / Assert
-            document.Should().HaveElementCount("child", 2);
+            document.Should().HaveElement("child", Exactly.Twice());
         }
 
         [Fact]
@@ -1236,7 +1269,7 @@ namespace FluentAssertions.Specs.Xml
                   </parent>");
 
             // Act
-            Action act = () => document.Should().HaveElementCount("child", 2);
+            Action act = () => document.Should().HaveElement("child", Exactly.Twice());
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1250,7 +1283,7 @@ namespace FluentAssertions.Specs.Xml
             XDocument xDocument = null;
 
             // Act
-            Action act = () => xDocument.Should().HaveElementCount("child", 1);
+            Action act = () => xDocument.Should().HaveElement("child", AtLeast.Once());
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
