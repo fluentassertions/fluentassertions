@@ -1244,7 +1244,7 @@ namespace FluentAssertions.Specs.Xml
         #region HaveElement (with occurrence)
 
         [Fact]
-        public void When_asserting_document_has_two_child_elements_and_it_does_it_should_succeed()
+        public void When_asserting_document_has_two_child_elements_and_it_does_it_succeeds()
         {
             // Arrange
             var document = XDocument.Parse(
@@ -1258,7 +1258,7 @@ namespace FluentAssertions.Specs.Xml
         }
 
         [Fact]
-        public void When_asserting_document_has_two_child_elements_but_it_does_have_three_it_should_fail()
+        public void When_asserting_document_has_two_child_elements_but_it_does_have_three_it_fails()
         {
             // Arrange
             var document = XDocument.Parse(
@@ -1277,7 +1277,7 @@ namespace FluentAssertions.Specs.Xml
         }
 
         [Fact]
-        public void When_asserting_a_null_xDocument_to_have_a_element_count_it_should_fail()
+        public void When_asserting_a_null_xDocument_to_have_an_element_count_it_should_fail()
         {
             // Arrange
             XDocument xDocument = null;
