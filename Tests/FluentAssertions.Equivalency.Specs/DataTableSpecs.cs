@@ -722,6 +722,28 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
+        public void When_object_of_type_unequal_to_DataTable_is_asserted_with_a_DataTable_it_fails()
+        {
+            // Arrange
+            var subject = new
+            {
+                DataTable = "foobar"
+            };
+
+            var expected = new
+            {
+                DataTable = new DataTable()
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*System.Data.DataTable*found System.String*");
+        }
+
+        [Fact]
         public void When_data_table_has_expected_row_count_it_should_succeed()
         {
             // Arrange

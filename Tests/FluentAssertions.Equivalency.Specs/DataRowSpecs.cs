@@ -336,6 +336,47 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
+        public void When_object_of_type_unequal_to_DataRow_is_asserted_with_a_DataRow_it_fails()
+        {
+            // Arrange
+            var table = new DataTable();
+            var dataRow = table.NewRow();
+            var subject = new
+            {
+                DataRow = "foobar"
+            };
+
+            var expected = new
+            {
+                DataRow = dataRow
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*System.Data.DataRow*found System.String*");
+        }
+
+        [Fact]
+        public void When_subject_of_type_DataRowCollection_is_expected_and_is_not_it_fails()
+        {
+            // Arrange
+            var subject = new
+            {
+                DataRowCollection = "foo"
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo((DataRowCollection)null);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected* to be of type DataRowCollection, but found*");
+        }
+        
+        [Fact]
         public void When_data_row_has_column_then_asserting_that_it_has_that_column_should_succeed()
         {
             // Arrange

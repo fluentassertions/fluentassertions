@@ -703,5 +703,27 @@ namespace FluentAssertions.Equivalency.Specs
             dataColumn1.Should().BeEquivalentTo(dataColumn2,
                 options => options.Excluding(dataColumn => dataColumn.ExtendedProperties));
         }
+
+        [Fact]
+        public void When_object_of_type_unequal_to_DataColumn_is_asserted_with_a_DataColumn_it_fails()
+        {
+            // Arrange
+            var subject = new
+            {
+                DataColumn = "foobar"
+            };
+
+            var expected = new
+            {
+                DataColumn = new DataColumn()
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*System.Data.DataColumn*found System.String*");
+        }
     }
 }

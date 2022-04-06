@@ -254,5 +254,101 @@ namespace FluentAssertions.Equivalency.Specs
                 .ExcludingRelated((DataRelation dataRelation) => dataRelation.ParentKeyConstraint)
                 .ExcludingRelated((DataRelation dataRelation) => dataRelation.ChildKeyConstraint));
         }
+
+        [Fact]
+        public void When_object_of_type_unequal_to_DataRelation_is_asserted_with_a_DataRelation_it_fails()
+        {
+            // Arrange
+            var dataSet = new DataSet();
+            var table = new DataTable();
+            var col1 = new DataColumn();
+            var col2 = new DataColumn();
+
+            table.Columns.Add(col1);
+            table.Columns.Add(col2);
+
+            dataSet.Tables.Add(table);
+
+            var subject = new
+            {
+                DataRelation = "foobar"
+            };
+
+            var expected = new
+            {
+                DataRelation = new DataRelation("bar", col1, col2)
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*System.Data.DataRelation*found System.String*");
+        }
+
+        [Fact]
+        public void When_data_relation_is_null_and_isnt_expected_to_be_equivalence_test_fails()
+        {
+            // Arrange
+            var dataSet = new DataSet();
+            var table = new DataTable();
+            var col1 = new DataColumn();
+            var col2 = new DataColumn();
+
+            table.Columns.Add(col1);
+            table.Columns.Add(col2);
+
+            dataSet.Tables.Add(table);
+
+            var subject = new
+            {
+                DataRelation = (DataRelation)null
+            };
+
+            var expected = new
+            {
+                DataRelation = new DataRelation("bar", col1, col2)
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected *value to be non-null, but found*");
+        }
+
+        [Fact]
+        public void When_data_relation_is_expected_to_be_null_and_isnt_the_test_fails()
+        {
+            // Arrange
+            var dataSet = new DataSet();
+            var table = new DataTable();
+            var col1 = new DataColumn();
+            var col2 = new DataColumn();
+
+            table.Columns.Add(col1);
+            table.Columns.Add(col2);
+
+            dataSet.Tables.Add(table);
+
+            var subject = new
+            {
+                DataRelation = new DataRelation("bar", col1, col2)
+            };
+
+            var expected = new
+            {
+                DataRelation = (DataRelation)null
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected *to be null, but found*");
+        }
     }
 }
