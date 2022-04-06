@@ -337,7 +337,7 @@ namespace FluentAssertions.Xml
                         occurrenceConstraint.ExpectedCount, expected.ToString(), actualCount);
             }
 
-            return new AndWhichConstraint<XDocumentAssertions, XElement>(this, xElements.First());
+            return new AndWhichConstraint<XDocumentAssertions, XElement>(this, xElements);
         }
 
         /// <summary>
