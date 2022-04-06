@@ -213,8 +213,8 @@ namespace FluentAssertions.Xml
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndWhichConstraint<XDocumentAssertions, XElement> HaveElement(string expected, OccurrenceConstraint occurrenceConstraint,
-            string because = "", params object[] becauseArgs)
+        public AndWhichConstraint<XDocumentAssertions, XElement> HaveElement(string expected,
+            OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
                 "Cannot assert the document has an element if the expected name is <null>.");
