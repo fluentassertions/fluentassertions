@@ -24,14 +24,13 @@ namespace Benchmarks
         private GenericEnumerableEquivalencyStep enumerableStep;
 
         private IEquivalencyValidationContext context;
-        private IEquivalencyAssertionOptions config;
 
         private class Context : IEquivalencyValidationContext
         {
             public INode CurrentNode { get; }
             public Reason Reason { get; }
             public Tracer Tracer { get; }
-            public IEquivalencyAssertionOptions Options { get; }
+            public IEquivalencyAssertionOptions Options { get; internal set; }
             public bool IsCyclicReference(object expectation) => throw new NotImplementedException();
 
             public IEquivalencyValidationContext AsNestedMember(IMember expectationMember) => throw new NotImplementedException();
@@ -148,25 +147,27 @@ namespace Benchmarks
                         break;
 
                     default:
-                    {
-                        if (DataType == typeof(TimeSpan))
-                            values[i] = faker.Date.Future() - faker.Date.Future();
-                        else if (DataType == typeof(Guid))
-                            values[i] = faker.Random.Guid();
-                        else if (DataType == typeof(Dictionary<int, int>))
-                            values[i] = new Dictionary<int, int>() { { faker.Random.Int(), faker.Random.Int() } };
-                        else if (DataType == typeof(IEnumerable<int>))
-                            values[i] = new int[] { faker.Random.Int(), faker.Random.Int() };
-                        else
-                            throw new Exception("Unable to populate data of type " + DataType);
+                        {
+                            if (DataType == typeof(TimeSpan))
+                                values[i] = faker.Date.Future() - faker.Date.Future();
+                            else if (DataType == typeof(Guid))
+                                values[i] = faker.Random.Guid();
+                            else if (DataType == typeof(Dictionary<int, int>))
+                                values[i] = new Dictionary<int, int>() { { faker.Random.Int(), faker.Random.Int() } };
+                            else if (DataType == typeof(IEnumerable<int>))
+                                values[i] = new int[] { faker.Random.Int(), faker.Random.Int() };
+                            else
+                                throw new Exception("Unable to populate data of type " + DataType);
 
-                        break;
-                    }
+                            break;
+                        }
                 }
             }
 
-            context = new Context();
-            config = new Config();
+            context = new Context()
+            {
+                Options = new Config()
+            };
         }
 
         [Benchmark]
