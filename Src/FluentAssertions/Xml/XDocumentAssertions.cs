@@ -287,7 +287,7 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Asserts that the <see cref="XDocument.Root"/> element of the current <see cref="XDocument"/> has the specified <paramref name="occurrenceConstraint"/> of
+        /// Asserts that the <see cref="XDocument.Root"/> element of the current <see cref="XDocument"/> has the specified occurrence of
         /// child elements with the specified <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">
