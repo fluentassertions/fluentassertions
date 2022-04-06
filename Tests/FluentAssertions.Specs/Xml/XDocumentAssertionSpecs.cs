@@ -1195,6 +1195,26 @@ namespace FluentAssertions.Specs.Xml
         }
 
         [Fact]
+        public void Chaining_which_after_asserting_document_has_more_than_two_child_elements_it_fails()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act
+            Action act = () => document.Should().HaveElement("child", AtLeast.Twice())
+                .Which.Should().NotBeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "More than one object found.  FluentAssertions cannot determine which object is meant*");
+        }
+
+        [Fact]
         public void When_asserting_a_null_xDocument_to_have_an_element_count_it_should_fail()
         {
             // Arrange
