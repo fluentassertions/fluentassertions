@@ -1195,7 +1195,7 @@ namespace FluentAssertions.Specs.Xml
         }
 
         [Fact]
-        public void Chaining_which_after_asserting_document_has_more_than_two_child_elements_it_fails()
+        public void Chaining_which_after_asserting_and_the_document_has_more_than_two_child_elements_it_fails()
         {
             // Arrange
             var document = XDocument.Parse(
