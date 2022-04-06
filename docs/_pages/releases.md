@@ -23,7 +23,7 @@ sidebar:
 * Added `NotBe` for nullable boolean values - [#1865](https://github.com/fluentassertions/fluentassertions/pull/1865)
 * Added a new overload to `MatchRegex()` to assert on the number of regex matches - [#1869](https://github.com/fluentassertions/fluentassertions/pull/1869)
 * Added difference to numeric assertion failure messages - [#1859](https://github.com/fluentassertions/fluentassertions/pull/1859)
-* Added `HaveSingleElement` and `HaveElementCount` for `XDocument` - [#1880](https://github.com/fluentassertions/fluentassertions/pull/1880)
+* Added `HaveSingleElement` and overload for `HaveElement` for `XDocument` to assert on number of XML nodes - [#1880](https://github.com/fluentassertions/fluentassertions/pull/1880)
 
 ### Fixes
 * `EnumAssertions.Be` did not determine the caller name - [#1835](https://github.com/fluentassertions/fluentassertions/pull/1835)
@@ -87,8 +87,6 @@ sidebar:
 
 * Adding new overloads to all `GreaterOrEqualTo` and `LessOrEqualTo` assertions, adding the word `Than` - [#1673](https://github.com/fluentassertions/fluentassertions/pull/1673)
 * `BeAsync()` and `NotBeAsync()` are now also available on `MethodInfoSelectorAssertions` - [#1700](https://github.com/fluentassertions/fluentassertions/pull/1700)
-
-* Added `HaveSingleElement` and `HaveElementCount` for `XDocument` - [#1681](https://github.com/fluentassertions/fluentassertions/pull/1684)
 
 ### Fixes
 
