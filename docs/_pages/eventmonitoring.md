@@ -89,3 +89,7 @@ metadata.Should().BeEquivalentTo(new[]
     }
 });
 ```
+
+## Limitations
+
+This feature is not available in .NET Standard 2.0, because [`System.Reflection.Emit.DynamicMethod`](https://docs.microsoft.com/en-us/dotnet/api/system.reflection.emit.dynamicmethod) is required to generate event handlers dynamically. 
