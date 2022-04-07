@@ -811,7 +811,7 @@ namespace FluentAssertions.Equivalency
         {
             selectionRules.RemoveAll(selectionRule => selectionRule is T);
         }
-        
+
         protected TSelf AddSelectionRule(IMemberSelectionRule selectionRule)
         {
             selectionRules.Add(selectionRule);
