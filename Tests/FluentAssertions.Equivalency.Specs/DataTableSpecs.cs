@@ -722,7 +722,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_object_of_type_unequal_to_DataTable_is_asserted_with_a_DataTable_it_fails()
+        public void Data_table_is_not_equivalent_to_another_type()
         {
             // Arrange
             var subject = new

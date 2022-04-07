@@ -336,7 +336,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_object_of_type_unequal_to_DataRow_is_asserted_with_a_DataRow_it_fails()
+        public void Data_row_is_not_equivalent_to_another_type()
         {
             // Arrange
             var table = new DataTable();
@@ -375,7 +375,7 @@ namespace FluentAssertions.Equivalency.Specs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected* to be of type DataRowCollection, but found*");
         }
-        
+
         [Fact]
         public void When_data_row_has_column_then_asserting_that_it_has_that_column_should_succeed()
         {
