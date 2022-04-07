@@ -9,6 +9,9 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Collections
 {
+    /// <summary>
+    /// This part of the class contains assertions of general generic string collections
+    /// </summary>
     public partial class GenericCollectionAssertionOfStringSpecs
     {
         [Fact]

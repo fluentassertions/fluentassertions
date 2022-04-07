@@ -111,6 +111,14 @@ namespace FluentAssertions.Common
                 .Split(new[] { '.', '[', ']' }, StringSplitOptions.RemoveEmptyEntries);
 
         /// <summary>
+        /// Returns a copy of the current object as if it represented an un-indexed item in a collection.
+        /// </summary>
+        public MemberPath WithCollectionAsRoot()
+        {
+            return new MemberPath(reflectedType, declaringType, "[]." + dottedPath);
+        }
+
+        /// <summary>
         /// Returns the name of the member the current path points to without its parent path.
         /// </summary>
         public string MemberName => Segments.Last();

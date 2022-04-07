@@ -6,6 +6,444 @@ namespace FluentAssertions.Specs.Numeric
 {
     public class NullableNumericAssertionSpecs
     {
+        public class BePositive
+        {
+            [Fact]
+            public void NaN_is_never_a_positive_float()
+            {
+                // Arrange
+                float? value = float.NaN;
+
+                // Act
+                Action act = () => value.Should().BePositive();
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage("*but found NaN*");
+            }
+
+            [Fact]
+            public void NaN_is_never_a_positive_double()
+            {
+                // Arrange
+                double? value = double.NaN;
+
+                // Act
+                Action act = () => value.Should().BePositive();
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage("*but found NaN*");
+            }
+        }
+
+        public class BeNegative
+        {
+            [Fact]
+            public void NaN_is_never_a_negative_float()
+            {
+                // Arrange
+                float? value = float.NaN;
+
+                // Act
+                Action act = () => value.Should().BeNegative();
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage("*but found NaN*");
+            }
+
+            [Fact]
+            public void NaN_is_never_a_negative_double()
+            {
+                // Arrange
+                double? value = double.NaN;
+
+                // Act
+                Action act = () => value.Should().BeNegative();
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage("*but found NaN*");
+            }
+        }
+
+        public class BeLessThan
+        {
+            [Fact]
+            public void A_float_can_never_be_less_than_NaN()
+            {
+                // Arrange
+                float? value = 3.4F;
+
+                // Act
+                Action act = () => value.Should().BeLessThan(float.NaN);
+
+                // Assert
+                act
+                    .Should().Throw<ArgumentException>()
+                    .WithMessage("*NaN*");
+            }
+
+            [Fact]
+            public void NaN_is_never_less_than_another_float()
+            {
+                // Arrange
+                float? value = float.NaN;
+
+                // Act
+                Action act = () => value.Should().BeLessThan(0);
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("*NaN*");
+            }
+
+            [Fact]
+            public void A_double_can_never_be_less_than_NaN()
+            {
+                // Arrange
+                double? value = 3.4F;
+
+                // Act
+                Action act = () => value.Should().BeLessThan(double.NaN);
+
+                // Assert
+                act
+                    .Should().Throw<ArgumentException>()
+                    .WithMessage("*NaN*");
+            }
+
+            [Fact]
+            public void NaN_is_never_less_than_another_double()
+            {
+                // Arrange
+                double? value = double.NaN;
+
+                // Act
+                Action act = () => value.Should().BeLessThan(0);
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("*NaN*");
+            }
+        }
+
+        public class BeGreaterThan
+        {
+            [Fact]
+            public void A_float_can_never_be_greater_than_NaN()
+            {
+                // Arrange
+                float? value = 3.4F;
+
+                // Act
+                Action act = () => value.Should().BeGreaterThan(float.NaN);
+
+                // Assert
+                act
+                    .Should().Throw<ArgumentException>()
+                    .WithMessage("*NaN*");
+            }
+
+            [Fact]
+            public void NaN_is_never_greater_than_another_float()
+            {
+                // Arrange
+                float? value = float.NaN;
+
+                // Act
+                Action act = () => value.Should().BeGreaterThan(0);
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("*NaN*");
+            }
+
+            [Fact]
+            public void A_double_can_never_be_greater_than_NaN()
+            {
+                // Arrange
+                double? value = 3.4F;
+
+                // Act
+                Action act = () => value.Should().BeGreaterThan(double.NaN);
+
+                // Assert
+                act
+                    .Should().Throw<ArgumentException>()
+                    .WithMessage("*NaN*");
+            }
+
+            [Fact]
+            public void NaN_is_never_greater_than_another_double()
+            {
+                // Arrange
+                double? value = double.NaN;
+
+                // Act
+                Action act = () => value.Should().BeGreaterThan(0);
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("*NaN*");
+            }
+        }
+
+        public class BeLessThanOrEqualTo
+        {
+            [Fact]
+            public void A_float_can_never_be_less_than_or_equal_to_NaN()
+            {
+                // Arrange
+                float? value = 3.4F;
+
+                // Act
+                Action act = () => value.Should().BeLessThanOrEqualTo(float.NaN);
+
+                // Assert
+                act
+                    .Should().Throw<ArgumentException>()
+                    .WithMessage("*NaN*");
+            }
+
+            [Fact]
+            public void NaN_is_never_less_than_or_equal_to_another_float()
+            {
+                // Arrange
+                float? value = float.NaN;
+
+                // Act
+                Action act = () => value.Should().BeLessThanOrEqualTo(0);
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("*NaN*");
+            }
+
+            [Fact]
+            public void A_double_can_never_be_less_than_or_equal_to_NaN()
+            {
+                // Arrange
+                double? value = 3.4;
+
+                // Act
+                Action act = () => value.Should().BeLessThanOrEqualTo(double.NaN);
+
+                // Assert
+                act
+                    .Should().Throw<ArgumentException>()
+                    .WithMessage("*NaN*");
+            }
+
+            [Fact]
+            public void NaN_is_never_less_than_or_equal_to_another_double()
+            {
+                // Arrange
+                double? value = double.NaN;
+
+                // Act
+                Action act = () => value.Should().BeLessThanOrEqualTo(0);
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("*NaN*");
+            }
+        }
+
+        public class BeGreaterThanOrEqualTo
+        {
+            [Fact]
+            public void A_float_can_never_be_greater_than_or_equal_to_NaN()
+            {
+                // Arrange
+                float? value = 3.4F;
+
+                // Act
+                Action act = () => value.Should().BeGreaterThanOrEqualTo(float.NaN);
+
+                // Assert
+                act
+                    .Should().Throw<ArgumentException>()
+                    .WithMessage("*NaN*");
+            }
+
+            [Fact]
+            public void NaN_is_never_greater_than_or_equal_to_another_float()
+            {
+                // Arrange
+                float? value = float.NaN;
+
+                // Act
+                Action act = () => value.Should().BeGreaterThanOrEqualTo(0);
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("*NaN*");
+            }
+
+            [Fact]
+            public void A_double_can_never_be_greater_than_or_equal_to_NaN()
+            {
+                // Arrange
+                double? value = 3.4;
+
+                // Act
+                Action act = () => value.Should().BeGreaterThanOrEqualTo(double.NaN);
+
+                // Assert
+                act
+                    .Should().Throw<ArgumentException>()
+                    .WithMessage("*NaN*");
+            }
+
+            [Fact]
+            public void NaN_is_never_greater_than_or_equal_to_another_double()
+            {
+                // Arrange
+                double? value = double.NaN;
+
+                // Act
+                Action act = () => value.Should().BeGreaterThanOrEqualTo(0);
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("*NaN*");
+            }
+        }
+
+        public class BeInRange
+        {
+            [Theory]
+            [InlineData(float.NaN, 5F)]
+            [InlineData(5F, float.NaN)]
+            public void A_float_can_never_be_in_a_range_containing_NaN(float minimumValue, float maximumValue)
+            {
+                // Arrange
+                float? value = 4.5F;
+
+                // Act
+                Action act = () => value.Should().BeInRange(minimumValue, maximumValue);
+
+                // Assert
+                act
+                    .Should().Throw<ArgumentException>()
+                    .WithMessage(
+                        "*NaN*");
+            }
+
+            [Fact]
+            public void NaN_is_never_in_range_of_two_floats()
+            {
+                // Arrange
+                float? value = float.NaN;
+
+                // Act
+                Action act = () => value.Should().BeInRange(4, 5);
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage(
+                        "Expected value to be between*4* and*5*, but found*NaN*");
+            }
+
+            [Theory]
+            [InlineData(double.NaN, 5)]
+            [InlineData(5, double.NaN)]
+            public void A_double_can_never_be_in_a_range_containing_NaN(double minimumValue, double maximumValue)
+            {
+                // Arrange
+                double? value = 4.5;
+
+                // Act
+                Action act = () => value.Should().BeInRange(minimumValue, maximumValue);
+
+                // Assert
+                act
+                    .Should().Throw<ArgumentException>()
+                    .WithMessage(
+                        "*NaN*");
+            }
+
+            [Fact]
+            public void NaN_is_never_in_range_of_two_doubles()
+            {
+                // Arrange
+                double? value = double.NaN;
+
+                // Act
+                Action act = () => value.Should().BeInRange(4, 5);
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage(
+                        "Expected value to be between*4* and*5*, but found*NaN*");
+            }
+        }
+
+        public class NotBeInRange
+        {
+            [Theory]
+            [InlineData(float.NaN, 1F)]
+            [InlineData(1F, float.NaN)]
+            public void Cannot_use_NaN_in_a_range_of_floats(float minimumValue, float maximumValue)
+            {
+                // Arrange
+                float? value = 4.5F;
+
+                // Act
+                Action act = () => value.Should().NotBeInRange(minimumValue, maximumValue);
+
+                // Assert
+                act
+                    .Should().Throw<ArgumentException>()
+                    .WithMessage("*NaN*");
+            }
+
+            [Fact]
+            public void NaN_is_never_inside_any_range_of_floats()
+            {
+                // Arrange
+                float? value = float.NaN;
+
+                // Act / Assert
+                value.Should().NotBeInRange(4, 5);
+            }
+
+            [Theory]
+            [InlineData(double.NaN, 1D)]
+            [InlineData(1D, double.NaN)]
+            public void Cannot_use_NaN_in_a_range_of_doubles(double minimumValue, double maximumValue)
+            {
+                // Arrange
+                double? value = 4.5D;
+
+                // Act
+                Action act = () => value.Should().NotBeInRange(minimumValue, maximumValue);
+
+                // Assert
+                act
+                    .Should().Throw<ArgumentException>()
+                    .WithMessage("*NaN*");
+            }
+
+            [Fact]
+            public void NaN_is_never_inside_any_range_of_doubles()
+            {
+                // Arrange
+                double? value = double.NaN;
+
+                // Act / Assert
+                value.Should().NotBeInRange(4, 5);
+            }
+        }
+
         public class HaveValue
         {
             [Fact]
@@ -221,6 +659,57 @@ namespace FluentAssertions.Specs.Numeric
                 // Assert
                 act.Should().Throw<XunitException>()
                     .WithMessage("Expected*2 because we want to test the failure message, but found 1.");
+            }
+
+            [Fact]
+            public void Nan_is_never_equal_to_a_normal_float()
+            {
+                // Arrange
+                float? value = float.NaN;
+
+                // Act
+                Action act = () => value.Should().Be(3.4F);
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage(
+                        "Expected value to be *3.4F, but found NaN*");
+            }
+
+            [Fact]
+            public void NaN_can_be_compared_to_NaN_when_its_a_float()
+            {
+                // Arrange
+                float? value = float.NaN;
+
+                // Act
+                value.Should().Be(float.NaN);
+            }
+
+            [Fact]
+            public void Nan_is_never_equal_to_a_normal_double()
+            {
+                // Arrange
+                double? value = double.NaN;
+
+                // Act
+                Action act = () => value.Should().Be(3.4D);
+
+                // Assert
+                act
+                    .Should().Throw<XunitException>()
+                    .WithMessage("Expected value to be *3.4, but found NaN*");
+            }
+
+            [Fact]
+            public void NaN_can_be_compared_to_NaN_when_its_a_double()
+            {
+                // Arrange
+                double? value = double.NaN;
+
+                // Act
+                value.Should().Be(double.NaN);
             }
         }
 

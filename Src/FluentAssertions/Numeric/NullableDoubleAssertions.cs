@@ -1,15 +1,15 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Globalization;
 
 namespace FluentAssertions.Numeric
 {
     /// <summary>
-    /// Contains a number of methods to assert that a <see cref="double"/> is in the expected state.
+    /// Contains a number of methods to assert that a nullable <see cref="double"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    internal class DoubleAssertions : NumericAssertions<double>
+    internal class NullableDoubleAssertions : NullableNumericAssertions<double>
     {
-        internal DoubleAssertions(double value)
+        internal NullableDoubleAssertions(double? value)
             : base(value)
         {
         }
@@ -18,7 +18,7 @@ namespace FluentAssertions.Numeric
 
         private protected override string CalculateDifferenceForFailureMessage(double subject, double expected)
         {
-            var difference = subject - expected;
+            double difference = subject - expected;
             return difference != 0 ? difference.ToString("R", CultureInfo.InvariantCulture) : null;
         }
     }

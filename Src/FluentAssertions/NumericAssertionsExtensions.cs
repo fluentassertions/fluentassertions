@@ -1,6 +1,7 @@
 using System;
 using FluentAssertions.Execution;
 using FluentAssertions.Numeric;
+using FluentAssertions.Primitives;
 
 namespace FluentAssertions
 {
@@ -679,7 +680,7 @@ namespace FluentAssertions
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
 
-            var nonNullableAssertions = new NumericAssertions<float>(parent.Subject.Value);
+            var nonNullableAssertions = new SingleAssertions(parent.Subject.Value);
             nonNullableAssertions.BeApproximately(expectedValue, precision, because, becauseArgs);
 
             return new AndConstraint<NullableNumericAssertions<float>>(parent);
@@ -754,9 +755,9 @@ namespace FluentAssertions
         {
             if (float.IsNaN(expectedValue))
             {
-                throw new ArgumentException("Cannot determine approximation of a float to NaN", nameof(expectedValue)); 
+                throw new ArgumentException("Cannot determine approximation of a float to NaN", nameof(expectedValue));
             }
-            
+
             if (precision < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
@@ -811,7 +812,7 @@ namespace FluentAssertions
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
 
-            var nonNullableAssertions = new NumericAssertions<double>(parent.Subject.Value);
+            var nonNullableAssertions = new DoubleAssertions(parent.Subject.Value);
             BeApproximately(nonNullableAssertions, expectedValue, precision, because, becauseArgs);
 
             return new AndConstraint<NullableNumericAssertions<double>>(parent);
@@ -886,9 +887,9 @@ namespace FluentAssertions
         {
             if (double.IsNaN(expectedValue))
             {
-                throw new ArgumentException("Cannot determine approximation of a double to NaN", nameof(expectedValue)); 
+                throw new ArgumentException("Cannot determine approximation of a double to NaN", nameof(expectedValue));
             }
-            
+
             if (precision < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
@@ -943,9 +944,8 @@ namespace FluentAssertions
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
 
-            var nonNullableAssertions = new NumericAssertions<decimal>(parent.Subject.Value);
+            var nonNullableAssertions = new DecimalAssertions(parent.Subject.Value);
             BeApproximately(nonNullableAssertions, expectedValue, precision, because, becauseArgs);
-
             return new AndConstraint<NullableNumericAssertions<decimal>>(parent);
         }
 
@@ -1073,7 +1073,7 @@ namespace FluentAssertions
 
             if (parent.Subject is not null)
             {
-                var nonNullableAssertions = new NumericAssertions<float>(parent.Subject.Value);
+                var nonNullableAssertions = new SingleAssertions(parent.Subject.Value);
                 nonNullableAssertions.NotBeApproximately(unexpectedValue, precision, because, becauseArgs);
             }
 
@@ -1149,9 +1149,9 @@ namespace FluentAssertions
         {
             if (float.IsNaN(unexpectedValue))
             {
-                throw new ArgumentException("Cannot determine approximation of a float to NaN", nameof(unexpectedValue)); 
+                throw new ArgumentException("Cannot determine approximation of a float to NaN", nameof(unexpectedValue));
             }
-            
+
             if (precision < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
@@ -1203,7 +1203,7 @@ namespace FluentAssertions
 
             if (parent.Subject is not null)
             {
-                var nonNullableAssertions = new NumericAssertions<double>(parent.Subject.Value);
+                var nonNullableAssertions = new DoubleAssertions(parent.Subject.Value);
                 nonNullableAssertions.NotBeApproximately(unexpectedValue, precision, because, becauseArgs);
             }
 
@@ -1281,7 +1281,7 @@ namespace FluentAssertions
             {
                 throw new ArgumentException("Cannot determine approximation of a double to NaN", nameof(unexpectedValue));
             }
-            
+
             if (precision < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
@@ -1333,7 +1333,7 @@ namespace FluentAssertions
 
             if (parent.Subject is not null)
             {
-                var nonNullableAssertions = new NumericAssertions<decimal>(parent.Subject.Value);
+                var nonNullableAssertions = new DecimalAssertions(parent.Subject.Value);
                 NotBeApproximately(nonNullableAssertions, unexpectedValue, precision, because, becauseArgs);
             }
 

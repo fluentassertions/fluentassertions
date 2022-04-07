@@ -14,11 +14,15 @@ sidebar:
 * Added support for .NET6 `DateOnly` struct - [#1844](https://github.com/fluentassertions/fluentassertions/pull/1844)
 * Added support for .NET6 `TimeOnly` struct - [#1848](https://github.com/fluentassertions/fluentassertions/pull/1848)
 * Added `For` option to `BeEquivalentTo` to exclude members in nested collections - [#1782](https://github.com/fluentassertions/fluentassertions/pull/1782)
+* Added `NotBe` for nullable boolean values - [#1865](https://github.com/fluentassertions/fluentassertions/pull/1865)
+* Added a new overload to `MatchRegex()` to assert on the number of regex matches - [#1869](https://github.com/fluentassertions/fluentassertions/pull/1869)
+* Added difference to numeric assertion failure messages - [#1859](https://github.com/fluentassertions/fluentassertions/pull/1859)
 
 ### Fixes
 * `EnumAssertions.Be` did not determine the caller name - [#1835](https://github.com/fluentassertions/fluentassertions/pull/1835)
 * Ensure `ExcludingMissingMembers` doesn't undo usage of `WithMapping` in `BeEquivalentTo` - [#1838](https://github.com/fluentassertions/fluentassertions/pull/1838)
-* Better handling of NaN in various numeric assertions - [#1822](https://github.com/fluentassertions/fluentassertions/pull/1822)
+* Better handling of NaN in various numeric assertions - [#1822](https://github.com/fluentassertions/fluentassertions/pull/1822) & [#1867](https://github.com/fluentassertions/fluentassertions/pull/1867)
+* `WithMapping` in `BeEquivalentTo` now also works when the root is a collection - [#1858](https://github.com/fluentassertions/fluentassertions/pull/1858)
 
 ### Fixes (Extensibility)
 

@@ -491,7 +491,7 @@ namespace FluentAssertions.Specs.Numeric
                 act
                     .Should().Throw<XunitException>()
                     .WithMessage(
-                        "Expected value to be 3.4 because we want to test the error message, but found 3.5.");
+                        "Expected value to be 3.4 because we want to test the error message, but found 3.5*.");
             }
 
             [Fact]

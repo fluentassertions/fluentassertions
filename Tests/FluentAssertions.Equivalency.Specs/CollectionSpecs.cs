@@ -350,12 +350,14 @@ namespace FluentAssertions.Equivalency.Specs
 
             var logbookEntry = new LogbookEntryProjection
             {
-                Logbook = logbook, LogbookRelations = new[] { new LogbookRelation { Logbook = logbook } }
+                Logbook = logbook,
+                LogbookRelations = new[] { new LogbookRelation { Logbook = logbook } }
             };
 
             var equivalentLogbookEntry = new LogbookEntryProjection
             {
-                Logbook = logbook, LogbookRelations = new[] { new LogbookRelation { Logbook = logbook } }
+                Logbook = logbook,
+                LogbookRelations = new[] { new LogbookRelation { Logbook = logbook } }
             };
 
             // Act
@@ -1062,7 +1064,9 @@ namespace FluentAssertions.Equivalency.Specs
             // Act
             Action action = () => subject.Should().AllBeEquivalentTo(new
             {
-                Name = "someDto", Age = 1, Birthdate = default(DateTime)
+                Name = "someDto",
+                Age = 1,
+                Birthdate = default(DateTime)
             });
 
             // Assert
@@ -1082,9 +1086,11 @@ namespace FluentAssertions.Equivalency.Specs
 
             // Act
             Action action = () => subject.Should().AllBeEquivalentTo(new
-                {
-                    Name = "someDto", Age = 1, Birthdate = default(DateTime)
-                })
+            {
+                Name = "someDto",
+                Age = 1,
+                Birthdate = default(DateTime)
+            })
                 .And.HaveCount(3);
 
             // Assert
@@ -1422,12 +1428,14 @@ namespace FluentAssertions.Equivalency.Specs
             // Arrange
             var actual = new MyObject
             {
-                MyString = "identical string", Child = new ClassIdentifiedById { Id = 1, MyChildString = "identical string" }
+                MyString = "identical string",
+                Child = new ClassIdentifiedById { Id = 1, MyChildString = "identical string" }
             };
 
             var expectation = new MyObject
             {
-                MyString = "identical string", Child = new ClassIdentifiedById { Id = 1, MyChildString = "DIFFERENT STRING" }
+                MyString = "identical string",
+                Child = new ClassIdentifiedById { Id = 1, MyChildString = "DIFFERENT STRING" }
             };
 
             IList<MyObject> actualList = new List<MyObject> { actual };
@@ -1792,7 +1800,7 @@ namespace FluentAssertions.Equivalency.Specs
         public void When_the_number_of_dimensions_of_the_arrays_are_not_the_same_it_should_throw()
         {
             // Arrange
-            var actual = new[,,]
+            var actual = new[, ,]
             {
                 {
                     { 1 },
@@ -2035,7 +2043,9 @@ namespace FluentAssertions.Equivalency.Specs
             // Act
             Action act = () => result.Should().BeEquivalentTo(new Dictionary<string, int?>
             {
-                ["A"] = 0, ["B"] = 0, ["C"] = null
+                ["A"] = 0,
+                ["B"] = 0,
+                ["C"] = null
             });
 
             // Assert
@@ -2428,8 +2438,8 @@ namespace FluentAssertions.Equivalency.Specs
             };
 
             return from x in arrays
-                from y in arrays
-                select new object[] { x, y };
+                   from y in arrays
+                   select new object[] { x, y };
         }
 
         [Fact]
