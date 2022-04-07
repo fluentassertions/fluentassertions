@@ -144,7 +144,7 @@ Using `For` you can navigate arbitrarily deep. Consider a `Product` has a collec
 orderDto.Should().BeEquivalentTo(order, options =>
     options.For(o => o.Products)
            .For(o => o.Parts)
-           .Exclude(o => o.Status));
+           .Exclude(o => o.Name));
 ```
 
 Of course, `Excluding()` and `ExcludingMissingMembers()` can be combined.
