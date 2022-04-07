@@ -561,6 +561,58 @@ namespace FluentAssertions.Equivalency.Specs
         public class For
         {
             [Fact]
+            public void For_Does_Not_Exclude()
+            {
+                // Arrange
+                var subject = new
+                {
+                    Text = "Actual",
+                    Level = new
+                    {
+                        Collection = new[]
+                        {
+                            new
+                            {
+                                Number = 1,
+                                Text = "Text"
+                            },
+                            new
+                            {
+                                Number = 2,
+                                Text = "Actual"
+                            }
+                        }
+                    }
+                };
+
+                var expected = new
+                {
+                    Text = "Actual",
+                    Level = new
+                    {
+                        Collection = new[]
+                        {
+                            new
+                            {
+                                Number = 1,
+                                Text = "Text"
+                            },
+                            new
+                            {
+                                Number = 2,
+                                Text = "Expected"
+                            }
+                        }
+                    }
+                };
+
+                // Act / Assert
+                subject.Should().NotBeEquivalentTo(expected,
+                    options => options
+                        .For(x => x.Level.Collection));
+            }
+
+            [Fact]
             public void When_property_in_collection_is_excluded_it_should_not_throw()
             {
                 // Arrange
@@ -869,6 +921,59 @@ namespace FluentAssertions.Equivalency.Specs
                     options => options
                         .Excluding(x => x.Text)
                         .For(x => x.Level.Collection).Exclude(x => x.Text));
+            }
+
+            [Fact]
+            public void A_nested_exclusion_can_be_followed_by_a_nested_exclusion()
+            {
+                // Arrange
+                var subject = new
+                {
+                    Text = "Actual",
+                    Level = new
+                    {
+                        Collection = new[]
+                        {
+                            new
+                            {
+                                Number = 1,
+                                Text = "Text"
+                            },
+                            new
+                            {
+                                Number = 2,
+                                Text = "Actual"
+                            }
+                        }
+                    }
+                };
+
+                var expected = new
+                {
+                    Text = "Actual",
+                    Level = new
+                    {
+                        Collection = new[]
+                        {
+                            new
+                            {
+                                Number = 1,
+                                Text = "Text"
+                            },
+                            new
+                            {
+                                Number = 3,
+                                Text = "Expected"
+                            }
+                        }
+                    }
+                };
+
+                // Act / Assert
+                subject.Should().BeEquivalentTo(expected,
+                    options => options
+                        .For(x => x.Level.Collection).Exclude(x => x.Text)
+                        .For(x => x.Level.Collection).Exclude(x => x.Number));
             }
         }
 
