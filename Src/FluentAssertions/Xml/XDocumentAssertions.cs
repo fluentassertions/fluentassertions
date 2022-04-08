@@ -178,7 +178,7 @@ namespace FluentAssertions.Xml
         /// child element with the specified <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">
-        /// The name of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
+        /// The name of the expected child element of the current document's <see cref="XDocument.Root"/> element.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -201,10 +201,10 @@ namespace FluentAssertions.Xml
         /// child element with the specified <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">
-        /// The name of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
+        /// The name of the expected child element of the current document's <see cref="XDocument.Root"/> element.
         /// </param>
         /// <param name="occurrenceConstraint">
-        /// A constraint of the expected count of elements in the document.
+        /// A constraint specifying the number of times the specified elements should appear.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -227,7 +227,7 @@ namespace FluentAssertions.Xml
         /// child element with the specified <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">
-        /// The full name <see cref="XName"/> of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
+        /// The full name <see cref="XName"/> of the expected child element of the current document's <see cref="XDocument.Root"/> element.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -266,13 +266,11 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Special overload for <see cref="HaveElement(string, OccurrenceConstraint, string, object[])"/> with
-        /// occurrence <see cref="Exactly.Once()"/>.
-        /// Asserts that the <see cref="XDocument.Root"/> element of the current <see cref="XDocument"/> has a single
+        /// Asserts that the <see cref="XDocument.Root"/> element of the current <see cref="XDocument"/> has a _single_
         /// child element with the specified <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">
-        /// The full name <see cref="XName"/> of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
+        /// The full name <see cref="XName"/> of the expected child element of the current document's <see cref="XDocument.Root"/> element.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -291,10 +289,10 @@ namespace FluentAssertions.Xml
         /// child elements with the specified <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">
-        /// The full name <see cref="XName"/> of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
+        /// The full name <see cref="XName"/> of the expected child element of the current document's <see cref="XDocument.Root"/> element.
         /// </param>
         /// <param name="occurrenceConstraint">
-        /// A constraint of the expected count of elements in the document.
+        /// A constraint specifying the number of times the specified elements should appear.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
