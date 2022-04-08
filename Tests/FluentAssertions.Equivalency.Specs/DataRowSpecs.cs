@@ -362,14 +362,11 @@ namespace FluentAssertions.Equivalency.Specs
         [Fact]
         public void Any_type_is_not_equivalent_to_data_row_colletion()
         {
-            // Arrange
-            var subject = new
-            {
-                DataRowCollection = "foo"
-            };
-
+            // Arrange 
+            var o = new object();
+            
             // Act
-            Action act = () => subject.Should().BeEquivalentTo((DataRowCollection)null);
+            Action act = () => o.Should().BeEquivalentTo((DataRowCollection)null);
 
             // Assert
             act.Should().Throw<XunitException>()
