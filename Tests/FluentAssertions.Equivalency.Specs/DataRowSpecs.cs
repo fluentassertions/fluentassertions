@@ -360,7 +360,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_subject_of_type_DataRowCollection_is_expected_and_is_not_it_fails()
+        public void Any_type_is_not_equivalent_to_data_row_colletion()
         {
             // Arrange
             var subject = new
