@@ -288,7 +288,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void Null_is_not_equivalent_to_a_corrent_initialized_object()
+        public void Null_is_not_equivalent_to_a_data_relation()
         {
             // Arrange
             var dataSet = new DataSet();
