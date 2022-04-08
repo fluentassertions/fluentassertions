@@ -320,7 +320,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_data_relation_is_expected_to_be_null_and_isnt_the_test_fails()
+        public void Data_relation_is_not_equivalent_to_null()
         {
             // Arrange
             var dataSet = new DataSet();
