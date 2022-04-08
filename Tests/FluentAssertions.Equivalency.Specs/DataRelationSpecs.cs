@@ -256,7 +256,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_object_of_type_unequal_to_DataRelation_is_asserted_with_a_DataRelation_it_fails()
+        public void Data_relation_is_not_equivalent_to_another_type()
         {
             // Arrange
             var dataSet = new DataSet();
