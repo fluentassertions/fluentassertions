@@ -1228,5 +1228,171 @@ namespace FluentAssertions.Specs.Xml
         }
 
         #endregion
+
+        #region HaveElement (with occurrence)
+
+        [Fact]
+        public void Element_has_two_child_elements_and_it_expected_does_it_succeeds()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act / Assert
+            element.Should().HaveElement("child", Exactly.Twice());
+        }
+
+        [Fact]
+        public void Element_has_two_child_elements_and_three_expected_it_fails()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act
+            Action act = () => element.Should().HaveElement("child", Exactly.Twice());
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected element to have 2 child element(s) \"child\", but found 3.");
+        }
+
+        [Fact]
+        public void Chaining_which_after_asserting_and_the_element_has_more_than_two_child_elements_it_fails()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act
+            Action act = () => element.Should().HaveElement("child", AtLeast.Twice())
+                .Which.Should().NotBeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "More than one object found.  FluentAssertions cannot determine which object is meant*");
+        }
+
+        [Fact]
+        public void Null_element_is_expected_to_have_an_element_count_it_should_fail()
+        {
+            // Arrange
+            XElement xElement = null;
+
+            // Act
+            Action act = () => xElement.Should().HaveElement("child", AtLeast.Once());
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected* to have an element with count of *, but the element itself is <null>.");
+        }
+
+        #endregion
+
+        #region HaveSingleElement
+
+        [Fact]
+        public void A_single_expected_child_element_with_the_specified_name_should_be_accepted()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                @"<parent>
+                    <child />
+                  </parent>");
+
+            // Act / Assert
+            element.Should().HaveSingleElement("child");
+        }
+
+        [Fact]
+        public void A_single_expected_child_element_with_the_specified_xml_name_should_be_accepted()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                @"<parent>
+                    <child />
+                  </parent>");
+
+            // Act / Assert
+            element.Should().HaveSingleElement(XNamespace.None + "child");
+        }
+
+        [Fact]
+        public void Chaining_which_after_asserting_on_singularity_passes()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                @"<parent>
+                    <child foo=""bar""/>
+                  </parent>");
+
+            // Act / Assert
+            element.Should().HaveSingleElement("child").Which.Should().HaveAttribute("foo", "bar");
+        }
+
+        [Fact]
+        public void Chaining_which_after_asserting_on_singularity_fails_if_element_is_not_single()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                @"<parent>
+                    <child foo=""bar""/>
+                    <child foo=""bar""/>
+                  </parent>");
+
+            // Act
+            Action act = () => element.Should().HaveSingleElement("child")
+                                 .Which.Should().HaveAttribute("foo", "bar");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected element to have 1 child element(s) \"child\", but found 2.");
+        }
+
+        [Fact]
+        public void Multiple_child_elements_with_the_specified_name_should_fail_the_test()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act
+            Action act = () => element.Should().HaveSingleElement("child",
+                "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected element to have 1 child element(s) \"child\"*failure message*, but found 2.");
+        }
+
+        [Fact]
+        public void Cannot_ensure_a_single_element_if_the_document_is_null()
+        {
+            // Arrange
+            XElement xElement = null;
+
+            // Act
+            Action act = () => xElement.Should().HaveSingleElement("child");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected* to have an element with count of *, but the element itself is <null>.");
+        }
+
+        #endregion
     }
 }

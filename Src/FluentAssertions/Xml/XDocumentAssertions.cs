@@ -266,7 +266,7 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Asserts that the <see cref="XDocument.Root"/> element of the current <see cref="XDocument"/> has a _single_
+        /// Asserts that the <see cref="XDocument.Root"/> element of the current <see cref="XDocument"/> has a <i>single</i>
         /// child element with the specified <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">
@@ -285,7 +285,7 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Asserts that the <see cref="XDocument.Root"/> element of the current <see cref="XDocument"/> has a _single_
+        /// Asserts that the <see cref="XDocument.Root"/> element of the current <see cref="XDocument"/> has a <i>single</i>
         /// child element with the specified <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">

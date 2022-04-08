@@ -1246,6 +1246,19 @@ namespace FluentAssertions.Specs.Xml
         }
 
         [Fact]
+        public void A_single_expected_child_element_with_the_specified_xml_name_should_be_accepted()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                  </parent>");
+
+            // Act / Assert
+            document.Should().HaveSingleElement(XNamespace.None + "child");
+        }
+
+        [Fact]
         public void Chaining_which_after_asserting_on_singularity_passes()
         {
             // Arrange
@@ -1257,7 +1270,7 @@ namespace FluentAssertions.Specs.Xml
             // Act / Assert
             document.Should().HaveSingleElement("child").Which.Should().HaveAttribute("foo", "bar");
         }
-        
+
         [Fact]
         public void Chaining_which_after_asserting_on_singularity_fails_if_element_is_not_single()
         {

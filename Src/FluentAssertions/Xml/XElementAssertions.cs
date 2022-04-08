@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using FluentAssertions.Common;
@@ -286,6 +288,119 @@ namespace FluentAssertions.Xml
             }
 
             return new AndWhichConstraint<XElementAssertions, XElement>(this, xElement);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="XElement"/> of the current <see cref="XElement"/> has a <i>single</i>
+        /// child element with the specified <paramref name="expected"/> name.
+        /// </summary>
+        /// <param name="expected">
+        /// The full name <see cref="XName"/> of the expected child element of the current element's <see cref="XElement"/>.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndWhichConstraint<XElementAssertions, XElement> HaveSingleElement(XName expected, string because = "", params object[] becauseArgs)
+        {
+            return HaveElement(expected, Exactly.Once(), because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="XElement"/> of the current <see cref="XElement"/> has a <i>single</i>
+        /// child element with the specified <paramref name="expected"/> name.
+        /// </summary>
+        /// <param name="expected">
+        /// The full name of the expected child element of the current element's <see cref="XElement"/>.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndWhichConstraint<XElementAssertions, XElement> HaveSingleElement(string expected, string because = "", params object[] becauseArgs)
+        {
+            return HaveElement(XNamespace.None + expected, Exactly.Once(), because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="XElement"/> of the current <see cref="XElement"/> has the specified occurrence of
+        /// child elements with the specified <paramref name="expected"/> name.
+        /// </summary>
+        /// <param name="expected">
+        /// The full name <see cref="XName"/> of the expected child element of the current element's <see cref="XElement"/>.
+        /// </param>
+        /// <param name="occurrenceConstraint">
+        /// A constraint specifying the number of times the specified elements should appear.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndWhichConstraint<XElementAssertions, XElement> HaveElement(XName expected,
+            OccurrenceConstraint occurrenceConstraint, string because = "",
+            params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
+                    "Cannot assert the element has an element count if the element name is <null>.");
+
+            bool success = Execute.Assertion
+                .ForCondition(Subject is not null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected {context:subject} to have an element with count of {0}{reason}, but the element itself is <null>.",
+                    expected.ToString());
+
+            IEnumerable<XElement> xElements = Enumerable.Empty<XElement>();
+
+            if (success)
+            {
+                xElements = Subject.Elements(expected);
+                int actualCount = xElements.Count();
+
+                Execute.Assertion
+                    .ForConstraint(occurrenceConstraint, actualCount)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        "Expected {context:subject} to have {0} child element(s) {1}{reason}, but found {2}.",
+                        occurrenceConstraint.ExpectedCount, expected.ToString(), actualCount);
+            }
+
+            return new AndWhichConstraint<XElementAssertions, XElement>(this, xElements);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="XElement"/> of the current <see cref="XElement"/> has a direct
+        /// child element with the specified <paramref name="expected"/> name.
+        /// </summary>
+        /// <param name="expected">
+        /// The name of the expected child element of the current element's <see cref="XElement"/>.
+        /// </param>
+        /// <param name="occurrenceConstraint">
+        /// A constraint specifying the number of times the specified elements should appear.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndWhichConstraint<XElementAssertions, XElement> HaveElement(string expected,
+            OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
+                "Cannot assert the element has an element if the expected name is <null>.");
+
+            return HaveElement(XNamespace.None + expected, occurrenceConstraint, because, becauseArgs);
         }
 
         /// <summary>
