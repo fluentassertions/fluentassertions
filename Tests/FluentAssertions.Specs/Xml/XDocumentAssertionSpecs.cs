@@ -1215,7 +1215,7 @@ namespace FluentAssertions.Specs.Xml
         }
 
         [Fact]
-        public void When_asserting_a_null_xDocument_to_have_an_element_count_it_should_fail()
+        public void When_asserting_a_null_document_to_have_an_element_count_it_should_fail()
         {
             // Arrange
             XDocument xDocument = null;
