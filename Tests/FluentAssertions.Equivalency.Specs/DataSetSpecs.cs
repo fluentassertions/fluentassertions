@@ -616,6 +616,28 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
+        public void Data_set_is_not_equivalent_to_another_type()
+        {
+            // Arrange
+            var subject = new
+            {
+                DataSet = "foobar"
+            };
+
+            var expected = new
+            {
+                DataSet = new DataSet()
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*System.Data.DataSet*found System.String*");
+        }
+
+        [Fact]
         public void When_data_set_table_count_has_expected_value_equivalence_test_should_succeed()
         {
             // Arrange
