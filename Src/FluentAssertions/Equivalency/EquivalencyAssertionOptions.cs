@@ -46,6 +46,7 @@ namespace FluentAssertions.Equivalency
         public NestedExclusionOptionBuilder<TExpectation, TNext> For<TNext>(Expression<Func<TExpectation, IEnumerable<TNext>>> expression)
         {
             var selectionRule = new ExcludeMemberByPathSelectionRule(expression.GetMemberPath());
+            AddSelectionRule(selectionRule);
             return new NestedExclusionOptionBuilder<TExpectation, TNext>(this, selectionRule);
         }
 

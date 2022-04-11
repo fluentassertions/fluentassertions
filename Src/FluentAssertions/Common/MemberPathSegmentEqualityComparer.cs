@@ -28,18 +28,18 @@ namespace FluentAssertions.Common
 
             if (x == AnyIndexQualifier)
             {
-                return EqualsAnyIndexQualifier(y);
+                return IsIndexQualifier(y);
             }
 
             if (y == AnyIndexQualifier)
             {
-                return EqualsAnyIndexQualifier(x);
+                return IsIndexQualifier(x);
             }
 
             return x == y;
         }
 
-        private static bool EqualsAnyIndexQualifier(string segment)
+        private static bool IsIndexQualifier(string segment)
             => segment == AnyIndexQualifier || IndexQualifierRegex.IsMatch(segment);
 
         public int GetHashCode(string obj)

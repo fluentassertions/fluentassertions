@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency.Selection;
 
 namespace FluentAssertions.Equivalency
 {
-    public class NestedExclusionOptionBuilder<TExpectation, TCurrent> : EquivalencyAssertionOptions<TExpectation>
+    public class NestedExclusionOptionBuilder<TExpectation, TCurrent>
     {
         /// <summary>
         /// The selected path starting at the first <see cref="EquivalencyAssertionOptions{TExpectation}.For{TNext}"/>.
         /// </summary>
         private readonly ExcludeMemberByPathSelectionRule currentPathSelectionRule;
 
-        internal NestedExclusionOptionBuilder(EquivalencyAssertionOptions<TExpectation> equivalencyAssertionOptions,
+        private readonly EquivalencyAssertionOptions<TExpectation> capturedAssertionOptions;
+
+        internal NestedExclusionOptionBuilder(EquivalencyAssertionOptions<TExpectation> capturedAssertionOptions,
             ExcludeMemberByPathSelectionRule currentPathSelectionRule)
-            : base(equivalencyAssertionOptions)
         {
+            this.capturedAssertionOptions = capturedAssertionOptions;
             this.currentPathSelectionRule = currentPathSelectionRule;
         }
 
@@ -28,8 +29,7 @@ namespace FluentAssertions.Equivalency
         {
             var nextPath = expression.GetMemberPath();
             currentPathSelectionRule.AppendPath(nextPath);
-            AddSelectionRule(currentPathSelectionRule);
-            return this;
+            return capturedAssertionOptions;
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace FluentAssertions.Equivalency
         {
             var nextPath = expression.GetMemberPath();
             currentPathSelectionRule.AppendPath(nextPath);
-            return new NestedExclusionOptionBuilder<TExpectation, TNext>(this, currentPathSelectionRule);
+            return new NestedExclusionOptionBuilder<TExpectation, TNext>(capturedAssertionOptions, currentPathSelectionRule);
         }
     }
 }

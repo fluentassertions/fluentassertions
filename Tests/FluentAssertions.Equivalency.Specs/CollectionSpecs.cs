@@ -561,58 +561,6 @@ namespace FluentAssertions.Equivalency.Specs
         public class For
         {
             [Fact]
-            public void For_Does_Not_Exclude()
-            {
-                // Arrange
-                var subject = new
-                {
-                    Text = "Actual",
-                    Level = new
-                    {
-                        Collection = new[]
-                        {
-                            new
-                            {
-                                Number = 1,
-                                Text = "Text"
-                            },
-                            new
-                            {
-                                Number = 2,
-                                Text = "Actual"
-                            }
-                        }
-                    }
-                };
-
-                var expected = new
-                {
-                    Text = "Actual",
-                    Level = new
-                    {
-                        Collection = new[]
-                        {
-                            new
-                            {
-                                Number = 1,
-                                Text = "Text"
-                            },
-                            new
-                            {
-                                Number = 2,
-                                Text = "Expected"
-                            }
-                        }
-                    }
-                };
-
-                // Act / Assert
-                subject.Should().NotBeEquivalentTo(expected,
-                    options => options
-                        .For(x => x.Level.Collection));
-            }
-
-            [Fact]
             public void When_property_in_collection_is_excluded_it_should_not_throw()
             {
                 // Arrange

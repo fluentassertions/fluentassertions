@@ -78,9 +78,9 @@ namespace FluentAssertions.Common
                        MemberPathSegmentEqualityComparer);
         }
 
-        public MemberPath Join(MemberPath nextPath, string separator)
+        public MemberPath AsParentCollectionOf(MemberPath nextPath)
         {
-            var extendedDottedPath = dottedPath.Combine(nextPath.dottedPath, separator);
+            var extendedDottedPath = dottedPath.Combine(nextPath.dottedPath, "[]");
             return new MemberPath(declaringType, nextPath.reflectedType, extendedDottedPath);
         }
 

@@ -25,7 +25,7 @@ namespace FluentAssertions.Equivalency.Selection
 
         public void AppendPath(MemberPath nextPath)
         {
-            memberToExclude = memberToExclude.Join(nextPath, "[]");
+            memberToExclude = memberToExclude.AsParentCollectionOf(nextPath);
             SetSelectedPath(memberToExclude.ToString());
         }
 
