@@ -934,7 +934,7 @@ namespace FluentAssertions.Equivalency
         Internal = 1,
         Public = 2,
     }
-    public class NestedExclusionOptionBuilder<TExpectation, TCurrent> : FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>
+    public class NestedExclusionOptionBuilder<TExpectation, TCurrent>
     {
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> Exclude(System.Linq.Expressions.Expression<System.Func<TCurrent, object>> expression) { }
         public FluentAssertions.Equivalency.NestedExclusionOptionBuilder<TExpectation, TNext> For<TNext>(System.Linq.Expressions.Expression<System.Func<TCurrent, System.Collections.Generic.IEnumerable<TNext>>> expression) { }
