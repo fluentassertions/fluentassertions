@@ -791,5 +791,84 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         #endregion
+    
+        #region Be defined / Not be defined
+
+        [Fact]
+        public void A_valid_entry_of_an_enum_is_defined()
+        {
+            // Arrange
+            var dayOfWeek = (DayOfWeek)1;
+
+            // Act / Assert
+            dayOfWeek.Should().BeDefined();
+        }
+
+        [Fact]
+        public void If_a_value_casted_to_an_enum_type_and_it_does_not_exist_in_the_enum_it_throws()
+        {
+            // Arrange
+            var dayOfWeek = (DayOfWeek)999;
+
+            // Act
+            Action act = () => dayOfWeek.Should().BeDefined("we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected *to be defined in*failure message*, but it is not*");
+        }
+
+        [Fact]
+        public void A_null_entry_of_an_enum_throws()
+        {
+            // Arrange
+            MyEnum? subject = null;
+
+            // Act
+            Action act = () => subject.Should().BeDefined();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected *to be defined in*, but found <null>.");
+        }
+
+        [Fact]
+        public void An_invalid_entry_of_an_enum_is_not_defined_passes()
+        {
+            // Arrange
+            var dayOfWeek = (DayOfWeek)999;
+
+            // Act / Assert
+            dayOfWeek.Should().NotBeDefined();
+        }
+
+        [Fact]
+        public void A_valid_entry_of_an_enum_is_not_defined_fails()
+        {
+            // Arrange
+            var dayOfWeek = (DayOfWeek)1;
+
+            // Act
+            Action act = () => dayOfWeek.Should().NotBeDefined();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect*to be defined in*, but it is.");
+        }
+
+        [Fact]
+        public void A_null_value_of_an_enum_is_not_defined_and_throws()
+        {
+            // Arrange
+            MyEnum? subject = null;
+
+            // Act
+            Action act = () => subject.Should().NotBeDefined();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect *to be defined in*, but found <null>.");
+        }
+        #endregion
     }
 }

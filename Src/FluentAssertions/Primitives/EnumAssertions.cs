@@ -130,6 +130,58 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
+        /// Asserts that the current value of <typeparamref name="TEnum"/> is defined inside the enum.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> BeDefined(string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected {context:the enum} to be defined in {0}{reason}, ", typeof(TEnum))
+                .ForCondition(Subject is not null)
+                .FailWith("but found <null>.")
+                .Then
+                .ForCondition(Enum.IsDefined(typeof(TEnum), Subject))
+                .FailWith("but it is not.")
+                .Then
+                .ClearExpectation();
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the current value of <typeparamref name="TEnum"/> is not defined inside the enum.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotBeDefined(string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Did not expect {context:the enum} to be defined in {0}{reason}, ", typeof(TEnum))
+                .ForCondition(Subject is not null)
+                .FailWith("but found <null>.")
+                .Then
+                .ForCondition(!Enum.IsDefined(typeof(TEnum), Subject))
+                .FailWith("but it is.")
+                .Then
+                .ClearExpectation();
+                
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
         /// Asserts that the current <typeparamref name="TEnum"/> is exactly equal to the <paramref name="expected"/> value.
         /// </summary>
         /// <param name="expected">The expected value</param>
