@@ -117,6 +117,14 @@ namespace FluentAssertions
             where TAssertions : FluentAssertions.Primitives.DateTimeOffsetAssertions<TAssertions> { }
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
             "ly following \'And\'", true)]
+        public static void Should<TAssertions>(this FluentAssertions.Primitives.DateTimeOffsetRangeAssertions<TAssertions> _)
+            where TAssertions : FluentAssertions.Primitives.DateTimeOffsetAssertions<TAssertions> { }
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
+        public static void Should<TAssertions>(this FluentAssertions.Primitives.DateTimeRangeAssertions<TAssertions> _)
+            where TAssertions : FluentAssertions.Primitives.DateTimeAssertions<TAssertions> { }
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.GuidAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.GuidAssertions<TAssertions> { }
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +

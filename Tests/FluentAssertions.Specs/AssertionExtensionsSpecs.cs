@@ -39,7 +39,9 @@ namespace FluentAssertions.Specs
         [InlineData(typeof(ReferenceTypeAssertions<object, ObjectAssertions>))]
         [InlineData(typeof(BooleanAssertions<BooleanAssertions>))]
         [InlineData(typeof(DateTimeAssertions<DateTimeAssertions>))]
+        [InlineData(typeof(DateTimeRangeAssertions<DateTimeAssertions>))]
         [InlineData(typeof(DateTimeOffsetAssertions<DateTimeOffsetAssertions>))]
+        [InlineData(typeof(DateTimeOffsetRangeAssertions<DateTimeOffsetAssertions>))]
 #if NET6_0_OR_GREATER
         [InlineData(typeof(DateOnlyAssertions<DateOnlyAssertions>))]
         [InlineData(typeof(TimeOnlyAssertions<TimeOnlyAssertions>))]
@@ -95,6 +97,11 @@ namespace FluentAssertions.Specs
                 .Where(m => !IsGuardOverload(m))
                 .Select(t => GetMostParentType(t.ReturnType))
                 .Distinct()
+                .Concat(new[]
+                {
+                    typeof(DateTimeRangeAssertions<>),
+                    typeof(DateTimeOffsetRangeAssertions<>)
+                })
                 .ToList();
 
             List<Type> fakeOverloads = shouldOverloads
