@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using FluentAssertions.Common;
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
 using FluentAssertions.Specialized;
@@ -13,7 +14,7 @@ namespace FluentAssertions.Specs
     public class AssertionExtensionsSpecs
     {
         [Fact]
-        public void Assertions_classes_have_overriden_equals()
+        public void Assertions_classes_override_equals()
         {
             // Arrange / Act
             var equalsOverloads = AllTypes.From(typeof(FluentAssertions.AssertionExtensions).Assembly)
@@ -33,6 +34,40 @@ namespace FluentAssertions.Specs
             MethodInfo equals = t.GetMethod("Equals", BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public,
                 null, new[] { typeof(object) }, null);
             return equals is not null;
+        }
+
+        public static object[][] ClassesWithGuardEquals() => new object[][]
+        {
+            new object[] { new ObjectAssertions<object, ObjectAssertions>(default) },
+            new object[] { new BooleanAssertions<BooleanAssertions>(default) },
+            new object[] { new DateTimeAssertions<DateTimeAssertions>(default) },
+            new object[] { new DateTimeRangeAssertions<DateTimeAssertions>(default, default, default, default) },
+            new object[] { new DateTimeOffsetAssertions<DateTimeOffsetAssertions>(default) },
+            new object[] { new DateTimeOffsetRangeAssertions<DateTimeOffsetAssertions>(default, default, default, default) },
+#if NET6_0_OR_GREATER
+            new object[] { new DateOnlyAssertions<DateOnlyAssertions>(default) },
+            new object[] { new TimeOnlyAssertions<TimeOnlyAssertions>(default) },
+#endif
+            new object[] { new ExecutionTimeAssertions(new ExecutionTime(() => { }, () => new StopwatchTimer())) },
+            new object[] { new GuidAssertions<GuidAssertions>(default) },
+            new object[] { new MethodInfoSelectorAssertions() },
+            new object[] { new NumericAssertions<int, NumericAssertions<int>>(default) },
+            new object[] { new PropertyInfoSelectorAssertions() },
+            new object[] { new SimpleTimeSpanAssertions<SimpleTimeSpanAssertions>(default) },
+            new object[] { new TaskCompletionSourceAssertions<int>(default) },
+            new object[] { new TypeSelectorAssertions() },
+            new object[] { new EnumAssertions<StringComparison, EnumAssertions<StringComparison>>(default) }
+        };
+
+        [Theory]
+        [MemberData(nameof(ClassesWithGuardEquals))]
+        public void Guarding_equals_throws(object obj)
+        {
+            // Act
+            Action act = () => obj.Equals(null);
+
+            // Assert
+            act.Should().ThrowExactly<NotSupportedException>();
         }
 
         [Theory]
