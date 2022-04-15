@@ -42,3 +42,11 @@ Lastly, if you want to verify than an enum has a specific integral value, you ca
 MyEnum.One.Should().HaveValue(1);
 MyEnum.One.Should().NotHaveValue(2);
 ```
+
+```csharp
+var myEnum = (MyEnum)1;
+myEnum.Should().BeDefined();
+
+myEnum = (MyEnum)99;
+myEnum.Should().NotBeDefined();
+```

@@ -1944,6 +1944,7 @@ namespace FluentAssertions.Primitives
         public TEnum? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(TEnum expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Be(TEnum? expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeDefined(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(params TEnum[] validValues) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<TEnum> validValues, string because = "", params object[] becauseArgs) { }
         public override bool Equals(object obj) { }
@@ -1956,6 +1957,7 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> Match(System.Linq.Expressions.Expression<System.Func<TEnum?, bool>> predicate, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(TEnum unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(TEnum? unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeDefined(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveFlag(TEnum unexpectedFlag, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveSameNameAs<T>(T unexpected, string because = "", params object[] becauseArgs)
             where T :  struct, System.Enum { }
