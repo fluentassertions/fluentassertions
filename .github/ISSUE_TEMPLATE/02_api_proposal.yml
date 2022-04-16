@@ -1,0 +1,69 @@
+name: 💡 API Suggestion
+description: Propose a change to the public API surface
+title: "[API Proposal]: "
+labels: [api-suggestion]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        We welcome API proposals! We have a process to evaluate the value and shape of new API. There is an overview of our process [here](https://github.com/fluentassertions/fluentassertions/blob/develop/CONTRIBUTING.md#contributing-changes). This template will help us gather the information we need to start the review process.
+  - type: textarea
+    id: background
+    attributes:
+      label: Background and motivation
+      description: Please describe the purpose and value of the new API here.
+      placeholder: Purpose
+    validations:
+      required: true
+  - type: textarea
+    id: api-proposal
+    attributes:
+      label: API Proposal
+      description: |
+        Please provide the specific public API signature diff that you are proposing.
+      placeholder: API declaration (no method bodies)
+      value: |
+        ```C#
+        public class EnumAssertions<TEnum, TAssertions>
+        {
+            public AndConstraint<TAssertions> BeDefined(string because = "", params object[] becauseArgs);
+            public AndConstraint<TAssertions> NotBeDefined(string because = "", params object[] becauseArgs);
+        }
+        ```
+    validations:
+      required: true
+  - type: textarea
+    id: api-usage
+    attributes:
+      label: API Usage
+      description: |
+        Please provide code examples that highlight how the proposed API additions are meant to be consumed. This will help suggest whether the API has the right shape to be functional, performant and usable.
+      placeholder: API usage
+      value: |
+        ```C#
+        var dayOfWeek = (DayOfWeek)1;
+        dayOfWeek.Should().BeDefined();
+
+        var invalidDayOfWeek = (DayOfWeek)999;
+        invalidDayOfWeek.Should().NotBeDefined();
+        ```
+    validations:
+      required: true
+  - type: textarea
+    id: alternative-designs
+    attributes:
+      label: Alternative Designs
+      description: |
+        Please provide alternative designs. This might not be APIs; for example instead of providing new APIs an option might be to change the behavior of an existing API.
+      placeholder: Alternative designs
+    validations:
+      required: false
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks
+      description: |
+        Please mention any risks that to your knowledge the API proposal might entail, such as breaking changes, performance regressions, etc. If you are proposing a new overload of `Should()` include what type it currently resolves to for the type in question.
+      placeholder: Risks
+    validations:
+      required: false
