@@ -27,6 +27,7 @@ sidebar:
 * Ensure `ExcludingMissingMembers` doesn't undo usage of `WithMapping` in `BeEquivalentTo` - [#1838](https://github.com/fluentassertions/fluentassertions/pull/1838)
 * Better handling of NaN in various numeric assertions - [#1822](https://github.com/fluentassertions/fluentassertions/pull/1822) & [#1867](https://github.com/fluentassertions/fluentassertions/pull/1867)
 * `WithMapping` in `BeEquivalentTo` now also works when the root is a collection - [#1858](https://github.com/fluentassertions/fluentassertions/pull/1858)
+* Assertions on the collection types in System.Data (`DataSet.Tables`, `DataTable.Columns`, `DataTable.Rows`) have been restored - [#1812](https://github.com/fluentassertions/fluentassertions/pull/1812)
 
 ### Fixes (Extensibility)
 

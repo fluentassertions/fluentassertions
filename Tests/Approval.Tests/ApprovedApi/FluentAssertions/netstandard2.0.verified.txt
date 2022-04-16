@@ -57,6 +57,9 @@ namespace FluentAssertions
         public static FluentAssertions.Specialized.ActionAssertions Should(this System.Action action) { }
         public static FluentAssertions.Collections.StringCollectionAssertions Should(this System.Collections.Generic.IEnumerable<string> @this) { }
         public static FluentAssertions.Data.DataColumnAssertions Should(this System.Data.DataColumn actualValue) { }
+        public static FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataColumn> Should(this System.Data.DataColumnCollection actualValue) { }
+        public static FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataRow> Should(this System.Data.DataRowCollection actualValue) { }
+        public static FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable> Should(this System.Data.DataTableCollection actualValue) { }
         public static FluentAssertions.Primitives.DateTimeAssertions Should(this System.DateTime actualValue) { }
         public static FluentAssertions.Primitives.NullableDateTimeAssertions Should(this System.DateTime? actualValue) { }
         public static FluentAssertions.Primitives.DateTimeOffsetAssertions Should(this System.DateTimeOffset actualValue) { }
@@ -186,10 +189,24 @@ namespace FluentAssertions
     {
         public CustomAssertionAttribute() { }
     }
+    public static class DataColumnCollectionAssertionExtensions
+    {
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataColumn>> BeSameAs(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataColumn> assertion, System.Data.DataColumnCollection expected, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataColumn>> HaveSameCount(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataColumn> assertion, System.Data.DataColumnCollection otherCollection, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataColumn>> NotBeSameAs(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataColumn> assertion, System.Data.DataColumnCollection unexpected, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataColumn>> NotHaveSameCount(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataColumn> assertion, System.Data.DataColumnCollection otherCollection, string because = "", params object[] becauseArgs) { }
+    }
     public static class DataRowAssertionExtensions
     {
         public static FluentAssertions.Data.DataRowAssertions<TDataRow> Should<TDataRow>(this TDataRow actualValue)
             where TDataRow : System.Data.DataRow { }
+    }
+    public static class DataRowCollectionAssertionExtensions
+    {
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataRow>> BeSameAs(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataRow> assertion, System.Data.DataRowCollection expected, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataRow>> HaveSameCount(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataRow> assertion, System.Data.DataRowCollection otherCollection, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataRow>> NotBeSameAs(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataRow> assertion, System.Data.DataRowCollection unexpected, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataRow>> NotHaveSameCount(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataRow> assertion, System.Data.DataRowCollection otherCollection, string because = "", params object[] becauseArgs) { }
     }
     public static class DataSetAssertionExtensions
     {
@@ -200,6 +217,15 @@ namespace FluentAssertions
     {
         public static FluentAssertions.Data.DataTableAssertions<TDataTable> Should<TDataTable>(this TDataTable actualValue)
             where TDataTable : System.Data.DataTable { }
+    }
+    public static class DataTableCollectionAssertionExtensions
+    {
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable>> BeSameAs(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable> assertion, System.Data.DataTableCollection expected, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable>> HaveSameCount(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable> assertion, System.Data.DataSet otherDataSet, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable>> HaveSameCount(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable> assertion, System.Data.DataTableCollection otherCollection, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable>> NotBeSameAs(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable> assertion, System.Data.DataTableCollection unexpected, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable>> NotHaveSameCount(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable> assertion, System.Data.DataSet otherDataSet, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable>> NotHaveSameCount(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable> assertion, System.Data.DataTableCollection otherCollection, string because = "", params object[] becauseArgs) { }
     }
     public static class EnumAssertionsExtensions
     {
