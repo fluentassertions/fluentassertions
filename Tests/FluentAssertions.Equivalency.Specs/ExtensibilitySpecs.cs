@@ -503,7 +503,7 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
-        public void When_a_nullable_property_is_overriden_with_a_custom_assertion_it_should_use_it()
+        public void When_a_nullable_property_is_overridden_with_a_custom_assertion_it_should_use_it()
         {
             // Arrange
             var actual = new SimpleWithNullable
