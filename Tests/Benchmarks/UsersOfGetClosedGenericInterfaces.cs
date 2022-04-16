@@ -68,6 +68,10 @@ namespace Benchmarks
 
             public MemberVisibility IncludedFields => throw new NotImplementedException();
 
+            public bool IgnoreNonBrowsableOnSubject => throw new NotImplementedException();
+
+            public bool ExcludeNonBrowsableOnExpectation => throw new NotImplementedException();
+
             public bool CompareRecordsByValue => throw new NotImplementedException();
 
             public ITraceWriter TraceWriter => throw new NotImplementedException();

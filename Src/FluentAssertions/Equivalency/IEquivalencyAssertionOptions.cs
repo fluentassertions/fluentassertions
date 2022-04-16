@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+
 using FluentAssertions.Equivalency.Tracing;
 
 namespace FluentAssertions.Equivalency
@@ -70,6 +72,18 @@ namespace FluentAssertions.Equivalency
         /// Gets a value indicating whether and which fields should be considered.
         /// </summary>
         MemberVisibility IncludedFields { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether members on the subject marked with [<see cref="EditorBrowsableAttribute"/>]
+        /// and <see cref="EditorBrowsableState.Never"/> should be treated as though they don't exist.
+        /// </summary>
+        bool IgnoreNonBrowsableOnSubject { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether members on the expectation marked with [<see cref="EditorBrowsableAttribute"/>]
+        /// and <see cref="EditorBrowsableState.Never"/> should be excluded.
+        /// </summary>
+        bool ExcludeNonBrowsableOnExpectation { get; }
 
         /// <summary>
         /// Gets a value indicating whether records should be compared by value instead of their members
