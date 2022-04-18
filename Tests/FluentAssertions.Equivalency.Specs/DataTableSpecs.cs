@@ -758,6 +758,22 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
+        public void Null_data_table_no_rows_and_fails_test()
+        {
+            // Arrange
+            var dataTable = (DataTable)null;
+
+            int correctRowCount = -1;
+
+            // Act
+            Action act = () => dataTable.Should().HaveRowCount(correctRowCount);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected dataTable to contain exactly*row*, but found <nulL>*");
+        }
+
+        [Fact]
         public void When_empty_data_table_has_expected_row_count_of_zero_it_should_succeed()
         {
             // Arrange
@@ -805,6 +821,22 @@ namespace FluentAssertions.Equivalency.Specs
             // Act & Assert
             dataTable.Should().HaveColumn(expectedColumnName);
         }
+        
+        [Fact]
+        public void Null_data_table_has_no_columns_and_fail_the_test()
+        {
+            // Arrange
+            var dataTable = (DataTable)null;
+
+            var expectedColumnName = "Does not matter";
+
+            // Act
+            Action act = () => dataTable.Should().HaveColumn(expectedColumnName);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected dataTable to contain a column named*, but found <null>*");
+        }
 
         [Fact]
         public void When_data_table_does_not_have_expected_column_it_should_fail()
@@ -835,6 +867,22 @@ namespace FluentAssertions.Equivalency.Specs
 
             // Act & Assert
             dataTable.Should().HaveColumns(existingColumnNames);
+        }
+
+        [Fact]
+        public void Null_data_table_has_no_columns_and_fails_the_test()
+        {
+            // Arrange
+            var actual = (DataTable)null;
+
+            var existingColumnName = "Does not matter";
+
+            // Act
+            Action act = () => actual.Should().HaveColumns(existingColumnName);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected actual to contain*column*with specific name*, but found <null>*");
         }
 
         [Fact]
