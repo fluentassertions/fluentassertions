@@ -455,20 +455,24 @@ namespace FluentAssertions.Specs.Execution
                 .WithMessage("Expected foo.ShouldReturnSomeBool() to be false*");
         }
 
-        [UIFact]
-        public async Task Caller_identification_should_also_work_for_statements_following_async_code()
+        [Collection("UIFacts")]
+        public partial class UIFacts
         {
-            // Arrange
-            const string someText = "Hello";
-            Func<Task> task = async () => await Task.Yield();
+            [UIFact]
+            public async Task Caller_identification_should_also_work_for_statements_following_async_code()
+            {
+                // Arrange
+                const string someText = "Hello";
+                Func<Task> task = async () => await Task.Yield();
 
-            // Act
-            await task.Should().NotThrowAsync();
-            Action act = () => someText.Should().Be("Hi");
+                // Act
+                await task.Should().NotThrowAsync();
+                Action act = () => someText.Should().Be("Hi");
 
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("*someText*", "it should capture the variable name");
+                // Assert
+                act.Should().Throw<XunitException>()
+                    .WithMessage("*someText*", "it should capture the variable name");
+            }
         }
 
         [Fact]
