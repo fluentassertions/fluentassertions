@@ -648,6 +648,22 @@ namespace FluentAssertions.Equivalency.Specs
             // Act & Assert
             dataSet.Should().HaveTableCount(correctTableCount);
         }
+        
+        [Fact]
+        public void Null_data_set_fails()
+        {
+            // Arrange
+            var dataSet = (DataSet)null;
+
+            var correctTableCount = -1;
+
+            // Act
+            Action act = () => dataSet.Should().HaveTableCount(correctTableCount);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected dataSet to contain exactly*, but found <null>*");
+        }
 
         [Fact]
         public void When_data_set_table_count_has_unexpected_value_equivalence_test_should_fail()
@@ -680,6 +696,22 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
+        public void Null_data_set_does_not_contain_expected_table()
+        {
+            // Arrange
+            var dataSet = (DataSet)null;
+
+            var existingTableName = "Does not matter";
+
+            // Act
+            Action act = () => dataSet.Should().HaveTable(existingTableName);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected dataSet to contain a table named*, but found <nulL>*");
+        }
+
+        [Fact]
         public void When_data_set_does_not_contain_expected_table_asserting_that_it_has_that_table_should_fail()
         {
             // Arrange
@@ -706,6 +738,24 @@ namespace FluentAssertions.Equivalency.Specs
 
             // Act & Assert
             dataSet.Should().HaveTables(existingTableNames);
+        }
+
+        [Fact]
+        public void Null_data_set_has_no_tables_and_fails()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+            var actual = (DataSet)null;
+
+            var existingTableNames = dataSet.Tables.Cast<DataTable>()
+                .Select(table => table.TableName);
+
+            // Act
+            Action act = () => actual.Should().HaveTables(existingTableNames);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected actual to contain*table*with specific name*, but found <null>*");
         }
 
         [Fact]
