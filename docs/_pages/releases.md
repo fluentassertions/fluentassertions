@@ -13,6 +13,7 @@ sidebar:
 * Add `BeDefined` and `NotBeDefined` to assert on existence of an enum value - [#1888](https://github.com/fluentassertions/fluentassertions/pull/1888)
 * Added the ability to exclude fields & properties marked as non-browsable in the code editor from structural equality comparisons - [#1807](https://github.com/fluentassertions/fluentassertions/pull/1807) & [#1812](https://github.com/fluentassertions/fluentassertions/pull/1812)
 * Assertions on the collection types in System.Data (`DataSet.Tables`, `DataTable.Columns`, `DataTable.Rows`) have been restored - [#1812](https://github.com/fluentassertions/fluentassertions/pull/1812)
+* Added overload for `HaveElement` for `XDocument` and `XElement` to assert on number of XML nodes - [#1880](https://github.com/fluentassertions/fluentassertions/pull/1880)
 
 ## 6.6.0
 
@@ -23,7 +24,6 @@ sidebar:
 * Added `NotBe` for nullable boolean values - [#1865](https://github.com/fluentassertions/fluentassertions/pull/1865)
 * Added a new overload to `MatchRegex()` to assert on the number of regex matches - [#1869](https://github.com/fluentassertions/fluentassertions/pull/1869)
 * Added difference to numeric assertion failure messages - [#1859](https://github.com/fluentassertions/fluentassertions/pull/1859)
-* Added `HaveSingleElement` and overload for `HaveElement` for `XDocument` to assert on number of XML nodes - [#1880](https://github.com/fluentassertions/fluentassertions/pull/1880)
 
 ### Fixes
 * `EnumAssertions.Be` did not determine the caller name - [#1835](https://github.com/fluentassertions/fluentassertions/pull/1835)
