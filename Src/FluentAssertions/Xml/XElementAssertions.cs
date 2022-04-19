@@ -307,7 +307,7 @@ namespace FluentAssertions.Xml
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndWhichConstraint<XElementAssertions, XElement> HaveElement(XName expected,
+        public AndWhichConstraint<XElementAssertions, IEnumerable<XElement>> HaveElement(XName expected,
             OccurrenceConstraint occurrenceConstraint, string because = "",
             params object[] becauseArgs)
         {
@@ -336,7 +336,7 @@ namespace FluentAssertions.Xml
                         occurrenceConstraint.ExpectedCount, expected.ToString(), actualCount);
             }
 
-            return new AndWhichConstraint<XElementAssertions, XElement>(this, xElements);
+            return new AndWhichConstraint<XElementAssertions, IEnumerable<XElement>>(this, xElements);
         }
 
         /// <summary>
@@ -356,7 +356,7 @@ namespace FluentAssertions.Xml
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <paramref name="because" />.
         /// </param>
-        public AndWhichConstraint<XElementAssertions, XElement> HaveElement(string expected,
+        public AndWhichConstraint<XElementAssertions, IEnumerable<XElement>> HaveElement(string expected,
             OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
