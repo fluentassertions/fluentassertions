@@ -286,25 +286,25 @@ namespace FluentAssertions.Xml
             OccurrenceConstraint occurrenceConstraint, string because = "",
             params object[] becauseArgs)
         {
-            Execute.Assertion
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
+                    "Cannot assert the document has an element count if the element name is <null>.");
+
+            bool success = Execute.Assertion
                 .ForCondition(Subject is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Cannot assert the count if the document itself is <null>.");
 
-            Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
-                "Cannot assert the document has an element count if the element name is <null>.");
+            IEnumerable<XElement> xElements = Enumerable.Empty<XElement>();
 
-            bool success = Execute.Assertion
+            if (success)
+            {
+                Execute.Assertion
                 .ForCondition(Subject.Root is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:subject} to have root element with child {0}{reason}, but it has no root element.",
                     expected.ToString());
 
-            IEnumerable<XElement> xElements = Enumerable.Empty<XElement>();
-
-            if (success)
-            {
                 xElements = Subject.Root.Elements(expected);
                 int actualCount = xElements.Count();
 
