@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml.Linq;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -1243,6 +1244,26 @@ namespace FluentAssertions.Specs.Xml
 
             // Act / Assert
             element.Should().HaveElement("child", Exactly.Twice());
+        }
+
+        [Fact]
+        public void Asserting_element_inside_an_assertion_scope_it_checks_the_whole_assertion_scope_before_failing()
+        {
+            // Arrange
+            XElement element = null;
+
+            // Act
+            Action act = () =>
+            {
+                using (new AssertionScope())
+                {
+                    element.Should().HaveElement("child", Exactly.Twice());
+                    element.Should().HaveElement("child", Exactly.Twice());
+                }
+            };
+
+            // Assert
+            act.Should().NotThrow<NullReferenceException>();
         }
 
         [Fact]
