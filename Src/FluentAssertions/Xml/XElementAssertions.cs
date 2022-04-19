@@ -291,44 +291,6 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Asserts that the <see cref="XElement"/> of the current <see cref="XElement"/> has a <i>single</i>
-        /// child element with the specified <paramref name="expected"/> name.
-        /// </summary>
-        /// <param name="expected">
-        /// The full name <see cref="XName"/> of the expected child element of the current element's <see cref="XElement"/>.
-        /// </param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndWhichConstraint<XElementAssertions, XElement> HaveSingleElement(XName expected, string because = "", params object[] becauseArgs)
-        {
-            return HaveElement(expected, Exactly.Once(), because, becauseArgs);
-        }
-
-        /// <summary>
-        /// Asserts that the <see cref="XElement"/> of the current <see cref="XElement"/> has a <i>single</i>
-        /// child element with the specified <paramref name="expected"/> name.
-        /// </summary>
-        /// <param name="expected">
-        /// The full name of the expected child element of the current element's <see cref="XElement"/>.
-        /// </param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-        /// </param>
-        public AndWhichConstraint<XElementAssertions, XElement> HaveSingleElement(string expected, string because = "", params object[] becauseArgs)
-        {
-            return HaveElement(XNamespace.None + expected, Exactly.Once(), because, becauseArgs);
-        }
-
-        /// <summary>
         /// Asserts that the <see cref="XElement"/> of the current <see cref="XElement"/> has the specified occurrence of
         /// child elements with the specified <paramref name="expected"/> name.
         /// </summary>
