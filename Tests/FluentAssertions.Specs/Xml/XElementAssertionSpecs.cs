@@ -1286,7 +1286,7 @@ namespace FluentAssertions.Specs.Xml
         }
 
         [Fact]
-        public void Chaining_which_after_asserting_and_the_element_has_more_than_two_child_elements_it_fails()
+        public void Element_is_valid_and_expected_null_with_string_overload_it_fails()
         {
             // Arrange
             var element = XElement.Parse(
@@ -1297,12 +1297,48 @@ namespace FluentAssertions.Specs.Xml
                   </parent>");
 
             // Act
+            Action act = () => element.Should().HaveElement((string)null, Exactly.Twice());
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot assert the element has an element if the expected name is <null>.*");
+        }
+
+        [Fact]
+        public void Element_is_valid_and_expected_null_with_x_name_overload_it_fails()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act
+            Action act = () => element.Should().HaveElement((XName)null, Exactly.Twice());
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot assert the element has an element count if the element name is <null>.*");
+        }
+
+        [Fact]
+        public void Chaining_which_after_asserting_and_the_element_has_more_than_two_child_elements_it_fails()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                @"<parent>
+                    <child />
+                    
+                  </parent>");
+
+            // Act
             Action act = () => element.Should().HaveElement("child", AtLeast.Twice())
                 .Which.Should().NotBeNull();
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "More than one object found.  FluentAssertions cannot determine which object is meant*");
+            act.Should().NotThrow();
         }
 
         [Fact]

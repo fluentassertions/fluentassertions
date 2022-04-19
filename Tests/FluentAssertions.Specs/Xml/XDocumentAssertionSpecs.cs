@@ -1236,6 +1236,44 @@ namespace FluentAssertions.Specs.Xml
         }
 
         [Fact]
+        public void Document_is_valid_and_expected_null_with_string_overload_it_fails()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act
+            Action act = () => document.Should().HaveElement(null, Exactly.Twice());
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot assert the document has an element if the expected name is <null>.*");
+        }
+
+        [Fact]
+        public void Document_is_valid_and_expected_null_with_x_name_overload_it_fails()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act
+            Action act = () => document.Should().HaveElement((XName)null, Exactly.Twice());
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot assert the document has an element count if the element name is <null>.*");
+        }
+
+        [Fact]
         public void Chaining_which_after_asserting_and_the_document_has_more_than_two_child_elements_it_fails()
         {
             // Arrange
@@ -1251,8 +1289,7 @@ namespace FluentAssertions.Specs.Xml
                 .Which.Should().NotBeNull();
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "More than one object found.  FluentAssertions cannot determine which object is meant*");
+            act.Should().NotThrow<XunitException>();
         }
 
         [Fact]
