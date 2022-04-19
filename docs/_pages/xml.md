@@ -12,7 +12,6 @@ Fluent Assertions has support for assertions on several of the LINQ-to-XML class
 ```csharp
 xDocument.Should().HaveRoot("configuration");
 xDocument.Should().HaveElement("settings");
-xDocument.Should().HaveSingleElement("settings");
 xDocument.Should().HaveElement("settings", Exactly.Once());
 xDocument.Should().HaveElement("settings", AtLeast.Twice());
 
