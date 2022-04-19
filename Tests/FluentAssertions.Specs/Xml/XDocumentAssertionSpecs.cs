@@ -1197,6 +1197,26 @@ namespace FluentAssertions.Specs.Xml
         }
 
         [Fact]
+        public void Asserting_document_inside_an_assertion_scope_it_checks_the_whole_assertion_scope_before_failing_()
+        {
+            // Arrange
+            XDocument document = new();
+
+            // Act
+            Action act = () =>
+            {
+                using (new AssertionScope())
+                {
+                    document.Should().HaveElement("child", Exactly.Twice());
+                    document.Should().HaveElement("child", Exactly.Twice());
+                }
+            };
+
+            // Assert
+            act.Should().NotThrow<NullReferenceException>();
+        }
+
+        [Fact]
         public void When_asserting_document_has_two_child_elements_but_it_does_have_three_it_fails()
         {
             // Arrange

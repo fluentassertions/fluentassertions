@@ -298,22 +298,25 @@ namespace FluentAssertions.Xml
 
             if (success)
             {
-                Execute.Assertion
+                success = Execute.Assertion
                 .ForCondition(Subject.Root is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:subject} to have root element with child {0}{reason}, but it has no root element.",
                     expected.ToString());
 
-                xElements = Subject.Root.Elements(expected);
-                int actualCount = xElements.Count();
+                if (success)
+                {
+                    xElements = Subject.Root.Elements(expected);
+                    int actualCount = xElements.Count();
 
-                Execute.Assertion
-                    .ForConstraint(occurrenceConstraint, actualCount)
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith(
-                        "Expected {context:subject} to have {0} child element(s) {1}{reason}, but found {2}.",
-                        occurrenceConstraint.ExpectedCount, expected.ToString(), actualCount);
+                    Execute.Assertion
+                        .ForConstraint(occurrenceConstraint, actualCount)
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith(
+                            "Expected {context:subject} to have {0} child element(s) {1}{reason}, but found {2}.",
+                            occurrenceConstraint.ExpectedCount, expected.ToString(), actualCount);
+                }
             }
 
             return new AndWhichConstraint<XDocumentAssertions, XElement>(this, xElements);
