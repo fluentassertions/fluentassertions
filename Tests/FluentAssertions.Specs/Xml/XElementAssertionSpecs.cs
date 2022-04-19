@@ -1282,7 +1282,7 @@ namespace FluentAssertions.Specs.Xml
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected element to have 2 child element(s) \"child\", but found 3.");
+                "Expected element to have *exactly*2 child element(s) \"child\", but found 3.");
         }
 
         [Fact]
@@ -1330,7 +1330,8 @@ namespace FluentAssertions.Specs.Xml
             var element = XElement.Parse(
                 @"<parent>
                     <child />
-                    
+                    <child />
+                    <child />
                   </parent>");
 
             // Act

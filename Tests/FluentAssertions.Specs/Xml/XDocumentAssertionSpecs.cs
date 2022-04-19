@@ -1232,7 +1232,7 @@ namespace FluentAssertions.Specs.Xml
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected document to have 2 child element(s) \"child\", but found 3.");
+                "Expected document to have *exactly* 2 child element(s) \"child\", but found 3.");
         }
 
         [Fact]
@@ -1247,7 +1247,7 @@ namespace FluentAssertions.Specs.Xml
                   </parent>");
 
             // Act
-            Action act = () => document.Should().HaveElement(null, Exactly.Twice());
+            Action act = () => document.Should().HaveElement((string)null, Exactly.Twice());
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithMessage(
