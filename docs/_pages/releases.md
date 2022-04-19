@@ -13,6 +13,7 @@ sidebar:
 * Add `BeDefined` and `NotBeDefined` to assert on existence of an enum value - [#1888](https://github.com/fluentassertions/fluentassertions/pull/1888)
 * Added the ability to exclude fields & properties marked as non-browsable in the code editor from structural equality comparisons - [#1807](https://github.com/fluentassertions/fluentassertions/pull/1807) & [#1812](https://github.com/fluentassertions/fluentassertions/pull/1812)
 * Assertions on the collection types in System.Data (`DataSet.Tables`, `DataTable.Columns`, `DataTable.Rows`) have been restored - [#1812](https://github.com/fluentassertions/fluentassertions/pull/1812)
+* Add `For`/`Exclude` to allow exclusion of members inside a collection - [#1782](https://github.com/fluentassertions/fluentassertions/pull/1782)
 
 ## 6.6.0
 
@@ -20,7 +21,6 @@ sidebar:
 * Annotated `[Not]MatchRegex(string)` with `[StringSyntax("Regex")]` which IDEs can use to colorize the regular expression argument - [#1816](https://github.com/fluentassertions/fluentassertions/pull/1816)
 * Added support for .NET6 `DateOnly` struct - [#1844](https://github.com/fluentassertions/fluentassertions/pull/1844)
 * Added support for .NET6 `TimeOnly` struct - [#1848](https://github.com/fluentassertions/fluentassertions/pull/1848)
-* Added `For` option to `BeEquivalentTo` to exclude members in nested collections - [#1782](https://github.com/fluentassertions/fluentassertions/pull/1782)
 * Added `NotBe` for nullable boolean values - [#1865](https://github.com/fluentassertions/fluentassertions/pull/1865)
 * Added a new overload to `MatchRegex()` to assert on the number of regex matches - [#1869](https://github.com/fluentassertions/fluentassertions/pull/1869)
 * Added difference to numeric assertion failure messages - [#1859](https://github.com/fluentassertions/fluentassertions/pull/1859)
