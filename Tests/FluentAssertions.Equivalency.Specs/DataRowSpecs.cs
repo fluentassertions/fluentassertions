@@ -336,6 +336,44 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
+        public void Data_row_is_not_equivalent_to_another_type()
+        {
+            // Arrange
+            var table = new DataTable();
+            var dataRow = table.NewRow();
+            var subject = new
+            {
+                DataRow = "foobar"
+            };
+
+            var expected = new
+            {
+                DataRow = dataRow
+            };
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*System.Data.DataRow*found System.String*");
+        }
+
+        [Fact]
+        public void Any_type_is_not_equivalent_to_data_row_colletion()
+        {
+            // Arrange 
+            var o = new object();
+
+            // Act
+            Action act = () => o.Should().BeEquivalentTo((DataRowCollection)null);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected* to be of type DataRowCollection, but found*");
+        }
+
+        [Fact]
         public void When_data_row_has_column_then_asserting_that_it_has_that_column_should_succeed()
         {
             // Arrange
@@ -366,6 +404,20 @@ namespace FluentAssertions.Equivalency.Specs
         }
 
         [Fact]
+        public void Null_data_row_does_not_have_column()
+        {
+            // Arrange
+            var dataRow = (DataRow)null;
+
+            // Act
+            Action action =
+                () => dataRow.Should().HaveColumn("Does not matter");
+
+            // Assert
+            action.Should().Throw<XunitException>().WithMessage("Expected dataRow to contain a column named *Does not matter*, but found <null>*");
+        }
+
+        [Fact]
         public void When_data_row_data_has_all_columns_being_asserted_then_it_should_succeed()
         {
             // Arrange
@@ -379,6 +431,46 @@ namespace FluentAssertions.Equivalency.Specs
 
             // Act & Assert
             dataRow.Should().HaveColumns(subsetOfColumnNames);
+        }
+
+        [Fact]
+        public void Data_row_with_all_colums_asserted_and_using_the_array_overload_passes()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+            var dataRow = dataSet.TypedDataTable1[0];
+
+            string[] subsetOfColumnNames = dataRow.Table.Columns.Cast<DataColumn>()
+                .Take(dataRow.Table.Columns.Count - 2)
+                .Select(column => column.ColumnName)
+                .ToArray();
+
+            // Act & Assert
+            dataRow.Should().HaveColumns(subsetOfColumnNames);
+        }
+
+        [Fact]
+        public void Null_data_row_and_using_the_array_overload_fails()
+        {
+            // Arrange
+            var dataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+            var dataRow = dataSet.TypedDataTable1[0];
+
+            var actual = (DataRow)null;
+
+            string[] subsetOfColumnNames = dataRow.Table.Columns.Cast<DataColumn>()
+                .Take(dataRow.Table.Columns.Count - 2)
+                .Select(column => column.ColumnName)
+                .ToArray();
+
+            // Act
+            Action act = () => actual.Should().HaveColumns(subsetOfColumnNames);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected actual to be in a table containing *column*, but found <null>*");
         }
 
         [Fact]

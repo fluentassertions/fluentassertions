@@ -9,6 +9,13 @@ sidebar:
 
 ## Unreleased
 
+### What's new
+* Add `BeDefined` and `NotBeDefined` to assert on existence of an enum value - [#1888](https://github.com/fluentassertions/fluentassertions/pull/1888)
+* Added the ability to exclude fields & properties marked as non-browsable in the code editor from structural equality comparisons - [#1807](https://github.com/fluentassertions/fluentassertions/pull/1807) & [#1812](https://github.com/fluentassertions/fluentassertions/pull/1812)
+* Assertions on the collection types in System.Data (`DataSet.Tables`, `DataTable.Columns`, `DataTable.Rows`) have been restored - [#1812](https://github.com/fluentassertions/fluentassertions/pull/1812)
+
+## 6.6.0
+
 ### What's New
 * Annotated `[Not]MatchRegex(string)` with `[StringSyntax("Regex")]` which IDEs can use to colorize the regular expression argument - [#1816](https://github.com/fluentassertions/fluentassertions/pull/1816)
 * Added support for .NET6 `DateOnly` struct - [#1844](https://github.com/fluentassertions/fluentassertions/pull/1844)
@@ -29,7 +36,7 @@ sidebar:
 ## 6.5.1
 
 ### Fixes
-* Fix regression introduced in 6.5.0 where `collection.Should().BeInAscendingOrder(x => x)` would fail - [#1802](https://github.com/fluentassertions/fluentassertions/pull/1802)
+* Fixed regression introduced in 6.5.0 where `collection.Should().BeInAscendingOrder(x => x)` would fail - [#1802](https://github.com/fluentassertions/fluentassertions/pull/1802)
 
 ## 6.5.0
 

@@ -82,6 +82,11 @@ namespace FluentAssertions.Equivalency.Steps
                 where match is not null
                 select match;
 
+            if (config.IgnoreNonBrowsableOnSubject)
+            {
+                query = query.Where(member => member.IsBrowsable);
+            }
+
             return query.FirstOrDefault();
         }
 

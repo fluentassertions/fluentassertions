@@ -82,6 +82,20 @@ namespace FluentAssertions.Specs.Primitives
         }
 
         [Fact]
+        public void Null_does_not_match_to_any_string()
+        {
+            // Arrange
+            string subject = null;
+
+            // Act
+            Action act = () => subject.Should().Match("*");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected subject to match *, but found <null>.");
+        }
+
+        [Fact]
         public void When_a_string_is_matched_against_an_empty_string_it_should_throw_with_a_clear_explanation()
         {
             // Arrange

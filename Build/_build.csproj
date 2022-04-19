@@ -8,10 +8,10 @@
     <NukeScriptDirectory>..\</NukeScriptDirectory>
   </PropertyGroup>
   <ItemGroup>
-    <PackageDownload Include="GitVersion.Tool" Version="[5.9.0]" />
+    <PackageDownload Include="GitVersion.Tool" Version="[5.10.1]" />
     <PackageDownload Include="NSpec" Version="[3.1.0]" />
-    <PackageDownload Include="ReportGenerator" Version="[5.1.3]" />
+    <PackageDownload Include="ReportGenerator" Version="[5.1.4]" />
     <PackageDownload Include="xunit.runner.console" Version="[2.4.1]" />
-    <PackageReference Include="Nuke.Common" Version="6.0.1" />
+    <PackageReference Include="Nuke.Common" Version="6.0.2" />
   </ItemGroup>
 </Project>

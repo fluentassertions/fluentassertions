@@ -58,6 +58,9 @@ namespace FluentAssertions
         public static FluentAssertions.Specialized.ActionAssertions Should(this System.Action action) { }
         public static FluentAssertions.Collections.StringCollectionAssertions Should(this System.Collections.Generic.IEnumerable<string> @this) { }
         public static FluentAssertions.Data.DataColumnAssertions Should(this System.Data.DataColumn actualValue) { }
+        public static FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataColumn> Should(this System.Data.DataColumnCollection actualValue) { }
+        public static FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataRow> Should(this System.Data.DataRowCollection actualValue) { }
+        public static FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable> Should(this System.Data.DataTableCollection actualValue) { }
         public static FluentAssertions.Primitives.DateTimeAssertions Should(this System.DateTime actualValue) { }
         public static FluentAssertions.Primitives.NullableDateTimeAssertions Should(this System.DateTime? actualValue) { }
         public static FluentAssertions.Primitives.DateTimeOffsetAssertions Should(this System.DateTimeOffset actualValue) { }
@@ -116,6 +119,14 @@ namespace FluentAssertions
             "ly following \'And\'", true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.DateTimeOffsetAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.DateTimeOffsetAssertions<TAssertions> { }
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
+        public static void Should<TAssertions>(this FluentAssertions.Primitives.DateTimeOffsetRangeAssertions<TAssertions> _)
+            where TAssertions : FluentAssertions.Primitives.DateTimeOffsetAssertions<TAssertions> { }
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
+        public static void Should<TAssertions>(this FluentAssertions.Primitives.DateTimeRangeAssertions<TAssertions> _)
+            where TAssertions : FluentAssertions.Primitives.DateTimeAssertions<TAssertions> { }
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
             "ly following \'And\'", true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.GuidAssertions<TAssertions> _)
@@ -187,10 +198,24 @@ namespace FluentAssertions
     {
         public CustomAssertionAttribute() { }
     }
+    public static class DataColumnCollectionAssertionExtensions
+    {
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataColumn>> BeSameAs(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataColumn> assertion, System.Data.DataColumnCollection expected, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataColumn>> HaveSameCount(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataColumn> assertion, System.Data.DataColumnCollection otherCollection, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataColumn>> NotBeSameAs(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataColumn> assertion, System.Data.DataColumnCollection unexpected, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataColumn>> NotHaveSameCount(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataColumn> assertion, System.Data.DataColumnCollection otherCollection, string because = "", params object[] becauseArgs) { }
+    }
     public static class DataRowAssertionExtensions
     {
         public static FluentAssertions.Data.DataRowAssertions<TDataRow> Should<TDataRow>(this TDataRow actualValue)
             where TDataRow : System.Data.DataRow { }
+    }
+    public static class DataRowCollectionAssertionExtensions
+    {
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataRow>> BeSameAs(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataRow> assertion, System.Data.DataRowCollection expected, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataRow>> HaveSameCount(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataRow> assertion, System.Data.DataRowCollection otherCollection, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataRow>> NotBeSameAs(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataRow> assertion, System.Data.DataRowCollection unexpected, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataRow>> NotHaveSameCount(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataRow> assertion, System.Data.DataRowCollection otherCollection, string because = "", params object[] becauseArgs) { }
     }
     public static class DataSetAssertionExtensions
     {
@@ -201,6 +226,15 @@ namespace FluentAssertions
     {
         public static FluentAssertions.Data.DataTableAssertions<TDataTable> Should<TDataTable>(this TDataTable actualValue)
             where TDataTable : System.Data.DataTable { }
+    }
+    public static class DataTableCollectionAssertionExtensions
+    {
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable>> BeSameAs(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable> assertion, System.Data.DataTableCollection expected, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable>> HaveSameCount(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable> assertion, System.Data.DataSet otherDataSet, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable>> HaveSameCount(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable> assertion, System.Data.DataTableCollection otherCollection, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable>> NotBeSameAs(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable> assertion, System.Data.DataTableCollection unexpected, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable>> NotHaveSameCount(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable> assertion, System.Data.DataSet otherDataSet, string because = "", params object[] becauseArgs) { }
+        public static FluentAssertions.AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable>> NotHaveSameCount(this FluentAssertions.Collections.GenericCollectionAssertions<System.Data.DataTable> assertion, System.Data.DataTableCollection otherCollection, string because = "", params object[] becauseArgs) { }
     }
     public static class EnumAssertionsExtensions
     {
@@ -804,6 +838,7 @@ namespace FluentAssertions.Equivalency
         public System.Type DeclaringType { get; set; }
         public override string Description { get; }
         public FluentAssertions.Common.CSharpAccessModifier GetterAccessibility { get; }
+        public bool IsBrowsable { get; }
         public System.Type ReflectedType { get; }
         public FluentAssertions.Common.CSharpAccessModifier SetterAccessibility { get; }
         public object GetValue(object obj) { }
@@ -824,6 +859,8 @@ namespace FluentAssertions.Equivalency
         FluentAssertions.Equivalency.ConversionSelector ConversionSelector { get; }
         FluentAssertions.Equivalency.CyclicReferenceHandling CyclicReferenceHandling { get; }
         FluentAssertions.Equivalency.EnumEquivalencyHandling EnumEquivalencyHandling { get; }
+        bool ExcludeNonBrowsableOnExpectation { get; }
+        bool IgnoreNonBrowsableOnSubject { get; }
         FluentAssertions.Equivalency.MemberVisibility IncludedFields { get; }
         FluentAssertions.Equivalency.MemberVisibility IncludedProperties { get; }
         bool IsRecursive { get; }
@@ -859,6 +896,7 @@ namespace FluentAssertions.Equivalency
     {
         System.Type DeclaringType { get; }
         FluentAssertions.Common.CSharpAccessModifier GetterAccessibility { get; }
+        bool IsBrowsable { get; }
         System.Type ReflectedType { get; }
         FluentAssertions.Common.CSharpAccessModifier SetterAccessibility { get; }
         object GetValue(object obj);
@@ -967,6 +1005,7 @@ namespace FluentAssertions.Equivalency
         public System.Type DeclaringType { get; }
         public override string Description { get; }
         public FluentAssertions.Common.CSharpAccessModifier GetterAccessibility { get; }
+        public bool IsBrowsable { get; }
         public System.Type ReflectedType { get; }
         public FluentAssertions.Common.CSharpAccessModifier SetterAccessibility { get; }
         public object GetValue(object obj) { }
@@ -995,8 +1034,10 @@ namespace FluentAssertions.Equivalency
         public TSelf ExcludingFields() { }
         public TSelf ExcludingMissingMembers() { }
         public TSelf ExcludingNestedObjects() { }
+        public TSelf ExcludingNonBrowsableMembers() { }
         public TSelf ExcludingProperties() { }
         public TSelf IgnoringCyclicReferences() { }
+        public TSelf IgnoringNonBrowsableMembersOnSubject() { }
         public TSelf Including(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }
         public TSelf IncludingAllDeclaredProperties() { }
         public TSelf IncludingAllRuntimeProperties() { }
@@ -1893,6 +1934,7 @@ namespace FluentAssertions.Primitives
         public TEnum? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(TEnum expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Be(TEnum? expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeDefined(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(params TEnum[] validValues) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<TEnum> validValues, string because = "", params object[] becauseArgs) { }
         public override bool Equals(object obj) { }
@@ -1905,6 +1947,7 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> Match(System.Linq.Expressions.Expression<System.Func<TEnum?, bool>> predicate, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(TEnum unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(TEnum? unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeDefined(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveFlag(TEnum unexpectedFlag, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveSameNameAs<T>(T unexpected, string because = "", params object[] becauseArgs)
             where T :  struct, System.Enum { }

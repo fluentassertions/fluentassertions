@@ -36,6 +36,13 @@ namespace FluentAssertions.Equivalency.Matching
                     $"Expectation has {expectedMember.Description} that the other object does not have.");
             }
 
+            if (config.IgnoreNonBrowsableOnSubject && !subjectMember.IsBrowsable)
+            {
+                Execute.Assertion.FailWith(
+                    $"Expectation has {expectedMember.Description} that is non-browsable in the other object, and non-browsable " +
+                    $"members on the subject are ignored with the current configuration");
+            }
+
             return subjectMember;
         }
 
