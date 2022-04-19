@@ -1177,7 +1177,7 @@ namespace FluentAssertions.Specs.Xml
         }
 
         [Fact]
-        public void Asserting_document_inside_an_assertion_scope_it_checks_the_whole_assertion_scope_before_failing()
+        public void Asserting_document_null_inside_an_assertion_scope_it_checks_the_whole_assertion_scope_before_failing()
         {
             // Arrange
             XDocument document = null;
@@ -1197,7 +1197,7 @@ namespace FluentAssertions.Specs.Xml
         }
 
         [Fact]
-        public void Asserting_document_inside_an_assertion_scope_it_checks_the_whole_assertion_scope_before_failing_()
+        public void Asserting_with_document_root_null_inside_an_assertion_scope_it_checks_the_whole_assertion_scope_before_failing()
         {
             // Arrange
             XDocument document = new();
@@ -1274,7 +1274,7 @@ namespace FluentAssertions.Specs.Xml
         }
 
         [Fact]
-        public void Chaining_which_after_asserting_and_the_document_has_more_than_two_child_elements_it_fails()
+        public void Chaining_after_a_successful_occurrence_check_does_continue_the_assertion()
         {
             // Arrange
             var document = XDocument.Parse(
@@ -1284,12 +1284,29 @@ namespace FluentAssertions.Specs.Xml
                     <child />
                   </parent>");
 
+            // Act / Assert
+            document.Should().HaveElement("child", AtLeast.Twice())
+                .Which.Should().NotBeNull();
+        }
+
+        [Fact]
+        public void Chaining_after_a_non_successful_occurrence_check_does_not_continue_the_assertion()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                 @"<parent>
+                    <child />
+                    <child />
+                    <child />
+                  </parent>");
+
             // Act
-            Action act = () => document.Should().HaveElement("child", AtLeast.Twice())
+            Action act = () => document.Should().HaveElement("child", Exactly.Once())
                 .Which.Should().NotBeNull();
 
             // Assert
-            act.Should().NotThrow<XunitException>();
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected document to have *exactly*1 child element(s) \"child\", but found 3.");
         }
 
         [Fact]
