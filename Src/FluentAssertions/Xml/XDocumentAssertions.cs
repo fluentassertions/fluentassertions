@@ -300,11 +300,11 @@ namespace FluentAssertions.Xml
             {
                 var root = Subject.Root;
                 success = Execute.Assertion
-                .ForCondition(root is not null)
-                .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected {context:subject} to have root element with child {0}{reason}, but it has no root element.",
-                    expected.ToString());
+                    .ForCondition(root is not null)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        "Expected {context:subject} to have root element with child {0}{reason}, but it has no root element.",
+                        expected.ToString());
 
                 if (success)
                 {
@@ -315,7 +315,8 @@ namespace FluentAssertions.Xml
                         .ForConstraint(occurrenceConstraint, actualCount)
                         .BecauseOf(because, becauseArgs)
                         .FailWith(
-                            $"Expected {{context:subject}} to have {occurrenceConstraint.Mode} {{0}} child element(s) {{1}}{{reason}}, but found {{2}}.",
+                            $"Expected {{context:subject}} to have {occurrenceConstraint.Mode} {{0}} " +
+                            $"child element(s) {{1}}{{reason}}, but found {{2}}.",
                             occurrenceConstraint.ExpectedCount,
                             expected.ToString(),
                             actualCount);
