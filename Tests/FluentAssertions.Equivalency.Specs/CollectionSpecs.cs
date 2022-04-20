@@ -558,6 +558,373 @@ namespace FluentAssertions.Equivalency.Specs
             act.Should().NotThrow();
         }
 
+        public class For
+        {
+            [Fact]
+            public void When_property_in_collection_is_excluded_it_should_not_throw()
+            {
+                // Arrange
+                var subject = new
+                {
+                    Level = new
+                    {
+                        Collection = new[]
+                        {
+                            new
+                            {
+                                Number = 1,
+                                Text = "Text"
+                            },
+                            new
+                            {
+                                Number = 2,
+                                Text = "Actual"
+                            }
+                        }
+                    }
+                };
+
+                var expected = new
+                {
+                    Level = new
+                    {
+                        Collection = new[]
+                        {
+                            new
+                            {
+                                Number = 1,
+                                Text = "Text"
+                            },
+                            new
+                            {
+                                Number = 3,
+                                Text = "Actual"
+                            }
+                        }
+                    }
+                };
+
+                // Act / Assert
+                subject.Should().BeEquivalentTo(expected,
+                    options => options
+                        .For(x => x.Level.Collection)
+                        .Exclude(x => x.Number));
+            }
+
+            [Fact]
+            public void When_collection_in_collection_is_excluded_it_should_not_throw()
+            {
+                // Arrange
+                var subject = new
+                {
+                    Level = new
+                    {
+                        Collection = new[]
+                        {
+                            new
+                            {
+                                Number = 1,
+                                NextCollection = new[]
+                                {
+                                    new
+                                    {
+                                        Text = "Text"
+                                    }
+                                }
+                            },
+                            new
+                            {
+                                Number = 2,
+                                NextCollection = new[]
+                                {
+                                    new
+                                    {
+                                        Text = "Actual"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+
+                var expected = new
+                {
+                    Level = new
+                    {
+                        Collection = new[]
+                        {
+                            new
+                            {
+                                Number = 1,
+                                NextCollection = new[]
+                                {
+                                    new
+                                    {
+                                        Text = "Text"
+                                    }
+                                }
+                            },
+                            new
+                            {
+                                Number = 2,
+                                NextCollection = new[]
+                                {
+                                    new
+                                    {
+                                        Text = "Expected"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+
+                // Act / Assert
+                subject.Should().BeEquivalentTo(expected,
+                    options => options
+                        .For(x => x.Level.Collection)
+                        .Exclude(x => x.NextCollection));
+            }
+
+            [Fact]
+            public void When_property_in_collection_in_collection_is_excluded_it_should_not_throw()
+            {
+                // Arrange
+                var subject = new
+                {
+                    Text = "Text",
+                    Level = new
+                    {
+                        Collection = new[]
+                        {
+                            new
+                            {
+                                Number = 1,
+                                NextCollection = new[]
+                                {
+                                    new
+                                    {
+                                        Text = "Text"
+                                    }
+                                }
+                            },
+                            new
+                            {
+                                Number = 2,
+                                NextCollection = new[]
+                                {
+                                    new
+                                    {
+                                        Text = "Actual"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+
+                var expected = new
+                {
+                    Text = "Text",
+                    Level = new
+                    {
+                        Collection = new[]
+                        {
+                            new
+                            {
+                                Number = 1,
+                                NextCollection = new[]
+                                {
+                                    new
+                                    {
+                                        Text = "Text"
+                                    }
+                                }
+                            },
+                            new
+                            {
+                                Number = 2,
+                                NextCollection = new[]
+                                {
+                                    new
+                                    {
+                                        Text = "Expected"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+
+                // Act / Assert
+                subject.Should().BeEquivalentTo(expected,
+                    options => options
+                        .For(x => x.Level.Collection)
+                        .For(x => x.NextCollection)
+                        .Exclude(x => x.Text)
+                );
+            }
+
+            [Fact]
+            public void A_nested_exclusion_can_be_followed_by_a_root_level_exclusion()
+            {
+                // Arrange
+                var subject = new
+                {
+                    Text = "Actual",
+                    Level = new
+                    {
+                        Collection = new[]
+                        {
+                            new
+                            {
+                                Number = 1,
+                                Text = "Text"
+                            },
+                            new
+                            {
+                                Number = 2,
+                                Text = "Actual"
+                            }
+                        }
+                    }
+                };
+
+                var expected = new
+                {
+                    Text = "Expected",
+                    Level = new
+                    {
+                        Collection = new[]
+                        {
+                            new
+                            {
+                                Number = 1,
+                                Text = "Text"
+                            },
+                            new
+                            {
+                                Number = 2,
+                                Text = "Expected"
+                            }
+                        }
+                    }
+                };
+
+                // Act / Assert
+                subject.Should().BeEquivalentTo(expected,
+                    options => options
+                        .For(x => x.Level.Collection).Exclude(x => x.Text)
+                        .Excluding(x => x.Text));
+            }
+
+            [Fact]
+            public void A_nested_exclusion_can_be_preceded_by_a_root_level_exclusion()
+            {
+                // Arrange
+                var subject = new
+                {
+                    Text = "Actual",
+                    Level = new
+                    {
+                        Collection = new[]
+                        {
+                            new
+                            {
+                                Number = 1,
+                                Text = "Text"
+                            },
+                            new
+                            {
+                                Number = 2,
+                                Text = "Actual"
+                            }
+                        }
+                    }
+                };
+
+                var expected = new
+                {
+                    Text = "Expected",
+                    Level = new
+                    {
+                        Collection = new[]
+                        {
+                            new
+                            {
+                                Number = 1,
+                                Text = "Text"
+                            },
+                            new
+                            {
+                                Number = 2,
+                                Text = "Expected"
+                            }
+                        }
+                    }
+                };
+
+                // Act / Assert
+                subject.Should().BeEquivalentTo(expected,
+                    options => options
+                        .Excluding(x => x.Text)
+                        .For(x => x.Level.Collection).Exclude(x => x.Text));
+            }
+
+            [Fact]
+            public void A_nested_exclusion_can_be_followed_by_a_nested_exclusion()
+            {
+                // Arrange
+                var subject = new
+                {
+                    Text = "Actual",
+                    Level = new
+                    {
+                        Collection = new[]
+                        {
+                            new
+                            {
+                                Number = 1,
+                                Text = "Text"
+                            },
+                            new
+                            {
+                                Number = 2,
+                                Text = "Actual"
+                            }
+                        }
+                    }
+                };
+
+                var expected = new
+                {
+                    Text = "Actual",
+                    Level = new
+                    {
+                        Collection = new[]
+                        {
+                            new
+                            {
+                                Number = 1,
+                                Text = "Text"
+                            },
+                            new
+                            {
+                                Number = 3,
+                                Text = "Expected"
+                            }
+                        }
+                    }
+                };
+
+                // Act / Assert
+                subject.Should().BeEquivalentTo(expected,
+                    options => options
+                        .For(x => x.Level.Collection).Exclude(x => x.Text)
+                        .For(x => x.Level.Collection).Exclude(x => x.Number));
+            }
+        }
+
         [Fact]
         public void When_a_dictionary_property_is_detected_it_should_ignore_the_order_of_the_pairs()
         {

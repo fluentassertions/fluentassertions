@@ -7,7 +7,7 @@ namespace FluentAssertions.Equivalency.Selection
 {
     internal abstract class SelectMemberByPathSelectionRule : IMemberSelectionRule
     {
-        private readonly string selectedPath;
+        private string selectedPath;
 
         protected SelectMemberByPathSelectionRule(string selectedPath)
         {
@@ -15,6 +15,11 @@ namespace FluentAssertions.Equivalency.Selection
         }
 
         public virtual bool IncludesMembers => false;
+
+        protected void SetSelectedPath(string path)
+        {
+            this.selectedPath = path;
+        }
 
         public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
             MemberSelectionContext context)
