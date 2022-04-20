@@ -298,8 +298,9 @@ namespace FluentAssertions.Xml
 
             if (success)
             {
+                var root = Subject.Root;
                 success = Execute.Assertion
-                .ForCondition(Subject.Root is not null)
+                .ForCondition(root is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:subject} to have root element with child {0}{reason}, but it has no root element.",
@@ -307,7 +308,7 @@ namespace FluentAssertions.Xml
 
                 if (success)
                 {
-                    xElements = Subject.Root.Elements(expected);
+                    xElements = root.Elements(expected);
                     int actualCount = xElements.Count();
 
                     Execute.Assertion
