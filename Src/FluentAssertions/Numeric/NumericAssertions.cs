@@ -292,10 +292,10 @@ namespace FluentAssertions.Numeric
         /// Where the range is continuous or incremental depends on the actual type of the value.
         /// </remarks>
         /// <param name="minimumValue">
-        /// The minimum valid value of the range.
+        /// The minimum valid value of the range (inclusive).
         /// </param>
         /// <param name="maximumValue">
-        /// The maximum valid value of the range.
+        /// The maximum valid value of the range (inclusive).
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
