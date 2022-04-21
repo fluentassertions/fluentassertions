@@ -791,6 +791,7 @@ namespace FluentAssertions.Equivalency
         public EquivalencyAssertionOptions(FluentAssertions.Equivalency.IEquivalencyAssertionOptions defaults) { }
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<System.Collections.Generic.IEnumerable<TExpectation>> AsCollection() { }
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> Excluding(System.Linq.Expressions.Expression<System.Func<TExpectation, object>> expression) { }
+        public FluentAssertions.Equivalency.NestedExclusionOptionBuilder<TExpectation, TNext> For<TNext>(System.Linq.Expressions.Expression<System.Func<TExpectation, System.Collections.Generic.IEnumerable<TNext>>> expression) { }
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> Including(System.Linq.Expressions.Expression<System.Func<TExpectation, object>> expression) { }
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> WithMapping(string expectationMemberPath, string subjectMemberPath) { }
         public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> WithMapping<TSubject>(System.Linq.Expressions.Expression<System.Func<TExpectation, object>> expectationMemberPath, System.Linq.Expressions.Expression<System.Func<TSubject, object>> subjectMemberPath) { }
@@ -958,6 +959,11 @@ namespace FluentAssertions.Equivalency
         None = 0,
         Internal = 1,
         Public = 2,
+    }
+    public class NestedExclusionOptionBuilder<TExpectation, TCurrent>
+    {
+        public FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation> Exclude(System.Linq.Expressions.Expression<System.Func<TCurrent, object>> expression) { }
+        public FluentAssertions.Equivalency.NestedExclusionOptionBuilder<TExpectation, TNext> For<TNext>(System.Linq.Expressions.Expression<System.Func<TCurrent, System.Collections.Generic.IEnumerable<TNext>>> expression) { }
     }
     public class Node : FluentAssertions.Equivalency.INode
     {

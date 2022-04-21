@@ -130,6 +130,23 @@ orderDto.Should().BeEquivalentTo(order, options =>
     options.Excluding(o => o.Products[1].Status));
 ```
 
+You can use `For` and `Exclude` if you want to exclude a member on each nested object regardless of its index.
+
+```csharp
+orderDto.Should().BeEquivalentTo(order, options =>
+    options.For(o => o.Products)
+           .Exclude(o => o.Status));
+```
+
+Using `For` you can navigate arbitrarily deep. Consider a `Product` has a collection of `Part`s and a `Part` has a name. Using `For` your can also exclude the `Name` of all `Part`s of all `Product`s.
+
+```csharp
+orderDto.Should().BeEquivalentTo(order, options =>
+    options.For(o => o.Products)
+           .For(o => o.Parts)
+           .Exclude(o => o.Name));
+```
+
 Of course, `Excluding()` and `ExcludingMissingMembers()` can be combined.
 
 You can also take a different approach and explicitly tell Fluent Assertions which members to include. You can directly specify a property expression or use a predicate that acts on the provided `ISubjectInfo`.

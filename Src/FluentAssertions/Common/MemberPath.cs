@@ -17,6 +17,8 @@ namespace FluentAssertions.Common
 
         private string[] segments;
 
+        private static readonly MemberPathSegmentEqualityComparer MemberPathSegmentEqualityComparer = new();
+
         public MemberPath(IMember member, string parentPath)
             : this(member.ReflectedType, member.DeclaringType, parentPath.Combine(member.Name))
         {
@@ -53,7 +55,7 @@ namespace FluentAssertions.Common
             {
                 string[] candidateSegments = candidate.Segments;
 
-                return candidateSegments.SequenceEqual(Segments);
+                return candidateSegments.SequenceEqual(Segments, MemberPathSegmentEqualityComparer);
             }
 
             return false;
@@ -64,7 +66,7 @@ namespace FluentAssertions.Common
             string[] candidateSegments = candidate.Segments;
 
             return candidateSegments.Length > Segments.Length &&
-                   candidateSegments.Take(Segments.Length).SequenceEqual(Segments);
+                   candidateSegments.Take(Segments.Length).SequenceEqual(Segments, MemberPathSegmentEqualityComparer);
         }
 
         private bool IsChildOf(MemberPath candidate)
@@ -72,7 +74,14 @@ namespace FluentAssertions.Common
             string[] candidateSegments = candidate.Segments;
 
             return candidateSegments.Length < Segments.Length
-                   && candidateSegments.SequenceEqual(Segments.Take(candidateSegments.Length));
+                   && candidateSegments.SequenceEqual(Segments.Take(candidateSegments.Length),
+                       MemberPathSegmentEqualityComparer);
+        }
+
+        public MemberPath AsParentCollectionOf(MemberPath nextPath)
+        {
+            var extendedDottedPath = dottedPath.Combine(nextPath.dottedPath, "[]");
+            return new MemberPath(declaringType, nextPath.reflectedType, extendedDottedPath);
         }
 
         /// <summary>
@@ -86,7 +95,7 @@ namespace FluentAssertions.Common
         public bool HasSameParentAs(MemberPath path)
         {
             return Segments.Length == path.Segments.Length
-                   && GetParentSegments().SequenceEqual(path.GetParentSegments());
+                   && GetParentSegments().SequenceEqual(path.GetParentSegments(), MemberPathSegmentEqualityComparer);
         }
 
         private IEnumerable<string> GetParentSegments() => Segments.Take(Segments.Length - 1);
@@ -96,6 +105,11 @@ namespace FluentAssertions.Common
         /// </summary>
         public bool GetContainsSpecificCollectionIndex() => dottedPath.ContainsSpecificCollectionIndex();
 
+        private string[] Segments =>
+            segments ??= dottedPath
+                .Replace("[]", "[*]", StringComparison.Ordinal)
+                .Split(new[] { '.', '[', ']' }, StringSplitOptions.RemoveEmptyEntries);
+
         /// <summary>
         /// Returns a copy of the current object as if it represented an un-indexed item in a collection.
         /// </summary>
@@ -103,8 +117,6 @@ namespace FluentAssertions.Common
         {
             return new MemberPath(reflectedType, declaringType, "[]." + dottedPath);
         }
-
-        private string[] Segments => segments ??= dottedPath.Split(new[] { '.', '[', ']' }, StringSplitOptions.RemoveEmptyEntries);
 
         /// <summary>
         /// Returns the name of the member the current path points to without its parent path.

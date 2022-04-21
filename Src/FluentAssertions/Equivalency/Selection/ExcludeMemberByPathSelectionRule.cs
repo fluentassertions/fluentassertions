@@ -8,7 +8,7 @@ namespace FluentAssertions.Equivalency.Selection
     /// </summary>
     internal class ExcludeMemberByPathSelectionRule : SelectMemberByPathSelectionRule
     {
-        private readonly MemberPath memberToExclude;
+        private MemberPath memberToExclude;
 
         public ExcludeMemberByPathSelectionRule(MemberPath pathToExclude)
             : base(pathToExclude.ToString())
@@ -21,6 +21,12 @@ namespace FluentAssertions.Equivalency.Selection
         {
             selectedMembers.RemoveAll(member =>
                 memberToExclude.IsSameAs(new MemberPath(member, parentPath)));
+        }
+
+        public void AppendPath(MemberPath nextPath)
+        {
+            memberToExclude = memberToExclude.AsParentCollectionOf(nextPath);
+            SetSelectedPath(memberToExclude.ToString());
         }
 
         public override string ToString()
