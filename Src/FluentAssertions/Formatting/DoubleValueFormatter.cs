@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Formatting
 {
@@ -19,6 +20,8 @@ namespace FluentAssertions.Formatting
 
         public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
+            Guard.ThrowIfArgumentIsNull(formattedGraph, nameof(formattedGraph));
+
             formattedGraph.AddFragment(Format(value));
         }
 

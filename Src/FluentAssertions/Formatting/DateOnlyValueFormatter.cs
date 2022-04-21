@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using FluentAssertions.Common;
 
 #if NET6_0_OR_GREATER
 
@@ -21,6 +22,9 @@ namespace FluentAssertions.Formatting
 
         public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
+            Guard.ThrowIfArgumentIsNull(value, nameof(value));
+            Guard.ThrowIfArgumentIsNull(formattedGraph, nameof(formattedGraph));
+
             var dateOnly = (DateOnly)value;
             formattedGraph.AddFragment(dateOnly.ToString("<yyyy-MM-dd>", CultureInfo.InvariantCulture));
         }

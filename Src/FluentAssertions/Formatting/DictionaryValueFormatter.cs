@@ -29,6 +29,11 @@ namespace FluentAssertions.Formatting
 
         public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
+            Guard.ThrowIfArgumentIsNull(value, nameof(value));
+            Guard.ThrowIfArgumentIsNull(formattedGraph, nameof(formattedGraph));
+            Guard.ThrowIfArgumentIsNull(context, nameof(context));
+            Guard.ThrowIfArgumentIsNull(formatChild, nameof(formatChild));
+
             int startCount = formattedGraph.LineCount;
             IEnumerable<KeyValuePair<object, object>> collection = AsEnumerable((IDictionary)value);
 

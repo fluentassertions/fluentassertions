@@ -1,4 +1,5 @@
 using System;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency.Tracing
 {
@@ -37,6 +38,8 @@ namespace FluentAssertions.Equivalency.Tracing
         /// </remarks>
         public IDisposable WriteBlock(GetTraceMessage getTraceMessage)
         {
+            Guard.ThrowIfArgumentIsNull(getTraceMessage, nameof(getTraceMessage));
+
             if (traceWriter is not null)
             {
                 return traceWriter.AddBlock(getTraceMessage(currentNode));

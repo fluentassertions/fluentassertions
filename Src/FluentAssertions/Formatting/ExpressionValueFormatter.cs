@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Formatting
 {
@@ -19,6 +20,9 @@ namespace FluentAssertions.Formatting
 
         public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
+            Guard.ThrowIfArgumentIsNull(value, nameof(value));
+            Guard.ThrowIfArgumentIsNull(formattedGraph, nameof(formattedGraph));
+
             formattedGraph.AddFragment(value.ToString().Replace(" = ", " == ", StringComparison.Ordinal));
         }
     }

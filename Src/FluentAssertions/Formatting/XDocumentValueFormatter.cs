@@ -1,4 +1,5 @@
 ﻿using System.Xml.Linq;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Formatting
 {
@@ -11,6 +12,10 @@ namespace FluentAssertions.Formatting
 
         public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
+            Guard.ThrowIfArgumentIsNull(value, nameof(value));
+            Guard.ThrowIfArgumentIsNull(formattedGraph, nameof(formattedGraph));
+            Guard.ThrowIfArgumentIsNull(formatChild, nameof(formatChild));
+
             var document = (XDocument)value;
 
             if (document.Root is not null)

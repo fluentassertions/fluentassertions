@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions.Common;
 using static System.FormattableString;
 
 namespace FluentAssertions.Formatting
@@ -19,6 +20,10 @@ namespace FluentAssertions.Formatting
 
         public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
+            Guard.ThrowIfArgumentIsNull(value, nameof(value));
+            Guard.ThrowIfArgumentIsNull(formattedGraph, nameof(formattedGraph));
+            Guard.ThrowIfArgumentIsNull(formatChild, nameof(formatChild));
+
             var exception = (AggregateException)value;
             if (exception.InnerExceptions.Count == 1)
             {

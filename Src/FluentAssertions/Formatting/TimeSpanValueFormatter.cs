@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Formatting
 {
@@ -21,6 +22,9 @@ namespace FluentAssertions.Formatting
 
         public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
+            Guard.ThrowIfArgumentIsNull(value, nameof(value));
+            Guard.ThrowIfArgumentIsNull(formattedGraph, nameof(formattedGraph));
+
             var timeSpan = (TimeSpan)value;
 
             if (timeSpan == TimeSpan.MinValue)

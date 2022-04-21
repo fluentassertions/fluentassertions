@@ -28,6 +28,11 @@ namespace FluentAssertions.Formatting
 
         public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
+            Guard.ThrowIfArgumentIsNull(value, nameof(value));
+            Guard.ThrowIfArgumentIsNull(formattedGraph, nameof(formattedGraph));
+            Guard.ThrowIfArgumentIsNull(context, nameof(context));
+            Guard.ThrowIfArgumentIsNull(formatChild, nameof(formatChild));
+
             if (value.GetType() == typeof(object))
             {
                 formattedGraph.AddFragment($"System.Object (HashCode={value.GetHashCode()})");
@@ -96,7 +101,12 @@ namespace FluentAssertions.Formatting
         /// <param name="type">The <see cref="System.Type"/> of the object being formatted.</param>
         /// <returns>The name to be displayed for <paramref name="type"/>.</returns>
         /// <remarks>The default is <see cref="System.Type.FullName"/>.</remarks>
-        protected virtual string TypeDisplayName(Type type) => type.FullName;
+        protected virtual string TypeDisplayName(Type type)
+        {
+            Guard.ThrowIfArgumentIsNull(type, nameof(type));
+
+            return type.FullName;
+        }
 
         private static void WriteMemberValueTextFor(object value, MemberInfo member, FormattedObjectGraph formattedGraph, FormatChild formatChild)
         {

@@ -3035,6 +3035,7 @@ namespace FluentAssertions.Collections
         protected void AssertCollectionEndsWith<TActual, TExpectation>(IEnumerable<TActual> actual, ICollection<TExpectation> expected, Func<TActual, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(equalityComparison, nameof(equalityComparison));
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected));
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -3057,6 +3058,7 @@ namespace FluentAssertions.Collections
         protected void AssertCollectionStartsWith<TActual, TExpectation>(IEnumerable<TActual> actualItems, ICollection<TExpectation> expected, Func<TActual, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(equalityComparison, nameof(equalityComparison));
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected));
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)

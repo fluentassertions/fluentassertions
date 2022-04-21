@@ -1,4 +1,5 @@
 using System;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
@@ -12,6 +13,8 @@ namespace FluentAssertions.Equivalency
 
         public void AssertEquality(Comparands comparands, EquivalencyValidationContext context)
         {
+            Guard.ThrowIfArgumentIsNull(context, nameof(context));
+
             using var scope = new AssertionScope();
 
             scope.AssumeSingleCaller();
@@ -28,6 +31,9 @@ namespace FluentAssertions.Equivalency
 
         public void RecursivelyAssertEquality(Comparands comparands, IEquivalencyValidationContext context)
         {
+            Guard.ThrowIfArgumentIsNull(comparands, nameof(comparands));
+            Guard.ThrowIfArgumentIsNull(context, nameof(context));
+
             var scope = AssertionScope.Current;
 
             if (ShouldCompareMembersThisDeep(context.CurrentNode, context.Options, scope))

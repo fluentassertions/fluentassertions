@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Formatting
 {
@@ -20,6 +21,9 @@ namespace FluentAssertions.Formatting
         /// <inheritdoc />
         public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
+            Guard.ThrowIfArgumentIsNull(value, nameof(value));
+            Guard.ThrowIfArgumentIsNull(formattedGraph, nameof(formattedGraph));
+
             string typePart = value.GetType().Name;
             string namePart = value.ToString().Replace(", ", "|", StringComparison.Ordinal);
             string valuePart = Convert.ToDecimal(value, CultureInfo.InvariantCulture)

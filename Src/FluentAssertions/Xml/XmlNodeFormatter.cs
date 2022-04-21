@@ -13,6 +13,9 @@ namespace FluentAssertions.Xml
 
         public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
+            Guard.ThrowIfArgumentIsNull(value, nameof(value));
+            Guard.ThrowIfArgumentIsNull(formattedGraph, nameof(formattedGraph));
+
             string outerXml = ((XmlNode)value).OuterXml;
 
             const int maxLength = 20;

@@ -35,6 +35,8 @@ namespace FluentAssertions.Formatting
 
         public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
         {
+            Guard.ThrowIfArgumentIsNull(value, nameof(value));
+
             MethodInfo method = GetFormatter(value);
 
             object[] parameters = new[] { value, formattedGraph };
