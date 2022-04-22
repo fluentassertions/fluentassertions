@@ -326,16 +326,15 @@ namespace FluentAssertions.Xml
             if (success)
             {
                 xElements = Subject.Elements(expected);
-                int actualCount = xElements.Count();
+                int actual = xElements.Count();
 
                 Execute.Assertion
-                    .ForConstraint(occurrenceConstraint, actualCount)
+                    .ForConstraint(occurrenceConstraint, actual)
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
-                        $"Expected {{context:subject}} to have {occurrenceConstraint.Mode} {{0}} child element(s) {{1}}{{reason}}, but found {{2}}.",
-                        occurrenceConstraint.ExpectedCount,
-                        expected.ToString(),
-                        actualCount);
+                        $"Expected {{context:subject}} to have an element {{0}} {{expectedOccurrence}}" +
+                        $"{{reason}}, but found it {actual.Times()}.",
+                        expected.ToString());
             }
 
             return new AndWhichConstraint<XElementAssertions, IEnumerable<XElement>>(this, xElements);

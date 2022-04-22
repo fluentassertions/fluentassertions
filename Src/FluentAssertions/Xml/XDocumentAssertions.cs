@@ -303,23 +303,21 @@ namespace FluentAssertions.Xml
                     .ForCondition(root is not null)
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
-                        "Expected {context:subject} to have root element with child {0}{reason}, but it has no root element.",
+                        "Expected {context:subject} to have root element containing a child {0}{reason}, but it has no root element.",
                         expected.ToString());
 
                 if (success)
                 {
                     xElements = root.Elements(expected);
-                    int actualCount = xElements.Count();
+                    int actual = xElements.Count();
 
                     Execute.Assertion
-                        .ForConstraint(occurrenceConstraint, actualCount)
+                        .ForConstraint(occurrenceConstraint, actual)
                         .BecauseOf(because, becauseArgs)
                         .FailWith(
-                            $"Expected {{context:subject}} to have {occurrenceConstraint.Mode} {{0}} " +
-                            $"child element(s) {{1}}{{reason}}, but found {{2}}.",
-                            occurrenceConstraint.ExpectedCount,
-                            expected.ToString(),
-                            actualCount);
+                            $"Expected {{context:subject}} to have a root element containing a child {{0}} " +
+                            $"{{expectedOccurrence}}{{reason}}, but found it {actual.Times()}.",
+                            expected.ToString());
                 }
             }
 

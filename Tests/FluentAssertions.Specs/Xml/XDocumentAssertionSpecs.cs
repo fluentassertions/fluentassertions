@@ -1231,8 +1231,8 @@ namespace FluentAssertions.Specs.Xml
             Action act = () => document.Should().HaveElement("child", Exactly.Twice());
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected document to have *exactly* 2 child element(s) \"child\", but found 3.");
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected document to have a root element containing a child \"child\"*exactly*2 times, but found it 3 times*");
         }
 
         [Fact]
@@ -1247,7 +1247,7 @@ namespace FluentAssertions.Specs.Xml
                   </parent>");
 
             // Act
-            Action act = () => document.Should().HaveElement((string)null, Exactly.Twice());
+            Action act = () => document.Should().HaveElement(null, Exactly.Twice());
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithMessage(
@@ -1306,7 +1306,7 @@ namespace FluentAssertions.Specs.Xml
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected document to have *exactly*1 child element(s) \"child\", but found 3.");
+                .WithMessage("Expected document to have a root element containing a child \"child\"*exactly*1 time, but found it 3 times.");
         }
 
         [Fact]
