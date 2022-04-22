@@ -341,8 +341,8 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Asserts that the <see cref="XElement"/> of the current <see cref="XElement"/> has a direct
-        /// child element with the specified <paramref name="expected"/> name.
+        /// Asserts that the <see cref="XElement"/> of the current <see cref="XElement"/> has the specified occurrence of
+        /// child elements with the specified <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">
         /// The name of the expected child element of the current element's <see cref="XElement"/>.
