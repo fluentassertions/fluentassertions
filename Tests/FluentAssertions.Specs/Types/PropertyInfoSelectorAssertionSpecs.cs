@@ -7,293 +7,287 @@ namespace FluentAssertions.Specs.Types
 {
     public class PropertyInfoSelectorAssertionSpecs
     {
-        #region BeVirtual
-
-        [Fact]
-        public void When_asserting_properties_are_virtual_and_they_are_it_should_succeed()
+        public class BeVirtual
         {
-            // Arrange
-            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesVirtual));
+            [Fact]
+            public void When_asserting_properties_are_virtual_and_they_are_it_should_succeed()
+            {
+                // Arrange
+                var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesVirtual));
 
-            // Act
-            Action act = () =>
-                propertyInfoSelector.Should().BeVirtual();
+                // Act
+                Action act = () =>
+                    propertyInfoSelector.Should().BeVirtual();
 
-            // Assert
-            act.Should().NotThrow();
+                // Assert
+                act.Should().NotThrow();
+            }
+
+            [Fact]
+            public void When_asserting_properties_are_virtual_but_non_virtual_properties_are_found_it_should_throw()
+            {
+                // Arrange
+                var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithNonVirtualPublicProperties));
+
+                // Act
+                Action act = () =>
+                    propertyInfoSelector.Should().BeVirtual();
+
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
+
+            [Fact]
+            public void
+                When_asserting_properties_are_virtual_but_non_virtual_properties_are_found_it_should_throw_with_descriptive_message()
+            {
+                // Arrange
+                var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithNonVirtualPublicProperties));
+
+                // Act
+                Action act = () =>
+                    propertyInfoSelector.Should().BeVirtual("we want to test the error {0}", "message");
+
+                // Assert
+                act.Should().Throw<XunitException>()
+                   .WithMessage("Expected all selected properties" +
+                       " to be virtual because we want to test the error message," +
+                       " but the following properties are not virtual:*" +
+                       "String FluentAssertions*ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty*" +
+                       "String FluentAssertions*ClassWithNonVirtualPublicProperties.InternalNonVirtualProperty*" +
+                       "String FluentAssertions*ClassWithNonVirtualPublicProperties.ProtectedNonVirtualProperty");
+            }
         }
 
-        [Fact]
-        public void When_asserting_properties_are_virtual_but_non_virtual_properties_are_found_it_should_throw()
+        public class NotBeVirtual
         {
-            // Arrange
-            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithNonVirtualPublicProperties));
+            [Fact]
+            public void When_asserting_properties_are_not_virtual_and_they_are_not_it_should_succeed()
+            {
+                // Arrange
+                var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithNonVirtualPublicProperties));
 
-            // Act
-            Action act = () =>
-                propertyInfoSelector.Should().BeVirtual();
+                // Act
+                Action act = () =>
+                    propertyInfoSelector.Should().NotBeVirtual();
 
-            // Assert
-            act.Should().Throw<XunitException>();
+                // Assert
+                act.Should().NotThrow();
+            }
+
+            [Fact]
+            public void When_asserting_properties_are_not_virtual_but_virtual_properties_are_found_it_should_throw()
+            {
+                // Arrange
+                var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesVirtual));
+
+                // Act
+                Action act = () =>
+                    propertyInfoSelector.Should().NotBeVirtual();
+
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
+
+            [Fact]
+            public void
+                When_asserting_properties_are_not_virtual_but_virtual_properties_are_found_it_should_throw_with_descriptive_message()
+            {
+                // Arrange
+                var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesVirtual));
+
+                // Act
+                Action act = () =>
+                    propertyInfoSelector.Should().NotBeVirtual("we want to test the error {0}", "message");
+
+                // Assert
+                act.Should().Throw<XunitException>()
+                   .WithMessage("Expected all selected properties" +
+                       " not to be virtual because we want to test the error message," +
+                       " but the following properties are virtual*" +
+                       "*ClassWithAllPropertiesVirtual.PublicVirtualProperty" +
+                       "*ClassWithAllPropertiesVirtual.InternalVirtualProperty" +
+                       "*ClassWithAllPropertiesVirtual.ProtectedVirtualProperty");
+            }
         }
 
-        [Fact]
-        public void
-            When_asserting_properties_are_virtual_but_non_virtual_properties_are_found_it_should_throw_with_descriptive_message()
+        public class BeDecoratedWith
         {
-            // Arrange
-            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithNonVirtualPublicProperties));
+            [Fact]
+            public void When_asserting_properties_are_decorated_with_attribute_and_they_are_it_should_succeed()
+            {
+                // Arrange
+                var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute));
 
-            // Act
-            Action act = () =>
-                propertyInfoSelector.Should().BeVirtual("we want to test the error {0}", "message");
+                // Act
+                Action act = () =>
+                    propertyInfoSelector.Should().BeDecoratedWith<DummyPropertyAttribute>();
 
-            // Assert
-            act.Should().Throw<XunitException>()
-               .WithMessage("Expected all selected properties" +
-                   " to be virtual because we want to test the error message," +
-                   " but the following properties are not virtual:*" +
-                   "String FluentAssertions*ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty*" +
-                   "String FluentAssertions*ClassWithNonVirtualPublicProperties.InternalNonVirtualProperty*" +
-                   "String FluentAssertions*ClassWithNonVirtualPublicProperties.ProtectedNonVirtualProperty");
+                // Assert
+                act.Should().NotThrow();
+            }
+
+            [Fact]
+            public void When_asserting_properties_are_decorated_with_attribute_and_they_are_not_it_should_throw()
+            {
+                // Arrange
+                var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute))
+                    .ThatArePublicOrInternal;
+
+                // Act
+                Action act = () =>
+                    propertyInfoSelector.Should().BeDecoratedWith<DummyPropertyAttribute>();
+
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
+
+            [Fact]
+            public void
+                When_asserting_properties_are_decorated_with_attribute_and_they_are_not_it_should_throw_with_descriptive_message()
+            {
+                // Arrange
+                var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute));
+
+                // Act
+                Action act = () =>
+                    propertyInfoSelector.Should()
+                                        .BeDecoratedWith<DummyPropertyAttribute>("because we want to test the error {0}", "message");
+
+                // Assert
+                act.Should().Throw<XunitException>()
+                    .WithMessage("Expected all selected properties to be decorated with" +
+                       " FluentAssertions*DummyPropertyAttribute because we want to test the error message," +
+                       " but the following properties are not:*" +
+                       "String FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty*" +
+                       "String FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.InternalProperty*" +
+                       "String FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.ProtectedProperty");
+            }
         }
 
-        #endregion
-
-        #region NotBeVirtual
-
-        [Fact]
-        public void When_asserting_properties_are_not_virtual_and_they_are_not_it_should_succeed()
+        public class NotBeDecoratedWith
         {
-            // Arrange
-            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithNonVirtualPublicProperties));
+            [Fact]
+            public void When_asserting_properties_are_not_decorated_with_attribute_and_they_are_not_it_should_succeed()
+            {
+                // Arrange
+                var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute));
 
-            // Act
-            Action act = () =>
-                propertyInfoSelector.Should().NotBeVirtual();
+                // Act
+                Action act = () =>
+                    propertyInfoSelector.Should().NotBeDecoratedWith<DummyPropertyAttribute>();
 
-            // Assert
-            act.Should().NotThrow();
+                // Assert
+                act.Should().NotThrow();
+            }
+
+            [Fact]
+            public void When_asserting_properties_are_not_decorated_with_attribute_and_they_are_it_should_throw()
+            {
+                // Arrange
+                var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute))
+                    .ThatArePublicOrInternal;
+
+                // Act
+                Action act = () =>
+                    propertyInfoSelector.Should().NotBeDecoratedWith<DummyPropertyAttribute>();
+
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
+
+            [Fact]
+            public void
+                When_asserting_properties_are_not_decorated_with_attribute_and_they_are_it_should_throw_with_descriptive_message()
+            {
+                // Arrange
+                var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute));
+
+                // Act
+                Action act = () =>
+                    propertyInfoSelector.Should()
+                                        .NotBeDecoratedWith<DummyPropertyAttribute>("because we want to test the error {0}", "message");
+
+                // Assert
+                act.Should().Throw<XunitException>()
+                    .WithMessage("Expected all selected properties not to be decorated*" +
+                       "DummyPropertyAttribute*" +
+                       "because we want to test the error message*" +
+                       "ClassWithAllPropertiesDecoratedWithDummyAttribute.PublicProperty*" +
+                       "ClassWithAllPropertiesDecoratedWithDummyAttribute.InternalProperty*" +
+                       "ClassWithAllPropertiesDecoratedWithDummyAttribute.ProtectedProperty*");
+            }
         }
 
-        [Fact]
-        public void When_asserting_properties_are_not_virtual_but_virtual_properties_are_found_it_should_throw()
+        public class BeWritable
         {
-            // Arrange
-            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesVirtual));
+            [Fact]
+            public void When_a_read_only_property_is_expected_to_be_writable_it_should_throw_with_descriptive_message()
+            {
+                // Arrange
+                var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithReadOnlyProperties));
 
-            // Act
-            Action act = () =>
-                propertyInfoSelector.Should().NotBeVirtual();
+                // Act
+                Action action = () => propertyInfoSelector.Should().BeWritable("because we want to test the error {0}", "message");
 
-            // Assert
-            act.Should().Throw<XunitException>();
+                // Assert
+                action
+                    .Should().Throw<XunitException>()
+                    .WithMessage(
+                        "Expected all selected properties to have a setter because we want to test the error message, " +
+                        "but the following properties do not:*" +
+                        "String FluentAssertions*ClassWithReadOnlyProperties.ReadOnlyProperty*" +
+                        "String FluentAssertions*ClassWithReadOnlyProperties.ReadOnlyProperty2");
+            }
+
+            [Fact]
+            public void When_writable_properties_are_expected_to_be_writable_it_should_not_throw()
+            {
+                // Arrange
+                var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithOnlyWritableProperties));
+
+                // Act
+                Action action = () => propertyInfoSelector.Should().BeWritable();
+
+                // Assert
+                action.Should().NotThrow();
+            }
         }
 
-        [Fact]
-        public void
-            When_asserting_properties_are_not_virtual_but_virtual_properties_are_found_it_should_throw_with_descriptive_message()
+        public class NotBeWritable
         {
-            // Arrange
-            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesVirtual));
+            [Fact]
+            public void When_a_writable_property_is_expected_to_be_read_only_it_should_throw_with_descriptive_message()
+            {
+                // Arrange
+                var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithWritableProperties));
 
-            // Act
-            Action act = () =>
-                propertyInfoSelector.Should().NotBeVirtual("we want to test the error {0}", "message");
+                // Act
+                Action action = () => propertyInfoSelector.Should().NotBeWritable("because we want to test the error {0}", "message");
 
-            // Assert
-            act.Should().Throw<XunitException>()
-               .WithMessage("Expected all selected properties" +
-                   " not to be virtual because we want to test the error message," +
-                   " but the following properties are virtual*" +
-                   "*ClassWithAllPropertiesVirtual.PublicVirtualProperty" +
-                   "*ClassWithAllPropertiesVirtual.InternalVirtualProperty" +
-                   "*ClassWithAllPropertiesVirtual.ProtectedVirtualProperty");
+                // Assert
+                action
+                    .Should().Throw<XunitException>()
+                    .WithMessage(
+                        "Expected selected properties to not have a setter because we want to test the error message, " +
+                        "but the following properties do:*" +
+                        "String FluentAssertions*ClassWithWritableProperties.ReadWriteProperty*" +
+                        "String FluentAssertions*ClassWithWritableProperties.ReadWriteProperty2");
+            }
+
+            [Fact]
+            public void When_read_only_properties_are_expected_to_not_be_writable_it_should_not_throw()
+            {
+                // Arrange
+                var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithOnlyReadOnlyProperties));
+
+                // Act
+                Action action = () => propertyInfoSelector.Should().NotBeWritable();
+
+                // Assert
+                action.Should().NotThrow();
+            }
         }
-
-        #endregion
-
-        #region BeDecoratedWith
-
-        [Fact]
-        public void When_asserting_properties_are_decorated_with_attribute_and_they_are_it_should_succeed()
-        {
-            // Arrange
-            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute));
-
-            // Act
-            Action act = () =>
-                propertyInfoSelector.Should().BeDecoratedWith<DummyPropertyAttribute>();
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_asserting_properties_are_decorated_with_attribute_and_they_are_not_it_should_throw()
-        {
-            // Arrange
-            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute))
-                .ThatArePublicOrInternal;
-
-            // Act
-            Action act = () =>
-                propertyInfoSelector.Should().BeDecoratedWith<DummyPropertyAttribute>();
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void
-            When_asserting_properties_are_decorated_with_attribute_and_they_are_not_it_should_throw_with_descriptive_message()
-        {
-            // Arrange
-            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute));
-
-            // Act
-            Action act = () =>
-                propertyInfoSelector.Should()
-                                    .BeDecoratedWith<DummyPropertyAttribute>("because we want to test the error {0}", "message");
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected all selected properties to be decorated with" +
-                   " FluentAssertions*DummyPropertyAttribute because we want to test the error message," +
-                   " but the following properties are not:*" +
-                   "String FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty*" +
-                   "String FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.InternalProperty*" +
-                   "String FluentAssertions*ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.ProtectedProperty");
-        }
-
-        #endregion
-
-        #region NotBeDecoratedWith
-
-        [Fact]
-        public void When_asserting_properties_are_not_decorated_with_attribute_and_they_are_not_it_should_succeed()
-        {
-            // Arrange
-            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute));
-
-            // Act
-            Action act = () =>
-                propertyInfoSelector.Should().NotBeDecoratedWith<DummyPropertyAttribute>();
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_asserting_properties_are_not_decorated_with_attribute_and_they_are_it_should_throw()
-        {
-            // Arrange
-            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute))
-                .ThatArePublicOrInternal;
-
-            // Act
-            Action act = () =>
-                propertyInfoSelector.Should().NotBeDecoratedWith<DummyPropertyAttribute>();
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void
-            When_asserting_properties_are_not_decorated_with_attribute_and_they_are_it_should_throw_with_descriptive_message()
-        {
-            // Arrange
-            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute));
-
-            // Act
-            Action act = () =>
-                propertyInfoSelector.Should()
-                                    .NotBeDecoratedWith<DummyPropertyAttribute>("because we want to test the error {0}", "message");
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected all selected properties not to be decorated*" +
-                   "DummyPropertyAttribute*" +
-                   "because we want to test the error message*" +
-                   "ClassWithAllPropertiesDecoratedWithDummyAttribute.PublicProperty*" +
-                   "ClassWithAllPropertiesDecoratedWithDummyAttribute.InternalProperty*" +
-                   "ClassWithAllPropertiesDecoratedWithDummyAttribute.ProtectedProperty*");
-        }
-
-        #endregion
-
-        #region BeWritable
-
-        [Fact]
-        public void When_a_read_only_property_is_expected_to_be_writable_it_should_throw_with_descriptive_message()
-        {
-            // Arrange
-            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithReadOnlyProperties));
-
-            // Act
-            Action action = () => propertyInfoSelector.Should().BeWritable("because we want to test the error {0}", "message");
-
-            // Assert
-            action
-                .Should().Throw<XunitException>()
-                .WithMessage(
-                    "Expected all selected properties to have a setter because we want to test the error message, " +
-                    "but the following properties do not:*" +
-                    "String FluentAssertions*ClassWithReadOnlyProperties.ReadOnlyProperty*" +
-                    "String FluentAssertions*ClassWithReadOnlyProperties.ReadOnlyProperty2");
-        }
-
-        [Fact]
-        public void When_writable_properties_are_expected_to_be_writable_it_should_not_throw()
-        {
-            // Arrange
-            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithOnlyWritableProperties));
-
-            // Act
-            Action action = () => propertyInfoSelector.Should().BeWritable();
-
-            // Assert
-            action.Should().NotThrow();
-        }
-
-        #endregion
-
-        #region NotBeWritable
-
-        [Fact]
-        public void When_a_writable_property_is_expected_to_be_read_only_it_should_throw_with_descriptive_message()
-        {
-            // Arrange
-            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithWritableProperties));
-
-            // Act
-            Action action = () => propertyInfoSelector.Should().NotBeWritable("because we want to test the error {0}", "message");
-
-            // Assert
-            action
-                .Should().Throw<XunitException>()
-                .WithMessage(
-                    "Expected selected properties to not have a setter because we want to test the error message, " +
-                    "but the following properties do:*" +
-                    "String FluentAssertions*ClassWithWritableProperties.ReadWriteProperty*" +
-                    "String FluentAssertions*ClassWithWritableProperties.ReadWriteProperty2");
-        }
-
-        [Fact]
-        public void When_read_only_properties_are_expected_to_not_be_writable_it_should_not_throw()
-        {
-            // Arrange
-            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithOnlyReadOnlyProperties));
-
-            // Act
-            Action action = () => propertyInfoSelector.Should().NotBeWritable();
-
-            // Assert
-            action.Should().NotThrow();
-        }
-
-        #endregion
     }
 
     #region Internal classes used in unit tests
@@ -375,6 +369,5 @@ namespace FluentAssertions.Specs.Types
 
         protected string ProtectedProperty { get; set; }
     }
-
     #endregion
 }
