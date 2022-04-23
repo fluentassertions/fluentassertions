@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml.Linq;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -1225,6 +1226,151 @@ namespace FluentAssertions.Specs.Xml
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("expected");
+        }
+
+        #endregion
+
+        #region HaveElement (with occurrence)
+
+        [Fact]
+        public void Element_has_two_child_elements_and_it_expected_does_it_succeeds()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act / Assert
+            element.Should().HaveElement("child", Exactly.Twice());
+        }
+
+        [Fact]
+        public void Asserting_element_inside_an_assertion_scope_it_checks_the_whole_assertion_scope_before_failing()
+        {
+            // Arrange
+            XElement element = null;
+
+            // Act
+            Action act = () =>
+            {
+                using (new AssertionScope())
+                {
+                    element.Should().HaveElement("child", Exactly.Twice());
+                    element.Should().HaveElement("child", Exactly.Twice());
+                }
+            };
+
+            // Assert
+            act.Should().NotThrow<NullReferenceException>();
+        }
+
+        [Fact]
+        public void Element_has_two_child_elements_and_three_expected_it_fails()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act
+            Action act = () => element.Should().HaveElement("child", Exactly.Twice());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected element to have an element \"child\"*exactly*2 times, but found it 3 times.");
+        }
+
+        [Fact]
+        public void Element_is_valid_and_expected_null_with_string_overload_it_fails()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act
+            Action act = () => element.Should().HaveElement(null, Exactly.Twice());
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot assert the element has an element if the expected name is <null>.*");
+        }
+
+        [Fact]
+        public void Element_is_valid_and_expected_null_with_x_name_overload_it_fails()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act
+            Action act = () => element.Should().HaveElement((XName)null, Exactly.Twice());
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot assert the element has an element count if the element name is <null>.*");
+        }
+
+        [Fact]
+        public void Chaining_after_a_successful_occurrence_check_does_continue_the_assertion()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act / Assert
+            element.Should().HaveElement("child", AtLeast.Twice())
+                .Which.Should().NotBeNull();
+        }
+
+        [Fact]
+        public void Chaining_after_a_non_successful_occurrence_check_does_not_continue_the_assertion()
+        {
+            // Arrange
+            var element = XElement.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act
+            Action act = () => element.Should().HaveElement("child", Exactly.Once())
+                .Which.Should().NotBeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected element to have an element \"child\"*exactly*1 time, but found it 3 times.");
+        }
+
+        [Fact]
+        public void Null_element_is_expected_to_have_an_element_count_it_should_fail()
+        {
+            // Arrange
+            XElement xElement = null;
+
+            // Act
+            Action act = () => xElement.Should().HaveElement("child", AtLeast.Once());
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected* to have an element with count of *, but the element itself is <null>.");
         }
 
         #endregion

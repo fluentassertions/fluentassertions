@@ -14,6 +14,7 @@ sidebar:
 * Added the ability to exclude fields & properties marked as non-browsable in the code editor from structural equality comparisons - [#1807](https://github.com/fluentassertions/fluentassertions/pull/1807) & [#1812](https://github.com/fluentassertions/fluentassertions/pull/1812)
 * Assertions on the collection types in System.Data (`DataSet.Tables`, `DataTable.Columns`, `DataTable.Rows`) have been restored - [#1812](https://github.com/fluentassertions/fluentassertions/pull/1812)
 * Add `For`/`Exclude` to allow exclusion of members inside a collection - [#1782](https://github.com/fluentassertions/fluentassertions/pull/1782)
+* Added overload for `HaveElement` for `XDocument` and `XElement` to assert on number of XML nodes - [#1880](https://github.com/fluentassertions/fluentassertions/pull/1880)
 
 ## 6.6.0
 

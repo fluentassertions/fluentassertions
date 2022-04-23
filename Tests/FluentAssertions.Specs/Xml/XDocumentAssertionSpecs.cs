@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml.Linq;
+using FluentAssertions.Execution;
 using FluentAssertions.Formatting;
 using Xunit;
 using Xunit.Sdk;
@@ -1155,6 +1156,171 @@ namespace FluentAssertions.Specs.Xml
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>().WithMessage(
                 "Cannot assert the document has an element if the expected name is <null>*");
+        }
+
+        #endregion
+
+        #region HaveElement (with occurrence)
+
+        [Fact]
+        public void When_asserting_document_has_two_child_elements_and_it_does_it_succeeds()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act / Assert
+            document.Should().HaveElement("child", Exactly.Twice());
+        }
+
+        [Fact]
+        public void Asserting_document_null_inside_an_assertion_scope_it_checks_the_whole_assertion_scope_before_failing()
+        {
+            // Arrange
+            XDocument document = null;
+
+            // Act
+            Action act = () =>
+            {
+                using (new AssertionScope())
+                {
+                    document.Should().HaveElement("child", Exactly.Twice());
+                    document.Should().HaveElement("child", Exactly.Twice());
+                }
+            };
+
+            // Assert
+            act.Should().NotThrow<NullReferenceException>();
+        }
+
+        [Fact]
+        public void Asserting_with_document_root_null_inside_an_assertion_scope_it_checks_the_whole_assertion_scope_before_failing()
+        {
+            // Arrange
+            XDocument document = new();
+
+            // Act
+            Action act = () =>
+            {
+                using (new AssertionScope())
+                {
+                    document.Should().HaveElement("child", Exactly.Twice());
+                    document.Should().HaveElement("child", Exactly.Twice());
+                }
+            };
+
+            // Assert
+            act.Should().NotThrow<NullReferenceException>();
+        }
+
+        [Fact]
+        public void When_asserting_document_has_two_child_elements_but_it_does_have_three_it_fails()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act
+            Action act = () => document.Should().HaveElement("child", Exactly.Twice());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected document to have a root element containing a child \"child\"*exactly*2 times, but found it 3 times*");
+        }
+
+        [Fact]
+        public void Document_is_valid_and_expected_null_with_string_overload_it_fails()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act
+            Action act = () => document.Should().HaveElement(null, Exactly.Twice());
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot assert the document has an element if the expected name is <null>.*");
+        }
+
+        [Fact]
+        public void Document_is_valid_and_expected_null_with_x_name_overload_it_fails()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act
+            Action act = () => document.Should().HaveElement((XName)null, Exactly.Twice());
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithMessage(
+                "Cannot assert the document has an element count if the element name is <null>.*");
+        }
+
+        [Fact]
+        public void Chaining_after_a_successful_occurrence_check_does_continue_the_assertion()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act / Assert
+            document.Should().HaveElement("child", AtLeast.Twice())
+                .Which.Should().NotBeNull();
+        }
+
+        [Fact]
+        public void Chaining_after_a_non_successful_occurrence_check_does_not_continue_the_assertion()
+        {
+            // Arrange
+            var document = XDocument.Parse(
+                 @"<parent>
+                    <child />
+                    <child />
+                    <child />
+                  </parent>");
+
+            // Act
+            Action act = () => document.Should().HaveElement("child", Exactly.Once())
+                .Which.Should().NotBeNull();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected document to have a root element containing a child \"child\"*exactly*1 time, but found it 3 times.");
+        }
+
+        [Fact]
+        public void When_asserting_a_null_document_to_have_an_element_count_it_should_fail()
+        {
+            // Arrange
+            XDocument xDocument = null;
+
+            // Act
+            Action act = () => xDocument.Should().HaveElement("child", AtLeast.Once());
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Cannot assert the count if the document itself is <null>.");
         }
 
         #endregion
