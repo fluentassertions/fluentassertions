@@ -241,7 +241,7 @@ namespace FluentAssertions.Specs.Collections
 *Index: 2, Element: 3");
             }
         }
-        
+
         private class SomeClass
         {
             public string Text { get; set; }

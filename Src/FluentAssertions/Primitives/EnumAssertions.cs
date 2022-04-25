@@ -177,7 +177,7 @@ namespace FluentAssertions.Primitives
                 .FailWith("but it is.")
                 .Then
                 .ClearExpectation();
-                
+
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 

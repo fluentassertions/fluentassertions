@@ -955,7 +955,7 @@ namespace FluentAssertions.Specs.Primitives
                 act.Should().NotThrow();
             }
         }
-        
+
         internal class UnserializableClass
         {
             public string Name { get; set; }
@@ -1017,7 +1017,7 @@ namespace FluentAssertions.Specs.Primitives
                 info.AddValue("BirthDay", BirthDay);
             }
         }
-        
+
         public class BeXmlSerializable
         {
             [Fact]

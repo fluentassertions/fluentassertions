@@ -821,7 +821,7 @@ namespace FluentAssertions.Equivalency.Specs
             // Act & Assert
             dataTable.Should().HaveColumn(expectedColumnName);
         }
-        
+
         [Fact]
         public void Null_data_table_has_no_columns_and_fail_the_test()
         {

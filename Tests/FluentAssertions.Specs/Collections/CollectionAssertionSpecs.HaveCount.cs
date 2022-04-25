@@ -176,7 +176,7 @@ namespace FluentAssertions.Specs.Collections
                 collection.GetEnumeratorCallCount.Should().Be(0);
             }
         }
-        
+
         public class NotHaveCount
         {
             [Fact]

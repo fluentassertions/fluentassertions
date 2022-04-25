@@ -110,7 +110,7 @@ namespace FluentAssertions.Specs.Types
                     .WithParameterName("parameterTypes");
             }
         }
-        
+
         public class NotHaveIndexer
         {
             [Fact]

@@ -323,7 +323,7 @@ namespace FluentAssertions.Specs.Collections
                 act.Should().NotThrow();
             }
         }
-        
+
         public class NotEqual
         {
             [Fact]

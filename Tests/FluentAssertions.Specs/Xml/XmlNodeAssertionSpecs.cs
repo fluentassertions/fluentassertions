@@ -173,7 +173,7 @@ namespace FluentAssertions.Specs.Xml
                     .WithMessage("Expected theDocument not to be <null> because we want to test the failure message.");
             }
         }
-        
+
         public class BeEquivalentTo
         {
             [Fact]

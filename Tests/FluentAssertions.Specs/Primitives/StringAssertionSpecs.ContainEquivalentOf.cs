@@ -336,7 +336,7 @@ namespace FluentAssertions.Specs.Primitives
                 act.Should().NotThrow();
             }
         }
-        
+
         public class ContainEquivalentOfLessThan
         {
             [Fact]
