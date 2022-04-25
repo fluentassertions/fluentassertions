@@ -648,7 +648,7 @@ namespace FluentAssertions.Equivalency.Specs
             // Act & Assert
             dataSet.Should().HaveTableCount(correctTableCount);
         }
-        
+
         [Fact]
         public void Null_data_set_fails()
         {

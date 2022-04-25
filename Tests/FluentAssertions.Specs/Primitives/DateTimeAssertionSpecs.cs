@@ -35,7 +35,7 @@ namespace FluentAssertions.Specs.Primitives
                 action.Should().Throw<XunitException>();
             }
         }
-        
+
         public class NotHaveValue
         {
             [Fact]
@@ -829,7 +829,7 @@ namespace FluentAssertions.Specs.Primitives
                     .WithMessage("Expected subject to be before <2016-06-04>, but found <2016-06-04>.");
             }
         }
-        
+
         public class NotBeBefore
         {
             [Fact]
@@ -875,7 +875,7 @@ namespace FluentAssertions.Specs.Primitives
                 act.Should().NotThrow();
             }
         }
-        
+
         public class BeOnOrBefore
         {
             [Fact]
@@ -921,7 +921,7 @@ namespace FluentAssertions.Specs.Primitives
                     .WithMessage("Expected subject to be on or before <2016-06-03>, but found <2016-06-04>.");
             }
         }
-        
+
         public class NotBeOnOrBefore
         {
             [Fact]
@@ -968,7 +968,7 @@ namespace FluentAssertions.Specs.Primitives
                 act.Should().NotThrow();
             }
         }
-        
+
         public class BeAfter
         {
             [Fact]
@@ -1015,7 +1015,7 @@ namespace FluentAssertions.Specs.Primitives
                     .WithMessage("Expected subject to be after <2016-06-04>, but found <2016-06-04>.");
             }
         }
-        
+
         public class NotBeAfter
         {
             [Fact]

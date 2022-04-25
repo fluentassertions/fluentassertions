@@ -87,7 +87,7 @@ namespace FluentAssertions.Specs.Types
                     .WithParameterName("returnType");
             }
         }
-        
+
         public class NotReturn
         {
             [Fact]

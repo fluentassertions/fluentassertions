@@ -74,7 +74,7 @@ namespace FluentAssertions.Specs.Types
                     .WithParameterName("interfaceType");
             }
         }
-        
+
         public class ImplementOfT
         {
             [Fact]

@@ -238,7 +238,7 @@ namespace FluentAssertions.Specs.Collections
                     "Expected strings to contain (x == \"xxx\") because we're checking how it reacts to a null subject, but found <null>.");
             }
         }
-        
+
         public class NotContain
         {
             [Fact]

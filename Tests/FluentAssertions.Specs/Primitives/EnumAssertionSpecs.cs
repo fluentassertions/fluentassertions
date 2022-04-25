@@ -260,7 +260,7 @@ namespace FluentAssertions.Specs.Primitives
                     .WithMessage("*because we want to test the failure message*");
             }
         }
-        
+
         public enum MyEnum
         {
             One = 1,
@@ -584,7 +584,7 @@ namespace FluentAssertions.Specs.Primitives
                     .WithMessage("*because we want to test the failure message*");
             }
         }
-        
+
         public class NotHaveSameNameAs
         {
             [Fact]
@@ -643,7 +643,7 @@ namespace FluentAssertions.Specs.Primitives
                     .WithMessage("*because we want to test the failure message*");
             }
         }
-        
+
         public enum MyEnumOtherValue
         {
             One = 11,
@@ -710,7 +710,7 @@ namespace FluentAssertions.Specs.Primitives
                     .WithMessage("*because we want to test the failure message*");
             }
         }
-        
+
         public class Match
         {
             [Fact]

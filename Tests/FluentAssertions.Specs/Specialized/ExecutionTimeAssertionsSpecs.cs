@@ -73,7 +73,7 @@ namespace FluentAssertions.Specs.Specialized
                 // Arrange
                 Action someAction = () =>
                 {
-                // lets cause a deadlock
+                    // lets cause a deadlock
                     var semaphore = new Semaphore(0, 1); // my weapon of choice is a semaphore
                     semaphore.WaitOne(); // oops
                 };
@@ -177,7 +177,7 @@ namespace FluentAssertions.Specs.Specialized
                 // Arrange
                 Action someAction = () =>
                 {
-                // lets cause a deadlock
+                    // lets cause a deadlock
                     var semaphore = new Semaphore(0, 1); // my weapon of choice is a semaphore
                     semaphore.WaitOne(); // oops
                 };
@@ -254,7 +254,7 @@ namespace FluentAssertions.Specs.Specialized
                 // Arrange
                 Action someAction = () =>
                 {
-                // lets cause a deadlock
+                    // lets cause a deadlock
                     var semaphore = new Semaphore(0, 1); // my weapon of choice is a semaphore
                     semaphore.WaitOne(); // oops
                 };
@@ -330,7 +330,7 @@ namespace FluentAssertions.Specs.Specialized
                 // Arrange
                 Action someAction = () =>
                 {
-                // lets cause a deadlock
+                    // lets cause a deadlock
                     var semaphore = new Semaphore(0, 1); // my weapon of choice is a semaphore
                     semaphore.WaitOne(); // oops
                 };
@@ -425,7 +425,7 @@ namespace FluentAssertions.Specs.Specialized
                 // Arrange
                 Action someAction = () =>
                 {
-                // lets cause a deadlock
+                    // lets cause a deadlock
                     var semaphore = new Semaphore(0, 1); // my weapon of choice is a semaphore
                     semaphore.WaitOne(); // oops
                 };
@@ -463,8 +463,8 @@ namespace FluentAssertions.Specs.Specialized
                 // Act
                 Action act = () =>
                 {
-                // I know it's not meant to be used like this,
-                // but since you can, it should still give consistent results
+                    // I know it's not meant to be used like this,
+                    // but since you can, it should still give consistent results
                     ExecutionTime time = someAction.ExecutionTime();
                     time.Should().BeGreaterThan(100.Milliseconds());
                     time.Should().BeGreaterThan(200.Milliseconds());

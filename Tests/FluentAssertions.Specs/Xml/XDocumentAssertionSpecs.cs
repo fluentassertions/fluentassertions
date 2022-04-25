@@ -363,7 +363,7 @@ namespace FluentAssertions.Specs.Xml
                         "Expected theDocument to be equivalent to \"<parent><child /></parent>\" *failure message*" +
                         ", but found <null>.");
             }
-            
+
             [Fact]
             public void When_assertion_an_xml_document_is_equivalent_to_a_different_xml_document_with_different_namespace_prefix_it_should_succeed()
             {
