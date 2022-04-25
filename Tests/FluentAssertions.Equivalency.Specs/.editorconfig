@@ -127,6 +127,8 @@ dotnet_diagnostic.SA1404.severity = none
 dotnet_diagnostic.SA1502.severity = none
 # SA1600: Elements should be documented
 dotnet_diagnostic.SA1600.severity = none
+# SA1601: Partial elements should be documented
+dotnet_diagnostic.SA1601.severity = none
 # SA1602: Enumeration items should be documented
 dotnet_diagnostic.SA1602.severity = none
 # SA1611: The documentation for parameter is missing
