@@ -16,6 +16,9 @@ sidebar:
 * Add `For`/`Exclude` to allow exclusion of members inside a collection - [#1782](https://github.com/fluentassertions/fluentassertions/pull/1782)
 * Added overload for `HaveElement` for `XDocument` and `XElement` to assert on number of XML nodes - [#1880](https://github.com/fluentassertions/fluentassertions/pull/1880)
 
+### Fixes
+* Fix the failure message for regex matches (occurrence overload) to include the missing subject - [#1913](https://github.com/fluentassertions/fluentassertions/pull/1913)
+
 ## 6.6.0
 
 ### What's New
@@ -31,8 +34,6 @@ sidebar:
 * Ensure `ExcludingMissingMembers` doesn't undo usage of `WithMapping` in `BeEquivalentTo` - [#1838](https://github.com/fluentassertions/fluentassertions/pull/1838)
 * Better handling of NaN in various numeric assertions - [#1822](https://github.com/fluentassertions/fluentassertions/pull/1822) & [#1867](https://github.com/fluentassertions/fluentassertions/pull/1867)
 * `WithMapping` in `BeEquivalentTo` now also works when the root is a collection - [#1858](https://github.com/fluentassertions/fluentassertions/pull/1858)
-
-### Fixes (Extensibility)
 
 ## 6.5.1
 

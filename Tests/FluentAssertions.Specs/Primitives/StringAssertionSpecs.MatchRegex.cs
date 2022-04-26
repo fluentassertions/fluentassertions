@@ -225,7 +225,7 @@ namespace FluentAssertions.Specs.Primitives
 
                 // Assert
                 act.Should().Throw<XunitException>()
-                    .WithMessage($"Expected subject to match regex*\"Lorem.*\" exactly 2 times, but found it 1 time.");
+                    .WithMessage($"Expected subject*Lorem*to match regex*\"Lorem.*\" exactly 2 times, but found it 1 time*");
             }
 
             [Fact]
@@ -252,7 +252,7 @@ namespace FluentAssertions.Specs.Primitives
 
                 // Assert
                 act.Should().Throw<XunitException>()
-                    .WithMessage($"Expected subject to match regex*\"a\" exactly 0 times, but found it 1 time.");
+                    .WithMessage($"Expected subject*a*to match regex*\"a\" exactly 0 times, but found it 1 time*");
             }
 
             [Fact]
@@ -305,7 +305,7 @@ namespace FluentAssertions.Specs.Primitives
 
                 // Assert
                 act.Should().Throw<XunitException>()
-                    .WithMessage($"Expected subject to match regex* at least 1 time, but found it 0 times.*");
+                    .WithMessage($"Expected subject*to match regex* at least 1 time, but found it 0 times*");
             }
 
             [Fact]
