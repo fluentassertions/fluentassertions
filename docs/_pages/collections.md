@@ -80,6 +80,10 @@ IEnumerable<int> otherCollection = new[] { 1, 2, 5, 8, 1 };
 IEnumerable<int> anotherCollection = new[] { 10, 20, 50, 80, 10 };
 collection.Should().IntersectWith(otherCollection);
 collection.Should().NotIntersectWith(anotherCollection);
+
+var singleEquivalent = new[] { new { Size = 42 } };
+singleEquivalent.Should().ContainSingle()
+    .Which.Should().BeEquivalentTo(new { Size = 42 });
 ```
 
 Asserting that a collection contains items in a certain order is as easy as using one of the several overloads of `BeInAscendingOrder` or `BeInDescendingOrder`. The default overload will use the default `Comparer` for the specified type, but overloads also exist that take an `IComparer<T>`, a property expression to sort by an object's property, or a lambda expression to avoid the need for `IComparer<T>` implementations.
