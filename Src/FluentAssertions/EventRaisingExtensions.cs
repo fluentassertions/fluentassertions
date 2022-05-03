@@ -62,35 +62,27 @@ namespace FluentAssertions
 
             Func<T, bool> compiledPredicate = predicate.Compile();
 
-            bool hasArgumentOfRightType = false;
-            var eventsMatchingPredicate = new List<OccurredEvent>();
+            var eventsWithMatchingPredicate = new List<OccurredEvent>();
 
             foreach (OccurredEvent @event in eventRecording)
             {
                 var typedParameters = @event.Parameters.OfType<T>().ToArray();
-                if (typedParameters.Any())
-                {
-                    hasArgumentOfRightType = true;
-                }
 
                 if (typedParameters.Any(parameter => compiledPredicate(parameter)))
                 {
-                    eventsMatchingPredicate.Add(@event);
+                    eventsWithMatchingPredicate.Add(@event);
                 }
             }
 
-            if (!hasArgumentOfRightType)
-            {
-                throw new ArgumentException("No argument of event " + eventRecording.EventName + " is of type <" + typeof(T) + ">.");
-            }
+            bool foundMatchingEvent = eventsWithMatchingPredicate.Any();
 
-            if (!eventsMatchingPredicate.Any())
-            {
-                Execute.Assertion
-                    .FailWith("Expected at least one event with arguments matching {0}, but found none.", predicate.Body);
-            }
+            Execute.Assertion
+                .ForCondition(foundMatchingEvent)
+                .FailWith("Expected at least one event which arguments are of type <{0}> and matches {1}, but found none.",
+                    typeof(T),
+                    predicate.Body);
 
-            return new FilteredEventRecording(eventRecording, eventsMatchingPredicate);
+            return new FilteredEventRecording(eventRecording, eventsWithMatchingPredicate);
         }
 
         /// <summary>
@@ -104,16 +96,12 @@ namespace FluentAssertions
         {
             Func<T, bool>[] compiledPredicates = predicates.Select(p => p?.Compile()).ToArray();
 
-            bool hasArgumentOfRightType = false;
-            var eventsMatchingPredicate = new List<OccurredEvent>();
+            var eventsWithMatchingPredicate = new List<OccurredEvent>();
 
             foreach (OccurredEvent @event in eventRecording)
             {
                 var typedParameters = @event.Parameters.OfType<T>().ToArray();
-                if (typedParameters.Any())
-                {
-                    hasArgumentOfRightType = true;
-                }
+                bool hasArgumentOfRightType = typedParameters.Any();
 
                 if (predicates.Length > typedParameters.Length)
                 {
@@ -121,7 +109,7 @@ namespace FluentAssertions
                         $"Expected the event to have at least {predicates.Length} parameters of type {typeof(T)}, but only found {typedParameters.Length}.");
                 }
 
-                bool isMatch = true;
+                bool isMatch = hasArgumentOfRightType;
                 for (int index = 0; index < predicates.Length && isMatch; index++)
                 {
                     isMatch = compiledPredicates[index]?.Invoke(typedParameters[index]) ?? true;
@@ -129,24 +117,21 @@ namespace FluentAssertions
 
                 if (isMatch)
                 {
-                    eventsMatchingPredicate.Add(@event);
+                    eventsWithMatchingPredicate.Add(@event);
                 }
             }
 
-            if (!hasArgumentOfRightType)
+            bool foundMatchingEvent = eventsWithMatchingPredicate.Any();
+
+            if (!foundMatchingEvent)
             {
-                throw new ArgumentException("No argument of event " + eventRecording.EventName + " is of type <" + typeof(T) + ">.");
+                Execute.Assertion
+                    .FailWith("Expected at least one event which arguments are of type <{0}> and matches {1}, but found none.",
+                        typeof(T),
+                        string.Join(" | ", predicates.Where(p => p is not null).Select(p => p.Body.ToString())));
             }
 
-            if (!eventsMatchingPredicate.Any())
-            {
-                Execute
-                    .Assertion
-                    .FailWith("Expected at least one event with arguments matching {0}, but found none.",
-                    string.Join(" | ", predicates.Where(p => p is not null).Select(p => p.Body.ToString())));
-            }
-
-            return new FilteredEventRecording(eventRecording, eventsMatchingPredicate);
+            return new FilteredEventRecording(eventRecording, eventsWithMatchingPredicate);
         }
     }
 }
