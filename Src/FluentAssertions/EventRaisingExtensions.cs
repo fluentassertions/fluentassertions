@@ -53,8 +53,9 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Asserts that at least one occurrence of the events had at least one of the arguments matching a predicate. Returns
-        /// only the events that matched that predicate.
+        ///  Asserts that at least one occurence of the events had one or more arguments of the expected
+        ///  type <typeparamref name="T"/> which matched the given predicate.
+        ///  Returns only the events that matched both type and optionally a predicate.
         /// </summary>
         public static IEventRecording WithArgs<T>(this IEventRecording eventRecording, Expression<Func<T, bool>> predicate)
         {
@@ -86,8 +87,9 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Asserts that at least one of the occurred events has arguments the match the predicates in the same order. Returns
-        /// only the events that matched those predicates.
+        /// Asserts that at least one occurence of the events had one or more arguments of the expected
+        /// type <typeparamref name="T"/> which matched the predicates in the same order.
+        /// Returns only the events that matched both type and optionally predicates.
         /// </summary>
         /// <remarks>
         /// If a <c>null</c> is provided as predicate argument, the corresponding event parameter value is ignored.
