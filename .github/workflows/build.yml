@@ -21,14 +21,6 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Setup .NET SDKs
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: |
-          2.1.x
-          3.1.x
-          6.0.x
-
     - name: Run NUKE
       run: ./build.ps1
       env:

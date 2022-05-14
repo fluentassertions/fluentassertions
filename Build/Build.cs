@@ -47,7 +47,10 @@ class Build : NukeBuild
 
     [PackageExecutable("nspec", "NSpecRunner.exe", Version = "3.1.0")]
     Tool NSpec3;
-
+    
+    [PathExecutable(name: "pwsh")]
+    readonly Tool PowerShell;
+    
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
 
     AbsolutePath TestResultsDirectory => RootDirectory / "TestResults";
@@ -91,6 +94,7 @@ class Build : NukeBuild
 
     Target Compile => _ => _
         .DependsOn(Restore)
+        .OnlyWhenDynamic(() => IsServerBuild)
         .Executes(() =>
         {
             DotNetBuild(s => s
