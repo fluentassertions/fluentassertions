@@ -3,14 +3,11 @@
   <!-- To reduce build times, we only enable analyzers for the newest TFM -->
   <PropertyGroup>
     <TargetFrameworks>net47;net6.0;netcoreapp2.0;netcoreapp2.1;netcoreapp3.0</TargetFrameworks>
-    <LangVersion>9.0</LangVersion>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\Src\FluentAssertions\FluentAssertions.snk</AssemblyOriginatorKeyFile>
     <IsPackable>false</IsPackable>
     <CodeAnalysisRuleSet>..\..\TestRules.ruleset</CodeAnalysisRuleSet>
     <NoWarn>$(NoWarn),IDE0052,1573,1591,1712</NoWarn>
-    <CheckEolTargetFramework>false</CheckEolTargetFramework>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DebugType>full</DebugType>
   </PropertyGroup>
 

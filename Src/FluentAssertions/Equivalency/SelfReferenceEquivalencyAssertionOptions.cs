@@ -771,12 +771,12 @@ namespace FluentAssertions.Equivalency
 
             foreach (Type valueType in valueTypes)
             {
-                builder.AppendLine($"- Compare {valueType} by value");
+                builder.AppendLine(CultureInfo.InvariantCulture, $"- Compare {valueType} by value");
             }
 
             foreach (Type type in referenceTypes)
             {
-                builder.AppendLine($"- Compare {type} by its members");
+                builder.AppendLine(CultureInfo.InvariantCulture, $"- Compare {type} by its members");
             }
 
             if (excludeNonBrowsableOnExpectation)
