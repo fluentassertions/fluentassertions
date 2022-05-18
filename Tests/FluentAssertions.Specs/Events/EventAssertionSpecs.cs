@@ -179,7 +179,7 @@ namespace FluentAssertions.Specs.Events
                 act
                     .Should().Throw<XunitException>()
                     .WithMessage(
-                        "Expected at least one event with arguments matching (args.PropertyName == \"SomeProperty\"), but found none.");
+                        "Expected at least one event which arguments are of type*PropertyChangedEventArgs*matches*(args.PropertyName == \"SomeProperty\"), but found none.");
             }
 
             [Fact]
@@ -197,8 +197,8 @@ namespace FluentAssertions.Specs.Events
 
                 // Assert
                 act
-                    .Should().Throw<ArgumentException>()
-                    .WithMessage("No argument of event PropertyChanged is of type *CancelEventArgs>*");
+                    .Should().Throw<XunitException>()
+                    .WithMessage("Expected*event*argument*type*CancelEventArgs>*");
             }
 
             [Fact]
@@ -321,7 +321,7 @@ namespace FluentAssertions.Specs.Events
 
                 // Assert
                 act.Should().Throw<XunitException>().WithMessage(
-                    "Expected at least one event with arguments matching (args == " + wrongArgument + "), but found none.");
+                    "Expected at least one event which arguments*type*Int32*matches*(args == " + wrongArgument + "), but found none.");
             }
 
             [Fact]
@@ -340,7 +340,7 @@ namespace FluentAssertions.Specs.Events
 
                 // Assert
                 act.Should().Throw<XunitException>().WithMessage(
-                    "Expected at least one event with arguments matching \"(args == \"" + wrongArgument +
+                    "Expected at least one event which arguments*matches*\"(args == \"" + wrongArgument +
                     "\")\", but found none.");
             }
 
@@ -807,6 +807,157 @@ namespace FluentAssertions.Specs.Events
                 action.Should().NotThrow<InvalidOperationException>();
             }
         }
+
+        public class WithArgs
+        {
+            [Fact]
+            public void One_matching_argument_type_before_mismatching_types_passes()
+            {
+                // Arrange
+                A a = new A();
+                using var aMonitor = a.Monitor();
+
+                a.OnEvent(new B());
+                a.OnEvent(new C());
+
+                // Act / Assert
+                IEventRecording filteredEvents = aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>();
+                filteredEvents.Should().HaveCount(1);
+            }
+
+            [Fact]
+            public void One_matching_argument_type_after_mismatching_types_passes()
+            {
+                // Arrange
+                A a = new A();
+                using var aMonitor = a.Monitor();
+
+                a.OnEvent(new C());
+                a.OnEvent(new B());
+
+                // Act / Assert
+                IEventRecording filteredEvents = aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>();
+                filteredEvents.Should().HaveCount(1);
+            }
+
+            [Fact]
+            public void Throws_when_none_of_the_arguments_are_of_the_expected_type()
+            {
+                // Arrange
+                A a = new A();
+                using var aMonitor = a.Monitor();
+
+                a.OnEvent(new C());
+                a.OnEvent(new C());
+
+                // Act
+                Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>();
+
+                // Assert
+                act.Should().Throw<XunitException>()
+                    .WithMessage("Expected*event*argument*");
+            }
+
+            [Fact]
+            public void One_matching_argument_type_anywhere_between_mismatching_types_passes()
+            {
+                // Arrange
+                A a = new A();
+                using var aMonitor = a.Monitor();
+
+                a.OnEvent(new C());
+                a.OnEvent(new B());
+                a.OnEvent(new C());
+
+                // Act / Assert
+                IEventRecording filteredEvents = aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>();
+                filteredEvents.Should().HaveCount(1);
+            }
+
+            [Fact]
+            public void One_matching_argument_type_anywhere_between_mismatching_types_with_parameters_passes()
+            {
+                // Arrange
+                A a = new A();
+                using var aMonitor = a.Monitor();
+
+                a.OnEvent(new C());
+                a.OnEvent(new B());
+                a.OnEvent(new C());
+
+                // Act / Assert
+                IEventRecording filteredEvents = aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(b => true);
+                filteredEvents.Should().HaveCount(1);
+            }
+
+            [Fact]
+            public void Mismatching_argument_types_with_one_parameter_matching_a_different_type_fails()
+            {
+                // Arrange
+                A a = new A();
+                using var aMonitor = a.Monitor();
+
+                a.OnEvent(new C());
+                a.OnEvent(new C());
+
+                // Act
+                Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(b => true);
+
+                // Assert
+                act.Should().Throw<XunitException>()
+                    .WithMessage("Expected*event*argument*type*B*none*");
+            }
+
+            [Fact]
+            public void Mismatching_argument_types_with_two_or_more_parameters_matching_a_different_type_fails()
+            {
+                // Arrange
+                A a = new A();
+                using var aMonitor = a.Monitor();
+
+                a.OnEvent(new C());
+                a.OnEvent(new C());
+
+                // Act
+                Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(b => true, b => false);
+
+                // Assert
+                act.Should().Throw<ArgumentException>()
+                    .WithMessage("Expected*event*parameters*type*B*found*");
+            }
+
+            [Fact]
+            public void One_matching_argument_type_with_two_or_more_parameters_matching_a_mismatching_type_fails()
+            {
+                // Arrange
+                A a = new A();
+                using var aMonitor = a.Monitor();
+
+                a.OnEvent(new C());
+                a.OnEvent(new B());
+
+                // Act
+                Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(b => true, b => false);
+
+                // Assert
+                act.Should().Throw<ArgumentException>()
+                    .WithMessage("Expected*event*parameters*type*B*found*");
+            }
+        }
+
+        public class A
+        {
+            public event EventHandler<object> Event;
+
+            public void OnEvent(object o)
+            {
+                Event.Invoke(nameof(A), o);
+            }
+        }
+
+        public class B { }
+
+        public class C { }
 
         public class ClassThatRaisesEventsItself : IInheritsEventRaisingInterface
         {

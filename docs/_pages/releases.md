@@ -18,6 +18,7 @@ sidebar:
 
 ### Fixes
 * Fix the failure message for regex matches (occurrence overload) to include the missing subject - [#1913](https://github.com/fluentassertions/fluentassertions/pull/1913)
+* Fixed `WithArgs` matching too many events when at least one argument matched the expected type - [#1920](https://github.com/fluentassertions/fluentassertions/pull/1920)
 
 ## 6.6.0
 
