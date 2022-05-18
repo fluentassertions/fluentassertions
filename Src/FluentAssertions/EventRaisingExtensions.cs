@@ -14,9 +14,11 @@ namespace FluentAssertions
     public static class EventRaisingExtensions
     {
         /// <summary>
-        /// Asserts that all occurrences of the event originated from the <param name="expectedSender"/> and
-        /// returns only the events that came from that sender.
+        /// Asserts that all occurrences of the event originates from the <param name="expectedSender"/>.
         /// </summary>
+        /// <returns>
+        /// Returns only the events that comes from that sender.
+        /// </returns>
         public static IEventRecording WithSender(this IEventRecording eventRecording, object expectedSender)
         {
             var eventsForSender = new List<OccurredEvent>();
@@ -53,10 +55,12 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        ///  Asserts that at least one occurence of the events had one or more arguments of the expected
-        ///  type <typeparamref name="T"/> which matched the given predicate.
-        ///  Returns only the events that matched both type and optionally a predicate.
+        /// Asserts that at least one occurrence of the events has some argument of the expected
+        /// type <typeparamref name="T"/> that matches the given predicate.
         /// </summary>
+        /// <returns>
+        /// Returns only the events having some argument matching both type and predicate.
+        /// </returns>
         public static IEventRecording WithArgs<T>(this IEventRecording eventRecording, Expression<Func<T, bool>> predicate)
         {
             Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
@@ -79,7 +83,7 @@ namespace FluentAssertions
 
             Execute.Assertion
                 .ForCondition(foundMatchingEvent)
-                .FailWith("Expected at least one event which arguments are of type <{0}> and matches {1}, but found none.",
+                .FailWith("Expected at least one event with some argument of type <{0}> that matches {1}, but found none.",
                     typeof(T),
                     predicate.Body);
 
@@ -87,10 +91,12 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Asserts that at least one occurence of the events had one or more arguments of the expected
-        /// type <typeparamref name="T"/> which matched the predicates in the same order.
-        /// Returns only the events that matched both type and optionally predicates.
+        /// Asserts that at least one occurrence of the events has arguments of the expected
+        /// type <typeparamref name="T"/> that pairwise match all the given predicates.
         /// </summary>
+        /// <returns>
+        /// Returns only the events having arguments matching both type and all predicates.
+        /// </returns>
         /// <remarks>
         /// If a <c>null</c> is provided as predicate argument, the corresponding event parameter value is ignored.
         /// </remarks>
@@ -128,7 +134,7 @@ namespace FluentAssertions
             if (!foundMatchingEvent)
             {
                 Execute.Assertion
-                    .FailWith("Expected at least one event which arguments are of type <{0}> and matches {1}, but found none.",
+                    .FailWith("Expected at least one event with some arguments of type <{0}> that pairwise match {1}, but found none.",
                         typeof(T),
                         string.Join(" | ", predicates.Where(p => p is not null).Select(p => p.Body.ToString())));
             }
