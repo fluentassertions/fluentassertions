@@ -40,7 +40,7 @@ namespace FluentAssertions.Equivalency.Matching
             {
                 path = path.WithCollectionAsRoot();
             }
-            
+
             if (path.IsEquivalentTo(expectedMember.PathAndName))
             {
                 var member = MemberFactory.Find(subject, subjectPath.MemberName, expectedMember.Type, parent);

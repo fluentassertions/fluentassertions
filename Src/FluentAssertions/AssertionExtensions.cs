@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
 using System.Reflection;
@@ -383,6 +384,36 @@ namespace FluentAssertions
             where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
         {
             return new GenericDictionaryAssertions<TCollection, TKey, TValue>(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an assertions object that provides methods for asserting the state of a <see cref="DataTableCollection"/>.
+        /// </summary>
+        [Pure]
+        public static GenericCollectionAssertions<DataTable> Should(this DataTableCollection actualValue)
+        {
+            return new GenericCollectionAssertions<DataTable>(
+                ReadOnlyNonGenericCollectionWrapper.Create(actualValue));
+        }
+
+        /// <summary>
+        /// Returns an assertions object that provides methods for asserting the state of a <see cref="DataColumnCollection"/>.
+        /// </summary>
+        [Pure]
+        public static GenericCollectionAssertions<DataColumn> Should(this DataColumnCollection actualValue)
+        {
+            return new GenericCollectionAssertions<DataColumn>(
+                ReadOnlyNonGenericCollectionWrapper.Create(actualValue));
+        }
+
+        /// <summary>
+        /// Returns an assertions object that provides methods for asserting the state of a <see cref="DataRowCollection"/>.
+        /// </summary>
+        [Pure]
+        public static GenericCollectionAssertions<DataRow> Should(this DataRowCollection actualValue)
+        {
+            return new GenericCollectionAssertions<DataRow>(
+                ReadOnlyNonGenericCollectionWrapper.Create(actualValue));
         }
 
         /// <summary>
@@ -1024,6 +1055,22 @@ namespace FluentAssertions
         public static void Should<TEnum, TAssertions>(this EnumAssertions<TEnum, TAssertions> _)
             where TEnum : struct, Enum
             where TAssertions : EnumAssertions<TEnum, TAssertions>
+        {
+            InvalidShouldCall();
+        }
+
+        /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        public static void Should<TAssertions>(this DateTimeRangeAssertions<TAssertions> _)
+            where TAssertions : DateTimeAssertions<TAssertions>
+        {
+            InvalidShouldCall();
+        }
+
+        /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
+        [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+        public static void Should<TAssertions>(this DateTimeOffsetRangeAssertions<TAssertions> _)
+            where TAssertions : DateTimeOffsetAssertions<TAssertions>
         {
             InvalidShouldCall();
         }

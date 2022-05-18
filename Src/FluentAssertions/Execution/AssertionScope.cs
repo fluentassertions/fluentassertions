@@ -205,7 +205,7 @@ namespace FluentAssertions.Execution
         {
             expectation = null;
 
-            // SMELL: Isn't this always going to return null? Or this method also called without FailWidth (which sets the success state to null)
+            // SMELL: Isn't this always going to return null? Or this method also called without FailWith (which sets the success state to null)
             return new Continuation(this, Succeeded);
         }
 

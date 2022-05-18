@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel;
+
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency
@@ -32,5 +34,11 @@ namespace FluentAssertions.Equivalency
         /// Gets the access modifier for the setter of this member.
         /// </summary>
         CSharpAccessModifier SetterAccessibility { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the member is browsable in the source code editor. This is controlled with
+        /// <see cref="EditorBrowsableAttribute"/>.
+        /// </summary>
+        bool IsBrowsable { get; }
     }
 }

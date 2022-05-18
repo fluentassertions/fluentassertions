@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency.Execution;
@@ -38,6 +37,17 @@ namespace FluentAssertions.Equivalency
         {
             AddSelectionRule(new ExcludeMemberByPathSelectionRule(expression.GetMemberPath()));
             return this;
+        }
+
+        /// <summary>
+        /// Selects a collection to define exclusions at.
+        /// Allows to navigate deeper by using <see cref="For{TNext}"/>.
+        /// </summary>
+        public NestedExclusionOptionBuilder<TExpectation, TNext> For<TNext>(Expression<Func<TExpectation, IEnumerable<TNext>>> expression)
+        {
+            var selectionRule = new ExcludeMemberByPathSelectionRule(expression.GetMemberPath());
+            AddSelectionRule(selectionRule);
+            return new NestedExclusionOptionBuilder<TExpectation, TNext>(this, selectionRule);
         }
 
         /// <summary>
