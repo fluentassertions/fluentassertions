@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Reflection;
 using FluentAssertions.Common;
 
@@ -10,6 +11,7 @@ namespace FluentAssertions.Equivalency
     public class Field : Node, IMember
     {
         private readonly FieldInfo fieldInfo;
+        private bool? isBrowsable;
 
         public Field(FieldInfo fieldInfo, INode parent)
             : this(fieldInfo.ReflectedType, fieldInfo, parent)
@@ -42,5 +44,18 @@ namespace FluentAssertions.Equivalency
         public CSharpAccessModifier GetterAccessibility => fieldInfo.GetCSharpAccessModifier();
 
         public CSharpAccessModifier SetterAccessibility => fieldInfo.GetCSharpAccessModifier();
+
+        public bool IsBrowsable
+        {
+            get
+            {
+                if (isBrowsable == null)
+                {
+                    isBrowsable = fieldInfo.GetCustomAttribute<EditorBrowsableAttribute>() is not { State: EditorBrowsableState.Never };
+                }
+
+                return isBrowsable.Value;
+            }
+        }
     }
 }

@@ -49,11 +49,6 @@ namespace FluentAssertions.Primitives
 
         private string CleanNewLines(string input)
         {
-            if (input is null)
-            {
-                return null;
-            }
-
             return IgnoreNewLineDifferences ? input.RemoveNewLines() : input;
         }
 

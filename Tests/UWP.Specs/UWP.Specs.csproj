@@ -87,10 +87,10 @@
       <Version>6.2.13</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestAdapter">
-      <Version>2.2.8</Version>
+      <Version>2.2.9</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestFramework">
-      <Version>2.2.8</Version>
+      <Version>2.2.9</Version>
     </PackageReference>
     <PackageReference Include="System.Xml.XPath.XmlDocument">
       <Version>4.3.0</Version>

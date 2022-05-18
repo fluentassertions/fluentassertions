@@ -7,6 +7,19 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 6.7.0
+
+### What's new
+* Add `BeDefined` and `NotBeDefined` to assert on existence of an enum value - [#1888](https://github.com/fluentassertions/fluentassertions/pull/1888)
+* Added the ability to exclude fields & properties marked as non-browsable in the code editor from structural equality comparisons - [#1807](https://github.com/fluentassertions/fluentassertions/pull/1807) & [#1812](https://github.com/fluentassertions/fluentassertions/pull/1812)
+* Assertions on the collection types in System.Data (`DataSet.Tables`, `DataTable.Columns`, `DataTable.Rows`) have been restored - [#1812](https://github.com/fluentassertions/fluentassertions/pull/1812)
+* Add `For`/`Exclude` to allow exclusion of members inside a collection - [#1782](https://github.com/fluentassertions/fluentassertions/pull/1782)
+* Added overload for `HaveElement` for `XDocument` and `XElement` to assert on number of XML nodes - [#1880](https://github.com/fluentassertions/fluentassertions/pull/1880)
+
+### Fixes
+* Fix the failure message for regex matches (occurrence overload) to include the missing subject - [#1913](https://github.com/fluentassertions/fluentassertions/pull/1913)
+* Fixed `WithArgs` matching too many events when at least one argument matched the expected type - [#1920](https://github.com/fluentassertions/fluentassertions/pull/1920)
+
 ## 6.6.0
 
 ### What's New
@@ -26,7 +39,7 @@ sidebar:
 ## 6.5.1
 
 ### Fixes
-* Fix regression introduced in 6.5.0 where `collection.Should().BeInAscendingOrder(x => x)` would fail - [#1802](https://github.com/fluentassertions/fluentassertions/pull/1802)
+* Fixed regression introduced in 6.5.0 where `collection.Should().BeInAscendingOrder(x => x)` would fail - [#1802](https://github.com/fluentassertions/fluentassertions/pull/1802)
 
 ## 6.5.0
 

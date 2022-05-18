@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -132,7 +134,7 @@ namespace FluentAssertions.Xml
             params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
-                "Cannot assert the document has a root element if the expected name is <null>*");
+                "Cannot assert the document has a root element if the expected name is <null>.");
 
             return HaveRoot(XNamespace.None + expected, because, becauseArgs);
         }
@@ -157,7 +159,7 @@ namespace FluentAssertions.Xml
             }
 
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
-                "Cannot assert the document has a root element if the expected name is <null>*");
+                "Cannot assert the document has a root element if the expected name is <null>.");
 
             XElement root = Subject.Root;
 
@@ -176,7 +178,7 @@ namespace FluentAssertions.Xml
         /// child element with the specified <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">
-        /// The name of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
+        /// The name of the expected child element of the current document's <see cref="XDocument.Root"/> element.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -189,9 +191,35 @@ namespace FluentAssertions.Xml
             params object[] becauseArgs)
         {
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
-                "Cannot assert the document has an element if the expected name is <null>*");
+                "Cannot assert the document has an element if the expected name is <null>.");
 
             return HaveElement(XNamespace.None + expected, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="XDocument.Root"/> element of the current <see cref="XDocument"/> has the specified occurrence of
+        /// child elements with the specified <paramref name="expected"/> name.
+        /// </summary>
+        /// <param name="expected">
+        /// The name of the expected child element of the current document's <see cref="XDocument.Root"/> element.
+        /// </param>
+        /// <param name="occurrenceConstraint">
+        /// A constraint specifying the number of times the specified elements should appear.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndWhichConstraint<XDocumentAssertions, IEnumerable<XElement>> HaveElement(string expected,
+            OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
+                "Cannot assert the document has an element if the expected name is <null>.");
+
+            return HaveElement(XNamespace.None + expected, occurrenceConstraint, because, becauseArgs);
         }
 
         /// <summary>
@@ -199,7 +227,7 @@ namespace FluentAssertions.Xml
         /// child element with the specified <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">
-        /// The full name <see cref="XName"/> of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
+        /// The full name <see cref="XName"/> of the expected child element of the current document's <see cref="XDocument.Root"/> element.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -217,7 +245,7 @@ namespace FluentAssertions.Xml
             }
 
             Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
-                    "Cannot assert the document has an element if the expected name is <null>*");
+                    "Cannot assert the document has an element if the expected name is <null>.");
 
             Execute.Assertion
                 .ForCondition(Subject.Root is not null)
@@ -235,6 +263,65 @@ namespace FluentAssertions.Xml
                     expected.ToString());
 
             return new AndWhichConstraint<XDocumentAssertions, XElement>(this, xElement);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="XDocument.Root"/> element of the current <see cref="XDocument"/> has the specified occurrence of
+        /// child elements with the specified <paramref name="expected"/> name.
+        /// </summary>
+        /// <param name="expected">
+        /// The full name <see cref="XName"/> of the expected child element of the current document's <see cref="XDocument.Root"/> element.
+        /// </param>
+        /// <param name="occurrenceConstraint">
+        /// A constraint specifying the number of times the specified elements should appear.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+        /// </param>
+        public AndWhichConstraint<XDocumentAssertions, IEnumerable<XElement>> HaveElement(XName expected,
+            OccurrenceConstraint occurrenceConstraint, string because = "",
+            params object[] becauseArgs)
+        {
+            Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
+                    "Cannot assert the document has an element count if the element name is <null>.");
+
+            bool success = Execute.Assertion
+                .ForCondition(Subject is not null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Cannot assert the count if the document itself is <null>.");
+
+            IEnumerable<XElement> xElements = Enumerable.Empty<XElement>();
+
+            if (success)
+            {
+                var root = Subject.Root;
+                success = Execute.Assertion
+                    .ForCondition(root is not null)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        "Expected {context:subject} to have root element containing a child {0}{reason}, but it has no root element.",
+                        expected.ToString());
+
+                if (success)
+                {
+                    xElements = root.Elements(expected);
+                    int actual = xElements.Count();
+
+                    Execute.Assertion
+                        .ForConstraint(occurrenceConstraint, actual)
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith(
+                            $"Expected {{context:subject}} to have a root element containing a child {{0}} " +
+                            $"{{expectedOccurrence}}{{reason}}, but found it {actual.Times()}.",
+                            expected.ToString());
+                }
+            }
+
+            return new AndWhichConstraint<XDocumentAssertions, IEnumerable<XElement>>(this, xElements);
         }
 
         /// <summary>

@@ -440,7 +440,7 @@ namespace FluentAssertions.Equivalency.Specs
 
             var expectation = new
             {
-                Property2 = 2, 
+                Property2 = 2,
                 Ignore = 3
             };
 
@@ -463,7 +463,7 @@ namespace FluentAssertions.Equivalency.Specs
 
             var expectation = new
             {
-                Property2 = 2, 
+                Property2 = 2,
                 Ignore = 3
             };
 
@@ -484,13 +484,13 @@ namespace FluentAssertions.Equivalency.Specs
                 EntityId = 1,
                 Name = "Test"
             };
-            
+
             var dto = new EntityDto
             {
                 Id = 1,
                 Name = "Test"
             };
-          
+
             var entityCol = new[] { entity };
             var dtoCol = new[] { dto };
 

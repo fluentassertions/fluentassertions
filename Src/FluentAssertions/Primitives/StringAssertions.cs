@@ -507,8 +507,9 @@ namespace FluentAssertions.Primitives
                     .ForConstraint(occurrenceConstraint, actual)
                     .UsingLineBreaks
                     .BecauseOf(because, becauseArgs)
-                    .FailWith($"Expected {{context:string}} to match regex {{0}} {{expectedOccurrence}}{{reason}}, but found it {actual.Times()}.",
-                        regexStr);
+                    .FailWith($"Expected {{context:string}} {{0}} to match regex {{1}} {{expectedOccurrence}}{{reason}}, " +
+                        $"but found it {actual.Times()}.",
+                        Subject, regexStr);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);

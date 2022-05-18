@@ -12,1338 +12,1541 @@ namespace FluentAssertions.Specs.Collections
     public class GenericDictionaryAssertionSpecs
     {
         // If you try to implement support for IReadOnlyDictionary, these tests should still succeed.
-        #region Sanity Checks
-
-        [Fact]
-        public void When_the_same_dictionaries_are_expected_to_be_the_same_it_should_not_fail()
+        public class SanityChecks
         {
-            // Arrange
-            IDictionary<int, string> dictionary = new Dictionary<int, string>();
-            IDictionary<int, string> referenceToDictionary = dictionary;
-
-            // Act / Assert
-            dictionary.Should().BeSameAs(referenceToDictionary);
-        }
-
-        [Fact]
-        public void When_the_same_custom_dictionaries_are_expected_to_be_the_same_it_should_not_fail()
-        {
-            // Arrange
-            IDictionary<int, string> dictionary = new DictionaryNotImplementingIReadOnlyDictionary<int, string>();
-            IDictionary<int, string> referenceToDictionary = dictionary;
-
-            // Act / Assert
-            dictionary.Should().BeSameAs(referenceToDictionary);
-        }
-
-        [Fact]
-        public void When_object_type_is_exactly_equal_to_the_specified_type_it_should_not_fail()
-        {
-            // Arrange
-            IDictionary<int, string> dictionary = new DictionaryNotImplementingIReadOnlyDictionary<int, string>();
-
-            // Act / Assert
-            dictionary.Should().BeOfType<DictionaryNotImplementingIReadOnlyDictionary<int, string>>();
-        }
-
-        [Fact]
-        public void When_a_dictionary_does_not_implement_the_read_only_interface_it_should_have_dictionary_assertions()
-        {
-            // Arrange
-            IDictionary<int, string> dictionary = new DictionaryNotImplementingIReadOnlyDictionary<int, string>();
-
-            // Act / Assert
-            dictionary.Should().NotContainKey(0, "Dictionaries not implementing IReadOnlyDictionary<TKey, TValue> "
-                + "should be supported at least until Fluent Assertions 6.0.");
-        }
-
-        #endregion
-
-        #region Be Null
-
-        [Fact]
-        public void When_dictionary_is_expected_to_be_null_and_it_is_it_should_not_throw()
-        {
-            // Arrange
-            IDictionary<int, string> someDictionary = null;
-
-            // Act / Assert
-            someDictionary.Should().BeNull();
-        }
-
-        [Fact]
-        public void When_a_custom_dictionary_implementation_is_expected_not_to_be_null_and_it_is_it_should_not_throw()
-        {
-            // Arrange
-            var dictionary = new TrackingTestDictionary();
-
-            // Act / Assert
-            dictionary.Should().NotBeNull();
-        }
-
-        [Fact]
-        public void When_dictionary_is_expected_to_be_null_and_it_isnt_it_should_throw()
-        {
-            // Arrange
-            var someDictionary = new Dictionary<int, string>();
-
-            // Act
-            Action act = () => someDictionary.Should().BeNull("because {0} is valid", "null");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected someDictionary to be <null> because null is valid, but found {empty}.");
-        }
-
-        [Fact]
-        public void When_dictionary_is_not_expected_to_be_null_and_it_isnt_it_should_not_throw()
-        {
-            // Arrange
-            IDictionary<int, string> someDictionary = new Dictionary<int, string>();
-
-            // Act / Assert
-            someDictionary.Should().NotBeNull();
-        }
-
-        [Fact]
-        public void When_dictionary_is_not_expected_to_be_null_and_it_is_it_should_throw()
-        {
-            // Arrange
-            IDictionary<int, string> someDictionary = null;
-
-            // Act
-            Action act = () => someDictionary.Should().NotBeNull("because {0} should not", "someDictionary");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected someDictionary not to be <null> because someDictionary should not.");
-        }
-
-        #endregion
-
-        #region Have Count
-
-        [Fact]
-        public void Should_succeed_when_asserting_dictionary_has_a_count_that_equals_the_number_of_items()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_the_same_dictionaries_are_expected_to_be_the_same_it_should_not_fail()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
+                // Arrange
+                IDictionary<int, string> dictionary = new Dictionary<int, string>();
+                IDictionary<int, string> referenceToDictionary = dictionary;
 
-            // Act / Assert
-            dictionary.Should().HaveCount(3);
-        }
+                // Act / Assert
+                dictionary.Should().BeSameAs(referenceToDictionary);
+            }
 
-        [Fact]
-        public void Should_fail_when_asserting_dictionary_has_a_count_that_is_different_from_the_number_of_items()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_the_same_custom_dictionaries_are_expected_to_be_the_same_it_should_not_fail()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
+                // Arrange
+                IDictionary<int, string> dictionary = new DictionaryNotImplementingIReadOnlyDictionary<int, string>();
+                IDictionary<int, string> referenceToDictionary = dictionary;
 
-            // Act
-            Action act = () => dictionary.Should().HaveCount(4);
+                // Act / Assert
+                dictionary.Should().BeSameAs(referenceToDictionary);
+            }
 
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void
-            When_dictionary_has_a_count_that_is_different_from_the_number_of_items_it_should_fail_with_descriptive_message_()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_object_type_is_exactly_equal_to_the_specified_type_it_should_not_fail()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
+                // Arrange
+                IDictionary<int, string> dictionary = new DictionaryNotImplementingIReadOnlyDictionary<int, string>();
 
-            // Act
-            Action action = () => dictionary.Should().HaveCount(4, "because we want to test the failure {0}", "message");
+                // Act / Assert
+                dictionary.Should().BeOfType<DictionaryNotImplementingIReadOnlyDictionary<int, string>>();
+            }
 
-            // Assert
-            action.Should().Throw<XunitException>()
-                .WithMessage("Expected dictionary to contain 4 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
-        }
-
-        [Fact]
-        public void When_dictionary_has_a_count_larger_than_the_minimum_it_should_not_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_a_dictionary_does_not_implement_the_read_only_interface_it_should_have_dictionary_assertions()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
+                // Arrange
+                IDictionary<int, string> dictionary = new DictionaryNotImplementingIReadOnlyDictionary<int, string>();
 
-            // Act / Assert
-            dictionary.Should().HaveCount(c => c >= 3);
+                // Act / Assert
+                dictionary.Should().NotContainKey(0, "Dictionaries not implementing IReadOnlyDictionary<TKey, TValue> "
+                    + "should be supported at least until Fluent Assertions 6.0.");
+            }
         }
 
-        [Fact]
-        public void When_dictionary_has_a_count_that_not_matches_the_predicate_it_should_throw()
+        public class BeNull
         {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_is_expected_to_be_null_and_it_is_it_should_not_throw()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
+                // Arrange
+                IDictionary<int, string> someDictionary = null;
 
-            // Act
-            Action act = () => dictionary.Should().HaveCount(c => c >= 4, "a minimum of 4 is required");
+                // Act / Assert
+                someDictionary.Should().BeNull();
+            }
 
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to have a count (c >= 4) because a minimum of 4 is required, but count is 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
-        }
-
-        [Fact]
-        public void When_dictionary_count_is_matched_against_a_null_predicate_it_should_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_a_custom_dictionary_implementation_is_expected_not_to_be_null_and_it_is_it_should_not_throw()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
+                // Arrange
+                var dictionary = new TrackingTestDictionary();
 
-            // Act
-            Action act = () => dictionary.Should().HaveCount(null);
+                // Act / Assert
+                dictionary.Should().NotBeNull();
+            }
 
-            // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
-                "Cannot compare collection count against a <null> predicate.*");
-        }
-
-        [Fact]
-        public void When_dictionary_count_is_matched_and_dictionary_is_null_it_should_throw()
-        {
-            // Arrange
-            Dictionary<int, string> dictionary = null;
-
-            // Act
-            Action act = () => dictionary.Should().HaveCount(1, "we want to test the behaviour with a null subject");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to contain 1 item(s) because we want to test the behaviour with a null subject, but found <null>.");
-        }
-
-        [Fact]
-        public void When_dictionary_count_is_matched_against_a_predicate_and_dictionary_is_null_it_should_throw()
-        {
-            // Arrange
-            Dictionary<int, string> dictionary = null;
-
-            // Act
-            Action act = () => dictionary.Should().HaveCount(c => c < 3, "we want to test the behaviour with a null subject");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to contain (c < 3) items because we want to test the behaviour with a null subject, but found <null>.");
-        }
-
-        #endregion
-
-        #region Not Have Count
-
-        [Fact]
-        public void Should_succeed_when_asserting_dictionary_has_a_count_different_from_the_number_of_items()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_is_expected_to_be_null_and_it_isnt_it_should_throw()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
+                // Arrange
+                var someDictionary = new Dictionary<int, string>();
 
-            // Act / Assert
-            dictionary.Should().NotHaveCount(2);
-        }
+                // Act
+                Action act = () => someDictionary.Should().BeNull("because {0} is valid", "null");
 
-        [Fact]
-        public void Should_fail_when_asserting_dictionary_has_a_count_that_equals_the_number_of_items()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected someDictionary to be <null> because null is valid, but found {empty}.");
+            }
+
+            [Fact]
+            public void When_dictionary_is_not_expected_to_be_null_and_it_isnt_it_should_not_throw()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
+                // Arrange
+                IDictionary<int, string> someDictionary = new Dictionary<int, string>();
 
-            // Act
-            Action act = () => dictionary.Should().NotHaveCount(3);
+                // Act / Assert
+                someDictionary.Should().NotBeNull();
+            }
 
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_dictionary_has_a_count_that_equals_than_the_number_of_items_it_should_fail_with_descriptive_message_()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_is_not_expected_to_be_null_and_it_is_it_should_throw()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
+                // Arrange
+                IDictionary<int, string> someDictionary = null;
 
-            // Act
-            Action action = () => dictionary.Should().NotHaveCount(3, "because we want to test the failure {0}", "message");
+                // Act
+                Action act = () => someDictionary.Should().NotBeNull("because {0} should not", "someDictionary");
 
-            // Assert
-            action.Should().Throw<XunitException>()
-                .WithMessage("*not contain*3*because we want to test the failure message*3*");
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected someDictionary not to be <null> because someDictionary should not.");
+            }
         }
 
-        [Fact]
-        public void When_dictionary_count_is_same_than_and_dictionary_is_null_it_should_throw()
+        public class HaveCount
         {
-            // Arrange
-            Dictionary<int, string> dictionary = null;
-
-            // Act
-            Action act = () => dictionary.Should().NotHaveCount(1, "we want to test the behaviour with a null subject");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage("*not contain*1*we want to test the behaviour with a null subject*found <null>*");
-        }
-
-        #endregion
-
-        #region Have Count Greater Than
-
-        [Fact]
-        public void Should_succeed_when_asserting_dictionary_has_a_count_greater_than_less_the_number_of_items()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void Should_succeed_when_asserting_dictionary_has_a_count_that_equals_the_number_of_items()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
 
-            // Act / Assert
-            dictionary.Should().HaveCountGreaterThan(2);
-        }
+                // Act / Assert
+                dictionary.Should().HaveCount(3);
+            }
 
-        [Fact]
-        public void Should_fail_when_asserting_dictionary_has_a_count_greater_than_the_number_of_items()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void Should_fail_when_asserting_dictionary_has_a_count_that_is_different_from_the_number_of_items()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
 
-            // Act
-            Action act = () => dictionary.Should().HaveCountGreaterThan(3);
+                // Act
+                Action act = () => dictionary.Should().HaveCount(4);
 
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
 
-        [Fact]
-        public void When_dictionary_has_a_count_greater_than_the_number_of_items_it_should_fail_with_descriptive_message_()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void
+                When_dictionary_has_a_count_that_is_different_from_the_number_of_items_it_should_fail_with_descriptive_message_()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
 
-            // Act
-            Action action = () => dictionary.Should().HaveCountGreaterThan(3, "because we want to test the failure {0}", "message");
+                // Act
+                Action action = () => dictionary.Should().HaveCount(4, "because we want to test the failure {0}", "message");
 
-            // Assert
-            action.Should().Throw<XunitException>()
-                .WithMessage("Expected dictionary to contain more than 3 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
-        }
+                // Assert
+                action.Should().Throw<XunitException>()
+                    .WithMessage("Expected dictionary to contain 4 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
+            }
 
-        [Fact]
-        public void When_dictionary_count_is_greater_than_and_dictionary_is_null_it_should_throw()
-        {
-            // Arrange
-            Dictionary<int, string> dictionary = null;
-
-            // Act
-            Action act = () => dictionary.Should().HaveCountGreaterThan(1, "we want to test the behaviour with a null subject");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage("*more than*1*we want to test the behaviour with a null subject*found <null>*");
-        }
-
-        #endregion
-
-        #region Have Count Greater Than Or Equal To
-
-        [Fact]
-        public void Should_succeed_when_asserting_dictionary_has_a_count_greater_than_or_equal_to_less_the_number_of_items()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_has_a_count_larger_than_the_minimum_it_should_not_throw()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
 
-            // Act / Assert
-            dictionary.Should().HaveCountGreaterThanOrEqualTo(3);
-        }
+                // Act / Assert
+                dictionary.Should().HaveCount(c => c >= 3);
+            }
 
-        [Fact]
-        public void Should_fail_when_asserting_dictionary_has_a_count_greater_than_or_equal_to_the_number_of_items()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_has_a_count_that_not_matches_the_predicate_it_should_throw()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
 
-            // Act
-            Action act = () => dictionary.Should().HaveCountGreaterThanOrEqualTo(4);
+                // Act
+                Action act = () => dictionary.Should().HaveCount(c => c >= 4, "a minimum of 4 is required");
 
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary to have a count (c >= 4) because a minimum of 4 is required, but count is 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
+            }
 
-        [Fact]
-        public void When_dictionary_has_a_count_greater_than_or_equal_to_the_number_of_items_it_should_fail_with_descriptive_message_()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_count_is_matched_against_a_null_predicate_it_should_throw()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
 
-            // Act
-            Action action = () => dictionary.Should().HaveCountGreaterThanOrEqualTo(4, "because we want to test the failure {0}", "message");
+                // Act
+                Action act = () => dictionary.Should().HaveCount(null);
 
-            // Assert
-            action.Should().Throw<XunitException>()
-                .WithMessage("Expected dictionary to contain at least 4 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
-        }
+                // Assert
+                act.Should().Throw<ArgumentNullException>().WithMessage(
+                    "Cannot compare collection count against a <null> predicate.*");
+            }
 
-        [Fact]
-        public void When_dictionary_count_is_greater_than_or_equal_to_and_dictionary_is_null_it_should_throw()
-        {
-            // Arrange
-            Dictionary<int, string> dictionary = null;
-
-            // Act
-            Action act = () => dictionary.Should().HaveCountGreaterThanOrEqualTo(1, "we want to test the behaviour with a null subject");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage("*at least*1*we want to test the behaviour with a null subject*found <null>*");
-        }
-
-        #endregion
-
-        #region Have Count Less Than
-
-        [Fact]
-        public void Should_succeed_when_asserting_dictionary_has_a_count_less_than_less_the_number_of_items()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_count_is_matched_and_dictionary_is_null_it_should_throw()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
+                // Arrange
+                Dictionary<int, string> dictionary = null;
 
-            // Act / Assert
-            dictionary.Should().HaveCountLessThan(4);
-        }
+                // Act
+                Action act = () => dictionary.Should().HaveCount(1, "we want to test the behaviour with a null subject");
 
-        [Fact]
-        public void Should_fail_when_asserting_dictionary_has_a_count_less_than_the_number_of_items()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary to contain 1 item(s) because we want to test the behaviour with a null subject, but found <null>.");
+            }
+
+            [Fact]
+            public void When_dictionary_count_is_matched_against_a_predicate_and_dictionary_is_null_it_should_throw()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
+                // Arrange
+                Dictionary<int, string> dictionary = null;
 
-            // Act
-            Action act = () => dictionary.Should().HaveCountLessThan(3);
+                // Act
+                Action act = () => dictionary.Should().HaveCount(c => c < 3, "we want to test the behaviour with a null subject");
 
-            // Assert
-            act.Should().Throw<XunitException>();
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary to contain (c < 3) items because we want to test the behaviour with a null subject, but found <null>.");
+            }
         }
 
-        [Fact]
-        public void When_dictionary_has_a_count_less_than_the_number_of_items_it_should_fail_with_descriptive_message_()
+        public class NotHaveCount
         {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void Should_succeed_when_asserting_dictionary_has_a_count_different_from_the_number_of_items()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
 
-            // Act
-            Action action = () => dictionary.Should().HaveCountLessThan(3, "because we want to test the failure {0}", "message");
+                // Act / Assert
+                dictionary.Should().NotHaveCount(2);
+            }
 
-            // Assert
-            action.Should().Throw<XunitException>()
-                .WithMessage("Expected dictionary to contain fewer than 3 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
-        }
-
-        [Fact]
-        public void When_dictionary_count_is_less_than_and_dictionary_is_null_it_should_throw()
-        {
-            // Arrange
-            Dictionary<int, string> dictionary = null;
-
-            // Act
-            Action act = () => dictionary.Should().HaveCountLessThan(1, "we want to test the behaviour with a null subject");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage("*fewer than*1*we want to test the behaviour with a null subject*found <null>*");
-        }
-
-        #endregion
-
-        #region Have Count Less Than Or Equal To
-
-        [Fact]
-        public void Should_succeed_when_asserting_dictionary_has_a_count_less_than_or_equal_to_less_the_number_of_items()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void Should_fail_when_asserting_dictionary_has_a_count_that_equals_the_number_of_items()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
 
-            // Act / Assert
-            dictionary.Should().HaveCountLessThanOrEqualTo(3);
-        }
+                // Act
+                Action act = () => dictionary.Should().NotHaveCount(3);
 
-        [Fact]
-        public void Should_fail_when_asserting_dictionary_has_a_count_less_than_or_equal_to_the_number_of_items()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
+
+            [Fact]
+            public void When_dictionary_has_a_count_that_equals_than_the_number_of_items_it_should_fail_with_descriptive_message_()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
 
-            // Act
-            Action act = () => dictionary.Should().HaveCountLessThanOrEqualTo(2);
+                // Act
+                Action action = () => dictionary.Should().NotHaveCount(3, "because we want to test the failure {0}", "message");
 
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
+                // Assert
+                action.Should().Throw<XunitException>()
+                    .WithMessage("*not contain*3*because we want to test the failure message*3*");
+            }
 
-        [Fact]
-        public void When_dictionary_has_a_count_less_than_or_equal_to_the_number_of_items_it_should_fail_with_descriptive_message_()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_count_is_same_than_and_dictionary_is_null_it_should_throw()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
+                // Arrange
+                Dictionary<int, string> dictionary = null;
 
-            // Act
-            Action action = () => dictionary.Should().HaveCountLessThanOrEqualTo(2, "because we want to test the failure {0}", "message");
+                // Act
+                Action act = () => dictionary.Should().NotHaveCount(1, "we want to test the behaviour with a null subject");
 
-            // Assert
-            action.Should().Throw<XunitException>()
-                .WithMessage("Expected dictionary to contain at most 2 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage("*not contain*1*we want to test the behaviour with a null subject*found <null>*");
+            }
         }
 
-        [Fact]
-        public void When_dictionary_count_is_less_than_or_equal_to_and_dictionary_is_null_it_should_throw()
+        public class HaveCountGreaterThan
         {
-            // Arrange
-            Dictionary<int, string> dictionary = null;
-
-            // Act
-            Action act = () => dictionary.Should().HaveCountLessThanOrEqualTo(1, "we want to test the behaviour with a null subject");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage("*at most*1*we want to test the behaviour with a null subject*found <null>*");
-        }
-
-        #endregion
-
-        #region Have Same Count
-
-        [Fact]
-        public void When_dictionary_and_collection_have_the_same_number_elements_it_should_succeed()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void Should_succeed_when_asserting_dictionary_has_a_count_greater_than_less_the_number_of_items()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
-            var collection = new[] { 4, 5, 6 };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
 
-            // Act / Assert
-            dictionary.Should().HaveSameCount(collection);
-        }
+                // Act / Assert
+                dictionary.Should().HaveCountGreaterThan(2);
+            }
 
-        [Fact]
-        public void When_dictionary_and_collection_do_not_have_the_same_number_of_elements_it_should_fail()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void Should_fail_when_asserting_dictionary_has_a_count_greater_than_the_number_of_items()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
-            var collection = new[] { 4, 6 };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
 
-            // Act
-            Action act = () => dictionary.Should().HaveSameCount(collection);
+                // Act
+                Action act = () => dictionary.Should().HaveCountGreaterThan(3);
 
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to have 2 item(s), but found 3.");
-        }
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
 
-        [Fact]
-        public void When_comparing_item_counts_and_a_reason_is_specified_it_should_it_in_the_exception()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_has_a_count_greater_than_the_number_of_items_it_should_fail_with_descriptive_message_()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
-            var collection = new[] { 4, 6 };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
 
-            // Act
-            Action act = () => dictionary.Should().HaveSameCount(collection, "we want to test the {0}", "reason");
+                // Act
+                Action action = () => dictionary.Should().HaveCountGreaterThan(3, "because we want to test the failure {0}", "message");
 
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to have 2 item(s) because we want to test the reason, but found 3.");
-        }
+                // Assert
+                action.Should().Throw<XunitException>()
+                    .WithMessage("Expected dictionary to contain more than 3 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
+            }
 
-        [Fact]
-        public void When_asserting_dictionary_and_collection_have_same_count_against_null_dictionary_it_should_throw()
-        {
-            // Arrange
-            Dictionary<string, int> dictionary = null;
-            var collection = new[] { 1, 2, 3 };
-
-            // Act
-            Action act = () => dictionary.Should().HaveSameCount(collection,
-                "because we want to test the behaviour with a null subject");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to have the same count as {1, 2, 3} because we want to test the behaviour with a null subject, but found <null>.");
-        }
-
-        [Fact]
-        public void When_asserting_dictionary_and_collection_have_same_count_against_a_null_collection_it_should_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_count_is_greater_than_and_dictionary_is_null_it_should_throw()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
-            int[] collection = null;
+                // Arrange
+                Dictionary<int, string> dictionary = null;
 
-            // Act
-            Action act = () => dictionary.Should().HaveSameCount(collection);
+                // Act
+                Action act = () => dictionary.Should().HaveCountGreaterThan(1, "we want to test the behaviour with a null subject");
 
-            // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
-                "Cannot verify count against a <null> collection.*");
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage("*more than*1*we want to test the behaviour with a null subject*found <null>*");
+            }
         }
 
-        #endregion
-
-        #region Not Have Same Count
-
-        [Fact]
-        public void When_asserting_not_same_count_and_collections_have_different_number_elements_it_should_succeed()
+        public class HaveCountGreaterThanOrEqualTo
         {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void Should_succeed_when_asserting_dictionary_has_a_count_greater_than_or_equal_to_less_the_number_of_items()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
-            var collection = new[] { 4, 6 };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
 
-            // Act / Assert
-            dictionary.Should().NotHaveSameCount(collection);
-        }
+                // Act / Assert
+                dictionary.Should().HaveCountGreaterThanOrEqualTo(3);
+            }
 
-        [Fact]
-        public void When_asserting_not_same_count_and_both_collections_have_the_same_number_elements_it_should_fail()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void Should_fail_when_asserting_dictionary_has_a_count_greater_than_or_equal_to_the_number_of_items()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
-            var collection = new[] { 4, 5, 6 };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
 
-            // Act
-            Action act = () => dictionary.Should().NotHaveSameCount(collection);
+                // Act
+                Action act = () => dictionary.Should().HaveCountGreaterThanOrEqualTo(4);
 
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to not have 3 item(s), but found 3.");
-        }
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
 
-        [Fact]
-        public void When_comparing_not_same_item_counts_and_a_reason_is_specified_it_should_it_in_the_exception()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_has_a_count_greater_than_or_equal_to_the_number_of_items_it_should_fail_with_descriptive_message_()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
-            var collection = new[] { 4, 5, 6 };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
 
-            // Act
-            Action act = () => dictionary.Should().NotHaveSameCount(collection, "we want to test the {0}", "reason");
+                // Act
+                Action action = () => dictionary.Should().HaveCountGreaterThanOrEqualTo(4, "because we want to test the failure {0}", "message");
 
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to not have 3 item(s) because we want to test the reason, but found 3.");
-        }
+                // Assert
+                action.Should().Throw<XunitException>()
+                    .WithMessage("Expected dictionary to contain at least 4 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
+            }
 
-        [Fact]
-        public void When_asserting_dictionary_and_collection_to_not_have_same_count_against_null_dictionary_it_should_throw()
-        {
-            // Arrange
-            Dictionary<int, string> dictionary = null;
-            var collection = new[] { 1, 2, 3 };
-
-            // Act
-            Action act = () => dictionary.Should().NotHaveSameCount(collection,
-                "because we want to test the behaviour with a null subject");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to not have the same count as {1, 2, 3} because we want to test the behaviour with a null subject, but found <null>.");
-        }
-
-        [Fact]
-        public void When_asserting_dictionary_and_collection_to_not_have_same_count_against_a_null_collection_it_should_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_count_is_greater_than_or_equal_to_and_dictionary_is_null_it_should_throw()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
-            int[] collection = null;
+                // Arrange
+                Dictionary<int, string> dictionary = null;
 
-            // Act
-            Action act = () => dictionary.Should().NotHaveSameCount(collection);
+                // Act
+                Action act = () => dictionary.Should().HaveCountGreaterThanOrEqualTo(1, "we want to test the behaviour with a null subject");
 
-            // Assert
-            act.Should().Throw<ArgumentNullException>().WithMessage(
-                "Cannot verify count against a <null> collection.*");
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage("*at least*1*we want to test the behaviour with a null subject*found <null>*");
+            }
         }
 
-        [Fact]
-        public void When_asserting_dictionary_and_collection_to_not_have_same_count_but_both_reference_the_same_object_it_should_throw()
+        public class HaveCountLessThan
         {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void Should_succeed_when_asserting_dictionary_has_a_count_less_than_less_the_number_of_items()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
-            var collection = dictionary;
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
 
-            // Act
-            Action act = () => dictionary.Should().NotHaveSameCount(collection,
-                "because we want to test the behaviour with same objects");
+                // Act / Assert
+                dictionary.Should().HaveCountLessThan(4);
+            }
 
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "*not have the same count*because we want to test the behaviour with same objects*but they both reference the same object.");
-        }
-
-        #endregion
-
-        #region Be Empty
-
-        [Fact]
-        public void Should_succeed_when_asserting_dictionary_without_items_is_empty()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>();
-
-            // Act / Assert
-            dictionary.Should().BeEmpty();
-        }
-
-        [Fact]
-        public void Should_fail_when_asserting_dictionary_with_items_is_empty()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void Should_fail_when_asserting_dictionary_has_a_count_less_than_the_number_of_items()
             {
-                [1] = "One"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
 
-            // Act
-            Action act = () => dictionary.Should().BeEmpty();
+                // Act
+                Action act = () => dictionary.Should().HaveCountLessThan(3);
 
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
 
-        [Fact]
-        public void Should_fail_with_descriptive_message_when_asserting_dictionary_with_items_is_empty()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_has_a_count_less_than_the_number_of_items_it_should_fail_with_descriptive_message_()
             {
-                [1] = "One"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
 
-            // Act
-            Action act = () => dictionary.Should().BeEmpty("because we want to test the failure {0}", "message");
+                // Act
+                Action action = () => dictionary.Should().HaveCountLessThan(3, "because we want to test the failure {0}", "message");
 
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected dictionary to be empty because we want to test the failure message, but found {[1] = \"One\"}.");
-        }
+                // Assert
+                action.Should().Throw<XunitException>()
+                    .WithMessage("Expected dictionary to contain fewer than 3 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
+            }
 
-        [Fact]
-        public void When_asserting_dictionary_with_items_is_not_empty_it_should_succeed()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_count_is_less_than_and_dictionary_is_null_it_should_throw()
             {
-                [1] = "One"
-            };
+                // Arrange
+                Dictionary<int, string> dictionary = null;
 
-            // Act / Assert
-            dictionary.Should().NotBeEmpty();
+                // Act
+                Action act = () => dictionary.Should().HaveCountLessThan(1, "we want to test the behaviour with a null subject");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage("*fewer than*1*we want to test the behaviour with a null subject*found <null>*");
+            }
         }
+
+        public class HaveCountLessThanOrEqualTo
+        {
+            [Fact]
+            public void Should_succeed_when_asserting_dictionary_has_a_count_less_than_or_equal_to_less_the_number_of_items()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
+
+                // Act / Assert
+                dictionary.Should().HaveCountLessThanOrEqualTo(3);
+            }
+
+            [Fact]
+            public void Should_fail_when_asserting_dictionary_has_a_count_less_than_or_equal_to_the_number_of_items()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
+
+                // Act
+                Action act = () => dictionary.Should().HaveCountLessThanOrEqualTo(2);
+
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
+
+            [Fact]
+            public void When_dictionary_has_a_count_less_than_or_equal_to_the_number_of_items_it_should_fail_with_descriptive_message_()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
+
+                // Act
+                Action action = () => dictionary.Should().HaveCountLessThanOrEqualTo(2, "because we want to test the failure {0}", "message");
+
+                // Assert
+                action.Should().Throw<XunitException>()
+                    .WithMessage("Expected dictionary to contain at most 2 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
+            }
+
+            [Fact]
+            public void When_dictionary_count_is_less_than_or_equal_to_and_dictionary_is_null_it_should_throw()
+            {
+                // Arrange
+                Dictionary<int, string> dictionary = null;
+
+                // Act
+                Action act = () => dictionary.Should().HaveCountLessThanOrEqualTo(1, "we want to test the behaviour with a null subject");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage("*at most*1*we want to test the behaviour with a null subject*found <null>*");
+            }
+        }
+
+        public class HaveSameCount
+        {
+            [Fact]
+            public void When_dictionary_and_collection_have_the_same_number_elements_it_should_succeed()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
+                var collection = new[] { 4, 5, 6 };
+
+                // Act / Assert
+                dictionary.Should().HaveSameCount(collection);
+            }
+
+            [Fact]
+            public void When_dictionary_and_collection_do_not_have_the_same_number_of_elements_it_should_fail()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
+                var collection = new[] { 4, 6 };
+
+                // Act
+                Action act = () => dictionary.Should().HaveSameCount(collection);
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary to have 2 item(s), but found 3.");
+            }
+
+            [Fact]
+            public void When_comparing_item_counts_and_a_reason_is_specified_it_should_it_in_the_exception()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
+                var collection = new[] { 4, 6 };
+
+                // Act
+                Action act = () => dictionary.Should().HaveSameCount(collection, "we want to test the {0}", "reason");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary to have 2 item(s) because we want to test the reason, but found 3.");
+            }
+
+            [Fact]
+            public void When_asserting_dictionary_and_collection_have_same_count_against_null_dictionary_it_should_throw()
+            {
+                // Arrange
+                Dictionary<string, int> dictionary = null;
+                var collection = new[] { 1, 2, 3 };
+
+                // Act
+                Action act = () => dictionary.Should().HaveSameCount(collection,
+                    "because we want to test the behaviour with a null subject");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary to have the same count as {1, 2, 3} because we want to test the behaviour with a null subject, but found <null>.");
+            }
+
+            [Fact]
+            public void When_asserting_dictionary_and_collection_have_same_count_against_a_null_collection_it_should_throw()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
+                int[] collection = null;
+
+                // Act
+                Action act = () => dictionary.Should().HaveSameCount(collection);
+
+                // Assert
+                act.Should().Throw<ArgumentNullException>().WithMessage(
+                    "Cannot verify count against a <null> collection.*");
+            }
+        }
+
+        public class NotHaveSameCount
+        {
+            [Fact]
+            public void When_asserting_not_same_count_and_collections_have_different_number_elements_it_should_succeed()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
+                var collection = new[] { 4, 6 };
+
+                // Act / Assert
+                dictionary.Should().NotHaveSameCount(collection);
+            }
+
+            [Fact]
+            public void When_asserting_not_same_count_and_both_collections_have_the_same_number_elements_it_should_fail()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
+                var collection = new[] { 4, 5, 6 };
+
+                // Act
+                Action act = () => dictionary.Should().NotHaveSameCount(collection);
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary to not have 3 item(s), but found 3.");
+            }
+
+            [Fact]
+            public void When_comparing_not_same_item_counts_and_a_reason_is_specified_it_should_it_in_the_exception()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
+                var collection = new[] { 4, 5, 6 };
+
+                // Act
+                Action act = () => dictionary.Should().NotHaveSameCount(collection, "we want to test the {0}", "reason");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary to not have 3 item(s) because we want to test the reason, but found 3.");
+            }
+
+            [Fact]
+            public void When_asserting_dictionary_and_collection_to_not_have_same_count_against_null_dictionary_it_should_throw()
+            {
+                // Arrange
+                Dictionary<int, string> dictionary = null;
+                var collection = new[] { 1, 2, 3 };
+
+                // Act
+                Action act = () => dictionary.Should().NotHaveSameCount(collection,
+                    "because we want to test the behaviour with a null subject");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary to not have the same count as {1, 2, 3} because we want to test the behaviour with a null subject, but found <null>.");
+            }
+
+            [Fact]
+            public void When_asserting_dictionary_and_collection_to_not_have_same_count_against_a_null_collection_it_should_throw()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
+                int[] collection = null;
+
+                // Act
+                Action act = () => dictionary.Should().NotHaveSameCount(collection);
+
+                // Assert
+                act.Should().Throw<ArgumentNullException>().WithMessage(
+                    "Cannot verify count against a <null> collection.*");
+            }
+
+            [Fact]
+            public void When_asserting_dictionary_and_collection_to_not_have_same_count_but_both_reference_the_same_object_it_should_throw()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
+                var collection = dictionary;
+
+                // Act
+                Action act = () => dictionary.Should().NotHaveSameCount(collection,
+                    "because we want to test the behaviour with same objects");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "*not have the same count*because we want to test the behaviour with same objects*but they both reference the same object.");
+            }
+        }
+
+        public class BeEmpty
+        {
+            [Fact]
+            public void Should_succeed_when_asserting_dictionary_without_items_is_empty()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>();
+
+                // Act / Assert
+                dictionary.Should().BeEmpty();
+            }
+
+            [Fact]
+            public void Should_fail_when_asserting_dictionary_with_items_is_empty()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One"
+                };
+
+                // Act
+                Action act = () => dictionary.Should().BeEmpty();
+
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
+
+            [Fact]
+            public void Should_fail_with_descriptive_message_when_asserting_dictionary_with_items_is_empty()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One"
+                };
+
+                // Act
+                Action act = () => dictionary.Should().BeEmpty("because we want to test the failure {0}", "message");
+
+                // Assert
+                act.Should().Throw<XunitException>()
+                    .WithMessage("Expected dictionary to be empty because we want to test the failure message, but found {[1] = \"One\"}.");
+            }
+
+            [Fact]
+            public void When_asserting_dictionary_with_items_is_not_empty_it_should_succeed()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One"
+                };
+
+                // Act / Assert
+                dictionary.Should().NotBeEmpty();
+            }
 
 #if !NET5_0_OR_GREATER
 
-        [Fact]
-        public void When_asserting_dictionary_with_items_is_not_empty_it_should_enumerate_the_dictionary_only_once()
-        {
-            // Arrange
-            var trackingDictionary = new TrackingTestDictionary(new KeyValuePair<int, string>(1, "One"));
+            [Fact]
+            public void When_asserting_dictionary_with_items_is_not_empty_it_should_enumerate_the_dictionary_only_once()
+            {
+                // Arrange
+                var trackingDictionary = new TrackingTestDictionary(new KeyValuePair<int, string>(1, "One"));
 
-            // Act
-            trackingDictionary.Should().NotBeEmpty();
+                // Act
+                trackingDictionary.Should().NotBeEmpty();
 
-            // Assert
-            trackingDictionary.Enumerator.LoopCount.Should().Be(1);
-        }
+                // Assert
+                trackingDictionary.Enumerator.LoopCount.Should().Be(1);
+            }
 
 #endif
 
-        [Fact]
-        public void When_asserting_dictionary_without_items_is_not_empty_it_should_fail()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>();
+            [Fact]
+            public void When_asserting_dictionary_without_items_is_not_empty_it_should_fail()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>();
 
-            // Act
-            Action act = () => dictionary.Should().NotBeEmpty();
+                // Act
+                Action act = () => dictionary.Should().NotBeEmpty();
 
-            // Assert
-            act.Should().Throw<XunitException>();
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
+
+            [Fact]
+            public void When_asserting_dictionary_without_items_is_not_empty_it_should_fail_with_descriptive_message_()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>();
+
+                // Act
+                Action act = () => dictionary.Should().NotBeEmpty("because we want to test the failure {0}", "message");
+
+                // Assert
+                act.Should().Throw<XunitException>()
+                    .WithMessage("Expected dictionary not to be empty because we want to test the failure message.");
+            }
+
+            [Fact]
+            public void When_asserting_dictionary_to_be_empty_but_dictionary_is_null_it_should_throw()
+            {
+                // Arrange
+                Dictionary<int, string> dictionary = null;
+
+                // Act
+                Action act = () => dictionary.Should().BeEmpty("because we want to test the behaviour with a null subject");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary to be empty because we want to test the behaviour with a null subject, but found <null>.");
+            }
+
+            [Fact]
+            public void When_asserting_dictionary_to_be_not_empty_but_dictionary_is_null_it_should_throw()
+            {
+                // Arrange
+                Dictionary<int, string> dictionary = null;
+
+                // Act
+                Action act = () => dictionary.Should().NotBeEmpty("because we want to test the behaviour with a null subject");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary not to be empty because we want to test the behaviour with a null subject, but found <null>.");
+            }
         }
 
-        [Fact]
-        public void When_asserting_dictionary_without_items_is_not_empty_it_should_fail_with_descriptive_message_()
+        public class Equal
         {
-            // Arrange
-            var dictionary = new Dictionary<int, string>();
+            [Fact]
+            public void Should_succeed_when_asserting_dictionary_is_equal_to_the_same_dictionary()
+            {
+                // Arrange
+                var dictionary1 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+                var dictionary2 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
 
-            // Act
-            Action act = () => dictionary.Should().NotBeEmpty("because we want to test the failure {0}", "message");
+                // Act / Assert
+                dictionary1.Should().Equal(dictionary2);
+            }
 
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected dictionary not to be empty because we want to test the failure message.");
+            [Fact]
+            public void Should_succeed_when_asserting_dictionary_with_null_value_is_equal_to_the_same_dictionary()
+            {
+                // Arrange
+                var dictionary1 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = null
+                };
+                var dictionary2 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = null
+                };
+
+                // Act / Assert
+                dictionary1.Should().Equal(dictionary2);
+            }
+
+            [Fact]
+            public void When_asserting_dictionaries_to_be_equal_but_subject_dictionary_misses_a_value_it_should_throw()
+            {
+                // Arrange
+                var dictionary1 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+                var dictionary2 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [22] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary1.Should().Equal(dictionary2, "because we want to test the failure {0}", "message");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary1 to be equal to {[1] = \"One\", [22] = \"Two\"} because we want to test the failure message, but could not find keys {22}.");
+            }
+
+            [Fact]
+            public void When_asserting_dictionaries_to_be_equal_but_subject_dictionary_has_extra_key_it_should_throw()
+            {
+                // Arrange
+                var dictionary1 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three"
+                };
+                var dictionary2 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary1.Should().Equal(dictionary2, "because we want to test the failure {0}", "message");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary1 to be equal to {[1] = \"One\", [2] = \"Two\"} because we want to test the failure message, but found additional keys {3}.");
+            }
+
+            [Fact]
+            public void When_two_dictionaries_are_not_equal_by_values_it_should_throw_using_the_reason()
+            {
+                // Arrange
+                var dictionary1 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+                var dictionary2 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Three"
+                };
+
+                // Act
+                Action act = () => dictionary1.Should().Equal(dictionary2, "because we want to test the failure {0}", "message");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary1 to be equal to {[1] = \"One\", [2] = \"Three\"} because we want to test the failure message, but {[1] = \"One\", [2] = \"Two\"} differs at key 2.");
+            }
+
+            [Fact]
+            public void When_asserting_dictionaries_to_be_equal_but_subject_dictionary_is_null_it_should_throw()
+            {
+                // Arrange
+                Dictionary<int, string> dictionary1 = null;
+                var dictionary2 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary1.Should().Equal(dictionary2, "because we want to test the behaviour with a null subject");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary1 to be equal to {[1] = \"One\", [2] = \"Two\"} because we want to test the behaviour with a null subject, but found <null>.");
+            }
+
+            [Fact]
+            public void When_asserting_dictionaries_to_be_equal_but_expected_dictionary_is_null_it_should_throw()
+            {
+                // Arrange
+                var dictionary1 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+                Dictionary<int, string> dictionary2 = null;
+
+                // Act
+                Action act = () => dictionary1.Should().Equal(dictionary2, "because we want to test the behaviour with a null subject");
+
+                // Assert
+                act.Should().Throw<ArgumentNullException>()
+                    .WithMessage("Cannot compare dictionary with <null>.*")
+                    .WithParameterName("expected");
+            }
+
+            [Fact]
+            public void When_an_empty_dictionary_is_compared_for_equality_to_a_non_empty_dictionary_it_should_throw()
+            {
+                // Arrange
+                var dictionary1 = new Dictionary<int, string>();
+                var dictionary2 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary1.Should().Equal(dictionary2);
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary1 to be equal to {[1] = \"One\", [2] = \"Two\"}, but could not find keys {1, 2}.");
+            }
         }
 
-        [Fact]
-        public void When_asserting_dictionary_to_be_empty_but_dictionary_is_null_it_should_throw()
+        public class NotEqual
         {
-            // Arrange
-            Dictionary<int, string> dictionary = null;
+            [Fact]
+            public void Should_succeed_when_asserting_dictionary_is_not_equal_to_a_dictionary_with_different_key()
+            {
+                // Arrange
+                var dictionary1 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+                var dictionary2 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [22] = "Two"
+                };
 
-            // Act
-            Action act = () => dictionary.Should().BeEmpty("because we want to test the behaviour with a null subject");
+                // Act / Assert
+                dictionary1.Should().NotEqual(dictionary2);
+            }
 
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to be empty because we want to test the behaviour with a null subject, but found <null>.");
+            [Fact]
+            public void Should_succeed_when_asserting_dictionary_is_not_equal_to_a_dictionary_with_different_value()
+            {
+                // Arrange
+                var dictionary1 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = null
+                };
+                var dictionary2 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act / Assert
+                dictionary1.Should().NotEqual(dictionary2);
+            }
+
+            [Fact]
+            public void When_two_equal_dictionaries_are_not_expected_to_be_equal_it_should_throw()
+            {
+                // Arrange
+                var dictionary1 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+                var dictionary2 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary1.Should().NotEqual(dictionary2);
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Did not expect dictionaries {[1] = \"One\", [2] = \"Two\"} and {[1] = \"One\", [2] = \"Two\"} to be equal.");
+            }
+
+            [Fact]
+            public void When_two_equal_dictionaries_are_not_expected_to_be_equal_it_should_report_a_clear_explanation()
+            {
+                // Arrange
+                var dictionary1 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+                var dictionary2 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary1.Should().NotEqual(dictionary2, "because we want to test the failure {0}", "message");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Did not expect dictionaries {[1] = \"One\", [2] = \"Two\"} and {[1] = \"One\", [2] = \"Two\"} to be equal because we want to test the failure message.");
+            }
+
+            [Fact]
+            public void When_asserting_dictionaries_not_to_be_equal_subject_but_dictionary_is_null_it_should_throw()
+            {
+                // Arrange
+                Dictionary<int, string> dictionary1 = null;
+                var dictionary2 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act =
+                    () => dictionary1.Should().NotEqual(dictionary2, "because we want to test the behaviour with a null subject");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionaries not to be equal because we want to test the behaviour with a null subject, but found <null>.");
+            }
+
+            [Fact]
+            public void When_asserting_dictionaries_not_to_be_equal_but_expected_dictionary_is_null_it_should_throw()
+            {
+                // Arrange
+                var dictionary1 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+                Dictionary<int, string> dictionary2 = null;
+
+                // Act
+                Action act =
+                    () => dictionary1.Should().NotEqual(dictionary2, "because we want to test the behaviour with a null subject");
+
+                // Assert
+                act.Should().Throw<ArgumentNullException>()
+                    .WithMessage("Cannot compare dictionary with <null>.*")
+                    .WithParameterName("unexpected");
+            }
+
+            [Fact]
+            public void When_asserting_dictionaries_not_to_be_equal_subject_but_both_dictionaries_reference_the_same_object_it_should_throw()
+            {
+                // Arrange
+                var dictionary1 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+                var dictionary2 = dictionary1;
+
+                // Act
+                Action act =
+                    () => dictionary1.Should().NotEqual(dictionary2, "because we want to test the behaviour with same objects");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionaries not to be equal because we want to test the behaviour with same objects, but they both reference the same object.");
+            }
         }
 
-        [Fact]
-        public void When_asserting_dictionary_to_be_not_empty_but_dictionary_is_null_it_should_throw()
+        public class ContainKey
         {
-            // Arrange
-            Dictionary<int, string> dictionary = null;
+            [Fact]
+            public void Should_succeed_when_asserting_dictionary_contains_a_key_from_the_dictionary()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
 
-            // Act
-            Action act = () => dictionary.Should().NotBeEmpty("because we want to test the behaviour with a null subject");
+                // Act / Assert
+                dictionary.Should().ContainKey(1);
+            }
 
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary not to be empty because we want to test the behaviour with a null subject, but found <null>.");
+            [Fact]
+            public void When_a_dictionary_has_custom_equality_comparer_the_contains_key_assertion_should_work_accordingly()
+            {
+                // Arrange
+                var dictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+                {
+                    ["One"] = "One",
+                    ["Two"] = "Two"
+                };
+
+                // Act
+
+                // Assert
+                dictionary.Should().ContainKey("One");
+                dictionary.Should().ContainKey("ONE");
+                dictionary.Should().ContainKey("one");
+            }
+
+            [Fact]
+            public void Should_succeed_when_asserting_dictionary_contains_multiple_keys_from_the_dictionary()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act / Assert
+                dictionary.Should().ContainKeys(2, 1);
+            }
+
+            [Fact]
+            public void When_a_dictionary_does_not_contain_single_key_it_should_throw_with_clear_explanation()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary.Should().ContainKey(3, "because {0}", "we do");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain key 3 because we do.");
+            }
+
+            [Fact]
+            public void When_the_requested_key_exists_it_should_allow_continuation_with_the_value()
+            {
+                // Arrange
+                var dictionary = new Dictionary<string, MyClass>
+                {
+                    ["Key"] = new MyClass { SomeProperty = 3 }
+                };
+
+                // Act
+                Action act = () => dictionary.Should().ContainKey("Key").WhoseValue.Should().Be(4);
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage("Expected*4*3*.");
+            }
+
+            [Fact]
+            public void When_a_dictionary_does_not_contain_a_list_of_keys_it_should_throw_with_clear_explanation()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary.Should().ContainKeys(new[] { 2, 3 }, "because {0}", "we do");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain key {2, 3} because we do, but could not find {3}.");
+            }
+
+            [Fact]
+            public void When_the_contents_of_a_dictionary_are_checked_against_an_empty_list_of_keys_it_should_throw_clear_explanation()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary.Should().ContainKeys(new int[0]);
+
+                // Assert
+                act.Should().Throw<ArgumentException>().WithMessage(
+                    "Cannot verify key containment against an empty sequence*");
+            }
         }
 
-        #endregion
-
-        #region Equal
-
-        [Fact]
-        public void Should_succeed_when_asserting_dictionary_is_equal_to_the_same_dictionary()
+        public class NotContainKey
         {
-            // Arrange
-            var dictionary1 = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_does_not_contain_a_key_that_is_not_in_the_dictionary_it_should_not_throw()
             {
-                [1] = "One",
-                [2] = "Two"
-            };
-            var dictionary2 = new Dictionary<int, string>
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary.Should().NotContainKey(4);
+
+                // Assert
+                act.Should().NotThrow<XunitException>();
+            }
+
+            [Fact]
+            public void When_dictionary_does_not_contain_multiple_keys_from_the_dictionary_it_should_not_throw()
             {
-                [1] = "One",
-                [2] = "Two"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
 
-            // Act / Assert
-            dictionary1.Should().Equal(dictionary2);
-        }
+                // Act
+                Action act = () => dictionary.Should().NotContainKeys(3, 4);
 
-        [Fact]
-        public void Should_succeed_when_asserting_dictionary_with_null_value_is_equal_to_the_same_dictionary()
-        {
-            // Arrange
-            var dictionary1 = new Dictionary<int, string>
+                // Assert
+                act.Should().NotThrow<XunitException>();
+            }
+
+            [Fact]
+            public void When_dictionary_contains_an_unexpected_key_it_should_throw()
             {
-                [1] = "One",
-                [2] = null
-            };
-            var dictionary2 = new Dictionary<int, string>
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary.Should().NotContainKey(1, "because we {0} like it", "don't");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary {[1] = \"One\", [2] = \"Two\"} not to contain key 1 because we don't like it, but found it anyhow.");
+            }
+
+            [Fact]
+            public void When_asserting_dictionary_does_not_contain_key_against_null_dictionary_it_should_throw()
             {
-                [1] = "One",
-                [2] = null
-            };
+                // Arrange
+                Dictionary<int, string> dictionary = null;
 
-            // Act / Assert
-            dictionary1.Should().Equal(dictionary2);
-        }
+                // Act
+                Action act = () => dictionary.Should()
+                    .NotContainKey(1, "because we want to test the behaviour with a null subject");
 
-        [Fact]
-        public void When_asserting_dictionaries_to_be_equal_but_subject_dictionary_misses_a_value_it_should_throw()
-        {
-            // Arrange
-            var dictionary1 = new Dictionary<int, string>
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary not to contain key 1 because we want to test the behaviour with a null subject, but found <null>.");
+            }
+
+            [Fact]
+            public void When_a_dictionary_contains_a_list_of_keys_it_should_throw_with_clear_explanation()
             {
-                [1] = "One",
-                [2] = "Two"
-            };
-            var dictionary2 = new Dictionary<int, string>
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary.Should().NotContainKeys(new[] { 2, 3 }, "because {0}", "we do");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to not contain key {2, 3} because we do, but found {2}.");
+            }
+
+            [Fact]
+            public void When_a_dictionary_contains_exactly_one_of_the_keys_it_should_throw_with_clear_explanation()
             {
-                [1] = "One",
-                [22] = "Two"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
 
-            // Act
-            Action act = () => dictionary1.Should().Equal(dictionary2, "because we want to test the failure {0}", "message");
+                // Act
+                Action act = () => dictionary.Should().NotContainKeys(new[] { 2 }, "because {0}", "we do");
 
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary1 to be equal to {[1] = \"One\", [22] = \"Two\"} because we want to test the failure message, but could not find keys {22}.");
-        }
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to not contain key 2 because we do.");
+            }
 
-        [Fact]
-        public void When_asserting_dictionaries_to_be_equal_but_subject_dictionary_has_extra_key_it_should_throw()
-        {
-            // Arrange
-            var dictionary1 = new Dictionary<int, string>
+            [Fact]
+            public void When_the_noncontents_of_a_dictionary_are_checked_against_an_empty_list_of_keys_it_should_throw_clear_explanation()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three"
-            };
-            var dictionary2 = new Dictionary<int, string>
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary.Should().NotContainKeys(new int[0]);
+
+                // Assert
+                act.Should().Throw<ArgumentException>().WithMessage(
+                    "Cannot verify key containment against an empty sequence*");
+            }
+
+            [Fact]
+            public void When_a_dictionary_checks_a_list_of_keys_not_to_be_present_it_will_honor_the_case_sensitive_equality_comparer_of_the_dictionary()
             {
-                [1] = "One",
-                [2] = "Two"
-            };
+                // Arrange
+                var dictionary = new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["ONE"] = "One",
+                    ["TWO"] = "Two"
+                };
 
-            // Act
-            Action act = () => dictionary1.Should().Equal(dictionary2, "because we want to test the failure {0}", "message");
+                // Act
+                Action act = () => dictionary.Should().NotContainKeys(new[] { "One", "Two" });
 
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary1 to be equal to {[1] = \"One\", [2] = \"Two\"} because we want to test the failure message, but found additional keys {3}.");
-        }
+                // Assert
+                act.Should().NotThrow<XunitException>();
+            }
 
-        [Fact]
-        public void When_two_dictionaries_are_not_equal_by_values_it_should_throw_using_the_reason()
-        {
-            // Arrange
-            var dictionary1 = new Dictionary<int, string>
+            [Fact]
+            public void When_a_dictionary_checks_a_list_of_keys_not_to_be_present_it_will_honor_the_case_insensitive_equality_comparer_of_the_dictionary()
             {
-                [1] = "One",
-                [2] = "Two"
-            };
-            var dictionary2 = new Dictionary<int, string>
+                // Arrange
+                var dictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+                {
+                    ["ONE"] = "One",
+                    ["TWO"] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary.Should().NotContainKeys(new[] { "One", "Two" });
+
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
+
+            [Fact]
+            public void When_an_assertion_fails_on_ContainKey_succeeding_message_should_be_included()
             {
-                [1] = "One",
-                [2] = "Three"
-            };
+                // Act
+                Action act = () =>
+                {
+                    using var _ = new AssertionScope();
+                    var values = new Dictionary<int, int>();
+                    values.Should().ContainKey(0);
+                    values.Should().ContainKey(1);
+                };
 
-            // Act
-            Action act = () => dictionary1.Should().Equal(dictionary2, "because we want to test the failure {0}", "message");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary1 to be equal to {[1] = \"One\", [2] = \"Three\"} because we want to test the failure message, but {[1] = \"One\", [2] = \"Two\"} differs at key 2.");
-        }
-
-        [Fact]
-        public void When_asserting_dictionaries_to_be_equal_but_subject_dictionary_is_null_it_should_throw()
-        {
-            // Arrange
-            Dictionary<int, string> dictionary1 = null;
-            var dictionary2 = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary1.Should().Equal(dictionary2, "because we want to test the behaviour with a null subject");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary1 to be equal to {[1] = \"One\", [2] = \"Two\"} because we want to test the behaviour with a null subject, but found <null>.");
-        }
-
-        [Fact]
-        public void When_asserting_dictionaries_to_be_equal_but_expected_dictionary_is_null_it_should_throw()
-        {
-            // Arrange
-            var dictionary1 = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-            Dictionary<int, string> dictionary2 = null;
-
-            // Act
-            Action act = () => dictionary1.Should().Equal(dictionary2, "because we want to test the behaviour with a null subject");
-
-            // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .WithMessage("Cannot compare dictionary with <null>.*")
-                .WithParameterName("expected");
-        }
-
-        [Fact]
-        public void When_an_empty_dictionary_is_compared_for_equality_to_a_non_empty_dictionary_it_should_throw()
-        {
-            // Arrange
-            var dictionary1 = new Dictionary<int, string>();
-            var dictionary2 = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary1.Should().Equal(dictionary2);
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary1 to be equal to {[1] = \"One\", [2] = \"Two\"}, but could not find keys {1, 2}.");
-        }
-
-        [Fact]
-        public void Should_succeed_when_asserting_dictionary_is_not_equal_to_a_dictionary_with_different_key()
-        {
-            // Arrange
-            var dictionary1 = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-            var dictionary2 = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [22] = "Two"
-            };
-
-            // Act / Assert
-            dictionary1.Should().NotEqual(dictionary2);
-        }
-
-        [Fact]
-        public void Should_succeed_when_asserting_dictionary_is_not_equal_to_a_dictionary_with_different_value()
-        {
-            // Arrange
-            var dictionary1 = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = null
-            };
-            var dictionary2 = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act / Assert
-            dictionary1.Should().NotEqual(dictionary2);
-        }
-
-        [Fact]
-        public void When_two_equal_dictionaries_are_not_expected_to_be_equal_it_should_throw()
-        {
-            // Arrange
-            var dictionary1 = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-            var dictionary2 = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary1.Should().NotEqual(dictionary2);
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Did not expect dictionaries {[1] = \"One\", [2] = \"Two\"} and {[1] = \"One\", [2] = \"Two\"} to be equal.");
-        }
-
-        [Fact]
-        public void When_two_equal_dictionaries_are_not_expected_to_be_equal_it_should_report_a_clear_explanation()
-        {
-            // Arrange
-            var dictionary1 = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-            var dictionary2 = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary1.Should().NotEqual(dictionary2, "because we want to test the failure {0}", "message");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Did not expect dictionaries {[1] = \"One\", [2] = \"Two\"} and {[1] = \"One\", [2] = \"Two\"} to be equal because we want to test the failure message.");
-        }
-
-        [Fact]
-        public void When_asserting_dictionaries_not_to_be_equal_subject_but_dictionary_is_null_it_should_throw()
-        {
-            // Arrange
-            Dictionary<int, string> dictionary1 = null;
-            var dictionary2 = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act =
-                () => dictionary1.Should().NotEqual(dictionary2, "because we want to test the behaviour with a null subject");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionaries not to be equal because we want to test the behaviour with a null subject, but found <null>.");
-        }
-
-        [Fact]
-        public void When_asserting_dictionaries_not_to_be_equal_but_expected_dictionary_is_null_it_should_throw()
-        {
-            // Arrange
-            var dictionary1 = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-            Dictionary<int, string> dictionary2 = null;
-
-            // Act
-            Action act =
-                () => dictionary1.Should().NotEqual(dictionary2, "because we want to test the behaviour with a null subject");
-
-            // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .WithMessage("Cannot compare dictionary with <null>.*")
-                .WithParameterName("unexpected");
-        }
-
-        [Fact]
-        public void When_asserting_dictionaries_not_to_be_equal_subject_but_both_dictionaries_reference_the_same_object_it_should_throw()
-        {
-            // Arrange
-            var dictionary1 = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-            var dictionary2 = dictionary1;
-
-            // Act
-            Action act =
-                () => dictionary1.Should().NotEqual(dictionary2, "because we want to test the behaviour with same objects");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionaries not to be equal because we want to test the behaviour with same objects, but they both reference the same object.");
-        }
-
-        #endregion
-
-        #region ContainKey
-
-        [Fact]
-        public void Should_succeed_when_asserting_dictionary_contains_a_key_from_the_dictionary()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act / Assert
-            dictionary.Should().ContainKey(1);
-        }
-
-        [Fact]
-        public void When_a_dictionary_has_custom_equality_comparer_the_contains_key_assertion_should_work_accordingly()
-        {
-            // Arrange
-            var dictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-            {
-                ["One"] = "One",
-                ["Two"] = "Two"
-            };
-
-            // Act
-
-            // Assert
-            dictionary.Should().ContainKey("One");
-            dictionary.Should().ContainKey("ONE");
-            dictionary.Should().ContainKey("one");
-        }
-
-        [Fact]
-        public void Should_succeed_when_asserting_dictionary_contains_multiple_keys_from_the_dictionary()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act / Assert
-            dictionary.Should().ContainKeys(2, 1);
-        }
-
-        [Fact]
-        public void When_a_dictionary_does_not_contain_single_key_it_should_throw_with_clear_explanation()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary.Should().ContainKey(3, "because {0}", "we do");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain key 3 because we do.");
-        }
-
-        [Fact]
-        public void When_the_requested_key_exists_it_should_allow_continuation_with_the_value()
-        {
-            // Arrange
-            var dictionary = new Dictionary<string, MyClass>
-            {
-                ["Key"] = new MyClass { SomeProperty = 3 }
-            };
-
-            // Act
-            Action act = () => dictionary.Should().ContainKey("Key").WhoseValue.Should().Be(4);
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected*4*3*.");
+                // Assert
+                act.Should().Throw<XunitException>()
+                    .WithMessage("Expected*to contain key 0*Expected*to contain key 1*");
+            }
         }
 
         public class MyClass
@@ -1381,1339 +1584,1135 @@ namespace FluentAssertions.Specs.Collections
             }
         }
 
-        [Fact]
-        public void When_a_dictionary_does_not_contain_a_list_of_keys_it_should_throw_with_clear_explanation()
+        public class ContainValue
         {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_contains_expected_value_it_should_succeed()
             {
-                [1] = "One",
-                [2] = "Two"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
 
-            // Act
-            Action act = () => dictionary.Should().ContainKeys(new[] { 2, 3 }, "because {0}", "we do");
+                // Act
+                Action act = () => dictionary.Should().ContainValue("One");
 
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain key {2, 3} because we do, but could not find {3}.");
+                // Assert
+                act.Should().NotThrow();
+            }
+
+            [Fact]
+            public void When_dictionary_contains_expected_null_value_it_should_succeed()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = null
+                };
+
+                // Act
+                Action act = () => dictionary.Should().ContainValue(null);
+
+                // Assert
+                act.Should().NotThrow();
+            }
+
+            [Fact]
+            public void When_the_specified_value_exists_it_should_allow_continuation_using_that_value()
+            {
+                // Arrange
+                var myClass = new MyClass()
+                {
+                    SomeProperty = 0
+                };
+
+                var dictionary = new Dictionary<int, MyClass>
+                {
+                    [1] = myClass
+                };
+
+                // Act
+                Action act = () => dictionary.Should().ContainValue(myClass).Which.SomeProperty.Should().BeGreaterThan(0);
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage("Expected*greater*0*0*");
+            }
+
+            [Fact]
+            public void When_multiple_matches_for_the_specified_value_exist_continuation_using_the_matched_value_should_fail()
+            {
+                // Arrange
+                var myClass = new MyClass { SomeProperty = 0 };
+
+                var dictionary = new Dictionary<int, MyClass>
+                {
+                    [1] = myClass,
+                    [2] = new MyClass { SomeProperty = 0 }
+                };
+
+                // Act
+                Action act =
+                    () =>
+                        dictionary.Should()
+                            .ContainValue(new MyClass { SomeProperty = 0 })
+                            .Which.Should()
+                            .BeSameAs(myClass);
+
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
+
+            [Fact]
+            public void When_dictionary_contains_multiple_values_from_the_dictionary_it_should_not_throw()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary.Should().ContainValues("Two", "One");
+
+                // Assert
+                act.Should().NotThrow<XunitException>();
+            }
+
+            [Fact]
+            public void When_a_dictionary_does_not_contain_single_value_it_should_throw_with_clear_explanation()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary.Should().ContainValue("Three", "because {0}", "we do");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain value \"Three\" because we do.");
+            }
+
+            [Fact]
+            public void When_a_dictionary_does_not_contain_a_number_of_values_it_should_throw_with_clear_explanation()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary.Should().ContainValues(new[] { "Two", "Three" }, "because {0}", "we do");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain value {\"Two\", \"Three\"} because we do, but could not find {\"Three\"}.");
+            }
+
+            [Fact]
+            public void When_the_contents_of_a_dictionary_are_checked_against_an_empty_list_of_values_it_should_throw_clear_explanation()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary.Should().ContainValues(new string[0]);
+
+                // Assert
+                act.Should().Throw<ArgumentException>().WithMessage(
+                    "Cannot verify value containment with an empty sequence*");
+            }
         }
 
-        [Fact]
-        public void When_the_contents_of_a_dictionary_are_checked_against_an_empty_list_of_keys_it_should_throw_clear_explanation()
+        public class NotContainValue
         {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_does_not_contain_a_value_that_is_not_in_the_dictionary_it_should_not_throw()
             {
-                [1] = "One",
-                [2] = "Two"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
 
-            // Act
-            Action act = () => dictionary.Should().ContainKeys(new int[0]);
+                // Act
+                Action act = () => dictionary.Should().NotContainValue("Three");
 
-            // Assert
-            act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot verify key containment against an empty sequence*");
+                // Assert
+                act.Should().NotThrow<XunitException>();
+            }
+
+            [Fact]
+            public void When_dictionary_contains_an_unexpected_value_it_should_throw()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary.Should().NotContainValue("One", "because we {0} like it", "don't");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary {[1] = \"One\", [2] = \"Two\"} not to contain value \"One\" because we don't like it, but found it anyhow.");
+            }
+
+            [Fact]
+            public void When_asserting_dictionary_does_not_contain_value_against_null_dictionary_it_should_throw()
+            {
+                // Arrange
+                Dictionary<int, string> dictionary = null;
+
+                // Act
+                Action act = () => dictionary.Should()
+                    .NotContainValue("One", "because we want to test the behaviour with a null subject");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary not to contain value \"One\" because we want to test the behaviour with a null subject, but found <null>.");
+            }
+
+            [Fact]
+            public void When_dictionary_does_not_contain_multiple_values_that_is_not_in_the_dictionary_it_should_not_throw()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary.Should().NotContainValues("Three", "Four");
+
+                // Assert
+                act.Should().NotThrow<XunitException>();
+            }
+
+            [Fact]
+            public void When_a_dictionary_contains_a_exactly_one_of_the_values_it_should_throw_with_clear_explanation()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary.Should().NotContainValues(new[] { "Two" }, "because {0}", "we do");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to not contain value \"Two\" because we do.");
+            }
+
+            [Fact]
+            public void When_a_dictionary_contains_a_number_of_values_it_should_throw_with_clear_explanation()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary.Should().NotContainValues(new[] { "Two", "Three" }, "because {0}", "we do");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to not contain value {\"Two\", \"Three\"} because we do, but found {\"Two\"}.");
+            }
+
+            [Fact]
+            public void When_the_noncontents_of_a_dictionary_are_checked_against_an_empty_list_of_values_it_should_throw_clear_explanation()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary.Should().NotContainValues(new string[0]);
+
+                // Assert
+                act.Should().Throw<ArgumentException>().WithMessage(
+                    "Cannot verify value containment with an empty sequence*");
+            }
         }
 
-        [Fact]
-        public void When_dictionary_does_not_contain_a_key_that_is_not_in_the_dictionary_it_should_not_throw()
+        public class Contain
         {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void Should_succeed_when_asserting_dictionary_contains_single_key_value_pair()
             {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary.Should().NotContainKey(4);
-
-            // Assert
-            act.Should().NotThrow<XunitException>();
-        }
-
-        [Fact]
-        public void When_dictionary_does_not_contain_multiple_keys_from_the_dictionary_it_should_not_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary.Should().NotContainKeys(3, 4);
-
-            // Assert
-            act.Should().NotThrow<XunitException>();
-        }
-
-        [Fact]
-        public void When_dictionary_contains_an_unexpected_key_it_should_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary.Should().NotContainKey(1, "because we {0} like it", "don't");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} not to contain key 1 because we don't like it, but found it anyhow.");
-        }
-
-        [Fact]
-        public void When_asserting_dictionary_does_not_contain_key_against_null_dictionary_it_should_throw()
-        {
-            // Arrange
-            Dictionary<int, string> dictionary = null;
-
-            // Act
-            Action act = () => dictionary.Should()
-                .NotContainKey(1, "because we want to test the behaviour with a null subject");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary not to contain key 1 because we want to test the behaviour with a null subject, but found <null>.");
-        }
-
-        [Fact]
-        public void When_a_dictionary_contains_a_list_of_keys_it_should_throw_with_clear_explanation()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary.Should().NotContainKeys(new[] { 2, 3 }, "because {0}", "we do");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to not contain key {2, 3} because we do, but found {2}.");
-        }
-
-        [Fact]
-        public void When_a_dictionary_contains_exactly_one_of_the_keys_it_should_throw_with_clear_explanation()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary.Should().NotContainKeys(new[] { 2 }, "because {0}", "we do");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to not contain key 2 because we do.");
-        }
-
-        [Fact]
-        public void When_the_noncontents_of_a_dictionary_are_checked_against_an_empty_list_of_keys_it_should_throw_clear_explanation()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary.Should().NotContainKeys(new int[0]);
-
-            // Assert
-            act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot verify key containment against an empty sequence*");
-        }
-
-        [Fact]
-        public void When_a_dictionary_checks_a_list_of_keys_not_to_be_present_it_will_honor_the_case_sensitive_equality_comparer_of_the_dictionary()
-        {
-            // Arrange
-            var dictionary = new Dictionary<string, string>(StringComparer.Ordinal)
-            {
-                ["ONE"] = "One",
-                ["TWO"] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary.Should().NotContainKeys(new[] { "One", "Two" });
-
-            // Assert
-            act.Should().NotThrow<XunitException>();
-        }
-
-        [Fact]
-        public void When_a_dictionary_checks_a_list_of_keys_not_to_be_present_it_will_honor_the_case_insensitive_equality_comparer_of_the_dictionary()
-        {
-            // Arrange
-            var dictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-            {
-                ["ONE"] = "One",
-                ["TWO"] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary.Should().NotContainKeys(new[] { "One", "Two" });
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_an_assertion_fails_on_ContainKey_succeeding_message_should_be_included()
-        {
-            // Act
-            Action act = () =>
-            {
-                using var _ = new AssertionScope();
-                var values = new Dictionary<int, int>();
-                values.Should().ContainKey(0);
-                values.Should().ContainKey(1);
-            };
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected*to contain key 0*Expected*to contain key 1*");
-        }
-
-        #endregion
-
-        #region ContainValue
-
-        [Fact]
-        public void When_dictionary_contains_expected_value_it_should_succeed()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary.Should().ContainValue("One");
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_dictionary_contains_expected_null_value_it_should_succeed()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = null
-            };
-
-            // Act
-            Action act = () => dictionary.Should().ContainValue(null);
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_the_specified_value_exists_it_should_allow_continuation_using_that_value()
-        {
-            // Arrange
-            var myClass = new MyClass()
-            {
-                SomeProperty = 0
-            };
-
-            var dictionary = new Dictionary<int, MyClass>
-            {
-                [1] = myClass
-            };
-
-            // Act
-            Action act = () => dictionary.Should().ContainValue(myClass).Which.SomeProperty.Should().BeGreaterThan(0);
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected*greater*0*0*");
-        }
-
-        [Fact]
-        public void When_multiple_matches_for_the_specified_value_exist_continuation_using_the_matched_value_should_fail()
-        {
-            // Arrange
-            var myClass = new MyClass { SomeProperty = 0 };
-
-            var dictionary = new Dictionary<int, MyClass>
-            {
-                [1] = myClass,
-                [2] = new MyClass { SomeProperty = 0 }
-            };
-
-            // Act
-            Action act =
-                () =>
-                    dictionary.Should()
-                        .ContainValue(new MyClass { SomeProperty = 0 })
-                        .Which.Should()
-                        .BeSameAs(myClass);
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_dictionary_contains_multiple_values_from_the_dictionary_it_should_not_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary.Should().ContainValues("Two", "One");
-
-            // Assert
-            act.Should().NotThrow<XunitException>();
-        }
-
-        [Fact]
-        public void When_a_dictionary_does_not_contain_single_value_it_should_throw_with_clear_explanation()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary.Should().ContainValue("Three", "because {0}", "we do");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain value \"Three\" because we do.");
-        }
-
-        [Fact]
-        public void When_a_dictionary_does_not_contain_a_number_of_values_it_should_throw_with_clear_explanation()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary.Should().ContainValues(new[] { "Two", "Three" }, "because {0}", "we do");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain value {\"Two\", \"Three\"} because we do, but could not find {\"Three\"}.");
-        }
-
-        [Fact]
-        public void When_the_contents_of_a_dictionary_are_checked_against_an_empty_list_of_values_it_should_throw_clear_explanation()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary.Should().ContainValues(new string[0]);
-
-            // Assert
-            act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot verify value containment with an empty sequence*");
-        }
-
-        [Fact]
-        public void When_dictionary_does_not_contain_a_value_that_is_not_in_the_dictionary_it_should_not_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary.Should().NotContainValue("Three");
-
-            // Assert
-            act.Should().NotThrow<XunitException>();
-        }
-
-        [Fact]
-        public void When_dictionary_contains_an_unexpected_value_it_should_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary.Should().NotContainValue("One", "because we {0} like it", "don't");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} not to contain value \"One\" because we don't like it, but found it anyhow.");
-        }
-
-        [Fact]
-        public void When_asserting_dictionary_does_not_contain_value_against_null_dictionary_it_should_throw()
-        {
-            // Arrange
-            Dictionary<int, string> dictionary = null;
-
-            // Act
-            Action act = () => dictionary.Should()
-                .NotContainValue("One", "because we want to test the behaviour with a null subject");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary not to contain value \"One\" because we want to test the behaviour with a null subject, but found <null>.");
-        }
-
-        [Fact]
-        public void When_dictionary_does_not_contain_multiple_values_that_is_not_in_the_dictionary_it_should_not_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary.Should().NotContainValues("Three", "Four");
-
-            // Assert
-            act.Should().NotThrow<XunitException>();
-        }
-
-        [Fact]
-        public void When_a_dictionary_contains_a_exactly_one_of_the_values_it_should_throw_with_clear_explanation()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary.Should().NotContainValues(new[] { "Two" }, "because {0}", "we do");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to not contain value \"Two\" because we do.");
-        }
-
-        [Fact]
-        public void When_a_dictionary_contains_a_number_of_values_it_should_throw_with_clear_explanation()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary.Should().NotContainValues(new[] { "Two", "Three" }, "because {0}", "we do");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to not contain value {\"Two\", \"Three\"} because we do, but found {\"Two\"}.");
-        }
-
-        [Fact]
-        public void When_the_noncontents_of_a_dictionary_are_checked_against_an_empty_list_of_values_it_should_throw_clear_explanation()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act
-            Action act = () => dictionary.Should().NotContainValues(new string[0]);
-
-            // Assert
-            act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot verify value containment with an empty sequence*");
-        }
-
-        #endregion
-
-        #region Contain
-
-        [Fact]
-        public void Should_succeed_when_asserting_dictionary_contains_single_key_value_pair()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                var keyValuePairs = new List<KeyValuePair<int, string>>()
             {
                 new KeyValuePair<int, string>(1, "One")
             };
 
-            // Act / Assert
-            dictionary.Should().Contain(keyValuePairs);
-        }
+                // Act / Assert
+                dictionary.Should().Contain(keyValuePairs);
+            }
 
-        [Fact]
-        public void Should_succeed_when_asserting_dictionary_contains_multiple_key_value_pair()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void Should_succeed_when_asserting_dictionary_contains_multiple_key_value_pair()
             {
-                [1] = "One",
-                [2] = "Two",
-                [3] = "Three",
-                [4] = "Four"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two",
+                    [3] = "Three",
+                    [4] = "Four"
+                };
 
-            var expectedKeyValuePair1 = new KeyValuePair<int, string>(2, "Two");
-            var expectedKeyValuePair2 = new KeyValuePair<int, string>(3, "Three");
+                var expectedKeyValuePair1 = new KeyValuePair<int, string>(2, "Two");
+                var expectedKeyValuePair2 = new KeyValuePair<int, string>(3, "Three");
 
-            // Act / Assert
-            dictionary.Should().Contain(expectedKeyValuePair1, expectedKeyValuePair2);
-        }
+                // Act / Assert
+                dictionary.Should().Contain(expectedKeyValuePair1, expectedKeyValuePair2);
+            }
 
-        [Fact]
-        public void Should_succeed_when_asserting_dictionary_does_not_contain_single_key_value_pair()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void Should_succeed_when_asserting_dictionary_contains_multiple_key_value_pairs()
             {
-                [1] = "One",
-                [2] = "Two"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
 
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
-            {
-                new KeyValuePair<int, string>(3, "Three")
-            };
-
-            // Act / Assert
-            dictionary.Should().NotContain(keyValuePairs);
-        }
-
-        [Fact]
-        public void Should_succeed_when_asserting_dictionary_does_not_contain_multiple_key_value_pair()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            var unexpectedKeyValuePair1 = new KeyValuePair<int, string>(3, "Three");
-            var unexpectedKeyValuePair2 = new KeyValuePair<int, string>(4, "Four");
-
-            // Act / Assert
-            dictionary.Should().NotContain(unexpectedKeyValuePair1, unexpectedKeyValuePair2);
-        }
-
-        [Fact]
-        public void Should_succeed_when_asserting_dictionary_does_not_contain_single_key_value_pair_with_existing_key_but_different_value()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
-            {
-                new KeyValuePair<int, string>(1, "Two")
-            };
-
-            // Act / Assert
-            dictionary.Should().NotContain(keyValuePairs);
-        }
-
-        [Fact]
-        public void Should_succeed_when_asserting_dictionary_contains_multiple_key_value_pairs()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
+                var keyValuePairs = new List<KeyValuePair<int, string>>()
             {
                 new KeyValuePair<int, string>(1, "One"),
                 new KeyValuePair<int, string>(2, "Two")
             };
 
-            // Act / Assert
-            dictionary.Should().Contain(keyValuePairs);
-        }
+                // Act / Assert
+                dictionary.Should().Contain(keyValuePairs);
+            }
 
-        [Fact]
-        public void Should_succeed_when_asserting_dictionary_does_not_contain_multiple_key_value_pairs()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_a_dictionary_does_not_contain_single_value_for_key_value_pairs_it_should_throw_with_clear_explanation()
             {
-                [1] = "One",
-                [2] = "Two"
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                var keyValuePairs = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "One"),
+                new KeyValuePair<int, string>(2, "Three")
             };
 
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
+                // Act
+                Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary to contain value \"Three\" at key 2 because we do, but found \"Two\".");
+            }
+
+            [Fact]
+            public void When_a_dictionary_does_not_contain_multiple_values_for_key_value_pairs_it_should_throw_with_clear_explanation()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                var keyValuePairs = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "Two"),
+                new KeyValuePair<int, string>(2, "Three")
+            };
+
+                // Act
+                Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary to contain {[1, Two], [2, Three]} because we do, but dictionary differs at keys {1, 2}.");
+            }
+
+            [Fact]
+            public void When_a_dictionary_does_not_contain_single_key_for_key_value_pairs_it_should_throw_with_clear_explanation()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                var keyValuePairs = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(3, "Three")
+            };
+
+                // Act
+                Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain key 3 because we do.");
+            }
+
+            [Fact]
+            public void When_a_dictionary_does_not_contain_multiple_keys_for_key_value_pairs_it_should_throw_with_clear_explanation()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                var keyValuePairs = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "One"),
+                new KeyValuePair<int, string>(3, "Three"),
+                new KeyValuePair<int, string>(4, "Four")
+            };
+
+                // Act
+                Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain key(s) {1, 3, 4} because we do, but could not find keys {3, 4}.");
+            }
+
+            [Fact]
+            public void When_asserting_dictionary_contains_key_value_pairs_against_null_dictionary_it_should_throw()
+            {
+                // Arrange
+                Dictionary<int, string> dictionary = null;
+                List<KeyValuePair<int, string>> keyValuePairs = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "One"),
+                new KeyValuePair<int, string>(1, "Two")
+            };
+
+                // Act
+                Action act = () => dictionary.Should().Contain(keyValuePairs,
+                    "because we want to test the behaviour with a null subject");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary to contain key/value pairs {[1, One], [1, Two]} because we want to test the behaviour with a null subject, but dictionary is <null>.");
+            }
+
+            [Fact]
+            public void When_asserting_dictionary_contains_key_value_pairs_but_expected_key_value_pairs_are_empty_it_should_throw()
+            {
+                // Arrange
+                var dictionary1 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+                List<KeyValuePair<int, string>> keyValuePairs = new List<KeyValuePair<int, string>>();
+
+                // Act
+                Action act = () => dictionary1.Should().Contain(keyValuePairs, "because we want to test the behaviour with an empty set of key/value pairs");
+
+                // Assert
+                act.Should().Throw<ArgumentException>().WithMessage(
+                    "Cannot verify key containment against an empty collection of key/value pairs*");
+            }
+
+            [Fact]
+            public void When_asserting_dictionary_contains_key_value_pairs_but_expected_key_value_pairs_are_null_it_should_throw()
+            {
+                // Arrange
+                var dictionary1 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+                List<KeyValuePair<int, string>> keyValuePairs = null;
+
+                // Act
+                Action act = () => dictionary1.Should().Contain(keyValuePairs, "because we want to test the behaviour with a null subject");
+
+                // Assert
+                act.Should().Throw<ArgumentNullException>()
+                    .WithMessage("Cannot compare dictionary with <null>.*")
+                    .WithParameterName("expected");
+            }
+
+            [Fact]
+            public void When_dictionary_contains_expected_value_at_specific_key_it_should_not_throw()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act / Assert
+                dictionary.Should().Contain(1, "One");
+            }
+
+            [Fact]
+            public void When_dictionary_contains_expected_null_at_specific_key_it_should_not_throw()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = null
+                };
+
+                // Act / Assert
+                dictionary.Should().Contain(1, null);
+            }
+
+            [Fact]
+            public void When_dictionary_contains_expected_key_value_pairs_it_should_not_throw()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act / Assert
+                var items = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "One"),
+                new KeyValuePair<int, string>(2, "Two")
+            };
+                dictionary.Should().Contain(items);
+            }
+
+            [Fact]
+            public void When_dictionary_contains_expected_key_value_pair_it_should_not_throw()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act / Assert
+                var item = new KeyValuePair<int, string>(1, "One");
+                dictionary.Should().Contain(item);
+            }
+
+            [Fact]
+            public void When_dictionary_does_not_contain_the_expected_value_at_specific_key_it_should_throw()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                var item = new KeyValuePair<int, string>(1, "Two");
+                Action act = () => dictionary.Should().Contain(item, "we put it {0}", "there");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary to contain value \"Two\" at key 1 because we put it there, but found \"One\".");
+            }
+
+            [Fact]
+            public void When_dictionary_does_not_contain_the_key_value_pairs_it_should_throw()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                var items = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "Two"),
+                new KeyValuePair<int, string>(2, "Three")
+            };
+
+                // Act
+                Action act = () => dictionary.Should().Contain(items, "we put them {0}", "there");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary to contain {[1, Two], [2, Three]} because we put them there, but dictionary differs at keys {1, 2}.");
+            }
+
+            [Fact]
+            public void When_dictionary_does_not_contain_the_key_value_pair_it_should_throw()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary.Should().Contain(1, "Two", "we put it {0}", "there");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary to contain value \"Two\" at key 1 because we put it there, but found \"One\".");
+            }
+
+            [Fact]
+            public void When_dictionary_does_not_contain_an_value_at_the_specific_key_it_should_throw()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                // Act
+                Action act = () => dictionary.Should().Contain(3, "Two", "we put it {0}", "there");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary to contain value \"Two\" at key 3 because we put it there, but the key was not found.");
+            }
+
+            [Fact]
+            public void When_asserting_dictionary_contains_value_at_specific_key_against_null_dictionary_it_should_throw()
+            {
+                // Arrange
+                Dictionary<int, string> dictionary = null;
+
+                // Act
+                Action act = () => dictionary.Should().Contain(1, "One",
+                    "because we want to test the behaviour with a null subject");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary to contain value \"One\" at key 1 because we want to test the behaviour with a null subject, but dictionary is <null>.");
+            }
+
+            [Fact]
+            public void When_a_dictionary_like_collection_contains_the_default_key_it_should_succeed()
+            {
+                // Arrange
+                var subject = new List<KeyValuePair<int, int>>() { new(0, 0) };
+
+                // Act
+                Action act = () => subject.Should().Contain(0, 0);
+
+                // Assert
+                act.Should().NotThrow();
+            }
+        }
+
+        public class NotContain
+        {
+            [Fact]
+            public void Should_succeed_when_asserting_dictionary_does_not_contain_single_key_value_pair()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                var keyValuePairs = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(3, "Three")
+            };
+
+                // Act / Assert
+                dictionary.Should().NotContain(keyValuePairs);
+            }
+
+            [Fact]
+            public void Should_succeed_when_asserting_dictionary_does_not_contain_multiple_key_value_pair()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                var unexpectedKeyValuePair1 = new KeyValuePair<int, string>(3, "Three");
+                var unexpectedKeyValuePair2 = new KeyValuePair<int, string>(4, "Four");
+
+                // Act / Assert
+                dictionary.Should().NotContain(unexpectedKeyValuePair1, unexpectedKeyValuePair2);
+            }
+
+            [Fact]
+            public void Should_succeed_when_asserting_dictionary_does_not_contain_single_key_value_pair_with_existing_key_but_different_value()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                var keyValuePairs = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "Two")
+            };
+
+                // Act / Assert
+                dictionary.Should().NotContain(keyValuePairs);
+            }
+
+            [Fact]
+            public void Should_succeed_when_asserting_dictionary_does_not_contain_multiple_key_value_pairs()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+
+                var keyValuePairs = new List<KeyValuePair<int, string>>()
             {
                 new KeyValuePair<int, string>(3, "Three"),
                 new KeyValuePair<int, string>(4, "Four")
             };
 
-            // Act / Assert
-            dictionary.Should().NotContain(keyValuePairs);
-        }
+                // Act / Assert
+                dictionary.Should().NotContain(keyValuePairs);
+            }
 
-        [Fact]
-        public void Should_succeed_when_asserting_dictionary_does_not_contain_multiple_key_value_pairs_with_existing_keys_but_different_values()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void Should_succeed_when_asserting_dictionary_does_not_contain_multiple_key_value_pairs_with_existing_keys_but_different_values()
             {
-                [1] = "One",
-                [2] = "Two"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
 
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
+                var keyValuePairs = new List<KeyValuePair<int, string>>()
             {
                 new KeyValuePair<int, string>(1, "Three"),
                 new KeyValuePair<int, string>(2, "Four")
             };
 
-            // Act / Assert
-            dictionary.Should().NotContain(keyValuePairs);
-        }
+                // Act / Assert
+                dictionary.Should().NotContain(keyValuePairs);
+            }
 
-        [Fact]
-        public void When_a_dictionary_does_not_contain_single_value_for_key_value_pairs_it_should_throw_with_clear_explanation()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_a_dictionary_does_contain_single_key_value_pair_it_should_throw_with_clear_explanation()
             {
-                [1] = "One",
-                [2] = "Two"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
 
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
-            {
-                new KeyValuePair<int, string>(1, "One"),
-                new KeyValuePair<int, string>(2, "Three")
-            };
-
-            // Act
-            Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to contain value \"Three\" at key 2 because we do, but found \"Two\".");
-        }
-
-        [Fact]
-        public void When_a_dictionary_does_not_contain_multiple_values_for_key_value_pairs_it_should_throw_with_clear_explanation()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
-            {
-                new KeyValuePair<int, string>(1, "Two"),
-                new KeyValuePair<int, string>(2, "Three")
-            };
-
-            // Act
-            Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to contain {[1, Two], [2, Three]} because we do, but dictionary differs at keys {1, 2}.");
-        }
-
-        [Fact]
-        public void When_a_dictionary_does_not_contain_single_key_for_key_value_pairs_it_should_throw_with_clear_explanation()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
-            {
-                new KeyValuePair<int, string>(3, "Three")
-            };
-
-            // Act
-            Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain key 3 because we do.");
-        }
-
-        [Fact]
-        public void When_a_dictionary_does_not_contain_multiple_keys_for_key_value_pairs_it_should_throw_with_clear_explanation()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
-            {
-                new KeyValuePair<int, string>(1, "One"),
-                new KeyValuePair<int, string>(3, "Three"),
-                new KeyValuePair<int, string>(4, "Four")
-            };
-
-            // Act
-            Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain key(s) {1, 3, 4} because we do, but could not find keys {3, 4}.");
-        }
-
-        [Fact]
-        public void When_a_dictionary_does_contain_single_key_value_pair_it_should_throw_with_clear_explanation()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
+                var keyValuePairs = new List<KeyValuePair<int, string>>()
             {
                 new KeyValuePair<int, string>(1, "One")
             };
 
-            // Act
-            Action act = () => dictionary.Should().NotContain(keyValuePairs, "because {0}", "we do");
+                // Act
+                Action act = () => dictionary.Should().NotContain(keyValuePairs, "because {0}", "we do");
 
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to not contain value \"One\" at key 1 because we do, but found it anyhow.");
-        }
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary to not contain value \"One\" at key 1 because we do, but found it anyhow.");
+            }
 
-        [Fact]
-        public void When_a_dictionary_does_contain_multiple_key_value_pairs_it_should_throw_with_clear_explanation()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_a_dictionary_does_contain_multiple_key_value_pairs_it_should_throw_with_clear_explanation()
             {
-                [1] = "One",
-                [2] = "Two"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
 
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
-            {
-                new KeyValuePair<int, string>(1, "One"),
-                new KeyValuePair<int, string>(2, "Two")
-            };
-
-            // Act
-            Action act = () => dictionary.Should().NotContain(keyValuePairs, "because {0}", "we do");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to not contain key/value pairs {[1, One], [2, Two]} because we do, but found them anyhow.");
-        }
-
-        [Fact]
-        public void When_asserting_dictionary_contains_key_value_pairs_against_null_dictionary_it_should_throw()
-        {
-            // Arrange
-            Dictionary<int, string> dictionary = null;
-            List<KeyValuePair<int, string>> keyValuePairs = new List<KeyValuePair<int, string>>()
-            {
-                new KeyValuePair<int, string>(1, "One"),
-                new KeyValuePair<int, string>(1, "Two")
-            };
-
-            // Act
-            Action act = () => dictionary.Should().Contain(keyValuePairs,
-                "because we want to test the behaviour with a null subject");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to contain key/value pairs {[1, One], [1, Two]} because we want to test the behaviour with a null subject, but dictionary is <null>.");
-        }
-
-        [Fact]
-        public void When_asserting_dictionary_contains_key_value_pairs_but_expected_key_value_pairs_are_empty_it_should_throw()
-        {
-            // Arrange
-            var dictionary1 = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-            List<KeyValuePair<int, string>> keyValuePairs = new List<KeyValuePair<int, string>>();
-
-            // Act
-            Action act = () => dictionary1.Should().Contain(keyValuePairs, "because we want to test the behaviour with an empty set of key/value pairs");
-
-            // Assert
-            act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot verify key containment against an empty collection of key/value pairs*");
-        }
-
-        [Fact]
-        public void When_asserting_dictionary_contains_key_value_pairs_but_expected_key_value_pairs_are_null_it_should_throw()
-        {
-            // Arrange
-            var dictionary1 = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-            List<KeyValuePair<int, string>> keyValuePairs = null;
-
-            // Act
-            Action act = () => dictionary1.Should().Contain(keyValuePairs, "because we want to test the behaviour with a null subject");
-
-            // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .WithMessage("Cannot compare dictionary with <null>.*")
-                .WithParameterName("expected");
-        }
-
-        [Fact]
-        public void When_asserting_dictionary_does_not_contain_key_value_pairs_against_null_dictionary_it_should_throw()
-        {
-            // Arrange
-            Dictionary<int, string> dictionary = null;
-            List<KeyValuePair<int, string>> keyValuePairs = new List<KeyValuePair<int, string>>()
-            {
-                new KeyValuePair<int, string>(1, "One"),
-                new KeyValuePair<int, string>(1, "Two")
-            };
-
-            // Act
-            Action act = () => dictionary.Should().NotContain(keyValuePairs,
-                "because we want to test the behaviour with a null subject");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to not contain key/value pairs {[1, One], [1, Two]} because we want to test the behaviour with a null subject, but dictionary is <null>.");
-        }
-
-        [Fact]
-        public void When_asserting_dictionary_does_not_contain_key_value_pairs_but_expected_key_value_pairs_are_empty_it_should_throw()
-        {
-            // Arrange
-            var dictionary1 = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-            List<KeyValuePair<int, string>> keyValuePair = new List<KeyValuePair<int, string>>();
-
-            // Act
-            Action act = () => dictionary1.Should().NotContain(keyValuePair, "because we want to test the behaviour with an empty set of key/value pairs");
-
-            // Assert
-            act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot verify key containment against an empty collection of key/value pairs*");
-        }
-
-        [Fact]
-        public void When_asserting_dictionary_does_not_contain_key_value_pairs_but_expected_key_value_pairs_are_null_it_should_throw()
-        {
-            // Arrange
-            var dictionary1 = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-            List<KeyValuePair<int, string>> keyValuePairs = null;
-
-            // Act
-            Action act = () => dictionary1.Should().NotContain(keyValuePairs, "because we want to test the behaviour with a null subject");
-
-            // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .WithMessage("Cannot compare dictionary with <null>.*")
-                .WithParameterName("items");
-        }
-
-        [Fact]
-        public void When_dictionary_contains_expected_value_at_specific_key_it_should_not_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act / Assert
-            dictionary.Should().Contain(1, "One");
-        }
-
-        [Fact]
-        public void When_dictionary_contains_expected_null_at_specific_key_it_should_not_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = null
-            };
-
-            // Act / Assert
-            dictionary.Should().Contain(1, null);
-        }
-
-        [Fact]
-        public void When_dictionary_contains_expected_key_value_pairs_it_should_not_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
-            {
-                [1] = "One",
-                [2] = "Two"
-            };
-
-            // Act / Assert
-            var items = new List<KeyValuePair<int, string>>()
+                var keyValuePairs = new List<KeyValuePair<int, string>>()
             {
                 new KeyValuePair<int, string>(1, "One"),
                 new KeyValuePair<int, string>(2, "Two")
             };
-            dictionary.Should().Contain(items);
-        }
 
-        [Fact]
-        public void When_dictionary_contains_expected_key_value_pair_it_should_not_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+                // Act
+                Action act = () => dictionary.Should().NotContain(keyValuePairs, "because {0}", "we do");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary to not contain key/value pairs {[1, One], [2, Two]} because we do, but found them anyhow.");
+            }
+
+            [Fact]
+            public void When_asserting_dictionary_does_not_contain_key_value_pairs_against_null_dictionary_it_should_throw()
             {
-                [1] = "One",
-                [2] = "Two"
-            };
+                // Arrange
+                Dictionary<int, string> dictionary = null;
+                List<KeyValuePair<int, string>> keyValuePairs = new List<KeyValuePair<int, string>>()
+                {
+                    new KeyValuePair<int, string>(1, "One"),
+                    new KeyValuePair<int, string>(1, "Two")
+                };
 
-            // Act / Assert
-            var item = new KeyValuePair<int, string>(1, "One");
-            dictionary.Should().Contain(item);
-        }
+                // Act
+                Action act = () => dictionary.Should().NotContain(keyValuePairs,
+                    "because we want to test the behaviour with a null subject");
 
-        [Fact]
-        public void When_dictionary_does_not_contain_the_expected_value_at_specific_key_it_should_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary to not contain key/value pairs {[1, One], [1, Two]} because we want to test the behaviour with a null subject, but dictionary is <null>.");
+            }
+
+            [Fact]
+            public void When_asserting_dictionary_does_not_contain_key_value_pairs_but_expected_key_value_pairs_are_empty_it_should_throw()
             {
-                [1] = "One",
-                [2] = "Two"
-            };
+                // Arrange
+                var dictionary1 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+                List<KeyValuePair<int, string>> keyValuePair = new List<KeyValuePair<int, string>>();
 
-            // Act
-            var item = new KeyValuePair<int, string>(1, "Two");
-            Action act = () => dictionary.Should().Contain(item, "we put it {0}", "there");
+                // Act
+                Action act = () => dictionary1.Should().NotContain(keyValuePair, "because we want to test the behaviour with an empty set of key/value pairs");
 
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to contain value \"Two\" at key 1 because we put it there, but found \"One\".");
-        }
+                // Assert
+                act.Should().Throw<ArgumentException>().WithMessage(
+                    "Cannot verify key containment against an empty collection of key/value pairs*");
+            }
 
-        [Fact]
-        public void When_dictionary_does_not_contain_the_key_value_pairs_it_should_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_asserting_dictionary_does_not_contain_key_value_pairs_but_expected_key_value_pairs_are_null_it_should_throw()
             {
-                [1] = "One",
-                [2] = "Two"
-            };
+                // Arrange
+                var dictionary1 = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
+                List<KeyValuePair<int, string>> keyValuePairs = null;
 
-            var items = new List<KeyValuePair<int, string>>()
+                // Act
+                Action act = () => dictionary1.Should().NotContain(keyValuePairs, "because we want to test the behaviour with a null subject");
+
+                // Assert
+                act.Should().Throw<ArgumentNullException>()
+                    .WithMessage("Cannot compare dictionary with <null>.*")
+                    .WithParameterName("items");
+            }
+
+            [Fact]
+            public void When_dictionary_does_not_contain_unexpected_value_or_key_it_should_not_throw()
             {
-                new KeyValuePair<int, string>(1, "Two"),
-                new KeyValuePair<int, string>(2, "Three")
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
 
-            // Act
-            Action act = () => dictionary.Should().Contain(items, "we put them {0}", "there");
+                // Act / Assert
+                dictionary.Should().NotContain(3, "Three");
+            }
 
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to contain {[1, Two], [2, Three]} because we put them there, but dictionary differs at keys {1, 2}.");
-        }
-
-        [Fact]
-        public void When_dictionary_does_not_contain_the_key_value_pair_it_should_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_does_not_contain_unexpected_value_at_existing_key_it_should_not_throw()
             {
-                [1] = "One",
-                [2] = "Two"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
 
-            // Act
-            Action act = () => dictionary.Should().Contain(1, "Two", "we put it {0}", "there");
+                // Act / Assert
+                dictionary.Should().NotContain(2, "Three");
+            }
 
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to contain value \"Two\" at key 1 because we put it there, but found \"One\".");
-        }
-
-        [Fact]
-        public void When_dictionary_does_not_contain_an_value_at_the_specific_key_it_should_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_does_not_have_the_unexpected_value_but_null_at_existing_key_it_should_succeed()
             {
-                [1] = "One",
-                [2] = "Two"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = null
+                };
 
-            // Act
-            Action act = () => dictionary.Should().Contain(3, "Two", "we put it {0}", "there");
+                // Act
+                Action action = () => dictionary.Should().NotContain(1, "other");
 
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to contain value \"Two\" at key 3 because we put it there, but the key was not found.");
-        }
+                // Assert
+                action.Should().NotThrow();
+            }
 
-        [Fact]
-        public void When_asserting_dictionary_contains_value_at_specific_key_against_null_dictionary_it_should_throw()
-        {
-            // Arrange
-            Dictionary<int, string> dictionary = null;
-
-            // Act
-            Action act = () => dictionary.Should().Contain(1, "One",
-                "because we want to test the behaviour with a null subject");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to contain value \"One\" at key 1 because we want to test the behaviour with a null subject, but dictionary is <null>.");
-        }
-
-        [Fact]
-        public void When_dictionary_does_not_contain_unexpected_value_or_key_it_should_not_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_does_not_contain_unexpected_key_value_pairs_it_should_not_throw()
             {
-                [1] = "One",
-                [2] = "Two"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
 
-            // Act / Assert
-            dictionary.Should().NotContain(3, "Three");
-        }
+                // Act / Assert
+                var items = new List<KeyValuePair<int, string>>()
+                {
+                    new KeyValuePair<int, string>(3, "Three"),
+                    new KeyValuePair<int, string>(4, "Four")
+                };
+                dictionary.Should().NotContain(items);
+            }
 
-        [Fact]
-        public void When_dictionary_does_not_contain_unexpected_value_at_existing_key_it_should_not_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_does_not_contain_unexpected_key_value_pair_it_should_not_throw()
             {
-                [1] = "One",
-                [2] = "Two"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
 
-            // Act / Assert
-            dictionary.Should().NotContain(2, "Three");
-        }
+                // Act / Assert
+                var item = new KeyValuePair<int, string>(3, "Three");
+                dictionary.Should().NotContain(item);
+            }
 
-        [Fact]
-        public void When_dictionary_does_not_have_the_unexpected_value_but_null_at_existing_key_it_should_succeed()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_contains_the_unexpected_value_at_specific_key_it_should_throw()
             {
-                [1] = null
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
 
-            // Act
-            Action action = () => dictionary.Should().NotContain(1, "other");
+                // Act
+                var item = new KeyValuePair<int, string>(1, "One");
+                Action act = () => dictionary.Should().NotContain(item, "we put it {0}", "there");
 
-            // Assert
-            action.Should().NotThrow();
-        }
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary not to contain value \"One\" at key 1 because we put it there, but found it anyhow.");
+            }
 
-        [Fact]
-        public void When_dictionary_does_not_contain_unexpected_key_value_pairs_it_should_not_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Fact]
+            public void When_dictionary_contains_the_key_value_pairs_it_should_throw()
             {
-                [1] = "One",
-                [2] = "Two"
-            };
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
 
-            // Act / Assert
-            var items = new List<KeyValuePair<int, string>>()
+                // Act
+                var items = new List<KeyValuePair<int, string>>()
+                {
+                    new KeyValuePair<int, string>(1, "One"),
+                    new KeyValuePair<int, string>(2, "Two")
+                };
+                Action act = () => dictionary.Should().NotContain(items, "we did not put them {0}", "there");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary to not contain key/value pairs {[1, One], [2, Two]} because we did not put them there, but found them anyhow.");
+            }
+
+            [Fact]
+            public void When_dictionary_contains_the_key_value_pair_it_should_throw()
             {
-                new KeyValuePair<int, string>(3, "Three"),
-                new KeyValuePair<int, string>(4, "Four")
-            };
-            dictionary.Should().NotContain(items);
-        }
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
 
-        [Fact]
-        public void When_dictionary_does_not_contain_unexpected_key_value_pair_it_should_not_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+                // Act
+                Action act = () => dictionary.Should().NotContain(1, "One", "we did not put it {0}", "there");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary not to contain value \"One\" at key 1 because we did not put it there, but found it anyhow.");
+            }
+
+            [Fact]
+            public void When_asserting_dictionary_does_not_contain_value_at_specific_key_against_null_dictionary_it_should_throw()
             {
-                [1] = "One",
-                [2] = "Two"
-            };
+                // Arrange
+                Dictionary<int, string> dictionary = null;
 
-            // Act / Assert
-            var item = new KeyValuePair<int, string>(3, "Three");
-            dictionary.Should().NotContain(item);
+                // Act
+                Action act = () => dictionary.Should().NotContain(1, "One",
+                    "because we want to test the behaviour with a null subject");
+
+                // Assert
+                act.Should().Throw<XunitException>().WithMessage(
+                    "Expected dictionary not to contain value \"One\" at key 1 because we want to test the behaviour with a null subject, but dictionary is <null>.");
+            }
         }
 
-        [Fact]
-        public void When_dictionary_contains_the_unexpected_value_at_specific_key_it_should_throw()
+        public class OtherDictionaryAssertions
         {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Theory]
+            [MemberData(nameof(SingleDictionaryData))]
+            public void When_a_dictionary_like_collection_contains_the_expected_key_and_value_it_should_succeed<T>(T subject)
+                where T : IEnumerable<KeyValuePair<int, int>>
             {
-                [1] = "One",
-                [2] = "Two"
-            };
+                // Assert
+                subject.Should().Contain(1, 42);
+            }
 
-            // Act
-            var item = new KeyValuePair<int, string>(1, "One");
-            Action act = () => dictionary.Should().NotContain(item, "we put it {0}", "there");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary not to contain value \"One\" at key 1 because we put it there, but found it anyhow.");
-        }
-
-        [Fact]
-        public void When_dictionary_contains_the_key_value_pairs_it_should_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Theory]
+            [MemberData(nameof(SingleDictionaryData))]
+            public void When_using_a_dictionary_like_collection_it_should_preserve_reference_equality<T>(T subject)
+                where T : IEnumerable<KeyValuePair<int, int>>
             {
-                [1] = "One",
-                [2] = "Two"
-            };
+                // Act
+                Action act = () => subject.Should().BeSameAs(subject);
 
-            // Act
-            var items = new List<KeyValuePair<int, string>>()
+                // Assert
+                act.Should().NotThrow();
+            }
+
+            [Theory]
+            [MemberData(nameof(SingleDictionaryData))]
+            public void When_a_dictionary_like_collection_contains_the_expected_key_it_should_succeed<T>(T subject)
+                where T : IEnumerable<KeyValuePair<int, int>>
             {
-                new KeyValuePair<int, string>(1, "One"),
-                new KeyValuePair<int, string>(2, "Two")
-            };
-            Action act = () => dictionary.Should().NotContain(items, "we did not put them {0}", "there");
+                // Act
+                Action act = () => subject.Should().ContainKey(1);
 
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary to not contain key/value pairs {[1, One], [2, Two]} because we did not put them there, but found them anyhow.");
-        }
+                // Assert
+                act.Should().NotThrow();
+            }
 
-        [Fact]
-        public void When_dictionary_contains_the_key_value_pair_it_should_throw()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Theory]
+            [MemberData(nameof(SingleDictionaryData))]
+            public void When_a_dictionary_like_collection_contains_the_expected_value_it_should_succeed<T>(T subject)
+                where T : IEnumerable<KeyValuePair<int, int>>
             {
-                [1] = "One",
-                [2] = "Two"
-            };
+                // Act
+                Action act = () => subject.Should().ContainValue(42);
 
-            // Act
-            Action act = () => dictionary.Should().NotContain(1, "One", "we did not put it {0}", "there");
+                // Assert
+                act.Should().NotThrow();
+            }
 
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary not to contain value \"One\" at key 1 because we did not put it there, but found it anyhow.");
-        }
-
-        [Fact]
-        public void When_asserting_dictionary_does_not_contain_value_at_specific_key_against_null_dictionary_it_should_throw()
-        {
-            // Arrange
-            Dictionary<int, string> dictionary = null;
-
-            // Act
-            Action act = () => dictionary.Should().NotContain(1, "One",
-                "because we want to test the behaviour with a null subject");
-
-            // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary not to contain value \"One\" at key 1 because we want to test the behaviour with a null subject, but dictionary is <null>.");
-        }
-
-        #endregion
-
-        #region Miscellaneous
-
-        [Fact]
-        public void Should_support_chaining_constraints_with_and()
-        {
-            // Arrange
-            var dictionary = new Dictionary<int, string>
+            [Theory]
+            [MemberData(nameof(DictionariesData))]
+            public void When_comparing_dictionary_like_collections_for_equality_it_should_succeed<T1, T2>(T1 subject, T2 expected)
+                where T1 : IEnumerable<KeyValuePair<int, int>>
+                where T2 : IEnumerable<KeyValuePair<int, int>>
             {
-                [1] = "One",
-                [2] = "Two"
-            };
+                // Act
+                Action act = () => subject.Should().Equal(expected);
 
-            // Act / Assert
-            dictionary.Should()
-                .HaveCount(2)
-                .And.ContainKey(1)
-                .And.ContainValue("Two");
-        }
+                // Assert
+                act.Should().NotThrow();
+            }
 
-        #endregion
-
-        [Theory]
-        [MemberData(nameof(DictionariesData))]
-        public void When_comparing_dictionary_like_collections_for_equality_it_should_succeed<T1, T2>(T1 subject, T2 expected)
-            where T1 : IEnumerable<KeyValuePair<int, int>>
-            where T2 : IEnumerable<KeyValuePair<int, int>>
-        {
-            // Act
-            Action act = () => subject.Should().Equal(expected);
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Theory]
-        [MemberData(nameof(DictionariesData))]
-        public void When_comparing_dictionary_like_collections_for_inequality_it_should_throw<T1, T2>(T1 subject, T2 expected)
-            where T1 : IEnumerable<KeyValuePair<int, int>>
-            where T2 : IEnumerable<KeyValuePair<int, int>>
-        {
-            // Act
-            Action act = () => subject.Should().NotEqual(expected);
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        public static IEnumerable<object[]> DictionariesData()
-        {
-            return from x in Dictionaries()
-                   from y in Dictionaries()
-                   select new[] { x, y };
-        }
-
-        [Theory]
-        [MemberData(nameof(SingleDictionaryData))]
-        public void When_a_dictionary_like_collection_contains_the_expected_key_it_should_succeed<T>(T subject)
-            where T : IEnumerable<KeyValuePair<int, int>>
-        {
-            // Act
-            Action act = () => subject.Should().ContainKey(1);
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Theory]
-        [MemberData(nameof(SingleDictionaryData))]
-        public void When_a_dictionary_like_collection_contains_the_expected_key_and_value_it_should_succeed<T>(T subject)
-            where T : IEnumerable<KeyValuePair<int, int>>
-        {
-            // Assert
-            subject.Should().Contain(1, 42);
-        }
-
-        [Theory]
-        [MemberData(nameof(SingleDictionaryData))]
-        public void When_a_dictionary_like_collection_contains_the_expected_value_it_should_succeed<T>(T subject)
-            where T : IEnumerable<KeyValuePair<int, int>>
-        {
-            // Act
-            Action act = () => subject.Should().ContainValue(42);
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Theory]
-        [MemberData(nameof(SingleDictionaryData))]
-        public void When_using_a_dictionary_like_collection_it_should_preserve_reference_equality<T>(T subject)
-            where T : IEnumerable<KeyValuePair<int, int>>
-        {
-            // Act
-            Action act = () => subject.Should().BeSameAs(subject);
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        public static IEnumerable<object[]> SingleDictionaryData() =>
-            Dictionaries().Select(x => new[] { x });
-
-        private static object[] Dictionaries()
-        {
-            return new object[]
+            [Theory]
+            [MemberData(nameof(DictionariesData))]
+            public void When_comparing_dictionary_like_collections_for_inequality_it_should_throw<T1, T2>(T1 subject, T2 expected)
+                where T1 : IEnumerable<KeyValuePair<int, int>>
+                where T2 : IEnumerable<KeyValuePair<int, int>>
             {
+                // Act
+                Action act = () => subject.Should().NotEqual(expected);
+
+                // Assert
+                act.Should().Throw<XunitException>();
+            }
+
+            public static IEnumerable<object[]> SingleDictionaryData() =>
+                    Dictionaries().Select(x => new[] { x });
+
+            public static object[] Dictionaries()
+            {
+                return new object[]
+                {
                 new Dictionary<int, int>() { [1] = 42 },
                 new TrueReadOnlyDictionary<int, int>(new Dictionary<int, int>() { [1] = 42 }),
                 new List<KeyValuePair<int, int>> { new KeyValuePair<int, int>(1, 42) }
-            };
+                };
+            }
+
+            public static IEnumerable<object[]> DictionariesData()
+            {
+                return from x in Dictionaries()
+                       from y in Dictionaries()
+                       select new[] { x, y };
+            }
         }
 
-        [Fact]
-        public void When_a_dictionary_like_collection_contains_the_default_key_it_should_succeed()
+        public class Miscellaneous
         {
-            // Arrange
-            var subject = new List<KeyValuePair<int, int>>() { new(0, 0) };
+            [Fact]
+            public void Should_support_chaining_constraints_with_and()
+            {
+                // Arrange
+                var dictionary = new Dictionary<int, string>
+                {
+                    [1] = "One",
+                    [2] = "Two"
+                };
 
-            // Act
-            Action act = () => subject.Should().Contain(0, 0);
-
-            // Assert
-            act.Should().NotThrow();
+                // Act / Assert
+                dictionary.Should()
+                    .HaveCount(2)
+                    .And.ContainKey(1)
+                    .And.ContainValue("Two");
+            }
         }
 
         /// <summary>

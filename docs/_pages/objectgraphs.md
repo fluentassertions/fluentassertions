@@ -130,6 +130,23 @@ orderDto.Should().BeEquivalentTo(order, options =>
     options.Excluding(o => o.Products[1].Status));
 ```
 
+You can use `For` and `Exclude` if you want to exclude a member on each nested object regardless of its index.
+
+```csharp
+orderDto.Should().BeEquivalentTo(order, options =>
+    options.For(o => o.Products)
+           .Exclude(o => o.Status));
+```
+
+Using `For` you can navigate arbitrarily deep. Consider a `Product` has a collection of `Part`s and a `Part` has a name. Using `For` your can also exclude the `Name` of all `Part`s of all `Product`s.
+
+```csharp
+orderDto.Should().BeEquivalentTo(order, options =>
+    options.For(o => o.Products)
+           .For(o => o.Parts)
+           .Exclude(o => o.Name));
+```
+
 Of course, `Excluding()` and `ExcludingMissingMembers()` can be combined.
 
 You can also take a different approach and explicitly tell Fluent Assertions which members to include. You can directly specify a property expression or use a predicate that acts on the provided `ISubjectInfo`.
@@ -215,6 +232,27 @@ orderDto.Should().BeEquivalentTo(order, options => options
 ```
 
 Notice that you can also map properties to fields and vice-versa.
+
+### Hidden Members
+
+Sometimes types have members out of necessity, to satisfy a contract, but they aren't logically a part of the type. In this case, they are often marked with the attribute `[EditorBrowsable(EditorBrowsableState.Never)]`, so that the object can satisfy the contract but the members don't show up in IntelliSense when writing code that uses the type.
+
+If you want to compare objects that have such fields, but you want to exclude the non-browsable "hidden" members (for instance, their implementations often simply throw `NotImplementedException`), you can call `ExcludingNonBrowsableMembers` on the options object:
+
+```csharp
+class DataType
+{
+    public int X { get; }
+
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public int Y => throw new NotImplementedException();
+}
+
+DataType original, derived;
+
+derived.Should().BeEquivalentTo(original, options => options
+    .ExcludingNonBrowsableMembers());
+```
 
 ### Equivalency Comparison Behavior
 
