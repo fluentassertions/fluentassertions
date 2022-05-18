@@ -6,8 +6,6 @@
     <AssemblyOriginatorKeyFile>FluentAssertions.snk</AssemblyOriginatorKeyFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>1591;1573</NoWarn>
-    <CheckEolTargetFramework>false</CheckEolTargetFramework>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
@@ -29,7 +27,6 @@
     <PackageIcon>FluentAssertions.png</PackageIcon>
     <PackageReleaseNotes>See https://fluentassertions.com/releases/</PackageReleaseNotes>
     <Copyright>Copyright Dennis Doomen 2010-2020</Copyright>
-    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' != 'net6.0'">
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
@@ -64,6 +61,9 @@
   </ItemGroup>
   <ItemGroup Condition=" !('$(TargetFramework)' == 'net47' Or '$(TargetFramework)' == 'netstandard2.0') ">
     <Compile Remove="SystemExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+    <Compile Remove="StringBuilderExtensions.cs" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net47' Or '$(TargetFramework)' == 'netcoreapp2.1' Or '$(TargetFramework)' == 'netcoreapp3.0' Or '$(TargetFramework)' == 'net6.0' ">
     <Compile Remove="Common/NullConfigurationStore.cs" />
