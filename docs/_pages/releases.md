@@ -7,7 +7,7 @@ sidebar:
   nav: "sidebar"
 ---
 
-## Unreleased
+## 6.7.0
 
 ### What's new
 * Add `BeDefined` and `NotBeDefined` to assert on existence of an enum value - [#1888](https://github.com/fluentassertions/fluentassertions/pull/1888)
