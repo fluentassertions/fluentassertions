@@ -152,7 +152,7 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
     public AndConstraint<TAssertions> NotBeFalse(string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(!Subject.HasValue || Subject.Value)
+            .ForCondition(Subject is not false)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:nullable boolean} not to be {0}{reason}, but found {1}.", false, Subject);
 
@@ -172,7 +172,7 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
     public AndConstraint<TAssertions> NotBeTrue(string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(!Subject.HasValue || !Subject.Value)
+            .ForCondition(Subject is not true)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:nullable boolean} not to be {0}{reason}, but found {1}.", true, Subject);
 

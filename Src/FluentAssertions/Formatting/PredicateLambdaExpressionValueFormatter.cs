@@ -18,7 +18,7 @@ public class PredicateLambdaExpressionValueFormatter : IValueFormatter
 
         var reducedExpression = ReduceConstantSubExpressions(lambdaExpression.Body);
 
-        if (reducedExpression is BinaryExpression binaryExpression && binaryExpression.NodeType == ExpressionType.AndAlso)
+        if (reducedExpression is BinaryExpression { NodeType: ExpressionType.AndAlso } binaryExpression)
         {
             var subExpressions = ExtractChainOfExpressionsJoinedWithAndOperator(binaryExpression);
             formattedGraph.AddFragment(string.Join(" AndAlso ", subExpressions.Select(e => e.ToString())));

@@ -142,7 +142,7 @@ public class DateOnlyAssertions<TAssertions>
         params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) < 0)
+            .ForCondition(Subject < expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:date} to be before {0}{reason}, but found {1}.", expected,
                 Subject);
@@ -182,7 +182,7 @@ public class DateOnlyAssertions<TAssertions>
         params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) <= 0)
+            .ForCondition(Subject <= expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:date} to be on or before {0}{reason}, but found {1}.", expected,
                 Subject);
@@ -222,7 +222,7 @@ public class DateOnlyAssertions<TAssertions>
         params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) > 0)
+            .ForCondition(Subject > expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:date} to be after {0}{reason}, but found {1}.", expected,
                 Subject);
@@ -262,7 +262,7 @@ public class DateOnlyAssertions<TAssertions>
         params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) >= 0)
+            .ForCondition(Subject >= expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:date} to be on or after {0}{reason}, but found {1}.", expected,
                 Subject);

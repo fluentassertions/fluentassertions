@@ -1,5 +1,6 @@
 ﻿using System;
 using FluentAssertions.Extensions;
+using FluentAssertions.Primitives;
 using Xunit;
 using Xunit.Sdk;
 
@@ -155,6 +156,20 @@ public class SimpleTimeSpanAssertionSpecs
 
         // Act
         Action act = () => actual.Should().Be(expected);
+
+        // Assert
+        act.Should().Throw<XunitException>();
+    }
+
+    [Fact]
+    public void A_null_is_not_equal_to_another_value()
+    {
+        // Arrange
+        var subject = new SimpleTimeSpanAssertions(null);
+        TimeSpan expected = 2.Seconds();
+
+        // Act
+        Action act = () => subject.Be(expected);
 
         // Assert
         act.Should().Throw<XunitException>();
