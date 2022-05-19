@@ -238,7 +238,7 @@ internal static class TypeExtensions
             return type
                 .GetProperties(AllInstanceMembersFlag | BindingFlags.DeclaredOnly)
                 .Where(property => property.GetMethod?.IsPrivate == false)
-                .Where(property => includeInternals || (property.GetMethod?.IsAssembly == false && property.GetMethod?.IsFamilyOrAssembly == false))
+                .Where(property => includeInternals || (property.GetMethod is { IsAssembly: false, IsFamilyOrAssembly: false }))
                 .ToArray();
         });
     }
@@ -344,7 +344,7 @@ internal static class TypeExtensions
     private static bool HasNonPrivateGetter(PropertyInfo propertyInfo)
     {
         MethodInfo getMethod = propertyInfo.GetGetMethod(nonPublic: true);
-        return getMethod is not null && !getMethod.IsPrivate && !getMethod.IsFamily;
+        return getMethod is { IsPrivate: false, IsFamily: false };
     }
 
     /// <summary>

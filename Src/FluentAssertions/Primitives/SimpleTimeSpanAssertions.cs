@@ -50,14 +50,8 @@ public class SimpleTimeSpanAssertions<TAssertions>
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
-            .WithExpectation("Expected {context:time} to be positive{reason}, ")
-            .ForCondition(Subject.HasValue)
-            .FailWith("but found <null>.")
-            .Then
-            .ForCondition(Subject.Value.CompareTo(TimeSpan.Zero) > 0)
-            .FailWith("but found {0}.", Subject.Value)
-            .Then
-            .ClearExpectation();
+            .ForCondition(Subject > TimeSpan.Zero)
+            .FailWith("Expected {context:time} to be positive{reason}, but found {0}.", Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -76,14 +70,8 @@ public class SimpleTimeSpanAssertions<TAssertions>
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
-            .WithExpectation("Expected {context:time} to be negative{reason}, ")
-            .ForCondition(Subject.HasValue)
-            .FailWith("but found <null>.")
-            .Then
-            .ForCondition(Subject.Value.CompareTo(TimeSpan.Zero) < 0)
-            .FailWith("but found {0}.", Subject.Value)
-            .Then
-            .ClearExpectation();
+            .ForCondition(Subject < TimeSpan.Zero)
+            .FailWith("Expected {context:time} to be negative{reason}, but found {0}.", Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -104,14 +92,8 @@ public class SimpleTimeSpanAssertions<TAssertions>
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
-            .WithExpectation("Expected {0}{reason}, ", expected)
-            .ForCondition(Subject.HasValue)
-            .FailWith("but found <null>.")
-            .Then
-            .ForCondition(Subject.Value.CompareTo(expected) == 0)
-            .FailWith("but found {0}.", Subject.Value)
-            .Then
-            .ClearExpectation();
+            .ForCondition(expected == Subject)
+            .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -131,7 +113,7 @@ public class SimpleTimeSpanAssertions<TAssertions>
     public AndConstraint<TAssertions> NotBe(TimeSpan unexpected, string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(!Subject.HasValue || Subject.Value.CompareTo(unexpected) != 0)
+            .ForCondition(unexpected != Subject)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {0}{reason}.", unexpected);
 
@@ -154,14 +136,8 @@ public class SimpleTimeSpanAssertions<TAssertions>
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
-            .WithExpectation("Expected {context:time} to be less than {0}{reason}, ", expected)
-            .ForCondition(Subject.HasValue)
-            .FailWith("but found <null>.")
-            .Then
-            .ForCondition(Subject.Value.CompareTo(expected) < 0)
-            .FailWith("but found {0}.", Subject.Value)
-            .Then
-            .ClearExpectation();
+            .ForCondition(Subject < expected)
+            .FailWith("Expected {context:time} to be less than {0}{reason}, but found {1}.", expected, Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -182,14 +158,8 @@ public class SimpleTimeSpanAssertions<TAssertions>
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
-            .WithExpectation("Expected {context:time} to be less than or equal to {0}{reason}, ", expected)
-            .ForCondition(Subject.HasValue)
-            .FailWith("but found <null>.")
-            .Then
-            .ForCondition(Subject.Value.CompareTo(expected) <= 0)
-            .FailWith("but found {0}.", Subject.Value)
-            .Then
-            .ClearExpectation();
+            .ForCondition(Subject <= expected)
+            .FailWith("Expected {context:time} to be less than or equal to {0}{reason}, but found {1}.", expected, Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -213,14 +183,8 @@ public class SimpleTimeSpanAssertions<TAssertions>
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
-            .WithExpectation("Expected {context:time} to be greater than {0}{reason}, ", expected)
-            .ForCondition(Subject.HasValue)
-            .FailWith("but found <null>.")
-            .Then
-            .ForCondition(Subject.Value.CompareTo(expected) > 0)
-            .FailWith("but found {0}.", Subject.Value)
-            .Then
-            .ClearExpectation();
+            .ForCondition(Subject > expected)
+            .FailWith("Expected {context:time} to be greater than {0}{reason}, but found {1}.", expected, Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -242,14 +206,8 @@ public class SimpleTimeSpanAssertions<TAssertions>
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
-            .WithExpectation("Expected {context:time} to be greater than or equal to {0}{reason}, ", expected)
-            .ForCondition(Subject.HasValue)
-            .FailWith("but found <null>.")
-            .Then
-            .ForCondition(Subject.Value.CompareTo(expected) >= 0)
-            .FailWith("but found {0}.", Subject.Value)
-            .Then
-            .ClearExpectation();
+            .ForCondition(Subject >= expected)
+            .FailWith("Expected {context:time} to be greater than or equal to {0}{reason}, but found {1}.", expected, Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }

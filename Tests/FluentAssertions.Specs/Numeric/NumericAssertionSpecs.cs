@@ -202,35 +202,18 @@ public class NumericAssertionSpecs
     public class Be
     {
         [Fact]
-        public void When_a_value_is_equal_to_same_value_it_should_not_throw()
+        public void A_value_is_equal_to_the_same_value()
         {
             // Arrange
             int value = 1;
             int sameValue = 1;
 
             // Act
-            Action act = () => value.Should().Be(sameValue);
-
-            // Assert
-            act.Should().NotThrow();
+            value.Should().Be(sameValue);
         }
 
         [Fact]
-        public void When_a_value_is_equal_to_different_value_it_should_throw()
-        {
-            // Arrange
-            int value = 1;
-            int differentValue = 2;
-
-            // Act
-            Action act = () => value.Should().Be(differentValue);
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_a_value_is_equal_to_different_value_it_should_throw_with_descriptive_message()
+        public void A_value_is_not_equal_to_another_value()
         {
             // Arrange
             int value = 1;
@@ -246,21 +229,18 @@ public class NumericAssertionSpecs
         }
 
         [Fact]
-        public void When_a_nullable_value_is_equal_it_should_not_throw()
+        public void A_value_is_equal_to_the_same_nullable_value()
         {
             // Arrange
             int value = 2;
             int? nullableValue = 2;
 
             // Act
-            Action act = () => value.Should().Be(nullableValue);
-
-            // Assert
-            act.Should().NotThrow();
+            value.Should().Be(nullableValue);
         }
 
         [Fact]
-        public void When_a_nullable_value_is_null_but_the_subject_isnt_it_should_throw()
+        public void A_value_is_not_equal_to_null()
         {
             // Arrange
             int value = 2;
@@ -276,7 +256,7 @@ public class NumericAssertionSpecs
         }
 
         [Fact]
-        public void When_a_nullable_value_has_value_but_the_subject_is_null_should_throw()
+        public void Null_is_not_equal_to_another_nullable_value()
         {
             // Arrange
             int? value = 2;
@@ -290,36 +270,17 @@ public class NumericAssertionSpecs
                 .WithMessage("Expected*2, but found <null>.");
         }
 
-        [Fact]
-        public void When_a_value_is_not_equal_to_a_different_value_it_should_not_throw()
+        [InlineData(1, 2)]
+        [InlineData(null, 2)]
+        [Theory]
+        public void A_nullable_value_is_not_equal_to_another_value(int? subject, int unexpected)
         {
-            // Arrange
-            int value = 1;
-            int differentValue = 2;
-
             // Act
-            Action act = () => value.Should().NotBe(differentValue);
-
-            // Assert
-            act.Should().NotThrow();
+            subject.Should().NotBe(unexpected);
         }
 
         [Fact]
-        public void When_a_value_is_not_equal_to_the_same_value_it_should_throw()
-        {
-            // Arrange
-            int value = 1;
-            int sameValue = 1;
-
-            // Act
-            Action act = () => value.Should().NotBe(sameValue);
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_a_value_is_not_equal_to_the_same_value_it_should_throw_with_descriptive_message()
+        public void A_value_is_not_different_from_the_same_value()
         {
             // Arrange
             int value = 1;
@@ -334,101 +295,59 @@ public class NumericAssertionSpecs
                 .WithMessage("Did not expect value to be 1 because we want to test the failure message.");
         }
 
-        [Fact]
-        public void When_a_nullable_numeric_null_value_not_equals_null_it_should_throw()
+        [InlineData(null, null)]
+        [InlineData(0, 0)]
+        [Theory]
+        public void A_nullable_value_is_not_different_from_the_same_value(int? subject, int? unexpected)
         {
-            // Arrange
-            int? nullableIntegerA = null;
-            int? nullableIntegerB = null;
-
             // Act
-            Action act = () => nullableIntegerA.Should().NotBe(nullableIntegerB);
+            Action act = () => subject.Should().NotBe(unexpected);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [InlineData(0, 1)]
+        [InlineData(0, null)]
+        [InlineData(null, 0)]
+        [Theory]
+        public void A_nullable_value_is_different_from_another_value(int? subject, int? unexpected)
+        {
+            // Act / Assert
+            subject.Should().NotBe(unexpected);
+        }
+
+        [InlineData(0, 0)]
+        [InlineData(null, null)]
+        [Theory]
+        public void A_nullable_value_is_equal_to_the_same_nullable_value(int? subject, int? expected)
+        {
+            // Act / Assert
+            subject.Should().Be(expected);
+        }
+
+        [InlineData(0, 1)]
+        [InlineData(0, null)]
+        [InlineData(null, 0)]
+        [Theory]
+        public void A_nullable_value_is_not_equal_to_another_nullable_value(int? subject, int? expected)
+        {
+            // Act
+            Action act = () => subject.Should().Be(expected);
 
             // Assert
             act.Should().Throw<XunitException>();
         }
 
         [Fact]
-        public void When_a_nullable_numeric_value_not_equals_null_it_should_succeed()
+        public void Null_is_not_equal_to_another_value()
         {
             // Arrange
-            int? nullableIntegerA = 1;
-            int? nullableIntegerB = null;
-
-            // Act / Assert
-            nullableIntegerA.Should().NotBe(nullableIntegerB);
-        }
-
-        [Fact]
-        public void When_a_nullable_numeric_null_value_not_equals_nullable_value_it_should_succeed()
-        {
-            // Arrange
-            int? nullableIntegerA = null;
-            int? nullableIntegerB = 1;
-
-            // Act / Assert
-            nullableIntegerA.Should().NotBe(nullableIntegerB);
-        }
-
-        [Fact]
-        public void When_a_nullable_numeric_null_value_not_equals_value_it_should_succeed()
-        {
-            // Arrange
-            int? nullableIntegerA = null;
-            int nullableIntegerB = 1;
-
-            // Act / Assert
-            nullableIntegerA.Should().NotBe(nullableIntegerB);
-        }
-
-        [Fact]
-        public void When_a_nullable_numeric_null_value_equals_null_it_should_succeed()
-        {
-            // Arrange
-            int? nullableIntegerA = null;
-            int? nullableIntegerB = null;
-
-            // Act / Assert
-            nullableIntegerA.Should().Be(nullableIntegerB);
-        }
-
-        [Fact]
-        public void When_a_nullable_numeric_value_equals_null_it_should_throw()
-        {
-            // Arrange
-            int? nullableIntegerA = 1;
-            int? nullableIntegerB = null;
+            int? subject = null;
+            int expected = 1;
 
             // Act
-            Action act = () => nullableIntegerA.Should().Be(nullableIntegerB);
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_a_nullable_numeric_null_value_equals_nullable_value_it_should_throw()
-        {
-            // Arrange
-            int? nullableIntegerA = null;
-            int? nullableIntegerB = 1;
-
-            // Act
-            Action act = () => nullableIntegerA.Should().Be(nullableIntegerB);
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void When_a_nullable_numeric_null_value_equals_value_it_should_throw()
-        {
-            // Arrange
-            int? nullableIntegerA = null;
-            int nullableIntegerB = 1;
-
-            // Act
-            Action act = () => nullableIntegerA.Should().Be(nullableIntegerB);
+            Action act = () => subject.Should().Be(expected);
 
             // Assert
             act.Should().Throw<XunitException>();
