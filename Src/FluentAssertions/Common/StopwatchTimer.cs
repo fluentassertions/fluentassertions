@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace FluentAssertions.Common
+namespace FluentAssertions.Common;
+
+internal class StopwatchTimer : ITimer
 {
-    internal class StopwatchTimer : ITimer
+    private readonly Stopwatch stopwatch;
+
+    public StopwatchTimer()
     {
-        private readonly Stopwatch stopwatch;
+        stopwatch = Stopwatch.StartNew();
+    }
 
-        public StopwatchTimer()
+    public TimeSpan Elapsed => stopwatch.Elapsed;
+
+    public void Dispose()
+    {
+        if (stopwatch.IsRunning)
         {
-            stopwatch = Stopwatch.StartNew();
-        }
-
-        public TimeSpan Elapsed => stopwatch.Elapsed;
-
-        public void Dispose()
-        {
-            if (stopwatch.IsRunning)
-            {
-                // We want to keep the elapsed time available after the timer is disposed, so disposing
-                // just stops it.
-                stopwatch.Stop();
-            }
+            // We want to keep the elapsed time available after the timer is disposed, so disposing
+            // just stops it.
+            stopwatch.Stop();
         }
     }
 }

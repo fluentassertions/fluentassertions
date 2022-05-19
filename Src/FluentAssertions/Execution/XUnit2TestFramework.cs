@@ -2,40 +2,39 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
-namespace FluentAssertions.Execution
+namespace FluentAssertions.Execution;
+
+internal class XUnit2TestFramework : ITestFramework
 {
-    internal class XUnit2TestFramework : ITestFramework
+    private Assembly assembly;
+
+    public bool IsAvailable
     {
-        private Assembly assembly;
-
-        public bool IsAvailable
+        get
         {
-            get
+            try
             {
-                try
-                {
-                    // For netfx the assembly is not in AppDomain by default, so we can't just scan AppDomain.CurrentDomain
-                    assembly = Assembly.Load(new AssemblyName("xunit.assert"));
+                // For netfx the assembly is not in AppDomain by default, so we can't just scan AppDomain.CurrentDomain
+                assembly = Assembly.Load(new AssemblyName("xunit.assert"));
 
-                    return assembly is not null;
-                }
-                catch
-                {
-                    return false;
-                }
+                return assembly is not null;
+            }
+            catch
+            {
+                return false;
             }
         }
+    }
 
-        [DoesNotReturn]
-        public void Throw(string message)
+    [DoesNotReturn]
+    public void Throw(string message)
+    {
+        Type exceptionType = assembly.GetType("Xunit.Sdk.XunitException");
+        if (exceptionType is null)
         {
-            Type exceptionType = assembly.GetType("Xunit.Sdk.XunitException");
-            if (exceptionType is null)
-            {
-                throw new Exception("Failed to create the XUnit assertion type");
-            }
-
-            throw (Exception)Activator.CreateInstance(exceptionType, message);
+            throw new Exception("Failed to create the XUnit assertion type");
         }
+
+        throw (Exception)Activator.CreateInstance(exceptionType, message);
     }
 }

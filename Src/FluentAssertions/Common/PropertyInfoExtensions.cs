@@ -1,13 +1,12 @@
 ﻿using System.Reflection;
 
-namespace FluentAssertions.Common
+namespace FluentAssertions.Common;
+
+internal static class PropertyInfoExtensions
 {
-    internal static class PropertyInfoExtensions
+    internal static bool IsVirtual(this PropertyInfo property)
     {
-        internal static bool IsVirtual(this PropertyInfo property)
-        {
-            MethodInfo methodInfo = property.GetGetMethod(nonPublic: true) ?? property.GetSetMethod(nonPublic: true);
-            return !methodInfo.IsNonVirtual();
-        }
+        MethodInfo methodInfo = property.GetGetMethod(nonPublic: true) ?? property.GetSetMethod(nonPublic: true);
+        return !methodInfo.IsNonVirtual();
     }
 }

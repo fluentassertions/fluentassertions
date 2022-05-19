@@ -1,51 +1,50 @@
 ﻿using System.Text;
 
-namespace FluentAssertions.CallerIdentification
+namespace FluentAssertions.CallerIdentification;
+
+internal class MultiLineCommentParsingStrategy : IParsingStrategy
 {
-    internal class MultiLineCommentParsingStrategy : IParsingStrategy
+    private bool isCommentContext;
+    private char? commentContextPreviousChar;
+
+    public ParsingState Parse(char symbol, StringBuilder statement)
     {
-        private bool isCommentContext;
-        private char? commentContextPreviousChar;
-
-        public ParsingState Parse(char symbol, StringBuilder statement)
+        if (isCommentContext)
         {
-            if (isCommentContext)
+            var isEndOfMultilineComment = symbol == '/' && commentContextPreviousChar == '*';
+            if (isEndOfMultilineComment)
             {
-                var isEndOfMultilineComment = symbol == '/' && commentContextPreviousChar == '*';
-                if (isEndOfMultilineComment)
-                {
-                    isCommentContext = false;
-                    commentContextPreviousChar = null;
-                }
-                else
-                {
-                    commentContextPreviousChar = symbol;
-                }
-
-                return ParsingState.GoToNextSymbol;
+                isCommentContext = false;
+                commentContextPreviousChar = null;
+            }
+            else
+            {
+                commentContextPreviousChar = symbol;
             }
 
-            var isStartOfMultilineComment =
-                symbol == '*'
-                && statement.Length > 0
-                && statement[statement.Length - 1] == '/';
-            if (isStartOfMultilineComment)
-            {
-                statement.Remove(statement.Length - 1, 1);
-                isCommentContext = true;
-                return ParsingState.GoToNextSymbol;
-            }
-
-            return ParsingState.InProgress;
+            return ParsingState.GoToNextSymbol;
         }
 
-        public bool IsWaitingForContextEnd()
+        var isStartOfMultilineComment =
+            symbol == '*'
+            && statement.Length > 0
+            && statement[statement.Length - 1] == '/';
+        if (isStartOfMultilineComment)
         {
-            return isCommentContext;
+            statement.Remove(statement.Length - 1, 1);
+            isCommentContext = true;
+            return ParsingState.GoToNextSymbol;
         }
 
-        public void NotifyEndOfLineReached()
-        {
-        }
+        return ParsingState.InProgress;
+    }
+
+    public bool IsWaitingForContextEnd()
+    {
+        return isCommentContext;
+    }
+
+    public void NotifyEndOfLineReached()
+    {
     }
 }

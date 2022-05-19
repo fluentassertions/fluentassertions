@@ -5,72 +5,71 @@ using System.Threading.Tasks;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.CultureAwareTesting
+namespace FluentAssertions.Specs.CultureAwareTesting;
+
+public class CulturedXunitTheoryTestCaseRunner : XunitTheoryTestCaseRunner
 {
-    public class CulturedXunitTheoryTestCaseRunner : XunitTheoryTestCaseRunner
+    private readonly string culture;
+    private CultureInfo originalCulture;
+    private CultureInfo originalUICulture;
+
+    public CulturedXunitTheoryTestCaseRunner(CulturedXunitTheoryTestCase culturedXunitTheoryTestCase,
+                                             string displayName,
+                                             string skipReason,
+                                             object[] constructorArguments,
+                                             IMessageSink diagnosticMessageSink,
+                                             IMessageBus messageBus,
+                                             ExceptionAggregator aggregator,
+                                             CancellationTokenSource cancellationTokenSource)
+        : base(culturedXunitTheoryTestCase, displayName, skipReason, constructorArguments, diagnosticMessageSink, messageBus, aggregator, cancellationTokenSource)
     {
-        private readonly string culture;
-        private CultureInfo originalCulture;
-        private CultureInfo originalUICulture;
+        culture = culturedXunitTheoryTestCase.Culture;
+    }
 
-        public CulturedXunitTheoryTestCaseRunner(CulturedXunitTheoryTestCase culturedXunitTheoryTestCase,
-                                                 string displayName,
-                                                 string skipReason,
-                                                 object[] constructorArguments,
-                                                 IMessageSink diagnosticMessageSink,
-                                                 IMessageBus messageBus,
-                                                 ExceptionAggregator aggregator,
-                                                 CancellationTokenSource cancellationTokenSource)
-            : base(culturedXunitTheoryTestCase, displayName, skipReason, constructorArguments, diagnosticMessageSink, messageBus, aggregator, cancellationTokenSource)
+    protected override Task AfterTestCaseStartingAsync()
+    {
+        try
         {
-            culture = culturedXunitTheoryTestCase.Culture;
+            originalCulture = CurrentCulture;
+            originalUICulture = CurrentUICulture;
+
+            var cultureInfo = new CultureInfo(culture);
+            CurrentCulture = cultureInfo;
+            CurrentUICulture = cultureInfo;
+        }
+        catch (Exception ex)
+        {
+            Aggregator.Add(ex);
+            return Task.FromResult(0);
         }
 
-        protected override Task AfterTestCaseStartingAsync()
+        return base.AfterTestCaseStartingAsync();
+    }
+
+    protected override Task BeforeTestCaseFinishedAsync()
+    {
+        if (originalUICulture is not null)
         {
-            try
-            {
-                originalCulture = CurrentCulture;
-                originalUICulture = CurrentUICulture;
-
-                var cultureInfo = new CultureInfo(culture);
-                CurrentCulture = cultureInfo;
-                CurrentUICulture = cultureInfo;
-            }
-            catch (Exception ex)
-            {
-                Aggregator.Add(ex);
-                return Task.FromResult(0);
-            }
-
-            return base.AfterTestCaseStartingAsync();
+            CurrentUICulture = originalUICulture;
         }
 
-        protected override Task BeforeTestCaseFinishedAsync()
+        if (originalCulture is not null)
         {
-            if (originalUICulture is not null)
-            {
-                CurrentUICulture = originalUICulture;
-            }
-
-            if (originalCulture is not null)
-            {
-                CurrentCulture = originalCulture;
-            }
-
-            return base.BeforeTestCaseFinishedAsync();
+            CurrentCulture = originalCulture;
         }
 
-        private static CultureInfo CurrentCulture
-        {
-            get => CultureInfo.CurrentCulture;
-            set => CultureInfo.CurrentCulture = value;
-        }
+        return base.BeforeTestCaseFinishedAsync();
+    }
 
-        private static CultureInfo CurrentUICulture
-        {
-            get => CultureInfo.CurrentUICulture;
-            set => CultureInfo.CurrentUICulture = value;
-        }
+    private static CultureInfo CurrentCulture
+    {
+        get => CultureInfo.CurrentCulture;
+        set => CultureInfo.CurrentCulture = value;
+    }
+
+    private static CultureInfo CurrentUICulture
+    {
+        get => CultureInfo.CurrentUICulture;
+        set => CultureInfo.CurrentUICulture = value;
     }
 }

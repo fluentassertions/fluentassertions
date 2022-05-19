@@ -1,36 +1,35 @@
 ﻿using System;
 using Xunit;
 
-namespace FluentAssertions.Specs.Exceptions
+namespace FluentAssertions.Specs.Exceptions;
+
+public class InvokingFunctionSpecs
 {
-    public class InvokingFunctionSpecs
+    [Fact]
+    public void Invoking_on_null_is_not_allowed()
     {
-        [Fact]
-        public void Invoking_on_null_is_not_allowed()
-        {
-            // Arrange
-            Does someClass = null;
+        // Arrange
+        Does someClass = null;
 
-            // Act
-            Action act = () => someClass.Invoking(d => d.Return());
+        // Act
+        Action act = () => someClass.Invoking(d => d.Return());
 
-            // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
-                .WithParameterName("subject");
-        }
+        // Assert
+        act.Should().ThrowExactly<ArgumentNullException>()
+            .WithParameterName("subject");
+    }
 
-        [Fact]
-        public void Invoking_with_null_is_not_allowed()
-        {
-            // Arrange
-            Does someClass = Does.NotThrow();
+    [Fact]
+    public void Invoking_with_null_is_not_allowed()
+    {
+        // Arrange
+        Does someClass = Does.NotThrow();
 
-            // Act
-            Action act = () => someClass.Invoking((Func<Does, object>)null);
+        // Act
+        Action act = () => someClass.Invoking((Func<Does, object>)null);
 
-            // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
-                .WithParameterName("action");
-        }
+        // Assert
+        act.Should().ThrowExactly<ArgumentNullException>()
+            .WithParameterName("action");
     }
 }

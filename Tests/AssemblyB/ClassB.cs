@@ -1,7 +1,5 @@
-﻿
-namespace AssemblyB
+﻿namespace AssemblyB;
+
+public class ClassB
 {
-    public class ClassB
-    {
-    }
 }

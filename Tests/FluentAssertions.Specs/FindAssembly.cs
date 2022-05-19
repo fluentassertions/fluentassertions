@@ -1,12 +1,11 @@
 ﻿using System.Reflection;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs;
+
+public static class FindAssembly
 {
-    public static class FindAssembly
+    public static Assembly Containing<T>()
     {
-        public static Assembly Containing<T>()
-        {
-            return typeof(T).Assembly;
-        }
+        return typeof(T).Assembly;
     }
 }

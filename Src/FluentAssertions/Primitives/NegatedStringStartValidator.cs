@@ -1,43 +1,42 @@
 using System;
 
-namespace FluentAssertions.Primitives
+namespace FluentAssertions.Primitives;
+
+internal class NegatedStringStartValidator : StringValidator
 {
-    internal class NegatedStringStartValidator : StringValidator
+    private readonly StringComparison stringComparison;
+
+    public NegatedStringStartValidator(string subject, string expected, StringComparison stringComparison, string because,
+        object[] becauseArgs)
+        : base(subject, expected, because, becauseArgs)
     {
-        private readonly StringComparison stringComparison;
+        this.stringComparison = stringComparison;
+    }
 
-        public NegatedStringStartValidator(string subject, string expected, StringComparison stringComparison, string because,
-            object[] becauseArgs)
-            : base(subject, expected, because, becauseArgs)
+    protected override string ExpectationDescription
+    {
+        get
         {
-            this.stringComparison = stringComparison;
+            string predicateDescription = IgnoreCase ? "start with equivalent of" : "start with";
+            return "Expected {context:string} that does not " + predicateDescription + " ";
         }
+    }
 
-        protected override string ExpectationDescription
+    private bool IgnoreCase
+    {
+        get
         {
-            get
-            {
-                string predicateDescription = IgnoreCase ? "start with equivalent of" : "start with";
-                return "Expected {context:string} that does not " + predicateDescription + " ";
-            }
+            return stringComparison == StringComparison.OrdinalIgnoreCase;
         }
+    }
 
-        private bool IgnoreCase
+    protected override void ValidateAgainstMismatch()
+    {
+        bool isMatch = Subject.StartsWith(Expected, stringComparison);
+        if (isMatch)
         {
-            get
-            {
-                return stringComparison == StringComparison.OrdinalIgnoreCase;
-            }
-        }
-
-        protected override void ValidateAgainstMismatch()
-        {
-            bool isMatch = Subject.StartsWith(Expected, stringComparison);
-            if (isMatch)
-            {
-                Assertion.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.",
-                    Expected, Subject);
-            }
+            Assertion.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.",
+                Expected, Subject);
         }
     }
 }

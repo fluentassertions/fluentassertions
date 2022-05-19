@@ -3,31 +3,30 @@ using System.Linq;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
-namespace FluentAssertions.Specs.CultureAwareTesting
+namespace FluentAssertions.Specs.CultureAwareTesting;
+
+public class CulturedFactAttributeDiscoverer : IXunitTestCaseDiscoverer
 {
-    public class CulturedFactAttributeDiscoverer : IXunitTestCaseDiscoverer
+    private readonly IMessageSink diagnosticMessageSink;
+
+    public CulturedFactAttributeDiscoverer(IMessageSink diagnosticMessageSink)
     {
-        private readonly IMessageSink diagnosticMessageSink;
+        this.diagnosticMessageSink = diagnosticMessageSink;
+    }
 
-        public CulturedFactAttributeDiscoverer(IMessageSink diagnosticMessageSink)
+    public IEnumerable<IXunitTestCase> Discover(ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo factAttribute)
+    {
+        var ctorArgs = factAttribute.GetConstructorArguments().ToArray();
+        var cultures = Reflector.ConvertArguments(ctorArgs, new[] { typeof(string[]) }).Cast<string[]>().Single();
+
+        if (cultures is null || cultures.Length == 0)
         {
-            this.diagnosticMessageSink = diagnosticMessageSink;
+            cultures = new[] { "en-US", "fr-FR" };
         }
 
-        public IEnumerable<IXunitTestCase> Discover(ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo factAttribute)
-        {
-            var ctorArgs = factAttribute.GetConstructorArguments().ToArray();
-            var cultures = Reflector.ConvertArguments(ctorArgs, new[] { typeof(string[]) }).Cast<string[]>().Single();
+        TestMethodDisplay methodDisplay = discoveryOptions.MethodDisplayOrDefault();
+        TestMethodDisplayOptions methodDisplayOptions = discoveryOptions.MethodDisplayOptionsOrDefault();
 
-            if (cultures is null || cultures.Length == 0)
-            {
-                cultures = new[] { "en-US", "fr-FR" };
-            }
-
-            TestMethodDisplay methodDisplay = discoveryOptions.MethodDisplayOrDefault();
-            TestMethodDisplayOptions methodDisplayOptions = discoveryOptions.MethodDisplayOptionsOrDefault();
-
-            return cultures.Select(culture => new CulturedXunitTestCase(diagnosticMessageSink, methodDisplay, methodDisplayOptions, testMethod, culture)).ToList();
-        }
+        return cultures.Select(culture => new CulturedXunitTestCase(diagnosticMessageSink, methodDisplay, methodDisplayOptions, testMethod, culture)).ToList();
     }
 }

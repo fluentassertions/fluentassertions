@@ -2,22 +2,21 @@
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UWP.Specs
+namespace UWP.Specs;
+
+[TestClass]
+public class UwpSpecs
 {
-    [TestClass]
-    public class UwpSpecs
+    [TestMethod]
+    public void Determining_caller_identity_should_not_throw_for_native_programs()
     {
-        [TestMethod]
-        public void Determining_caller_identity_should_not_throw_for_native_programs()
-        {
-            // Arrange
-            Action someAction = () => throw new Exception();
+        // Arrange
+        Action someAction = () => throw new Exception();
 
-            // Act
-            Action act = () => someAction.Should().NotThrow();
+        // Act
+        Action act = () => someAction.Should().NotThrow();
 
-            // Assert
-            act.Should().Throw<AssertFailedException>();
-        }
+        // Assert
+        act.Should().Throw<AssertFailedException>();
     }
 }

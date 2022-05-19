@@ -1,18 +1,16 @@
-﻿
-using AssemblyB;
+﻿using AssemblyB;
 
-namespace AssemblyA
+namespace AssemblyA;
+
+public class ClassA
 {
-    public class ClassA
+    public void DoSomething()
     {
-        public void DoSomething()
-        {
-            _ = new ClassB();
-        }
+        _ = new ClassB();
+    }
 
-        public ClassC ReturnClassC()
-        {
-            return new ClassC();
-        }
+    public ClassC ReturnClassC()
+    {
+        return new ClassC();
     }
 }
