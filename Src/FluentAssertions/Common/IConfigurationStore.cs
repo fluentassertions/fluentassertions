@@ -1,7 +1,6 @@
-﻿namespace FluentAssertions.Common
+﻿namespace FluentAssertions.Common;
+
+public interface IConfigurationStore
 {
-    public interface IConfigurationStore
-    {
-        string GetSetting(string name);
-    }
+    string GetSetting(string name);
 }

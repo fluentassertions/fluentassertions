@@ -1,21 +1,20 @@
 using System;
 using System.Reflection;
 
-namespace FluentAssertions.Specs.Common
+namespace FluentAssertions.Specs.Common;
+
+internal static class MemberInfoExtensions
 {
-    internal static class MemberInfoExtensions
+    public static Type GetUnderlyingType(this MemberInfo member)
     {
-        public static Type GetUnderlyingType(this MemberInfo member)
+        return member.MemberType switch
         {
-            return member.MemberType switch
-            {
-                MemberTypes.Event => ((EventInfo)member).EventHandlerType,
-                MemberTypes.Field => ((FieldInfo)member).FieldType,
-                MemberTypes.Method => ((MethodInfo)member).ReturnType,
-                MemberTypes.Property => ((PropertyInfo)member).PropertyType,
-                _ => throw new ArgumentException(
-                    "Input MemberInfo must be if type EventInfo, FieldInfo, MethodInfo, or PropertyInfo")
-            };
-        }
+            MemberTypes.Event => ((EventInfo)member).EventHandlerType,
+            MemberTypes.Field => ((FieldInfo)member).FieldType,
+            MemberTypes.Method => ((MethodInfo)member).ReturnType,
+            MemberTypes.Property => ((PropertyInfo)member).PropertyType,
+            _ => throw new ArgumentException(
+                "Input MemberInfo must be if type EventInfo, FieldInfo, MethodInfo, or PropertyInfo")
+        };
     }
 }

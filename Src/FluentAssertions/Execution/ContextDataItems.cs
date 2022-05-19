@@ -2,87 +2,86 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions.Formatting;
 
-namespace FluentAssertions.Execution
+namespace FluentAssertions.Execution;
+
+/// <summary>
+/// Represents a collection of data items that are associated with an <see cref="AssertionScope"/>.
+/// </summary>
+internal class ContextDataItems
 {
-    /// <summary>
-    /// Represents a collection of data items that are associated with an <see cref="AssertionScope"/>.
-    /// </summary>
-    internal class ContextDataItems
+    private readonly List<DataItem> items = new();
+
+    public IDictionary<string, object> GetReportable()
     {
-        private readonly List<DataItem> items = new();
+        return items.Where(item => item.Reportable).ToDictionary(item => item.Key, item => item.Value);
+    }
 
-        public IDictionary<string, object> GetReportable()
+    public string AsStringOrDefault(string key)
+    {
+        DataItem item = items.SingleOrDefault(i => i.Key == key);
+        if (item is not null)
         {
-            return items.Where(item => item.Reportable).ToDictionary(item => item.Key, item => item.Value);
+            if (item.RequiresFormatting)
+            {
+                return Formatter.ToString(item.Value);
+            }
+
+            return item.Value.ToString();
         }
 
-        public string AsStringOrDefault(string key)
+        return null;
+    }
+
+    public void Add(ContextDataItems contextDataItems)
+    {
+        foreach (DataItem item in contextDataItems.items)
         {
-            DataItem item = items.SingleOrDefault(i => i.Key == key);
-            if (item is not null)
-            {
-                if (item.RequiresFormatting)
-                {
-                    return Formatter.ToString(item.Value);
-                }
+            Add(item.Clone());
+        }
+    }
 
-                return item.Value.ToString();
-            }
+    public void Add(DataItem item)
+    {
+        int existingItemIndex = items.FindIndex(i => i.Key == item.Key);
 
-            return null;
+        if (existingItemIndex >= 0)
+        {
+            items[existingItemIndex] = item;
+        }
+        else
+        {
+            items.Add(item);
+        }
+    }
+
+    public T Get<T>(string key)
+    {
+        DataItem item = items.SingleOrDefault(i => i.Key == key);
+        return (T)(item?.Value ?? default(T));
+    }
+
+    internal class DataItem
+    {
+        public DataItem(string key, object value, bool reportable, bool requiresFormatting)
+        {
+            Key = key;
+            Value = value;
+            Reportable = reportable;
+            RequiresFormatting = requiresFormatting;
         }
 
-        public void Add(ContextDataItems contextDataItems)
+        public string Key { get; }
+
+        public object Value { get; }
+
+        public bool Reportable { get; }
+
+        public bool RequiresFormatting { get; }
+
+        public DataItem Clone()
         {
-            foreach (DataItem item in contextDataItems.items)
-            {
-                Add(item.Clone());
-            }
-        }
-
-        public void Add(DataItem item)
-        {
-            int existingItemIndex = items.FindIndex(i => i.Key == item.Key);
-
-            if (existingItemIndex >= 0)
-            {
-                items[existingItemIndex] = item;
-            }
-            else
-            {
-                items.Add(item);
-            }
-        }
-
-        public T Get<T>(string key)
-        {
-            DataItem item = items.SingleOrDefault(i => i.Key == key);
-            return (T)(item?.Value ?? default(T));
-        }
-
-        internal class DataItem
-        {
-            public DataItem(string key, object value, bool reportable, bool requiresFormatting)
-            {
-                Key = key;
-                Value = value;
-                Reportable = reportable;
-                RequiresFormatting = requiresFormatting;
-            }
-
-            public string Key { get; }
-
-            public object Value { get; }
-
-            public bool Reportable { get; }
-
-            public bool RequiresFormatting { get; }
-
-            public DataItem Clone()
-            {
-                object value = (Value is ICloneable2 cloneable) ? cloneable.Clone() : Value;
-                return new DataItem(Key, value, Reportable, RequiresFormatting);
-            }
+            object value = (Value is ICloneable2 cloneable) ? cloneable.Clone() : Value;
+            return new DataItem(Key, value, Reportable, RequiresFormatting);
         }
     }
 }

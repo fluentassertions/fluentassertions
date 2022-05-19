@@ -1,32 +1,31 @@
-﻿namespace FluentAssertions.Common
+﻿namespace FluentAssertions.Common;
+
+internal class ConfigurationStoreExceptionInterceptor : IConfigurationStore
 {
-    internal class ConfigurationStoreExceptionInterceptor : IConfigurationStore
+    private readonly IConfigurationStore configurationStore;
+
+    private bool underlyingStoreUnavailable;
+
+    public ConfigurationStoreExceptionInterceptor(IConfigurationStore configurationStore)
     {
-        private readonly IConfigurationStore configurationStore;
+        this.configurationStore = configurationStore;
+    }
 
-        private bool underlyingStoreUnavailable;
-
-        public ConfigurationStoreExceptionInterceptor(IConfigurationStore configurationStore)
+    public string GetSetting(string name)
+    {
+        if (underlyingStoreUnavailable)
         {
-            this.configurationStore = configurationStore;
+            return null;
         }
 
-        public string GetSetting(string name)
+        try
         {
-            if (underlyingStoreUnavailable)
-            {
-                return null;
-            }
-
-            try
-            {
-                return configurationStore.GetSetting(name);
-            }
-            catch
-            {
-                underlyingStoreUnavailable = true;
-                return null;
-            }
+            return configurationStore.GetSetting(name);
+        }
+        catch
+        {
+            underlyingStoreUnavailable = true;
+            return null;
         }
     }
 }

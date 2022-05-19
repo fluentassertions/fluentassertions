@@ -1,21 +1,20 @@
 ﻿using System;
 using FluentAssertions.Common;
 
-namespace FluentAssertions.Specs
+namespace FluentAssertions.Specs;
+
+internal class TestTimer : ITimer
 {
-    internal class TestTimer : ITimer
+    private readonly Func<TimeSpan> getElapsed;
+
+    public TestTimer(Func<TimeSpan> getElapsed)
     {
-        private readonly Func<TimeSpan> getElapsed;
+        this.getElapsed = getElapsed;
+    }
 
-        public TestTimer(Func<TimeSpan> getElapsed)
-        {
-            this.getElapsed = getElapsed;
-        }
+    public TimeSpan Elapsed => getElapsed();
 
-        public TimeSpan Elapsed => getElapsed();
-
-        public void Dispose()
-        {
-        }
+    public void Dispose()
+    {
     }
 }
