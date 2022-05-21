@@ -23,8 +23,6 @@ sidebar:
         url: /about#versioning
       - title: Releases
         url: /releases
-      - title: Building the code
-        url: /about#what-do-you-need-to-compile-the-solution
 
   - title: Documentation
     url: /introduction
