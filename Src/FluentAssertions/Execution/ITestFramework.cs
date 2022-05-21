@@ -1,21 +1,20 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace FluentAssertions.Execution
+namespace FluentAssertions.Execution;
+
+/// <summary>
+/// Represents an abstraction of a particular test framework such as MSTest, nUnit, etc.
+/// </summary>
+internal interface ITestFramework
 {
     /// <summary>
-    /// Represents an abstraction of a particular test framework such as MSTest, nUnit, etc.
+    /// Gets a value indicating whether the corresponding test framework is currently available.
     /// </summary>
-    internal interface ITestFramework
-    {
-        /// <summary>
-        /// Gets a value indicating whether the corresponding test framework is currently available.
-        /// </summary>
-        bool IsAvailable { get; }
+    bool IsAvailable { get; }
 
-        /// <summary>
-        /// Throws a framework-specific exception to indicate a failing unit test.
-        /// </summary>
-        [DoesNotReturn]
-        void Throw(string message);
-    }
+    /// <summary>
+    /// Throws a framework-specific exception to indicate a failing unit test.
+    /// </summary>
+    [DoesNotReturn]
+    void Throw(string message);
 }

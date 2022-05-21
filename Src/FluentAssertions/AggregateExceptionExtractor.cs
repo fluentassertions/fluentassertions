@@ -4,38 +4,37 @@ using System.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Specialized;
 
-namespace FluentAssertions
+namespace FluentAssertions;
+
+public class AggregateExceptionExtractor : IExtractExceptions
 {
-    public class AggregateExceptionExtractor : IExtractExceptions
+    public IEnumerable<T> OfType<T>(Exception actualException)
+        where T : Exception
     {
-        public IEnumerable<T> OfType<T>(Exception actualException)
-            where T : Exception
+        if (typeof(T).IsSameOrInherits(typeof(AggregateException)))
         {
-            if (typeof(T).IsSameOrInherits(typeof(AggregateException)))
-            {
-                return (actualException is T exception) ? new[] { exception } : Enumerable.Empty<T>();
-            }
-
-            return GetExtractedExceptions<T>(actualException);
+            return (actualException is T exception) ? new[] { exception } : Enumerable.Empty<T>();
         }
 
-        private static List<T> GetExtractedExceptions<T>(Exception actualException)
-            where T : Exception
+        return GetExtractedExceptions<T>(actualException);
+    }
+
+    private static List<T> GetExtractedExceptions<T>(Exception actualException)
+        where T : Exception
+    {
+        var exceptions = new List<T>();
+
+        if (actualException is AggregateException aggregateException)
         {
-            var exceptions = new List<T>();
+            AggregateException flattenedExceptions = aggregateException.Flatten();
 
-            if (actualException is AggregateException aggregateException)
-            {
-                AggregateException flattenedExceptions = aggregateException.Flatten();
-
-                exceptions.AddRange(flattenedExceptions.InnerExceptions.OfType<T>());
-            }
-            else if (actualException is T genericException)
-            {
-                exceptions.Add(genericException);
-            }
-
-            return exceptions;
+            exceptions.AddRange(flattenedExceptions.InnerExceptions.OfType<T>());
         }
+        else if (actualException is T genericException)
+        {
+            exceptions.Add(genericException);
+        }
+
+        return exceptions;
     }
 }

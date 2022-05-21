@@ -5,61 +5,60 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace FluentAssertions.Common
+namespace FluentAssertions.Common;
+
+internal static class MethodInfoExtensions
 {
-    internal static class MethodInfoExtensions
+    /// <summary>
+    /// A sum of all possible <see cref="MethodImplOptions"/>. It's needed to calculate what options were used when decorating with <see cref="MethodImplAttribute"/>.
+    /// They are a subset of <see cref="MethodImplAttributes"/> which can be checked on a type and therefore this mask has to be applied to check only for options.
+    /// </summary>
+    private static readonly Lazy<int> ImplementationOptionsMask =
+        new Lazy<int>(() => Enum.GetValues(typeof(MethodImplOptions)).Cast<int>().Sum(x => x));
+
+    internal static bool IsAsync(this MethodInfo methodInfo)
     {
-        /// <summary>
-        /// A sum of all possible <see cref="MethodImplOptions"/>. It's needed to calculate what options were used when decorating with <see cref="MethodImplAttribute"/>.
-        /// They are a subset of <see cref="MethodImplAttributes"/> which can be checked on a type and therefore this mask has to be applied to check only for options.
-        /// </summary>
-        private static readonly Lazy<int> ImplementationOptionsMask =
-            new Lazy<int>(() => Enum.GetValues(typeof(MethodImplOptions)).Cast<int>().Sum(x => x));
+        return methodInfo.IsDecoratedWith<AsyncStateMachineAttribute>();
+    }
 
-        internal static bool IsAsync(this MethodInfo methodInfo)
+    internal static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this MemberInfo memberInfo, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+        where TAttribute : Attribute
+    {
+        var customAttributes = memberInfo.GetCustomAttributes<TAttribute>(inherit: false).ToList();
+
+        if (typeof(TAttribute) == typeof(MethodImplAttribute) && memberInfo is MethodBase methodBase)
         {
-            return methodInfo.IsDecoratedWith<AsyncStateMachineAttribute>();
-        }
+            (bool success, MethodImplAttribute methodImplAttribute) = RecreateMethodImplAttribute(methodBase);
 
-        internal static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this MemberInfo memberInfo, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
-            where TAttribute : Attribute
-        {
-            var customAttributes = memberInfo.GetCustomAttributes<TAttribute>(inherit: false).ToList();
-
-            if (typeof(TAttribute) == typeof(MethodImplAttribute) && memberInfo is MethodBase methodBase)
+            if (success)
             {
-                (bool success, MethodImplAttribute methodImplAttribute) = RecreateMethodImplAttribute(methodBase);
-
-                if (success)
-                {
-                    customAttributes.Add(methodImplAttribute as TAttribute);
-                }
+                customAttributes.Add(methodImplAttribute as TAttribute);
             }
-
-            return customAttributes
-                .Where(isMatchingAttributePredicate.Compile());
         }
 
-        internal static bool IsNonVirtual(this MethodInfo method)
+        return customAttributes
+            .Where(isMatchingAttributePredicate.Compile());
+    }
+
+    internal static bool IsNonVirtual(this MethodInfo method)
+    {
+        return !method.IsVirtual || method.IsFinal;
+    }
+
+    private static (bool success, MethodImplAttribute attribute) RecreateMethodImplAttribute(MethodBase methodBase)
+    {
+        MethodImplAttributes implementationFlags = methodBase.MethodImplementationFlags;
+
+        int implementationFlagsMatchingImplementationOptions =
+            (int)implementationFlags & ImplementationOptionsMask.Value;
+
+        MethodImplOptions implementationOptions = (MethodImplOptions)implementationFlagsMatchingImplementationOptions;
+
+        if (implementationOptions != 0)
         {
-            return !method.IsVirtual || method.IsFinal;
+            return (true, new MethodImplAttribute(implementationOptions));
         }
 
-        private static (bool success, MethodImplAttribute attribute) RecreateMethodImplAttribute(MethodBase methodBase)
-        {
-            MethodImplAttributes implementationFlags = methodBase.MethodImplementationFlags;
-
-            int implementationFlagsMatchingImplementationOptions =
-                (int)implementationFlags & ImplementationOptionsMask.Value;
-
-            MethodImplOptions implementationOptions = (MethodImplOptions)implementationFlagsMatchingImplementationOptions;
-
-            if (implementationOptions != 0)
-            {
-                return (true, new MethodImplAttribute(implementationOptions));
-            }
-
-            return (false, null);
-        }
+        return (false, null);
     }
 }

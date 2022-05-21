@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace FluentAssertions.Common
+namespace FluentAssertions.Common;
+
+public interface IReflector
 {
-    public interface IReflector
-    {
-        IEnumerable<Type> GetAllTypesFromAppDomain(Func<Assembly, bool> predicate);
-    }
+    IEnumerable<Type> GetAllTypesFromAppDomain(Func<Assembly, bool> predicate);
 }

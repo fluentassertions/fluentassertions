@@ -1,40 +1,39 @@
 ﻿using System.Text;
 
-namespace FluentAssertions.CallerIdentification
+namespace FluentAssertions.CallerIdentification;
+
+internal class ShouldCallParsingStrategy : IParsingStrategy
 {
-    internal class ShouldCallParsingStrategy : IParsingStrategy
+    private const string ShouldCall = ".Should(";
+
+    public ParsingState Parse(char symbol, StringBuilder statement)
     {
-        private const string ShouldCall = ".Should(";
-
-        public ParsingState Parse(char symbol, StringBuilder statement)
+        if (statement.Length >= ShouldCall.Length)
         {
-            if (statement.Length >= ShouldCall.Length)
+            var leftIndex = statement.Length - 1;
+            var rightIndex = ShouldCall.Length - 1;
+
+            for (var i = 0; i < ShouldCall.Length; i++)
             {
-                var leftIndex = statement.Length - 1;
-                var rightIndex = ShouldCall.Length - 1;
-
-                for (var i = 0; i < ShouldCall.Length; i++)
+                if (statement[leftIndex - i] != ShouldCall[rightIndex - i])
                 {
-                    if (statement[leftIndex - i] != ShouldCall[rightIndex - i])
-                    {
-                        return ParsingState.InProgress;
-                    }
+                    return ParsingState.InProgress;
                 }
-
-                statement.Remove(statement.Length - ShouldCall.Length, ShouldCall.Length);
-                return ParsingState.Done;
             }
 
-            return ParsingState.InProgress;
+            statement.Remove(statement.Length - ShouldCall.Length, ShouldCall.Length);
+            return ParsingState.Done;
         }
 
-        public bool IsWaitingForContextEnd()
-        {
-            return false;
-        }
+        return ParsingState.InProgress;
+    }
 
-        public void NotifyEndOfLineReached()
-        {
-        }
+    public bool IsWaitingForContextEnd()
+    {
+        return false;
+    }
+
+    public void NotifyEndOfLineReached()
+    {
     }
 }

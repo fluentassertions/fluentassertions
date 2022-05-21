@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 
-namespace FluentAssertions.Specialized
+namespace FluentAssertions.Specialized;
+
+public interface IExtractExceptions
 {
-    public interface IExtractExceptions
-    {
-        IEnumerable<T> OfType<T>(Exception actualException)
-            where T : Exception;
-    }
+    IEnumerable<T> OfType<T>(Exception actualException)
+        where T : Exception;
 }

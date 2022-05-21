@@ -5,23 +5,22 @@ using FluentAssertions.Data;
 
 using JetBrains.Annotations;
 
-namespace FluentAssertions
+namespace FluentAssertions;
+
+/// <summary>
+/// Contains an extension method for custom assertions in unit tests related to DataSet objects.
+/// </summary>
+[DebuggerNonUserCode]
+public static class DataSetAssertionExtensions
 {
     /// <summary>
-    /// Contains an extension method for custom assertions in unit tests related to DataSet objects.
+    /// Returns a <see cref="DataSetAssertions{DataSet}"/> object that can be used to assert the
+    /// current <see cref="DataSet"/>.
     /// </summary>
-    [DebuggerNonUserCode]
-    public static class DataSetAssertionExtensions
+    [Pure]
+    public static DataSetAssertions<TDataSet> Should<TDataSet>(this TDataSet actualValue)
+        where TDataSet : DataSet
     {
-        /// <summary>
-        /// Returns a <see cref="DataSetAssertions{DataSet}"/> object that can be used to assert the
-        /// current <see cref="DataSet"/>.
-        /// </summary>
-        [Pure]
-        public static DataSetAssertions<TDataSet> Should<TDataSet>(this TDataSet actualValue)
-            where TDataSet : DataSet
-        {
-            return new DataSetAssertions<TDataSet>(actualValue);
-        }
+        return new DataSetAssertions<TDataSet>(actualValue);
     }
 }
