@@ -22,5 +22,12 @@ This is a special set of tests that use the [Verify](https://github.com/VerifyTe
 If you've verified the changes and decided they are valid, you can accept them  using `AcceptApiChanges.ps1` or `AcceptApiChanges.sh`. Alternatively, you can use the [Verify Support](https://plugins.jetbrains.com/plugin/17240-verify-support) plug-in to compare the changes and accept them right from inside Rider. See also the [Contribution Guidelines](CONTRIBUTING.md).
 
 # Powered By
-<a href="https://www.jetbrains.com/rider/"><img src="docs/assets/images/jetbrainsrider.svg" style="width:150px"/></a> <br/>and <br>
-<a href="https://www.semanticmerge.com/"><img src="docs/assets/images/semantic-merge.png" style="width:150px"/></a>
+<a href="https://aws.amazon.com/"><img src="docs/assets/images/aws.png" style="width:100px"/></a>&nbsp;
+<a href="https://www.jetbrains.com/rider/"><img src="docs/assets/images/jetbrainsrider.svg" style="width:150px"/></a>&nbsp;<a href="https://www.semanticmerge.com/"><img src="docs/assets/images/semantic-merge.png" style="width:150px"/></a>
+
+With support from the following public [sponsors](https://github.com/sponsors/fluentassertions)  
+<a href="https://github.com/waywedo"><img src="https://avatars.githubusercontent.com/u/20328638?s=52&v=4"/></a>
+<a href="https://github.com/JD-Innovensa"><img src="https://avatars.githubusercontent.com/u/70314004?s=52&v=4"/></a>
+<a href="https://github.com/rena0157"><img src="https://avatars.githubusercontent.com/u/33334607?s=52&v=4"/></a>
+<a href="https://github.com/hassanhabib"><img src="https://avatars.githubusercontent.com/u/1453985?s=52&v=4"/></a>
+
