@@ -179,7 +179,7 @@ namespace FluentAssertions.Specs.Events
                 act
                     .Should().Throw<XunitException>()
                     .WithMessage(
-                        "Expected at least one event which arguments are of type*PropertyChangedEventArgs*matches*(args.PropertyName == \"SomeProperty\"), but found none.");
+                        "Expected at least one event with some argument of type*PropertyChangedEventArgs*matches*(args.PropertyName == \"SomeProperty\"), but found none.");
             }
 
             [Fact]
@@ -321,7 +321,7 @@ namespace FluentAssertions.Specs.Events
 
                 // Assert
                 act.Should().Throw<XunitException>().WithMessage(
-                    "Expected at least one event which arguments*type*Int32*matches*(args == " + wrongArgument + "), but found none.");
+                    "Expected at least one event with some argument*type*Int32*matches*(args == " + wrongArgument + "), but found none.");
             }
 
             [Fact]
@@ -340,7 +340,7 @@ namespace FluentAssertions.Specs.Events
 
                 // Assert
                 act.Should().Throw<XunitException>().WithMessage(
-                    "Expected at least one event which arguments*matches*\"(args == \"" + wrongArgument +
+                    "Expected at least one event with some arguments*match*\"(args == \"" + wrongArgument +
                     "\")\", but found none.");
             }
 
