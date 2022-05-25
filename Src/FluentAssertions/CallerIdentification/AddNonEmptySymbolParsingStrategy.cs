@@ -16,7 +16,7 @@ internal class AddNonEmptySymbolParsingStrategy : IParsingStrategy
         }
         else if (mode is Mode.RemoveSuperfluousWhitespace)
         {
-            if (precedingSymbol.HasValue && !char.IsWhiteSpace(precedingSymbol.Value))
+            if (precedingSymbol is char value && !char.IsWhiteSpace(value))
             {
                 statement.Append(symbol);
             }

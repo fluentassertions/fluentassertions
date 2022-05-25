@@ -70,7 +70,7 @@ public class ExecutionTimeAssertions
     /// </param>
     public AndConstraint<ExecutionTimeAssertions> BeLessThanOrEqualTo(TimeSpan maxDuration, string because = "", params object[] becauseArgs)
     {
-        bool Condition(TimeSpan duration) => duration.CompareTo(maxDuration) <= 0;
+        bool Condition(TimeSpan duration) => duration <= maxDuration;
         (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: false, rate: maxDuration);
 
         Execute.Assertion
@@ -103,7 +103,7 @@ public class ExecutionTimeAssertions
     /// </param>
     public AndConstraint<ExecutionTimeAssertions> BeLessThan(TimeSpan maxDuration, string because = "", params object[] becauseArgs)
     {
-        bool Condition(TimeSpan duration) => duration.CompareTo(maxDuration) < 0;
+        bool Condition(TimeSpan duration) => duration < maxDuration;
         (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: false, rate: maxDuration);
 
         Execute.Assertion
@@ -133,7 +133,7 @@ public class ExecutionTimeAssertions
     /// </param>
     public AndConstraint<ExecutionTimeAssertions> BeGreaterThanOrEqualTo(TimeSpan minDuration, string because = "", params object[] becauseArgs)
     {
-        bool Condition(TimeSpan duration) => duration.CompareTo(minDuration) >= 0;
+        bool Condition(TimeSpan duration) => duration >= minDuration;
         (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: true, rate: minDuration);
 
         Execute.Assertion
@@ -166,7 +166,7 @@ public class ExecutionTimeAssertions
     /// </param>
     public AndConstraint<ExecutionTimeAssertions> BeGreaterThan(TimeSpan minDuration, string because = "", params object[] becauseArgs)
     {
-        bool Condition(TimeSpan duration) => duration.CompareTo(minDuration) > 0;
+        bool Condition(TimeSpan duration) => duration > minDuration;
         (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: true, rate: minDuration);
 
         Execute.Assertion

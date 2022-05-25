@@ -70,7 +70,7 @@ public class GuidAssertions<TAssertions>
     public AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(Subject.HasValue && (Subject.Value != Guid.Empty))
+            .ForCondition(Subject is Guid value && value != Guid.Empty)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:Guid} to be empty{reason}.");
 

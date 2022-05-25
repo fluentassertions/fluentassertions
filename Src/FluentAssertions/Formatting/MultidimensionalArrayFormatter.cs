@@ -15,7 +15,7 @@ public class MultidimensionalArrayFormatter : IValueFormatter
     /// </returns>
     public bool CanHandle(object value)
     {
-        return value is Array arr && arr.Rank >= 2;
+        return value is Array { Rank: >= 2 };
     }
 
     public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
