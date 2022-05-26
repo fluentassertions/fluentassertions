@@ -13,9 +13,6 @@ jobs:
 
     runs-on: windows-latest
 
-    env:
-      DOTNET_NOLOGO: true
-
     steps:
     - uses: actions/checkout@v2
       with:
@@ -26,13 +23,8 @@ jobs:
       env:
         BranchSpec: ${{ github.ref }}
         BuildNumber: ${{ github.run_number }}
-        ApiKey: ${{ secrets.NUGETAPIKEY }}
-
-    - name: coveralls
-      uses: coverallsapp/github-action@1.1.3
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: TestResults/reports/lcov.info
+        NuGetApiKey: ${{ secrets.NUGETAPIKEY }}
+        GithubToken: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2

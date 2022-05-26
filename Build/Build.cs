@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Nuke.Common;
 using Nuke.Common.Execution;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
+using Nuke.Common.Tools.CoverallsNet;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Tools.ReportGenerator;
@@ -33,11 +35,20 @@ class Build : NukeBuild
     [Parameter("A branch specification such as develop or refs/pull/1775/merge")]
     readonly string BranchSpec;
 
+    [Parameter("The hash of the current commit")]
+    readonly string CommitSha;
+
+    [Parameter] 
+    int GithubRunId;
+
     [Parameter("An incrementing build number as provided by the build engine")]
     readonly string BuildNumber;
 
     [Parameter("The key to push to Nuget")]
-    readonly string ApiKey;
+    readonly string NuGetApiKey;
+    
+    [Parameter("A token to access the Github repository")] 
+    string GithubToken;
 
     [Solution(GenerateProjects = true)]
     readonly Solution Solution;
@@ -47,9 +58,6 @@ class Build : NukeBuild
 
     [PackageExecutable("nspec", "NSpecRunner.exe", Version = "3.1.0")]
     Tool NSpec3;
-    
-    [PathExecutable(name: "pwsh")]
-    readonly Tool PowerShell;
     
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
 
@@ -80,8 +88,6 @@ class Build : NukeBuild
             Serilog.Log.Information("SemVer = {semver}", SemVer);
         });
 
-    bool IsPullRequest => BranchSpec != null && BranchSpec.Contains("pull", StringComparison.InvariantCultureIgnoreCase);
-
     Target Restore => _ => _
         .DependsOn(Clean)
         .Executes(() =>
@@ -94,7 +100,6 @@ class Build : NukeBuild
 
     Target Compile => _ => _
         .DependsOn(Restore)
-        .OnlyWhenDynamic(() => IsServerBuild)
         .Executes(() =>
         {
             DotNetBuild(s => s
@@ -182,6 +187,30 @@ class Build : NukeBuild
             Serilog.Log.Information($"Code coverage report: \x1b]8;;file://{link.Replace('\\', '/')}\x1b\\{link}\x1b]8;;\x1b\\");
         });
 
+    Target PushToCoveralls => _ => _
+        .OnlyWhenDynamic(() => IsServerBuild)
+        .DependsOn(CodeCoverage)
+        .Executes(() =>
+        {
+            CoverallsNetTasks.CoverallsNet(s =>
+            {
+                s = s
+                    .SetInput(TestResultsDirectory / "reports" / "lcov.info")
+                    .SetRepoToken(GithubToken)
+                    .SetServiceName("github")
+                    .SetJobId(GithubRunId)
+                    .SetCommitId(CommitSha)
+                    .SetCommitBranch(BranchSpec);
+                
+                if (IsPullRequest)
+                {
+                    s = s.SetPullRequest(PullRequestNumber);
+                }
+
+                return s.SetProcessArgumentConfigurator(a => a.Add("--lcov"));
+            });
+        });
+
     Target TestFrameworks => _ => _
         .DependsOn(Compile)
         .Executes(() =>
@@ -221,7 +250,7 @@ class Build : NukeBuild
         .DependsOn(ApiChecks)
         .DependsOn(TestFrameworks)
         .DependsOn(UnitTests)
-        .DependsOn(CodeCoverage)
+        .DependsOn(PushToCoveralls)
         .DependsOn(CalculateNugetVersion)
         .Executes(() =>
         {
@@ -245,7 +274,7 @@ class Build : NukeBuild
             Assert.NotEmpty(packages.ToList());
 
             DotNetNuGetPush(s => s
-                .SetApiKey(ApiKey)
+                .SetApiKey(NuGetApiKey)
                 .EnableSkipDuplicate()
                 .SetSource("https://api.nuget.org/v3/index.json")
                 .EnableNoSymbols()
@@ -254,4 +283,7 @@ class Build : NukeBuild
         });
 
     bool IsTag => BranchSpec != null && BranchSpec.Contains("refs/tags", StringComparison.InvariantCultureIgnoreCase);
+    bool IsPullRequest => BranchSpec != null && BranchSpec.Contains("pull", StringComparison.InvariantCultureIgnoreCase);
+    
+    int PullRequestNumber => int.Parse(Regex.Match(BranchSpec, @"pull\/(\d+)").Groups[1].ToString());
 }

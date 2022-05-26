@@ -18,9 +18,20 @@
           "type": "string",
           "description": "An incrementing build number as provided by the build engine"
         },
+        "CommitSha": {
+          "type": "string",
+          "description": "The hash of the current commit"
+        },
         "Continue": {
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
+        },
+        "GithubJobId": {
+          "type": "integer"
+        },
+        "GithubToken": {
+          "type": "string",
+          "description": "A token to access the Github repository"
         },
         "Help": {
           "type": "boolean",
@@ -82,6 +93,7 @@
               "Compile",
               "Pack",
               "Push",
+              "PushToCoveralls",
               "Restore",
               "TestFrameworks",
               "UnitTests"
@@ -105,6 +117,7 @@
               "Compile",
               "Pack",
               "Push",
+              "PushToCoveralls",
               "Restore",
               "TestFrameworks",
               "UnitTests"
