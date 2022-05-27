@@ -159,6 +159,22 @@ public class CyclicReferencesSpecs
     }
 
     [Fact]
+    public void Allowing_infinite_recursion_is_described_in_the_failure_message()
+    {
+        // Arrange
+        var recursiveClass1 = new ClassWithFiniteRecursiveProperty(1);
+        var recursiveClass2 = new ClassWithFiniteRecursiveProperty(2);
+
+        // Act
+        Action act = () => recursiveClass1.Should().BeEquivalentTo(recursiveClass2,
+            options => options.AllowingInfiniteRecursion());
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("*Recurse indefinitely*");
+    }
+
+    [Fact]
     public void When_injecting_a_null_config_to_BeEquivalentTo_it_should_throw()
     {
         // Arrange
