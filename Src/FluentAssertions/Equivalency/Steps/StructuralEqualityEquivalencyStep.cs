@@ -15,22 +15,24 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
             return EquivalencyResult.ContinueWithNext;
         }
 
-        bool expectationIsNotNull = AssertionScope.Current
-            .ForCondition(comparands.Expectation is not null)
+        if (comparands.Expectation is null)
+        {
+            AssertionScope.Current
             .BecauseOf(context.Reason)
             .FailWith(
                 "Expected {context:subject} to be <null>{reason}, but found {0}.",
                 comparands.Subject);
-
-        bool subjectIsNotNull = AssertionScope.Current
-            .ForCondition(comparands.Subject is not null)
+        }
+        else if (comparands.Subject is null)
+        {
+            AssertionScope.Current
             .BecauseOf(context.Reason)
             .FailWith(
                 "Expected {context:object} to be {0}{reason}, but found {1}.",
                 comparands.Expectation,
                 comparands.Subject);
-
-        if (expectationIsNotNull && subjectIsNotNull)
+        }
+        else
         {
             IMember[] selectedMembers = GetMembersFromExpectation(context.CurrentNode, comparands, context.Options).ToArray();
             if (context.CurrentNode.IsRoot && !selectedMembers.Any())
