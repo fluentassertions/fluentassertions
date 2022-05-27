@@ -27,8 +27,19 @@ public class ConversionSelector
         }
     }
 
-    private List<ConversionSelectorRule> inclusions = new();
-    private List<ConversionSelectorRule> exclusions = new();
+    private readonly List<ConversionSelectorRule> inclusions;
+    private readonly List<ConversionSelectorRule> exclusions;
+
+    public ConversionSelector()
+        : this(new List<ConversionSelectorRule>(), new List<ConversionSelectorRule>())
+    {
+    }
+
+    private ConversionSelector(List<ConversionSelectorRule> inclusions, List<ConversionSelectorRule> exclusions)
+    {
+        this.inclusions = inclusions;
+        this.exclusions = exclusions;
+    }
 
     public void IncludeAll()
     {
@@ -55,6 +66,11 @@ public class ConversionSelector
 
     public bool RequiresConversion(Comparands comparands, INode currentNode)
     {
+        if (inclusions.Count == 0)
+        {
+            return false;
+        }
+
         var objectInfo = new ObjectInfo(comparands, currentNode);
 
         return inclusions.Any(p => p.Predicate(objectInfo)) && !exclusions.Any(p => p.Predicate(objectInfo));
@@ -84,10 +100,6 @@ public class ConversionSelector
 
     public ConversionSelector Clone()
     {
-        return new ConversionSelector
-        {
-            inclusions = new List<ConversionSelectorRule>(inclusions),
-            exclusions = new List<ConversionSelectorRule>(exclusions),
-        };
+        return new ConversionSelector(new List<ConversionSelectorRule>(inclusions), new List<ConversionSelectorRule>(exclusions));
     }
 }
