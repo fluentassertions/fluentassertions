@@ -1,4 +1,5 @@
 using System;
+using FluentAssertions.Equivalency.Tracing;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency;
@@ -15,7 +16,7 @@ public class EquivalencyValidator : IEquivalencyValidator
         using var scope = new AssertionScope();
 
         scope.AssumeSingleCaller();
-        scope.AddReportable("configuration", context.Options.ToString());
+        scope.AddReportable("configuration", () => context.Options.ToString());
         scope.BecauseOf(context.Reason);
 
         RecursivelyAssertEquality(comparands, context);
