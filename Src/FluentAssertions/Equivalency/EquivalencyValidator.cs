@@ -65,12 +65,13 @@ public class EquivalencyValidator : IEquivalencyValidator
     {
         using var _ = context.Tracer.WriteBlock(node => node.Description);
 
+        Func<IEquivalencyStep, GetTraceMessage> getMessage = step => _ => $"Equivalency was proven by {step.GetType().Name}";
         foreach (IEquivalencyStep step in AssertionOptions.EquivalencyPlan)
         {
             var result = step.Handle(comparands, context, this);
             if (result == EquivalencyResult.AssertionCompleted)
             {
-                context.Tracer.WriteLine(_ => $"Equivalency was proven by {step.GetType().Name}");
+                context.Tracer.WriteLine(getMessage(step));
                 return;
             }
         }
