@@ -52,6 +52,102 @@ public class SelectionRulesSpecs
     }
 
     [Fact]
+    public void A_member_included_by_path_is_described_in_the_failure_message()
+    {
+        // Arrange
+        var subject = new
+        {
+            Name = "John"
+        };
+
+        var customer = new
+        {
+            Name = "Jack"
+        };
+
+        // Act
+        Action act = () => subject.Should().BeEquivalentTo(customer, options => options
+            .Including(d => d.Name));
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("*Include*Name*");
+    }
+
+    [Fact]
+    public void A_member_included_by_predicate_is_described_in_the_failure_message()
+    {
+        // Arrange
+        var subject = new
+        {
+            Name = "John"
+        };
+
+        var customer = new
+        {
+            Name = "Jack"
+        };
+
+        // Act
+        Action act = () => subject.Should().BeEquivalentTo(customer, options => options
+            .Including(ctx => ctx.Path == "Name"));
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("*Include member when*Name*");
+    }
+
+    [Fact]
+    public void A_member_excluded_by_path_is_described_in_the_failure_message()
+    {
+        // Arrange
+        var subject = new
+        {
+            Name = "John",
+            Age = 13
+        };
+
+        var customer = new
+        {
+            Name = "Jack",
+            Age = 37
+        };
+
+        // Act
+        Action act = () => subject.Should().BeEquivalentTo(customer, options => options
+            .Excluding(d => d.Age));
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("*Exclude*Age*");
+    }
+
+    [Fact]
+    public void A_member_excluded_by_predicate_is_described_in_the_failure_message()
+    {
+        // Arrange
+        var subject = new
+        {
+            Name = "John",
+            Age = 13
+        };
+
+        var customer = new
+        {
+            Name = "Jack",
+            Age = 37
+        };
+
+        // Act
+        Action act = () => subject.Should().BeEquivalentTo(customer, options => options
+            .Excluding(ctx => ctx.Path == "Age"));
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("*Exclude member when*Age*");
+    }
+
+    [Fact]
     public void When_a_predicate_for_properties_to_include_has_been_specified_it_should_ignore_the_other_properties()
     {
         // Arrange

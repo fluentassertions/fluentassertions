@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using FluentAssertions.Common;
@@ -13,15 +14,35 @@ public class Node : INode
 {
     private static readonly Regex MatchFirstIndex = new(@"^\[\d+\]$");
 
+    private string path;
+    private string name;
+    private string pathAndName;
+
     public GetSubjectId GetSubjectId { get; protected set; } = () => string.Empty;
 
     public Type Type { get; protected set; }
 
-    public string Path { get; protected set; }
+    public string Path
+    {
+        get => path;
+        protected set
+        {
+            path = value;
+            pathAndName = null;
+        }
+    }
 
-    public string PathAndName => Path.Combine(Name);
+    public string PathAndName => pathAndName ??= Path.Combine(Name);
 
-    public string Name { get; set; }
+    public string Name
+    {
+        get => name;
+        set
+        {
+            name = value;
+            pathAndName = null;
+        }
+    }
 
     public virtual string Description => $"{GetSubjectId().Combine(PathAndName)}";
 
@@ -109,14 +130,17 @@ public class Node : INode
         return Equals((Node)obj);
     }
 
-    private bool Equals(Node other) => Type == other.Type && PathAndName == other.PathAndName;
+    private bool Equals(Node other) => (Type, Name, Path) == (other.Type, other.Name, other.Path);
 
     public override int GetHashCode()
     {
         unchecked
         {
 #pragma warning disable CA1307
-            return (Type.GetHashCode() * 397) ^ PathAndName.GetHashCode();
+            int hashCode = Type.GetHashCode();
+            hashCode = (hashCode * 397) + Path.GetHashCode();
+            hashCode = (hashCode * 397) + Name.GetHashCode();
+            return hashCode;
         }
     }
 

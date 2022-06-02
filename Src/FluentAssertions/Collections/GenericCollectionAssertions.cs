@@ -845,7 +845,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
 
             using (var scope = new AssertionScope())
             {
-                scope.AddReportable("configuration", options.ToString());
+                scope.AddReportable("configuration", () => options.ToString());
 
                 foreach (T actualItem in Subject)
                 {
@@ -2199,7 +2199,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
                         .WithExpectation("Expected {context:collection} {0} not to contain equivalent of {1}{reason}, ", Subject, unexpected)
-                        .AddReportable("configuration", options.ToString());
+                        .AddReportable("configuration", () => options.ToString());
 
                     if (foundIndices.Count == 1)
                     {

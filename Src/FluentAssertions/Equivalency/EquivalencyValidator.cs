@@ -1,4 +1,5 @@
 using System;
+using FluentAssertions.Equivalency.Tracing;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency;
@@ -15,7 +16,7 @@ public class EquivalencyValidator : IEquivalencyValidator
         using var scope = new AssertionScope();
 
         scope.AssumeSingleCaller();
-        scope.AddReportable("configuration", context.Options.ToString());
+        scope.AddReportable("configuration", () => context.Options.ToString());
         scope.BecauseOf(context.Reason);
 
         RecursivelyAssertEquality(comparands, context);
@@ -64,12 +65,13 @@ public class EquivalencyValidator : IEquivalencyValidator
     {
         using var _ = context.Tracer.WriteBlock(node => node.Description);
 
+        Func<IEquivalencyStep, GetTraceMessage> getMessage = step => _ => $"Equivalency was proven by {step.GetType().Name}";
         foreach (IEquivalencyStep step in AssertionOptions.EquivalencyPlan)
         {
             var result = step.Handle(comparands, context, this);
             if (result == EquivalencyResult.AssertionCompleted)
             {
-                context.Tracer.WriteLine(_ => $"Equivalency was proven by {step.GetType().Name}");
+                context.Tracer.WriteLine(getMessage(step));
                 return;
             }
         }
