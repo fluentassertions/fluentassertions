@@ -44,7 +44,7 @@ public static class CallerIdentifier
                 allStackFrames,
                 startIndex: 0,
                 count: searchStart + 1,
-                frame => !IsCurrentAssembly(frame) && !IsDotNet(frame));
+                frame => !IsCurrentAssembly(frame) && !IsDynamic(frame) && !IsDotNet(frame));
 
             for (int i = lastUserStackFrameBeforeFluentAssertionsCodeIndex; i < allStackFrames.Length; i++)
             {
