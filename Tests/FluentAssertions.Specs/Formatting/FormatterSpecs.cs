@@ -653,6 +653,20 @@ public class FormatterSpecs
         result.Should().Match("*…18 more…*");
     }
 
+    [Fact]
+    public void When_formatting_multiple_items_with_a_custom_string_representation_using_line_breaks_it_should_end_lines_with_a_comma()
+    {
+        // Arrange
+        var subject = new[] { typeof(A), typeof(B) };
+
+        // Act
+        string result = Formatter.ToString(subject, new FormattingOptions { UseLineBreaks = true } );
+
+        // Assert
+        result.Should().Contain($"FluentAssertions.Specs.Formatting.FormatterSpecs+A, {Environment.NewLine}");
+        result.Should().Contain($"FluentAssertions.Specs.Formatting.FormatterSpecs+B{Environment.NewLine}");
+    }
+
     public class BaseStuff
     {
         public int StuffId { get; set; }
