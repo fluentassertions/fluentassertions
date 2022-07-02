@@ -1,4 +1,5 @@
 using System;
+using JetBrains.Annotations;
 
 namespace FluentAssertions.Equivalency;
 
@@ -8,9 +9,19 @@ namespace FluentAssertions.Equivalency;
 public interface IObjectInfo
 {
     /// <summary>
-    /// Gets the type of this node.
+    /// Gets the type of the object 
     /// </summary>
+    [Obsolete("Use CompileTimeType or RuntimeType instead")]
     Type Type { get; }
+
+    /// <summary>
+    /// Gets the type of the parent, e.g. the type that declares a property or field.
+    /// </summary>
+    /// <value>
+    /// Is <c>null</c> for the root object.
+    /// </value>
+    [CanBeNull]
+    Type ParentType { get; }
 
     /// <summary>
     /// Gets the full path from the root object until the current node separated by dots.

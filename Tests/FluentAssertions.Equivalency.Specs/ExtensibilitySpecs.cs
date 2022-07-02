@@ -227,6 +227,27 @@ public class ExtensibilitySpecs
     }
 
     [Fact]
+    public void Can_exclude_all_properties_of_the_parent_type()
+    {
+        // Arrange
+        var subject = new
+        {
+            Id = "foo",
+        };
+
+        var expectation = new
+        {
+            Id = "bar",
+        };
+
+        // Act
+        subject.Should().BeEquivalentTo(expectation,
+            o => o
+                .Using<string>(c => c.Subject.Should().HaveLength(c.Expectation.Length))
+                .When(si => si.ParentType == expectation.GetType() && si.Path.EndsWith("Id", StringComparison.InvariantCulture)));
+    }
+
+    [Fact]
     public void When_property_of_subject_is_incompatible_with_generic_type_the_message_should_include_generic_type()
     {
         // Arrange

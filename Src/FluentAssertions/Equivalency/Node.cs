@@ -1,15 +1,11 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency;
 
-/// <summary>
-/// Represents a node in the object graph that is being compared as part of a structural equivalency check.
-/// </summary>
 public class Node : INode
 {
     private static readonly Regex MatchFirstIndex = new(@"^\[\d+\]$");
@@ -21,6 +17,8 @@ public class Node : INode
     public GetSubjectId GetSubjectId { get; protected set; } = () => string.Empty;
 
     public Type Type { get; protected set; }
+
+    public Type ParentType { get; protected set; }
 
     public string Path
     {
@@ -82,6 +80,7 @@ public class Node : INode
             Name = string.Empty,
             Path = string.Empty,
             Type = typeof(T),
+            ParentType = null,
             RootIsCollection = IsCollection(typeof(T))
         };
     }
@@ -91,6 +90,7 @@ public class Node : INode
         return new Node
         {
             Type = typeof(T),
+            ParentType = parent.Type,
             Name = "[" + index + "]",
             Path = parent.PathAndName,
             GetSubjectId = parent.GetSubjectId,
@@ -103,6 +103,7 @@ public class Node : INode
         return new Node
         {
             Type = typeof(T),
+            ParentType = parent.Type,
             Name = "[" + key + "]",
             Path = parent.PathAndName,
             GetSubjectId = parent.GetSubjectId,
