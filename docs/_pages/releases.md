@@ -7,6 +7,13 @@ sidebar:
   nav: "sidebar"
 ---
 
+## Unreleased
+
+### What's new
+
+### Fixes
+* Fix `For`/`Exclude` not excluding properties in objects in a collection - [#1953](https://github.com/fluentassertions/fluentassertions/pull/1953)
+
 ## 6.7.0
 
 ### What's new
