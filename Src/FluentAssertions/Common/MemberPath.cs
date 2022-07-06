@@ -81,7 +81,7 @@ internal class MemberPath
     public MemberPath AsParentCollectionOf(MemberPath nextPath)
     {
         var extendedDottedPath = dottedPath.Combine(nextPath.dottedPath, "[]");
-        return new MemberPath(declaringType, nextPath.reflectedType, extendedDottedPath);
+        return new MemberPath(nextPath.reflectedType, nextPath.declaringType, extendedDottedPath);
     }
 
     /// <summary>
