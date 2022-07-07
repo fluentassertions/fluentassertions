@@ -42,7 +42,7 @@ public class DefaultValueFormatter : IValueFormatter
         {
             if (context.UseLineBreaks)
             {
-                formattedGraph.AddLine(value.ToString());
+                formattedGraph.AddFragmentOnNewLine(value.ToString());
             }
             else
             {
