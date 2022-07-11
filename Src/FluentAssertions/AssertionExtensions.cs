@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -880,7 +880,25 @@ public static class AssertionExtensions
     /// <exception cref="ArgumentNullException"><paramref name="eventSource"/> is <see langword="null"/>.</exception>
     public static IMonitor<T> Monitor<T>(this T eventSource, Func<DateTime> utcNow = null)
     {
-        return new EventMonitor<T>(eventSource, utcNow ?? (() => DateTime.UtcNow));
+        return Monitor(eventSource, o =>
+        {
+            o.ConfigureTimestampProvider(utcNow);
+        });
+    }
+
+    /// <summary>
+    /// Starts monitoring <paramref name="eventSource"/> for its events using the given <paramref name="configureOptions"/>.
+    /// </summary>
+    /// <param name="eventSource">The object for which to monitor the events.</param>
+    /// <param name="configureOptions">
+    /// Options to configure the EventMonitor.
+    /// </param>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="eventSource"/> is Null.</exception>
+    public static IMonitor<T> Monitor<T>(this T eventSource, Action<EventMonitorOptions<T>> configureOptions)
+    {
+        var options = new EventMonitorOptions<T>();
+        configureOptions?.Invoke(options);
+        return new EventMonitor<T>(eventSource, options);
     }
 
 #endif

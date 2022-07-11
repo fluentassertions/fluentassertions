@@ -1,11 +1,11 @@
 ﻿#if NET47
-using System.Reflection;
 using System.Reflection.Emit;
 #endif
 
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using FluentAssertions.Events;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
@@ -969,6 +969,150 @@ public class EventAssertionSpecs
             // Assert
             act.Should().Throw<ArgumentException>()
                 .WithMessage("Expected*event*parameters*type*B*found*");
+        }
+    }
+
+    public class MonitorDefaultBehavior
+    {
+        [Fact]
+        public void Broken_event_add_accessors_fails()
+        {
+            // Arrange
+            var sut = new TestEventBrokenEventHandlerRaising();
+
+            // Act / Assert
+            sut.Invoking(c =>
+            {
+                using var monitor = c.Monitor<IAddFailingEvent>();
+            }).Should().Throw<TargetInvocationException>();
+        }
+
+        [Fact]
+        public void Broken_event_remove_accessors_fails()
+        {
+            // Arrange
+            var sut = new TestEventBrokenEventHandlerRaising();
+
+            // Act / Assert
+            sut.Invoking(c =>
+            {
+                using var monitor = c.Monitor<IRemoveFailingEvent>();
+            }).Should().Throw<TargetInvocationException>();
+        }
+    }
+
+    public class IgnoreMisbehavingEventAccessors
+    {
+        [Fact]
+        public void Monitoring_class_with_broken_event_add_accessor_succeeds()
+        {
+            // Arrange
+            var classToMonitor = new TestEventBrokenEventHandlerRaising();
+
+            // Act / Assert
+            classToMonitor.Invoking(c =>
+            {
+                using var monitor = c.Monitor<IAddFailingEvent>(opt => opt.IgnoreEventAccessorExceptions());
+            }).Should().NotThrow();
+        }
+
+        [Fact]
+        public void Class_with_broken_event_remove_accessor_succeeds()
+        {
+            // Arrange
+            var classToMonitor = new TestEventBrokenEventHandlerRaising();
+
+            // Act / Assert
+            classToMonitor.Invoking(c =>
+            {
+                using var monitor = c.Monitor<IRemoveFailingEvent>(opt => opt.IgnoreEventAccessorExceptions());
+            }).Should().NotThrow();
+        }
+
+        [Fact]
+        public void Recording_event_with_broken_add_accessor_succeeds()
+        {
+            // Arrange
+            var classToMonitor = new TestEventBrokenEventHandlerRaising();
+
+            using var monitor =
+                classToMonitor.Monitor<IAddFailingEvent>(opt =>
+                    opt.IgnoreEventAccessorExceptions().RecordEventsWithBrokenAccessor());
+
+            //Act
+            classToMonitor.RaiseOkEvent();
+
+            //Assert
+            monitor.MonitoredEvents.Should().HaveCount(1);
+        }
+
+        [Fact]
+        public void Ignoring_broken_event_accessor_should_also_not_record_events()
+        {
+            // Arrange
+            var classToMonitor = new TestEventBrokenEventHandlerRaising();
+
+            using var monitor = classToMonitor.Monitor<IAddFailingEvent>(opt => opt.IgnoreEventAccessorExceptions());
+
+            //Act
+            classToMonitor.RaiseOkEvent();
+
+            //Assert
+            monitor.MonitoredEvents.Should().BeEmpty();
+        }
+    }
+
+    private interface IAddOkEvent
+    {
+        event EventHandler OkEvent;
+    }
+
+    private interface IAddFailingRecordableEvent
+    {
+        public event EventHandler AddFailingRecorableEvent;
+    }
+
+    private interface IAddFailingEvent
+    {
+        public event EventHandler AddFailingEvent;
+    }
+
+    private interface IRemoveFailingEvent
+    {
+        public event EventHandler RemoveFailingEvent;
+    }
+
+    private class TestEventBrokenEventHandlerRaising
+        : IAddFailingEvent, IRemoveFailingEvent, IAddOkEvent, IAddFailingRecordableEvent
+    {
+        public event EventHandler AddFailingEvent
+        {
+            add => throw new InvalidOperationException("Add is failing");
+            remove => OkEvent -= value;
+        }
+
+        public event EventHandler AddFailingRecorableEvent
+        {
+            add
+            {
+                OkEvent += value;
+                throw new InvalidOperationException("Add is failing");
+            }
+
+            remove => OkEvent -= value;
+        }
+
+        public event EventHandler OkEvent;
+
+        public event EventHandler RemoveFailingEvent
+        {
+            add => OkEvent += value;
+            remove => throw new InvalidOperationException("Remove is failing");
+        }
+
+        public void RaiseOkEvent()
+        {
+            OkEvent?.Invoke(this, EventArgs.Empty);
         }
     }
 
