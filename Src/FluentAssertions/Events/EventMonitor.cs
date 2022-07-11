@@ -19,18 +19,21 @@ internal class EventMonitor<T> : IMonitor<T>
     private readonly ConcurrentDictionary<string, EventRecorder> recorderMap =
         new ConcurrentDictionary<string, EventRecorder>();
 
-    public EventMonitor(object eventSource, Func<DateTime> utcNow)
+    public EventMonitor(object eventSource, EventMonitorOptions<T> options)
     {
         Guard.ThrowIfArgumentIsNull(eventSource, nameof(eventSource), "Cannot monitor the events of a <null> object.");
 
+        this.options = options ?? new EventMonitorOptions<T>();
+
         subject = new WeakReference(eventSource);
 
-        Attach(typeof(T), utcNow);
+        Attach(typeof(T), this.options.TimestampProvider);
     }
 
     public T Subject => (T)subject.Target;
 
     private readonly ThreadSafeSequenceGenerator threadSafeSequenceGenerator = new();
+    private readonly EventMonitorOptions<T> options;
 
     public EventMetadata[] MonitoredEvents
     {
@@ -117,10 +120,29 @@ internal class EventMonitor<T> : IMonitor<T>
     {
         foreach (EventRecorder recorder in recorderMap.Values)
         {
-            recorder.Dispose();
+            DisposeSafeIfRequested(recorder);
         }
 
         recorderMap.Clear();
+    }
+
+    private void DisposeSafeIfRequested(EventRecorder recorder)
+    {
+        if (options.ShouldIgnoreEventAccessorExceptions)
+        {
+            try
+            {
+                recorder.Dispose();
+            }
+            catch
+            {
+                // ignore
+            }
+        }
+        else
+        {
+            recorder.Dispose();
+        }
     }
 
     private void AttachEventHandler(EventInfo eventInfo, Func<DateTime> utcNow)
@@ -130,7 +152,35 @@ internal class EventMonitor<T> : IMonitor<T>
             var recorder = new EventRecorder(subject.Target, eventInfo.Name, utcNow, threadSafeSequenceGenerator);
             if (recorderMap.TryAdd(eventInfo.Name, recorder))
             {
-                recorder.Attach(subject, eventInfo);
+                AttachEventHandler(eventInfo, recorder);
+            }
+        }
+    }
+
+    private void AttachEventHandler(EventInfo eventInfo, EventRecorder recorder)
+    {
+        if (options.ShouldIgnoreEventAccessorExceptions)
+        {
+            AttachEventHandlerOrRemoveFromRecorderMapIfAttachmentFailed(eventInfo, recorder);
+        }
+        else
+        {
+            recorder.Attach(subject, eventInfo);
+        }
+    }
+
+    private void AttachEventHandlerOrRemoveFromRecorderMapIfAttachmentFailed(EventInfo eventInfo, EventRecorder recorder)
+    {
+        try
+        {
+            recorder.Attach(subject, eventInfo);
+        }
+        catch
+        {
+            if (!recorderMap.TryRemove(eventInfo.Name, out _))
+            {
+                throw new InvalidOperationException(
+                    $"Could not remove event {eventInfo.Name} with broken event accessor from event recording.");
             }
         }
     }

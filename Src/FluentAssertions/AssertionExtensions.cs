@@ -360,7 +360,8 @@ public static class AssertionExtensions
     /// current <see cref="IDictionary{TKey, TValue}"/>.
     /// </summary>
     [Pure]
-    public static GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue> Should<TKey, TValue>(this IDictionary<TKey, TValue> actualValue)
+    public static GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue> Should<TKey, TValue>(
+        this IDictionary<TKey, TValue> actualValue)
     {
         return new GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue>(actualValue);
     }
@@ -370,7 +371,8 @@ public static class AssertionExtensions
     /// current <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey, TValue}"/>.
     /// </summary>
     [Pure]
-    public static GenericDictionaryAssertions<IEnumerable<KeyValuePair<TKey, TValue>>, TKey, TValue> Should<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> actualValue)
+    public static GenericDictionaryAssertions<IEnumerable<KeyValuePair<TKey, TValue>>, TKey, TValue> Should<TKey, TValue>(
+        this IEnumerable<KeyValuePair<TKey, TValue>> actualValue)
     {
         return new GenericDictionaryAssertions<IEnumerable<KeyValuePair<TKey, TValue>>, TKey, TValue>(actualValue);
     }
@@ -380,7 +382,8 @@ public static class AssertionExtensions
     /// current <typeparamref name="TCollection"/>.
     /// </summary>
     [Pure]
-    public static GenericDictionaryAssertions<TCollection, TKey, TValue> Should<TCollection, TKey, TValue>(this TCollection actualValue)
+    public static GenericDictionaryAssertions<TCollection, TKey, TValue> Should<TCollection, TKey, TValue>(
+        this TCollection actualValue)
         where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
     {
         return new GenericDictionaryAssertions<TCollection, TKey, TValue>(actualValue);
@@ -916,7 +919,25 @@ public static class AssertionExtensions
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="eventSource"/> is Null.</exception>
     public static IMonitor<T> Monitor<T>(this T eventSource, Func<DateTime> utcNow = null)
     {
-        return new EventMonitor<T>(eventSource, utcNow ?? (() => DateTime.UtcNow));
+        return Monitor(eventSource, o =>
+        {
+            o.ConfigureTimestampProvider(utcNow);
+        });
+    }
+
+    /// <summary>
+    /// Starts monitoring <paramref name="eventSource"/> for its events using the given <paramref name="configureOptions"/>.
+    /// </summary>
+    /// <param name="eventSource">The object for which to monitor the events.</param>
+    /// <param name="configureOptions">
+    /// Options to configure the EventMonitor.
+    /// </param>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="eventSource"/> is Null.</exception>
+    public static IMonitor<T> Monitor<T>(this T eventSource, Action<EventMonitorOptions<T>> configureOptions)
+    {
+        var options = new EventMonitorOptions<T>();
+        configureOptions?.Invoke(options);
+        return new EventMonitor<T>(eventSource, options);
     }
 
 #endif
@@ -968,7 +989,7 @@ public static class AssertionExtensions
         InvalidShouldCall();
     }
 
-#if  NET6_0_OR_GREATER
+#if NET6_0_OR_GREATER
 
     /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
     [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
@@ -1078,7 +1099,8 @@ public static class AssertionExtensions
     [DoesNotReturn]
     private static void InvalidShouldCall()
     {
-        throw new InvalidOperationException("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'.");
+        throw new InvalidOperationException(
+            "You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'.");
     }
 
     #endregion
