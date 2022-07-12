@@ -19,11 +19,11 @@ internal class EventMonitor<T> : IMonitor<T>
     private readonly ConcurrentDictionary<string, EventRecorder> recorderMap =
         new ConcurrentDictionary<string, EventRecorder>();
 
-    public EventMonitor(object eventSource, EventMonitorOptions<T> options)
+    public EventMonitor(object eventSource, EventMonitorOptions options)
     {
         Guard.ThrowIfArgumentIsNull(eventSource, nameof(eventSource), "Cannot monitor the events of a <null> object.");
 
-        this.options = options ?? new EventMonitorOptions<T>();
+        this.options = options ?? new EventMonitorOptions();
 
         subject = new WeakReference(eventSource);
 
@@ -33,7 +33,7 @@ internal class EventMonitor<T> : IMonitor<T>
     public T Subject => (T)subject.Target;
 
     private readonly ThreadSafeSequenceGenerator threadSafeSequenceGenerator = new();
-    private readonly EventMonitorOptions<T> options;
+    private readonly EventMonitorOptions options;
 
     public EventMetadata[] MonitoredEvents
     {
