@@ -10,9 +10,11 @@ sidebar:
 ## Unreleased
 
 ### What's new
-
 * Added options to `.Monitor(...)` extension - [#1954](https://github.com/fluentassertions/fluentassertions/pull/1954)
 * Added option for event monitoring to ignore failing event accessors - [#1954](https://github.com/fluentassertions/fluentassertions/pull/1954)
+
+### Fixes
+* Fix `For`/`Exclude` not excluding properties in objects in a collection - [#1953](https://github.com/fluentassertions/fluentassertions/pull/1953)
 
 ## 6.7.0
 
@@ -22,7 +24,6 @@ sidebar:
 * Assertions on the collection types in System.Data (`DataSet.Tables`, `DataTable.Columns`, `DataTable.Rows`) have been restored - [#1812](https://github.com/fluentassertions/fluentassertions/pull/1812)
 * Add `For`/`Exclude` to allow exclusion of members inside a collection - [#1782](https://github.com/fluentassertions/fluentassertions/pull/1782)
 * Added overload for `HaveElement` for `XDocument` and `XElement` to assert on number of XML nodes - [#1880](https://github.com/fluentassertions/fluentassertions/pull/1880)
-
 
 ### Fixes
 * Fix the failure message for regex matches (occurrence overload) to include the missing subject - [#1913](https://github.com/fluentassertions/fluentassertions/pull/1913)
