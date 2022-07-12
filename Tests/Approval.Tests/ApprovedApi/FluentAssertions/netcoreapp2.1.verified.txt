@@ -38,6 +38,7 @@ namespace FluentAssertions
         public static FluentAssertions.Specialized.MemberExecutionTime<T> ExecutionTimeOf<T>(this T subject, System.Linq.Expressions.Expression<System.Action<T>> action, FluentAssertions.Common.StartTimer createTimer = null) { }
         public static System.Action Invoking<T>(this T subject, System.Action<T> action) { }
         public static System.Func<TResult> Invoking<T, TResult>(this T subject, System.Func<T, TResult> action) { }
+        public static FluentAssertions.Events.IMonitor<T> Monitor<T>(this T eventSource, System.Action<FluentAssertions.Events.EventMonitorOptions> configureOptions) { }
         public static FluentAssertions.Events.IMonitor<T> Monitor<T>(this T eventSource, System.Func<System.DateTime> utcNow = null) { }
         public static FluentAssertions.Specialized.ExecutionTimeAssertions Should(this FluentAssertions.Specialized.ExecutionTime executionTime) { }
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
@@ -1254,6 +1255,12 @@ namespace FluentAssertions.Events
         public EventMetadata(string eventName, System.Type handlerType) { }
         public string EventName { get; }
         public System.Type HandlerType { get; }
+    }
+    public class EventMonitorOptions
+    {
+        public EventMonitorOptions() { }
+        public FluentAssertions.Events.EventMonitorOptions ConfigureTimestampProvider(System.Func<System.DateTime> timestampProvider) { }
+        public FluentAssertions.Events.EventMonitorOptions IgnoreEventAccessorExceptions() { }
     }
     public interface IEventRecording : System.Collections.Generic.IEnumerable<FluentAssertions.Events.OccurredEvent>, System.Collections.IEnumerable
     {
