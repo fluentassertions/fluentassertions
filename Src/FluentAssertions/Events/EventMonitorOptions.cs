@@ -6,7 +6,7 @@ namespace FluentAssertions.Events;
 /// <summary>
 /// Settings for the <see cref="EventMonitor{T}"/>.
 /// </summary>
-public class EventMonitorOptions<T>
+public class EventMonitorOptions
 {
     /// <summary>
     /// Will ignore the events, if they throw an exception on any custom event accessor implementation. default: false.
@@ -22,7 +22,7 @@ public class EventMonitorOptions<T>
     /// When called it will ignore event accessor Exceptions.
     /// </summary>
     /// <returns>The options instance for method stacking.</returns>
-    public EventMonitorOptions<T> IgnoreEventAccessorExceptions()
+    public EventMonitorOptions IgnoreEventAccessorExceptions()
     {
         ShouldIgnoreEventAccessorExceptions = true;
         return this;
@@ -33,7 +33,7 @@ public class EventMonitorOptions<T>
     /// </summary>
     /// <param name="timestampProvider">The timestamp provider.</param>
     /// <returns>The options instance for method stacking.</returns>
-    public EventMonitorOptions<T> ConfigureTimestampProvider(Func<DateTime> timestampProvider)
+    public EventMonitorOptions ConfigureTimestampProvider(Func<DateTime> timestampProvider)
     {
         if (timestampProvider != null)
         {
