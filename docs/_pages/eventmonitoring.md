@@ -101,8 +101,8 @@ metadata.Should().BeEquivalentTo(new[]
 It is also possible to configure the event monitor. To do so, use the overload:
 
 ```csharp
-var subject = new EditCustomerViewModel(options => ...);
-using var monitoredSubject = subject.Monitor();
+var subject = new EditCustomerViewModel();
+using var monitoredSubject = subject.Monitor(options => ...);
 ```
 
 ### Ignore broken event Accessors
@@ -110,8 +110,8 @@ using var monitoredSubject = subject.Monitor();
 If some event accessors, you are not interested in, should throw exceptions, you can simply ignore all exceptions thrown by those event acessors:
 
 ```csharp
-var subject = new EditCustomerViewModel(options => options.IgnoreEventAccessorExceptions());
-using var monitoredSubject = subject.Monitor();
+var subject = new EditCustomerViewModel();
+using var monitoredSubject = subject.Monitor(options => options.IgnoreEventAccessorExceptions());
 ```
 
 The event monitor will now ignore all events that throw exceptions when subscribing (`add`) or unsubscribing (`remove`) them.
