@@ -16,7 +16,7 @@ public class EventMonitorOptions
     /// <summary>
     /// Func used to generate the timestamp.
     /// </summary>
-    internal Func<DateTime> TimestampProvider { get; private set; } = () => DateTime.Now;
+    internal Func<DateTime> TimestampProvider { get; private set; } = () => DateTime.UtcNow;
 
     /// <summary>
     /// When called it will ignore event accessor Exceptions.
