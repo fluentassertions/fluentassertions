@@ -1,11 +1,12 @@
 ﻿#if NETFRAMEWORK
-using System.Reflection;
 using System.Reflection.Emit;
 #endif
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Reflection;
 using FluentAssertions.Events;
 using FluentAssertions.Extensions;
 using FluentAssertions.Formatting;
@@ -321,7 +322,8 @@ public class EventAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected at least one event with some argument*type*Int32*matches*(args == " + wrongArgument + "), but found none.");
+                "Expected at least one event with some argument*type*Int32*matches*(args == " + wrongArgument +
+                "), but found none.");
         }
 
         [Fact]
@@ -516,7 +518,8 @@ public class EventAssertionSpecs
         }
 
         [Fact]
-        public void When_the_property_changed_event_was_raised_for_the_wrong_property_it_should_throw_and_include_the_actual_properties_raised()
+        public void
+            When_the_property_changed_event_was_raised_for_the_wrong_property_it_should_throw_and_include_the_actual_properties_raised()
         {
             // Arrange
             var bar = new EventRaisingClass();
@@ -646,11 +649,7 @@ public class EventAssertionSpecs
             // Assert
             metadata.Should().BeEquivalentTo(new[]
             {
-                new
-                {
-                    EventName = nameof(ClassThatRaisesEventsItself.InterfaceEvent),
-                    HandlerType = typeof(EventHandler)
-                },
+                new { EventName = nameof(ClassThatRaisesEventsItself.InterfaceEvent), HandlerType = typeof(EventHandler) },
                 new
                 {
                     EventName = nameof(ClassThatRaisesEventsItself.PropertyChanged),
@@ -672,11 +671,7 @@ public class EventAssertionSpecs
             // Assert
             metadata.Should().BeEquivalentTo(new[]
             {
-                new
-                {
-                    EventName = nameof(IEventRaisingInterface.InterfaceEvent),
-                    HandlerType = typeof(EventHandler)
-                }
+                new { EventName = nameof(IEventRaisingInterface.InterfaceEvent), HandlerType = typeof(EventHandler) }
             });
         }
 
@@ -718,7 +713,8 @@ public class EventAssertionSpecs
                 AssemblyBuilderAccess.Run);
             ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name, false);
             string typeName = baseType.Name + "_GeneratedForTest";
-            TypeBuilder typeBuilder = moduleBuilder.DefineType(typeName, TypeAttributes.Public, baseType, new[] { interfaceType });
+            TypeBuilder typeBuilder =
+ moduleBuilder.DefineType(typeName, TypeAttributes.Public, baseType, new[] { interfaceType });
 
             MethodBuilder addHandler = EmitAddRemoveEventHandler("add");
             typeBuilder.DefineMethodOverride(addHandler, interfaceType.GetMethod("add_InterfaceEvent"));
@@ -777,21 +773,22 @@ public class EventAssertionSpecs
             eventSource.RaiseNonConventionalEvent("first", 123, "third");
 
             // Assert
-            monitor.OccurredEvents.Should().BeEquivalentTo(new[]
-            {
-                new
+            monitor.OccurredEvents.Should().BeEquivalentTo(
+                new[]
                 {
-                    EventName = "PropertyChanged",
-                    TimestampUtc = utcNow - 1.Hours(),
-                    Parameters = new object[] { eventSource, new PropertyChangedEventArgs("theProperty") }
-                },
-                new
-                {
-                    EventName = "NonConventionalEvent",
-                    TimestampUtc = utcNow,
-                    Parameters = new object[] { "first", 123, "third" }
-                }
-            }, o => o.WithStrictOrdering());
+                    new
+                    {
+                        EventName = "PropertyChanged",
+                        TimestampUtc = utcNow - 1.Hours(),
+                        Parameters = new object[] { eventSource, new PropertyChangedEventArgs("theProperty") }
+                    },
+                    new
+                    {
+                        EventName = "NonConventionalEvent",
+                        TimestampUtc = utcNow,
+                        Parameters = new object[] { "first", 123, "third" }
+                    }
+                }, o => o.WithStrictOrdering());
         }
 
         [Fact]
@@ -945,6 +942,109 @@ public class EventAssertionSpecs
         }
     }
 
+    public class MonitorDefaultBehavior
+    {
+        [Fact]
+        public void Broken_event_add_accessors_should_fail_the_test()
+        {
+            // Arrange
+            var cut = new TestEventBrokenEventHandlerRaising();
+
+            // Act
+            // Assert
+            cut.Invoking(c =>
+            {
+                using var monitor = c.Monitor<IAddFailingEvent>();
+            }).Should().Throw<TargetInvocationException>();
+        }
+
+        [Fact]
+        public void Broken_event_remove_accessors_should_fail_the_test()
+        {
+            // Arrange
+            var cut = new TestEventBrokenEventHandlerRaising();
+
+            // Act
+            // Assert
+            cut.Invoking(c =>
+            {
+                using var monitor = c.Monitor<IRemoveFailingEvent>();
+            }).Should().Throw<TargetInvocationException>();
+        }
+    }
+
+    public class IgnoreMisbehavingEventAccessors
+    {
+        [Fact]
+        public void
+            Monitoring_class_with_broken_event_add_accessor_should_not_fail_test()
+        {
+            // Arrange
+            var classToMonitor = new TestEventBrokenEventHandlerRaising();
+
+            //Act
+            //Assert
+            classToMonitor.Invoking(c =>
+            {
+                using var monitor = c.Monitor<IAddFailingEvent>(opt => opt.IgnoreEventAccessorExceptions());
+            }).Should().NotThrow();
+        }
+
+        [Fact]
+        public void
+            Class_with_broken_event_remove_accessor_should_not_fail_test()
+        {
+            // Arrange
+            var classToMonitor = new TestEventBrokenEventHandlerRaising();
+
+            //Act
+
+            //Assert
+            classToMonitor.Invoking(c =>
+            {
+                using var monitor = c.Monitor<IRemoveFailingEvent>(opt => opt.IgnoreEventAccessorExceptions());
+            }).Should().NotThrow();
+        }
+    }
+
+    private interface IAddOkEvent
+    {
+        event EventHandler OkEvent;
+    }
+
+    private interface IAddFailingEvent
+    {
+        public event EventHandler AddFailingEvent;
+    }
+
+    private interface IRemoveFailingEvent
+    {
+        public event EventHandler RemoveFailingEvent;
+    }
+
+    [SuppressMessage("Usage", "CA1801:Check Unused Parameter", Justification = "This is on purpose for testing.")]
+    private class TestEventBrokenEventHandlerRaising : IAddFailingEvent, IRemoveFailingEvent, IAddOkEvent
+    {
+        public event EventHandler AddFailingEvent
+        {
+            add { throw new InvalidOperationException("Add is failing"); }
+            remove { OkEvent -= value; }
+        }
+
+        public event EventHandler OkEvent;
+
+        public event EventHandler RemoveFailingEvent
+        {
+            add { OkEvent += value; }
+            remove { throw new InvalidOperationException("Remove is failing"); }
+        }
+
+        public void RaiseOkEvent()
+        {
+            OkEvent?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
     public class A
     {
         public event EventHandler<object> Event;
@@ -955,9 +1055,13 @@ public class EventAssertionSpecs
         }
     }
 
-    public class B { }
+    public class B
+    {
+    }
 
-    public class C { }
+    public class C
+    {
+    }
 
     public class ClassThatRaisesEventsItself : IInheritsEventRaisingInterface
     {

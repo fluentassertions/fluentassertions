@@ -1259,7 +1259,6 @@ namespace FluentAssertions.Events
     public class EventMonitorOptions
     {
         public EventMonitorOptions() { }
-        public FluentAssertions.Events.EventMonitorOptions ConfigureTimestampProvider(System.Func<System.DateTime> timestampProvider) { }
         public FluentAssertions.Events.EventMonitorOptions IgnoreEventAccessorExceptions() { }
     }
     public interface IEventRecording : System.Collections.Generic.IEnumerable<FluentAssertions.Events.OccurredEvent>, System.Collections.IEnumerable

@@ -10,7 +10,6 @@ sidebar:
 ## Unreleased
 
 ### What's new
-* Added options to `.Monitor(...)` extension - [#1954](https://github.com/fluentassertions/fluentassertions/pull/1954)
 * Added option for event monitoring to ignore failing event accessors - [#1954](https://github.com/fluentassertions/fluentassertions/pull/1954)
 
 ### Fixes
