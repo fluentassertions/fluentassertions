@@ -33,7 +33,7 @@ public class EventMonitorOptions
     /// </summary>
     /// <param name="timestampProvider">The timestamp provider.</param>
     /// <returns>The options instance for method stacking.</returns>
-    public EventMonitorOptions ConfigureTimestampProvider(Func<DateTime> timestampProvider)
+    internal EventMonitorOptions ConfigureTimestampProvider(Func<DateTime> timestampProvider)
     {
         if (timestampProvider != null)
         {
