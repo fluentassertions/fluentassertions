@@ -945,6 +945,90 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     }
 
     /// <summary>
+    /// Expects the current collection to contain the specified elements in the exact same order, and to be consecutive.
+    /// using their <see cref="object.Equals(object)" /> implementation.
+    /// </summary>
+    /// <param name="expected">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
+    public AndConstraint<TAssertions> ContainInConsecutiveOrder(params T[] expected)
+    {
+        return ContainInConsecutiveOrder(expected, string.Empty);
+    }
+
+    /// <summary>
+    /// Expects the current collection to contain the specified elements in the exact same order, and to be consecutive.
+    /// </summary>
+    /// <remarks>
+    /// Elements are compared using their <see cref="object.Equals(object)" /> implementation.
+    /// </remarks>
+    /// <param name="expected">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <c>null</c>.</exception>
+    public AndConstraint<TAssertions> ContainInConsecutiveOrder(IEnumerable<T> expected, string because = "",
+        params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify ordered containment against a <null> collection.");
+
+        bool success = Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject is not null)
+            .FailWith("Expected {context:collection} to contain {0} in order{reason}, but found <null>.", expected);
+
+        if (success)
+        {
+            IList<T> expectedItems = expected.ConvertOrCastToList();
+            IList<T> actualItems = Subject.ConvertOrCastToList();
+
+            int highestIndex = -1;
+            int index = 0;
+
+            Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
+
+            for (index = 0; index < expectedItems.Count; index++)
+            {
+                T expectedItem = expectedItems[index];
+                if (index == 0)
+                {
+                    actualItems = actualItems.SkipWhile(actualItem => !areSameOrEqual(actualItem, expectedItem)).ToArray();
+                }
+                else
+                {
+                    if (actualItems.Any() && areSameOrEqual(actualItems.First(), expectedItem))
+                    {
+                        highestIndex = index;
+                    }
+                    else
+                    {
+                        actualItems = actualItems.SkipWhile(actualItem => !areSameOrEqual(actualItem, expectedItems[0])).ToArray();
+                        index = 0;
+                    }
+                }
+
+                if (actualItems.Any())
+                {
+                    actualItems = actualItems.Skip(1).ToArray();
+                }
+                else
+                {
+                    Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        "Expected {context:collection} {0} to contain items {1} in order{reason}" +
+                        ", but {2} (index {3}) did not appear (in the right order).",
+                        Subject, expected, expectedItem, highestIndex + 1);
+                }
+            }
+        }
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
     /// Asserts that the current collection contains at least one element that is assignable to the type <typeparamref name="TExpectation" />.
     /// </summary>
     /// <param name="because">
@@ -2293,6 +2377,109 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
                 }
 
                 actualItems = actualItems.Skip(1).ToArray();
+            }
+            else
+            {
+                return new AndConstraint<TAssertions>((TAssertions)this);
+            }
+        }
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts the current collection does not contain the specified elements in the exact same order and are consecutive.
+    /// </summary>
+    /// <remarks>
+    /// Elements are compared using their <see cref="object.Equals(object)" /> implementation.
+    /// </remarks>
+    /// <param name="unexpected">A <see cref="Array"/> with the unexpected elements.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <c>null</c>.</exception>
+    public AndConstraint<TAssertions> NotContainInConsecutiveOrder(params T[] unexpected)
+    {
+        return NotContainInConsecutiveOrder(unexpected, string.Empty);
+    }
+
+    /// <summary>
+    /// Asserts the current collection does not contain the specified elements in the exact same order and consecutively.
+    /// </summary>
+    /// <remarks>
+    /// Elements are compared using their <see cref="object.Equals(object)" /> implementation.
+    /// </remarks>
+    /// <param name="unexpected">An <see cref="IEnumerable{T}"/> with the unexpected elements.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <c>null</c>.</exception>
+    public AndConstraint<TAssertions> NotContainInConsecutiveOrder(IEnumerable<T> unexpected, string because = "",
+        params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify absence of ordered containment against a <null> collection.");
+
+        if (Subject is null)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Cannot verify absence of ordered containment in a <null> collection.");
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        IList<T> unexpectedItems = unexpected.ConvertOrCastToList();
+        IList<T> actualItems = Subject.ConvertOrCastToList();
+
+        if (unexpectedItems.Count > actualItems.Count)
+        {
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        var actualItemsSkipped = 0;
+        int index;
+        Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
+
+        for (index = 0; index < unexpectedItems.Count; index++)
+        {
+            T currentUnexpectedItem = unexpectedItems[index];
+            if (index == 0)
+            {
+                actualItems = actualItems.SkipWhile(actualItem =>
+                {
+                    actualItemsSkipped++;
+                    return !areSameOrEqual(actualItem, currentUnexpectedItem);
+                }).ToArray();
+            }
+            else
+            {
+                if (actualItems.Any() && !areSameOrEqual(actualItems.First(), currentUnexpectedItem))
+                {
+                    index = 0;
+                    actualItemsSkipped--;
+                    actualItems = actualItems.SkipWhile(actualItem =>
+                    {
+                        actualItemsSkipped++;
+                        return !areSameOrEqual(actualItem, unexpectedItems[index]);
+                    }).ToArray();
+                }
+            }
+
+            if (actualItems.Any())
+            {
+                if (index == unexpectedItems.Count - 1)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith(
+                            "Expected {context:collection} {0} to not contain items {1} in order{reason}, " +
+                            "but items appeared in order ending at index {2}.",
+                            Subject, unexpected, actualItemsSkipped - 1);
+                }
+
+                actualItems = actualItems.Skip(1).ToArray();
+                actualItemsSkipped++;
             }
             else
             {
