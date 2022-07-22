@@ -101,6 +101,20 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
+        public void Collections_contain_the_empty_sequence()
+        {
+            // Assert
+            new[] { 1 }.Should().ContainInOrder(new int[0]);
+        }
+
+        [Fact]
+        public void Collections_do_not_not_contain_the_empty_sequence()
+        {
+            // Assert
+            new[] { 1 }.Should().NotContainInOrder(new int[0]);
+        }
+
+        [Fact]
         public void When_asserting_collection_contains_some_values_in_order_but_collection_is_null_it_should_throw()
         {
             // Arrange
