@@ -44,10 +44,6 @@ public class AssertionExtensionsSpecs
         new object[] { new DateTimeRangeAssertions<DateTimeAssertions>(default, default, default, default) },
         new object[] { new DateTimeOffsetAssertions<DateTimeOffsetAssertions>(default) },
         new object[] { new DateTimeOffsetRangeAssertions<DateTimeOffsetAssertions>(default, default, default, default) },
-#if NET6_0_OR_GREATER
-        new object[] { new DateOnlyAssertions<DateOnlyAssertions>(default) },
-        new object[] { new TimeOnlyAssertions<TimeOnlyAssertions>(default) },
-#endif
         new object[] { new ExecutionTimeAssertions(new ExecutionTime(() => { }, () => new StopwatchTimer())) },
         new object[] { new GuidAssertions<GuidAssertions>(default) },
         new object[] { new MethodInfoSelectorAssertions() },
@@ -56,7 +52,11 @@ public class AssertionExtensionsSpecs
         new object[] { new SimpleTimeSpanAssertions<SimpleTimeSpanAssertions>(default) },
         new object[] { new TaskCompletionSourceAssertions<int>(default) },
         new object[] { new TypeSelectorAssertions() },
-        new object[] { new EnumAssertions<StringComparison, EnumAssertions<StringComparison>>(default) }
+        new object[] { new EnumAssertions<StringComparison, EnumAssertions<StringComparison>>(default) },
+#if NET6_0_OR_GREATER
+        new object[] { new DateOnlyAssertions<DateOnlyAssertions>(default) },
+        new object[] { new TimeOnlyAssertions<TimeOnlyAssertions>(default) },
+#endif
     };
 
     [Theory]
@@ -77,19 +77,19 @@ public class AssertionExtensionsSpecs
     [InlineData(typeof(DateTimeRangeAssertions<DateTimeAssertions>))]
     [InlineData(typeof(DateTimeOffsetAssertions<DateTimeOffsetAssertions>))]
     [InlineData(typeof(DateTimeOffsetRangeAssertions<DateTimeOffsetAssertions>))]
-#if NET6_0_OR_GREATER
-    [InlineData(typeof(DateOnlyAssertions<DateOnlyAssertions>))]
-    [InlineData(typeof(TimeOnlyAssertions<TimeOnlyAssertions>))]
-#endif
     [InlineData(typeof(ExecutionTimeAssertions))]
     [InlineData(typeof(GuidAssertions<GuidAssertions>))]
     [InlineData(typeof(MethodInfoSelectorAssertions))]
     [InlineData(typeof(NumericAssertions<int, NumericAssertions<int>>))]
     [InlineData(typeof(PropertyInfoSelectorAssertions))]
     [InlineData(typeof(SimpleTimeSpanAssertions<SimpleTimeSpanAssertions>))]
-    [InlineData(typeof(TaskCompletionSourceAssertions<int>))]
+    [InlineData(typeof(TaskCompletionSourceAssertionsBase))]
     [InlineData(typeof(TypeSelectorAssertions))]
     [InlineData(typeof(EnumAssertions<StringComparison, EnumAssertions<StringComparison>>))]
+#if NET6_0_OR_GREATER
+    [InlineData(typeof(DateOnlyAssertions<DateOnlyAssertions>))]
+    [InlineData(typeof(TimeOnlyAssertions<TimeOnlyAssertions>))]
+#endif
     public void Fake_should_method_throws(Type type)
     {
         // Arrange
@@ -134,8 +134,13 @@ public class AssertionExtensionsSpecs
             .Distinct()
             .Concat(new[]
             {
+                // @jnyrup: DateTimeRangeAssertions and DateTimeOffsetRangeAssertions are manually added here,
+                // because they expose AndConstraints,
+                // and hence should have a guarding Should(DateTimeRangeAssertions _) overloads,
+                // but they do not have a regular Should() overload,
+                // as they are always constructed through the fluent API.
                 typeof(DateTimeRangeAssertions<>),
-                typeof(DateTimeOffsetRangeAssertions<>)
+                typeof(DateTimeOffsetRangeAssertions<>),
             })
             .ToList();
 

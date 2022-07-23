@@ -12,6 +12,7 @@ sidebar:
 ### What's new
 * Added `ContainInConsecutiveOrder` and `NotContainInConsecutiveOrder` assertions to check if a collection contains items in a specific order and to be consecutive - [#1963](https://github.com/fluentassertions/fluentassertions/pull/1963)
 * Added `NotCompleteWithinAsync` for assertions on `Task` - [#1967](https://github.com/fluentassertions/fluentassertions/pull/1967)
+* Added `CompleteWithinAsync` and `NotCompleteWithinAsync` for non-generic `TaskCompletionSource` (.NET 6 and above) - [#1961](https://github.com/fluentassertions/fluentassertions/pull/1961)
 * Added a `ParentType` to `IObjectInfo` to help determining the parent in a call to `Using`/`When` constructs - [#1950](https://github.com/fluentassertions/fluentassertions/pull/1950)
 
 ### Fixes
