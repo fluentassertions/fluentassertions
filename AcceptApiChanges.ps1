@@ -4,15 +4,9 @@
 
 $ApprovalFiles = ".\Tests\Approval.Tests\ApprovedApi\FluentAssertions\";
 
-## Remove current "approved" API 
-Remove-Item "$ApprovalFiles\*.verified.txt"
-
 ## Copy new API from .received.txt files to .verified.txt files
 ## Note that .received.txt files are ignored in git and are not part of the repository
 Get-ChildItem -Path $ApprovalFiles -Filter "*received.txt" | ForEach-Object {
 	$NewName = $_.FullName -replace 'received.txt', 'verified.txt'
-	Copy-Item $_.FullName $NewName
+	Move-Item $_.FullName $NewName -Force
 }
-
-Remove-Item "$ApprovalFiles\*.received.txt"
-
