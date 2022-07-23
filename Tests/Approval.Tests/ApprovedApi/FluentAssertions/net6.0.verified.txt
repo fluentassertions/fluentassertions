@@ -43,6 +43,9 @@ namespace FluentAssertions
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
             "ly following \'And\'", true)]
         public static void Should(this FluentAssertions.Specialized.ExecutionTimeAssertions _) { }
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
+        public static void Should(this FluentAssertions.Specialized.TaskCompletionSourceAssertionsBase _) { }
         public static FluentAssertions.Types.MethodInfoSelectorAssertions Should(this FluentAssertions.Types.MethodInfoSelector methodSelector) { }
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
             "ly following \'And\'", true)]
@@ -77,6 +80,7 @@ namespace FluentAssertions
         public static FluentAssertions.Types.ConstructorInfoAssertions Should(this System.Reflection.ConstructorInfo constructorInfo) { }
         public static FluentAssertions.Types.MethodInfoAssertions Should(this System.Reflection.MethodInfo methodInfo) { }
         public static FluentAssertions.Types.PropertyInfoAssertions Should(this System.Reflection.PropertyInfo propertyInfo) { }
+        public static FluentAssertions.Specialized.TaskCompletionSourceAssertions Should(this System.Threading.Tasks.TaskCompletionSource tcs) { }
         public static FluentAssertions.Primitives.TimeOnlyAssertions Should(this System.TimeOnly actualValue) { }
         public static FluentAssertions.Primitives.NullableTimeOnlyAssertions Should(this System.TimeOnly? actualValue) { }
         public static FluentAssertions.Primitives.SimpleTimeSpanAssertions Should(this System.TimeSpan actualValue) { }
@@ -147,9 +151,6 @@ namespace FluentAssertions
             "ly following \'And\'", true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.TimeOnlyAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.TimeOnlyAssertions<TAssertions> { }
-        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
-            "ly following \'And\'", true)]
-        public static void Should<TSubject>(this FluentAssertions.Specialized.TaskCompletionSourceAssertions<TSubject> _) { }
         public static FluentAssertions.Collections.GenericCollectionAssertions<T> Should<T>(this System.Collections.Generic.IEnumerable<T> actualValue) { }
         public static FluentAssertions.Specialized.GenericAsyncFunctionAssertions<T> Should<T>(this System.Func<System.Threading.Tasks.Task<T>> action) { }
         public static FluentAssertions.Specialized.FunctionAssertions<T> Should<T>(this System.Func<T> func) { }
@@ -2466,13 +2467,24 @@ namespace FluentAssertions.Specialized
         public NonGenericAsyncFunctionAssertions(System.Func<System.Threading.Tasks.Task> subject, FluentAssertions.Specialized.IExtractExceptions extractor) { }
         public NonGenericAsyncFunctionAssertions(System.Func<System.Threading.Tasks.Task> subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Common.IClock clock) { }
     }
-    public class TaskCompletionSourceAssertions<T>
+    public class TaskCompletionSourceAssertions : FluentAssertions.Specialized.TaskCompletionSourceAssertionsBase
+    {
+        public TaskCompletionSourceAssertions(System.Threading.Tasks.TaskCompletionSource tcs) { }
+        public TaskCompletionSourceAssertions(System.Threading.Tasks.TaskCompletionSource tcs, FluentAssertions.Common.IClock clock) { }
+        public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<FluentAssertions.Specialized.TaskCompletionSourceAssertions>> CompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
+        public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<FluentAssertions.Specialized.TaskCompletionSourceAssertions>> NotCompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
+    }
+    public class TaskCompletionSourceAssertionsBase
+    {
+        protected TaskCompletionSourceAssertionsBase(FluentAssertions.Common.IClock clock) { }
+        public override bool Equals(object obj) { }
+    }
+    public class TaskCompletionSourceAssertions<T> : FluentAssertions.Specialized.TaskCompletionSourceAssertionsBase
     {
         public TaskCompletionSourceAssertions(System.Threading.Tasks.TaskCompletionSource<T> tcs) { }
         public TaskCompletionSourceAssertions(System.Threading.Tasks.TaskCompletionSource<T> tcs, FluentAssertions.Common.IClock clock) { }
         public System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.TaskCompletionSourceAssertions<T>, T>> CompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
-        public override bool Equals(object obj) { }
-        public System.Threading.Tasks.Task NotCompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
+        public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<FluentAssertions.Specialized.TaskCompletionSourceAssertions<T>>> NotCompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
     }
 }
 namespace FluentAssertions.Streams
