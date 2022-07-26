@@ -985,20 +985,20 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
             IList<T> actualItems = Subject.ConvertOrCastToList();
 
             int highestIndex = -1;
-            int index = 0;
+            int index;
 
             Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
-            int expectedCount = expectedItems.Count;
+            int expectedItemsCount = expectedItems.Count;
 
-            for (index = 0; index < expectedCount; index++)
+            for (index = 0; index < expectedItemsCount; index++)
             {
                 T expectedItem = expectedItems[index];
                 if (index == 0)
                 {
                     actualItems = actualItems.SkipWhile(actualItem => !areSameOrEqual(actualItem, expectedItem)).ToArray();
-                    if (actualItems.Count >= expectedCount - 1)
+                    if (actualItems.Count >= expectedItemsCount - 1)
                     {
-                        if (actualItems.Take(expectedCount - 1).Equals(expectedItems))
+                        if (actualItems.Take(expectedItemsCount - 1).Equals(expectedItems))
                         {
                             return new AndConstraint<TAssertions>((TAssertions)this);
                         }
@@ -2440,16 +2440,18 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         IList<T> unexpectedItems = unexpected.ConvertOrCastToList();
         IList<T> actualItems = Subject.ConvertOrCastToList();
 
-        if (unexpectedItems.Count > actualItems.Count)
+        var unexpectedItemsCount = unexpectedItems.Count;
+        if (unexpectedItemsCount > actualItems.Count)
         {
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         var actualItemsSkipped = 0;
         int index;
+
         Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
 
-        for (index = 0; index < unexpectedItems.Count; index++)
+        for (index = 0; index < unexpectedItemsCount; index++)
         {
             T currentUnexpectedItem = unexpectedItems[index];
             if (index == 0)
@@ -2459,6 +2461,11 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
                     actualItemsSkipped++;
                     return !areSameOrEqual(actualItem, currentUnexpectedItem);
                 }).ToArray();
+
+                if (actualItems.Count <= unexpectedItemsCount - 1)
+                {
+                    return new AndConstraint<TAssertions>((TAssertions)this);
+                }
             }
             else
             {
@@ -2476,7 +2483,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
 
             if (actualItems.Any())
             {
-                if (index == unexpectedItems.Count - 1)
+                if (index == unexpectedItemsCount - 1)
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
