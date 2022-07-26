@@ -10,7 +10,7 @@ namespace FluentAssertions.Specs.Collections;
 /// </content>
 public partial class CollectionAssertionSpecs
 {
-    public class ContainInExplicitOrder
+    public class ContainInConsecutiveOrder
     {
         [Fact]
         public void When_the_first_collection_contains_a_duplicate_item_without_affecting_the_explicit_order_it_should_not_throw()
@@ -133,7 +133,7 @@ public partial class CollectionAssertionSpecs
         }
     }
 
-    public class NotContainInExplicitOrder
+    public class NotContainInConsecutiveOrder
     {
         [Fact]
         public void When_two_collections_contain_the_same_items_but_in_different_order_it_should_not_throw()
