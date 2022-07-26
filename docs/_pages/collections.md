@@ -57,8 +57,8 @@ collection.Should().ContainItemsAssignableTo<int>();
 collection.Should().ContainInOrder(new[] { 1, 5, 8 });
 collection.Should().NotContainInOrder(new[] { 5, 1, 2 });
 
-collection.Should().ContainInExplicitOrder(new[] { 2, 5, 8 });
-collection.Should().NotContainInExplicitOrder(new[] { 1, 5, 8});
+collection.Should().ContainInConsecutiveOrder(new[] { 2, 5, 8 });
+collection.Should().NotContainInConsecutiveOrder(new[] { 1, 5, 8});
 
 collection.Should().NotContain(82);
 collection.Should().NotContain(new[] { 82, 83 });
