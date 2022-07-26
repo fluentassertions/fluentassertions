@@ -1024,11 +1024,11 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
                 else
                 {
                     Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith(
-                        "Expected {context:collection} {0} to contain items {1} in order{reason}" +
-                        ", but {2} (index {3}) did not appear (in the right order).",
-                        Subject, expected, expectedItem, highestIndex + 1);
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith(
+                            "Expected {context:collection} {0} to contain items {1} in order{reason}" +
+                            ", but {2} (index {3}) did not appear (in the right order).",
+                            Subject, expected, expectedItem, highestIndex + 1);
                 }
             }
         }
