@@ -988,13 +988,21 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
             int index = 0;
 
             Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
+            int expectedCount = expectedItems.Count;
 
-            for (index = 0; index < expectedItems.Count; index++)
+            for (index = 0; index < expectedCount; index++)
             {
                 T expectedItem = expectedItems[index];
                 if (index == 0)
                 {
                     actualItems = actualItems.SkipWhile(actualItem => !areSameOrEqual(actualItem, expectedItem)).ToArray();
+                    if (actualItems.Count >= expectedCount - 1)
+                    {
+                        if (actualItems.Take(expectedCount - 1).Equals(expectedItems))
+                        {
+                            return new AndConstraint<TAssertions>((TAssertions)this);
+                        }
+                    }
                 }
                 else
                 {
