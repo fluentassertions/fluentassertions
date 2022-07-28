@@ -43,6 +43,16 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
+        public void When_checking_for_an_empty_list_it_should_not_throw()
+        {
+            // Arrange
+            var collection = new[] { 1, 2, 1, 2, 12, 2, 2 };
+
+            // Act / Assert
+            collection.Should().ContainInConsecutiveOrder();
+        }
+
+        [Fact]
         public void When_collection_contains_null_value_it_should_not_throw()
         {
             // Arrange
