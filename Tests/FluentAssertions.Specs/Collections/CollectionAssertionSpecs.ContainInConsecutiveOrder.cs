@@ -63,7 +63,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection {1, 2, 2, 3} to contain items {1, 2, 3} in order, but 3 (index 2) did not appear (in the right order).");
+                "Expected collection {1, 2, 2, 3} to contain items {1, 2, 3} in order, but 3 (index 2) did not appear (in the right consecutive order).");
         }
 
         [Fact]
@@ -77,7 +77,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection {1, 3, 1, 2} to contain items {1, 2, 3} in order, but 3 (index 2) did not appear (in the right order).");
+                "Expected collection {1, 3, 1, 2} to contain items {1, 2, 3} in order, but 3 (index 2) did not appear (in the right consecutive order).");
         }
 
         [Fact]
@@ -91,7 +91,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection {1, 2, 1, 2, 3, 12, 2, 2} to contain items {1, 2, 1, 1, 2} in order, but 1 (index 3) did not appear (in the right order).");
+                "Expected collection {1, 2, 1, 2, 3, 12, 2, 2} to contain items {1, 2, 1, 1, 2} in order, but 1 (index 3) did not appear (in the right consecutive order).");
         }
 
         [Fact]
@@ -102,7 +102,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection {1, 2, 3} to contain items {3, 1} in order because we said so, but 1 (index 1) did not appear (in the right order).");
+                "Expected collection {1, 2, 3} to contain items {3, 1} in order because we said so, but 1 (index 1) did not appear (in the right consecutive order).");
         }
 
         [Fact]
@@ -114,7 +114,7 @@ public partial class CollectionAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection {1, 2, 3} to contain items {4, 1} in order because we failed, " +
-                    "but 4 (index 0) did not appear (in the right order).");
+                    "but 4 (index 0) did not appear (in the right consecutive order).");
         }
 
         [Fact]

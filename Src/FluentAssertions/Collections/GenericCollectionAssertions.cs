@@ -983,36 +983,34 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
             IList<T> expectedItems = expected.ConvertOrCastToList();
             IList<T> actualItems = Subject.ConvertOrCastToList();
 
+            int subjectIndex = 0;
+
             Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
-            int expectedItemsCount = expectedItems.Count;
-            T firstExpectedItem = expectedItems[0];
-            int testHighestMatchingIndex = 0;
-
-            while (actualItems.Any())
+            int index;
+            int highestIndex = 0;
+            for (index = 0; index < expectedItems.Count; index++)
             {
-                actualItems = actualItems.SkipWhile(actualItem => !areSameOrEqual(actualItem, firstExpectedItem)).ToArray();
-                int foundItemsCount = Math.Min(actualItems.Count, expectedItemsCount);
-                int currentHighestMatchingIndex = FindHighestMatchingIndex(actualItems.Take(foundItemsCount).ToList(), expectedItems.Take(foundItemsCount).ToList());
+                T expectedItem = expectedItems[index];
+                var previousSubjectIndex = subjectIndex;
+                subjectIndex = IndexOf(actualItems, expectedItem, subjectIndex, areSameOrEqual);
+                highestIndex = Math.Max(index, highestIndex);
 
-                if (currentHighestMatchingIndex == expectedItemsCount)
+                if (subjectIndex == -1)
                 {
-                    return new AndConstraint<TAssertions>((TAssertions)this);
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith(
+                            "Expected {context:collection} {0} to contain items {1} in order{reason}" +
+                            ", but {2} (index {3}) did not appear (in the right consecutive order).",
+                            Subject, expected, expectedItems[highestIndex], highestIndex);
                 }
 
-                testHighestMatchingIndex = Math.Max(testHighestMatchingIndex, currentHighestMatchingIndex);
-
-                if (actualItems.Any())
+                if (index > 0 && subjectIndex - previousSubjectIndex > 1)
                 {
-                    actualItems = actualItems.Skip(1).ToArray();
+                    index = -1;
+                    subjectIndex = previousSubjectIndex;
                 }
             }
-
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected {context:collection} {0} to contain items {1} in order{reason}" +
-                    ", but {2} (index {3}) did not appear (in the right order).",
-                    Subject, expected, expectedItems[testHighestMatchingIndex], testHighestMatchingIndex);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
