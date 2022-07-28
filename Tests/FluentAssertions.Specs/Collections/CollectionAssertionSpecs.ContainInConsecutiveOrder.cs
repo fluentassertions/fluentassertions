@@ -170,6 +170,16 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
+        public void When_checking_for_an_empty_list_it_should_not_throw()
+        {
+            // Arrange
+            var collection = new[] { 1, 2, 3 };
+
+            // Act / Assert
+            collection.Should().NotContainInConsecutiveOrder();
+        }
+
+        [Fact]
         public void When_a_collection_contains_less_items_it_should_not_throw()
         {
             // Arrange
@@ -241,7 +251,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection {1, <null>, 2, \"string\"} to not contain items {1, <null>, 2, \"string\"} in order, " +
+                "Expected collection {1, <null>, 2, \"string\"} to not contain items {1, <null>, 2, \"string\"} in consecutive order, " +
                 "but items appeared in order ending at index 3.");
         }
 
@@ -256,7 +266,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection {1, 2, 3, 2} to not contain items {1, 2, 3} in order, " +
+                "Expected collection {1, 2, 3, 2} to not contain items {1, 2, 3} in consecutive order, " +
                 "but items appeared in order ending at index 2.");
         }
 
@@ -271,7 +281,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection {1, 2, 1, 2, 3, 4, 5, 1, 2} to not contain items {1, 2, 3} in order, " +
+                "Expected collection {1, 2, 1, 2, 3, 4, 5, 1, 2} to not contain items {1, 2, 3} in consecutive order, " +
                 "but items appeared in order ending at index 4.");
         }
 
@@ -286,7 +296,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection {1, 2, 1, 2, 12, 2, 2} to not contain items {1, 2, 1, 2, 12, 2, 2} in order, " +
+                "Expected collection {1, 2, 1, 2, 12, 2, 2} to not contain items {1, 2, 1, 2, 12, 2, 2} in consecutive order, " +
                 "but items appeared in order ending at index 6.");
         }
 

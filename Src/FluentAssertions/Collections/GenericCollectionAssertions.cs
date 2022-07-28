@@ -1016,24 +1016,6 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
-    private static int FindHighestMatchingIndex(IReadOnlyList<T> list, IReadOnlyList<T> subList)
-    {
-        Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
-        int index = 0;
-
-        foreach (T item in list)
-        {
-            if (!areSameOrEqual(item, subList[index]))
-            {
-                return index;
-            }
-
-            index++;
-        }
-
-        return index;
-    }
-
     /// <summary>
     /// Asserts that the current collection contains at least one element that is assignable to the type <typeparamref name="TExpectation" />.
     /// </summary>
@@ -2421,68 +2403,47 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         }
 
         IList<T> unexpectedItems = unexpected.ConvertOrCastToList();
-        IList<T> actualItems = Subject.ConvertOrCastToList();
-
-        var unexpectedItemsCount = unexpectedItems.Count;
-        if (unexpectedItemsCount > actualItems.Count)
+        if (unexpectedItems.Any())
         {
-            return new AndConstraint<TAssertions>((TAssertions)this);
-        }
+            IList<T> actualItems = Subject.ConvertOrCastToList();
 
-        var actualItemsSkipped = 0;
-        int index;
-
-        Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
-
-        for (index = 0; index < unexpectedItemsCount; index++)
-        {
-            T currentUnexpectedItem = unexpectedItems[index];
-            if (index == 0)
-            {
-                actualItems = actualItems.SkipWhile(actualItem =>
-                {
-                    actualItemsSkipped++;
-                    return !areSameOrEqual(actualItem, currentUnexpectedItem);
-                }).ToArray();
-
-                if (actualItems.Count <= unexpectedItemsCount - 1)
-                {
-                    return new AndConstraint<TAssertions>((TAssertions)this);
-                }
-            }
-            else
-            {
-                if (actualItems.Any() && !areSameOrEqual(actualItems.First(), currentUnexpectedItem))
-                {
-                    index = 0;
-                    actualItemsSkipped--;
-                    actualItems = actualItems.SkipWhile(actualItem =>
-                    {
-                        actualItemsSkipped++;
-                        return !areSameOrEqual(actualItem, unexpectedItems[index]);
-                    }).ToArray();
-                }
-            }
-
-            if (actualItems.Any())
-            {
-                if (index == unexpectedItemsCount - 1)
-                {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith(
-                            "Expected {context:collection} {0} to not contain items {1} in order{reason}, " +
-                            "but items appeared in order ending at index {2}.",
-                            Subject, unexpected, actualItemsSkipped - 1);
-                }
-
-                actualItems = actualItems.Skip(1).ToArray();
-                actualItemsSkipped++;
-            }
-            else
+            if (unexpectedItems.Count > actualItems.Count)
             {
                 return new AndConstraint<TAssertions>((TAssertions)this);
             }
+
+            int subjectIndex = 0;
+
+            Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
+            int index;
+            int highestIndex = 0;
+
+            for (index = 0; index < unexpectedItems.Count; index++)
+            {
+                T unexpectedItem = unexpectedItems[index];
+
+                var previousSubjectIndex = subjectIndex;
+                subjectIndex = IndexOf(actualItems, unexpectedItem, subjectIndex, areSameOrEqual);
+                highestIndex = Math.Max(index, highestIndex);
+
+                if (subjectIndex == -1)
+                {
+                    return new AndConstraint<TAssertions>((TAssertions)this);
+                }
+
+                if (index > 0 && subjectIndex - previousSubjectIndex > 1)
+                {
+                    index = -1;
+                    subjectIndex = previousSubjectIndex;
+                }
+            }
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected {context:collection} {0} to not contain items {1} in consecutive order{reason}, " +
+                    "but items appeared in order ending at index {2}.",
+                    Subject, unexpectedItems, subjectIndex - 1);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
