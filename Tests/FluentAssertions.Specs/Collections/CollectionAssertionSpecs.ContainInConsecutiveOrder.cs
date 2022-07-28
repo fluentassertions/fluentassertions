@@ -67,6 +67,20 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
+        public void When_end_of_first_collection_is_a_partial_match_of_second_at_end_it_should_throw()
+        {
+            // Arrange
+            var collection = new[] { 1, 3, 1, 2 };
+
+            // Act / Assert
+            Action act = () => collection.Should().ContainInConsecutiveOrder(1, 2, 3);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection {1, 3, 1, 2} to contain items {1, 2, 3} in order, but 3 (index 2) did not appear (in the right order).");
+        }
+
+        [Fact]
         public void When_a_collection_does_not_contain_a_range_twice_it_should_throw()
         {
             // Arrange
@@ -88,7 +102,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected collection {1, 2, 3} to contain items {3, 1} in order because we said so, but 1 (index 0) did not appear (in the right order).");
+                "Expected collection {1, 2, 3} to contain items {3, 1} in order because we said so, but 1 (index 1) did not appear (in the right order).");
         }
 
         [Fact]

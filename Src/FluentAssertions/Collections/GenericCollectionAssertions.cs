@@ -984,56 +984,57 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
             IList<T> expectedItems = expected.ConvertOrCastToList();
             IList<T> actualItems = Subject.ConvertOrCastToList();
 
-            int highestIndex = -1;
-            int index;
-
             Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
             int expectedItemsCount = expectedItems.Count;
+            T firstExpectedItem = expectedItems[0];
+            int testHighestMatchingIndex = 0;
 
-            for (index = 0; index < expectedItemsCount; index++)
+            while (actualItems.Any())
             {
-                T expectedItem = expectedItems[index];
-                if (index == 0)
+                actualItems = actualItems.SkipWhile(actualItem => !areSameOrEqual(actualItem, firstExpectedItem)).ToArray();
+                int foundItemsCount = Math.Min(actualItems.Count, expectedItemsCount);
+                int currentHighestMatchingIndex = FindHighestMatchingIndex(actualItems.Take(foundItemsCount).ToList(), expectedItems.Take(foundItemsCount).ToList());
+
+                if (currentHighestMatchingIndex == expectedItemsCount)
                 {
-                    actualItems = actualItems.SkipWhile(actualItem => !areSameOrEqual(actualItem, expectedItem)).ToArray();
-                    if (actualItems.Count >= expectedItemsCount - 1)
-                    {
-                        if (actualItems.Take(expectedItemsCount - 1).Equals(expectedItems))
-                        {
-                            return new AndConstraint<TAssertions>((TAssertions)this);
-                        }
-                    }
+                    return new AndConstraint<TAssertions>((TAssertions)this);
                 }
-                else
-                {
-                    if (actualItems.Any() && areSameOrEqual(actualItems.First(), expectedItem))
-                    {
-                        highestIndex = index;
-                    }
-                    else
-                    {
-                        actualItems = actualItems.SkipWhile(actualItem => !areSameOrEqual(actualItem, expectedItems[0])).ToArray();
-                        index = 0;
-                    }
-                }
+
+                testHighestMatchingIndex = Math.Max(testHighestMatchingIndex, currentHighestMatchingIndex);
 
                 if (actualItems.Any())
                 {
                     actualItems = actualItems.Skip(1).ToArray();
                 }
-                else
-                {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith(
-                            "Expected {context:collection} {0} to contain items {1} in order{reason}" +
-                            ", but {2} (index {3}) did not appear (in the right order).",
-                            Subject, expected, expectedItem, highestIndex + 1);
-                }
             }
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected {context:collection} {0} to contain items {1} in order{reason}" +
+                    ", but {2} (index {3}) did not appear (in the right order).",
+                    Subject, expected, expectedItems[testHighestMatchingIndex], testHighestMatchingIndex);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    private static int FindHighestMatchingIndex(IReadOnlyList<T> list, IReadOnlyList<T> subList)
+    {
+        Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
+        int index = 0;
+
+        foreach (T item in list)
+        {
+            if (!areSameOrEqual(item, subList[index]))
+            {
+                return index;
+            }
+
+            index++;
+        }
+
+        return index;
     }
 
     /// <summary>
