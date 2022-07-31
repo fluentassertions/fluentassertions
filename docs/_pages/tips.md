@@ -42,13 +42,48 @@ If you see something missing, please consider submitting a pull request.
 
 ## Using global AssertionOptions
 
-The `AssertionOptions` class allows you to globally configure how `Should().BeEquivalentTo()` works, see also [Object graph comparison](objectgraphs.md). Setting up the global configuration multiple times can lead to multi-threading issues when tests are run in parallel.
+The `AssertionOptions` class allows you to globally configure how `Should().BeEquivalentTo()` works, see also [Object graph comparison](objectgraphs.md).
+Setting up the global configuration multiple times can lead to multi-threading issues when tests are run in parallel.
 
-In order to ensure the global AssertionOptions are configured exactly once, a test framework specific solution is required.
+In order to ensure the global `AssertionOptions` are configured exactly once, a test framework specific solution might be required depending on the version of .NET you are using.
+
+### .NET 5+
+
+.NET 5 introduced the [`ModuleInitializerAttribute`](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.moduleinitializerattribute) which can be used to setup the defaults _exactly_ once before any tests are run.
+
+```csharp
+internal static class Initializer
+{
+    [ModuleInitializer]
+    public static void SetDefaults()
+    {
+        AssertionOptions.AssertEquivalencyUsing(
+            options => { <configure here> });
+    }
+}
+```
+
+### MSTest
+
+MSTest provides the `AssemblyInitializeAttribute` to annotate that a method in a `TestClass` should be run once per assembly.
+
+```csharp
+[TestClass]
+public static class TestInitializer
+{
+    [AssemblyInitialize]
+    public static void SetDefaults(TestContext context)
+    {
+        AssertionOptions.AssertEquivalencyUsing(
+            options => { <configure here> });
+    }
+}
+```
 
 ### xUnit.net
 
-Create a custom [xUnit.net test framework](https://xunit.net/docs/running-tests-in-parallel#runners-and-test-frameworks) where you configure equivalency assertions. This class can be shared between multiple test projects using assembly references.
+Create a custom [xUnit.net test framework](https://xunit.net/docs/running-tests-in-parallel#runners-and-test-frameworks) where you configure equivalency assertions.
+This class can be shared between multiple test projects using assembly references.
 
 ```csharp
 namespace MyNamespace
