@@ -11,12 +11,12 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Specialized;
 
-public class TaskOfTAssertionSpecs
+public static class TaskOfTAssertionSpecs
 {
     public class CompleteWithinAsync
     {
         [Fact]
-        public async Task When_subject_is_null_when_expecting_to_complete_async_it_should_throw()
+        public async Task When_subject_is_null_it_should_fail()
         {
             // Arrange
             var timeSpan = 0.Milliseconds();
@@ -32,7 +32,7 @@ public class TaskOfTAssertionSpecs
         }
 
         [Fact]
-        public async Task When_task_completes_fast_async_it_should_succeed()
+        public async Task When_task_completes_fast_it_should_succeed()
         {
             // Arrange
             var timer = new FakeClock();
@@ -55,7 +55,7 @@ public class TaskOfTAssertionSpecs
         }
 
         [Fact]
-        public async Task When_task_completes_async_and_result_is_not_expected_it_should_throw()
+        public async Task When_task_completes_and_result_is_not_expected_it_should_fail()
         {
             // Arrange
             var timer = new FakeClock();
@@ -80,7 +80,7 @@ public class TaskOfTAssertionSpecs
         }
 
         [Fact]
-        public async Task When_task_completes_async_and_async_result_is_not_expected_it_should_throw()
+        public async Task When_task_completes_and_async_result_is_not_expected_it_should_fail()
         {
             // Arrange
             var timer = new FakeClock();
@@ -102,7 +102,7 @@ public class TaskOfTAssertionSpecs
         }
 
         [Fact]
-        public async Task When_task_completes_slow_async_it_should_fail()
+        public async Task When_task_completes_late_it_should_fail()
         {
             // Arrange
             var timer = new FakeClock();
@@ -123,7 +123,7 @@ public class TaskOfTAssertionSpecs
         }
 
         [Fact]
-        public async Task Sync_work_in_async_method_is_taken_into_account()
+        public async Task When_task_consumes_time_in_sync_portion_it_should_fail()
         {
             // Arrange
             var timer = new FakeClock();
@@ -152,7 +152,7 @@ public class TaskOfTAssertionSpecs
     public class NotThrowAsync
     {
         [Fact]
-        public async Task When_subject_is_null_when_expecting_to_not_throw_async_it_should_throw()
+        public async Task When_subject_is_null_it_should_fail()
         {
             // Arrange
             Func<Task<int>> action = null;
@@ -167,7 +167,7 @@ public class TaskOfTAssertionSpecs
         }
 
         [Fact]
-        public async Task When_task_does_not_throw_async_it_should_succeed()
+        public async Task When_task_does_not_throw_it_should_succeed()
         {
             // Arrange
             var timer = new FakeClock();
@@ -189,35 +189,8 @@ public class TaskOfTAssertionSpecs
             await action.Should().NotThrowAsync();
         }
 
-        [Collection("UIFacts")]
-        public partial class UIFacts
-        {
-            [UIFact]
-            public async Task When_task_does_not_throw_async_on_UI_thread_it_should_succeed()
-            {
-                // Arrange
-                var timer = new FakeClock();
-                var taskFactory = new TaskCompletionSource<int>();
-
-                // Act
-                Func<Task> action = async () =>
-                {
-                    Func<Task<int>> func = () => taskFactory.Task;
-
-                    (await func.Should(timer).NotThrowAsync())
-                        .Which.Should().Be(42);
-                };
-
-                taskFactory.SetResult(42);
-                timer.Complete();
-
-                // Assert
-                await action.Should().NotThrowAsync();
-            }
-        }
-
         [Fact]
-        public async Task When_task_throws_async_it_should_fail()
+        public async Task When_task_throws_it_should_fail()
         {
             // Arrange
             var timer = new FakeClock();
@@ -233,33 +206,57 @@ public class TaskOfTAssertionSpecs
             // Assert
             await action.Should().ThrowAsync<XunitException>();
         }
+    }
 
-        public partial class UIFacts
+    [Collection("UIFacts")]
+    public class NotThrowAsyncUIFacts
+    {
+        [UIFact]
+        public async Task When_task_does_not_throw_it_should_succeed()
         {
-            [UIFact]
-            public async Task When_task_throws_async_on_UI_thread_it_should_fail()
+            // Arrange
+            var timer = new FakeClock();
+            var taskFactory = new TaskCompletionSource<int>();
+
+            // Act
+            Func<Task> action = async () =>
             {
-                // Arrange
-                var timer = new FakeClock();
+                Func<Task<int>> func = () => taskFactory.Task;
 
-                // Act
-                Func<Task> action = () =>
-                {
-                    Func<Task<int>> func = () => throw new AggregateException();
+                (await func.Should(timer).NotThrowAsync())
+                    .Which.Should().Be(42);
+            };
 
-                    return func.Should(timer).NotThrowAsync();
-                };
+            taskFactory.SetResult(42);
+            timer.Complete();
 
-                // Assert
-                await action.Should().ThrowAsync<XunitException>();
-            }
+            // Assert
+            await action.Should().NotThrowAsync();
+        }
+
+        [UIFact]
+        public async Task When_task_throws_it_should_fail()
+        {
+            // Arrange
+            var timer = new FakeClock();
+
+            // Act
+            Func<Task> action = () =>
+            {
+                Func<Task<int>> func = () => throw new AggregateException();
+
+                return func.Should(timer).NotThrowAsync();
+            };
+
+            // Assert
+            await action.Should().ThrowAsync<XunitException>();
         }
     }
 
     public class NotThrowAfterAsync
     {
         [Fact]
-        public async Task When_subject_is_null_and_expecting_to_not_throw_async_it_should_throw()
+        public async Task When_subject_is_null_it_should_fail()
         {
             // Arrange
             var waitTime = 0.Milliseconds();
@@ -276,7 +273,7 @@ public class TaskOfTAssertionSpecs
         }
 
         [Fact]
-        public async Task When_wait_time_is_negative_and_expecting_to_not_throw_async_it_should_throw()
+        public async Task When_wait_time_is_negative_it_should_fail()
         {
             // Arrange
             var waitTime = -1.Milliseconds();
@@ -294,7 +291,7 @@ public class TaskOfTAssertionSpecs
         }
 
         [Fact]
-        public async Task When_poll_interval_is_negative_and_expecting_to_not_throw_async_it_should_throw()
+        public async Task When_poll_interval_is_negative_it_should_fail()
         {
             // Arrange
             var waitTime = 10.Milliseconds();
@@ -311,8 +308,8 @@ public class TaskOfTAssertionSpecs
                 .WithMessage("* value of pollInterval must be non-negative*");
         }
 
-        [Fact]
-        public async Task When_no_exception_should_be_thrown_async_for_null_after_wait_time_it_should_throw()
+        [Fact] // TODO What is the relevant difference to When_subject_is_null_it_should_fail?
+        public async Task When_no_exception_should_be_thrown_for_null_after_wait_time_it_should_fail()
         {
             // Arrange
             var waitTime = 2.Seconds();
@@ -330,7 +327,7 @@ public class TaskOfTAssertionSpecs
         }
 
         [Fact]
-        public async Task When_no_exception_should_be_thrown_async_after_wait_time_but_it_was_it_should_throw()
+        public async Task When_exception_is_thrown_before_timeout_it_should_fail()
         {
             // Arrange
             var waitTime = 2.Seconds();
@@ -360,42 +357,8 @@ public class TaskOfTAssertionSpecs
                 .WithMessage("Did not expect any exceptions after 2s because we passed valid arguments*");
         }
 
-        public partial class UIFacts
-        {
-            [UIFact]
-            public async Task When_no_exception_should_be_thrown_async_on_UI_thread_after_wait_time_but_it_was_it_should_throw()
-            {
-                // Arrange
-                var waitTime = 2.Seconds();
-                var pollInterval = 10.Milliseconds();
-
-                var clock = new FakeClock();
-                var timer = clock.StartTimer();
-                clock.CompleteAfter(waitTime);
-
-                Func<Task<int>> throwLongerThanWaitTime = async () =>
-                {
-                    if (timer.Elapsed <= waitTime.Multiply(1.5))
-                    {
-                        throw new ArgumentException("An exception was forced");
-                    }
-
-                    await Task.Yield();
-                    return 42;
-                };
-
-                // Act
-                Func<Task> action = () => throwLongerThanWaitTime.Should(clock)
-                    .NotThrowAfterAsync(waitTime, pollInterval, "we passed valid arguments");
-
-                // Assert
-                await action.Should().ThrowAsync<XunitException>()
-                    .WithMessage("Did not expect any exceptions after 2s because we passed valid arguments*");
-            }
-        }
-
         [Fact]
-        public async Task When_no_exception_should_be_thrown_async_after_wait_time_and_none_was_it_should_not_throw()
+        public async Task When_exception_is_thrown_after_timeout_it_should_succeed()
         {
             // Arrange
             var waitTime = 6.Seconds();
@@ -426,41 +389,72 @@ public class TaskOfTAssertionSpecs
             // Assert
             await act.Should().NotThrowAsync();
         }
+    }
 
-        public partial class UIFacts
+    public class NotThrowAfterAsyncUIFacts
+    {
+        [UIFact]
+        public async Task When_exception_is_thrown_before_timeout_it_should_fail()
         {
-            [UIFact]
-            public async Task When_no_exception_should_be_thrown_async_on_UI_thread_after_wait_time_and_none_was_it_should_not_throw()
+            // Arrange
+            var waitTime = 2.Seconds();
+            var pollInterval = 10.Milliseconds();
+
+            var clock = new FakeClock();
+            var timer = clock.StartTimer();
+            clock.CompleteAfter(waitTime);
+
+            Func<Task<int>> throwLongerThanWaitTime = async () =>
             {
-                // Arrange
-                var waitTime = 6.Seconds();
-                var pollInterval = 10.Milliseconds();
-
-                var clock = new FakeClock();
-                var timer = clock.StartTimer();
-                clock.Delay(waitTime);
-
-                Func<Task<int>> throwShorterThanWaitTime = async () =>
+                if (timer.Elapsed <= waitTime.Multiply(1.5))
                 {
-                    if (timer.Elapsed <= waitTime.Divide(12))
-                    {
-                        throw new ArgumentException("An exception was forced");
-                    }
+                    throw new ArgumentException("An exception was forced");
+                }
 
-                    await Task.Yield();
-                    return 42;
-                };
+                await Task.Yield();
+                return 42;
+            };
 
-                // Act
-                Func<Task> act = async () =>
+            // Act
+            Func<Task> action = () => throwLongerThanWaitTime.Should(clock)
+                .NotThrowAfterAsync(waitTime, pollInterval, "we passed valid arguments");
+
+            // Assert
+            await action.Should().ThrowAsync<XunitException>()
+                .WithMessage("Did not expect any exceptions after 2s because we passed valid arguments*");
+        }
+
+        [UIFact]
+        public async Task When_exception_is_thrown_after_timeout_it_should_succeed()
+        {
+            // Arrange
+            var waitTime = 6.Seconds();
+            var pollInterval = 10.Milliseconds();
+
+            var clock = new FakeClock();
+            var timer = clock.StartTimer();
+            clock.Delay(waitTime);
+
+            Func<Task<int>> throwShorterThanWaitTime = async () =>
+            {
+                if (timer.Elapsed <= waitTime.Divide(12))
                 {
-                    (await throwShorterThanWaitTime.Should(clock).NotThrowAfterAsync(waitTime, pollInterval))
-                        .Which.Should().Be(42);
-                };
+                    throw new ArgumentException("An exception was forced");
+                }
 
-                // Assert
-                await act.Should().NotThrowAsync();
-            }
+                await Task.Yield();
+                return 42;
+            };
+
+            // Act
+            Func<Task> act = async () =>
+            {
+                (await throwShorterThanWaitTime.Should(clock).NotThrowAfterAsync(waitTime, pollInterval))
+                    .Which.Should().Be(42);
+            };
+
+            // Assert
+            await act.Should().NotThrowAsync();
         }
     }
 }
