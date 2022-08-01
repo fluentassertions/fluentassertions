@@ -991,7 +991,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
             for (index = 0; index < expectedItems.Count; index++)
             {
                 T expectedItem = expectedItems[index];
-                var previousSubjectIndex = subjectIndex;
+                int previousSubjectIndex = subjectIndex;
                 subjectIndex = IndexOf(actualItems, expectedItem, subjectIndex, areSameOrEqual);
                 highestIndex = Math.Max(index, highestIndex);
 
