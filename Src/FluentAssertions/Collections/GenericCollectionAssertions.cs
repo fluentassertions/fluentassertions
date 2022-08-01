@@ -1005,7 +1005,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
                             Subject, expected, expectedItems[highestIndex], highestIndex);
                 }
 
-                if (index > 0 && subjectIndex - previousSubjectIndex > 1)
+                if (index > 0 && subjectIndex != previousSubjectIndex + 1)
                 {
                     index = -1;
                     subjectIndex = previousSubjectIndex;
