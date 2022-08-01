@@ -2422,7 +2422,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
             {
                 T unexpectedItem = unexpectedItems[index];
 
-                var previousSubjectIndex = subjectIndex;
+                int previousSubjectIndex = subjectIndex;
                 subjectIndex = IndexOf(actualItems, unexpectedItem, subjectIndex, areSameOrEqual);
                 highestIndex = Math.Max(index, highestIndex);
 
