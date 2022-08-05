@@ -79,7 +79,7 @@ public class TaskCompletionSourceAssertions<T>
         Execute.Assertion
             .ForCondition(subject is not null)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context} to not complete within {0}{reason}, but found <null>.", timeSpan);
+            .FailWith("Did not expect {context} to complete within {0}{reason}, but found <null>.", timeSpan);
 
         using var timeoutCancellationTokenSource = new CancellationTokenSource();
         Task completedTask = await Task.WhenAny(
@@ -95,7 +95,7 @@ public class TaskCompletionSourceAssertions<T>
         Execute.Assertion
             .ForCondition(completedTask != subject.Task)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:task} to not complete within {0}{reason}.", timeSpan);
+            .FailWith("Did not expect {context:task} to complete within {0}{reason}.", timeSpan);
     }
 
     /// <inheritdoc/>

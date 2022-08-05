@@ -71,7 +71,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             await action.Should().ThrowAsync<XunitException>()
-                .WithMessage("Expected bob to not complete within 1s because test testArg.");
+                .WithMessage("Did not expect bob to complete within 1s because test testArg.");
         }
 
         [Fact]
