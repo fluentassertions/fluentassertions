@@ -414,12 +414,13 @@ public class EventAssertionSpecs
         }
 
         [Fact]
-        public void When_events_are_raised_regardless_of_time_tick_it_should_return_by_invokation_order()
+        public void When_events_are_raised_regardless_of_time_tick_it_should_return_by_invocation_order()
         {
             // Arrange
             var observable = new TestEventRaisingInOrder();
-            var utcNow = 11.January(2022).At(12, 00).AsUtc();
-            using var monitor = observable.Monitor(() => utcNow);
+
+            using var monitor = observable.Monitor(conf =>
+                conf.ConfigureTimestampProvider(() => 11.January(2022).At(12, 00).AsUtc()));
 
             // Act
             observable.RaiseAllEvents();
@@ -794,7 +795,7 @@ public class EventAssertionSpecs
             DateTime utcNow = 17.September(2017).At(21, 00).AsUtc();
 
             var eventSource = new EventRaisingClass();
-            using var monitor = eventSource.Monitor(() => utcNow);
+            using var monitor = eventSource.Monitor(opt => opt.ConfigureTimestampProvider(() => utcNow));
 
             // Act
             eventSource.RaiseEventWithSenderAndPropertyName("theProperty");

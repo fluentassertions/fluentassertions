@@ -21,8 +21,9 @@ internal sealed class EventMonitor<T> : IMonitor<T>
     public EventMonitor(object eventSource, EventMonitorOptions options)
     {
         Guard.ThrowIfArgumentIsNull(eventSource, nameof(eventSource), "Cannot monitor the events of a <null> object.");
+        Guard.ThrowIfArgumentIsNull(eventSource, nameof(eventSource), "Event monitor needs configuration.");
 
-        this.options = options ?? new EventMonitorOptions();
+        this.options = options;
 
         subject = new WeakReference(eventSource);
 
@@ -128,20 +129,13 @@ internal sealed class EventMonitor<T> : IMonitor<T>
 
     private void DisposeSafeIfRequested(EventRecorder recorder)
     {
-        if (options.ShouldIgnoreEventAccessorExceptions)
-        {
-            try
-            {
-                recorder.Dispose();
-            }
-            catch
-            {
-                // ignore
-            }
-        }
-        else
+        try
         {
             recorder.Dispose();
+        }
+        catch when (options.ShouldIgnoreEventAccessorExceptions)
+        {
+            // ignore
         }
     }
 
@@ -160,23 +154,11 @@ internal sealed class EventMonitor<T> : IMonitor<T>
 
     private void AttachEventHandler(EventInfo eventInfo, EventRecorder recorder)
     {
-        if (options.ShouldIgnoreEventAccessorExceptions)
-        {
-            AttachEventHandlerOrRemoveFromRecorderMapIfAttachmentFailed(eventInfo, recorder);
-        }
-        else
-        {
-            recorder.Attach(subject, eventInfo);
-        }
-    }
-
-    private void AttachEventHandlerOrRemoveFromRecorderMapIfAttachmentFailed(EventInfo eventInfo, EventRecorder recorder)
-    {
         try
         {
             recorder.Attach(subject, eventInfo);
         }
-        catch
+        catch when (options.ShouldIgnoreEventAccessorExceptions)
         {
             if (!recorderMap.TryRemove(eventInfo.Name, out _))
             {
