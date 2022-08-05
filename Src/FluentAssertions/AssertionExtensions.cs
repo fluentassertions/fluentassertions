@@ -935,8 +935,10 @@ public static class AssertionExtensions
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="eventSource"/> is Null.</exception>
     public static IMonitor<T> Monitor<T>(this T eventSource, Action<EventMonitorOptions> configureOptions)
     {
+        Guard.ThrowIfArgumentIsNull(configureOptions, nameof(configureOptions));
+
         var options = new EventMonitorOptions();
-        configureOptions?.Invoke(options);
+        configureOptions(options);
         return new EventMonitor<T>(eventSource, options);
     }
 
