@@ -49,11 +49,12 @@ someAction.ExecutionTime().Should().BeCloseTo(150.Milliseconds(), 50.Millisecond
 
 ## Tasks
 
-If you're dealing with a `Task`, you can also assert that it completed within a specified period of time:
+If you're dealing with a `Task`, you can also assert that it completed within a specified period of time or not completed:
 
 ```csharp
 Func<Task> someAsyncWork = () => SomethingReturningATask();
 await someAsyncWork.Should().CompleteWithinAsync(100.Milliseconds());
+await someAsyncWork.Should().NotCompleteWithinAsync(100.Milliseconds());
 ```
 
 If the `Task` is generic and returns a value, you can use that to write a continuing assertion:

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
 #if NETFRAMEWORK
 using FluentAssertions.Specs.Common;
@@ -25,6 +26,26 @@ public static class TaskOfTAssertionSpecs
             // Act
             Func<Task> testAction = () => action.Should().CompleteWithinAsync(
                 timeSpan, "because we want to test the failure {0}", "message");
+
+            // Assert
+            await testAction.Should().ThrowAsync<XunitException>()
+                .WithMessage("*because we want to test the failure message*found <null>*");
+        }
+
+        [Fact]
+        public async Task When_subject_is_null_with_AssertionScope_it_should_fail()
+        {
+            // Arrange
+            var timeSpan = 0.Milliseconds();
+            Func<Task<int>> action = null;
+
+            // Act
+            Func<Task> testAction = () =>
+            {
+                using var _ = new AssertionScope();
+                return action.Should().CompleteWithinAsync(
+                    timeSpan, "because we want to test the failure {0}", "message");
+            };
 
             // Assert
             await testAction.Should().ThrowAsync<XunitException>()

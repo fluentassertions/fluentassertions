@@ -2242,6 +2242,8 @@ namespace FluentAssertions.Specialized
         public AsyncFunctionAssertions(System.Func<TTask> subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Common.IClock clock) { }
         protected override string Identifier { get; }
         public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> CompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
+        protected System.Threading.Tasks.Task<bool> CompletesWithinTimeoutAsync(System.Threading.Tasks.Task target, System.TimeSpan remainingTime) { }
+        public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> NotCompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
         public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> NotThrowAfterAsync(System.TimeSpan waitTime, System.TimeSpan pollInterval, string because = "", params object[] becauseArgs) { }
         public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> NotThrowAsync(string because = "", params object[] becauseArgs) { }
         public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> NotThrowAsync<TException>(string because = "", params object[] becauseArgs)
