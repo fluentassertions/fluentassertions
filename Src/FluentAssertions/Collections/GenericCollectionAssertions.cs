@@ -920,16 +920,15 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
             IList<T> expectedItems = expected.ConvertOrCastToList();
             IList<T> actualItems = Subject.ConvertOrCastToList();
 
+            int subjectIndex = 0;
+
             Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
             for (int index = 0; index < expectedItems.Count; index++)
             {
                 T expectedItem = expectedItems[index];
-                actualItems = actualItems.SkipWhile(actualItem => !areSameOrEqual(actualItem, expectedItem)).ToArray();
-                if (actualItems.Any())
-                {
-                    actualItems = actualItems.Skip(1).ToArray();
-                }
-                else
+                subjectIndex = IndexOf(actualItems, expectedItem, subjectIndex, areSameOrEqual);
+
+                if (subjectIndex == -1)
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
@@ -2261,43 +2260,28 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         }
 
         IList<T> unexpectedItems = unexpected.ConvertOrCastToList();
-        IList<T> actualItems = Subject.ConvertOrCastToList();
-
-        if (unexpectedItems.Count > actualItems.Count)
+        if (unexpectedItems.Any())
         {
-            return new AndConstraint<TAssertions>((TAssertions)this);
-        }
+            IList<T> actualItems = Subject.ConvertOrCastToList();
+            int subjectIndex = 0;
 
-        var actualItemsSkipped = 0;
-        Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
-        for (int index = 0; index < unexpectedItems.Count; index++)
-        {
-            T unexpectedItem = unexpectedItems[index];
-
-            actualItems = actualItems.SkipWhile(actualItem =>
+            Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
+            foreach (var unexpectedItem in unexpectedItems)
             {
-                actualItemsSkipped++;
-                return !areSameOrEqual(actualItem, unexpectedItem);
-            }).ToArray();
+                subjectIndex = IndexOf(actualItems, unexpectedItem, subjectIndex, areSameOrEqual);
 
-            if (actualItems.Any())
-            {
-                if (index == unexpectedItems.Count - 1)
+                if (subjectIndex == -1)
                 {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith(
-                            "Expected {context:collection} {0} to not contain items {1} in order{reason}, " +
-                            "but items appeared in order ending at index {2}.",
-                            Subject, unexpected, actualItemsSkipped - 1);
+                    return new AndConstraint<TAssertions>((TAssertions)this);
                 }
+            }
 
-                actualItems = actualItems.Skip(1).ToArray();
-            }
-            else
-            {
-                return new AndConstraint<TAssertions>((TAssertions)this);
-            }
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected {context:collection} {0} to not contain items {1} in order{reason}, " +
+                    "but items appeared in order ending at index {2}.",
+                    Subject, unexpected, subjectIndex - 1);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -3309,5 +3293,19 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    private static int IndexOf(IList<T> items, T item, int index, Func<T, T, bool> comparer)
+    {
+        for (; index < items.Count; index++)
+        {
+            if (comparer(items[index], item))
+            {
+                index++;
+                return index;
+            }
+        }
+
+        return -1;
     }
 }
