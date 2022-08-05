@@ -85,7 +85,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:task} to not complete within {0}{reason}, but found <null>.", timeSpan);
+            .FailWith("Did not expect {context:task} to complete within {0}{reason}, but found <null>.", timeSpan);
 
         if (success)
         {
@@ -96,7 +96,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
                 Execute.Assertion
                     .ForCondition(!completesWithinTimeout)
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:task} to not complete within {0}{reason}.", timeSpan);
+                    .FailWith("Did not expect {context:task} to complete within {0}{reason}.", timeSpan);
             }
         }
 
