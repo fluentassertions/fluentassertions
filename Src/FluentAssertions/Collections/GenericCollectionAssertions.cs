@@ -1005,7 +1005,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
                             Subject, expected, expectedItems[highestIndex], highestIndex);
                 }
 
-                if (index > 0 && subjectIndex != previousSubjectIndex + 1)
+                if (index > 0 && SubjectIndexIsConsecutive(subjectIndex, previousSubjectIndex))
                 {
                     index = -1;
                     subjectIndex = previousSubjectIndex;
@@ -2416,7 +2416,6 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
 
             Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
             int index;
-            int highestIndex = 0;
 
             for (index = 0; index < unexpectedItems.Count; index++)
             {
@@ -2424,14 +2423,13 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
 
                 int previousSubjectIndex = subjectIndex;
                 subjectIndex = IndexOf(actualItems, unexpectedItem, subjectIndex, areSameOrEqual);
-                highestIndex = Math.Max(index, highestIndex);
 
                 if (subjectIndex == -1)
                 {
                     return new AndConstraint<TAssertions>((TAssertions)this);
                 }
 
-                if (index > 0 && subjectIndex - previousSubjectIndex > 1)
+                if (index > 0 && SubjectIndexIsConsecutive(subjectIndex, previousSubjectIndex))
                 {
                     index = -1;
                     subjectIndex = previousSubjectIndex;
@@ -3470,4 +3468,6 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
 
         return -1;
     }
+
+    private static bool SubjectIndexIsConsecutive(int subjectIndex, int previousSubjectIndex) => subjectIndex != previousSubjectIndex + 1;
 }
