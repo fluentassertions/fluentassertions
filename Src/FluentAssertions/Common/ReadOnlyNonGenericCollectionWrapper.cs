@@ -33,7 +33,7 @@ internal static class ReadOnlyNonGenericCollectionWrapper
     }
 }
 
-internal class ReadOnlyNonGenericCollectionWrapper<TCollection, TItem> : ICollection<TItem>
+internal class ReadOnlyNonGenericCollectionWrapper<TCollection, TItem> : ICollection<TItem>, ICollectionWrapper<TCollection>
     where TCollection : ICollection
 {
     public TCollection UnderlyingCollection { get; }

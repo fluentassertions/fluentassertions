@@ -651,6 +651,11 @@ namespace FluentAssertions.Common
         System.Threading.Tasks.Task DelayAsync(System.TimeSpan delay, System.Threading.CancellationToken cancellationToken);
         FluentAssertions.Common.ITimer StartTimer();
     }
+    public interface ICollectionWrapper<TCollection>
+        where TCollection : System.Collections.ICollection
+    {
+        TCollection UnderlyingCollection { get; }
+    }
     public interface IConfigurationStore
     {
         string GetSetting(string name);
