@@ -984,9 +984,9 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
 
             int subjectIndex = 0;
             int highestIndex = 0;
-
-            int index;
-            for (index = 0; index < expectedItems.Count; index++)
+            
+#pragma warning disable AV1530 // If we need to restart our search then we need to reset the index
+            for (var index = 0; index < expectedItems.Count; index++)
             {
                 T expectedItem = expectedItems[index];
                 int previousSubjectIndex = subjectIndex;
@@ -1003,12 +1003,13 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
                             Subject, expected, expectedItems[highestIndex], highestIndex);
                 }
 
-                if (index > 0 && !SubjectIndexIsConsecutive(subjectIndex, previousSubjectIndex))
+                if (index > 0 && !previousSubjectIndex.IsConsecutiveTo(subjectIndex))
                 {
                     index = -1;
                     subjectIndex = previousSubjectIndex;
                 }
             }
+#pragma warning restore AV1530
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -2410,8 +2411,9 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
             }
 
             int subjectIndex = 0;
-            int index;
-            for (index = 0; index < unexpectedItems.Count; index++)
+
+#pragma warning disable AV1530 // If we need to restart our search then we need to reset the index
+            for (var index = 0; index < unexpectedItems.Count; index++)
             {
                 T unexpectedItem = unexpectedItems[index];
 
@@ -2423,12 +2425,13 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
                     return new AndConstraint<TAssertions>((TAssertions)this);
                 }
 
-                if (index > 0 && !SubjectIndexIsConsecutive(subjectIndex, previousSubjectIndex))
+                if (index > 0 && !previousSubjectIndex.IsConsecutiveTo(subjectIndex))
                 {
                     index = -1;
                     subjectIndex = previousSubjectIndex;
                 }
             }
+#pragma warning disable AV1530
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -3463,6 +3466,4 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
 
         return -1;
     }
-
-    private static bool SubjectIndexIsConsecutive(int subjectIndex, int previousSubjectIndex) => subjectIndex == previousSubjectIndex + 1;
 }
