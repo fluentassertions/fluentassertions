@@ -30,7 +30,7 @@ public static class DataColumnCollectionAssertionExtensions
         Guard.ThrowIfArgumentIsNull(
             expected, nameof(expected), "Cannot verify same reference against a <null> collection (use BeNull instead?).");
 
-        if (assertion.Subject is ReadOnlyNonGenericCollectionWrapper<DataColumnCollection, DataColumn> wrapper)
+        if (assertion.Subject is ICollectionWrapper<DataColumnCollection> wrapper)
         {
             var actualSubject = wrapper.UnderlyingCollection;
 
