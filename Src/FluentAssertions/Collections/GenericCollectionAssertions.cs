@@ -921,12 +921,11 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
             IList<T> actualItems = Subject.ConvertOrCastToList();
 
             int subjectIndex = 0;
-
-            Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
+            
             for (int index = 0; index < expectedItems.Count; index++)
             {
                 T expectedItem = expectedItems[index];
-                subjectIndex = IndexOf(actualItems, expectedItem, subjectIndex, areSameOrEqual);
+                subjectIndex = IndexOf(actualItems, expectedItem, startIndex: subjectIndex);
 
                 if (subjectIndex == -1)
                 {
@@ -984,15 +983,14 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
             IList<T> actualItems = Subject.ConvertOrCastToList();
 
             int subjectIndex = 0;
-
-            Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
-            int index;
             int highestIndex = 0;
+
+            int index;
             for (index = 0; index < expectedItems.Count; index++)
             {
                 T expectedItem = expectedItems[index];
                 int previousSubjectIndex = subjectIndex;
-                subjectIndex = IndexOf(actualItems, expectedItem, subjectIndex, areSameOrEqual);
+                subjectIndex = IndexOf(actualItems, expectedItem, startIndex: subjectIndex);
                 highestIndex = Math.Max(index, highestIndex);
 
                 if (subjectIndex == -1)
@@ -1005,7 +1003,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
                             Subject, expected, expectedItems[highestIndex], highestIndex);
                 }
 
-                if (index > 0 && SubjectIndexIsConsecutive(subjectIndex, previousSubjectIndex))
+                if (index > 0 && !SubjectIndexIsConsecutive(subjectIndex, previousSubjectIndex))
                 {
                     index = -1;
                     subjectIndex = previousSubjectIndex;
@@ -2337,11 +2335,10 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         {
             IList<T> actualItems = Subject.ConvertOrCastToList();
             int subjectIndex = 0;
-
-            Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
+            
             foreach (var unexpectedItem in unexpectedItems)
             {
-                subjectIndex = IndexOf(actualItems, unexpectedItem, subjectIndex, areSameOrEqual);
+                subjectIndex = IndexOf(actualItems, unexpectedItem, startIndex: subjectIndex);
 
                 if (subjectIndex == -1)
                 {
@@ -2413,23 +2410,20 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
             }
 
             int subjectIndex = 0;
-
-            Func<T, T, bool> areSameOrEqual = ObjectExtensions.GetComparer<T>();
             int index;
-
             for (index = 0; index < unexpectedItems.Count; index++)
             {
                 T unexpectedItem = unexpectedItems[index];
 
                 int previousSubjectIndex = subjectIndex;
-                subjectIndex = IndexOf(actualItems, unexpectedItem, subjectIndex, areSameOrEqual);
+                subjectIndex = IndexOf(actualItems, unexpectedItem, startIndex: subjectIndex);
 
                 if (subjectIndex == -1)
                 {
                     return new AndConstraint<TAssertions>((TAssertions)this);
                 }
 
-                if (index > 0 && SubjectIndexIsConsecutive(subjectIndex, previousSubjectIndex))
+                if (index > 0 && !SubjectIndexIsConsecutive(subjectIndex, previousSubjectIndex))
                 {
                     index = -1;
                     subjectIndex = previousSubjectIndex;
@@ -3455,19 +3449,20 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
-    private static int IndexOf(IList<T> items, T item, int index, Func<T, T, bool> comparer)
+    private static int IndexOf(IList<T> items, T item, int startIndex)
     {
-        for (; index < items.Count; index++)
+        Func<T, T, bool> comparer = ObjectExtensions.GetComparer<T>();
+        for (; startIndex < items.Count; startIndex++)
         {
-            if (comparer(items[index], item))
+            if (comparer(items[startIndex], item))
             {
-                index++;
-                return index;
+                startIndex++;
+                return startIndex;
             }
         }
 
         return -1;
     }
 
-    private static bool SubjectIndexIsConsecutive(int subjectIndex, int previousSubjectIndex) => subjectIndex != previousSubjectIndex + 1;
+    private static bool SubjectIndexIsConsecutive(int subjectIndex, int previousSubjectIndex) => subjectIndex == previousSubjectIndex + 1;
 }
