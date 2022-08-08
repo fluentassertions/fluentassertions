@@ -329,24 +329,6 @@ public static class TaskOfTAssertionSpecs
                 .WithMessage("* value of pollInterval must be non-negative*");
         }
 
-        [Fact] // TODO What is the relevant difference to When_subject_is_null_it_should_fail?
-        public async Task When_no_exception_should_be_thrown_for_null_after_wait_time_it_should_fail()
-        {
-            // Arrange
-            var waitTime = 2.Seconds();
-            var pollInterval = 10.Milliseconds();
-
-            Func<Task<int>> func = null;
-
-            // Act
-            Func<Task> action = () => func.Should()
-                .NotThrowAfterAsync(waitTime, pollInterval, "we passed valid arguments");
-
-            // Assert
-            await action.Should().ThrowAsync<XunitException>()
-                .WithMessage("*but found <null>*");
-        }
-
         [Fact]
         public async Task When_exception_is_thrown_before_timeout_it_should_fail()
         {
