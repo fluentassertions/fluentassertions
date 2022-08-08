@@ -23,6 +23,16 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
+        public void When_the_second_collection_contains_just_1_item_included_in_the_first_it_should_not_throw()
+        {
+            // Arrange
+            var collection = new[] { 1, 2, 3, 2 };
+
+            // Act / Assert
+            collection.Should().ContainInConsecutiveOrder(2);
+        }
+
+        [Fact]
         public void When_the_first_collection_contains_a_partial_duplicate_sequence_at_the_start_without_affecting_the_explicit_order_it_should_not_throw()
         {
             // Arrange
@@ -74,6 +84,20 @@ public partial class CollectionAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection {1, 2, 2, 3} to contain items {1, 2, 3} in order, but 3 (index 2) did not appear (in the right consecutive order).");
+        }
+
+        [Fact]
+        public void When_the_second_collection_contains_just_1_item_not_included_in_the_first_it_should_throw()
+        {
+            // Arrange
+            var collection = new[] { 1, 2, 2, 3 };
+
+            // Act / Assert
+            Action act = () => collection.Should().ContainInConsecutiveOrder(4);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection {1, 2, 2, 3} to contain items {4} in order, but 4 (index 0) did not appear (in the right consecutive order).");
         }
 
         [Fact]
@@ -170,6 +194,16 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
+        public void When_the_second_collection_contains_just_1_item_not_included_in_the_first_it_should_not_throw()
+        {
+            // Arrange
+            var collection = new[] { 1, 2, 3 };
+
+            // Act / Assert
+            collection.Should().NotContainInConsecutiveOrder(4);
+        }
+
+        [Fact]
         public void When_a_collection_does_not_contain_an_ordered_item_it_should_not_throw()
         {
             // Arrange
@@ -263,6 +297,21 @@ public partial class CollectionAssertionSpecs
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection {1, <null>, 2, \"string\"} to not contain items {1, <null>, 2, \"string\"} in consecutive order, " +
                 "but items appeared in order ending at index 3.");
+        }
+
+        [Fact]
+        public void When_the_second_collection_contains_just_1_item_included_in_the_first_it_should_throw()
+        {
+            // Arrange
+            var collection = new object[] { 1, null, 2, "string" };
+
+            // Act
+            Action act = () => collection.Should().NotContainInConsecutiveOrder(2);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection {1, <null>, 2, \"string\"} to not contain items {2} in consecutive order, " +
+                "but items appeared in order ending at index 2.");
         }
 
         [Fact]

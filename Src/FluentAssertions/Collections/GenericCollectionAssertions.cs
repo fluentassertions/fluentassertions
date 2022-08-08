@@ -980,36 +980,41 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         if (success)
         {
             IList<T> expectedItems = expected.ConvertOrCastToList();
+
+            if (expectedItems.Count == 0)
+            {
+                return new AndConstraint<TAssertions>((TAssertions)this);
+            }
+
             IList<T> actualItems = Subject.ConvertOrCastToList();
 
             int subjectIndex = 0;
             int highestIndex = 0;
-            
-#pragma warning disable AV1530 // If we need to restart our search then we need to reset the index
-            for (var index = 0; index < expectedItems.Count; index++)
+
+            while (subjectIndex != -1)
             {
-                T expectedItem = expectedItems[index];
-                int previousSubjectIndex = subjectIndex;
-                subjectIndex = IndexOf(actualItems, expectedItem, startIndex: subjectIndex);
-                highestIndex = Math.Max(index, highestIndex);
+                subjectIndex = IndexOf(actualItems, expectedItems[0], startIndex: subjectIndex);
 
-                if (subjectIndex == -1)
+                if (subjectIndex != -1)
                 {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith(
-                            "Expected {context:collection} {0} to contain items {1} in order{reason}" +
-                            ", but {2} (index {3}) did not appear (in the right consecutive order).",
-                            Subject, expected, expectedItems[highestIndex], highestIndex);
-                }
+                    int consecutiveItems = ConsecutiveItemCount(actualItems, expectedItems, startIndex: subjectIndex);
 
-                if (index > 0 && !previousSubjectIndex.IsConsecutiveTo(subjectIndex))
-                {
-                    index = -1;
-                    subjectIndex = previousSubjectIndex;
+                    if (consecutiveItems == expectedItems.Count)
+                    {
+                        return new AndConstraint<TAssertions>((TAssertions)this);
+                    }
+
+                    highestIndex = Math.Max(highestIndex, consecutiveItems);
+                    subjectIndex++;
                 }
             }
-#pragma warning restore AV1530
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected {context:collection} {0} to contain items {1} in order{reason}" +
+                    ", but {2} (index {3}) did not appear (in the right consecutive order).",
+                    Subject, expected, expectedItems[highestIndex], highestIndex);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -2412,33 +2417,27 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
 
             int subjectIndex = 0;
 
-#pragma warning disable AV1530 // If we need to restart our search then we need to reset the index
-            for (var index = 0; index < unexpectedItems.Count; index++)
+            while (subjectIndex != -1)
             {
-                T unexpectedItem = unexpectedItems[index];
+                subjectIndex = IndexOf(actualItems, unexpectedItems[0], startIndex: subjectIndex);
 
-                int previousSubjectIndex = subjectIndex;
-                subjectIndex = IndexOf(actualItems, unexpectedItem, startIndex: subjectIndex);
-
-                if (subjectIndex == -1)
+                if (subjectIndex != -1)
                 {
-                    return new AndConstraint<TAssertions>((TAssertions)this);
-                }
+                    int consecutiveItems = ConsecutiveItemCount(actualItems, unexpectedItems, startIndex: subjectIndex);
 
-                if (index > 0 && !previousSubjectIndex.IsConsecutiveTo(subjectIndex))
-                {
-                    index = -1;
-                    subjectIndex = previousSubjectIndex;
+                    if (consecutiveItems == unexpectedItems.Count)
+                    {
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith(
+                                "Expected {context:collection} {0} to not contain items {1} in consecutive order{reason}, " +
+                                "but items appeared in order ending at index {2}.",
+                                Subject, unexpectedItems, subjectIndex + consecutiveItems - 2);
+                    }
+
+                    subjectIndex++;
                 }
             }
-#pragma warning disable AV1530
-
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected {context:collection} {0} to not contain items {1} in consecutive order{reason}, " +
-                    "but items appeared in order ending at index {2}.",
-                    Subject, unexpectedItems, subjectIndex - 1);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -3465,5 +3464,23 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         }
 
         return -1;
+    }
+
+    private static int ConsecutiveItemCount(IList<T> actualItems, IList<T> expectedItems, int startIndex)
+    {
+        for (var index = 1; index < expectedItems.Count; index++)
+        {
+            T unexpectedItem = expectedItems[index];
+
+            int previousSubjectIndex = startIndex;
+            startIndex = IndexOf(actualItems, unexpectedItem, startIndex: startIndex);
+
+            if (startIndex == -1 || !previousSubjectIndex.IsConsecutiveTo(startIndex))
+            {
+                return index;
+            }
+        }
+
+        return expectedItems.Count;
     }
 }
