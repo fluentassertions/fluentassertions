@@ -22,7 +22,7 @@ internal class EventMonitor<T> : IMonitor<T>
     public EventMonitor(object eventSource, EventMonitorOptions options)
     {
         Guard.ThrowIfArgumentIsNull(eventSource, nameof(eventSource), "Cannot monitor the events of a <null> object.");
-        Guard.ThrowIfArgumentIsNull(eventSource, nameof(eventSource), "Event monitor needs configuration.");
+        Guard.ThrowIfArgumentIsNull(options, nameof(options), "Event monitor needs configuration.");
 
         this.options = options;
 
