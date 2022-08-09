@@ -11,6 +11,7 @@ sidebar:
 
 ### What's new
 * Added option for event monitoring to ignore failing event accessors - [#1954](https://github.com/fluentassertions/fluentassertions/pull/1954)
+* Added `ContainInConsecutiveOrder` and `NotContainInConsecutiveOrder` assertions to check if a collection contains items in a specific order and to be consecutive - [#1963](https://github.com/fluentassertions/fluentassertions/pull/1963)
 
 ### Fixes
 * Fix `For`/`Exclude` not excluding properties in objects in a collection - [#1953](https://github.com/fluentassertions/fluentassertions/pull/1953)
