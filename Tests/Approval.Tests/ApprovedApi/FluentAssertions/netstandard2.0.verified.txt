@@ -443,6 +443,8 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndWhichConstraint<TAssertions, T> Contain(T expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, T> ContainEquivalentOf<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, T> ContainEquivalentOf<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> ContainInConsecutiveOrder(params T[] expected) { }
+        public FluentAssertions.AndConstraint<TAssertions> ContainInConsecutiveOrder(System.Collections.Generic.IEnumerable<T> expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> ContainInOrder(params T[] expected) { }
         public FluentAssertions.AndConstraint<TAssertions> ContainInOrder(System.Collections.Generic.IEnumerable<T> expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> ContainItemsAssignableTo<TExpectation>(string because = "", params object[] becauseArgs) { }
@@ -487,6 +489,8 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndWhichConstraint<TAssertions, T> NotContain(T unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainEquivalentOf<TExpectation>(TExpectation unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainEquivalentOf<TExpectation>(TExpectation unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotContainInConsecutiveOrder(params T[] unexpected) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotContainInConsecutiveOrder(System.Collections.Generic.IEnumerable<T> unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainInOrder(params T[] unexpected) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainInOrder(System.Collections.Generic.IEnumerable<T> unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainNulls(string because = "", params object[] becauseArgs) { }
