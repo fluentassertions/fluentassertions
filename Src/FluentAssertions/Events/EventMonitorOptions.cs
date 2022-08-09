@@ -29,7 +29,7 @@ public class EventMonitorOptions
     }
 
     /// <summary>
-    /// Sets the timestamp provider. default it is <see cref="DateTime.Now"/>.
+    /// Sets the timestamp provider. By default it is <see cref="DateTime.UtcNow"/>.
     /// </summary>
     /// <param name="timestampProvider">The timestamp provider.</param>
     /// <returns>The options instance for method stacking.</returns>
