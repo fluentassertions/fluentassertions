@@ -27,6 +27,7 @@ public class Field : Node, IMember
         GetSubjectId = parent.GetSubjectId;
         Name = fieldInfo.Name;
         Type = fieldInfo.FieldType;
+        ParentType = fieldInfo.DeclaringType;
         RootIsCollection = parent.RootIsCollection;
     }
 

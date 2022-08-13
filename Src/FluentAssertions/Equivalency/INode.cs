@@ -1,9 +1,11 @@
 using System;
+using JetBrains.Annotations;
 
 namespace FluentAssertions.Equivalency;
 
 /// <summary>
-/// Represents a node in the object graph as it is expected in a structural equivalency check.
+/// Represents a node in the object graph that is being compared as part of a structural equivalency check.
+/// This can be the root object, a collection item, a dictionary element, a property or a field.
 /// </summary>
 public interface INode
 {
@@ -22,9 +24,18 @@ public interface INode
     string Name { get; set; }
 
     /// <summary>
-    /// Gets the type of this node.
+    /// Gets the type of this node, e.g. the type of the field or property, or the type of the collection item. 
     /// </summary>
     Type Type { get; }
+
+    /// <summary>
+    /// Gets the type of the parent node, e.g. the type that declares a property or field.
+    /// </summary>
+    /// <value>
+    /// Is <c>null</c> for the root object.
+    /// </value>
+    [CanBeNull]
+    Type ParentType { get; }
 
     /// <summary>
     /// Gets the path from the root object UNTIL the current node, separated by dots or index/key brackets.
