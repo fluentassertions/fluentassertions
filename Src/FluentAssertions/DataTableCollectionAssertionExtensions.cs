@@ -25,7 +25,7 @@ public static class DataTableCollectionAssertionExtensions
         this GenericCollectionAssertions<DataTable> assertion, DataTableCollection expected, string because = "",
         params object[] becauseArgs)
     {
-        if (assertion.Subject is ReadOnlyNonGenericCollectionWrapper<DataTableCollection, DataTable> wrapper)
+        if (assertion.Subject is ICollectionWrapper<DataTableCollection> wrapper)
         {
             var actualSubject = wrapper.UnderlyingCollection;
 
@@ -65,7 +65,7 @@ public static class DataTableCollectionAssertionExtensions
         this GenericCollectionAssertions<DataTable> assertion, DataTableCollection unexpected, string because = "",
         params object[] becauseArgs)
     {
-        if (assertion.Subject is ReadOnlyNonGenericCollectionWrapper<DataTableCollection, DataTable> wrapper)
+        if (assertion.Subject is ICollectionWrapper<DataTableCollection> wrapper)
         {
             var actualSubject = wrapper.UnderlyingCollection;
 
