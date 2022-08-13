@@ -134,7 +134,7 @@ public class TaskCompletionSourceAssertionSpecs
         timer.Complete();
 
         // Assert
-        await action.Should().ThrowAsync<XunitException>().WithMessage("*to not complete within*because test testArg*");
+        await action.Should().ThrowAsync<XunitException>().WithMessage("Did not expect*to complete within*because test testArg*");
     }
 
     [Fact]
@@ -163,6 +163,6 @@ public class TaskCompletionSourceAssertionSpecs
 
         // Assert
         await action.Should().ThrowAsync<XunitException>()
-            .WithMessage("Expected subject to not complete within 1s because test testArg, but found <null>.");
+            .WithMessage("Did not expect subject to complete within 1s because test testArg, but found <null>.");
     }
 }

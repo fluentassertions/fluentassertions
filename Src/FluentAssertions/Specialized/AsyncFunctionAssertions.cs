@@ -41,36 +41,63 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     public async Task<AndConstraint<TAssertions>> CompleteWithinAsync(
         TimeSpan timeSpan, string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        bool success = Execute.Assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:task} to complete within {0}{reason}, but found <null>.", timeSpan);
 
-        ITimer timer = Clock.StartTimer();
-        TTask task = Subject.Invoke();
-        TimeSpan remainingTime = timeSpan - timer.Elapsed;
+        if (success)
+        {
+            (TTask task, TimeSpan remainingTime) = InvokeWithTimer(timeSpan);
 
+            success = Execute.Assertion
+                .ForCondition(remainingTime >= TimeSpan.Zero)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
+
+            if (success)
+            {
+                bool completesWithinTimeout = await CompletesWithinTimeoutAsync(task, remainingTime);
+                Execute.Assertion
+                    .ForCondition(completesWithinTimeout)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
+            }
+        }
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that the current <typeparamref name="TTask"/> will not complete within the specified time.
+    /// </summary>
+    /// <param name="timeSpan">The allowed time span for the operation.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public async Task<AndConstraint<TAssertions>> NotCompleteWithinAsync(
+        TimeSpan timeSpan, string because = "", params object[] becauseArgs)
+    {
         bool success = Execute.Assertion
-            .ForCondition(remainingTime >= TimeSpan.Zero)
+            .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
+            .FailWith("Did not expect {context:task} to complete within {0}{reason}, but found <null>.", timeSpan);
 
         if (success)
         {
-            using var timeoutCancellationTokenSource = new CancellationTokenSource();
-            Task completedTask =
-                await Task.WhenAny(task, Clock.DelayAsync(remainingTime, timeoutCancellationTokenSource.Token));
-
-            if (completedTask == task)
+            (Task task, TimeSpan remainingTime) = InvokeWithTimer(timeSpan);
+            if (remainingTime >= TimeSpan.Zero)
             {
-                timeoutCancellationTokenSource.Cancel();
-                await completedTask;
+                bool completesWithinTimeout = await CompletesWithinTimeoutAsync(task, remainingTime);
+                Execute.Assertion
+                    .ForCondition(!completesWithinTimeout)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Did not expect {context:task} to complete within {0}{reason}.", timeSpan);
             }
-
-            Execute.Assertion
-                .ForCondition(completedTask == task)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -264,6 +291,38 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
+    }
+
+    /// <summary>
+    ///     Monitors the specified task whether it completes withing the remaining time span.
+    /// </summary>
+    protected async Task<bool> CompletesWithinTimeoutAsync(Task target, TimeSpan remainingTime)
+    {
+        using var timeoutCancellationTokenSource = new CancellationTokenSource();
+
+        Task completedTask =
+            await Task.WhenAny(target, Clock.DelayAsync(remainingTime, timeoutCancellationTokenSource.Token));
+
+        if (completedTask != target)
+        {
+            return false;
+        }
+
+        // cancel the clock
+        timeoutCancellationTokenSource.Cancel();
+        return true;
+    }
+
+    /// <summary>
+    ///     Invokes the subject and measures the sync execution time.
+    /// </summary>
+    private protected (TTask result, TimeSpan remainingTime) InvokeWithTimer(TimeSpan timeSpan)
+    {
+        ITimer timer = Clock.StartTimer();
+        TTask result = Subject.Invoke();
+        TimeSpan remainingTime = timeSpan - timer.Elapsed;
+
+        return (result, remainingTime);
     }
 
     private static async Task<Exception> InvokeWithInterceptionAsync(Func<Task> action)
