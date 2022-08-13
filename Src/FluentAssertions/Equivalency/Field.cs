@@ -46,16 +46,6 @@ public class Field : Node, IMember
 
     public CSharpAccessModifier SetterAccessibility => fieldInfo.GetCSharpAccessModifier();
 
-    public bool IsBrowsable
-    {
-        get
-        {
-            if (isBrowsable == null)
-            {
-                isBrowsable = fieldInfo.GetCustomAttribute<EditorBrowsableAttribute>() is not { State: EditorBrowsableState.Never };
-            }
-
-            return isBrowsable.Value;
-        }
-    }
+    public bool IsBrowsable =>
+        isBrowsable ??= fieldInfo.GetCustomAttribute<EditorBrowsableAttribute>() is not { State: EditorBrowsableState.Never };
 }
