@@ -947,6 +947,7 @@ namespace FluentAssertions.Equivalency
         FluentAssertions.Equivalency.GetSubjectId GetSubjectId { get; }
         bool IsRoot { get; }
         string Name { get; set; }
+        System.Type ParentType { get; }
         string Path { get; }
         string PathAndName { get; }
         bool RootIsCollection { get; }
@@ -955,8 +956,10 @@ namespace FluentAssertions.Equivalency
     public interface IObjectInfo
     {
         System.Type CompileTimeType { get; }
+        System.Type ParentType { get; }
         string Path { get; set; }
         System.Type RuntimeType { get; }
+        [System.Obsolete("Use CompileTimeType or RuntimeType instead")]
         System.Type Type { get; }
     }
     public interface IOrderingRule
@@ -994,6 +997,7 @@ namespace FluentAssertions.Equivalency
         public FluentAssertions.Equivalency.GetSubjectId GetSubjectId { get; set; }
         public bool IsRoot { get; }
         public string Name { get; set; }
+        public System.Type ParentType { get; set; }
         public string Path { get; set; }
         public string PathAndName { get; }
         public bool RootIsCollection { get; set; }
