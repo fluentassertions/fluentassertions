@@ -296,7 +296,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     /// <summary>
     ///     Monitors the specified task whether it completes withing the remaining time span.
     /// </summary>
-    protected async Task<bool> CompletesWithinTimeoutAsync(Task target, TimeSpan remainingTime)
+    private protected async Task<bool> CompletesWithinTimeoutAsync(Task target, TimeSpan remainingTime)
     {
         using var timeoutCancellationTokenSource = new CancellationTokenSource();
 
