@@ -294,6 +294,18 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     }
 
     /// <summary>
+    ///     Invokes the subject and measures the sync execution time.
+    /// </summary>
+    private protected (TTask result, TimeSpan remainingTime) InvokeWithTimer(TimeSpan timeSpan)
+    {
+        ITimer timer = Clock.StartTimer();
+        TTask result = Subject.Invoke();
+        TimeSpan remainingTime = timeSpan - timer.Elapsed;
+
+        return (result, remainingTime);
+    }
+
+    /// <summary>
     ///     Monitors the specified task whether it completes withing the remaining time span.
     /// </summary>
     private protected async Task<bool> CompletesWithinTimeoutAsync(Task target, TimeSpan remainingTime)
@@ -311,18 +323,6 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
         // cancel the clock
         timeoutCancellationTokenSource.Cancel();
         return true;
-    }
-
-    /// <summary>
-    ///     Invokes the subject and measures the sync execution time.
-    /// </summary>
-    private protected (TTask result, TimeSpan remainingTime) InvokeWithTimer(TimeSpan timeSpan)
-    {
-        ITimer timer = Clock.StartTimer();
-        TTask result = Subject.Invoke();
-        TimeSpan remainingTime = timeSpan - timer.Elapsed;
-
-        return (result, remainingTime);
     }
 
     private static async Task<Exception> InvokeWithInterceptionAsync(Func<Task> action)
