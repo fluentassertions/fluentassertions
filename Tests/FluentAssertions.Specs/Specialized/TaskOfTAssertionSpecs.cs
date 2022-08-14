@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
@@ -9,6 +8,8 @@ using FluentAssertions.Specs.Common;
 using FluentAssertions.Specs.Exceptions;
 using Xunit;
 using Xunit.Sdk;
+
+using static FluentAssertions.FluentActions;
 
 namespace FluentAssertions.Specs.Specialized;
 
@@ -163,6 +164,28 @@ public static class TaskOfTAssertionSpecs
 
             // Assert
             await action.Should().ThrowAsync<XunitException>();
+        }
+
+        [Fact]
+        public async Task When_task_does_not_complete_the_result_extension_does_not_hang()
+        {
+            // Arrange
+            var timer = new FakeClock();
+            var taskFactory = new TaskCompletionSource<int>();
+
+            // Act
+            Func<Task> action = () =>
+            {
+                Func<Task<int>> func = () => taskFactory.Task;
+                using var _ = new AssertionScope();
+                return func.Should(timer).CompleteWithinAsync(100.Milliseconds()).WithResult(2);
+            };
+            timer.Complete();
+
+            // Assert
+            var assertionTask = action.Should().ThrowAsync<XunitException>()
+                .WithMessage("Expected*to complete within 100ms.*Expected return*to be 2, but found 0.");
+            await Awaiting(() => assertionTask).Should().CompleteWithinAsync(200.Seconds());
         }
 
         [Fact]

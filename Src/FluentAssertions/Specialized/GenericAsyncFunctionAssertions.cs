@@ -51,13 +51,13 @@ public class GenericAsyncFunctionAssertions<TResult> : AsyncFunctionAssertions<T
             if (success)
             {
                 bool completesWithinTimeout = await CompletesWithinTimeoutAsync(task, remainingTime);
-                Execute.Assertion
-                    .ForCondition(completesWithinTimeout)
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
-            }
+                success = Execute.Assertion
+                .ForCondition(completesWithinTimeout)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
+        }
 
-            TResult result = task.IsCompleted ? task.Result : default;
+            TResult result = success ? task.Result : default;
             return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, result);
         }
 

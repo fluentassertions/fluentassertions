@@ -12,6 +12,7 @@ sidebar:
 ### What's new
 
 ### Fixes
+* Fixed hanging of `CompleteWithinAsync` when used with `WithResult` and `AssertionScope` - [#2101](https://github.com/fluentassertions/fluentassertions/pull/2101)
 
 * `BeEquivalentTo` no longer crashes on fields hiding base-class fields - [#1990](https://github.com/fluentassertions/fluentassertions/pull/1990)
 
