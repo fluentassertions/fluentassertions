@@ -2361,7 +2361,11 @@ namespace FluentAssertions.Specialized
         where TTask : System.Threading.Tasks.Task
         where TAssertions : FluentAssertions.Specialized.AsyncFunctionAssertions<TTask, TAssertions>
     {
+        [System.Obsolete("This class is intended as base class. This ctor is accidentally public and will b" +
+            "e removed in Version 7.")]
         public AsyncFunctionAssertions(System.Func<TTask> subject, FluentAssertions.Specialized.IExtractExceptions extractor) { }
+        [System.Obsolete("This class is intended as base class. This ctor is accidentally public and will b" +
+            "e made protected in Version 7.")]
         public AsyncFunctionAssertions(System.Func<TTask> subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Common.IClock clock) { }
         protected override string Identifier { get; }
         public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> CompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
