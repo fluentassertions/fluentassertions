@@ -16,8 +16,7 @@ internal class EventMonitor<T> : IMonitor<T>
 {
     private readonly WeakReference subject;
 
-    private readonly ConcurrentDictionary<string, EventRecorder> recorderMap =
-        new ConcurrentDictionary<string, EventRecorder>();
+    private readonly ConcurrentDictionary<string, EventRecorder> recorderMap = new();
 
     public EventMonitor(object eventSource, Func<DateTime> utcNow)
     {

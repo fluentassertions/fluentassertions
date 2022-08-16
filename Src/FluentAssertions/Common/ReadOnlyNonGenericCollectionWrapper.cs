@@ -47,7 +47,7 @@ internal class ReadOnlyNonGenericCollectionWrapper<TCollection, TItem> : ICollec
 
     public int Count => UnderlyingCollection.Count;
 
-    public bool IsReadOnly => true;
+    bool ICollection<TItem>.IsReadOnly => true;
 
     public IEnumerator<TItem> GetEnumerator() => UnderlyingCollection.Cast<TItem>().GetEnumerator();
 
@@ -57,18 +57,9 @@ internal class ReadOnlyNonGenericCollectionWrapper<TCollection, TItem> : ICollec
 
     public void CopyTo(TItem[] array, int arrayIndex) => UnderlyingCollection.CopyTo(array, arrayIndex);
 
-    /*
+    void ICollection<TItem>.Add(TItem item) => throw new NotSupportedException();
 
-    Mutation is not supported, but these methods must be implemented to satisfy ICollection<T>:
-    * Add
-    * Clear
-    * Remove
+    void ICollection<TItem>.Clear() => throw new NotSupportedException();
 
-    */
-
-    public void Add(TItem item) => throw new NotSupportedException();
-
-    public void Clear() => throw new NotSupportedException();
-
-    public bool Remove(TItem item) => throw new NotSupportedException();
+    bool ICollection<TItem>.Remove(TItem item) => throw new NotSupportedException();
 }
