@@ -17,6 +17,7 @@ sidebar:
 
 ### Fixes
 * Fixed `For`/`Exclude` not excluding properties in objects in a collection - [#1953](https://github.com/fluentassertions/fluentassertions/pull/1953)
+* Fixed formatting precision tests that failed on netcoreapp2.0 framework for specific machines - [#1976](https://github.com/fluentassertions/fluentassertions/pull/1976)
 
 ## 6.7.0
 
