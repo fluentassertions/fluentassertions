@@ -344,6 +344,28 @@ public static class AssertionExtensions
         return new GenericCollectionAssertions<T>(actualValue);
     }
 
+#if !NETFRAMEWORK && !NETSTANDARD2_0
+    /// <summary>
+    /// Returns an <see cref="GenericCollectionAssertions{T}"/> object that can be used to assert the
+    /// current <see cref="Span{T}"/>.
+    /// </summary>
+    [Pure]
+    public static GenericCollectionAssertions<T> Should<T>(this Span<T> actualValue)
+    {
+        return new GenericCollectionAssertions<T>(actualValue.ToArray());
+    }
+
+    /// <summary>
+    /// Returns an <see cref="GenericCollectionAssertions{T}"/> object that can be used to assert the
+    /// current <see cref="ReadOnlySpan{T}"/>.
+    /// </summary>
+    [Pure]
+    public static GenericCollectionAssertions<T> Should<T>(this ReadOnlySpan<T> actualValue)
+    {
+        return new GenericCollectionAssertions<T>(actualValue.ToArray());
+    }
+#endif
+
     /// <summary>
     /// Returns an <see cref="StringCollectionAssertions"/> object that can be used to assert the
     /// current <see cref="IEnumerable{T}"/>.
@@ -748,6 +770,28 @@ public static class AssertionExtensions
     {
         return new StringAssertions(actualValue);
     }
+
+#if !NETFRAMEWORK && !NETSTANDARD2_0
+    /// <summary>
+    /// Returns an <see cref="StringAssertions"/> object that can be used to assert the
+    /// current <see cref="Span{T}"/>.
+    /// </summary>
+    [Pure]
+    public static StringAssertions Should(this Span<char> actualValue)
+    {
+        return new StringAssertions(actualValue.ToString());
+    }
+
+    /// <summary>
+    /// Returns an <see cref="StringAssertions"/> object that can be used to assert the
+    /// current <see cref="ReadOnlySpan{T}"/>.
+    /// </summary>
+    [Pure]
+    public static StringAssertions Should(this ReadOnlySpan<char> actualValue)
+    {
+        return new StringAssertions(actualValue.ToString());
+    }
+#endif
 
     /// <summary>
     /// Returns an <see cref="SimpleTimeSpanAssertions"/> object that can be used to assert the

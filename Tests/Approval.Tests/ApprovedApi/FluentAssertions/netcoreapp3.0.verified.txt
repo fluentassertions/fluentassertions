@@ -73,10 +73,12 @@ namespace FluentAssertions
         public static FluentAssertions.Streams.BufferedStreamAssertions Should(this System.IO.BufferedStream actualValue) { }
         public static FluentAssertions.Streams.StreamAssertions Should(this System.IO.Stream actualValue) { }
         public static FluentAssertions.Primitives.HttpResponseMessageAssertions Should(this System.Net.Http.HttpResponseMessage actualValue) { }
+        public static FluentAssertions.Primitives.StringAssertions Should(this System.ReadOnlySpan<char> actualValue) { }
         public static FluentAssertions.Reflection.AssemblyAssertions Should(this System.Reflection.Assembly assembly) { }
         public static FluentAssertions.Types.ConstructorInfoAssertions Should(this System.Reflection.ConstructorInfo constructorInfo) { }
         public static FluentAssertions.Types.MethodInfoAssertions Should(this System.Reflection.MethodInfo methodInfo) { }
         public static FluentAssertions.Types.PropertyInfoAssertions Should(this System.Reflection.PropertyInfo propertyInfo) { }
+        public static FluentAssertions.Primitives.StringAssertions Should(this System.Span<char> actualValue) { }
         public static FluentAssertions.Primitives.SimpleTimeSpanAssertions Should(this System.TimeSpan actualValue) { }
         public static FluentAssertions.Primitives.NullableSimpleTimeSpanAssertions Should(this System.TimeSpan? actualValue) { }
         public static FluentAssertions.Types.TypeAssertions Should(this System.Type subject) { }
@@ -141,6 +143,8 @@ namespace FluentAssertions
         public static FluentAssertions.Specialized.GenericAsyncFunctionAssertions<T> Should<T>(this System.Func<System.Threading.Tasks.Task<T>> action) { }
         public static FluentAssertions.Specialized.FunctionAssertions<T> Should<T>(this System.Func<T> func) { }
         public static FluentAssertions.Numeric.ComparableTypeAssertions<T> Should<T>(this System.IComparable<T> comparableValue) { }
+        public static FluentAssertions.Collections.GenericCollectionAssertions<T> Should<T>(this System.ReadOnlySpan<T> actualValue) { }
+        public static FluentAssertions.Collections.GenericCollectionAssertions<T> Should<T>(this System.Span<T> actualValue) { }
         public static FluentAssertions.Specialized.TaskCompletionSourceAssertions<T> Should<T>(this System.Threading.Tasks.TaskCompletionSource<T> tcs) { }
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
             "ly following \'And\'", true)]
