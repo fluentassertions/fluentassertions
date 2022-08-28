@@ -1405,6 +1405,32 @@ public class CollectionSpecs
     }
 
     [Fact]
+    public void Can_force_strict_ordering_based_on_the_parent_type_of_an_unordered_collection()
+    {
+        // Arrange
+        var subject = new[]
+        {
+            new { Name = "John", UnorderedCollection = new[] { 1, 2, 3, 4, 5 } },
+            new { Name = "Jane", UnorderedCollection = new int[0] }
+        };
+
+        var expectation = new[]
+        {
+            new { Name = "John", UnorderedCollection = new[] { 5, 4, 3, 2, 1 } },
+            new { Name = "Jane", UnorderedCollection = new int[0] }
+        };
+
+        // Act
+        Action action = () => subject.Should().BeEquivalentTo(expectation,  options => options
+            .WithStrictOrderingFor(oi => oi.ParentType == expectation[0].GetType()));
+
+        // Assert
+        action.Should().Throw<XunitException>()
+            .WithMessage(
+                "*Expected*[0].UnorderedCollection*5 item(s)*empty collection*");
+    }
+
+    [Fact]
     public void
         When_an_unordered_collection_must_be_strict_using_an_expression_and_order_is_reset_to_not_strict_it_should_not_throw()
     {
