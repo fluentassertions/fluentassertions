@@ -5,6 +5,8 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using System.Xml.XPath;
 using DiffPlex.DiffBuilder;
 using DiffPlex.DiffBuilder.Model;
 using PublicApiGenerator;
@@ -18,12 +20,7 @@ namespace Approval.Tests;
 public class ApiApproval
 {
     [Theory]
-    [InlineData("net47")]
-    [InlineData("net6.0")]
-    [InlineData("netstandard2.0")]
-    [InlineData("netstandard2.1")]
-    [InlineData("netcoreapp2.1")]
-    [InlineData("netcoreapp3.0")]
+    [ClassData(typeof(TargetFrameworksTheoryData))]
     public Task ApproveApi(string frameworkVersion)
     {
         string codeBase = Assembly.GetExecutingAssembly().Location;
@@ -74,5 +71,19 @@ public class ApiApproval
 
         var compareResult = CompareResult.NotEqual(builder.ToString());
         return Task.FromResult(compareResult);
+    }
+
+    private class TargetFrameworksTheoryData : TheoryData<string>
+    {
+        public TargetFrameworksTheoryData()
+        {
+            var csproj = Path.Combine(GetSourceDirectory(), Path.Combine("..", "..", "Src", "FluentAssertions", "FluentAssertions.csproj"));
+            var project = XDocument.Load(csproj);
+            var targetFrameworks = project.XPathSelectElement("/Project/PropertyGroup/TargetFrameworks");
+            foreach (string targetFramework in targetFrameworks!.Value.Split(';'))
+            {
+                Add(targetFramework);
+            }
+        }
     }
 }
