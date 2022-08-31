@@ -28,7 +28,7 @@
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageIcon>FluentAssertions.png</PackageIcon>
     <PackageReleaseNotes>See https://fluentassertions.com/releases/</PackageReleaseNotes>
-    <Copyright>Copyright Dennis Doomen 2010-2020</Copyright>
+    <Copyright>Copyright Dennis Doomen 2010-2022</Copyright>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' != 'net6.0'">
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
