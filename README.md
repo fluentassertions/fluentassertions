@@ -23,11 +23,16 @@ If you've verified the changes and decided they are valid, you can accept them  
 
 # Powered By
 <a href="https://aws.amazon.com/"><img src="docs/assets/images/aws.png" style="width:100px"/></a>&nbsp;
+<a href="https://www.infosupport.com/"><img src="docs/assets/images/info-support.jpg" style="width:100px"/></a>&nbsp;
 <a href="https://www.jetbrains.com/rider/"><img src="docs/assets/images/jetbrainsrider.svg" style="width:150px"/></a>&nbsp;<a href="https://www.semanticmerge.com/"><img src="docs/assets/images/semantic-merge.png" style="width:150px"/></a>
 
 With support from the following public [sponsors](https://github.com/sponsors/fluentassertions)  
 <a href="https://github.com/waywedo"><img src="https://avatars.githubusercontent.com/u/20328638?s=52&v=4"/></a>
-<a href="https://github.com/JD-Innovensa"><img src="https://avatars.githubusercontent.com/u/70314004?s=52&v=4"/></a>
 <a href="https://github.com/rena0157"><img src="https://avatars.githubusercontent.com/u/33334607?s=52&v=4"/></a>
 <a href="https://github.com/hassanhabib"><img src="https://avatars.githubusercontent.com/u/1453985?s=52&v=4"/></a>
+<a href="https://github.com/DerAlbertCom"><img src="https://avatars.githubusercontent.com/u/136992?s=52&v=4"/></a>
+<a href="https://github.com/mediaclip"><img src="https://avatars.githubusercontent.com/u/6798228?s=52&v=4"/></a>
+<a href="https://github.com/eNeRGy164"><img src="https://avatars.githubusercontent.com/u/10671831?s=52&v=4"/></a>
+<a href="https://github.com/rash127"><img src="https://avatars.githubusercontent.com/u/110633040?s=52&v=4"/></a>
+<a href="https://github.com/michaeldera"><img src="https://avatars.githubusercontent.com/u/12817839?s=52&v=4"/></a>
 
