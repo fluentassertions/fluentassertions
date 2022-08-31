@@ -458,11 +458,7 @@ public class FormatterSpecs
         string result = Formatter.ToString(value);
 
         // Assert
-#if NETCOREAPP3_0_OR_GREATER
-        result.Should().Be("0.33333334F");
-#else
-        result.Should().Be("0.333333343F");
-#endif
+        result.Should().BeOneOf("0.33333334F", "0.333333343F");
     }
 
     [Fact]
@@ -555,11 +551,7 @@ public class FormatterSpecs
         string result = Formatter.ToString(value);
 
         // Assert
-#if NETCOREAPP3_0_OR_GREATER
-        result.Should().Be("0.3333333333333333");
-#else
-        result.Should().Be("0.33333333333333331");
-#endif
+        result.Should().BeOneOf("0.3333333333333333", "0.33333333333333331");
     }
 
     [Fact]
