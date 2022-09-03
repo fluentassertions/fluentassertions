@@ -88,7 +88,7 @@ public interface IEquivalencyAssertionOptions
     /// <summary>
     /// Gets a value indicating whether records should be compared by value instead of their members
     /// </summary>
-    bool CompareRecordsByValue { get; }
+    bool? CompareRecordsByValue { get; }
 
     /// <summary>
     /// Gets the currently configured tracer, or <c>null</c> if no tracing was configured.
