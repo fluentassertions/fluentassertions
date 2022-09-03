@@ -60,7 +60,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     private bool ignoreNonBrowsableOnSubject;
     private bool excludeNonBrowsableOnExpectation;
 
-    private bool compareRecordsByValue;
+    private bool? compareRecordsByValue;
 
     #endregion
 
@@ -176,7 +176,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
 
     bool IEquivalencyAssertionOptions.ExcludeNonBrowsableOnExpectation => excludeNonBrowsableOnExpectation;
 
-    public bool CompareRecordsByValue => compareRecordsByValue;
+    public bool? CompareRecordsByValue => compareRecordsByValue;
 
     EqualityStrategy IEquivalencyAssertionOptions.GetEqualityStrategy(Type requestedType)
     {
@@ -202,9 +202,9 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
             {
                 strategy = EqualityStrategy.ForceEquals;
             }
-            else if (type.IsRecord())
+            else if ((compareRecordsByValue.HasValue || getDefaultEqualityStrategy is null) && type.IsRecord())
             {
-                strategy = compareRecordsByValue ? EqualityStrategy.ForceEquals : EqualityStrategy.ForceMembers;
+                strategy = compareRecordsByValue is true ? EqualityStrategy.ForceEquals : EqualityStrategy.ForceMembers;
             }
             else
             {
@@ -760,7 +760,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
         builder.AppendLine($"- Compare tuples by their properties");
         builder.AppendLine($"- Compare anonymous types by their properties");
 
-        if (compareRecordsByValue)
+        if (compareRecordsByValue is true)
         {
             builder.AppendLine("- Compare records by value");
         }
