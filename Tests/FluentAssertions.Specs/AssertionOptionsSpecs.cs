@@ -127,6 +127,34 @@ public class AssertionOptionsSpecs
         }
     }
 
+    public class When_modifying_record_settings_globally : Given_temporary_global_assertion_options
+    {
+        public When_modifying_record_settings_globally()
+        {
+            When(() =>
+            {
+                AssertionOptions.AssertEquivalencyUsing(
+                    options => options.ComparingByValue(typeof(Position)));
+            });
+        }
+
+        [Fact]
+        public void It_should_use_the_global_settings_for_comparing_records()
+        {
+            new Position(123).Should().BeEquivalentTo(new Position(123));    
+        }
+
+        private record Position
+        {
+            private readonly int value;
+
+            public Position(int value)
+            {
+                this.value = value;
+            }
+        }
+    }
+
     [Collection("AssertionOptionsSpecs")]
     public class When_assertion_doubles_should_always_allow_small_deviations :
         Given_temporary_global_assertion_options
