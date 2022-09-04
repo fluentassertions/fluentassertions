@@ -30,7 +30,7 @@ internal class StringWildcardMatchingValidator : StringValidator
 
     private bool IsMatch()
     {
-        RegexOptions options = IgnoreCase ? RegexOptions.IgnoreCase : RegexOptions.None;
+        RegexOptions options = IgnoreCase ? (RegexOptions.IgnoreCase | RegexOptions.CultureInvariant) : RegexOptions.None;
 
         string input = CleanNewLines(Subject);
         string pattern = ConvertWildcardToRegEx(CleanNewLines(Expected));
