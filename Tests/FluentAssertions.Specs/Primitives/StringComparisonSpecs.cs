@@ -325,6 +325,14 @@ public class StringComparisonSpecs
             .WithMessage("*1.234*", "it should always use . as decimal separator");
     }
 
+    [CulturedTheory("tr-TR")]
+    [MemberData(nameof(EquivalencyData))]
+    public void Matching_strings_for_equivalence_ignores_the_culture(string subject, string expected)
+    {
+        // Assert
+        subject.Should().MatchEquivalentOf(expected);
+    }
+
     public static IEnumerable<object[]> EquivalencyData
     {
         get
