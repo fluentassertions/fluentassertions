@@ -17,6 +17,7 @@ sidebar:
 
 ### Fixes
 * Fixed `For`/`Exclude` not excluding properties in objects in a collection - [#1953](https://github.com/fluentassertions/fluentassertions/pull/1953)
+* Changed `MatchEquivalentOf` to use `CultureInfo.InvariantCulture` instead of `CultureInfo.CurrentCulture` - [#1985](https://github.com/fluentassertions/fluentassertions/pull/1985).
 
 ## 6.7.0
 
