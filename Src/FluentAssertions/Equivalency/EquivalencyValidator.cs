@@ -5,7 +5,7 @@ using FluentAssertions.Execution;
 namespace FluentAssertions.Equivalency;
 
 /// <summary>
-/// Is responsible for validating the equality of one or more properties of a subject with another object.
+/// Is responsible for validating the equivalency of a subject with another object.
 /// </summary>
 public class EquivalencyValidator : IEquivalencyValidator
 {
