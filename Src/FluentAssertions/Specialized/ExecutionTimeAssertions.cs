@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Specialized;
@@ -77,7 +78,7 @@ public class ExecutionTimeAssertions
             .ForCondition(Condition(elapsed))
             .BecauseOf(because, becauseArgs)
             .FailWith("Execution of " +
-                      execution.ActionDescription + " should be less than or equal to {0}{reason}, but it required " +
+                      execution.ActionDescription.EscapePlaceholders() + " should be less than or equal to {0}{reason}, but it required " +
                       (isRunning ? "more than " : "exactly ") + "{1}.",
                 maxDuration,
                 elapsed);
@@ -110,7 +111,7 @@ public class ExecutionTimeAssertions
             .ForCondition(Condition(execution.ElapsedTime))
             .BecauseOf(because, becauseArgs)
             .FailWith("Execution of " +
-                      execution.ActionDescription + " should be less than {0}{reason}, but it required " +
+                      execution.ActionDescription.EscapePlaceholders() + " should be less than {0}{reason}, but it required " +
                       (isRunning ? "more than " : "exactly ") + "{1}.",
                 maxDuration,
                 elapsed);
@@ -140,7 +141,7 @@ public class ExecutionTimeAssertions
             .ForCondition(Condition(elapsed))
             .BecauseOf(because, becauseArgs)
             .FailWith("Execution of " +
-                      execution.ActionDescription + " should be greater than or equal to {0}{reason}, but it required " +
+                      execution.ActionDescription.EscapePlaceholders() + " should be greater than or equal to {0}{reason}, but it required " +
                       (isRunning ? "more than " : "exactly ") + "{1}.",
                 minDuration,
                 elapsed);
@@ -173,7 +174,7 @@ public class ExecutionTimeAssertions
             .ForCondition(Condition(elapsed))
             .BecauseOf(because, becauseArgs)
             .FailWith("Execution of " +
-                      execution.ActionDescription + " should be greater than {0}{reason}, but it required " +
+                      execution.ActionDescription.EscapePlaceholders() + " should be greater than {0}{reason}, but it required " +
                       (isRunning ? "more than " : "exactly ") + "{1}.",
                 minDuration,
                 elapsed);
@@ -218,7 +219,7 @@ public class ExecutionTimeAssertions
         Execute.Assertion
             .ForCondition(MinCondition(elapsed) && MaxCondition(elapsed))
             .BecauseOf(because, becauseArgs)
-            .FailWith("Execution of " + execution.ActionDescription +
+            .FailWith("Execution of " + execution.ActionDescription.EscapePlaceholders() +
                       " should be within {0} from {1}{reason}, but it required " +
                       (isRunning ? "more than " : "exactly ") + "{2}.",
                 precision,
