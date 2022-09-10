@@ -31,7 +31,7 @@ public class EquivalencyValidator : IEquivalencyValidator
     {
         var scope = AssertionScope.Current;
 
-        if (ShouldCompareMembersThisDeep(context.CurrentNode, context.Options, scope))
+        if (ShouldCompareNodesThisDeep(context.CurrentNode, context.Options, scope))
         {
             UpdateScopeWithReportableContext(scope, comparands, context.CurrentNode);
 
@@ -42,7 +42,7 @@ public class EquivalencyValidator : IEquivalencyValidator
         }
     }
 
-    private static bool ShouldCompareMembersThisDeep(INode currentNode, IEquivalencyAssertionOptions options,
+    private static bool ShouldCompareNodesThisDeep(INode currentNode, IEquivalencyAssertionOptions options,
         AssertionScope assertionScope)
     {
         bool shouldRecurse = options.AllowInfiniteRecursion || currentNode.Depth < MaxDepth;
