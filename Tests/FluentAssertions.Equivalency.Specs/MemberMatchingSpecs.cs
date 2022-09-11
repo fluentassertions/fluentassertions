@@ -9,7 +9,7 @@ public class MemberMatchingSpecs
 {
     [Fact]
     [SuppressMessage("ReSharper", "StringLiteralTypo")]
-    public void When_using_ExcludingMissingMembers_both_fields_and_properties_should_be_ignored()
+    public void When_excluding_missing_members_both_fields_and_properties_should_be_ignored()
     {
         // Arrange
         var class1 = new ClassWithSomeFieldsAndProperties
