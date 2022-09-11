@@ -58,7 +58,7 @@
   <ItemGroup>
     <PackageReference Include="Chill" Version="4.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="xunit" Version="2.4.2-pre.12" />
+    <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="Xunit.StaFact" Version="1.1.11" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="coverlet.collector" Version="3.1.2" PrivateAssets="all">

@@ -154,8 +154,8 @@ public class NumericDifferenceAssertionsSpecs
         }
 
         [Theory]
-        [InlineData(8, 5)]
-        [InlineData(1, 9)]
+        [InlineData(8L, 5)]
+        [InlineData(1L, 9)]
         public void The_difference_between_small_nullable_longs_is_not_included_in_the_message(long? value, long expected)
         {
             // Act
@@ -169,8 +169,8 @@ public class NumericDifferenceAssertionsSpecs
         }
 
         [Theory]
-        [InlineData(50, 20, 30)]
-        [InlineData(20, 50, -30)]
+        [InlineData(50L, 20, 30)]
+        [InlineData(20L, 50, -30)]
         public void The_difference_between_nullable_longs_is_included_in_the_message(long? value, long expected, long expectedDifference)
         {
             // Act
