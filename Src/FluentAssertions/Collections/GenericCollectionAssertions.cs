@@ -843,38 +843,36 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         {
             EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
 
-            using (var scope = new AssertionScope())
+            using var scope = new AssertionScope();
+            scope.AddReportable("configuration", () => options.ToString());
+
+            foreach (T actualItem in Subject)
             {
-                scope.AddReportable("configuration", () => options.ToString());
-
-                foreach (T actualItem in Subject)
+                var context = new EquivalencyValidationContext(Node.From<TExpectation>(() => AssertionScope.Current.CallerIdentity), options)
                 {
-                    var context = new EquivalencyValidationContext(Node.From<TExpectation>(() => AssertionScope.Current.CallerIdentity), options)
-                    {
-                        Reason = new Reason(because, becauseArgs),
-                        TraceWriter = options.TraceWriter
-                    };
+                    Reason = new Reason(because, becauseArgs),
+                    TraceWriter = options.TraceWriter
+                };
 
-                    var comparands = new Comparands
-                    {
-                        Subject = actualItem,
-                        Expectation = expectation,
-                        CompileTimeType = typeof(TExpectation),
-                    };
+                var comparands = new Comparands
+                {
+                    Subject = actualItem,
+                    Expectation = expectation,
+                    CompileTimeType = typeof(TExpectation),
+                };
 
-                    new EquivalencyValidator().AssertEquality(comparands, context);
+                new EquivalencyValidator().AssertEquality(comparands, context);
 
-                    string[] failures = scope.Discard();
-                    if (!failures.Any())
-                    {
-                        return new AndWhichConstraint<TAssertions, T>((TAssertions)this, actualItem);
-                    }
+                string[] failures = scope.Discard();
+                if (!failures.Any())
+                {
+                    return new AndWhichConstraint<TAssertions, T>((TAssertions)this, actualItem);
                 }
-
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} {0} to contain equivalent of {1}{reason}.", Subject, expectation);
             }
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:collection} {0} to contain equivalent of {1}{reason}.", Subject, expectation);
         }
 
         return new AndWhichConstraint<TAssertions, T>((TAssertions)this, default(T));
