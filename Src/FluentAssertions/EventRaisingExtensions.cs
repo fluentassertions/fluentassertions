@@ -71,7 +71,7 @@ public static class EventRaisingExtensions
 
         foreach (OccurredEvent @event in eventRecording)
         {
-            var typedParameters = @event.Parameters.OfType<T>().ToArray();
+            IEnumerable<T> typedParameters = @event.Parameters.OfType<T>();
 
             if (typedParameters.Any(parameter => compiledPredicate(parameter)))
             {

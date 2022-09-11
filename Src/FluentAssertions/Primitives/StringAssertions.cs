@@ -1036,7 +1036,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         ThrowIfValuesNullOrEmpty(values);
 
-        var missing = values.Where(v => !Contains(Subject, v, StringComparison.Ordinal)).ToArray();
+        IEnumerable<string> missing = values.Where(v => !Contains(Subject, v, StringComparison.Ordinal));
         Execute.Assertion
             .ForCondition(values.All(v => Contains(Subject, v, StringComparison.Ordinal)))
             .BecauseOf(because, becauseArgs)
@@ -1076,7 +1076,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Execute.Assertion
             .ForCondition(values.Any(v => Contains(Subject, v, StringComparison.Ordinal)))
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:string} {0} to contain at least one of the strings: {1}{reason}.", Subject, values.ToArray());
+            .FailWith("Expected {context:string} {0} to contain at least one of the strings: {1}{reason}.", Subject, values);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }

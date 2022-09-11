@@ -87,7 +87,7 @@ public class ExceptionAssertions<TException> :
             .ForCondition(Subject.Any())
             .FailWith("Expected exception with message {0}{reason}, but no exception was thrown.", expectedWildcardPattern);
 
-        OuterMessageAssertion.Execute(Subject.Select(exc => exc.Message).ToArray(), expectedWildcardPattern, because,
+        OuterMessageAssertion.Execute(Subject.Select(exc => exc.Message), expectedWildcardPattern, because,
             becauseArgs);
 
         return this;
