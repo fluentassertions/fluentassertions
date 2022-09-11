@@ -104,7 +104,7 @@ public class ExceptionAssertions<TException> :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public virtual ExceptionAssertions<TInnerException> WithInnerException<TInnerException>(string because = null,
+    public virtual ExceptionAssertions<TInnerException> WithInnerException<TInnerException>(string because = "",
         params object[] becauseArgs)
         where TInnerException : Exception
     {
@@ -122,7 +122,7 @@ public class ExceptionAssertions<TException> :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public ExceptionAssertions<Exception> WithInnerException(Type innerException, string because = null,
+    public ExceptionAssertions<Exception> WithInnerException(Type innerException, string because = "",
         params object[] becauseArgs)
     {
         return new ExceptionAssertions<Exception>(AssertInnerExceptions(innerException, because, becauseArgs));
@@ -139,7 +139,7 @@ public class ExceptionAssertions<TException> :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public virtual ExceptionAssertions<TInnerException> WithInnerExceptionExactly<TInnerException>(string because = null,
+    public virtual ExceptionAssertions<TInnerException> WithInnerExceptionExactly<TInnerException>(string because = "",
         params object[] becauseArgs)
         where TInnerException : Exception
     {
@@ -157,7 +157,7 @@ public class ExceptionAssertions<TException> :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public ExceptionAssertions<Exception> WithInnerExceptionExactly(Type innerException, string because = null,
+    public ExceptionAssertions<Exception> WithInnerExceptionExactly(Type innerException, string because = "",
         params object[] becauseArgs)
     {
         return new ExceptionAssertions<Exception>(AssertInnerExceptionExactly(innerException, because, becauseArgs));
@@ -191,7 +191,7 @@ public class ExceptionAssertions<TException> :
         return this;
     }
 
-    private IEnumerable<Exception> AssertInnerExceptionExactly(Type innerException, string because = null,
+    private IEnumerable<Exception> AssertInnerExceptionExactly(Type innerException, string because = "",
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(innerException, nameof(innerException));
@@ -210,7 +210,7 @@ public class ExceptionAssertions<TException> :
         return expectedExceptions;
     }
 
-    private IEnumerable<Exception> AssertInnerExceptions(Type innerException, string because = null,
+    private IEnumerable<Exception> AssertInnerExceptions(Type innerException, string because = "",
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(innerException, nameof(innerException));
