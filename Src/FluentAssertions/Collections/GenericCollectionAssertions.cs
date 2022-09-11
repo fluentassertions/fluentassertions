@@ -921,7 +921,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
             IList<T> actualItems = Subject.ConvertOrCastToList();
 
             int subjectIndex = 0;
-            
+
             for (int index = 0; index < expectedItems.Count; index++)
             {
                 T expectedItem = expectedItems[index];
@@ -2341,7 +2341,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         {
             IList<T> actualItems = Subject.ConvertOrCastToList();
             int subjectIndex = 0;
-            
+
             foreach (var unexpectedItem in unexpectedItems)
             {
                 subjectIndex = IndexOf(actualItems, unexpectedItem, startIndex: subjectIndex);
