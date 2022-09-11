@@ -163,10 +163,7 @@ public static class Formatter
     /// </summary>
     public static void RemoveFormatter(IValueFormatter formatter)
     {
-        if (CustomFormatters.Contains(formatter))
-        {
-            CustomFormatters.Remove(formatter);
-        }
+        CustomFormatters.Remove(formatter);
     }
 
     /// <summary>
