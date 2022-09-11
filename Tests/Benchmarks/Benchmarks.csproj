@@ -9,7 +9,7 @@
     <ProjectReference Include="..\..\Src\FluentAssertions\FluentAssertions.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.2" />
     <PackageReference Include="Bogus" Version="34.0.2" />
     <PackageReference Include="System.Collections" Version="4.3.0" />
   </ItemGroup>
