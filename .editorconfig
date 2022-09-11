@@ -249,6 +249,10 @@ dotnet_diagnostic.AV1555.severity = suggestion
 dotnet_diagnostic.AV1561.severity = suggestion
 # AV1564: Parameter in public or internal member is of type bool or bool?
 dotnet_diagnostic.AV1564.severity = suggestion
+# AV1554: Do not use optional parameters in interface methods or their concrete implementations
+dotnet_diagnostic.AV1554.severity = none
+# AV1580: Argument for parameter calls nested method
+dotnet_diagnostic.AV1580.severity = none
 # AV1706: Parameter 'p' should have a more descriptive name
 dotnet_diagnostic.AV1706.severity = suggestion
 # AV1708: Type name contains term that should be avoided

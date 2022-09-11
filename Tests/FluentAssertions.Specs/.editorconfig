@@ -88,6 +88,8 @@ dotnet_diagnostic.AV1250.severity = none
 dotnet_diagnostic.AV1507.severity = none
 # AV1532: Loop statement contains nested loop
 dotnet_diagnostic.AV1532.severity = none
+# AV1553 Optional parameter of type string has default value null
+dotnet_diagnostic.AV1553.severity = none
 # AV1555: Parameter in the call to is invoked with a named argument
 dotnet_diagnostic.AV1555.severity = none
 # AV1704: Type contains one or more digits in its name
