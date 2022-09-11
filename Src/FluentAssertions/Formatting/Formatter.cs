@@ -219,7 +219,7 @@ public static class Formatter
 
         public override string ToString()
         {
-            return string.Join(".", pathStack.Reverse().ToArray());
+            return string.Join(".", pathStack.Reverse());
         }
     }
 }

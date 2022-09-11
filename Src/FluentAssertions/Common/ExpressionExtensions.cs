@@ -97,7 +97,7 @@ internal static class ExpressionExtensions
         // If any members were accessed in the expression, the first one found is the last member.
         Type declaringType = declaringTypes.FirstOrDefault() ?? typeof(TDeclaringType);
 
-        string[] reversedSegments = segments.AsEnumerable().Reverse().ToArray();
+        IEnumerable<string> reversedSegments = segments.AsEnumerable().Reverse();
         string segmentPath = string.Join(".", reversedSegments);
 
         return new MemberPath(typeof(TDeclaringType), declaringType, segmentPath.Replace(".[", "[", StringComparison.Ordinal));
