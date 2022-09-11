@@ -96,7 +96,7 @@ public class DataRowCollectionEquivalencyStep : EquivalencyStep<DataRowCollectio
     {
         Type[] primaryKeyTypes = null;
 
-        if ((table.PrimaryKey is null) || (table.PrimaryKey.Length == 0))
+        if (table.PrimaryKey is null or { Length: 0 })
         {
             AssertionScope.Current
                 .FailWith("Table {0} containing {1} {context:DataRowCollection} does not have a primary key. RowMatchMode.PrimaryKey cannot be applied.", table.TableName, comparisonTerm);
