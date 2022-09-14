@@ -163,10 +163,7 @@ public static class Formatter
     /// </summary>
     public static void RemoveFormatter(IValueFormatter formatter)
     {
-        if (CustomFormatters.Contains(formatter))
-        {
-            CustomFormatters.Remove(formatter);
-        }
+        CustomFormatters.Remove(formatter);
     }
 
     /// <summary>
@@ -219,7 +216,7 @@ public static class Formatter
 
         public override string ToString()
         {
-            return string.Join(".", pathStack.Reverse().ToArray());
+            return string.Join(".", pathStack.Reverse());
         }
     }
 }

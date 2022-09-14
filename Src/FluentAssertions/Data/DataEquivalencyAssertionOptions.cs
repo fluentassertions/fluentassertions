@@ -91,9 +91,9 @@ internal class DataEquivalencyAssertionOptions<T> : EquivalencyAssertionOptions<
         return this;
     }
 
-    public IDataEquivalencyAssertionOptions<T> UsingRowMatchMode(RowMatchMode newRowMatchMode)
+    public IDataEquivalencyAssertionOptions<T> UsingRowMatchMode(RowMatchMode rowMatchMode)
     {
-        rowMatchMode = newRowMatchMode;
+        this.rowMatchMode = rowMatchMode;
         return this;
     }
 

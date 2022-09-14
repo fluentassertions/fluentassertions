@@ -442,8 +442,8 @@ internal static class TypeExtensions
                 && m.IsSpecialName
                 && m.ReturnType == targetType
                 && predicate(m.Name)
-                && m.GetParameters().Length == 1
-                && m.GetParameters()[0].ParameterType == sourceType);
+                && m.GetParameters() is { Length: 1 } parameters
+                && parameters[0].ParameterType == sourceType);
     }
 
     public static bool IsAssignableToOpenGeneric(this Type type, Type definition)
