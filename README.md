@@ -4,6 +4,7 @@
 [![](https://img.shields.io/librariesio/dependents/nuget/FluentAssertions.svg?label=dependent%20libraries)](https://libraries.io/nuget/FluentAssertions)
 ![](https://img.shields.io/badge/release%20strategy-githubflow-orange.svg)
 [![Coverage Status](https://coveralls.io/repos/github/fluentassertions/fluentassertions/badge.svg?branch=master)](https://coveralls.io/github/fluentassertions/fluentassertions?branch=master)
+[![kandi X-Ray](https://kandi.openweaver.com/badges/xray.svg)](https://kandi.openweaver.com/csharp/fluentassertions/fluentassertions)
 
 # About this project
 A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or BDD-style unit tests. Targets .NET Framework 4.7, as well as .NET Core 2.1, .NET Core 3.0, .NET 6, .NET Standard 2.0 and 2.1.
