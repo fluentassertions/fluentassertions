@@ -842,10 +842,9 @@ public class ObjectAssertionSpecs
         {
             // Arrange
             var someObject = new Exception();
-            var otherObject = someObject;
 
             // Act
-            Action action = () => someObject.Should().Equals(otherObject);
+            Action action = () => someObject.Should().Equals(someObject);
 
             // Assert
             action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() or BeSameAs() instead?");
