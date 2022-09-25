@@ -3963,4 +3963,17 @@ public class NumericAssertionSpecs
         // Assert
         action.Should().NotThrow();
     }
+
+    [Fact]
+    public void When_accidentally_using_equals_returns_numeric_appropriate_error()
+    {
+        // Arrange
+        int value = 1;
+
+        // Act
+        Action action = () => value.Should().Equals(1);
+
+        // Assert
+        action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
+    }
 }
