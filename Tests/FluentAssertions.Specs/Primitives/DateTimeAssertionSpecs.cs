@@ -1390,7 +1390,7 @@ public class DateTimeAssertionSpecs
         }
     }
 
-    public class BotHaveDay
+    public class NotHaveDay
     {
         [Fact]
         public void When_asserting_subject_datetime_should_not_have_day_with_the_same_value_it_should_throw()
