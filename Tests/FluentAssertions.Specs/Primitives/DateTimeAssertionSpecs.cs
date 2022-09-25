@@ -2294,4 +2294,20 @@ public class DateTimeAssertionSpecs
             action.Should().NotThrow();
         }
     }
+
+    public class Miscellaneous
+    {
+        [Fact]
+        public void Should_throw_a_helpful_error_when_accidentally_using_equals()
+        {
+            // Arrange
+            DateTime someDateTime = new(2022, 9, 25, 13, 38, 42, DateTimeKind.Utc);
+
+            // Act
+            Action action = () => someDateTime.Should().Equals(someDateTime);
+
+            // Assert
+            action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
+        }
+    }
 }
