@@ -2530,4 +2530,20 @@ public class DateTimeOffsetAssertionSpecs
             action.Should().NotThrow();
         }
     }
+
+    public class Miscellaneous
+    {
+        [Fact]
+        public void Should_throw_a_helpful_error_when_accidentally_using_equals()
+        {
+            // Arrange
+            DateTimeOffset someDateTimeOffset = new(2022, 9, 25, 13, 48, 42, 0, TimeSpan.Zero);
+
+            // Act
+            Action action = () => someDateTimeOffset.Should().Equals(someDateTimeOffset);
+
+            // Assert
+            action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
+        }
+    }
 }
