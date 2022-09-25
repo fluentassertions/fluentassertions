@@ -3965,7 +3965,7 @@ public class NumericAssertionSpecs
     }
 
     [Fact]
-    public void When_accidentally_using_equals_returns_numeric_appropriate_error()
+    public void Should_throw_a_helpful_error_when_accidentally_using_equals()
     {
         // Arrange
         int value = 1;
