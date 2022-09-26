@@ -2439,7 +2439,7 @@ public class DateTimeOffsetAssertionSpecs
         }
 
         [Fact]
-        public void Should_throw_a_helpful_error_when_accidentally_using_equals()
+        public void Should_throw_a_helpful_error_when_accidentally_using_equals_with_a_range()
         {
             // Arrange
             DateTimeOffset someDateTimeOffset = new(2022, 9, 25, 13, 48, 42, 0, TimeSpan.Zero);
