@@ -209,4 +209,20 @@ public class GuidAssertionSpecs
                 .And.Be(guid);
         }
     }
+
+    public class Miscellaneous
+    {
+        [Fact]
+        public void Should_throw_a_helpful_error_when_accidentally_using_equals()
+        {
+            // Arrange
+            Guid subject = Guid.Empty;
+
+            // Act
+            Action action = () => subject.Should().Equals(subject);
+
+            // Assert
+            action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
+        }
+    }
 }
