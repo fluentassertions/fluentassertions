@@ -184,7 +184,7 @@ public class TaskCompletionSourceAssertionsBase
 
     /// <inheritdoc/>
     public override bool Equals(object obj) =>
-        throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
+        throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean CompleteWithinAsync() instead?");
 
     /// <summary>
     ///     Monitors the specified task whether it completes withing the remaining time span.
