@@ -1984,4 +1984,17 @@ public partial class GenericCollectionAssertionOfStringSpecs
     }
 
     #endregion
+
+    [Fact]
+    public void When_accidentally_using_equals_it_should_throw_a_helpful_error()
+    {
+        // Arrange
+        var someCollection = new List<string> { "one", "two", "three" };
+
+        // Act
+        Action action = () => someCollection.Should().Equals(someCollection);
+
+        // Assert
+        action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean BeSameAs() or Equal() instead?");
+    }
 }
