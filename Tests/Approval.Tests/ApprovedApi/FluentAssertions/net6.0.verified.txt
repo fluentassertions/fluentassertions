@@ -2185,7 +2185,6 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
         public override bool Equals(object obj) { }
-        public override int GetHashCode() { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(TSubject unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(TExpectation unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(TExpectation unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
