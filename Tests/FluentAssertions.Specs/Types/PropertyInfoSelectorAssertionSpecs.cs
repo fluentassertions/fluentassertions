@@ -288,6 +288,22 @@ public class PropertyInfoSelectorAssertionSpecs
             action.Should().NotThrow();
         }
     }
+
+    public class Miscellaneous
+    {
+        [Fact]
+        public void When_accidentally_using_equals_it_should_throw_a_helpful_error()
+        {
+            // Arrange
+            var someObject = new PropertyInfoSelectorAssertions();
+
+            // Act
+            Action action = () => someObject.Equals(someObject);
+
+            // Assert
+            action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
+        }
+    }
 }
 
 #region Internal classes used in unit tests

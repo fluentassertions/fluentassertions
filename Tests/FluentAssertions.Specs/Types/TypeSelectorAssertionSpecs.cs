@@ -789,4 +789,23 @@ public class TypeSelectorAssertionSpecs
             act.Should().NotThrow();
         }
     }
+
+    public class Miscellaneous
+    {
+        [Fact]
+        public void When_accidentally_using_equals_it_should_throw_a_helpful_error()
+        {
+            // Arrange
+            var types = new TypeSelector(new[]
+            {
+                typeof(ClassWithAttribute)
+            });
+
+            // Act
+            Action action = () => types.Should().Equals(types);
+
+            // Assert
+            action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
+        }
+    }
 }
