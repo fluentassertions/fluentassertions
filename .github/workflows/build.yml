@@ -43,6 +43,6 @@ jobs:
         path-to-lcov: TestResults/reports/lcov.info
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         path: ./Artifacts/*
