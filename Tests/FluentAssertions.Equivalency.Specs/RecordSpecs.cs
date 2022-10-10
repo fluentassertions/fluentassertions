@@ -17,6 +17,16 @@ public class RecordSpecs
     }
 
     [Fact]
+    public void When_the_subject_is_a_readonly_record_struct_it_should_compare_it_by_its_members()
+    {
+        var actual = new MyReadonlyRecordStruct("foo", new[] { "bar", "zip", "foo" });
+
+        var expected = new MyReadonlyRecordStruct("foo", new[] { "bar", "zip", "foo" });
+
+        actual.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
     public void When_the_subject_is_a_record_it_should_mention_that_in_the_configuration_output()
     {
         var actual = new MyRecord { StringField = "foo", };
@@ -89,5 +99,10 @@ public class RecordSpecs
         public string StringField;
 
         public string[] CollectionProperty { get; init; }
+    }
+
+    private readonly record struct MyReadonlyRecordStruct(string StringField, string[] CollectionProperty)
+    {
+        public readonly string StringField = StringField;
     }
 }

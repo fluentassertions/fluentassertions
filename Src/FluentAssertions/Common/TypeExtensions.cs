@@ -584,12 +584,18 @@ internal static class TypeExtensions
     public static bool IsRecord(this Type type)
     {
         return TypeIsRecordCache.GetOrAdd(type, static t =>
-            t.GetMethod("<Clone>$") is not null &&
-            t.GetTypeInfo()
-                 .DeclaredProperties
-                 .FirstOrDefault(p => p.Name == "EqualityContract")?
-                 .GetMethod?
-                 .GetCustomAttribute(typeof(CompilerGeneratedAttribute)) is not null);
+        {
+            bool isRecord = t.GetMethod("<Clone>$") is not null &&
+                            t.GetTypeInfo()
+                                .DeclaredProperties
+                                .FirstOrDefault(p => p.Name == "EqualityContract")?
+                                .GetMethod?
+                                .GetCustomAttribute(typeof(CompilerGeneratedAttribute)) is not null;
+            bool isRecordStruct = t.BaseType == typeof(ValueType) &&
+                                  t.GetMethods().Where(m => m.Name == "op_Inequality").SelectMany(m => m.GetCustomAttributes(typeof(CompilerGeneratedAttribute))).Any() &&
+                                  t.GetMethods().Where(m => m.Name == "op_Equality").SelectMany(m => m.GetCustomAttributes(typeof(CompilerGeneratedAttribute))).Any();
+            return isRecord || isRecordStruct;
+        });
     }
 
     private static bool IsKeyValuePair(Type type)

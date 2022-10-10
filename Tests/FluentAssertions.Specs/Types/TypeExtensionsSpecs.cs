@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Common;
@@ -124,6 +125,33 @@ public class TypeExtensionsSpecs
         result.Should().NotBeNull();
     }
 
+    [Theory]
+    [InlineData(typeof(MyRecord), true)]
+    [InlineData(typeof(MyRecordStruct), true)]
+    [InlineData(typeof(MyRecordStructWithOverriddenEquality), true)]
+    [InlineData(typeof(MyReadonlyRecordStruct), true)]
+    [InlineData(typeof(MyStruct), false)]
+    [InlineData(typeof(MyStructWithOverriddenEquality), false)]
+    [InlineData(typeof(MyClass), false)]
+    [InlineData(typeof(int), false)]
+    [InlineData(typeof(string), false)]
+    public void IsRecord_should_detect_records_correctly(Type type, bool expected)
+    {
+        type.IsRecord().Should().Be(expected);
+    }
+
+    [Fact]
+    public void When_checking_if_anonymous_type_is_record_it_should_return_false()
+    {
+        new { Value = 42 }.GetType().IsRecord().Should().Be(false);
+    }
+
+    [Fact]
+    public void When_checking_if_class_with_multiple_equality_methods_is_record_it_should_return_false()
+    {
+        typeof(ImmutableArray<int>).IsRecord().Should().Be(false);
+    }
+
     private static MethodInfo GetFakeConversionOperator(Type type, string name, BindingFlags bindingAttr, Type returnType)
     {
         MethodInfo[] methods = type.GetMethods(bindingAttr);
@@ -152,5 +180,43 @@ public class TypeExtensionsSpecs
 
         public static byte op_Explicit(TypeWithFakeConversionOperators typeWithFakeConversionOperators) => (byte)typeWithFakeConversionOperators.value;
 #pragma warning restore SA1300, IDE1006
+    }
+
+    private record MyRecord(int Value);
+
+    private record struct MyRecordStruct(int Value);
+
+    private record struct MyRecordStructWithOverriddenEquality(int Value)
+    {
+        public bool Equals(MyRecordStructWithOverriddenEquality other) => Value == other.Value;
+
+        public override int GetHashCode() => Value;
+    }
+
+    private readonly record struct MyReadonlyRecordStruct(int Value);
+
+    private struct MyStruct
+    {
+        public int Value { get; set; }
+    }
+
+    private struct MyStructWithOverriddenEquality : IEquatable<MyStructWithOverriddenEquality>
+    {
+        public int Value { get; set; }
+
+        public bool Equals(MyStructWithOverriddenEquality other) => Value == other.Value;
+
+        public override bool Equals(object obj) => obj is MyStructWithOverriddenEquality other && Equals(other);
+
+        public override int GetHashCode() => Value;
+
+        public static bool operator ==(MyStructWithOverriddenEquality left, MyStructWithOverriddenEquality right) => left.Equals(right);
+
+        public static bool operator !=(MyStructWithOverriddenEquality left, MyStructWithOverriddenEquality right) => !left.Equals(right);
+    }
+
+    private class MyClass
+    {
+        public int Value { get; set; }
     }
 }
