@@ -76,15 +76,3 @@ Internally, `BeBinarySerializable` uses the [Object graph comparison](objectgrap
 theObject.Should().BeBinarySerializable<MyClass>(
     options => options.Excluding(s => s.SomeNonSerializableProperty));
 ```
-
-### Don't use Equals() ###
-
-The creators of FluentAssertions designed the library to be used with its own assertion methods like `Be()`, `BeSameAs()`, etc.  To help ensure that our users use FluentAssertions properly, this library will throw a specific exception when it detects the use of `Equals()` where an assertion should be.  If you receive any of the below exception messages, your test code used `Equals()` where it should instead be using `Be()`, `BeSameAs()`, or one of FluentAssertions' other assertion methods.
-
-  * `Equals is not part of Fluent Assertions. Did you mean Be() or BeSameAs() instead?`
-  * `Equals is not part of Fluent Assertions. Did you mean Be() instead?`
-  * `Equals is not part of Fluent Assertions. Did you mean BeSameAs() or Equal() instead?`
-  * `Equals is not part of Fluent Assertions. Did you mean Before() or After() instead?`
-  * `Equals is not part of Fluent Assertions. Did you mean BeLessThanOrEqualTo() or BeGreaterThanOrEqualTo() instead?`
-  * `Equals is not part of Fluent Assertions. Did you mean CompleteWithinAsync() instead?`
-  * `Calling Equals on Assertion classes is not supported.` (legacy)

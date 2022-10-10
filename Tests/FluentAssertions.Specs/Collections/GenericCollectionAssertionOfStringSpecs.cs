@@ -1995,6 +1995,6 @@ public partial class GenericCollectionAssertionOfStringSpecs
         Action action = () => someCollection.Should().Equals(someCollection);
 
         // Assert
-        action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean BeSameAs() or Equal() instead?");
+        action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean BeSameAs(), Equal(), or BeEquivalentTo() instead?");
     }
 }

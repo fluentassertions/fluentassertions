@@ -421,7 +421,7 @@ public class ReferenceTypeAssertionsSpecs
             Action action = () => subject.Equals(subject);
 
             // Assert
-            action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
+            action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean BeSameAs() instead?");
         }
 
         public class ReferenceTypeAssertionsDummy : ReferenceTypeAssertions<object, ReferenceTypeAssertionsDummy>

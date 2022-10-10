@@ -3453,7 +3453,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
 
     /// <inheritdoc/>
     public override bool Equals(object obj) =>
-        throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean BeSameAs() or Equal() instead?");
+        throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean BeSameAs(), Equal(), or BeEquivalentTo() instead?");
 
     private static int IndexOf(IList<T> items, T item, int startIndex)
     {

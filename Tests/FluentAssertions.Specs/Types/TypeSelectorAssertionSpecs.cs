@@ -805,7 +805,7 @@ public class TypeSelectorAssertionSpecs
             Action action = () => types.Should().Equals(types);
 
             // Assert
-            action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
+            action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean BeInNamespace() or BeDecoratedWith() instead?");
         }
     }
 }
