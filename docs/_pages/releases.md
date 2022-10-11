@@ -14,6 +14,8 @@ sidebar:
 * Added `NotCompleteWithinAsync` for assertions on `Task` - [#1967](https://github.com/fluentassertions/fluentassertions/pull/1967)
 * Added `CompleteWithinAsync` and `NotCompleteWithinAsync` for non-generic `TaskCompletionSource` (.NET 6 and above) - [#1961](https://github.com/fluentassertions/fluentassertions/pull/1961)
 * Added a `ParentType` to `IObjectInfo` to help determining the parent in a call to `Using`/`When` constructs - [#1950](https://github.com/fluentassertions/fluentassertions/pull/1950)
+* Added a `Monitor` to `EventAssertions` to enable writing extension methods for event assertions. 
+[#2008](https://github.com/fluentassertions/fluentassertions/pull/2008)
 
 ### Fixes
 * Fixed `For`/`Exclude` not excluding properties in objects in a collection - [#1953](https://github.com/fluentassertions/fluentassertions/pull/1953)
