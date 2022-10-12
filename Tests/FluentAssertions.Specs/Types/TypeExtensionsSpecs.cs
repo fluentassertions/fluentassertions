@@ -143,13 +143,13 @@ public class TypeExtensionsSpecs
     [Fact]
     public void When_checking_if_anonymous_type_is_record_it_should_return_false()
     {
-        new { Value = 42 }.GetType().IsRecord().Should().Be(false);
+        new { Value = 42 }.GetType().IsRecord().Should().BeFalse();
     }
 
     [Fact]
     public void When_checking_if_class_with_multiple_equality_methods_is_record_it_should_return_false()
     {
-        typeof(ImmutableArray<int>).IsRecord().Should().Be(false);
+        typeof(ImmutableArray<int>).IsRecord().Should().BeFalse();
     }
 
     private static MethodInfo GetFakeConversionOperator(Type type, string name, BindingFlags bindingAttr, Type returnType)
