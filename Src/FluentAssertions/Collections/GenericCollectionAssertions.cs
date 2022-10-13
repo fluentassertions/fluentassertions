@@ -35,6 +35,8 @@ public class GenericCollectionAssertions<TCollection, T> :
     }
 }
 
+#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
 [DebuggerNonUserCode]
 public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     ReferenceTypeAssertions<TCollection, TAssertions>
@@ -3448,6 +3450,10 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
+
+    /// <inheritdoc/>
+    public override bool Equals(object obj) =>
+        throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean BeSameAs(), Equal(), or BeEquivalentTo() instead?");
 
     private static int IndexOf(IList<T> items, T item, int startIndex)
     {

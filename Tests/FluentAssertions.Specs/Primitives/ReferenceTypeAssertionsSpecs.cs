@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
+using FluentAssertions.Primitives;
 using Xunit;
 using Xunit.Sdk;
 
@@ -407,6 +408,30 @@ public class ReferenceTypeAssertionsSpecs
     }
 
     #endregion
+
+    public class Miscellaneous
+    {
+        [Fact]
+        public void Should_throw_a_helpful_error_when_accidentally_using_equals()
+        {
+            // Arrange
+            var subject = new ReferenceTypeAssertionsDummy(null);
+
+            // Act
+            Action action = () => subject.Equals(subject);
+
+            // Assert
+            action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean BeSameAs() instead?");
+        }
+
+        public class ReferenceTypeAssertionsDummy : ReferenceTypeAssertions<object, ReferenceTypeAssertionsDummy>
+        {
+            public ReferenceTypeAssertionsDummy(object subject)
+                : base(subject) { }
+
+            protected override string Identifier => string.Empty;
+        }
+    }
 }
 
 public class SomeDto
