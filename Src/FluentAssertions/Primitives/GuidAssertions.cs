@@ -171,5 +171,5 @@ public class GuidAssertions<TAssertions>
 
     /// <inheritdoc/>
     public override bool Equals(object obj) =>
-        throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
+        throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean Be() or BeOneOf() instead?");
 }

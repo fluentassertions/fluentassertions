@@ -515,6 +515,19 @@ public class SimpleTimeSpanAssertionSpecs
             "Expected actual to be less than or equal to 1s because we want to test the failure message, but found 2s.");
     }
 
+    [Fact]
+    public void When_accidentally_using_equals_it_should_throw_a_helpful_error()
+    {
+        // Arrange
+        TimeSpan someTimeSpan = 2.Seconds();
+
+        // Act
+        Action act = () => someTimeSpan.Should().Equals(someTimeSpan);
+
+        // Assert
+        act.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
+    }
+
     #region Be Close To
 
     [Fact]

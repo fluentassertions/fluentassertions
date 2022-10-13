@@ -390,6 +390,19 @@ public class MethodInfoSelectorSpecs
             .And.Contain(typeof(int))
             .And.Contain(typeof(string));
     }
+
+    [Fact]
+    public void When_accidentally_using_equals_it_should_throw_a_helpful_error()
+    {
+        // Arrange
+        Type type = typeof(TestClassForMethodSelector);
+
+        // Act
+        Action action = () => type.Methods().Should().Equals(null);
+
+        // Assert
+        action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
+    }
 }
 
 #region Internal classes used in unit tests

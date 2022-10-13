@@ -615,6 +615,19 @@ public class ExecutionTimeAssertionsSpecs
             act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("action");
         }
+
+        [Fact]
+        public void When_accidentally_using_equals_it_should_throw_a_helpful_error()
+        {
+            // Arrange
+            var subject = new object();
+
+            // Act
+            Action act = () => subject.ExecutionTimeOf(s => s.ToString()).Should().Equals(1.Seconds());
+
+            // Assert
+            act.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean BeLessThanOrEqualTo() or BeGreaterThanOrEqualTo() instead?");
+        }
     }
 
     internal class SleepingClass
