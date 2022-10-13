@@ -661,7 +661,7 @@ public class DateTimeOffsetAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected time to be within 20ms from <2012-03-13 12:15:31 +1H>, but it was <2012-03-13 12:15:30.979 +1H>.");
+                    "Expected time to be within 20ms from <2012-03-13 12:15:31 +1H>, but <2012-03-13 12:15:30.979 +1H> was off by 21ms.");
         }
 
         [Fact]
@@ -677,7 +677,7 @@ public class DateTimeOffsetAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected time to be within 20ms from <2012-03-13 12:15:31 +1h>, but it was <2012-03-13 12:15:31.021 +1h>.");
+                    "Expected time to be within 20ms from <2012-03-13 12:15:31 +1h>, but <2012-03-13 12:15:31.021 +1h> was off by 21ms.");
         }
 
         [Fact]
@@ -693,7 +693,7 @@ public class DateTimeOffsetAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected time to be within 35ms from <2012-03-13 12:15:31 +1h>, but it was <2012-03-13 12:15:31.036 +1h>.");
+                    "Expected time to be within 35ms from <2012-03-13 12:15:31 +1h>, but <2012-03-13 12:15:31.036 +1h> was off by 36ms.");
         }
 
         [Fact]
@@ -722,7 +722,7 @@ public class DateTimeOffsetAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*, but it was <null>.");
+                .WithMessage("Expected*, but found <null>.");
         }
 
         [Fact]
