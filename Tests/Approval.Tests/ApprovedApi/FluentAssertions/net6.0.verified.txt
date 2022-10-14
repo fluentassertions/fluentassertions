@@ -1271,6 +1271,7 @@ namespace FluentAssertions.Events
     {
         protected EventAssertions(FluentAssertions.Events.IMonitor<T> monitor) { }
         protected override string Identifier { get; }
+        public FluentAssertions.Events.IMonitor<T> Monitor { get; }
         public void NotRaise(string eventName, string because = "", params object[] becauseArgs) { }
         public void NotRaisePropertyChangeFor(System.Linq.Expressions.Expression<System.Func<T, object>> propertyExpression, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.Events.IEventRecording Raise(string eventName, string because = "", params object[] becauseArgs) { }

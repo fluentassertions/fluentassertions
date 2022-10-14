@@ -16,13 +16,16 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
 {
     private const string PropertyChangedEventName = "PropertyChanged";
 
-    private readonly IMonitor<T> monitor;
-
     protected internal EventAssertions(IMonitor<T> monitor)
         : base(monitor.Subject)
     {
-        this.monitor = monitor;
+        this.Monitor = monitor;
     }
+    
+    /// <summary>
+    /// Gets the <see cref="IMonitor{T}"/> which is being asserted.
+    /// </summary>
+    public IMonitor<T> Monitor { get; }
 
     /// <summary>
     /// Asserts that an object has raised a particular event at least once.
@@ -39,12 +42,12 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     /// </param>
     public IEventRecording Raise(string eventName, string because = "", params object[] becauseArgs)
     {
-        IEventRecording recording = monitor.GetRecordingFor(eventName);
+        IEventRecording recording = Monitor.GetRecordingFor(eventName);
         if (!recording.Any())
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected object {0} to raise event {1}{reason}, but it did not.", monitor.Subject, eventName);
+                .FailWith("Expected object {0} to raise event {1}{reason}, but it did not.", Monitor.Subject, eventName);
         }
 
         return recording;
@@ -65,12 +68,12 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     /// </param>
     public void NotRaise(string eventName, string because = "", params object[] becauseArgs)
     {
-        IEventRecording events = monitor.GetRecordingFor(eventName);
+        IEventRecording events = Monitor.GetRecordingFor(eventName);
         if (events.Any())
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected object {0} to not raise event {1}{reason}, but it did.", monitor.Subject, eventName);
+                .FailWith("Expected object {0} to not raise event {1}{reason}, but it did.", Monitor.Subject, eventName);
         }
     }
 
@@ -93,14 +96,14 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     {
         string propertyName = propertyExpression?.GetPropertyInfo().Name;
 
-        IEventRecording recording = monitor.GetRecordingFor(PropertyChangedEventName);
+        IEventRecording recording = Monitor.GetRecordingFor(PropertyChangedEventName);
 
         if (!recording.Any())
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected object {0} to raise event {1} for property {2}{reason}, but it did not raise that event at all.",
-                    monitor.Subject, PropertyChangedEventName, propertyName);
+                    Monitor.Subject, PropertyChangedEventName, propertyName);
         }
 
         var actualPropertyNames = recording
@@ -113,7 +116,7 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
             .ForCondition(actualPropertyNames.Contains(propertyName))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected object {0} to raise event {1} for property {2}{reason}, but it was only raised for {3}.",
-                monitor.Subject, PropertyChangedEventName, propertyName, actualPropertyNames);
+                Monitor.Subject, PropertyChangedEventName, propertyName, actualPropertyNames);
 
         return recording;
     }
@@ -134,7 +137,7 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     public void NotRaisePropertyChangeFor(Expression<Func<T, object>> propertyExpression,
         string because = "", params object[] becauseArgs)
     {
-        IEventRecording recording = monitor.GetRecordingFor(PropertyChangedEventName);
+        IEventRecording recording = Monitor.GetRecordingFor(PropertyChangedEventName);
 
         string propertyName = propertyExpression.GetPropertyInfo().Name;
 
@@ -143,7 +146,7 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect object {0} to raise the {1} event for property {2}{reason}, but it did.",
-                    monitor.Subject, PropertyChangedEventName, propertyName);
+                    Monitor.Subject, PropertyChangedEventName, propertyName);
         }
     }
 
