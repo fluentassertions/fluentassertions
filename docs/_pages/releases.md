@@ -20,8 +20,11 @@ sidebar:
 ### Fixes
 * Fixed `For`/`Exclude` not excluding properties in objects in a collection - [#1953](https://github.com/fluentassertions/fluentassertions/pull/1953)
 * Changed `MatchEquivalentOf` to use `CultureInfo.InvariantCulture` instead of `CultureInfo.CurrentCulture` - [#1985](https://github.com/fluentassertions/fluentassertions/pull/1985).
-* Fixes `BeEquivalentTo` not taking into account any `record` equivalency settings coming from the `AssertionOptions` - [#1984](https://github.com/fluentassertions/fluentassertions/pull/1984)
+* Fixed `BeEquivalentTo` not taking into account any `record` equivalency settings coming from the `AssertionOptions` - [#1984](https://github.com/fluentassertions/fluentassertions/pull/1984)
 * Fixed `ExecutionTimeOf` formatting failing when the expression includes {} - [#1994](https://github.com/fluentassertions/fluentassertions/pull/1994)
+
+### Enhancements
+* Included the time difference in the error message of `BeCloseTo` - [#2012](https://github.com/fluentassertions/fluentassertions/pull/2012)
 
 ## 6.7.0
 

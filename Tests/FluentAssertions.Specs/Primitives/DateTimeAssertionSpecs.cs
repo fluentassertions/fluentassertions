@@ -483,7 +483,7 @@ public class DateTimeAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected time to be within 20ms from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:30.979>.");
+                    "Expected time to be within 20ms from <2012-03-13 12:15:31>, but <2012-03-13 12:15:30.979> was off by 21ms.");
         }
 
         [Fact]
@@ -499,7 +499,7 @@ public class DateTimeAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected time to be within 20ms from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:30.979>.");
+                    "Expected time to be within 20ms from <2012-03-13 12:15:31>, but <2012-03-13 12:15:30.979> was off by 21ms.");
         }
 
         [Fact]
@@ -515,7 +515,7 @@ public class DateTimeAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected time to be within 20ms from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:31.021>.");
+                    "Expected time to be within 20ms from <2012-03-13 12:15:31>, but <2012-03-13 12:15:31.021> was off by 21ms.");
         }
 
         [Fact]
