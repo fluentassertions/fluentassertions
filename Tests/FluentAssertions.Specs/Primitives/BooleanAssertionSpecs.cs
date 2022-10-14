@@ -143,4 +143,14 @@ public class BooleanAssertionSpecs
         action.Should().Throw<XunitException>()
             .WithMessage("*Expected*boolean*True*because we want to test the failure message, but found True.*");
     }
+
+    [Fact]
+    public void Should_throw_a_helpful_error_when_accidentally_using_equals()
+    {
+        // Act
+        Action action = () => true.Should().Equals(true);
+
+        // Assert
+        action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
+    }
 }

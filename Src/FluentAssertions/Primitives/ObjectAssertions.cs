@@ -17,6 +17,8 @@ public class ObjectAssertions : ObjectAssertions<object, ObjectAssertions>
     }
 }
 
+#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
 /// <summary>
 /// Contains a number of methods to assert that a <typeparamref name="TSubject"/> is in the expected state.
 /// </summary>
@@ -219,6 +221,10 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
+
+    /// <inheritdoc/>
+    public override bool Equals(object obj) =>
+        throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean Be() or BeSameAs() instead?");
 
     /// <summary>
     /// Returns the type of the subject the assertion applies on.

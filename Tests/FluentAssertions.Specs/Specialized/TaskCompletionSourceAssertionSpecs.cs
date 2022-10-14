@@ -102,6 +102,19 @@ public class TaskCompletionSourceAssertionSpecs
             await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("Expected subject to not complete within 1s because test testArg, but found <null>.");
         }
+
+        [Fact]
+        public async Task When_accidentally_using_equals_it_should_throw_a_helpful_error()
+        {
+            // Arrange
+            var subject = new TaskCompletionSource();
+
+            // Act
+            Func<Task> action = () => Task.FromResult(subject.Should().Equals(subject));
+
+            // Assert
+            await action.Should().ThrowAsync<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean CompleteWithinAsync() instead?");
+        }
     }
 #endif
 
@@ -263,6 +276,19 @@ public class TaskCompletionSourceAssertionSpecs
             // Assert
             await action.Should().ThrowAsync<XunitException>()
                 .WithMessage("Did not expect subject to complete within 1s because test testArg, but found <null>.");
+        }
+
+        [Fact]
+        public async Task When_accidentally_using_equals_with_generic_it_should_throw_a_helpful_error()
+        {
+            // Arrange
+            var subject = new TaskCompletionSource<bool>();
+
+            // Act
+            Func<Task<bool>> action = () => Task.FromResult(subject.Should().Equals(subject));
+
+            // Assert
+            await action.Should().ThrowAsync<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean CompleteWithinAsync() instead?");
         }
     }
 }

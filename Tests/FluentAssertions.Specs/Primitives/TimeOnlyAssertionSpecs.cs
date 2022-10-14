@@ -855,6 +855,22 @@ public class TimeOnlyAssertionSpecs
                 .BeAfter(earlierTimeOnly);
         }
     }
+
+    public class Miscellaneous
+    {
+        [Fact]
+        public void Should_throw_a_helpful_error_when_accidentally_using_equals()
+        {
+            // Arrange
+            TimeOnly someTimeOnly = new(21, 1);
+
+            // Act
+            Action act = () => someTimeOnly.Should().Equals(someTimeOnly);
+
+            // Assert
+            act.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
+        }
+    }
 }
 
 #endif
