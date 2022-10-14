@@ -629,6 +629,20 @@ public class EventAssertionSpecs
             act.Should().Throw<ArgumentException>()
                 .WithParameterName("expression");
         }
+
+        [Fact]
+        public void Event_assertions_should_expose_the_monitor()
+        {
+            // Arrange
+            var subject = new EventRaisingClass();
+            using var monitor = subject.Monitor();
+
+            // Act
+            var exposedMonitor = monitor.Should().Monitor;
+
+            // Assert
+            ((object)exposedMonitor).Should().BeSameAs(monitor);
+        }
     }
 
     public class Metadata
