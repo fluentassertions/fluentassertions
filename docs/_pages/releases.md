@@ -24,7 +24,7 @@ sidebar:
 * Fixed `ExecutionTimeOf` formatting failing when the expression includes {} - [#1994](https://github.com/fluentassertions/fluentassertions/pull/1994)
 
 ### Enhancements
-* Included the time difference in the error message of `BeCloseTo` - [#2012](https://github.com/fluentassertions/fluentassertions/pull/2012)
+* Included the time difference in the error message of `BeCloseTo` - [#2013](https://github.com/fluentassertions/fluentassertions/pull/2013)
 
 ## 6.7.0
 
