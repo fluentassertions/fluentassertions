@@ -631,7 +631,7 @@ public class EventAssertionSpecs
         }
 
         [Fact]
-        public void Event_Assertions_should_expose_monitor()
+        public void Event_assertions_should_expose_the_monitor()
         {
             // Arrange
             var subject = new EventRaisingClass();
