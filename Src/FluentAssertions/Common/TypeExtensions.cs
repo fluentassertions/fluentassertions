@@ -591,9 +591,17 @@ internal static class TypeExtensions
                                 .FirstOrDefault(p => p.Name == "EqualityContract")?
                                 .GetMethod?
                                 .GetCustomAttribute(typeof(CompilerGeneratedAttribute)) is not null;
+
             bool isRecordStruct = t.BaseType == typeof(ValueType) &&
-                                  t.GetMethods().Where(m => m.Name == "op_Inequality").SelectMany(m => m.GetCustomAttributes(typeof(CompilerGeneratedAttribute))).Any() &&
-                                  t.GetMethods().Where(m => m.Name == "op_Equality").SelectMany(m => m.GetCustomAttributes(typeof(CompilerGeneratedAttribute))).Any();
+                                  t.GetMethods()
+                                      .Where(m => m.Name == "op_Inequality")
+                                      .SelectMany(m => m.GetCustomAttributes(typeof(CompilerGeneratedAttribute)))
+                                      .Any() &&
+                                  t.GetMethods()
+                                      .Where(m => m.Name == "op_Equality")
+                                      .SelectMany(m => m.GetCustomAttributes(typeof(CompilerGeneratedAttribute)))
+                                      .Any();
+
             return isRecord || isRecordStruct;
         });
     }

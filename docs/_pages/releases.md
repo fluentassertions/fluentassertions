@@ -25,7 +25,7 @@ sidebar:
 
 ### Enhancements
 * Included the time difference in the error message of `BeCloseTo` - [#2013](https://github.com/fluentassertions/fluentassertions/pull/2013)
-
+* Treated record structs and readonly record structs as records, thus comparing them by member by default - [#2009](https://github.com/fluentassertions/fluentassertions/pull/2009)
 ## 6.7.0
 
 ### What's new
