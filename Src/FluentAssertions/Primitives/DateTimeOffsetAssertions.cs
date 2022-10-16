@@ -304,12 +304,18 @@ public class DateTimeOffsetAssertions<TAssertions>
         long distanceToMaxInTicks = (DateTimeOffset.MaxValue - nearbyTime).Ticks;
         DateTimeOffset maximumValue = nearbyTime.AddTicks(Math.Min(precision.Ticks, distanceToMaxInTicks));
 
+        TimeSpan? difference = (Subject - nearbyTime)?.Duration();
+
         Execute.Assertion
-            .ForCondition(Subject >= minimumValue && (Subject <= maximumValue))
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:the date and time} to be within {0} from {1}{reason}, but it was {2}.",
-                precision,
-                nearbyTime, Subject);
+            .WithExpectation("Expected {context:the date and time} to be within {0} from {1}{reason}", precision, nearbyTime)
+            .ForCondition(Subject is not null)
+            .FailWith(", but found <null>.")
+            .Then
+            .ForCondition(Subject >= minimumValue && Subject <= maximumValue)
+            .FailWith(", but {0} was off by {1}.", Subject, difference)
+            .Then
+            .ClearExpectation();
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1094,5 +1100,5 @@ public class DateTimeOffsetAssertions<TAssertions>
 
     /// <inheritdoc/>
     public override bool Equals(object obj) =>
-        throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
+        throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
 }

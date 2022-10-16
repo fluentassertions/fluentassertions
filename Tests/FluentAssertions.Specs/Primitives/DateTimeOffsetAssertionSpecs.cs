@@ -661,7 +661,7 @@ public class DateTimeOffsetAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected time to be within 20ms from <2012-03-13 12:15:31 +1H>, but it was <2012-03-13 12:15:30.979 +1H>.");
+                    "Expected time to be within 20ms from <2012-03-13 12:15:31 +1H>, but <2012-03-13 12:15:30.979 +1H> was off by 21ms.");
         }
 
         [Fact]
@@ -677,7 +677,7 @@ public class DateTimeOffsetAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected time to be within 20ms from <2012-03-13 12:15:31 +1h>, but it was <2012-03-13 12:15:31.021 +1h>.");
+                    "Expected time to be within 20ms from <2012-03-13 12:15:31 +1h>, but <2012-03-13 12:15:31.021 +1h> was off by 21ms.");
         }
 
         [Fact]
@@ -693,7 +693,7 @@ public class DateTimeOffsetAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected time to be within 35ms from <2012-03-13 12:15:31 +1h>, but it was <2012-03-13 12:15:31.036 +1h>.");
+                    "Expected time to be within 35ms from <2012-03-13 12:15:31 +1h>, but <2012-03-13 12:15:31.036 +1h> was off by 36ms.");
         }
 
         [Fact]
@@ -722,7 +722,7 @@ public class DateTimeOffsetAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*, but it was <null>.");
+                .WithMessage("Expected*, but found <null>.");
         }
 
         [Fact]
@@ -2437,6 +2437,19 @@ public class DateTimeOffsetAssertionSpecs
             action.Should().Throw<XunitException>()
                 .WithMessage("Expected subject <00:00:45 +0h> to be less than 10s before <00:00:30 +0h>, but it is ahead by 15s.");
         }
+
+        [Fact]
+        public void Should_throw_a_helpful_error_when_accidentally_using_equals_with_a_range()
+        {
+            // Arrange
+            DateTimeOffset someDateTimeOffset = new(2022, 9, 25, 13, 48, 42, 0, TimeSpan.Zero);
+
+            // Act
+            Action action = () => someDateTimeOffset.Should().BeLessThan(0.Seconds()).Equals(someDateTimeOffset);
+
+            // Assert
+            action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Before() or After() instead?");
+        }
     }
 
     public class ChainingConstraint
@@ -2528,6 +2541,22 @@ public class DateTimeOffsetAssertionSpecs
 
             // Assert
             action.Should().NotThrow();
+        }
+    }
+
+    public class Miscellaneous
+    {
+        [Fact]
+        public void Should_throw_a_helpful_error_when_accidentally_using_equals()
+        {
+            // Arrange
+            DateTimeOffset someDateTimeOffset = new(2022, 9, 25, 13, 48, 42, 0, TimeSpan.Zero);
+
+            // Act
+            Action action = () => someDateTimeOffset.Should().Equals(someDateTimeOffset);
+
+            // Assert
+            action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
         }
     }
 }

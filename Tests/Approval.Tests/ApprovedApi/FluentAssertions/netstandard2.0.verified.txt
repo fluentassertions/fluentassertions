@@ -456,6 +456,7 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> Equal(params T[] elements) { }
         public FluentAssertions.AndConstraint<TAssertions> Equal(System.Collections.Generic.IEnumerable<T> expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Equal<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> expectation, System.Func<T, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs) { }
+        public override bool Equals(object obj) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveCount(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveCount(System.Linq.Expressions.Expression<System.Func<int, bool>> countPredicate, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveCountGreaterOrEqualTo(int expected, string because = "", params object[] becauseArgs) { }
@@ -2052,6 +2053,7 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> Be(TSubject expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
+        public override bool Equals(object obj) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(TSubject unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(TExpectation unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(TExpectation unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }

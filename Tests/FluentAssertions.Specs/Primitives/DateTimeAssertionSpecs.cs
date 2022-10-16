@@ -483,7 +483,7 @@ public class DateTimeAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected time to be within 20ms from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:30.979>.");
+                    "Expected time to be within 20ms from <2012-03-13 12:15:31>, but <2012-03-13 12:15:30.979> was off by 21ms.");
         }
 
         [Fact]
@@ -499,7 +499,7 @@ public class DateTimeAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected time to be within 20ms from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:30.979>.");
+                    "Expected time to be within 20ms from <2012-03-13 12:15:31>, but <2012-03-13 12:15:30.979> was off by 21ms.");
         }
 
         [Fact]
@@ -515,7 +515,7 @@ public class DateTimeAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected time to be within 20ms from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:31.021>.");
+                    "Expected time to be within 20ms from <2012-03-13 12:15:31>, but <2012-03-13 12:15:31.021> was off by 21ms.");
         }
 
         [Fact]
@@ -1390,7 +1390,7 @@ public class DateTimeAssertionSpecs
         }
     }
 
-    public class BotHaveDay
+    public class NotHaveDay
     {
         [Fact]
         public void When_asserting_subject_datetime_should_not_have_day_with_the_same_value_it_should_throw()
@@ -2292,6 +2292,35 @@ public class DateTimeAssertionSpecs
 
             // Assert
             action.Should().NotThrow();
+        }
+    }
+
+    public class Miscellaneous
+    {
+        [Fact]
+        public void Should_throw_a_helpful_error_when_accidentally_using_equals()
+        {
+            // Arrange
+            DateTime someDateTime = new(2022, 9, 25, 13, 38, 42, DateTimeKind.Utc);
+
+            // Act
+            Action action = () => someDateTime.Should().Equals(someDateTime);
+
+            // Assert
+            action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
+        }
+
+        [Fact]
+        public void Should_throw_a_helpful_error_when_accidentally_using_equals_with_a_range()
+        {
+            // Arrange
+            DateTime someDateTime = new(2022, 9, 25, 13, 38, 42, DateTimeKind.Utc);
+
+            // Act
+            Action action = () => someDateTime.Should().BeLessThan(0.Seconds()).Equals(someDateTime);
+
+            // Assert
+            action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Before() or After() instead?");
         }
     }
 }
