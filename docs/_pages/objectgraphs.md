@@ -39,7 +39,7 @@ orderDto.Should().BeEquivalentTo(order, options =>
 
 ### Value Types
 
-To determine whether Fluent Assertions should recurs into an object's properties or fields, it needs to understand what types have value semantics and what types should be treated as reference types. The default behavior is to treat every type that overrides `Object.Equals` as an object that was designed to have value semantics. Anonymous types, records and tuples also override this method, but because the community proved us that they use them quite often in equivalency comparisons, we decided to always compare them by their members.
+To determine whether Fluent Assertions should recurs into an object's properties or fields, it needs to understand what types have value semantics and what types should be treated as reference types. The default behavior is to treat every type that overrides `Object.Equals` as an object that was designed to have value semantics. Anonymous types, records, record structs, readonly record structs and tuples also override this method, but because the community proved us that they use them quite often in equivalency comparisons, we decided to always compare them by their members.
 
 You can easily override this by using the `ComparingByValue<T>`, `ComparingByMembers<T>`, `ComparingRecordsByValue` and `ComparingRecordsByMembers` options for individual assertions:
 
@@ -48,7 +48,7 @@ subject.Should().BeEquivalentTo(expected,
    options => options.ComparingByValue<IPAddress>());
 ```
 
-For records, this works like this:
+For records, record structs and readonly record structs this works like this:
 
 ```csharp
 actual.Should().BeEquivalentTo(expected, options => options

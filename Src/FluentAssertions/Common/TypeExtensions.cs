@@ -585,22 +585,25 @@ internal static class TypeExtensions
     {
         return TypeIsRecordCache.GetOrAdd(type, static t =>
         {
-            bool isRecord = t.GetMethod("<Clone>$") is not null &&
-                            t.GetTypeInfo()
-                                .DeclaredProperties
-                                .FirstOrDefault(p => p.Name == "EqualityContract")?
-                                .GetMethod?
-                                .GetCustomAttribute(typeof(CompilerGeneratedAttribute)) is not null;
+            var isRecord = t.GetMethod("<Clone>$") is not null &&
+                           t.GetTypeInfo()
+                               .DeclaredProperties
+                               .FirstOrDefault(p => p.Name == "EqualityContract")?
+                               .GetMethod?
+                               .GetCustomAttribute(typeof(CompilerGeneratedAttribute)) is not null;
 
-            bool isRecordStruct = t.BaseType == typeof(ValueType) &&
-                                  t.GetMethods()
-                                      .Where(m => m.Name == "op_Inequality")
-                                      .SelectMany(m => m.GetCustomAttributes(typeof(CompilerGeneratedAttribute)))
-                                      .Any() &&
-                                  t.GetMethods()
-                                      .Where(m => m.Name == "op_Equality")
-                                      .SelectMany(m => m.GetCustomAttributes(typeof(CompilerGeneratedAttribute)))
-                                      .Any();
+            // As noted here: https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-10.0/record-structs#open-questions
+            // recognizing record structs from metadata is an open point. The following check is based on common sense
+            // and heuristic testing, apparently giving good results but not supported by official documentation.
+            var isRecordStruct = t.BaseType == typeof(ValueType) &&
+                                 t.GetMethods()
+                                     .Where(m => m.Name == "op_Inequality")
+                                     .SelectMany(m => m.GetCustomAttributes(typeof(CompilerGeneratedAttribute)))
+                                     .Any() &&
+                                 t.GetMethods()
+                                     .Where(m => m.Name == "op_Equality")
+                                     .SelectMany(m => m.GetCustomAttributes(typeof(CompilerGeneratedAttribute)))
+                                     .Any();
 
             return isRecord || isRecordStruct;
         });
