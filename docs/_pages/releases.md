@@ -89,7 +89,7 @@ sidebar:
 * `OccurredEvent` ordering on monitored object is now done via thread-safe counter - [#1773](https://github.com/fluentassertions/fluentassertions/pull/1773)
 * Avoid a `NullReferenceException` when testing an application compiled with .NET Native - [#1776](https://github.com/fluentassertions/fluentassertions/pull/1776)
 * `[Not]Contain(key, value)` for dictionary-like enumerables incorrectly checked if the key was present - [#1786](https://github.com/fluentassertions/fluentassertions/pull/1786)
-* Avoid throwing a `FormatException` when caller name determination returns an unformattable string - [#1788](https://github.com/fluentassertions/fluentassertions/pull/1788)
+* Avoid throwing a `FormatException` when caller name determination returns an un-formattable string - [#1788](https://github.com/fluentassertions/fluentassertions/pull/1788)
 
 ## 6.3.0
 
@@ -233,7 +233,7 @@ sidebar:
 * Dropped support for .NET Framework 4.5, .NET Standard 1.3 and 1.6 - [#1227](https://github.com/fluentassertions/fluentassertions/pull/1227).
 * Dropped support for older test frameworks such as MSTest v1, NSpec v1 and v2, XUnit v1, Gallio and MBUnit - [#1227](https://github.com/fluentassertions/fluentassertions/pull/1227).
 * Removed `[Not]Have{Im,Ex}plictConversionOperator` (they had typos) - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
-  * Use the equivalent assertions without the typo "plict" instead.
+  * Use the equivalent assertions without the typo `plict` instead.
 * Removed `NotBeAscendingInOrder`/`NotBeDescendingInOrder` - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
   * Use `NotBeInAscendingOrder`/`NotBeInDescendingOrder` instead.
 * Removed `HasAttribute`, `HasMatchingAttribute` and `IsDecoratedWith(Type, bool)` `Type` extensions - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
