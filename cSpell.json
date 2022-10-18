@@ -5,14 +5,15 @@
         "browsable",
         "Doomen",
         "formattable",
-        "Gallio",
         "Guids",
         "LINQ",
         "parameterless",
         "refactorings",
         "struct"
     ],
-    "ignoreWords": [],
+    "ignoreWords": [
+        "Gallio"
+    ],
     "patterns": [
         {
             "name": "Markdown links",
