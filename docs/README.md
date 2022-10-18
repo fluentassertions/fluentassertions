@@ -8,7 +8,7 @@ The Fluent Assertions [landing page](https://fluentassertions.com) is using Jeky
 
 * Ruby 3.1. 
     * An easy way to install is to use `choco install ruby`.
-    * Or use the **Ruby+Devkit installer** from [RubyInstaller for Windows](https://rubyinstaller.org/downloads/archives/).
+    * Or use the **`Ruby+Devkit` installer** from [RubyInstaller for Windows](https://rubyinstaller.org/downloads/archives/).
     * Note that you may have to reopen your command shell to get the `ruby --version` command to work,
 * The `bundler` 
     * Run `gem install bundler` to install it. If you receive SSL-related errors while running gem install, try running `refreshenv` first.
