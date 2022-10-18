@@ -2,7 +2,14 @@
     "version": "0.2",
     "language": "en",
     "words": [
-        "Doomen"
+        "browsable",
+        "Doomen",
+        "formattable",
+        "Gallio",
+        "Guids",
+        "parameterless",
+        "refactorings",
+        "struct"
     ],
     "ignoreWords": [],
     "patterns": [
