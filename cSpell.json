@@ -7,6 +7,7 @@
         "formattable",
         "Gallio",
         "Guids",
+        "LINQ",
         "parameterless",
         "refactorings",
         "struct"
