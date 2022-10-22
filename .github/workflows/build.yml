@@ -46,3 +46,26 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         path: ./Artifacts/*
+  only-unit-tests:
+
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, macos-12]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET SDKs
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: |
+          2.1.x
+          3.1.x
+          6.0.x
+
+    - name: Run NUKE
+      run: ./build.sh UnitTests
