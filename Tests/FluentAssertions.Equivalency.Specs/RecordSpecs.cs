@@ -17,11 +17,11 @@ public class RecordSpecs
     }
 
     [Fact]
-    public void When_the_subject_is_a_readonly_record_struct_it_should_compare_it_by_its_members()
+    public void When_the_subject_is_a_record_struct_it_should_compare_it_by_its_members()
     {
-        var actual = new MyReadonlyRecordStruct("foo", new[] { "bar", "zip", "foo" });
+        var actual = new MyRecordStruct("foo", new[] { "bar", "zip", "foo" });
 
-        var expected = new MyReadonlyRecordStruct("foo", new[] { "bar", "zip", "foo" });
+        var expected = new MyRecordStruct("foo", new[] { "bar", "zip", "foo" });
 
         actual.Should().BeEquivalentTo(expected);
     }
@@ -101,8 +101,8 @@ public class RecordSpecs
         public string[] CollectionProperty { get; init; }
     }
 
-    private readonly record struct MyReadonlyRecordStruct(string StringField, string[] CollectionProperty)
+    private record struct MyRecordStruct(string StringField, string[] CollectionProperty)
     {
-        public readonly string StringField = StringField;
+        public string StringField = StringField;
     }
 }
