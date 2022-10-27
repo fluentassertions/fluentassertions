@@ -1732,7 +1732,7 @@ public class GenericDictionaryAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot verify value containment with an empty sequence*");
+                "Cannot verify value containment against an empty sequence*");
         }
     }
 

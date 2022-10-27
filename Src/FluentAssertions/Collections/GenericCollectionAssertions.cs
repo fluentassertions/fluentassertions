@@ -756,10 +756,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify containment against a <null> collection");
 
         ICollection<T> expectedObjects = expected.ConvertOrCastToCollection();
-        if (!expectedObjects.Any())
-        {
-            throw new ArgumentException("Cannot verify containment against an empty collection", nameof(expected));
-        }
+        Guard.ThrowIfArgumentIsEmpty(expectedObjects, nameof(expected), "Cannot verify containment against an empty collection");
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -2153,10 +2150,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify non-containment against a <null> collection");
 
         ICollection<T> unexpectedObjects = unexpected.ConvertOrCastToCollection();
-        if (!unexpectedObjects.Any())
-        {
-            throw new ArgumentException("Cannot verify non-containment against an empty collection", nameof(unexpected));
-        }
+        Guard.ThrowIfArgumentIsEmpty(unexpectedObjects, nameof(unexpected), "Cannot verify non-containment against an empty collection");
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -2920,10 +2914,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify against a <null> collection of inspectors");
 
         ICollection<Action<T>> elementInspectors = expected.ConvertOrCastToCollection();
-        if (!elementInspectors.Any())
-        {
-            throw new ArgumentException("Cannot verify against an empty collection of inspectors", nameof(expected));
-        }
+        Guard.ThrowIfArgumentIsEmpty(elementInspectors, nameof(expected), "Cannot verify against an empty collection of inspectors");
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -3009,10 +3000,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         Guard.ThrowIfArgumentIsNull(predicates, nameof(predicates), "Cannot verify against a <null> collection of predicates");
 
         IList<Expression<Func<T, bool>>> predicatesList = predicates.ConvertOrCastToList();
-        if (predicatesList.Count == 0)
-        {
-            throw new ArgumentException("Cannot verify against an empty collection of predicates", nameof(predicates));
-        }
+        Guard.ThrowIfArgumentIsEmpty(predicatesList, nameof(predicates), "Cannot verify against an empty collection of predicates");
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
