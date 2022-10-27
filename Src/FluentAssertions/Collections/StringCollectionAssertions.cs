@@ -242,11 +242,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match strings in collection against <null>. Provide a wildcard pattern or use the Contain method.");
-
-        if (wildcardPattern.Length == 0)
-        {
-            throw new ArgumentException("Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the Contain method.", nameof(wildcardPattern));
-        }
+        Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern), "Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the Contain method.");
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -327,11 +323,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match strings in collection against <null>. Provide a wildcard pattern or use the NotContain method.");
-
-        if (wildcardPattern.Length == 0)
-        {
-            throw new ArgumentException("Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the NotContain method.", nameof(wildcardPattern));
-        }
+        Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern), "Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the NotContain method.");
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
