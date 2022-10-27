@@ -38,6 +38,7 @@ public class ApiApproval
 
         return Verifier
             .Verify(publicApi)
+            .ScrubLinesContaining("FrameworkDisplayName")
             .UseDirectory(Path.Combine("ApprovedApi", "FluentAssertions"))
             .UseStringComparer(OnlyIncludeChanges)
             .UseFileName(frameworkVersion)
