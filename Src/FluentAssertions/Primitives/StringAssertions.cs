@@ -1084,6 +1084,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="unexpected"/> is empty.</exception>
     public AndConstraint<TAssertions> NotContain(string unexpected, string because = "",
         params object[] becauseArgs)
     {
