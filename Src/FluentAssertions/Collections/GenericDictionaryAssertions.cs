@@ -471,17 +471,18 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
     public AndConstraint<TAssertions> ContainValues(IEnumerable<TValue> expected,
         string because = "", params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify value containment against a <null> collection of values");
         return ContainValuesAndWhich(expected, because, becauseArgs);
     }
 
     private AndWhichConstraint<TAssertions, IEnumerable<TValue>> ContainValuesAndWhich(IEnumerable<TValue> expected, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify value containment against a <null> collection of values");
-
         ICollection<TValue> expectedValues = expected.ConvertOrCastToCollection();
 
         if (!expectedValues.Any())

@@ -419,6 +419,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<SubsequentOrderingAssertions<T>> BeInAscendingOrder(
         IComparer<T> comparer, string because = "", params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
         return BeInOrder(comparer, SortOrder.Ascending, because, becauseArgs);
     }
 
@@ -446,6 +447,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<SubsequentOrderingAssertions<T>> BeInAscendingOrder<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
         return BeOrderedBy(propertyExpression, comparer, SortOrder.Ascending, because, becauseArgs);
     }
 
@@ -534,6 +536,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<SubsequentOrderingAssertions<T>> BeInDescendingOrder(
         IComparer<T> comparer, string because = "", params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
         return BeInOrder(comparer, SortOrder.Descending, because, becauseArgs);
     }
 
@@ -561,6 +564,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<SubsequentOrderingAssertions<T>> BeInDescendingOrder<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
         return BeOrderedBy(propertyExpression, comparer, SortOrder.Descending, because, becauseArgs);
     }
 
@@ -1811,6 +1815,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<TAssertions> NotBeInAscendingOrder(
         IComparer<T> comparer, string because = "", params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
         return NotBeInOrder(comparer, SortOrder.Ascending, because, becauseArgs);
     }
 
@@ -1838,6 +1843,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<TAssertions> NotBeInAscendingOrder<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
         return NotBeOrderedBy(propertyExpression, comparer, SortOrder.Ascending, because, becauseArgs);
     }
 
@@ -1925,6 +1931,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<TAssertions> NotBeInDescendingOrder(
         IComparer<T> comparer, string because = "", params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
         return NotBeInOrder(comparer, SortOrder.Descending, because, becauseArgs);
     }
 
@@ -1952,6 +1959,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<TAssertions> NotBeInDescendingOrder<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
         return NotBeOrderedBy(propertyExpression, comparer, SortOrder.Descending, because, becauseArgs);
     }
 
@@ -3126,8 +3134,6 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         string because,
         object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
-
         if (IsValidProperty(propertyExpression, because, becauseArgs))
         {
             ICollection<T> unordered = Subject.ConvertOrCastToCollection();
@@ -3347,8 +3353,6 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         string because,
         object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
-
         if (IsValidProperty(propertyExpression, because, becauseArgs))
         {
             ICollection<T> unordered = Subject.ConvertOrCastToCollection();
@@ -3376,8 +3380,6 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     private AndConstraint<SubsequentOrderingAssertions<T>> BeInOrder(
         IComparer<T> comparer, SortOrder expectedOrder, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
-
         string sortOrder = (expectedOrder == SortOrder.Ascending) ? "ascending" : "descending";
 
         bool success = Execute.Assertion
@@ -3423,8 +3425,6 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     /// </summary>
     private AndConstraint<TAssertions> NotBeInOrder(IComparer<T> comparer, SortOrder order, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
-
         string sortOrder = (order == SortOrder.Ascending) ? "ascending" : "descending";
 
         bool success = Execute.Assertion
