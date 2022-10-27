@@ -109,6 +109,7 @@ public class NullableNumericAssertions<T, TAssertions> : NumericAssertions<T, TA
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> Match(Expression<Func<T?, bool>> predicate,
         string because = "",
         params object[] becauseArgs)

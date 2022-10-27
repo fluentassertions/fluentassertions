@@ -89,6 +89,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
     public new AndConstraint<TypeAssertions> BeAssignableTo(Type type, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(type, nameof(type));
@@ -134,6 +135,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
     public new AndConstraint<TypeAssertions> NotBeAssignableTo(Type type, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(type, nameof(type));
@@ -254,6 +256,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<TypeAssertions, TAttribute> BeDecoratedWith<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
@@ -313,6 +316,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<TypeAssertions, TAttribute> BeDecoratedWithOrInherit<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
@@ -369,6 +373,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> NotBeDecoratedWith<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
@@ -424,6 +429,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> NotBeDecoratedWithOrInherit<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute

@@ -176,6 +176,7 @@ public class ExceptionAssertions<TException> :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="exceptionExpression"/> is <see langword="null"/>.</exception>
     public ExceptionAssertions<TException> Where(Expression<Func<TException, bool>> exceptionExpression,
         string because = "", params object[] becauseArgs)
     {

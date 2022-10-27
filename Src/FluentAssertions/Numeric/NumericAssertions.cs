@@ -401,6 +401,7 @@ public class NumericAssertions<T, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expectedType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeOfType(Type expectedType, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expectedType, nameof(expectedType));
@@ -431,6 +432,7 @@ public class NumericAssertions<T, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpectedType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotBeOfType(Type unexpectedType, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(unexpectedType, nameof(unexpectedType));
@@ -458,6 +460,7 @@ public class NumericAssertions<T, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> Match(Expression<Func<T, bool>> predicate,
         string because = "",
         params object[] becauseArgs)

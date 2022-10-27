@@ -182,6 +182,7 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
@@ -233,6 +234,7 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<MethodInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute

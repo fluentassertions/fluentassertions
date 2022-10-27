@@ -307,6 +307,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<XElementAssertions, IEnumerable<XElement>> HaveElement(XName expected,
         OccurrenceConstraint occurrenceConstraint, string because = "",
         params object[] becauseArgs)
@@ -357,6 +358,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<XElementAssertions, IEnumerable<XElement>> HaveElement(string expected,
         OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
     {

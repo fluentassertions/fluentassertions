@@ -46,6 +46,11 @@ public class ConversionSelector
         inclusions.Add(new ConversionSelectorRule(_ => true, "Try conversion of all members. "));
     }
 
+    /// <summary>
+    /// Instructs the equivalency comparison to try to convert the value of
+    /// a specific member on the expectation object before running any of the other steps.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public void Include(Expression<Func<IObjectInfo, bool>> predicate)
     {
         Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
@@ -55,6 +60,11 @@ public class ConversionSelector
             $"Try conversion of member {predicate.Body}. "));
     }
 
+    /// <summary>
+    /// Instructs the equivalency comparison to prevent trying to convert the value of
+    /// a specific member on the expectation object before running any of the other steps.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public void Exclude(Expression<Func<IObjectInfo, bool>> predicate)
     {
         Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));

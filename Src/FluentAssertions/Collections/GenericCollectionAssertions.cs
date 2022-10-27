@@ -176,6 +176,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> AllBeEquivalentTo<TExpectation>(TExpectation expectation,
         Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config,
         string because = "",
@@ -347,6 +348,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(IEnumerable<TExpectation> expectation,
         Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
         params object[] becauseArgs)
@@ -1185,6 +1187,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expectation"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> EndWith<TExpectation>(
         IEnumerable<TExpectation> expectation, Func<T, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs)
     {
@@ -1690,6 +1693,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(IEnumerable<TExpectation> unexpected, string because = "",
         params object[] becauseArgs)
     {

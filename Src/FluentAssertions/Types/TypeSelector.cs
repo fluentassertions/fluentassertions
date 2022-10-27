@@ -19,6 +19,10 @@ public class TypeSelector : IEnumerable<Type>
     {
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TypeSelector"/> class.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="types"/> is or contains <see langword="null"/>.</exception>
     public TypeSelector(IEnumerable<Type> types)
     {
         Guard.ThrowIfArgumentIsNull(types, nameof(types));

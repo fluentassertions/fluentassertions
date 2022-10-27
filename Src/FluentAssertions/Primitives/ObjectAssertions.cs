@@ -123,6 +123,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
         Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
         params object[] becauseArgs)
@@ -199,6 +200,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(
         TExpectation unexpected,
         Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config,

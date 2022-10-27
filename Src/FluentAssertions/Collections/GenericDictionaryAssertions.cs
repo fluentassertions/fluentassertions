@@ -51,6 +51,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> Equal<T>(T expected,
         string because = "", params object[] becauseArgs)
         where T : IEnumerable<KeyValuePair<TKey, TValue>>
@@ -111,6 +112,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotEqual<T>(T unexpected,
         string because = "", params object[] becauseArgs)
         where T : IEnumerable<KeyValuePair<TKey, TValue>>
@@ -203,6 +205,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
         Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
         params object[] becauseArgs)
@@ -275,6 +278,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> ContainKeys(IEnumerable<TKey> expected,
         string because = "", params object[] becauseArgs)
     {
@@ -375,6 +379,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotContainKeys(IEnumerable<TKey> unexpected,
         string because = "", params object[] becauseArgs)
     {
@@ -587,6 +592,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotContainValues(IEnumerable<TValue> unexpected,
         string because = "", params object[] becauseArgs)
     {
@@ -657,6 +663,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public new AndConstraint<TAssertions> Contain(IEnumerable<KeyValuePair<TKey, TValue>> expected,
         string because = "", params object[] becauseArgs)
     {
@@ -816,6 +823,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="items"/> is <see langword="null"/>.</exception>
     public new AndConstraint<TAssertions> NotContain(IEnumerable<KeyValuePair<TKey, TValue>> items,
         string because = "", params object[] becauseArgs)
     {

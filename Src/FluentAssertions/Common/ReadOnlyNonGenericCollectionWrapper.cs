@@ -38,6 +38,10 @@ internal class ReadOnlyNonGenericCollectionWrapper<TCollection, TItem> : ICollec
 {
     public TCollection UnderlyingCollection { get; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ReadOnlyNonGenericCollectionWrapper{TCollection, TItem}"/> class.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="collection"/> is <see langword="null"/>.</exception>
     public ReadOnlyNonGenericCollectionWrapper(TCollection collection)
     {
         Guard.ThrowIfArgumentIsNull(collection, nameof(collection));

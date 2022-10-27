@@ -120,6 +120,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable<string> expectation,
         Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config, string because = "",
         params object[] becauseArgs)
@@ -180,6 +181,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> AllBe(string expectation,
         Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
         string because = "",

@@ -24,6 +24,10 @@ internal class MemberPath
     {
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MemberPath"/> class.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="dottedPath"/> is <see langword="null"/>.</exception>
     public MemberPath(Type reflectedType, Type declaringType, string dottedPath)
         : this(dottedPath)
     {
@@ -31,6 +35,10 @@ internal class MemberPath
         this.declaringType = declaringType;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MemberPath"/> class.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="dottedPath"/> is <see langword="null"/>.</exception>
     public MemberPath(string dottedPath)
     {
         Guard.ThrowIfArgumentIsNull(

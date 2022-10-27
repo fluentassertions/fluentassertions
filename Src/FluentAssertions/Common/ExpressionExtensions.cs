@@ -8,6 +8,10 @@ namespace FluentAssertions.Common;
 
 internal static class ExpressionExtensions
 {
+    /// <summary>
+    /// Gets the <see cref="PropertyInfo"/> of an <see cref="Expression{T}" /> returning a property.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="expression"/> is <see langword="null"/>.</exception>
     public static PropertyInfo GetPropertyInfo<T, TValue>(this Expression<Func<T, TValue>> expression)
     {
         Guard.ThrowIfArgumentIsNull(expression, nameof(expression), "Expected a property expression, but found <null>.");
@@ -32,6 +36,7 @@ internal static class ExpressionExtensions
     /// <example>
     /// E.g. Parent.Child.Sibling.Name.
     /// </example>
+    /// <exception cref="ArgumentNullException"><paramref name="expression"/> is <see langword="null"/>.</exception>
     public static MemberPath GetMemberPath<TDeclaringType, TPropertyType>(
         this Expression<Func<TDeclaringType, TPropertyType>> expression)
     {
@@ -106,6 +111,7 @@ internal static class ExpressionExtensions
     /// <summary>
     /// Validates that the expression can be used to construct a <see cref="MemberPath"/>.
     /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="expression"/> is <see langword="null"/>.</exception>
     public static void ValidateMemberPath<TDeclaringType, TPropertyType>(
         this Expression<Func<TDeclaringType, TPropertyType>> expression)
     {
