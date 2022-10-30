@@ -15,8 +15,10 @@ internal class MappedPathMatchingRule : IMemberMatchingRule
     /// <summary>
     /// Initializes a new instance of the <see cref="MappedPathMatchingRule"/> class.
     /// </summary>
-    /// <exception cref="ArgumentNullException"><paramref name="expectationMemberPath"/> is <see langword="null"/> or empty.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="subjectMemberPath"/> is <see langword="null"/> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="expectationMemberPath"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="expectationMemberPath"/> is empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="subjectMemberPath"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="subjectMemberPath"/> is empty.</exception>
     public MappedPathMatchingRule(string expectationMemberPath, string subjectMemberPath)
     {
         Guard.ThrowIfArgumentIsNullOrEmpty(expectationMemberPath,

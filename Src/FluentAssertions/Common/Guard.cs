@@ -26,7 +26,8 @@ internal static class Guard
     {
         if (string.IsNullOrEmpty(str))
         {
-            throw new ArgumentNullException(paramName);
+            ThrowIfArgumentIsNull(str, paramName);
+            throw new ArgumentException("The value cannot be an empty string.", paramName);
         }
     }
 
@@ -34,7 +35,8 @@ internal static class Guard
     {
         if (string.IsNullOrEmpty(str))
         {
-            throw new ArgumentNullException(paramName, message);
+            ThrowIfArgumentIsNull(str, paramName, message);
+            throw new ArgumentException(message, paramName);
         }
     }
 
