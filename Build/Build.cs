@@ -168,9 +168,7 @@ class Build : NukeBuild
                 .SetTargetDirectory(TestResultsDirectory / "reports")
                 .AddReports(TestResultsDirectory / "**/coverage.cobertura.xml")
                 .AddReportTypes("HtmlInline_AzurePipelines_Dark", "lcov")
-                .SetClassFilters(
-                    "-System.Diagnostics.CodeAnalysis.StringSyntaxAttribute",
-                    "-System.Diagnostics.CodeAnalysis.DoesNotReturnAttribute")
+                .AddFileFilters("-*.g.cs")
                 .SetAssemblyFilters("+FluentAssertions"));
 
             string link = TestResultsDirectory / "reports" / "index.html";
