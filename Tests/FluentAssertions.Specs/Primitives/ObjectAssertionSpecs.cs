@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
 using FluentAssertions.Primitives;
+using FluentAssertions.Specs.Numeric;
 using Xunit;
 using Xunit.Sdk;
 
@@ -143,6 +144,52 @@ public class ObjectAssertionSpecs
             act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect someObject to be equal to ClassWithCustomEqualMethod(1) " +
                 "because we want to test the failure message.");
+        }
+    }
+
+    public class BeOneOf
+    {
+        [Fact]
+        public void When_a_value_is_not_one_of_the_specified_values_it_should_throw()
+        {
+            // Arrange
+            var value = new EquatableOfInt(3);
+
+            // Act
+            Action act = () => value.Should().BeOneOf(new EquatableOfInt(4), new EquatableOfInt(5));
+
+            // Assert
+            act
+                .Should().Throw<XunitException>()
+                .WithMessage("Expected value to be one of {4, 5}, but found 3.");
+        }
+
+        [Fact]
+        public void When_a_value_is_not_one_of_the_specified_values_it_should_throw_with_descriptive_message()
+        {
+            // Arrange
+            var value = new EquatableOfInt(3);
+
+            // Act
+            Action act = () => value.Should().BeOneOf(new[] { new EquatableOfInt(4), new EquatableOfInt(5) }, "because those are the valid values");
+
+            // Assert
+            act
+                .Should().Throw<XunitException>()
+                .WithMessage("Expected value to be one of {4, 5} because those are the valid values, but found 3.");
+        }
+
+        [Fact]
+        public void When_a_value_is_one_of_the_specified_values_it_should_succeed()
+        {
+            // Arrange
+            var value = new EquatableOfInt(4);
+
+            // Act
+            Action act = () => value.Should().BeOneOf(new EquatableOfInt(4), new EquatableOfInt(5));
+
+            // Assert
+            act.Should().NotThrow();
         }
     }
 
