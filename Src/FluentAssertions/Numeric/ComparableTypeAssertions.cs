@@ -388,7 +388,7 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
         params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(validValues.Any(val => Subject.CompareTo(val) == Equal))
+            .ForCondition(validValues.Any(val => Equals(Subject, val)))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} to be one of {0}{reason}, but found {1}.", validValues, Subject);
 

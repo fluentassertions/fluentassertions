@@ -136,13 +136,28 @@ public class ComparableSpecs
         }
 
         [Fact]
-        public void When_a_value_is_one_of_the_specified_values_it_should_succeed()
+        public void When_a_value_is_comparable_to_but_a_different_instance_of_one_of_the_specified_values_it_should_fail()
         {
             // Arrange
             var value = new ComparableOfInt(4);
 
             // Act
             Action act = () => value.Should().BeOneOf(new ComparableOfInt(4), new ComparableOfInt(5));
+
+            // Assert
+            act
+                .Should().Throw<XunitException>()
+                .WithMessage("Expected value to be one of {4, 5}, but found 4.");
+        }
+
+        [Fact]
+        public void When_a_value_is_the_same_instance_as_one_of_the_specified_values_it_should_succeed()
+        {
+            // Arrange
+            var value = new ComparableOfInt(4);
+
+            // Act
+            Action act = () => value.Should().BeOneOf(value, new ComparableOfInt(5));
 
             // Assert
             act.Should().NotThrow();

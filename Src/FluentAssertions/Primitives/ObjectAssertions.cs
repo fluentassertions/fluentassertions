@@ -251,7 +251,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
         params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(validValues.Any(val => Subject.Equals(val)))
+            .ForCondition(validValues.Contains(Subject))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} to be one of {0}{reason}, but found {1}.", validValues, Subject);
 
