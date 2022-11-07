@@ -128,6 +128,59 @@ public class TimeOnlyAssertions<TAssertions>
     }
 
     /// <summary>
+    /// Asserts that the current <see cref="TimeOnly"/>  is within the specified time
+    /// from the specified <paramref name="nearbyTime"/> value.
+    /// </summary>
+    /// <remarks>
+    /// Use this assertion when, for example the database truncates datetimes to nearest 20ms. If you want to assert to the exact datetime,
+    /// use <see cref="Be(TimeOnly, string, object[])"/>.
+    /// </remarks>
+    /// <param name="nearbyTime">
+    /// The expected time to compare the actual value with.
+    /// </param>
+    /// <param name="precision">
+    /// The maximum amount of time which the two values may differ.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> BeCloseTo(TimeOnly nearbyTime, TimeSpan precision, string because = "",
+        params object[] becauseArgs)
+    {
+        if (precision < TimeSpan.Zero)
+        {
+            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+        }
+
+        long distanceToMinInTicks = (nearbyTime - TimeOnly.MinValue).Ticks;
+        TimeOnly minimumValue = nearbyTime.Add(-TimeSpan.FromTicks(Math.Min(precision.Ticks, distanceToMinInTicks)));
+
+        long distanceToMaxInTicks = (TimeOnly.MaxValue - nearbyTime).Ticks;
+        TimeOnly maximumValue = nearbyTime.Add(TimeSpan.FromTicks(Math.Min(precision.Ticks, distanceToMaxInTicks)));
+
+        TimeSpan? difference = (Subject >= nearbyTime
+            ? Subject - nearbyTime
+            : nearbyTime - Subject)?.Duration();
+
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:the time} to be within {0} from {1}{reason}", precision, nearbyTime)
+            .ForCondition(Subject is not null)
+            .FailWith(", but found <null>.")
+            .Then
+            .ForCondition((Subject >= minimumValue) && (Subject <= maximumValue))
+            .FailWith(", but {0} was off by {1}.", Subject, difference)
+            .Then
+            .ClearExpectation();
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
     /// Asserts that the current <see cref="TimeOnly"/>  is before the specified value.
     /// </summary>
     /// <param name="expected">The <see cref="TimeOnly"/>  that the current value is expected to be before.</param>
