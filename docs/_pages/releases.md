@@ -9,6 +9,9 @@ sidebar:
 
 ## Unreleased
 
+### What's new
+* Added `BeCloseTo` and `NotBeCloseTo` to `TimeOnly` - [#2030](https://github.com/fluentassertions/fluentassertions/pull/2030)
+
 ## 6.8.0
 
 ### What's new
