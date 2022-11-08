@@ -131,10 +131,6 @@ public class TimeOnlyAssertions<TAssertions>
     /// Asserts that the current <see cref="TimeOnly"/>  is within the specified time
     /// from the specified <paramref name="nearbyTime"/> value.
     /// </summary>
-    /// <remarks>
-    /// Use this assertion when, for example the database truncates datetimes to nearest 20ms. If you want to assert to the exact datetime,
-    /// use <see cref="Be(TimeOnly, string, object[])"/>.
-    /// </remarks>
     /// <param name="nearbyTime">
     /// The expected time to compare the actual value with.
     /// </param>
@@ -168,12 +164,57 @@ public class TimeOnlyAssertions<TAssertions>
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
-            .WithExpectation("Expected {context:the time} to be within {0} from {1}{reason}", precision, nearbyTime)
+            .WithExpectation("Expected {context:the time} to be within {0} from {1}{reason}, ", precision, nearbyTime)
             .ForCondition(Subject is not null)
-            .FailWith(", but found <null>.")
+            .FailWith("but found <null>.")
             .Then
             .ForCondition((Subject >= minimumValue) && (Subject <= maximumValue))
-            .FailWith(", but {0} was off by {1}.", Subject, difference)
+            .FailWith("but {0} was off by {1}.", Subject, difference)
+            .Then
+            .ClearExpectation();
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that the current <see cref="TimeOnly"/>  is not within the specified time
+    /// from the specified <paramref name="distantTime"/> value.
+    /// </summary>
+    /// <param name="distantTime">
+    /// The time to compare the actual value with.
+    /// </param>
+    /// <param name="precision">
+    /// The maximum amount of time which the two values must differ.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> NotBeCloseTo(TimeOnly distantTime, TimeSpan precision, string because = "",
+        params object[] becauseArgs)
+    {
+        if (precision < TimeSpan.Zero)
+        {
+            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
+        }
+
+        long distanceToMinInTicks = (distantTime - TimeOnly.MinValue).Ticks;
+        TimeOnly minimumValue = distantTime.Add(TimeSpan.FromTicks(-Math.Min(precision.Ticks, distanceToMinInTicks)));
+
+        long distanceToMaxInTicks = (TimeOnly.MaxValue - distantTime).Ticks;
+        TimeOnly maximumValue = distantTime.Add(TimeSpan.FromTicks(Math.Min(precision.Ticks, distanceToMaxInTicks)));
+
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Did not expect {context:the time} to be within {0} from {1}{reason}, ", precision, distantTime)
+            .ForCondition(Subject is not null)
+            .FailWith("but found <null>.")
+            .Then
+            .ForCondition((Subject < minimumValue) || (Subject > maximumValue))
+            .FailWith("but it was {0}.", Subject)
             .Then
             .ClearExpectation();
 

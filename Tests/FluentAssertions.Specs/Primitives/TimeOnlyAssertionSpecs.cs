@@ -195,11 +195,8 @@ public class TimeOnlyAssertionSpecs
             var dateTime = TimeOnly.FromDateTime(DateTime.UtcNow);
             var actual = new TimeOnly(dateTime.Ticks - 1);
 
-            // Act
-            Action act = () => actual.Should().BeCloseTo(dateTime, TimeSpan.FromTicks(1));
-
-            // Assert
-            act.Should().NotThrow();
+            // Act / Assert
+            actual.Should().BeCloseTo(dateTime, TimeSpan.FromTicks(1));
         }
 
         [Fact]
@@ -209,11 +206,8 @@ public class TimeOnlyAssertionSpecs
             var dateTime = TimeOnly.FromDateTime(DateTime.UtcNow);
             var actual = new TimeOnly(dateTime.Ticks - 1);
 
-            // Act
-            Action act = () => actual.Should().BeCloseTo(dateTime, TimeSpan.FromTicks(1));
-
-            // Assert
-            act.Should().NotThrow();
+            // Act / Assert
+            actual.Should().BeCloseTo(dateTime, TimeSpan.FromTicks(1));
         }
 
         [Fact]
@@ -223,11 +217,8 @@ public class TimeOnlyAssertionSpecs
             TimeOnly time = TimeOnly.MinValue.Add(50.Milliseconds());
             TimeOnly nearbyTime = TimeOnly.MinValue;
 
-            // Act
-            Action act = () => time.Should().BeCloseTo(nearbyTime, 100.Milliseconds());
-
-            // Assert
-            act.Should().NotThrow();
+            // Act / Assert
+            time.Should().BeCloseTo(nearbyTime, 100.Milliseconds());
         }
 
         [Fact]
@@ -237,11 +228,8 @@ public class TimeOnlyAssertionSpecs
             TimeOnly time = TimeOnly.MaxValue.Add(-50.Milliseconds());
             TimeOnly nearbyTime = TimeOnly.MaxValue;
 
-            // Act
-            Action act = () => time.Should().BeCloseTo(nearbyTime, 100.Milliseconds());
-
-            // Assert
-            act.Should().NotThrow();
+            // Act / Assert
+            time.Should().BeCloseTo(nearbyTime, 100.Milliseconds());
         }
 
         [Fact]
@@ -283,11 +271,8 @@ public class TimeOnlyAssertionSpecs
             TimeOnly time = new TimeOnly(12, 15, 31, 035);
             TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
 
-            // Act
-            Action act = () => time.Should().BeCloseTo(nearbyTime, 35.Milliseconds());
-
-            // Assert
-            act.Should().NotThrow();
+            // Act / Assert
+            time.Should().BeCloseTo(nearbyTime, 35.Milliseconds());
         }
 
         [Fact]
@@ -303,6 +288,207 @@ public class TimeOnlyAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected*, but found <null>.");
+        }
+    }
+
+    public class NotBeCloseTo
+    {
+        [Fact]
+        public void A_null_time_is_never_unclose_to_an_other_time()
+        {
+            // Arrange
+            TimeOnly? time = null;
+            TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
+
+            // Act
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect*, but found <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_that_time_is_not_close_to_a_negative_precision_it_should_throw()
+        {
+            // Arrange
+            var dateTime = TimeOnly.FromDateTime(DateTime.UtcNow);
+            var actual = new TimeOnly(dateTime.Ticks - 1);
+
+            // Act
+            Action act = () => actual.Should().NotBeCloseTo(dateTime, -1.Ticks());
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("* value of precision must be non-negative*");
+        }
+
+        [Fact]
+        public void When_a_time_is_close_to_a_later_time_by_one_tick_it_should_fail()
+        {
+            // Arrange
+            var dateTime = TimeOnly.FromDateTime(DateTime.UtcNow);
+            var actual = new TimeOnly(dateTime.Ticks - 1);
+
+            // Act
+            Action act = () => actual.Should().NotBeCloseTo(dateTime, TimeSpan.FromTicks(1));
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_a_time_is_close_to_an_earlier_time_by_one_tick_it_should_fail()
+        {
+            // Arrange
+            var dateTime = TimeOnly.FromDateTime(DateTime.UtcNow);
+            var actual = new TimeOnly(dateTime.Ticks + 1);
+
+            // Act
+            Action act = () => actual.Should().NotBeCloseTo(dateTime, TimeSpan.FromTicks(1));
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_a_time_is_close_to_a_min_value_by_one_tick_it_should_fail()
+        {
+            // Arrange
+            var dateTime = TimeOnly.MinValue;
+            var actual = new TimeOnly(dateTime.Ticks + 1);
+
+            // Act
+            Action act = () => actual.Should().NotBeCloseTo(dateTime, TimeSpan.FromTicks(1));
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_a_time_is_close_to_a_max_value_by_one_tick_it_should_fail()
+        {
+            // Arrange
+            var dateTime = TimeOnly.MaxValue;
+            var actual = new TimeOnly(dateTime.Ticks - 1);
+
+            // Act
+            Action act = () => actual.Should().NotBeCloseTo(dateTime, TimeSpan.FromTicks(1));
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void When_asserting_subject_time_is_not_close_to_an_earlier_time_it_should_throw()
+        {
+            // Arrange
+            TimeOnly time = new TimeOnly(12, 15, 31, 020);
+            TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
+
+            // Act
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect time to be within 20ms from <12:15:31.000>, but it was <12:15:31.020>.");
+        }
+
+        [Fact]
+        public void When_asserting_subject_time_is_not_close_to_an_earlier_time_by_a_20ms_timespan_it_should_throw()
+        {
+            // Arrange
+            TimeOnly time = new TimeOnly(12, 15, 31, 020);
+            TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
+
+            // Act
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, TimeSpan.FromMilliseconds(20));
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect time to be within 20ms from <12:15:31.000>, but it was <12:15:31.020>.");
+        }
+
+        [Fact]
+        public void When_asserting_subject_time_is_not_close_to_another_value_that_is_later_by_more_than_20ms_it_should_succeed()
+        {
+            // Arrange
+            TimeOnly time = new TimeOnly(12, 15, 30, 979);
+            TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
+
+            // Act / Assert
+            time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
+        }
+
+        [Fact]
+        public void When_asserting_subject_time_is_not_close_to_another_value_that_is_earlier_by_more_than_20ms_it_should_succeed()
+        {
+            // Arrange
+            TimeOnly time = new TimeOnly(12, 15, 31, 021);
+            TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
+
+            // Act / Assert
+            time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
+        }
+
+        [Fact]
+        public void When_asserting_subject_datetime_is_not_close_to_an_earlier_datetime_by_35ms_it_should_throw()
+        {
+            // Arrange
+            TimeOnly time = new TimeOnly(12, 15, 31, 035);
+            TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
+
+            // Act
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect time to be within 35ms from <12:15:31.000>, but it was <12:15:31.035>.");
+        }
+
+        [Fact]
+        public void When_asserting_subject_null_time_is_not_close_to_another_it_should_throw()
+        {
+            // Arrange
+            TimeOnly? time = null;
+            TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
+
+            // Act
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect*, but found <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_subject_time_is_not_close_to_the_minimum_time_it_should_throw()
+        {
+            // Arrange
+            TimeOnly time = TimeOnly.MinValue.Add(50.Milliseconds());
+            TimeOnly nearbyTime = TimeOnly.MinValue;
+
+            // Act
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 100.Milliseconds());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect time to be within 100ms from <00:00:00.000>, but it was <00:00:00.050>.");
+        }
+
+        [Fact]
+        public void When_asserting_subject_time_is_not_close_to_the_maximum_time_it_should_throw()
+        {
+            // Arrange
+            TimeOnly time = TimeOnly.MaxValue.Add(-50.Milliseconds());
+            TimeOnly nearbyTime = TimeOnly.MaxValue;
+
+            // Act
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 100.Milliseconds());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect time to be within 100ms from <23:59:59.999>, but it was <23:59:59.949>.");
         }
     }
 
