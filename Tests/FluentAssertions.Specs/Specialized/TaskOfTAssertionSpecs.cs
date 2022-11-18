@@ -144,7 +144,7 @@ public static class TaskOfTAssertionSpecs
         }
 
         [Fact]
-        public async Task When_task_completes_late_it_in_AssertionScope_should_fail()
+        public async Task When_task_completes_late_it_in_assertion_scope_should_fail()
         {
             // Arrange
             var timer = new FakeClock();
