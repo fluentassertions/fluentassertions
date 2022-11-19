@@ -204,7 +204,7 @@ public class TimeOnlyAssertionSpecs
         {
             // Arrange
             var dateTime = TimeOnly.FromDateTime(DateTime.UtcNow);
-            var actual = new TimeOnly(dateTime.Ticks - 1);
+            var actual = new TimeOnly(dateTime.Ticks + 1);
 
             // Act / Assert
             actual.Should().BeCloseTo(dateTime, TimeSpan.FromTicks(1));
