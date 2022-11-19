@@ -177,11 +177,11 @@ public class TimeOnlyAssertionSpecs
         public void When_asserting_that_time_is_close_to_a_negative_precision_it_should_throw()
         {
             // Arrange
-            var dateTime = TimeOnly.FromDateTime(DateTime.UtcNow);
-            var actual = new TimeOnly(dateTime.Ticks - 1);
+            var time = TimeOnly.FromDateTime(DateTime.UtcNow);
+            var actual = new TimeOnly(time.Ticks - 1);
 
             // Act
-            Action act = () => actual.Should().BeCloseTo(dateTime, -1.Ticks());
+            Action act = () => actual.Should().BeCloseTo(time, -1.Ticks());
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
@@ -192,22 +192,22 @@ public class TimeOnlyAssertionSpecs
         public void When_a_time_is_close_to_a_later_time_by_one_tick_it_should_succeed()
         {
             // Arrange
-            var dateTime = TimeOnly.FromDateTime(DateTime.UtcNow);
-            var actual = new TimeOnly(dateTime.Ticks - 1);
+            var time = TimeOnly.FromDateTime(DateTime.UtcNow);
+            var actual = new TimeOnly(time.Ticks - 1);
 
             // Act / Assert
-            actual.Should().BeCloseTo(dateTime, TimeSpan.FromTicks(1));
+            actual.Should().BeCloseTo(time, TimeSpan.FromTicks(1));
         }
 
         [Fact]
         public void When_a_time_is_close_to_an_earlier_time_by_one_tick_it_should_succeed()
         {
             // Arrange
-            var dateTime = TimeOnly.FromDateTime(DateTime.UtcNow);
-            var actual = new TimeOnly(dateTime.Ticks + 1);
+            var time = TimeOnly.FromDateTime(DateTime.UtcNow);
+            var actual = new TimeOnly(time.Ticks + 1);
 
             // Act / Assert
-            actual.Should().BeCloseTo(dateTime, TimeSpan.FromTicks(1));
+            actual.Should().BeCloseTo(time, TimeSpan.FromTicks(1));
         }
 
         [Fact]
@@ -312,11 +312,11 @@ public class TimeOnlyAssertionSpecs
         public void When_asserting_that_time_is_not_close_to_a_negative_precision_it_should_throw()
         {
             // Arrange
-            var dateTime = TimeOnly.FromDateTime(DateTime.UtcNow);
-            var actual = new TimeOnly(dateTime.Ticks - 1);
+            var time = TimeOnly.FromDateTime(DateTime.UtcNow);
+            var actual = new TimeOnly(time.Ticks - 1);
 
             // Act
-            Action act = () => actual.Should().NotBeCloseTo(dateTime, -1.Ticks());
+            Action act = () => actual.Should().NotBeCloseTo(time, -1.Ticks());
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
@@ -327,11 +327,11 @@ public class TimeOnlyAssertionSpecs
         public void When_a_time_is_close_to_a_later_time_by_one_tick_it_should_fail()
         {
             // Arrange
-            var dateTime = TimeOnly.FromDateTime(DateTime.UtcNow);
-            var actual = new TimeOnly(dateTime.Ticks - 1);
+            var time = TimeOnly.FromDateTime(DateTime.UtcNow);
+            var actual = new TimeOnly(time.Ticks - 1);
 
             // Act
-            Action act = () => actual.Should().NotBeCloseTo(dateTime, TimeSpan.FromTicks(1));
+            Action act = () => actual.Should().NotBeCloseTo(time, TimeSpan.FromTicks(1));
 
             // Assert
             act.Should().Throw<XunitException>();
@@ -341,11 +341,11 @@ public class TimeOnlyAssertionSpecs
         public void When_a_time_is_close_to_an_earlier_time_by_one_tick_it_should_fail()
         {
             // Arrange
-            var dateTime = TimeOnly.FromDateTime(DateTime.UtcNow);
-            var actual = new TimeOnly(dateTime.Ticks + 1);
+            var time = TimeOnly.FromDateTime(DateTime.UtcNow);
+            var actual = new TimeOnly(time.Ticks + 1);
 
             // Act
-            Action act = () => actual.Should().NotBeCloseTo(dateTime, TimeSpan.FromTicks(1));
+            Action act = () => actual.Should().NotBeCloseTo(time, TimeSpan.FromTicks(1));
 
             // Assert
             act.Should().Throw<XunitException>();
@@ -355,11 +355,11 @@ public class TimeOnlyAssertionSpecs
         public void When_a_time_is_close_to_a_min_value_by_one_tick_it_should_fail()
         {
             // Arrange
-            var dateTime = TimeOnly.MinValue;
-            var actual = new TimeOnly(dateTime.Ticks + 1);
+            var time = TimeOnly.MinValue;
+            var actual = new TimeOnly(time.Ticks + 1);
 
             // Act
-            Action act = () => actual.Should().NotBeCloseTo(dateTime, TimeSpan.FromTicks(1));
+            Action act = () => actual.Should().NotBeCloseTo(time, TimeSpan.FromTicks(1));
 
             // Assert
             act.Should().Throw<XunitException>();
@@ -369,11 +369,11 @@ public class TimeOnlyAssertionSpecs
         public void When_a_time_is_close_to_a_max_value_by_one_tick_it_should_fail()
         {
             // Arrange
-            var dateTime = TimeOnly.MaxValue;
-            var actual = new TimeOnly(dateTime.Ticks - 1);
+            var time = TimeOnly.MaxValue;
+            var actual = new TimeOnly(time.Ticks - 1);
 
             // Act
-            Action act = () => actual.Should().NotBeCloseTo(dateTime, TimeSpan.FromTicks(1));
+            Action act = () => actual.Should().NotBeCloseTo(time, TimeSpan.FromTicks(1));
 
             // Assert
             act.Should().Throw<XunitException>();
