@@ -143,7 +143,7 @@ internal class DataEquivalencyAssertionOptions<T> : EquivalencyAssertionOptions<
             return memberExpression.Member;
         }
 
-        throw new Exception("Expression must be a simple member access");
+        throw new ArgumentException("Expression must be a simple member access", nameof(expression));
     }
 
     private static Expression<Func<IMemberInfo, bool>> BuildMemberSelectionPredicate(Type relatedSubjectType, MemberInfo referencedMember)
