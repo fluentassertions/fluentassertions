@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq.Expressions;
@@ -32,51 +31,9 @@ internal class DataEquivalencyAssertionOptions<T> : EquivalencyAssertionOptions<
 
     public ISet<string> ExcludeColumnNames => excludeColumnNames;
 
-    public IReadOnlyDictionary<string, ISet<string>> ExcludeColumnNamesByTableName { get; }
-
-    private class ColumnNamesByTableNameAdapter : IReadOnlyDictionary<string, ISet<string>>
-    {
-        private readonly DataEquivalencyAssertionOptions<T> owner;
-
-        public ColumnNamesByTableNameAdapter(DataEquivalencyAssertionOptions<T> owner)
-        {
-            this.owner = owner;
-        }
-
-        public ISet<string> this[string key] => owner.excludeColumnNamesByTableName[key];
-
-        public IEnumerable<string> Keys => owner.excludeColumnNamesByTableName.Keys;
-
-        public IEnumerable<ISet<string>> Values => owner.excludeColumnNamesByTableName.Values;
-
-        public int Count => owner.excludeColumnNamesByTableName.Count;
-
-        public bool ContainsKey(string key) => owner.excludeColumnNamesByTableName.ContainsKey(key);
-
-        public bool TryGetValue(string key, out ISet<string> value)
-        {
-            bool result = owner.excludeColumnNamesByTableName.TryGetValue(key, out HashSet<string> concreteValue);
-
-            value = concreteValue;
-
-            return result;
-        }
-
-        public IEnumerator<KeyValuePair<string, ISet<string>>> GetEnumerator()
-        {
-            foreach (KeyValuePair<string, HashSet<string>> entry in owner.excludeColumnNamesByTableName)
-            {
-                yield return new KeyValuePair<string, ISet<string>>(entry.Key, entry.Value);
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-    }
-
     public DataEquivalencyAssertionOptions(EquivalencyAssertionOptions defaults)
         : base(defaults)
     {
-        ExcludeColumnNamesByTableName = new ColumnNamesByTableNameAdapter(this);
     }
 
     public IDataEquivalencyAssertionOptions<T> AllowingMismatchedTypes()
