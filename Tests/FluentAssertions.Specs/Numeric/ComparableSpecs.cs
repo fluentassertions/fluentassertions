@@ -642,7 +642,7 @@ public class SameInstanceIsNotEqualClass
     }
 }
 
-public class EquatableOfInt
+public class EquatableOfInt : IComparable<EquatableOfInt>
 {
     public int Value { get; set; }
 
@@ -665,6 +665,9 @@ public class EquatableOfInt
     {
         return Value.ToString(CultureInfo.InvariantCulture);
     }
+
+    int IComparable<EquatableOfInt>.CompareTo(EquatableOfInt other) =>
+        throw new NotSupportedException("This type is meant for assertions using Equals()");
 }
 
 public class ComparableOfInt : IComparable<ComparableOfInt>
