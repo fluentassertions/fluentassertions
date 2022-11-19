@@ -161,7 +161,7 @@ public class ObjectAssertionSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be one of {4, 5}, but found 3.");
+                .WithMessage("Expected value to be one of {ClassWithCustomEqualMethod(4), ClassWithCustomEqualMethod(5)}, but found ClassWithCustomEqualMethod(3).");
         }
 
         [Fact]
@@ -176,7 +176,7 @@ public class ObjectAssertionSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be one of {4, 5} because those are the valid values, but found 3.");
+                .WithMessage("Expected value to be one of {ClassWithCustomEqualMethod(4), ClassWithCustomEqualMethod(5)} because those are the valid values, but found ClassWithCustomEqualMethod(3).");
         }
 
         [Fact]
