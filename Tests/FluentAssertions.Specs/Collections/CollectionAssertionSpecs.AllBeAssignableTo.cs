@@ -17,7 +17,7 @@ public partial class CollectionAssertionSpecs
         public void When_the_types_in_a_collection_is_matched_against_a_null_type_it_should_throw()
         {
             // Arrange
-            var collection = new int[0];
+            var collection = Array.Empty<int>();
 
             // Act
             Action act = () => collection.Should().AllBeAssignableTo(null);
@@ -49,7 +49,17 @@ public partial class CollectionAssertionSpecs
         public void When_all_of_the_types_in_a_collection_match_expected_type_it_should_succeed()
         {
             // Arrange
-            var collection = new int[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
+
+            // Act / Assert
+            collection.Should().AllBeAssignableTo(typeof(int));
+        }
+
+        [Fact]
+        public void When_all_of_the_types_in_a_collection_match_expected_generic_type_it_should_succeed()
+        {
+            // Arrange
+            var collection = new[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().AllBeAssignableTo<int>();
@@ -59,7 +69,7 @@ public partial class CollectionAssertionSpecs
         public void When_matching_a_collection_against_a_type_it_should_return_the_casted_items()
         {
             // Arrange
-            var collection = new int[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().AllBeAssignableTo<int>()
@@ -70,7 +80,7 @@ public partial class CollectionAssertionSpecs
         public void When_all_of_the_types_in_a_collection_match_the_type_or_subtype_it_should_succeed()
         {
             // Arrange
-            var collection = new object[] { new Exception(), new ArgumentException() };
+            var collection = new object[] { new Exception(), new ArgumentException("foo") };
 
             // Act / Assert
             collection.Should().AllBeAssignableTo<Exception>();
@@ -78,6 +88,20 @@ public partial class CollectionAssertionSpecs
 
         [Fact]
         public void When_one_of_the_types_does_not_match_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            var collection = new object[] { 1, "2", 3 };
+
+            // Act
+            Action act = () => collection.Should().AllBeAssignableTo(typeof(int), "because they are of different type");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected type to be \"System.Int32\" because they are of different type, but found \"[System.Int32, System.String, System.Int32]\".");
+        }
+
+        [Fact]
+        public void When_one_of_the_types_does_not_match_the_generic_type_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
             var collection = new object[] { 1, "2", 3 };
@@ -108,7 +132,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_is_of_matching_types_it_should_succeed()
         {
             // Arrange
-            var collection = new Type[] { typeof(Exception), typeof(ArgumentException) };
+            var collection = new[] { typeof(Exception), typeof(ArgumentException) };
 
             // Act / Assert
             collection.Should().AllBeAssignableTo<Exception>();
@@ -118,7 +142,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_of_types_contains_one_type_that_does_not_match_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
-            var collection = new Type[] { typeof(int), typeof(string), typeof(int) };
+            var collection = new[] { typeof(int), typeof(string), typeof(int) };
 
             // Act
             Action act = () => collection.Should().AllBeAssignableTo<int>("because they are of different type");
@@ -142,7 +166,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_of_different_types_and_objects_are_all_assignable_to_type_it_should_succeed()
         {
             // Arrange
-            var collection = new object[] { typeof(Exception), new ArgumentException() };
+            var collection = new object[] { typeof(Exception), new ArgumentException("foo") };
 
             // Act / Assert
             collection.Should().AllBeAssignableTo<Exception>();

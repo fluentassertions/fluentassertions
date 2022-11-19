@@ -90,6 +90,21 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
+        public void When_a_collection_does_not_contain_items_with_assertion_scope_all_items_are_reported()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                new[] { 1, 2, 3 }.Should().ContainInOrder(4).And.ContainInOrder(5);
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "*but 4 (index 0)*but 5 (index 0)*");
+        }
+
+        [Fact]
         public void When_passing_in_null_while_checking_for_ordered_containment_it_should_throw_with_a_clear_explanation()
         {
             // Act
