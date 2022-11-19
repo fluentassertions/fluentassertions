@@ -60,6 +60,24 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
+        public void When_asserting_a_collection_with_incorrect_predicates_in_assertion_scope_all_are_reported()
+        {
+            // Arrange
+            var collection = new[] { 1, 2, 3 };
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().HaveCount(c => c > 3).And.HaveCount(c => c < 3);
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "*to have a count (c > 3)*to have a count (c < 3)*");
+        }
+
+        [Fact]
         public void When_collection_has_a_count_that_not_matches_the_predicate_it_should_throw()
         {
             // Arrange

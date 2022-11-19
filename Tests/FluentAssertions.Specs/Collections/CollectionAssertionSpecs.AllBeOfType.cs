@@ -17,7 +17,7 @@ public partial class CollectionAssertionSpecs
         public void When_the_types_in_a_collection_is_matched_against_a_null_type_exactly_it_should_throw()
         {
             // Arrange
-            var collection = new int[0];
+            var collection = Array.Empty<int>();
 
             // Act
             Action act = () => collection.Should().AllBeOfType(null);
@@ -49,7 +49,17 @@ public partial class CollectionAssertionSpecs
         public void When_all_of_the_types_in_a_collection_match_expected_type_exactly_it_should_succeed()
         {
             // Arrange
-            var collection = new int[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
+
+            // Act / Assert
+            collection.Should().AllBeOfType(typeof(int));
+        }
+
+        [Fact]
+        public void When_all_of_the_types_in_a_collection_match_expected_generic_type_exactly_it_should_succeed()
+        {
+            // Arrange
+            var collection = new[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().AllBeOfType<int>();
@@ -59,7 +69,7 @@ public partial class CollectionAssertionSpecs
         public void When_matching_a_collection_against_an_exact_type_it_should_return_the_casted_items()
         {
             // Arrange
-            var collection = new int[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act / Assert
             collection.Should().AllBeOfType<int>()
@@ -70,7 +80,21 @@ public partial class CollectionAssertionSpecs
         public void When_one_of_the_types_does_not_match_exactly_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
-            var collection = new object[] { new Exception(), new ArgumentException() };
+            var collection = new object[] { new Exception(), new ArgumentException("foo") };
+
+            // Act
+            Action act = () => collection.Should().AllBeOfType(typeof(Exception), "because they are of different type");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected type to be \"System.Exception\" because they are of different type, but found \"[System.Exception, System.ArgumentException]\".");
+        }
+
+        [Fact]
+        public void When_one_of_the_types_does_not_match_exactly_the_generic_type_it_should_throw_with_a_clear_explanation()
+        {
+            // Arrange
+            var collection = new object[] { new Exception(), new ArgumentException("foo") };
 
             // Act
             Action act = () => collection.Should().AllBeOfType<Exception>("because they are of different type");
@@ -98,7 +122,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_of_types_match_expected_type_exactly_it_should_succeed()
         {
             // Arrange
-            var collection = new Type[] { typeof(int), typeof(int), typeof(int) };
+            var collection = new[] { typeof(int), typeof(int), typeof(int) };
 
             // Act / Assert
             collection.Should().AllBeOfType<int>();
@@ -108,7 +132,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_of_types_and_objects_match_type_exactly_it_should_succeed()
         {
             // Arrange
-            var collection = new object[] { typeof(ArgumentException), new ArgumentException() };
+            var collection = new object[] { typeof(ArgumentException), new ArgumentException("foo") };
 
             // Act / Assert
             collection.Should().AllBeOfType<ArgumentException>();
@@ -118,7 +142,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_of_types_and_objects_do_not_match_type_exactly_it_should_throw()
         {
             // Arrange
-            var collection = new object[] { typeof(Exception), new ArgumentException() };
+            var collection = new object[] { typeof(Exception), new ArgumentException("foo") };
 
             // Act
             Action act = () => collection.Should().AllBeOfType<ArgumentException>();
