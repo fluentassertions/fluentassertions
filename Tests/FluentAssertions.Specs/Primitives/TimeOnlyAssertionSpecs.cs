@@ -447,21 +447,6 @@ public class TimeOnlyAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_subject_null_time_is_not_close_to_another_it_should_throw()
-        {
-            // Arrange
-            TimeOnly? time = null;
-            TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
-
-            // Act
-            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect*, but found <null>.");
-        }
-
-        [Fact]
         public void When_asserting_subject_time_is_not_close_to_the_minimum_time_it_should_throw()
         {
             // Arrange
