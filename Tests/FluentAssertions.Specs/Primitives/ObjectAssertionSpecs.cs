@@ -153,10 +153,10 @@ public class ObjectAssertionSpecs
         public void When_a_value_is_not_one_of_the_specified_values_it_should_throw()
         {
             // Arrange
-            var value = new EquatableOfInt(3);
+            var value = new ClassWithCustomEqualMethod(3);
 
             // Act
-            Action act = () => value.Should().BeOneOf(new EquatableOfInt(4), new EquatableOfInt(5));
+            Action act = () => value.Should().BeOneOf(new ClassWithCustomEqualMethod(4), new ClassWithCustomEqualMethod(5));
 
             // Assert
             act
@@ -168,10 +168,10 @@ public class ObjectAssertionSpecs
         public void When_a_value_is_not_one_of_the_specified_values_it_should_throw_with_descriptive_message()
         {
             // Arrange
-            var value = new EquatableOfInt(3);
+            var value = new ClassWithCustomEqualMethod(3);
 
             // Act
-            Action act = () => value.Should().BeOneOf(new[] { new EquatableOfInt(4), new EquatableOfInt(5) }, "because those are the valid values");
+            Action act = () => value.Should().BeOneOf(new[] { new ClassWithCustomEqualMethod(4), new ClassWithCustomEqualMethod(5) }, "because those are the valid values");
 
             // Assert
             act
@@ -183,10 +183,10 @@ public class ObjectAssertionSpecs
         public void When_a_value_is_one_of_the_specified_values_it_should_succeed()
         {
             // Arrange
-            var value = new EquatableOfInt(4);
+            var value = new ClassWithCustomEqualMethod(4);
 
             // Act
-            Action act = () => value.Should().BeOneOf(new EquatableOfInt(4), new EquatableOfInt(5));
+            Action act = () => value.Should().BeOneOf(new ClassWithCustomEqualMethod(4), new ClassWithCustomEqualMethod(5));
 
             // Assert
             act.Should().NotThrow();
