@@ -263,7 +263,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
             .FailWith("but found a null element.")
             .Then
             .ForCondition(subject => subject.All(x => expectedType == GetType(x)))
-            .FailWith("but found {0}.", subject => $"but found [{string.Join(", ", subject.Select(x => GetType(x).FullName))}].")
+            .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => GetType(x).FullName))}]")
             .Then
             .ClearExpectation();
 
@@ -758,7 +758,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
-            .FailWith("Expected {context:collection} to contain {0}{reason}, but found <null>.", expected);
+            .FailWith("Expected {context:collection} to contain {0}{reason}, but found <null>.", expectedObjects);
 
         if (success)
         {
@@ -770,13 +770,14 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
                         .FailWith("Expected {context:collection} {0} to contain {1}{reason}, but could not find {2}.",
-                            Subject, expected, missingItems);
+                            Subject, expectedObjects, missingItems);
                 }
                 else
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} {0} to contain {1}{reason}.", Subject, expected.First());
+                        .FailWith("Expected {context:collection} {0} to contain {1}{reason}.",
+                            Subject, expectedObjects.Single());
                 }
             }
         }
@@ -2166,8 +2167,8 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} {0} to not contain element {1}{reason}.", Subject,
-                            unexpectedObjects.First());
+                        .FailWith("Expected {context:collection} {0} to not contain {1}{reason}.",
+                            Subject, unexpectedObjects.First());
                 }
             }
         }
