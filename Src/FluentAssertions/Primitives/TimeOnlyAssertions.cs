@@ -158,9 +158,8 @@ public class TimeOnlyAssertions<TAssertions>
         long distanceToMaxInTicks = (TimeOnly.MaxValue - nearbyTime).Ticks;
         TimeOnly maximumValue = nearbyTime.Add(TimeSpan.FromTicks(Math.Min(precision.Ticks, distanceToMaxInTicks)));
 
-        TimeSpan? difference = (Subject >= nearbyTime
-            ? Subject - nearbyTime
-            : nearbyTime - Subject)?.Duration();
+        long? ticksDifference = Subject?.Ticks - nearbyTime.Ticks;
+        TimeSpan? difference = (ticksDifference != null) ? TimeSpan.FromTicks(Math.Abs(ticksDifference.Value)) : null;
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
