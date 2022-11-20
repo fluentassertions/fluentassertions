@@ -174,7 +174,7 @@ public class TimeOnlyAssertionSpecs
     public class BeCloseTo
     {
         [Fact]
-        public void When_asserting_that_time_is_close_to_a_negative_precision_it_should_throw()
+        public void When_time_is_close_to_a_negative_precision_it_should_throw()
         {
             // Arrange
             var time = TimeOnly.FromDateTime(DateTime.UtcNow);
@@ -211,7 +211,7 @@ public class TimeOnlyAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_subject_time_is_close_to_the_minimum_time_it_should_succeed()
+        public void When_subject_time_is_close_to_the_minimum_time_it_should_succeed()
         {
             // Arrange
             TimeOnly time = TimeOnly.MinValue.Add(50.Milliseconds());
@@ -222,7 +222,7 @@ public class TimeOnlyAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_subject_time_is_close_to_the_maximum_time_it_should_succeed()
+        public void When_subject_time_is_close_to_the_maximum_time_it_should_succeed()
         {
             // Arrange
             TimeOnly time = TimeOnly.MaxValue.Add(-50.Milliseconds());
@@ -233,7 +233,7 @@ public class TimeOnlyAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_subject_time_is_close_to_another_value_that_is_later_by_more_than_20ms_it_should_throw()
+        public void When_subject_time_is_close_to_another_value_that_is_later_by_more_than_20ms_it_should_throw()
         {
             // Arrange
             TimeOnly time = new TimeOnly(12, 15, 30, 979);
@@ -249,7 +249,7 @@ public class TimeOnlyAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_subject_time_is_close_to_another_value_that_is_earlier_by_more_than_20ms_it_should_throw()
+        public void When_subject_time_is_close_to_another_value_that_is_earlier_by_more_than_20ms_it_should_throw()
         {
             // Arrange
             TimeOnly time = new TimeOnly(12, 15, 31, 021);
@@ -265,7 +265,7 @@ public class TimeOnlyAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_subject_time_is_close_to_an_earlier_time_by_35ms_it_should_succeed()
+        public void When_subject_time_is_close_to_an_earlier_time_by_35ms_it_should_succeed()
         {
             // Arrange
             TimeOnly time = new TimeOnly(12, 15, 31, 035);
@@ -276,7 +276,7 @@ public class TimeOnlyAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_subject_nulltime_is_close_to_another_it_should_throw()
+        public void When_subject_nulltime_is_close_to_another_it_should_throw()
         {
             // Arrange
             TimeOnly? time = null;
@@ -309,7 +309,7 @@ public class TimeOnlyAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_that_time_is_not_close_to_a_negative_precision_it_should_throw()
+        public void When_time_is_not_close_to_a_negative_precision_it_should_throw()
         {
             // Arrange
             var time = TimeOnly.FromDateTime(DateTime.UtcNow);
