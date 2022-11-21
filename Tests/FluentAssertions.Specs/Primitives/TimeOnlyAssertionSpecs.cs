@@ -276,6 +276,58 @@ public class TimeOnlyAssertionSpecs
         }
 
         [Fact]
+        public void A_time_is_close_to_a_later_time_when_passing_midnight()
+        {
+            // Arrange
+            TimeOnly time = new TimeOnly(23, 59, 0);
+            TimeOnly nearbyTime = new TimeOnly(0, 1, 0);
+
+            // Act / Assert
+            time.Should().BeCloseTo(nearbyTime, 2.Minutes());
+        }
+
+        [Fact]
+        public void A_time_is_close_to_an_earlier_time_when_passing_midnight()
+        {
+            // Arrange
+            TimeOnly time = new TimeOnly(0, 1, 0);
+            TimeOnly nearbyTime = new TimeOnly(23, 59, 0);
+
+            // Act / Assert
+            time.Should().BeCloseTo(nearbyTime, 2.Minutes());
+        }
+
+        [Fact]
+        public void A_time_outside_of_the_precision_to_a_later_time_when_passing_midnight_fails()
+        {
+            // Arrange
+            TimeOnly time = new TimeOnly(23, 58, 59);
+            TimeOnly nearbyTime = new TimeOnly(0, 1, 0);
+
+            // Act
+            Action act = () => time.Should().BeCloseTo(nearbyTime, 2.Minutes());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * to be within 2m from <00:01:00.000>*, but <23:58:59.000> was off by 2m and 1s*");
+        }
+
+        [Fact]
+        public void A_time_outside_of_the_precision_to_an_earlier_time_when_passing_midnight_fails()
+        {
+            // Arrange
+            TimeOnly time = new TimeOnly(0, 1, 0);
+            TimeOnly nearbyTime = new TimeOnly(23, 58, 59);
+
+            // Act
+            Action act = () => time.Should().BeCloseTo(nearbyTime, 2.Minutes());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected * to be within 2m from <23:58:59.000>*, but <00:01:00.000> was off by 2m and 1s*");
+        }
+
+        [Fact]
         public void When_subject_nulltime_is_close_to_another_it_should_throw()
         {
             // Arrange
@@ -474,6 +526,56 @@ public class TimeOnlyAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect time to be within 100ms from <23:59:59.999>, but it was <23:59:59.949>.");
+        }
+
+        [Fact]
+        public void A_time_is_not_close_to_a_later_time_when_passing_midnight()
+        {
+            // Arrange
+            TimeOnly time = new TimeOnly(23, 58, 0);
+            TimeOnly nearbyTime = new TimeOnly(0, 1, 0);
+
+            // Act / Assert
+            time.Should().NotBeCloseTo(nearbyTime, 2.Minutes());
+        }
+
+        [Fact]
+        public void A_time_is_not_close_to_an_earlier_time_when_passing_midnight()
+        {
+            // Arrange
+            TimeOnly time = new TimeOnly(0, 2, 0);
+            TimeOnly nearbyTime = new TimeOnly(23, 59, 0);
+
+            // Act / Assert
+            time.Should().NotBeCloseTo(nearbyTime, 2.Minutes());
+        }
+
+        [Fact]
+        public void A_time_inside_of_the_precision_to_a_later_time_when_passing_midnight_fails()
+        {
+            // Arrange
+            TimeOnly time = new TimeOnly(23, 59, 0);
+            TimeOnly nearbyTime = new TimeOnly(0, 1, 0);
+
+            // Act
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 2.Minutes());
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Did not expect * to be within 2m from <00:01:00.000>*, but it was <23:59:00.000>*");
+        }
+
+        [Fact]
+        public void A_time_inside_of_the_precision_to_an_earlier_time_when_passing_midnight_fails()
+        {
+            // Arrange
+            TimeOnly time = new TimeOnly(0, 1, 0);
+            TimeOnly nearbyTime = new TimeOnly(23, 59, 0);
+
+            // Act
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 2.Minutes());
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Did not expect * to be within 2m from <23:59:00.000>*, but it was <00:01:00.000>*");
         }
     }
 

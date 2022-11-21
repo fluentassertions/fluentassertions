@@ -152,14 +152,12 @@ public class TimeOnlyAssertions<TAssertions>
             throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
         }
 
-        long distanceToMinInTicks = (nearbyTime - TimeOnly.MinValue).Ticks;
-        TimeOnly minimumValue = nearbyTime.Add(-TimeSpan.FromTicks(Math.Min(precision.Ticks, distanceToMinInTicks)));
+        TimeOnly minimumValue = nearbyTime.Add(-precision);
+        TimeOnly maximumValue = nearbyTime.Add(TimeSpan.FromTicks(precision.Ticks + 1));
 
-        long distanceToMaxInTicks = (TimeOnly.MaxValue - nearbyTime).Ticks;
-        TimeOnly maximumValue = nearbyTime.Add(TimeSpan.FromTicks(Math.Min(precision.Ticks, distanceToMaxInTicks)));
-
-        long? ticksDifference = Subject?.Ticks - nearbyTime.Ticks;
-        TimeSpan? difference = (ticksDifference != null) ? TimeSpan.FromTicks(Math.Abs(ticksDifference.Value)) : null;
+        TimeSpan? difference = (Subject != null)
+            ? new[] { Subject.Value - nearbyTime, nearbyTime - Subject.Value }.Min()
+            : null;
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -167,8 +165,8 @@ public class TimeOnlyAssertions<TAssertions>
             .ForCondition(Subject is not null)
             .FailWith("but found <null>.")
             .Then
-            .ForCondition((Subject >= minimumValue) && (Subject <= maximumValue))
-            .FailWith("but {0} was off by {1}.", Subject, difference)
+            .ForCondition(Subject.Value.IsBetween(minimumValue, maximumValue))
+            .FailWith("but {0} was off by {1}.", Subject, difference)            
             .Then
             .ClearExpectation();
 
@@ -200,11 +198,8 @@ public class TimeOnlyAssertions<TAssertions>
             throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
         }
 
-        long distanceToMinInTicks = (distantTime - TimeOnly.MinValue).Ticks;
-        TimeOnly minimumValue = distantTime.Add(TimeSpan.FromTicks(-Math.Min(precision.Ticks, distanceToMinInTicks)));
-
-        long distanceToMaxInTicks = (TimeOnly.MaxValue - distantTime).Ticks;
-        TimeOnly maximumValue = distantTime.Add(TimeSpan.FromTicks(Math.Min(precision.Ticks, distanceToMaxInTicks)));
+        TimeOnly minimumValue = distantTime.Add(-precision);
+        TimeOnly maximumValue = distantTime.Add(TimeSpan.FromTicks(precision.Ticks + 1));
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -212,7 +207,7 @@ public class TimeOnlyAssertions<TAssertions>
             .ForCondition(Subject is not null)
             .FailWith("but found <null>.")
             .Then
-            .ForCondition((Subject < minimumValue) || (Subject > maximumValue))
+            .ForCondition(!Subject.Value.IsBetween(minimumValue, maximumValue))
             .FailWith("but it was {0}.", Subject)
             .Then
             .ClearExpectation();
