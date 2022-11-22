@@ -172,7 +172,7 @@ public class TimeOnlyAssertions<TAssertions>
             .FailWith("but found <null>.")
             .Then
             .ForCondition(Subject.Value.IsBetween(minimumValue, maximumValue))
-            .FailWith("but {0} was off by {1}.", Subject, difference)            
+            .FailWith("but {0} was off by {1}.", Subject, difference)
             .Then
             .ClearExpectation();
 
