@@ -152,6 +152,11 @@ public class TimeOnlyAssertions<TAssertions>
             throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
         }
 
+        if (precision == TimeSpan.MaxValue)
+        {
+            precision = TimeSpan.FromTicks(precision.Ticks - 1);
+        }
+
         TimeOnly minimumValue = nearbyTime.Add(-precision);
         TimeOnly maximumValue = nearbyTime.Add(TimeSpan.FromTicks(precision.Ticks + 1));
 
