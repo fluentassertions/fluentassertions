@@ -155,11 +155,11 @@ public class TimeOnlyAssertions<TAssertions>
 
         if (precision == TimeSpan.MaxValue)
         {
-            precision = TimeSpan.FromTicks(precision.Ticks - 1);
+            precision = precision.AddTicks(-1);
         }
 
         TimeOnly minimumValue = nearbyTime.Add(-precision);
-        TimeOnly maximumValue = nearbyTime.Add(TimeSpan.FromTicks(precision.Ticks + 1));
+        TimeOnly maximumValue = nearbyTime.Add(precision.AddTicks(1));
 
         TimeSpan? difference = (Subject != null)
             ? MinimumDifference(Subject.Value, nearbyTime)
@@ -212,8 +212,13 @@ public class TimeOnlyAssertions<TAssertions>
             throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
         }
 
+        if (precision == TimeSpan.MaxValue)
+        {
+            precision = precision.AddTicks(-1);
+        }
+
         TimeOnly minimumValue = distantTime.Add(-precision);
-        TimeOnly maximumValue = distantTime.Add(TimeSpan.FromTicks(precision.Ticks + 1));
+        TimeOnly maximumValue = distantTime.Add(precision.AddTicks(1));
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
