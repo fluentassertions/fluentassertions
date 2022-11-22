@@ -236,9 +236,9 @@ public class TypedDataSetSpecs : DataSpecs
         dataSet2.TypedDataTable1.Rows[0].RowError = "Manually added error";
 
         // Act & Assert
-        IEnumerable<string> excludedTales = new[] { "TypedDataTable1" };
+        IEnumerable<string> excludedTables = new[] { "TypedDataTable1" };
         dataSet1.Should().BeEquivalentTo(dataSet2,
-            config => config.Excluding(dataSet => dataSet.HasErrors).ExcludingTables(excludedTales));
+            config => config.Excluding(dataSet => dataSet.HasErrors).ExcludingTables(excludedTables));
     }
 
     [Fact]
