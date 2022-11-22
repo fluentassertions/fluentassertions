@@ -4,6 +4,9 @@ using System.Reflection;
 
 namespace FluentAssertions.Execution;
 
+/// <summary>
+/// Implements the XUnit (version 2) test framework adapter.
+/// </summary>
 internal class XUnit2TestFramework : ITestFramework
 {
     private Assembly assembly;
