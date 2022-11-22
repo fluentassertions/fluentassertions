@@ -161,7 +161,7 @@ public class TimeOnlyAssertions<TAssertions>
         TimeOnly maximumValue = nearbyTime.Add(TimeSpan.FromTicks(precision.Ticks + 1));
 
         TimeSpan? difference = (Subject != null)
-            ? new[] { Subject.Value - nearbyTime, nearbyTime - Subject.Value }.Min()
+            ? MinimumDifference(Subject.Value, nearbyTime)
             : null;
 
         Execute.Assertion
@@ -176,6 +176,14 @@ public class TimeOnlyAssertions<TAssertions>
             .ClearExpectation();
 
         return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    private static TimeSpan? MinimumDifference(TimeOnly a, TimeOnly b)
+    {
+        var diff1 = a - b;
+        var diff2 = b - a;
+
+        return diff1 < diff2 ? diff1 : diff2;
     }
 
     /// <summary>
