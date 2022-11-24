@@ -1463,7 +1463,6 @@ namespace FluentAssertions.Extensions
     {
         public const long TicksPerMicrosecond = 10;
         public const double TicksPerNanosecond = 0.01D;
-        public static System.TimeSpan AddTicks(this System.TimeSpan timeSpan, int ticks) { }
         public static System.TimeSpan And(this System.TimeSpan sourceTime, System.TimeSpan offset) { }
         public static System.TimeSpan Days(this double days) { }
         public static System.TimeSpan Days(this int days) { }
