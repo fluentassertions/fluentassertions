@@ -1,4 +1,5 @@
 using System;
+using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
@@ -352,6 +353,25 @@ public class TimeOnlyAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected*, but found <null>.");
         }
+
+        [Fact]
+        public void A_null_time_inside_an_assertion_scope_fails()
+        {
+            // Arrange
+            TimeOnly? time = null;
+            TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
+
+            // Act
+            Action act = () => 
+            {
+                using var _ = new AssertionScope();
+                time.Should().BeCloseTo(nearbyTime, 35.Milliseconds());
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*, but found <null>.");
+        }
     }
 
     public class NotBeCloseTo
@@ -365,6 +385,25 @@ public class TimeOnlyAssertionSpecs
 
             // Act
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect*, but found <null>.");
+        }
+
+        [Fact]
+        public void A_null_time_inside_an_assertion_scope_is_never_unclose_to_an_other_time()
+        {
+            // Arrange
+            TimeOnly? time = null;
+            TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
+
+            // Act
+            Action act = () => 
+            {
+                using var _ = new AssertionScope();
+                time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
