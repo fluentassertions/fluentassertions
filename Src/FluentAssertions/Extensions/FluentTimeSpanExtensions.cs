@@ -50,7 +50,7 @@ public static class FluentTimeSpanExtensions
     /// <summary>
     /// Returns a <see cref="TimeSpan" /> with an added amount of ticks.
     /// </summary>
-    public static TimeSpan AddTicks(this TimeSpan timeSpan, int ticks)
+    internal static TimeSpan AddTicks(this TimeSpan timeSpan, int ticks)
     {
         return TimeSpan.FromTicks(timeSpan.Ticks + ticks);
     }
