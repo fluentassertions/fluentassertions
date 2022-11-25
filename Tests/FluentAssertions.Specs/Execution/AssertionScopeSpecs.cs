@@ -236,7 +236,7 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
-        public void When_nested_scope_is_desposed_it_passes_reports_to_parent_scope()
+        public void When_nested_scope_is_disposed_it_passes_reports_to_parent_scope()
         {
             // Arrange/Act
             using (var outerScope = new AssertionScope())
