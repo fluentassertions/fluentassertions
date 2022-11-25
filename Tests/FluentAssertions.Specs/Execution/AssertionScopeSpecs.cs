@@ -235,6 +235,24 @@ namespace FluentAssertions.Specs.Execution
                 .WithMessage("*but found false*but found true*");
         }
 
+        [Fact]
+        public void When_nested_scope_is_desposed_it_passes_reports_to_parent_scope()
+        {
+            // Arrange/Act
+            using (var outerScope = new AssertionScope())
+            {
+                outerScope.AddReportable("outerReportable", "foo"); 
+                                                                   
+                using (var innerScope = new AssertionScope())
+                {
+                    innerScope.AddReportable("innerReportable", "bar");
+                }
+
+                // Assert
+                outerScope.Get<string>("innerReportable").Should().Be("bar");
+            }
+        }
+
         public class CustomAssertionStrategy : IAssertionStrategy
         {
             private readonly List<string> failureMessages = new();
