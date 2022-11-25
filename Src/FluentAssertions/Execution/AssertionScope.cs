@@ -397,9 +397,12 @@ public sealed class AssertionScope : IAssertionScope
 
             IDictionary<string, object> reportables = contextData.GetReportable();
 
-            foreach (KeyValuePair<string, object> reportable in reportables)
+            if (reportables.Count > 0)
             {
-                parent.AddReportable(reportable.Key, reportable.Value.ToString());
+                foreach (KeyValuePair<string, object> reportable in reportables)
+                {
+                    parent.AddReportable(reportable.Key, reportable.Value.ToString());
+                }
             }
 
             parent.AppendTracing(tracing.ToString());
