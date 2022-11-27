@@ -9,6 +9,9 @@ sidebar:
 
 ## Unreleased
 
+### What's new
+* Added `BeOneOf` methods for object comparisons and `IComparable`s - [#2028](https://github.com/fluentassertions/fluentassertions/pull/2028)
+
 ## 6.8.0
 
 ### What's new
