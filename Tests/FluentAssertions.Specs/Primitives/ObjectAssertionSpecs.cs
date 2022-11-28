@@ -6,8 +6,6 @@ using System.Xml.Schema;
 using System.Xml.Serialization;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
-using FluentAssertions.Primitives;
-using FluentAssertions.Specs.Numeric;
 using Xunit;
 using Xunit.Sdk;
 

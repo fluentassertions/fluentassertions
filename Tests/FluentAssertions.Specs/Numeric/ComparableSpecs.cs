@@ -141,7 +141,7 @@ public class ComparableSpecs
         {
             // Arrange
             var subject = new ComparableCustomer(42);
-            var expected = new CustomerDTO(42);
+            var expected = new CustomerDto(42);
 
             // Act / Assert
             subject.Should().BeEquivalentTo(expected);
@@ -152,7 +152,7 @@ public class ComparableSpecs
         {
             // Arrange
             var subject = new ComparableCustomer(42);
-            var expected = new CustomerDTO(42);
+            var expected = new CustomerDto(42);
 
             // Act / Assert
             subject.Should().BeEquivalentTo(expected)
@@ -164,7 +164,7 @@ public class ComparableSpecs
         {
             // Arrange
             var subject = new ComparableCustomer(42);
-            var expected = new CustomerDTO(42);
+            var expected = new CustomerDto(42);
 
             // Act / Assert
             subject.Should().BeEquivalentTo(expected, opt => opt)
@@ -176,7 +176,7 @@ public class ComparableSpecs
         {
             // Arrange
             var subject = new ComparableCustomer(42);
-            var expected = new AnotherCustomerDTO(42)
+            var expected = new AnotherCustomerDto(42)
             {
                 SomeOtherProperty = 1337
             };
@@ -192,7 +192,7 @@ public class ComparableSpecs
         {
             // Arrange
             var subject = new ComparableCustomer(42);
-            var expected = new AnotherCustomerDTO(42);
+            var expected = new AnotherCustomerDto(42);
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expected, config: null);
@@ -207,7 +207,7 @@ public class ComparableSpecs
         {
             // Arrange
             var subject = new ComparableCustomer(42);
-            var expected = new AnotherCustomerDTO(42)
+            var expected = new AnotherCustomerDto(42)
             {
                 SomeOtherProperty = 1337
             };
@@ -658,10 +658,6 @@ public class ComparableOfString : IComparable<ComparableOfString>
 
 public class SameInstanceIsNotEqualClass
 {
-    public SameInstanceIsNotEqualClass()
-    {
-    }
-
     public override bool Equals(object obj)
     {
         return false;
@@ -736,9 +732,9 @@ public class ComparableCustomer : IComparable<ComparableCustomer>
     }
 }
 
-public class CustomerDTO
+public class CustomerDto
 {
-    public CustomerDTO(int id)
+    public CustomerDto(int id)
     {
         Id = id;
     }
@@ -746,9 +742,9 @@ public class CustomerDTO
     public int Id { get; }
 }
 
-public class AnotherCustomerDTO
+public class AnotherCustomerDto
 {
-    public AnotherCustomerDTO(int id)
+    public AnotherCustomerDto(int id)
     {
         Id = id;
     }
