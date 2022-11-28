@@ -395,16 +395,7 @@ public sealed class AssertionScope : IAssertionScope
                 parent.assertionStrategy.HandleFailure(failureMessage);
             }
 
-            IDictionary<string, object> reportables = contextData.GetReportable();
-
-            if (reportables.Count > 0)
-            {
-                foreach (KeyValuePair<string, object> reportable in reportables)
-                {
-                    parent.AddReportable(reportable.Key, reportable.Value.ToString());
-                }
-            }
-
+            parent.contextData.Add(contextData);
             parent.AppendTracing(tracing.ToString());
 
             parent = null;
