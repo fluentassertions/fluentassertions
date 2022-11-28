@@ -106,28 +106,13 @@ public class ComparableSpecs
     public class BeOneOf
     {
         [Fact]
-        public void When_a_value_is_not_one_of_the_specified_values_it_should_throw()
+        public void When_a_value_is_not_equal_to_one_of_the_specified_values_it_should_throw()
         {
             // Arrange
-            var value = new ComparableOfInt(3);
+            var value = new EquatableOfInt(3);
 
             // Act
-            Action act = () => value.Should().BeOneOf(new ComparableOfInt(4), new ComparableOfInt(5));
-
-            // Assert
-            act
-                .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be one of {4, 5}, but found 3.");
-        }
-
-        [Fact]
-        public void When_a_value_is_not_one_of_the_specified_values_it_should_throw_with_descriptive_message()
-        {
-            // Arrange
-            var value = new ComparableOfInt(3);
-
-            // Act
-            Action act = () => value.Should().BeOneOf(new[] { new ComparableOfInt(4), new ComparableOfInt(5) }, "because those are the valid values");
+            Action act = () => value.Should().BeOneOf(new[] { new EquatableOfInt(4), new EquatableOfInt(5) }, "because those are the valid {0}", "values");
 
             // Assert
             act
@@ -136,28 +121,13 @@ public class ComparableSpecs
         }
 
         [Fact]
-        public void When_a_value_is_comparable_to_but_a_different_instance_of_one_of_the_specified_values_it_should_fail()
+        public void When_a_value_is_equal_to_one_of_the_specified_values_it_should_succeed()
         {
             // Arrange
-            var value = new ComparableOfInt(4);
+            var value = new EquatableOfInt(4);
 
             // Act
-            Action act = () => value.Should().BeOneOf(new ComparableOfInt(4), new ComparableOfInt(5));
-
-            // Assert
-            act
-                .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be one of {4, 5}, but found 4.");
-        }
-
-        [Fact]
-        public void When_a_value_is_the_same_instance_as_one_of_the_specified_values_it_should_succeed()
-        {
-            // Arrange
-            var value = new ComparableOfInt(4);
-
-            // Act
-            Action act = () => value.Should().BeOneOf(value, new ComparableOfInt(5));
+            Action act = () => value.Should().BeOneOf(new EquatableOfInt(4), new EquatableOfInt(5));
 
             // Assert
             act.Should().NotThrow();
