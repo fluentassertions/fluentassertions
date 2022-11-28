@@ -21,20 +21,18 @@ public class ComparableSpecs
         }
 
         [Fact]
-        public void When_two_instances_are_the_same_reference_but_are_not_considered_equal_it_should_not_succeed()
+        public void When_two_instances_are_the_same_reference_but_are_not_considered_equal_it_should_succeed()
         {
             // Arrange
             var subject = new SameInstanceIsNotEqualClass();
             var other = subject;
 
             // Act
-            Action act = () => subject.Should().Be(other, "they have the same property values");
+            Action act = () => subject.Should().Be(other);
 
             // Assert
-            act
-                .Should().Throw<XunitException>()
-                .WithMessage(
-                    "Expected*SameInstanceIsNotEqualClass*because they have the same property values, but found*SameInstanceIsNotEqualClass*.");
+            act.Should().NotThrow(
+                "This is inconsistent with the behavior ObjectAssertions.Be but is how ComparableTypeAssertions.Be has always worked.");
         }
 
         [Fact]
@@ -58,7 +56,7 @@ public class ComparableSpecs
     public class NotBe
     {
         [Fact]
-        public void When_two_references_to_the_same_instance_are_not_equal_it_should_succeed()
+        public void When_two_references_to_the_same_instance_are_not_equal_it_should_throw()
         {
             // Arrange
             var subject = new SameInstanceIsNotEqualClass();
@@ -68,7 +66,8 @@ public class ComparableSpecs
             Action act = () => subject.Should().NotBe(other);
 
             // Assert
-            act.Should().NotThrow();
+            act.Should().Throw<XunitException>(
+                "This is inconsistent with the behavior ObjectAssertions.Be but is how ComparableTypeAssertions.Be has always worked.");
         }
 
         [Fact]
@@ -106,28 +105,13 @@ public class ComparableSpecs
     public class BeOneOf
     {
         [Fact]
-        public void When_a_value_is_not_one_of_the_specified_values_it_should_throw()
+        public void When_a_value_is_not_equal_to_one_of_the_specified_values_it_should_throw()
         {
             // Arrange
-            var value = new ComparableOfInt(3);
+            var value = new EquatableOfInt(3);
 
             // Act
-            Action act = () => value.Should().BeOneOf(new ComparableOfInt(4), new ComparableOfInt(5));
-
-            // Assert
-            act
-                .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be one of {4, 5}, but found 3.");
-        }
-
-        [Fact]
-        public void When_a_value_is_not_one_of_the_specified_values_it_should_throw_with_descriptive_message()
-        {
-            // Arrange
-            var value = new ComparableOfInt(3);
-
-            // Act
-            Action act = () => value.Should().BeOneOf(new[] { new ComparableOfInt(4), new ComparableOfInt(5) }, "because those are the valid values");
+            Action act = () => value.Should().BeOneOf(new[] { new EquatableOfInt(4), new EquatableOfInt(5) }, "because those are the valid {0}", "values");
 
             // Assert
             act
@@ -136,28 +120,28 @@ public class ComparableSpecs
         }
 
         [Fact]
-        public void When_a_value_is_comparable_to_but_a_different_instance_of_one_of_the_specified_values_it_should_fail()
+        public void When_two_instances_are_the_same_reference_but_are_not_considered_equal_it_should_succeed()
         {
             // Arrange
-            var value = new ComparableOfInt(4);
+            var subject = new SameInstanceIsNotEqualClass();
+            var other = subject;
 
             // Act
-            Action act = () => value.Should().BeOneOf(new ComparableOfInt(4), new ComparableOfInt(5));
+            Action act = () => subject.Should().BeOneOf(other);
 
             // Assert
-            act
-                .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be one of {4, 5}, but found 4.");
+            act.Should().NotThrow(
+                "This is inconsistent with the behavior ObjectAssertions.Be but is how ComparableTypeAssertions.Be has always worked.");
         }
 
         [Fact]
-        public void When_a_value_is_the_same_instance_as_one_of_the_specified_values_it_should_succeed()
+        public void When_a_value_is_equal_to_one_of_the_specified_values_it_should_succeed()
         {
             // Arrange
-            var value = new ComparableOfInt(4);
+            var value = new EquatableOfInt(4);
 
             // Act
-            Action act = () => value.Should().BeOneOf(value, new ComparableOfInt(5));
+            Action act = () => value.Should().BeOneOf(new EquatableOfInt(4), new EquatableOfInt(5));
 
             // Assert
             act.Should().NotThrow();
@@ -171,7 +155,7 @@ public class ComparableSpecs
         {
             // Arrange
             var subject = new ComparableCustomer(42);
-            var expected = new CustomerDTO(42);
+            var expected = new CustomerDto(42);
 
             // Act / Assert
             subject.Should().BeEquivalentTo(expected);
@@ -182,7 +166,7 @@ public class ComparableSpecs
         {
             // Arrange
             var subject = new ComparableCustomer(42);
-            var expected = new CustomerDTO(42);
+            var expected = new CustomerDto(42);
 
             // Act / Assert
             subject.Should().BeEquivalentTo(expected)
@@ -194,7 +178,7 @@ public class ComparableSpecs
         {
             // Arrange
             var subject = new ComparableCustomer(42);
-            var expected = new CustomerDTO(42);
+            var expected = new CustomerDto(42);
 
             // Act / Assert
             subject.Should().BeEquivalentTo(expected, opt => opt)
@@ -206,7 +190,7 @@ public class ComparableSpecs
         {
             // Arrange
             var subject = new ComparableCustomer(42);
-            var expected = new AnotherCustomerDTO(42)
+            var expected = new AnotherCustomerDto(42)
             {
                 SomeOtherProperty = 1337
             };
@@ -222,7 +206,7 @@ public class ComparableSpecs
         {
             // Arrange
             var subject = new ComparableCustomer(42);
-            var expected = new AnotherCustomerDTO(42);
+            var expected = new AnotherCustomerDto(42);
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expected, config: null);
@@ -237,7 +221,7 @@ public class ComparableSpecs
         {
             // Arrange
             var subject = new ComparableCustomer(42);
-            var expected = new AnotherCustomerDTO(42)
+            var expected = new AnotherCustomerDto(42)
             {
                 SomeOtherProperty = 1337
             };
@@ -686,12 +670,8 @@ public class ComparableOfString : IComparable<ComparableOfString>
     }
 }
 
-public class SameInstanceIsNotEqualClass
+public class SameInstanceIsNotEqualClass : IComparable<SameInstanceIsNotEqualClass>
 {
-    public SameInstanceIsNotEqualClass()
-    {
-    }
-
     public override bool Equals(object obj)
     {
         return false;
@@ -701,6 +681,9 @@ public class SameInstanceIsNotEqualClass
     {
         return 1;
     }
+
+    int IComparable<SameInstanceIsNotEqualClass>.CompareTo(SameInstanceIsNotEqualClass other) =>
+        throw new NotSupportedException("This type is meant for assertions using Equals()");
 }
 
 public class EquatableOfInt : IComparable<EquatableOfInt>
@@ -766,9 +749,9 @@ public class ComparableCustomer : IComparable<ComparableCustomer>
     }
 }
 
-public class CustomerDTO
+public class CustomerDto
 {
-    public CustomerDTO(int id)
+    public CustomerDto(int id)
     {
         Id = id;
     }
@@ -776,9 +759,9 @@ public class CustomerDTO
     public int Id { get; }
 }
 
-public class AnotherCustomerDTO
+public class AnotherCustomerDto
 {
-    public AnotherCustomerDTO(int id)
+    public AnotherCustomerDto(int id)
     {
         Id = id;
     }
