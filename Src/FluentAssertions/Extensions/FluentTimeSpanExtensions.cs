@@ -52,7 +52,7 @@ public static class FluentTimeSpanExtensions
     /// </summary>
     internal static TimeSpan AddTicks(this TimeSpan timeSpan, int ticks)
     {
-        return TimeSpan.FromTicks(timeSpan.Ticks + ticks);
+        return timeSpan + ticks.Ticks();
     }
 
     /// <summary>

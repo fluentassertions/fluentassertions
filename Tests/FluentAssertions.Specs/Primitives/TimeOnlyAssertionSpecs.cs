@@ -294,8 +294,11 @@ public class TimeOnlyAssertionSpecs
             TimeOnly time = new TimeOnly(23, 59, 0);
             TimeOnly nearbyTime = new TimeOnly(0, 1, 0);
 
-            // Act / Assert
-            time.Should().BeCloseTo(nearbyTime, TimeSpan.MaxValue);
+            // Act
+            Actionn act = () => time.Should().BeCloseTo(nearbyTime, TimeSpan.MaxValue);
+
+            // Assert
+            act.Should().Throw<OverflowException>();
         }
 
         [Fact]
@@ -464,7 +467,7 @@ public class TimeOnlyAssertionSpecs
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, TimeSpan.MaxValue);
 
             // Assert
-            act.Should().Throw<XunitException>();
+            act.Should().Throw<OverflowException>();
         }
 
         [Fact]

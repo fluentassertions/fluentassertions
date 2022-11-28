@@ -154,7 +154,7 @@ public class TimeOnlyAssertions<TAssertions>
         }
 
         TimeOnly minimumValue = nearbyTime.Add(-precision);
-        TimeOnly maximumValue = nearbyTime.Add((precision == TimeSpan.MaxValue) ? precision : precision.AddTicks(1));
+        TimeOnly maximumValue = nearbyTime.Add(precision.AddTicks(1));
 
         TimeSpan? difference = (Subject != null)
             ? MinimumDifference(Subject.Value, nearbyTime)
@@ -208,7 +208,7 @@ public class TimeOnlyAssertions<TAssertions>
         }
 
         TimeOnly minimumValue = distantTime.Add(-precision);
-        TimeOnly maximumValue = distantTime.Add((precision == TimeSpan.MaxValue) ? precision : precision.AddTicks(1));
+        TimeOnly maximumValue = distantTime.Add(precision.AddTicks(1));
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
