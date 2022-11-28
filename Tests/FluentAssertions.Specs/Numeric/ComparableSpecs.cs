@@ -21,20 +21,18 @@ public class ComparableSpecs
         }
 
         [Fact]
-        public void When_two_instances_are_the_same_reference_but_are_not_considered_equal_it_should_not_succeed()
+        public void When_two_instances_are_the_same_reference_but_are_not_considered_equal_it_should_succeed()
         {
             // Arrange
             var subject = new SameInstanceIsNotEqualClass();
             var other = subject;
 
             // Act
-            Action act = () => subject.Should().Be(other, "they have the same property values");
+            Action act = () => subject.Should().Be(other);
 
             // Assert
-            act
-                .Should().Throw<XunitException>()
-                .WithMessage(
-                    "Expected*SameInstanceIsNotEqualClass*because they have the same property values, but found*SameInstanceIsNotEqualClass*.");
+            act.Should().NotThrow(
+                "This is inconsistent with the behavior ObjectAssertions.Be but is how ComparableTypeAssertions.Be has always worked.");
         }
 
         [Fact]
@@ -58,7 +56,7 @@ public class ComparableSpecs
     public class NotBe
     {
         [Fact]
-        public void When_two_references_to_the_same_instance_are_not_equal_it_should_succeed()
+        public void When_two_references_to_the_same_instance_are_not_equal_it_should_throw()
         {
             // Arrange
             var subject = new SameInstanceIsNotEqualClass();
@@ -68,7 +66,8 @@ public class ComparableSpecs
             Action act = () => subject.Should().NotBe(other);
 
             // Assert
-            act.Should().NotThrow();
+            act.Should().Throw<XunitException>(
+                "This is inconsistent with the behavior ObjectAssertions.Be but is how ComparableTypeAssertions.Be has always worked.");
         }
 
         [Fact]
@@ -118,6 +117,21 @@ public class ComparableSpecs
             act
                 .Should().Throw<XunitException>()
                 .WithMessage("Expected value to be one of {4, 5} because those are the valid values, but found 3.");
+        }
+
+        [Fact]
+        public void When_two_instances_are_the_same_reference_but_are_not_considered_equal_it_should_succeed()
+        {
+            // Arrange
+            var subject = new SameInstanceIsNotEqualClass();
+            var other = subject;
+
+            // Act
+            Action act = () => subject.Should().BeOneOf(other);
+
+            // Assert
+            act.Should().NotThrow(
+                "This is inconsistent with the behavior ObjectAssertions.Be but is how ComparableTypeAssertions.Be has always worked.");
         }
 
         [Fact]
@@ -656,7 +670,7 @@ public class ComparableOfString : IComparable<ComparableOfString>
     }
 }
 
-public class SameInstanceIsNotEqualClass
+public class SameInstanceIsNotEqualClass : IComparable<SameInstanceIsNotEqualClass>
 {
     public override bool Equals(object obj)
     {
@@ -667,6 +681,9 @@ public class SameInstanceIsNotEqualClass
     {
         return 1;
     }
+
+    int IComparable<SameInstanceIsNotEqualClass>.CompareTo(SameInstanceIsNotEqualClass other) =>
+        throw new NotSupportedException("This type is meant for assertions using Equals()");
 }
 
 public class EquatableOfInt : IComparable<EquatableOfInt>
