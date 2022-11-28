@@ -288,20 +288,6 @@ public class TimeOnlyAssertionSpecs
         }
 
         [Fact]
-        public void A_precision_of_maximum_time_span_does_overflow()
-        {
-            // Arrange
-            TimeOnly time = new TimeOnly(23, 59, 0);
-            TimeOnly nearbyTime = new TimeOnly(0, 1, 0);
-
-            // Act
-            Action act = () => time.Should().BeCloseTo(nearbyTime, TimeSpan.MaxValue);
-
-            // Assert
-            act.Should().Throw<OverflowException>();
-        }
-
-        [Fact]
         public void A_time_is_close_to_an_earlier_time_when_passing_midnight()
         {
             // Arrange
@@ -454,20 +440,6 @@ public class TimeOnlyAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void A_precision_of_maximum_time_span_does_overflow()
-        {
-            // Arrange
-            TimeOnly time = new TimeOnly(23, 59, 0);
-            TimeOnly nearbyTime = new TimeOnly(0, 1, 0);
-
-            // Act
-            Action act = () => time.Should().NotBeCloseTo(nearbyTime, TimeSpan.MaxValue);
-
-            // Assert
-            act.Should().Throw<OverflowException>();
         }
 
         [Fact]

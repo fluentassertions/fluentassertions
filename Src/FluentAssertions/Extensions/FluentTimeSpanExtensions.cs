@@ -48,14 +48,6 @@ public static class FluentTimeSpanExtensions
     }
 
     /// <summary>
-    /// Returns a <see cref="TimeSpan" /> with an added amount of ticks.
-    /// </summary>
-    internal static TimeSpan AddTicks(this TimeSpan timeSpan, int ticks)
-    {
-        return timeSpan + ticks.Ticks();
-    }
-
-    /// <summary>
     /// Gets the nanoseconds component of the time interval represented by the current <see cref="TimeSpan" /> structure.
     /// </summary>
     public static int Nanoseconds(this TimeSpan self)

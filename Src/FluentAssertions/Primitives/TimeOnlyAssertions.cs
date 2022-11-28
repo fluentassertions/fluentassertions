@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
-using FluentAssertions.Extensions;
 
 #if NET6_0_OR_GREATER
 
@@ -153,9 +153,6 @@ public class TimeOnlyAssertions<TAssertions>
             throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
         }
 
-        TimeOnly minimumValue = nearbyTime.Add(-precision);
-        TimeOnly maximumValue = nearbyTime.Add(precision.AddTicks(1));
-
         TimeSpan? difference = (Subject != null)
             ? MinimumDifference(Subject.Value, nearbyTime)
             : null;
@@ -166,7 +163,7 @@ public class TimeOnlyAssertions<TAssertions>
             .ForCondition(Subject is not null)
             .FailWith("but found <null>.")
             .Then
-            .ForCondition(Subject?.IsBetween(minimumValue, maximumValue) == true)
+            .ForCondition(Subject?.IsCloseTo(nearbyTime, precision) == true)
             .FailWith("but {0} was off by {1}.", Subject, difference)
             .Then
             .ClearExpectation();
@@ -207,16 +204,13 @@ public class TimeOnlyAssertions<TAssertions>
             throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
         }
 
-        TimeOnly minimumValue = distantTime.Add(-precision);
-        TimeOnly maximumValue = distantTime.Add(precision.AddTicks(1));
-
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .WithExpectation("Did not expect {context:the time} to be within {0} from {1}{reason}, ", precision, distantTime)
             .ForCondition(Subject is not null)
             .FailWith("but found <null>.")
             .Then
-            .ForCondition(!Subject?.IsBetween(minimumValue, maximumValue) == true)
+            .ForCondition(!Subject?.IsCloseTo(distantTime, precision) == true)
             .FailWith("but it was {0}.", Subject)
             .Then
             .ClearExpectation();
