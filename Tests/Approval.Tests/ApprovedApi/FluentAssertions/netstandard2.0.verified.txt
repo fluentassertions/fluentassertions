@@ -2417,18 +2417,22 @@ namespace FluentAssertions.Types
         public FluentAssertions.Types.MethodInfoSelector ThatReturnVoid { get; }
         public System.Collections.Generic.IEnumerator<System.Reflection.MethodInfo> GetEnumerator() { }
         public FluentAssertions.Types.TypeSelector ReturnTypes() { }
+        public FluentAssertions.Types.MethodInfoSelector ThatAreAbstract() { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreAsync() { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreDecoratedWith<TAttribute>()
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreDecoratedWithOrInherit<TAttribute>()
             where TAttribute : System.Attribute { }
+        public FluentAssertions.Types.MethodInfoSelector ThatAreNotAbstract() { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreNotAsync() { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreNotDecoratedWith<TAttribute>()
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreNotDecoratedWithOrInherit<TAttribute>()
             where TAttribute : System.Attribute { }
+        public FluentAssertions.Types.MethodInfoSelector ThatAreNotOverridable() { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreNotStatic() { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreNotVirtual() { }
+        public FluentAssertions.Types.MethodInfoSelector ThatAreOverridable() { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreStatic() { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreVirtual() { }
         public FluentAssertions.Types.MethodInfoSelector ThatDoNotReturn<TReturn>() { }
