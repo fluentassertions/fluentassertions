@@ -166,6 +166,92 @@ public class TypeSelector : IEnumerable<Type>
     }
 
     /// <summary>
+    /// Determines wheter the type is a struct (a value type but not an Enum)
+    /// </summary>
+    /// <returns></returns>
+    public TypeSelector ThatAreStruct()
+    {
+        // A Type is a struct when it is a valueType, but Enums and primitives are also
+        // valueTypes so they must be excluded
+        types = types.Where(t => t.IsValueType && !t.IsEnum
+                                    && !t.IsPrimitive && !t.IsEquivalentTo(typeof(decimal)))
+                                    .ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Determines wheter the type is not a struct
+    /// </summary>
+    /// <returns></returns>
+    public TypeSelector ThatAreNotStruct()
+    {
+        types = types.Where(t => !t.IsValueType || t.IsEnum
+                                    || t.IsPrimitive || t.IsEquivalentTo(typeof(decimal)))
+                                    .ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Determines wheter the type is an interface; that is, not a class or a value type
+    /// </summary>
+    /// <returns></returns>
+    public TypeSelector ThatAreInterface()
+    {
+        types = types.Where(t => t.IsInterface).ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Determines wheter the type is not an interface
+    /// </summary>
+    /// <returns></returns>
+    public TypeSelector ThatAreNotInterface()
+    {
+        types = types.Where(t => !t.IsInterface).ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Determines wether the type is sealed
+    /// </summary>
+    /// <returns></returns>
+    public TypeSelector ThatAreSealed()
+    {
+        types = types.Where(t => t.IsSealed).ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Determines wheter the type is not sealed
+    /// </summary>
+    /// <returns></returns>
+    public TypeSelector ThatAreNotSealed()
+    {
+        types = types.Where(t => !t.IsSealed).ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Determines the type is abstract and must be overridden
+    /// </summary>
+    /// <returns></returns>
+    public TypeSelector ThatAreAbstract()
+    {
+        types = types.Where(t => t.IsAbstract).ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Determines wheter the type is not abstract
+    /// </summary>
+    /// <returns></returns>
+    public TypeSelector ThatAreNotAbstract()
+    {
+        types = types.Where(t => !t.IsAbstract).ToList();
+        return this;
+    }
+
+    /// <summary>
     /// Determines whether the type is a class
     /// </summary>
     public TypeSelector ThatAreClasses()
