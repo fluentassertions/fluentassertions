@@ -86,7 +86,7 @@ public class PropertyInfoSelectorSpecs
     }
 
     [Fact]
-    public void When_selecting_properteis_that_are_abstract_it_should_return_only_the_applicable_properties()
+    public void When_selecting_properties_that_are_abstract_it_should_return_only_the_applicable_properties()
     {
         // Arrange
         Type type = typeof(TestClassForPropertySelector);
@@ -95,8 +95,7 @@ public class PropertyInfoSelectorSpecs
         IEnumerable<PropertyInfo> properties = type.Properties().ThatAreAbstract.ToArray();
 
         // Assert
-        int abstractPropertiesCount = 1;
-        properties.Should().HaveCount(abstractPropertiesCount);
+        properties.Should().HaveCount(1);
     }
 
     [Fact]
@@ -109,8 +108,7 @@ public class PropertyInfoSelectorSpecs
         IEnumerable<PropertyInfo> properties = type.Properties().ThatAreNotAbstract.ToArray();
 
         // Assert
-        int notArbastractPropertiesCount = 10;
-        properties.Should().HaveCount(notArbastractPropertiesCount);
+        properties.Should().HaveCount(10);
     }
 
     [Fact]
@@ -162,8 +160,7 @@ public class PropertyInfoSelectorSpecs
         IEnumerable<PropertyInfo> properties = type.Properties().ThatAreNotVirtual.ToArray();
 
         // Assert
-        int notVirtualPropertiesCount = 5;
-        properties.Should().HaveCount(notVirtualPropertiesCount);
+        properties.Should().HaveCount(5);
     }
 
     [Fact]
@@ -372,7 +369,7 @@ internal abstract class TestClassForPropertySelector
 
     protected static string ProtectedStaticStringProperty { get; set; }
 
-    private static string ProtectedStaticStringPropertyWithAttribute { get; set; }
+    private static string PrivateStaticStringProperty { get; set; }
 
     // An abstract method/property is implicitly a virtual method/property.
     public abstract string PublicAbstractStringProperty { get; set; }
