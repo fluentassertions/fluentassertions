@@ -184,6 +184,26 @@ public class TypeSelector : IEnumerable<Type>
     }
 
     /// <summary>
+    /// Determines wheter the type is an interface; that is, not a class or a value type
+    /// </summary>
+    /// <returns></returns>
+    public TypeSelector ThatAreInterface()
+    {
+        types = types.Where(t => t.IsInterface).ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Determines wheter the type is not an interface
+    /// </summary>
+    /// <returns></returns>
+    public TypeSelector ThatAreNotInterface()
+    {
+        types = types.Where(t => !t.IsInterface).ToList();
+        return this;
+    }
+
+    /// <summary>
     /// Determines wether the type is sealed
     /// </summary>
     /// <returns></returns>

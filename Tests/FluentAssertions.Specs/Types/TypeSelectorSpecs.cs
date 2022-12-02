@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using FluentAssertions.Types;
 using Internal.AbstractAndNotAbstractClasses.Test;
+using Internal.InterfaceAndClasses.Test;
 using Internal.Main.Test;
 using Internal.NotOnlyClasses.Test;
 using Internal.Other.Test;
@@ -498,6 +499,41 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
+        public void When_selecting_types_that_are_interface_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(InternalInterface).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.InterfaceAndClasses.Test")
+                .ThatAreInterface();
+
+            // Assert
+            types.Should()
+                .ContainSingle()
+                .Which.Should().Be(typeof(InternalInterface));
+        }
+
+        [Fact]
+        public void When_selecting_types_that_are_not_interface_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(InternalNotInterfaceClass).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.InterfaceAndClasses.Test")
+                .ThatAreNotInterface();
+
+            // Assert
+            types.Should()
+                .HaveCount(2)
+                .And.Contain(typeof(InternalNotInterfaceClass))
+                .And.Contain(typeof(InternalAbstractClass));
+        }
+
+        [Fact]
         public void When_selecting_types_that_are_sealed_classes_it_should_return_the_correct_types()
         {
             // Arrange
@@ -772,6 +808,21 @@ namespace Internal.AbstractAndNotAbstractClasses.Test
     }
 
     internal class NotAbstractClass
+    {
+    }
+}
+
+namespace Internal.InterfaceAndClasses.Test
+{
+    internal interface InternalInterface
+    {
+    }
+
+    internal abstract class InternalAbstractClass
+    {
+    }
+
+    internal class InternalNotInterfaceClass
     {
     }
 }
