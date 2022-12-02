@@ -184,6 +184,46 @@ public class TypeSelector : IEnumerable<Type>
     }
 
     /// <summary>
+    /// Determines wether the type is sealed
+    /// </summary>
+    /// <returns></returns>
+    public TypeSelector ThatAreSealed()
+    {
+        types = types.Where(t => t.IsSealed).ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Determines wheter the type is not sealed
+    /// </summary>
+    /// <returns></returns>
+    public TypeSelector ThatAreNotSealed()
+    {
+        types = types.Where(t => !t.IsSealed).ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Determines the type is abstract and must be overridden
+    /// </summary>
+    /// <returns></returns>
+    public TypeSelector ThatAreAbstract()
+    {
+        types = types.Where(t => t.IsAbstract).ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Determines wheter the type is not abstract
+    /// </summary>
+    /// <returns></returns>
+    public TypeSelector ThatAreNotAbstract()
+    {
+        types = types.Where(t => !t.IsAbstract).ToList();
+        return this;
+    }
+
+    /// <summary>
     /// Determines whether the type is static
     /// </summary>
     public TypeSelector ThatAreStatic()
