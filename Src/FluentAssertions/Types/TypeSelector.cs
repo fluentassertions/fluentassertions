@@ -184,6 +184,32 @@ public class TypeSelector : IEnumerable<Type>
     }
 
     /// <summary>
+    /// Determines wheter the type is a struct (a value type but not an Enum)
+    /// </summary>
+    /// <returns></returns>
+    public TypeSelector ThatAreStruct()
+    {
+        // A Type is a struct when it is a valueType, but Enums and primitives are also
+        // valueTypes so they must be excluded
+        types = types.Where(t => t.IsValueType && !t.IsEnum
+                                    && !t.IsPrimitive && !t.IsEquivalentTo(typeof(decimal)))
+                                    .ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Determines wheter the type is not a struct
+    /// </summary>
+    /// <returns></returns>
+    public TypeSelector ThatAreNotStruct()
+    {
+        types = types.Where(t => !t.IsValueType || t.IsEnum
+                                    || t.IsPrimitive || t.IsEquivalentTo(typeof(decimal)))
+                                    .ToList();
+        return this;
+    }
+
+    /// <summary>
     /// Determines wheter the type is an interface; that is, not a class or a value type
     /// </summary>
     /// <returns></returns>
