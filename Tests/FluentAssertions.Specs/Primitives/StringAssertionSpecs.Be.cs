@@ -186,6 +186,21 @@ public partial class StringAssertionSpecs
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be \r\n\"A\\r\\nC\", but \r\n\"A\\r\\nB\" differs near \"B\" (index 3).");
         }
+
+        [Fact]
+        public void String_comparision_fail_with_improved_failure_message()
+        {
+            // Arrange
+            string subject = "String with \rnewline";
+            string expected = "String with \ra newline";
+
+            // Act
+            subject.Should().Be(expected);
+            Action act = () => subject.Should().Be(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*↓ (pos 13)*↑ (pos 13)*");
+        }
     }
 
     public class NotBe

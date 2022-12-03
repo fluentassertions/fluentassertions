@@ -45,9 +45,21 @@ internal class StringStartValidator : StringValidator
         {
             int indexOfMismatch = Subject.IndexOfFirstMismatch(Expected, stringComparison);
 
+            string subjectIndexMarker = $" ↓ (index {indexOfMismatch})";
+            string expectedIndexMarker = $" ↑ (index {indexOfMismatch})";
+            string subjectDescription = "Subject:  ";
+            string expectationDescription = "Expected: ";
+
             Assertion.FailWith(
-                ExpectationDescription + "{0}{reason}, but {1} differs near " + Subject.IndexedSegmentAt(indexOfMismatch) + ".",
-                Expected, Subject);
+                ExpectationDescription + "{0}{reason}, but actually got:" + Environment.NewLine +
+                subjectIndexMarker.PadLeft(subjectDescription.Length + indexOfMismatch + subjectIndexMarker.Length) + Environment.NewLine +
+                $"{subjectDescription}{{1}}" + Environment.NewLine +
+                $"{expectationDescription}{{0}}" + Environment.NewLine +
+                expectedIndexMarker.PadLeft(expectationDescription.Length + indexOfMismatch + expectedIndexMarker.Length), Expected, Subject);
+
+            // Assertion.FailWith(
+            //     ExpectationDescription + "{0}{reason}, but {1} differs near " + Subject.IndexedSegmentAt(indexOfMismatch) + ".",
+            //     Expected, Subject);
         }
     }
 }
