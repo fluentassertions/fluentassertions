@@ -125,4 +125,15 @@ AllTypes.From(assembly)
   .ThatAreNotInNamespace("Internal.Main.Test");
 ```
 
+You can also filter types that are Struct
+
+```csharp 
+AllTypes.From(assembly)
+	.ThatAreStruct();
+	
+AllTypes.From(assembly)
+	.ThatAreNotStruct();
+```
+
+
 There are so many possibilities and specialized methods that none of these examples do them good. Check out the [TypeAssertionSpecs](https://github.com/fluentassertions/fluentassertions/tree/master/Tests/FluentAssertions.Specs/Types) from the source for more examples.
