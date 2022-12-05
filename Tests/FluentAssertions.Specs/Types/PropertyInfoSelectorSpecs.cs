@@ -151,7 +151,7 @@ public class PropertyInfoSelectorSpecs
     }
 
     [Fact]
-    public void When_seletcing_properties_that_are_not_virtual_it_should_return_only_the_applicable_properties()
+    public void When_selecting_properties_that_are_not_virtual_it_should_return_only_the_applicable_properties()
     {
         // Arrange
         Type type = typeof(TestClassForPropertySelector);

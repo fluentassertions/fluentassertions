@@ -22,7 +22,7 @@ internal static class PropertyInfoExtensions
     /// <returns></returns>
     internal static bool IsStatic(this PropertyInfo property)
     {
-        MethodInfo methodInfo = property.GetGetMethod(nonPublic: true) ?? property.GetSetMethod(nonPublic: true);
+        MethodInfo methodInfo = property.GetGetMethod(nonPublic: true);
         return methodInfo.IsStatic;
     }
 
@@ -33,7 +33,7 @@ internal static class PropertyInfoExtensions
     /// <returns></returns>
     internal static bool IsAbstract(this PropertyInfo property)
     {
-        MethodInfo methodInfo = property.GetGetMethod(nonPublic: true) ?? property.GetSetMethod(nonPublic: true);
+        MethodInfo methodInfo = property.GetGetMethod(nonPublic: true);
         return methodInfo.IsAbstract;
     }
 }
