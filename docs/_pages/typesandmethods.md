@@ -108,6 +108,17 @@ var properties = types.Properties().ThatArePublicOrInternal;
 properties.Should().BeVirtual();
 ```
 
+You can also filter types that are Struct
+
+```csharp 
+AllTypes.From(assembly)
+	.ThatAreStruct();
+	
+AllTypes.From(assembly)
+	.ThatAreNotStruct();
+```
+
+
 Alternatively you can use this more fluent syntax instead.
 
 ```csharp
@@ -124,16 +135,5 @@ AllTypes.From(assembly)
   .ThatAreNotUnderNamespace("Internal.Main")
   .ThatAreNotInNamespace("Internal.Main.Test");
 ```
-
-You can also filter types that are Struct
-
-```csharp 
-AllTypes.From(assembly)
-	.ThatAreStruct();
-	
-AllTypes.From(assembly)
-	.ThatAreNotStruct();
-```
-
 
 There are so many possibilities and specialized methods that none of these examples do them good. Check out the [TypeAssertionSpecs](https://github.com/fluentassertions/fluentassertions/tree/master/Tests/FluentAssertions.Specs/Types) from the source for more examples.
