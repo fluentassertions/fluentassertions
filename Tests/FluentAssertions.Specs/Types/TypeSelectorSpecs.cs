@@ -9,6 +9,7 @@ using Internal.NotOnlyClasses.Test;
 using Internal.Other.Test;
 using Internal.Other.Test.Common;
 using Internal.StaticAndNonStaticClasses.Test;
+using Internal.StructsAndNotStructs.Test;
 using Internal.UnwrapSelectorTestTypes.Test;
 using Xunit;
 using ISomeInterface = Internal.Main.Test.ISomeInterface;
@@ -496,6 +497,42 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
+        public void When_selecting_types_that_are_structs_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(InternalStructType).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.StructsAndNotStructs.Test")
+                .ThatAreStruct();
+
+            // Assert
+            types.Should()
+                .ContainSingle()
+                .Which.Should().Be(typeof(InternalStructType));
+        }
+
+        [Fact]
+        public void When_selecting_types_that_are_not_structs_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(InternalClassAndNotStruct).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.StructsAndNotStructs.Test")
+                .ThatAreNotStruct();
+
+            // Assert
+            types.Should()
+                .HaveCount(3)
+                .And.Contain(typeof(InternalClassAndNotStruct))
+                .And.Contain(typeof(InternalEnumAndNotStruct))
+                .And.Contain(typeof(InternalInterfaceAndNotStruct));
+        }
+
+        [Fact]
         public void When_selecting_types_that_are_static_classes_it_should_return_the_correct_types()
         {
             // Arrange
@@ -691,6 +728,25 @@ namespace Internal.StaticAndNonStaticClasses.Test
     }
 
     internal class NotAStaticClass
+    {
+    }
+}
+
+namespace Internal.StructsAndNotStructs.Test
+{
+    internal struct InternalStructType
+    {
+    }
+
+    internal enum InternalEnumAndNotStruct
+    {
+    }
+
+    internal interface InternalInterfaceAndNotStruct
+    {
+    }
+
+    internal class InternalClassAndNotStruct
     {
     }
 }

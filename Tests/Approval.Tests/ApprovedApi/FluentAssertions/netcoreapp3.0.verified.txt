@@ -2656,8 +2656,10 @@ namespace FluentAssertions.Types
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.TypeSelector ThatAreNotInNamespace(string @namespace) { }
         public FluentAssertions.Types.TypeSelector ThatAreNotStatic() { }
+        public FluentAssertions.Types.TypeSelector ThatAreNotStruct() { }
         public FluentAssertions.Types.TypeSelector ThatAreNotUnderNamespace(string @namespace) { }
         public FluentAssertions.Types.TypeSelector ThatAreStatic() { }
+        public FluentAssertions.Types.TypeSelector ThatAreStruct() { }
         public FluentAssertions.Types.TypeSelector ThatAreUnderNamespace(string @namespace) { }
         public FluentAssertions.Types.TypeSelector ThatDeriveFrom<TBase>() { }
         public FluentAssertions.Types.TypeSelector ThatDoNotDeriveFrom<TBase>() { }
