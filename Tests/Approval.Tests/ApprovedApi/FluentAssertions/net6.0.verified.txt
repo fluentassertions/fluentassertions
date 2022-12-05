@@ -2771,12 +2771,14 @@ namespace FluentAssertions.Types
         public TypeSelector(System.Collections.Generic.IEnumerable<System.Type> types) { }
         public TypeSelector(System.Type type) { }
         public System.Collections.Generic.IEnumerator<System.Type> GetEnumerator() { }
+        public FluentAssertions.Types.TypeSelector ThatAreAbstract() { }
         public FluentAssertions.Types.TypeSelector ThatAreClasses() { }
         public FluentAssertions.Types.TypeSelector ThatAreDecoratedWith<TAttribute>()
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.TypeSelector ThatAreDecoratedWithOrInherit<TAttribute>()
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.TypeSelector ThatAreInNamespace(string @namespace) { }
+        public FluentAssertions.Types.TypeSelector ThatAreNotAbstract() { }
         public FluentAssertions.Types.TypeSelector ThatAreNotClasses() { }
         public FluentAssertions.Types.TypeSelector ThatAreNotDecoratedWith<TAttribute>()
             where TAttribute : System.Attribute { }
