@@ -61,6 +61,32 @@ typeof(MyController).Methods()
   .Should()
   .BeDecoratedWith<ValidateAntiForgeryTokenAttribute>(
     "because all Actions with HttpPost require ValidateAntiForgeryToken");
+	
+typeof(MyController).Properties()
+	.ThatAreAbstract
+	.ToArray()
+	.Should()
+	.HaveCount(2);
+
+typeof(MyController).Properties()
+	.ThatAreStatic
+	.ToArray()
+	.Should()
+	.HaveCount(3);
+	
+typeof(MyController).Properties()
+	.ThatAreVirtual
+	.ToArray()
+	.Should()
+	.HaveCount(4);
+	
+typeof(MyController).Properties()
+	.ThatAreNotAbstract
+	.ThatAreNotStatic
+	.ThatAreNotVirtual
+	.ToArray()
+	.Should()
+	.HaveCount(5);
 ```
 
 You can also perform assertions on all of methods return types to check class contract.
