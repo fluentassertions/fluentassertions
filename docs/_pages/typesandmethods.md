@@ -106,25 +106,6 @@ types.Should().BeInNamespace("Internal.Main.Test.ISomeInterfaceTests");
 
 var properties = types.Properties().ThatArePublicOrInternal;
 properties.Should().BeVirtual();
-
-var types = typeof(AbstractClass).Assembly.Types()
-	.ThatAreInNamespace("Internal.AbstractAndNotAbstractClasses.Test")
-	.ThatAreAbstract();
-
-
-types.Should()
-	.ContainSingle()
-	.Which.Should().Be(typeof(AbstractClass));
-	
-
-var types = typeof(NotAbstractClass).Assembly.Types()
-	.ThatAreInNamespace("Internal.AbstractAndNotAbstractClasses.Test")
-	.ThatAreNotAbstract();
-
-
-types.Should()
-	.ContainSingle()
-	.Which.Should().Be(typeof(NotAbstractClass));
 ```
 
 Alternatively you can use this more fluent syntax instead.
