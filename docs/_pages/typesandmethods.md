@@ -108,17 +108,6 @@ var properties = types.Properties().ThatArePublicOrInternal;
 properties.Should().BeVirtual();
 ```
 
-You can also filter types that are Struct
-
-```csharp 
-AllTypes.From(assembly)
-	.ThatAreStruct();
-	
-AllTypes.From(assembly)
-	.ThatAreNotStruct();
-```
-
-
 Alternatively you can use this more fluent syntax instead.
 
 ```csharp
