@@ -12,13 +12,13 @@ internal static class PropertyInfoExtensions
 
     internal static bool IsStatic(this PropertyInfo property)
     {
-        MethodInfo methodInfo = property.GetGetMethod(nonPublic: true);
+        MethodInfo methodInfo = property.GetGetMethod(nonPublic: true) ?? property.GetSetMethod(nonPublic: true);
         return methodInfo.IsStatic;
     }
 
     internal static bool IsAbstract(this PropertyInfo property)
     {
-        MethodInfo methodInfo = property.GetGetMethod(nonPublic: true);
+        MethodInfo methodInfo = property.GetGetMethod(nonPublic: true) ?? property.GetSetMethod(nonPublic: true);
         return methodInfo.IsAbstract;
     }
 }
