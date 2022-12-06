@@ -106,16 +106,6 @@ types.Should().BeInNamespace("Internal.Main.Test.ISomeInterfaceTests");
 
 var properties = types.Properties().ThatArePublicOrInternal;
 properties.Should().BeVirtual();
-
-var types = typeof(SomeInterface).Assembly.Types()
-	.ThatAreInterface();
-	
-types.Should().HaveCount(2);
-
-var types = typeof(SomeInterface).Assembly.Types()
-	.ThatAreNotInterface();
-	
-types.Should().HaveCount(3);
 ```
 
 Alternatively you can use this more fluent syntax instead.
