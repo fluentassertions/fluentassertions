@@ -15,7 +15,7 @@ sidebar:
 * Added `BeCloseTo` and `NotBeCloseTo` to `TimeOnly` - [#2030](https://github.com/fluentassertions/fluentassertions/pull/2030)
 
 ### Fixes
-* Quering properties on classes, e.g. typeof(MyClass).Properties(), now also includes static properties - [#2054](https://github.com/fluentassertions/fluentassertions/pull/2054)
+* Quering properties on classes, e.g. `typeof(MyClass).Properties()`, now also includes static properties - [#2054](https://github.com/fluentassertions/fluentassertions/pull/2054)
 
 ## 6.8.0
 
