@@ -47,7 +47,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
 
     /// <summary>
     /// Expects the current collection to contain all the same elements in the same order as the collection identified by
-    /// <paramref name="expected" />. Elements are compared using their <see cref="object.Equals(object)" />.
+    /// <paramref name="expected" />. Elements are compared using their <see cref="object.Equals(object)" />.  To ignore
+    /// the element order, use <see cref="BeEquivalentTo(string[])"/> instead.
     /// </summary>
     /// <param name="expected">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
     public new AndConstraint<TAssertions> Equal(params string[] expected)
@@ -57,7 +58,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
 
     /// <summary>
     /// Expects the current collection to contain all the same elements in the same order as the collection identified by
-    /// <paramref name="expected" />. Elements are compared using their <see cref="object.Equals(object)" />.
+    /// <paramref name="expected" />. Elements are compared using their <see cref="object.Equals(object)" />.  To ignore
+    /// the element order, use <see cref="BeEquivalentTo(IEnumerable{string}, string, object[])"/> instead.
     /// </summary>
     /// <param name="expected">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
     public AndConstraint<TAssertions> Equal(IEnumerable<string> expected)
@@ -69,7 +71,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     /// Asserts that a collection of string is equivalent to another collection of strings.
     /// </summary>
     /// <remarks>
-    /// The two collections are equivalent when they both contain the same strings in any order.
+    /// The two collections are equivalent when they both contain the same strings in any order. To assert that the elements
+    /// are in the same order, use <see cref="Equal(string[])"/> instead.
     /// </remarks>
     public AndConstraint<TAssertions> BeEquivalentTo(params string[] expectation)
     {
@@ -80,7 +83,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     /// Asserts that a collection of objects is equivalent to another collection of objects.
     /// </summary>
     /// <remarks>
-    /// The two collections are equivalent when they both contain the same strings in any order.
+    /// The two collections are equivalent when they both contain the same strings in any order.  To assert that the elements
+    /// are in the same order, use <see cref="Equal(IEnumerable{string})"/> instead.
     /// </remarks>
     /// <param name="expectation">An <see cref="IEnumerable{String}"/> with the expected elements.</param>
     /// <param name="because">
@@ -99,7 +103,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     /// Asserts that a collection of objects is equivalent to another collection of objects.
     /// </summary>
     /// <remarks>
-    /// The two collections are equivalent when they both contain the same strings in any order.
+    /// The two collections are equivalent when they both contain the same strings in any order.  To assert that the elements
+    /// are in the same order, use <see cref="Equal(string[])"/> instead.
     /// </remarks>
     /// <param name="expectation">An <see cref="IEnumerable{String}"/> with the expected elements.</param>
     /// <param name="config">
