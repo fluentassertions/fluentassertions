@@ -526,8 +526,7 @@ namespace FluentAssertions.Specs.Types
 
             // Assert
             types.Should()
-                .ContainSingle()
-                .Which.Should().Be(typeof(NotAbstractClass));
+                .HaveCount(2);
         }
 
         [Fact]
