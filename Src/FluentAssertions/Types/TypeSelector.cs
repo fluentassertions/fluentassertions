@@ -186,7 +186,6 @@ public class TypeSelector : IEnumerable<Type>
     /// <summary>
     /// Determines whether the type is abstract
     /// </summary>
-    /// <returns></returns>
     public TypeSelector ThatAreAbstract()
     {
         types = types.Where(t => t.IsCSharpAbstract()).ToList();
@@ -196,7 +195,6 @@ public class TypeSelector : IEnumerable<Type>
     /// <summary>
     /// Determines whether the type is not abstract
     /// </summary>
-    /// <returns></returns>
     public TypeSelector ThatAreNotAbstract()
     {
         types = types.Where(t => !t.IsCSharpAbstract()).ToList();
