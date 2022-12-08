@@ -283,8 +283,7 @@ public class MethodInfoSelectorSpecs
         IEnumerable<MethodInfo> methods = type.Methods().ThatAreAbstract().ToArray();
 
         // Assert
-        int abstractMethodsCount = 3;
-        methods.Should().HaveCount(abstractMethodsCount);
+        methods.Should().HaveCount(3);
     }
 
     [Fact]
