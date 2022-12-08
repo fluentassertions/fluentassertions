@@ -2658,7 +2658,13 @@ namespace FluentAssertions.Types
     {
         public PropertyInfoSelector(System.Collections.Generic.IEnumerable<System.Type> types) { }
         public PropertyInfoSelector(System.Type type) { }
+        public FluentAssertions.Types.PropertyInfoSelector ThatAreAbstract { get; }
+        public FluentAssertions.Types.PropertyInfoSelector ThatAreNotAbstract { get; }
+        public FluentAssertions.Types.PropertyInfoSelector ThatAreNotStatic { get; }
+        public FluentAssertions.Types.PropertyInfoSelector ThatAreNotVirtual { get; }
         public FluentAssertions.Types.PropertyInfoSelector ThatArePublicOrInternal { get; }
+        public FluentAssertions.Types.PropertyInfoSelector ThatAreStatic { get; }
+        public FluentAssertions.Types.PropertyInfoSelector ThatAreVirtual { get; }
         public System.Collections.Generic.IEnumerator<System.Reflection.PropertyInfo> GetEnumerator() { }
         public FluentAssertions.Types.PropertyInfoSelector NotOfType<TReturn>() { }
         public FluentAssertions.Types.PropertyInfoSelector OfType<TReturn>() { }
