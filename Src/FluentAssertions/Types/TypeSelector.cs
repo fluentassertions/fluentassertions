@@ -184,7 +184,7 @@ public class TypeSelector : IEnumerable<Type>
     }
 
     /// <summary>
-    /// Determines the type is abstract and must be overridden
+    /// Determines whether the type is abstract
     /// </summary>
     /// <returns></returns>
     public TypeSelector ThatAreAbstract()
@@ -194,7 +194,7 @@ public class TypeSelector : IEnumerable<Type>
     }
 
     /// <summary>
-    /// Determines wheter the type is not abstract
+    /// Determines whether the type is not abstract
     /// </summary>
     /// <returns></returns>
     public TypeSelector ThatAreNotAbstract()
