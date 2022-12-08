@@ -189,7 +189,7 @@ public class TypeSelector : IEnumerable<Type>
     /// <returns></returns>
     public TypeSelector ThatAreAbstract()
     {
-        types = types.Where(t => t.IsAbstract).ToList();
+        types = types.Where(t => t.IsCSharpAbstract()).ToList();
         return this;
     }
 
@@ -199,7 +199,7 @@ public class TypeSelector : IEnumerable<Type>
     /// <returns></returns>
     public TypeSelector ThatAreNotAbstract()
     {
-        types = types.Where(t => !t.IsAbstract).ToList();
+        types = types.Where(t => !t.IsCSharpAbstract()).ToList();
         return this;
     }
 

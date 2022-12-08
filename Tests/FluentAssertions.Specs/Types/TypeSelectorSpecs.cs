@@ -739,6 +739,10 @@ namespace Internal.AbstractAndNotAbstractClasses.Test
     internal class NotAbstractClass
     {
     }
+
+    internal static class NotAbstractStaticClass
+    {
+    }
 }
 
 namespace Internal.UnwrapSelectorTestTypes.Test
