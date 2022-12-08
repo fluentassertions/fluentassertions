@@ -136,7 +136,6 @@ public class MethodInfoSelector : IEnumerable<MethodInfo>
     /// <summary>
     /// Only return methods that are abstract
     /// </summary>
-    /// <returns></returns>
     public MethodInfoSelector ThatAreAbstract()
     {
         selectedMethods = selectedMethods.Where(method => method.IsAbstract);
