@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using FluentAssertions.Types;
 using Internal.Main.Test;
@@ -73,15 +74,91 @@ public class PropertyInfoSelectorSpecs
     public void When_selecting_properties_that_are_public_or_internal_it_should_return_only_the_applicable_properties()
     {
         // Arrange
-        Type type = typeof(TestClassForPropertySelector);
+        Type type = typeof(TestClassForPropertySelectorWithInternalAndPublicProperties);
 
         // Act
         IEnumerable<PropertyInfo> properties = type.Properties().ThatArePublicOrInternal.ToArray();
 
         // Assert
-        const int PublicPropertyCount = 3;
-        const int InternalPropertyCount = 1;
-        properties.Should().HaveCount(PublicPropertyCount + InternalPropertyCount);
+        properties.Should().HaveCount(2);
+    }
+
+    [Fact]
+    public void When_selecting_properties_that_are_abstract_it_should_return_only_the_applicable_properties()
+    {
+        // Arrange
+        Type type = typeof(TestClassForPropertySelector);
+
+        // Act
+        IEnumerable<PropertyInfo> properties = type.Properties().ThatAreAbstract.ToArray();
+
+        // Assert
+        properties.Should().HaveCount(2);
+    }
+
+    [Fact]
+    public void When_selecting_properties_that_are_not_abstract_it_should_return_only_the_applicable_properties()
+    {
+        // Arrange
+        Type type = typeof(TestClassForPropertySelector);
+
+        // Act
+        IEnumerable<PropertyInfo> properties = type.Properties().ThatAreNotAbstract.ToArray();
+
+        // Assert
+        properties.Should().HaveCount(10);
+    }
+
+    [Fact]
+    public void When_selecting_properties_that_are_static_it_should_return_only_the_applicable_properties()
+    {
+        // Arrange
+        Type type = typeof(TestClassForPropertySelector);
+
+        // Act
+        IEnumerable<PropertyInfo> properties = type.Properties().ThatAreStatic.ToArray();
+
+        // Assert
+        properties.Should().HaveCount(4);
+    }
+
+    [Fact]
+    public void When_selecting_properties_that_are_not_static_it_should_return_only_the_applicable_properties()
+    {
+        // Arrange
+        Type type = typeof(TestClassForPropertySelector);
+
+        // Act
+        IEnumerable<PropertyInfo> properties = type.Properties().ThatAreNotStatic.ToArray();
+
+        // Assert
+        properties.Should().HaveCount(8);
+    }
+
+    [Fact]
+    public void When_selecting_properties_that_are_virtual_it_should_return_only_the_applicable_properties()
+    {
+        // Arrange
+        Type type = typeof(TestClassForPropertySelector);
+
+        // Act
+        IEnumerable<PropertyInfo> properties = type.Properties().ThatAreVirtual.ToArray();
+
+        // Assert
+        properties.Should().HaveCount(7);
+    }
+
+    [Fact]
+    public void When_selecting_properties_that_are_not_virtual_it_should_return_only_the_applicable_properties()
+    {
+        // Arrange
+        Type type = typeof(TestClassForPropertySelector);
+
+        // Act
+        IEnumerable<PropertyInfo> properties = type.Properties().ThatAreNotVirtual.ToArray();
+
+        // Assert
+        properties.Should().HaveCount(5);
     }
 
     [Fact]
@@ -123,7 +200,7 @@ public class PropertyInfoSelectorSpecs
         IEnumerable<PropertyInfo> properties = type.Properties().OfType<string>().ToArray();
 
         // Assert
-        properties.Should().HaveCount(2);
+        properties.Should().HaveCount(8);
     }
 
     [Fact]
@@ -271,15 +348,48 @@ public class PropertyInfoSelectorSpecs
 
         // Assert
         returnTypes.Should()
-            .BeEquivalentTo(new[] { typeof(string), typeof(string), typeof(int), typeof(int), typeof(int), typeof(int) });
+            .BeEquivalentTo(new[]
+            {
+                typeof(string), typeof(string), typeof(string), typeof(string)
+                , typeof(string), typeof(string), typeof(string)
+                , typeof(string), typeof(int), typeof(int), typeof(int), typeof(int)
+            });
     }
 }
 
 #region Internal classes used in unit tests
 
-internal class TestClassForPropertySelector
+internal class TestClassForPropertySelectorWithInternalAndPublicProperties
 {
-    public virtual string PublicVirtualStringProperty { get; set; }
+    public static string PublicStaticStringProperty { get; }
+
+    internal static string InternalStaticStringProperty { get; set; }
+
+    protected static string ProtectedStaticStringProperty { get; set; }
+
+    private static string PrivateStaticStringProperty { get; set; }
+}
+
+internal abstract class TestClassForPropertySelector
+{
+    private static string myPrivateStaticStringField;
+
+    public static string PublicStaticStringProperty { set => myPrivateStaticStringField = value; }
+
+    internal static string InternalStaticStringProperty { get; set; }
+
+    protected static string ProtectedStaticStringProperty { get; set; }
+
+    private static string PrivateStaticStringProperty { get; set; }
+
+    // An abstract method/property is implicitly a virtual method/property.
+    public abstract string PublicAbstractStringProperty { get; set; }
+
+    public abstract string PublicAbstractStringPropertyWithSetterOnly { set; }
+
+    private string myPrivateStringField;
+
+    public virtual string PublicVirtualStringProperty { set => myPrivateStringField = value; }
 
     [DummyProperty]
     public virtual string PublicVirtualStringPropertyWithAttribute { get; set; }

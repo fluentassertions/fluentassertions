@@ -296,8 +296,7 @@ public class MethodInfoSelectorSpecs
         IEnumerable<MethodInfo> methods = type.Methods().ThatAreNotAbstract().ToArray();
 
         // Assert
-        int notAbstractMethodsCount = 7;
-        methods.Should().HaveCount(notAbstractMethodsCount);
+        methods.Should().HaveCount(7);
     }
 
     [Fact]
