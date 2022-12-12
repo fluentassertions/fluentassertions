@@ -283,8 +283,7 @@ public class MethodInfoSelectorSpecs
         IEnumerable<MethodInfo> methods = type.Methods().ThatAreAbstract().ToArray();
 
         // Assert
-        int abstractMethodsCount = 3;
-        methods.Should().HaveCount(abstractMethodsCount);
+        methods.Should().HaveCount(3);
     }
 
     [Fact]
@@ -539,6 +538,12 @@ internal abstract class TestClassForMethodSelectorWithAbstractAndVirtualMethods
     protected abstract void ProtectedAbstractMethod();
 
     internal abstract void InternalAbstractMethod();
+
+    public static void PublicStaticMethod() { }
+
+    protected static void ProtectedStaticMethod() { }
+
+    internal static void InternalStaticMethod() { }
 
     public virtual void PublicVirtualMethod() { }
 
