@@ -274,6 +274,32 @@ public class MethodInfoSelectorSpecs
     }
 
     [Fact]
+    public void When_selecting_methods_that_are_abstract_it_should_only_return_the_applicable_methods()
+    {
+        // Arrange
+        Type type = typeof(TestClassForMethodSelectorWithAbstractAndVirtualMethods);
+
+        // Act
+        IEnumerable<MethodInfo> methods = type.Methods().ThatAreAbstract().ToArray();
+
+        // Assert
+        methods.Should().HaveCount(3);
+    }
+
+    [Fact]
+    public void When_selecting_methods_that_are_not_abstract_it_should_only_return_the_applicable_methods()
+    {
+        // Arrange
+        Type type = typeof(TestClassForMethodSelectorWithAbstractAndVirtualMethods);
+
+        // Act
+        IEnumerable<MethodInfo> methods = type.Methods().ThatAreNotAbstract().ToArray();
+
+        // Assert
+        methods.Should().HaveCount(10);
+    }
+
+    [Fact]
     public void When_selecting_methods_that_are_async_it_should_only_return_the_applicable_methods()
     {
         // Arrange
@@ -502,6 +528,35 @@ public class DummyMethodNonInheritableAttributeAttribute : Attribute
 public class DummyMethodAttribute : Attribute
 {
     public bool Filter { get; set; }
+}
+
+internal abstract class TestClassForMethodSelectorWithAbstractAndVirtualMethods
+{
+    public abstract void PublicAbstractMethod();
+
+    protected abstract void ProtectedAbstractMethod();
+
+    internal abstract void InternalAbstractMethod();
+
+    public static void PublicStaticMethod() { }
+
+    protected static void ProtectedStaticMethod() { }
+
+    internal static void InternalStaticMethod() { }
+
+    public virtual void PublicVirtualMethod() { }
+
+    protected virtual void ProptectedVirtualMethod() { }
+
+    internal virtual void InternalVirtualMethod() { }
+
+    public void PublicNotAbstractMethod() { }
+
+    protected void ProtectedNotAbstractMethod() { }
+
+    internal void InternalNotAbstractMethod() { }
+
+    private void PrivateAbstractMethod() { }
 }
 
 #endregion
