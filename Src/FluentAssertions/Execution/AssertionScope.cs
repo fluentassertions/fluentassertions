@@ -395,6 +395,7 @@ public sealed class AssertionScope : IAssertionScope
                 parent.assertionStrategy.HandleFailure(failureMessage);
             }
 
+            parent.contextData.Add(contextData);
             parent.AppendTracing(tracing.ToString());
 
             parent = null;
