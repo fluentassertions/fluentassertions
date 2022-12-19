@@ -184,19 +184,17 @@ public class TypeSelector : IEnumerable<Type>
     }
 
     /// <summary>
-    /// Determines wether the type is sealed
+    /// Filters the types that are sealed
     /// </summary>
-    /// <returns></returns>
     public TypeSelector ThatAreSealed()
     {
         types = types.Where(t => t.IsSealed).ToList();
         return this;
     }
 
-    /// <summary>
-    /// Determines wheter the type is not sealed
-    /// </summary>
-    /// <returns></returns>
+    ///<summary>
+    /// Filters the types that are not sealed
+    ///</summary>
     public TypeSelector ThatAreNotSealed()
     {
         types = types.Where(t => !t.IsSealed).ToList();
