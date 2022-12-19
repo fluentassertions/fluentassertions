@@ -21,39 +21,35 @@ public class MultidimensionalArrayFormatterSpecs
         result.Should().Match(expected);
     }
 
-    public static IEnumerable<object[]> MultiDimensionalArrayData =>
-        new List<object[]>
+    public static TheoryData<object, string> MultiDimensionalArrayData => new()
+    {
         {
-            new object[]
+            new int[0, 0],
+            "{empty}"
+        },
+        {
+            new int[,]
             {
-                new int[0, 0],
-                "{empty}"
+                { 1, 2 },
+                { 3, 4 }
             },
-            new object[]
+            "{{1, 2}, {3, 4}}"
+        },
+        {
+            new int[,,]
             {
-                new int[,]
                 {
-                    { 1, 2 },
-                    { 3, 4 }
+                    { 1, 2, 3 },
+                    { 4, 5, 6 }
                 },
-                "{{1, 2}, {3, 4}}"
-            },
-            new object[]
-            {
-                new int[,,]
                 {
-                    {
-                        { 1, 2, 3 },
-                        { 4, 5, 6 }
-                    },
-                    {
-                        { 7, 8, 9 },
-                        { 10, 11, 12 }
-                    }
-                },
-                "{{{1, 2, 3}, {4, 5, 6}}, {{7, 8, 9}, {10, 11, 12}}}"
+                    { 7, 8, 9 },
+                    { 10, 11, 12 }
+                }
             },
-        };
+            "{{{1, 2, 3}, {4, 5, 6}}, {{7, 8, 9}, {10, 11, 12}}}"
+        },
+    };
 
     [Fact]
     public void When_formatting_a_multi_dimensional_array_with_bounds_it_should_show_structure()
