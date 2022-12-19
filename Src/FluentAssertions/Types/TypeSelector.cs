@@ -202,6 +202,24 @@ public class TypeSelector : IEnumerable<Type>
     }
 
     /// <summary>
+    /// Filters and returns the types that are sealed
+    /// </summary>
+    public TypeSelector ThatAreSealed()
+    {
+        types = types.Where(t => t.IsSealed).ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Filters and returns the types that are not sealed
+    /// </summary>
+    public TypeSelector ThatAreNotSealed()
+    {
+        types = types.Where(t => !t.IsSealed).ToList();
+        return this;
+    }
+
+    /// <summary>
     /// Filters and returns the types that are structs (a value type but not an Enum)
     /// </summary>
     public TypeSelector ThatAreStructs()
