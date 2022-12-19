@@ -333,27 +333,21 @@ public class StringComparisonSpecs
         subject.Should().MatchEquivalentOf(expected);
     }
 
-    public static IEnumerable<object[]> EquivalencyData
+    private const string LowerCaseI = "i";
+    private const string UpperCaseI = "I";
+
+    public static TheoryData<string, string> EquivalencyData => new()
     {
-        get
-        {
-            const string LowerCaseI = "i";
-            const string UpperCaseI = "I";
+        { LowerCaseI, UpperCaseI }
+    };
 
-            return new List<object[]> { new object[] { LowerCaseI, UpperCaseI } };
-        }
-    }
+    private const string SinhalaLithDigitEight = "෮";
+    private const string MyanmarTaiLaingDigitEight = "꧸";
 
-    public static IEnumerable<object[]> EqualityData
+    public static TheoryData<string, string> EqualityData => new()
     {
-        get
-        {
-            const string SinhalaLithDigitEight = "෮";
-            const string MyanmarTaiLaingDigitEight = "꧸";
-
-            return new List<object[]> { new object[] { SinhalaLithDigitEight, MyanmarTaiLaingDigitEight } };
-        }
-    }
+        { SinhalaLithDigitEight, MyanmarTaiLaingDigitEight }
+    };
 }
 
 // Due to CulturedTheory changing CultureInfo

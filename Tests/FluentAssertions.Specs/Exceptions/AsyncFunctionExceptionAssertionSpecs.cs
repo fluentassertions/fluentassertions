@@ -200,7 +200,7 @@ public class AsyncFunctionExceptionAssertionSpecs
     }
 #pragma warning restore xUnit1026 // Theory methods should use all of their parameters
 
-    public static IEnumerable<object[]> AggregateExceptionTestData()
+    public static TheoryData<Func<Task>, Exception> AggregateExceptionTestData()
     {
         var tasks = new Func<Task>[]
         {
@@ -215,15 +215,19 @@ public class AsyncFunctionExceptionAssertionSpecs
             new InvalidOperationException()
         };
 
+        var data = new TheoryData<Func<Task>, Exception>();
+
         foreach (var task in tasks)
         {
             foreach (var type in types)
             {
-                yield return new object[] { task, type };
+                data.Add(task, type);
             }
         }
 
-        yield return new object[] { (Func<Task>)EmptyAggregateException, new AggregateException() };
+        data.Add(EmptyAggregateException, new AggregateException());
+
+        return data;
     }
 
     private static Task AggregateExceptionWithLeftNestedException()
