@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using FluentAssertions.Types;
+using Internal.AbstractAndNotAbstractClasses.Test;
 using Internal.Main.Test;
 using Internal.NotOnlyClasses.Test;
 using Internal.Other.Test;
@@ -496,6 +497,39 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
+        public void When_selecting_types_that_are_abstract_classes_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(AbstractClass).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.AbstractAndNotAbstractClasses.Test")
+                .ThatAreAbstract();
+
+            // Assert
+            types.Should()
+                .ContainSingle()
+                .Which.Should().Be(typeof(AbstractClass));
+        }
+
+        [Fact]
+        public void When_selecting_types_that_are_not_abstract_classes_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(NotAbstractClass).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.AbstractAndNotAbstractClasses.Test")
+                .ThatAreNotAbstract();
+
+            // Assert
+            types.Should()
+                .HaveCount(2);
+        }
+
+        [Fact]
         public void When_selecting_types_that_are_static_classes_it_should_return_the_correct_types()
         {
             // Arrange
@@ -691,6 +725,21 @@ namespace Internal.StaticAndNonStaticClasses.Test
     }
 
     internal class NotAStaticClass
+    {
+    }
+}
+
+namespace Internal.AbstractAndNotAbstractClasses.Test
+{
+    internal abstract class AbstractClass
+    {
+    }
+
+    internal class NotAbstractClass
+    {
+    }
+
+    internal static class NotAbstractStaticClass
     {
     }
 }
