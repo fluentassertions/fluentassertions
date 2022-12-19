@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using FluentAssertions.Types;
+using Internal.AbstractAndNotAbstractClasses.Test;
 using Internal.Main.Test;
 using Internal.NotOnlyClasses.Test;
 using Internal.Other.Test;
@@ -497,6 +498,39 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
+        public void When_selecting_types_that_are_abstract_classes_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(AbstractClass).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.AbstractAndNotAbstractClasses.Test")
+                .ThatAreAbstract();
+
+            // Assert
+            types.Should()
+                .ContainSingle()
+                .Which.Should().Be(typeof(AbstractClass));
+        }
+
+        [Fact]
+        public void When_selecting_types_that_are_not_abstract_classes_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(NotAbstractClass).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.AbstractAndNotAbstractClasses.Test")
+                .ThatAreNotAbstract();
+
+            // Assert
+            types.Should()
+                .HaveCount(2);
+        }
+
+        [Fact]
         public void When_selecting_types_that_are_structs_it_should_return_the_correct_types()
         {
             // Arrange
@@ -505,12 +539,13 @@ namespace FluentAssertions.Specs.Types
             // Act
             IEnumerable<Type> types = AllTypes.From(assembly)
                 .ThatAreInNamespace("Internal.StructsAndNotStructs.Test")
-                .ThatAreStruct();
+                .ThatAreStructs();
 
             // Assert
             types.Should()
-                .ContainSingle()
-                .Which.Should().Be(typeof(InternalStructType));
+                .HaveCount(2)
+                .And.Contain(typeof(InternalRecordStructType))
+                .And.Contain(typeof(InternalStructType));
         }
 
         [Fact]
@@ -522,14 +557,15 @@ namespace FluentAssertions.Specs.Types
             // Act
             IEnumerable<Type> types = AllTypes.From(assembly)
                 .ThatAreInNamespace("Internal.StructsAndNotStructs.Test")
-                .ThatAreNotStruct();
+                .ThatAreNotStructs();
 
             // Assert
             types.Should()
-                .HaveCount(3)
+                .HaveCount(4)
                 .And.Contain(typeof(InternalClassAndNotStruct))
                 .And.Contain(typeof(InternalEnumAndNotStruct))
-                .And.Contain(typeof(InternalInterfaceAndNotStruct));
+                .And.Contain(typeof(InternalInterfaceAndNotStruct))
+                .And.Contain(typeof(InternalRecordClass));
         }
 
         [Fact]
@@ -732,9 +768,32 @@ namespace Internal.StaticAndNonStaticClasses.Test
     }
 }
 
+namespace Internal.AbstractAndNotAbstractClasses.Test
+{
+    internal abstract class AbstractClass
+    {
+    }
+
+    internal class NotAbstractClass
+    {
+    }
+
+    internal static class NotAbstractStaticClass
+    {
+    }
+}
+
 namespace Internal.StructsAndNotStructs.Test
 {
     internal struct InternalStructType
+    {
+    }
+
+    internal record struct InternalRecordStructType
+    {
+    }
+
+    internal record class InternalRecordClass
     {
     }
 

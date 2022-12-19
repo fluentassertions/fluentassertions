@@ -184,10 +184,27 @@ public class TypeSelector : IEnumerable<Type>
     }
 
     /// <summary>
-    /// Determines wheter the type is a struct (a value type but not an Enum)
+    /// Filters and returns the types that are abstract
     /// </summary>
-    /// <returns></returns>
-    public TypeSelector ThatAreStruct()
+    public TypeSelector ThatAreAbstract()
+    {
+        types = types.Where(t => t.IsCSharpAbstract()).ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Filters and returns the types that are not abstract
+    /// </summary>
+    public TypeSelector ThatAreNotAbstract()
+    {
+        types = types.Where(t => !t.IsCSharpAbstract()).ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Filters and returns the types that are structs (a value type but not an Enum)
+    /// </summary>
+    public TypeSelector ThatAreStructs()
     {
         // A Type is a struct when it is a valueType, but Enums and primitives are also
         // valueTypes so they must be excluded
@@ -198,10 +215,9 @@ public class TypeSelector : IEnumerable<Type>
     }
 
     /// <summary>
-    /// Determines wheter the type is not a struct
+    /// Filters and returns the types that are not structs
     /// </summary>
-    /// <returns></returns>
-    public TypeSelector ThatAreNotStruct()
+    public TypeSelector ThatAreNotStructs()
     {
         types = types.Where(t => !t.IsValueType || t.IsEnum
                                     || t.IsPrimitive || t.IsEquivalentTo(typeof(decimal)))

@@ -2417,11 +2417,13 @@ namespace FluentAssertions.Types
         public FluentAssertions.Types.MethodInfoSelector ThatReturnVoid { get; }
         public System.Collections.Generic.IEnumerator<System.Reflection.MethodInfo> GetEnumerator() { }
         public FluentAssertions.Types.TypeSelector ReturnTypes() { }
+        public FluentAssertions.Types.MethodInfoSelector ThatAreAbstract() { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreAsync() { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreDecoratedWith<TAttribute>()
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreDecoratedWithOrInherit<TAttribute>()
             where TAttribute : System.Attribute { }
+        public FluentAssertions.Types.MethodInfoSelector ThatAreNotAbstract() { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreNotAsync() { }
         public FluentAssertions.Types.MethodInfoSelector ThatAreNotDecoratedWith<TAttribute>()
             where TAttribute : System.Attribute { }
@@ -2477,7 +2479,13 @@ namespace FluentAssertions.Types
     {
         public PropertyInfoSelector(System.Collections.Generic.IEnumerable<System.Type> types) { }
         public PropertyInfoSelector(System.Type type) { }
+        public FluentAssertions.Types.PropertyInfoSelector ThatAreAbstract { get; }
+        public FluentAssertions.Types.PropertyInfoSelector ThatAreNotAbstract { get; }
+        public FluentAssertions.Types.PropertyInfoSelector ThatAreNotStatic { get; }
+        public FluentAssertions.Types.PropertyInfoSelector ThatAreNotVirtual { get; }
         public FluentAssertions.Types.PropertyInfoSelector ThatArePublicOrInternal { get; }
+        public FluentAssertions.Types.PropertyInfoSelector ThatAreStatic { get; }
+        public FluentAssertions.Types.PropertyInfoSelector ThatAreVirtual { get; }
         public System.Collections.Generic.IEnumerator<System.Reflection.PropertyInfo> GetEnumerator() { }
         public FluentAssertions.Types.PropertyInfoSelector NotOfType<TReturn>() { }
         public FluentAssertions.Types.PropertyInfoSelector OfType<TReturn>() { }
@@ -2592,12 +2600,14 @@ namespace FluentAssertions.Types
         public TypeSelector(System.Collections.Generic.IEnumerable<System.Type> types) { }
         public TypeSelector(System.Type type) { }
         public System.Collections.Generic.IEnumerator<System.Type> GetEnumerator() { }
+        public FluentAssertions.Types.TypeSelector ThatAreAbstract() { }
         public FluentAssertions.Types.TypeSelector ThatAreClasses() { }
         public FluentAssertions.Types.TypeSelector ThatAreDecoratedWith<TAttribute>()
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.TypeSelector ThatAreDecoratedWithOrInherit<TAttribute>()
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.TypeSelector ThatAreInNamespace(string @namespace) { }
+        public FluentAssertions.Types.TypeSelector ThatAreNotAbstract() { }
         public FluentAssertions.Types.TypeSelector ThatAreNotClasses() { }
         public FluentAssertions.Types.TypeSelector ThatAreNotDecoratedWith<TAttribute>()
             where TAttribute : System.Attribute { }
@@ -2605,10 +2615,10 @@ namespace FluentAssertions.Types
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.TypeSelector ThatAreNotInNamespace(string @namespace) { }
         public FluentAssertions.Types.TypeSelector ThatAreNotStatic() { }
-        public FluentAssertions.Types.TypeSelector ThatAreNotStruct() { }
+        public FluentAssertions.Types.TypeSelector ThatAreNotStructs() { }
         public FluentAssertions.Types.TypeSelector ThatAreNotUnderNamespace(string @namespace) { }
         public FluentAssertions.Types.TypeSelector ThatAreStatic() { }
-        public FluentAssertions.Types.TypeSelector ThatAreStruct() { }
+        public FluentAssertions.Types.TypeSelector ThatAreStructs() { }
         public FluentAssertions.Types.TypeSelector ThatAreUnderNamespace(string @namespace) { }
         public FluentAssertions.Types.TypeSelector ThatDeriveFrom<TBase>() { }
         public FluentAssertions.Types.TypeSelector ThatDoNotDeriveFrom<TBase>() { }
