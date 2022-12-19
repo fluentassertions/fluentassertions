@@ -184,7 +184,7 @@ public class TypeSelector : IEnumerable<Type>
     }
 
     /// <summary>
-    /// Filters the types that are sealed
+    /// Filters and returns the types that are sealed
     /// </summary>
     public TypeSelector ThatAreSealed()
     {
@@ -193,7 +193,7 @@ public class TypeSelector : IEnumerable<Type>
     }
 
     ///<summary>
-    /// Filters the types that are not sealed
+    /// Filters and returns the types that are not sealed
     ///</summary>
     public TypeSelector ThatAreNotSealed()
     {
