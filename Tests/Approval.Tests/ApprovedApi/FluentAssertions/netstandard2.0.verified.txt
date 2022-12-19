@@ -2614,8 +2614,10 @@ namespace FluentAssertions.Types
         public FluentAssertions.Types.TypeSelector ThatAreNotDecoratedWithOrInherit<TAttribute>()
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.TypeSelector ThatAreNotInNamespace(string @namespace) { }
+        public FluentAssertions.Types.TypeSelector ThatAreNotSealed() { }
         public FluentAssertions.Types.TypeSelector ThatAreNotStatic() { }
         public FluentAssertions.Types.TypeSelector ThatAreNotUnderNamespace(string @namespace) { }
+        public FluentAssertions.Types.TypeSelector ThatAreSealed() { }
         public FluentAssertions.Types.TypeSelector ThatAreStatic() { }
         public FluentAssertions.Types.TypeSelector ThatAreUnderNamespace(string @namespace) { }
         public FluentAssertions.Types.TypeSelector ThatDeriveFrom<TBase>() { }
