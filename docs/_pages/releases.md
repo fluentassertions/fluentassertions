@@ -11,7 +11,9 @@ sidebar:
 
 ### What's new
 * Added `ThatAre[Not]Abstract` method for filtering the types - [#2058](https://github.com/fluentassertions/fluentassertions/pull/2058)
-* Added `ThatAre[Not]Abstract` methods to `MethodInfoSelector.cs` for filtering the methods - [#2060](https://github.com/fluentassertions/fluentassertions/pull/2060)
+* Added `ThatAre[Not]Struct` method for Types Filter  - [#2056](https://github.com/fluentassertions/fluentassertions/pull/2056)
+=========
+* Added `ThatAre[Not]Struct` method for Types Filter  - [#2056](https://github.com/fluentassertions/fluentassertions/pull/2056)
 * Added `ThatAre[Not]Abstract`, `ThatAre[Not]Static` and `ThatAre[Not]Virtual` properties for filtering in `PropertyInfoSelector.cs` - [#2054](https://github.com/fluentassertions/fluentassertions/pull/2054)
 * Added `ThatAre[Not]Struct` method for Types Filter  - [#2056](https://github.com/fluentassertions/fluentassertions/pull/2056)
 * Added `BeOneOf` methods for object comparisons and `IComparable`s - [#2028](https://github.com/fluentassertions/fluentassertions/pull/2028)
