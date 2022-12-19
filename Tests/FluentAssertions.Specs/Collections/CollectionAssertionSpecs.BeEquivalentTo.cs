@@ -300,17 +300,18 @@ public partial class CollectionAssertionSpecs
         {
             // Arrange
             int[] actual = null;
+            int[] expectation = new[] { 1, 2, 3 };
 
             // Act
             Action act = () =>
             {
                 using var _ = new AssertionScope();
-                actual.Should().NotBeEquivalentTo(new[] { 1, 2, 3 }, opt => opt, "we want to test the failure {0}", "message");
+                actual.Should().NotBeEquivalentTo(expectation, opt => opt, "we want to test the failure {0}", "message");
             };
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected actual not to be equivalent *failure message*, but found <null>.");
+                .WithMessage("Expected actual not to be equivalent *failure message*, but found <null>.*");
         }
 
         [Fact]

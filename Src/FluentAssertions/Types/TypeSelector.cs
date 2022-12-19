@@ -184,6 +184,24 @@ public class TypeSelector : IEnumerable<Type>
     }
 
     /// <summary>
+    /// Filters and returns the types that are abstract
+    /// </summary>
+    public TypeSelector ThatAreAbstract()
+    {
+        types = types.Where(t => t.IsCSharpAbstract()).ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Filters and returns the types that are not abstract
+    /// </summary>
+    public TypeSelector ThatAreNotAbstract()
+    {
+        types = types.Where(t => !t.IsCSharpAbstract()).ToList();
+        return this;
+    }
+
+    /// <summary>
     /// Filters and returns the types that are sealed
     /// </summary>
     public TypeSelector ThatAreSealed()
