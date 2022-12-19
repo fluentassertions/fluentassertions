@@ -184,7 +184,7 @@ public class TypeSelector : IEnumerable<Type>
     }
 
     /// <summary>
-    /// Determines whether the type is abstract
+    /// Filters and returns the types that are abstract
     /// </summary>
     public TypeSelector ThatAreAbstract()
     {
@@ -193,7 +193,7 @@ public class TypeSelector : IEnumerable<Type>
     }
 
     /// <summary>
-    /// Determines whether the type is not abstract
+    /// Filters and returns the types that are not abstract
     /// </summary>
     public TypeSelector ThatAreNotAbstract()
     {
