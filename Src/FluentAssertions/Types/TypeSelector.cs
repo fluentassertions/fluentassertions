@@ -192,9 +192,9 @@ public class TypeSelector : IEnumerable<Type>
         return this;
     }
 
-    ///<summary>
+    /// <summary>
     /// Filters and returns the types that are not sealed
-    ///</summary>
+    /// </summary>
     public TypeSelector ThatAreNotSealed()
     {
         types = types.Where(t => !t.IsSealed).ToList();
