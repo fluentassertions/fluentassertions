@@ -2787,10 +2787,7 @@ namespace FluentAssertions.Types
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.TypeSelector ThatAreInNamespace(string @namespace) { }
         public FluentAssertions.Types.TypeSelector ThatAreInterfaces() { }
-<<<<<<< HEAD
         public FluentAssertions.Types.TypeSelector ThatAreNotAbstract() { }
-=======
->>>>>>> ba64cbad (Updated ThatAre[Not]Interface Methods to ThatAre[Not]Interfaces)
         public FluentAssertions.Types.TypeSelector ThatAreNotClasses() { }
         public FluentAssertions.Types.TypeSelector ThatAreNotDecoratedWith<TAttribute>()
             where TAttribute : System.Attribute { }
@@ -2798,10 +2795,7 @@ namespace FluentAssertions.Types
             where TAttribute : System.Attribute { }
         public FluentAssertions.Types.TypeSelector ThatAreNotInNamespace(string @namespace) { }
         public FluentAssertions.Types.TypeSelector ThatAreNotInterfaces() { }
-<<<<<<< HEAD
         public FluentAssertions.Types.TypeSelector ThatAreNotSealed() { }
-=======
->>>>>>> ba64cbad (Updated ThatAre[Not]Interface Methods to ThatAre[Not]Interfaces)
         public FluentAssertions.Types.TypeSelector ThatAreNotStatic() { }
         public FluentAssertions.Types.TypeSelector ThatAreNotUnderNamespace(string @namespace) { }
         public FluentAssertions.Types.TypeSelector ThatAreSealed() { }
