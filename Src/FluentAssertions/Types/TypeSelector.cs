@@ -220,6 +220,24 @@ public class TypeSelector : IEnumerable<Type>
     }
 
     /// <summary>
+    /// Filters and returns only the types that are interfaces
+    /// </summary>
+    public TypeSelector ThatAreInterfaces()
+    {
+        types = types.Where(t => t.IsInterface).ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Filters and returns only the types that are not interfaces
+    /// </summary>
+    public TypeSelector ThatAreNotInterfaces()
+    {
+        types = types.Where(t => !t.IsInterface).ToList();
+        return this;
+    }
+
+    /// <summary>
     /// Determines whether the type is static
     /// </summary>
     public TypeSelector ThatAreStatic()
