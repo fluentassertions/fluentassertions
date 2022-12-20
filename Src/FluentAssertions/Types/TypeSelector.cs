@@ -184,7 +184,6 @@ public class TypeSelector : IEnumerable<Type>
     }
 
     /// <summary>
-<<<<<<< HEAD
     /// Filters and returns the types that are abstract
     /// </summary>
     public TypeSelector ThatAreAbstract()
@@ -223,10 +222,6 @@ public class TypeSelector : IEnumerable<Type>
     /// <summary>
     /// Filters and returns only the types that are interfaces
     /// </summary>
-=======
-    /// Filters and returns the types that are interfaces
-    /// </summary>
->>>>>>> ba44fbf9 (Updated the code docs)
     public TypeSelector ThatAreInterfaces()
     {
         types = types.Where(t => t.IsInterface).ToList();
@@ -234,11 +229,7 @@ public class TypeSelector : IEnumerable<Type>
     }
 
     /// <summary>
-<<<<<<< HEAD
     /// Filters and returns only the types that are not interfaces
-=======
-    /// Filters and returns the types that are not interfaces
->>>>>>> ba44fbf9 (Updated the code docs)
     /// </summary>
     public TypeSelector ThatAreNotInterfaces()
     {
