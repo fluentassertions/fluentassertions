@@ -36,26 +36,26 @@ public class AssertionExtensionsSpecs
         return equals is not null;
     }
 
-    public static object[][] ClassesWithGuardEquals() => new object[][]
+    public static TheoryData<object> ClassesWithGuardEquals => new()
     {
-        new object[] { new ObjectAssertions<object, ObjectAssertions>(default) },
-        new object[] { new BooleanAssertions<BooleanAssertions>(default) },
-        new object[] { new DateTimeAssertions<DateTimeAssertions>(default) },
-        new object[] { new DateTimeRangeAssertions<DateTimeAssertions>(default, default, default, default) },
-        new object[] { new DateTimeOffsetAssertions<DateTimeOffsetAssertions>(default) },
-        new object[] { new DateTimeOffsetRangeAssertions<DateTimeOffsetAssertions>(default, default, default, default) },
-        new object[] { new ExecutionTimeAssertions(new ExecutionTime(() => { }, () => new StopwatchTimer())) },
-        new object[] { new GuidAssertions<GuidAssertions>(default) },
-        new object[] { new MethodInfoSelectorAssertions() },
-        new object[] { new NumericAssertions<int, NumericAssertions<int>>(default) },
-        new object[] { new PropertyInfoSelectorAssertions() },
-        new object[] { new SimpleTimeSpanAssertions<SimpleTimeSpanAssertions>(default) },
-        new object[] { new TaskCompletionSourceAssertions<int>(default) },
-        new object[] { new TypeSelectorAssertions() },
-        new object[] { new EnumAssertions<StringComparison, EnumAssertions<StringComparison>>(default) },
+        new ObjectAssertions<object, ObjectAssertions>(default),
+        new BooleanAssertions<BooleanAssertions>(default),
+        new DateTimeAssertions<DateTimeAssertions>(default),
+        new DateTimeRangeAssertions<DateTimeAssertions>(default, default, default, default),
+        new DateTimeOffsetAssertions<DateTimeOffsetAssertions>(default),
+        new DateTimeOffsetRangeAssertions<DateTimeOffsetAssertions>(default, default, default, default),
+        new ExecutionTimeAssertions(new ExecutionTime(() => { }, () => new StopwatchTimer())),
+        new GuidAssertions<GuidAssertions>(default),
+        new MethodInfoSelectorAssertions(),
+        new NumericAssertions<int, NumericAssertions<int>>(default),
+        new PropertyInfoSelectorAssertions(),
+        new SimpleTimeSpanAssertions<SimpleTimeSpanAssertions>(default),
+        new TaskCompletionSourceAssertions<int>(default),
+        new TypeSelectorAssertions(),
+        new EnumAssertions<StringComparison, EnumAssertions<StringComparison>>(default),
 #if NET6_0_OR_GREATER
-        new object[] { new DateOnlyAssertions<DateOnlyAssertions>(default) },
-        new object[] { new TimeOnlyAssertions<TimeOnlyAssertions>(default) },
+        new DateOnlyAssertions<DateOnlyAssertions>(default),
+        new TimeOnlyAssertions<TimeOnlyAssertions>(default),
 #endif
     };
 

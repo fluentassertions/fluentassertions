@@ -2681,9 +2681,9 @@ public class GenericDictionaryAssertionSpecs
         {
             return new object[]
             {
-            new Dictionary<int, int>() { [1] = 42 },
-            new TrueReadOnlyDictionary<int, int>(new Dictionary<int, int>() { [1] = 42 }),
-            new List<KeyValuePair<int, int>> { new KeyValuePair<int, int>(1, 42) }
+                new Dictionary<int, int>() { [1] = 42 },
+                new TrueReadOnlyDictionary<int, int>(new Dictionary<int, int>() { [1] = 42 }),
+                new List<KeyValuePair<int, int>> { new KeyValuePair<int, int>(1, 42) }
             };
         }
 
