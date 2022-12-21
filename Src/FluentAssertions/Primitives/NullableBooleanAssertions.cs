@@ -28,7 +28,7 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
     }
 
     /// <summary>
-    /// Asserts that a nullable boolean value is not <c>null</c>.
+    /// Asserts that a nullable boolean value is not <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -48,7 +48,7 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
     }
 
     /// <summary>
-    /// Asserts that a nullable boolean value is not <c>null</c>.
+    /// Asserts that a nullable boolean value is not <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -63,7 +63,7 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
     }
 
     /// <summary>
-    /// Asserts that a nullable boolean value is <c>null</c>.
+    /// Asserts that a nullable boolean value is <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -83,7 +83,7 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
     }
 
     /// <summary>
-    /// Asserts that a nullable boolean value is <c>null</c>.
+    /// Asserts that a nullable boolean value is <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -140,7 +140,7 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
     }
 
     /// <summary>
-    /// Asserts that the value is not <c>false</c>.
+    /// Asserts that the value is not <see langword="false"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -160,7 +160,7 @@ public class NullableBooleanAssertions<TAssertions> : BooleanAssertions<TAsserti
     }
 
     /// <summary>
-    /// Asserts that the value is not <c>true</c>.
+    /// Asserts that the value is not <see langword="true"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion

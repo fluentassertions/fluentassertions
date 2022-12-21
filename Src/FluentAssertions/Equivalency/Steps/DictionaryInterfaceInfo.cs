@@ -116,7 +116,7 @@ internal class DictionaryInterfaceInfo
     /// Tries to convert an object into a dictionary typed to the <see cref="Key"/> and <see cref="Value"/> of the current <see cref="DictionaryInterfaceInfo"/>.
     /// </summary>
     /// <returns>
-    /// <c>true</c> if the conversion succeeded or <c>false</c> otherwise.
+    /// <see langword="true"/> if the conversion succeeded or <see langword="false"/> otherwise.
     /// </returns>
     public bool TryConvertFrom(object convertable, out object dictionary)
     {

@@ -41,7 +41,7 @@ public static class TypeExtensions
     /// <summary>
     /// Returns a method selector for the current <see cref="Type"/>.
     /// </summary>
-    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
     public static MethodInfoSelector Methods(this Type type)
     {
         return new MethodInfoSelector(type);
@@ -50,7 +50,7 @@ public static class TypeExtensions
     /// <summary>
     /// Returns a method selector for the current <see cref="Type"/>.
     /// </summary>
-    /// <exception cref="ArgumentNullException"><paramref name="typeSelector"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="typeSelector"/> is <see langword="null"/>.</exception>
     public static MethodInfoSelector Methods(this TypeSelector typeSelector)
     {
         Guard.ThrowIfArgumentIsNull(typeSelector, nameof(typeSelector));
@@ -61,7 +61,7 @@ public static class TypeExtensions
     /// <summary>
     /// Returns a property selector for the current <see cref="Type"/>.
     /// </summary>
-    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
     public static PropertyInfoSelector Properties(this Type type)
     {
         return new PropertyInfoSelector(type);
@@ -70,7 +70,7 @@ public static class TypeExtensions
     /// <summary>
     /// Returns a property selector for the current <see cref="Type"/>.
     /// </summary>
-    /// <exception cref="ArgumentNullException"><paramref name="typeSelector"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="typeSelector"/> is <see langword="null"/>.</exception>
     public static PropertyInfoSelector Properties(this TypeSelector typeSelector)
     {
         Guard.ThrowIfArgumentIsNull(typeSelector, nameof(typeSelector));

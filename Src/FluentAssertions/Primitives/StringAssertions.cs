@@ -205,7 +205,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </item>
     /// </list>
     /// </remarks>
-    /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
     public AndConstraint<TAssertions> Match(string wildcardPattern, string because = "", params object[] becauseArgs)
     {
@@ -255,7 +255,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </item>
     /// </list>
     /// </remarks>
-    /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
     public AndConstraint<TAssertions> NotMatch(string wildcardPattern, string because = "", params object[] becauseArgs)
     {
@@ -307,7 +307,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </item>
     /// </list>
     /// </remarks>
-    /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
     public AndConstraint<TAssertions> MatchEquivalentOf(string wildcardPattern, string because = "",
         params object[] becauseArgs)
@@ -363,7 +363,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </item>
     /// </list>
     /// </remarks>
-    /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
     public AndConstraint<TAssertions> NotMatchEquivalentOf(string wildcardPattern, string because = "",
         params object[] becauseArgs)
@@ -1302,7 +1302,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     }
 
     /// <summary>
-    /// Asserts that a string is neither <c>null</c> nor <see cref="string.Empty"/>.
+    /// Asserts that a string is neither <see langword="null"/> nor <see cref="string.Empty"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -1322,7 +1322,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     }
 
     /// <summary>
-    /// Asserts that a string is either <c>null</c> or <see cref="string.Empty"/>.
+    /// Asserts that a string is either <see langword="null"/> or <see cref="string.Empty"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -1342,7 +1342,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     }
 
     /// <summary>
-    /// Asserts that a string is neither <c>null</c> nor <see cref="string.Empty"/> nor white space
+    /// Asserts that a string is neither <see langword="null"/> nor <see cref="string.Empty"/> nor white space
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -1362,7 +1362,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     }
 
     /// <summary>
-    /// Asserts that a string is either <c>null</c> or <see cref="string.Empty"/> or white space
+    /// Asserts that a string is either <see langword="null"/> or <see cref="string.Empty"/> or white space
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion

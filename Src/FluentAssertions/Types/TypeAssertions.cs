@@ -451,7 +451,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> Implement(Type interfaceType, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(interfaceType, nameof(interfaceType));
@@ -500,7 +500,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> NotImplement(Type interfaceType, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(interfaceType, nameof(interfaceType));
@@ -549,7 +549,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="baseType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="baseType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> BeDerivedFrom(Type baseType, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(baseType, nameof(baseType));
@@ -600,7 +600,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="baseType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="baseType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> NotBeDerivedFrom(Type baseType, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(baseType, nameof(baseType));
@@ -845,8 +845,8 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="propertyType"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="propertyType"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/> or empty.</exception>
     public AndWhichConstraint<TypeAssertions, PropertyInfo> HaveProperty(
         Type propertyType, string name, string because = "", params object[] becauseArgs)
     {
@@ -891,7 +891,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/> or empty.</exception>
     public AndWhichConstraint<TypeAssertions, PropertyInfo> HaveProperty<TProperty>(
         string name, string because = "", params object[] becauseArgs)
     {
@@ -909,7 +909,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/> or empty.</exception>
     public AndConstraint<TypeAssertions> NotHaveProperty(string name, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
@@ -946,8 +946,8 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/> or empty.</exception>
     public AndConstraint<TypeAssertions> HaveExplicitProperty(
         Type interfaceType, string name, string because = "", params object[] becauseArgs)
     {
@@ -990,7 +990,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/> or empty.</exception>
     public AndConstraint<TypeAssertions> HaveExplicitProperty<TInterface>(
         string name, string because = "", params object[] becauseArgs)
         where TInterface : class
@@ -1011,8 +1011,8 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/> or empty.</exception>
     public AndConstraint<TypeAssertions> NotHaveExplicitProperty(
         Type interfaceType, string name, string because = "", params object[] becauseArgs)
     {
@@ -1056,7 +1056,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/> or empty.</exception>
     public AndConstraint<TypeAssertions> NotHaveExplicitProperty<TInterface>(
         string name, string because = "", params object[] becauseArgs)
         where TInterface : class
@@ -1078,9 +1078,9 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> HaveExplicitMethod(
         Type interfaceType, string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
     {
@@ -1126,8 +1126,8 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> HaveExplicitMethod<TInterface>(
         string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
         where TInterface : class
@@ -1149,9 +1149,9 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> NotHaveExplicitMethod(
         Type interfaceType, string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
     {
@@ -1197,8 +1197,8 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> NotHaveExplicitMethod<TInterface>(
         string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
         where TInterface : class
@@ -1219,8 +1219,8 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="indexerType"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="indexerType"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<TypeAssertions, PropertyInfo> HaveIndexer(
         Type indexerType, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
     {
@@ -1267,7 +1267,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> NotHaveIndexer(
         IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
     {
@@ -1308,8 +1308,8 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<TypeAssertions, MethodInfo> HaveMethod(
         string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
     {
@@ -1353,8 +1353,8 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> NotHaveMethod(
         string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
     {
@@ -1395,7 +1395,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<TypeAssertions, ConstructorInfo> HaveConstructor(
         IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
     {
@@ -1452,7 +1452,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<TypeAssertions, ConstructorInfo> NotHaveConstructor(
         IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
     {
@@ -1610,8 +1610,8 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceType"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="targetType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceType"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="targetType"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<TypeAssertions, MethodInfo> HaveImplicitConversionOperator(
         Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
     {
@@ -1672,8 +1672,8 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceType"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="targetType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceType"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="targetType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> NotHaveImplicitConversionOperator(
         Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
     {
@@ -1732,8 +1732,8 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceType"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="targetType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceType"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="targetType"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<TypeAssertions, MethodInfo> HaveExplicitConversionOperator(
         Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
     {
@@ -1794,8 +1794,8 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceType"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="targetType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceType"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="targetType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> NotHaveExplicitConversionOperator(
         Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
     {

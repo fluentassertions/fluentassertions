@@ -91,7 +91,7 @@ public interface IEquivalencyAssertionOptions
     bool? CompareRecordsByValue { get; }
 
     /// <summary>
-    /// Gets the currently configured tracer, or <c>null</c> if no tracing was configured.
+    /// Gets the currently configured tracer, or <see langword="null"/> if no tracing was configured.
     /// </summary>
     ITraceWriter TraceWriter { get; }
 

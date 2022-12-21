@@ -148,7 +148,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="expectedType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="expectedType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeOfType(Type expectedType, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expectedType, nameof(expectedType));
@@ -206,7 +206,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="unexpectedType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpectedType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotBeOfType(Type unexpectedType, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(unexpectedType, nameof(unexpectedType));
@@ -281,7 +281,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <returns>An <see cref="AndConstraint{TAssertions}"/> which can be used to chain assertions.</returns>
-    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeAssignableTo(Type type, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(type, nameof(type));
@@ -339,7 +339,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <returns>An <see cref="AndConstraint{TAssertions}"/> which can be used to chain assertions.</returns>
-    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotBeAssignableTo(Type type, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(type, nameof(type));
@@ -397,7 +397,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <returns>An <see cref="AndConstraint{T}" /> which can be used to chain assertions.</returns>
-    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> Match<T>(Expression<Func<T, bool>> predicate,
         string because = "",
         params object[] becauseArgs)

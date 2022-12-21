@@ -27,7 +27,7 @@ public class GivenSelector<T>
     /// Specify the condition that must be satisfied upon the subject selected through a prior selector.
     /// </summary>
     /// <param name="predicate">
-    /// If <c>true</c> the assertion will be treated as successful and no exceptions will be thrown.
+    /// If <see langword="true"/> the assertion will be treated as successful and no exceptions will be thrown.
     /// </param>
     /// <remarks>
     /// The condition will not be evaluated if the prior assertion failed,

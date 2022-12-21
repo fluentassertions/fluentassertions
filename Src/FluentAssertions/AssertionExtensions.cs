@@ -39,8 +39,8 @@ public static class AssertionExtensions
     /// Invokes the specified action on a subject so that you can chain it
     /// with any of the assertions from <see cref="ActionAssertions"/>
     /// </summary>
-    /// <exception cref="ArgumentNullException"><paramref name="subject"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="subject"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <see langword="null"/>.</exception>
     [Pure]
     public static Action Invoking<T>(this T subject, Action<T> action)
     {
@@ -54,8 +54,8 @@ public static class AssertionExtensions
     /// Invokes the specified action on a subject so that you can chain it
     /// with any of the assertions from <see cref="FunctionAssertions{T}"/>
     /// </summary>
-    /// <exception cref="ArgumentNullException"><paramref name="subject"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="subject"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <see langword="null"/>.</exception>
     [Pure]
     public static Func<TResult> Invoking<T, TResult>(this T subject, Func<T, TResult> action)
     {
@@ -113,8 +113,8 @@ public static class AssertionExtensions
     /// <returns>
     /// Returns an object for asserting that the execution time matches certain conditions.
     /// </returns>
-    /// <exception cref="ArgumentNullException"><paramref name="subject"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="subject"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <see langword="null"/>.</exception>
     [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
     public static MemberExecutionTime<T> ExecutionTimeOf<T>(this T subject, Expression<Action<T>> action,
         StartTimer createTimer = null)
@@ -134,7 +134,7 @@ public static class AssertionExtensions
     /// <returns>
     /// Returns an object for asserting that the execution time matches certain conditions.
     /// </returns>
-    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <see langword="null"/>.</exception>
     [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
     public static ExecutionTime ExecutionTime(this Action action, StartTimer createTimer = null)
     {
@@ -150,7 +150,7 @@ public static class AssertionExtensions
     /// <returns>
     /// Returns an object for asserting that the execution time matches certain conditions.
     /// </returns>
-    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <see langword="null"/>.</exception>
     [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
     public static ExecutionTime ExecutionTime(this Func<Task> action)
     {
@@ -229,7 +229,7 @@ public static class AssertionExtensions
 
     /// <summary>
     /// Forces enumerating a collection. Should be used to assert that a method that uses the
-    /// <c>yield</c> keyword throws a particular exception.
+    /// <see langword="yield"/> keyword throws a particular exception.
     /// </summary>
     [Pure]
     public static Action Enumerating(this Func<IEnumerable> enumerable)
@@ -239,7 +239,7 @@ public static class AssertionExtensions
 
     /// <summary>
     /// Forces enumerating a collection. Should be used to assert that a method that uses the
-    /// <c>yield</c> keyword throws a particular exception.
+    /// <see langword="yield"/> keyword throws a particular exception.
     /// </summary>
     [Pure]
     public static Action Enumerating<T>(this Func<IEnumerable<T>> enumerable)
@@ -249,7 +249,7 @@ public static class AssertionExtensions
 
     /// <summary>
     /// Forces enumerating a collection of the provided <paramref name="subject"/>.
-    /// Should be used to assert that a method that uses the <c>yield</c> keyword throws a particular exception.
+    /// Should be used to assert that a method that uses the <see langword="yield"/> keyword throws a particular exception.
     /// </summary>
     /// <param name="subject">The object that exposes the method or property.</param>
     /// <param name="enumerable">A reference to the method or property to force enumeration of.</param>
@@ -783,7 +783,7 @@ public static class AssertionExtensions
     /// Returns a <see cref="TypeAssertions"/> object that can be used to assert the
     /// current <see cref="Type"/>.
     /// </summary>
-    /// <exception cref="ArgumentNullException"><paramref name="typeSelector"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="typeSelector"/> is <see langword="null"/>.</exception>
     [Pure]
     public static TypeSelectorAssertions Should(this TypeSelector typeSelector)
     {
@@ -818,7 +818,7 @@ public static class AssertionExtensions
     /// current <see cref="MethodInfoSelector"/>.
     /// </summary>
     /// <seealso cref="TypeAssertions"/>
-    /// <exception cref="ArgumentNullException"><paramref name="methodSelector"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="methodSelector"/> is <see langword="null"/>.</exception>
     [Pure]
     public static MethodInfoSelectorAssertions Should(this MethodInfoSelector methodSelector)
     {
@@ -843,7 +843,7 @@ public static class AssertionExtensions
     /// current <see cref="PropertyInfoSelector"/>.
     /// </summary>
     /// <seealso cref="TypeAssertions"/>
-    /// <exception cref="ArgumentNullException"><paramref name="propertyInfoSelector"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="propertyInfoSelector"/> is <see langword="null"/>.</exception>
     [Pure]
     public static PropertyInfoSelectorAssertions Should(this PropertyInfoSelector propertyInfoSelector)
     {

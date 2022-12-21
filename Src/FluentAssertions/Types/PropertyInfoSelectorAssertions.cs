@@ -25,7 +25,7 @@ public class PropertyInfoSelectorAssertions
     /// Initializes a new instance of the <see cref="PropertyInfoSelectorAssertions"/> class, for a number of <see cref="PropertyInfo"/> objects.
     /// </summary>
     /// <param name="properties">The properties to assert.</param>
-    /// <exception cref="ArgumentNullException"><paramref name="properties"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="properties"/> is <see langword="null"/>.</exception>
     public PropertyInfoSelectorAssertions(params PropertyInfo[] properties)
     {
         Guard.ThrowIfArgumentIsNull(properties, nameof(properties));

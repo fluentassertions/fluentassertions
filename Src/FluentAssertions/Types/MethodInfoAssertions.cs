@@ -169,7 +169,7 @@ public class MethodInfoAssertions : MethodBaseAssertions<MethodInfo, MethodInfoA
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="returnType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="returnType"/> is <see langword="null"/>.</exception>
     public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> Return(Type returnType, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(returnType, nameof(returnType));
@@ -246,7 +246,7 @@ public class MethodInfoAssertions : MethodBaseAssertions<MethodInfo, MethodInfoA
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="returnType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="returnType"/> is <see langword="null"/>.</exception>
     public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> NotReturn(Type returnType, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(returnType, nameof(returnType));

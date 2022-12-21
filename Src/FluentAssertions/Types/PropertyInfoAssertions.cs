@@ -270,7 +270,7 @@ public class PropertyInfoAssertions :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="propertyType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="propertyType"/> is <see langword="null"/>.</exception>
     public AndConstraint<PropertyInfoAssertions> Return(Type propertyType,
         string because = "", params object[] becauseArgs)
     {
@@ -319,7 +319,7 @@ public class PropertyInfoAssertions :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="propertyType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="propertyType"/> is <see langword="null"/>.</exception>
     public AndConstraint<PropertyInfoAssertions> NotReturn(Type propertyType, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(propertyType, nameof(propertyType));
