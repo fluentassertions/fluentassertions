@@ -19,7 +19,7 @@ public class DefaultValueFormatter : IValueFormatter
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>
-    /// <c>true</c> if this instance can handle the specified value; otherwise, <c>false</c>.
+    /// <see langword="true"/> if this instance can handle the specified value; otherwise, <see langword="false"/>.
     /// </returns>
     public virtual bool CanHandle(object value)
     {

@@ -37,7 +37,7 @@ public class BooleanAssertions<TAssertions>
     public bool? Subject { get; }
 
     /// <summary>
-    /// Asserts that the value is <c>false</c>.
+    /// Asserts that the value is <see langword="false"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -57,7 +57,7 @@ public class BooleanAssertions<TAssertions>
     }
 
     /// <summary>
-    /// Asserts that the value is <c>true</c>.
+    /// Asserts that the value is <see langword="true"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion

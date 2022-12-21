@@ -175,7 +175,7 @@ internal static class TypeExtensions
     /// Finds the property by a case-sensitive name.
     /// </summary>
     /// <returns>
-    /// Returns <c>null</c> if no such property exists.
+    /// Returns <see langword="null"/> if no such property exists.
     /// </returns>
     public static PropertyInfo FindProperty(this Type type, string propertyName, Type preferredType)
     {
@@ -193,7 +193,7 @@ internal static class TypeExtensions
     /// Finds the field by a case-sensitive name.
     /// </summary>
     /// <returns>
-    /// Returns <c>null</c> if no such property exists.
+    /// Returns <see langword="null"/> if no such property exists.
     /// </returns>
     public static FieldInfo FindField(this Type type, string fieldName, Type preferredType)
     {

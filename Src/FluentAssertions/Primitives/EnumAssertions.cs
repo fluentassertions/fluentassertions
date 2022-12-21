@@ -374,7 +374,7 @@ public class EnumAssertions<TEnum, TAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <returns>An <see cref="AndConstraint{T}" /> which can be used to chain assertions.</returns>
-    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> Match(Expression<Func<TEnum?, bool>> predicate,
         string because = "",
         params object[] becauseArgs)

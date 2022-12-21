@@ -12,19 +12,19 @@ public interface IMemberMatchingRule
     /// </summary>
     /// <remarks>
     /// Whether or not a match is required or optional is up to the specific rule. If no match is found and this is not an issue,
-    /// simply return <c>null</c>.
+    /// simply return <see langword="null"/>.
     /// </remarks>
     /// <param name="expectedMember">
     /// The <see cref="IMember"/> of the subject's member for which a match must be found. Can never
-    /// be <c>null</c>.
+    /// be <see langword="null"/>.
     /// </param>
     /// <param name="subject">
-    /// The subject object for which a matching member must be returned. Can never be <c>null</c>.
+    /// The subject object for which a matching member must be returned. Can never be <see langword="null"/>.
     /// </param>
     /// <param name="parent"></param>
     /// <param name="options"></param>
     /// <returns>
-    /// Returns the <see cref="IMember"/> of the property with which to compare the subject with, or <c>null</c>
+    /// Returns the <see cref="IMember"/> of the property with which to compare the subject with, or <see langword="null"/>
     /// if no match was found.
     /// </returns>
     IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions options);

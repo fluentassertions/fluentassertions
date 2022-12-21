@@ -71,7 +71,7 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<MemberInfoAssertions<TSubject, TAssertions>, TAttribute> BeDecoratedWith<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
         string because = "", params object[] becauseArgs)
@@ -117,7 +117,7 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotBeDecoratedWith<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
         string because = "", params object[] becauseArgs)

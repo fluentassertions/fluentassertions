@@ -234,7 +234,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     /// </item>
     /// </list>
     /// </remarks>
-    /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
     public AndWhichConstraint<TAssertions, string> ContainMatch(string wildcardPattern, string because = "",
         params object[] becauseArgs)
@@ -319,7 +319,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     /// </item>
     /// </list>
     /// </remarks>
-    /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
     public AndConstraint<TAssertions> NotContainMatch(string wildcardPattern, string because = "",
         params object[] becauseArgs)

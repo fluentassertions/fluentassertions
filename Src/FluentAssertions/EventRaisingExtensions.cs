@@ -98,7 +98,7 @@ public static class EventRaisingExtensions
     /// Returns only the events having arguments matching both type and all predicates.
     /// </returns>
     /// <remarks>
-    /// If a <c>null</c> is provided as predicate argument, the corresponding event parameter value is ignored.
+    /// If a <see langword="null"/> is provided as predicate argument, the corresponding event parameter value is ignored.
     /// </remarks>
     public static IEventRecording WithArgs<T>(this IEventRecording eventRecording, params Expression<Func<T, bool>>[] predicates)
     {

@@ -167,7 +167,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="expectedName"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="expectedName"/> is <see langword="null"/> or empty.</exception>
     public AndConstraint<XElementAssertions> HaveAttribute(string expectedName, string expectedValue, string because = "",
         params object[] becauseArgs)
     {
@@ -189,7 +189,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="expectedName"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="expectedName"/> is <see langword="null"/>.</exception>
     public AndConstraint<XElementAssertions> HaveAttribute(XName expectedName, string expectedValue, string because = "",
         params object[] becauseArgs)
     {
@@ -239,7 +239,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/> or empty.</exception>
     public AndWhichConstraint<XElementAssertions, XElement> HaveElement(string expected, string because = "",
         params object[] becauseArgs)
     {
@@ -260,7 +260,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<XElementAssertions, XElement> HaveElement(XName expected, string because = "",
         params object[] becauseArgs)
     {

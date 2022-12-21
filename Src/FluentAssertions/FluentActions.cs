@@ -39,14 +39,14 @@ public static class FluentActions
 
     /// <summary>
     /// Forces enumerating a collection. Should be used to assert that a method that uses the
-    /// <c>yield</c> keyword throws a particular exception.
+    /// <see langword="yield"/> keyword throws a particular exception.
     /// </summary>
     [Pure]
     public static Action Enumerating(Func<IEnumerable> enumerable) => enumerable.Enumerating();
 
     /// <summary>
     /// Forces enumerating a collection. Should be used to assert that a method that uses the
-    /// <c>yield</c> keyword throws a particular exception.
+    /// <see langword="yield"/> keyword throws a particular exception.
     /// </summary>
     [Pure]
     public static Action Enumerating<T>(Func<IEnumerable<T>> enumerable) => enumerable.Enumerating();

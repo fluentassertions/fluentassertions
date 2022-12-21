@@ -18,7 +18,7 @@ public interface IObjectInfo
     /// Gets the type of the parent, e.g. the type that declares a property or field.
     /// </summary>
     /// <value>
-    /// Is <c>null</c> for the root object.
+    /// Is <see langword="null"/> for the root object.
     /// </value>
     [CanBeNull]
     Type ParentType { get; }

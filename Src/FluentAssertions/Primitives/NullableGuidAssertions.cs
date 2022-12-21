@@ -29,7 +29,7 @@ public class NullableGuidAssertions<TAssertions> : GuidAssertions<TAssertions>
     }
 
     /// <summary>
-    /// Asserts that a nullable <see cref="Guid"/> value is not <c>null</c>.
+    /// Asserts that a nullable <see cref="Guid"/> value is not <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -49,7 +49,7 @@ public class NullableGuidAssertions<TAssertions> : GuidAssertions<TAssertions>
     }
 
     /// <summary>
-    /// Asserts that a nullable <see cref="Guid"/> value is not <c>null</c>.
+    /// Asserts that a nullable <see cref="Guid"/> value is not <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -64,7 +64,7 @@ public class NullableGuidAssertions<TAssertions> : GuidAssertions<TAssertions>
     }
 
     /// <summary>
-    /// Asserts that a nullable <see cref="Guid"/> value is <c>null</c>.
+    /// Asserts that a nullable <see cref="Guid"/> value is <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -84,7 +84,7 @@ public class NullableGuidAssertions<TAssertions> : GuidAssertions<TAssertions>
     }
 
     /// <summary>
-    /// Asserts that a nullable <see cref="Guid"/> value is <c>null</c>.
+    /// Asserts that a nullable <see cref="Guid"/> value is <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
