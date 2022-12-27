@@ -15,7 +15,7 @@ public class DateTimeOffsetValueFormatter : IValueFormatter
     /// </returns>
     public bool CanHandle(object value)
     {
-        return (value is DateTime) || (value is DateTimeOffset);
+        return value is DateTime or DateTimeOffset;
     }
 
     public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)

@@ -17,7 +17,7 @@ public static class TimeSpanExtensions
         // Rounding to the nearest tick is as close to the result we would have with unlimited
         // precision as possible, and so likely to have the least potential to surprise.
         double ticks = Math.Round(timeSpan.Ticks * factor);
-        if (ticks > long.MaxValue || ticks < long.MinValue)
+        if (ticks is > long.MaxValue or < long.MinValue)
         {
             throw new OverflowException("TimeSpan overflowed because the duration is too long.");
         }
