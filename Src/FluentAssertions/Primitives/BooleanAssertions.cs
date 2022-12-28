@@ -118,6 +118,16 @@ public class BooleanAssertions<TAssertions>
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
+    public AndConstraint<TAssertions> Imply(bool expectation, string because = "", params object[] becauseArgs)
+    {
+        Execute.Assertion            
+            .ForCondition(!Subject.Value || expectation)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:boolean} ({0}) to imply {1} ({2}){reason}, but it did not.", Subject, nameof(expectation), expectation);
+        
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
     /// <inheritdoc/>
     public override bool Equals(object obj) =>
         throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
