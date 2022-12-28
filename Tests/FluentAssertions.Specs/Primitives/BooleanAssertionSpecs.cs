@@ -184,7 +184,7 @@ public class BooleanAssertionSpecs
 
         [Theory]
         [MemberData(nameof(PassingImplications), MemberType = typeof(BooleanAssertionSpecs.Imply))]
-        public void A_implies_B(bool? a, bool b)
+        public void Subject_implies_(bool? a, bool b)
         {
             // Act / Assert
             a.Should().Imply(b);
@@ -195,11 +195,11 @@ public class BooleanAssertionSpecs
         public void A_does_not_imply_B(bool? a, bool b)
         {
             // Act
-            Action act = () => a.Should().Imply(b);
+            Action act = () => a.Should().Imply(b, "because we want to test the {0}", "failure");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*to imply*but*");
+                .WithMessage("Expected*to imply*test the failure*but*");
         }
     }
 }
