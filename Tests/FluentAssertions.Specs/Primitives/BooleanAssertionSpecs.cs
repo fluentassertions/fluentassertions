@@ -184,18 +184,18 @@ public class BooleanAssertionSpecs
 
         [Theory]
         [MemberData(nameof(PassingImplications), MemberType = typeof(BooleanAssertionSpecs.Imply))]
-        public void Subject_implies_(bool? a, bool b)
+        public void Subject_implies_implicator(bool? subject, bool implicator)
         {
             // Act / Assert
-            a.Should().Imply(b);
+            subject.Should().Imply(implicator);
         }
 
         [Theory]
         [MemberData(nameof(NonPassingImplications), MemberType = typeof(BooleanAssertionSpecs.Imply))]
-        public void A_does_not_imply_B(bool? a, bool b)
+        public void Subject_does_not_imply_implicator(bool? subject, bool implicator)
         {
             // Act
-            Action act = () => a.Should().Imply(b, "because we want to test the {0}", "failure");
+            Action act = () => subject.Should().Imply(implicator, "because we want to test the {0}", "failure");
 
             // Assert
             act.Should().Throw<XunitException>()
