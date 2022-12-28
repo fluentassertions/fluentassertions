@@ -23,3 +23,9 @@ Obviously the above assertions also work for nullable booleans, but if you reall
 theBoolean.Should().NotBeFalse();
 theBoolean.Should().NotBeTrue();
 ```
+
+Implication: see [here](https://mathworld.wolfram.com/Implies.html)
+```csharp
+bool anotherBoolean = true;
+theBoolean.Should().Imply(anotherBoolean);
+```
