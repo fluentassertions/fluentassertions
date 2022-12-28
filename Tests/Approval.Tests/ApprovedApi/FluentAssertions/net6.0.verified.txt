@@ -1841,7 +1841,7 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> BeFalse(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeTrue(string because = "", params object[] becauseArgs) { }
         public override bool Equals(object obj) { }
-        public FluentAssertions.AndConstraint<TAssertions> Imply(bool implicator, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> Imply(bool implicator, [System.Runtime.CompilerServices.CallerArgumentExpression("implicator")] string implicatorMessage = "", string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(bool unexpected, string because = "", params object[] becauseArgs) { }
     }
     public class DateOnlyAssertions : FluentAssertions.Primitives.DateOnlyAssertions<FluentAssertions.Primitives.DateOnlyAssertions>
