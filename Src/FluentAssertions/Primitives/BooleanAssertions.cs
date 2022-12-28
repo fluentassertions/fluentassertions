@@ -118,15 +118,26 @@ public class BooleanAssertions<TAssertions>
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
-    public AndConstraint<TAssertions> Imply(bool expectation, string because = "", params object[] becauseArgs)
+    /// <summary>
+    /// Asserts that the value implies the specified <paramref name="implicator"/> value.
+    /// </summary>
+    /// <param name="implicator">The second value for the implication</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+    /// </param>
+    public AndConstraint<TAssertions> Imply(bool implicator, string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
-            .WithExpectation("Expected {context:boolean} ({0}) to imply {1} ({2}){reason}, ", Subject, nameof(expectation), expectation)
+            .WithExpectation("Expected {context:boolean} ({0}) to imply {1} ({2}){reason}, ", Subject, nameof(implicator), implicator)
             .FailWith("but found null.")
             .Then
-            .ForCondition(!Subject.Value || expectation)
+            .ForCondition(!Subject.Value || implicator)
             .FailWith("but it did not.")
             .Then
             .ClearExpectation();
