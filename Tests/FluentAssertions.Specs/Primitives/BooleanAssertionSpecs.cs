@@ -168,21 +168,23 @@ public class BooleanAssertionSpecs
 
     public class Imply
     {
-        public static TheoryData<bool, bool> PassingImplications => new()
+        public static TheoryData<bool?, bool> PassingImplications => new()
         {
             { false, false },
             { false, true },
             { true, true }
         };
 
-        public static TheoryData<bool, bool> NonPassingImplications => new()
+        public static TheoryData<bool?, bool> NonPassingImplications => new()
         {
+            { null, true },
+            { null, false },
             { true, false }
         };
 
         [Theory]
         [MemberData(nameof(PassingImplications), MemberType = typeof(BooleanAssertionSpecs.Imply))]
-        public void A_implies_B(bool a, bool b)
+        public void A_implies_B(bool? a, bool b)
         {
             // Act / Assert
             a.Should().Imply(b);
@@ -190,14 +192,14 @@ public class BooleanAssertionSpecs
 
         [Theory]
         [MemberData(nameof(NonPassingImplications), MemberType = typeof(BooleanAssertionSpecs.Imply))]
-        public void A_does_not_imply_B(bool a, bool b)
+        public void A_does_not_imply_B(bool? a, bool b)
         {
             // Act
             Action act = () => a.Should().Imply(b);
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*to imply*but it did not*");
+                .WithMessage("Expected*to imply*but*");
         }
     }
 }

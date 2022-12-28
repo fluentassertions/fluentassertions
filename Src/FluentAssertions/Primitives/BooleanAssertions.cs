@@ -120,10 +120,16 @@ public class BooleanAssertions<TAssertions>
 
     public AndConstraint<TAssertions> Imply(bool expectation, string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion            
-            .ForCondition(!Subject.Value || expectation)
+        Execute.Assertion
+            .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:boolean} ({0}) to imply {1} ({2}){reason}, but it did not.", Subject, nameof(expectation), expectation);
+            .WithExpectation("Expected {context:boolean} ({0}) to imply {1} ({2}){reason}, ", Subject, nameof(expectation), expectation)
+            .FailWith("but found null.")
+            .Then
+            .ForCondition(!Subject.Value || expectation)
+            .FailWith("but it did not.")
+            .Then
+            .ClearExpectation();
         
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
