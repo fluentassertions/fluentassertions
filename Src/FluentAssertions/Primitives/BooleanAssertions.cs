@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
@@ -129,12 +130,15 @@ public class BooleanAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> Imply(bool implicator, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> Imply(bool implicator,
+        [CallerArgumentExpression("implicator")] string implicatorMessage = "",
+        string because = "",
+        params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
-            .WithExpectation("Expected {context:boolean} ({0}) to imply {1} ({2}){reason}, ", Subject, nameof(implicator), implicator)
+            .WithExpectation("Expected {context:boolean} ({0}) to imply {1} ({2}){reason}, ", Subject, implicatorMessage, implicator)
             .FailWith("but found null.")
             .Then
             .ForCondition(!Subject.Value || implicator)
