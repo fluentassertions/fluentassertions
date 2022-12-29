@@ -81,6 +81,30 @@ internal static class Guard
         }
     }
 
+    public static void ThrowIfArgumentIsNegative(float value, string paramName)
+    {
+        if (value < 0)
+        {
+            throw new ArgumentOutOfRangeException(paramName, "The value must be non-negative.");
+        }
+    }
+
+    public static void ThrowIfArgumentIsNegative(double value, string paramName)
+    {
+        if (value < 0)
+        {
+            throw new ArgumentOutOfRangeException(paramName, "The value must be non-negative.");
+        }
+    }
+
+    public static void ThrowIfArgumentIsNegative(decimal value, string paramName)
+    {
+        if (value < 0)
+        {
+            throw new ArgumentOutOfRangeException(paramName, "The value must be non-negative.");
+        }
+    }
+
     /// <summary>
     /// Workaround to make dotnet_code_quality.null_check_validation_methods work
     /// https://github.com/dotnet/roslyn-analyzers/issues/3451#issuecomment-606690452
