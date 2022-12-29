@@ -186,7 +186,8 @@ public class TimeOnlyAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -351,7 +352,7 @@ public class TimeOnlyAssertionSpecs
             TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
 
             // Act
-            Action act = () => 
+            Action act = () =>
             {
                 using var _ = new AssertionScope();
                 time.Should().BeCloseTo(nearbyTime, 35.Milliseconds());
@@ -388,7 +389,7 @@ public class TimeOnlyAssertionSpecs
             TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
 
             // Act
-            Action act = () => 
+            Action act = () =>
             {
                 using var _ = new AssertionScope();
                 time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
@@ -411,7 +412,8 @@ public class TimeOnlyAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]

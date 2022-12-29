@@ -145,13 +145,11 @@ public class TimeOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public AndConstraint<TAssertions> BeCloseTo(TimeOnly nearbyTime, TimeSpan precision, string because = "",
         params object[] becauseArgs)
     {
-        if (precision < TimeSpan.Zero)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
 
         TimeSpan? difference = (Subject != null)
             ? MinimumDifference(Subject.Value, nearbyTime)
@@ -196,13 +194,11 @@ public class TimeOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public AndConstraint<TAssertions> NotBeCloseTo(TimeOnly distantTime, TimeSpan precision, string because = "",
         params object[] becauseArgs)
     {
-        if (precision < TimeSpan.Zero)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
