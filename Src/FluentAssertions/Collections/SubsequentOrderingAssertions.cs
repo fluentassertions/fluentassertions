@@ -63,7 +63,7 @@ public class SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAsse
     public AndConstraint<SubsequentOrderingAssertions<T>> ThenBeInAscendingOrder<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs)
     {
-        return ThenBeInAscendingOrder(propertyExpression, Comparer<TSelector>.Default, because, becauseArgs);
+        return ThenBeInAscendingOrder(propertyExpression, GetComparer<TSelector>(), because, becauseArgs);
     }
 
     /// <summary>
@@ -114,7 +114,7 @@ public class SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAsse
     public AndConstraint<SubsequentOrderingAssertions<T>> ThenBeInDescendingOrder<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs)
     {
-        return ThenBeInDescendingOrder(propertyExpression, Comparer<TSelector>.Default, because, becauseArgs);
+        return ThenBeInDescendingOrder(propertyExpression, GetComparer<TSelector>(), because, becauseArgs);
     }
 
     /// <summary>

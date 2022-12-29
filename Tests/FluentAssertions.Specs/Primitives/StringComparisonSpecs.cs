@@ -333,6 +333,23 @@ public class StringComparisonSpecs
         subject.Should().MatchEquivalentOf(expected);
     }
 
+    [CulturedFact("en-US")]
+    public void Culture_is_ignored_when_sorting_strings()
+    {
+        using var _ = new AssertionScope();
+        new[] { "A", "a" }.Should().BeInAscendingOrder()
+            .And.BeInAscendingOrder(e => e)
+            .And.ThenBeInAscendingOrder(e => e)
+            .And.NotBeInDescendingOrder()
+            .And.NotBeInDescendingOrder(e => e);
+
+        new[] { "a", "A" }.Should().BeInDescendingOrder()
+            .And.BeInDescendingOrder(e => e)
+            .And.ThenBeInDescendingOrder(e => e)
+            .And.NotBeInAscendingOrder()
+            .And.NotBeInAscendingOrder(e => e);
+    }
+
     private const string LowerCaseI = "i";
     private const string UpperCaseI = "I";
 
