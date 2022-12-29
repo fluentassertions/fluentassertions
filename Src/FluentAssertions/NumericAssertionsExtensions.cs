@@ -1,4 +1,5 @@
 using System;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;

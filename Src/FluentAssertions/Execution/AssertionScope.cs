@@ -74,7 +74,7 @@ public sealed class AssertionScope : IAssertionScope
     /// Starts a new scope based on the given assertion strategy.
     /// </summary>
     /// <param name="assertionStrategy">The assertion strategy for this scope.</param>
-    /// <exception cref="ArgumentNullException">Thrown when trying to use a null strategy.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="assertionStrategy"/> is <see langword="null"/>.</exception>
     public AssertionScope(IAssertionStrategy assertionStrategy)
         : this(assertionStrategy, GetCurrentAssertionScope())
     {
@@ -96,7 +96,7 @@ public sealed class AssertionScope : IAssertionScope
     /// </summary>
     /// <param name="assertionStrategy">The assertion strategy for this scope.</param>
     /// <param name="parent">The parent assertion scope for this scope.</param>
-    /// <exception cref="ArgumentNullException">Thrown when trying to use a null strategy.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="assertionStrategy"/> is <see langword="null"/>.</exception>
     private AssertionScope(IAssertionStrategy assertionStrategy, AssertionScope parent)
     {
         this.assertionStrategy = assertionStrategy

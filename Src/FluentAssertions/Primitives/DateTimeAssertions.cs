@@ -155,6 +155,7 @@ public class DateTimeAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public AndConstraint<TAssertions> BeCloseTo(DateTime nearbyTime, TimeSpan precision, string because = "",
         params object[] becauseArgs)
     {
@@ -203,6 +204,7 @@ public class DateTimeAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public AndConstraint<TAssertions> NotBeCloseTo(DateTime distantTime, TimeSpan precision, string because = "",
         params object[] becauseArgs)
     {

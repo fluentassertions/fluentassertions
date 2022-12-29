@@ -912,7 +912,7 @@ public static class AssertionExtensions
     /// An optional delegate that returns the current date and time in UTC format.
     /// Will revert to <see cref="DateTime.UtcNow"/> if no delegate was provided.
     /// </param>
-    /// <exception cref="ArgumentNullException">Thrown if <paramref name="eventSource"/> is Null.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eventSource"/> is <see langword="null"/>.</exception>
     public static IMonitor<T> Monitor<T>(this T eventSource, Func<DateTime> utcNow = null)
     {
         return new EventMonitor<T>(eventSource, utcNow ?? (() => DateTime.UtcNow));

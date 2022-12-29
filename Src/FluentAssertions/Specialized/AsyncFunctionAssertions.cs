@@ -248,7 +248,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="waitTime"/> or <paramref name="pollInterval"/> are negative.</exception>
     public Task<AndConstraint<TAssertions>> NotThrowAfterAsync(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(waitTime, nameof(waitTime));
