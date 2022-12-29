@@ -395,7 +395,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<SubsequentOrderingAssertions<T>> BeInAscendingOrder<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs)
     {
-        return BeInAscendingOrder(propertyExpression, Comparer<TSelector>.Default, because, becauseArgs);
+        return BeInAscendingOrder(propertyExpression, GetComparer<TSelector>(), because, becauseArgs);
     }
 
     /// <summary>
@@ -467,7 +467,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     /// </remarks>
     public AndConstraint<SubsequentOrderingAssertions<T>> BeInAscendingOrder(string because = "", params object[] becauseArgs)
     {
-        return BeInAscendingOrder(Comparer<T>.Default, because, becauseArgs);
+        return BeInAscendingOrder(GetComparer<T>(), because, becauseArgs);
     }
 
     /// <summary>
@@ -512,7 +512,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<SubsequentOrderingAssertions<T>> BeInDescendingOrder<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs)
     {
-        return BeInDescendingOrder(propertyExpression, Comparer<TSelector>.Default, because, becauseArgs);
+        return BeInDescendingOrder(propertyExpression, GetComparer<TSelector>(), because, becauseArgs);
     }
 
     /// <summary>
@@ -584,7 +584,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     /// </remarks>
     public AndConstraint<SubsequentOrderingAssertions<T>> BeInDescendingOrder(string because = "", params object[] becauseArgs)
     {
-        return BeInDescendingOrder(Comparer<T>.Default, because, becauseArgs);
+        return BeInDescendingOrder(GetComparer<T>(), because, becauseArgs);
     }
 
     /// <summary>
@@ -1788,7 +1788,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<TAssertions> NotBeInAscendingOrder<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs)
     {
-        return NotBeInAscendingOrder(propertyExpression, Comparer<TSelector>.Default, because, becauseArgs);
+        return NotBeInAscendingOrder(propertyExpression, GetComparer<TSelector>(), because, becauseArgs);
     }
 
     /// <summary>
@@ -1860,7 +1860,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     /// </remarks>
     public AndConstraint<TAssertions> NotBeInAscendingOrder(string because = "", params object[] becauseArgs)
     {
-        return NotBeInAscendingOrder(Comparer<T>.Default, because, becauseArgs);
+        return NotBeInAscendingOrder(GetComparer<T>(), because, becauseArgs);
     }
 
     /// <summary>
@@ -1904,7 +1904,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<TAssertions> NotBeInDescendingOrder<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs)
     {
-        return NotBeInDescendingOrder(propertyExpression, Comparer<TSelector>.Default, because, becauseArgs);
+        return NotBeInDescendingOrder(propertyExpression, GetComparer<TSelector>(), because, becauseArgs);
     }
 
     /// <summary>
@@ -1976,7 +1976,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     /// </remarks>
     public AndConstraint<TAssertions> NotBeInDescendingOrder(string because = "", params object[] becauseArgs)
     {
-        return NotBeInDescendingOrder(Comparer<T>.Default, because, becauseArgs);
+        return NotBeInDescendingOrder(GetComparer<T>(), because, becauseArgs);
     }
 
     /// <summary>
@@ -3480,4 +3480,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
 
         return expectedItems.Count;
     }
+
+    private protected static IComparer<TItem> GetComparer<TItem>() =>
+        typeof(TItem) == typeof(string) ? (IComparer<TItem>)(object)StringComparer.Ordinal : Comparer<TItem>.Default;
 }

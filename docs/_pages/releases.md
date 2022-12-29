@@ -22,6 +22,7 @@ sidebar:
 * Quering properties on classes, e.g. `typeof(MyClass).Properties()`, now also includes static properties - [#2054](https://github.com/fluentassertions/fluentassertions/pull/2054)
 * Nested AssertionScopes now print the inner scope reportables - [#2044](https://github.com/fluentassertions/fluentassertions/pull/2044)
 * Throw `ArgumentException` instead of `ArgumentNullException` when a required `string` argument is empty - [#2023](https://github.com/fluentassertions/fluentassertions/pull/2023)
+* Assertions on the ordering of a collection of `string`s now uses ordinal comparison when an `IComparer<T>` is not provided - [#2075](https://github.com/fluentassertions/fluentassertions/pull/2075)
 
 ## 6.8.0
 

@@ -76,7 +76,7 @@ public class DefaultValueFormatter : IValueFormatter
         formattedGraph.AddLine("{");
 
         MemberInfo[] members = GetMembers(type);
-        using var iterator = new Iterator<MemberInfo>(members.OrderBy(mi => mi.Name));
+        using var iterator = new Iterator<MemberInfo>(members.OrderBy(mi => mi.Name, StringComparer.Ordinal));
         while (iterator.MoveNext())
         {
             WriteMemberValueTextFor(obj, iterator.Current, formattedGraph, formatChild);
