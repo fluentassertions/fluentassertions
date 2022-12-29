@@ -183,23 +183,23 @@ public class BooleanAssertionSpecs
         };
 
         [Theory]
-        [MemberData(nameof(PassingImplications), MemberType = typeof(BooleanAssertionSpecs.Imply))]
-        public void Subject_implies_implicator(bool? subject, bool implicator)
+        [MemberData(nameof(PassingImplications))]
+        public void Subject_implies_implicator(bool? antecedent, bool consequent)
         {
             // Act / Assert
-            subject.Should().Imply(implicator);
+            antecedent.Should().Imply(consequent);
         }
 
         [Theory]
-        [MemberData(nameof(NonPassingImplications), MemberType = typeof(BooleanAssertionSpecs.Imply))]
-        public void Subject_does_not_imply_implicator(bool? subject, bool implicator)
+        [MemberData(nameof(NonPassingImplications))]
+        public void Subject_does_not_imply_implicator(bool? antecedent, bool consequent)
         {
             // Act
-            Action act = () => subject.Should().Imply(implicator, nameof(implicator), "because we want to test the {0}", "failure");
+            Action act = () => antecedent.Should().Imply(consequent, nameof(consequent), "because we want to test the {0}", "failure");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*to imply *implicator*test the failure*but*");
+                .WithMessage("Expected*to imply consequent*test the failure*but*");
         }
     }
 }

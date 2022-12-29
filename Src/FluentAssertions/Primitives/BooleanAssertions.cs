@@ -120,9 +120,9 @@ public class BooleanAssertions<TAssertions>
     }
 
     /// <summary>
-    /// Asserts that the value implies the specified <paramref name="implicator"/> value.
+    /// Asserts that the value implies the specified <paramref name="consequent"/> value.
     /// </summary>
-    /// <param name="implicator">The second value for the implication</param>
+    /// <param name="consequent">The right hand side for the implication</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -130,18 +130,20 @@ public class BooleanAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> Imply(bool implicator,
-        [CallerArgumentExpression("implicator")] string implicatorMessage = "",
+    public AndConstraint<TAssertions> Imply(bool consequent,
+        [CallerArgumentExpression(nameof(consequent))] string consequentMessage = "",
         string because = "",
         params object[] becauseArgs)
     {
+        bool? antecedent = Subject;
+
         Execute.Assertion
-            .ForCondition(Subject is not null)
+            .ForCondition(antecedent is not null)
             .BecauseOf(because, becauseArgs)
-            .WithExpectation("Expected {context:boolean} ({0}) to imply {1} ({2}){reason}, ", Subject, implicatorMessage, implicator)
+            .WithExpectation($"Expected {{context:antecedent}} ({{0}}) to imply {consequentMessage} ({{1}}){{reason}}, ", antecedent, consequent)
             .FailWith("but found null.")
             .Then
-            .ForCondition(!Subject.Value || implicator)
+            .ForCondition(!antecedent.Value || consequent)
             .FailWith("but it did not.")
             .Then
             .ClearExpectation();
