@@ -251,16 +251,8 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
     public Task<AndConstraint<TAssertions>> NotThrowAfterAsync(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
     {
-        if (waitTime < TimeSpan.Zero)
-        {
-            throw new ArgumentOutOfRangeException(nameof(waitTime), $"The value of {nameof(waitTime)} must be non-negative.");
-        }
-
-        if (pollInterval < TimeSpan.Zero)
-        {
-            throw new ArgumentOutOfRangeException(nameof(pollInterval),
-                $"The value of {nameof(pollInterval)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(waitTime, nameof(waitTime));
+        Guard.ThrowIfArgumentIsNegative(pollInterval, nameof(pollInterval));
 
         Execute.Assertion
             .ForCondition(Subject is not null)

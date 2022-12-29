@@ -36,6 +36,7 @@ public static class AssertionOptions
     /// <param name="defaultsConfigurer">
     /// An action that is used to configure the defaults.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="defaultsConfigurer"/> is <see langword="null"/>.</exception>
     public static void AssertEquivalencyUsing(
         Func<EquivalencyAssertionOptions, EquivalencyAssertionOptions> defaultsConfigurer)
     {

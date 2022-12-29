@@ -28,7 +28,7 @@ public class MethodInfoSelector : IEnumerable<MethodInfo>
     /// Initializes a new instance of the <see cref="MethodInfoSelector"/> class.
     /// </summary>
     /// <param name="types">The types from which to select methods.</param>
-    /// <exception cref="ArgumentNullException"><paramref name="types"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="types"/> is or contains <see langword="null"/>.</exception>
     public MethodInfoSelector(IEnumerable<Type> types)
     {
         Guard.ThrowIfArgumentIsNull(types, nameof(types));

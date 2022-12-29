@@ -201,10 +201,7 @@ public class ExecutionTimeAssertions
     /// </param>
     public AndConstraint<ExecutionTimeAssertions> BeCloseTo(TimeSpan expectedDuration, TimeSpan precision, string because = "", params object[] becauseArgs)
     {
-        if (precision < TimeSpan.Zero)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
 
         TimeSpan minimumValue = expectedDuration - precision;
         TimeSpan maximumValue = expectedDuration + precision;

@@ -472,7 +472,8 @@ public class FunctionExceptionAssertionSpecs
 
         // Assert
         action.Should().Throw<ArgumentOutOfRangeException>()
-            .WithMessage("* value of waitTime must be non-negative*");
+            .WithParameterName("waitTime")
+            .WithMessage("*must be non-negative*");
     }
 
     [Fact]
@@ -489,7 +490,8 @@ public class FunctionExceptionAssertionSpecs
 
         // Assert
         action.Should().Throw<ArgumentOutOfRangeException>()
-            .WithMessage("* value of pollInterval must be non-negative*");
+            .WithParameterName("pollInterval")
+            .WithMessage("*must be non-negative*");
     }
 
     [Fact]

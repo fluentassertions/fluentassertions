@@ -33,6 +33,7 @@ public class GivenSelector<T>
     /// The condition will not be evaluated if the prior assertion failed,
     /// nor will <see cref="FailWith(string, Func{T, object}[])"/> throw any exceptions.
     /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public GivenSelector<T> ForCondition(Func<T, bool> predicate)
     {
         Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
@@ -50,6 +51,7 @@ public class GivenSelector<T>
     /// nor will <see cref="FailWith(string, Func{T,object}[])"/> throw any exceptions.
     /// </remarks>
     /// <inheritdoc cref="IAssertionScope.Given{T}"/>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is <see langword="null"/>.</exception>
     public GivenSelector<TOut> Given<TOut>(Func<T, TOut> selector)
     {
         Guard.ThrowIfArgumentIsNull(selector, nameof(selector));

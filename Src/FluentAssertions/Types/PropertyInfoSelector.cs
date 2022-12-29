@@ -28,7 +28,7 @@ public class PropertyInfoSelector : IEnumerable<PropertyInfo>
     /// Initializes a new instance of the <see cref="PropertyInfoSelector"/> class.
     /// </summary>
     /// <param name="types">The types from which to select properties.</param>
-    /// <exception cref="ArgumentNullException"><paramref name="types"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="types"/> is or contains <see langword="null"/>.</exception>
     public PropertyInfoSelector(IEnumerable<Type> types)
     {
         Guard.ThrowIfArgumentIsNull(types, nameof(types));

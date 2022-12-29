@@ -120,6 +120,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable<string> expectation,
         Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config, string because = "",
         params object[] becauseArgs)
@@ -180,6 +181,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> AllBe(string expectation,
         Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
         string because = "",
@@ -240,11 +242,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match strings in collection against <null>. Provide a wildcard pattern or use the Contain method.");
-
-        if (wildcardPattern.Length == 0)
-        {
-            throw new ArgumentException("Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the Contain method.", nameof(wildcardPattern));
-        }
+        Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern), "Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the Contain method.");
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -325,11 +323,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match strings in collection against <null>. Provide a wildcard pattern or use the NotContain method.");
-
-        if (wildcardPattern.Length == 0)
-        {
-            throw new ArgumentException("Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the NotContain method.", nameof(wildcardPattern));
-        }
+        Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern), "Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the NotContain method.");
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)

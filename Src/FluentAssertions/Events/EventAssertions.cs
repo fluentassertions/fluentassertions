@@ -21,7 +21,7 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     {
         this.Monitor = monitor;
     }
-    
+
     /// <summary>
     /// Gets the <see cref="IMonitor{T}"/> which is being asserted.
     /// </summary>

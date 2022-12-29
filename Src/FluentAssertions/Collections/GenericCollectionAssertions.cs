@@ -176,6 +176,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> AllBeEquivalentTo<TExpectation>(TExpectation expectation,
         Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config,
         string because = "",
@@ -347,6 +348,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(IEnumerable<TExpectation> expectation,
         Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
         params object[] becauseArgs)
@@ -417,6 +419,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<SubsequentOrderingAssertions<T>> BeInAscendingOrder(
         IComparer<T> comparer, string because = "", params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
         return BeInOrder(comparer, SortOrder.Ascending, because, becauseArgs);
     }
 
@@ -444,6 +447,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<SubsequentOrderingAssertions<T>> BeInAscendingOrder<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
         return BeOrderedBy(propertyExpression, comparer, SortOrder.Ascending, because, becauseArgs);
     }
 
@@ -532,6 +536,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<SubsequentOrderingAssertions<T>> BeInDescendingOrder(
         IComparer<T> comparer, string because = "", params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
         return BeInOrder(comparer, SortOrder.Descending, because, becauseArgs);
     }
 
@@ -559,6 +564,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<SubsequentOrderingAssertions<T>> BeInDescendingOrder<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
         return BeOrderedBy(propertyExpression, comparer, SortOrder.Descending, because, becauseArgs);
     }
 
@@ -750,10 +756,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify containment against a <null> collection");
 
         ICollection<T> expectedObjects = expected.ConvertOrCastToCollection();
-        if (!expectedObjects.Any())
-        {
-            throw new ArgumentException("Cannot verify containment against an empty collection", nameof(expected));
-        }
+        Guard.ThrowIfArgumentIsEmpty(expectedObjects, nameof(expected), "Cannot verify containment against an empty collection");
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -1185,6 +1188,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expectation"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> EndWith<TExpectation>(
         IEnumerable<TExpectation> expectation, Func<T, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs)
     {
@@ -1690,6 +1694,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(IEnumerable<TExpectation> unexpected, string because = "",
         params object[] becauseArgs)
     {
@@ -1807,6 +1812,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<TAssertions> NotBeInAscendingOrder(
         IComparer<T> comparer, string because = "", params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
         return NotBeInOrder(comparer, SortOrder.Ascending, because, becauseArgs);
     }
 
@@ -1834,6 +1840,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<TAssertions> NotBeInAscendingOrder<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
         return NotBeOrderedBy(propertyExpression, comparer, SortOrder.Ascending, because, becauseArgs);
     }
 
@@ -1921,6 +1928,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<TAssertions> NotBeInDescendingOrder(
         IComparer<T> comparer, string because = "", params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
         return NotBeInOrder(comparer, SortOrder.Descending, because, becauseArgs);
     }
 
@@ -1948,6 +1956,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<TAssertions> NotBeInDescendingOrder<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
         return NotBeOrderedBy(propertyExpression, comparer, SortOrder.Descending, because, becauseArgs);
     }
 
@@ -2141,10 +2150,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify non-containment against a <null> collection");
 
         ICollection<T> unexpectedObjects = unexpected.ConvertOrCastToCollection();
-        if (!unexpectedObjects.Any())
-        {
-            throw new ArgumentException("Cannot verify non-containment against an empty collection", nameof(unexpected));
-        }
+        Guard.ThrowIfArgumentIsEmpty(unexpectedObjects, nameof(unexpected), "Cannot verify non-containment against an empty collection");
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -2908,10 +2914,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify against a <null> collection of inspectors");
 
         ICollection<Action<T>> elementInspectors = expected.ConvertOrCastToCollection();
-        if (!elementInspectors.Any())
-        {
-            throw new ArgumentException("Cannot verify against an empty collection of inspectors", nameof(expected));
-        }
+        Guard.ThrowIfArgumentIsEmpty(elementInspectors, nameof(expected), "Cannot verify against an empty collection of inspectors");
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -2997,10 +3000,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         Guard.ThrowIfArgumentIsNull(predicates, nameof(predicates), "Cannot verify against a <null> collection of predicates");
 
         IList<Expression<Func<T, bool>>> predicatesList = predicates.ConvertOrCastToList();
-        if (predicatesList.Count == 0)
-        {
-            throw new ArgumentException("Cannot verify against an empty collection of predicates", nameof(predicates));
-        }
+        Guard.ThrowIfArgumentIsEmpty(predicatesList, nameof(predicates), "Cannot verify against an empty collection of predicates");
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -3122,8 +3122,6 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         string because,
         object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
-
         if (IsValidProperty(propertyExpression, because, becauseArgs))
         {
             ICollection<T> unordered = Subject.ConvertOrCastToCollection();
@@ -3343,8 +3341,6 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         string because,
         object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
-
         if (IsValidProperty(propertyExpression, because, becauseArgs))
         {
             ICollection<T> unordered = Subject.ConvertOrCastToCollection();
@@ -3372,8 +3368,6 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     private AndConstraint<SubsequentOrderingAssertions<T>> BeInOrder(
         IComparer<T> comparer, SortOrder expectedOrder, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
-
         string sortOrder = (expectedOrder == SortOrder.Ascending) ? "ascending" : "descending";
 
         bool success = Execute.Assertion
@@ -3419,8 +3413,6 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     /// </summary>
     private AndConstraint<TAssertions> NotBeInOrder(IComparer<T> comparer, SortOrder order, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
-
         string sortOrder = (order == SortOrder.Ascending) ? "ascending" : "descending";
 
         bool success = Execute.Assertion

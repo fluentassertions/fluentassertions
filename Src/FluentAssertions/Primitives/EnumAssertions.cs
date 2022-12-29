@@ -413,6 +413,8 @@ public class EnumAssertions<TEnum, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="validValues"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="validValues"/> is empty.</exception>
     public AndConstraint<TAssertions> BeOneOf(IEnumerable<TEnum> validValues, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(validValues, nameof(validValues), "Cannot assert that an enum is one of a null list of enums");

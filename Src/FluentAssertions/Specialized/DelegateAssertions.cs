@@ -164,15 +164,8 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
             .FailWith("Expected {context} not to throw after {0}{reason}, but found <null>.", waitTime);
 
         FailIfSubjectIsAsyncVoid();
-        if (waitTime < TimeSpan.Zero)
-        {
-            throw new ArgumentOutOfRangeException(nameof(waitTime), $"The value of {nameof(waitTime)} must be non-negative.");
-        }
-
-        if (pollInterval < TimeSpan.Zero)
-        {
-            throw new ArgumentOutOfRangeException(nameof(pollInterval), $"The value of {nameof(pollInterval)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(waitTime, nameof(waitTime));
+        Guard.ThrowIfArgumentIsNegative(pollInterval, nameof(pollInterval));
 
         TimeSpan? invocationEndTime = null;
         Exception exception = null;

@@ -210,11 +210,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     public AndConstraint<TAssertions> Match(string wildcardPattern, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match string against <null>. Provide a wildcard pattern or use the BeNull method.");
-
-        if (wildcardPattern.Length == 0)
-        {
-            throw new ArgumentException("Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.", nameof(wildcardPattern));
-        }
+        Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern), "Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.");
 
         var stringWildcardMatchingValidator = new StringWildcardMatchingValidator(Subject, wildcardPattern, because, becauseArgs);
         stringWildcardMatchingValidator.Validate();
@@ -260,11 +256,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     public AndConstraint<TAssertions> NotMatch(string wildcardPattern, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match string against <null>. Provide a wildcard pattern or use the NotBeNull method.");
-
-        if (wildcardPattern.Length == 0)
-        {
-            throw new ArgumentException("Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.", nameof(wildcardPattern));
-        }
+        Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern), "Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.");
 
         new StringWildcardMatchingValidator(Subject, wildcardPattern, because, becauseArgs)
         {
@@ -313,11 +305,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match string against <null>. Provide a wildcard pattern or use the BeNull method.");
-
-        if (wildcardPattern.Length == 0)
-        {
-            throw new ArgumentException("Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.", nameof(wildcardPattern));
-        }
+        Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern), "Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.");
 
         var validator = new StringWildcardMatchingValidator(Subject, wildcardPattern, because, becauseArgs)
         {
@@ -369,11 +357,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match string against <null>. Provide a wildcard pattern or use the NotBeNull method.");
-
-        if (wildcardPattern.Length == 0)
-        {
-            throw new ArgumentException("Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.", nameof(wildcardPattern));
-        }
+        Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern), "Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.");
 
         var validator = new StringWildcardMatchingValidator(Subject, wildcardPattern, because, becauseArgs)
         {
@@ -406,6 +390,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="regularExpression"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> MatchRegex([RegexPattern][StringSyntax("Regex")] string regularExpression,
         OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
     {
@@ -440,6 +425,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="regularExpression"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> MatchRegex([RegexPattern][StringSyntax("Regex")] string regularExpression,
         string because = "", params object[] becauseArgs)
     {
@@ -479,6 +465,8 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="regularExpression"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="regularExpression"/> is empty.</exception>
     public AndConstraint<TAssertions> MatchRegex(Regex regularExpression,
         OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
     {
@@ -486,12 +474,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             "Cannot match string against <null>. Provide a regex pattern or use the BeNull method.");
 
         var regexStr = regularExpression.ToString();
-        if (regexStr.Length == 0)
-        {
-            throw new ArgumentException(
-                "Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.",
-                nameof(regularExpression));
-        }
+        Guard.ThrowIfArgumentIsEmpty(regexStr, nameof(regularExpression), "Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.");
 
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -528,6 +511,8 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="regularExpression"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="regularExpression"/> is empty.</exception>
     public AndConstraint<TAssertions> MatchRegex(Regex regularExpression,
         string because = "", params object[] becauseArgs)
     {
@@ -535,12 +520,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             "Cannot match string against <null>. Provide a regex pattern or use the BeNull method.");
 
         var regexStr = regularExpression.ToString();
-        if (regexStr.Length == 0)
-        {
-            throw new ArgumentException(
-                "Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.",
-                nameof(regularExpression));
-        }
+        Guard.ThrowIfArgumentIsEmpty(regexStr, nameof(regularExpression), "Cannot match string against an empty string. Provide a regex pattern or use the BeEmpty method.");
 
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -573,6 +553,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="regularExpression"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotMatchRegex([RegexPattern][StringSyntax("Regex")] string regularExpression,
         string because = "", params object[] becauseArgs)
     {
@@ -606,18 +587,15 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="regularExpression"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="regularExpression"/> is empty.</exception>
     public AndConstraint<TAssertions> NotMatchRegex(Regex regularExpression, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression),
             "Cannot match string against <null>. Provide a regex pattern or use the NotBeNull method.");
 
         var regexStr = regularExpression.ToString();
-        if (regexStr.Length == 0)
-        {
-            throw new ArgumentException(
-                "Cannot match string against an empty regex pattern. Provide a regex pattern or use the NotBeEmpty method.",
-                nameof(regularExpression));
-        }
+        Guard.ThrowIfArgumentIsEmpty(regexStr, nameof(regularExpression), "Cannot match string against an empty regex pattern. Provide a regex pattern or use the NotBeEmpty method.");
 
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -649,6 +627,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> StartWith(string expected, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare start of string with <null>.");
@@ -671,6 +650,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotStartWith(string unexpected, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare start of string with <null>.");
@@ -693,6 +673,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> StartWithEquivalentOf(string expected, string because = "",
         params object[] becauseArgs)
     {
@@ -716,6 +697,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotStartWithEquivalentOf(string unexpected, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare start of string with <null>.");
@@ -738,6 +720,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> EndWith(string expected, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end with <null>.");
@@ -778,6 +761,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotEndWith(string unexpected, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare end of string with <null>.");
@@ -810,6 +794,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> EndWithEquivalentOf(string expected, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end equivalence with <null>.");
@@ -855,6 +840,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotEndWithEquivalentOf(string unexpected, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare end of string with <null>.");
@@ -892,14 +878,12 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
     public AndConstraint<TAssertions> Contain(string expected, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
-
-        if (expected.Length == 0)
-        {
-            throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
-        }
+        Guard.ThrowIfArgumentIsEmpty(expected, nameof(expected), "Cannot assert string containment against an empty string.");
 
         Execute.Assertion
             .ForCondition(Contains(Subject, expected, StringComparison.Ordinal))
@@ -928,14 +912,12 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
     public AndConstraint<TAssertions> Contain(string expected, OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
-
-        if (expected.Length == 0)
-        {
-            throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
-        }
+        Guard.ThrowIfArgumentIsEmpty(expected, nameof(expected), "Cannot assert string containment against an empty string.");
 
         int actual = Subject.CountSubstring(expected, StringComparison.Ordinal);
 
@@ -961,14 +943,12 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
     public AndConstraint<TAssertions> ContainEquivalentOf(string expected, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
-
-        if (expected.Length == 0)
-        {
-            throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
-        }
+        Guard.ThrowIfArgumentIsEmpty(expected, nameof(expected), "Cannot assert string containment against an empty string.");
 
         Execute.Assertion
             .ForCondition(Contains(Subject, expected, StringComparison.OrdinalIgnoreCase))
@@ -998,14 +978,12 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
     public AndConstraint<TAssertions> ContainEquivalentOf(string expected, OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
-
-        if (expected.Length == 0)
-        {
-            throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(expected));
-        }
+        Guard.ThrowIfArgumentIsEmpty(expected, nameof(expected), "Cannot assert string containment against an empty string.");
 
         int actual = Subject.CountSubstring(expected, StringComparison.OrdinalIgnoreCase);
 
@@ -1105,15 +1083,13 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="unexpected"/> is empty.</exception>
     public AndConstraint<TAssertions> NotContain(string unexpected, string because = "",
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot assert string containment against <null>.");
-
-        if (unexpected.Length == 0)
-        {
-            throw new ArgumentException("Cannot assert string containment against an empty string.", nameof(unexpected));
-        }
+        Guard.ThrowIfArgumentIsEmpty(unexpected, nameof(unexpected), "Cannot assert string containment against an empty string.");
 
         Execute.Assertion
             .ForCondition(!Contains(Subject, unexpected, StringComparison.Ordinal))
