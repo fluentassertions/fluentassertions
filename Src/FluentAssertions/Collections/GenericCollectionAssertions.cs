@@ -106,7 +106,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     /// <exception cref="ArgumentNullException"><paramref name="expectedType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> AllBeAssignableTo(Type expectedType, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(expectedType, nameof(expectedType));
+        Guard.ThrowIfArgumentIsNull(expectedType);
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -182,7 +182,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(config, nameof(config));
+        Guard.ThrowIfArgumentIsNull(config);
 
         TExpectation[] repeatedExpectation = RepeatAsManyAs(expectation, Subject).ToArray();
 
@@ -251,7 +251,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     /// <exception cref="ArgumentNullException"><paramref name="expectedType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> AllBeOfType(Type expectedType, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(expectedType, nameof(expectedType));
+        Guard.ThrowIfArgumentIsNull(expectedType);
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -353,7 +353,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
         Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(config, nameof(config));
+        Guard.ThrowIfArgumentIsNull(config);
 
         EquivalencyAssertionOptions<IEnumerable<TExpectation>> options = config(AssertionOptions.CloneDefaults<TExpectation>()).AsCollection();
 
@@ -713,7 +713,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<TAssertions, T> Contain(Expression<Func<T, bool>> predicate, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+        Guard.ThrowIfArgumentIsNull(predicate);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -838,7 +838,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndWhichConstraint<TAssertions, T> ContainEquivalentOf<TExpectation>(TExpectation expectation, Func<EquivalencyAssertionOptions<TExpectation>,
             EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(config, nameof(config));
+        Guard.ThrowIfArgumentIsNull(config);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -1110,7 +1110,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndWhichConstraint<TAssertions, T> ContainSingle(Expression<Func<T, bool>> predicate,
         string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+        Guard.ThrowIfArgumentIsNull(predicate);
 
         string expectationPrefix =
             "Expected {context:collection} to contain a single item matching {0}{reason}, ";
@@ -2109,7 +2109,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotContain(Expression<Func<T, bool>> predicate, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+        Guard.ThrowIfArgumentIsNull(predicate);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -2232,7 +2232,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<TAssertions> NotContainEquivalentOf<TExpectation>(TExpectation unexpected, Func<EquivalencyAssertionOptions<TExpectation>,
         EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(config, nameof(config));
+        Guard.ThrowIfArgumentIsNull(config);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -2465,7 +2465,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<TAssertions> NotContainNulls<TKey>(Expression<Func<T, TKey>> predicate, string because = "", params object[] becauseArgs)
         where TKey : class
     {
-        Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+        Guard.ThrowIfArgumentIsNull(predicate);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -2693,7 +2693,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     public AndConstraint<TAssertions> OnlyContain(
         Expression<Func<T, bool>> predicate, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+        Guard.ThrowIfArgumentIsNull(predicate);
 
         Func<T, bool> compiledPredicate = predicate.Compile();
 
@@ -2731,7 +2731,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> OnlyHaveUniqueItems<TKey>(Expression<Func<T, TKey>> predicate, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+        Guard.ThrowIfArgumentIsNull(predicate);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -3173,7 +3173,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
 
     protected void AssertCollectionEndsWith<TActual, TExpectation>(IEnumerable<TActual> actual, ICollection<TExpectation> expected, Func<TActual, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(equalityComparison, nameof(equalityComparison));
+        Guard.ThrowIfArgumentIsNull(equalityComparison);
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -3195,7 +3195,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
 
     protected void AssertCollectionStartsWith<TActual, TExpectation>(IEnumerable<TActual> actualItems, ICollection<TExpectation> expected, Func<TActual, TExpectation, bool> equalityComparison, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(equalityComparison, nameof(equalityComparison));
+        Guard.ThrowIfArgumentIsNull(equalityComparison);
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -3213,7 +3213,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     protected void AssertSubjectEquality<TExpectation>(IEnumerable<TExpectation> expectation, Func<T, TExpectation, bool> equalityComparison,
         string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(equalityComparison, nameof(equalityComparison));
+        Guard.ThrowIfArgumentIsNull(equalityComparison);
 
         bool subjectIsNull = Subject is null;
         bool expectationIsNull = expectation is null;

@@ -53,7 +53,7 @@ public class ConversionSelector
     /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public void Include(Expression<Func<IObjectInfo, bool>> predicate)
     {
-        Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+        Guard.ThrowIfArgumentIsNull(predicate);
 
         inclusions.Add(new ConversionSelectorRule(
             predicate.Compile(),
@@ -67,7 +67,7 @@ public class ConversionSelector
     /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public void Exclude(Expression<Func<IObjectInfo, bool>> predicate)
     {
-        Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+        Guard.ThrowIfArgumentIsNull(predicate);
 
         exclusions.Add(new ConversionSelectorRule(
             predicate.Compile(),

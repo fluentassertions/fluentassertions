@@ -24,7 +24,7 @@ public class MethodInfoSelectorAssertions
     /// <exception cref="ArgumentNullException"><paramref name="methods"/> is <see langword="null"/>.</exception>
     public MethodInfoSelectorAssertions(params MethodInfo[] methods)
     {
-        Guard.ThrowIfArgumentIsNull(methods, nameof(methods));
+        Guard.ThrowIfArgumentIsNull(methods);
 
         SubjectMethods = methods;
     }
@@ -187,7 +187,7 @@ public class MethodInfoSelectorAssertions
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
         MethodInfo[] methodsWithoutAttribute = GetMethodsWithout(isMatchingAttributePredicate);
 
@@ -239,7 +239,7 @@ public class MethodInfoSelectorAssertions
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
         MethodInfo[] methodsWithAttribute = GetMethodsWith(isMatchingAttributePredicate);
 

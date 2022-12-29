@@ -159,7 +159,7 @@ public class DateTimeAssertions<TAssertions>
     public AndConstraint<TAssertions> BeCloseTo(DateTime nearbyTime, TimeSpan precision, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         long distanceToMinInTicks = (nearbyTime - DateTime.MinValue).Ticks;
         DateTime minimumValue = nearbyTime.AddTicks(-Math.Min(precision.Ticks, distanceToMinInTicks));
@@ -208,7 +208,7 @@ public class DateTimeAssertions<TAssertions>
     public AndConstraint<TAssertions> NotBeCloseTo(DateTime distantTime, TimeSpan precision, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         long distanceToMinInTicks = (distantTime - DateTime.MinValue).Ticks;
         DateTime minimumValue = distantTime.AddTicks(-Math.Min(precision.Ticks, distanceToMinInTicks));

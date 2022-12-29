@@ -639,7 +639,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
     public TSelf ComparingByMembers(Type type)
     {
-        Guard.ThrowIfArgumentIsNull(type, nameof(type));
+        Guard.ThrowIfArgumentIsNull(type);
 
         if (type.IsPrimitive)
         {
@@ -670,7 +670,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
     public TSelf ComparingByValue(Type type)
     {
-        Guard.ThrowIfArgumentIsNull(type, nameof(type));
+        Guard.ThrowIfArgumentIsNull(type);
 
         if (referenceTypes.Any(t => type.IsSameOrInherits(t)))
         {

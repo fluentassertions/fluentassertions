@@ -149,7 +149,7 @@ public class TimeOnlyAssertions<TAssertions>
     public AndConstraint<TAssertions> BeCloseTo(TimeOnly nearbyTime, TimeSpan precision, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         TimeSpan? difference = (Subject != null)
             ? MinimumDifference(Subject.Value, nearbyTime)
@@ -198,7 +198,7 @@ public class TimeOnlyAssertions<TAssertions>
     public AndConstraint<TAssertions> NotBeCloseTo(TimeOnly distantTime, TimeSpan precision, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)

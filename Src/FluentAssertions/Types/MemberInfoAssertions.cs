@@ -77,7 +77,7 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
         string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -123,7 +123,7 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
         string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)

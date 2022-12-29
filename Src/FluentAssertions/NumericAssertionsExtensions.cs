@@ -672,7 +672,7 @@ public static class NumericAssertionsExtensions
         float expectedValue, float precision, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         Execute.Assertion
             .ForCondition(parent.Subject is not null)
@@ -708,7 +708,7 @@ public static class NumericAssertionsExtensions
         float? expectedValue, float precision, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if (parent.Subject is null && expectedValue is null)
         {
@@ -756,7 +756,7 @@ public static class NumericAssertionsExtensions
             throw new ArgumentException("Cannot determine approximation of a float to NaN", nameof(expectedValue));
         }
 
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if (float.IsPositiveInfinity(expectedValue))
         {
@@ -798,7 +798,7 @@ public static class NumericAssertionsExtensions
         double expectedValue, double precision, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         Execute.Assertion
             .ForCondition(parent.Subject is not null)
@@ -834,7 +834,7 @@ public static class NumericAssertionsExtensions
         double? expectedValue, double precision, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if (parent.Subject is null && expectedValue is null)
         {
@@ -882,7 +882,7 @@ public static class NumericAssertionsExtensions
             throw new ArgumentException("Cannot determine approximation of a double to NaN", nameof(expectedValue));
         }
 
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if (double.IsPositiveInfinity(expectedValue))
         {
@@ -924,7 +924,7 @@ public static class NumericAssertionsExtensions
         decimal expectedValue, decimal precision, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         Execute.Assertion
             .ForCondition(parent.Subject is not null)
@@ -959,7 +959,7 @@ public static class NumericAssertionsExtensions
         decimal? expectedValue, decimal precision, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if (parent.Subject is null && expectedValue is null)
         {
@@ -1002,7 +1002,7 @@ public static class NumericAssertionsExtensions
         decimal expectedValue, decimal precision, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         decimal actualDifference = Math.Abs(expectedValue - parent.Subject.Value);
 
@@ -1050,7 +1050,7 @@ public static class NumericAssertionsExtensions
         float unexpectedValue, float precision, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if (parent.Subject is not null)
         {
@@ -1084,7 +1084,7 @@ public static class NumericAssertionsExtensions
         float? unexpectedValue, float precision, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if ((parent.Subject is null) != (unexpectedValue is null))
         {
@@ -1132,7 +1132,7 @@ public static class NumericAssertionsExtensions
             throw new ArgumentException("Cannot determine approximation of a float to NaN", nameof(unexpectedValue));
         }
 
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if (float.IsPositiveInfinity(unexpectedValue))
         {
@@ -1174,7 +1174,7 @@ public static class NumericAssertionsExtensions
         double unexpectedValue, double precision, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if (parent.Subject is not null)
         {
@@ -1208,7 +1208,7 @@ public static class NumericAssertionsExtensions
         double? unexpectedValue, double precision, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if ((parent.Subject is null) != (unexpectedValue is null))
         {
@@ -1256,7 +1256,7 @@ public static class NumericAssertionsExtensions
             throw new ArgumentException("Cannot determine approximation of a double to NaN", nameof(unexpectedValue));
         }
 
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if (double.IsPositiveInfinity(unexpectedValue))
         {
@@ -1298,7 +1298,7 @@ public static class NumericAssertionsExtensions
         decimal unexpectedValue, decimal precision, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if (parent.Subject is not null)
         {
@@ -1332,7 +1332,7 @@ public static class NumericAssertionsExtensions
         decimal? unexpectedValue, decimal precision, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if ((parent.Subject is null) != (unexpectedValue is null))
         {
@@ -1375,7 +1375,7 @@ public static class NumericAssertionsExtensions
         decimal unexpectedValue, decimal precision, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         decimal actualDifference = Math.Abs(unexpectedValue - parent.Subject.Value);
 

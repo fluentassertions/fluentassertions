@@ -44,7 +44,7 @@ internal class ReadOnlyNonGenericCollectionWrapper<TCollection, TItem> : ICollec
     /// <exception cref="ArgumentNullException"><paramref name="collection"/> is <see langword="null"/>.</exception>
     public ReadOnlyNonGenericCollectionWrapper(TCollection collection)
     {
-        Guard.ThrowIfArgumentIsNull(collection, nameof(collection));
+        Guard.ThrowIfArgumentIsNull(collection);
 
         UnderlyingCollection = collection;
     }

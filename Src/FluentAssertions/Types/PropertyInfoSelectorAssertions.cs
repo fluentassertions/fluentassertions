@@ -28,7 +28,7 @@ public class PropertyInfoSelectorAssertions
     /// <exception cref="ArgumentNullException"><paramref name="properties"/> is <see langword="null"/>.</exception>
     public PropertyInfoSelectorAssertions(params PropertyInfo[] properties)
     {
-        Guard.ThrowIfArgumentIsNull(properties, nameof(properties));
+        Guard.ThrowIfArgumentIsNull(properties);
 
         SubjectProperties = properties;
     }

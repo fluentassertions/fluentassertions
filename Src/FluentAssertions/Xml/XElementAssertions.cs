@@ -172,7 +172,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     public AndConstraint<XElementAssertions> HaveAttribute(string expectedName, string expectedValue, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNullOrEmpty(expectedName, nameof(expectedName));
+        Guard.ThrowIfArgumentIsNullOrEmpty(expectedName);
 
         return HaveAttribute(XNamespace.None + expectedName, expectedValue, because, becauseArgs);
     }
@@ -194,7 +194,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     public AndConstraint<XElementAssertions> HaveAttribute(XName expectedName, string expectedValue, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(expectedName, nameof(expectedName));
+        Guard.ThrowIfArgumentIsNull(expectedName);
 
         string expectedText = expectedName.ToString();
 
@@ -245,7 +245,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     public AndWhichConstraint<XElementAssertions, XElement> HaveElement(string expected, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNullOrEmpty(expected, nameof(expected));
+        Guard.ThrowIfArgumentIsNullOrEmpty(expected);
 
         return HaveElement(XNamespace.None + expected, because, becauseArgs);
     }
@@ -266,7 +266,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     public AndWhichConstraint<XElementAssertions, XElement> HaveElement(XName expected, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(expected, nameof(expected));
+        Guard.ThrowIfArgumentIsNull(expected);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)

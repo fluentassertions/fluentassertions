@@ -172,7 +172,7 @@ public class MethodInfoAssertions : MethodBaseAssertions<MethodInfo, MethodInfoA
     /// <exception cref="ArgumentNullException"><paramref name="returnType"/> is <see langword="null"/>.</exception>
     public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> Return(Type returnType, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(returnType, nameof(returnType));
+        Guard.ThrowIfArgumentIsNull(returnType);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -249,7 +249,7 @@ public class MethodInfoAssertions : MethodBaseAssertions<MethodInfo, MethodInfoA
     /// <exception cref="ArgumentNullException"><paramref name="returnType"/> is <see langword="null"/>.</exception>
     public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> NotReturn(Type returnType, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(returnType, nameof(returnType));
+        Guard.ThrowIfArgumentIsNull(returnType);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)

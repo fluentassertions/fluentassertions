@@ -36,7 +36,7 @@ public class GivenSelector<T>
     /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public GivenSelector<T> ForCondition(Func<T, bool> predicate)
     {
-        Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+        Guard.ThrowIfArgumentIsNull(predicate);
 
         if (continueAsserting)
         {
@@ -54,7 +54,7 @@ public class GivenSelector<T>
     /// <exception cref="ArgumentNullException"><paramref name="selector"/> is <see langword="null"/>.</exception>
     public GivenSelector<TOut> Given<TOut>(Func<T, TOut> selector)
     {
-        Guard.ThrowIfArgumentIsNull(selector, nameof(selector));
+        Guard.ThrowIfArgumentIsNull(selector);
 
         return new GivenSelector<TOut>(() => selector(subject), predecessor, continueAsserting);
     }

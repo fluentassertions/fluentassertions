@@ -151,7 +151,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// <exception cref="ArgumentNullException"><paramref name="expectedType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeOfType(Type expectedType, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(expectedType, nameof(expectedType));
+        Guard.ThrowIfArgumentIsNull(expectedType);
 
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -209,7 +209,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// <exception cref="ArgumentNullException"><paramref name="unexpectedType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotBeOfType(Type unexpectedType, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(unexpectedType, nameof(unexpectedType));
+        Guard.ThrowIfArgumentIsNull(unexpectedType);
 
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -284,7 +284,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeAssignableTo(Type type, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(type, nameof(type));
+        Guard.ThrowIfArgumentIsNull(type);
 
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -342,7 +342,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotBeAssignableTo(Type type, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(type, nameof(type));
+        Guard.ThrowIfArgumentIsNull(type);
 
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)

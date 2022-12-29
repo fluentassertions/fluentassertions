@@ -122,8 +122,8 @@ public class GenericAsyncFunctionAssertions<TResult> : AsyncFunctionAssertions<T
     public new Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAfterAsync(
         TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNegative(waitTime, nameof(waitTime));
-        Guard.ThrowIfArgumentIsNegative(pollInterval, nameof(pollInterval));
+        Guard.ThrowIfArgumentIsNegative(waitTime);
+        Guard.ThrowIfArgumentIsNegative(pollInterval);
 
         Execute.Assertion
             .ForCondition(Subject is not null)
