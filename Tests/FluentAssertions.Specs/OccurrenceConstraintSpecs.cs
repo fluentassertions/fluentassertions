@@ -38,14 +38,10 @@ public class OccurrenceConstraintSpecs
         { LessThan.Twice(), 1 },
         { LessThan.Thrice(), 2 },
         { LessThan.Times(4), 3 },
-        { 4.TimesOrLess(), 4 },
-        { 4.TimesOrLess(), 1 },
         { MoreThan.Once(), 2 },
         { MoreThan.Twice(), 3 },
         { MoreThan.Thrice(), 4 },
-        { MoreThan.Times(4), 5 },
-        { 4.TimesOrMore(), 4 },
-        { 4.TimesOrMore(), 5 },
+        { MoreThan.Times(4), 5 }
     };
 
     [Theory]
@@ -85,7 +81,6 @@ public class OccurrenceConstraintSpecs
         { LessThan.Thrice(), 4 },
         { LessThan.Times(4), 4 },
         { LessThan.Times(4), 5 },
-        { 4.TimesOrLess(), 5 },
         { MoreThan.Once(), 0 },
         { MoreThan.Once(), 1 },
         { MoreThan.Twice(), 1 },
@@ -94,7 +89,6 @@ public class OccurrenceConstraintSpecs
         { MoreThan.Thrice(), 3 },
         { MoreThan.Times(4), 3 },
         { MoreThan.Times(4), 4 },
-        { 4.TimesOrMore(), 3 },
     };
 
     [Theory]
