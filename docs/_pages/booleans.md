@@ -29,11 +29,3 @@ Implication: see [here](https://mathworld.wolfram.com/Implies.html)
 bool anotherBoolean = true;
 theBoolean.Should().Imply(anotherBoolean);
 ```
-
-Passing a custom caller argument expression is beneficial for this assertion to get the second parameter name in the failure message
-```csharp
-bool anotherBoolean = true;
-theBoolean.Should().Imply(anotherBoolean, nameof(anotherBoolean));
-```
-
-If you want to use the `because` / `becauseArgs` construct, it is **necessary** to use the caller argument expression, because this would lead to unexpected failure messages, when omitted!

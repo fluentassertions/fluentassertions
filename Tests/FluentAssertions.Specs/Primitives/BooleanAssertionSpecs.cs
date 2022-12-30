@@ -195,11 +195,11 @@ public class BooleanAssertionSpecs
         public void Subject_does_not_imply_implicator(bool? antecedent, bool consequent)
         {
             // Act
-            Action act = () => antecedent.Should().Imply(consequent, nameof(consequent), "because we want to test the {0}", "failure");
+            Action act = () => antecedent.Should().Imply(consequent, "because we want to test the {0}", "failure");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*to imply consequent*test the failure*but*");
+                .WithMessage("Expected antecedent*to imply consequent*test the failure*but*");
         }
     }
 }

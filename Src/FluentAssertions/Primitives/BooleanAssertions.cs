@@ -123,7 +123,6 @@ public class BooleanAssertions<TAssertions>
     /// Asserts that the value implies the specified <paramref name="consequent"/> value.
     /// </summary>
     /// <param name="consequent">The right hand side for the implication</param>
-    /// <remarks>If you want to use the `because` / `becauseArgs` construct, it is **necessary** to use the caller argument expression, because this would lead to unexpected failure messages, when omitted!</remarks>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -132,7 +131,6 @@ public class BooleanAssertions<TAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     public AndConstraint<TAssertions> Imply(bool consequent,
-        [CallerArgumentExpression(nameof(consequent))] string consequentMessage = "",
         string because = "",
         params object[] becauseArgs)
     {
@@ -141,7 +139,7 @@ public class BooleanAssertions<TAssertions>
         Execute.Assertion
             .ForCondition(antecedent is not null)
             .BecauseOf(because, becauseArgs)
-            .WithExpectation($"Expected {{context:antecedent}} ({{0}}) to imply {consequentMessage} ({{1}}){{reason}}, ", antecedent, consequent)
+            .WithExpectation($"Expected {{context:antecedent}} ({{0}}) to imply consequent ({{1}}){{reason}}, ", antecedent, consequent)
             .FailWith("but found null.")
             .Then
             .ForCondition(!antecedent.Value || consequent)
