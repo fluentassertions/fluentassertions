@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <!-- To reduce build times, we only enable analyzers for the newest TFM -->
   <PropertyGroup>
     <TargetFrameworks>net47;net6.0;netcoreapp2.1;netcoreapp3.0;netstandard2.0;netstandard2.1</TargetFrameworks>
@@ -55,7 +55,7 @@
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2022.3.1" PrivateAssets="all" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-    <PackageReference Include="PolySharp" Version="1.7.1" PrivateAssets="all" />
+    <PackageReference Include="PolySharp" Version="1.8.1" PrivateAssets="all" />
     <None Include="..\FluentAssertions.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
