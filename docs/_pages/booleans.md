@@ -35,3 +35,5 @@ Passing a custom caller argument expression is beneficial for this assertion to 
 bool anotherBoolean = true;
 theBoolean.Should().Imply(anotherBoolean, nameof(anotherBoolean));
 ```
+
+If you want to use the `because` / `becauseArgs` construct, it is **necessary** to use the caller argument expression, because this would lead to unexpected failure messages, when omitted!

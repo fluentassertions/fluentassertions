@@ -123,6 +123,7 @@ public class BooleanAssertions<TAssertions>
     /// Asserts that the value implies the specified <paramref name="consequent"/> value.
     /// </summary>
     /// <param name="consequent">The right hand side for the implication</param>
+    /// <remarks>If you want to use the `because` / `becauseArgs` construct, it is **necessary** to use the caller argument expression, because this would lead to unexpected failure messages, when omitted!</remarks>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
