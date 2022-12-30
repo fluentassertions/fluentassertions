@@ -2,7 +2,7 @@ namespace FluentAssertions.Extensions;
 
 public static class OccurrenceConstraintExtensions
 {
-    public static OccurrenceConstraint Times(this int times)
+    public static OccurrenceConstraint TimesExactly(this int times)
     {
         return Exactly.Times(times);
     }

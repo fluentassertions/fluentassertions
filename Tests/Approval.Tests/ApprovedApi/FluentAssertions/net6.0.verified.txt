@@ -1491,7 +1491,7 @@ namespace FluentAssertions.Extensions
     }
     public static class OccurrenceConstraintExtensions
     {
-        public static FluentAssertions.OccurrenceConstraint Times(this int times) { }
+        public static FluentAssertions.OccurrenceConstraint TimesExactly(this int times) { }
         public static FluentAssertions.OccurrenceConstraint TimesOrLess(this int times) { }
         public static FluentAssertions.OccurrenceConstraint TimesOrMore(this int times) { }
     }
