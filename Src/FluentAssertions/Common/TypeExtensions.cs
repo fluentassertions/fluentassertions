@@ -547,6 +547,9 @@ internal static class TypeExtensions
             return false;
         }
 
+#if !(NET47 || NETSTANDARD2_0)
+        return typeof(ITuple).IsAssignableFrom(type);
+#else
         Type openType = type.GetGenericTypeDefinition();
         return openType == typeof(ValueTuple<>)
                || openType == typeof(ValueTuple<,>)
@@ -564,6 +567,7 @@ internal static class TypeExtensions
                || openType == typeof(Tuple<,,,,,>)
                || openType == typeof(Tuple<,,,,,,>)
                || (openType == typeof(Tuple<,,,,,,,>) && IsTuple(type.GetGenericArguments()[7]));
+#endif
     }
 
     private static bool IsAnonymousType(this Type type)
