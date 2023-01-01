@@ -71,7 +71,7 @@ public static class CallerIdentifier
         return caller;
     }
 
-    private class StackFrameReference : IDisposable
+    private sealed class StackFrameReference : IDisposable
     {
         public int SkipStackFrameCount { get; }
 

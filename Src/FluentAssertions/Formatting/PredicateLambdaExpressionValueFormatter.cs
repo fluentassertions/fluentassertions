@@ -57,7 +57,7 @@ public class PredicateLambdaExpressionValueFormatter : IValueFormatter
     /// <summary>
     /// Expression visitor which can detect whether the expression depends on parameters.
     /// </summary>
-    private class ParameterDetector : ExpressionVisitor
+    private sealed class ParameterDetector : ExpressionVisitor
     {
         public bool HasParameters { get; private set; }
 
@@ -77,7 +77,7 @@ public class PredicateLambdaExpressionValueFormatter : IValueFormatter
     /// <summary>
     /// Expression visitor which can replace constant sub-expressions with constant values.
     /// </summary>
-    private class ConstantSubExpressionReductionVisitor : ExpressionVisitor
+    private sealed class ConstantSubExpressionReductionVisitor : ExpressionVisitor
     {
         public override Expression Visit(Expression node)
         {
@@ -114,7 +114,7 @@ public class PredicateLambdaExpressionValueFormatter : IValueFormatter
     /// Expression visitor which can extract sub-expressions from an expression which has the following form:
     /// (SubExpression1) AND (SubExpression2) ... AND (SubExpressionN)
     /// </summary>
-    private class AndOperatorChainExtractor : ExpressionVisitor
+    private sealed class AndOperatorChainExtractor : ExpressionVisitor
     {
         public List<Expression> AndChain { get; } = new List<Expression>();
 
