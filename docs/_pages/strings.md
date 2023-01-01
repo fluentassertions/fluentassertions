@@ -116,7 +116,7 @@ someString.Should().MatchRegex("h.*\\sworld.$", Exactly.Once());
 someString.Should().MatchRegex(new Regex("h.*\\sworld.$"), AtLeast.Twice());
 ```
 
-If you have feelings that `Exactly.Times(4)`, `AtLeast.Times(4)` and `AtMost.Times(4)` reads a bit odd or bumpy, you now can do following:
+If you prefer a more fluent syntax than `Exactly.Times(4)`, `AtLeast.Times(4)` and `AtMost.Times(4)` reads, you can do the following:
 
 ```csharp
 theString.Should().Contain("is a", 4.TimesExactly()); // equivalent to Exactly.Times(4)
