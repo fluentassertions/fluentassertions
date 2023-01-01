@@ -10,7 +10,7 @@ internal class QuotesParsingStrategy : IParsingStrategy
 
     public ParsingState Parse(char symbol, StringBuilder statement)
     {
-        if (symbol == '"')
+        if (symbol is '"')
         {
             if (isQuoteContext)
             {
@@ -53,7 +53,7 @@ internal class QuotesParsingStrategy : IParsingStrategy
 
     private bool IsVerbatim(StringBuilder statement)
     {
-        return (previousChar == '@' && statement.Length >= 2 && statement[^2] == '$' && statement[^1] == '@')
-            || (previousChar == '$' && statement.Length >= 2 && statement[^2] == '@' && statement[^1] == '$');
+        return (previousChar is '@' && statement.Length >= 2 && statement[^2] is '$' && statement[^1] is '@')
+            || (previousChar is '$' && statement.Length >= 2 && statement[^2] is '@' && statement[^1] is '$');
     }
 }

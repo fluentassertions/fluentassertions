@@ -13,7 +13,7 @@ internal class SingleLineCommentParsingStrategy : IParsingStrategy
             return ParsingState.GoToNextSymbol;
         }
 
-        var doesSymbolStartComment = symbol == '/' && statement.Length > 0 && statement[^1] == '/';
+        var doesSymbolStartComment = symbol is '/' && statement.Length > 0 && statement[^1] is '/';
         if (!doesSymbolStartComment)
         {
             return ParsingState.InProgress;
