@@ -115,3 +115,11 @@ And if that's not enough, you can assert on the number of matches of a regular e
 someString.Should().MatchRegex("h.*\\sworld.$", Exactly.Once());
 someString.Should().MatchRegex(new Regex("h.*\\sworld.$"), AtLeast.Twice());
 ```
+
+If you have feelings that `Exactly.Times(4)`, `AtLeast.Times(4)` and `AtMost.Times(4)` reads a bit odd or bumpy, you now can do following:
+
+```csharp
+theString.Should().Contain("is a", 4.TimesExactly()); // equivalent to Exactly.Times(4)
+theString.Should().Contain("is a", 4.TimesOrMore());  // equivalent to AtLeast.Times(4)
+theString.Should().Contain("is a", 4.TimesOrLess());  // equivalent to AtMost.Times(4)
+```
