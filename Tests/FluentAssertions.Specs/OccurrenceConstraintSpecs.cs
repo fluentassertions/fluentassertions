@@ -1,5 +1,6 @@
 ﻿using System;
 using FluentAssertions.Execution;
+using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
@@ -17,6 +18,8 @@ public class OccurrenceConstraintSpecs
         { AtLeast.Thrice(), 4 },
         { AtLeast.Times(4), 4 },
         { AtLeast.Times(4), 5 },
+        { 4.TimesOrMore(), 4 },
+        { 4.TimesOrMore(), 5 },
         { AtMost.Once(), 0 },
         { AtMost.Once(), 1 },
         { AtMost.Twice(), 1 },
@@ -25,17 +28,20 @@ public class OccurrenceConstraintSpecs
         { AtMost.Thrice(), 3 },
         { AtMost.Times(4), 3 },
         { AtMost.Times(4), 4 },
+        { 4.TimesOrLess(), 4 },
+        { 4.TimesOrLess(), 1 },
         { Exactly.Once(), 1 },
         { Exactly.Twice(), 2 },
         { Exactly.Thrice(), 3 },
         { Exactly.Times(4), 4 },
+        { 4.TimesExactly(), 4 },
         { LessThan.Twice(), 1 },
         { LessThan.Thrice(), 2 },
         { LessThan.Times(4), 3 },
         { MoreThan.Once(), 2 },
         { MoreThan.Twice(), 3 },
         { MoreThan.Thrice(), 4 },
-        { MoreThan.Times(4), 5 },
+        { MoreThan.Times(4), 5 }
     };
 
     [Theory]
@@ -54,10 +60,12 @@ public class OccurrenceConstraintSpecs
         { AtLeast.Twice(), 1 },
         { AtLeast.Thrice(), 2 },
         { AtLeast.Times(4), 3 },
+        { 4.TimesOrMore(), 3 },
         { AtMost.Once(), 2 },
         { AtMost.Twice(), 3 },
         { AtMost.Thrice(), 4 },
         { AtMost.Times(4), 5 },
+        { 4.TimesOrLess(), 5 },
         { Exactly.Once(), 0 },
         { Exactly.Once(), 2 },
         { Exactly.Twice(), 1 },
@@ -66,6 +74,7 @@ public class OccurrenceConstraintSpecs
         { Exactly.Thrice(), 4 },
         { Exactly.Times(4), 3 },
         { Exactly.Times(4), 5 },
+        { 4.TimesExactly(), 1 },
         { LessThan.Twice(), 2 },
         { LessThan.Twice(), 3 },
         { LessThan.Thrice(), 3 },
