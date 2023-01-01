@@ -2,9 +2,8 @@ using System;
 
 namespace FluentAssertions.Extensions;
 
-
 /// <summary>
-/// Provides little extensions to write less bumpy <see cref="OccurrenceConstraint" />s 
+/// Provides extensions to write <see cref="OccurrenceConstraint" />s with fluent syntax
 /// </summary>
 public static class OccurrenceConstraintExtensions
 {
