@@ -588,12 +588,12 @@ internal static class TypeExtensions
     public static bool IsRecord(this Type type)
     {
         return TypeIsRecordCache.GetOrAdd(type, static t =>
-            t.GetMethod("<Clone>$") is not null &&
-            t.GetTypeInfo()
-                 .DeclaredProperties
-                 .FirstOrDefault(p => p.Name == "EqualityContract")?
-                 .GetMethod?
-                 .GetCustomAttribute(typeof(CompilerGeneratedAttribute)) is not null);
+        {
+            return t.GetMethod("<Clone>$", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly) is { } &&
+                   t.GetProperty("EqualityContract", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)?
+                        .GetMethod?
+                        .GetCustomAttribute(typeof(CompilerGeneratedAttribute)) is { };
+        });
     }
 
     private static bool IsKeyValuePair(Type type)
