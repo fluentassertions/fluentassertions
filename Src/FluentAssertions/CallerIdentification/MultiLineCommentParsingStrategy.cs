@@ -28,7 +28,7 @@ internal class MultiLineCommentParsingStrategy : IParsingStrategy
         var isStartOfMultilineComment =
             symbol == '*'
             && statement.Length > 0
-            && statement[statement.Length - 1] == '/';
+            && statement[^1] == '/';
         if (isStartOfMultilineComment)
         {
             statement.Remove(statement.Length - 1, 1);
