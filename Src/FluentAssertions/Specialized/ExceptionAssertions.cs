@@ -180,7 +180,7 @@ public class ExceptionAssertions<TException> :
     public ExceptionAssertions<TException> Where(Expression<Func<TException, bool>> exceptionExpression,
         string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(exceptionExpression, nameof(exceptionExpression));
+        Guard.ThrowIfArgumentIsNull(exceptionExpression);
 
         Func<TException, bool> condition = exceptionExpression.Compile();
         Execute.Assertion
@@ -195,7 +195,7 @@ public class ExceptionAssertions<TException> :
     private IEnumerable<Exception> AssertInnerExceptionExactly(Type innerException, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(innerException, nameof(innerException));
+        Guard.ThrowIfArgumentIsNull(innerException);
 
         AssertInnerExceptions(innerException, because, becauseArgs);
 
@@ -214,7 +214,7 @@ public class ExceptionAssertions<TException> :
     private IEnumerable<Exception> AssertInnerExceptions(Type innerException, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(innerException, nameof(innerException));
+        Guard.ThrowIfArgumentIsNull(innerException);
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)

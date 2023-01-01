@@ -121,7 +121,7 @@ public class PropertyInfoAssertions :
     /// is not a <see cref="CSharpAccessModifier"/> value.</exception>
     public AndConstraint<PropertyInfoAssertions> BeWritable(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsOutOfRange(accessModifier, nameof(accessModifier));
+        Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 
         bool success = Execute.Assertion
           .BecauseOf(because, becauseArgs)
@@ -211,7 +211,7 @@ public class PropertyInfoAssertions :
     /// is not a <see cref="CSharpAccessModifier"/> value.</exception>
     public AndConstraint<PropertyInfoAssertions> BeReadable(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsOutOfRange(accessModifier, nameof(accessModifier));
+        Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 
         bool success = Execute.Assertion
            .BecauseOf(because, becauseArgs)
@@ -274,7 +274,7 @@ public class PropertyInfoAssertions :
     public AndConstraint<PropertyInfoAssertions> Return(Type propertyType,
         string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(propertyType, nameof(propertyType));
+        Guard.ThrowIfArgumentIsNull(propertyType);
 
         bool success = Execute.Assertion
            .BecauseOf(because, becauseArgs)
@@ -322,7 +322,7 @@ public class PropertyInfoAssertions :
     /// <exception cref="ArgumentNullException"><paramref name="propertyType"/> is <see langword="null"/>.</exception>
     public AndConstraint<PropertyInfoAssertions> NotReturn(Type propertyType, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(propertyType, nameof(propertyType));
+        Guard.ThrowIfArgumentIsNull(propertyType);
 
         bool success = Execute.Assertion
            .BecauseOf(because, becauseArgs)

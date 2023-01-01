@@ -53,7 +53,7 @@ public static class TypeExtensions
     /// <exception cref="ArgumentNullException"><paramref name="typeSelector"/> is <see langword="null"/>.</exception>
     public static MethodInfoSelector Methods(this TypeSelector typeSelector)
     {
-        Guard.ThrowIfArgumentIsNull(typeSelector, nameof(typeSelector));
+        Guard.ThrowIfArgumentIsNull(typeSelector);
 
         return new MethodInfoSelector(typeSelector.ToList());
     }
@@ -73,7 +73,7 @@ public static class TypeExtensions
     /// <exception cref="ArgumentNullException"><paramref name="typeSelector"/> is <see langword="null"/>.</exception>
     public static PropertyInfoSelector Properties(this TypeSelector typeSelector)
     {
-        Guard.ThrowIfArgumentIsNull(typeSelector, nameof(typeSelector));
+        Guard.ThrowIfArgumentIsNull(typeSelector);
 
         return new PropertyInfoSelector(typeSelector.ToList());
     }

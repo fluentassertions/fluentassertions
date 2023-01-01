@@ -23,8 +23,8 @@ public class TypeSelectorAssertions
     /// <exception cref="ArgumentNullException"><paramref name="types"/> is or contains <see langword="null"/>.</exception>
     public TypeSelectorAssertions(params Type[] types)
     {
-        Guard.ThrowIfArgumentIsNull(types, nameof(types));
-        Guard.ThrowIfArgumentContainsNull(types, nameof(types));
+        Guard.ThrowIfArgumentIsNull(types);
+        Guard.ThrowIfArgumentContainsNull(types);
 
         Subject = types;
     }
@@ -82,7 +82,7 @@ public class TypeSelectorAssertions
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
         Type[] typesWithoutMatchingAttribute = Subject
             .Where(type => !type.IsDecoratedWith(isMatchingAttributePredicate))
@@ -149,7 +149,7 @@ public class TypeSelectorAssertions
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
         Type[] typesWithoutMatchingAttribute = Subject
             .Where(type => !type.IsDecoratedWithOrInherit(isMatchingAttributePredicate))
@@ -216,7 +216,7 @@ public class TypeSelectorAssertions
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
         Type[] typesWithMatchingAttribute = Subject
             .Where(type => type.IsDecoratedWith(isMatchingAttributePredicate))
@@ -283,7 +283,7 @@ public class TypeSelectorAssertions
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
         Type[] typesWithMatchingAttribute = Subject
             .Where(type => type.IsDecoratedWithOrInherit(isMatchingAttributePredicate))

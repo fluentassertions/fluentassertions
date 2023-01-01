@@ -237,10 +237,11 @@ public class SimpleTimeSpanAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public AndConstraint<TAssertions> BeCloseTo(TimeSpan nearbyTime, TimeSpan precision, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         TimeSpan minimumValue = nearbyTime - precision;
         TimeSpan maximumValue = nearbyTime + precision;
@@ -276,10 +277,11 @@ public class SimpleTimeSpanAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public AndConstraint<TAssertions> NotBeCloseTo(TimeSpan distantTime, TimeSpan precision, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNegative(precision, nameof(precision));
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         TimeSpan minimumValue = distantTime - precision;
         TimeSpan maximumValue = distantTime + precision;

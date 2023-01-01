@@ -35,7 +35,7 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
     /// <exception cref="ArgumentNullException"><paramref name="assembly"/> is <see langword="null"/>.</exception>
     public AndConstraint<AssemblyAssertions> NotReference(Assembly assembly, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(assembly, nameof(assembly));
+        Guard.ThrowIfArgumentIsNull(assembly);
 
         var assemblyName = assembly.GetName().Name;
 
@@ -74,7 +74,7 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
     /// <exception cref="ArgumentNullException"><paramref name="assembly"/> is <see langword="null"/>.</exception>
     public AndConstraint<AssemblyAssertions> Reference(Assembly assembly, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(assembly, nameof(assembly));
+        Guard.ThrowIfArgumentIsNull(assembly);
 
         var assemblyName = assembly.GetName().Name;
 
@@ -114,7 +114,7 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
     /// <exception cref="ArgumentException"><paramref name="name"/> is empty.</exception>
     public AndWhichConstraint<AssemblyAssertions, Type> DefineType(string @namespace, string name, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
+        Guard.ThrowIfArgumentIsNullOrEmpty(name);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)

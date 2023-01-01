@@ -44,8 +44,8 @@ public static class AssertionExtensions
     [Pure]
     public static Action Invoking<T>(this T subject, Action<T> action)
     {
-        Guard.ThrowIfArgumentIsNull(subject, nameof(subject));
-        Guard.ThrowIfArgumentIsNull(action, nameof(action));
+        Guard.ThrowIfArgumentIsNull(subject);
+        Guard.ThrowIfArgumentIsNull(action);
 
         return () => action(subject);
     }
@@ -59,8 +59,8 @@ public static class AssertionExtensions
     [Pure]
     public static Func<TResult> Invoking<T, TResult>(this T subject, Func<T, TResult> action)
     {
-        Guard.ThrowIfArgumentIsNull(subject, nameof(subject));
-        Guard.ThrowIfArgumentIsNull(action, nameof(action));
+        Guard.ThrowIfArgumentIsNull(subject);
+        Guard.ThrowIfArgumentIsNull(action);
 
         return () => action(subject);
     }
@@ -119,8 +119,8 @@ public static class AssertionExtensions
     public static MemberExecutionTime<T> ExecutionTimeOf<T>(this T subject, Expression<Action<T>> action,
         StartTimer createTimer = null)
     {
-        Guard.ThrowIfArgumentIsNull(subject, nameof(subject));
-        Guard.ThrowIfArgumentIsNull(action, nameof(action));
+        Guard.ThrowIfArgumentIsNull(subject);
+        Guard.ThrowIfArgumentIsNull(action);
 
         createTimer ??= () => new StopwatchTimer();
 
@@ -787,7 +787,7 @@ public static class AssertionExtensions
     [Pure]
     public static TypeSelectorAssertions Should(this TypeSelector typeSelector)
     {
-        Guard.ThrowIfArgumentIsNull(typeSelector, nameof(typeSelector));
+        Guard.ThrowIfArgumentIsNull(typeSelector);
 
         return new TypeSelectorAssertions(typeSelector.ToArray());
     }
@@ -822,7 +822,7 @@ public static class AssertionExtensions
     [Pure]
     public static MethodInfoSelectorAssertions Should(this MethodInfoSelector methodSelector)
     {
-        Guard.ThrowIfArgumentIsNull(methodSelector, nameof(methodSelector));
+        Guard.ThrowIfArgumentIsNull(methodSelector);
 
         return new MethodInfoSelectorAssertions(methodSelector.ToArray());
     }
@@ -847,7 +847,7 @@ public static class AssertionExtensions
     [Pure]
     public static PropertyInfoSelectorAssertions Should(this PropertyInfoSelector propertyInfoSelector)
     {
-        Guard.ThrowIfArgumentIsNull(propertyInfoSelector, nameof(propertyInfoSelector));
+        Guard.ThrowIfArgumentIsNull(propertyInfoSelector);
 
         return new PropertyInfoSelectorAssertions(propertyInfoSelector.ToArray());
     }
@@ -912,7 +912,7 @@ public static class AssertionExtensions
     /// An optional delegate that returns the current date and time in UTC format.
     /// Will revert to <see cref="DateTime.UtcNow"/> if no delegate was provided.
     /// </param>
-    /// <exception cref="ArgumentNullException">Thrown if <paramref name="eventSource"/> is Null.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eventSource"/> is <see langword="null"/>.</exception>
     public static IMonitor<T> Monitor<T>(this T eventSource, Func<DateTime> utcNow = null)
     {
         return new EventMonitor<T>(eventSource, utcNow ?? (() => DateTime.UtcNow));

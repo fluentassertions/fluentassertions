@@ -25,7 +25,7 @@ public static class AssertionOptions
     internal static TOptions CloneDefaults<T, TOptions>(Func<EquivalencyAssertionOptions, TOptions> predicate)
         where TOptions : EquivalencyAssertionOptions<T>
     {
-        Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+        Guard.ThrowIfArgumentIsNull(predicate);
 
         return predicate(defaults);
     }
@@ -40,7 +40,7 @@ public static class AssertionOptions
     public static void AssertEquivalencyUsing(
         Func<EquivalencyAssertionOptions, EquivalencyAssertionOptions> defaultsConfigurer)
     {
-        Guard.ThrowIfArgumentIsNull(defaultsConfigurer, nameof(defaultsConfigurer));
+        Guard.ThrowIfArgumentIsNull(defaultsConfigurer);
 
         defaults = defaultsConfigurer(defaults);
     }

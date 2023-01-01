@@ -1,4 +1,5 @@
 using System;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
@@ -666,14 +667,12 @@ public static class NumericAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<float>> BeApproximately(this NullableNumericAssertions<float> parent,
         float expectedValue, float precision, string because = "",
         params object[] becauseArgs)
     {
-        if (precision < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         Execute.Assertion
             .ForCondition(parent.Subject is not null)
@@ -704,14 +703,12 @@ public static class NumericAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<float>> BeApproximately(this NullableNumericAssertions<float> parent,
         float? expectedValue, float precision, string because = "",
         params object[] becauseArgs)
     {
-        if (precision < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if (parent.Subject is null && expectedValue is null)
         {
@@ -749,6 +746,7 @@ public static class NumericAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NumericAssertions<float>> BeApproximately(this NumericAssertions<float> parent,
         float expectedValue, float precision, string because = "",
         params object[] becauseArgs)
@@ -758,10 +756,7 @@ public static class NumericAssertionsExtensions
             throw new ArgumentException("Cannot determine approximation of a float to NaN", nameof(expectedValue));
         }
 
-        if (precision < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if (float.IsPositiveInfinity(expectedValue))
         {
@@ -798,14 +793,12 @@ public static class NumericAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<double>> BeApproximately(this NullableNumericAssertions<double> parent,
         double expectedValue, double precision, string because = "",
         params object[] becauseArgs)
     {
-        if (precision < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         Execute.Assertion
             .ForCondition(parent.Subject is not null)
@@ -836,14 +829,12 @@ public static class NumericAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<double>> BeApproximately(this NullableNumericAssertions<double> parent,
         double? expectedValue, double precision, string because = "",
         params object[] becauseArgs)
     {
-        if (precision < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if (parent.Subject is null && expectedValue is null)
         {
@@ -881,6 +872,7 @@ public static class NumericAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NumericAssertions<double>> BeApproximately(this NumericAssertions<double> parent,
         double expectedValue, double precision, string because = "",
         params object[] becauseArgs)
@@ -890,10 +882,7 @@ public static class NumericAssertionsExtensions
             throw new ArgumentException("Cannot determine approximation of a double to NaN", nameof(expectedValue));
         }
 
-        if (precision < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if (double.IsPositiveInfinity(expectedValue))
         {
@@ -930,14 +919,12 @@ public static class NumericAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<decimal>> BeApproximately(this NullableNumericAssertions<decimal> parent,
         decimal expectedValue, decimal precision, string because = "",
         params object[] becauseArgs)
     {
-        if (precision < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         Execute.Assertion
             .ForCondition(parent.Subject is not null)
@@ -967,14 +954,12 @@ public static class NumericAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<decimal>> BeApproximately(this NullableNumericAssertions<decimal> parent,
         decimal? expectedValue, decimal precision, string because = "",
         params object[] becauseArgs)
     {
-        if (precision < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if (parent.Subject is null && expectedValue is null)
         {
@@ -1012,14 +997,12 @@ public static class NumericAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NumericAssertions<decimal>> BeApproximately(this NumericAssertions<decimal> parent,
         decimal expectedValue, decimal precision, string because = "",
         params object[] becauseArgs)
     {
-        if (precision < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         decimal actualDifference = Math.Abs(expectedValue - parent.Subject.Value);
 
@@ -1062,14 +1045,12 @@ public static class NumericAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<float>> NotBeApproximately(this NullableNumericAssertions<float> parent,
         float unexpectedValue, float precision, string because = "",
         params object[] becauseArgs)
     {
-        if (precision < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if (parent.Subject is not null)
         {
@@ -1098,14 +1079,12 @@ public static class NumericAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<float>> NotBeApproximately(this NullableNumericAssertions<float> parent,
         float? unexpectedValue, float precision, string because = "",
         params object[] becauseArgs)
     {
-        if (precision < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if ((parent.Subject is null) != (unexpectedValue is null))
         {
@@ -1143,6 +1122,7 @@ public static class NumericAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NumericAssertions<float>> NotBeApproximately(this NumericAssertions<float> parent,
         float unexpectedValue, float precision, string because = "",
         params object[] becauseArgs)
@@ -1152,10 +1132,7 @@ public static class NumericAssertionsExtensions
             throw new ArgumentException("Cannot determine approximation of a float to NaN", nameof(unexpectedValue));
         }
 
-        if (precision < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if (float.IsPositiveInfinity(unexpectedValue))
         {
@@ -1192,14 +1169,12 @@ public static class NumericAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<double>> NotBeApproximately(this NullableNumericAssertions<double> parent,
         double unexpectedValue, double precision, string because = "",
         params object[] becauseArgs)
     {
-        if (precision < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if (parent.Subject is not null)
         {
@@ -1228,14 +1203,12 @@ public static class NumericAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<double>> NotBeApproximately(this NullableNumericAssertions<double> parent,
         double? unexpectedValue, double precision, string because = "",
         params object[] becauseArgs)
     {
-        if (precision < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if ((parent.Subject is null) != (unexpectedValue is null))
         {
@@ -1273,6 +1246,7 @@ public static class NumericAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NumericAssertions<double>> NotBeApproximately(this NumericAssertions<double> parent,
         double unexpectedValue, double precision, string because = "",
         params object[] becauseArgs)
@@ -1282,10 +1256,7 @@ public static class NumericAssertionsExtensions
             throw new ArgumentException("Cannot determine approximation of a double to NaN", nameof(unexpectedValue));
         }
 
-        if (precision < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if (double.IsPositiveInfinity(unexpectedValue))
         {
@@ -1322,14 +1293,12 @@ public static class NumericAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<decimal>> NotBeApproximately(this NullableNumericAssertions<decimal> parent,
         decimal unexpectedValue, decimal precision, string because = "",
         params object[] becauseArgs)
     {
-        if (precision < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if (parent.Subject is not null)
         {
@@ -1358,14 +1327,12 @@ public static class NumericAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NullableNumericAssertions<decimal>> NotBeApproximately(this NullableNumericAssertions<decimal> parent,
         decimal? unexpectedValue, decimal precision, string because = "",
         params object[] becauseArgs)
     {
-        if (precision < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         if ((parent.Subject is null) != (unexpectedValue is null))
         {
@@ -1403,14 +1370,12 @@ public static class NumericAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public static AndConstraint<NumericAssertions<decimal>> NotBeApproximately(this NumericAssertions<decimal> parent,
         decimal unexpectedValue, decimal precision, string because = "",
         params object[] becauseArgs)
     {
-        if (precision < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         decimal actualDifference = Math.Abs(unexpectedValue - parent.Subject.Value);
 

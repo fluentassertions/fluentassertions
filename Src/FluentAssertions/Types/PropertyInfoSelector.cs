@@ -31,8 +31,8 @@ public class PropertyInfoSelector : IEnumerable<PropertyInfo>
     /// <exception cref="ArgumentNullException"><paramref name="types"/> is or contains <see langword="null"/>.</exception>
     public PropertyInfoSelector(IEnumerable<Type> types)
     {
-        Guard.ThrowIfArgumentIsNull(types, nameof(types));
-        Guard.ThrowIfArgumentContainsNull(types, nameof(types));
+        Guard.ThrowIfArgumentIsNull(types);
+        Guard.ThrowIfArgumentContainsNull(types);
 
         selectedProperties = types.SelectMany(t => t
             .GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance

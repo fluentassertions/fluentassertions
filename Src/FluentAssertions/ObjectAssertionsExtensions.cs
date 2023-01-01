@@ -53,7 +53,7 @@ public static class ObjectAssertionsExtensions
         Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> options, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(options, nameof(options));
+        Guard.ThrowIfArgumentIsNull(options);
 
         try
         {
@@ -117,7 +117,7 @@ public static class ObjectAssertionsExtensions
     public static AndConstraint<ObjectAssertions> BeDataContractSerializable<T>(this ObjectAssertions assertions,
         Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> options, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(options, nameof(options));
+        Guard.ThrowIfArgumentIsNull(options);
 
         try
         {

@@ -36,7 +36,7 @@ public class ExecutionTime
     /// <exception cref="ArgumentNullException"><paramref name="action"/> is <see langword="null"/>.</exception>
     protected ExecutionTime(Action action, string actionDescription, StartTimer createTimer)
     {
-        Guard.ThrowIfArgumentIsNull(action, nameof(action));
+        Guard.ThrowIfArgumentIsNull(action);
 
         ActionDescription = actionDescription;
         IsRunning = true;
@@ -76,7 +76,7 @@ public class ExecutionTime
     /// <exception cref="ArgumentNullException"><paramref name="action"/> is <see langword="null"/>.</exception>
     protected ExecutionTime(Func<Task> action, string actionDescription, StartTimer createTimer)
     {
-        Guard.ThrowIfArgumentIsNull(action, nameof(action));
+        Guard.ThrowIfArgumentIsNull(action);
 
         ActionDescription = actionDescription;
         IsRunning = true;

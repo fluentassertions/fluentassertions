@@ -125,7 +125,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
         Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(config, nameof(config));
+        Guard.ThrowIfArgumentIsNull(config);
 
         EquivalencyAssertionOptions<IEnumerable<string>> options = config(AssertionOptions.CloneDefaults<string>()).AsCollection();
 
@@ -187,7 +187,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
         string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(config, nameof(config));
+        Guard.ThrowIfArgumentIsNull(config);
 
         string[] repeatedExpectation = RepeatAsManyAs(expectation, Subject).ToArray();
 

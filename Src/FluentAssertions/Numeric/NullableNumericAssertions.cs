@@ -114,7 +114,7 @@ public class NullableNumericAssertions<T, TAssertions> : NumericAssertions<T, TA
         string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+        Guard.ThrowIfArgumentIsNull(predicate);
 
         Execute.Assertion
             .ForCondition(predicate.Compile()(Subject))

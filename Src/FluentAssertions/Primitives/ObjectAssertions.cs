@@ -128,7 +128,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
         Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(config, nameof(config));
+        Guard.ThrowIfArgumentIsNull(config);
 
         EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
 
@@ -207,7 +207,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
         string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(config, nameof(config));
+        Guard.ThrowIfArgumentIsNull(config);
 
         bool hasMismatches;
         using (var scope = new AssertionScope())
