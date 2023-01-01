@@ -626,7 +626,7 @@ public class ExtensibilitySpecs
     {
         public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
         {
-            if (comparands.Expectation is DateTime time)
+            if (comparands.Expectation is DateTime)
             {
                 throw new Exception("Failed");
             }
