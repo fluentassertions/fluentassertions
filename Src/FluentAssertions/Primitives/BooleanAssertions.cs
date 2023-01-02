@@ -139,7 +139,7 @@ public class BooleanAssertions<TAssertions>
         Execute.Assertion
             .ForCondition(antecedent is not null)
             .BecauseOf(because, becauseArgs)
-            .WithExpectation($"Expected {{context:antecedent}} ({{0}}) to imply consequent ({{1}}){{reason}}, ", antecedent, consequent)
+            .WithExpectation("Expected {context:antecedent} ({0}) to imply consequent ({1}){reason}, ", antecedent, consequent)
             .FailWith("but found null.")
             .Then
             .ForCondition(!antecedent.Value || consequent)
