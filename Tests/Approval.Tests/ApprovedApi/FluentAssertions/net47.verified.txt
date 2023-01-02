@@ -2674,9 +2674,11 @@ namespace FluentAssertions.Types
         public FluentAssertions.Types.TypeSelector ThatAreNotSealed() { }
         public FluentAssertions.Types.TypeSelector ThatAreNotStatic() { }
         public FluentAssertions.Types.TypeSelector ThatAreNotUnderNamespace(string @namespace) { }
+        public FluentAssertions.Types.TypeSelector ThatAreNotValueTypes() { }
         public FluentAssertions.Types.TypeSelector ThatAreSealed() { }
         public FluentAssertions.Types.TypeSelector ThatAreStatic() { }
         public FluentAssertions.Types.TypeSelector ThatAreUnderNamespace(string @namespace) { }
+        public FluentAssertions.Types.TypeSelector ThatAreValueTypes() { }
         public FluentAssertions.Types.TypeSelector ThatDeriveFrom<TBase>() { }
         public FluentAssertions.Types.TypeSelector ThatDoNotDeriveFrom<TBase>() { }
         public FluentAssertions.Types.TypeSelector ThatDoNotImplement<TInterface>() { }

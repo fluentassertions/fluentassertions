@@ -13,6 +13,7 @@ using Internal.Other.Test.Common;
 using Internal.SealedAndNotSealedClasses.Test;
 using Internal.StaticAndNonStaticClasses.Test;
 using Internal.UnwrapSelectorTestTypes.Test;
+using Internal.ValueTypesAndNotValueTypes.Test;
 using Xunit;
 using ISomeInterface = Internal.Main.Test.ISomeInterface;
 
@@ -499,6 +500,38 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
+        public void When_selecting_types_that_are_value_types_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(InternalEnumValueType).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.ValueTypesAndNotValueTypes.Test")
+                .ThatAreValueTypes();
+
+            // Assert
+            types.Should()
+                .HaveCount(3);
+        }
+
+        [Fact]
+        public void When_selecting_types_that_are_not_value_types_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(InternalEnumValueType).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.ValueTypesAndNotValueTypes.Test")
+                .ThatAreNotValueTypes();
+
+            // Assert
+            types.Should()
+                .HaveCount(3);
+        }
+
+        [Fact]
         public void When_selecting_types_that_are_abstract_classes_it_should_return_the_correct_types()
         {
             // Arrange
@@ -874,6 +907,33 @@ namespace Internal.SealedAndNotSealedClasses.Test
     }
 
     internal class NotSealedClass
+    {
+    }
+}
+
+namespace Internal.ValueTypesAndNotValueTypes.Test
+{
+    internal struct InternalStructValueType
+    {
+    }
+
+    internal record struct InternalRecordStructValueType
+    {
+    }
+
+    internal class InternalClassNotValueType
+    {
+    }
+
+    internal record class InternalRecordClass
+    {
+    }
+
+    internal enum InternalEnumValueType
+    {
+    }
+
+    internal interface InternalInterfaceNotValueType
     {
     }
 }

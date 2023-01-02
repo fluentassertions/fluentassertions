@@ -10,6 +10,7 @@ sidebar:
 ## Unreleased
 
 ### What's new
+* Added `ThatAre[Not]ValueTypes` method for filtering the types - [#2083](https://github.com/fluentassertions/fluentassertions/pull/2083)
 * Added `ThatAre[Not]Interfaces` method for filtering the types - [#2057](https://github.com/fluentassertions/fluentassertions/pull/2057)
 * Added `ThatAre[Not]Abstract` method for filtering the types - [#2058](https://github.com/fluentassertions/fluentassertions/pull/2058)
 * Added `ThatAre[Not]Sealed` method for filtering the types - [#2059](https://github.com/fluentassertions/fluentassertions/pull/2059)
