@@ -48,8 +48,8 @@ public class PropertyInfoSelector : IEnumerable<PropertyInfo>
         {
             selectedProperties = selectedProperties.Where(property =>
             {
-                MethodInfo getter = property.GetGetMethod(nonPublic: true);
-                return (getter is not null) && (getter.IsPublic || getter.IsAssembly);
+                MethodInfo methodInfo = property.GetGetMethod(nonPublic: true) ?? property.GetSetMethod(nonPublic: true);
+                return (methodInfo is not null) && (methodInfo.IsPublic || methodInfo.IsAssembly);
             });
 
             return this;
