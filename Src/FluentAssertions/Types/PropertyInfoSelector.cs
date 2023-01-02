@@ -40,7 +40,7 @@ public class PropertyInfoSelector : IEnumerable<PropertyInfo>
     }
 
     /// <summary>
-    /// Only select the properties that have a public or internal getter and setter.
+    /// Only select the properties that have atleast one public or internal accessor
     /// </summary>
     public PropertyInfoSelector ThatArePublicOrInternal
     {
@@ -48,8 +48,8 @@ public class PropertyInfoSelector : IEnumerable<PropertyInfo>
         {
             selectedProperties = selectedProperties.Where(property =>
             {
-                MethodInfo methodInfo = property.GetGetMethod(nonPublic: true) ?? property.GetSetMethod(nonPublic: true);
-                return (methodInfo is not null) && (methodInfo.IsPublic || methodInfo.IsAssembly);
+                return property.GetGetMethod(nonPublic: true) is { IsPublic: true } or { IsAssembly: true }
+                    || property.GetSetMethod(nonPublic: true) is { IsPublic: true } or { IsAssembly: true };
             });
 
             return this;
