@@ -40,7 +40,7 @@ public class PropertyInfoSelector : IEnumerable<PropertyInfo>
     }
 
     /// <summary>
-    /// Only select the properties that have a public or internal getter.
+    /// Only select the properties that have a public or internal getter and setter.
     /// </summary>
     public PropertyInfoSelector ThatArePublicOrInternal
     {
