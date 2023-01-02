@@ -355,6 +355,32 @@ public class PropertyInfoSelectorSpecs
                 , typeof(string), typeof(int), typeof(int), typeof(int), typeof(int)
             });
     }
+
+    [Fact]
+    public void When_selecting_propeties_with_only_set_accessors_it_should_return_the_applicable_properties()
+    {
+        // Arrange
+        Type type = typeof(TestClassForPropertyInfoSelector);
+
+        // Act
+        IEnumerable<PropertyInfo> properties = type.Properties().ThatArePublicOrInternal.ToArray();
+
+        // Assert
+        properties.Should().HaveCount(3);
+    }
+
+    [Fact]
+    public void When_selecting_propeties_with_different_accessors_from_a_abstract_class_should_return_the_applicable_properties()
+    {
+        // Arrange
+        Type type = typeof(TestClassForPropertySelector);
+
+        // Act
+        IEnumerable<PropertyInfo> properties = type.Properties().ThatArePublicOrInternal.ToArray();
+
+        // Assert
+        properties.Should().HaveCount(8);
+    }
 }
 
 #region Internal classes used in unit tests
@@ -454,6 +480,17 @@ public class DummyPropertyAttribute : Attribute
     }
 
     public string Value { get; private set; }
+}
+
+public class TestClassForPropertyInfoSelector
+{
+    private static string myPrivateStaticStringField;
+
+    public static string PublicStaticStringProperty { set => myPrivateStaticStringField = value; }
+
+    public static string InternalStaticStringProperty { get; set; }
+
+    public int PublicIntProperty { init; get; }
 }
 
 #endregion
