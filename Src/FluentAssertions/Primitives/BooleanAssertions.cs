@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
@@ -122,7 +121,7 @@ public class BooleanAssertions<TAssertions>
     /// <summary>
     /// Asserts that the value implies the specified <paramref name="consequent"/> value.
     /// </summary>
-    /// <param name="consequent">The right hand side for the implication</param>
+    /// <param name="consequent">The right hand side of the implication</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.

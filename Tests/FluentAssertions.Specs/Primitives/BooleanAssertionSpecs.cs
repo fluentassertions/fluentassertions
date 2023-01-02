@@ -184,7 +184,7 @@ public class BooleanAssertionSpecs
 
         [Theory]
         [MemberData(nameof(PassingImplications))]
-        public void Subject_implies_implicator(bool? antecedent, bool consequent)
+        public void Antecedent_implies_consequent(bool? antecedent, bool consequent)
         {
             // Act / Assert
             antecedent.Should().Imply(consequent);
@@ -192,7 +192,7 @@ public class BooleanAssertionSpecs
 
         [Theory]
         [MemberData(nameof(NonPassingImplications))]
-        public void Subject_does_not_imply_implicator(bool? antecedent, bool consequent)
+        public void Antecedent_does_not_imply_consequent(bool? antecedent, bool consequent)
         {
             // Act
             Action act = () => antecedent.Should().Imply(consequent, "because we want to test the {0}", "failure");
