@@ -381,6 +381,19 @@ public class PropertyInfoSelectorSpecs
         // Assert
         properties.Should().HaveCount(8);
     }
+
+    [Fact]
+    public void When_selecting_properties_with_atleast_one_accessor_being_private_should_return_the_applicable_properties()
+    {
+        // Arrange
+        Type type = typeof(TestClassForPropertyInfoSelectorWithOnePrivateAccessor);
+
+        // Act
+        IEnumerable<PropertyInfo> properties = type.Properties().ThatArePublicOrInternal.ToArray();
+
+        // Assert
+        properties.Should().HaveCount(4);
+    }
 }
 
 #region Internal classes used in unit tests
@@ -490,7 +503,18 @@ public class TestClassForPropertyInfoSelector
 
     public static string InternalStaticStringProperty { get; set; }
 
-    public int PublicIntProperty { init; get; }
+    public int PublicIntProperty { get; init; }
+}
+
+public class TestClassForPropertyInfoSelectorWithOnePrivateAccessor
+{
+    public bool PublicBoolPrivateGet { private get; set; }
+
+    public bool PublicBoolPrivateSet { get; private set; }
+
+    internal bool InternalBoolPrivateGet { private get;  set; }
+
+    internal bool InternalBoolPrivateSet { get; private set; }
 }
 
 #endregion
