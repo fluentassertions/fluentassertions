@@ -503,7 +503,7 @@ namespace FluentAssertions.Specs.Types
         public void When_selecting_types_that_are_value_types_it_should_return_the_correct_types()
         {
             // Arrange
-            Assembly assembly = typeof(InternalEnumValueType).GetTypeInfo().Assembly;
+            Assembly assembly = typeof(InternalEnumValueType).Assembly;
 
             // Act
             IEnumerable<Type> types = AllTypes.From(assembly)
@@ -519,7 +519,7 @@ namespace FluentAssertions.Specs.Types
         public void When_selecting_types_that_are_not_value_types_it_should_return_the_correct_types()
         {
             // Arrange
-            Assembly assembly = typeof(InternalEnumValueType).GetTypeInfo().Assembly;
+            Assembly assembly = typeof(InternalEnumValueType).Assembly;
 
             // Act
             IEnumerable<Type> types = AllTypes.From(assembly)

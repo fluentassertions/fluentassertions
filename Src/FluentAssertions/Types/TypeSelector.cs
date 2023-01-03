@@ -174,8 +174,7 @@ public class TypeSelector : IEnumerable<Type>
     /// </summary>
     public TypeSelector ThatAreValueTypes()
     {
-        types = types.Where(t => t.IsValueType)
-            .ToList();
+        types = types.Where(t => t.IsValueType).ToList();
         return this;
     }
 
@@ -184,8 +183,7 @@ public class TypeSelector : IEnumerable<Type>
     /// </summary>
     public TypeSelector ThatAreNotValueTypes()
     {
-        types = types.Where(t => !t.IsValueType)
-            .ToList();
+        types = types.Where(t => !t.IsValueType).ToList();
         return this;
     }
 
