@@ -170,6 +170,24 @@ public class TypeSelector : IEnumerable<Type>
     }
 
     /// <summary>
+    /// Filters and returns the types that are value types
+    /// </summary>
+    public TypeSelector ThatAreValueTypes()
+    {
+        types = types.Where(t => t.IsValueType).ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Filters and returns the types that are not value types
+    /// </summary>
+    public TypeSelector ThatAreNotValueTypes()
+    {
+        types = types.Where(t => !t.IsValueType).ToList();
+        return this;
+    }
+
+    /// <summary>
     /// Determines whether the type is a class
     /// </summary>
     public TypeSelector ThatAreClasses()
