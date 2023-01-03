@@ -140,6 +140,7 @@ class Build : NukeBuild
 
             DotNetTest(s => s
                 .SetConfiguration("Debug")
+                .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-us")
                 .EnableNoBuild()
                 .SetDataCollector("XPlat Code Coverage")
                 .SetResultsDirectory(TestResultsDirectory)
@@ -194,6 +195,7 @@ class Build : NukeBuild
 
             DotNetTest(s => s
                 .SetConfiguration("Debug")
+                .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-us")
                 .EnableNoBuild()
                 .SetDataCollector("XPlat Code Coverage")
                 .SetResultsDirectory(TestResultsDirectory)
