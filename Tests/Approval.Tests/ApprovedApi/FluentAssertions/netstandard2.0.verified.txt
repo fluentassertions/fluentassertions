@@ -1773,6 +1773,7 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> BeFalse(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeTrue(string because = "", params object[] becauseArgs) { }
         public override bool Equals(object obj) { }
+        public FluentAssertions.AndConstraint<TAssertions> Imply(bool consequent, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(bool unexpected, string because = "", params object[] becauseArgs) { }
     }
     public class DateTimeAssertions : FluentAssertions.Primitives.DateTimeAssertions<FluentAssertions.Primitives.DateTimeAssertions>

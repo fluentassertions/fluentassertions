@@ -118,6 +118,37 @@ public class BooleanAssertions<TAssertions>
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
+    /// <summary>
+    /// Asserts that the value implies the specified <paramref name="consequent"/> value.
+    /// </summary>
+    /// <param name="consequent">The right hand side of the implication</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+    /// </param>
+    public AndConstraint<TAssertions> Imply(bool consequent,
+        string because = "",
+        params object[] becauseArgs)
+    {
+        bool? antecedent = Subject;
+
+        Execute.Assertion
+            .ForCondition(antecedent is not null)
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:antecedent} ({0}) to imply consequent ({1}){reason}, ", antecedent, consequent)
+            .FailWith("but found null.")
+            .Then
+            .ForCondition(!antecedent.Value || consequent)
+            .FailWith("but it did not.")
+            .Then
+            .ClearExpectation();
+        
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
     /// <inheritdoc/>
     public override bool Equals(object obj) =>
         throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
