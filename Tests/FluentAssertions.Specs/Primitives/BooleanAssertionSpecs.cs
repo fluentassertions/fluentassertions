@@ -169,9 +169,9 @@ public class BooleanAssertionSpecs
     public class Imply
     {
         [Theory]
-        [InlineData(false, false )]
-        [InlineData(false, true )]
-        [InlineData(true, true )]
+        [InlineData(false, false)]
+        [InlineData(false, true)]
+        [InlineData(true, true)]
         public void Antecedent_implies_consequent(bool? antecedent, bool consequent)
         {
             // Act / Assert
