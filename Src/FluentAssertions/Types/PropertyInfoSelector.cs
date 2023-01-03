@@ -40,7 +40,7 @@ public class PropertyInfoSelector : IEnumerable<PropertyInfo>
     }
 
     /// <summary>
-    /// Only select the properties that have atleast one public or internal accessor
+    /// Only select the properties that have at least one public or internal accessor
     /// </summary>
     public PropertyInfoSelector ThatArePublicOrInternal
     {
