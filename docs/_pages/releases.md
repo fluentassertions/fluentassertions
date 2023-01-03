@@ -20,7 +20,7 @@ sidebar:
 * Added new extension methods to be able to write `Exactly.Times(n)`, `AtLeast.Times(n)` and `AtMost.Times(n)` in a more fluent way - [#2047](https://github.com/fluentassertions/fluentassertions/pull/2047)
 
 ### Fixes
-* Fixed `ThatArePublicOrInternal` property of `PropertyInfoSelector` not including properties with set accessors - [#2084] (https://github.com/fluentassertions/fluentassertions/pull/2082)
+* `PropertyInfoSelector.ThatArePublicOrInternal` now takes the setter into account when determining if a property is `public` or `internal` - [#2082] (https://github.com/fluentassertions/fluentassertions/pull/2082)
 * Quering properties on classes, e.g. `typeof(MyClass).Properties()`, now also includes static properties - [#2054](https://github.com/fluentassertions/fluentassertions/pull/2054)
 * Nested AssertionScopes now print the inner scope reportables - [#2044](https://github.com/fluentassertions/fluentassertions/pull/2044)
 * Throw `ArgumentException` instead of `ArgumentNullException` when a required `string` argument is empty - [#2023](https://github.com/fluentassertions/fluentassertions/pull/2023)
