@@ -21,6 +21,7 @@ export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 export DOTNET_MULTILEVEL_LOOKUP=0
 export DOTNET_ROLL_FORWARD="Major"
 export NUKE_TELEMETRY_OPTOUT=1
+export DOTNET_CLI_UI_LANGUAGE="en-US"
 
 ###########################################################################
 # EXECUTION
