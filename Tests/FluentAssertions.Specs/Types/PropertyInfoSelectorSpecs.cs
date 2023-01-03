@@ -357,7 +357,7 @@ public class PropertyInfoSelectorSpecs
     }
 
     [Fact]
-    public void When_selecting_properties_with_only_set_accessors_it_should_return_the_applicable_properties()
+    public void When_a_property_only_has_a_public_setter_it_should_be_included_in_the_applicable_properties()
     {
         // Arrange
         Type type = typeof(TestClassForPropertyInfoSelector);
