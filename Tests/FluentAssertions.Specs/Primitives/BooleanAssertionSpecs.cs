@@ -168,22 +168,10 @@ public class BooleanAssertionSpecs
 
     public class Imply
     {
-        public static TheoryData<bool?, bool> PassingImplications => new()
-        {
-            { false, false },
-            { false, true },
-            { true, true }
-        };
-
-        public static TheoryData<bool?, bool> NonPassingImplications => new()
-        {
-            { null, true },
-            { null, false },
-            { true, false }
-        };
-
         [Theory]
-        [MemberData(nameof(PassingImplications))]
+        [InlineData(false, false )]
+        [InlineData(false, true )]
+        [InlineData(true, true )]
         public void Antecedent_implies_consequent(bool? antecedent, bool consequent)
         {
             // Act / Assert
@@ -191,7 +179,9 @@ public class BooleanAssertionSpecs
         }
 
         [Theory]
-        [MemberData(nameof(NonPassingImplications))]
+        [InlineData(null, true)]
+        [InlineData(null, false)]
+        [InlineData(true, false)]
         public void Antecedent_does_not_imply_consequent(bool? antecedent, bool consequent)
         {
             // Act
