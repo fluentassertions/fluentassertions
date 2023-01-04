@@ -49,8 +49,8 @@ class Build : NukeBuild
     [PackageExecutable("nspec", "NSpecRunner.exe", Version = "3.1.0")]
     Tool NSpec3;
 
-    [PathExecutable("cspell")] 
-    Tool CSpell;
+    [PathExecutable("bash")]
+    Tool Bash;
 
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
 
@@ -252,27 +252,20 @@ class Build : NukeBuild
         });
 
     Target Spellcheck => _ => _
+        .OnlyWhenDynamic(() => !IsLocalBuild)
         .Executes(() =>
         {
             InstallCSpell();
 
             var cSpellFile = RootDirectory / "cSpell.json";
             var docsDirectory = RootDirectory / "docs";
-            CSpell($"--config {cSpellFile} \"{docsDirectory}/**/*.md\" --no-progress");
+            Bash($"-c \"cspell --config {cSpellFile} '{docsDirectory}/**/*.md' --no-progress\"");
         });
 
     private void InstallCSpell()
     {
-        var output = CSpell("--help");
-
-        if (IsCSpellInstalled(output))
-        {
-            Npm("install -g cspell");
-        }
+        Npm("install -g cspell");
     }
-
-    private bool IsCSpellInstalled(IReadOnlyCollection<Output> output) =>
-        !output.Any(o => o.Text == "Usage: cspell [options] [command]");
 
     bool IsTag => BranchSpec != null && BranchSpec.Contains("refs/tags", StringComparison.InvariantCultureIgnoreCase);
 }
