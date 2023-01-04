@@ -7,7 +7,7 @@
 *.sln.docstates
 *.sln.ide
 .vs/
-
+.vscode/
 
 project.lock.json
 *.nuget.props

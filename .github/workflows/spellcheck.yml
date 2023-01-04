@@ -1,0 +1,27 @@
+name: Documentation Checks
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      # This ensures the check will only be run when something changes in the docs content
+      - "docs/**/*" # or whatever the path to the markdown / docs files happens to be
+  pull_request:
+    branches:
+      - develop
+    paths:
+      - "docs/**/*"
+jobs:
+  spellcheck:
+    name: "Docs: Spellcheck"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out the code
+      - uses: actions/setup-node@v1
+        name: Setup node
+        with:
+          node-version: "16"
+      - name: Run NUKE spell check
+        run: ./build.sh Spellcheck

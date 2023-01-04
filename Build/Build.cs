@@ -8,11 +8,13 @@ using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
+using Nuke.Common.Tools.Npm;
 using Nuke.Common.Tools.ReportGenerator;
 using Nuke.Common.Tools.Xunit;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
+using static Nuke.Common.Tools.Npm.NpmTasks;
 using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 using static Nuke.Common.Tools.Xunit.XunitTasks;
 
@@ -46,6 +48,9 @@ class Build : NukeBuild
 
     [PackageExecutable("nspec", "NSpecRunner.exe", Version = "3.1.0")]
     Tool NSpec3;
+
+    [PathExecutable("cspell")] 
+    Tool CSpell;
 
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
 
@@ -245,6 +250,29 @@ class Build : NukeBuild
                 .CombineWith(packages,
                     (v, path) => v.SetTargetPath(path)));
         });
+
+    Target Spellcheck => _ => _
+        .Executes(() =>
+        {
+            InstallCSpell();
+
+            var cSpellFile = RootDirectory / "cSpell.json";
+            var docsDirectory = RootDirectory / "docs";
+            CSpell($"--config {cSpellFile} \"{docsDirectory}/**/*.md\" --no-progress");
+        });
+
+    private void InstallCSpell()
+    {
+        var output = CSpell("--help");
+
+        if (IsCSpellInstalled(output))
+        {
+            Npm("install -g cspell");
+        }
+    }
+
+    private bool IsCSpellInstalled(IReadOnlyCollection<Output> output) =>
+        !output.Any(o => o.Text == "Usage: cspell [options] [command]");
 
     bool IsTag => BranchSpec != null && BranchSpec.Contains("refs/tags", StringComparison.InvariantCultureIgnoreCase);
 }
