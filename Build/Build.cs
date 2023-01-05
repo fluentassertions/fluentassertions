@@ -15,6 +15,7 @@ using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 using static Nuke.Common.Tools.Xunit.XunitTasks;
+using static Serilog.Log;
 
 [UnsetVisualStudioEnvironmentVariables]
 [DotNetVerbosityMapping]
@@ -261,19 +262,22 @@ class Build : NukeBuild
     Target Spellcheck => _ => _
         .Executes(() =>
         {
-            InstallCSpell();
-            RunCSpell();
+            static void LogErrorAsWarning(OutputType outputType, string message)
+            {
+                if (outputType == OutputType.Err)
+                {
+                    Warning(message);
+                }
+                else
+                {
+                    Information(message);
+                }
+            }
+
+            Node($"{YarnCli} install --silent", workingDirectory: RootDirectory, customLogger: LogErrorAsWarning);
+            Node($"{YarnCli} run cspell", workingDirectory: RootDirectory, customLogger: LogErrorAsWarning);
         });
 
-    private void InstallCSpell()
-    {
-        Node($"{YarnCli} install --silent", workingDirectory: RootDirectory);
-    }
-
-    private void RunCSpell()
-    {
-        Node($"{YarnCli} run cspell");
-    }
-
+    
     bool IsTag => BranchSpec != null && BranchSpec.Contains("refs/tags", StringComparison.InvariantCultureIgnoreCase);
 }
