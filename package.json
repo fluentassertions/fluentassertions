@@ -1,0 +1,9 @@
+{
+    "version": "1.0.0",
+    "scripts": {
+        "cspell": "cspell --config ./cSpell.json ./docs/**/*.md --no-progress"
+    },
+    "dependencies": {
+        "cspell": "^6.18.1"
+    }
+}

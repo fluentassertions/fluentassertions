@@ -49,6 +49,17 @@ class Build : NukeBuild
     [PackageExecutable("nspec", "NSpecRunner.exe", Version = "3.1.0")]
     Tool NSpec3;
 
+#if OS_WINDOWS
+    [PackageExecutable("Node.js.redist", "node.exe", Version = "16.17.1", Framework = "win-x64")]
+    Tool Node;
+#elif OS_MAC
+    [PackageExecutable("Node.js.redist", "node", Version = "16.17.1", Framework = "osx-x64")]
+    Tool Node;
+#else
+    [PackageExecutable("Node.js.redist", "node", Version = "16.17.1", Framework = "linux-x64")]
+    Tool Node;
+#endif
+
     [PathExecutable("bash")]
     Tool Bash;
 
@@ -57,6 +68,7 @@ class Build : NukeBuild
     AbsolutePath TestResultsDirectory => RootDirectory / "TestResults";
 
     string SemVer;
+    string YarnCli => ToolPathResolver.GetPackageExecutable("Yarn.MSBuild", "yarn.js", "1.22.19");
 
     Target Clean => _ => _
         .Executes(() =>
@@ -252,19 +264,20 @@ class Build : NukeBuild
         });
 
     Target Spellcheck => _ => _
-        .OnlyWhenDynamic(() => !IsLocalBuild)
         .Executes(() =>
         {
             InstallCSpell();
-
-            var cSpellFile = RootDirectory / "cSpell.json";
-            var docsDirectory = RootDirectory / "docs";
-            Bash($"-c \"cspell --config {cSpellFile} '{docsDirectory}/**/*.md' --no-progress\"");
+            RunCSpell();
         });
 
     private void InstallCSpell()
     {
-        Npm("install -g cspell");
+        Node($"{YarnCli} add cspell", workingDirectory: RootDirectory);
+    }
+
+    private void RunCSpell()
+    {
+        Node($"{YarnCli} run cspell");
     }
 
     bool IsTag => BranchSpec != null && BranchSpec.Contains("refs/tags", StringComparison.InvariantCultureIgnoreCase);

@@ -21,9 +21,5 @@ jobs:
         with:
           fetch-depth: 0
         name: Check out the code
-      - uses: actions/setup-node@v3
-        name: Setup node
-        with:
-          node-version: "16"
       - name: Run NUKE spell check
         run: ./build.sh Spellcheck

@@ -188,3 +188,6 @@ Tests/FluentAssertions.Specs/FluentAssertions.Specs.xml
 
 # BenchmarkDotNet
 Tests/Benchmarks/BenchmarkDotNet.Artifacts/
+
+# Documentation spell check
+node_modules/
