@@ -28,6 +28,7 @@ jobs:
           2.1.x
           3.1.x
           6.0.x
+          7.0.x
 
     - name: Run NUKE
       run: ./build.ps1
@@ -66,6 +67,7 @@ jobs:
           2.1.x
           3.1.x
           6.0.x
+          7.0.x
 
     - name: Run NUKE
       run: ./build.sh UnitTests
