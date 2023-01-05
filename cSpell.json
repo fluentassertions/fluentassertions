@@ -11,9 +11,6 @@
         "refactorings",
         "struct"
     ],
-    "ignoreWords": [
-        "Gallio"
-    ],
     "patterns": [
         {
             "name": "Markdown links",

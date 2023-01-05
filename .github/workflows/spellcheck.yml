@@ -22,4 +22,4 @@ jobs:
           fetch-depth: 0
         name: Check out the code
       - name: Run NUKE spell check
-        run: ./build.sh Spellcheck
+        run: ./build.sh --target SpellCheck

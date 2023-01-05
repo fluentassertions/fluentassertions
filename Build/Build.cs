@@ -259,7 +259,7 @@ class Build : NukeBuild
                     (v, path) => v.SetTargetPath(path)));
         });
 
-    Target Spellcheck => _ => _
+    Target SpellCheck => _ => _
         .Executes(() =>
         {
             static void LogErrorAsWarning(OutputType outputType, string message)

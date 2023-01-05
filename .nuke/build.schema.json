@@ -84,7 +84,7 @@
               "Pack",
               "Push",
               "Restore",
-              "Spellcheck",
+              "SpellCheck",
               "TestFrameworks",
               "UnitTests"
             ]
@@ -108,7 +108,7 @@
               "Pack",
               "Push",
               "Restore",
-              "Spellcheck",
+              "SpellCheck",
               "TestFrameworks",
               "UnitTests"
             ]
