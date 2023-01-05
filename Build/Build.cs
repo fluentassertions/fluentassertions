@@ -8,13 +8,11 @@ using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
-using Nuke.Common.Tools.Npm;
 using Nuke.Common.Tools.ReportGenerator;
 using Nuke.Common.Tools.Xunit;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
-using static Nuke.Common.Tools.Npm.NpmTasks;
 using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 using static Nuke.Common.Tools.Xunit.XunitTasks;
 
@@ -59,9 +57,6 @@ class Build : NukeBuild
     [PackageExecutable("Node.js.redist", "node", Version = "16.17.1", Framework = "linux-x64")]
     Tool Node;
 #endif
-
-    [PathExecutable("bash")]
-    Tool Bash;
 
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
 
