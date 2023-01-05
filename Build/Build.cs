@@ -267,7 +267,7 @@ class Build : NukeBuild
 
     private void InstallCSpell()
     {
-        Node($"{YarnCli} add cspell", workingDirectory: RootDirectory);
+        Node($"{YarnCli} install", workingDirectory: RootDirectory);
     }
 
     private void RunCSpell()
