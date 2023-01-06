@@ -262,20 +262,9 @@ class Build : NukeBuild
     Target SpellCheck => _ => _
         .Executes(() =>
         {
-            static void LogErrorAsWarning(OutputType outputType, string message)
-            {
-                if (outputType == OutputType.Err)
-                {
-                    Warning(message);
-                }
-                else
-                {
-                    Information(message);
-                }
-            }
-
-            Node($"{YarnCli} install --silent", workingDirectory: RootDirectory, customLogger: LogErrorAsWarning);
-            Node($"{YarnCli} run cspell", workingDirectory: RootDirectory, customLogger: LogErrorAsWarning);
+            Node($"{YarnCli} install --silent", workingDirectory: RootDirectory);
+            Node($"{YarnCli} --silent run cspell --no-summary", workingDirectory: RootDirectory, 
+                customLogger: (_, msg) => Error(msg));
         });
 
     
