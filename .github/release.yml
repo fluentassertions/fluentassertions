@@ -24,6 +24,12 @@ changelog:
     - title: Documentation
       labels:
         - "documentation"
+    - title: Building
+      labels:
+        - "building"
+    - title: Testing
+      labels:
+        - "testing"
     - title: Others
       labels: 
         - "*"
