@@ -176,10 +176,11 @@ public class ExceptionAssertions<TException> :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="exceptionExpression"/> is <see langword="null"/>.</exception>
     public ExceptionAssertions<TException> Where(Expression<Func<TException, bool>> exceptionExpression,
         string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(exceptionExpression, nameof(exceptionExpression));
+        Guard.ThrowIfArgumentIsNull(exceptionExpression);
 
         Func<TException, bool> condition = exceptionExpression.Compile();
         Execute.Assertion
@@ -194,7 +195,7 @@ public class ExceptionAssertions<TException> :
     private IEnumerable<Exception> AssertInnerExceptionExactly(Type innerException, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(innerException, nameof(innerException));
+        Guard.ThrowIfArgumentIsNull(innerException);
 
         AssertInnerExceptions(innerException, because, becauseArgs);
 
@@ -213,7 +214,7 @@ public class ExceptionAssertions<TException> :
     private IEnumerable<Exception> AssertInnerExceptions(Type innerException, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(innerException, nameof(innerException));
+        Guard.ThrowIfArgumentIsNull(innerException);
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)

@@ -38,6 +38,24 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
+        public void When_collection_contains_nulls_that_are_unexpected_it_supports_chaining()
+        {
+            // Arrange
+            var collection = new[] { new object(), null };
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().NotContainNulls().And.HaveCount(c => c > 1);
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "*but found one*");
+        }
+
+        [Fact]
         public void When_collection_contains_multiple_nulls_that_are_unexpected_it_should_throw()
         {
             // Arrange
@@ -49,6 +67,24 @@ public partial class CollectionAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection not to contain <null>s*because they are evil*{1, 3}*");
+        }
+
+        [Fact]
+        public void When_collection_contains_multiple_nulls_that_are_unexpected_it_supports_chaining()
+        {
+            // Arrange
+            var collection = new[] { new object(), null, new object(), null };
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().NotContainNulls().And.HaveCount(c => c > 1);
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "*but found several*");
         }
 
         [Fact]

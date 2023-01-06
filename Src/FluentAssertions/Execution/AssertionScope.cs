@@ -14,7 +14,7 @@ namespace FluentAssertions.Execution;
 /// </summary>
 /// <remarks>
 /// This class is supposed to have a very short life time and is not safe to be used in assertion that cross thread-boundaries
-/// such as when using <c>async</c> or <c>await</c>.
+/// such as when using <see langword="async"/> or <see langword="await"/>.
 /// </remarks>
 public sealed class AssertionScope : IAssertionScope
 {
@@ -74,7 +74,7 @@ public sealed class AssertionScope : IAssertionScope
     /// Starts a new scope based on the given assertion strategy.
     /// </summary>
     /// <param name="assertionStrategy">The assertion strategy for this scope.</param>
-    /// <exception cref="ArgumentNullException">Thrown when trying to use a null strategy.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="assertionStrategy"/> is <see langword="null"/>.</exception>
     public AssertionScope(IAssertionStrategy assertionStrategy)
         : this(assertionStrategy, GetCurrentAssertionScope())
     {
@@ -96,7 +96,7 @@ public sealed class AssertionScope : IAssertionScope
     /// </summary>
     /// <param name="assertionStrategy">The assertion strategy for this scope.</param>
     /// <param name="parent">The parent assertion scope for this scope.</param>
-    /// <exception cref="ArgumentNullException">Thrown when trying to use a null strategy.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="assertionStrategy"/> is <see langword="null"/>.</exception>
     private AssertionScope(IAssertionStrategy assertionStrategy, AssertionScope parent)
     {
         this.assertionStrategy = assertionStrategy
@@ -395,6 +395,7 @@ public sealed class AssertionScope : IAssertionScope
                 parent.assertionStrategy.HandleFailure(failureMessage);
             }
 
+            parent.contextData.Add(contextData);
             parent.AppendTracing(tracing.ToString());
 
             parent = null;

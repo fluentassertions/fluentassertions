@@ -50,7 +50,7 @@ public class ExceptionAssertionSpecs
     }
 #pragma warning restore xUnit1026 // Theory methods should use all of their parameters
 
-    public static IEnumerable<object[]> AggregateExceptionTestData()
+    public static TheoryData<Action, Exception> AggregateExceptionTestData()
     {
         var tasks = new Action[]
         {
@@ -65,15 +65,19 @@ public class ExceptionAssertionSpecs
             new InvalidOperationException()
         };
 
+        var data = new TheoryData<Action, Exception>();
+
         foreach (var task in tasks)
         {
             foreach (var type in types)
             {
-                yield return new object[] { task, type };
+                data.Add(task, type);
             }
         }
 
-        yield return new object[] { (Action)EmptyAggregateException, new AggregateException() };
+        data.Add(EmptyAggregateException, new AggregateException());
+
+        return data;
     }
 
     private static void AggregateExceptionWithLeftNestedException()

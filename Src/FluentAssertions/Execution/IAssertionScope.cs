@@ -16,7 +16,7 @@ public interface IAssertionScope : IDisposable
     /// Specify the condition that must be satisfied.
     /// </summary>
     /// <param name="condition">
-    /// If <c>true</c> the assertion will be treated as successful and no exceptions will be thrown.
+    /// If <see langword="true"/> the assertion will be treated as successful and no exceptions will be thrown.
     /// </param>
     IAssertionScope ForCondition(bool condition);
 
@@ -109,7 +109,7 @@ public interface IAssertionScope : IDisposable
     public Continuation FailWith(string message, params Func<object>[] argProviders);
 
     /// <summary>
-    /// Specify the reason why you expect the condition to be <c>true</c>.
+    /// Specify the reason why you expect the condition to be <see langword="true"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase compatible with <see cref="string.Format(string,object[])"/> explaining why the condition should

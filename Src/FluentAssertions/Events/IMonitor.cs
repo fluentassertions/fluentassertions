@@ -8,7 +8,7 @@ namespace FluentAssertions.Events;
 public interface IMonitor<T> : IDisposable
 {
     /// <summary>
-    /// Gets the object that is being monitored or <c>null</c> if the object has been GCed.
+    /// Gets the object that is being monitored or <see langword="null"/> if the object has been GCed.
     /// </summary>
     T Subject { get; }
 

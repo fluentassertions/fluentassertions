@@ -10,7 +10,7 @@ namespace FluentAssertions.Equivalency;
 public interface IEquivalencyValidationContext
 {
     /// <summary>
-    /// Gets the <see cref="INode"/> of the member that returned the current object, or <c>null</c> if the current
+    /// Gets the <see cref="INode"/> of the member that returned the current object, or <see langword="null"/> if the current
     /// object represents the root object.
     /// </summary>
     INode CurrentNode { get; }

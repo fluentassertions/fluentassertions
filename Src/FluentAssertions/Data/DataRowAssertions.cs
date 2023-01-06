@@ -174,9 +174,10 @@ public class DataRowAssertions<TDataRow> : ReferenceTypeAssertions<TDataRow, Dat
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<DataRowAssertions<TDataRow>> BeEquivalentTo(DataRow expectation, Func<IDataEquivalencyAssertionOptions<DataRow>, IDataEquivalencyAssertionOptions<DataRow>> config, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(config, nameof(config));
+        Guard.ThrowIfArgumentIsNull(config);
 
         IDataEquivalencyAssertionOptions<DataRow> options = config(AssertionOptions.CloneDefaults<DataRow, DataEquivalencyAssertionOptions<DataRow>>(e => new(e)));
 

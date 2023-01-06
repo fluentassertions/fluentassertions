@@ -1056,7 +1056,7 @@ public class XElementAssertionSpecs
                 theElement.Should().HaveAttribute(string.Empty, "value");
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("expectedName");
         }
     }
@@ -1228,7 +1228,7 @@ public class XElementAssertionSpecs
                 theElement.Should().HaveElement(string.Empty);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("expected");
         }
     }

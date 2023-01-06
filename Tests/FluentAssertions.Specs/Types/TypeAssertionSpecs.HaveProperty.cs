@@ -119,7 +119,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveProperty(typeof(string), string.Empty);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
     }
@@ -170,7 +170,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveProperty<string>(string.Empty);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
     }
@@ -249,7 +249,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveProperty(string.Empty);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
     }

@@ -12,7 +12,7 @@ public class ValueTypeEquivalencyStep : IEquivalencyStep
         Type expectationType = comparands.GetExpectedType(context.Options);
         EqualityStrategy strategy = context.Options.GetEqualityStrategy(expectationType);
 
-        bool canHandle = (strategy == EqualityStrategy.Equals) || (strategy == EqualityStrategy.ForceEquals);
+        bool canHandle = strategy is EqualityStrategy.Equals or EqualityStrategy.ForceEquals;
         if (canHandle)
         {
             context.Tracer.WriteLine(member =>

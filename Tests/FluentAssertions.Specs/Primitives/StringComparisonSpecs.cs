@@ -333,27 +333,38 @@ public class StringComparisonSpecs
         subject.Should().MatchEquivalentOf(expected);
     }
 
-    public static IEnumerable<object[]> EquivalencyData
+    [CulturedFact("en-US")]
+    public void Culture_is_ignored_when_sorting_strings()
     {
-        get
-        {
-            const string LowerCaseI = "i";
-            const string UpperCaseI = "I";
+        using var _ = new AssertionScope();
+        new[] { "A", "a" }.Should().BeInAscendingOrder()
+            .And.BeInAscendingOrder(e => e)
+            .And.ThenBeInAscendingOrder(e => e)
+            .And.NotBeInDescendingOrder()
+            .And.NotBeInDescendingOrder(e => e);
 
-            return new List<object[]> { new object[] { LowerCaseI, UpperCaseI } };
-        }
+        new[] { "a", "A" }.Should().BeInDescendingOrder()
+            .And.BeInDescendingOrder(e => e)
+            .And.ThenBeInDescendingOrder(e => e)
+            .And.NotBeInAscendingOrder()
+            .And.NotBeInAscendingOrder(e => e);
     }
 
-    public static IEnumerable<object[]> EqualityData
-    {
-        get
-        {
-            const string SinhalaLithDigitEight = "෮";
-            const string MyanmarTaiLaingDigitEight = "꧸";
+    private const string LowerCaseI = "i";
+    private const string UpperCaseI = "I";
 
-            return new List<object[]> { new object[] { SinhalaLithDigitEight, MyanmarTaiLaingDigitEight } };
-        }
-    }
+    public static TheoryData<string, string> EquivalencyData => new()
+    {
+        { LowerCaseI, UpperCaseI }
+    };
+
+    private const string SinhalaLithDigitEight = "෮";
+    private const string MyanmarTaiLaingDigitEight = "꧸";
+
+    public static TheoryData<string, string> EqualityData => new()
+    {
+        { SinhalaLithDigitEight, MyanmarTaiLaingDigitEight }
+    };
 }
 
 // Due to CulturedTheory changing CultureInfo

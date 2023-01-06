@@ -48,11 +48,12 @@ public static class ObjectAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="options"/> is <see langword="null"/>.</exception>
     public static AndConstraint<ObjectAssertions> BeBinarySerializable<T>(this ObjectAssertions assertions,
         Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> options, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(options, nameof(options));
+        Guard.ThrowIfArgumentIsNull(options);
 
         try
         {
@@ -112,10 +113,11 @@ public static class ObjectAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="options"/> is <see langword="null"/>.</exception>
     public static AndConstraint<ObjectAssertions> BeDataContractSerializable<T>(this ObjectAssertions assertions,
         Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> options, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(options, nameof(options));
+        Guard.ThrowIfArgumentIsNull(options);
 
         try
         {

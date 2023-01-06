@@ -30,8 +30,7 @@ internal class FullFrameworkReflector : IReflector
 
     private static bool IsDynamic(Assembly assembly)
     {
-        return (assembly.GetType().FullName == "System.Reflection.Emit.AssemblyBuilder") ||
-               (assembly.GetType().FullName == "System.Reflection.Emit.InternalAssemblyBuilder");
+        return assembly.GetType().FullName is "System.Reflection.Emit.AssemblyBuilder" or "System.Reflection.Emit.InternalAssemblyBuilder";
     }
 
     private static IEnumerable<Type> GetExportedTypes(Assembly assembly)

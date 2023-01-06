@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
@@ -289,14 +290,12 @@ public class DateTimeOffsetAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public AndConstraint<TAssertions> BeCloseTo(DateTimeOffset nearbyTime, TimeSpan precision,
         string because = "",
         params object[] becauseArgs)
     {
-        if (precision < TimeSpan.Zero)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         long distanceToMinInTicks = (nearbyTime - DateTimeOffset.MinValue).Ticks;
         DateTimeOffset minimumValue = nearbyTime.AddTicks(-Math.Min(precision.Ticks, distanceToMinInTicks));
@@ -341,13 +340,11 @@ public class DateTimeOffsetAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public AndConstraint<TAssertions> NotBeCloseTo(DateTimeOffset distantTime, TimeSpan precision, string because = "",
         params object[] becauseArgs)
     {
-        if (precision < TimeSpan.Zero)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         long distanceToMinInTicks = (distantTime - DateTimeOffset.MinValue).Ticks;
         DateTimeOffset minimumValue = distantTime.AddTicks(-Math.Min(precision.Ticks, distanceToMinInTicks));

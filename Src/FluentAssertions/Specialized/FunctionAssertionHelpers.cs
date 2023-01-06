@@ -25,15 +25,8 @@ internal static class FunctionAssertionHelpers
 
     internal static TResult NotThrowAfter<TResult>(Func<TResult> subject, IClock clock, TimeSpan waitTime, TimeSpan pollInterval, string because, object[] becauseArgs)
     {
-        if (waitTime < TimeSpan.Zero)
-        {
-            throw new ArgumentOutOfRangeException(nameof(waitTime), $"The value of {nameof(waitTime)} must be non-negative.");
-        }
-
-        if (pollInterval < TimeSpan.Zero)
-        {
-            throw new ArgumentOutOfRangeException(nameof(pollInterval), $"The value of {nameof(pollInterval)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(waitTime);
+        Guard.ThrowIfArgumentIsNegative(pollInterval);
 
         TimeSpan? invocationEndTime = null;
         Exception exception = null;

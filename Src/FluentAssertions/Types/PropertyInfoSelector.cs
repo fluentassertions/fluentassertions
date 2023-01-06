@@ -18,7 +18,7 @@ public class PropertyInfoSelector : IEnumerable<PropertyInfo>
     /// Initializes a new instance of the <see cref="PropertyInfoSelector"/> class.
     /// </summary>
     /// <param name="type">The type from which to select properties.</param>
-    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
     public PropertyInfoSelector(Type type)
         : this(new[] { type })
     {
@@ -28,14 +28,15 @@ public class PropertyInfoSelector : IEnumerable<PropertyInfo>
     /// Initializes a new instance of the <see cref="PropertyInfoSelector"/> class.
     /// </summary>
     /// <param name="types">The types from which to select properties.</param>
-    /// <exception cref="ArgumentNullException"><paramref name="types"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="types"/> is or contains <see langword="null"/>.</exception>
     public PropertyInfoSelector(IEnumerable<Type> types)
     {
-        Guard.ThrowIfArgumentIsNull(types, nameof(types));
-        Guard.ThrowIfArgumentContainsNull(types, nameof(types));
+        Guard.ThrowIfArgumentIsNull(types);
+        Guard.ThrowIfArgumentContainsNull(types);
 
         selectedProperties = types.SelectMany(t => t
-            .GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic));
+            .GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance
+                            | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static));
     }
 
     /// <summary>
@@ -51,6 +52,78 @@ public class PropertyInfoSelector : IEnumerable<PropertyInfo>
                 return (getter is not null) && (getter.IsPublic || getter.IsAssembly);
             });
 
+            return this;
+        }
+    }
+
+    /// <summary>
+    /// Only select the properties that are abstract
+    /// </summary>
+    public PropertyInfoSelector ThatAreAbstract
+    {
+        get
+        {
+            selectedProperties = selectedProperties.Where(property => property.IsAbstract());
+            return this;
+        }
+    }
+
+    /// <summary>
+    /// Only select the properties that are not abstract
+    /// </summary>
+    public PropertyInfoSelector ThatAreNotAbstract
+    {
+        get
+        {
+            selectedProperties = selectedProperties.Where(property => !property.IsAbstract());
+            return this;
+        }
+    }
+
+    /// <summary>
+    /// Only select the properties that are static
+    /// </summary>
+    public PropertyInfoSelector ThatAreStatic
+    {
+        get
+        {
+            selectedProperties = selectedProperties.Where(property => property.IsStatic());
+            return this;
+        }
+    }
+
+    /// <summary>
+    /// Only select the properties that are not static
+    /// </summary>
+    public PropertyInfoSelector ThatAreNotStatic
+    {
+        get
+        {
+            selectedProperties = selectedProperties.Where(property => !property.IsStatic());
+            return this;
+        }
+    }
+
+    /// <summary>
+    /// Only select the properties that are virtual
+    /// </summary>
+    public PropertyInfoSelector ThatAreVirtual
+    {
+        get
+        {
+            selectedProperties = selectedProperties.Where(property => property.IsVirtual());
+            return this;
+        }
+    }
+
+    /// <summary>
+    /// Only select the properties that are not virtual
+    /// </summary>
+    public PropertyInfoSelector ThatAreNotVirtual
+    {
+        get
+        {
+            selectedProperties = selectedProperties.Where(property => !property.IsVirtual());
             return this;
         }
     }

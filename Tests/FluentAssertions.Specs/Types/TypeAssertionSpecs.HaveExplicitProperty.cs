@@ -164,7 +164,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveExplicitProperty(typeof(IExplicitInterface), string.Empty);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
     }
@@ -212,7 +212,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveExplicitProperty<IExplicitInterface>(string.Empty);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
 
@@ -390,7 +390,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveExplicitProperty(typeof(IExplicitInterface), string.Empty);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
     }
@@ -459,7 +459,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveExplicitProperty<IExplicitInterface>(string.Empty);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
     }

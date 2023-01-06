@@ -7,7 +7,7 @@ namespace FluentAssertions.Equivalency;
 public interface IAssertionContext<TSubject>
 {
     /// <summary>
-    /// Gets the <see cref="IMember"/> of the member that returned the current object, or <c>null</c> if the current
+    /// Gets the <see cref="IMember"/> of the member that returned the current object, or <see langword="null"/> if the current
     /// object represents the root object.
     /// </summary>
     INode SelectedNode { get; }

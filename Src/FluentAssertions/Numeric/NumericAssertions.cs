@@ -401,9 +401,10 @@ public class NumericAssertions<T, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expectedType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeOfType(Type expectedType, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(expectedType, nameof(expectedType));
+        Guard.ThrowIfArgumentIsNull(expectedType);
 
         Type subjectType = Subject?.GetType();
         if (expectedType.IsGenericTypeDefinition && subjectType?.IsGenericType == true)
@@ -431,9 +432,10 @@ public class NumericAssertions<T, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpectedType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotBeOfType(Type unexpectedType, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(unexpectedType, nameof(unexpectedType));
+        Guard.ThrowIfArgumentIsNull(unexpectedType);
 
         Execute.Assertion
             .ForCondition(Subject.HasValue)
@@ -458,11 +460,12 @@ public class NumericAssertions<T, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> Match(Expression<Func<T, bool>> predicate,
         string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+        Guard.ThrowIfArgumentIsNull(predicate);
 
         Execute.Assertion
             .ForCondition(predicate.Compile()((T)Subject))

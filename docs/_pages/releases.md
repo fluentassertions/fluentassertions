@@ -9,8 +9,24 @@ sidebar:
 
 ## Unreleased
 
-### Improvements
+### What's new
+* Added `ThatAre[Not]ValueTypes` method for filtering the types - [#2083](https://github.com/fluentassertions/fluentassertions/pull/2083)
+* Added `Imply` method to `BooleanAssertions` - [#2074](https://github.com/fluentassertions/fluentassertions/pull/2074)
+* Added `ThatAre[Not]Interfaces` method for filtering the types - [#2057](https://github.com/fluentassertions/fluentassertions/pull/2057)
+* Added `ThatAre[Not]Abstract` method for filtering the types - [#2058](https://github.com/fluentassertions/fluentassertions/pull/2058)
+* Added `ThatAre[Not]Sealed` method for filtering the types - [#2059](https://github.com/fluentassertions/fluentassertions/pull/2059)
+* Added `ThatAre[Not]Abstract` methods to `MethodInfoSelector.cs` for filtering the methods - [#2060](https://github.com/fluentassertions/fluentassertions/pull/2060)
+* Added `ThatAre[Not]Abstract`, `ThatAre[Not]Static` and `ThatAre[Not]Virtual` properties for filtering in `PropertyInfoSelector.cs` - [#2054](https://github.com/fluentassertions/fluentassertions/pull/2054)
+* Added `BeOneOf` methods for object comparisons and `IComparable`s - [#2028](https://github.com/fluentassertions/fluentassertions/pull/2028)
+* Added `BeCloseTo` and `NotBeCloseTo` to `TimeOnly` - [#2030](https://github.com/fluentassertions/fluentassertions/pull/2030)
+* Added new extension methods to be able to write `Exactly.Times(n)`, `AtLeast.Times(n)` and `AtMost.Times(n)` in a more fluent way - [#2047](https://github.com/fluentassertions/fluentassertions/pull/2047)
 * Changed `BeEquivalentTo` to treat record structs like records, thus comparing them by member by default - [#2009](https://github.com/fluentassertions/fluentassertions/pull/2009)
+
+### Fixes
+* Quering properties on classes, e.g. `typeof(MyClass).Properties()`, now also includes static properties - [#2054](https://github.com/fluentassertions/fluentassertions/pull/2054)
+* Nested AssertionScopes now print the inner scope reportables - [#2044](https://github.com/fluentassertions/fluentassertions/pull/2044)
+* Throw `ArgumentException` instead of `ArgumentNullException` when a required `string` argument is empty - [#2023](https://github.com/fluentassertions/fluentassertions/pull/2023)
+* Assertions on the ordering of a collection of `string`s now uses ordinal comparison when an `IComparer<T>` is not provided - [#2075](https://github.com/fluentassertions/fluentassertions/pull/2075)
 
 ## 6.8.0
 

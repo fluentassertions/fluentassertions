@@ -175,7 +175,7 @@ internal static class TypeExtensions
     /// Finds the property by a case-sensitive name.
     /// </summary>
     /// <returns>
-    /// Returns <c>null</c> if no such property exists.
+    /// Returns <see langword="null"/> if no such property exists.
     /// </returns>
     public static PropertyInfo FindProperty(this Type type, string propertyName, Type preferredType)
     {
@@ -193,7 +193,7 @@ internal static class TypeExtensions
     /// Finds the field by a case-sensitive name.
     /// </summary>
     /// <returns>
-    /// Returns <c>null</c> if no such property exists.
+    /// Returns <see langword="null"/> if no such property exists.
     /// </returns>
     public static FieldInfo FindField(this Type type, string fieldName, Type preferredType)
     {
@@ -547,6 +547,9 @@ internal static class TypeExtensions
             return false;
         }
 
+#if !(NET47 || NETSTANDARD2_0)
+        return typeof(ITuple).IsAssignableFrom(type);
+#else
         Type openType = type.GetGenericTypeDefinition();
         return openType == typeof(ValueTuple<>)
                || openType == typeof(ValueTuple<,>)
@@ -564,6 +567,7 @@ internal static class TypeExtensions
                || openType == typeof(Tuple<,,,,,>)
                || openType == typeof(Tuple<,,,,,,>)
                || (openType == typeof(Tuple<,,,,,,,>) && IsTuple(type.GetGenericArguments()[7]));
+#endif
     }
 
     private static bool IsAnonymousType(this Type type)
@@ -585,12 +589,10 @@ internal static class TypeExtensions
     {
         return TypeIsRecordCache.GetOrAdd(type, static t =>
         {
-            var isRecord = t.GetMethod("<Clone>$") is not null &&
-                           t.GetTypeInfo()
-                               .DeclaredProperties
-                               .FirstOrDefault(p => p.Name == "EqualityContract")?
-                               .GetMethod?
-                               .GetCustomAttribute(typeof(CompilerGeneratedAttribute)) is not null;
+            var isRecord = t.GetMethod("<Clone>$", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly) is { } &&
+                              t.GetProperty("EqualityContract", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)?
+                                  .GetMethod?
+                                  .GetCustomAttribute(typeof(CompilerGeneratedAttribute)) is { };
 
             // As noted here: https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-10.0/record-structs#open-questions
             // recognizing record structs from metadata is an open point. The following check is based on common sense

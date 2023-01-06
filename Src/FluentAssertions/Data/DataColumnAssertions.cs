@@ -109,9 +109,10 @@ public class DataColumnAssertions : ReferenceTypeAssertions<DataColumn, DataColu
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<DataColumnAssertions> BeEquivalentTo(DataColumn expectation, Func<IDataEquivalencyAssertionOptions<DataColumn>, IDataEquivalencyAssertionOptions<DataColumn>> config, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(config, nameof(config));
+        Guard.ThrowIfArgumentIsNull(config);
 
         IDataEquivalencyAssertionOptions<DataColumn> options = config(AssertionOptions.CloneDefaults<DataColumn, DataEquivalencyAssertionOptions<DataColumn>>(e => new(e)));
 

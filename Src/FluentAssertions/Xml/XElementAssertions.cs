@@ -167,11 +167,12 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="expectedName"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="expectedName"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="expectedName"/> is empty.</exception>
     public AndConstraint<XElementAssertions> HaveAttribute(string expectedName, string expectedValue, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNullOrEmpty(expectedName, nameof(expectedName));
+        Guard.ThrowIfArgumentIsNullOrEmpty(expectedName);
 
         return HaveAttribute(XNamespace.None + expectedName, expectedValue, because, becauseArgs);
     }
@@ -189,11 +190,11 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="expectedName"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="expectedName"/> is <see langword="null"/>.</exception>
     public AndConstraint<XElementAssertions> HaveAttribute(XName expectedName, string expectedValue, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(expectedName, nameof(expectedName));
+        Guard.ThrowIfArgumentIsNull(expectedName);
 
         string expectedText = expectedName.ToString();
 
@@ -239,11 +240,12 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
     public AndWhichConstraint<XElementAssertions, XElement> HaveElement(string expected, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNullOrEmpty(expected, nameof(expected));
+        Guard.ThrowIfArgumentIsNullOrEmpty(expected);
 
         return HaveElement(XNamespace.None + expected, because, becauseArgs);
     }
@@ -260,11 +262,11 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<XElementAssertions, XElement> HaveElement(XName expected, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(expected, nameof(expected));
+        Guard.ThrowIfArgumentIsNull(expected);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -307,6 +309,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<XElementAssertions, IEnumerable<XElement>> HaveElement(XName expected,
         OccurrenceConstraint occurrenceConstraint, string because = "",
         params object[] becauseArgs)
@@ -357,6 +360,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<XElementAssertions, IEnumerable<XElement>> HaveElement(string expected,
         OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
     {

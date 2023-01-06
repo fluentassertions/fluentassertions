@@ -21,7 +21,7 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     {
         this.Monitor = monitor;
     }
-    
+
     /// <summary>
     /// Gets the <see cref="IMonitor{T}"/> which is being asserted.
     /// </summary>
@@ -82,7 +82,7 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     /// </summary>
     /// <param name="propertyExpression">
     /// A lambda expression referring to the property for which the property changed event should have been raised, or
-    /// <c>null</c> to refer to all properties.
+    /// <see langword="null"/> to refer to all properties.
     /// </param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion

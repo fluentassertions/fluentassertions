@@ -28,7 +28,7 @@ public class NullableEnumAssertions<TEnum, TAssertions> : EnumAssertions<TEnum, 
     }
 
     /// <summary>
-    /// Asserts that a nullable <typeparamref name="TEnum"/> value is not <c>null</c>.
+    /// Asserts that a nullable <typeparamref name="TEnum"/> value is not <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -48,7 +48,7 @@ public class NullableEnumAssertions<TEnum, TAssertions> : EnumAssertions<TEnum, 
     }
 
     /// <summary>
-    /// Asserts that a nullable <typeparamref name="TEnum"/> is not <c>null</c>.
+    /// Asserts that a nullable <typeparamref name="TEnum"/> is not <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -63,7 +63,7 @@ public class NullableEnumAssertions<TEnum, TAssertions> : EnumAssertions<TEnum, 
     }
 
     /// <summary>
-    /// Asserts that a nullable <typeparamref name="TEnum"/> value is <c>null</c>.
+    /// Asserts that a nullable <typeparamref name="TEnum"/> value is <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -83,7 +83,7 @@ public class NullableEnumAssertions<TEnum, TAssertions> : EnumAssertions<TEnum, 
     }
 
     /// <summary>
-    /// Asserts that a nullable <typeparamref name="TEnum"/> value is <c>null</c>.
+    /// Asserts that a nullable <typeparamref name="TEnum"/> value is <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion

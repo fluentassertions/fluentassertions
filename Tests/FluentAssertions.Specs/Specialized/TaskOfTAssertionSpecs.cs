@@ -144,6 +144,28 @@ public static class TaskOfTAssertionSpecs
         }
 
         [Fact]
+        public async Task When_task_completes_late_it_in_assertion_scope_should_fail()
+        {
+            // Arrange
+            var timer = new FakeClock();
+            var taskFactory = new TaskCompletionSource<int>();
+
+            // Act
+            Func<Task> action = () =>
+            {
+                Func<Task<int>> func = () => taskFactory.Task;
+
+                using var _ = new AssertionScope();
+                return func.Should(timer).CompleteWithinAsync(100.Milliseconds());
+            };
+
+            timer.Complete();
+
+            // Assert
+            await action.Should().ThrowAsync<XunitException>();
+        }
+
+        [Fact]
         public async Task When_task_consumes_time_in_sync_portion_it_should_fail()
         {
             // Arrange
@@ -308,7 +330,8 @@ public static class TaskOfTAssertionSpecs
 
             // Assert
             await act.Should().ThrowAsync<ArgumentOutOfRangeException>()
-                .WithMessage("* value of waitTime must be non-negative*");
+                .WithParameterName("waitTime")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -326,7 +349,8 @@ public static class TaskOfTAssertionSpecs
 
             // Assert
             await act.Should().ThrowAsync<ArgumentOutOfRangeException>()
-                .WithMessage("* value of pollInterval must be non-negative*");
+                .WithParameterName("pollInterval")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]

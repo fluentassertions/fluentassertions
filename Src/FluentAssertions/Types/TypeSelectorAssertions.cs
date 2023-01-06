@@ -20,10 +20,11 @@ public class TypeSelectorAssertions
     /// <summary>
     /// Initializes a new instance of the <see cref="TypeSelectorAssertions"/> class.
     /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="types"/> is or contains <see langword="null"/>.</exception>
     public TypeSelectorAssertions(params Type[] types)
     {
-        Guard.ThrowIfArgumentIsNull(types, nameof(types));
-        Guard.ThrowIfArgumentContainsNull(types, nameof(types));
+        Guard.ThrowIfArgumentIsNull(types);
+        Guard.ThrowIfArgumentContainsNull(types);
 
         Subject = types;
     }
@@ -76,11 +77,12 @@ public class TypeSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeSelectorAssertions> BeDecoratedWith<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
         Type[] typesWithoutMatchingAttribute = Subject
             .Where(type => !type.IsDecoratedWith(isMatchingAttributePredicate))
@@ -142,11 +144,12 @@ public class TypeSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeSelectorAssertions> BeDecoratedWithOrInherit<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
         Type[] typesWithoutMatchingAttribute = Subject
             .Where(type => !type.IsDecoratedWithOrInherit(isMatchingAttributePredicate))
@@ -208,11 +211,12 @@ public class TypeSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeSelectorAssertions> NotBeDecoratedWith<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
         Type[] typesWithMatchingAttribute = Subject
             .Where(type => type.IsDecoratedWith(isMatchingAttributePredicate))
@@ -274,11 +278,12 @@ public class TypeSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeSelectorAssertions> NotBeDecoratedWithOrInherit<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
         Type[] typesWithMatchingAttribute = Subject
             .Where(type => type.IsDecoratedWithOrInherit(isMatchingAttributePredicate))
