@@ -128,6 +128,7 @@ public class TypeExtensionsSpecs
     [Theory]
     [InlineData(typeof(MyRecord), true)]
     [InlineData(typeof(MyRecordStruct), true)]
+    [InlineData(typeof(MyRecordStructWithCustomPrintMembers), true)]
     [InlineData(typeof(MyRecordStructWithOverriddenEquality), true)]
     [InlineData(typeof(MyReadonlyRecordStruct), true)]
     [InlineData(typeof(MyStruct), false)]
@@ -185,6 +186,15 @@ public class TypeExtensionsSpecs
     private record MyRecord(int Value);
 
     private record struct MyRecordStruct(int Value);
+
+    private record struct MyRecordStructWithCustomPrintMembers(int Value)
+    {
+        private bool PrintMembers(System.Text.StringBuilder builder)
+        {
+            builder.Append(Value);
+            return true;
+        }
+    }
 
     private record struct MyRecordStructWithOverriddenEquality(int Value)
     {
