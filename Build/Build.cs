@@ -15,6 +15,7 @@ using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 using static Nuke.Common.Tools.Xunit.XunitTasks;
+using static Serilog.Log;
 
 [UnsetVisualStudioEnvironmentVariables]
 [DotNetVerbosityMapping]
@@ -47,11 +48,21 @@ class Build : NukeBuild
     [PackageExecutable("nspec", "NSpecRunner.exe", Version = "3.1.0")]
     Tool NSpec3;
 
+#if OS_WINDOWS
+    [PackageExecutable("Node.js.redist", "node.exe", Version = "16.17.1", Framework = "win-x64")]
+#elif OS_MAC
+    [PackageExecutable("Node.js.redist", "node", Version = "16.17.1", Framework = "osx-x64")]
+#else
+    [PackageExecutable("Node.js.redist", "node", Version = "16.17.1", Framework = "linux-x64")]
+#endif
+    Tool Node;
+
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
 
     AbsolutePath TestResultsDirectory => RootDirectory / "TestResults";
 
     string SemVer;
+    string YarnCli => ToolPathResolver.GetPackageExecutable("Yarn.MSBuild", "yarn.js", "1.22.19");
 
     Target Clean => _ => _
         .Executes(() =>
@@ -246,5 +257,12 @@ class Build : NukeBuild
                     (v, path) => v.SetTargetPath(path)));
         });
 
+    Target SpellCheck => _ => _
+        .Executes(() =>
+        {
+            Node($"{YarnCli} install --silent", workingDirectory: RootDirectory);
+            Node($"{YarnCli} --silent run cspell --no-summary", workingDirectory: RootDirectory,
+                customLogger: (_, msg) => Error(msg));
+        });
     bool IsTag => BranchSpec != null && BranchSpec.Contains("refs/tags", StringComparison.InvariantCultureIgnoreCase);
 }

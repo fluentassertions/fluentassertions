@@ -104,7 +104,7 @@ The pattern can be a combination of literal and wildcard characters, but it does
 
 The following wildcard specifiers are permitted in the pattern:
 
-| Wilcard specifier | Matches                                   |
+| Wildcard specifier | Matches                                   |
 | ----------------- | ----------------------------------------- |
 | * (asterisk)      | Zero or more characters in that position. |
 | ? (question mark) | Exactly one character in that position.   |

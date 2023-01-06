@@ -74,6 +74,7 @@ Please do:
 * If the contribution adds a feature or fixes a bug, please update the [**release notes**](https://github.com/fluentassertions/fluentassertions/blob/develop/docs/_pages/releases.md), which is published on the [website](https://fluentassertions.com/releases).
 * If the contribution changes the public API, the changes needs to be included by running [`AcceptApiChanges.ps1`](https://github.com/fluentassertions/fluentassertions/tree/develop/AcceptApiChanges.ps1)/[`AcceptApiChanges.sh`](https://github.com/fluentassertions/fluentassertions/tree/develop/AcceptApiChanges.sh) or using Rider's [Verify Support](https://plugins.jetbrains.com/plugin/17240-verify-support) plug-in.
 * If the contribution affects the documentation, please update the [**documentation**](https://github.com/fluentassertions/fluentassertions/tree/develop/docs/_pages), under the appropriate file (i.e. [strings.md](https://github.com/fluentassertions/fluentassertions/blob/develop/docs/_pages/strings.md) for changes to string assertions), which is published on the [website](https://fluentassertions.com/introduction).
+  * Please also run `./build.sh --target spellcheck` or `.\build.ps1 --target spellcheck` before pushing and check the good outcome
 
 Please do not:
 
