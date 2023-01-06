@@ -148,6 +148,12 @@ public class TypeExtensionsSpecs
     }
 
     [Fact]
+    public void When_checking_if_value_tuple_is_record_it_should_return_false()
+    {
+        (42, "the answer").GetType().IsRecord().Should().BeFalse();
+    }
+
+    [Fact]
     public void When_checking_if_class_with_multiple_equality_methods_is_record_it_should_return_false()
     {
         typeof(ImmutableArray<int>).IsRecord().Should().BeFalse();
