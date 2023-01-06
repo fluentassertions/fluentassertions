@@ -50,14 +50,12 @@ class Build : NukeBuild
 
 #if OS_WINDOWS
     [PackageExecutable("Node.js.redist", "node.exe", Version = "16.17.1", Framework = "win-x64")]
-    Tool Node;
 #elif OS_MAC
     [PackageExecutable("Node.js.redist", "node", Version = "16.17.1", Framework = "osx-x64")]
-    Tool Node;
 #else
     [PackageExecutable("Node.js.redist", "node", Version = "16.17.1", Framework = "linux-x64")]
-    Tool Node;
 #endif
+    Tool Node;
 
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
 
@@ -263,10 +261,8 @@ class Build : NukeBuild
         .Executes(() =>
         {
             Node($"{YarnCli} install --silent", workingDirectory: RootDirectory);
-            Node($"{YarnCli} --silent run cspell --no-summary", workingDirectory: RootDirectory, 
+            Node($"{YarnCli} --silent run cspell --no-summary", workingDirectory: RootDirectory,
                 customLogger: (_, msg) => Error(msg));
         });
-
-    
     bool IsTag => BranchSpec != null && BranchSpec.Contains("refs/tags", StringComparison.InvariantCultureIgnoreCase);
 }
