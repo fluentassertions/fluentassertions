@@ -598,14 +598,8 @@ internal static class TypeExtensions
             // recognizing record structs from metadata is an open point. The following check is based on common sense
             // and heuristic testing, apparently giving good results but not supported by official documentation.
             var isRecordStruct = t.BaseType == typeof(ValueType) &&
-                                 t.GetMethods()
-                                     .Where(m => m.Name == "op_Inequality")
-                                     .SelectMany(m => m.GetCustomAttributes(typeof(CompilerGeneratedAttribute)))
-                                     .Any() &&
-                                 t.GetMethods()
-                                     .Where(m => m.Name == "op_Equality")
-                                     .SelectMany(m => m.GetCustomAttributes(typeof(CompilerGeneratedAttribute)))
-                                     .Any();
+                                 t.GetMethod("op_Equality", BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly, null, new[] { t, t }, null)?
+                                     .GetCustomAttribute(typeof(CompilerGeneratedAttribute)) is not null;
 
             return isRecord || isRecordStruct;
         });
