@@ -132,6 +132,7 @@ public class TypeExtensionsSpecs
     [InlineData(typeof(MyRecordStructWithOverriddenEquality), true)]
     [InlineData(typeof(MyReadonlyRecordStruct), true)]
     [InlineData(typeof(MyStruct), false)]
+    [InlineData(typeof(MyStructWithFakeCompilerGeneratedEquality), true)] // false positive!
     [InlineData(typeof(MyStructWithOverriddenEquality), false)]
     [InlineData(typeof(MyClass), false)]
     [InlineData(typeof(int), false)]
@@ -214,6 +215,25 @@ public class TypeExtensionsSpecs
     private struct MyStruct
     {
         public int Value { get; set; }
+    }
+
+    // Note that this struct is mistakenly detected as a record struct by the current version of TypeExtensions.IsRecord.
+    // This cannot be avoided at present, unless something is changed at language level,
+    // or a smarter way to check for record structs is found.
+    private struct MyStructWithFakeCompilerGeneratedEquality : IEquatable<MyStructWithFakeCompilerGeneratedEquality>
+    {
+        public int Value { get; set; }
+
+        public bool Equals(MyStructWithFakeCompilerGeneratedEquality other) => Value == other.Value;
+
+        public override bool Equals(object obj) => obj is MyStructWithFakeCompilerGeneratedEquality other && Equals(other);
+
+        public override int GetHashCode() => Value;
+
+        [System.Runtime.CompilerServices.CompilerGenerated]
+        public static bool operator ==(MyStructWithFakeCompilerGeneratedEquality left, MyStructWithFakeCompilerGeneratedEquality right) => left.Equals(right);
+
+        public static bool operator !=(MyStructWithFakeCompilerGeneratedEquality left, MyStructWithFakeCompilerGeneratedEquality right) => !left.Equals(right);
     }
 
     private struct MyStructWithOverriddenEquality : IEquatable<MyStructWithOverriddenEquality>
