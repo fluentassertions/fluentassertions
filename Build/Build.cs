@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LibGit2Sharp;
 using Nuke.Common;
 using Nuke.Common.Execution;
+using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
@@ -28,7 +30,7 @@ class Build : NukeBuild
        - Microsoft VSCode           https://nuke.build/vscode
     */
 
-    public static int Main() => Execute<Build>(x => x.Push);
+    public static int Main() => Execute<Build>(x => x.SpellCheck, x => x.Push);
 
     [Parameter("A branch specification such as develop or refs/pull/1775/merge")]
     readonly string BranchSpec;
@@ -44,6 +46,9 @@ class Build : NukeBuild
 
     [GitVersion(Framework = "net6.0")]
     readonly GitVersion GitVersion;
+
+    [GitRepository]
+    readonly GitRepository GitRepository;
 
     [PackageExecutable("nspec", "NSpecRunner.exe", Version = "3.1.0")]
     Tool NSpec3;
@@ -65,6 +70,7 @@ class Build : NukeBuild
     string YarnCli => ToolPathResolver.GetPackageExecutable("Yarn.MSBuild", "yarn.js", "1.22.19");
 
     Target Clean => _ => _
+        .OnlyWhenDynamic(() => SourceChangesDetected())
         .Executes(() =>
         {
             EnsureCleanDirectory(ArtifactsDirectory);
@@ -72,6 +78,7 @@ class Build : NukeBuild
         });
 
     Target CalculateNugetVersion => _ => _
+        .OnlyWhenDynamic(() => SourceChangesDetected())
         .Executes(() =>
         {
             SemVer = GitVersion.SemVer;
@@ -91,6 +98,7 @@ class Build : NukeBuild
 
     Target Restore => _ => _
         .DependsOn(Clean)
+        .OnlyWhenDynamic(() => SourceChangesDetected())
         .Executes(() =>
         {
             DotNetRestore(s => s
@@ -101,6 +109,7 @@ class Build : NukeBuild
 
     Target Compile => _ => _
         .DependsOn(Restore)
+        .OnlyWhenDynamic(() => SourceChangesDetected())
         .Executes(() =>
         {
             DotNetBuild(s => s
@@ -115,6 +124,7 @@ class Build : NukeBuild
 
     Target ApiChecks => _ => _
         .DependsOn(Compile)
+        .OnlyWhenDynamic(() => SourceChangesDetected())
         .Executes(() =>
         {
             DotNetTest(s => s
@@ -126,6 +136,7 @@ class Build : NukeBuild
 
     Target UnitTests => _ => _
         .DependsOn(Compile)
+        .OnlyWhenDynamic(() => SourceChangesDetected())
         .Executes(() =>
         {
             Project[] projects = new[]
@@ -172,6 +183,7 @@ class Build : NukeBuild
     Target CodeCoverage => _ => _
         .DependsOn(TestFrameworks)
         .DependsOn(UnitTests)
+        .OnlyWhenDynamic(() => SourceChangesDetected())
         .Executes(() =>
         {
             ReportGenerator(s => s
@@ -188,6 +200,7 @@ class Build : NukeBuild
 
     Target TestFrameworks => _ => _
         .DependsOn(Compile)
+        .OnlyWhenDynamic(() => SourceChangesDetected())
         .Executes(() =>
         {
             var testCombinations =
@@ -227,6 +240,7 @@ class Build : NukeBuild
         .DependsOn(UnitTests)
         .DependsOn(CodeCoverage)
         .DependsOn(CalculateNugetVersion)
+        .OnlyWhenDynamic(() => SourceChangesDetected())
         .Executes(() =>
         {
             DotNetPack(s => s
@@ -258,11 +272,36 @@ class Build : NukeBuild
         });
 
     Target SpellCheck => _ => _
+        .OnlyWhenDynamic(() => DocumentationChangesDetected())
         .Executes(() =>
         {
             Node($"{YarnCli} install --silent", workingDirectory: RootDirectory);
             Node($"{YarnCli} --silent run cspell --no-summary", workingDirectory: RootDirectory,
                 customLogger: (_, msg) => Error(msg));
         });
+
+    bool DocumentationChangesDetected()
+    {
+        return Changes.Any(x => x.StartsWith("docs"));
+    }
+
+    bool SourceChangesDetected()
+    {
+        return Changes.Any(x => !x.StartsWith("docs"));
+    }
+
+    IEnumerable<string> Changes
+    {
+        get
+        {
+            using var repo = new Repository(GitRepository.LocalDirectory);
+
+            return repo.Diff.Compare<TreeChanges>(repo.Branches["develop"].Tip.Tree,
+                repo.Branches[repo.Head.FriendlyName].Tip.Tree)
+                    .Where(x => x.Exists)
+                    .Select(x => x.Path);
+        }
+    }
+
     bool IsTag => BranchSpec != null && BranchSpec.Contains("refs/tags", StringComparison.InvariantCultureIgnoreCase);
 }
