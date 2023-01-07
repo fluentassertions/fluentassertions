@@ -70,7 +70,7 @@ class Build : NukeBuild
     string YarnCli => ToolPathResolver.GetPackageExecutable("Yarn.MSBuild", "yarn.js", "1.22.19");
 
     Target Clean => _ => _
-        .OnlyWhenDynamic(() => SourceChangesDetected())
+        .OnlyWhenDynamic(() => HasSourceChanges)
         .Executes(() =>
         {
             EnsureCleanDirectory(ArtifactsDirectory);
@@ -78,7 +78,7 @@ class Build : NukeBuild
         });
 
     Target CalculateNugetVersion => _ => _
-        .OnlyWhenDynamic(() => SourceChangesDetected())
+        .OnlyWhenDynamic(() => HasSourceChanges)
         .Executes(() =>
         {
             SemVer = GitVersion.SemVer;
@@ -98,7 +98,7 @@ class Build : NukeBuild
 
     Target Restore => _ => _
         .DependsOn(Clean)
-        .OnlyWhenDynamic(() => SourceChangesDetected())
+        .OnlyWhenDynamic(() => HasSourceChanges)
         .Executes(() =>
         {
             DotNetRestore(s => s
@@ -109,7 +109,7 @@ class Build : NukeBuild
 
     Target Compile => _ => _
         .DependsOn(Restore)
-        .OnlyWhenDynamic(() => SourceChangesDetected())
+        .OnlyWhenDynamic(() => HasSourceChanges)
         .Executes(() =>
         {
             DotNetBuild(s => s
@@ -124,7 +124,7 @@ class Build : NukeBuild
 
     Target ApiChecks => _ => _
         .DependsOn(Compile)
-        .OnlyWhenDynamic(() => SourceChangesDetected())
+        .OnlyWhenDynamic(() => HasSourceChanges)
         .Executes(() =>
         {
             DotNetTest(s => s
@@ -136,7 +136,7 @@ class Build : NukeBuild
 
     Target UnitTests => _ => _
         .DependsOn(Compile)
-        .OnlyWhenDynamic(() => SourceChangesDetected())
+        .OnlyWhenDynamic(() => HasSourceChanges)
         .Executes(() =>
         {
             Project[] projects = new[]
@@ -183,7 +183,7 @@ class Build : NukeBuild
     Target CodeCoverage => _ => _
         .DependsOn(TestFrameworks)
         .DependsOn(UnitTests)
-        .OnlyWhenDynamic(() => SourceChangesDetected())
+        .OnlyWhenDynamic(() => HasSourceChanges)
         .Executes(() =>
         {
             ReportGenerator(s => s
@@ -200,7 +200,7 @@ class Build : NukeBuild
 
     Target TestFrameworks => _ => _
         .DependsOn(Compile)
-        .OnlyWhenDynamic(() => SourceChangesDetected())
+        .OnlyWhenDynamic(() => HasSourceChanges)
         .Executes(() =>
         {
             var testCombinations =
@@ -240,7 +240,7 @@ class Build : NukeBuild
         .DependsOn(UnitTests)
         .DependsOn(CodeCoverage)
         .DependsOn(CalculateNugetVersion)
-        .OnlyWhenDynamic(() => SourceChangesDetected())
+        .OnlyWhenDynamic(() => HasSourceChanges)
         .Executes(() =>
         {
             DotNetPack(s => s
@@ -272,7 +272,7 @@ class Build : NukeBuild
         });
 
     Target SpellCheck => _ => _
-        .OnlyWhenDynamic(() => DocumentationChangesDetected())
+        .OnlyWhenDynamic(() => HasDocumentationChanges)
         .Executes(() =>
         {
             Node($"{YarnCli} install --silent", workingDirectory: RootDirectory);
@@ -280,26 +280,26 @@ class Build : NukeBuild
                 customLogger: (_, msg) => Error(msg));
         });
 
-    bool DocumentationChangesDetected()
-    {
-        return Changes.Any(x => x.StartsWith("docs"));
-    }
+    bool HasDocumentationChanges =>
+        Changes.Any(x => x.StartsWith("docs"));
 
-    bool SourceChangesDetected()
-    {
-        return Changes.Any(x => !x.StartsWith("docs"));
-    }
+    bool HasSourceChanges =>
+        Changes.Any(x => !x.StartsWith("docs"));
 
-    IEnumerable<string> Changes
+    string[] Changes
     {
         get
         {
             using var repo = new Repository(GitRepository.LocalDirectory);
 
-            return repo.Diff.Compare<TreeChanges>(repo.Branches["develop"].Tip.Tree,
-                repo.Branches[repo.Head.FriendlyName].Tip.Tree)
-                    .Where(x => x.Exists)
-                    .Select(x => x.Path);
+            Tree targetBranch = repo.Branches["develop"].Tip.Tree;
+            Tree workingDir = repo.Branches[repo.Head.FriendlyName].Tip.Tree;
+            
+            return repo.Diff
+                .Compare<TreeChanges>(targetBranch, workingDir)
+                .Where(x => x.Exists)
+                .Select(x => x.Path)
+                .ToArray();
         }
     }
 
