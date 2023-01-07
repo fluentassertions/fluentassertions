@@ -1,12 +1,6 @@
 name: build
 
-on:
-  pull_request:
-    paths-ignore:
-      - docs/**
-  push:
-    paths-ignore:
-      - docs/**
+on: [push, pull_request]
 
 jobs:
   build:
@@ -72,3 +66,5 @@ jobs:
 
     - name: Run NUKE
       run: ./build.sh UnitTests
+      env:
+        BaseRef: ${{ github.event.pull_request.base.ref }}
