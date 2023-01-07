@@ -295,7 +295,9 @@ class Build : NukeBuild
         {
             using var repo = new Repository(GitRepository.LocalDirectory);
 
-            Tree targetBranch = repo.Branches[BaseRef].Tip.Tree;
+            string baseRef = BaseRef ?? "develop";
+
+            Tree targetBranch = repo.Branches[baseRef].Tip.Tree;
             Tree workingDir = repo.Branches[repo.Head.FriendlyName].Tip.Tree;
 
             return repo.Diff

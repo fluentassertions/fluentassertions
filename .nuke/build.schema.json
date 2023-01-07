@@ -10,6 +10,10 @@
           "type": "string",
           "description": "The key to push to Nuget"
         },
+        "BaseRef": {
+          "type": "string",
+          "description": "The target branch for the pull request"
+        },
         "BranchSpec": {
           "type": "string",
           "description": "A branch specification such as develop or refs/pull/1775/merge"
