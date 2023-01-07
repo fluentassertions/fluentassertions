@@ -298,10 +298,10 @@ class Build : NukeBuild
             string baseRef = BaseRef ?? "develop";
 
             Tree targetBranch = repo.Branches[baseRef].Tip.Tree;
-            Tree workingDir = repo.Branches[repo.Head.FriendlyName].Tip.Tree;
+            Tree sourceBranch = repo.Branches[repo.Head.FriendlyName].Tip.Tree;
 
             return repo.Diff
-                .Compare<TreeChanges>(targetBranch, workingDir)
+                .Compare<TreeChanges>(targetBranch, sourceBranch)
                 .Where(x => x.Exists)
                 .Select(x => x.Path)
                 .ToArray();
