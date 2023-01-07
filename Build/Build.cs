@@ -38,6 +38,9 @@ class Build : NukeBuild
     [Parameter("An incrementing build number as provided by the build engine")]
     readonly string BuildNumber;
 
+    [Parameter("The target branch for the pull request")]
+    readonly string BaseRef;
+
     [Parameter("The key to push to Nuget")]
     readonly string ApiKey;
 
@@ -292,9 +295,9 @@ class Build : NukeBuild
         {
             using var repo = new Repository(GitRepository.LocalDirectory);
 
-            Tree targetBranch = repo.Branches["develop"].Tip.Tree;
+            Tree targetBranch = repo.Branches[BaseRef].Tip.Tree;
             Tree workingDir = repo.Branches[repo.Head.FriendlyName].Tip.Tree;
-            
+
             return repo.Diff
                 .Compare<TreeChanges>(targetBranch, workingDir)
                 .Where(x => x.Exists)
