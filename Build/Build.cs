@@ -87,14 +87,14 @@ class Build : NukeBuild
             SemVer = GitVersion.SemVer;
             if (IsPullRequest)
             {
-                Serilog.Log.Information(
+                Information(
                     "Branch spec {branchspec} is a pull request. Adding build number {buildnumber}",
                     BranchSpec, BuildNumber);
 
                 SemVer = string.Join('.', GitVersion.SemVer.Split('.').Take(3).Union(new[] { BuildNumber }));
             }
 
-            Serilog.Log.Information("SemVer = {semver}", SemVer);
+            Information("SemVer = {semver}", SemVer);
         });
 
     bool IsPullRequest => BranchSpec != null && BranchSpec.Contains("pull", StringComparison.InvariantCultureIgnoreCase);
@@ -198,7 +198,7 @@ class Build : NukeBuild
                 .SetAssemblyFilters("+FluentAssertions"));
 
             string link = TestResultsDirectory / "reports" / "index.html";
-            Serilog.Log.Information($"Code coverage report: \x1b]8;;file://{link.Replace('\\', '/')}\x1b\\{link}\x1b]8;;\x1b\\");
+            Information($"Code coverage report: \x1b]8;;file://{link.Replace('\\', '/')}\x1b\\{link}\x1b]8;;\x1b\\");
         });
 
     Target TestFrameworks => _ => _
@@ -289,23 +289,16 @@ class Build : NukeBuild
     bool HasSourceChanges =>
         Changes.Any(x => !x.StartsWith("docs"));
 
-    string[] Changes
-    {
-        get
-        {
-            using var repo = new Repository(GitRepository.LocalDirectory);
+    string[] Changes =>
+        Repository.Diff
+            .Compare<TreeChanges>(TargetBranch, SourceBranch)
+            .Where(x => x.Exists)
+            .Select(x => x.Path)
+            .ToArray();
 
-            Tree targetBranch = repo.Branches[PullRequestBase].Tip.Tree;
-            Tree sourceBranch = repo.Branches[repo.Head.FriendlyName].Tip.Tree;
-
-            return repo.Diff
-                .Compare<TreeChanges>(targetBranch, sourceBranch)
-                .Where(x => x.Exists)
-                .Select(x => x.Path)
-                .ToArray();
-        }
-    }
-
+    Repository Repository => new Repository(GitRepository.LocalDirectory);
+    Tree TargetBranch => Repository.Branches[PullRequestBase].Tip.Tree;
+    Tree SourceBranch => Repository.Branches[Repository.Head.FriendlyName].Tip.Tree;
     bool RunAllTargets => PullRequestBase == default;
 
     bool IsTag => BranchSpec != null && BranchSpec.Contains("refs/tags", StringComparison.InvariantCultureIgnoreCase);
