@@ -29,7 +29,7 @@ jobs:
       env:
         BranchSpec: ${{ github.ref }}
         BuildNumber: ${{ github.run_number }}
-        BaseRef: ${{ github.event.pull_request.base.ref }}
+        PullRequestBase: ${{ github.event.pull_request.base.ref }}
         ApiKey: ${{ secrets.NUGETAPIKEY }}
 
     - name: coveralls

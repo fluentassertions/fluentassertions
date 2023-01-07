@@ -39,7 +39,7 @@ class Build : NukeBuild
     readonly string BuildNumber;
 
     [Parameter("The target branch for the pull request")]
-    readonly string BaseRef;
+    readonly string PullRequestBase;
 
     [Parameter("The key to push to Nuget")]
     readonly string ApiKey;
@@ -73,7 +73,7 @@ class Build : NukeBuild
     string YarnCli => ToolPathResolver.GetPackageExecutable("Yarn.MSBuild", "yarn.js", "1.22.19");
 
     Target Clean => _ => _
-        .OnlyWhenDynamic(() => HasSourceChanges)
+        .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
             EnsureCleanDirectory(ArtifactsDirectory);
@@ -81,7 +81,7 @@ class Build : NukeBuild
         });
 
     Target CalculateNugetVersion => _ => _
-        .OnlyWhenDynamic(() => HasSourceChanges)
+        .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
             SemVer = GitVersion.SemVer;
@@ -101,7 +101,7 @@ class Build : NukeBuild
 
     Target Restore => _ => _
         .DependsOn(Clean)
-        .OnlyWhenDynamic(() => HasSourceChanges)
+        .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
             DotNetRestore(s => s
@@ -112,7 +112,7 @@ class Build : NukeBuild
 
     Target Compile => _ => _
         .DependsOn(Restore)
-        .OnlyWhenDynamic(() => HasSourceChanges)
+        .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
             DotNetBuild(s => s
@@ -127,7 +127,7 @@ class Build : NukeBuild
 
     Target ApiChecks => _ => _
         .DependsOn(Compile)
-        .OnlyWhenDynamic(() => HasSourceChanges)
+        .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
             DotNetTest(s => s
@@ -139,7 +139,7 @@ class Build : NukeBuild
 
     Target UnitTests => _ => _
         .DependsOn(Compile)
-        .OnlyWhenDynamic(() => HasSourceChanges)
+        .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
             Project[] projects = new[]
@@ -186,7 +186,7 @@ class Build : NukeBuild
     Target CodeCoverage => _ => _
         .DependsOn(TestFrameworks)
         .DependsOn(UnitTests)
-        .OnlyWhenDynamic(() => HasSourceChanges)
+        .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
             ReportGenerator(s => s
@@ -203,7 +203,7 @@ class Build : NukeBuild
 
     Target TestFrameworks => _ => _
         .DependsOn(Compile)
-        .OnlyWhenDynamic(() => HasSourceChanges)
+        .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
             var testCombinations =
@@ -243,7 +243,7 @@ class Build : NukeBuild
         .DependsOn(UnitTests)
         .DependsOn(CodeCoverage)
         .DependsOn(CalculateNugetVersion)
-        .OnlyWhenDynamic(() => HasSourceChanges)
+        .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
             DotNetPack(s => s
@@ -275,7 +275,7 @@ class Build : NukeBuild
         });
 
     Target SpellCheck => _ => _
-        .OnlyWhenDynamic(() => HasDocumentationChanges)
+        .OnlyWhenDynamic(() => RunAllTargets || HasDocumentationChanges)
         .Executes(() =>
         {
             Node($"{YarnCli} install --silent", workingDirectory: RootDirectory);
@@ -295,9 +295,7 @@ class Build : NukeBuild
         {
             using var repo = new Repository(GitRepository.LocalDirectory);
 
-            string baseRef = BaseRef ?? "develop";
-
-            Tree targetBranch = repo.Branches[baseRef].Tip.Tree;
+            Tree targetBranch = repo.Branches[PullRequestBase].Tip.Tree;
             Tree sourceBranch = repo.Branches[repo.Head.FriendlyName].Tip.Tree;
 
             return repo.Diff
@@ -307,6 +305,8 @@ class Build : NukeBuild
                 .ToArray();
         }
     }
+
+    bool RunAllTargets => PullRequestBase == default;
 
     bool IsTag => BranchSpec != null && BranchSpec.Contains("refs/tags", StringComparison.InvariantCultureIgnoreCase);
 }
