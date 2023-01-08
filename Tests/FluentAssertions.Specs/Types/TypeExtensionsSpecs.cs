@@ -132,7 +132,8 @@ public class TypeExtensionsSpecs
     [InlineData(typeof(MyRecordStructWithOverriddenEquality), true)]
     [InlineData(typeof(MyReadonlyRecordStruct), true)]
     [InlineData(typeof(MyStruct), false)]
-    [InlineData(typeof(MyStructWithFakeCompilerGeneratedEquality), true)] // false positive!
+    [InlineData(typeof(MyStructWithFakeCompilerGeneratedEquality), false)]
+    [InlineData(typeof(MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers), true)] // false positive!
     [InlineData(typeof(MyStructWithOverriddenEquality), false)]
     [InlineData(typeof(MyClass), false)]
     [InlineData(typeof(int), false)]
@@ -217,9 +218,6 @@ public class TypeExtensionsSpecs
         public int Value { get; set; }
     }
 
-    // Note that this struct is mistakenly detected as a record struct by the current version of TypeExtensions.IsRecord.
-    // This cannot be avoided at present, unless something is changed at language level,
-    // or a smarter way to check for record structs is found.
     private struct MyStructWithFakeCompilerGeneratedEquality : IEquatable<MyStructWithFakeCompilerGeneratedEquality>
     {
         public int Value { get; set; }
@@ -234,6 +232,31 @@ public class TypeExtensionsSpecs
         public static bool operator ==(MyStructWithFakeCompilerGeneratedEquality left, MyStructWithFakeCompilerGeneratedEquality right) => left.Equals(right);
 
         public static bool operator !=(MyStructWithFakeCompilerGeneratedEquality left, MyStructWithFakeCompilerGeneratedEquality right) => !left.Equals(right);
+    }
+
+    // Note that this struct is mistakenly detected as a record struct by the current version of TypeExtensions.IsRecord.
+    // This cannot be avoided at present, unless something is changed at language level,
+    // or a smarter way to check for record structs is found.
+    private struct MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers : IEquatable<MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers>
+    {
+        public int Value { get; set; }
+
+        public bool Equals(MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers other) => Value == other.Value;
+
+        public override bool Equals(object obj) => obj is MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers other && Equals(other);
+
+        public override int GetHashCode() => Value;
+
+        [System.Runtime.CompilerServices.CompilerGenerated]
+        public static bool operator ==(MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers left, MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers right) => left.Equals(right);
+
+        public static bool operator !=(MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers left, MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers right) => !left.Equals(right);
+
+        private bool PrintMembers(System.Text.StringBuilder builder)
+        {
+            builder.Append(Value);
+            return true;
+        }
     }
 
     private struct MyStructWithOverriddenEquality : IEquatable<MyStructWithOverriddenEquality>
