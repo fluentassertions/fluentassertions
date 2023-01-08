@@ -13,7 +13,7 @@ internal class MultiDimensionalArrayEquivalencyStep : IEquivalencyStep
 {
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
     {
-        if (comparands.Expectation is not Array expectationAsArray || expectationAsArray?.Rank == 1)
+        if (comparands.Expectation is not Array expectationAsArray || expectationAsArray.Rank == 1)
         {
             return EquivalencyResult.ContinueWithNext;
         }

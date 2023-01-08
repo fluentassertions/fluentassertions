@@ -6,3 +6,4 @@
 * [ ] If the PR adds a feature or fixes a bug, please update [the release notes](../tree/develop/docs/_pages/releases.md) with a functional description that explains what the change means to consumers of this library, which are published on the [website](https://fluentassertions.com/releases).
 * [ ] If the PR changes the public API the changes needs to be included by running [AcceptApiChanges.ps1](../tree/develop/AcceptApiChanges.ps1) or [AcceptApiChanges.sh](../tree/develop/AcceptApiChanges.sh).
 * [ ] If the PR affects [the documentation](../tree/develop/docs/_pages), please include your changes in this pull request so the documentation will appear on the [website](https://www.fluentassertions.com/introduction).
+    * [ ] Please also run `./build.sh --target spellcheck` or `.\build.ps1 --target spellcheck` before pushing and check the good outcome

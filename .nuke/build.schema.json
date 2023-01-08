@@ -66,6 +66,10 @@
             "type": "string"
           }
         },
+        "PullRequestBase": {
+          "type": "string",
+          "description": "The target branch for the pull request"
+        },
         "Root": {
           "type": "string",
           "description": "Root directory during build execution"
@@ -84,6 +88,7 @@
               "Pack",
               "Push",
               "Restore",
+              "SpellCheck",
               "TestFrameworks",
               "UnitTests"
             ]
@@ -107,6 +112,7 @@
               "Pack",
               "Push",
               "Restore",
+              "SpellCheck",
               "TestFrameworks",
               "UnitTests"
             ]

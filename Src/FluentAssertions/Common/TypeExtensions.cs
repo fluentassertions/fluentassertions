@@ -507,7 +507,7 @@ internal static class TypeExtensions
 
         bool IsGlobalNamespace() => @namespace is null;
         bool IsExactNamespace() => IsNamespacePrefix() && type.Namespace.Length == @namespace.Length;
-        bool IsParentNamespace() => IsNamespacePrefix() && type.Namespace[@namespace.Length] == '.';
+        bool IsParentNamespace() => IsNamespacePrefix() && type.Namespace[@namespace.Length] is '.';
         bool IsNamespacePrefix() => type.Namespace?.StartsWith(@namespace, StringComparison.Ordinal) == true;
     }
 
@@ -520,14 +520,14 @@ internal static class TypeExtensions
     public static MethodInfo GetExplicitConversionOperator(this Type type, Type sourceType, Type targetType)
     {
         return type
-            .GetConversionOperators(sourceType, targetType, name => name == "op_Explicit")
+            .GetConversionOperators(sourceType, targetType, name => name is "op_Explicit")
             .SingleOrDefault();
     }
 
     public static MethodInfo GetImplicitConversionOperator(this Type type, Type sourceType, Type targetType)
     {
         return type
-            .GetConversionOperators(sourceType, targetType, name => name == "op_Implicit")
+            .GetConversionOperators(sourceType, targetType, name => name is "op_Implicit")
             .SingleOrDefault();
     }
 

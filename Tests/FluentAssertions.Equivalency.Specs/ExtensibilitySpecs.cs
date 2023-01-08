@@ -140,7 +140,7 @@ public class ExtensibilitySpecs
 
     internal class ForeignKeyMatchingRule : IMemberMatchingRule
     {
-        public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions config)
+        public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions options)
         {
             string name = expectedMember.Name;
             if (name.EndsWith("Id", StringComparison.Ordinal))
@@ -191,7 +191,7 @@ public class ExtensibilitySpecs
 
     internal class StrictOrderingRule : IOrderingRule
     {
-        public OrderStrictness Evaluate(IObjectInfo memberInfo)
+        public OrderStrictness Evaluate(IObjectInfo objectInfo)
         {
             return OrderStrictness.Strict;
         }
@@ -626,7 +626,7 @@ public class ExtensibilitySpecs
     {
         public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
         {
-            if (comparands.Expectation is DateTime time)
+            if (comparands.Expectation is DateTime)
             {
                 throw new Exception("Failed");
             }

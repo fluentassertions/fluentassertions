@@ -7,7 +7,7 @@
 *.sln.docstates
 *.sln.ide
 .vs/
-
+.vscode/
 
 project.lock.json
 *.nuget.props
@@ -188,3 +188,6 @@ Tests/FluentAssertions.Specs/FluentAssertions.Specs.xml
 
 # BenchmarkDotNet
 Tests/Benchmarks/BenchmarkDotNet.Artifacts/
+
+# Documentation spell check
+node_modules/
