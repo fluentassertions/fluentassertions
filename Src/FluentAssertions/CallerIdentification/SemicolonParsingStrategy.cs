@@ -6,7 +6,7 @@ internal class SemicolonParsingStrategy : IParsingStrategy
 {
     public ParsingState Parse(char symbol, StringBuilder statement)
     {
-        if (symbol == ';')
+        if (symbol is ';')
         {
             statement.Clear();
             return ParsingState.Done;

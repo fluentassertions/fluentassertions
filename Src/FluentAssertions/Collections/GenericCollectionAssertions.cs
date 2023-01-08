@@ -3246,7 +3246,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> :
     {
         string orderString = propertyExpression.GetMemberPath().ToString();
 
-        orderString = orderString == "\"\"" ? string.Empty : "by " + orderString;
+        orderString = orderString is "\"\"" ? string.Empty : "by " + orderString;
 
         return orderString;
     }
