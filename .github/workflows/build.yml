@@ -1,12 +1,6 @@
 name: build
 
-on:
-  pull_request:
-    paths-ignore:
-      - docs/**
-  push:
-    paths-ignore:
-      - docs/**
+on: [push, pull_request]
 
 jobs:
   build:
@@ -35,6 +29,7 @@ jobs:
       env:
         BranchSpec: ${{ github.ref }}
         BuildNumber: ${{ github.run_number }}
+        PullRequestBase: ${{ github.event.pull_request.base.ref }}
         ApiKey: ${{ secrets.NUGETAPIKEY }}
 
     - name: coveralls
@@ -71,3 +66,5 @@ jobs:
 
     - name: Run NUKE
       run: ./build.sh UnitTests
+      env:
+        BaseRef: ${{ github.event.pull_request.base.ref }}
