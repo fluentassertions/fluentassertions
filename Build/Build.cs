@@ -132,6 +132,7 @@ class Build : NukeBuild
         {
             DotNetTest(s => s
                 .SetConfiguration("Release")
+                .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
                 .EnableNoBuild()
                 .CombineWith(
                     cc => cc.SetProjectFile(Solution.Specs.Approval_Tests)));
@@ -165,6 +166,7 @@ class Build : NukeBuild
 
             DotNetTest(s => s
                 .SetConfiguration("Debug")
+                .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
                 .EnableNoBuild()
                 .SetDataCollector("XPlat Code Coverage")
                 .SetResultsDirectory(TestResultsDirectory)
@@ -221,6 +223,7 @@ class Build : NukeBuild
 
             DotNetTest(s => s
                 .SetConfiguration("Debug")
+                .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
                 .EnableNoBuild()
                 .SetDataCollector("XPlat Code Coverage")
                 .SetResultsDirectory(TestResultsDirectory)
