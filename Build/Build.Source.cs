@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using LibGit2Sharp;
 using Nuke.Common;
-using Nuke.Common.Execution;
-using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
@@ -19,18 +16,10 @@ using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 using static Nuke.Common.Tools.Xunit.XunitTasks;
 using static Serilog.Log;
 
-[UnsetVisualStudioEnvironmentVariables]
-[DotNetVerbosityMapping]
-class Build : NukeBuild
+partial class Build
 {
-    /* Support plugins are available for:
-       - JetBrains ReSharper        https://nuke.build/resharper
-       - JetBrains Rider            https://nuke.build/rider
-       - Microsoft VisualStudio     https://nuke.build/visualstudio
-       - Microsoft VSCode           https://nuke.build/vscode
-    */
-
-    public static int Main() => Execute<Build>(x => x.SpellCheck, x => x.Push);
+    [Parameter("The key to push to Nuget")]
+    readonly string ApiKey;
 
     [Parameter("A branch specification such as develop or refs/pull/1775/merge")]
     readonly string BranchSpec;
@@ -38,39 +27,20 @@ class Build : NukeBuild
     [Parameter("An incrementing build number as provided by the build engine")]
     readonly string BuildNumber;
 
-    [Parameter("The target branch for the pull request")]
-    readonly string PullRequestBase;
-
-    [Parameter("The key to push to Nuget")]
-    readonly string ApiKey;
+    [GitVersion(Framework = "net6.0")]
+    readonly GitVersion GitVersion;
 
     [Solution(GenerateProjects = true)]
     readonly Solution Solution;
 
-    [GitVersion(Framework = "net6.0")]
-    readonly GitVersion GitVersion;
-
-    [GitRepository]
-    readonly GitRepository GitRepository;
-
     [PackageExecutable("nspec", "NSpecRunner.exe", Version = "3.1.0")]
     Tool NSpec3;
-
-#if OS_WINDOWS
-    [PackageExecutable("Node.js.redist", "node.exe", Version = "16.17.1", Framework = "win-x64")]
-#elif OS_MAC
-    [PackageExecutable("Node.js.redist", "node", Version = "16.17.1", Framework = "osx-x64")]
-#else
-    [PackageExecutable("Node.js.redist", "node", Version = "16.17.1", Framework = "linux-x64")]
-#endif
-    Tool Node;
 
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
 
     AbsolutePath TestResultsDirectory => RootDirectory / "TestResults";
 
     string SemVer;
-    string YarnCli => ToolPathResolver.GetPackageExecutable("Yarn.MSBuild", "yarn.js", "1.22.19");
 
     Target Clean => _ => _
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
@@ -142,11 +112,7 @@ class Build : NukeBuild
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
-            Project[] projects = new[]
-            {
-                Solution.Specs.FluentAssertions_Specs,
-                Solution.Specs.FluentAssertions_Equivalency_Specs
-            };
+            Project[] projects = { Solution.Specs.FluentAssertions_Specs, Solution.Specs.FluentAssertions_Equivalency_Specs };
 
             if (EnvironmentInfo.IsWin)
             {
@@ -190,7 +156,8 @@ class Build : NukeBuild
         .Executes(() =>
         {
             ReportGenerator(s => s
-                .SetProcessToolPath(ToolPathResolver.GetPackageExecutable("ReportGenerator", "ReportGenerator.dll", framework: "net6.0"))
+                .SetProcessToolPath(ToolPathResolver.GetPackageExecutable("ReportGenerator", "ReportGenerator.dll",
+                    framework: "net6.0"))
                 .SetTargetDirectory(TestResultsDirectory / "reports")
                 .AddReports(TestResultsDirectory / "**/coverage.cobertura.xml")
                 .AddReportTypes("HtmlInline_AzurePipelines_Dark", "lcov")
@@ -209,10 +176,8 @@ class Build : NukeBuild
             var testCombinations =
                 from project in new[]
                 {
-                    Solution.TestFrameworks.MSpec_Specs,
-                    Solution.TestFrameworks.MSTestV2_Specs,
-                    Solution.TestFrameworks.NUnit3_Specs,
-                    Solution.TestFrameworks.XUnit2_Specs
+                    Solution.TestFrameworks.MSpec_Specs, Solution.TestFrameworks.MSTestV2_Specs,
+                    Solution.TestFrameworks.NUnit3_Specs, Solution.TestFrameworks.XUnit2_Specs
                 }
                 let frameworks = project.GetTargetFrameworks()
                 let supportedFrameworks = EnvironmentInfo.IsWin ? frameworks : frameworks.Except(new[] { "net47" })
@@ -274,33 +239,8 @@ class Build : NukeBuild
                     (v, path) => v.SetTargetPath(path)));
         });
 
-    Target SpellCheck => _ => _
-        .OnlyWhenDynamic(() => RunAllTargets || HasDocumentationChanges)
-        .Executes(() =>
-        {
-            Node($"{YarnCli} install --silent", workingDirectory: RootDirectory);
-            Node($"{YarnCli} --silent run cspell --no-summary", workingDirectory: RootDirectory,
-                customLogger: (_, msg) => Error(msg));
-        });
-
-    bool HasDocumentationChanges =>
-        Changes.Any(x => x.StartsWith("docs"));
-
     bool HasSourceChanges =>
         Changes.Any(x => !x.StartsWith("docs"));
-
-    string[] Changes =>
-        Repository.Diff
-            .Compare<TreeChanges>(TargetBranch, SourceBranch)
-            .Where(x => x.Exists)
-            .Select(x => x.Path)
-            .ToArray();
-
-    Repository Repository => new Repository(GitRepository.LocalDirectory);
-    Tree TargetBranch => Repository.Branches[PullRequestBase].Tip.Tree;
-    Tree SourceBranch => Repository.Branches[Repository.Head.FriendlyName].Tip.Tree;
-
-    bool RunAllTargets => string.IsNullOrWhiteSpace(PullRequestBase);
 
     bool IsTag => BranchSpec != null && BranchSpec.Contains("refs/tags", StringComparison.InvariantCultureIgnoreCase);
 }
