@@ -70,7 +70,6 @@ class Build : NukeBuild
     AbsolutePath TestResultsDirectory => RootDirectory / "TestResults";
 
     string SemVer;
-    string YarnCli => $"{ToolPathResolver.GetPackageExecutable("Yarn.MSBuild", "yarn.js", "1.22.19")} --silent";
 
     Target Clean => _ => _
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
@@ -286,6 +285,8 @@ class Build : NukeBuild
                 customLogger: (_, msg) => Error(msg));
         });
 
+    string YarnCli => $"{ToolPathResolver.GetPackageExecutable("Yarn.MSBuild", "yarn.js", "1.22.19")} --silent";
+    
     bool HasDocumentationChanges =>
         Changes.Any(x => x.StartsWith("docs"));
 
