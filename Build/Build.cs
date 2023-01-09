@@ -299,7 +299,8 @@ class Build : NukeBuild
     Repository Repository => new Repository(GitRepository.LocalDirectory);
     Tree TargetBranch => Repository.Branches[PullRequestBase].Tip.Tree;
     Tree SourceBranch => Repository.Branches[Repository.Head.FriendlyName].Tip.Tree;
-    bool RunAllTargets => PullRequestBase == default;
+
+    bool RunAllTargets => string.IsNullOrWhiteSpace(PullRequestBase);
 
     bool IsTag => BranchSpec != null && BranchSpec.Contains("refs/tags", StringComparison.InvariantCultureIgnoreCase);
 }
