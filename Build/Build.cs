@@ -288,10 +288,10 @@ class Build : NukeBuild
     string YarnCli => $"{ToolPathResolver.GetPackageExecutable("Yarn.MSBuild", "yarn.js", "1.22.19")} --silent";
     
     bool HasDocumentationChanges =>
-        Changes.Any(x => x.StartsWith("docs"));
+        Changes.Any(x => x.StartsWith("docs", StringComparison.InvariantCultureIgnoreCase));
 
     bool HasSourceChanges =>
-        Changes.Any(x => !x.StartsWith("docs"));
+        Changes.Any(x => !x.StartsWith("docs", StringComparison.InvariantCultureIgnoreCase));
 
     string[] Changes =>
         Repository.Diff
