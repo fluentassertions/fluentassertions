@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using FluentAssertions.Types;
 using Internal.Main.Test;
@@ -217,23 +216,6 @@ public class PropertyInfoSelectorSpecs
     }
 
     [Fact]
-    public void When_combining_filters_to_filter_methods_it_should_return_only_the_applicable_methods()
-    {
-        // Arrange
-        Type type = typeof(TestClassForPropertySelector);
-
-        // Act
-        IEnumerable<PropertyInfo> properties = type.Properties()
-            .ThatArePublicOrInternal
-            .OfType<string>()
-            .ThatAreDecoratedWith<DummyPropertyAttribute>()
-            .ToArray();
-
-        // Assert
-        properties.Should().ContainSingle();
-    }
-
-    [Fact]
     public void When_selecting_properties_decorated_with_an_inheritable_attribute_it_should_only_return_the_applicable_properties()
     {
         // Arrange
@@ -355,6 +337,74 @@ public class PropertyInfoSelectorSpecs
                 , typeof(string), typeof(int), typeof(int), typeof(int), typeof(int)
             });
     }
+
+    public class ThatArePublicOrInternal
+    {
+        [Fact]
+        public void When_combining_filters_to_filter_methods_it_should_return_only_the_applicable_methods()
+        {
+            // Arrange
+            Type type = typeof(TestClassForPropertySelector);
+
+            // Act
+            IEnumerable<PropertyInfo> properties = type.Properties()
+                .ThatArePublicOrInternal
+                .OfType<string>()
+                .ThatAreDecoratedWith<DummyPropertyAttribute>()
+                .ToArray();
+
+            // Assert
+            properties.Should().ContainSingle();
+        }
+
+        [Fact]
+        public void When_a_property_only_has_a_public_setter_it_should_be_included_in_the_applicable_properties()
+        {
+            // Arrange
+            Type type = typeof(TestClassForPublicSetter);
+
+            // Act
+            IEnumerable<PropertyInfo> properties = type.Properties().ThatArePublicOrInternal.ToArray();
+
+            // Assert
+            properties.Should().HaveCount(3);
+        }
+
+        private class TestClassForPublicSetter
+        {
+            private static string myPrivateStaticStringField;
+
+            public static string PublicStaticStringProperty { set => myPrivateStaticStringField = value; }
+
+            public static string InternalStaticStringProperty { get; set; }
+
+            public int PublicIntProperty { get; init; }
+        }
+
+        [Fact]
+        public void When_selecting_properties_with_at_least_one_accessor_being_private_should_return_the_applicable_properties()
+        {
+            // Arrange
+            Type type = typeof(TestClassForPrivateAccessors);
+
+            // Act
+            IEnumerable<PropertyInfo> properties = type.Properties().ThatArePublicOrInternal.ToArray();
+
+            // Assert
+            properties.Should().HaveCount(4);
+        }
+
+        private class TestClassForPrivateAccessors
+        {
+            public bool PublicBoolPrivateGet { private get; set; }
+
+            public bool PublicBoolPrivateSet { get; private set; }
+
+            internal bool InternalBoolPrivateGet { private get; set; }
+
+            internal bool InternalBoolPrivateSet { get; private set; }
+        }
+    }
 }
 
 #region Internal classes used in unit tests
@@ -455,5 +505,4 @@ public class DummyPropertyAttribute : Attribute
 
     public string Value { get; private set; }
 }
-
 #endregion
