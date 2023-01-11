@@ -27,7 +27,7 @@ jobs:
     - name: Run NUKE
       run: ./build.ps1
       env:
-        ApiKey: ${{ secrets.NUGETAPIKEY }}
+        NuGetApiKey: ${{ secrets.NUGETAPIKEY }}
 
     - name: coveralls
       uses: coverallsapp/github-action@1.1.3

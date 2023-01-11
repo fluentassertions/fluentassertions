@@ -6,16 +6,9 @@
     "build": {
       "type": "object",
       "properties": {
-        "ApiKey": {
-          "type": "string",
-          "description": "The key to push to Nuget"
-        },
         "Continue": {
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
-        },
-        "GithubToken": {
-          "type": "string"
         },
         "Help": {
           "type": "boolean",
@@ -45,6 +38,10 @@
         "NoLogo": {
           "type": "boolean",
           "description": "Disables displaying the NUKE logo"
+        },
+        "NuGetApiKey": {
+          "type": "string",
+          "description": "The key to push to Nuget"
         },
         "Partition": {
           "type": "string",

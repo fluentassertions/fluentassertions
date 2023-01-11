@@ -39,11 +39,8 @@ class Build : NukeBuild
     string BuildNumber => GitHubActions?.RunNumber.ToString();
     string PullRequestBase => GitHubActions?.BaseRef;
 
-    [Parameter]
-    readonly string GithubToken;
-
     [Parameter("The key to push to Nuget")]
-    readonly string ApiKey;
+    readonly string NuGetApiKey;
 
     [Solution(GenerateProjects = true)]
     readonly Solution Solution;
@@ -276,7 +273,7 @@ class Build : NukeBuild
             Assert.NotEmpty(packages.ToList());
 
             DotNetNuGetPush(s => s
-                .SetApiKey(ApiKey)
+                .SetApiKey(NuGetApiKey)
                 .EnableSkipDuplicate()
                 .SetSource("https://api.nuget.org/v3/index.json")
                 .EnableNoSymbols()
