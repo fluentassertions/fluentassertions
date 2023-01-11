@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text;
 using FluentAssertions.Equivalency;
 
 namespace FluentAssertions.Common;
@@ -587,13 +588,25 @@ internal static class TypeExtensions
 
     public static bool IsRecord(this Type type)
     {
-        return TypeIsRecordCache.GetOrAdd(type, static t =>
-        {
-            return t.GetMethod("<Clone>$", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly) is { } &&
-                   t.GetProperty("EqualityContract", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)?
-                        .GetMethod?
-                        .GetCustomAttribute(typeof(CompilerGeneratedAttribute)) is { };
-        });
+        return TypeIsRecordCache.GetOrAdd(type, static t => t.IsRecordClass() || t.IsRecordStruct());
+    }
+
+    private static bool IsRecordClass(this Type type)
+    {
+        return type.GetMethod("<Clone>$", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly) is { } &&
+               type.GetProperty("EqualityContract", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)?
+                   .GetMethod?.IsDecoratedWith<CompilerGeneratedAttribute>() == true;
+    }
+
+    private static bool IsRecordStruct(this Type type)
+    {
+        // As noted here: https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-10.0/record-structs#open-questions
+        // recognizing record structs from metadata is an open point. The following check is based on common sense
+        // and heuristic testing, apparently giving good results but not supported by official documentation.
+        return type.BaseType == typeof(ValueType) &&
+               type.GetMethod("PrintMembers", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly, null, new[] { typeof(StringBuilder) }, null) is { } &&
+               type.GetMethod("op_Equality", BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly, null, new[] { type, type }, null)?
+                   .IsDecoratedWith<CompilerGeneratedAttribute>() == true;
     }
 
     private static bool IsKeyValuePair(Type type)
