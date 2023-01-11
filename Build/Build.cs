@@ -100,7 +100,7 @@ class Build : NukeBuild
             Information("SemVer = {semver}", SemVer);
         });
 
-    bool IsPullRequest => BranchSpec != null && BranchSpec.Contains("pull", StringComparison.InvariantCultureIgnoreCase);
+    bool IsPullRequest => GitHubActions?.IsPullRequest ?? false;
 
     Target Restore => _ => _
         .DependsOn(Clean)
