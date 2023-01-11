@@ -69,13 +69,20 @@ class Build : NukeBuild
 
     string SemVer;
 
-    Target Clean => _ => _
-        .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
+    Target Informations => _ => _
+        .OnlyWhenDynamic(() => !IsLocalBuild)
         .Executes(() =>
         {
             Information(BranchSpec);
             Information(BuildNumber);
             Information(PullRequestBase);
+        });
+
+    Target Clean => _ => _
+        .Triggers(Informations)
+        .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
+        .Executes(() =>
+        {
             EnsureCleanDirectory(ArtifactsDirectory);
             EnsureCleanDirectory(TestResultsDirectory);
         });
