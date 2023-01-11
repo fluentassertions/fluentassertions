@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LibGit2Sharp;
 using Nuke.Common;
+using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Execution;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
@@ -32,14 +33,14 @@ class Build : NukeBuild
 
     public static int Main() => Execute<Build>(x => x.SpellCheck, x => x.Push);
 
-    [Parameter("A branch specification such as develop or refs/pull/1775/merge")]
-    readonly string BranchSpec;
+    GitHubActions GitHubActions => GitHubActions.Instance;
 
-    [Parameter("An incrementing build number as provided by the build engine")]
-    readonly string BuildNumber;
+    string BranchSpec => GitHubActions?.Ref;
+    string BuildNumber => GitHubActions?.RunNumber.ToString();
+    string PullRequestBase => GitHubActions?.BaseRef;
 
-    [Parameter("The target branch for the pull request")]
-    readonly string PullRequestBase;
+    [Parameter]
+    readonly string GithubToken;
 
     [Parameter("The key to push to Nuget")]
     readonly string ApiKey;
@@ -75,6 +76,9 @@ class Build : NukeBuild
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
+            Information(BranchSpec);
+            Information(BuildNumber);
+            Information(PullRequestBase);
             EnsureCleanDirectory(ArtifactsDirectory);
             EnsureCleanDirectory(TestResultsDirectory);
         });
@@ -185,8 +189,7 @@ class Build : NukeBuild
         });
 
     Target CodeCoverage => _ => _
-        .DependsOn(TestFrameworks)
-        .DependsOn(UnitTests)
+        .DependsOn(TestFrameworks, UnitTests)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
@@ -194,7 +197,9 @@ class Build : NukeBuild
                 .SetProcessToolPath(ToolPathResolver.GetPackageExecutable("ReportGenerator", "ReportGenerator.dll", framework: "net6.0"))
                 .SetTargetDirectory(TestResultsDirectory / "reports")
                 .AddReports(TestResultsDirectory / "**/coverage.cobertura.xml")
-                .AddReportTypes("HtmlInline_AzurePipelines_Dark", "lcov")
+                .AddReportTypes(
+                    ReportTypes.lcov,
+                    ReportTypes.HtmlInline_AzurePipelines_Dark)
                 .AddFileFilters("-*.g.cs")
                 .SetAssemblyFilters("+FluentAssertions"));
 
@@ -240,12 +245,14 @@ class Build : NukeBuild
         });
 
     Target Pack => _ => _
-        .DependsOn(ApiChecks)
-        .DependsOn(TestFrameworks)
-        .DependsOn(UnitTests)
-        .DependsOn(CodeCoverage)
-        .DependsOn(CalculateNugetVersion)
+        .DependsOn(
+            ApiChecks,
+            TestFrameworks,
+            UnitTests,
+            CodeCoverage,
+            CalculateNugetVersion)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
+        .Produces(ArtifactsDirectory / "*.nupkg")
         .Executes(() =>
         {
             DotNetPack(s => s
@@ -288,7 +295,7 @@ class Build : NukeBuild
         });
 
     string YarnCli => $"{ToolPathResolver.GetPackageExecutable("Yarn.MSBuild", "yarn.js", "1.22.19")} --silent";
-    
+
     bool HasDocumentationChanges =>
         Changes.Any(x => x.StartsWith("docs", StringComparison.InvariantCultureIgnoreCase));
 

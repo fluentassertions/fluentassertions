@@ -10,17 +10,12 @@
           "type": "string",
           "description": "The key to push to Nuget"
         },
-        "BranchSpec": {
-          "type": "string",
-          "description": "A branch specification such as develop or refs/pull/1775/merge"
-        },
-        "BuildNumber": {
-          "type": "string",
-          "description": "An incrementing build number as provided by the build engine"
-        },
         "Continue": {
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
+        },
+        "GithubToken": {
+          "type": "string"
         },
         "Help": {
           "type": "boolean",
@@ -65,10 +60,6 @@
           "items": {
             "type": "string"
           }
-        },
-        "PullRequestBase": {
-          "type": "string",
-          "description": "The target branch for the pull request"
         },
         "Root": {
           "type": "string",
