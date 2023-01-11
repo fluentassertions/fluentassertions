@@ -48,7 +48,7 @@ subject.Should().BeEquivalentTo(expected,
    options => options.ComparingByValue<IPAddress>());
 ```
 
-For records and record structs this works like this:
+For `record`s and `record struct`s this works like this:
 
 ```csharp
 actual.Should().BeEquivalentTo(expected, options => options
