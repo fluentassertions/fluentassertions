@@ -145,32 +145,37 @@ class Build : NukeBuild
                     cc => cc.SetProjectFile(Solution.Specs.Approval_Tests)));
         });
 
-    Target UnitTests => _ => _
+    Project[] Projects => new[]
+    {
+        Solution.Specs.FluentAssertions_Specs,
+        Solution.Specs.FluentAssertions_Equivalency_Specs
+    };
+
+    Target UnitTestsNetFramework => _ => _
+        .Unlisted()
+        .DependsOn(Compile)
+        .OnlyWhenDynamic(() => EnvironmentInfo.IsWin && (RunAllTargets || HasSourceChanges))
+        .Executes(() =>
+        {
+            Xunit2(s =>
+            {
+                IEnumerable<string> testAssemblies = Projects
+                    .SelectMany(project => GlobFiles(project.Directory, "bin/Debug/net47/*.Specs.dll"));
+
+                Assert.NotEmpty(testAssemblies.ToList());
+
+                return s
+                    .SetFramework("net47")
+                    .AddTargetAssemblies(testAssemblies);
+            });
+        });
+
+    Target UnitTestsNetCore => _ => _
+        .Unlisted()
         .DependsOn(Compile)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
-            Project[] projects = new[]
-            {
-                Solution.Specs.FluentAssertions_Specs,
-                Solution.Specs.FluentAssertions_Equivalency_Specs
-            };
-
-            if (EnvironmentInfo.IsWin)
-            {
-                Xunit2(s =>
-                {
-                    IEnumerable<string> testAssemblies = projects
-                        .SelectMany(project => GlobFiles(project.Directory, "bin/Debug/net47/*.Specs.dll"));
-
-                    Assert.NotEmpty(testAssemblies.ToList());
-
-                    return s
-                        .SetFramework("net47")
-                        .AddTargetAssemblies(testAssemblies);
-                });
-            }
-
             DotNetTest(s => s
                 .SetConfiguration("Debug")
                 .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
@@ -181,7 +186,7 @@ class Build : NukeBuild
                     "DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.DoesNotReturnAttribute",
                     "DoesNotReturnAttribute")
                 .CombineWith(
-                    projects,
+                    Projects,
                     (_, project) => _
                         .SetProjectFile(project)
                         .CombineWith(
@@ -192,8 +197,17 @@ class Build : NukeBuild
             );
         });
 
+    Target UnitTests => _ => _
+        .DependsOn(
+            UnitTestsNetFramework,
+            UnitTestsNetCore
+        );
+
     Target CodeCoverage => _ => _
-        .DependsOn(TestFrameworks, UnitTests)
+        .DependsOn(
+            TestFrameworks, 
+            UnitTests
+        )
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
@@ -254,7 +268,8 @@ class Build : NukeBuild
             TestFrameworks,
             UnitTests,
             CodeCoverage,
-            CalculateNugetVersion)
+            CalculateNugetVersion
+        )
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Produces(ArtifactsDirectory / "*.nupkg")
         .Executes(() =>
