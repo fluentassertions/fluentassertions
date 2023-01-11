@@ -261,6 +261,7 @@ class Build : NukeBuild
     Target Push => _ => _
         .DependsOn(Pack)
         .OnlyWhenDynamic(() => IsTag)
+        .ProceedAfterFailure()
         .Executes(() =>
         {
             IReadOnlyCollection<string> packages = GlobFiles(ArtifactsDirectory, "*.nupkg");
@@ -278,6 +279,7 @@ class Build : NukeBuild
 
     Target SpellCheck => _ => _
         .OnlyWhenDynamic(() => RunAllTargets || HasDocumentationChanges)
+        .ProceedAfterFailure()
         .Executes(() =>
         {
             Node($"{YarnCli} install", workingDirectory: RootDirectory);
