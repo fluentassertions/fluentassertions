@@ -10,6 +10,12 @@ sidebar:
 ## Unreleased
 
 ### What's new
+
+### Fixes
+
+## 6.9.0
+
+### What's new
 * Added `ThatAre[Not]ValueTypes` method for filtering the types - [#2083](https://github.com/fluentassertions/fluentassertions/pull/2083)
 * Added `Imply` method to `BooleanAssertions` - [#2074](https://github.com/fluentassertions/fluentassertions/pull/2074)
 * Added `ThatAre[Not]Interfaces` method for filtering the types - [#2057](https://github.com/fluentassertions/fluentassertions/pull/2057)
