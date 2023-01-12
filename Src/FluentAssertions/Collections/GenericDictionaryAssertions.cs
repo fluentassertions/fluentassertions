@@ -51,6 +51,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> Equal<T>(T expected,
         string because = "", params object[] becauseArgs)
         where T : IEnumerable<KeyValuePair<TKey, TValue>>
@@ -111,6 +112,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotEqual<T>(T unexpected,
         string because = "", params object[] becauseArgs)
         where T : IEnumerable<KeyValuePair<TKey, TValue>>
@@ -203,11 +205,12 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
         Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(config, nameof(config));
+        Guard.ThrowIfArgumentIsNull(config);
 
         EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
 
@@ -275,17 +278,15 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
     public AndConstraint<TAssertions> ContainKeys(IEnumerable<TKey> expected,
         string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify key containment against a <null> collection of keys");
 
         ICollection<TKey> expectedKeys = expected.ConvertOrCastToCollection();
-
-        if (!expectedKeys.Any())
-        {
-            throw new ArgumentException("Cannot verify key containment against an empty sequence", nameof(expected));
-        }
+        Guard.ThrowIfArgumentIsEmpty(expectedKeys, nameof(expected), "Cannot verify key containment against an empty sequence");
 
         if (Subject is null)
         {
@@ -375,17 +376,15 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="unexpected"/> is empty.</exception>
     public AndConstraint<TAssertions> NotContainKeys(IEnumerable<TKey> unexpected,
         string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify key containment against a <null> collection of keys");
 
         ICollection<TKey> unexpectedKeys = unexpected.ConvertOrCastToCollection();
-
-        if (!unexpectedKeys.Any())
-        {
-            throw new ArgumentException("Cannot verify key containment against an empty sequence", nameof(unexpected));
-        }
+        Guard.ThrowIfArgumentIsEmpty(unexpectedKeys, nameof(unexpected), "Cannot verify key containment against an empty sequence");
 
         if (Subject is null)
         {
@@ -466,23 +465,20 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
     public AndConstraint<TAssertions> ContainValues(IEnumerable<TValue> expected,
         string because = "", params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify value containment against a <null> collection of values");
         return ContainValuesAndWhich(expected, because, becauseArgs);
     }
 
     private AndWhichConstraint<TAssertions, IEnumerable<TValue>> ContainValuesAndWhich(IEnumerable<TValue> expected, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify value containment against a <null> collection of values");
-
         ICollection<TValue> expectedValues = expected.ConvertOrCastToCollection();
-
-        if (!expectedValues.Any())
-        {
-            throw new ArgumentException("Cannot verify value containment with an empty sequence", nameof(expected));
-        }
+        Guard.ThrowIfArgumentIsEmpty(expectedValues, nameof(expected), "Cannot verify value containment against an empty sequence");
 
         if (Subject is null)
         {
@@ -587,6 +583,8 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="unexpected"/> is empty.</exception>
     public AndConstraint<TAssertions> NotContainValues(IEnumerable<TValue> unexpected,
         string because = "", params object[] becauseArgs)
     {
@@ -594,10 +592,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
 
         ICollection<TValue> unexpectedValues = unexpected.ConvertOrCastToCollection();
 
-        if (!unexpectedValues.Any())
-        {
-            throw new ArgumentException("Cannot verify value containment with an empty sequence", nameof(unexpected));
-        }
+        Guard.ThrowIfArgumentIsEmpty(unexpectedValues, nameof(unexpected), "Cannot verify value containment with an empty sequence");
 
         if (Subject is null)
         {
@@ -657,18 +652,15 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
     public new AndConstraint<TAssertions> Contain(IEnumerable<KeyValuePair<TKey, TValue>> expected,
         string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare dictionary with <null>.");
 
         ICollection<KeyValuePair<TKey, TValue>> expectedKeyValuePairs = expected.ConvertOrCastToCollection();
-
-        if (!expectedKeyValuePairs.Any())
-        {
-            throw new ArgumentException("Cannot verify key containment against an empty collection of key/value pairs",
-                nameof(expected));
-        }
+        Guard.ThrowIfArgumentIsEmpty(expectedKeyValuePairs, nameof(expected), "Cannot verify key containment against an empty collection of key/value pairs");
 
         if (Subject is null)
         {
@@ -816,18 +808,15 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="items"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="items"/> is empty.</exception>
     public new AndConstraint<TAssertions> NotContain(IEnumerable<KeyValuePair<TKey, TValue>> items,
         string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(items, nameof(items), "Cannot compare dictionary with <null>.");
 
         ICollection<KeyValuePair<TKey, TValue>> keyValuePairs = items.ConvertOrCastToCollection();
-
-        if (!keyValuePairs.Any())
-        {
-            throw new ArgumentException("Cannot verify key containment against an empty collection of key/value pairs",
-                nameof(items));
-        }
+        Guard.ThrowIfArgumentIsEmpty(keyValuePairs, nameof(items), "Cannot verify key containment against an empty collection of key/value pairs");
 
         if (Subject is null)
         {

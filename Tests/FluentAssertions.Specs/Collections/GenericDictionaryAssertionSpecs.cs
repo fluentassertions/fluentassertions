@@ -1732,7 +1732,7 @@ public class GenericDictionaryAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentException>().WithMessage(
-                "Cannot verify value containment with an empty sequence*");
+                "Cannot verify value containment against an empty sequence*");
         }
     }
 
@@ -2681,9 +2681,9 @@ public class GenericDictionaryAssertionSpecs
         {
             return new object[]
             {
-            new Dictionary<int, int>() { [1] = 42 },
-            new TrueReadOnlyDictionary<int, int>(new Dictionary<int, int>() { [1] = 42 }),
-            new List<KeyValuePair<int, int>> { new KeyValuePair<int, int>(1, 42) }
+                new Dictionary<int, int>() { [1] = 42 },
+                new TrueReadOnlyDictionary<int, int>(new Dictionary<int, int>() { [1] = 42 }),
+                new List<KeyValuePair<int, int>> { new KeyValuePair<int, int>(1, 42) }
             };
         }
 

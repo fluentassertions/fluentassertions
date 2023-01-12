@@ -23,6 +23,7 @@ public static class DataColumnCollectionAssertionExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public static AndConstraint<GenericCollectionAssertions<DataColumn>> BeSameAs(
         this GenericCollectionAssertions<DataColumn> assertion, DataColumnCollection expected, string because = "",
         params object[] becauseArgs)
@@ -66,6 +67,7 @@ public static class DataColumnCollectionAssertionExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
     public static AndConstraint<GenericCollectionAssertions<DataColumn>> NotBeSameAs(
         this GenericCollectionAssertions<DataColumn> assertion, DataColumnCollection unexpected, string because = "",
         params object[] becauseArgs)
@@ -107,6 +109,7 @@ public static class DataColumnCollectionAssertionExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <see langword="null"/>.</exception>
     public static AndConstraint<GenericCollectionAssertions<DataColumn>> HaveSameCount(
         this GenericCollectionAssertions<DataColumn> assertion, DataColumnCollection otherCollection, string because = "",
         params object[] becauseArgs)
@@ -143,6 +146,7 @@ public static class DataColumnCollectionAssertionExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <see langword="null"/>.</exception>
     public static AndConstraint<GenericCollectionAssertions<DataColumn>> NotHaveSameCount(
         this GenericCollectionAssertions<DataColumn> assertion, DataColumnCollection otherCollection, string because = "",
         params object[] becauseArgs)

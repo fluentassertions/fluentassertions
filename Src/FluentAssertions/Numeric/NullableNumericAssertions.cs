@@ -27,7 +27,7 @@ public class NullableNumericAssertions<T, TAssertions> : NumericAssertions<T, TA
     }
 
     /// <summary>
-    /// Asserts that a nullable numeric value is not <c>null</c>.
+    /// Asserts that a nullable numeric value is not <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -47,7 +47,7 @@ public class NullableNumericAssertions<T, TAssertions> : NumericAssertions<T, TA
     }
 
     /// <summary>
-    /// Asserts that a nullable numeric value is not <c>null</c>.
+    /// Asserts that a nullable numeric value is not <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -62,7 +62,7 @@ public class NullableNumericAssertions<T, TAssertions> : NumericAssertions<T, TA
     }
 
     /// <summary>
-    /// Asserts that a nullable numeric value is <c>null</c>.
+    /// Asserts that a nullable numeric value is <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -82,7 +82,7 @@ public class NullableNumericAssertions<T, TAssertions> : NumericAssertions<T, TA
     }
 
     /// <summary>
-    /// Asserts that a nullable numeric value is <c>null</c>.
+    /// Asserts that a nullable numeric value is <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -109,11 +109,12 @@ public class NullableNumericAssertions<T, TAssertions> : NumericAssertions<T, TA
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> Match(Expression<Func<T?, bool>> predicate,
         string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+        Guard.ThrowIfArgumentIsNull(predicate);
 
         Execute.Assertion
             .ForCondition(predicate.Compile()(Subject))

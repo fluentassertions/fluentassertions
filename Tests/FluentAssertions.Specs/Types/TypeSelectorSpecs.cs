@@ -4,12 +4,16 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using FluentAssertions.Types;
+using Internal.AbstractAndNotAbstractClasses.Test;
+using Internal.InterfaceAndClasses.Test;
 using Internal.Main.Test;
 using Internal.NotOnlyClasses.Test;
 using Internal.Other.Test;
 using Internal.Other.Test.Common;
+using Internal.SealedAndNotSealedClasses.Test;
 using Internal.StaticAndNonStaticClasses.Test;
 using Internal.UnwrapSelectorTestTypes.Test;
+using Internal.ValueTypesAndNotValueTypes.Test;
 using Xunit;
 using ISomeInterface = Internal.Main.Test.ISomeInterface;
 
@@ -496,6 +500,105 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
+        public void When_selecting_types_that_are_value_types_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(InternalEnumValueType).Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.ValueTypesAndNotValueTypes.Test")
+                .ThatAreValueTypes();
+
+            // Assert
+            types.Should()
+                .HaveCount(3);
+        }
+
+        [Fact]
+        public void When_selecting_types_that_are_not_value_types_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(InternalEnumValueType).Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.ValueTypesAndNotValueTypes.Test")
+                .ThatAreNotValueTypes();
+
+            // Assert
+            types.Should()
+                .HaveCount(3);
+        }
+
+        [Fact]
+        public void When_selecting_types_that_are_abstract_classes_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(AbstractClass).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.AbstractAndNotAbstractClasses.Test")
+                .ThatAreAbstract();
+
+            // Assert
+            types.Should()
+                .ContainSingle()
+                .Which.Should().Be(typeof(AbstractClass));
+        }
+
+        [Fact]
+        public void When_selecting_types_that_are_not_abstract_classes_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(NotAbstractClass).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.AbstractAndNotAbstractClasses.Test")
+                .ThatAreNotAbstract();
+
+            // Assert
+            types.Should()
+                .HaveCount(2);
+        }
+
+        [Fact]
+        public void When_selecting_types_that_are_sealed_classes_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(SealedClass).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.SealedAndNotSealedClasses.Test")
+                .ThatAreSealed();
+
+            // Assert
+            types.Should()
+                .ContainSingle()
+                .Which.Should().Be(typeof(SealedClass));
+        }
+
+        [Fact]
+        public void When_selecting_types_that_are_not_sealed_classes_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(NotSealedClass).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.SealedAndNotSealedClasses.Test")
+                .ThatAreNotSealed();
+
+            // Assert
+            types.Should()
+                .ContainSingle()
+                .Which.Should().Be(typeof(NotSealedClass));
+        }
+
+        [Fact]
         public void When_selecting_types_that_are_static_classes_it_should_return_the_correct_types()
         {
             // Arrange
@@ -573,6 +676,41 @@ namespace FluentAssertions.Specs.Types
                 .And.Contain(typeof(bool))
                 .And.Contain(typeof(int))
                 .And.Contain(typeof(string));
+        }
+
+        [Fact]
+        public void When_selecting_types_that_are_interfaces_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(InternalInterface).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.InterfaceAndClasses.Test")
+                .ThatAreInterfaces();
+
+            // Assert
+            types.Should()
+                .ContainSingle()
+                .Which.Should().Be(typeof(InternalInterface));
+        }
+
+        [Fact]
+        public void When_selecting_types_that_are_not_interfaces_it_should_return_the_correct_types()
+        {
+            // Arrange
+            Assembly assembly = typeof(InternalNotInterfaceClass).GetTypeInfo().Assembly;
+
+            // Act
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.InterfaceAndClasses.Test")
+                .ThatAreNotInterfaces();
+
+            // Assert
+            types.Should()
+                .HaveCount(2)
+                .And.Contain(typeof(InternalNotInterfaceClass))
+                .And.Contain(typeof(InternalAbstractClass));
         }
     }
 }
@@ -695,6 +833,36 @@ namespace Internal.StaticAndNonStaticClasses.Test
     }
 }
 
+namespace Internal.AbstractAndNotAbstractClasses.Test
+{
+    internal abstract class AbstractClass
+    {
+    }
+
+    internal class NotAbstractClass
+    {
+    }
+
+    internal static class NotAbstractStaticClass
+    {
+    }
+}
+
+namespace Internal.InterfaceAndClasses.Test
+{
+    internal interface InternalInterface
+    {
+    }
+
+    internal abstract class InternalAbstractClass
+    {
+    }
+
+    internal class InternalNotInterfaceClass
+    {
+    }
+}
+
 namespace Internal.UnwrapSelectorTestTypes.Test
 {
     internal class ClassToExploreUnwrappedTaskTypes
@@ -729,6 +897,44 @@ namespace Internal.UnwrapSelectorTestTypes.Test
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)integers).GetEnumerator();
 
         IEnumerator<string> IEnumerable<string>.GetEnumerator() => strings.GetEnumerator();
+    }
+}
+
+namespace Internal.SealedAndNotSealedClasses.Test
+{
+    internal sealed class SealedClass
+    {
+    }
+
+    internal class NotSealedClass
+    {
+    }
+}
+
+namespace Internal.ValueTypesAndNotValueTypes.Test
+{
+    internal struct InternalStructValueType
+    {
+    }
+
+    internal record struct InternalRecordStructValueType
+    {
+    }
+
+    internal class InternalClassNotValueType
+    {
+    }
+
+    internal record class InternalRecordClass
+    {
+    }
+
+    internal enum InternalEnumValueType
+    {
+    }
+
+    internal interface InternalInterfaceNotValueType
+    {
     }
 }
 

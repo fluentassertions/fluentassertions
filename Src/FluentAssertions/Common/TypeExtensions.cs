@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text;
 using FluentAssertions.Equivalency;
 
 namespace FluentAssertions.Common;
@@ -175,7 +176,7 @@ internal static class TypeExtensions
     /// Finds the property by a case-sensitive name.
     /// </summary>
     /// <returns>
-    /// Returns <c>null</c> if no such property exists.
+    /// Returns <see langword="null"/> if no such property exists.
     /// </returns>
     public static PropertyInfo FindProperty(this Type type, string propertyName, Type preferredType)
     {
@@ -193,7 +194,7 @@ internal static class TypeExtensions
     /// Finds the field by a case-sensitive name.
     /// </summary>
     /// <returns>
-    /// Returns <c>null</c> if no such property exists.
+    /// Returns <see langword="null"/> if no such property exists.
     /// </returns>
     public static FieldInfo FindField(this Type type, string fieldName, Type preferredType)
     {
@@ -507,7 +508,7 @@ internal static class TypeExtensions
 
         bool IsGlobalNamespace() => @namespace is null;
         bool IsExactNamespace() => IsNamespacePrefix() && type.Namespace.Length == @namespace.Length;
-        bool IsParentNamespace() => IsNamespacePrefix() && type.Namespace[@namespace.Length] == '.';
+        bool IsParentNamespace() => IsNamespacePrefix() && type.Namespace[@namespace.Length] is '.';
         bool IsNamespacePrefix() => type.Namespace?.StartsWith(@namespace, StringComparison.Ordinal) == true;
     }
 
@@ -520,14 +521,14 @@ internal static class TypeExtensions
     public static MethodInfo GetExplicitConversionOperator(this Type type, Type sourceType, Type targetType)
     {
         return type
-            .GetConversionOperators(sourceType, targetType, name => name == "op_Explicit")
+            .GetConversionOperators(sourceType, targetType, name => name is "op_Explicit")
             .SingleOrDefault();
     }
 
     public static MethodInfo GetImplicitConversionOperator(this Type type, Type sourceType, Type targetType)
     {
         return type
-            .GetConversionOperators(sourceType, targetType, name => name == "op_Implicit")
+            .GetConversionOperators(sourceType, targetType, name => name is "op_Implicit")
             .SingleOrDefault();
     }
 
@@ -547,6 +548,9 @@ internal static class TypeExtensions
             return false;
         }
 
+#if !(NET47 || NETSTANDARD2_0)
+        return typeof(ITuple).IsAssignableFrom(type);
+#else
         Type openType = type.GetGenericTypeDefinition();
         return openType == typeof(ValueTuple<>)
                || openType == typeof(ValueTuple<,>)
@@ -564,6 +568,7 @@ internal static class TypeExtensions
                || openType == typeof(Tuple<,,,,,>)
                || openType == typeof(Tuple<,,,,,,>)
                || (openType == typeof(Tuple<,,,,,,,>) && IsTuple(type.GetGenericArguments()[7]));
+#endif
     }
 
     private static bool IsAnonymousType(this Type type)
@@ -583,13 +588,25 @@ internal static class TypeExtensions
 
     public static bool IsRecord(this Type type)
     {
-        return TypeIsRecordCache.GetOrAdd(type, static t =>
-            t.GetMethod("<Clone>$") is not null &&
-            t.GetTypeInfo()
-                 .DeclaredProperties
-                 .FirstOrDefault(p => p.Name == "EqualityContract")?
-                 .GetMethod?
-                 .GetCustomAttribute(typeof(CompilerGeneratedAttribute)) is not null);
+        return TypeIsRecordCache.GetOrAdd(type, static t => t.IsRecordClass() || t.IsRecordStruct());
+    }
+
+    private static bool IsRecordClass(this Type type)
+    {
+        return type.GetMethod("<Clone>$", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly) is { } &&
+               type.GetProperty("EqualityContract", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)?
+                   .GetMethod?.IsDecoratedWith<CompilerGeneratedAttribute>() == true;
+    }
+
+    private static bool IsRecordStruct(this Type type)
+    {
+        // As noted here: https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-10.0/record-structs#open-questions
+        // recognizing record structs from metadata is an open point. The following check is based on common sense
+        // and heuristic testing, apparently giving good results but not supported by official documentation.
+        return type.BaseType == typeof(ValueType) &&
+               type.GetMethod("PrintMembers", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly, null, new[] { typeof(StringBuilder) }, null) is { } &&
+               type.GetMethod("op_Equality", BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly, null, new[] { type, type }, null)?
+                   .IsDecoratedWith<CompilerGeneratedAttribute>() == true;
     }
 
     private static bool IsKeyValuePair(Type type)

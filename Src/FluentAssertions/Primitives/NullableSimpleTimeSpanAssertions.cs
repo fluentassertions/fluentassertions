@@ -37,7 +37,7 @@ public class NullableSimpleTimeSpanAssertions<TAssertions> : SimpleTimeSpanAsser
     }
 
     /// <summary>
-    /// Asserts that a nullable <see cref="TimeSpan"/> value is not <c>null</c>.
+    /// Asserts that a nullable <see cref="TimeSpan"/> value is not <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -57,7 +57,7 @@ public class NullableSimpleTimeSpanAssertions<TAssertions> : SimpleTimeSpanAsser
     }
 
     /// <summary>
-    /// Asserts that a nullable <see cref="TimeSpan"/> value is not <c>null</c>.
+    /// Asserts that a nullable <see cref="TimeSpan"/> value is not <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -72,7 +72,7 @@ public class NullableSimpleTimeSpanAssertions<TAssertions> : SimpleTimeSpanAsser
     }
 
     /// <summary>
-    /// Asserts that a nullable <see cref="TimeSpan"/> value is <c>null</c>.
+    /// Asserts that a nullable <see cref="TimeSpan"/> value is <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -92,7 +92,7 @@ public class NullableSimpleTimeSpanAssertions<TAssertions> : SimpleTimeSpanAsser
     }
 
     /// <summary>
-    /// Asserts that a nullable <see cref="TimeSpan"/> value is <c>null</c>.
+    /// Asserts that a nullable <see cref="TimeSpan"/> value is <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion

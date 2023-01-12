@@ -63,7 +63,7 @@ public class FunctionExceptionAssertionSpecs
     }
 #pragma warning restore xUnit1026 // Theory methods should use all of their parameters
 
-    public static IEnumerable<object[]> AggregateExceptionTestData()
+    public static TheoryData<Func<int>, Exception> AggregateExceptionTestData()
     {
         var tasks = new Func<int>[]
         {
@@ -78,15 +78,19 @@ public class FunctionExceptionAssertionSpecs
             new InvalidOperationException()
         };
 
+        var data = new TheoryData<Func<int>, Exception>();
+
         foreach (var task in tasks)
         {
             foreach (var type in types)
             {
-                yield return new object[] { task, type };
+                data.Add(task, type);
             }
         }
 
-        yield return new object[] { (Func<int>)EmptyAggregateException, new AggregateException() };
+        data.Add(EmptyAggregateException, new AggregateException());
+
+        return data;
     }
 
     private static int AggregateExceptionWithLeftNestedException()
@@ -468,7 +472,8 @@ public class FunctionExceptionAssertionSpecs
 
         // Assert
         action.Should().Throw<ArgumentOutOfRangeException>()
-            .WithMessage("* value of waitTime must be non-negative*");
+            .WithParameterName("waitTime")
+            .WithMessage("*must be non-negative*");
     }
 
     [Fact]
@@ -485,7 +490,8 @@ public class FunctionExceptionAssertionSpecs
 
         // Assert
         action.Should().Throw<ArgumentOutOfRangeException>()
-            .WithMessage("* value of pollInterval must be non-negative*");
+            .WithParameterName("pollInterval")
+            .WithMessage("*must be non-negative*");
     }
 
     [Fact]

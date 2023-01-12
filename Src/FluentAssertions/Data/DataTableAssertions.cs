@@ -239,9 +239,10 @@ public class DataTableAssertions<TDataTable> : ReferenceTypeAssertions<DataTable
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<DataTableAssertions<TDataTable>> BeEquivalentTo(DataTable expectation, Func<IDataEquivalencyAssertionOptions<DataTable>, IDataEquivalencyAssertionOptions<DataTable>> config, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(config, nameof(config));
+        Guard.ThrowIfArgumentIsNull(config);
 
         IDataEquivalencyAssertionOptions<DataTable> options = config(AssertionOptions.CloneDefaults<DataTable, DataEquivalencyAssertionOptions<DataTable>>(e => new(e)));
 

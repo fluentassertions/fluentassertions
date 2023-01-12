@@ -38,6 +38,24 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
+        public void When_a_collection_contains_duplicate_items_it_supports_chaining()
+        {
+            // Arrange
+            var collection = new[] { 1, 2, 3, 3 };
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().OnlyHaveUniqueItems().And.HaveCount(c => c > 1);
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "*but item 3 is not unique.");
+        }
+
+        [Fact]
         public void When_a_collection_contains_multiple_duplicate_items_it_should_throw()
         {
             // Arrange
@@ -49,6 +67,24 @@ public partial class CollectionAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to only have unique items because we don't like duplicates, but items {2, 3} are not unique.");
+        }
+
+        [Fact]
+        public void When_a_collection_contains_multiple_duplicate_items_it_supports_chaining()
+        {
+            // Arrange
+            var collection = new[] { 1, 2, 2, 3, 3 };
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().OnlyHaveUniqueItems().And.HaveCount(c => c > 1);
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "*but items {2, 3} are not unique.");
         }
 
         [Fact]
@@ -138,6 +174,31 @@ public partial class CollectionAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection to only have unique items*on e.Text*because we don't like duplicates, but items*two*two*three*three*are not unique.");
+        }
+
+        [Fact]
+        public void When_a_collection_contains_multiple_duplicates_on_different_properties_all_should_be_reported()
+        {
+            // Arrange
+            IEnumerable<SomeClass> collection = new[]
+            {
+                new SomeClass { Text = "one", Number = 1 },
+                new SomeClass { Text = "two", Number = 2 },
+                new SomeClass { Text = "two", Number = 2 },
+                new SomeClass { Text = "three", Number = 3 },
+                new SomeClass { Text = "three", Number = 4 }
+            };
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().OnlyHaveUniqueItems(e => e.Text).And.OnlyHaveUniqueItems(e => e.Number);
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "*have unique items on e.Text*have unique items on e.Number*");
         }
 
         [Fact]

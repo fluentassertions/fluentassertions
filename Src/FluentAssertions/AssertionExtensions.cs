@@ -39,13 +39,13 @@ public static class AssertionExtensions
     /// Invokes the specified action on a subject so that you can chain it
     /// with any of the assertions from <see cref="ActionAssertions"/>
     /// </summary>
-    /// <exception cref="ArgumentNullException"><paramref name="subject"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="subject"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <see langword="null"/>.</exception>
     [Pure]
     public static Action Invoking<T>(this T subject, Action<T> action)
     {
-        Guard.ThrowIfArgumentIsNull(subject, nameof(subject));
-        Guard.ThrowIfArgumentIsNull(action, nameof(action));
+        Guard.ThrowIfArgumentIsNull(subject);
+        Guard.ThrowIfArgumentIsNull(action);
 
         return () => action(subject);
     }
@@ -54,13 +54,13 @@ public static class AssertionExtensions
     /// Invokes the specified action on a subject so that you can chain it
     /// with any of the assertions from <see cref="FunctionAssertions{T}"/>
     /// </summary>
-    /// <exception cref="ArgumentNullException"><paramref name="subject"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="subject"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <see langword="null"/>.</exception>
     [Pure]
     public static Func<TResult> Invoking<T, TResult>(this T subject, Func<T, TResult> action)
     {
-        Guard.ThrowIfArgumentIsNull(subject, nameof(subject));
-        Guard.ThrowIfArgumentIsNull(action, nameof(action));
+        Guard.ThrowIfArgumentIsNull(subject);
+        Guard.ThrowIfArgumentIsNull(action);
 
         return () => action(subject);
     }
@@ -113,14 +113,14 @@ public static class AssertionExtensions
     /// <returns>
     /// Returns an object for asserting that the execution time matches certain conditions.
     /// </returns>
-    /// <exception cref="ArgumentNullException"><paramref name="subject"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="subject"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <see langword="null"/>.</exception>
     [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
     public static MemberExecutionTime<T> ExecutionTimeOf<T>(this T subject, Expression<Action<T>> action,
         StartTimer createTimer = null)
     {
-        Guard.ThrowIfArgumentIsNull(subject, nameof(subject));
-        Guard.ThrowIfArgumentIsNull(action, nameof(action));
+        Guard.ThrowIfArgumentIsNull(subject);
+        Guard.ThrowIfArgumentIsNull(action);
 
         createTimer ??= () => new StopwatchTimer();
 
@@ -134,7 +134,7 @@ public static class AssertionExtensions
     /// <returns>
     /// Returns an object for asserting that the execution time matches certain conditions.
     /// </returns>
-    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <see langword="null"/>.</exception>
     [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
     public static ExecutionTime ExecutionTime(this Action action, StartTimer createTimer = null)
     {
@@ -150,7 +150,7 @@ public static class AssertionExtensions
     /// <returns>
     /// Returns an object for asserting that the execution time matches certain conditions.
     /// </returns>
-    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <see langword="null"/>.</exception>
     [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
     public static ExecutionTime ExecutionTime(this Func<Task> action)
     {
@@ -229,7 +229,7 @@ public static class AssertionExtensions
 
     /// <summary>
     /// Forces enumerating a collection. Should be used to assert that a method that uses the
-    /// <c>yield</c> keyword throws a particular exception.
+    /// <see langword="yield"/> keyword throws a particular exception.
     /// </summary>
     [Pure]
     public static Action Enumerating(this Func<IEnumerable> enumerable)
@@ -239,7 +239,7 @@ public static class AssertionExtensions
 
     /// <summary>
     /// Forces enumerating a collection. Should be used to assert that a method that uses the
-    /// <c>yield</c> keyword throws a particular exception.
+    /// <see langword="yield"/> keyword throws a particular exception.
     /// </summary>
     [Pure]
     public static Action Enumerating<T>(this Func<IEnumerable<T>> enumerable)
@@ -249,7 +249,7 @@ public static class AssertionExtensions
 
     /// <summary>
     /// Forces enumerating a collection of the provided <paramref name="subject"/>.
-    /// Should be used to assert that a method that uses the <c>yield</c> keyword throws a particular exception.
+    /// Should be used to assert that a method that uses the <see langword="yield"/> keyword throws a particular exception.
     /// </summary>
     /// <param name="subject">The object that exposes the method or property.</param>
     /// <param name="enumerable">A reference to the method or property to force enumeration of.</param>
@@ -783,11 +783,11 @@ public static class AssertionExtensions
     /// Returns a <see cref="TypeAssertions"/> object that can be used to assert the
     /// current <see cref="Type"/>.
     /// </summary>
-    /// <exception cref="ArgumentNullException"><paramref name="typeSelector"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="typeSelector"/> is <see langword="null"/>.</exception>
     [Pure]
     public static TypeSelectorAssertions Should(this TypeSelector typeSelector)
     {
-        Guard.ThrowIfArgumentIsNull(typeSelector, nameof(typeSelector));
+        Guard.ThrowIfArgumentIsNull(typeSelector);
 
         return new TypeSelectorAssertions(typeSelector.ToArray());
     }
@@ -818,11 +818,11 @@ public static class AssertionExtensions
     /// current <see cref="MethodInfoSelector"/>.
     /// </summary>
     /// <seealso cref="TypeAssertions"/>
-    /// <exception cref="ArgumentNullException"><paramref name="methodSelector"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="methodSelector"/> is <see langword="null"/>.</exception>
     [Pure]
     public static MethodInfoSelectorAssertions Should(this MethodInfoSelector methodSelector)
     {
-        Guard.ThrowIfArgumentIsNull(methodSelector, nameof(methodSelector));
+        Guard.ThrowIfArgumentIsNull(methodSelector);
 
         return new MethodInfoSelectorAssertions(methodSelector.ToArray());
     }
@@ -843,11 +843,11 @@ public static class AssertionExtensions
     /// current <see cref="PropertyInfoSelector"/>.
     /// </summary>
     /// <seealso cref="TypeAssertions"/>
-    /// <exception cref="ArgumentNullException"><paramref name="propertyInfoSelector"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="propertyInfoSelector"/> is <see langword="null"/>.</exception>
     [Pure]
     public static PropertyInfoSelectorAssertions Should(this PropertyInfoSelector propertyInfoSelector)
     {
-        Guard.ThrowIfArgumentIsNull(propertyInfoSelector, nameof(propertyInfoSelector));
+        Guard.ThrowIfArgumentIsNull(propertyInfoSelector);
 
         return new PropertyInfoSelectorAssertions(propertyInfoSelector.ToArray());
     }
@@ -912,7 +912,7 @@ public static class AssertionExtensions
     /// An optional delegate that returns the current date and time in UTC format.
     /// Will revert to <see cref="DateTime.UtcNow"/> if no delegate was provided.
     /// </param>
-    /// <exception cref="ArgumentNullException">Thrown if <paramref name="eventSource"/> is Null.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eventSource"/> is <see langword="null"/>.</exception>
     public static IMonitor<T> Monitor<T>(this T eventSource, Func<DateTime> utcNow = null)
     {
         return new EventMonitor<T>(eventSource, utcNow ?? (() => DateTime.UtcNow));

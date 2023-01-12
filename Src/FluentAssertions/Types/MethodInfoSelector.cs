@@ -18,7 +18,7 @@ public class MethodInfoSelector : IEnumerable<MethodInfo>
     /// Initializes a new instance of the <see cref="MethodInfoSelector"/> class.
     /// </summary>
     /// <param name="type">The type from which to select methods.</param>
-    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
     public MethodInfoSelector(Type type)
         : this(new[] { type })
     {
@@ -28,11 +28,11 @@ public class MethodInfoSelector : IEnumerable<MethodInfo>
     /// Initializes a new instance of the <see cref="MethodInfoSelector"/> class.
     /// </summary>
     /// <param name="types">The types from which to select methods.</param>
-    /// <exception cref="ArgumentNullException"><paramref name="types"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="types"/> is or contains <see langword="null"/>.</exception>
     public MethodInfoSelector(IEnumerable<Type> types)
     {
-        Guard.ThrowIfArgumentIsNull(types, nameof(types));
-        Guard.ThrowIfArgumentContainsNull(types, nameof(types));
+        Guard.ThrowIfArgumentIsNull(types);
+        Guard.ThrowIfArgumentContainsNull(types);
 
         selectedMethods = types.SelectMany(t => t
             .GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
@@ -130,6 +130,24 @@ public class MethodInfoSelector : IEnumerable<MethodInfo>
         where TAttribute : Attribute
     {
         selectedMethods = selectedMethods.Where(method => !method.IsDecoratedWithOrInherit<TAttribute>());
+        return this;
+    }
+
+    /// <summary>
+    /// Only return methods that are abstract
+    /// </summary>
+    public MethodInfoSelector ThatAreAbstract()
+    {
+        selectedMethods = selectedMethods.Where(method => method.IsAbstract);
+        return this;
+    }
+
+    /// <summary>
+    /// Only return methods that are not abstract
+    /// </summary>
+    public MethodInfoSelector ThatAreNotAbstract()
+    {
+        selectedMethods = selectedMethods.Where(method => !method.IsAbstract);
         return this;
     }
 

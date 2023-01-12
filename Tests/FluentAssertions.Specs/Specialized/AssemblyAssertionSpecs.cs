@@ -238,7 +238,7 @@ public class AssemblyAssertionSpecs
             Action act = () => thisAssembly.Should().DefineType(GetType().Namespace, string.Empty);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
     }

@@ -383,7 +383,8 @@ public class DateTimeAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -590,7 +591,8 @@ public class DateTimeAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]

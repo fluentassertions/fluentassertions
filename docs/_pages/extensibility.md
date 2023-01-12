@@ -104,7 +104,7 @@ void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext
 
 Next to the actual value that needs rendering, this method accepts a couple of parameters worth mentioning.
 
-* `formattedGraph` is the object that collects the textual representation of the entire graph. It supports adding fragments of text, full lines and deals with automatic identation using its `WithIndentation` method. It also protects the performance of the rendering by throwing a `MaxLinesExceededException` when the textual representation has exceeded the configured maximum.  
+* `formattedGraph` is the object that collects the textual representation of the entire graph. It supports adding fragments of text, full lines and deals with automatic indentation using its `WithIndentation` method. It also protects the performance of the rendering by throwing a `MaxLinesExceededException` when the textual representation has exceeded the configured maximum.  
 * `context.UseLineBreaks` denotes that the value should be prefixed by a newline. It is used by some assertion code to force displaying the various elements of the failure message on a separate line.
 * `formatChild` is used when rendering a complex object that would involve multiple, potentially recursive, nested calls through `Formatter`.
 

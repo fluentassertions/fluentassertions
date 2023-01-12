@@ -13,7 +13,7 @@ using FluentAssertions.Execution;
 
 namespace Benchmarks;
 
-[SimpleJob(RunStrategy.Throughput, warmupCount: 3, targetCount: 20)]
+[SimpleJob(RunStrategy.Throughput, warmupCount: 3, iterationCount: 20)]
 public class UsersOfGetClosedGenericInterfaces
 {
     private const int ValueCount = 100_000;

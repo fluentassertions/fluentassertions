@@ -19,7 +19,7 @@ public class DefaultValueFormatter : IValueFormatter
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>
-    /// <c>true</c> if this instance can handle the specified value; otherwise, <c>false</c>.
+    /// <see langword="true"/> if this instance can handle the specified value; otherwise, <see langword="false"/>.
     /// </returns>
     public virtual bool CanHandle(object value)
     {
@@ -76,7 +76,7 @@ public class DefaultValueFormatter : IValueFormatter
         formattedGraph.AddLine("{");
 
         MemberInfo[] members = GetMembers(type);
-        using var iterator = new Iterator<MemberInfo>(members.OrderBy(mi => mi.Name));
+        using var iterator = new Iterator<MemberInfo>(members.OrderBy(mi => mi.Name, StringComparer.Ordinal));
         while (iterator.MoveNext())
         {
             WriteMemberValueTextFor(obj, iterator.Current, formattedGraph, formatChild);

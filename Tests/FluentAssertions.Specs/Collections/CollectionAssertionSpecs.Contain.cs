@@ -80,6 +80,38 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
+        public void When_a_collection_does_not_contain_a_single_element_collection_it_should_throw_with_clear_explanation()
+        {
+            // Arrange
+            var collection = new[] { 1, 2, 3 };
+
+            // Act
+            Action act = () => collection.Should().Contain(new[] { 4 }, "because {0}", "we do");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection {1, 2, 3} to contain 4 because we do.");
+        }
+
+        [Fact]
+        public void When_a_collection_does_not_contain_other_collection_with_assertion_scope_it_should_throw_with_clear_explanation()
+        {
+            // Arrange
+            var collection = new[] { 1, 2, 3 };
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().Contain(new[] { 4 }).And.Contain(new[] { 5, 6 });
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "*to contain 4*to contain {5, 6}*");
+        }
+
+        [Fact]
         public void When_the_contents_of_a_collection_are_checked_against_an_empty_collection_it_should_throw_clear_explanation()
         {
             // Arrange
@@ -332,6 +364,21 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
+        public void When_collection_contains_unexpected_item_it_should_throw()
+        {
+            // Arrange
+            var collection = new[] { 1, 2, 3 };
+
+            // Act
+            Action act = () => collection.Should()
+                .NotContain(new[] { 2 }, "because we {0} like them", "don't");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection {1, 2, 3} to not contain 2 because we don't like them.");
+        }
+
+        [Fact]
         public void When_collection_contains_unexpected_items_it_should_throw()
         {
             // Arrange
@@ -344,6 +391,37 @@ public partial class CollectionAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection {1, 2, 3} to not contain {1, 2, 4} because we don't like them, but found {1, 2}.");
+        }
+
+        [Fact]
+        public void When_asserting_multiple_collection_in_assertion_scope_all_should_be_reported()
+        {
+            // Arrange
+            var collection = new[] { 1, 2, 3 };
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().NotContain(new[] { 1, 2 }).And.NotContain(new[] { 3 });
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "*to not contain {1, 2}*to not contain 3*");
+        }
+
+        [Fact]
+        public void When_asserting_collection_to_not_contain_an_empty_collection_it_should_throw()
+        {
+            // Arrange
+            var collection = new[] { 1, 2, 3 };
+
+            // Act
+            Action act = () => collection.Should().NotContain(Array.Empty<int>());
+
+            // Assert
+            act.Should().Throw<ArgumentException>().WithMessage("Cannot verify*");
         }
 
         [Fact]

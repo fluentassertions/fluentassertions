@@ -21,10 +21,10 @@ public class MethodInfoSelectorAssertions
     /// Initializes a new instance of the <see cref="MethodInfoSelectorAssertions"/> class.
     /// </summary>
     /// <param name="methods">The methods to assert.</param>
-    /// <exception cref="ArgumentNullException"><paramref name="methods"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="methods"/> is <see langword="null"/>.</exception>
     public MethodInfoSelectorAssertions(params MethodInfo[] methods)
     {
-        Guard.ThrowIfArgumentIsNull(methods, nameof(methods));
+        Guard.ThrowIfArgumentIsNull(methods);
 
         SubjectMethods = methods;
     }
@@ -182,11 +182,12 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
         MethodInfo[] methodsWithoutAttribute = GetMethodsWithout(isMatchingAttributePredicate);
 
@@ -233,11 +234,12 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<MethodInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
         MethodInfo[] methodsWithAttribute = GetMethodsWith(isMatchingAttributePredicate);
 

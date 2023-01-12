@@ -138,6 +138,7 @@ public static class DataTableCollectionAssertionExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <see langword="null"/>.</exception>
     public static AndConstraint<GenericCollectionAssertions<DataTable>> HaveSameCount(
         this GenericCollectionAssertions<DataTable> assertion, DataTableCollection otherCollection, string because = "",
         params object[] becauseArgs)
@@ -173,6 +174,7 @@ public static class DataTableCollectionAssertionExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <see langword="null"/>.</exception>
     public static AndConstraint<GenericCollectionAssertions<DataTable>> NotHaveSameCount(
         this GenericCollectionAssertions<DataTable> assertion, DataTableCollection otherCollection, string because = "",
         params object[] becauseArgs)

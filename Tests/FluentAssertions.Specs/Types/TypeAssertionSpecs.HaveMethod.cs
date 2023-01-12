@@ -107,7 +107,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveMethod(string.Empty, new[] { typeof(string) });
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
 
@@ -213,7 +213,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveMethod(string.Empty, new[] { typeof(string) });
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
 

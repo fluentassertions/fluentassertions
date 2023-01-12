@@ -636,9 +636,10 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// Marks <paramref name="type" /> as a type that should be compared by its members even though it may override
     /// the <see cref="object.Equals(object)" /> method.
     /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
     public TSelf ComparingByMembers(Type type)
     {
-        Guard.ThrowIfArgumentIsNull(type, nameof(type));
+        Guard.ThrowIfArgumentIsNull(type);
 
         if (type.IsPrimitive)
         {
@@ -666,9 +667,10 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// Marks <paramref name="type" /> as a value type which must be compared using its
     /// <see cref="object.Equals(object)" /> method, regardless of it overriding it or not.
     /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
     public TSelf ComparingByValue(Type type)
     {
-        Guard.ThrowIfArgumentIsNull(type, nameof(type));
+        Guard.ThrowIfArgumentIsNull(type);
 
         if (referenceTypes.Any(t => type.IsSameOrInherits(t)))
         {

@@ -61,9 +61,10 @@ public static class EventRaisingExtensions
     /// <returns>
     /// Returns only the events having some argument matching both type and predicate.
     /// </returns>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public static IEventRecording WithArgs<T>(this IEventRecording eventRecording, Expression<Func<T, bool>> predicate)
     {
-        Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+        Guard.ThrowIfArgumentIsNull(predicate);
 
         Func<T, bool> compiledPredicate = predicate.Compile();
 
@@ -98,7 +99,7 @@ public static class EventRaisingExtensions
     /// Returns only the events having arguments matching both type and all predicates.
     /// </returns>
     /// <remarks>
-    /// If a <c>null</c> is provided as predicate argument, the corresponding event parameter value is ignored.
+    /// If a <see langword="null"/> is provided as predicate argument, the corresponding event parameter value is ignored.
     /// </remarks>
     public static IEventRecording WithArgs<T>(this IEventRecording eventRecording, params Expression<Func<T, bool>>[] predicates)
     {

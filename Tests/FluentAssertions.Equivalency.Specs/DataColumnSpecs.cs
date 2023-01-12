@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using Xunit;
 using Xunit.Sdk;
@@ -75,6 +76,43 @@ public class DataColumnSpecs : DataSpecs
         // Act & Assert
         dataColumn1.Should().BeEquivalentTo(dataColumn2, options => options
             .ExcludingColumn(dataColumn2));
+    }
+
+    [Fact]
+    public void When_DataColumn_has_changes_but_is_excluded_as_params_it_should_succeed()
+    {
+        // Arrange
+        var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
+        var dataSet2 = new TypedDataSetSubclass(dataSet1);
+
+        var dataColumn1 = dataSet1.TypedDataTable1.DecimalColumn;
+        var dataColumn2 = dataSet2.TypedDataTable1.DecimalColumn;
+
+        dataColumn2.Unique = true;
+        dataColumn2.Caption = "Test";
+
+        // Act & Assert
+        dataColumn1.Should().BeEquivalentTo(dataColumn2, options => options
+            .ExcludingColumns(dataColumn2));
+    }
+
+    [Fact]
+    public void When_DataColumn_has_changes_but_is_excluded_as_enumerable_it_should_succeed()
+    {
+        // Arrange
+        var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
+        var dataSet2 = new TypedDataSetSubclass(dataSet1);
+
+        var dataColumn1 = dataSet1.TypedDataTable1.DecimalColumn;
+        var dataColumn2 = dataSet2.TypedDataTable1.DecimalColumn;
+
+        dataColumn2.Unique = true;
+        dataColumn2.Caption = "Test";
+
+        // Act & Assert
+        IEnumerable<DataColumn> excludedColumns = new[] { dataColumn2 };
+        dataColumn1.Should().BeEquivalentTo(dataColumn2, options => options
+            .ExcludingColumns(excludedColumns));
     }
 
     [Fact]

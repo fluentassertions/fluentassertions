@@ -54,8 +54,8 @@ value.Should().NotBeApproximately(2.5F, 0.5F);
 
 This will verify that the value of the float is not between 2.0 and 3.0.
 
-To assert that a value matches one of the provided values, you can do this.
+To assert that a value matches one of the provided values, you can do this (works for numeric types and `IComparable`s).
 
 ```csharp
-value.Should().BeOneOf(new[] { 3, 6});
+value.Should().BeOneOf(new[] { 3, 6 });
 ```

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -188,7 +189,7 @@ public class TypedDataSetSpecs : DataSpecs
         dataSet2.TypedDataTable1.Rows[0].RowError = "Manually added error";
 
         // Act
-        Action action = () => dataSet1.Should().BeEquivalentTo(dataSet2, config => config.ExcludingTables("TypedDataTable1"));
+        Action action = () => dataSet1.Should().BeEquivalentTo(dataSet2, config => config.ExcludingTable("TypedDataTable1"));
 
         // Assert
         action.Should().Throw<XunitException>().Which.Message.Should().Contain("HasErrors");
@@ -206,7 +207,38 @@ public class TypedDataSetSpecs : DataSpecs
 
         // Act & Assert
         dataSet1.Should().BeEquivalentTo(dataSet2,
+            config => config.Excluding(dataSet => dataSet.HasErrors).ExcludingTable("TypedDataTable1"));
+    }
+
+    [Fact]
+    public void When_HasErrors_does_not_match_and_property_is_excluded_as_params_it_should_succeed()
+    {
+        // Arrange
+        var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
+
+        var dataSet2 = new TypedDataSetSubclass(dataSet1);
+
+        dataSet2.TypedDataTable1.Rows[0].RowError = "Manually added error";
+
+        // Act & Assert
+        dataSet1.Should().BeEquivalentTo(dataSet2,
             config => config.Excluding(dataSet => dataSet.HasErrors).ExcludingTables("TypedDataTable1"));
+    }
+
+    [Fact]
+    public void When_HasErrors_does_not_match_and_property_is_excluded_as_list_it_should_succeed()
+    {
+        // Arrange
+        var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
+
+        var dataSet2 = new TypedDataSetSubclass(dataSet1);
+
+        dataSet2.TypedDataTable1.Rows[0].RowError = "Manually added error";
+
+        // Act & Assert
+        IEnumerable<string> excludedTales = new[] { "TypedDataTable1" };
+        dataSet1.Should().BeEquivalentTo(dataSet2,
+            config => config.Excluding(dataSet => dataSet.HasErrors).ExcludingTables(excludedTales));
     }
 
     [Fact]
