@@ -9,12 +9,14 @@ using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
+using Nuke.Common.Tools.CoverallsNet;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Tools.ReportGenerator;
 using Nuke.Common.Tools.Xunit;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
+using static Nuke.Common.Tools.CoverallsNet.CoverallsNetTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 using static Nuke.Common.Tools.Xunit.XunitTasks;
@@ -34,6 +36,7 @@ class Build : NukeBuild
     public static int Main() => Execute<Build>(x => x.SpellCheck, x => x.Push);
 
     GitHubActions GitHubActions => GitHubActions.Instance;
+    [Parameter] [Secret] readonly string CoverallsToken;
 
     string BranchSpec => GitHubActions?.Ref;
     string BuildNumber => GitHubActions?.RunNumber.ToString();
@@ -69,6 +72,8 @@ class Build : NukeBuild
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
 
     AbsolutePath TestResultsDirectory => RootDirectory / "TestResults";
+
+    AbsolutePath CoverageResultDirectory => TestResultsDirectory / "reports";
 
     string SemVer;
 
@@ -196,6 +201,8 @@ class Build : NukeBuild
         .DependsOn(TestFrameworks) 
         .DependsOn(UnitTests)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
+        .Produces(CoverageResultDirectory / "lcov.info")
+        .Triggers(Coveralls)
         .Executes(() =>
         {
             ReportGenerator(s => s
@@ -208,10 +215,32 @@ class Build : NukeBuild
                 .AddFileFilters("-*.g.cs")
                 .SetAssemblyFilters("+FluentAssertions"));
 
-            string link = TestResultsDirectory / "reports" / "index.html";
+            string link = CoverageResultDirectory / "index.html";
             Information($"Code coverage report: \x1b]8;;file://{link.Replace('\\', '/')}\x1b\\{link}\x1b]8;;\x1b\\");
         });
 
+    Target Coveralls => _ => _
+        .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
+        .DependsOn(CodeCoverage)
+        .Consumes(CodeCoverage)
+        .Executes(() =>
+        {
+            CoverallsNet(s => s
+                .SetDryRun(IsLocalBuild)
+                .SetProcessArgumentConfigurator(x => x
+                    .Add("--lcov"))
+                .SetInput(CoverageResultDirectory / "lcov.info")
+                .SetRepoToken(CoverallsToken)
+                .When(IsPullRequest,
+                    s => s.SetPullRequest(GitHubActions?.PullRequestNumber)
+                )
+                .SetCommitBranch(GitRepository.Branch)
+                .SetCommitId(GitRepository.Commit)
+                .SetCommitAuthor(Repository.Head.Tip.Author.Name)
+                .SetCommitEmail(Repository.Head.Tip.Author.Email)
+                .SetCommitMessage(Repository.Head.Tip.MessageShort));                
+        });
+    
     Target TestFrameworks => _ => _
         .DependsOn(Compile)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
@@ -318,3 +347,4 @@ class Build : NukeBuild
 
     bool IsTag => BranchSpec != null && BranchSpec.Contains("refs/tags", StringComparison.InvariantCultureIgnoreCase);
 }
+

@@ -10,6 +10,10 @@
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
         },
+        "CoverallsToken": {
+          "type": "string",
+          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
+        },
         "Help": {
           "type": "boolean",
           "description": "Shows the help text for this build assembly"
@@ -74,6 +78,8 @@
               "Clean",
               "CodeCoverage",
               "Compile",
+              "Coveralls",
+              "Informations",
               "Pack",
               "Push",
               "Restore",
@@ -100,6 +106,8 @@
               "Clean",
               "CodeCoverage",
               "Compile",
+              "Coveralls",
+              "Informations",
               "Pack",
               "Push",
               "Restore",

@@ -17,6 +17,7 @@
     <DefineConstants>OS_MAC</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <PackageDownload Include="coveralls.net" Version="[4.0.1]" />
     <PackageDownload Include="GitVersion.Tool" Version="[5.11.1]" />
     <PackageDownload Include="NSpec" Version="[3.1.0]" />
     <PackageDownload Include="ReportGenerator" Version="[5.1.13]" />
