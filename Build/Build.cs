@@ -271,7 +271,6 @@ class Build : NukeBuild
             CalculateNugetVersion
         )
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
-        .Produces(ArtifactsDirectory / "*.nupkg")
         .Executes(() =>
         {
             DotNetPack(s => s
