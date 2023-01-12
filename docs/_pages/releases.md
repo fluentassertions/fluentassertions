@@ -7,7 +7,7 @@ sidebar:
   nav: "sidebar"
 ---
 
-## Unreleased
+## 6.9.0
 
 ### What's new
 * Added `ThatAre[Not]ValueTypes` method for filtering the types - [#2083](https://github.com/fluentassertions/fluentassertions/pull/2083)
