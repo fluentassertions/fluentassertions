@@ -32,8 +32,15 @@ jobs:
         PullRequestBase: ${{ github.event.pull_request.base.ref }}
         ApiKey: ${{ secrets.NUGETAPIKEY }}
 
+    - name: Check for 'lcov.info' existence
+      id: check_files
+      uses: andstor/file-existence-action@v2
+      with:
+        files: "TestResults/reports/lcov.info"
+
     - name: coveralls
       uses: coverallsapp/github-action@1.1.3
+      if: steps.check_files.outputs.files_exists == 'true'
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         path-to-lcov: TestResults/reports/lcov.info
