@@ -148,17 +148,15 @@ class Build : NukeBuild
         .OnlyWhenDynamic(() => EnvironmentInfo.IsWin && (RunAllTargets || HasSourceChanges))
         .Executes(() =>
         {
-            Xunit2(s =>
-            {
-                IEnumerable<string> testAssemblies = Projects
+            IEnumerable<string> testAssemblies = Projects
                     .SelectMany(project => GlobFiles(project.Directory, "bin/Debug/net47/*.Specs.dll"));
+            
+            Assert.NotEmpty(testAssemblies.ToList());
 
-                Assert.NotEmpty(testAssemblies.ToList());
-
-                return s
-                    .SetFramework("net47")
-                    .AddTargetAssemblies(testAssemblies);
-            });
+            Xunit2(s => s
+                .SetFramework("net47")
+                .AddTargetAssemblies(testAssemblies)
+            );
         });
 
     Target UnitTestsNetCore => _ => _
