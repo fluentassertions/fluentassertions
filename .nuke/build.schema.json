@@ -73,15 +73,14 @@
               "Clean",
               "CodeCoverage",
               "Compile",
-              "Informations",
               "Pack",
               "Push",
               "Restore",
               "SpellCheck",
               "TestFrameworks",
               "UnitTests",
-              "UnitTestsWin",
-              "UnitTestsXPlat"
+              "UnitTestsNetCore",
+              "UnitTestsNetFramework"
             ]
           }
         },
@@ -100,15 +99,14 @@
               "Clean",
               "CodeCoverage",
               "Compile",
-              "Informations",
               "Pack",
               "Push",
               "Restore",
               "SpellCheck",
               "TestFrameworks",
               "UnitTests",
-              "UnitTestsWin",
-              "UnitTestsXPlat"
+              "UnitTestsNetCore",
+              "UnitTestsNetFramework"
             ]
           }
         },

@@ -69,17 +69,7 @@ class Build : NukeBuild
 
     string SemVer;
 
-    Target Informations => _ => _
-        .OnlyWhenDynamic(() => !IsLocalBuild)
-        .Executes(() =>
-        {
-            Information(BranchSpec);
-            Information(BuildNumber);
-            Information(PullRequestBase);
-        });
-
     Target Clean => _ => _
-        .Triggers(Informations)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
@@ -198,16 +188,12 @@ class Build : NukeBuild
         });
 
     Target UnitTests => _ => _
-        .DependsOn(
-            UnitTestsNetFramework,
-            UnitTestsNetCore
-        );
+        .DependsOn(UnitTestsNetFramework)
+        .DependsOn(UnitTestsNetCore);
 
     Target CodeCoverage => _ => _
-        .DependsOn(
-            TestFrameworks, 
-            UnitTests
-        )
+        .DependsOn(TestFrameworks) 
+        .DependsOn(UnitTests)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
@@ -263,13 +249,11 @@ class Build : NukeBuild
         });
 
     Target Pack => _ => _
-        .DependsOn(
-            ApiChecks,
-            TestFrameworks,
-            UnitTests,
-            CodeCoverage,
-            CalculateNugetVersion
-        )
+        .DependsOn(ApiChecks)
+        .DependsOn(TestFrameworks)
+        .DependsOn(UnitTests)
+        .DependsOn(CodeCoverage)
+        .DependsOn(CalculateNugetVersion)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
@@ -315,10 +299,10 @@ class Build : NukeBuild
     string YarnCli => $"{ToolPathResolver.GetPackageExecutable("Yarn.MSBuild", "yarn.js", "1.22.19")} --silent";
 
     bool HasDocumentationChanges =>
-        Changes.Any(x => x.StartsWith("docs", StringComparison.InvariantCultureIgnoreCase));
+        Changes.Any(x => x.StartsWith("docs"));
 
     bool HasSourceChanges =>
-        Changes.Any(x => !x.StartsWith("docs", StringComparison.InvariantCultureIgnoreCase));
+        Changes.Any(x => !x.StartsWith("docs"));
 
     string[] Changes =>
         Repository.Diff
