@@ -115,7 +115,7 @@ class Build : NukeBuild
         {
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
-                .SetConfiguration("CI")
+                .SetConfiguration(Configuration.CI)
                 .EnableNoLogo()
                 .EnableNoRestore()
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
@@ -129,7 +129,7 @@ class Build : NukeBuild
         .Executes(() =>
         {
             DotNetTest(s => s
-                .SetConfiguration("Release")
+                .SetConfiguration(Configuration.Release)
                 .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
                 .EnableNoBuild()
                 .CombineWith(
@@ -166,7 +166,7 @@ class Build : NukeBuild
         .Executes(() =>
         {
             DotNetTest(s => s
-                .SetConfiguration("Debug")
+                .SetConfiguration(Configuration.Debug)
                 .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
                 .EnableNoBuild()
                 .SetDataCollector("XPlat Code Coverage")
@@ -229,7 +229,7 @@ class Build : NukeBuild
                 select new { project, framework };
 
             DotNetTest(s => s
-                .SetConfiguration("Debug")
+                .SetConfiguration(Configuration.Debug)
                 .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
                 .EnableNoBuild()
                 .SetDataCollector("XPlat Code Coverage")
@@ -259,7 +259,7 @@ class Build : NukeBuild
             DotNetPack(s => s
                 .SetProject(Solution.Core.FluentAssertions)
                 .SetOutputDirectory(ArtifactsDirectory)
-                .SetConfiguration("Release")
+                .SetConfiguration(Configuration.Release)
                 .EnableNoLogo()
                 .EnableNoRestore()
                 .EnableContinuousIntegrationBuild() // Necessary for deterministic builds
