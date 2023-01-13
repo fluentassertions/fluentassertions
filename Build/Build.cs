@@ -40,6 +40,7 @@ class Build : NukeBuild
     string PullRequestBase => GitHubActions?.BaseRef;
 
     [Parameter("The key to push to Nuget")]
+    [Secret]
     readonly string NuGetApiKey;
 
     [Solution(GenerateProjects = true)]
