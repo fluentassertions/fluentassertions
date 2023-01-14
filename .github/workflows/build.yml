@@ -27,10 +27,7 @@ jobs:
     - name: Run NUKE
       run: ./build.ps1
       env:
-        BranchSpec: ${{ github.ref }}
-        BuildNumber: ${{ github.run_number }}
-        PullRequestBase: ${{ github.event.pull_request.base.ref }}
-        ApiKey: ${{ secrets.NUGETAPIKEY }}
+        NuGetApiKey: ${{ secrets.NUGETAPIKEY }}
 
     - name: Check for 'lcov.info' existence
       id: check_files
@@ -73,5 +70,3 @@ jobs:
 
     - name: Run NUKE
       run: ./build.sh UnitTests
-      env:
-        BaseRef: ${{ github.event.pull_request.base.ref }}
