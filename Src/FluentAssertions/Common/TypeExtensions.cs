@@ -178,16 +178,19 @@ internal static class TypeExtensions
     /// <returns>
     /// Returns <see langword="null"/> if no such property exists.
     /// </returns>
-    public static PropertyInfo FindProperty(this Type type, string propertyName, Type preferredType)
+    public static PropertyInfo FindProperty(this Type type, string propertyName)
     {
-        List<PropertyInfo> properties =
-            type.GetProperties(AllInstanceMembersFlag)
-                .Where(pi => pi.Name == propertyName)
-                .ToList();
+        while (type != typeof(object))
+        {
+            if (type.GetProperty(propertyName, AllInstanceMembersFlag | BindingFlags.DeclaredOnly) is { } property)
+            {
+                return property;
+            }
 
-        return properties.Count > 1
-            ? properties.SingleOrDefault(p => p.PropertyType == preferredType)
-            : properties.SingleOrDefault();
+            type = type.BaseType;
+        }
+
+        return null;
     }
 
     /// <summary>
@@ -196,16 +199,19 @@ internal static class TypeExtensions
     /// <returns>
     /// Returns <see langword="null"/> if no such property exists.
     /// </returns>
-    public static FieldInfo FindField(this Type type, string fieldName, Type preferredType)
+    public static FieldInfo FindField(this Type type, string fieldName)
     {
-        List<FieldInfo> properties =
-            type.GetFields(AllInstanceMembersFlag)
-                .Where(pi => pi.Name == fieldName)
-                .ToList();
+        while (type != typeof(object))
+        {
+            if (type.GetField(fieldName, AllInstanceMembersFlag | BindingFlags.DeclaredOnly) is { } field)
+            {
+                return field;
+            }
 
-        return properties.Count > 1
-            ? properties.SingleOrDefault(p => p.FieldType == preferredType)
-            : properties.SingleOrDefault();
+            type = type.BaseType;
+        }
+
+        return null;
     }
 
     public static IEnumerable<MemberInfo> GetNonPrivateMembers(this Type typeToReflect, MemberVisibility visibility)

@@ -50,7 +50,7 @@ internal class MappedPathMatchingRule : IMemberMatchingRule
 
         if (path.IsEquivalentTo(expectedMember.PathAndName))
         {
-            var member = MemberFactory.Find(subject, subjectPath.MemberName, expectedMember.Type, parent);
+            var member = MemberFactory.Find(subject, subjectPath.MemberName, parent);
             if (member is null)
             {
                 throw new ArgumentException(
