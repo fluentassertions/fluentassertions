@@ -27,9 +27,7 @@ jobs:
     - name: Run NUKE
       run: ./build.ps1
       env:
-        NuGetApiKey: ${{ secrets.NUGETAPIKEY }}
-        CoverallsToken: ${{ secrets.COVERALLS }}
-        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS }}
+        ApiKey: ${{ secrets.NUGETAPIKEY }}
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v3

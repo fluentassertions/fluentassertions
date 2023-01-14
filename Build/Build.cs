@@ -42,7 +42,7 @@ class Build : NukeBuild
     string PullRequestBase => GitHubActions?.BaseRef;
 
     [Parameter("The key to push to Nuget")]
-    readonly string NuGetApiKey;
+    readonly string ApiKey;
 
     [Parameter("The coveralls specific token")]
     readonly string CoverallsToken;
@@ -77,6 +77,20 @@ class Build : NukeBuild
     AbsolutePath CoverageResultDirectory => TestResultsDirectory / "reports";
 
     string SemVer;
+
+    Target Info => _ => _
+        .Executes(() =>
+        {
+            if (string.IsNullOrWhiteSpace(CoverallsToken))
+            {
+                Warning("Coveralls token is null or empty");
+            }
+
+            if (string.IsNullOrWhiteSpace(ApiKey))
+            {
+                Warning("NuGet API key is null or empty");
+            }
+        });
 
     Target Clean => _ => _
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
@@ -158,7 +172,7 @@ class Build : NukeBuild
         {
             IEnumerable<string> testAssemblies = Projects
                     .SelectMany(project => GlobFiles(project.Directory, "bin/Debug/net47/*.Specs.dll"));
-            
+
             Assert.NotEmpty(testAssemblies.ToList());
 
             Xunit2(s => s
@@ -199,7 +213,7 @@ class Build : NukeBuild
         .DependsOn(UnitTestsNetCore);
 
     Target CodeCoverage => _ => _
-        .DependsOn(TestFrameworks) 
+        .DependsOn(TestFrameworks)
         .DependsOn(UnitTests)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Produces(CoverageResultDirectory / "lcov.info")
@@ -221,7 +235,7 @@ class Build : NukeBuild
         });
 
     Target Coveralls => _ => _
-        .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
+        .OnlyWhenDynamic(() => !string.IsNullOrWhiteSpace(CoverallsToken) && (RunAllTargets || HasSourceChanges))
         .DependsOn(CodeCoverage)
         .Consumes(CodeCoverage)
         .Executes(() =>
@@ -235,15 +249,14 @@ class Build : NukeBuild
                 .When(IsPullRequest,
                     s => s.SetPullRequest(GitHubActions?.PullRequestNumber)
                 )
-                .SetBasePath(RootDirectory.GetRelativePathTo(Solution.Core.FluentAssertions))
                 .EnableUserRelativePaths()
                 .SetCommitBranch(GitRepository.Branch)
                 .SetCommitId(GitRepository.Commit)
                 .SetCommitAuthor(Repository.Head.Tip.Author.Name)
                 .SetCommitEmail(Repository.Head.Tip.Author.Email)
-                .SetCommitMessage(Repository.Head.Tip.MessageShort));                
+                .SetCommitMessage(Repository.Head.Tip.MessageShort));
         });
-    
+
     Target TestFrameworks => _ => _
         .DependsOn(Compile)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
@@ -311,7 +324,7 @@ class Build : NukeBuild
             Assert.NotEmpty(packages.ToList());
 
             DotNetNuGetPush(s => s
-                .SetApiKey(NuGetApiKey)
+                .SetApiKey(ApiKey)
                 .EnableSkipDuplicate()
                 .SetSource("https://api.nuget.org/v3/index.json")
                 .EnableNoSymbols()
