@@ -348,16 +348,16 @@ class Build : NukeBuild
                 customLogger: (_, msg) => Error(msg));
         });
 
-    bool HasDocumentationChanges =>
-        Changes.Any(x => 
-            x.StartsWith("docs") || 
-            x.StartsWith("CONTRIBUTING.md") ||
-            x.StartsWith("cSpell.json") ||
-            x.StartsWith("LICENSE") ||
-            x.StartsWith("README.md"));
+    bool HasDocumentationChanges => Changes.Any(x => IsDocumentation(x));
 
-    bool HasSourceChanges =>
-        Changes.Any(x => !x.StartsWith("docs"));
+    bool HasSourceChanges => Changes.Any(x => !IsDocumentation(x));
+
+    static bool IsDocumentation(string x) =>
+        x.StartsWith("docs") ||
+        x.StartsWith("CONTRIBUTING.md") ||
+        x.StartsWith("cSpell.json") ||
+        x.StartsWith("LICENSE") ||
+        x.StartsWith("README.md");
 
     string[] Changes =>
         Repository.Diff
