@@ -78,6 +78,20 @@ class Build : NukeBuild
 
     string SemVer;
 
+    Target Info => _ => _
+        .Executes(() =>
+        {
+            if (string.IsNullOrWhiteSpace(CoverallsToken))
+            {
+                Warning("Coveralls token is null or empty");
+            }
+
+            if (string.IsNullOrWhiteSpace(NuGetApiKey))
+            {
+                Warning("NuGet API key is null or empty");
+            }
+        });
+
     Target Clean => _ => _
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
@@ -158,7 +172,7 @@ class Build : NukeBuild
         {
             IEnumerable<string> testAssemblies = Projects
                     .SelectMany(project => GlobFiles(project.Directory, "bin/Debug/net47/*.Specs.dll"));
-            
+
             Assert.NotEmpty(testAssemblies.ToList());
 
             Xunit2(s => s
@@ -199,7 +213,7 @@ class Build : NukeBuild
         .DependsOn(UnitTestsNetCore);
 
     Target CodeCoverage => _ => _
-        .DependsOn(TestFrameworks) 
+        .DependsOn(TestFrameworks)
         .DependsOn(UnitTests)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Produces(CoverageResultDirectory / "lcov.info")
@@ -221,7 +235,7 @@ class Build : NukeBuild
         });
 
     Target Coveralls => _ => _
-        .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
+        .OnlyWhenDynamic(() => !string.IsNullOrWhiteSpace(CoverallsToken) && (RunAllTargets || HasSourceChanges))
         .DependsOn(CodeCoverage)
         .Consumes(CodeCoverage)
         .Executes(() =>
@@ -229,21 +243,21 @@ class Build : NukeBuild
             CoverallsNet(s => s
                 .SetDryRun(IsLocalBuild)
                 .SetProcessArgumentConfigurator(x => x
-                    .Add("--lcov"))
+                    .Add("--lcov")
+                    .Add($"--jobId {GitHubActions?.RunId}"))
                 .SetInput(CoverageResultDirectory / "lcov.info")
                 .SetRepoToken(CoverallsToken)
                 .When(IsPullRequest,
                     s => s.SetPullRequest(GitHubActions?.PullRequestNumber)
                 )
-                .SetBasePath(RootDirectory.GetRelativePathTo(Solution.Core.FluentAssertions))
                 .EnableUserRelativePaths()
                 .SetCommitBranch(GitRepository.Branch)
                 .SetCommitId(GitRepository.Commit)
                 .SetCommitAuthor(Repository.Head.Tip.Author.Name)
                 .SetCommitEmail(Repository.Head.Tip.Author.Email)
-                .SetCommitMessage(Repository.Head.Tip.MessageShort));                
+                .SetCommitMessage(Repository.Head.Tip.MessageShort));
         });
-    
+
     Target TestFrameworks => _ => _
         .DependsOn(Compile)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
