@@ -12,6 +12,7 @@
         },
         "CoverallsToken": {
           "type": "string",
+          "description": "The coveralls specific token",
           "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
         "Help": {
@@ -79,7 +80,6 @@
               "CodeCoverage",
               "Compile",
               "Coveralls",
-              "Informations",
               "Pack",
               "Push",
               "Restore",
@@ -107,7 +107,6 @@
               "CodeCoverage",
               "Compile",
               "Coveralls",
-              "Informations",
               "Pack",
               "Push",
               "Restore",

@@ -36,7 +36,6 @@ class Build : NukeBuild
     public static int Main() => Execute<Build>(x => x.SpellCheck, x => x.Push);
 
     GitHubActions GitHubActions => GitHubActions.Instance;
-    [Parameter] [Secret] readonly string CoverallsToken;
 
     string BranchSpec => GitHubActions?.Ref;
     string BuildNumber => GitHubActions?.RunNumber.ToString();
@@ -45,6 +44,9 @@ class Build : NukeBuild
     [Parameter("The key to push to Nuget")]
     [Secret]
     readonly string NuGetApiKey;
+
+    [Parameter("The coveralls specific token")]
+    readonly string CoverallsToken;
 
     [Solution(GenerateProjects = true)]
     readonly Solution Solution;
