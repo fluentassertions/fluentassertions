@@ -349,7 +349,12 @@ class Build : NukeBuild
         });
 
     bool HasDocumentationChanges =>
-        Changes.Any(x => x.StartsWith("docs"));
+        Changes.Any(x => 
+            x.StartsWith("docs") || 
+            x.StartsWith("CONTRIBUTING.md") ||
+            x.StartsWith("cSpell.json") ||
+            x.StartsWith("LICENSE") ||
+            x.StartsWith("README.md"));
 
     bool HasSourceChanges =>
         Changes.Any(x => !x.StartsWith("docs"));
