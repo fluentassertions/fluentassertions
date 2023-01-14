@@ -46,6 +46,7 @@ class Build : NukeBuild
     readonly string NuGetApiKey;
 
     [Parameter("The coveralls specific token")]
+    [Secret]
     readonly string CoverallsToken;
 
     [Solution(GenerateProjects = true)]

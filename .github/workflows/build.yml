@@ -28,8 +28,8 @@ jobs:
       run: ./build.ps1
       env:
         NuGetApiKey: ${{ secrets.NUGETAPIKEY }}
-        CoverallsToken: ${{ secrets.COVERALLS_TOKEN }}
-        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+        CoverallsToken: ${{ secrets.COVERALLS }}
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS }}
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v3

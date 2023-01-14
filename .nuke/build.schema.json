@@ -46,8 +46,7 @@
         },
         "NuGetApiKey": {
           "type": "string",
-          "description": "The key to push to Nuget",
-          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
+          "description": "The key to push to Nuget"
         },
         "Partition": {
           "type": "string",
