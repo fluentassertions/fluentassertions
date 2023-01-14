@@ -42,11 +42,9 @@ class Build : NukeBuild
     string PullRequestBase => GitHubActions?.BaseRef;
 
     [Parameter("The key to push to Nuget")]
-    [Secret]
     readonly string NuGetApiKey;
 
     [Parameter("The coveralls specific token")]
-    [Secret]
     readonly string CoverallsToken;
 
     [Solution(GenerateProjects = true)]
@@ -237,6 +235,8 @@ class Build : NukeBuild
                 .When(IsPullRequest,
                     s => s.SetPullRequest(GitHubActions?.PullRequestNumber)
                 )
+                .SetBasePath(RootDirectory.GetRelativePathTo(Solution.Core.FluentAssertions))
+                .EnableUserRelativePaths()
                 .SetCommitBranch(GitRepository.Branch)
                 .SetCommitId(GitRepository.Commit)
                 .SetCommitAuthor(Repository.Head.Tip.Author.Name)

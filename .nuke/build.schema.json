@@ -12,8 +12,7 @@
         },
         "CoverallsToken": {
           "type": "string",
-          "description": "The coveralls specific token",
-          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
+          "description": "The coveralls specific token"
         },
         "Help": {
           "type": "boolean",
