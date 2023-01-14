@@ -64,6 +64,8 @@ class Build : NukeBuild
 #endif
     Tool Node;
 
+    string YarnCli => $"{ToolPathResolver.GetPackageExecutable("Yarn.MSBuild", "yarn.js", "1.22.19")} --silent";
+
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
 
     AbsolutePath TestResultsDirectory => RootDirectory / "TestResults";
@@ -294,8 +296,6 @@ class Build : NukeBuild
             Node($"{YarnCli} run cspell", workingDirectory: RootDirectory,
                 customLogger: (_, msg) => Error(msg));
         });
-
-    string YarnCli => $"{ToolPathResolver.GetPackageExecutable("Yarn.MSBuild", "yarn.js", "1.22.19")} --silent";
 
     bool HasDocumentationChanges =>
         Changes.Any(x => x.StartsWith("docs"));
