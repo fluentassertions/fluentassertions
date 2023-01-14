@@ -506,53 +506,139 @@ public class SelectionRulesSpecs
         act.Should().NotThrow();
     }
 
-    [Fact]
-    public void When_a_property_is_hidden_in_a_derived_class_it_should_ignore_it()
+    public class MemberHiding
     {
-        // Arrange
-        var subject = new SubclassA<string> { Foo = "test" };
-        var expectation = new SubclassB<string> { Foo = "test" };
+        [Fact]
+        public void Ignores_properties_hidden_by_the_derived_class()
+        {
+            // Arrange
+            var subject = new SubclassAHidingProperty<string>
+            {
+                Property = "DerivedValue"
+            };
 
-        // Act
-        Action action = () => subject.Should().BeEquivalentTo(expectation);
+            ((BaseWithProperty)subject).Property = "ActualBaseValue";
 
-        // Assert
-        action.Should().NotThrow();
-    }
+            var expectation = new SubclassBHidingProperty<string>
+            {
+                Property = "DerivedValue"
+            };
 
-    [Fact]
-    public void When_including_a_property_that_is_hidden_in_a_derived_class_it_should_select_the_correct_one()
-    {
-        // Arrange
-        var b1 = new ClassThatHidesBaseClassProperty();
-        var b2 = new ClassThatHidesBaseClassProperty();
+            ((AnotherBaseWithProperty)expectation).Property = "ExpectedBaseValue";
 
-        // Act / Assert
-        b1.Should().BeEquivalentTo(b2, config => config.Including(b => b.Property));
-    }
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation);
+        }
 
-    [Fact]
-    public void Excluding_a_property_hiding_a_base_class_property_should_not_reveal_the_latter()
-    {
-        // Arrange
-        var b1 = new ClassThatHidesBaseClassProperty();
-        var b2 = new ClassThatHidesBaseClassProperty();
+        [Fact]
+        public void Includes_hidden_property_of_the_base_when_using_a_reference_to_the_base()
+        {
+            // Arrange
+            var subject = new SubclassAHidingProperty<string>
+            {
+                Property = "ActualDerivedValue"
+            };
 
-        // Act
-        Action act = () => b1.Should().BeEquivalentTo(b2, config => config.Excluding(b => b.Property));
+            ((BaseWithProperty)subject).Property = "BaseValue";
 
-        // Assert
-        act.Should().Throw<InvalidOperationException>().WithMessage("*No members were found *");
-    }
+            AnotherBaseWithProperty expectation = new SubclassBHidingProperty<string>
+            {
+                Property = "ExpectedDerivedValue"
+            };
 
-    private class ClassWithGuidProperty
-    {
-        public string Property { get; set; } = Guid.NewGuid().ToString();
-    }
+            expectation.Property = "BaseValue";
 
-    private class ClassThatHidesBaseClassProperty : ClassWithGuidProperty
-    {
-        public new string[] Property { get; set; }
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation);
+        }
+
+        [Fact]
+        public void Run_type_typing_ignores_hidden_properties_even_when_using_a_reference_to_the_base_class()
+        {
+            // Arrange
+            var subject = new SubclassAHidingProperty<string>
+            {
+                Property = "DerivedValue"
+            };
+
+            ((BaseWithProperty)subject).Property = "ActualBaseValue";
+
+            AnotherBaseWithProperty expectation = new SubclassBHidingProperty<string>
+            {
+                Property = "DerivedValue"
+            };
+
+            expectation.Property = "ExpectedBaseValue";
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, _ => _.RespectingRuntimeTypes());
+        }
+
+        [Fact]
+        public void Including_the_derived_property_excludes_the_hidden_property()
+        {
+            // Arrange
+            var subject = new SubclassAHidingProperty<string>
+            {
+                Property = "DerivedValue"
+            };
+
+            ((BaseWithProperty)subject).Property = "ActualBaseValue";
+
+            var expectation = new SubclassBHidingProperty<string>
+            {
+                Property = "DerivedValue"
+            };
+
+            ((AnotherBaseWithProperty)expectation).Property = "ExpectedBaseValue";
+
+            // Act / Assert
+            subject.Should().BeEquivalentTo(expectation, _ => _
+                .Including(_ => _.Property));
+        }
+
+        [Fact]
+        public void Excluding_the_property_hiding_the_base_class_one_does_not_reveal_the_latter()
+        {
+            // Arrange
+            var subject = new SubclassAHidingProperty<string>();
+
+            ((BaseWithProperty)subject).Property = "ActualBaseValue";
+
+            var expectation = new SubclassBHidingProperty<string>();
+
+            ((AnotherBaseWithProperty)expectation).Property = "ExpectedBaseValue";
+
+            // Act
+            Action act = () => subject.Should().BeEquivalentTo(expectation, _ => _
+                .Excluding(b => b.Property));
+
+            // Assert
+            act.Should().Throw<InvalidOperationException>().WithMessage("*No members were found *");
+        }
+
+        public class BaseWithProperty
+        {
+            public object Property { get; set; }
+        }
+
+        public class SubclassAHidingProperty<T> : BaseWithProperty
+        {
+            public new T Property { get; set; }
+        }
+
+        public class AnotherBaseWithProperty
+        {
+            public object Property { get; set; }
+        }
+
+        public class SubclassBHidingProperty<T> : AnotherBaseWithProperty
+        {
+            public new T Property
+            {
+                get; set;
+            }
+        }
     }
 
     [Fact]
