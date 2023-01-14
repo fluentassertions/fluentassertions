@@ -1,7 +1,7 @@
 {
-    "version": "1.0.0",
+    "version": "1.0.1",
     "scripts": {
-        "cspell": "cspell --config ./cSpell.json ./docs/**/*.md --no-progress"
+        "cspell": "cspell --config ./cSpell.json ./docs/**/*.md --no-progress --no-summary"
     },
     "dependencies": {
         "cspell": "^6.18.1"

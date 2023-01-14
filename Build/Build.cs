@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LibGit2Sharp;
 using Nuke.Common;
+using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Execution;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
@@ -32,17 +33,15 @@ class Build : NukeBuild
 
     public static int Main() => Execute<Build>(x => x.SpellCheck, x => x.Push);
 
-    [Parameter("A branch specification such as develop or refs/pull/1775/merge")]
-    readonly string BranchSpec;
+    GitHubActions GitHubActions => GitHubActions.Instance;
 
-    [Parameter("An incrementing build number as provided by the build engine")]
-    readonly string BuildNumber;
-
-    [Parameter("The target branch for the pull request")]
-    readonly string PullRequestBase;
+    string BranchSpec => GitHubActions?.Ref;
+    string BuildNumber => GitHubActions?.RunNumber.ToString();
+    string PullRequestBase => GitHubActions?.BaseRef;
 
     [Parameter("The key to push to Nuget")]
-    readonly string ApiKey;
+    [Secret]
+    readonly string NuGetApiKey;
 
     [Solution(GenerateProjects = true)]
     readonly Solution Solution;
@@ -65,12 +64,13 @@ class Build : NukeBuild
 #endif
     Tool Node;
 
+    string YarnCli => $"{ToolPathResolver.GetPackageExecutable("Yarn.MSBuild", "yarn.js", "1.22.19")} --silent";
+
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
 
     AbsolutePath TestResultsDirectory => RootDirectory / "TestResults";
 
     string SemVer;
-    string YarnCli => ToolPathResolver.GetPackageExecutable("Yarn.MSBuild", "yarn.js", "1.22.19");
 
     Target Clean => _ => _
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
@@ -97,7 +97,7 @@ class Build : NukeBuild
             Information("SemVer = {semver}", SemVer);
         });
 
-    bool IsPullRequest => BranchSpec != null && BranchSpec.Contains("pull", StringComparison.InvariantCultureIgnoreCase);
+    bool IsPullRequest => GitHubActions?.IsPullRequest ?? false;
 
     Target Restore => _ => _
         .DependsOn(Clean)
@@ -117,7 +117,7 @@ class Build : NukeBuild
         {
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
-                .SetConfiguration("CI")
+                .SetConfiguration(Configuration.CI)
                 .EnableNoLogo()
                 .EnableNoRestore()
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
@@ -131,41 +131,44 @@ class Build : NukeBuild
         .Executes(() =>
         {
             DotNetTest(s => s
-                .SetConfiguration("Release")
+                .SetConfiguration(Configuration.Release)
                 .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
                 .EnableNoBuild()
                 .CombineWith(
                     cc => cc.SetProjectFile(Solution.Specs.Approval_Tests)));
         });
 
-    Target UnitTests => _ => _
+    Project[] Projects => new[]
+    {
+        Solution.Specs.FluentAssertions_Specs,
+        Solution.Specs.FluentAssertions_Equivalency_Specs
+    };
+
+    Target UnitTestsNetFramework => _ => _
+        .Unlisted()
+        .DependsOn(Compile)
+        .OnlyWhenDynamic(() => EnvironmentInfo.IsWin && (RunAllTargets || HasSourceChanges))
+        .Executes(() =>
+        {
+            IEnumerable<string> testAssemblies = Projects
+                    .SelectMany(project => GlobFiles(project.Directory, "bin/Debug/net47/*.Specs.dll"));
+            
+            Assert.NotEmpty(testAssemblies.ToList());
+
+            Xunit2(s => s
+                .SetFramework("net47")
+                .AddTargetAssemblies(testAssemblies)
+            );
+        });
+
+    Target UnitTestsNetCore => _ => _
+        .Unlisted()
         .DependsOn(Compile)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
-            Project[] projects = new[]
-            {
-                Solution.Specs.FluentAssertions_Specs,
-                Solution.Specs.FluentAssertions_Equivalency_Specs
-            };
-
-            if (EnvironmentInfo.IsWin)
-            {
-                Xunit2(s =>
-                {
-                    IEnumerable<string> testAssemblies = projects
-                        .SelectMany(project => GlobFiles(project.Directory, "bin/Debug/net47/*.Specs.dll"));
-
-                    Assert.NotEmpty(testAssemblies.ToList());
-
-                    return s
-                        .SetFramework("net47")
-                        .AddTargetAssemblies(testAssemblies);
-                });
-            }
-
             DotNetTest(s => s
-                .SetConfiguration("Debug")
+                .SetConfiguration(Configuration.Debug)
                 .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
                 .EnableNoBuild()
                 .SetDataCollector("XPlat Code Coverage")
@@ -174,7 +177,7 @@ class Build : NukeBuild
                     "DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.DoesNotReturnAttribute",
                     "DoesNotReturnAttribute")
                 .CombineWith(
-                    projects,
+                    Projects,
                     (_, project) => _
                         .SetProjectFile(project)
                         .CombineWith(
@@ -185,8 +188,12 @@ class Build : NukeBuild
             );
         });
 
+    Target UnitTests => _ => _
+        .DependsOn(UnitTestsNetFramework)
+        .DependsOn(UnitTestsNetCore);
+
     Target CodeCoverage => _ => _
-        .DependsOn(TestFrameworks)
+        .DependsOn(TestFrameworks) 
         .DependsOn(UnitTests)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
@@ -195,7 +202,9 @@ class Build : NukeBuild
                 .SetProcessToolPath(ToolPathResolver.GetPackageExecutable("ReportGenerator", "ReportGenerator.dll", framework: "net6.0"))
                 .SetTargetDirectory(TestResultsDirectory / "reports")
                 .AddReports(TestResultsDirectory / "**/coverage.cobertura.xml")
-                .AddReportTypes("HtmlInline_AzurePipelines_Dark", "lcov")
+                .AddReportTypes(
+                    ReportTypes.lcov,
+                    ReportTypes.HtmlInline_AzurePipelines_Dark)
                 .AddFileFilters("-*.g.cs")
                 .SetAssemblyFilters("+FluentAssertions"));
 
@@ -222,7 +231,7 @@ class Build : NukeBuild
                 select new { project, framework };
 
             DotNetTest(s => s
-                .SetConfiguration("Debug")
+                .SetConfiguration(Configuration.Debug)
                 .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
                 .EnableNoBuild()
                 .SetDataCollector("XPlat Code Coverage")
@@ -252,7 +261,7 @@ class Build : NukeBuild
             DotNetPack(s => s
                 .SetProject(Solution.Core.FluentAssertions)
                 .SetOutputDirectory(ArtifactsDirectory)
-                .SetConfiguration("Release")
+                .SetConfiguration(Configuration.Release)
                 .EnableNoLogo()
                 .EnableNoRestore()
                 .EnableContinuousIntegrationBuild() // Necessary for deterministic builds
@@ -262,6 +271,7 @@ class Build : NukeBuild
     Target Push => _ => _
         .DependsOn(Pack)
         .OnlyWhenDynamic(() => IsTag)
+        .ProceedAfterFailure()
         .Executes(() =>
         {
             IReadOnlyCollection<string> packages = GlobFiles(ArtifactsDirectory, "*.nupkg");
@@ -269,7 +279,7 @@ class Build : NukeBuild
             Assert.NotEmpty(packages.ToList());
 
             DotNetNuGetPush(s => s
-                .SetApiKey(ApiKey)
+                .SetApiKey(NuGetApiKey)
                 .EnableSkipDuplicate()
                 .SetSource("https://api.nuget.org/v3/index.json")
                 .EnableNoSymbols()
@@ -279,10 +289,11 @@ class Build : NukeBuild
 
     Target SpellCheck => _ => _
         .OnlyWhenDynamic(() => RunAllTargets || HasDocumentationChanges)
+        .ProceedAfterFailure()
         .Executes(() =>
         {
-            Node($"{YarnCli} install --silent", workingDirectory: RootDirectory);
-            Node($"{YarnCli} --silent run cspell --no-summary", workingDirectory: RootDirectory,
+            Node($"{YarnCli} install", workingDirectory: RootDirectory);
+            Node($"{YarnCli} run cspell", workingDirectory: RootDirectory,
                 customLogger: (_, msg) => Error(msg));
         });
 
