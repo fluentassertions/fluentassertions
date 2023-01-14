@@ -13,6 +13,8 @@ sidebar:
 
 ### Fixes
 
+* `BeEquivalentTo` no longer crashes on fields hiding base-class fields - [#1990](https://github.com/fluentassertions/fluentassertions/pull/1990)
+
 ## 6.9.0
 
 ### What's new
