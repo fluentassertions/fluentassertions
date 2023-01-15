@@ -158,14 +158,15 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="waitTime"/> or <paramref name="pollInterval"/> are negative.</exception>
     public AndConstraint<TAssertions> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNegative(waitTime);
+        Guard.ThrowIfArgumentIsNegative(pollInterval);
+
         Execute.Assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw after {0}{reason}, but found <null>.", waitTime);
 
         FailIfSubjectIsAsyncVoid();
-        Guard.ThrowIfArgumentIsNegative(waitTime);
-        Guard.ThrowIfArgumentIsNegative(pollInterval);
 
         TimeSpan? invocationEndTime = null;
         Exception exception = null;
