@@ -9,7 +9,7 @@ namespace FluentAssertions.Execution;
 /// <summary>
 /// Implements a wrapper around all supported test frameworks to throw the correct assertion exception.
 /// </summary>
-internal static class TestFrameworkProvider
+internal class TestFrameworkProvider
 {
     #region Private Definitions
 
@@ -22,31 +22,34 @@ internal static class TestFrameworkProvider
         ["xunit2"] = new XUnit2TestFramework() // Keep this the last one as it uses a try/catch approach
     };
 
-    private static ITestFramework testFramework;
+    private readonly Configuration configuration;
+
+    private ITestFramework testFramework;
 
     #endregion
 
-    [DoesNotReturn]
-    public static void Throw(string message)
+    public TestFrameworkProvider(Configuration configuration)
     {
-        if (testFramework is null)
-        {
-            testFramework = DetectFramework(Services.Configuration);
-        }
+        this.configuration = configuration;
+    }
 
+    [DoesNotReturn]
+    public void Throw(string message)
+    {
+        testFramework ??= DetectFramework();
         testFramework.Throw(message);
     }
 
-    internal static ITestFramework DetectFramework(Configuration configuration)
+    private ITestFramework DetectFramework()
     {
-        ITestFramework detectedFramework = AttemptToDetectUsingAppSetting(configuration)
+        ITestFramework detectedFramework = AttemptToDetectUsingAppSetting()
             ?? AttemptToDetectUsingDynamicScanning()
             ?? new FallbackTestFramework();
 
         return detectedFramework;
     }
 
-    internal static ITestFramework AttemptToDetectUsingAppSetting(Configuration configuration)
+    private ITestFramework AttemptToDetectUsingAppSetting()
     {
         string frameworkName = configuration.TestFrameworkName;
         if (string.IsNullOrEmpty(frameworkName))
