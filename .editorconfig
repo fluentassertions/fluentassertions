@@ -64,7 +64,7 @@ dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols  = constant_fields
 dotnet_naming_rule.constant_fields_should_be_pascal_case.style    = pascal_case_style
 
-dotnet_naming_symbols.constant_fields.applicable_kinds   = field
+dotnet_naming_symbols.constant_fields.applicable_kinds = field
 dotnet_naming_symbols.constant_fields.required_modifiers = const
 
 dotnet_naming_style.pascal_case_style.capitalization = pascal_case
@@ -269,3 +269,7 @@ dotnet_diagnostic.AV2407.severity = none
 # ReSharper/Rider
 # Convert lambda expression to method group
 resharper_convert_closure_to_method_group_highlighting=none
+
+resharper_wrap_object_and_collection_initializer_style = false:none
+
+resharper_blank_lines_after_multiline_statements = 1

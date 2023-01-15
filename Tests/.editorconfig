@@ -27,10 +27,12 @@ dotnet_diagnostic.CA1036.severity = none
 dotnet_diagnostic.CA1040.severity = none
 # CA1044: Properties should not be write only
 dotnet_diagnostic.CA1044.severity = none
-# CA1052: Static holder types should be Static or NotInheritable
-dotnet_diagnostic.CA1052.severity = none
 # CA1051: Do not declare visible instance fields
 dotnet_diagnostic.CA1051.severity = none
+
+# CA1052 Type is a static holder type but is neither static nor NotInheritable
+dotnet_diagnostic.CA1052.severity = none
+
 # CA1062: Validate arguments of public methods
 dotnet_diagnostic.CA1062.severity = none
 # CA1064: Exceptions should be public
@@ -142,7 +144,6 @@ dotnet_diagnostic.SA1615.severity = none
 
 # SA1005: Single line comments should begin with single space
 dotnet_diagnostic.SA1005.severity = suggestion
-
 
 # ReSharper/Rider
 resharper_expression_is_always_null_highlighting=none
