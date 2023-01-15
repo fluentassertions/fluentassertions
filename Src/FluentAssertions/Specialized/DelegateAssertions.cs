@@ -38,10 +38,15 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     public ExceptionAssertions<TException> Throw<TException>(string because = "", params object[] becauseArgs)
         where TException : Exception
     {
-        Execute.Assertion
+        bool success = Execute.Assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to throw {0}{reason}, but found <null>.", typeof(TException));
+
+        if (!success)
+        {
+            return new ExceptionAssertions<TException>(Array.Empty<TException>());
+        }
 
         FailIfSubjectIsAsyncVoid();
         Exception exception = InvokeSubjectWithInterception();
@@ -61,10 +66,15 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     public AndConstraint<TAssertions> NotThrow<TException>(string because = "", params object[] becauseArgs)
         where TException : Exception
     {
-        Execute.Assertion
+        bool success = Execute.Assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw {0}{reason}, but found <null>.", typeof(TException));
+
+        if (!success)
+        {
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
 
         FailIfSubjectIsAsyncVoid();
         Exception exception = InvokeSubjectWithInterception();
@@ -83,10 +93,15 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     /// </param>
     public AndConstraint<TAssertions> NotThrow(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        bool success = Execute.Assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw{reason}, but found <null>.");
+
+        if (!success)
+        {
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
 
         FailIfSubjectIsAsyncVoid();
         Exception exception = InvokeSubjectWithInterception();
@@ -113,10 +128,15 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
         params object[] becauseArgs)
         where TException : Exception
     {
-        Execute.Assertion
+        bool success = Execute.Assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to throw exactly {0}{reason}, but found <null>.", typeof(TException));
+
+        if (!success)
+        {
+            return new ExceptionAssertions<TException>(Array.Empty<TException>());
+        }
 
         FailIfSubjectIsAsyncVoid();
         Exception exception = InvokeSubjectWithInterception();
@@ -161,10 +181,15 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
         Guard.ThrowIfArgumentIsNegative(waitTime);
         Guard.ThrowIfArgumentIsNegative(pollInterval);
 
-        Execute.Assertion
+        bool success = Execute.Assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw after {0}{reason}, but found <null>.", waitTime);
+
+        if (!success)
+        {
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
 
         FailIfSubjectIsAsyncVoid();
 

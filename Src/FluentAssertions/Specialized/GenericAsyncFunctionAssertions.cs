@@ -79,10 +79,15 @@ public class GenericAsyncFunctionAssertions<TResult> : AsyncFunctionAssertions<T
     public new async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAsync(
         string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        bool success = Execute.Assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw{reason}, but found <null>.");
+
+        if (!success)
+        {
+            return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, default(TResult));
+        }
 
         try
         {
@@ -125,10 +130,16 @@ public class GenericAsyncFunctionAssertions<TResult> : AsyncFunctionAssertions<T
         Guard.ThrowIfArgumentIsNegative(waitTime);
         Guard.ThrowIfArgumentIsNegative(pollInterval);
 
-        Execute.Assertion
+        bool success = Execute.Assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw any exceptions after {0}{reason}, but found <null>.", waitTime);
+
+        if (!success)
+        {
+            var result = new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, default(TResult));
+            return Task.FromResult(result);
+        }
 
         return AssertionTaskAsync();
 

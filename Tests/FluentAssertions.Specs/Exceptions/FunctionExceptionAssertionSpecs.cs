@@ -20,11 +20,16 @@ public class FunctionExceptionAssertionSpecs
         Func<int> action = null;
 
         // Act
-        Action testAction = () => action.Should().NotThrow("because we want to test the failure {0}", "message");
+        Action testAction = () =>
+        {
+            using var _ = new AssertionScope();
+            action.Should().NotThrow("because we want to test the failure {0}", "message");
+        };
 
         // Assert
         testAction.Should().Throw<XunitException>()
-            .WithMessage("*because we want to test the failure message*found <null>*");
+            .WithMessage("*because we want to test the failure message*found <null>*")
+            .Where(e => !e.Message.Contains("NullReferenceException"));
     }
 
     [Fact]
@@ -138,12 +143,16 @@ public class FunctionExceptionAssertionSpecs
         Func<int> act = null;
 
         // Act
-        Action action = () => act.Should().Throw<ArgumentNullException>(
-            "because we want to test the failure {0}", "message");
+        Action action = () =>
+        {
+            using var _ = new AssertionScope();
+            act.Should().Throw<ArgumentNullException>("because we want to test the failure {0}", "message");
+        };
 
         // Assert
         action.Should().Throw<XunitException>()
-            .WithMessage("*because we want to test the failure message*found <null>*");
+            .WithMessage("*because we want to test the failure message*found <null>*")
+            .Where(e => !e.Message.Contains("NullReferenceException"));
     }
 
     [Fact]
@@ -258,12 +267,16 @@ public class FunctionExceptionAssertionSpecs
         Func<int> act = null;
 
         // Act
-        Action action = () => act.Should().ThrowExactly<ArgumentNullException>(
-            "because we want to test the failure {0}", "message");
+        Action action = () =>
+        {
+            using var _ = new AssertionScope();
+            act.Should().ThrowExactly<ArgumentNullException>("because we want to test the failure {0}", "message");
+        };
 
         // Assert
         action.Should().Throw<XunitException>()
-            .WithMessage("*because we want to test the failure message*found <null>*");
+            .WithMessage("*because we want to test the failure message*found <null>*")
+            .Where(e => !e.Message.Contains("NullReferenceException"));
     }
 
     [Fact]
@@ -356,12 +369,16 @@ public class FunctionExceptionAssertionSpecs
         Func<int> act = null;
 
         // Act
-        Action action = () => act.Should().NotThrow<ArgumentNullException>(
-            "because we want to test the failure {0}", "message");
+        Action action = () =>
+        {
+            using var _ = new AssertionScope();
+            act.Should().NotThrow<ArgumentNullException>("because we want to test the failure {0}", "message");
+        };
 
         // Assert
         action.Should().Throw<XunitException>()
-            .WithMessage("*because we want to test the failure message*found <null>*");
+            .WithMessage("*because we want to test the failure message*found <null>*")
+            .Where(e => !e.Message.Contains("NullReferenceException"));
     }
 
     [Fact]
@@ -450,12 +467,16 @@ public class FunctionExceptionAssertionSpecs
         Func<int> action = null;
 
         // Act
-        Action testAction = () => action.Should().NotThrowAfter(
-            waitTime, pollInterval, "because we want to test the failure {0}", "message");
+        Action testAction = () =>
+        {
+            using var _ = new AssertionScope();
+            action.Should().NotThrowAfter(waitTime, pollInterval, "because we want to test the failure {0}", "message");
+        };
 
         // Assert
         testAction.Should().Throw<XunitException>()
-            .WithMessage("*because we want to test the failure message*found <null>*");
+            .WithMessage("*because we want to test the failure message*found <null>*")
+            .Where(e => !e.Message.Contains("NullReferenceException"));
     }
 
     [Fact]
