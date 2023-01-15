@@ -201,12 +201,16 @@ public static class TaskOfTAssertionSpecs
             Func<Task<int>> action = null;
 
             // Act
-            Func<Task> testAction = () => action.Should().NotThrowAsync(
-                "because we want to test the failure {0}", "message");
+            Func<Task> testAction = async () =>
+            {
+                using var _ = new AssertionScope();
+                await action.Should().NotThrowAsync("because we want to test the failure {0}", "message");
+            };
 
             // Assert
             await testAction.Should().ThrowAsync<XunitException>()
-                .WithMessage("*because we want to test the failure message*found <null>*");
+                .WithMessage("*because we want to test the failure message*found <null>*")
+                .Where(e => !e.Message.Contains("NullReferenceException"));
         }
 
         [Fact]
@@ -307,12 +311,17 @@ public static class TaskOfTAssertionSpecs
             Func<Task<int>> action = null;
 
             // Act
-            Func<Task> testAction = () => action.Should().NotThrowAfterAsync(
-                waitTime, pollInterval, "because we want to test the failure {0}", "message");
+            Func<Task> testAction = async () =>
+            {
+                using var _ = new AssertionScope();
+                await action.Should().NotThrowAfterAsync(waitTime, pollInterval,
+                    "because we want to test the failure {0}", "message");
+            };
 
             // Assert
             await testAction.Should().ThrowAsync<XunitException>()
-                .WithMessage("*because we want to test the failure message*found <null>*");
+                .WithMessage("*because we want to test the failure message*found <null>*")
+                .Where(e => !e.Message.Contains("NullReferenceException"));
         }
 
         [Fact]

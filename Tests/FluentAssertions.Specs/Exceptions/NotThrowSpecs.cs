@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using FluentAssertions.Execution;
 #if NETFRAMEWORK
 using FluentAssertions.Specs.Common;
 #endif
@@ -20,11 +21,16 @@ public class NotThrowSpecs
         Action act = null;
 
         // Act
-        Action action = () => act.Should().NotThrow("because we want to test the failure {0}", "message");
+        Action action = () =>
+        {
+            using var _ = new AssertionScope();
+            act.Should().NotThrow("because we want to test the failure {0}", "message");
+        };
 
         // Assert
         action.Should().Throw<XunitException>()
-            .WithMessage("*because we want to test the failure message*found <null>*");
+            .WithMessage("*because we want to test the failure message*found <null>*")
+            .Where(e => !e.Message.Contains("NullReferenceException"));
     }
 
     [Fact]
@@ -97,12 +103,17 @@ public class NotThrowSpecs
         Action act = null;
 
         // Act
-        Action action = () => act.Should().NotThrowAfter(0.Milliseconds(), 0.Milliseconds(),
-            "because we want to test the failure {0}", "message");
+        Action action = () =>
+        {
+            using var _ = new AssertionScope();
+            act.Should().NotThrowAfter(0.Milliseconds(), 0.Milliseconds(),
+                "because we want to test the failure {0}", "message");
+        };
 
         // Assert
         action.Should().Throw<XunitException>()
-            .WithMessage("*because we want to test the failure message*found <null>*");
+            .WithMessage("*because we want to test the failure message*found <null>*")
+            .Where(e => !e.Message.Contains("NullReferenceException"));
     }
 
 #pragma warning disable CS1998

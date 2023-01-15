@@ -674,13 +674,16 @@ public static class NumericAssertionsExtensions
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
-        Execute.Assertion
+        bool success = Execute.Assertion
             .ForCondition(parent.Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
 
-        var nonNullableAssertions = new SingleAssertions(parent.Subject.Value);
-        nonNullableAssertions.BeApproximately(expectedValue, precision, because, becauseArgs);
+        if (success)
+        {
+            var nonNullableAssertions = new SingleAssertions(parent.Subject.Value);
+            nonNullableAssertions.BeApproximately(expectedValue, precision, because, becauseArgs);
+        }
 
         return new AndConstraint<NullableNumericAssertions<float>>(parent);
     }
@@ -800,13 +803,16 @@ public static class NumericAssertionsExtensions
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
-        Execute.Assertion
+        bool success = Execute.Assertion
             .ForCondition(parent.Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
 
-        var nonNullableAssertions = new DoubleAssertions(parent.Subject.Value);
-        BeApproximately(nonNullableAssertions, expectedValue, precision, because, becauseArgs);
+        if (success)
+        {
+            var nonNullableAssertions = new DoubleAssertions(parent.Subject.Value);
+            BeApproximately(nonNullableAssertions, expectedValue, precision, because, becauseArgs);
+        }
 
         return new AndConstraint<NullableNumericAssertions<double>>(parent);
     }
@@ -926,13 +932,17 @@ public static class NumericAssertionsExtensions
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
-        Execute.Assertion
+        bool success = Execute.Assertion
             .ForCondition(parent.Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
 
-        var nonNullableAssertions = new DecimalAssertions(parent.Subject.Value);
-        BeApproximately(nonNullableAssertions, expectedValue, precision, because, becauseArgs);
+        if (success)
+        {
+            var nonNullableAssertions = new DecimalAssertions(parent.Subject.Value);
+            BeApproximately(nonNullableAssertions, expectedValue, precision, because, becauseArgs);
+        }
+
         return new AndConstraint<NullableNumericAssertions<decimal>>(parent);
     }
 
