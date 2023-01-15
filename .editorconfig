@@ -268,8 +268,10 @@ dotnet_diagnostic.AV2407.severity = none
 
 # ReSharper/Rider
 # Convert lambda expression to method group
-resharper_convert_closure_to_method_group_highlighting=none
+resharper_convert_closure_to_method_group_highlighting = none
 
-resharper_wrap_object_and_collection_initializer_style = false:none
+resharper_wrap_object_and_collection_initializer_style = chop_always
 
 resharper_blank_lines_after_multiline_statements = 1
+
+resharper_keep_existing_initializer_arrangement = false
