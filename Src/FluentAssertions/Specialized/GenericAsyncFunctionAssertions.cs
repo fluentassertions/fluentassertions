@@ -39,31 +39,29 @@ public class GenericAsyncFunctionAssertions<TResult> : AsyncFunctionAssertions<T
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to complete within {0}{reason}, but found <null>.", timeSpan);
 
-        if (!success)
-        {
-            // subject is null, nothing to execute
-            // We need (currently) to return a default result as "Which" because actual result is not available.
-            return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, default(TResult));
-        }
-
-        (Task<TResult> task, TimeSpan remainingTime) = InvokeWithTimer(timeSpan);
-
-        success = Execute.Assertion
-            .ForCondition(remainingTime >= TimeSpan.Zero)
-            .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
-
         if (success)
         {
-            bool completesWithinTimeout = await CompletesWithinTimeoutAsync(task, remainingTime);
-            Execute.Assertion
-                .ForCondition(completesWithinTimeout)
+            (Task<TResult> task, TimeSpan remainingTime) = InvokeWithTimer(timeSpan);
+
+            success = Execute.Assertion
+                .ForCondition(remainingTime >= TimeSpan.Zero)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
+
+            if (success)
+            {
+                bool completesWithinTimeout = await CompletesWithinTimeoutAsync(task, remainingTime);
+                Execute.Assertion
+                    .ForCondition(completesWithinTimeout)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
+            }
+
+            TResult result = task.IsCompleted ? task.Result : default;
+            return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, result);
         }
 
-        TResult result = task.IsCompleted ? task.Result : default;
-        return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, result);
+        return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, default(TResult));
     }
 
     /// <summary>
@@ -84,21 +82,20 @@ public class GenericAsyncFunctionAssertions<TResult> : AsyncFunctionAssertions<T
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
-        if (!success)
+        if (success)
         {
-            return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, default(TResult));
+            try
+            {
+                TResult result = await Subject.Invoke();
+                return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, result);
+            }
+            catch (Exception exception)
+            {
+                NotThrowInternal(exception, because, becauseArgs);
+            }
         }
 
-        try
-        {
-            TResult result = await Subject.Invoke();
-            return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, result);
-        }
-        catch (Exception exception)
-        {
-            NotThrowInternal(exception, because, becauseArgs);
-            return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, default(TResult));
-        }
+        return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, default(TResult));
     }
 
     /// <summary>
@@ -135,40 +132,39 @@ public class GenericAsyncFunctionAssertions<TResult> : AsyncFunctionAssertions<T
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw any exceptions after {0}{reason}, but found <null>.", waitTime);
 
-        if (!success)
+        if (success)
         {
-            var result = new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, default(TResult));
-            return Task.FromResult(result);
-        }
+            return AssertionTaskAsync();
 
-        return AssertionTaskAsync();
-
-        async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> AssertionTaskAsync()
-        {
-            TimeSpan? invocationEndTime = null;
-            Exception exception = null;
-            ITimer timer = Clock.StartTimer();
-
-            while (invocationEndTime is null || invocationEndTime < waitTime)
+            async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> AssertionTaskAsync()
             {
-                try
+                TimeSpan? invocationEndTime = null;
+                Exception exception = null;
+                ITimer timer = Clock.StartTimer();
+
+                while (invocationEndTime is null || invocationEndTime < waitTime)
                 {
-                    TResult result = await Subject.Invoke();
-                    return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, result);
+                    try
+                    {
+                        TResult result = await Subject.Invoke();
+                        return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, result);
+                    }
+                    catch (Exception ex)
+                    {
+                        exception = ex;
+                        await Clock.DelayAsync(pollInterval, CancellationToken.None);
+                        invocationEndTime = timer.Elapsed;
+                    }
                 }
-                catch (Exception ex)
-                {
-                    exception = ex;
-                    await Clock.DelayAsync(pollInterval, CancellationToken.None);
-                    invocationEndTime = timer.Elapsed;
-                }
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
+
+                return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, default(TResult));
             }
-
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
-
-            return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, default(TResult));
         }
+
+        return Task.FromResult(new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, default(TResult)));
     }
 }
