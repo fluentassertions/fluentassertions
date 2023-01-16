@@ -43,14 +43,14 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to throw {0}{reason}, but found <null>.", typeof(TException));
 
-        if (!success)
+        if (success)
         {
-            return new ExceptionAssertions<TException>(Array.Empty<TException>());
+            FailIfSubjectIsAsyncVoid();
+            Exception exception = InvokeSubjectWithInterception();
+            return ThrowInternal<TException>(exception, because, becauseArgs);
         }
 
-        FailIfSubjectIsAsyncVoid();
-        Exception exception = InvokeSubjectWithInterception();
-        return ThrowInternal<TException>(exception, because, becauseArgs);
+        return new ExceptionAssertions<TException>(Array.Empty<TException>());
     }
 
     /// <summary>
@@ -71,14 +71,14 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw {0}{reason}, but found <null>.", typeof(TException));
 
-        if (!success)
+        if (success)
         {
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            FailIfSubjectIsAsyncVoid();
+            Exception exception = InvokeSubjectWithInterception();
+            return NotThrowInternal<TException>(exception, because, becauseArgs);
         }
 
-        FailIfSubjectIsAsyncVoid();
-        Exception exception = InvokeSubjectWithInterception();
-        return NotThrowInternal<TException>(exception, because, becauseArgs);
+        return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
     /// <summary>
@@ -98,14 +98,14 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
-        if (!success)
+        if (success)
         {
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            FailIfSubjectIsAsyncVoid();
+            Exception exception = InvokeSubjectWithInterception();
+            return NotThrowInternal(exception, because, becauseArgs);
         }
 
-        FailIfSubjectIsAsyncVoid();
-        Exception exception = InvokeSubjectWithInterception();
-        return NotThrowInternal(exception, because, becauseArgs);
+        return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
     /// <summary>
@@ -133,24 +133,24 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to throw exactly {0}{reason}, but found <null>.", typeof(TException));
 
-        if (!success)
+        if (success)
         {
-            return new ExceptionAssertions<TException>(Array.Empty<TException>());
+            FailIfSubjectIsAsyncVoid();
+            Exception exception = InvokeSubjectWithInterception();
+
+            Type expectedType = typeof(TException);
+
+            Execute.Assertion
+                .ForCondition(exception is not null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {0}{reason}, but no exception was thrown.", expectedType);
+
+            exception.Should().BeOfType(expectedType, because, becauseArgs);
+
+            return new ExceptionAssertions<TException>(new[] { exception as TException });
         }
 
-        FailIfSubjectIsAsyncVoid();
-        Exception exception = InvokeSubjectWithInterception();
-
-        Type expectedType = typeof(TException);
-
-        Execute.Assertion
-            .ForCondition(exception is not null)
-            .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {0}{reason}, but no exception was thrown.", expectedType);
-
-        exception.Should().BeOfType(expectedType, because, becauseArgs);
-
-        return new ExceptionAssertions<TException>(new[] { exception as TException });
+        return new ExceptionAssertions<TException>(Array.Empty<TException>());
     }
 
     /// <summary>
@@ -186,33 +186,31 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw after {0}{reason}, but found <null>.", waitTime);
 
-        if (!success)
+        if (success)
         {
-            return new AndConstraint<TAssertions>((TAssertions)this);
-        }
+            FailIfSubjectIsAsyncVoid();
 
-        FailIfSubjectIsAsyncVoid();
+            TimeSpan? invocationEndTime = null;
+            Exception exception = null;
+            ITimer timer = Clock.StartTimer();
 
-        TimeSpan? invocationEndTime = null;
-        Exception exception = null;
-        ITimer timer = Clock.StartTimer();
-
-        while (invocationEndTime is null || invocationEndTime < waitTime)
-        {
-            exception = InvokeSubjectWithInterception();
-            if (exception is null)
+            while (invocationEndTime is null || invocationEndTime < waitTime)
             {
-                break;
+                exception = InvokeSubjectWithInterception();
+                if (exception is null)
+                {
+                    break;
+                }
+
+                Clock.Delay(pollInterval);
+                invocationEndTime = timer.Elapsed;
             }
 
-            Clock.Delay(pollInterval);
-            invocationEndTime = timer.Elapsed;
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(exception is null)
+                .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
         }
-
-        Execute.Assertion
-            .BecauseOf(because, becauseArgs)
-            .ForCondition(exception is null)
-            .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }

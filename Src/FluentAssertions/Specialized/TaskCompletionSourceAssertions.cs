@@ -124,18 +124,18 @@ public class TaskCompletionSourceAssertions<T> : TaskCompletionSourceAssertionsB
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to complete within {0}{reason}, but found <null>.", timeSpan);
 
-        if (!success)
+        if (success)
         {
-            return new AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>(this, default(T));
+            bool completesWithinTimeout = await CompletesWithinTimeoutAsync(subject.Task, timeSpan);
+            Execute.Assertion
+                .ForCondition(completesWithinTimeout)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
+            T result = subject.Task.IsCompleted ? subject.Task.Result : default;
+            return new AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>(this, result);
         }
 
-        bool completesWithinTimeout = await CompletesWithinTimeoutAsync(subject.Task, timeSpan);
-        Execute.Assertion
-            .ForCondition(completesWithinTimeout)
-            .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
-        T result = subject.Task.IsCompleted ? subject.Task.Result : default;
-        return new AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>(this, result);
+        return new AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>(this, default(T));
     }
 
     /// <summary>

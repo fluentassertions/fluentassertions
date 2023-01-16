@@ -132,21 +132,21 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to throw exactly {0}{reason}, but found <null>.", expectedType);
 
-        if (!success)
+        if (success)
         {
-            return new ExceptionAssertions<TException>(Array.Empty<TException>());
+            Exception exception = await InvokeWithInterceptionAsync(Subject);
+
+            Execute.Assertion
+                .ForCondition(exception is not null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {0}{reason}, but no exception was thrown.", expectedType);
+
+            exception.Should().BeOfType(expectedType, because, becauseArgs);
+
+            return new ExceptionAssertions<TException>(new[] { exception as TException });
         }
 
-        Exception exception = await InvokeWithInterceptionAsync(Subject);
-
-        Execute.Assertion
-            .ForCondition(exception is not null)
-            .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {0}{reason}, but no exception was thrown.", expectedType);
-
-        exception.Should().BeOfType(expectedType, because, becauseArgs);
-
-        return new ExceptionAssertions<TException>(new[] { exception as TException });
+        return new ExceptionAssertions<TException>(Array.Empty<TException>());
     }
 
     /// <summary>
@@ -168,13 +168,13 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to throw {0}{reason}, but found <null>.", typeof(TException));
 
-        if (!success)
+        if (success)
         {
-            return new ExceptionAssertions<TException>(Array.Empty<TException>());
+            Exception exception = await InvokeWithInterceptionAsync(Subject);
+            return ThrowInternal<TException>(exception, because, becauseArgs);
         }
 
-        Exception exception = await InvokeWithInterceptionAsync(Subject);
-        return ThrowInternal<TException>(exception, because, becauseArgs);
+        return new ExceptionAssertions<TException>(Array.Empty<TException>());
     }
 
     /// <summary>
@@ -194,18 +194,16 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
-        if (!success)
+        if (success)
         {
-            return new AndConstraint<TAssertions>((TAssertions)this);
-        }
-
-        try
-        {
-            await Subject.Invoke();
-        }
-        catch (Exception exception)
-        {
-            NotThrowInternal(exception, because, becauseArgs);
+            try
+            {
+                await Subject.Invoke();
+            }
+            catch (Exception exception)
+            {
+                return NotThrowInternal(exception, because, becauseArgs);
+            }
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -229,18 +227,16 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
-        if (!success)
+        if (success)
         {
-            return new AndConstraint<TAssertions>((TAssertions)this);
-        }
-
-        try
-        {
-            await Subject.Invoke();
-        }
-        catch (Exception exception)
-        {
-            NotThrowInternal<TException>(exception, because, becauseArgs);
+            try
+            {
+                await Subject.Invoke();
+            }
+            catch (Exception exception)
+            {
+                return NotThrowInternal<TException>(exception, because, becauseArgs);
+            }
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -279,37 +275,37 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw any exceptions after {0}{reason}, but found <null>.", waitTime);
 
-        if (!success)
+        if (success)
         {
-            return Task.FromResult(new AndConstraint<TAssertions>((TAssertions)this));
-        }
+            return AssertionTaskAsync();
 
-        return AssertionTaskAsync();
-
-        async Task<AndConstraint<TAssertions>> AssertionTaskAsync()
-        {
-            TimeSpan? invocationEndTime = null;
-            Exception exception = null;
-            ITimer timer = Clock.StartTimer();
-
-            while (invocationEndTime is null || invocationEndTime < waitTime)
+            async Task<AndConstraint<TAssertions>> AssertionTaskAsync()
             {
-                exception = await InvokeWithInterceptionAsync(Subject);
-                if (exception is null)
+                TimeSpan? invocationEndTime = null;
+                Exception exception = null;
+                ITimer timer = Clock.StartTimer();
+
+                while (invocationEndTime is null || invocationEndTime < waitTime)
                 {
-                    return new AndConstraint<TAssertions>((TAssertions)this);
+                    exception = await InvokeWithInterceptionAsync(Subject);
+                    if (exception is null)
+                    {
+                        return new AndConstraint<TAssertions>((TAssertions)this);
+                    }
+
+                    await Clock.DelayAsync(pollInterval, CancellationToken.None);
+                    invocationEndTime = timer.Elapsed;
                 }
 
-                await Clock.DelayAsync(pollInterval, CancellationToken.None);
-                invocationEndTime = timer.Elapsed;
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
+
+                return new AndConstraint<TAssertions>((TAssertions)this);
             }
-
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
-
-            return new AndConstraint<TAssertions>((TAssertions)this);
         }
+
+        return Task.FromResult(new AndConstraint<TAssertions>((TAssertions)this));
     }
 
     /// <summary>
