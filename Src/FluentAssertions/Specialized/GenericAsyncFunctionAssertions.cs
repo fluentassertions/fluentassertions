@@ -91,7 +91,7 @@ public class GenericAsyncFunctionAssertions<TResult> : AsyncFunctionAssertions<T
             }
             catch (Exception exception)
             {
-                NotThrowInternal(exception, because, becauseArgs);
+                _ = NotThrowInternal(exception, because, becauseArgs);
             }
         }
 

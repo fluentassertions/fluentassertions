@@ -202,7 +202,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
             }
             catch (Exception exception)
             {
-                NotThrowInternal(exception, because, becauseArgs);
+                return NotThrowInternal(exception, because, becauseArgs);
             }
         }
 
@@ -235,7 +235,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
             }
             catch (Exception exception)
             {
-                NotThrowInternal<TException>(exception, because, becauseArgs);
+                return NotThrowInternal<TException>(exception, because, becauseArgs);
             }
         }
 
