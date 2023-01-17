@@ -18,6 +18,12 @@ public static class AsyncAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <remarks>
+    /// Please note that this assertion cannot identify whether the previous assertion was successful or not.
+    /// In case it was not successful and it is running within an active <see cref="FluentAssertions.Execution.AssertionScope"/>
+    /// there is no current result to compare with.
+    /// So, this extension will compare with the default value.
+    /// </remarks>
     public static async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<T>, T>> WithResult<T>(
         this Task<AndWhichConstraint<GenericAsyncFunctionAssertions<T>, T>> task,
         T expected, string because = "", params object[] becauseArgs)

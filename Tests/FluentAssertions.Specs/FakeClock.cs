@@ -9,7 +9,7 @@ namespace FluentAssertions.Specs;
 /// Implementation of <see cref="IClock"/> for testing purposes only.
 /// </summary>
 /// <remarks>
-/// It allows you to control the "current" time.
+/// It allows you to control the "current" date and time for test purposes.
 /// </remarks>
 internal class FakeClock : IClock
 {
@@ -25,17 +25,26 @@ internal class FakeClock : IClock
 
     public ITimer StartTimer() => new TestTimer(() => elapsedTime);
 
+    /// <summary>
+    /// Advances the internal clock.
+    /// </summary>
     public void Delay(TimeSpan timeToDelay)
     {
         elapsedTime += timeToDelay;
     }
 
+    /// <summary>
+    /// Simulates the completion of the pending delay task.
+    /// </summary>
     public void Complete()
     {
         // the value is not relevant
         delayTask.SetResult(true);
     }
 
+    /// <summary>
+    /// Simulates the completion of the pending delay task after the internal clock has been advanced.
+    /// </summary>
     public void CompleteAfter(TimeSpan timeSpan)
     {
         Delay(timeSpan);
