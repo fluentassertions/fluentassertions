@@ -2186,6 +2186,9 @@ namespace FluentAssertions.Primitives
     public class ObjectAssertions : FluentAssertions.Primitives.ObjectAssertions<object, FluentAssertions.Primitives.ObjectAssertions>
     {
         public ObjectAssertions(object value) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> Be<TExpectation>(TExpectation expected, System.Collections.Generic.IEqualityComparer<TExpectation> comparer, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeOneOf<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> validValues, System.Collections.Generic.IEqualityComparer<TExpectation> comparer, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> NotBe<TExpectation>(TExpectation unexpected, System.Collections.Generic.IEqualityComparer<TExpectation> comparer, string because = "", params object[] becauseArgs) { }
     }
     public class ObjectAssertions<TSubject, TAssertions> : FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions>
         where TAssertions : FluentAssertions.Primitives.ObjectAssertions<TSubject, TAssertions>
@@ -2193,12 +2196,15 @@ namespace FluentAssertions.Primitives
         public ObjectAssertions(TSubject value) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(TSubject expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> Be(TSubject expected, System.Collections.Generic.IEqualityComparer<TSubject> comparer, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(params TSubject[] validValues) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<TSubject> validValues, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<TSubject> validValues, System.Collections.Generic.IEqualityComparer<TSubject> comparer, string because = "", params object[] becauseArgs) { }
         public override bool Equals(object obj) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(TSubject unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBe(TSubject unexpected, System.Collections.Generic.IEqualityComparer<TSubject> comparer, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(TExpectation unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(TExpectation unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
     }

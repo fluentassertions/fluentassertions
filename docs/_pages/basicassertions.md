@@ -41,6 +41,14 @@ To assert that an object is equal to one of the provided objects, you can use
 theObject.Should().BeOneOf(obj1, obj2, obj3);
 ```
 
+To assert object equality using a custom equality comparer, you can use
+
+```csharp
+theObject.Should().Be(otherObject, new ObjEqualityComparer());
+theObject.Should().NotBe(otherObject, new ObjEqualityComparer());
+theObject.Should().BeOneOf(new[] { obj1, obj2, obj3 }, new ObjEqualityComparer());
+```
+
 If you want to make sure two objects are not just functionally equal but refer to the exact same object in memory, use the following two methods.
 
 ```csharp
