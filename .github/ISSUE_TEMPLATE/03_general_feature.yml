@@ -1,0 +1,26 @@
+name: 💡 General feature (not including API proposals)
+description: Add a new feature that does not change the public API surface
+title: "[Feature]: "
+labels: [feature, triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        You have a general feature request? Cool, thanks for that.
+  - type: textarea
+    id: background
+    attributes:
+      label: Background and motivation
+      description: Please describe the purpose of the new feature.
+      placeholder: Purpose
+    validations:
+      required: true
+  - type: textarea
+    id: alternative-concerns
+    attributes:
+      label: Alternative Concerns
+      description: |
+        Please provide alternatives you have thought about. 
+      placeholder: Alternative designs
+    validations:
+      required: false
