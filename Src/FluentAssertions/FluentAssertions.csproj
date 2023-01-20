@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <!-- To reduce build times, we only enable analyzers for the newest TFM -->
   <PropertyGroup>
-    <TargetFrameworks>net47;net6.0;netcoreapp2.1;netcoreapp3.0;netstandard2.0;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>net47;net6.0;netstandard2.0;netstandard2.1</TargetFrameworks>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>FluentAssertions.snk</AssemblyOriginatorKeyFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -16,7 +16,7 @@
     <Authors>Dennis Doomen;Jonas Nyrup</Authors>
     <PackageDescription>
       A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or
-      BDD-style unit tests. Targets .NET Framework 4.7, .NET Core 2.1 and 3.0, .NET 6, as well as .NET Standard 2.0 and 2.1.
+      BDD-style unit tests. Targets .NET Framework 4.7, .NET 6, as well as .NET Standard 2.0 and 2.1.
       Supports the unit test frameworks MSTest2, NUnit3, XUnit2, MSpec, and NSpec3.
 
       Supported by InfoSupport B.V.
@@ -68,10 +68,10 @@
   <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
     <Compile Remove="StringBuilderExtensions.cs" />
   </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net47' Or '$(TargetFramework)' == 'netcoreapp2.1' Or '$(TargetFramework)' == 'netcoreapp3.0' Or '$(TargetFramework)' == 'net6.0' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net47' Or '$(TargetFramework)' == 'net6.0' ">
     <Compile Remove="Common/NullConfigurationStore.cs" />
   </ItemGroup>
-  <ItemGroup Condition=" !('$(TargetFramework)' == 'net47' Or '$(TargetFramework)' == 'netcoreapp2.1' Or '$(TargetFramework)' == 'netcoreapp3.0' Or '$(TargetFramework)' == 'net6.0') ">
+  <ItemGroup Condition=" !('$(TargetFramework)' == 'net47'  Or '$(TargetFramework)' == 'net6.0') ">
     <Compile Remove="Common/AppSettingsConfigurationStore.cs" />
     <Compile Remove="Common/ConfigurationStoreExceptionInterceptor.cs" />
   </ItemGroup>
@@ -79,12 +79,6 @@
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0" />
