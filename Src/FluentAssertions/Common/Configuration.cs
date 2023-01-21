@@ -5,6 +5,11 @@ namespace FluentAssertions.Common;
 
 public class Configuration
 {
+    /// <summary>
+    /// Defines the key for the configuration of the test framework to be assumed in FluentAssertions.
+    /// </summary>
+    private const string TestFrameworkConfigurationKey = "FluentAssertions.TestFramework";
+
     #region Private Definitions
 
     private readonly object propertiesAccessLock = new();
@@ -118,7 +123,7 @@ public class Configuration
         {
             if (string.IsNullOrEmpty(testFrameworkName))
             {
-                testFrameworkName = store.GetSetting("FluentAssertions.TestFramework");
+                testFrameworkName = store.GetSetting(TestFrameworkConfigurationKey);
             }
 
             return testFrameworkName;

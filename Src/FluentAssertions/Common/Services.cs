@@ -46,6 +46,6 @@ public static class Services
 #else
         ConfigurationStore = new NullConfigurationStore();
 #endif
-        ThrowException = TestFrameworkProvider.Throw;
+        ThrowException = new TestFrameworkProvider(Configuration).Throw;
     }
 }
