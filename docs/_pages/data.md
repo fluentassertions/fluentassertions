@@ -187,7 +187,7 @@ Matching the rows of `DataTable`s by their primary key values:
 
 ```csharp
 var expected = GetExpectedDataTable();
-var actual = GetActualDataTable(0;
+var actual = GetActualDataTable();
 
 actual.Should().BeEquivalentTo(expected, options => options.UsingRowMatchMode(RowMatchMode.PrimaryKey));
 ```
