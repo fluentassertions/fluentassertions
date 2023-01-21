@@ -13,6 +13,8 @@ using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Tools.ReportGenerator;
 using Nuke.Common.Tools.Xunit;
+using Nuke.Common.Utilities.Collections;
+using Nuke.Components;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
@@ -115,6 +117,10 @@ class Build : NukeBuild
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
+            ReportSummary(s => s
+                .WhenNotNull(GitVersion,(_, o) => _
+                    .AddPair("Version", o.SemVer)));
+
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration.CI)
@@ -258,6 +264,10 @@ class Build : NukeBuild
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
+            ReportSummary(s => s
+                .WhenNotNull(SemVer,(_, semVer) => _
+                    .AddPair("Packed version", semVer)));
+
             DotNetPack(s => s
                 .SetProject(Solution.Core.FluentAssertions)
                 .SetOutputDirectory(ArtifactsDirectory)

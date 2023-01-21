@@ -24,6 +24,7 @@
     <PackageDownload Include="Node.js.redist" Version="[16.17.1]" />
     <PackageReference Include="LibGit2Sharp" Version="0.27.0-preview-0182" />
     <PackageReference Include="Nuke.Common" Version="6.3.0" />
+    <PackageReference Include="Nuke.Components" Version="6.3.0" />
     <PackageDownload Include="Yarn.MSBuild" Version="[1.22.19]" />
   </ItemGroup>
 </Project>
