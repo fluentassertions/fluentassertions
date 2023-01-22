@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        You have a general feature request? Cool, thanks for that.
+        You have an idea for a new feature? Cool, let's discuss it.
   - type: textarea
     id: background
     attributes:
