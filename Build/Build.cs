@@ -145,9 +145,9 @@ class Build : NukeBuild
                 .SetResultsDirectory(TestResultsDirectory)
                 .CombineWith(cc => cc
                     .SetProjectFile(project)
-                    .AddLoggers($"trx;LogFileName={project.Name}.trx")));
-            
-            ReportTestOutcome(globFilter: $"*{project.Name}.trx");
+                    .AddLoggers($"trx;LogFileName={project.Name}.trx")), completeOnFailure: true);
+
+            ReportTestOutcome(globFilters: $"*{project.Name}.trx");
         });
 
     Project[] Projects => new[]
@@ -179,7 +179,7 @@ class Build : NukeBuild
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
-            string except = "net47";
+            const string NET47 = "net47";
 
             DotNetTest(s => s
                 .SetConfiguration(Configuration.Debug)
@@ -195,15 +195,15 @@ class Build : NukeBuild
                     (_, project) => _
                         .SetProjectFile(project)
                         .CombineWith(
-                            project.GetTargetFrameworks().Except(new[] { except }),
+                            project.GetTargetFrameworks().Except(new[] { NET47 }),
                             (_, framework) => _
                                 .SetFramework(framework)
                                 .AddLoggers($"trx;LogFileName={project.Name}_{framework}.trx")
                         )
-                )
+                ), completeOnFailure: true
             );
 
-            ReportTestOutcome(globFilter: $"*[!*{except}].trx");
+            ReportTestOutcome(globFilters: $"*[!*{NET47}].trx");
         });
 
     Target UnitTests => _ => _
@@ -216,9 +216,9 @@ class Build : NukeBuild
                 "/xn:TestRun/xn:Results/xn:UnitTestResult/@outcome",
                 ("xn", "http://microsoft.com/schemas/VisualStudio/TeamTest/2010")).ToArray();
 
-    void ReportTestOutcome(string globFilter)
+    void ReportTestOutcome(params string[] globFilters)
     {
-        var resultFiles = TestResultsDirectory.GlobFiles(globFilter);
+        var resultFiles = TestResultsDirectory.GlobFiles(globFilters);
         var outcomes = resultFiles.SelectMany(Outcomes).ToList();
         var passedTests = outcomes.Count(outcome => outcome is "Passed");
         var failedTests = outcomes.Count(outcome => outcome is "Failed");
@@ -257,14 +257,16 @@ class Build : NukeBuild
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
+            var projects = new[]
+            {
+                Solution.TestFrameworks.MSpec_Specs,
+                Solution.TestFrameworks.MSTestV2_Specs,
+                Solution.TestFrameworks.NUnit3_Specs,
+                Solution.TestFrameworks.XUnit2_Specs
+            };
+
             var testCombinations =
-                from project in new[]
-                {
-                    Solution.TestFrameworks.MSpec_Specs,
-                    Solution.TestFrameworks.MSTestV2_Specs,
-                    Solution.TestFrameworks.NUnit3_Specs,
-                    Solution.TestFrameworks.XUnit2_Specs
-                }
+                from project in projects
                 let frameworks = project.GetTargetFrameworks()
                 let supportedFrameworks = EnvironmentInfo.IsWin ? frameworks : frameworks.Except(new[] { "net47" })
                 from framework in supportedFrameworks
@@ -283,12 +285,15 @@ class Build : NukeBuild
                     testCombinations,
                     (_, v) => _
                         .SetProjectFile(v.project)
-                        .SetFramework(v.framework)));
+                        .SetFramework(v.framework)
+                        .AddLoggers($"trx;LogFileName={v.project.Name}_{v.framework}.trx")), completeOnFailure: true);
 
             if (EnvironmentInfo.IsWin)
             {
                 NSpec3(Solution.TestFrameworks.NSpec3_Net47_Specs.Directory / "bin" / "Debug" / "net47" / "NSpec3.Specs.dll");
             }
+
+            ReportTestOutcome(projects.Select(p => $"*{p.Name}*.trx").ToArray());
         });
 
     Target Pack => _ => _
