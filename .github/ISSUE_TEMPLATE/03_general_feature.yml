@@ -1,5 +1,5 @@
 name: 💡 General feature (not including API proposals)
-description: Add a new feature that does not change the public API surface
+description: Discuss a new feature that does not change the public API surface
 title: "[Feature]: "
 labels: [feature, triage]
 body:
