@@ -118,7 +118,7 @@ class Build : NukeBuild
         .Executes(() =>
         {
             ReportSummary(s => s
-                .WhenNotNull(GitVersion,(_, o) => _
+                .WhenNotNull(GitVersion, (_, o) => _
                     .AddPair("Version", o.SemVer)));
 
             DotNetBuild(s => s
@@ -136,12 +136,18 @@ class Build : NukeBuild
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
+            Project project = Solution.Specs.Approval_Tests;
+
             DotNetTest(s => s
                 .SetConfiguration(Configuration.Release)
                 .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
                 .EnableNoBuild()
-                .CombineWith(
-                    cc => cc.SetProjectFile(Solution.Specs.Approval_Tests)));
+                .SetResultsDirectory(TestResultsDirectory)
+                .CombineWith(cc => cc
+                    .SetProjectFile(project)
+                    .AddLoggers($"trx;LogFileName={project.Name}.trx")));
+            
+            ReportTestOutcome(globFilter: $"*{project.Name}.trx");
         });
 
     Project[] Projects => new[]
@@ -158,7 +164,7 @@ class Build : NukeBuild
         {
             IEnumerable<string> testAssemblies = Projects
                     .SelectMany(project => GlobFiles(project.Directory, "bin/Debug/net47/*.Specs.dll"));
-            
+
             Assert.NotEmpty(testAssemblies.ToList());
 
             Xunit2(s => s
@@ -173,6 +179,8 @@ class Build : NukeBuild
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
+            string except = "net47";
+
             DotNetTest(s => s
                 .SetConfiguration(Configuration.Debug)
                 .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
@@ -187,19 +195,45 @@ class Build : NukeBuild
                     (_, project) => _
                         .SetProjectFile(project)
                         .CombineWith(
-                            project.GetTargetFrameworks().Except(new[] { "net47" }),
-                            (_, framework) => _.SetFramework(framework)
+                            project.GetTargetFrameworks().Except(new[] { except }),
+                            (_, framework) => _
+                                .SetFramework(framework)
+                                .AddLoggers($"trx;LogFileName={project.Name}_{framework}.trx")
                         )
                 )
             );
+
+            ReportTestOutcome(globFilter: $"*[!*{except}].trx");
         });
 
     Target UnitTests => _ => _
         .DependsOn(UnitTestsNetFramework)
         .DependsOn(UnitTestsNetCore);
 
+    static string[] Outcomes(AbsolutePath path)
+        => XmlTasks.XmlPeek(
+                path,
+                "/xn:TestRun/xn:Results/xn:UnitTestResult/@outcome",
+                ("xn", "http://microsoft.com/schemas/VisualStudio/TeamTest/2010")).ToArray();
+
+    void ReportTestOutcome(string globFilter)
+    {
+        var resultFiles = TestResultsDirectory.GlobFiles(globFilter);
+        var outcomes = resultFiles.SelectMany(Outcomes).ToList();
+        var passedTests = outcomes.Count(outcome => outcome is "Passed");
+        var failedTests = outcomes.Count(outcome => outcome is "Failed");
+        var skippedTests = outcomes.Count(outcome => outcome is "NotExecuted");
+
+        ReportSummary(_ => _
+            .When(failedTests > 0, _ => _
+                .AddPair("Failed", failedTests.ToString()))
+            .AddPair("Passed", passedTests.ToString())
+            .When(skippedTests > 0, _ => _
+                .AddPair("Skipped", skippedTests.ToString())));
+    }
+
     Target CodeCoverage => _ => _
-        .DependsOn(TestFrameworks) 
+        .DependsOn(TestFrameworks)
         .DependsOn(UnitTests)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
@@ -247,7 +281,9 @@ class Build : NukeBuild
                     "DoesNotReturnAttribute")
                 .CombineWith(
                     testCombinations,
-                    (_, v) => _.SetProjectFile(v.project).SetFramework(v.framework)));
+                    (_, v) => _
+                        .SetProjectFile(v.project)
+                        .SetFramework(v.framework)));
 
             if (EnvironmentInfo.IsWin)
             {
@@ -265,7 +301,7 @@ class Build : NukeBuild
         .Executes(() =>
         {
             ReportSummary(s => s
-                .WhenNotNull(SemVer,(_, semVer) => _
+                .WhenNotNull(SemVer, (_, semVer) => _
                     .AddPair("Packed version", semVer)));
 
             DotNetPack(s => s
