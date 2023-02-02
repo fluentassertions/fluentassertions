@@ -357,6 +357,7 @@ class Build : NukeBuild
         x.StartsWith("CONTRIBUTING.md") ||
         x.StartsWith("cSpell.json") ||
         x.StartsWith("LICENSE") ||
+        x.StartsWith("package.json") ||
         x.StartsWith("README.md");
 
     string[] Changes =>
