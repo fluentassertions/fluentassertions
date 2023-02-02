@@ -370,7 +370,7 @@ class Build : NukeBuild
     Tree TargetBranch => Repository.Branches[PullRequestBase].Tip.Tree;
     Tree SourceBranch => Repository.Branches[Repository.Head.FriendlyName].Tip.Tree;
 
-    bool RunAllTargets => string.IsNullOrWhiteSpace(PullRequestBase);
+    bool RunAllTargets => string.IsNullOrWhiteSpace(PullRequestBase) || Changes.Any(x => x.StartsWith("Build"));
 
     bool IsTag => BranchSpec != null && BranchSpec.Contains("refs/tags", StringComparison.InvariantCultureIgnoreCase);
 }
