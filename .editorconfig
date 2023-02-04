@@ -1,7 +1,7 @@
+root = true
 # EditorConfig is awesome: http://EditorConfig.org
 
 # top-most EditorConfig file
-root = true
 
 # Global settings
 [*]
@@ -266,12 +266,38 @@ dotnet_diagnostic.AV2305.severity = none
 # AV2407: Region should be removed
 dotnet_diagnostic.AV2407.severity = none
 
-# ReSharper/Rider
 # Convert lambda expression to method group
 resharper_convert_closure_to_method_group_highlighting = none
 
+# Start each element in a object or collection initializer on a new line
 resharper_wrap_object_and_collection_initializer_style = chop_always
 
+# Force an empty line
 resharper_blank_lines_after_multiline_statements = 1
 
-resharper_keep_existing_initializer_arrangement = false
+# Don't remove existing line breaks
+resharper_keep_existing_initializer_arrangement = true
+resharper_keep_existing_arrangement = true
+
+# We care about that extra else after an else-if
+resharper_redundant_if_else_block_highlighting = none
+
+# Don't remove explicit default cases in switch statements 
+resharper_redundant_empty_switch_section_highlighting = none
+
+resharper_align_multiline_binary_expressions_chain = false
+
+# Only use new() when the type is obvious
+resharper_object_creation_when_type_not_evident = explicitly_typed
+resharper_object_creation_when_type_evident = target_typed
+
+# Indent 4 spaces per necessary indention
+resharper_continuous_indent_multiplier = 1
+
+# Avoid breaking a generic definition
+resharper_wrap_before_extends_colon = true
+
+resharper_blank_lines_before_multiline_statements = 1
+
+resharper_parentheses_non_obvious_operations = arithmetic, multiplicative, equality, relational, additive
+resharper_parentheses_redundancy_style = remove_if_not_clarifies_precedence
