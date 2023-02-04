@@ -146,4 +146,7 @@ dotnet_diagnostic.SA1615.severity = none
 dotnet_diagnostic.SA1005.severity = suggestion
 
 # ReSharper/Rider
-resharper_expression_is_always_null_highlighting=none
+resharper_expression_is_always_null_highlighting = none
+
+# ReSharper properties
+resharper_keep_user_linebreaks = true
