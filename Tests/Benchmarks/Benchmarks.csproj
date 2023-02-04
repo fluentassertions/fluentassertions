@@ -15,5 +15,8 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" Condition="'$(TargetFramework)' == 'net472'" />
+    <Reference Include="System.Net.Http" Condition="'$(TargetFramework)' == 'net472'">
+      <HintPath>..\..\..\..\Program Files\dotnet\sdk\7.0.102\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Net.Http.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
