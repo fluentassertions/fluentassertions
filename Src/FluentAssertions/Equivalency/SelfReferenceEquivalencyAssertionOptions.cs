@@ -759,8 +759,8 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
             builder.AppendLine("- Ignoring cyclic references");
         }
 
-        builder.AppendLine($"- Compare tuples by their properties");
-        builder.AppendLine($"- Compare anonymous types by their properties");
+        builder.AppendLine("- Compare tuples by their properties");
+        builder.AppendLine("- Compare anonymous types by their properties");
 
         if (compareRecordsByValue is true)
         {

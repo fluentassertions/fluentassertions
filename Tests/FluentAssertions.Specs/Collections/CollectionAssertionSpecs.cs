@@ -75,7 +75,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_the_collection_is_ordered_according_to_the_subsequent_ascending_assertion_with_comparer_it_should_succeed()
+        public void
+            When_the_collection_is_ordered_according_to_the_subsequent_ascending_assertion_with_comparer_it_should_succeed()
         {
             // Arrange
             var collection = new[]
@@ -166,7 +167,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_the_collection_is_ordered_according_to_the_subsequent_descending_assertion_with_comparer_it_should_succeed()
+        public void
+            When_the_collection_is_ordered_according_to_the_subsequent_descending_assertion_with_comparer_it_should_succeed()
         {
             // Arrange
             var collection = new[]
@@ -316,7 +318,6 @@ internal class TrackingTestEnumerable : IEnumerable<int>
 internal class TrackingEnumerator : IEnumerator<int>
 {
     private readonly int[] values;
-    private int loopCount;
     private int index;
 
     public TrackingEnumerator(int[] values)
@@ -326,14 +327,11 @@ internal class TrackingEnumerator : IEnumerator<int>
         this.values = values;
     }
 
-    public int LoopCount
-    {
-        get { return loopCount; }
-    }
+    public int LoopCount { get; private set; }
 
     public void IncreaseEnumerationCount()
     {
-        loopCount++;
+        LoopCount++;
     }
 
     public bool MoveNext()

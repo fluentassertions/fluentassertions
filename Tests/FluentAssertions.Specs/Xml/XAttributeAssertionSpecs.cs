@@ -25,7 +25,8 @@ public class XAttributeAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_an_xml_attribute_is_equal_to_a_different_xml_attribute_it_should_fail_with_descriptive_message()
+        public void
+            When_asserting_an_xml_attribute_is_equal_to_a_different_xml_attribute_it_should_fail_with_descriptive_message()
         {
             // Arrange
             var theAttribute = new XAttribute("name", "value");
@@ -69,7 +70,7 @@ public class XAttributeAssertionSpecs
         [Fact]
         public void When_the_attribute_is_expected_to_equal_null_it_fails()
         {
-            XAttribute theAttribute = new XAttribute("name", "value");
+            XAttribute theAttribute = new("name", "value");
 
             // Act
             Action act = () => theAttribute.Should().Be(null, "we want to test the failure {0}", "message");
@@ -114,7 +115,8 @@ public class XAttributeAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_an_xml_attribute_is_not_equal_to_the_same_xml_attribute_it_should_throw_with_descriptive_message()
+        public void
+            When_asserting_an_xml_attribute_is_not_equal_to_the_same_xml_attribute_it_should_throw_with_descriptive_message()
         {
             // Arrange
             var theAttribute = new XAttribute("name", "value");
@@ -146,7 +148,7 @@ public class XAttributeAssertionSpecs
         public void When_an_attribute_is_not_supposed_to_be_null_it_succeeds()
         {
             // Arrange
-            XAttribute theAttribute = new XAttribute("name", "value");
+            XAttribute theAttribute = new("name", "value");
 
             // Act
             Action act = () => theAttribute.Should().NotBe(null);
@@ -296,7 +298,8 @@ public class XAttributeAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_attribute_has_a_specific_value_but_it_has_a_different_value_it_should_throw_with_descriptive_message()
+        public void
+            When_asserting_attribute_has_a_specific_value_but_it_has_a_different_value_it_should_throw_with_descriptive_message()
         {
             // Arrange
             var theAttribute = new XAttribute("age", "36");

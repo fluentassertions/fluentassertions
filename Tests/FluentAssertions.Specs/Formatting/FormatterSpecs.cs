@@ -36,6 +36,7 @@ public class FormatterSpecs
     {
         // Arrange
         var a = new A();
+
         var b = new B
         {
             X = a,
@@ -160,13 +161,13 @@ public class FormatterSpecs
         // Arrange
         var stuff = new List<Stuff<int>>
         {
-            new Stuff<int>
+            new()
             {
                 StuffId = 1,
                 Description = "Stuff_1",
                 Children = new List<int> { 1, 2, 3, 4 }
             },
-            new Stuff<int>
+            new()
             {
                 StuffId = 2,
                 Description = "Stuff_2",
@@ -176,13 +177,13 @@ public class FormatterSpecs
 
         var expectedStuff = new List<Stuff<int>>
         {
-            new Stuff<int>
+            new()
             {
                 StuffId = 1,
                 Description = "Stuff_1",
                 Children = new List<int> { 1, 2, 3, 4 }
             },
-            new Stuff<int>
+            new()
             {
                 StuffId = 2,
                 Description = "WRONG_DESCRIPTION",
@@ -224,6 +225,7 @@ public class FormatterSpecs
 
         int maxDepth = 10;
         int iterations = (maxDepth / 2) + 1; // Each iteration adds two levels of depth to the graph
+
         foreach (int i in Enumerable.Range(0, iterations))
         {
             var newHead = new Node();
@@ -249,6 +251,7 @@ public class FormatterSpecs
         var node = head;
 
         int iterations = 10;
+
         foreach (int i in Enumerable.Range(0, iterations))
         {
             var newHead = new Node();
@@ -609,7 +612,7 @@ public class FormatterSpecs
         // Arrange
         var subject = new Dictionary<MyKey, MyValue>
         {
-            [new() { KeyProp = 13 }] = new() { ValueProp = 37 }
+            [new MyKey { KeyProp = 13 }] = new() { ValueProp = 37 }
         };
 
         // Act
@@ -646,13 +649,14 @@ public class FormatterSpecs
     }
 
     [Fact]
-    public void When_formatting_multiple_items_with_a_custom_string_representation_using_line_breaks_it_should_end_lines_with_a_comma()
+    public void
+        When_formatting_multiple_items_with_a_custom_string_representation_using_line_breaks_it_should_end_lines_with_a_comma()
     {
         // Arrange
         var subject = new[] { typeof(A), typeof(B) };
 
         // Act
-        string result = Formatter.ToString(subject, new FormattingOptions { UseLineBreaks = true } );
+        string result = Formatter.ToString(subject, new FormattingOptions { UseLineBreaks = true });
 
         // Assert
         result.Should().Contain($"FluentAssertions.Specs.Formatting.FormatterSpecs+A, {Environment.NewLine}");
@@ -707,7 +711,7 @@ public class FormatterSpecs
         // Arrange
         Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
 
-        var subject = new SomeClassInheritedFromClassWithCustomFormatterLvl1()
+        var subject = new SomeClassInheritedFromClassWithCustomFormatterLvl1
         {
             Property = "SomeValue"
         };
@@ -725,7 +729,7 @@ public class FormatterSpecs
         // Arrange
         Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
 
-        var subject = new SomeClassInheritedFromClassWithCustomFormatterLvl2()
+        var subject = new SomeClassInheritedFromClassWithCustomFormatterLvl2
         {
             Property = "SomeValue"
         };
@@ -743,7 +747,7 @@ public class FormatterSpecs
         // Arrange
         Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
 
-        var subject = new SomeClassInheritedFromClassWithCustomFormatterLvl3()
+        var subject = new SomeClassInheritedFromClassWithCustomFormatterLvl3
         {
             Property = "SomeValue"
         };
@@ -889,10 +893,10 @@ public class FormatterSpecs
 
         // Assert
         str.Should().Match(
-"*CustomClass" + Environment.NewLine +
-"{" + Environment.NewLine +
-"    IntProperty = 0" + Environment.NewLine +
-"}*");
+            "*CustomClass" + Environment.NewLine +
+            "{" + Environment.NewLine +
+            "    IntProperty = 0" + Environment.NewLine +
+            "}*");
     }
 
     private class CustomClass
@@ -925,8 +929,8 @@ public class FormatterSpecs
         // Arrange
         var values = new CustomClass[]
         {
-            new CustomClass { IntProperty = 1 },
-            new CustomClass { IntProperty = 2 }
+            new() { IntProperty = 1 },
+            new() { IntProperty = 2 }
         };
 
         var formatter = new SingleItemValueFormatter();
@@ -936,11 +940,11 @@ public class FormatterSpecs
         string str = Formatter.ToString(values);
 
         str.Should().Match(
-"{*FluentAssertions*FormatterSpecs+CustomClass" + Environment.NewLine +
-"    {" + Environment.NewLine +
-"        IntProperty = 1, " + Environment.NewLine +
-"        StringProperty = <null>" + Environment.NewLine +
-"    },*…1 more…*}*");
+            "{*FluentAssertions*FormatterSpecs+CustomClass" + Environment.NewLine +
+            "    {" + Environment.NewLine +
+            "        IntProperty = 1, " + Environment.NewLine +
+            "        StringProperty = <null>" + Environment.NewLine +
+            "    },*…1 more…*}*");
     }
 
     private class SingleItemValueFormatter : EnumerableValueFormatter
@@ -966,7 +970,9 @@ public class FormatterSpecs
 
 // Due to the tests that call Configuration.Current
 [CollectionDefinition("FormatterSpecs", DisableParallelization = true)]
-public class FormatterSpecsDefinition { }
+public class FormatterSpecsDefinition
+{
+}
 
 internal class ExceptionThrowingClass
 {
@@ -995,7 +1001,7 @@ internal class Node
         Children = new List<Node>();
     }
 
-    public static Node Default { get; } = new Node();
+    public static Node Default { get; } = new();
 
     public List<Node> Children { get; set; }
 }

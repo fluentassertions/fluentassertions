@@ -23,7 +23,7 @@ public partial class TypeAssertionSpecs
                 type.Should()
                     .HaveDefaultConstructor()
                     .Which.Should()
-                        .HaveAccessModifier(CSharpAccessModifier.ProtectedInternal);
+                    .HaveAccessModifier(CSharpAccessModifier.ProtectedInternal);
 
             // Assert
             act.Should().NotThrow();
@@ -40,7 +40,7 @@ public partial class TypeAssertionSpecs
                 type.Should()
                     .HaveDefaultConstructor()
                     .Which.Should()
-                        .HaveAccessModifier(CSharpAccessModifier.Public);
+                    .HaveAccessModifier(CSharpAccessModifier.Public);
 
             // Assert
             act.Should().NotThrow();
@@ -54,14 +54,15 @@ public partial class TypeAssertionSpecs
 
             // Act
             type.Should()
-                    .HaveDefaultConstructor()
-                    .Which.Should()
-                        .HaveAccessModifier(CSharpAccessModifier.Public);
+                .HaveDefaultConstructor()
+                .Which.Should()
+                .HaveAccessModifier(CSharpAccessModifier.Public);
+
             Action act = () =>
                 type.Should()
                     .HaveDefaultConstructor()
                     .Which.Should()
-                        .HaveAccessModifier(CSharpAccessModifier.Public);
+                    .HaveAccessModifier(CSharpAccessModifier.Public);
 
             // Assert
             act.Should().NotThrow();
@@ -184,13 +185,10 @@ public partial class TypeAssertionSpecs
 
     internal class ClassWithCctor
     {
-        static ClassWithCctor() { }
     }
 
     internal class ClassWithCctorAndNonDefaultConstructor
     {
-        static ClassWithCctorAndNonDefaultConstructor() { }
-
         public ClassWithCctorAndNonDefaultConstructor(int _) { }
     }
 }

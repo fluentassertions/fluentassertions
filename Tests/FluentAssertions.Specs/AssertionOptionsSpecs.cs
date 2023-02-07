@@ -16,8 +16,10 @@ public class AssertionOptionsSpecs
 {
     // Due to tests that call AssertionOptions
     [CollectionDefinition("AssertionOptionsSpecs", DisableParallelization = true)]
-    public class AssertionOptionsSpecsDefinition { }
-    
+    public class AssertionOptionsSpecsDefinition
+    {
+    }
+
     public abstract class Given_temporary_global_assertion_options : GivenWhenThen
     {
         protected override void Dispose(bool disposing)
@@ -52,6 +54,7 @@ public class AssertionOptionsSpecs
             When(() =>
             {
                 IEquivalencyAssertionOptions equivalencyAssertionOptions = new EquivalencyAssertionOptions();
+
                 return () => Parallel.For(0, 10_000, new ParallelOptions { MaxDegreeOfParallelism = 8 },
                     _ => equivalencyAssertionOptions.GetEqualityStrategy(typeof(IEnumerable))
                 );
@@ -116,7 +119,9 @@ public class AssertionOptionsSpecs
         [Fact]
         public void It_should_try_to_compare_the_classes_by_value_semantics_and_thus_throw()
         {
-            Action act = () => new MyClass { Value = 1 }.Should().BeEquivalentTo(new MyClass { Value = 1 });
+            MyClass myClass = new() { Value = 1 };
+
+            Action act = () => myClass.Should().BeEquivalentTo(new MyClass { Value = 1 });
 
             act.Should().Throw<XunitException>();
         }
@@ -141,7 +146,7 @@ public class AssertionOptionsSpecs
         [Fact]
         public void It_should_use_the_global_settings_for_comparing_records()
         {
-            new Position(123).Should().BeEquivalentTo(new Position(123));    
+            new Position(123).Should().BeEquivalentTo(new Position(123));
         }
 
         private record Position
@@ -156,8 +161,7 @@ public class AssertionOptionsSpecs
     }
 
     [Collection("AssertionOptionsSpecs")]
-    public class When_assertion_doubles_should_always_allow_small_deviations :
-        Given_temporary_global_assertion_options
+    public class When_assertion_doubles_should_always_allow_small_deviations : Given_temporary_global_assertion_options
     {
         public When_assertion_doubles_should_always_allow_small_deviations()
         {

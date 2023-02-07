@@ -1,4 +1,3 @@
-using System;
 using FluentAssertions.Equivalency.Tracing;
 using FluentAssertions.Execution;
 

@@ -94,7 +94,8 @@ public class ExecutionTimeAssertionsSpecs
             var subject = new List<object>();
 
             // Act
-            Action act = () => subject.ExecutionTimeOf(s => s.AddRange(new object[] { })).Should().BeLessOrEqualTo(1.Nanoseconds());
+            Action act = () =>
+                subject.ExecutionTimeOf(s => s.AddRange(new object[] { })).Should().BeLessOrEqualTo(1.Nanoseconds());
 
             // Assert
             act.Should().ThrowExactly<XunitException>()
@@ -302,7 +303,8 @@ public class ExecutionTimeAssertionsSpecs
             var subject = new List<object>();
 
             // Act
-            Action act = () => subject.ExecutionTimeOf(s => s.AddRange(new object[] { })).Should().BeGreaterThanOrEqualTo(1.Days());
+            Action act = () =>
+                subject.ExecutionTimeOf(s => s.AddRange(new object[] { })).Should().BeGreaterThanOrEqualTo(1.Days());
 
             // Assert
             act.Should().ThrowExactly<XunitException>()
@@ -627,7 +629,8 @@ public class ExecutionTimeAssertionsSpecs
             Action act = () => subject.ExecutionTimeOf(s => s.ToString()).Should().Equals(1.Seconds());
 
             // Assert
-            act.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean BeLessThanOrEqualTo() or BeGreaterThanOrEqualTo() instead?");
+            act.Should().Throw<NotSupportedException>().WithMessage(
+                "Equals is not part of Fluent Assertions. Did you mean BeLessThanOrEqualTo() or BeGreaterThanOrEqualTo() instead?");
         }
     }
 

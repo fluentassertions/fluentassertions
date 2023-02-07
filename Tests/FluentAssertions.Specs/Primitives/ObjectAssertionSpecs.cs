@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using AssemblyA;
+using AssemblyB;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
 using Xunit;
@@ -159,7 +162,8 @@ public class ObjectAssertionSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be one of {ClassWithCustomEqualMethod(4), ClassWithCustomEqualMethod(5)}, but found ClassWithCustomEqualMethod(3).");
+                .WithMessage(
+                    "Expected value to be one of {ClassWithCustomEqualMethod(4), ClassWithCustomEqualMethod(5)}, but found ClassWithCustomEqualMethod(3).");
         }
 
         [Fact]
@@ -169,12 +173,15 @@ public class ObjectAssertionSpecs
             var value = new ClassWithCustomEqualMethod(3);
 
             // Act
-            Action act = () => value.Should().BeOneOf(new[] { new ClassWithCustomEqualMethod(4), new ClassWithCustomEqualMethod(5) }, "because those are the valid values");
+            Action act = () =>
+                value.Should().BeOneOf(new[] { new ClassWithCustomEqualMethod(4), new ClassWithCustomEqualMethod(5) },
+                    "because those are the valid values");
 
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be one of {ClassWithCustomEqualMethod(4), ClassWithCustomEqualMethod(5)} because those are the valid values, but found ClassWithCustomEqualMethod(3).");
+                .WithMessage(
+                    "Expected value to be one of {ClassWithCustomEqualMethod(4), ClassWithCustomEqualMethod(5)} because those are the valid values, but found ClassWithCustomEqualMethod(3).");
         }
 
         [Fact]
@@ -343,7 +350,8 @@ public class ObjectAssertionSpecs
             int? valueTypeObject = null;
 
             // Act
-            Action act = () => valueTypeObject.Should().BeOfType(typeof(int), "because we want to test the failure {0}", "message");
+            Action act = () =>
+                valueTypeObject.Should().BeOfType(typeof(int), "because we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -361,7 +369,8 @@ public class ObjectAssertionSpecs
             Action act = () => valueTypeObject.Should().BeOfType(doubleType);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage($"Expected type to be {doubleType}, but found {valueTypeObject.GetType()}.");
+            act.Should().Throw<XunitException>()
+                .WithMessage($"Expected type to be {doubleType}, but found {valueTypeObject.GetType()}.");
         }
 
         [Fact]
@@ -406,23 +415,25 @@ public class ObjectAssertionSpecs
         }
 
         [Fact]
-        public void When_object_type_is_same_as_expected_type_but_in_different_assembly_it_should_fail_with_assembly_qualified_name()
+        public void
+            When_object_type_is_same_as_expected_type_but_in_different_assembly_it_should_fail_with_assembly_qualified_name()
         {
             // Arrange
             var typeFromOtherAssembly =
-                new AssemblyA.ClassA().ReturnClassC();
+                new ClassA().ReturnClassC();
 
             // Act
 #pragma warning disable 436 // disable the warning on conflicting types, as this is the intention for the spec
 
             Action act = () =>
-                typeFromOtherAssembly.Should().BeOfType<AssemblyB.ClassC>();
+                typeFromOtherAssembly.Should().BeOfType<ClassC>();
 
 #pragma warning restore 436
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type to be [AssemblyB.ClassC, FluentAssertions.Specs*], but found [AssemblyB.ClassC, AssemblyB*].");
+                .WithMessage(
+                    "Expected type to be [AssemblyB.ClassC, FluentAssertions.Specs*], but found [AssemblyB.ClassC, AssemblyB*].");
         }
 
         [Fact]
@@ -471,7 +482,8 @@ public class ObjectAssertionSpecs
         }
 
         [Fact]
-        public void When_object_type_is_value_type_and_doesnt_match_received_type_as_expected_should_not_fail_and_assert_correctly()
+        public void
+            When_object_type_is_value_type_and_doesnt_match_received_type_as_expected_should_not_fail_and_assert_correctly()
         {
             // Arrange
             int valueTypeObject = 42;
@@ -490,7 +502,8 @@ public class ObjectAssertionSpecs
             int? valueTypeObject = null;
 
             // Act
-            Action act = () => valueTypeObject.Should().NotBeOfType(typeof(int), "because we want to test the failure {0}", "message");
+            Action act = () =>
+                valueTypeObject.Should().NotBeOfType(typeof(int), "because we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -508,7 +521,8 @@ public class ObjectAssertionSpecs
             Action act = () => valueTypeObject.Should().NotBeOfType(expectedType);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage($"Expected type not to be [{expectedType.AssemblyQualifiedName}], but it is.");
+            act.Should().Throw<XunitException>()
+                .WithMessage($"Expected type not to be [{expectedType.AssemblyQualifiedName}], but it is.");
         }
     }
 
@@ -635,10 +649,10 @@ public class ObjectAssertionSpecs
         public void When_an_implemented_open_generic_interface_type_instance_it_should_succeed()
         {
             // Arrange
-            var someObject = new System.Collections.Generic.List<string>();
+            var someObject = new List<string>();
 
             // Act / Assert
-            someObject.Should().BeAssignableTo(typeof(System.Collections.Generic.IList<>));
+            someObject.Should().BeAssignableTo(typeof(IList<>));
         }
 
         [Fact]
@@ -664,7 +678,9 @@ public class ObjectAssertionSpecs
         {
             // Arrange
             var someObject = new DummyImplementingClass();
-            Action act = () => someObject.Should().BeAssignableTo(typeof(DateTime), "because we want to test the failure {0}", "message");
+
+            Action act = () =>
+                someObject.Should().BeAssignableTo(typeof(DateTime), "because we want to test the failure {0}", "message");
 
             // Act / Assert
             act.Should().Throw<XunitException>()
@@ -676,11 +692,13 @@ public class ObjectAssertionSpecs
         {
             // Arrange
             var someObject = new DummyImplementingClass();
-            Action act = () => someObject.Should().BeAssignableTo(typeof(System.Collections.Generic.IList<>), "because we want to test the failure {0}", "message");
+
+            Action act = () =>
+                someObject.Should().BeAssignableTo(typeof(IList<>), "because we want to test the failure {0}", "message");
 
             // Act / Assert
             act.Should().Throw<XunitException>()
-                .WithMessage($"*assignable to {typeof(System.Collections.Generic.IList<>)}*failure message*{typeof(DummyImplementingClass)} is not*");
+                .WithMessage($"*assignable to {typeof(IList<>)}*failure message*{typeof(DummyImplementingClass)} is not*");
         }
 
         [Fact]
@@ -698,8 +716,8 @@ public class ObjectAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                "Expected * to be assignable to System.Int32, but System.String is not.*" +
-                "Expected * to be assignable to System.Int64, but System.String is not.");
+                    "Expected * to be assignable to System.Int32, but System.String is not.*" +
+                    "Expected * to be assignable to System.Int64, but System.String is not.");
         }
     }
 
@@ -724,11 +742,15 @@ public class ObjectAssertionSpecs
         {
             // Arrange
             var someObject = new DummyImplementingClass();
-            Action act = () => someObject.Should().NotBeAssignableTo<DummyImplementingClass>("because we want to test the failure {0}", "message");
+
+            Action act = () =>
+                someObject.Should()
+                    .NotBeAssignableTo<DummyImplementingClass>("because we want to test the failure {0}", "message");
 
             // Act / Assert
             act.Should().Throw<XunitException>()
-                .WithMessage($"*not be assignable to {typeof(DummyImplementingClass)}*failure message*{typeof(DummyImplementingClass)} is*");
+                .WithMessage(
+                    $"*not be assignable to {typeof(DummyImplementingClass)}*failure message*{typeof(DummyImplementingClass)} is*");
         }
 
         [Fact]
@@ -736,11 +758,14 @@ public class ObjectAssertionSpecs
         {
             // Arrange
             var someObject = new DummyImplementingClass();
-            Action act = () => someObject.Should().NotBeAssignableTo<DummyBaseClass>("because we want to test the failure {0}", "message");
+
+            Action act = () =>
+                someObject.Should().NotBeAssignableTo<DummyBaseClass>("because we want to test the failure {0}", "message");
 
             // Act / Assert
             act.Should().Throw<XunitException>()
-                .WithMessage($"*not be assignable to {typeof(DummyBaseClass)}*failure message*{typeof(DummyImplementingClass)} is*");
+                .WithMessage(
+                    $"*not be assignable to {typeof(DummyBaseClass)}*failure message*{typeof(DummyImplementingClass)} is*");
         }
 
         [Fact]
@@ -748,7 +773,9 @@ public class ObjectAssertionSpecs
         {
             // Arrange
             var someObject = new DummyImplementingClass();
-            Action act = () => someObject.Should().NotBeAssignableTo<IDisposable>("because we want to test the failure {0}", "message");
+
+            Action act = () =>
+                someObject.Should().NotBeAssignableTo<IDisposable>("because we want to test the failure {0}", "message");
 
             // Act / Assert
             act.Should().Throw<XunitException>()
@@ -766,7 +793,8 @@ public class ObjectAssertionSpecs
         }
 
         [Fact]
-        public void When_not_to_the_unexpected_type_and_asserting_not_assignable_it_should_not_cast_the_returned_object_for_chaining()
+        public void
+            When_not_to_the_unexpected_type_and_asserting_not_assignable_it_should_not_cast_the_returned_object_for_chaining()
         {
             // Arrange
             var someObject = new Exception("Actual Message");
@@ -785,11 +813,15 @@ public class ObjectAssertionSpecs
         {
             // Arrange
             var someObject = new DummyImplementingClass();
-            Action act = () => someObject.Should().NotBeAssignableTo(typeof(DummyImplementingClass), "because we want to test the failure {0}", "message");
+
+            Action act = () =>
+                someObject.Should().NotBeAssignableTo(typeof(DummyImplementingClass), "because we want to test the failure {0}",
+                    "message");
 
             // Act / Assert
             act.Should().Throw<XunitException>()
-                .WithMessage($"*not be assignable to {typeof(DummyImplementingClass)}*failure message*{typeof(DummyImplementingClass)} is*");
+                .WithMessage(
+                    $"*not be assignable to {typeof(DummyImplementingClass)}*failure message*{typeof(DummyImplementingClass)} is*");
         }
 
         [Fact]
@@ -797,19 +829,26 @@ public class ObjectAssertionSpecs
         {
             // Arrange
             var someObject = new DummyImplementingClass();
-            Action act = () => someObject.Should().NotBeAssignableTo(typeof(DummyBaseClass), "because we want to test the failure {0}", "message");
+
+            Action act = () =>
+                someObject.Should()
+                    .NotBeAssignableTo(typeof(DummyBaseClass), "because we want to test the failure {0}", "message");
 
             // Act / Assert
             act.Should().Throw<XunitException>()
-                .WithMessage($"*not be assignable to {typeof(DummyBaseClass)}*failure message*{typeof(DummyImplementingClass)} is*");
+                .WithMessage(
+                    $"*not be assignable to {typeof(DummyBaseClass)}*failure message*{typeof(DummyImplementingClass)} is*");
         }
 
         [Fact]
-        public void When_an_implemented_interface_type_instance_and_asserting_not_assignable_it_should_fail_with_a_useful_message()
+        public void
+            When_an_implemented_interface_type_instance_and_asserting_not_assignable_it_should_fail_with_a_useful_message()
         {
             // Arrange
             var someObject = new DummyImplementingClass();
-            Action act = () => someObject.Should().NotBeAssignableTo(typeof(IDisposable), "because we want to test the failure {0}", "message");
+
+            Action act = () =>
+                someObject.Should().NotBeAssignableTo(typeof(IDisposable), "because we want to test the failure {0}", "message");
 
             // Act / Assert
             act.Should().Throw<XunitException>()
@@ -817,15 +856,18 @@ public class ObjectAssertionSpecs
         }
 
         [Fact]
-        public void When_an_implemented_open_generic_interface_type_instance_and_asserting_not_assignable_it_should_fail_with_a_useful_message()
+        public void
+            When_an_implemented_open_generic_interface_type_instance_and_asserting_not_assignable_it_should_fail_with_a_useful_message()
         {
             // Arrange
-            var someObject = new System.Collections.Generic.List<string>();
-            Action act = () => someObject.Should().NotBeAssignableTo(typeof(System.Collections.Generic.IList<>), "because we want to test the failure {0}", "message");
+            var someObject = new List<string>();
+
+            Action act = () =>
+                someObject.Should().NotBeAssignableTo(typeof(IList<>), "because we want to test the failure {0}", "message");
 
             // Act / Assert
             act.Should().Throw<XunitException>()
-                .WithMessage($"*not be assignable to {typeof(System.Collections.Generic.IList<>)}*failure message*{typeof(System.Collections.Generic.List<string>)} is*");
+                .WithMessage($"*not be assignable to {typeof(IList<>)}*failure message*{typeof(List<string>)} is*");
         }
 
         [Fact]
@@ -863,7 +905,7 @@ public class ObjectAssertionSpecs
             var someObject = new DummyImplementingClass();
 
             // Act / Assert
-            someObject.Should().NotBeAssignableTo(typeof(System.Collections.Generic.IList<>), "because we want to test the failure {0}", "message");
+            someObject.Should().NotBeAssignableTo(typeof(IList<>), "because we want to test the failure {0}", "message");
         }
     }
 
@@ -892,7 +934,8 @@ public class ObjectAssertionSpecs
             Action action = () => someObject.Should().Equals(someObject);
 
             // Assert
-            action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() or BeSameAs() instead?");
+            action.Should().Throw<NotSupportedException>()
+                .WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() or BeSameAs() instead?");
         }
     }
 
@@ -919,7 +962,7 @@ public class ObjectAssertionSpecs
         public void When_an_object_is_binary_serializable_with_non_serializable_members_it_should_succeed()
         {
             // Arrange
-            var subject = new SerializableClassWithNonSerializableMember()
+            var subject = new SerializableClassWithNonSerializableMember
             {
                 Name = "John",
                 NonSerializable = "Nonserializable value"
@@ -961,7 +1004,8 @@ public class ObjectAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*to be serializable because we need to store it on disk, but serialization failed with:*UnserializableClass*");
+                .WithMessage(
+                    "*to be serializable because we need to store it on disk, but serialization failed with:*UnserializableClass*");
         }
 
         [Fact]
@@ -979,7 +1023,8 @@ public class ObjectAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*to be serializable, but serialization failed with:*BinarySerializableClassMissingDeserializationConstructor*");
+                .WithMessage(
+                    "*to be serializable, but serialization failed with:*BinarySerializableClassMissingDeserializationConstructor*");
         }
 
         [Fact]
@@ -1109,7 +1154,8 @@ public class ObjectAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("*to be serializable because we need to store it on disk, but serialization failed with:*NonPublicClass*");
+                .WithMessage(
+                    "*to be serializable because we need to store it on disk, but serialization failed with:*NonPublicClass*");
         }
 
         [Fact]
@@ -1228,8 +1274,9 @@ public class ObjectAssertionSpecs
             };
 
             // Act
-            Action act = () => subject.Should().BeDataContractSerializable<DataContractSerializableClassNotRestoringAllProperties>(
-                options => options.Excluding(x => x.Name));
+            Action act = () => subject.Should()
+                .BeDataContractSerializable<DataContractSerializableClassNotRestoringAllProperties>(
+                    options => options.Excluding(x => x.Name));
 
             // Assert
             act.Should().NotThrow();
@@ -1242,8 +1289,9 @@ public class ObjectAssertionSpecs
             var subject = new DataContractSerializableClassNotRestoringAllProperties();
 
             // Act
-            Action act = () => subject.Should().BeDataContractSerializable<DataContractSerializableClassNotRestoringAllProperties>(
-                options: null);
+            Action act = () => subject.Should()
+                .BeDataContractSerializable<DataContractSerializableClassNotRestoringAllProperties>(
+                    options: null);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()

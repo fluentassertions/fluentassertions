@@ -111,7 +111,8 @@ public class ComparableSpecs
             var value = new EquatableOfInt(3);
 
             // Act
-            Action act = () => value.Should().BeOneOf(new[] { new EquatableOfInt(4), new EquatableOfInt(5) }, "because those are the valid {0}", "values");
+            Action act = () => value.Should().BeOneOf(new[] { new EquatableOfInt(4), new EquatableOfInt(5) },
+                "because those are the valid {0}", "values");
 
             // Assert
             act
@@ -190,6 +191,7 @@ public class ComparableSpecs
         {
             // Arrange
             var subject = new ComparableCustomer(42);
+
             var expected = new AnotherCustomerDto(42)
             {
                 SomeOtherProperty = 1337
@@ -221,6 +223,7 @@ public class ComparableSpecs
         {
             // Arrange
             var subject = new ComparableCustomer(42);
+
             var expected = new AnotherCustomerDto(42)
             {
                 SomeOtherProperty = 1337

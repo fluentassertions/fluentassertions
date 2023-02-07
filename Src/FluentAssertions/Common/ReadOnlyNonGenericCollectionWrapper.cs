@@ -11,25 +11,25 @@ internal static class ReadOnlyNonGenericCollectionWrapper
     public static ReadOnlyNonGenericCollectionWrapper<DataTableCollection, DataTable> Create(DataTableCollection collection)
     {
         return
-            (collection != null)
-            ? new ReadOnlyNonGenericCollectionWrapper<DataTableCollection, DataTable>(collection)
-            : null;
+            collection != null
+                ? new ReadOnlyNonGenericCollectionWrapper<DataTableCollection, DataTable>(collection)
+                : null;
     }
 
     public static ReadOnlyNonGenericCollectionWrapper<DataColumnCollection, DataColumn> Create(DataColumnCollection collection)
     {
         return
-            (collection != null)
-            ? new ReadOnlyNonGenericCollectionWrapper<DataColumnCollection, DataColumn>(collection)
-            : null;
+            collection != null
+                ? new ReadOnlyNonGenericCollectionWrapper<DataColumnCollection, DataColumn>(collection)
+                : null;
     }
 
     public static ReadOnlyNonGenericCollectionWrapper<DataRowCollection, DataRow> Create(DataRowCollection collection)
     {
         return
-            (collection != null)
-            ? new ReadOnlyNonGenericCollectionWrapper<DataRowCollection, DataRow>(collection)
-            : null;
+            collection != null
+                ? new ReadOnlyNonGenericCollectionWrapper<DataRowCollection, DataRow>(collection)
+                : null;
     }
 }
 

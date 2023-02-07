@@ -22,6 +22,7 @@ public class EnumValueFormatter : IValueFormatter
     {
         string typePart = value.GetType().Name;
         string namePart = value.ToString().Replace(", ", "|", StringComparison.Ordinal);
+
         string valuePart = Convert.ToDecimal(value, CultureInfo.InvariantCulture)
             .ToString(CultureInfo.InvariantCulture);
 

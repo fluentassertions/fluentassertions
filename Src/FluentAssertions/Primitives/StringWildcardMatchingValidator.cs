@@ -1,7 +1,6 @@
 using System;
 using System.Text;
 using System.Text.RegularExpressions;
-
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Primitives;
@@ -30,7 +29,9 @@ internal class StringWildcardMatchingValidator : StringValidator
 
     private bool IsMatch()
     {
-        RegexOptions options = IgnoreCase ? (RegexOptions.IgnoreCase | RegexOptions.CultureInvariant) : RegexOptions.None;
+        RegexOptions options = IgnoreCase
+            ? RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
+            : RegexOptions.None;
 
         string input = CleanNewLines(Subject);
         string pattern = ConvertWildcardToRegEx(CleanNewLines(Expected));
@@ -42,8 +43,8 @@ internal class StringWildcardMatchingValidator : StringValidator
     {
         return "^"
             + Regex.Escape(wildcardExpression)
-             .Replace("\\*", ".*", StringComparison.Ordinal)
-             .Replace("\\?", ".", StringComparison.Ordinal)
+                .Replace("\\*", ".*", StringComparison.Ordinal)
+                .Replace("\\?", ".", StringComparison.Ordinal)
             + "$";
     }
 

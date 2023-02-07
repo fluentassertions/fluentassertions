@@ -2,11 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using FluentAssertions.Execution;
-
 using Xunit;
 using Xunit.Sdk;
 
@@ -17,7 +12,7 @@ public static class DataColumnCollectionAssertionSpecs
     public class BeSameAs
     {
         [Fact]
-        public void When_references_are_the_same_it_should_succeed()
+        public void Succeeds_for_references_to_the_same_object()
         {
             // Arrange
             var dataTable = new DataTable("Test");
@@ -30,7 +25,7 @@ public static class DataColumnCollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_references_are_different_it_should_fail()
+        public void Throws_for_different_references()
         {
             // Arrange
             var dataTable1 = new DataTable("Test1");

@@ -46,6 +46,7 @@ public class EquivalencyValidator : IEquivalencyValidator
         AssertionScope assertionScope)
     {
         bool shouldRecurse = options.AllowInfiniteRecursion || currentNode.Depth < MaxDepth;
+
         if (!shouldRecurse)
         {
             assertionScope.FailWith("The maximum recursion depth was reached.  ");
@@ -66,9 +67,11 @@ public class EquivalencyValidator : IEquivalencyValidator
         using var _ = context.Tracer.WriteBlock(node => node.Description);
 
         Func<IEquivalencyStep, GetTraceMessage> getMessage = step => _ => $"Equivalency was proven by {step.GetType().Name}";
+
         foreach (IEquivalencyStep step in AssertionOptions.EquivalencyPlan)
         {
             var result = step.Handle(comparands, context, this);
+
             if (result == EquivalencyResult.AssertionCompleted)
             {
                 context.Tracer.WriteLine(getMessage(step));

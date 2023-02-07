@@ -33,6 +33,7 @@ internal class NegatedStringStartValidator : StringValidator
     protected override void ValidateAgainstMismatch()
     {
         bool isMatch = Subject.StartsWith(Expected, stringComparison);
+
         if (isMatch)
         {
             Assertion.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.",

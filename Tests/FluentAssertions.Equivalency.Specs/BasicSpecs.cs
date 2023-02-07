@@ -166,7 +166,7 @@ public class BasicSpecs
 
         public new virtual bool Equals(object obj)
         {
-            return (obj is VirtualClass other) && other.Property == Property;
+            return obj is VirtualClass other && other.Property == Property;
         }
     }
 

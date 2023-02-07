@@ -7,7 +7,8 @@ namespace FluentAssertions.Equivalency.Steps;
 
 public class EnumerableEquivalencyStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+        IEquivalencyValidator nestedValidator)
     {
         if (!IsCollection(comparands.GetExpectedType(context.Options)))
         {
@@ -37,8 +38,8 @@ public class EnumerableEquivalencyStep : IEquivalencyStep
         if (conditionMet)
         {
             conditionMet = AssertionScope.Current
-            .ForCondition(IsCollection(subject.GetType()))
-            .FailWith("Expected a collection, but {context:Subject} is of a non-collection type.");
+                .ForCondition(IsCollection(subject.GetType()))
+                .FailWith("Expected a collection, but {context:Subject} is of a non-collection type.");
         }
 
         return conditionMet;

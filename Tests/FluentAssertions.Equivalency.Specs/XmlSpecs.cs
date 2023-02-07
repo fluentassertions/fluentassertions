@@ -8,7 +8,8 @@ namespace FluentAssertions.Equivalency.Specs;
 public class XmlSpecs
 {
     [Fact]
-    public void When_asserting_a_xml_selfclosing_document_is_equivalent_to_a_different_xml_document_with_same_structure_it_should_succeed()
+    public void
+        When_asserting_a_xml_selfclosing_document_is_equivalent_to_a_different_xml_document_with_same_structure_it_should_succeed()
     {
         // Arrange
         var subject = new
@@ -125,6 +126,6 @@ public class XmlSpecs
 
         // Assert
         act.Should().Throw<XunitException>().WithMessage(
-            $"Expected property subject.Attribute to be name2=\"value\" because we want to test the failure message, but found name=\"value\"*");
+            "Expected property subject.Attribute to be name2=\"value\" because we want to test the failure message, but found name=\"value\"*");
     }
 }

@@ -59,7 +59,7 @@ internal class MemberPath
 
     public bool IsSameAs(MemberPath candidate)
     {
-        if ((declaringType == candidate.declaringType) || declaringType?.IsAssignableFrom(candidate.reflectedType) == true)
+        if (declaringType == candidate.declaringType || declaringType?.IsAssignableFrom(candidate.reflectedType) == true)
         {
             string[] candidateSegments = candidate.Segments;
 
@@ -74,7 +74,7 @@ internal class MemberPath
         string[] candidateSegments = candidate.Segments;
 
         return candidateSegments.Length > Segments.Length &&
-               candidateSegments.Take(Segments.Length).SequenceEqual(Segments, MemberPathSegmentEqualityComparer);
+            candidateSegments.Take(Segments.Length).SequenceEqual(Segments, MemberPathSegmentEqualityComparer);
     }
 
     private bool IsChildOf(MemberPath candidate)
@@ -82,8 +82,8 @@ internal class MemberPath
         string[] candidateSegments = candidate.Segments;
 
         return candidateSegments.Length < Segments.Length
-               && candidateSegments.SequenceEqual(Segments.Take(candidateSegments.Length),
-                   MemberPathSegmentEqualityComparer);
+            && candidateSegments.SequenceEqual(Segments.Take(candidateSegments.Length),
+                MemberPathSegmentEqualityComparer);
     }
 
     public MemberPath AsParentCollectionOf(MemberPath nextPath)
@@ -103,7 +103,7 @@ internal class MemberPath
     public bool HasSameParentAs(MemberPath path)
     {
         return Segments.Length == path.Segments.Length
-               && GetParentSegments().SequenceEqual(path.GetParentSegments(), MemberPathSegmentEqualityComparer);
+            && GetParentSegments().SequenceEqual(path.GetParentSegments(), MemberPathSegmentEqualityComparer);
     }
 
     private IEnumerable<string> GetParentSegments() => Segments.Take(Segments.Length - 1);

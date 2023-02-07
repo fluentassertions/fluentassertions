@@ -41,6 +41,7 @@ internal class StringStartValidator : StringValidator
     protected override void ValidateAgainstMismatch()
     {
         bool isMismatch = !Subject.StartsWith(Expected, stringComparison);
+
         if (isMismatch)
         {
             int indexOfMismatch = Subject.IndexOfFirstMismatch(Expected, stringComparison);

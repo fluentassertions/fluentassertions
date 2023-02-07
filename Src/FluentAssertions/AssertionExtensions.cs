@@ -13,9 +13,6 @@ using System.Xml.Linq;
 using FluentAssertions.Collections;
 using FluentAssertions.Common;
 using FluentAssertions.Data;
-#if !NETSTANDARD2_0
-using FluentAssertions.Events;
-#endif
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
 using FluentAssertions.Reflection;
@@ -24,6 +21,9 @@ using FluentAssertions.Streams;
 using FluentAssertions.Types;
 using FluentAssertions.Xml;
 using JetBrains.Annotations;
+#if !NETSTANDARD2_0
+using FluentAssertions.Events;
+#endif
 
 namespace FluentAssertions;
 
@@ -140,7 +140,7 @@ public static class AssertionExtensions
     {
         createTimer ??= () => new StopwatchTimer();
 
-        return new(action, createTimer);
+        return new ExecutionTime(action, createTimer);
     }
 
     /// <summary>
@@ -154,7 +154,7 @@ public static class AssertionExtensions
     [MustUseReturnValue /* do not use Pure because this method executes the action before returning to the caller */]
     public static ExecutionTime ExecutionTime(this Func<Task> action)
     {
-        return new(action, () => new StopwatchTimer());
+        return new ExecutionTime(action, () => new StopwatchTimer());
     }
 
     /// <summary>
@@ -359,7 +359,8 @@ public static class AssertionExtensions
     /// current <see cref="IDictionary{TKey, TValue}"/>.
     /// </summary>
     [Pure]
-    public static GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue> Should<TKey, TValue>(this IDictionary<TKey, TValue> actualValue)
+    public static GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue> Should<TKey, TValue>(
+        this IDictionary<TKey, TValue> actualValue)
     {
         return new GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue>(actualValue);
     }
@@ -369,7 +370,8 @@ public static class AssertionExtensions
     /// current <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey, TValue}"/>.
     /// </summary>
     [Pure]
-    public static GenericDictionaryAssertions<IEnumerable<KeyValuePair<TKey, TValue>>, TKey, TValue> Should<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> actualValue)
+    public static GenericDictionaryAssertions<IEnumerable<KeyValuePair<TKey, TValue>>, TKey, TValue> Should<TKey, TValue>(
+        this IEnumerable<KeyValuePair<TKey, TValue>> actualValue)
     {
         return new GenericDictionaryAssertions<IEnumerable<KeyValuePair<TKey, TValue>>, TKey, TValue>(actualValue);
     }
@@ -379,7 +381,8 @@ public static class AssertionExtensions
     /// current <typeparamref name="TCollection"/>.
     /// </summary>
     [Pure]
-    public static GenericDictionaryAssertions<TCollection, TKey, TValue> Should<TCollection, TKey, TValue>(this TCollection actualValue)
+    public static GenericDictionaryAssertions<TCollection, TKey, TValue> Should<TCollection, TKey, TValue>(
+        this TCollection actualValue)
         where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
     {
         return new GenericDictionaryAssertions<TCollection, TKey, TValue>(actualValue);
@@ -466,7 +469,6 @@ public static class AssertionExtensions
     }
 
 #if NET6_0_OR_GREATER
-
     /// <summary>
     /// Returns an <see cref="DateOnlyAssertions"/> object that can be used to assert the
     /// current <see cref="DateOnly"/>.
@@ -921,7 +923,6 @@ public static class AssertionExtensions
 #endif
 
 #if NET6_0_OR_GREATER
-
     /// <summary>
     /// Returns a <see cref="TaskCompletionSourceAssertions"/> object that can be used to assert the
     /// current <see cref="TaskCompletionSource"/>.
@@ -981,8 +982,7 @@ public static class AssertionExtensions
         InvalidShouldCall();
     }
 
-#if  NET6_0_OR_GREATER
-
+#if NET6_0_OR_GREATER
     /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
     [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
     public static void Should<TAssertions>(this DateOnlyAssertions<TAssertions> _)
@@ -1091,7 +1091,8 @@ public static class AssertionExtensions
     [DoesNotReturn]
     private static void InvalidShouldCall()
     {
-        throw new InvalidOperationException("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'.");
+        throw new InvalidOperationException(
+            "You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'.");
     }
 
     #endregion

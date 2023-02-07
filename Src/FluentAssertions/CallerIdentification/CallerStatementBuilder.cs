@@ -13,6 +13,7 @@ internal class CallerStatementBuilder
     internal CallerStatementBuilder()
     {
         statement = new StringBuilder();
+
         priorityOrderedParsingStrategies = new List<IParsingStrategy>
         {
             new QuotesParsingStrategy(),
@@ -28,19 +29,22 @@ internal class CallerStatementBuilder
     internal void Append(string symbols)
     {
         using var symbolEnumerator = symbols.GetEnumerator();
+
         while (symbolEnumerator.MoveNext() && parsingState != ParsingState.Done)
         {
             var hasParsingStrategyWaitingForEndContext = priorityOrderedParsingStrategies
                 .Any(s => s.IsWaitingForContextEnd());
 
             parsingState = ParsingState.InProgress;
+
             foreach (var parsingStrategy in
-                priorityOrderedParsingStrategies
-                    .SkipWhile(parsingStrategy =>
-                        hasParsingStrategyWaitingForEndContext
-                        && !parsingStrategy.IsWaitingForContextEnd()))
+                     priorityOrderedParsingStrategies
+                         .SkipWhile(parsingStrategy =>
+                             hasParsingStrategyWaitingForEndContext
+                             && !parsingStrategy.IsWaitingForContextEnd()))
             {
                 parsingState = parsingStrategy.Parse(symbolEnumerator.Current, statement);
+
                 if (parsingState != ParsingState.InProgress)
                 {
                     break;

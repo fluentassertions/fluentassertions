@@ -142,7 +142,8 @@ public static class FluentDateTimeExtensions
     /// Returns a new <see cref="DateTime"/> value for the specified <paramref name="date"/> and time with the specified
     /// <paramref name="hours"/>, <paramref name="minutes"/> and optionally <paramref name="seconds"/>.
     /// </summary>
-    public static DateTime At(this DateTime date, int hours, int minutes, int seconds = 0, int milliseconds = 0, int microseconds = 0, int nanoseconds = 0)
+    public static DateTime At(this DateTime date, int hours, int minutes, int seconds = 0, int milliseconds = 0,
+        int microseconds = 0, int nanoseconds = 0)
     {
         if (microseconds is < 0 or > 999)
         {
@@ -173,7 +174,8 @@ public static class FluentDateTimeExtensions
     /// Returns a new <see cref="DateTimeOffset"/> value for the specified <paramref name="date"/> and time with the specified
     /// <paramref name="hours"/>, <paramref name="minutes"/> and optionally <paramref name="seconds"/>.
     /// </summary>
-    public static DateTimeOffset At(this DateTimeOffset date, int hours, int minutes, int seconds = 0, int milliseconds = 0, int microseconds = 0, int nanoseconds = 0)
+    public static DateTimeOffset At(this DateTimeOffset date, int hours, int minutes, int seconds = 0, int milliseconds = 0,
+        int microseconds = 0, int nanoseconds = 0)
     {
         if (microseconds is < 0 or > 999)
         {

@@ -19,7 +19,7 @@ public static class AssertionOptions
 
     public static EquivalencyAssertionOptions<T> CloneDefaults<T>()
     {
-        return new(defaults);
+        return new EquivalencyAssertionOptions<T>(defaults);
     }
 
     internal static TOptions CloneDefaults<T, TOptions>(Func<EquivalencyAssertionOptions, TOptions> predicate)

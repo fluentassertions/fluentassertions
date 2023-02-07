@@ -216,7 +216,8 @@ public class PropertyInfoSelectorSpecs
     }
 
     [Fact]
-    public void When_selecting_properties_decorated_with_an_inheritable_attribute_it_should_only_return_the_applicable_properties()
+    public void
+        When_selecting_properties_decorated_with_an_inheritable_attribute_it_should_only_return_the_applicable_properties()
     {
         // Arrange
         Type type = typeof(TestClassForPropertySelectorWithInheritableAttributeDerived);
@@ -229,20 +230,23 @@ public class PropertyInfoSelectorSpecs
     }
 
     [Fact]
-    public void When_selecting_properties_decorated_with_or_inheriting_an_inheritable_attribute_it_should_only_return_the_applicable_properties()
+    public void
+        When_selecting_properties_decorated_with_or_inheriting_an_inheritable_attribute_it_should_only_return_the_applicable_properties()
     {
         // Arrange
         Type type = typeof(TestClassForPropertySelectorWithInheritableAttributeDerived);
 
         // Act
-        IEnumerable<PropertyInfo> properties = type.Properties().ThatAreDecoratedWithOrInherit<DummyPropertyAttribute>().ToArray();
+        IEnumerable<PropertyInfo> properties =
+            type.Properties().ThatAreDecoratedWithOrInherit<DummyPropertyAttribute>().ToArray();
 
         // Assert
         properties.Should().ContainSingle();
     }
 
     [Fact]
-    public void When_selecting_properties_not_decorated_with_an_inheritable_attribute_it_should_only_return_the_applicable_properties()
+    public void
+        When_selecting_properties_not_decorated_with_an_inheritable_attribute_it_should_only_return_the_applicable_properties()
     {
         // Arrange
         Type type = typeof(TestClassForPropertySelectorWithInheritableAttributeDerived);
@@ -255,65 +259,75 @@ public class PropertyInfoSelectorSpecs
     }
 
     [Fact]
-    public void When_selecting_properties_not_decorated_with_or_inheriting_an_inheritable_attribute_it_should_only_return_the_applicable_properties()
+    public void
+        When_selecting_properties_not_decorated_with_or_inheriting_an_inheritable_attribute_it_should_only_return_the_applicable_properties()
     {
         // Arrange
         Type type = typeof(TestClassForPropertySelectorWithInheritableAttributeDerived);
 
         // Act
-        IEnumerable<PropertyInfo> properties = type.Properties().ThatAreNotDecoratedWithOrInherit<DummyPropertyAttribute>().ToArray();
+        IEnumerable<PropertyInfo> properties =
+            type.Properties().ThatAreNotDecoratedWithOrInherit<DummyPropertyAttribute>().ToArray();
 
         // Assert
         properties.Should().BeEmpty();
     }
 
     [Fact]
-    public void When_selecting_properties_decorated_with_a_noninheritable_attribute_it_should_only_return_the_applicable_properties()
+    public void
+        When_selecting_properties_decorated_with_a_noninheritable_attribute_it_should_only_return_the_applicable_properties()
     {
         // Arrange
         Type type = typeof(TestClassForPropertySelectorWithNonInheritableAttributeDerived);
 
         // Act
-        IEnumerable<PropertyInfo> properties = type.Properties().ThatAreDecoratedWith<DummyPropertyNonInheritableAttributeAttribute>().ToArray();
+        IEnumerable<PropertyInfo> properties =
+            type.Properties().ThatAreDecoratedWith<DummyPropertyNonInheritableAttributeAttribute>().ToArray();
 
         // Assert
         properties.Should().BeEmpty();
     }
 
     [Fact]
-    public void When_selecting_properties_decorated_with_or_inheriting_a_noninheritable_attribute_it_should_only_return_the_applicable_properties()
+    public void
+        When_selecting_properties_decorated_with_or_inheriting_a_noninheritable_attribute_it_should_only_return_the_applicable_properties()
     {
         // Arrange
         Type type = typeof(TestClassForPropertySelectorWithNonInheritableAttributeDerived);
 
         // Act
-        IEnumerable<PropertyInfo> properties = type.Properties().ThatAreDecoratedWithOrInherit<DummyPropertyNonInheritableAttributeAttribute>().ToArray();
+        IEnumerable<PropertyInfo> properties = type.Properties()
+            .ThatAreDecoratedWithOrInherit<DummyPropertyNonInheritableAttributeAttribute>().ToArray();
 
         // Assert
         properties.Should().BeEmpty();
     }
 
     [Fact]
-    public void When_selecting_properties_not_decorated_with_a_noninheritable_attribute_it_should_only_return_the_applicable_properties()
+    public void
+        When_selecting_properties_not_decorated_with_a_noninheritable_attribute_it_should_only_return_the_applicable_properties()
     {
         // Arrange
         Type type = typeof(TestClassForPropertySelectorWithNonInheritableAttributeDerived);
 
         // Act
-        IEnumerable<PropertyInfo> properties = type.Properties().ThatAreNotDecoratedWith<DummyPropertyNonInheritableAttributeAttribute>().ToArray();
+        IEnumerable<PropertyInfo> properties =
+            type.Properties().ThatAreNotDecoratedWith<DummyPropertyNonInheritableAttributeAttribute>().ToArray();
 
         // Assert
         properties.Should().ContainSingle();
     }
 
     [Fact]
-    public void When_selecting_properties_not_decorated_with_or_inheriting_a_noninheritable_attribute_it_should_only_return_the_applicable_properties()
+    public void
+        When_selecting_properties_not_decorated_with_or_inheriting_a_noninheritable_attribute_it_should_only_return_the_applicable_properties()
     {
         // Arrange
         Type type = typeof(TestClassForPropertySelectorWithNonInheritableAttributeDerived);
 
         // Act
-        IEnumerable<PropertyInfo> properties = type.Properties().ThatAreNotDecoratedWithOrInherit<DummyPropertyNonInheritableAttributeAttribute>().ToArray();
+        IEnumerable<PropertyInfo> properties = type.Properties()
+            .ThatAreNotDecoratedWithOrInherit<DummyPropertyNonInheritableAttributeAttribute>().ToArray();
 
         // Assert
         properties.Should().ContainSingle();
@@ -332,9 +346,8 @@ public class PropertyInfoSelectorSpecs
         returnTypes.Should()
             .BeEquivalentTo(new[]
             {
-                typeof(string), typeof(string), typeof(string), typeof(string)
-                , typeof(string), typeof(string), typeof(string)
-                , typeof(string), typeof(int), typeof(int), typeof(int), typeof(int)
+                typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string),
+                typeof(string), typeof(int), typeof(int), typeof(int), typeof(int)
             });
     }
 
@@ -505,4 +518,5 @@ public class DummyPropertyAttribute : Attribute
 
     public string Value { get; private set; }
 }
+
 #endregion

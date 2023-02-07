@@ -77,22 +77,26 @@ public partial class StringAssertionSpecs
             }
 
             [Fact]
-            public void When_string_containment_equivalent_of_exactly_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+            public void
+                When_string_containment_equivalent_of_exactly_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
             {
                 // Arrange
                 string actual = null;
                 string expectedSubstring = "XyZ";
 
                 // Act
-                Action act = () => actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once(), "that is {0}", "required");
+                Action act = () =>
+                    actual.Should().ContainEquivalentOf(expectedSubstring, Exactly.Once(), "that is {0}", "required");
 
                 // Assert
                 act.Should().Throw<XunitException>()
-                    .WithMessage("Expected * <null> to contain equivalent of \"XyZ\" exactly 1 time because that is required, but found it 0 times.");
+                    .WithMessage(
+                        "Expected * <null> to contain equivalent of \"XyZ\" exactly 1 time because that is required, but found it 0 times.");
             }
 
             [Fact]
-            public void When_string_containment_equivalent_of_exactly_is_asserted_and_actual_value_contains_the_expected_string_exactly_expected_times_it_should_not_throw()
+            public void
+                When_string_containment_equivalent_of_exactly_is_asserted_and_actual_value_contains_the_expected_string_exactly_expected_times_it_should_not_throw()
             {
                 // Arrange
                 string actual = "abCDEBcDF";
@@ -106,7 +110,8 @@ public partial class StringAssertionSpecs
             }
 
             [Fact]
-            public void When_string_containment_equivalent_of_exactly_is_asserted_and_actual_value_contains_the_expected_string_but_not_exactly_expected_times_it_should_throw()
+            public void
+                When_string_containment_equivalent_of_exactly_is_asserted_and_actual_value_contains_the_expected_string_but_not_exactly_expected_times_it_should_throw()
             {
                 // Arrange
                 string actual = "abCDEBcDF";
@@ -117,11 +122,13 @@ public partial class StringAssertionSpecs
 
                 // Assert
                 act.Should().Throw<XunitException>()
-                    .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" exactly 3 times, but found it 2 times.");
+                    .WithMessage(
+                        "Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" exactly 3 times, but found it 2 times.");
             }
 
             [Fact]
-            public void When_string_containment_equivalent_of_exactly_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw()
+            public void
+                When_string_containment_equivalent_of_exactly_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw()
             {
                 // Arrange
                 string actual = "abCDEf";
@@ -156,7 +163,8 @@ public partial class StringAssertionSpecs
     public class ContainEquivalentOfAtLeast
     {
         [Fact]
-        public void When_string_containment_equivalent_of_at_least_is_asserted_and_actual_value_contains_the_expected_string_at_least_expected_times_it_should_not_throw()
+        public void
+            When_string_containment_equivalent_of_at_least_is_asserted_and_actual_value_contains_the_expected_string_at_least_expected_times_it_should_not_throw()
         {
             // Arrange
             string actual = "abCDEBcDF";
@@ -170,7 +178,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_string_containment_equivalent_of_at_least_is_asserted_and_actual_value_contains_the_expected_string_but_not_at_least_expected_times_it_should_throw()
+        public void
+            When_string_containment_equivalent_of_at_least_is_asserted_and_actual_value_contains_the_expected_string_but_not_at_least_expected_times_it_should_throw()
         {
             // Arrange
             string actual = "abCDEBcDF";
@@ -185,7 +194,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_string_containment_equivalent_of_at_least_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        public void
+            When_string_containment_equivalent_of_at_least_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
         {
             // Arrange
             string actual = "abCDEf";
@@ -200,7 +210,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_string_containment_equivalent_of_at_least_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        public void
+            When_string_containment_equivalent_of_at_least_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
         {
             // Arrange
             string actual = null;
@@ -218,7 +229,8 @@ public partial class StringAssertionSpecs
     public class ContainEquivalentOfMoreThan
     {
         [Fact]
-        public void When_string_containment_equivalent_of_more_than_is_asserted_and_actual_value_contains_the_expected_string_more_than_expected_times_it_should_not_throw()
+        public void
+            When_string_containment_equivalent_of_more_than_is_asserted_and_actual_value_contains_the_expected_string_more_than_expected_times_it_should_not_throw()
         {
             // Arrange
             string actual = "abCDEBcDF";
@@ -232,7 +244,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_string_containment_equivalent_of_more_than_is_asserted_and_actual_value_contains_the_expected_string_but_not_more_than_expected_times_it_should_throw()
+        public void
+            When_string_containment_equivalent_of_more_than_is_asserted_and_actual_value_contains_the_expected_string_but_not_more_than_expected_times_it_should_throw()
         {
             // Arrange
             string actual = "abCDEBcDF";
@@ -243,11 +256,13 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" more than 2 times, but found it 2 times.");
+                .WithMessage(
+                    "Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" more than 2 times, but found it 2 times.");
         }
 
         [Fact]
-        public void When_string_containment_equivalent_of_more_than_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+        public void
+            When_string_containment_equivalent_of_more_than_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
         {
             // Arrange
             string actual = "abCDEf";
@@ -262,7 +277,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_string_containment_equivalent_of_more_than_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
+        public void
+            When_string_containment_equivalent_of_more_than_once_is_asserted_and_actual_value_is_null_then_it_should_throw_earlier()
         {
             // Arrange
             string actual = null;
@@ -280,7 +296,8 @@ public partial class StringAssertionSpecs
     public class ContainEquivalentOfAtMost
     {
         [Fact]
-        public void When_string_containment_equivalent_of_at_most_is_asserted_and_actual_value_contains_the_expected_string_at_most_expected_times_it_should_not_throw()
+        public void
+            When_string_containment_equivalent_of_at_most_is_asserted_and_actual_value_contains_the_expected_string_at_most_expected_times_it_should_not_throw()
         {
             // Arrange
             string actual = "abCDEBcDF";
@@ -294,7 +311,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_string_containment_equivalent_of_at_most_is_asserted_and_actual_value_contains_the_expected_string_but_not_at_most_expected_times_it_should_throw()
+        public void
+            When_string_containment_equivalent_of_at_most_is_asserted_and_actual_value_contains_the_expected_string_but_not_at_most_expected_times_it_should_throw()
         {
             // Arrange
             string actual = "abCDEBcDF";
@@ -309,7 +327,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_string_containment_equivalent_of_at_most_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_not_throw()
+        public void
+            When_string_containment_equivalent_of_at_most_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_not_throw()
         {
             // Arrange
             string actual = "abCDEf";
@@ -323,7 +342,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_string_containment_equivalent_of_at_most_once_is_asserted_and_actual_value_is_null_then_it_should_not_throw()
+        public void
+            When_string_containment_equivalent_of_at_most_once_is_asserted_and_actual_value_is_null_then_it_should_not_throw()
         {
             // Arrange
             string actual = null;
@@ -340,7 +360,8 @@ public partial class StringAssertionSpecs
     public class ContainEquivalentOfLessThan
     {
         [Fact]
-        public void When_string_containment_equivalent_of_less_than_is_asserted_and_actual_value_contains_the_expected_string_less_than_expected_times_it_should_not_throw()
+        public void
+            When_string_containment_equivalent_of_less_than_is_asserted_and_actual_value_contains_the_expected_string_less_than_expected_times_it_should_not_throw()
         {
             // Arrange
             string actual = "abCDEBcDF";
@@ -354,7 +375,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_string_containment_equivalent_of_less_than_is_asserted_and_actual_value_contains_the_expected_string_but_not_less_than_expected_times_it_should_throw()
+        public void
+            When_string_containment_equivalent_of_less_than_is_asserted_and_actual_value_contains_the_expected_string_but_not_less_than_expected_times_it_should_throw()
         {
             // Arrange
             string actual = "abCDEBcDF";
@@ -365,11 +387,13 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" less than 2 times, but found it 2 times.");
+                .WithMessage(
+                    "Expected * \"abCDEBcDF\" to contain equivalent of \"Bcd\" less than 2 times, but found it 2 times.");
         }
 
         [Fact]
-        public void When_string_containment_equivalent_of_less_than_twice_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw()
+        public void
+            When_string_containment_equivalent_of_less_than_twice_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw()
         {
             // Arrange
             string actual = "abCDEf";
@@ -383,7 +407,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_string_containment_equivalent_of_less_than_twice_is_asserted_and_actual_value_is_null_then_it_should_not_throw()
+        public void
+            When_string_containment_equivalent_of_less_than_twice_is_asserted_and_actual_value_is_null_then_it_should_not_throw()
         {
             // Arrange
             string actual = null;

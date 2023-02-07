@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
@@ -143,11 +142,13 @@ public partial class AssertionScopeSpecs
     public void Because_reason_should_inform_about_invalid_parentheses_with_a_default_message()
     {
         // Act
-        Action act = () => 1.Should().Be(2, "use of {} is considered invalid in because parameter with becauseArgs", "additional becauseArgs argument");
+        Action act = () => 1.Should().Be(2, "use of {} is considered invalid in because parameter with becauseArgs",
+            "additional becauseArgs argument");
 
         // Assert
         act.Should().Throw<XunitException>()
-            .WithMessage("*because message 'use of {} is considered invalid in because parameter with becauseArgs' could not be formatted with string.Format*");
+            .WithMessage(
+                "*because message 'use of {} is considered invalid in because parameter with becauseArgs' could not be formatted with string.Format*");
     }
 
     [Fact]
@@ -381,6 +382,7 @@ public partial class AssertionScopeSpecs
         // Assert
         act.Should().ThrowExactly<XunitException>()
             .WithMessage("MyValue*\n\nWith MyKey:\nMyValue\n");
+
         deferredValueInvoked.Should().BeTrue();
     }
 

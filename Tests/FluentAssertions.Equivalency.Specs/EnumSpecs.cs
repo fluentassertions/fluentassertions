@@ -100,7 +100,9 @@ public class EnumSpecs
     {
         // Arrange
         var subject = new ClassWithEnumOne { Enum = EnumOne.Two };
-        var expectation = new ClassWithEnumThree() { Enum = EnumThree.Two };
+
+        var expectation = new ClassWithEnumThree
+            { Enum = EnumThree.Two };
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expectation, config => config.ComparingEnumsByName());

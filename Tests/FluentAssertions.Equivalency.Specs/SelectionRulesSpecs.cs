@@ -213,7 +213,7 @@ public class SelectionRulesSpecs
             // Arrange
             var sut = new List<BaseClassPointingToClassWithoutProperties>
             {
-                new BaseClassPointingToClassWithoutProperties
+                new()
                 {
                     Name = "theName"
                 }
@@ -233,7 +233,7 @@ public class SelectionRulesSpecs
         {
             public string Name { get; set; }
 
-            public ClassWithoutProperty ClassWithoutProperty { get; } = new ClassWithoutProperty();
+            public ClassWithoutProperty ClassWithoutProperty { get; } = new();
         }
 
         internal class ClassWithoutProperty
@@ -404,11 +404,11 @@ public class SelectionRulesSpecs
             // Arrange
             var list1 = new List<CustomType>
             {
-                new CustomType
+                new()
                 {
                     Name = "A"
                 },
-                new CustomType
+                new()
                 {
                     Name = "B"
                 }
@@ -416,11 +416,11 @@ public class SelectionRulesSpecs
 
             var list2 = new List<CustomType>
             {
-                new CustomType
+                new()
                 {
                     Name = "C"
                 },
-                new CustomType
+                new()
                 {
                     Name = "D"
                 }
@@ -793,8 +793,8 @@ public class SelectionRulesSpecs
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expected, config =>
                 config.Excluding(ctx => ctx.WhichGetterHas(CSharpAccessModifier.Internal) ||
-                                        ctx.WhichGetterHas(CSharpAccessModifier.ProtectedInternal) ||
-                                        ctx.WhichGetterHas(CSharpAccessModifier.PrivateProtected)));
+                    ctx.WhichGetterHas(CSharpAccessModifier.ProtectedInternal) ||
+                    ctx.WhichGetterHas(CSharpAccessModifier.PrivateProtected)));
 
             // Assert
             act.Should().NotThrow();
@@ -813,9 +813,9 @@ public class SelectionRulesSpecs
             // Act
             Action act = () => subject.Should().BeEquivalentTo(expected, config =>
                 config.Excluding(ctx => ctx.WhichSetterHas(CSharpAccessModifier.Internal) ||
-                                        ctx.WhichSetterHas(CSharpAccessModifier.ProtectedInternal) ||
-                                        ctx.WhichSetterHas(CSharpAccessModifier.Private) ||
-                                        ctx.WhichSetterHas(CSharpAccessModifier.PrivateProtected)));
+                    ctx.WhichSetterHas(CSharpAccessModifier.ProtectedInternal) ||
+                    ctx.WhichSetterHas(CSharpAccessModifier.Private) ||
+                    ctx.WhichSetterHas(CSharpAccessModifier.PrivateProtected)));
 
             // Assert
             act.Should().NotThrow();
@@ -872,11 +872,11 @@ public class SelectionRulesSpecs
                 }.ToList(),
                 Dictionary = new Dictionary<string, ClassWithOnlyAProperty>
                 {
-                    ["Foo"] = new ClassWithOnlyAProperty
+                    ["Foo"] = new()
                     {
                         Value = 1
                     },
-                    ["Bar"] = new ClassWithOnlyAProperty
+                    ["Bar"] = new()
                     {
                         Value = 2
                     }
@@ -900,11 +900,11 @@ public class SelectionRulesSpecs
                 }.ToList(),
                 Dictionary = new Dictionary<string, ClassWithOnlyAProperty>
                 {
-                    ["Foo"] = new ClassWithOnlyAProperty
+                    ["Foo"] = new()
                     {
                         Value = 1
                     },
-                    ["Bar"] = new ClassWithOnlyAProperty
+                    ["Bar"] = new()
                     {
                         Value = 3
                     }
@@ -943,11 +943,11 @@ public class SelectionRulesSpecs
                 }.ToList(),
                 Dictionary = new Dictionary<string, ClassWithOnlyAProperty>
                 {
-                    ["Foo"] = new ClassWithOnlyAProperty
+                    ["Foo"] = new()
                     {
                         Value = 1
                     },
-                    ["Bar"] = new ClassWithOnlyAProperty
+                    ["Bar"] = new()
                     {
                         Value = 2
                     }
@@ -971,11 +971,11 @@ public class SelectionRulesSpecs
                 }.ToList(),
                 Dictionary = new Dictionary<string, ClassWithOnlyAProperty>
                 {
-                    ["Foo"] = new ClassWithOnlyAProperty
+                    ["Foo"] = new()
                     {
                         Value = 6
                     },
-                    ["Bar"] = new ClassWithOnlyAProperty
+                    ["Bar"] = new()
                     {
                         Value = 3
                     }

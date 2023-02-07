@@ -15,8 +15,7 @@ namespace FluentAssertions.Specialized;
 /// Contains a number of methods to assert that an <see cref="Exception" /> is in the correct state.
 /// </summary>
 [DebuggerNonUserCode]
-public class ExceptionAssertions<TException> :
-    ReferenceTypeAssertions<IEnumerable<TException>, ExceptionAssertions<TException>>
+public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerable<TException>, ExceptionAssertions<TException>>
     where TException : Exception
 {
     #region Private Definitions
@@ -183,6 +182,7 @@ public class ExceptionAssertions<TException> :
         Guard.ThrowIfArgumentIsNull(exceptionExpression);
 
         Func<TException, bool> condition = exceptionExpression.Compile();
+
         Execute.Assertion
             .ForCondition(condition(SingleSubject))
             .BecauseOf(because, becauseArgs)
@@ -247,6 +247,7 @@ public class ExceptionAssertions<TException> :
             if (Subject.Count() > 1)
             {
                 string thrownExceptions = BuildExceptionsString(Subject);
+
                 Services.ThrowException(
                     $"More than one exception was thrown.  FluentAssertions cannot determine which Exception was meant.{Environment.NewLine}{thrownExceptions}");
             }
@@ -270,7 +271,7 @@ public class ExceptionAssertions<TException> :
             Context = "exception message";
         }
 
-        public string Context { get; set; }
+        public string Context { get; }
 
         public void Execute(IEnumerable<string> messages, string expectation, string because, params object[] becauseArgs)
         {
@@ -298,6 +299,7 @@ public class ExceptionAssertions<TException> :
             {
                 string replacedCurlyBraces =
                     failure.EscapePlaceholders();
+
                 AssertionScope.Current.FailWith(replacedCurlyBraces);
             }
         }

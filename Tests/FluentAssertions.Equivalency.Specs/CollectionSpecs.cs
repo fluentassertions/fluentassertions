@@ -36,7 +36,7 @@ public class CollectionSpecs
         public override bool Equals(object obj)
         {
             return obj is SubDummy subDummy
-                   && Id == subDummy.Id;
+                && Id == subDummy.Id;
         }
 
         public override int GetHashCode()
@@ -86,8 +86,8 @@ public class CollectionSpecs
 
     private class MultiEnumerable : IEnumerable<int>, IEnumerable<long>
     {
-        private readonly List<int> ints = new List<int>();
-        private readonly List<long> longs = new List<long>();
+        private readonly List<int> ints = new();
+        private readonly List<long> longs = new();
 
         IEnumerator<int> IEnumerable<int>.GetEnumerator()
         {
@@ -175,7 +175,7 @@ public class CollectionSpecs
 
     public class UserRolesLookupElement
     {
-        private readonly Dictionary<Guid, List<string>> innerRoles = new Dictionary<Guid, List<string>>();
+        private readonly Dictionary<Guid, List<string>> innerRoles = new();
 
         public virtual Dictionary<Guid, IEnumerable<string>> Roles
         {
@@ -199,8 +199,15 @@ public class CollectionSpecs
     public void When_the_expectation_is_an_array_of_interface_type_it_should_respect_declared_types()
     {
         // Arrange
-        var actual = new IInterface[] { new MyClass() { InterfaceProperty = 1, ClassProperty = 42 } };
-        var expected = new IInterface[] { new MyClass() { InterfaceProperty = 1, ClassProperty = 1337 } };
+        var actual = new IInterface[]
+        {
+            new MyClass { InterfaceProperty = 1, ClassProperty = 42 }
+        };
+
+        var expected = new IInterface[]
+        {
+            new MyClass { InterfaceProperty = 1, ClassProperty = 1337 }
+        };
 
         // Act
         Action act = () => actual.Should().BeEquivalentTo(expected);
@@ -213,10 +220,10 @@ public class CollectionSpecs
     public void When_the_expectation_has_fewer_dimensions_than_a_multi_dimensional_subject_it_should_fail()
     {
         // Arrange
-        object objectA = new object();
-        object objectB = new object();
+        object objectA = new();
+        object objectB = new();
 
-        var actual = new object[][] { new object[] { objectA, objectB } };
+        var actual = new[] { new[] { objectA, objectB } };
         var expected = actual[0];
 
         // Act
@@ -295,9 +302,9 @@ public class CollectionSpecs
     public void When_a_collection_does_not_match_it_should_include_items_in_message()
     {
         // Arrange
-        var subject = new int[] { 1, 2 };
+        var subject = new[] { 1, 2 };
 
-        var expectation = new int[] { 3, 2, 1 };
+        var expectation = new[] { 3, 2, 1 };
 
         // Act
         Action action = () => subject.Should().BeEquivalentTo(expectation);
@@ -329,12 +336,12 @@ public class CollectionSpecs
     public void When_a_nullable_collection_does_not_match_it_should_throw()
     {
         // Arrange
-        var subject = new { Values = (ImmutableArray<int>?)ImmutableArray.Create<int>(1, 2, 3) };
+        var subject = new { Values = (ImmutableArray<int>?)ImmutableArray.Create(1, 2, 3) };
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(new
         {
-            Values = (ImmutableArray<int>?)ImmutableArray.Create<int>(1, 2, 4)
+            Values = (ImmutableArray<int>?)ImmutableArray.Create(1, 2, 4)
         });
 
         // Assert
@@ -453,11 +460,11 @@ public class CollectionSpecs
     public void When_two_deeply_nested_collections_are_equivalent_while_ignoring_the_order_it_should_not_throw()
     {
         // Arrange
-        var items = new[] { new int[0], new int[] { 42 } };
+        var items = new[] { new int[0], new[] { 42 } };
 
         // Act / Assert
         items.Should().BeEquivalentTo(
-            new[] { new int[] { 42 }, new int[0] }
+            new[] { new[] { 42 }, new int[0] }
         );
     }
 
@@ -484,8 +491,8 @@ public class CollectionSpecs
     public void When_the_subject_is_a_non_generic_collection_it_should_still_work()
     {
         // Arrange
-        object item = new object();
-        object[] array = new[] { item };
+        object item = new();
+        object[] array = { item };
         IList readOnlyList = ArrayList.ReadOnly(array);
 
         // Act / Assert
@@ -1091,8 +1098,8 @@ public class CollectionSpecs
         When_a_strongly_typed_collection_is_declared_as_an_untyped_collection_and_runtime_checking_is_configured_is_should_use_the_runtime_type()
     {
         // Arrange
-        ICollection collection1 = new List<Car> { new Car() };
-        ICollection collection2 = new List<Customer> { new Customer() };
+        ICollection collection1 = new List<Car> { new() };
+        ICollection collection2 = new List<Customer> { new() };
 
         // Act
         Action act =
@@ -1180,6 +1187,7 @@ public class CollectionSpecs
         // Arrange
         const int N = 100000;
         var subject = new List<string>(N) { "one" };
+
         for (int i = 1; i < N; i++)
         {
             subject.Add("two");
@@ -1208,9 +1216,9 @@ public class CollectionSpecs
         // Arrange
         var subject = new List<SomeDto>
         {
-            new SomeDto { Name = "someDto", Age = 1 },
-            new SomeDto { Name = "someDto", Age = 1 },
-            new SomeDto { Name = "someDto", Age = 1 }
+            new() { Name = "someDto", Age = 1 },
+            new() { Name = "someDto", Age = 1 },
+            new() { Name = "someDto", Age = 1 }
         };
 
         // Act
@@ -1231,18 +1239,18 @@ public class CollectionSpecs
         // Arrange
         var subject = new List<SomeDto>
         {
-            new SomeDto { Name = "someDto", Age = 1 },
-            new SomeDto { Name = "someDto", Age = 1 },
-            new SomeDto { Name = "someDto", Age = 1 }
+            new() { Name = "someDto", Age = 1 },
+            new() { Name = "someDto", Age = 1 },
+            new() { Name = "someDto", Age = 1 }
         };
 
         // Act
         Action action = () => subject.Should().AllBeEquivalentTo(new
-        {
-            Name = "someDto",
-            Age = 1,
-            Birthdate = default(DateTime)
-        })
+            {
+                Name = "someDto",
+                Age = 1,
+                Birthdate = default(DateTime)
+            })
             .And.HaveCount(3);
 
         // Assert
@@ -1285,6 +1293,7 @@ public class CollectionSpecs
         // Arrange
         const int N = 100000;
         var subject = new List<int>(N) { 1 };
+
         for (int i = 1; i < N; i++)
         {
             subject.Add(2);
@@ -1421,7 +1430,7 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action = () => subject.Should().BeEquivalentTo(expectation,  options => options
+        Action action = () => subject.Should().BeEquivalentTo(expectation, options => options
             .WithStrictOrderingFor(oi => oi.ParentType == expectation[0].GetType()));
 
         // Assert
@@ -1536,7 +1545,7 @@ public class CollectionSpecs
     {
         // Arrange
         var collection1 = new Collection<CustomerType> { new DerivedCustomerType("123") };
-        var collection2 = new Collection<CustomerType> { new CustomerType("123") };
+        var collection2 = new Collection<CustomerType> { new("123") };
 
         // Act
         Action act = () => collection1.Should().BeEquivalentTo(collection2);
@@ -1632,12 +1641,14 @@ public class CollectionSpecs
         // Arrange
         var subject = new List<Customer>
         {
-            new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 30, Id = 2 }
+            new() { Name = "John", Age = 27, Id = 1 },
+            new() { Name = "Jane", Age = 30, Id = 2 }
         };
 
         var expectation = new List<Customer>
         {
-            new Customer { Name = "Jane", Age = 30, Id = 2 }, new Customer { Name = "John", Age = 28, Id = 1 }
+            new() { Name = "Jane", Age = 30, Id = 2 },
+            new() { Name = "John", Age = 28, Id = 1 }
         };
 
         // Act
@@ -1878,8 +1889,8 @@ public class CollectionSpecs
         // Arrange
         var actual = new[,]
         {
-        { 1, 2, 3 },
-        { 4, 5, 6 }
+            { 1, 2, 3 },
+            { 4, 5, 6 }
         };
 
         // Act
@@ -1978,7 +1989,7 @@ public class CollectionSpecs
     public void When_the_number_of_dimensions_of_the_arrays_are_not_the_same_it_should_throw()
     {
         // Arrange
-        var actual = new[, ,]
+        var actual = new[,,]
         {
             {
                 { 1 },
@@ -2066,11 +2077,15 @@ public class CollectionSpecs
     public void When_the_subject_contains_less_items_than_expected_it_should_throw()
     {
         // Arrange
-        var subject = new List<Customer> { new Customer { Name = "John", Age = 27, Id = 1 } };
+        var subject = new List<Customer>
+        {
+            new() { Name = "John", Age = 27, Id = 1 }
+        };
 
         var expectation = new List<Customer>
         {
-            new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
+            new() { Name = "John", Age = 27, Id = 1 },
+            new() { Name = "Jane", Age = 24, Id = 2 }
         };
 
         // Act
@@ -2089,10 +2104,14 @@ public class CollectionSpecs
         // Arrange
         var subject = new List<Customer>
         {
-            new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
+            new() { Name = "John", Age = 27, Id = 1 },
+            new() { Name = "Jane", Age = 24, Id = 2 }
         };
 
-        var expectation = new List<Customer> { new Customer { Name = "John", Age = 27, Id = 1 } };
+        var expectation = new List<Customer>
+        {
+            new() { Name = "John", Age = 27, Id = 1 }
+        };
 
         // Act
         Action action =
@@ -2110,16 +2129,16 @@ public class CollectionSpecs
         // Arrange
         var subject = new List<Customer>
         {
-            new Customer { Name = "John", Age = 27, Id = 1 },
-            new Customer { Name = "John", Age = 27, Id = 1 },
-            new Customer { Name = "Jane", Age = 24, Id = 2 }
+            new() { Name = "John", Age = 27, Id = 1 },
+            new() { Name = "John", Age = 27, Id = 1 },
+            new() { Name = "Jane", Age = 24, Id = 2 }
         };
 
         var expectation = new List<Customer>
         {
-            new Customer { Name = "Jane", Age = 24, Id = 2 },
-            new Customer { Name = "John", Age = 27, Id = 1 },
-            new Customer { Name = "John", Age = 27, Id = 1 }
+            new() { Name = "Jane", Age = 24, Id = 2 },
+            new() { Name = "John", Age = 27, Id = 1 },
+            new() { Name = "John", Age = 27, Id = 1 }
         };
 
         // Act
@@ -2136,12 +2155,14 @@ public class CollectionSpecs
         // Arrange
         var subject = new List<Customer>
         {
-            new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
+            new() { Name = "John", Age = 27, Id = 1 },
+            new() { Name = "Jane", Age = 24, Id = 2 }
         };
 
         var expectation = new List<Customer>
         {
-            new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "John", Age = 27, Id = 1 }
+            new() { Name = "John", Age = 27, Id = 1 },
+            new() { Name = "John", Age = 27, Id = 1 }
         };
 
         // Act
@@ -2160,12 +2181,14 @@ public class CollectionSpecs
         // Arrange
         var subject = new List<Customer>
         {
-            new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "John", Age = 27, Id = 1 }
+            new() { Name = "John", Age = 27, Id = 1 },
+            new() { Name = "John", Age = 27, Id = 1 }
         };
 
         var expectation = new List<Customer>
         {
-            new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
+            new() { Name = "John", Age = 27, Id = 1 },
+            new() { Name = "Jane", Age = 24, Id = 2 }
         };
 
         // Act
@@ -2249,12 +2272,14 @@ public class CollectionSpecs
         // Arrange
         var subject = new List<Customer>
         {
-            new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
+            new() { Name = "John", Age = 27, Id = 1 },
+            new() { Name = "Jane", Age = 24, Id = 2 }
         };
 
         var expectation = new List<Customer>
         {
-            new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 30, Id = 2 }
+            new() { Name = "John", Age = 27, Id = 1 },
+            new() { Name = "Jane", Age = 30, Id = 2 }
         };
 
         // Act
@@ -2272,12 +2297,14 @@ public class CollectionSpecs
         // Arrange
         var subject = new List<Customer>
         {
-            new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
+            new() { Name = "John", Age = 27, Id = 1 },
+            new() { Name = "Jane", Age = 24, Id = 2 }
         };
 
         var expectation = new List<CustomerDto>
         {
-            new CustomerDto { Name = "John", Age = 27 }, new CustomerDto { Name = "Jane", Age = 30 }
+            new() { Name = "John", Age = 27 },
+            new() { Name = "Jane", Age = 30 }
         };
 
         // Act
@@ -2426,12 +2453,14 @@ public class CollectionSpecs
         // Arrange
         var subject = new List<Customer>
         {
-            new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
+            new() { Name = "John", Age = 27, Id = 1 },
+            new() { Name = "Jane", Age = 24, Id = 2 }
         };
 
         var expectation = new List<Customer>
         {
-            new Customer { Name = "John", Age = 27, Id = 1 }, new Customer { Name = "Jane", Age = 24, Id = 2 }
+            new() { Name = "John", Age = 27, Id = 1 },
+            new() { Name = "Jane", Age = 24, Id = 2 }
         };
 
         // Act
@@ -2453,7 +2482,8 @@ public class CollectionSpecs
 
         var expectation = new Collection<Customer>
         {
-            new Customer { Name = "Jane", Age = 24, Id = 2 }, new Customer { Name = "John", Age = 27, Id = 1 }
+            new() { Name = "Jane", Age = 24, Id = 2 },
+            new() { Name = "John", Age = 27, Id = 1 }
         };
 
         // Act
@@ -2476,7 +2506,8 @@ public class CollectionSpecs
 
         var expectation = new Collection<Customer>
         {
-            new Customer { Name = "Jane", Age = 24, Id = 2 }, new Customer { Name = "John", Age = 27, Id = 1 }
+            new() { Name = "Jane", Age = 24, Id = 2 },
+            new() { Name = "John", Age = 27, Id = 1 }
         };
 
         // Act
@@ -2504,7 +2535,8 @@ public class CollectionSpecs
 
         var expectation = new Collection<Customer>
         {
-            new Customer { Name = "Jane", Age = 24, Id = 2 }, new Customer { Name = "John", Age = 27, Id = 1 }
+            new() { Name = "Jane", Age = 24, Id = 2 },
+            new() { Name = "John", Age = 27, Id = 1 }
         };
 
         // Act
@@ -2526,7 +2558,8 @@ public class CollectionSpecs
 
         var expectation = new Collection<Customer>
         {
-            new Customer { Name = "Jane", Age = 24, Id = 2 }, new Customer { Name = "John", Age = 27, Id = 1 }
+            new() { Name = "Jane", Age = 24, Id = 2 },
+            new() { Name = "John", Age = 27, Id = 1 }
         };
 
         // Act
@@ -2541,8 +2574,8 @@ public class CollectionSpecs
     public void When_two_unordered_lists_contain_empty_different_objects_it_should_throw()
     {
         // Arrange
-        var actual = new object[] { new object() };
-        var expected = new object[] { new object() };
+        var actual = new object[] { new() };
+        var expected = new object[] { new() };
 
         // Act
         Action act = () => actual.Should().BeEquivalentTo(expected);
@@ -2556,7 +2589,7 @@ public class CollectionSpecs
     {
         // Arrange
         var actual = new object[] { null };
-        var expected = new object[] { new object() };
+        var expected = new object[] { new() };
 
         // Act
         Action act = () => actual.Should().BeEquivalentTo(expected);
@@ -2569,7 +2602,7 @@ public class CollectionSpecs
     public void When_two_unordered_lists_contain_null_in_expectation_it_should_throw()
     {
         // Arrange
-        var actual = new object[] { new object() };
+        var actual = new object[] { new() };
         var expected = new object[] { null };
 
         // Act
@@ -2595,8 +2628,9 @@ public class CollectionSpecs
     public void When_an_exception_is_thrown_during_data_access_the_stack_trace_contains_the_original_site()
     {
         // Arrange
-        var genericCollectionA = new List<ExceptionThrowingClass>() { new ExceptionThrowingClass() };
-        var genericCollectionB = new List<ExceptionThrowingClass>() { new ExceptionThrowingClass() };
+        var genericCollectionA = new List<ExceptionThrowingClass> { new() };
+
+        var genericCollectionB = new List<ExceptionThrowingClass> { new() };
 
         var expectedTargetSite = typeof(ExceptionThrowingClass)
             .GetProperty(nameof(ExceptionThrowingClass.ExceptionThrowingProperty)).GetMethod;
@@ -2616,8 +2650,8 @@ public class CollectionSpecs
         };
 
         return from x in arrays
-               from y in arrays
-               select new object[] { x, y };
+            from y in arrays
+            select new[] { x, y };
     }
 
     [Fact]
@@ -2650,6 +2684,7 @@ public class CollectionSpecs
         var expectation = new List<ClassWithLotsOfProperties>();
 
         var maxAmount = 100;
+
         for (var i = 0; i < maxAmount; i++)
         {
             actual.Add(GetObject(i));
@@ -2711,6 +2746,6 @@ public class CollectionSpecs
             Key = key;
         }
 
-        public string Key { get; protected set; }
+        public string Key { get; }
     }
 }

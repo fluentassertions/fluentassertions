@@ -111,6 +111,7 @@ public class DataColumnSpecs : DataSpecs
 
         // Act & Assert
         IEnumerable<DataColumn> excludedColumns = new[] { dataColumn2 };
+
         dataColumn1.Should().BeEquivalentTo(dataColumn2, options => options
             .ExcludingColumns(excludedColumns));
     }
@@ -131,7 +132,7 @@ public class DataColumnSpecs : DataSpecs
         // Act & Assert
         dataTable1.Should().BeEquivalentTo(dataTable2, options => options
             .ExcludingColumn(dataTable2.DecimalColumn)
-            .ExcludingRelated((DataTable dataTable) => dataTable.Constraints));
+            .ExcludingRelated(dataTable => dataTable.Constraints));
     }
 
     [Fact]
@@ -149,7 +150,7 @@ public class DataColumnSpecs : DataSpecs
         // Act & Assert
         dataSet1.Should().BeEquivalentTo(dataSet2, options => options
             .ExcludingColumn(dataTable2.DecimalColumn)
-            .ExcludingRelated((DataTable dataTable) => dataTable.Constraints));
+            .ExcludingRelated(dataTable => dataTable.Constraints));
     }
 
     [Fact]

@@ -30,7 +30,8 @@ internal class MessageBuilder
     }
 
     // SMELL: Too many parameters.
-    public string Build(string message, object[] messageArgs, string reason, ContextDataItems contextData, string identifier, string fallbackIdentifier)
+    public string Build(string message, object[] messageArgs, string reason, ContextDataItems contextData, string identifier,
+        string fallbackIdentifier)
     {
         message = Regex.Replace(message, "{reason}", SanitizeReason(reason));
 
@@ -50,6 +51,7 @@ internal class MessageBuilder
         message = Regex.Replace(message, pattern, match =>
         {
             const string result = " ";
+
             if (!string.IsNullOrEmpty(identifier))
             {
                 return result + identifier;
@@ -97,7 +99,8 @@ internal class MessageBuilder
         }
         catch (FormatException formatException)
         {
-            return $"**WARNING** failure message '{failureMessage}' could not be formatted with string.Format{Environment.NewLine}{formatException.StackTrace}";
+            return
+                $"**WARNING** failure message '{failureMessage}' could not be formatted with string.Format{Environment.NewLine}{formatException.StackTrace}";
         }
     }
 
@@ -135,6 +138,6 @@ internal class MessageBuilder
 
     private bool StartsWithBlank(string text)
     {
-        return (text.Length > 0) && blanks.Contains(text[0]);
+        return text.Length > 0 && blanks.Contains(text[0]);
     }
 }

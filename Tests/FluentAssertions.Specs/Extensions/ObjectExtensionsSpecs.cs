@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions.Common;
-using FluentAssertions.Specs.Common;
 using Xunit;
 
 namespace FluentAssertions.Specs.Extensions;
@@ -59,9 +58,10 @@ public class ObjectExtensionsSpecs
 
     public static IEnumerable<object[]> GetNumericAndNumericData()
     {
-        return from x in GetNumericIConvertibles()
-               from y in GetNumericIConvertibles()
-               select new[] { x, y };
+        return
+            from x in GetNumericIConvertibles()
+            from y in GetNumericIConvertibles()
+            select new[] { x, y };
     }
 
     [Theory]
@@ -81,8 +81,8 @@ public class ObjectExtensionsSpecs
     public static IEnumerable<object[]> GetNonNumericAndNumericData()
     {
         return from x in GetNonNumericIConvertibles()
-               from y in GetNumericIConvertibles()
-               select new[] { x, y };
+            from y in GetNumericIConvertibles()
+            select new[] { x, y };
     }
 
     [Theory]
@@ -102,8 +102,8 @@ public class ObjectExtensionsSpecs
     public static IEnumerable<object[]> GetNumericAndNonNumericData()
     {
         return from x in GetNumericIConvertibles()
-               from y in GetNonNumericIConvertibles()
-               select new[] { x, y };
+            from y in GetNonNumericIConvertibles()
+            select new[] { x, y };
     }
 
     [Theory]
@@ -123,10 +123,12 @@ public class ObjectExtensionsSpecs
     public static IEnumerable<object[]> GetNonNumericAndNonNumericData()
     {
         object[] nonNumerics = GetNonNumericIConvertibles();
-        return from x in nonNumerics
-               from y in nonNumerics
-               where x != y
-               select new[] { x, y };
+
+        return
+            from x in nonNumerics
+            from y in nonNumerics
+            where x != y
+            select new[] { x, y };
     }
 
     private static object[] GetNumericIConvertibles()

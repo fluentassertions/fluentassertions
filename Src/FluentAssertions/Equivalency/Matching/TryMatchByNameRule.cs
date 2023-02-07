@@ -11,13 +11,14 @@ internal class TryMatchByNameRule : IMemberMatchingRule
     public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions config)
     {
         PropertyInfo property = subject.GetType().FindProperty(expectedMember.Name);
-        if ((property is not null) && !property.IsIndexer())
+
+        if (property is not null && !property.IsIndexer())
         {
             return new Property(property, parent);
         }
 
         FieldInfo field = subject.GetType().FindField(expectedMember.Name);
-        return (field is not null) ? new Field(field, parent) : null;
+        return field is not null ? new Field(field, parent) : null;
     }
 
     /// <inheritdoc />

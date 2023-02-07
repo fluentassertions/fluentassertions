@@ -111,7 +111,8 @@ public class TypeSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TypeSelectorAssertions> BeDecoratedWithOrInherit<TAttribute>(string because = "", params object[] becauseArgs)
+    public AndConstraint<TypeSelectorAssertions> BeDecoratedWithOrInherit<TAttribute>(string because = "",
+        params object[] becauseArgs)
         where TAttribute : Attribute
     {
         Type[] typesWithoutAttribute = Subject
@@ -245,7 +246,8 @@ public class TypeSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TypeSelectorAssertions> NotBeDecoratedWithOrInherit<TAttribute>(string because = "", params object[] becauseArgs)
+    public AndConstraint<TypeSelectorAssertions> NotBeDecoratedWithOrInherit<TAttribute>(string because = "",
+        params object[] becauseArgs)
         where TAttribute : Attribute
     {
         Type[] typesWithAttribute = Subject
@@ -318,7 +320,8 @@ public class TypeSelectorAssertions
 
         Execute.Assertion.ForCondition(!notSealedTypes.Any())
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected all types to be sealed{reason}, but the following types are not:{0}{1}.", Environment.NewLine, GetDescriptionsFor(notSealedTypes));
+            .FailWith("Expected all types to be sealed{reason}, but the following types are not:{0}{1}.", Environment.NewLine,
+                GetDescriptionsFor(notSealedTypes));
 
         return new AndConstraint<TypeSelectorAssertions>(this);
     }
@@ -339,7 +342,8 @@ public class TypeSelectorAssertions
 
         Execute.Assertion.ForCondition(!sealedTypes.Any())
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected all types not to be sealed{reason}, but the following types are:{0}{1}.", Environment.NewLine, GetDescriptionsFor(sealedTypes));
+            .FailWith("Expected all types not to be sealed{reason}, but the following types are:{0}{1}.", Environment.NewLine,
+                GetDescriptionsFor(sealedTypes));
 
         return new AndConstraint<TypeSelectorAssertions>(this);
     }
@@ -357,7 +361,8 @@ public class TypeSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TypeSelectorAssertions> BeInNamespace(string @namespace, string because = "", params object[] becauseArgs)
+    public AndConstraint<TypeSelectorAssertions> BeInNamespace(string @namespace, string because = "",
+        params object[] becauseArgs)
     {
         Type[] typesNotInNamespace = Subject
             .Where(t => t.Namespace != @namespace)
@@ -367,7 +372,7 @@ public class TypeSelectorAssertions
             .ForCondition(!typesNotInNamespace.Any())
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to be in namespace {0}{reason}," +
-                      " but the following types are in a different namespace:{1}{2}.",
+                " but the following types are in a different namespace:{1}{2}.",
                 @namespace,
                 Environment.NewLine,
                 GetDescriptionsFor(typesNotInNamespace));
@@ -388,7 +393,8 @@ public class TypeSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TypeSelectorAssertions> NotBeInNamespace(string @namespace, string because = "", params object[] becauseArgs)
+    public AndConstraint<TypeSelectorAssertions> NotBeInNamespace(string @namespace, string because = "",
+        params object[] becauseArgs)
     {
         Type[] typesInNamespace = Subject
             .Where(t => t.Namespace == @namespace)
@@ -398,7 +404,7 @@ public class TypeSelectorAssertions
             .ForCondition(!typesInNamespace.Any())
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected no types to be in namespace {0}{reason}," +
-                      " but the following types are in the namespace:{1}{2}.",
+                " but the following types are in the namespace:{1}{2}.",
                 @namespace,
                 Environment.NewLine,
                 GetDescriptionsFor(typesInNamespace));
@@ -419,7 +425,8 @@ public class TypeSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TypeSelectorAssertions> BeUnderNamespace(string @namespace, string because = "", params object[] becauseArgs)
+    public AndConstraint<TypeSelectorAssertions> BeUnderNamespace(string @namespace, string because = "",
+        params object[] becauseArgs)
     {
         Type[] typesNotUnderNamespace = Subject
             .Where(t => !t.IsUnderNamespace(@namespace))
@@ -429,7 +436,7 @@ public class TypeSelectorAssertions
             .ForCondition(!typesNotUnderNamespace.Any())
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected the namespaces of all types to start with {0}{reason}," +
-                      " but the namespaces of the following types do not start with it:{1}{2}.",
+                " but the namespaces of the following types do not start with it:{1}{2}.",
                 @namespace,
                 Environment.NewLine,
                 GetDescriptionsFor(typesNotUnderNamespace));
@@ -451,7 +458,8 @@ public class TypeSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TypeSelectorAssertions> NotBeUnderNamespace(string @namespace, string because = "", params object[] becauseArgs)
+    public AndConstraint<TypeSelectorAssertions> NotBeUnderNamespace(string @namespace, string because = "",
+        params object[] becauseArgs)
     {
         Type[] typesUnderNamespace = Subject
             .Where(t => t.IsUnderNamespace(@namespace))
@@ -461,7 +469,7 @@ public class TypeSelectorAssertions
             .ForCondition(!typesUnderNamespace.Any())
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected the namespaces of all types to not start with {0}{reason}," +
-                      " but the namespaces of the following types start with it:{1}{2}.",
+                " but the namespaces of the following types start with it:{1}{2}.",
                 @namespace,
                 Environment.NewLine,
                 GetDescriptionsFor(typesUnderNamespace));
@@ -482,5 +490,6 @@ public class TypeSelectorAssertions
 
     /// <inheritdoc/>
     public override bool Equals(object obj) =>
-        throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean BeInNamespace() or BeDecoratedWith() instead?");
+        throw new NotSupportedException(
+            "Equals is not part of Fluent Assertions. Did you mean BeInNamespace() or BeDecoratedWith() instead?");
 }

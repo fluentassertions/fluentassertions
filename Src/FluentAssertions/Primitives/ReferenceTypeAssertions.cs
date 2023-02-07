@@ -128,7 +128,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     {
         BeOfType(typeof(T), because, becauseArgs);
 
-        T typedSubject = (Subject is T type)
+        T typedSubject = Subject is T type
             ? type
             : default;
 
@@ -162,6 +162,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
         if (success)
         {
             Type subjectType = Subject.GetType();
+
             if (expectedType.IsGenericTypeDefinition && subjectType.IsGenericType)
             {
                 subjectType.GetGenericTypeDefinition().Should().Be(expectedType, because, becauseArgs);
@@ -220,6 +221,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
         if (success)
         {
             Type subjectType = Subject.GetType();
+
             if (unexpectedType.IsGenericTypeDefinition && subjectType.IsGenericType)
             {
                 subjectType.GetGenericTypeDefinition().Should().NotBe(unexpectedType, because, becauseArgs);
@@ -262,7 +264,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
                 .FailWith("Expected {context} to be assignable to {0}{reason}, but {1} is not.", typeof(T), Subject.GetType());
         }
 
-        T typedSubject = (Subject is T type)
+        T typedSubject = Subject is T type
             ? type
             : default;
 

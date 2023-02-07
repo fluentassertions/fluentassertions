@@ -42,6 +42,7 @@ internal class DictionaryInterfaceInfo
         result = null;
 
         var interfaces = GetDictionaryInterfacesFrom(target);
+
         if (interfaces.Length > 1)
         {
             throw new ArgumentException(

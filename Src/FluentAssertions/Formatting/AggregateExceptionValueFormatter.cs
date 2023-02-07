@@ -20,6 +20,7 @@ public class AggregateExceptionValueFormatter : IValueFormatter
     public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
     {
         var exception = (AggregateException)value;
+
         if (exception.InnerExceptions.Count == 1)
         {
             formattedGraph.AddFragment("(aggregated) ");

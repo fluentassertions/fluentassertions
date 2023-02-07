@@ -33,6 +33,7 @@ public class EnumerableValueFormatter : IValueFormatter
         IEnumerable<object> collection = ((IEnumerable)value).Cast<object>();
 
         using var iterator = new Iterator<object>(collection, MaxItems);
+
         while (iterator.MoveNext())
         {
             if (iterator.IsFirst)

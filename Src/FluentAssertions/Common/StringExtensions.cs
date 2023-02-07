@@ -17,7 +17,7 @@ internal static class StringExtensions
 
         for (int index = 0; index < value.Length; index++)
         {
-            if ((index >= expected.Length) || !comparer(value[index], expected[index]))
+            if (index >= expected.Length || !comparer(value[index], expected[index]))
             {
                 return index;
             }
@@ -28,7 +28,7 @@ internal static class StringExtensions
 
     private static Func<char, char, bool> GetCharComparer(StringComparison stringComparison) =>
         stringComparison == StringComparison.Ordinal
-            ? ((x, y) => x == y)
+            ? (x, y) => x == y
             : (x, y) => char.ToUpperInvariant(x) == char.ToUpperInvariant(y);
 
     /// <summary>
@@ -80,7 +80,7 @@ internal static class StringExtensions
     {
         if (@this.Length == 0)
         {
-            return (other.Length != 0) ? other : string.Empty;
+            return other.Length != 0 ? other : string.Empty;
         }
 
         if (other.Length == 0)
@@ -124,8 +124,8 @@ internal static class StringExtensions
     public static string RemoveNewLines(this string @this)
     {
         return @this.Replace("\n", string.Empty, StringComparison.Ordinal)
-                    .Replace("\r", string.Empty, StringComparison.Ordinal)
-                    .Replace("\\r\\n", string.Empty, StringComparison.Ordinal);
+            .Replace("\r", string.Empty, StringComparison.Ordinal)
+            .Replace("\\r\\n", string.Empty, StringComparison.Ordinal);
     }
 
     /// <summary>

@@ -151,7 +151,7 @@ public class TypeSelectorAssertionSpecs
             Action act = () =>
                 types.Should()
                     .BeDecoratedWith<DummyClassAttribute>(
-                        a => (a.Name == "Expected") && a.IsEnabled, "we want to test the failure {0}", "message");
+                        a => a.Name == "Expected" && a.IsEnabled, "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -220,7 +220,8 @@ public class TypeSelectorAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_a_selection_of_types_with_some_inheriting_attributes_with_unexpected_attribute_property_it_fails()
+        public void
+            When_asserting_a_selection_of_types_with_some_inheriting_attributes_with_unexpected_attribute_property_it_fails()
         {
             // Arrange
             var types = new TypeSelector(new[]
@@ -235,7 +236,7 @@ public class TypeSelectorAssertionSpecs
             Action act = () =>
                 types.Should()
                     .BeDecoratedWithOrInherit<DummyClassAttribute>(
-                        a => (a.Name == "Expected") && a.IsEnabled, "we want to test the failure {0}", "message");
+                        a => a.Name == "Expected" && a.IsEnabled, "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -316,7 +317,7 @@ public class TypeSelectorAssertionSpecs
             Action act = () =>
                 types.Should()
                     .NotBeDecoratedWith<DummyClassAttribute>(
-                        a => (a.Name == "Expected") && a.IsEnabled, "we want to test the failure {0}", "message");
+                        a => a.Name == "Expected" && a.IsEnabled, "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -377,7 +378,7 @@ public class TypeSelectorAssertionSpecs
             // Act
             Action act = () => types.Should()
                 .NotBeDecoratedWithOrInherit<DummyClassAttribute>(
-                    a => (a.Name == "Expected") && a.IsEnabled, "we want to test the failure {0}", "message");
+                    a => a.Name == "Expected" && a.IsEnabled, "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -395,7 +396,7 @@ public class TypeSelectorAssertionSpecs
 
             // Act
             Action act = () => types.Should()
-                .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled);
+                .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => a.Name == "Expected" && a.IsEnabled);
 
             // Assert
             act.Should().NotThrow();
@@ -642,7 +643,7 @@ public class TypeSelectorAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                    .WithMessage("Expected the namespaces of all types to start with \"DummyNamespace\" *failure message*" +
+                .WithMessage("Expected the namespaces of all types to start with \"DummyNamespace\" *failure message*" +
                     ", but the namespaces of the following types do not start with it:*\"*.ClassInDummyNamespaceTwo\".");
         }
 
@@ -805,7 +806,9 @@ public class TypeSelectorAssertionSpecs
             Action action = () => types.Should().Equals(types);
 
             // Assert
-            action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean BeInNamespace() or BeDecoratedWith() instead?");
+            action.Should().Throw<NotSupportedException>()
+                .WithMessage(
+                    "Equals is not part of Fluent Assertions. Did you mean BeInNamespace() or BeDecoratedWith() instead?");
         }
     }
 }

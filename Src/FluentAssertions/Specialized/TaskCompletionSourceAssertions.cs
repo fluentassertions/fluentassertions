@@ -87,7 +87,6 @@ public class TaskCompletionSourceAssertions : TaskCompletionSourceAssertionsBase
         return new AndConstraint<TaskCompletionSourceAssertions>(this);
     }
 }
-
 #endif
 
 public class TaskCompletionSourceAssertions<T> : TaskCompletionSourceAssertionsBase
@@ -127,10 +126,12 @@ public class TaskCompletionSourceAssertions<T> : TaskCompletionSourceAssertionsB
         if (success)
         {
             bool completesWithinTimeout = await CompletesWithinTimeoutAsync(subject.Task, timeSpan);
+
             Execute.Assertion
                 .ForCondition(completesWithinTimeout)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
+
             T result = subject.Task.IsCompleted ? subject.Task.Result : default;
             return new AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>(this, result);
         }
@@ -160,6 +161,7 @@ public class TaskCompletionSourceAssertions<T> : TaskCompletionSourceAssertionsB
         if (success)
         {
             bool completesWithinTimeout = await CompletesWithinTimeoutAsync(subject.Task, timeSpan);
+
             Execute.Assertion
                 .ForCondition(!completesWithinTimeout)
                 .BecauseOf(because, becauseArgs)

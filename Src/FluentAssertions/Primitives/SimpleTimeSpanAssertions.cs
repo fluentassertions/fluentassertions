@@ -166,7 +166,8 @@ public class SimpleTimeSpanAssertions<TAssertions>
     }
 
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<TAssertions> BeLessOrEqualTo(TimeSpan expected, string because = "", params object[] becauseArgs) => BeLessThanOrEqualTo(expected, because, becauseArgs);
+    public AndConstraint<TAssertions> BeLessOrEqualTo(TimeSpan expected, string because = "", params object[] becauseArgs) =>
+        BeLessThanOrEqualTo(expected, because, becauseArgs);
 
     /// <summary>
     /// Asserts that the time difference of the current <see cref="TimeSpan"/> is greater than the
@@ -214,7 +215,8 @@ public class SimpleTimeSpanAssertions<TAssertions>
     }
 
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<TAssertions> BeGreaterOrEqualTo(TimeSpan expected, string because = "", params object[] becauseArgs) => BeGreaterThanOrEqualTo(expected, because, becauseArgs);
+    public AndConstraint<TAssertions> BeGreaterOrEqualTo(TimeSpan expected, string because = "", params object[] becauseArgs) =>
+        BeGreaterThanOrEqualTo(expected, because, becauseArgs);
 
     /// <summary>
     /// Asserts that the current <see cref="TimeSpan"/> is within the specified time
@@ -247,7 +249,7 @@ public class SimpleTimeSpanAssertions<TAssertions>
         TimeSpan maximumValue = nearbyTime + precision;
 
         Execute.Assertion
-            .ForCondition((Subject >= minimumValue) && (Subject.Value <= maximumValue))
+            .ForCondition(Subject >= minimumValue && Subject.Value <= maximumValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:time} to be within {0} from {1}{reason}, but found {2}.",
                 precision,

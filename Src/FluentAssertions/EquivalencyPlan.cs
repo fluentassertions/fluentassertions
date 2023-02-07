@@ -53,6 +53,7 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
         int insertIndex = Math.Max(steps.Count - 1, 0);
 
         IEquivalencyStep predecessor = steps.LastOrDefault(s => s is TPredecessor);
+
         if (predecessor is not null)
         {
             insertIndex = Math.Min(insertIndex, steps.LastIndexOf(predecessor) + 1);
@@ -79,6 +80,7 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
         int insertIndex = Math.Max(steps.Count - 1, 0);
 
         IEquivalencyStep equalityStep = steps.LastOrDefault(s => s is TSuccessor);
+
         if (equalityStep is not null)
         {
             insertIndex = steps.LastIndexOf(equalityStep);
@@ -111,7 +113,7 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
 
     private static List<IEquivalencyStep> GetDefaultSteps()
     {
-        return new(18)
+        return new List<IEquivalencyStep>(18)
         {
             new RunAllUserStepsEquivalencyStep(),
             new AutoConversionStep(),

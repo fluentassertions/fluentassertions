@@ -36,7 +36,7 @@ public partial class CollectionAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected subset to be a subset of {1, 2, 4, 5} because we want to test the failure message, " +
-                    "but items {3, 6} are not part of the superset.");
+                "but items {3, 6} are not part of the superset.");
         }
 
         [Fact]

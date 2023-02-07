@@ -210,6 +210,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
         Guard.ThrowIfArgumentIsNull(config);
 
         bool hasMismatches;
+
         using (var scope = new AssertionScope())
         {
             Subject.Should().BeEquivalentTo(unexpected, config);

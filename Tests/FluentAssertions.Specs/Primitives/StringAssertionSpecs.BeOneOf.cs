@@ -36,7 +36,8 @@ public partial class StringAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected value to be one of {\"def\", \"xyz\"} because those are the valid values, but found \"abc\".");
+                .WithMessage(
+                    "Expected value to be one of {\"def\", \"xyz\"} because those are the valid values, but found \"abc\".");
         }
 
         [Fact]

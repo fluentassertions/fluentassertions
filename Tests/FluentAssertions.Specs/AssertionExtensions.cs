@@ -35,7 +35,6 @@ internal static class AssertionExtensions
     }
 
 #if NET6_0_OR_GREATER
-
     public static TaskCompletionSourceAssertions Should(this TaskCompletionSource tcs, IClock clock)
     {
         return new TaskCompletionSourceAssertions(tcs, clock);

@@ -2,11 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using FluentAssertions.Execution;
-
 using Xunit;
 using Xunit.Sdk;
 
@@ -513,7 +508,7 @@ public static class DataTableCollectionAssertionSpecs
                 // Act
                 Action action =
                     () => genericDataTableCollection.Should().NotHaveSameCount(secondDataSet.Tables,
-                    because: "we {0}", "care");
+                        because: "we {0}", "care");
 
                 // Assert
                 action.Should().Throw<XunitException>().WithMessage(

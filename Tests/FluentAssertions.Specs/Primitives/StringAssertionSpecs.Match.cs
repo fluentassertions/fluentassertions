@@ -22,7 +22,8 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected subject to match*\"h*earth!\" because that's the universal greeting, but*\"hello world!\" does not.");
+                .WithMessage(
+                    "Expected subject to match*\"h*earth!\" because that's the universal greeting, but*\"hello world!\" does not.");
         }
 
         [Fact]
@@ -106,7 +107,8 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
-                .WithMessage("Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.*")
+                .WithMessage(
+                    "Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.*")
                 .WithParameterName("wildcardPattern");
         }
     }
@@ -167,7 +169,8 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
-                .WithMessage("Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.*")
+                .WithMessage(
+                    "Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.*")
                 .WithParameterName("wildcardPattern");
         }
     }

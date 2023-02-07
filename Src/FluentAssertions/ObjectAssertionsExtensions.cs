@@ -115,7 +115,8 @@ public static class ObjectAssertionsExtensions
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="options"/> is <see langword="null"/>.</exception>
     public static AndConstraint<ObjectAssertions> BeDataContractSerializable<T>(this ObjectAssertions assertions,
-        Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> options, string because = "", params object[] becauseArgs)
+        Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> options, string because = "",
+        params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(options);
 
@@ -144,6 +145,7 @@ public static class ObjectAssertionsExtensions
     private static object CreateCloneUsingBinarySerializer(object subject)
     {
         using var stream = new MemoryStream();
+
         var binaryFormatter = new BinaryFormatter
         {
             Binder = new SimpleBinder(subject.GetType())
@@ -167,7 +169,7 @@ public static class ObjectAssertionsExtensions
 
         public override Type BindToType(string assemblyName, string typeName)
         {
-            if ((type.FullName == typeName) && (type.Assembly.FullName == assemblyName))
+            if (type.FullName == typeName && type.Assembly.FullName == assemblyName)
             {
                 return type;
             }

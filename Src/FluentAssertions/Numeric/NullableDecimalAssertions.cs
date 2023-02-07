@@ -19,7 +19,7 @@ internal class NullableDecimalAssertions : NullableNumericAssertions<decimal>
     {
         try
         {
-            decimal difference = checked(subject - expected);
+            decimal difference = subject - expected;
             return difference != 0 ? difference.ToString(CultureInfo.InvariantCulture) : null;
         }
         catch (OverflowException)

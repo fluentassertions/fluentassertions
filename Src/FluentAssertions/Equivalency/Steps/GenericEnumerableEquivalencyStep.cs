@@ -15,9 +15,11 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
         (HandleImpl).GetMethodInfo().GetGenericMethodDefinition();
 #pragma warning restore SA1110
 
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+        IEquivalencyValidator nestedValidator)
     {
         Type expectedType = comparands.GetExpectedType(context.Options);
+
         if (comparands.Expectation is null || !IsGenericCollection(expectedType))
         {
             return EquivalencyResult.ContinueWithNext;
@@ -45,7 +47,8 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
 
             try
             {
-                HandleMethod.MakeGenericMethod(typeOfEnumeration).Invoke(null, new[] { validator, subjectAsArray, comparands.Expectation });
+                HandleMethod.MakeGenericMethod(typeOfEnumeration)
+                    .Invoke(null, new[] { validator, subjectAsArray, comparands.Expectation });
             }
             catch (TargetInvocationException e)
             {
@@ -56,8 +59,8 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
         return EquivalencyResult.AssertionCompleted;
     }
 
-    private static void HandleImpl<T>(EnumerableEquivalencyValidator validator, object[] subject, IEnumerable<T> expectation)
-        => validator.Execute(subject, ToArray(expectation));
+    private static void HandleImpl<T>(EnumerableEquivalencyValidator validator, object[] subject, IEnumerable<T> expectation) =>
+        validator.Execute(subject, ToArray(expectation));
 
     private static bool AssertSubjectIsCollection(object subject)
     {
@@ -84,7 +87,7 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
     {
         Type[] enumerableInterfaces = GetIEnumerableInterfaces(type);
 
-        return (!typeof(string).IsAssignableFrom(type)) && enumerableInterfaces.Any();
+        return !typeof(string).IsAssignableFrom(type) && enumerableInterfaces.Any();
     }
 
     private static Type[] GetIEnumerableInterfaces(Type type)
@@ -97,7 +100,7 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
 
         Type soughtType = typeof(IEnumerable<>);
 
-        return Common.TypeExtensions.GetClosedGenericInterfaces(type, soughtType);
+        return type.GetClosedGenericInterfaces(soughtType);
     }
 
     private static Type GetTypeOfEnumeration(Type enumerableType)

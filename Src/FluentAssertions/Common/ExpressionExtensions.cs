@@ -84,7 +84,9 @@ internal static class ExpressionExtensions
 
                 case ExpressionType.Call:
                     var methodCallExpression = (MethodCallExpression)node;
-                    if (methodCallExpression.Method.Name != "get_Item" || methodCallExpression.Arguments.Count != 1 || methodCallExpression.Arguments[0] is not ConstantExpression)
+
+                    if (methodCallExpression.Method.Name != "get_Item" || methodCallExpression.Arguments.Count != 1 ||
+                        methodCallExpression.Arguments[0] is not ConstantExpression)
                     {
                         throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
                     }
@@ -153,7 +155,9 @@ internal static class ExpressionExtensions
 
                 case ExpressionType.Call:
                     var methodCallExpression = (MethodCallExpression)node;
-                    if (methodCallExpression.Method.Name != "get_Item" || methodCallExpression.Arguments.Count != 1 || methodCallExpression.Arguments[0] is not ConstantExpression)
+
+                    if (methodCallExpression.Method.Name != "get_Item" || methodCallExpression.Arguments.Count != 1 ||
+                        methodCallExpression.Arguments[0] is not ConstantExpression)
                     {
                         throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
                     }

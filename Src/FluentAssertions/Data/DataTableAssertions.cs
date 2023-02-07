@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
-
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
@@ -35,7 +34,8 @@ public class DataTableAssertions<TDataTable> : ReferenceTypeAssertions<DataTable
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<DataTableAssertions<TDataTable>> HaveRowCount(int expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<DataTableAssertions<TDataTable>> HaveRowCount(int expected, string because = "",
+        params object[] becauseArgs)
     {
         if (Subject is null)
         {
@@ -49,7 +49,8 @@ public class DataTableAssertions<TDataTable> : ReferenceTypeAssertions<DataTable
         Execute.Assertion
             .ForCondition(actualCount == expected)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:DataTable} to contain exactly {0} row(s){reason}, but found {1}.", expected, actualCount);
+            .FailWith("Expected {context:DataTable} to contain exactly {0} row(s){reason}, but found {1}.", expected,
+                actualCount);
 
         return new AndConstraint<DataTableAssertions<TDataTable>>(this);
     }
@@ -65,7 +66,8 @@ public class DataTableAssertions<TDataTable> : ReferenceTypeAssertions<DataTable
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndWhichConstraint<DataTableAssertions<TDataTable>, DataColumn> HaveColumn(string expectedColumnName, string because = "", params object[] becauseArgs)
+    public AndWhichConstraint<DataTableAssertions<TDataTable>, DataColumn> HaveColumn(string expectedColumnName,
+        string because = "", params object[] becauseArgs)
     {
         var subjectColumn = default(DataColumn);
 
@@ -73,13 +75,15 @@ public class DataTableAssertions<TDataTable> : ReferenceTypeAssertions<DataTable
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:DataTable} to contain a column named {0}{reason}, but found <null>.", expectedColumnName);
+                .FailWith("Expected {context:DataTable} to contain a column named {0}{reason}, but found <null>.",
+                    expectedColumnName);
         }
         else if (!Subject.Columns.Contains(expectedColumnName))
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:DataTable} to contain a column named {0}{reason}, but it does not.", expectedColumnName);
+                .FailWith("Expected {context:DataTable} to contain a column named {0}{reason}, but it does not.",
+                    expectedColumnName);
         }
         else
         {
@@ -109,13 +113,15 @@ public class DataTableAssertions<TDataTable> : ReferenceTypeAssertions<DataTable
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<DataTableAssertions<TDataTable>> HaveColumns(IEnumerable<string> expectedColumnNames, string because = "", params object[] becauseArgs)
+    public AndConstraint<DataTableAssertions<TDataTable>> HaveColumns(IEnumerable<string> expectedColumnNames,
+        string because = "", params object[] becauseArgs)
     {
         if (Subject is null)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:DataTable} to contain {0} column(s) with specific names{reason}, but found <null>.", expectedColumnNames.Count());
+                .FailWith("Expected {context:DataTable} to contain {0} column(s) with specific names{reason}, but found <null>.",
+                    expectedColumnNames.Count());
         }
 
         foreach (var expectedColumnName in expectedColumnNames)
@@ -123,7 +129,8 @@ public class DataTableAssertions<TDataTable> : ReferenceTypeAssertions<DataTable
             Execute.Assertion
                 .ForCondition(Subject.Columns.Contains(expectedColumnName))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:DataTable} to contain a column named {0}{reason}, but it does not.", expectedColumnName);
+                .FailWith("Expected {context:DataTable} to contain a column named {0}{reason}, but it does not.",
+                    expectedColumnName);
         }
 
         return new AndConstraint<DataTableAssertions<TDataTable>>(this);
@@ -160,9 +167,8 @@ public class DataTableAssertions<TDataTable> : ReferenceTypeAssertions<DataTable
     ///
     /// The <see cref="DataTable"/> objects must be of the same type; if two <see cref="DataTable"/> objects
     /// are equivalent in all ways, except that one is a typed <see cref="DataTable"/> that is a subclass
-    /// of <see cref="DataTable"/>, then by default, they will not be considered equivalent. This can be overridden
-    /// with the <see cref="BeEquivalentTo(DataTable, Func{IDataEquivalencyAssertionOptions{DataTable}, IDataEquivalencyAssertionOptions{DataTable}}, string, object[])"/>
-    /// overload.
+    /// of <see cref="DataTable"/>, then by default, they will not be considered equivalent. This can be overridden by
+    /// using the overload that takes <see cref="IDataEquivalencyAssertionOptions{DataSet}"/>.
     /// </remarks>
     /// <param name="expectation">A <see cref="DataColumn"/> with the expected configuration.</param>
     /// <param name="because">
@@ -172,7 +178,8 @@ public class DataTableAssertions<TDataTable> : ReferenceTypeAssertions<DataTable
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<DataTableAssertions<TDataTable>> BeEquivalentTo(DataTable expectation, string because = "", params object[] becauseArgs)
+    public AndConstraint<DataTableAssertions<TDataTable>> BeEquivalentTo(DataTable expectation, string because = "",
+        params object[] becauseArgs)
     {
         return BeEquivalentTo(
             expectation,
@@ -240,11 +247,15 @@ public class DataTableAssertions<TDataTable> : ReferenceTypeAssertions<DataTable
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
-    public AndConstraint<DataTableAssertions<TDataTable>> BeEquivalentTo(DataTable expectation, Func<IDataEquivalencyAssertionOptions<DataTable>, IDataEquivalencyAssertionOptions<DataTable>> config, string because = "", params object[] becauseArgs)
+    public AndConstraint<DataTableAssertions<TDataTable>> BeEquivalentTo(DataTable expectation,
+        Func<IDataEquivalencyAssertionOptions<DataTable>, IDataEquivalencyAssertionOptions<DataTable>> config,
+        string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(config);
 
-        IDataEquivalencyAssertionOptions<DataTable> options = config(AssertionOptions.CloneDefaults<DataTable, DataEquivalencyAssertionOptions<DataTable>>(e => new(e)));
+        IDataEquivalencyAssertionOptions<DataTable> options =
+            config(AssertionOptions.CloneDefaults<DataTable, DataEquivalencyAssertionOptions<DataTable>>(e =>
+                new DataEquivalencyAssertionOptions<DataTable>(e)));
 
         var context = new EquivalencyValidationContext(Node.From<DataTable>(() => AssertionScope.Current.CallerIdentity), options)
         {

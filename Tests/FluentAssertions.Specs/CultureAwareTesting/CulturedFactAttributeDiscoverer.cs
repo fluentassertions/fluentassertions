@@ -14,7 +14,8 @@ public class CulturedFactAttributeDiscoverer : IXunitTestCaseDiscoverer
         this.diagnosticMessageSink = diagnosticMessageSink;
     }
 
-    public IEnumerable<IXunitTestCase> Discover(ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo factAttribute)
+    public IEnumerable<IXunitTestCase> Discover(ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod,
+        IAttributeInfo factAttribute)
     {
         var ctorArgs = factAttribute.GetConstructorArguments().ToArray();
         var cultures = Reflector.ConvertArguments(ctorArgs, new[] { typeof(string[]) }).Cast<string[]>().Single();
@@ -27,6 +28,7 @@ public class CulturedFactAttributeDiscoverer : IXunitTestCaseDiscoverer
         TestMethodDisplay methodDisplay = discoveryOptions.MethodDisplayOrDefault();
         TestMethodDisplayOptions methodDisplayOptions = discoveryOptions.MethodDisplayOptionsOrDefault();
 
-        return cultures.Select(culture => new CulturedXunitTestCase(diagnosticMessageSink, methodDisplay, methodDisplayOptions, testMethod, culture)).ToList();
+        return cultures.Select(culture =>
+            new CulturedXunitTestCase(diagnosticMessageSink, methodDisplay, methodDisplayOptions, testMethod, culture)).ToList();
     }
 }

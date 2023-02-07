@@ -20,7 +20,6 @@ public sealed class AssertionScope : IAssertionScope
 {
     #region Private Definitions
 
-    private readonly FormattingOptions formattingOptions = AssertionOptions.FormattingOptions.Clone();
     private readonly IAssertionStrategy assertionStrategy;
     private readonly ContextDataItems contextData = new();
     private readonly StringBuilder tracing = new();
@@ -40,7 +39,7 @@ public sealed class AssertionScope : IAssertionScope
 
         public DeferredReportable(Func<string> valueFunc)
         {
-            lazyValue = new(valueFunc);
+            lazyValue = new Lazy<string>(valueFunc);
         }
 
         public override string ToString() => lazyValue.Value;
@@ -100,7 +99,8 @@ public sealed class AssertionScope : IAssertionScope
     private AssertionScope(IAssertionStrategy assertionStrategy, AssertionScope parent)
     {
         this.assertionStrategy = assertionStrategy
-                                 ?? throw new ArgumentNullException(nameof(assertionStrategy));
+            ?? throw new ArgumentNullException(nameof(assertionStrategy));
+
         this.parent = parent;
 
         if (parent is not null)
@@ -137,7 +137,7 @@ public sealed class AssertionScope : IAssertionScope
     {
         get
         {
-            formattingOptions.UseLineBreaks = true;
+            FormattingOptions.UseLineBreaks = true;
             return this;
         }
     }
@@ -145,7 +145,7 @@ public sealed class AssertionScope : IAssertionScope
     /// <summary>
     /// Exposes the options the scope will use for formatting objects in case an assertion fails.
     /// </summary>
-    public FormattingOptions FormattingOptions => formattingOptions;
+    public FormattingOptions FormattingOptions { get; } = AssertionOptions.FormattingOptions.Clone();
 
     internal bool Succeeded
     {
@@ -168,13 +168,18 @@ public sealed class AssertionScope : IAssertionScope
             try
             {
                 string becauseOrEmpty = because ?? string.Empty;
-                return (becauseArgs?.Any() == true) ? string.Format(CultureInfo.InvariantCulture, becauseOrEmpty, becauseArgs) : becauseOrEmpty;
+
+                return becauseArgs?.Any() == true
+                    ? string.Format(CultureInfo.InvariantCulture, becauseOrEmpty, becauseArgs)
+                    : becauseOrEmpty;
             }
             catch (FormatException formatException)
             {
-                return $"**WARNING** because message '{because}' could not be formatted with string.Format{Environment.NewLine}{formatException.StackTrace}";
+                return
+                    $"**WARNING** because message '{because}' could not be formatted with string.Format{Environment.NewLine}{formatException.StackTrace}";
             }
         };
+
         return this;
     }
 
@@ -182,9 +187,10 @@ public sealed class AssertionScope : IAssertionScope
     public AssertionScope WithExpectation(string message, params object[] args)
     {
         Func<string> localReason = reason;
+
         expectation = () =>
         {
-            var messageBuilder = new MessageBuilder(formattingOptions);
+            var messageBuilder = new MessageBuilder(FormattingOptions);
             string reason = localReason?.Invoke() ?? string.Empty;
             string identifier = GetIdentifier();
 
@@ -246,10 +252,13 @@ public sealed class AssertionScope : IAssertionScope
         return FailWith(() =>
         {
             string localReason = reason?.Invoke() ?? string.Empty;
-            var messageBuilder = new MessageBuilder(formattingOptions);
+            var messageBuilder = new MessageBuilder(FormattingOptions);
             string identifier = GetIdentifier();
             FailReason failReason = failReasonFunc();
-            string result = messageBuilder.Build(failReason.Message, failReason.Args, localReason, contextData, identifier, fallbackIdentifier);
+
+            string result = messageBuilder.Build(failReason.Message, failReason.Args, localReason, contextData, identifier,
+                fallbackIdentifier);
+
             return result;
         });
     }
@@ -262,6 +271,7 @@ public sealed class AssertionScope : IAssertionScope
         try
         {
             bool failed = succeeded != true;
+
             if (failed)
             {
                 string result = failReasonFunc();
@@ -287,7 +297,7 @@ public sealed class AssertionScope : IAssertionScope
     /// <inheritdoc/>
     public Continuation FailWith(string message)
     {
-        return FailWith(() => new FailReason(message, new object[0]));
+        return FailWith(() => new FailReason(message));
     }
 
     /// <inheritdoc/>
@@ -306,6 +316,7 @@ public sealed class AssertionScope : IAssertionScope
     private string GetIdentifier()
     {
         var identifier = Context?.Value;
+
         if (string.IsNullOrEmpty(identifier))
         {
             identifier = CallerIdentity;
@@ -358,7 +369,8 @@ public sealed class AssertionScope : IAssertionScope
     /// </summary>
     public void AddReportable(string key, Func<string> valueFunc)
     {
-        contextData.Add(new ContextDataItems.DataItem(key, new DeferredReportable(valueFunc), reportable: true, requiresFormatting: false));
+        contextData.Add(new ContextDataItems.DataItem(key, new DeferredReportable(valueFunc), reportable: true,
+            requiresFormatting: false));
     }
 
     /// <summary>

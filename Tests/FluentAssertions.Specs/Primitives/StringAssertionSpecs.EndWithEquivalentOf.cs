@@ -75,8 +75,8 @@ public partial class StringAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to end with equivalent of " +
-                    "\"00abc\", but " +
-                        "\"ABC\" is too short.");
+                "\"00abc\", but " +
+                "\"ABC\" is too short.");
         }
 
         [Fact]
@@ -115,7 +115,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_string_does_not_end_with_equivalent_of_a_value_but_it_does_it_should_fail_with_a_descriptive_message()
+        public void
+            When_asserting_string_does_not_end_with_equivalent_of_a_value_but_it_does_it_should_fail_with_a_descriptive_message()
         {
             // Arrange
             string value = "ABC";

@@ -175,7 +175,7 @@ public class DateTimeAssertions<TAssertions>
             .ForCondition(Subject is not null)
             .FailWith(", but found <null>.")
             .Then
-            .ForCondition((Subject >= minimumValue) && (Subject <= maximumValue))
+            .ForCondition(Subject >= minimumValue && Subject <= maximumValue)
             .FailWith(", but {0} was off by {1}.", Subject, difference)
             .Then
             .ClearExpectation();
@@ -217,7 +217,7 @@ public class DateTimeAssertions<TAssertions>
         DateTime maximumValue = distantTime.AddTicks(Math.Min(precision.Ticks, distanceToMaxInTicks));
 
         Execute.Assertion
-            .ForCondition((Subject < minimumValue) || (Subject > maximumValue))
+            .ForCondition(Subject < minimumValue || Subject > maximumValue)
             .BecauseOf(because, becauseArgs)
             .FailWith(
                 "Did not expect {context:the date and time} to be within {0} from {1}{reason}, but it was {2}.",
@@ -430,7 +430,8 @@ public class DateTimeAssertions<TAssertions>
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject.HasValue)
-            .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but found a <null> DateTime.", unexpected)
+            .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but found a <null> DateTime.",
+                unexpected)
             .Then
             .ForCondition(Subject.Value.Year != unexpected)
             .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but it was.", unexpected,
@@ -887,7 +888,8 @@ public class DateTimeAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeOneOf(IEnumerable<DateTime?> validValues, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeOneOf(IEnumerable<DateTime?> validValues, string because = "",
+        params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(validValues.Contains(Subject))
@@ -914,12 +916,12 @@ public class DateTimeAssertions<TAssertions>
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
-            .WithExpectation("Expected {context:the date and time} to be in " + expectedKind.ToString() + "{reason}")
+            .WithExpectation("Expected {context:the date and time} to be in " + expectedKind + "{reason}")
             .ForCondition(Subject.HasValue)
             .FailWith(", but found a <null> DateTime.")
             .Then
             .ForCondition(Subject.Value.Kind == expectedKind)
-            .FailWith(", but found " + Subject.Value.Kind.ToString() + ".")
+            .FailWith(", but found " + Subject.Value.Kind + ".")
             .Then
             .ClearExpectation();
 

@@ -1,9 +1,4 @@
-﻿#if NETFRAMEWORK
-using System.Reflection;
-using System.Reflection.Emit;
-#endif
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Linq;
 using FluentAssertions.Events;
@@ -11,6 +6,10 @@ using FluentAssertions.Extensions;
 using FluentAssertions.Formatting;
 using Xunit;
 using Xunit.Sdk;
+#if NETFRAMEWORK
+using System.Reflection;
+using System.Reflection.Emit;
+#endif
 
 namespace FluentAssertions.Specs.Events;
 
@@ -96,7 +95,7 @@ public class EventAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected object " + Formatter.ToString(subject) +
-                             " to not raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did.");
+                    " to not raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did.");
         }
 
         [Fact]
@@ -224,7 +223,7 @@ public class EventAssertionSpecs
             // Arrange
             void Action(int _)
             {
-                EventRaisingClass subject = new EventRaisingClass();
+                EventRaisingClass subject = new();
                 using var monitor = subject.Monitor();
                 subject.RaiseEventWithSender();
                 monitor.Should().Raise("PropertyChanged");
@@ -321,7 +320,8 @@ public class EventAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected at least one event with some argument*type*Int32*matches*(args == " + wrongArgument + "), but found none.");
+                "Expected at least one event with some argument*type*Int32*matches*(args == " + wrongArgument +
+                "), but found none.");
         }
 
         [Fact]
@@ -516,7 +516,8 @@ public class EventAssertionSpecs
         }
 
         [Fact]
-        public void When_the_property_changed_event_was_raised_for_the_wrong_property_it_should_throw_and_include_the_actual_properties_raised()
+        public void
+            When_the_property_changed_event_was_raised_for_the_wrong_property_it_should_throw_and_include_the_actual_properties_raised()
         {
             // Arrange
             var bar = new EventRaisingClass();
@@ -727,12 +728,17 @@ public class EventAssertionSpecs
         {
             Type baseType = typeof(EventRaisingClass);
             Type interfaceType = typeof(IEventRaisingInterface);
-            AssemblyName assemblyName = new AssemblyName { Name = baseType.Assembly.FullName + ".GeneratedForTest" };
+
+            AssemblyName assemblyName = new() { Name = baseType.Assembly.FullName + ".GeneratedForTest" };
+
             AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName,
                 AssemblyBuilderAccess.Run);
+
             ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name, false);
             string typeName = baseType.Name + "_GeneratedForTest";
-            TypeBuilder typeBuilder = moduleBuilder.DefineType(typeName, TypeAttributes.Public, baseType, new[] { interfaceType });
+
+            TypeBuilder typeBuilder =
+                moduleBuilder.DefineType(typeName, TypeAttributes.Public, baseType, new[] { interfaceType });
 
             MethodBuilder addHandler = EmitAddRemoveEventHandler("add");
             typeBuilder.DefineMethodOverride(addHandler, interfaceType.GetMethod("add_InterfaceEvent"));
@@ -749,6 +755,7 @@ public class EventAssertionSpecs
                         MethodAttributes.Private | MethodAttributes.Virtual | MethodAttributes.Final |
                         MethodAttributes.HideBySig |
                         MethodAttributes.NewSlot);
+
                 method.SetReturnType(typeof(void));
                 method.SetParameters(typeof(EventHandler));
                 ILGenerator gen = method.GetILGenerator();
@@ -828,7 +835,7 @@ public class EventAssertionSpecs
         public void One_matching_argument_type_before_mismatching_types_passes()
         {
             // Arrange
-            A a = new A();
+            A a = new();
             using var aMonitor = a.Monitor();
 
             a.OnEvent(new B());
@@ -843,7 +850,7 @@ public class EventAssertionSpecs
         public void One_matching_argument_type_after_mismatching_types_passes()
         {
             // Arrange
-            A a = new A();
+            A a = new();
             using var aMonitor = a.Monitor();
 
             a.OnEvent(new C());
@@ -858,7 +865,7 @@ public class EventAssertionSpecs
         public void Throws_when_none_of_the_arguments_are_of_the_expected_type()
         {
             // Arrange
-            A a = new A();
+            A a = new();
             using var aMonitor = a.Monitor();
 
             a.OnEvent(new C());
@@ -876,7 +883,7 @@ public class EventAssertionSpecs
         public void One_matching_argument_type_anywhere_between_mismatching_types_passes()
         {
             // Arrange
-            A a = new A();
+            A a = new();
             using var aMonitor = a.Monitor();
 
             a.OnEvent(new C());
@@ -892,7 +899,7 @@ public class EventAssertionSpecs
         public void One_matching_argument_type_anywhere_between_mismatching_types_with_parameters_passes()
         {
             // Arrange
-            A a = new A();
+            A a = new();
             using var aMonitor = a.Monitor();
 
             a.OnEvent(new C());
@@ -908,7 +915,7 @@ public class EventAssertionSpecs
         public void Mismatching_argument_types_with_one_parameter_matching_a_different_type_fails()
         {
             // Arrange
-            A a = new A();
+            A a = new();
             using var aMonitor = a.Monitor();
 
             a.OnEvent(new C());
@@ -926,7 +933,7 @@ public class EventAssertionSpecs
         public void Mismatching_argument_types_with_two_or_more_parameters_matching_a_different_type_fails()
         {
             // Arrange
-            A a = new A();
+            A a = new();
             using var aMonitor = a.Monitor();
 
             a.OnEvent(new C());
@@ -944,7 +951,7 @@ public class EventAssertionSpecs
         public void One_matching_argument_type_with_two_or_more_parameters_matching_a_mismatching_type_fails()
         {
             // Arrange
-            A a = new A();
+            A a = new();
             using var aMonitor = a.Monitor();
 
             a.OnEvent(new C());
@@ -969,9 +976,13 @@ public class EventAssertionSpecs
         }
     }
 
-    public class B { }
+    public class B
+    {
+    }
 
-    public class C { }
+    public class C
+    {
+    }
 
     public class ClassThatRaisesEventsItself : IInheritsEventRaisingInterface
     {

@@ -11,7 +11,9 @@ internal class ByteArrayOrderingRule : IOrderingRule
 {
     public OrderStrictness Evaluate(IObjectInfo memberInfo)
     {
-        return memberInfo.CompileTimeType.IsSameOrInherits(typeof(IEnumerable<byte>)) ? OrderStrictness.Strict : OrderStrictness.Irrelevant;
+        return memberInfo.CompileTimeType.IsSameOrInherits(typeof(IEnumerable<byte>))
+            ? OrderStrictness.Strict
+            : OrderStrictness.Irrelevant;
     }
 
     public override string ToString()

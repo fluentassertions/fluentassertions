@@ -81,7 +81,7 @@ public partial class TypeAssertionSpecs
             // Act
             Action act = () =>
                 typeWithAttribute.Should()
-                    .BeDecoratedWithOrInherit<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled);
+                    .BeDecoratedWithOrInherit<DummyClassAttribute>(a => a.Name == "Expected" && a.IsEnabled);
 
             // Assert
             act.Should().NotThrow();
@@ -97,7 +97,7 @@ public partial class TypeAssertionSpecs
             Action act = () =>
                 typeWithAttribute.Should()
                     .BeDecoratedWithOrInherit<DummyClassAttribute>(a => a.Name == "Expected")
-                        .Which.IsEnabled.Should().BeTrue();
+                    .Which.IsEnabled.Should().BeTrue();
 
             // Assert
             act.Should().NotThrow();
@@ -112,7 +112,7 @@ public partial class TypeAssertionSpecs
             // Act
             Action act = () =>
                 typeWithAttribute.Should()
-                    .BeDecoratedWithOrInherit<DummyClassAttribute>(a => (a.Name == "Unexpected") && a.IsEnabled);
+                    .BeDecoratedWithOrInherit<DummyClassAttribute>(a => a.Name == "Unexpected" && a.IsEnabled);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -180,7 +180,7 @@ public partial class TypeAssertionSpecs
             // Act
             Action act = () =>
                 typeWithoutAttribute.Should()
-                    .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => (a.Name == "Unexpected") && a.IsEnabled);
+                    .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => a.Name == "Unexpected" && a.IsEnabled);
 
             // Assert
             act.Should().NotThrow();
@@ -195,7 +195,7 @@ public partial class TypeAssertionSpecs
             // Act
             Action act = () =>
                 typeWithoutAttribute.Should()
-                    .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled);
+                    .NotBeDecoratedWithOrInherit<DummyClassAttribute>(a => a.Name == "Expected" && a.IsEnabled);
 
             // Assert
             act.Should().Throw<XunitException>()

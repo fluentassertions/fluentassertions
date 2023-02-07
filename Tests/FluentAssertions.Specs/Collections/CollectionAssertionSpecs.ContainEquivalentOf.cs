@@ -49,25 +49,27 @@ public partial class CollectionAssertionSpecs
         public void When_string_collection_does_contain_same_string_with_other_case_it_should_throw()
         {
             // Arrange
-            string[] collection = new[] { "a", "b", "c" };
+            string[] collection = { "a", "b", "c" };
             string item = "C";
 
             // Act
             Action act = () => collection.Should().ContainEquivalentOf(item);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected collection {\"a\", \"b\", \"c\"} to contain equivalent of \"C\".*");
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected collection {\"a\", \"b\", \"c\"} to contain equivalent of \"C\".*");
         }
 
         [Fact]
         public void When_string_collection_does_contain_same_string_it_should_throw_with_a_useful_message()
         {
             // Arrange
-            string[] collection = new[] { "a" };
+            string[] collection = { "a" };
             string item = "b";
 
             // Act
-            Action act = () => collection.Should().ContainEquivalentOf(item, "because we want to test the failure {0}", "message");
+            Action act = () =>
+                collection.Should().ContainEquivalentOf(item, "because we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -166,6 +168,7 @@ public partial class CollectionAssertionSpecs
                     Age = 18
                 }
             };
+
             var item = new Customer { Name = "John", Age = 20 };
 
             // Act
@@ -192,6 +195,7 @@ public partial class CollectionAssertionSpecs
                     Age = 18
                 }
             };
+
             var item = new Customer { Name = "John", Age = 20 };
 
             // Act / Assert
@@ -262,11 +266,13 @@ public partial class CollectionAssertionSpecs
             var collection = new[] { 0, 1 };
 
             // Act
-            Action act = () => collection.Should().NotContainEquivalentOf(item, "because we want to test the failure {0}", "message");
+            Action act = () =>
+                collection.Should().NotContainEquivalentOf(item, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected collection {0, 1} not to contain*because we want to test the failure message, " +
-                                                             "but found one at index 1.*With configuration*");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection {0, 1} not to contain*because we want to test the failure message, " +
+                "but found one at index 1.*With configuration*");
         }
 
         [Fact]
@@ -277,11 +283,13 @@ public partial class CollectionAssertionSpecs
             var collection = new[] { 0, 1, 1 };
 
             // Act
-            Action act = () => collection.Should().NotContainEquivalentOf(item, "because we want to test the failure {0}", "message");
+            Action act = () =>
+                collection.Should().NotContainEquivalentOf(item, "because we want to test the failure {0}", "message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected collection {0, 1, 1} not to contain*because we want to test the failure message, " +
-                                                             "but found several at indices {1, 2}.*With configuration*");
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection {0, 1, 1} not to contain*because we want to test the failure message, " +
+                "but found several at indices {1, 2}.*With configuration*");
         }
 
         [Fact]
@@ -370,6 +378,7 @@ public partial class CollectionAssertionSpecs
                     Age = 18
                 }
             };
+
             var item = new Customer { Name = "John", Age = 20 };
 
             // Act
@@ -399,7 +408,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("Expected collection*not to contain*first message*but*.\n" +
-                                                             "Expected*4 item(s)*because*second message*but*.");
+                "Expected*4 item(s)*because*second message*but*.");
         }
     }
 }

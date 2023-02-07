@@ -94,7 +94,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_a_collection_does_not_contain_other_collection_with_assertion_scope_it_should_throw_with_clear_explanation()
+        public void
+            When_a_collection_does_not_contain_other_collection_with_assertion_scope_it_should_throw_with_clear_explanation()
         {
             // Arrange
             var collection = new[] { 1, 2, 3 };
@@ -461,7 +462,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_collection_doesnt_contain_values_according_to_predicate_but_collection_is_null_it_should_throw()
+        public void
+            When_asserting_collection_doesnt_contain_values_according_to_predicate_but_collection_is_null_it_should_throw()
         {
             // Arrange
             const IEnumerable<string> strings = null;

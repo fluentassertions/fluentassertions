@@ -202,7 +202,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_with_a_predicate_a_collection_to_only_have_unique_items_but_collection_is_null_it_should_throw()
+        public void
+            When_asserting_with_a_predicate_a_collection_to_only_have_unique_items_but_collection_is_null_it_should_throw()
         {
             // Arrange
             IEnumerable<SomeClass> collection = null;

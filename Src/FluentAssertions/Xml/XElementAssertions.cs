@@ -315,7 +315,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
-                "Cannot assert the element has an element count if the element name is <null>.");
+            "Cannot assert the element has an element count if the element name is <null>.");
 
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)

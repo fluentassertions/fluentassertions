@@ -52,7 +52,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_containment_of_all_strings_in_a_collection_is_asserted_and_equivalent_but_not_exact_matches_exist_for_all_it_should_throw()
+        public void
+            When_containment_of_all_strings_in_a_collection_is_asserted_and_equivalent_but_not_exact_matches_exist_for_all_it_should_throw()
         {
             // Arrange
             const string redLowerCase = "red";
@@ -71,7 +72,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_containment_of_all_strings_in_a_collection_is_asserted_and_none_of_the_strings_are_present_it_should_throw()
+        public void
+            When_containment_of_all_strings_in_a_collection_is_asserted_and_none_of_the_strings_are_present_it_should_throw()
         {
             // Arrange
             const string red = "red";
@@ -90,7 +92,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_containment_of_all_strings_in_a_collection_is_asserted_with_reason_and_assertion_fails_then_failure_message_should_contain_reason()
+        public void
+            When_containment_of_all_strings_in_a_collection_is_asserted_with_reason_and_assertion_fails_then_failure_message_should_contain_reason()
         {
             // Arrange
             const string red = "red";
@@ -109,7 +112,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_containment_of_all_strings_in_a_collection_is_asserted_and_only_some_of_the_strings_are_present_it_should_throw()
+        public void
+            When_containment_of_all_strings_in_a_collection_is_asserted_and_only_some_of_the_strings_are_present_it_should_throw()
         {
             // Arrange
             const string red = "red";
@@ -155,7 +159,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_exclusion_of_all_strings_in_a_collection_is_asserted_and_all_strings_in_collection_are_present_it_should_throw()
+        public void
+            When_exclusion_of_all_strings_in_a_collection_is_asserted_and_all_strings_in_collection_are_present_it_should_throw()
         {
             // Arrange
             const string red = "red";
@@ -191,7 +196,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_exclusion_of_all_strings_in_a_collection_is_asserted_and_only_some_of_the_strings_in_collection_are_present_it_should_succeed()
+        public void
+            When_exclusion_of_all_strings_in_a_collection_is_asserted_and_only_some_of_the_strings_in_collection_are_present_it_should_succeed()
         {
             // Arrange
             const string red = "red";
@@ -208,7 +214,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_exclusion_of_all_strings_in_a_collection_is_asserted_and_none_of_the_strings_in_the_collection_are_present_it_should_succeed()
+        public void
+            When_exclusion_of_all_strings_in_a_collection_is_asserted_and_none_of_the_strings_in_the_collection_are_present_it_should_succeed()
         {
             // Arrange
             const string red = "red";
@@ -225,7 +232,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_exclusion_of_all_strings_in_a_collection_is_asserted_and_equivalent_but_not_exact_strings_are_present_in_collection_it_should_succeed()
+        public void
+            When_exclusion_of_all_strings_in_a_collection_is_asserted_and_equivalent_but_not_exact_strings_are_present_in_collection_it_should_succeed()
         {
             // Arrange
             const string redWithoutWhitespace = "red";

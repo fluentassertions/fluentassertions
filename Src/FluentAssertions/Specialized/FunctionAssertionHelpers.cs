@@ -15,15 +15,16 @@ internal static class FunctionAssertionHelpers
         catch (Exception exception)
         {
             Execute.Assertion
-            .ForCondition(exception is null)
-            .BecauseOf(because, becauseArgs)
-            .FailWith("Did not expect any exception{reason}, but found {0}.", exception);
+                .ForCondition(exception is null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Did not expect any exception{reason}, but found {0}.", exception);
 
             return default;
         }
     }
 
-    internal static TResult NotThrowAfter<TResult>(Func<TResult> subject, IClock clock, TimeSpan waitTime, TimeSpan pollInterval, string because, object[] becauseArgs)
+    internal static TResult NotThrowAfter<TResult>(Func<TResult> subject, IClock clock, TimeSpan waitTime, TimeSpan pollInterval,
+        string because, object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(waitTime);
         Guard.ThrowIfArgumentIsNegative(pollInterval);

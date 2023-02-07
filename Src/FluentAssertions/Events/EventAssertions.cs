@@ -19,7 +19,7 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     protected internal EventAssertions(IMonitor<T> monitor)
         : base(monitor.Subject)
     {
-        this.Monitor = monitor;
+        Monitor = monitor;
     }
 
     /// <summary>
@@ -43,6 +43,7 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     public IEventRecording Raise(string eventName, string because = "", params object[] becauseArgs)
     {
         IEventRecording recording = Monitor.GetRecordingFor(eventName);
+
         if (!recording.Any())
         {
             Execute.Assertion
@@ -69,6 +70,7 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
     public void NotRaise(string eventName, string because = "", params object[] becauseArgs)
     {
         IEventRecording events = Monitor.GetRecordingFor(eventName);
+
         if (events.Any())
         {
             Execute.Assertion
@@ -102,7 +104,8 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected object {0} to raise event {1} for property {2}{reason}, but it did not raise that event at all.",
+                .FailWith(
+                    "Expected object {0} to raise event {1} for property {2}{reason}, but it did not raise that event at all.",
                     Monitor.Subject, PropertyChangedEventName, propertyName);
         }
 

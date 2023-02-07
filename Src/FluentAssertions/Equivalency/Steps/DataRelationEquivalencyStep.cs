@@ -10,7 +10,8 @@ namespace FluentAssertions.Equivalency.Steps;
 public class DataRelationEquivalencyStep : EquivalencyStep<DataRelation>
 {
     [SuppressMessage("Style", "IDE0019:Use pattern matching", Justification = "The code is easier to read without it.")]
-    protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+    protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context,
+        IEquivalencyValidator nestedValidator)
     {
         var subject = comparands.Subject as DataRelation;
         var expectation = comparands.Expectation as DataRelation;
@@ -89,6 +90,7 @@ public class DataRelationEquivalencyStep : EquivalencyStep<DataRelation>
         if (selectedMembers.TryGetValue(nameof(DataRelation.ExtendedProperties), out IMember expectationMember))
         {
             IMember matchingMember = FindMatchFor(expectationMember, context.CurrentNode, comparands.Subject, config);
+
             if (matchingMember is not null)
             {
                 var nestedComparands = new Comparands
@@ -171,8 +173,8 @@ public class DataRelationEquivalencyStep : EquivalencyStep<DataRelation>
                 DataColumn expectationColumn = expectationColumns[i];
 
                 bool columnsAreEquivalent =
-                    (subjectColumn.Table.TableName == expectationColumn.Table.TableName) &&
-                    (subjectColumn.ColumnName == expectationColumn.ColumnName);
+                    subjectColumn.Table.TableName == expectationColumn.Table.TableName &&
+                    subjectColumn.ColumnName == expectationColumn.ColumnName;
 
                 AssertionScope.Current
                     .ForCondition(columnsAreEquivalent)

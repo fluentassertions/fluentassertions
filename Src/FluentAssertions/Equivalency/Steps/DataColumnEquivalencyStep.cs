@@ -10,7 +10,8 @@ namespace FluentAssertions.Equivalency.Steps;
 public class DataColumnEquivalencyStep : EquivalencyStep<DataColumn>
 {
     [SuppressMessage("Style", "IDE0019:Use pattern matching", Justification = "The code is easier to read without it.")]
-    protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+    protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context,
+        IEquivalencyValidator nestedValidator)
     {
         var subject = comparands.Subject as DataColumn;
         var expectation = comparands.Expectation as DataColumn;
@@ -54,9 +55,9 @@ public class DataColumnEquivalencyStep : EquivalencyStep<DataColumn>
         var dataTableConfig = context.Options as DataEquivalencyAssertionOptions<DataTable>;
         var dataColumnConfig = context.Options as DataEquivalencyAssertionOptions<DataColumn>;
 
-        if ((dataSetConfig?.ShouldExcludeColumn(subject) == true)
-            || (dataTableConfig?.ShouldExcludeColumn(subject) == true)
-            || (dataColumnConfig?.ShouldExcludeColumn(subject) == true))
+        if (dataSetConfig?.ShouldExcludeColumn(subject) == true
+            || dataTableConfig?.ShouldExcludeColumn(subject) == true
+            || dataColumnConfig?.ShouldExcludeColumn(subject) == true)
         {
             compareColumn = false;
         }
@@ -77,6 +78,7 @@ public class DataColumnEquivalencyStep : EquivalencyStep<DataColumn>
         IEquivalencyValidationContext context)
     {
         IMember matchingMember = FindMatchFor(expectationMember, comparands.Subject, context);
+
         if (matchingMember is not null)
         {
             var nestedComparands = new Comparands
@@ -108,7 +110,7 @@ public class DataColumnEquivalencyStep : EquivalencyStep<DataColumn>
     // DataColumn.BeEquivalentTo extension method in DataColumnAssertions.cs. If this ever
     // needs to change, keep them in sync.
     private static readonly ISet<string> CandidateMembers =
-        new HashSet<string>()
+        new HashSet<string>
         {
             nameof(DataColumn.AllowDBNull),
             nameof(DataColumn.AutoIncrement),

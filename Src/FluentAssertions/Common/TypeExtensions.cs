@@ -23,8 +23,12 @@ internal static class TypeExtensions
 
     private static readonly ConcurrentDictionary<Type, bool> HasValueSemanticsCache = new();
     private static readonly ConcurrentDictionary<Type, bool> TypeIsRecordCache = new();
-    private static readonly ConcurrentDictionary<(Type Type, MemberVisibility Visibility), IEnumerable<PropertyInfo>> NonPrivatePropertiesCache = new();
-    private static readonly ConcurrentDictionary<(Type Type, MemberVisibility Visibility), IEnumerable<FieldInfo>> NonPrivateFieldsCache = new();
+
+    private static readonly ConcurrentDictionary<(Type Type, MemberVisibility Visibility), IEnumerable<PropertyInfo>>
+        NonPrivatePropertiesCache = new();
+
+    private static readonly ConcurrentDictionary<(Type Type, MemberVisibility Visibility), IEnumerable<FieldInfo>>
+        NonPrivateFieldsCache = new();
 
     public static bool IsDecoratedWith<TAttribute>(this Type type)
         where TAttribute : Attribute
@@ -142,7 +146,7 @@ internal static class TypeExtensions
     {
         return (property.DeclaringType.IsSameOrInherits(otherProperty.DeclaringType) ||
                 otherProperty.DeclaringType.IsSameOrInherits(property.DeclaringType)) &&
-               property.Name == otherProperty.Name;
+            property.Name == otherProperty.Name;
     }
 
     /// <summary>
@@ -157,6 +161,7 @@ internal static class TypeExtensions
         }
 
         Type[] interfaces = type.GetInterfaces();
+
         return
             interfaces
                 .Where(t => t.IsGenericType && t.GetGenericTypeDefinition() == openGenericType)
@@ -169,7 +174,7 @@ internal static class TypeExtensions
             .GetMethod("Equals", new[] { typeof(object) });
 
         return method is not null
-               && method.GetBaseDefinition().DeclaringType != method.DeclaringType;
+            && method.GetBaseDefinition().DeclaringType != method.DeclaringType;
     }
 
     /// <summary>
@@ -245,7 +250,7 @@ internal static class TypeExtensions
             return type
                 .GetProperties(AllInstanceMembersFlag | BindingFlags.DeclaredOnly)
                 .Where(property => property.GetMethod?.IsPrivate == false)
-                .Where(property => includeInternals || (property.GetMethod is { IsAssembly: false, IsFamilyOrAssembly: false }))
+                .Where(property => includeInternals || property.GetMethod is { IsAssembly: false, IsFamilyOrAssembly: false })
                 .ToArray();
         });
     }
@@ -293,7 +298,8 @@ internal static class TypeExtensions
         }
     }
 
-    private static List<TMemberInfo> GetInterfaceMembers<TMemberInfo>(Type typeToReflect, Func<Type, IEnumerable<TMemberInfo>> getMembers)
+    private static List<TMemberInfo> GetInterfaceMembers<TMemberInfo>(Type typeToReflect,
+        Func<Type, IEnumerable<TMemberInfo>> getMembers)
         where TMemberInfo : MemberInfo
     {
         List<TMemberInfo> members = new();
@@ -306,6 +312,7 @@ internal static class TypeExtensions
         while (queue.Count > 0)
         {
             Type subType = queue.Dequeue();
+
             foreach (Type subInterface in subType.GetInterfaces())
             {
                 if (considered.Contains(subInterface))
@@ -327,7 +334,8 @@ internal static class TypeExtensions
         return members;
     }
 
-    private static List<TMemberInfo> GetClassMembers<TMemberInfo>(Type typeToReflect, Func<Type, IEnumerable<TMemberInfo>> getMembers)
+    private static List<TMemberInfo> GetClassMembers<TMemberInfo>(Type typeToReflect,
+        Func<Type, IEnumerable<TMemberInfo>> getMembers)
         where TMemberInfo : MemberInfo
     {
         List<TMemberInfo> members = new();
@@ -411,6 +419,7 @@ internal static class TypeExtensions
     public static bool HasExplicitlyImplementedProperty(this Type type, Type interfaceType, string propertyName)
     {
         bool hasGetter = type.HasParameterlessMethod($"{interfaceType.FullName}.get_{propertyName}");
+
         bool hasSetter = type.GetMethods(AllStaticAndInstanceMembersFlag)
             .SingleOrDefault(m =>
                 m.Name == $"{interfaceType.FullName}.set_{propertyName}" &&
@@ -494,8 +503,8 @@ internal static class TypeExtensions
 
         // check subject and its base types against definition
         for (Type baseType = type;
-            baseType is not null;
-            baseType = baseType.BaseType)
+             baseType is not null;
+             baseType = baseType.BaseType)
         {
             if (baseType.IsGenericType && baseType.GetGenericTypeDefinition() == definition)
             {
@@ -509,8 +518,8 @@ internal static class TypeExtensions
     public static bool IsUnderNamespace(this Type type, string @namespace)
     {
         return IsGlobalNamespace()
-               || IsExactNamespace()
-               || IsParentNamespace();
+            || IsExactNamespace()
+            || IsParentNamespace();
 
         bool IsGlobalNamespace() => @namespace is null;
         bool IsExactNamespace() => IsNamespacePrefix() && type.Namespace.Length == @namespace.Length;
@@ -521,7 +530,7 @@ internal static class TypeExtensions
     public static bool IsSameOrInherits(this Type actualType, Type expectedType)
     {
         return actualType == expectedType ||
-               expectedType.IsAssignableFrom(actualType);
+            expectedType.IsAssignableFrom(actualType);
     }
 
     public static MethodInfo GetExplicitConversionOperator(this Type type, Type sourceType, Type targetType)
@@ -558,22 +567,23 @@ internal static class TypeExtensions
         return typeof(ITuple).IsAssignableFrom(type);
 #else
         Type openType = type.GetGenericTypeDefinition();
+
         return openType == typeof(ValueTuple<>)
-               || openType == typeof(ValueTuple<,>)
-               || openType == typeof(ValueTuple<,,>)
-               || openType == typeof(ValueTuple<,,,>)
-               || openType == typeof(ValueTuple<,,,,>)
-               || openType == typeof(ValueTuple<,,,,,>)
-               || openType == typeof(ValueTuple<,,,,,,>)
-               || (openType == typeof(ValueTuple<,,,,,,,>) && IsTuple(type.GetGenericArguments()[7]))
-               || openType == typeof(Tuple<>)
-               || openType == typeof(Tuple<,>)
-               || openType == typeof(Tuple<,,>)
-               || openType == typeof(Tuple<,,,>)
-               || openType == typeof(Tuple<,,,,>)
-               || openType == typeof(Tuple<,,,,,>)
-               || openType == typeof(Tuple<,,,,,,>)
-               || (openType == typeof(Tuple<,,,,,,,>) && IsTuple(type.GetGenericArguments()[7]));
+            || openType == typeof(ValueTuple<,>)
+            || openType == typeof(ValueTuple<,,>)
+            || openType == typeof(ValueTuple<,,,>)
+            || openType == typeof(ValueTuple<,,,,>)
+            || openType == typeof(ValueTuple<,,,,,>)
+            || openType == typeof(ValueTuple<,,,,,,>)
+            || (openType == typeof(ValueTuple<,,,,,,,>) && IsTuple(type.GetGenericArguments()[7]))
+            || openType == typeof(Tuple<>)
+            || openType == typeof(Tuple<,>)
+            || openType == typeof(Tuple<,,>)
+            || openType == typeof(Tuple<,,,>)
+            || openType == typeof(Tuple<,,,,>)
+            || openType == typeof(Tuple<,,,,,>)
+            || openType == typeof(Tuple<,,,,,,>)
+            || (openType == typeof(Tuple<,,,,,,,>) && IsTuple(type.GetGenericArguments()[7]));
 #endif
     }
 
@@ -600,8 +610,8 @@ internal static class TypeExtensions
     private static bool IsRecordClass(this Type type)
     {
         return type.GetMethod("<Clone>$", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly) is { } &&
-               type.GetProperty("EqualityContract", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)?
-                   .GetMethod?.IsDecoratedWith<CompilerGeneratedAttribute>() == true;
+            type.GetProperty("EqualityContract", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)?
+                .GetMethod?.IsDecoratedWith<CompilerGeneratedAttribute>() == true;
     }
 
     private static bool IsRecordStruct(this Type type)
@@ -610,9 +620,11 @@ internal static class TypeExtensions
         // recognizing record structs from metadata is an open point. The following check is based on common sense
         // and heuristic testing, apparently giving good results but not supported by official documentation.
         return type.BaseType == typeof(ValueType) &&
-               type.GetMethod("PrintMembers", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly, null, new[] { typeof(StringBuilder) }, null) is { } &&
-               type.GetMethod("op_Equality", BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly, null, new[] { type, type }, null)?
-                   .IsDecoratedWith<CompilerGeneratedAttribute>() == true;
+            type.GetMethod("PrintMembers", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly, null,
+                new[] { typeof(StringBuilder) }, null) is { } &&
+            type.GetMethod("op_Equality", BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly, null,
+                    new[] { type, type }, null)?
+                .IsDecoratedWith<CompilerGeneratedAttribute>() == true;
     }
 
     private static bool IsKeyValuePair(Type type)

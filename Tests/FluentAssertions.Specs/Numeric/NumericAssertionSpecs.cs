@@ -3980,6 +3980,7 @@ public class NumericAssertionSpecs
         Action action = () => value.Should().Equals(1);
 
         // Assert
-        action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
+        action.Should().Throw<NotSupportedException>()
+            .WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
     }
 }

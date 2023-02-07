@@ -52,6 +52,7 @@ public partial class CollectionAssertionSpecs
             Action act = () =>
             {
                 using var _ = new AssertionScope();
+
                 collection.Should().SatisfyRespectively(
                     new Action<int>[] { x => x.Should().Be(1) }, "because we want to test the failure {0}", "message");
             };
@@ -110,18 +111,19 @@ public partial class CollectionAssertionSpecs
             Action act = () => customers.Should().SatisfyRespectively(
                 new Action<CustomerWithItems>[]
                 {
-                customer =>
-                {
-                    customer.Age.Should().BeLessThan(21);
-                    customer.Items.Should().SatisfyRespectively(
-                        item => item.Should().Be(2),
-                        item => item.Should().Be(1));
-                },
-                customer =>
-                {
-                    customer.Age.Should().BeLessThan(22);
-                    customer.Items.Should().SatisfyRespectively(item => item.Should().Be(2));
-                }
+                    customer =>
+                    {
+                        customer.Age.Should().BeLessThan(21);
+
+                        customer.Items.Should().SatisfyRespectively(
+                            item => item.Should().Be(2),
+                            item => item.Should().Be(1));
+                    },
+                    customer =>
+                    {
+                        customer.Age.Should().BeLessThan(22);
+                        customer.Items.Should().SatisfyRespectively(item => item.Should().Be(2));
+                    }
                 }, "because we want to test {0}", "nested assertions");
 
             // Assert
@@ -188,7 +190,7 @@ public partial class CollectionAssertionSpecs
 
     private class Customer
     {
-        private string PrivateProperty { get; set; }
+        private string PrivateProperty { get; }
 
         protected string ProtectedProperty { get; set; }
 

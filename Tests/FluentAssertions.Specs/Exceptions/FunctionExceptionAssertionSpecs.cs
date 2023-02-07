@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
+using Xunit;
+using Xunit.Sdk;
 #if NETFRAMEWORK
 using FluentAssertions.Specs.Common;
 #endif
-using Xunit;
-using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Exceptions;
 
@@ -70,7 +69,7 @@ public class FunctionExceptionAssertionSpecs
 
     public static TheoryData<Func<int>, Exception> AggregateExceptionTestData()
     {
-        var tasks = new Func<int>[]
+        var tasks = new[]
         {
             AggregateExceptionWithLeftNestedException,
             AggregateExceptionWithRightNestedException
@@ -217,7 +216,8 @@ public class FunctionExceptionAssertionSpecs
     }
 
     [Fact]
-    public void When_function_does_not_throw_expected_exception_but_throws_aggregate_in_aggregate_it_should_fail_with_inner_exception_one_level_deep()
+    public void
+        When_function_does_not_throw_expected_exception_but_throws_aggregate_in_aggregate_it_should_fail_with_inner_exception_one_level_deep()
     {
         // Arrange
         Func<int> f = () => throw new AggregateException(new AggregateException(new ArgumentNullException()));
@@ -260,6 +260,7 @@ public class FunctionExceptionAssertionSpecs
     #endregion
 
     #region ThrowExactly
+
     [Fact]
     public void When_subject_is_null_when_an_exact_exception_should_be_thrown_it_should_throw()
     {
@@ -348,6 +349,7 @@ public class FunctionExceptionAssertionSpecs
     #endregion
 
     #region NotThrow
+
     [Fact]
     public void When_subject_is_null_when_an_exception_should_not_be_thrown_it_should_throw()
     {
@@ -420,7 +422,8 @@ public class FunctionExceptionAssertionSpecs
     }
 
     [Fact]
-    public void When_function_throw_aggregate_in_aggregate_exception_and_that_was_not_expected_it_should_fail_with_most_inner_exception_in_message()
+    public void
+        When_function_throw_aggregate_in_aggregate_exception_and_that_was_not_expected_it_should_fail_with_most_inner_exception_in_message()
     {
         // Arrange
         Func<int> f = () => throw new AggregateException(new AggregateException(new ArgumentNullException()));
@@ -443,6 +446,7 @@ public class FunctionExceptionAssertionSpecs
         Action act = () =>
         {
             using var _ = new AssertionScope();
+
             throwingFunction.Should().NotThrow()
                 .And.BeNull();
         };
@@ -458,6 +462,7 @@ public class FunctionExceptionAssertionSpecs
     #endregion
 
     #region NotThrowAfter
+
     [Fact]
     public void When_subject_is_null_it_should_throw()
     {
@@ -540,7 +545,7 @@ public class FunctionExceptionAssertionSpecs
 
         // Assert
         action.Should().Throw<XunitException>()
-                     .WithMessage("Did not expect any exceptions after 100ms because we passed valid arguments*");
+            .WithMessage("Did not expect any exceptions after 100ms because we passed valid arguments*");
     }
 
     [Fact]
@@ -590,7 +595,7 @@ public class FunctionExceptionAssertionSpecs
 
         // Act
         Action act = () => throwShorterThanWaitTime.Should(clock).NotThrowAfter(waitTime, pollInterval)
-                .Which.Should().Be(42);
+            .Which.Should().Be(42);
 
         // Assert
         act.Should().NotThrow();
@@ -608,6 +613,7 @@ public class FunctionExceptionAssertionSpecs
         Action act = () =>
         {
             using var _ = new AssertionScope();
+
             throwingFunction.Should().NotThrowAfter(waitTime, pollInterval)
                 .And.BeNull();
         };
@@ -621,9 +627,12 @@ public class FunctionExceptionAssertionSpecs
     }
 
     #endregion
+
     #region NotThrow<T>
+
     [Fact]
-    public void When_function_does_not_throw_at_all_when_some_particular_exception_was_not_expected_it_should_succeed_but_then_cannot_continue_assertion()
+    public void
+        When_function_does_not_throw_at_all_when_some_particular_exception_was_not_expected_it_should_succeed_but_then_cannot_continue_assertion()
     {
         // Arrange
         Func<int> f = () => 12;
@@ -643,7 +652,8 @@ public class FunctionExceptionAssertionSpecs
 
         // Assert
         action.Should().Throw<XunitException>()
-            .WithMessage("*Did not expect System.InvalidOperationException because it was so fast, but found System.InvalidOperationException with message*custom message*");
+            .WithMessage(
+                "*Did not expect System.InvalidOperationException because it was so fast, but found System.InvalidOperationException with message*custom message*");
     }
 
     [Fact]

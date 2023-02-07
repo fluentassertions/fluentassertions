@@ -11,7 +11,8 @@ namespace FluentAssertions.Equivalency;
 /// </summary>
 internal class MultiDimensionalArrayEquivalencyStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+        IEquivalencyValidator nestedValidator)
     {
         if (comparands.Expectation is not Array expectationAsArray || expectationAsArray.Rank == 1)
         {
@@ -116,6 +117,7 @@ internal class Digit
         var indices = new List<int>();
 
         Digit digit = this;
+
         while (digit is not null)
         {
             indices.Add(digit.index);
@@ -128,6 +130,7 @@ internal class Digit
     public bool Increment()
     {
         bool success = nextDigit?.Increment() == true;
+
         if (!success)
         {
             if (index < (length - 1))

@@ -116,7 +116,7 @@ public class PredicateLambdaExpressionValueFormatter : IValueFormatter
     /// </summary>
     private sealed class AndOperatorChainExtractor : ExpressionVisitor
     {
-        public List<Expression> AndChain { get; } = new List<Expression>();
+        public List<Expression> AndChain { get; } = new();
 
         public override Expression Visit(Expression node)
         {

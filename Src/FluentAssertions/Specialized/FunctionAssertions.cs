@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Security;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -42,9 +41,9 @@ public class FunctionAssertions<T> : DelegateAssertions<Func<T>, FunctionAsserti
     public new AndWhichConstraint<FunctionAssertions<T>, T> NotThrow(string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
-           .ForCondition(Subject is not null)
-           .BecauseOf(because, becauseArgs)
-           .FailWith("Expected {context} not to throw{reason}, but found <null>.");
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
         T result = default;
 
@@ -79,7 +78,8 @@ public class FunctionAssertions<T> : DelegateAssertions<Func<T>, FunctionAsserti
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="waitTime"/> or <paramref name="pollInterval"/> are negative.</exception>
-    public new AndWhichConstraint<FunctionAssertions<T>, T> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
+    public new AndWhichConstraint<FunctionAssertions<T>, T> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval,
+        string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)

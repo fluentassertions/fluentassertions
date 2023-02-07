@@ -2,7 +2,6 @@ using System;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Numeric;
-using FluentAssertions.Primitives;
 
 namespace FluentAssertions;
 
@@ -36,18 +35,21 @@ public static class NumericAssertionsExtensions
     {
         sbyte actualValue = parent.Subject.Value;
         sbyte minValue = (sbyte)(nearbyValue - delta);
+
         if (minValue > nearbyValue)
         {
             minValue = sbyte.MinValue;
         }
 
         sbyte maxValue = (sbyte)(nearbyValue + delta);
+
         if (maxValue < nearbyValue)
         {
             maxValue = sbyte.MaxValue;
         }
 
-        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because, becauseArgs);
+        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because,
+            becauseArgs);
 
         return new AndConstraint<NumericAssertions<sbyte>>(parent);
     }
@@ -75,18 +77,21 @@ public static class NumericAssertionsExtensions
     {
         byte actualValue = parent.Subject.Value;
         byte minValue = (byte)(nearbyValue - delta);
+
         if (minValue > nearbyValue)
         {
             minValue = byte.MinValue;
         }
 
         byte maxValue = (byte)(nearbyValue + delta);
+
         if (maxValue < nearbyValue)
         {
             maxValue = byte.MaxValue;
         }
 
-        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because, becauseArgs);
+        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because,
+            becauseArgs);
 
         return new AndConstraint<NumericAssertions<byte>>(parent);
     }
@@ -114,18 +119,21 @@ public static class NumericAssertionsExtensions
     {
         short actualValue = parent.Subject.Value;
         short minValue = (short)(nearbyValue - delta);
+
         if (minValue > nearbyValue)
         {
             minValue = short.MinValue;
         }
 
         short maxValue = (short)(nearbyValue + delta);
+
         if (maxValue < nearbyValue)
         {
             maxValue = short.MaxValue;
         }
 
-        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because, becauseArgs);
+        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because,
+            becauseArgs);
 
         return new AndConstraint<NumericAssertions<short>>(parent);
     }
@@ -153,18 +161,21 @@ public static class NumericAssertionsExtensions
     {
         ushort actualValue = parent.Subject.Value;
         ushort minValue = (ushort)(nearbyValue - delta);
+
         if (minValue > nearbyValue)
         {
             minValue = ushort.MinValue;
         }
 
         ushort maxValue = (ushort)(nearbyValue + delta);
+
         if (maxValue < nearbyValue)
         {
             maxValue = ushort.MaxValue;
         }
 
-        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because, becauseArgs);
+        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because,
+            becauseArgs);
 
         return new AndConstraint<NumericAssertions<ushort>>(parent);
     }
@@ -192,18 +203,21 @@ public static class NumericAssertionsExtensions
     {
         int actualValue = parent.Subject.Value;
         int minValue = (int)(nearbyValue - delta);
+
         if (minValue > nearbyValue)
         {
             minValue = int.MinValue;
         }
 
         int maxValue = (int)(nearbyValue + delta);
+
         if (maxValue < nearbyValue)
         {
             maxValue = int.MaxValue;
         }
 
-        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because, becauseArgs);
+        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because,
+            becauseArgs);
 
         return new AndConstraint<NumericAssertions<int>>(parent);
     }
@@ -231,18 +245,21 @@ public static class NumericAssertionsExtensions
     {
         uint actualValue = parent.Subject.Value;
         uint minValue = nearbyValue - delta;
+
         if (minValue > nearbyValue)
         {
             minValue = uint.MinValue;
         }
 
         uint maxValue = nearbyValue + delta;
+
         if (maxValue < nearbyValue)
         {
             maxValue = uint.MaxValue;
         }
 
-        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because, becauseArgs);
+        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because,
+            becauseArgs);
 
         return new AndConstraint<NumericAssertions<uint>>(parent);
     }
@@ -272,7 +289,8 @@ public static class NumericAssertionsExtensions
         long minValue = GetMinValue(nearbyValue, delta);
         long maxValue = GetMaxValue(nearbyValue, delta);
 
-        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because, becauseArgs);
+        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because,
+            becauseArgs);
 
         return new AndConstraint<NumericAssertions<long>>(parent);
     }
@@ -300,18 +318,21 @@ public static class NumericAssertionsExtensions
     {
         ulong actualValue = parent.Subject.Value;
         ulong minValue = nearbyValue - delta;
+
         if (minValue > nearbyValue)
         {
             minValue = ulong.MinValue;
         }
 
         ulong maxValue = nearbyValue + delta;
+
         if (maxValue < nearbyValue)
         {
             maxValue = ulong.MaxValue;
         }
 
-        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because, becauseArgs);
+        FailIfValueOutsideBounds(minValue <= actualValue && actualValue <= maxValue, nearbyValue, delta, actualValue, because,
+            becauseArgs);
 
         return new AndConstraint<NumericAssertions<ulong>>(parent);
     }
@@ -354,18 +375,21 @@ public static class NumericAssertionsExtensions
     {
         sbyte actualValue = parent.Subject.Value;
         sbyte minValue = (sbyte)(distantValue - delta);
+
         if (minValue > distantValue)
         {
             minValue = sbyte.MinValue;
         }
 
         sbyte maxValue = (sbyte)(distantValue + delta);
+
         if (maxValue < distantValue)
         {
             maxValue = sbyte.MaxValue;
         }
 
-        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because, becauseArgs);
+        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because,
+            becauseArgs);
 
         return new AndConstraint<NumericAssertions<sbyte>>(parent);
     }
@@ -393,18 +417,21 @@ public static class NumericAssertionsExtensions
     {
         byte actualValue = parent.Subject.Value;
         byte minValue = (byte)(distantValue - delta);
+
         if (minValue > distantValue)
         {
             minValue = byte.MinValue;
         }
 
         byte maxValue = (byte)(distantValue + delta);
+
         if (maxValue < distantValue)
         {
             maxValue = byte.MaxValue;
         }
 
-        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because, becauseArgs);
+        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because,
+            becauseArgs);
 
         return new AndConstraint<NumericAssertions<byte>>(parent);
     }
@@ -432,18 +459,21 @@ public static class NumericAssertionsExtensions
     {
         short actualValue = parent.Subject.Value;
         short minValue = (short)(distantValue - delta);
+
         if (minValue > distantValue)
         {
             minValue = short.MinValue;
         }
 
         short maxValue = (short)(distantValue + delta);
+
         if (maxValue < distantValue)
         {
             maxValue = short.MaxValue;
         }
 
-        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because, becauseArgs);
+        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because,
+            becauseArgs);
 
         return new AndConstraint<NumericAssertions<short>>(parent);
     }
@@ -471,18 +501,21 @@ public static class NumericAssertionsExtensions
     {
         ushort actualValue = parent.Subject.Value;
         ushort minValue = (ushort)(distantValue - delta);
+
         if (minValue > distantValue)
         {
             minValue = ushort.MinValue;
         }
 
         ushort maxValue = (ushort)(distantValue + delta);
+
         if (maxValue < distantValue)
         {
             maxValue = ushort.MaxValue;
         }
 
-        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because, becauseArgs);
+        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because,
+            becauseArgs);
 
         return new AndConstraint<NumericAssertions<ushort>>(parent);
     }
@@ -510,18 +543,21 @@ public static class NumericAssertionsExtensions
     {
         int actualValue = parent.Subject.Value;
         int minValue = (int)(distantValue - delta);
+
         if (minValue > distantValue)
         {
             minValue = int.MinValue;
         }
 
         int maxValue = (int)(distantValue + delta);
+
         if (maxValue < distantValue)
         {
             maxValue = int.MaxValue;
         }
 
-        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because, becauseArgs);
+        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because,
+            becauseArgs);
 
         return new AndConstraint<NumericAssertions<int>>(parent);
     }
@@ -549,18 +585,21 @@ public static class NumericAssertionsExtensions
     {
         uint actualValue = parent.Subject.Value;
         uint minValue = distantValue - delta;
+
         if (minValue > distantValue)
         {
             minValue = uint.MinValue;
         }
 
         uint maxValue = distantValue + delta;
+
         if (maxValue < distantValue)
         {
             maxValue = uint.MaxValue;
         }
 
-        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because, becauseArgs);
+        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because,
+            becauseArgs);
 
         return new AndConstraint<NumericAssertions<uint>>(parent);
     }
@@ -590,7 +629,8 @@ public static class NumericAssertionsExtensions
         long minValue = GetMinValue(distantValue, delta);
         long maxValue = GetMaxValue(distantValue, delta);
 
-        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because, becauseArgs);
+        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because,
+            becauseArgs);
 
         return new AndConstraint<NumericAssertions<long>>(parent);
     }
@@ -618,18 +658,21 @@ public static class NumericAssertionsExtensions
     {
         ulong actualValue = parent.Subject.Value;
         ulong minValue = distantValue - delta;
+
         if (minValue > distantValue)
         {
             minValue = ulong.MinValue;
         }
 
         ulong maxValue = distantValue + delta;
+
         if (maxValue < distantValue)
         {
             maxValue = ulong.MaxValue;
         }
 
-        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because, becauseArgs);
+        FailIfValueInsideBounds(!(minValue <= actualValue && actualValue <= maxValue), distantValue, delta, actualValue, because,
+            becauseArgs);
 
         return new AndConstraint<NumericAssertions<ulong>>(parent);
     }
@@ -677,7 +720,8 @@ public static class NumericAssertionsExtensions
         bool success = Execute.Assertion
             .ForCondition(parent.Subject is not null)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
+            .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue,
+                precision);
 
         if (success)
         {
@@ -721,7 +765,8 @@ public static class NumericAssertionsExtensions
         bool succeeded = Execute.Assertion
             .ForCondition(expectedValue is not null)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was {2}.", expectedValue, precision, parent.Subject);
+            .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was {2}.", expectedValue, precision,
+                parent.Subject);
 
         if (succeeded)
         {
@@ -763,17 +808,20 @@ public static class NumericAssertionsExtensions
 
         if (float.IsPositiveInfinity(expectedValue))
         {
-            FailIfDifferenceOutsidePrecision(float.IsPositiveInfinity(parent.Subject.Value), parent, expectedValue, precision, float.NaN, because, becauseArgs);
+            FailIfDifferenceOutsidePrecision(float.IsPositiveInfinity(parent.Subject.Value), parent, expectedValue, precision,
+                float.NaN, because, becauseArgs);
         }
         else if (float.IsNegativeInfinity(expectedValue))
         {
-            FailIfDifferenceOutsidePrecision(float.IsNegativeInfinity(parent.Subject.Value), parent, expectedValue, precision, float.NaN, because, becauseArgs);
+            FailIfDifferenceOutsidePrecision(float.IsNegativeInfinity(parent.Subject.Value), parent, expectedValue, precision,
+                float.NaN, because, becauseArgs);
         }
         else
         {
             float actualDifference = Math.Abs(expectedValue - parent.Subject.Value);
 
-            FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
+            FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference,
+                because, becauseArgs);
         }
 
         return new AndConstraint<NumericAssertions<float>>(parent);
@@ -806,7 +854,8 @@ public static class NumericAssertionsExtensions
         bool success = Execute.Assertion
             .ForCondition(parent.Subject is not null)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
+            .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue,
+                precision);
 
         if (success)
         {
@@ -850,7 +899,8 @@ public static class NumericAssertionsExtensions
         bool succeeded = Execute.Assertion
             .ForCondition(expectedValue is not null)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was {2}.", expectedValue, precision, parent.Subject);
+            .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was {2}.", expectedValue, precision,
+                parent.Subject);
 
         if (succeeded)
         {
@@ -892,17 +942,20 @@ public static class NumericAssertionsExtensions
 
         if (double.IsPositiveInfinity(expectedValue))
         {
-            FailIfDifferenceOutsidePrecision(double.IsPositiveInfinity(parent.Subject.Value), parent, expectedValue, precision, double.NaN, because, becauseArgs);
+            FailIfDifferenceOutsidePrecision(double.IsPositiveInfinity(parent.Subject.Value), parent, expectedValue, precision,
+                double.NaN, because, becauseArgs);
         }
         else if (double.IsNegativeInfinity(expectedValue))
         {
-            FailIfDifferenceOutsidePrecision(double.IsNegativeInfinity(parent.Subject.Value), parent, expectedValue, precision, double.NaN, because, becauseArgs);
+            FailIfDifferenceOutsidePrecision(double.IsNegativeInfinity(parent.Subject.Value), parent, expectedValue, precision,
+                double.NaN, because, becauseArgs);
         }
         else
         {
             double actualDifference = Math.Abs(expectedValue - parent.Subject.Value);
 
-            FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
+            FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference,
+                because, becauseArgs);
         }
 
         return new AndConstraint<NumericAssertions<double>>(parent);
@@ -926,7 +979,8 @@ public static class NumericAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
-    public static AndConstraint<NullableNumericAssertions<decimal>> BeApproximately(this NullableNumericAssertions<decimal> parent,
+    public static AndConstraint<NullableNumericAssertions<decimal>> BeApproximately(
+        this NullableNumericAssertions<decimal> parent,
         decimal expectedValue, decimal precision, string because = "",
         params object[] becauseArgs)
     {
@@ -935,7 +989,8 @@ public static class NumericAssertionsExtensions
         bool success = Execute.Assertion
             .ForCondition(parent.Subject is not null)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
+            .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue,
+                precision);
 
         if (success)
         {
@@ -965,7 +1020,8 @@ public static class NumericAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
-    public static AndConstraint<NullableNumericAssertions<decimal>> BeApproximately(this NullableNumericAssertions<decimal> parent,
+    public static AndConstraint<NullableNumericAssertions<decimal>> BeApproximately(
+        this NullableNumericAssertions<decimal> parent,
         decimal? expectedValue, decimal precision, string because = "",
         params object[] becauseArgs)
     {
@@ -979,7 +1035,8 @@ public static class NumericAssertionsExtensions
         bool succeeded = Execute.Assertion
             .ForCondition(expectedValue is not null)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was {2}.", expectedValue, precision, parent.Subject);
+            .FailWith("Expected {context:value} to approximate {0} +/- {1}{reason}, but it was {2}.", expectedValue, precision,
+                parent.Subject);
 
         if (succeeded)
         {
@@ -1016,7 +1073,8 @@ public static class NumericAssertionsExtensions
 
         decimal actualDifference = Math.Abs(expectedValue - parent.Subject.Value);
 
-        FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference, because, becauseArgs);
+        FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference,
+            because, becauseArgs);
 
         return new AndConstraint<NumericAssertions<decimal>>(parent);
     }
@@ -1096,7 +1154,7 @@ public static class NumericAssertionsExtensions
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
-        if ((parent.Subject is null) != (unexpectedValue is null))
+        if (parent.Subject is null != unexpectedValue is null)
         {
             return new AndConstraint<NullableNumericAssertions<float>>(parent);
         }
@@ -1104,7 +1162,8 @@ public static class NumericAssertionsExtensions
         bool succeeded = Execute.Assertion
             .ForCondition(parent.Subject is not null && unexpectedValue is not null)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:value} to not approximate {0} +/- {1}{reason}, but it was {2}.", unexpectedValue, precision, parent.Subject);
+            .FailWith("Expected {context:value} to not approximate {0} +/- {1}{reason}, but it was {2}.", unexpectedValue,
+                precision, parent.Subject);
 
         if (succeeded)
         {
@@ -1146,17 +1205,20 @@ public static class NumericAssertionsExtensions
 
         if (float.IsPositiveInfinity(unexpectedValue))
         {
-            FailIfDifferenceWithinPrecision(parent, !float.IsPositiveInfinity(parent.Subject.Value), unexpectedValue, precision, float.NaN, because, becauseArgs);
+            FailIfDifferenceWithinPrecision(parent, !float.IsPositiveInfinity(parent.Subject.Value), unexpectedValue, precision,
+                float.NaN, because, becauseArgs);
         }
         else if (float.IsNegativeInfinity(unexpectedValue))
         {
-            FailIfDifferenceWithinPrecision(parent, !float.IsNegativeInfinity(parent.Subject.Value), unexpectedValue, precision, float.NaN, because, becauseArgs);
+            FailIfDifferenceWithinPrecision(parent, !float.IsNegativeInfinity(parent.Subject.Value), unexpectedValue, precision,
+                float.NaN, because, becauseArgs);
         }
         else
         {
             float actualDifference = Math.Abs(unexpectedValue - parent.Subject.Value);
 
-            FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
+            FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference,
+                because, becauseArgs);
         }
 
         return new AndConstraint<NumericAssertions<float>>(parent);
@@ -1180,7 +1242,8 @@ public static class NumericAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
-    public static AndConstraint<NullableNumericAssertions<double>> NotBeApproximately(this NullableNumericAssertions<double> parent,
+    public static AndConstraint<NullableNumericAssertions<double>> NotBeApproximately(
+        this NullableNumericAssertions<double> parent,
         double unexpectedValue, double precision, string because = "",
         params object[] becauseArgs)
     {
@@ -1214,13 +1277,14 @@ public static class NumericAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
-    public static AndConstraint<NullableNumericAssertions<double>> NotBeApproximately(this NullableNumericAssertions<double> parent,
+    public static AndConstraint<NullableNumericAssertions<double>> NotBeApproximately(
+        this NullableNumericAssertions<double> parent,
         double? unexpectedValue, double precision, string because = "",
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
-        if ((parent.Subject is null) != (unexpectedValue is null))
+        if (parent.Subject is null != unexpectedValue is null)
         {
             return new AndConstraint<NullableNumericAssertions<double>>(parent);
         }
@@ -1228,7 +1292,8 @@ public static class NumericAssertionsExtensions
         bool succeeded = Execute.Assertion
             .ForCondition(parent.Subject is not null && unexpectedValue is not null)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:value} to not approximate {0} +/- {1}{reason}, but it was {2}.", unexpectedValue, precision, parent.Subject);
+            .FailWith("Expected {context:value} to not approximate {0} +/- {1}{reason}, but it was {2}.", unexpectedValue,
+                precision, parent.Subject);
 
         if (succeeded)
         {
@@ -1270,17 +1335,20 @@ public static class NumericAssertionsExtensions
 
         if (double.IsPositiveInfinity(unexpectedValue))
         {
-            FailIfDifferenceWithinPrecision(parent, !double.IsPositiveInfinity(parent.Subject.Value), unexpectedValue, precision, double.NaN, because, becauseArgs);
+            FailIfDifferenceWithinPrecision(parent, !double.IsPositiveInfinity(parent.Subject.Value), unexpectedValue, precision,
+                double.NaN, because, becauseArgs);
         }
         else if (double.IsNegativeInfinity(unexpectedValue))
         {
-            FailIfDifferenceWithinPrecision(parent, !double.IsNegativeInfinity(parent.Subject.Value), unexpectedValue, precision, double.NaN, because, becauseArgs);
+            FailIfDifferenceWithinPrecision(parent, !double.IsNegativeInfinity(parent.Subject.Value), unexpectedValue, precision,
+                double.NaN, because, becauseArgs);
         }
         else
         {
             double actualDifference = Math.Abs(unexpectedValue - parent.Subject.Value);
 
-            FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
+            FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference,
+                because, becauseArgs);
         }
 
         return new AndConstraint<NumericAssertions<double>>(parent);
@@ -1304,7 +1372,8 @@ public static class NumericAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
-    public static AndConstraint<NullableNumericAssertions<decimal>> NotBeApproximately(this NullableNumericAssertions<decimal> parent,
+    public static AndConstraint<NullableNumericAssertions<decimal>> NotBeApproximately(
+        this NullableNumericAssertions<decimal> parent,
         decimal unexpectedValue, decimal precision, string because = "",
         params object[] becauseArgs)
     {
@@ -1338,13 +1407,14 @@ public static class NumericAssertionsExtensions
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
-    public static AndConstraint<NullableNumericAssertions<decimal>> NotBeApproximately(this NullableNumericAssertions<decimal> parent,
+    public static AndConstraint<NullableNumericAssertions<decimal>> NotBeApproximately(
+        this NullableNumericAssertions<decimal> parent,
         decimal? unexpectedValue, decimal precision, string because = "",
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
-        if ((parent.Subject is null) != (unexpectedValue is null))
+        if (parent.Subject is null != unexpectedValue is null)
         {
             return new AndConstraint<NullableNumericAssertions<decimal>>(parent);
         }
@@ -1352,7 +1422,8 @@ public static class NumericAssertionsExtensions
         bool succeeded = Execute.Assertion
             .ForCondition(parent.Subject is not null && unexpectedValue is not null)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:value} to not approximate {0} +/- {1}{reason}, but it was {2}.", unexpectedValue, precision, parent.Subject);
+            .FailWith("Expected {context:value} to not approximate {0} +/- {1}{reason}, but it was {2}.", unexpectedValue,
+                precision, parent.Subject);
 
         if (succeeded)
         {
@@ -1389,7 +1460,8 @@ public static class NumericAssertionsExtensions
 
         decimal actualDifference = Math.Abs(unexpectedValue - parent.Subject.Value);
 
-        FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference, because, becauseArgs);
+        FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference,
+            because, becauseArgs);
 
         return new AndConstraint<NumericAssertions<decimal>>(parent);
     }
@@ -1411,11 +1483,11 @@ public static class NumericAssertionsExtensions
 
     private static long GetMinValue(long value, ulong delta)
     {
-        long minValue = (delta <= ulong.MaxValue / 2)
-                        ? (value - (long)delta)
-                        : ((value < 0)
-                            ? long.MinValue
-                            : (-(long)(delta - (ulong)value)));
+        long minValue = delta <= (ulong.MaxValue / 2)
+            ? value - (long)delta
+            : value < 0
+                ? long.MinValue
+                : -(long)(delta - (ulong)value);
 
         if (minValue > value)
         {
@@ -1427,11 +1499,11 @@ public static class NumericAssertionsExtensions
 
     private static long GetMaxValue(long value, ulong delta)
     {
-        long maxValue = (delta <= ulong.MaxValue / 2)
-            ? (value + (long)delta)
-            : ((value >= 0)
+        long maxValue = delta <= (ulong.MaxValue / 2)
+            ? value + (long)delta
+            : value >= 0
                 ? long.MaxValue
-                : ((long)((ulong)value + delta)));
+                : (long)((ulong)value + delta);
 
         if (maxValue < value)
         {

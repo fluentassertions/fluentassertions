@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
-
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
@@ -106,7 +105,8 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<XDocumentAssertions> NotBeEquivalentTo(XDocument unexpected, string because = "", params object[] becauseArgs)
+    public AndConstraint<XDocumentAssertions> NotBeEquivalentTo(XDocument unexpected, string because = "",
+        params object[] becauseArgs)
     {
         using (XmlReader subjectReader = Subject?.CreateReader())
         using (XmlReader otherReader = unexpected?.CreateReader())
@@ -153,11 +153,13 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
-    public AndWhichConstraint<XDocumentAssertions, XElement> HaveRoot(XName expected, string because = "", params object[] becauseArgs)
+    public AndWhichConstraint<XDocumentAssertions, XElement> HaveRoot(XName expected, string because = "",
+        params object[] becauseArgs)
     {
         if (Subject is null)
         {
-            throw new InvalidOperationException("Cannot assert the document has a root element if the document itself is <null>.");
+            throw new InvalidOperationException(
+                "Cannot assert the document has a root element if the document itself is <null>.");
         }
 
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
@@ -166,7 +168,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
         XElement root = Subject.Root;
 
         Execute.Assertion
-            .ForCondition((root is not null) && (root.Name == expected))
+            .ForCondition(root is not null && root.Name == expected)
             .BecauseOf(because, becauseArgs)
             .FailWith(
                 "Expected {context:subject} to have root element {0}{reason}, but found {1}.",
@@ -250,7 +252,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
         }
 
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
-                "Cannot assert the document has an element if the expected name is <null>.");
+            "Cannot assert the document has an element if the expected name is <null>.");
 
         Execute.Assertion
             .ForCondition(Subject.Root is not null)
@@ -260,6 +262,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
                 expected.ToString());
 
         XElement xElement = Subject.Root.Element(expected);
+
         Execute.Assertion
             .ForCondition(xElement is not null)
             .BecauseOf(because, becauseArgs)
@@ -293,7 +296,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
-                "Cannot assert the document has an element count if the element name is <null>.");
+            "Cannot assert the document has an element count if the element name is <null>.");
 
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -305,6 +308,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
         if (success)
         {
             var root = Subject.Root;
+
             success = Execute.Assertion
                 .ForCondition(root is not null)
                 .BecauseOf(because, becauseArgs)

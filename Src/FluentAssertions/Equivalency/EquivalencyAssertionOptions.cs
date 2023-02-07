@@ -18,8 +18,8 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// Represents the run-time type-specific behavior of a structural equivalency assertion.
 /// </summary>
-public class EquivalencyAssertionOptions<TExpectation> :
-    SelfReferenceEquivalencyAssertionOptions<EquivalencyAssertionOptions<TExpectation>>
+public class EquivalencyAssertionOptions<TExpectation>
+    : SelfReferenceEquivalencyAssertionOptions<EquivalencyAssertionOptions<TExpectation>>
 {
     public EquivalencyAssertionOptions()
     {
@@ -43,7 +43,8 @@ public class EquivalencyAssertionOptions<TExpectation> :
     /// Selects a collection to define exclusions at.
     /// Allows to navigate deeper by using <see cref="For{TNext}"/>.
     /// </summary>
-    public NestedExclusionOptionBuilder<TExpectation, TNext> For<TNext>(Expression<Func<TExpectation, IEnumerable<TNext>>> expression)
+    public NestedExclusionOptionBuilder<TExpectation, TNext> For<TNext>(
+        Expression<Func<TExpectation, IEnumerable<TNext>>> expression)
     {
         var selectionRule = new ExcludeMemberByPathSelectionRule(expression.GetMemberPath());
         AddSelectionRule(selectionRule);

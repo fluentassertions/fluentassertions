@@ -12,13 +12,27 @@ public class CyclicReferencesSpecs
     public void When_validating_nested_properties_that_have_cyclic_references_it_should_throw()
     {
         // Arrange
-        var cyclicRoot = new CyclicRoot { Text = "Root" };
+        var cyclicRoot = new CyclicRoot
+        {
+            Text = "Root"
+        };
 
-        cyclicRoot.Level = new CyclicLevel1 { Text = "Level1", Root = cyclicRoot };
+        cyclicRoot.Level = new CyclicLevel1
+        {
+            Text = "Level1",
+            Root = cyclicRoot
+        };
 
-        var cyclicRootDto = new CyclicRootDto { Text = "Root" };
+        var cyclicRootDto = new CyclicRootDto
+        {
+            Text = "Root"
+        };
 
-        cyclicRootDto.Level = new CyclicLevel1Dto { Text = "Level1", Root = cyclicRootDto };
+        cyclicRootDto.Level = new CyclicLevel1Dto
+        {
+            Text = "Level1",
+            Root = cyclicRootDto
+        };
 
         // Act
         Action act = () => cyclicRoot.Should().BeEquivalentTo(cyclicRootDto);
@@ -33,11 +47,27 @@ public class CyclicReferencesSpecs
     public void When_validating_nested_properties_and_ignoring_cyclic_references_it_should_succeed()
     {
         // Arrange
-        var cyclicRoot = new CyclicRoot { Text = "Root" };
-        cyclicRoot.Level = new CyclicLevel1 { Text = "Level1", Root = cyclicRoot };
+        var cyclicRoot = new CyclicRoot
+        {
+            Text = "Root"
+        };
 
-        var cyclicRootDto = new CyclicRootDto { Text = "Root" };
-        cyclicRootDto.Level = new CyclicLevel1Dto { Text = "Level1", Root = cyclicRootDto };
+        cyclicRoot.Level = new CyclicLevel1
+        {
+            Text = "Level1",
+            Root = cyclicRoot
+        };
+
+        var cyclicRootDto = new CyclicRootDto
+        {
+            Text = "Root"
+        };
+
+        cyclicRootDto.Level = new CyclicLevel1Dto
+        {
+            Text = "Level1",
+            Root = cyclicRootDto
+        };
 
         // Act
         Action act = () =>
@@ -92,13 +122,27 @@ public class CyclicReferencesSpecs
     public void When_validating_nested_properties_that_are_null_it_should_not_throw_on_cyclic_references()
     {
         // Arrange
-        var actual = new CyclicRoot { Text = null };
+        var actual = new CyclicRoot
+        {
+            Text = null
+        };
 
-        actual.Level = new CyclicLevel1 { Text = null, Root = null };
+        actual.Level = new CyclicLevel1
+        {
+            Text = null,
+            Root = null
+        };
 
-        var expectation = new CyclicRootDto { Text = null };
+        var expectation = new CyclicRootDto
+        {
+            Text = null
+        };
 
-        expectation.Level = new CyclicLevel1Dto { Text = null, Root = null };
+        expectation.Level = new CyclicLevel1Dto
+        {
+            Text = null,
+            Root = null
+        };
 
         // Act
         Action act = () => actual.Should().BeEquivalentTo(expectation);
@@ -111,13 +155,27 @@ public class CyclicReferencesSpecs
     public void When_the_graph_contains_the_same_value_object_it_should_not_be_treated_as_a_cyclic_reference()
     {
         // Arrange
-        var actual = new CyclicRootWithValueObject { Object = new ValueObject("MyValue") };
+        var actual = new CyclicRootWithValueObject
+        {
+            Object = new ValueObject("MyValue")
+        };
 
-        actual.Level = new CyclicLevelWithValueObject { Object = new ValueObject("MyValue"), Root = null };
+        actual.Level = new CyclicLevelWithValueObject
+        {
+            Object = new ValueObject("MyValue"),
+            Root = null
+        };
 
-        var expectation = new CyclicRootWithValueObject { Object = new ValueObject("MyValue") };
+        var expectation = new CyclicRootWithValueObject
+        {
+            Object = new ValueObject("MyValue")
+        };
 
-        expectation.Level = new CyclicLevelWithValueObject { Object = new ValueObject("MyValue"), Root = null };
+        expectation.Level = new CyclicLevelWithValueObject
+        {
+            Object = new ValueObject("MyValue"),
+            Root = null
+        };
 
         // Act
         Action act = () => actual.Should().BeEquivalentTo(expectation);
@@ -227,7 +285,12 @@ public class CyclicReferencesSpecs
         // Act
         var instance1 = new SelfReturningEnumerable();
         var instance2 = new SelfReturningEnumerable();
-        var actual = new List<SelfReturningEnumerable> { instance1, instance2 };
+
+        var actual = new List<SelfReturningEnumerable>
+        {
+            instance1,
+            instance2
+        };
 
         // Assert
         Action act = () => actual.Should().BeEquivalentTo(
@@ -277,14 +340,44 @@ public class CyclicReferencesSpecs
     public void When_the_root_object_is_referenced_from_a_nested_object_it_should_treat_it_as_a_cyclic_reference()
     {
         // Arrange
-        var company1 = new MyCompany { Name = "Company" };
-        var user1 = new MyUser { Name = "User", Company = company1 };
-        var logo1 = new MyCompanyLogo { Url = "blank", Company = company1, CreatedBy = user1 };
+        var company1 = new MyCompany
+        {
+            Name = "Company"
+        };
+
+        var user1 = new MyUser
+        {
+            Name = "User",
+            Company = company1
+        };
+
+        var logo1 = new MyCompanyLogo
+        {
+            Url = "blank",
+            Company = company1,
+            CreatedBy = user1
+        };
+
         company1.Logo = logo1;
 
-        var company2 = new MyCompany { Name = "Company" };
-        var user2 = new MyUser { Name = "User", Company = company2 };
-        var logo2 = new MyCompanyLogo { Url = "blank", Company = company2, CreatedBy = user2 };
+        var company2 = new MyCompany
+        {
+            Name = "Company"
+        };
+
+        var user2 = new MyUser
+        {
+            Name = "User",
+            Company = company2
+        };
+
+        var logo2 = new MyCompanyLogo
+        {
+            Url = "blank",
+            Company = company2,
+            CreatedBy = user2
+        };
+
         company2.Logo = logo2;
 
         // Act
@@ -298,15 +391,29 @@ public class CyclicReferencesSpecs
     public void Allow_ignoring_cyclic_references_in_value_types_compared_by_members()
     {
         // Arrange
-        var expectation = new ValueTypeCircularDependency() { Title = "First" };
+        var expectation = new ValueTypeCircularDependency
+        {
+            Title = "First"
+        };
 
-        var second = new ValueTypeCircularDependency() { Title = "Second", Previous = expectation };
+        var second = new ValueTypeCircularDependency
+        {
+            Title = "Second",
+            Previous = expectation
+        };
 
         expectation.Next = second;
 
-        var subject = new ValueTypeCircularDependency() { Title = "First" };
+        var subject = new ValueTypeCircularDependency
+        {
+            Title = "First"
+        };
 
-        var secondCopy = new ValueTypeCircularDependency() { Title = "SecondDifferent", Previous = subject };
+        var secondCopy = new ValueTypeCircularDependency
+        {
+            Title = "SecondDifferent",
+            Previous = subject
+        };
 
         subject.Next = secondCopy;
 
@@ -337,7 +444,7 @@ public class CyclicReferencesSpecs
                 return true;
             }
 
-            return (obj is ValueTypeCircularDependency baseObj) && baseObj.Title == Title;
+            return obj is ValueTypeCircularDependency baseObj && baseObj.Title == Title;
         }
 
         public override int GetHashCode()

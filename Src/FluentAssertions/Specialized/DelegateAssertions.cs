@@ -176,7 +176,8 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="waitTime"/> or <paramref name="pollInterval"/> are negative.</exception>
-    public AndConstraint<TAssertions> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "",
+        params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(waitTime);
         Guard.ThrowIfArgumentIsNegative(pollInterval);
@@ -197,6 +198,7 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
             while (invocationEndTime is null || invocationEndTime < waitTime)
             {
                 exception = InvokeSubjectWithInterception();
+
                 if (exception is null)
                 {
                     break;
@@ -232,8 +234,8 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
             // If an assertion failure occurs, we want the message to talk about "subject"
             // not "action".
             using (CallerIdentifier.OnlyOneFluentAssertionScopeOnCallStack()
-                ? CallerIdentifier.OverrideStackSearchUsingCurrentScope()
-                : default)
+                       ? CallerIdentifier.OverrideStackSearchUsingCurrentScope()
+                       : default)
             {
                 InvokeSubject();
             }
@@ -250,7 +252,8 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     {
         if (Subject.GetMethodInfo().IsDecoratedWithOrInherit<AsyncStateMachineAttribute>())
         {
-            throw new InvalidOperationException("Cannot use action assertions on an async void method. Assign the async method to a variable of type Func<Task> instead of Action so that it can be awaited.");
+            throw new InvalidOperationException(
+                "Cannot use action assertions on an async void method. Assign the async method to a variable of type Func<Task> instead of Action so that it can be awaited.");
         }
     }
 }

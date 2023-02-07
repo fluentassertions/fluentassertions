@@ -114,7 +114,8 @@ public class MethodInfoAssertionSpecs
         public void When_asserting_a_method_is_decorated_with_attribute_and_it_is_it_succeeds()
         {
             // Arrange
-            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
+            MethodInfo methodInfo =
+                typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
 
             // Act
             Action act = () =>
@@ -142,7 +143,8 @@ public class MethodInfoAssertionSpecs
         public void When_asserting_a_constructor_is_decorated_with_MethodImpl_attribute_and_it_is_it_succeeds()
         {
             // Arrange
-            ConstructorInfo constructorMethodInfo = typeof(ClassWithMethodWithImplementationAttribute).GetConstructor(Type.EmptyTypes);
+            ConstructorInfo constructorMethodInfo =
+                typeof(ClassWithMethodWithImplementationAttribute).GetConstructor(Type.EmptyTypes);
 
             // Act
             Action act = () =>
@@ -156,7 +158,8 @@ public class MethodInfoAssertionSpecs
         public void When_asserting_a_method_is_decorated_with_MethodImpl_attribute_and_it_is_not_it_throws()
         {
             // Arrange
-            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
+            MethodInfo methodInfo =
+                typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
 
             // Act
             Action act = () =>
@@ -166,7 +169,7 @@ public class MethodInfoAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected method Void FluentAssertions*ClassWithAllMethodsDecoratedWithDummyAttribute.PublicDoNothing to be decorated with " +
-                        "System.Runtime.CompilerServices.MethodImplAttribute, but that attribute was not found.");
+                    "System.Runtime.CompilerServices.MethodImplAttribute, but that attribute was not found.");
         }
 
         [Fact]
@@ -183,7 +186,7 @@ public class MethodInfoAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected method Void FluentAssertions*ClassWithMethodWithImplementationAttribute.NoOptions to be decorated with " +
-                        "System.Runtime.CompilerServices.MethodImplAttribute, but that attribute was not found.");
+                    "System.Runtime.CompilerServices.MethodImplAttribute, but that attribute was not found.");
         }
 
         [Fact]
@@ -200,7 +203,7 @@ public class MethodInfoAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected method Void FluentAssertions*ClassWithMethodWithImplementationAttribute.ZeroOptions to be decorated with " +
-                        "System.Runtime.CompilerServices.MethodImplAttribute, but that attribute was not found.");
+                    "System.Runtime.CompilerServices.MethodImplAttribute, but that attribute was not found.");
         }
 
         [Fact]
@@ -217,14 +220,15 @@ public class MethodInfoAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected type FluentAssertions*ClassWithAllMethodsDecoratedWithDummyAttribute to be decorated with " +
-                        "System.Runtime.CompilerServices.MethodImplAttribute, but the attribute was not found.");
+                    "System.Runtime.CompilerServices.MethodImplAttribute, but the attribute was not found.");
         }
 
         [Fact]
         public void When_a_method_is_decorated_with_an_attribute_it_should_allow_chaining_assertions_on_it()
         {
             // Arrange
-            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
+            MethodInfo methodInfo =
+                typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
 
             // Act
             Action act = () => methodInfo.Should().BeDecoratedWith<DummyMethodAttribute>().Which.Filter.Should().BeFalse();
@@ -237,7 +241,8 @@ public class MethodInfoAssertionSpecs
         public void When_asserting_a_method_is_decorated_with_an_attribute_but_it_is_not_it_throws_with_a_useful_message()
         {
             // Arrange
-            MethodInfo methodInfo = typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
+            MethodInfo methodInfo =
+                typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
 
             // Act
             Action act = () =>
@@ -247,15 +252,16 @@ public class MethodInfoAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected method Void FluentAssertions*ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing to be decorated with " +
-                        "FluentAssertions*DummyMethodAttribute because we want to test the error message," +
-                        " but that attribute was not found.");
+                    "FluentAssertions*DummyMethodAttribute because we want to test the error message," +
+                    " but that attribute was not found.");
         }
 
         [Fact]
         public void When_injecting_a_null_predicate_into_BeDecoratedWith_it_should_throw()
         {
             // Arrange
-            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
+            MethodInfo methodInfo =
+                typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
 
             // Act
             Action act = () => methodInfo.Should().BeDecoratedWith<DummyMethodAttribute>(isMatchingAttributePredicate: null);
@@ -269,7 +275,8 @@ public class MethodInfoAssertionSpecs
         public void When_asserting_a_method_is_decorated_with_attribute_matching_a_predicate_and_it_is_it_succeeds()
         {
             // Arrange
-            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
+            MethodInfo methodInfo =
+                typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
 
             // Act
             Action act = () =>
@@ -294,45 +301,52 @@ public class MethodInfoAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_a_method_is_decorated_with_an_attribute_matching_a_predicate_but_it_is_not_it_throws_with_a_useful_message()
+        public void
+            When_asserting_a_method_is_decorated_with_an_attribute_matching_a_predicate_but_it_is_not_it_throws_with_a_useful_message()
         {
             // Arrange
-            MethodInfo methodInfo = typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
+            MethodInfo methodInfo =
+                typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
 
             // Act
             Action act = () =>
-                methodInfo.Should().BeDecoratedWith<DummyMethodAttribute>(d => !d.Filter, "because we want to test the error {0}", "message");
+                methodInfo.Should()
+                    .BeDecoratedWith<DummyMethodAttribute>(d => !d.Filter, "because we want to test the error {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected method Void FluentAssertions*ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing to be decorated with " +
-                        "FluentAssertions*DummyMethodAttribute because we want to test the error message," +
-                        " but that attribute was not found.");
+                    "FluentAssertions*DummyMethodAttribute because we want to test the error message," +
+                    " but that attribute was not found.");
         }
 
         [Fact]
-        public void When_asserting_a_method_is_decorated_with_an_MethodImpl_attribute_matching_a_predicate_but_it_is_not_it_throws()
+        public void
+            When_asserting_a_method_is_decorated_with_an_MethodImpl_attribute_matching_a_predicate_but_it_is_not_it_throws()
         {
             // Arrange
             MethodInfo methodInfo = typeof(ClassWithMethodWithImplementationAttribute).GetParameterlessMethod("DoNotInlineMe");
 
             // Act
             Action act = () =>
-               methodInfo.Should().BeDecoratedWith<MethodImplAttribute>(x => x.Value == MethodImplOptions.AggressiveInlining);
+                methodInfo.Should().BeDecoratedWith<MethodImplAttribute>(x => x.Value == MethodImplOptions.AggressiveInlining);
 
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected method Void FluentAssertions*ClassWithMethodWithImplementationAttribute.DoNotInlineMe to be decorated with " +
-                        "System.Runtime.CompilerServices.MethodImplAttribute, but that attribute was not found.");
+                    "System.Runtime.CompilerServices.MethodImplAttribute, but that attribute was not found.");
         }
 
         [Fact]
-        public void When_asserting_a_method_is_decorated_with_an_attribute_and_multiple_attributes_match_continuation_using_the_matched_value_should_fail()
+        public void
+            When_asserting_a_method_is_decorated_with_an_attribute_and_multiple_attributes_match_continuation_using_the_matched_value_should_fail()
         {
             // Arrange
-            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothingWithSameAttributeTwice");
+            MethodInfo methodInfo =
+                typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod(
+                    "PublicDoNothingWithSameAttributeTwice");
 
             // Act
             Action act =
@@ -369,7 +383,8 @@ public class MethodInfoAssertionSpecs
         public void When_asserting_a_method_is_not_decorated_with_attribute_and_it_is_not_it_succeeds()
         {
             // Arrange
-            MethodInfo methodInfo = typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
+            MethodInfo methodInfo =
+                typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
 
             // Act
             Action act = () =>
@@ -383,7 +398,8 @@ public class MethodInfoAssertionSpecs
         public void When_asserting_a_method_is_not_decorated_with_MethodImpl_attribute_and_it_is_not_it_succeeds()
         {
             // Arrange
-            MethodInfo methodInfo = typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
+            MethodInfo methodInfo =
+                typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
 
             // Act
             Action act = () =>
@@ -397,7 +413,8 @@ public class MethodInfoAssertionSpecs
         public void When_asserting_a_constructor_is_not_decorated_with_MethodImpl_attribute_and_it_is_not_it_succeeds()
         {
             // Arrange
-            ConstructorInfo constructorMethodInfo = typeof(ClassWithMethodWithImplementationAttribute).GetConstructor(new[] { typeof(string) });
+            ConstructorInfo constructorMethodInfo =
+                typeof(ClassWithMethodWithImplementationAttribute).GetConstructor(new[] { typeof(string) });
 
             // Act
             Action act = () =>
@@ -411,7 +428,8 @@ public class MethodInfoAssertionSpecs
         public void When_asserting_a_method_is_not_decorated_with_an_attribute_but_it_is_it_throws_with_a_useful_message()
         {
             // Arrange
-            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
+            MethodInfo methodInfo =
+                typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
 
             // Act
             Action act = () =>
@@ -421,8 +439,8 @@ public class MethodInfoAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected method Void FluentAssertions*ClassWithAllMethodsDecoratedWithDummyAttribute.PublicDoNothing to not be decorated with " +
-                        "FluentAssertions*DummyMethodAttribute because we want to test the error message," +
-                        " but that attribute was found.");
+                    "FluentAssertions*DummyMethodAttribute because we want to test the error message," +
+                    " but that attribute was found.");
         }
 
         [Fact]
@@ -437,8 +455,8 @@ public class MethodInfoAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-            .WithMessage(
-                "Expected method Void FluentAssertions*ClassWithMethodWithImplementationAttribute.DoNotInlineMe to not be decorated with " +
+                .WithMessage(
+                    "Expected method Void FluentAssertions*ClassWithMethodWithImplementationAttribute.DoNotInlineMe to not be decorated with " +
                     "System.Runtime.CompilerServices.MethodImplAttribute, but that attribute was found.");
         }
 
@@ -446,7 +464,8 @@ public class MethodInfoAssertionSpecs
         public void When_asserting_a_method_is_not_decorated_with_attribute_matching_a_predicate_and_it_is_not_it_succeeds()
         {
             // Arrange
-            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
+            MethodInfo methodInfo =
+                typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
 
             // Act
             Action act = () =>
@@ -460,7 +479,8 @@ public class MethodInfoAssertionSpecs
         public void When_injecting_a_null_predicate_into_NotBeDecoratedWith_it_should_throw()
         {
             // Arrange
-            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
+            MethodInfo methodInfo =
+                typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
 
             // Act
             Action act = () => methodInfo.Should().NotBeDecoratedWith<DummyMethodAttribute>(isMatchingAttributePredicate: null);
@@ -471,21 +491,24 @@ public class MethodInfoAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_a_method_is_not_decorated_with_an_attribute_matching_a_predicate_but_it_is_it_throws_with_a_useful_message()
+        public void
+            When_asserting_a_method_is_not_decorated_with_an_attribute_matching_a_predicate_but_it_is_it_throws_with_a_useful_message()
         {
             // Arrange
-            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
+            MethodInfo methodInfo =
+                typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
 
             // Act
             Action act = () =>
-                methodInfo.Should().NotBeDecoratedWith<DummyMethodAttribute>(d => d.Filter, "because we want to test the error {0}", "message");
+                methodInfo.Should()
+                    .NotBeDecoratedWith<DummyMethodAttribute>(d => d.Filter, "because we want to test the error {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected method Void FluentAssertions*ClassWithAllMethodsDecoratedWithDummyAttribute.PublicDoNothing to not be decorated with " +
-                        "FluentAssertions*DummyMethodAttribute because we want to test the error message," +
-                        " but that attribute was found.");
+                    "FluentAssertions*DummyMethodAttribute because we want to test the error message," +
+                    " but that attribute was found.");
         }
 
         [Fact]

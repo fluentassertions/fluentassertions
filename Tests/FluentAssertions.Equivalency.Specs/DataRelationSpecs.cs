@@ -42,7 +42,7 @@ public class DataRelationSpecs : DataSpecs
         dataTable1.Should().BeEquivalentTo(
             dataTable2,
             options => options
-                .ExcludingRelated((DataRelation dataRelation) => dataRelation.RelationName));
+                .ExcludingRelated(dataRelation => dataRelation.RelationName));
     }
 
     [Fact]
@@ -80,7 +80,7 @@ public class DataRelationSpecs : DataSpecs
         dataTable1.Should().BeEquivalentTo(
             dataTable2,
             options => options
-                .ExcludingRelated((DataRelation dataRelation) => dataRelation.Nested));
+                .ExcludingRelated(dataRelation => dataRelation.Nested));
     }
 
     [Fact]
@@ -204,9 +204,9 @@ public class DataRelationSpecs : DataSpecs
         dataTable1.Should().BeEquivalentTo(dataTable2, options => options
             .Excluding(dataTable => dataTable.ChildRelations)
             .Excluding(dataTable => dataTable.Constraints)
-            .ExcludingRelated((DataRelation dataRelation) => dataRelation.ParentColumns)
-            .ExcludingRelated((DataRelation dataRelation) => dataRelation.ParentKeyConstraint)
-            .ExcludingRelated((DataRelation dataRelation) => dataRelation.ChildKeyConstraint));
+            .ExcludingRelated(dataRelation => dataRelation.ParentColumns)
+            .ExcludingRelated(dataRelation => dataRelation.ParentKeyConstraint)
+            .ExcludingRelated(dataRelation => dataRelation.ChildKeyConstraint));
     }
 
     [Fact]
@@ -250,9 +250,9 @@ public class DataRelationSpecs : DataSpecs
         dataTable1.Should().BeEquivalentTo(dataTable2, options => options
             .Excluding(dataTable => dataTable.ParentRelations)
             .Excluding(dataTable => dataTable.Constraints)
-            .ExcludingRelated((DataRelation dataRelation) => dataRelation.ChildColumns)
-            .ExcludingRelated((DataRelation dataRelation) => dataRelation.ParentKeyConstraint)
-            .ExcludingRelated((DataRelation dataRelation) => dataRelation.ChildKeyConstraint));
+            .ExcludingRelated(dataRelation => dataRelation.ChildColumns)
+            .ExcludingRelated(dataRelation => dataRelation.ParentKeyConstraint)
+            .ExcludingRelated(dataRelation => dataRelation.ChildKeyConstraint));
     }
 
     [Fact]

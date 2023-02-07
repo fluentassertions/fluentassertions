@@ -22,6 +22,7 @@ internal class PathBasedOrderingRule : IOrderingRule
     public OrderStrictness Evaluate(IObjectInfo objectInfo)
     {
         string currentPropertyPath = objectInfo.Path;
+
         if (!ContainsIndexingQualifiers(path))
         {
             currentPropertyPath = RemoveInitialIndexQualifier(currentPropertyPath);
@@ -49,6 +50,7 @@ internal class PathBasedOrderingRule : IOrderingRule
         if (!indexQualifierRegex.IsMatch(path))
         {
             Match match = indexQualifierRegex.Match(sourcePath);
+
             if (match.Success)
             {
                 sourcePath = sourcePath.Substring(match.Length);

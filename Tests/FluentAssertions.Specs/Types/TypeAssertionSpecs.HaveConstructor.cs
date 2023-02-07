@@ -21,9 +21,8 @@ public partial class TypeAssertionSpecs
             // Act
             Action act = () =>
                 type.Should()
-                    .HaveConstructor(new Type[] { typeof(string) })
-                    .Which.Should()
-                        .HaveAccessModifier(CSharpAccessModifier.Private);
+                    .HaveConstructor(new[] { typeof(string) })
+                    .Which.Should().HaveAccessModifier(CSharpAccessModifier.Private);
 
             // Assert
             act.Should().NotThrow();
@@ -88,7 +87,7 @@ public partial class TypeAssertionSpecs
             // Act
             Action act = () =>
                 type.Should()
-                    .NotHaveConstructor(new Type[] { typeof(string) });
+                    .NotHaveConstructor(new[] { typeof(string) });
 
             // Assert
             act.Should().NotThrow();

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using FluentAssertions.Execution;
 using Xunit;
@@ -588,7 +587,7 @@ public class StreamAssertionSpecs
     public static TheoryData<Exception> GetLengthExceptions => new()
     {
         // https://docs.microsoft.com/en-us/dotnet/api/system.io.stream.length#exceptions
-        new IOException("GetLengthExceptionMessage") ,
+        new IOException("GetLengthExceptionMessage"),
         new NotSupportedException("GetLengthExceptionMessage"),
         new ObjectDisposedException("GetLengthExceptionMessage")
     };

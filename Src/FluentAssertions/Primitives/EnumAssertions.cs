@@ -195,7 +195,7 @@ public class EnumAssertions<TEnum, TAssertions>
     public AndConstraint<TAssertions> HaveValue(decimal expected, string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(Subject is TEnum value && (GetValue(value) == expected))
+            .ForCondition(Subject is TEnum value && GetValue(value) == expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:the enum} to have value {0}{reason}, but found {1}.",
                 expected, Subject);
@@ -217,7 +217,7 @@ public class EnumAssertions<TEnum, TAssertions>
     public AndConstraint<TAssertions> NotHaveValue(decimal unexpected, string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(!(Subject is TEnum value && (GetValue(value) == unexpected)))
+            .ForCondition(!(Subject is TEnum value && GetValue(value) == unexpected))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:the enum} to not have value {0}{reason}, but found {1}.",
                 unexpected, Subject);
@@ -240,7 +240,7 @@ public class EnumAssertions<TEnum, TAssertions>
         where T : struct, Enum
     {
         Execute.Assertion
-            .ForCondition(Subject is TEnum value && (GetValue(value) == GetValue(expected)))
+            .ForCondition(Subject is TEnum value && GetValue(value) == GetValue(expected))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:the enum} to have same value as {0}{reason}, but found {1}.",
                 expected, Subject);
@@ -263,7 +263,7 @@ public class EnumAssertions<TEnum, TAssertions>
         where T : struct, Enum
     {
         Execute.Assertion
-            .ForCondition(!(Subject is TEnum value && (GetValue(value) == GetValue(unexpected))))
+            .ForCondition(!(Subject is TEnum value && GetValue(value) == GetValue(unexpected)))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:the enum} to not have same value as {0}{reason}, but found {1}.",
                 unexpected, Subject);
@@ -286,7 +286,7 @@ public class EnumAssertions<TEnum, TAssertions>
         where T : struct, Enum
     {
         Execute.Assertion
-            .ForCondition(Subject is TEnum value && (GetName(value) == GetName(expected)))
+            .ForCondition(Subject is TEnum value && GetName(value) == GetName(expected))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:the enum} to have same name as {0}{reason}, but found {1}.",
                 expected, Subject);
@@ -309,7 +309,7 @@ public class EnumAssertions<TEnum, TAssertions>
         where T : struct, Enum
     {
         Execute.Assertion
-            .ForCondition(!(Subject is TEnum value && (GetName(value) == GetName(unexpected))))
+            .ForCondition(!(Subject is TEnum value && GetName(value) == GetName(unexpected)))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:the enum} to not have same name as {0}{reason}, but found {1}.",
                 unexpected, Subject);
@@ -417,8 +417,11 @@ public class EnumAssertions<TEnum, TAssertions>
     /// <exception cref="ArgumentException"><paramref name="validValues"/> is empty.</exception>
     public AndConstraint<TAssertions> BeOneOf(IEnumerable<TEnum> validValues, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(validValues, nameof(validValues), "Cannot assert that an enum is one of a null list of enums");
-        Guard.ThrowIfArgumentIsEmpty(validValues, nameof(validValues), "Cannot assert that an enum is one of an empty list of enums");
+        Guard.ThrowIfArgumentIsNull(validValues, nameof(validValues),
+            "Cannot assert that an enum is one of a null list of enums");
+
+        Guard.ThrowIfArgumentIsEmpty(validValues, nameof(validValues),
+            "Cannot assert that an enum is one of an empty list of enums");
 
         Execute.Assertion
             .ForCondition(Subject is not null)

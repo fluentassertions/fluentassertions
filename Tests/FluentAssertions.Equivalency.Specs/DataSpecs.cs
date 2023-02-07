@@ -17,6 +17,7 @@ public class DataSpecs
     public int Dummy { get; set; }
 
     #region Subject Types
+
     /*
 
     NB: TypedDataTable1 and TypedDataTable2 intentionally have the same schema. This allows testing of
@@ -71,8 +72,10 @@ public class DataSpecs
         }
     }
 
-    [SuppressMessage("Microsoft.StyleCop.CSharp.Naming", "SA1306", Justification = "DataColumn accessors are named after the columns.")]
-    [SuppressMessage("Microsoft.StyleCop.CSharp.Naming", "SA1516", Justification = "DataColumn accessors are grouped in a block of lines.")]
+    [SuppressMessage("Microsoft.StyleCop.CSharp.Naming", "SA1306",
+        Justification = "DataColumn accessors are named after the columns.")]
+    [SuppressMessage("Microsoft.StyleCop.CSharp.Naming", "SA1516",
+        Justification = "DataColumn accessors are grouped in a block of lines.")]
     public class TypedDataTable1 : TypedTableBase<TypedDataRow1>
     {
         public TypedDataTable1()
@@ -161,8 +164,10 @@ public class DataSpecs
         }
     }
 
-    [SuppressMessage("Microsoft.StyleCop.CSharp.Naming", "SA1306", Justification = "DataColumn accessors are named after the columns.")]
-    [SuppressMessage("Microsoft.StyleCop.CSharp.Naming", "SA1516", Justification = "DataColumn accessors are grouped in a block of lines.")]
+    [SuppressMessage("Microsoft.StyleCop.CSharp.Naming", "SA1306",
+        Justification = "DataColumn accessors are named after the columns.")]
+    [SuppressMessage("Microsoft.StyleCop.CSharp.Naming", "SA1516",
+        Justification = "DataColumn accessors are grouped in a block of lines.")]
     public class TypedDataTable2 : TypedTableBase<TypedDataRow2>
     {
         public TypedDataTable2()
@@ -204,7 +209,8 @@ public class DataSpecs
         public DataColumn ForeignRowIDColumn => Columns["ForeignRowID"];
     }
 
-    [SuppressMessage("Microsoft.StyleCop.CSharp.Naming", "SA1516", Justification = "DataTable accessors are grouped in a block of lines.")]
+    [SuppressMessage("Microsoft.StyleCop.CSharp.Naming", "SA1516",
+        Justification = "DataTable accessors are grouped in a block of lines.")]
     public class TypedDataSet : DataSet
     {
         public override SchemaSerializationMode SchemaSerializationMode { get; set; }
@@ -299,8 +305,8 @@ public class DataSpecs
                 foreach (var constraint in typedTable.Constraints.Cast<Constraint>())
                 {
                     if (!Relations.Cast<DataRelation>().Any(rel =>
-                        (rel.ChildKeyConstraint == constraint) ||
-                        (rel.ParentKeyConstraint == constraint)))
+                            rel.ChildKeyConstraint == constraint ||
+                            rel.ParentKeyConstraint == constraint))
                     {
                         if (constraint is UniqueConstraint uniqueConstraint)
                         {
@@ -331,8 +337,10 @@ public class DataSpecs
                 // NB: In the context of the unit test, this is assuming that there is only one column in a relation.
                 var dataRelation = new DataRelation(
                     relation.RelationName,
-                    parentColumn: dataSet.Tables[relation.ParentTable.TableName].Columns[relation.ParentColumns.Single().ColumnName],
-                    childColumn: dataSet.Tables[relation.ChildTable.TableName].Columns[relation.ChildColumns.Single().ColumnName]);
+                    parentColumn: dataSet.Tables[relation.ParentTable.TableName]
+                        .Columns[relation.ParentColumns.Single().ColumnName],
+                    childColumn: dataSet.Tables[relation.ChildTable.TableName]
+                        .Columns[relation.ChildColumns.Single().ColumnName]);
 
                 foreach (var property in relation.ExtendedProperties.Cast<DictionaryEntry>())
                 {
@@ -365,12 +373,12 @@ public class DataSpecs
             SchemaSerializationMode = copyFrom.SchemaSerializationMode;
 
             CopyTable<TypedDataTable1, TypedDataRow1>(
-                @from: copyFrom.TypedDataTable1,
+                from: copyFrom.TypedDataTable1,
                 to: TypedDataTable1,
                 randomizeRowOrder);
 
             CopyTable<TypedDataTable2, TypedDataRow2>(
-                @from: copyFrom.TypedDataTable2,
+                from: copyFrom.TypedDataTable2,
                 to: TypedDataTable2,
                 randomizeRowOrder);
 
@@ -384,8 +392,10 @@ public class DataSpecs
                 // NB: In the context of the unit test, this is assuming that there is only one column in a relation.
                 var relation = new DataRelation(
                     copyFromRelation.RelationName,
-                    parentColumn: Tables[copyFromRelation.ParentTable.TableName].Columns[copyFromRelation.ParentColumns.Single().ColumnName],
-                    childColumn: Tables[copyFromRelation.ChildTable.TableName].Columns[copyFromRelation.ChildColumns.Single().ColumnName]);
+                    parentColumn: Tables[copyFromRelation.ParentTable.TableName]
+                        .Columns[copyFromRelation.ParentColumns.Single().ColumnName],
+                    childColumn: Tables[copyFromRelation.ChildTable.TableName]
+                        .Columns[copyFromRelation.ChildColumns.Single().ColumnName]);
 
                 foreach (var property in copyFromRelation.ExtendedProperties.Cast<DictionaryEntry>())
                 {
@@ -429,11 +439,13 @@ public class DataSpecs
             }
         }
     }
+
     #endregion
 
-    private static readonly Random Random = new Random();
+    private static readonly Random Random = new();
 
-    internal static TDataSet CreateDummyDataSet<TDataSet>(bool identicalTables = false, bool includeDummyData = true, bool includeRelation = true)
+    internal static TDataSet CreateDummyDataSet<TDataSet>(bool identicalTables = false, bool includeDummyData = true,
+        bool includeRelation = true)
         where TDataSet : TypedDataSet, new()
     {
         var ret = new TDataSet();
@@ -497,7 +509,8 @@ public class DataSpecs
 
     protected static void AddRelation(TypedDataSet dataSet)
     {
-        var relation = new DataRelation("TestRelation", dataSet.TypedDataTable1.RowIDColumn, dataSet.TypedDataTable2.ForeignRowIDColumn);
+        var relation = new DataRelation("TestRelation", dataSet.TypedDataTable1.RowIDColumn,
+            dataSet.TypedDataTable2.ForeignRowIDColumn);
 
         AddExtendedProperties(relation.ExtendedProperties);
 
@@ -540,7 +553,8 @@ public class DataSpecs
         table.Rows.Add(row);
     }
 
-    [SuppressMessage("Style", "IDE0010:Add missing cases", Justification = "TypedDataTable test types have a limited set of columns.")]
+    [SuppressMessage("Style", "IDE0010:Add missing cases",
+        Justification = "TypedDataTable test types have a limited set of columns.")]
     private static object GetDummyValueOfType(Type dataType)
     {
         switch (Type.GetTypeCode(dataType))
@@ -548,7 +562,8 @@ public class DataSpecs
             case TypeCode.Int32:
                 return Random.Next();
             case TypeCode.DateTime:
-                return DateTime.MinValue.AddTicks((Random.Next() & 0x7FFFFFFF) * 1469337835L).AddTicks((Random.Next() & 0x7FFFFFFF) * 1469337835L / 2147483648);
+                return DateTime.MinValue.AddTicks((Random.Next() & 0x7FFFFFFF) * 1469337835L)
+                    .AddTicks(((Random.Next() & 0x7FFFFFFF) * 1469337835L) / 2147483648);
             case TypeCode.Decimal:
                 return new decimal(Random.NextDouble());
             case TypeCode.String:
@@ -571,11 +586,11 @@ public class DataSpecs
         Removed,
     }
 
-    public static IEnumerable<object[]> AllChangeTypes
-        => Enum.GetValues(typeof(ChangeType)).Cast<ChangeType>().Select(t => new object[] { t });
+    public static IEnumerable<object[]> AllChangeTypes =>
+        Enum.GetValues(typeof(ChangeType)).Cast<ChangeType>().Select(t => new object[] { t });
 
-    public static IEnumerable<object[]> AllChangeTypesWithAcceptChangesValues
-        => Enum.GetValues(typeof(ChangeType)).Cast<ChangeType>().Join(
+    public static IEnumerable<object[]> AllChangeTypesWithAcceptChangesValues =>
+        Enum.GetValues(typeof(ChangeType)).Cast<ChangeType>().Join(
             new[] { true, false },
             changeType => true,
             acceptChanges => true,
@@ -625,6 +640,7 @@ public class DataSpecs
                     new UniqueConstraint(
                         "Test",
                         columnForNewConstraint));
+
                 break;
             case ChangeType.Changed:
                 constraints[1].ConstraintName += "different";

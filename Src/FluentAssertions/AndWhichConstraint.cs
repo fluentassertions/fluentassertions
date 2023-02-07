@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using FluentAssertions.Common;
 using FluentAssertions.Formatting;
 
@@ -44,7 +43,7 @@ public class AndWhichConstraint<TParentConstraint, TMatchedElement> : AndConstra
                     ele => "\t" + Formatter.ToString(ele)));
 
             string message = "More than one object found.  FluentAssertions cannot determine which object is meant."
-                          + $"  Found objects:{Environment.NewLine}{foundObjects}";
+                + $"  Found objects:{Environment.NewLine}{foundObjects}";
 
             Services.ThrowException(message);
         }

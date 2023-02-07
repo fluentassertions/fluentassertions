@@ -53,6 +53,7 @@ public static class TaskAssertionSpecs
             // Act
             Func<Task> action = () =>
                 taskFactory.Awaiting(t => (Task)t.Task).Should(timer).CompleteWithinAsync(100.Milliseconds());
+
             taskFactory.SetResult(true);
             timer.Complete();
 
@@ -93,7 +94,9 @@ public static class TaskAssertionSpecs
             var taskFactory = new TaskCompletionSource<bool>();
 
             // Act
-            Func<Task> action = () => taskFactory.Awaiting(t => (Task)t.Task).Should(timer).CompleteWithinAsync(100.Milliseconds());
+            Func<Task> action = () =>
+                taskFactory.Awaiting(t => (Task)t.Task).Should(timer).CompleteWithinAsync(100.Milliseconds());
+
             timer.Complete();
 
             // Assert
@@ -130,6 +133,7 @@ public static class TaskAssertionSpecs
             Func<Task> action = () => taskFactory
                 .Awaiting(t => (Task)t.Task).Should(timer)
                 .NotCompleteWithinAsync(100.Milliseconds());
+
             taskFactory.SetResult(true);
             timer.Complete();
 
@@ -173,6 +177,7 @@ public static class TaskAssertionSpecs
             Func<Task> action = () => taskFactory
                 .Awaiting(t => (Task)t.Task).Should(timer)
                 .NotCompleteWithinAsync(100.Milliseconds());
+
             timer.Complete();
 
             // Assert
@@ -193,6 +198,7 @@ public static class TaskAssertionSpecs
             // Act
             Func<Task> action = () =>
                 taskFactory.Awaiting(t => (Task)t.Task).Should(timer).CompleteWithinAsync(100.Milliseconds());
+
             taskFactory.SetResult(true);
             timer.Complete();
 
@@ -210,6 +216,7 @@ public static class TaskAssertionSpecs
             // Act
             Func<Task> action = () =>
                 taskFactory.Awaiting(t => (Task)t.Task).Should(timer).CompleteWithinAsync(100.Milliseconds());
+
             timer.Complete();
 
             // Assert

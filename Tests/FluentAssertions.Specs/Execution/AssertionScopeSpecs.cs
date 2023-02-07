@@ -68,6 +68,7 @@ namespace FluentAssertions.Specs.Execution
             // Arrange
             var scope = new AssertionScope();
             bool failReasonCalled = false;
+
             AssertionScope.Current
                 .ForCondition(true)
                 .FailWith(() =>
@@ -241,8 +242,8 @@ namespace FluentAssertions.Specs.Execution
             // Arrange/Act
             using (var outerScope = new AssertionScope())
             {
-                outerScope.AddReportable("outerReportable", "foo"); 
-                                                                   
+                outerScope.AddReportable("outerReportable", "foo");
+
                 using (var innerScope = new AssertionScope())
                 {
                     innerScope.AddReportable("innerReportable", "bar");

@@ -23,9 +23,9 @@ internal static class ObjectExtensions
         }
 
         return (actual, expected) => actual is null
-                ? expected is null
-                : expected is not null
-                    && (EqualityComparer<T>.Default.Equals(actual, expected) || CompareNumerics(actual, expected));
+            ? expected is null
+            : expected is not null
+            && (EqualityComparer<T>.Default.Equals(actual, expected) || CompareNumerics(actual, expected));
     }
 
     private static bool CompareNumerics(object actual, object expected)
@@ -47,7 +47,7 @@ internal static class ObjectExtensions
             var converted = source.ConvertTo(targetType);
 
             return source.Equals(converted.ConvertTo(sourceType))
-                 && converted.Equals(target);
+                && converted.Equals(target);
         }
         catch
         {

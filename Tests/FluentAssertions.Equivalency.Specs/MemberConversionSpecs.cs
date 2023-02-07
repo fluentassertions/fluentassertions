@@ -144,7 +144,7 @@ public class MemberConversionSpecs
     {
         // Arrange
         string str = "This is a test";
-        CustomConvertible obj = new CustomConvertible(str);
+        CustomConvertible obj = new(str);
 
         // Act
         Action act = () => obj.Should().BeEquivalentTo(str, options => options.WithAutoConversion());

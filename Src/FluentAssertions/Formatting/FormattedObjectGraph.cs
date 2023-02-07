@@ -36,7 +36,7 @@ public class FormattedObjectGraph
     /// <summary>
     /// Returns the number of lines of text currently in the graph.
     /// </summary>
-    public int LineCount => lines.Count + ((lineBuilder.Length > 0) ? 1 : 0);
+    public int LineCount => lines.Count + (lineBuilder.Length > 0 ? 1 : 0);
 
     /// <summary>
     /// Starts a new line with the provided text fragment. Additional text can be added to
@@ -90,6 +90,7 @@ public class FormattedObjectGraph
         if (lines.Count == maxLines)
         {
             lines.Add(string.Empty);
+
             lines.Add(
                 $"(Output has exceeded the maximum of {maxLines} lines. " +
                 $"Increase {nameof(FormattingOptions)}.{nameof(FormattingOptions.MaxLines)} on {nameof(AssertionScope)} or {nameof(AssertionOptions)} to include more lines.)");
@@ -109,6 +110,7 @@ public class FormattedObjectGraph
     public IDisposable WithIndentation()
     {
         indentation++;
+
         return new Disposable(() =>
         {
             if (indentation > 0)

@@ -52,6 +52,7 @@ internal class TestFrameworkProvider
     private ITestFramework AttemptToDetectUsingAppSetting()
     {
         string frameworkName = configuration.TestFrameworkName;
+
         if (string.IsNullOrEmpty(frameworkName))
         {
             return null;
@@ -60,7 +61,9 @@ internal class TestFrameworkProvider
         if (!Frameworks.TryGetValue(frameworkName, out ITestFramework framework))
         {
             string frameworks = string.Join(", ", Frameworks.Keys);
-            var message = $"FluentAssertions was configured to use the test framework '{frameworkName}' but this is not supported. " +
+
+            var message =
+                $"FluentAssertions was configured to use the test framework '{frameworkName}' but this is not supported. " +
                 $"Please use one of the supported frameworks: {frameworks}.";
 
             throw new InvalidOperationException(message);
@@ -69,9 +72,11 @@ internal class TestFrameworkProvider
         if (!framework.IsAvailable)
         {
             string frameworks = string.Join(", ", Frameworks.Keys);
+
             var innerMessage = framework is LateBoundTestFramework lateBoundTestFramework
                 ? $"the required assembly '{lateBoundTestFramework.AssemblyName}' could not be found"
                 : "it could not be found";
+
             var message =
                 $"FluentAssertions was configured to use the test framework '{frameworkName}' but {innerMessage}. " +
                 $"Please use one of the supported frameworks: {frameworks}.";

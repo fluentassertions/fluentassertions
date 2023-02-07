@@ -41,9 +41,9 @@ public partial class AssertionScopeSpecs
     {
         // Arrange
         var scope = new AssertionScope();
-#pragma warning disable IDE0004 // Remove Unnecessary Cast
-        scope.AddNonReportable("SomeKey", (int?)null);
-#pragma warning restore IDE0004 // Remove Unnecessary Cast
+
+        int? someValue = null;
+        scope.AddNonReportable("SomeKey", someValue);
 
         // Act
         var value = scope.Get<int>("SomeKey");

@@ -126,6 +126,7 @@ public partial class TypeAssertionSpecs
         {
             // Arrange
             Type someType = typeof(ClassWithAttribute);
+
             Action act = () =>
                 someType.Should().BeAssignableTo(typeof(DummyBaseType<>), "we want to test the failure {0}", "message");
 

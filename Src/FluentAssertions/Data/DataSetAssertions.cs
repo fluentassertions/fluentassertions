@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
-
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
@@ -35,7 +34,8 @@ public class DataSetAssertions<TDataSet> : ReferenceTypeAssertions<DataSet, Data
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<DataSetAssertions<TDataSet>> HaveTableCount(int expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<DataSetAssertions<TDataSet>> HaveTableCount(int expected, string because = "",
+        params object[] becauseArgs)
     {
         if (Subject is null)
         {
@@ -49,7 +49,8 @@ public class DataSetAssertions<TDataSet> : ReferenceTypeAssertions<DataSet, Data
         Execute.Assertion
             .ForCondition(actualCount == expected)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:DataSet} to contain exactly {0} table(s){reason}, but found {1}.", expected, actualCount);
+            .FailWith("Expected {context:DataSet} to contain exactly {0} table(s){reason}, but found {1}.", expected,
+                actualCount);
 
         return new AndConstraint<DataSetAssertions<TDataSet>>(this);
     }
@@ -65,7 +66,8 @@ public class DataSetAssertions<TDataSet> : ReferenceTypeAssertions<DataSet, Data
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndWhichConstraint<DataSetAssertions<TDataSet>, DataTable> HaveTable(string expectedTableName, string because = "", params object[] becauseArgs)
+    public AndWhichConstraint<DataSetAssertions<TDataSet>, DataTable> HaveTable(string expectedTableName, string because = "",
+        params object[] becauseArgs)
     {
         var subjectTable = default(DataTable);
 
@@ -73,7 +75,8 @@ public class DataSetAssertions<TDataSet> : ReferenceTypeAssertions<DataSet, Data
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:DataSet} to contain a table named {0}{reason}, but found <null>.", expectedTableName);
+                .FailWith("Expected {context:DataSet} to contain a table named {0}{reason}, but found <null>.",
+                    expectedTableName);
         }
         else if (!Subject.Tables.Contains(expectedTableName))
         {
@@ -109,13 +112,15 @@ public class DataSetAssertions<TDataSet> : ReferenceTypeAssertions<DataSet, Data
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<DataSetAssertions<TDataSet>> HaveTables(IEnumerable<string> expectedTableNames, string because = "", params object[] becauseArgs)
+    public AndConstraint<DataSetAssertions<TDataSet>> HaveTables(IEnumerable<string> expectedTableNames, string because = "",
+        params object[] becauseArgs)
     {
         if (Subject is null)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:DataSet} to contain {0} table(s) with specific names{reason}, but found <null>.", expectedTableNames.Count());
+                .FailWith("Expected {context:DataSet} to contain {0} table(s) with specific names{reason}, but found <null>.",
+                    expectedTableNames.Count());
         }
 
         foreach (var expectedTableName in expectedTableNames)
@@ -151,9 +156,8 @@ public class DataSetAssertions<TDataSet> : ReferenceTypeAssertions<DataSet, Data
     /// The <see cref="DataSet"/> objects must be of the same type; if two <see cref="DataSet"/> objects
     /// are equivalent in all ways, except that one is a custom subclass of <see cref="DataSet"/> (e.g. to provide
     /// typed accessors for <see cref="DataTable"/> values contained by the <see cref="DataSet"/>), then by default,
-    /// they will not be considered equivalent. This can be overridden with the
-    /// <see cref="BeEquivalentTo(DataSet, Func{IDataEquivalencyAssertionOptions{DataSet}, IDataEquivalencyAssertionOptions{DataSet}}, string, object[])"/>
-    /// overload.
+    /// they will not be considered equivalent. This can be overridden by using the overload that takes
+    /// <see cref="IDataEquivalencyAssertionOptions{DataSet}"/>.
     /// </remarks>
     /// <param name="expectation">A <see cref="DataColumn"/> with the expected configuration.</param>
     /// <param name="because">
@@ -163,7 +167,8 @@ public class DataSetAssertions<TDataSet> : ReferenceTypeAssertions<DataSet, Data
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<DataSetAssertions<TDataSet>> BeEquivalentTo(DataSet expectation, string because = "", params object[] becauseArgs)
+    public AndConstraint<DataSetAssertions<TDataSet>> BeEquivalentTo(DataSet expectation, string because = "",
+        params object[] becauseArgs)
     {
         return BeEquivalentTo(
             expectation,
@@ -227,11 +232,15 @@ public class DataSetAssertions<TDataSet> : ReferenceTypeAssertions<DataSet, Data
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
-    public AndConstraint<DataSetAssertions<TDataSet>> BeEquivalentTo(DataSet expectation, Func<IDataEquivalencyAssertionOptions<DataSet>, IDataEquivalencyAssertionOptions<DataSet>> config, string because = "", params object[] becauseArgs)
+    public AndConstraint<DataSetAssertions<TDataSet>> BeEquivalentTo(DataSet expectation,
+        Func<IDataEquivalencyAssertionOptions<DataSet>, IDataEquivalencyAssertionOptions<DataSet>> config, string because = "",
+        params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(config);
 
-        IDataEquivalencyAssertionOptions<DataSet> options = config(AssertionOptions.CloneDefaults<DataSet, DataEquivalencyAssertionOptions<DataSet>>(e => new(e)));
+        IDataEquivalencyAssertionOptions<DataSet> options =
+            config(AssertionOptions.CloneDefaults<DataSet, DataEquivalencyAssertionOptions<DataSet>>(e =>
+                new DataEquivalencyAssertionOptions<DataSet>(e)));
 
         var comparands = new Comparands
         {

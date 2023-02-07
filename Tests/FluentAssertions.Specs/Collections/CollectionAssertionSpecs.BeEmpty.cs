@@ -194,7 +194,7 @@ public partial class CollectionAssertionSpecs
 
         public void Reset() { }
 
-        public object Current => new object();
+        public object Current => new();
 
         object IEnumerator.Current => Current;
 

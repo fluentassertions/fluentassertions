@@ -29,11 +29,12 @@ public static class EventRaisingExtensions
             bool hasSender = Execute.Assertion
                 .ForCondition(@event.Parameters.Any())
                 .FailWith("Expected event from sender {0}, " +
-                          $"but event {eventRecording.EventName} does not have any parameters", expectedSender);
+                    $"but event {eventRecording.EventName} does not have any parameters", expectedSender);
 
             if (hasSender)
             {
                 object sender = @event.Parameters.First();
+
                 if (ReferenceEquals(sender, expectedSender))
                 {
                     eventsForSender.Add(@event);
@@ -119,6 +120,7 @@ public static class EventRaisingExtensions
             }
 
             bool isMatch = hasArgumentOfRightType;
+
             for (int index = 0; index < predicates.Length && isMatch; index++)
             {
                 isMatch = compiledPredicates[index]?.Invoke(typedParameters[index]) ?? true;
@@ -135,7 +137,8 @@ public static class EventRaisingExtensions
         if (!foundMatchingEvent)
         {
             Execute.Assertion
-                .FailWith("Expected at least one event with some arguments of type <{0}> that pairwise match {1}, but found none.",
+                .FailWith(
+                    "Expected at least one event with some arguments of type <{0}> that pairwise match {1}, but found none.",
                     typeof(T),
                     string.Join(" | ", predicates.Where(p => p is not null).Select(p => p.Body.ToString())));
         }

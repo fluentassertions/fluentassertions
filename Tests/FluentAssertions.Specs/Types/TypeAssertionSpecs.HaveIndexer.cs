@@ -23,8 +23,8 @@ public partial class TypeAssertionSpecs
                 type.Should()
                     .HaveIndexer(typeof(string), new[] { typeof(string) })
                     .Which.Should()
-                        .BeWritable(CSharpAccessModifier.Internal)
-                        .And.BeReadable(CSharpAccessModifier.Private);
+                    .BeWritable(CSharpAccessModifier.Internal)
+                    .And.BeReadable(CSharpAccessModifier.Private);
 
             // Assert
             act.Should().NotThrow();

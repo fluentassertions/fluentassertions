@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using FluentAssertions.Execution;
-
 using Xunit;
 using Xunit.Sdk;
 
@@ -456,9 +450,14 @@ public static class DataRowCollectionAssertionSpecs
             dataTable.Columns.Add("Flag", typeof(bool));
             dataTable.Columns.Add("Timestamp", typeof(DateTime));
 
-            dataTable.Rows.Add(new Guid("6f460c1a-755d-d8e4-ad67-65d5f519dbc8"), "1851925803", 2137491580, true, new DateTime(638898932425580731));
-            dataTable.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true, new DateTime(641752306337096884));
-            dataTable.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
+            dataTable.Rows.Add(new Guid("6f460c1a-755d-d8e4-ad67-65d5f519dbc8"), "1851925803", 2137491580, true,
+                new DateTime(638898932425580731));
+
+            dataTable.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true,
+                new DateTime(641752306337096884));
+
+            dataTable.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true,
+                new DateTime(623130841631129390));
 
             var subjectTable = new DataTable();
 
@@ -468,7 +467,8 @@ public static class DataRowCollectionAssertionSpecs
             subjectTable.Columns.Add("Flag", typeof(bool));
             subjectTable.Columns.Add("Timestamp", typeof(DateTime));
 
-            subjectTable.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
+            subjectTable.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true,
+                new DateTime(623130841631129390));
 
             var subjectRow = subjectTable.Rows[0];
 
@@ -488,9 +488,14 @@ public static class DataRowCollectionAssertionSpecs
             dataTable.Columns.Add("Flag", typeof(bool));
             dataTable.Columns.Add("Timestamp", typeof(DateTime));
 
-            dataTable.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true, new DateTime(641752306337096884));
-            dataTable.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
-            dataTable.Rows.Add(new Guid("a905569d-db07-3ae3-63a0-322750a4a3bd"), "265101196", 1836839534, true, new DateTime(625984215542645543));
+            dataTable.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true,
+                new DateTime(641752306337096884));
+
+            dataTable.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true,
+                new DateTime(623130841631129390));
+
+            dataTable.Rows.Add(new Guid("a905569d-db07-3ae3-63a0-322750a4a3bd"), "265101196", 1836839534, true,
+                new DateTime(625984215542645543));
 
             var subjectTable = new DataTable();
 
@@ -500,7 +505,8 @@ public static class DataRowCollectionAssertionSpecs
             subjectTable.Columns.Add("Flag", typeof(bool));
             subjectTable.Columns.Add("Timestamp", typeof(DateTime));
 
-            subjectTable.Rows.Add(new Guid("bc4519c8-fdeb-06e2-4a08-cc98c4273aba"), "1167815425", 1020794303, true, new DateTime(628837589454161696));
+            subjectTable.Rows.Add(new Guid("bc4519c8-fdeb-06e2-4a08-cc98c4273aba"), "1167815425", 1020794303, true,
+                new DateTime(628837589454161696));
 
             var subjectRow = subjectTable.Rows[0];
 
@@ -546,9 +552,14 @@ public static class DataRowCollectionAssertionSpecs
             dataTable.Columns.Add("Flag", typeof(bool));
             dataTable.Columns.Add("Timestamp", typeof(DateTime));
 
-            dataTable.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true, new DateTime(641752306337096884));
-            dataTable.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
-            dataTable.Rows.Add(new Guid("a905569d-db07-3ae3-63a0-322750a4a3bd"), "265101196", 1836839534, true, new DateTime(625984215542645543));
+            dataTable.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true,
+                new DateTime(641752306337096884));
+
+            dataTable.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true,
+                new DateTime(623130841631129390));
+
+            dataTable.Rows.Add(new Guid("a905569d-db07-3ae3-63a0-322750a4a3bd"), "265101196", 1836839534, true,
+                new DateTime(625984215542645543));
 
             var subjectTable = new DataTable();
 
@@ -558,7 +569,8 @@ public static class DataRowCollectionAssertionSpecs
             subjectTable.Columns.Add("Flag", typeof(bool));
             subjectTable.Columns.Add("Timestamp", typeof(DateTime));
 
-            subjectTable.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
+            subjectTable.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true,
+                new DateTime(623130841631129390));
 
             var subjectRow = subjectTable.Rows[0];
 
@@ -584,9 +596,14 @@ public static class DataRowCollectionAssertionSpecs
             dataTable.Columns.Add("Flag", typeof(bool));
             dataTable.Columns.Add("Timestamp", typeof(DateTime));
 
-            dataTable.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true, new DateTime(641752306337096884));
-            dataTable.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true, new DateTime(623130841631129390));
-            dataTable.Rows.Add(new Guid("a905569d-db07-3ae3-63a0-322750a4a3bd"), "265101196", 1836839534, true, new DateTime(625984215542645543));
+            dataTable.Rows.Add(new Guid("8286d046-9740-a3e4-95cf-ff46699c73c4"), "607156385", 1321446349, true,
+                new DateTime(641752306337096884));
+
+            dataTable.Rows.Add(new Guid("95c69371-b924-6fe3-7c38-98b7dd200bc1"), "1509870614", 505401118, true,
+                new DateTime(623130841631129390));
+
+            dataTable.Rows.Add(new Guid("a905569d-db07-3ae3-63a0-322750a4a3bd"), "265101196", 1836839534, true,
+                new DateTime(625984215542645543));
 
             var subjectTable = new DataTable();
 
@@ -596,7 +613,8 @@ public static class DataRowCollectionAssertionSpecs
             subjectTable.Columns.Add("Flag", typeof(bool));
             subjectTable.Columns.Add("Timestamp", typeof(DateTime));
 
-            subjectTable.Rows.Add(new Guid("bc4519c8-fdeb-06e2-4a08-cc98c4273aba"), "1167815425", 1020794303, true, new DateTime(628837589454161696));
+            subjectTable.Rows.Add(new Guid("bc4519c8-fdeb-06e2-4a08-cc98c4273aba"), "1167815425", 1020794303, true,
+                new DateTime(628837589454161696));
 
             var subjectRow = subjectTable.Rows[0];
 

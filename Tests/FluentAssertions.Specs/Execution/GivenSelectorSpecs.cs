@@ -122,6 +122,7 @@ public class GivenSelectorSpecs
         Action act = () =>
         {
             using var _ = new AssertionScope();
+
             Execute.Assertion
                 .Given(() => "First")
                 .FailWith("First selector")
@@ -141,6 +142,7 @@ public class GivenSelectorSpecs
         Action act = () =>
         {
             using var _ = new AssertionScope();
+
             Execute.Assertion
                 .Given(() => "First")
                 .FailWith("{0} selector", "First")
@@ -160,6 +162,7 @@ public class GivenSelectorSpecs
         Action act = () =>
         {
             using var _ = new AssertionScope();
+
             Execute.Assertion
                 .Given(() => "First")
                 .FailWith("{0} selector", _ => "First")
@@ -187,7 +190,8 @@ public class GivenSelectorSpecs
     }
 
     [Fact]
-    public void The_failure_message_should_not_be_preceded_by_the_expectation_after_selecting_a_subject_and_clearing_the_expectation()
+    public void
+        The_failure_message_should_not_be_preceded_by_the_expectation_after_selecting_a_subject_and_clearing_the_expectation()
     {
         // Act
         Action act = () => Execute.Assertion
