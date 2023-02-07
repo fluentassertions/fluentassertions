@@ -28,10 +28,10 @@ public partial class CollectionAssertionSpecs
         {
             // Arrange
             var collection = new List<object>
-        {
-            1,
-            "2"
-        };
+            {
+                1,
+                "2"
+            };
 
             // Act / Assert
             collection.Should().ContainItemsAssignableTo<string>();
@@ -65,7 +65,9 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().ContainItemsAssignableTo<int>();
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected collection to contain at least one element assignable to type \"System.Int32\", but found {empty}.");
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected collection to contain at least one element assignable to type \"System.Int32\", but found {empty}.");
         }
 
         [Fact]
@@ -76,7 +78,8 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().ContainItemsAssignableTo<int>();
 
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected collection to contain at least one element assignable to type \"System.Int32\", but found {System.String, System.Decimal}.");
+                .WithMessage(
+                    "Expected collection to contain at least one element assignable to type \"System.Int32\", but found {System.String, System.Decimal}.");
         }
     }
 }

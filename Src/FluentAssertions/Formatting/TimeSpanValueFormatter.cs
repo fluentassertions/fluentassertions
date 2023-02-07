@@ -42,7 +42,7 @@ public class TimeSpanValueFormatter : IValueFormatter
             formattedGraph.AddFragment("default");
         }
 
-        string sign = (timeSpan.Ticks >= 0) ? string.Empty : "-";
+        string sign = timeSpan.Ticks >= 0 ? string.Empty : "-";
 
         if (fragments.Count == 1)
         {
@@ -73,9 +73,10 @@ public class TimeSpanValueFormatter : IValueFormatter
     private static void AddMicrosecondsIfNotZero(TimeSpan timeSpan, List<string> fragments)
     {
         var ticks = timeSpan.Ticks % TimeSpan.TicksPerMillisecond;
+
         if (ticks > 0)
         {
-            var microSeconds = ticks / (double)TimeSpan.TicksPerMillisecond * 1000;
+            var microSeconds = ticks * (1000.0 / TimeSpan.TicksPerMillisecond);
             fragments.Add(microSeconds.ToString("0.0", CultureInfo.InvariantCulture) + "µs");
         }
     }

@@ -1,14 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
-#if NETFRAMEWORK
-using FluentAssertions.Specs.Common;
-#endif
 using Xunit;
 using Xunit.Sdk;
-
-using static FluentAssertions.Extensions.FluentTimeSpanExtensions;
 
 namespace FluentAssertions.Specs.Exceptions;
 
@@ -52,7 +45,7 @@ public class ExceptionAssertionSpecs
 
     public static TheoryData<Action, Exception> AggregateExceptionTestData()
     {
-        var tasks = new Action[]
+        var tasks = new[]
         {
             AggregateExceptionWithLeftNestedException,
             AggregateExceptionWithRightNestedException
@@ -119,7 +112,9 @@ public class ExceptionAssertionSpecs
         catch (XunitException ex)
         {
             // Assert
-            ex.Message.Should().Match("Expected type to be System.ArgumentException because Does.Do should do that, but found System.ArgumentNullException.");
+            ex.Message.Should()
+                .Match(
+                    "Expected type to be System.ArgumentException because Does.Do should do that, but found System.ArgumentNullException.");
         }
     }
 
@@ -139,7 +134,9 @@ public class ExceptionAssertionSpecs
         catch (XunitException ex)
         {
             // Assert
-            ex.Message.Should().Match("Expected type to be System.ArgumentException because Does.Do should do that, but found System.AggregateException.");
+            ex.Message.Should()
+                .Match(
+                    "Expected type to be System.ArgumentException because Does.Do should do that, but found System.AggregateException.");
         }
     }
 

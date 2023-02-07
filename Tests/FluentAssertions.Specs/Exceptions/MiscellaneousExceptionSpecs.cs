@@ -68,7 +68,7 @@ public class MiscellaneousExceptionSpecs
         {
             // Act
             act
-                .Should().Throw<ArgumentException>("")
+                .Should().Throw<ArgumentException>()
                 .Where(e => e.Message.Length > 0, "an exception must have a message");
 
             throw new XunitException("This point should not be reached");
@@ -91,7 +91,7 @@ public class MiscellaneousExceptionSpecs
         {
             // Act
             act
-                .Should().Throw<ArgumentException>("")
+                .Should().Throw<ArgumentException>()
                 .Where(e => e.Message.Length > 0)
                 .Where(e => e.Message == "Error");
 

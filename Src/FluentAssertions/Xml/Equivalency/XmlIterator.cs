@@ -44,6 +44,7 @@ internal class XmlIterator
     public void MoveToEndElement()
     {
         reader.Read();
+
         if (reader.NodeType != XmlNodeType.EndElement)
         {
             // advancing failed

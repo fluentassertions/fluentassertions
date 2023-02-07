@@ -18,7 +18,7 @@ internal abstract class SelectMemberByPathSelectionRule : IMemberSelectionRule
 
     protected void SetSelectedPath(string path)
     {
-        this.selectedPath = path;
+        selectedPath = path;
     }
 
     public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
@@ -51,6 +51,7 @@ internal abstract class SelectMemberByPathSelectionRule : IMemberSelectionRule
     private static string RemoveIndexQualifiers(string path)
     {
         Match match = new Regex(@"^\[\d+]").Match(path);
+
         if (match.Success)
         {
             path = path.Substring(match.Length);

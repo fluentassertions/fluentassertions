@@ -37,7 +37,7 @@ public class MethodBaseAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected the return type of method IntMethod to be System.String because we want to test the " +
-                             "error message, but it is \"System.Int32\".");
+                    "error message, but it is \"System.Int32\".");
         }
 
         [Fact]
@@ -53,7 +53,7 @@ public class MethodBaseAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected the return type of method VoidMethod to be System.String because we want to test the " +
-                             "error message, but it is \"System.Void\".");
+                    "error message, but it is \"System.Void\".");
         }
 
         [Fact]
@@ -117,7 +117,7 @@ public class MethodBaseAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected the return type of*IntMethod*not to be System.Int32*because we want to test the " +
-                             "error message, but it is.");
+                    "error message, but it is.");
         }
 
         [Fact]
@@ -132,7 +132,8 @@ public class MethodBaseAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected the return type of method not to be *.String *failure message*, but methodInfo is <null>.");
+                .WithMessage(
+                    "Expected the return type of method not to be *.String *failure message*, but methodInfo is <null>.");
         }
 
         [Fact]
@@ -180,7 +181,7 @@ public class MethodBaseAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected the return type of method IntMethod to be System.String because we want to test the " +
-                             "error message, but it is \"System.Int32\".");
+                    "error message, but it is \"System.Int32\".");
         }
 
         [Fact]
@@ -228,7 +229,7 @@ public class MethodBaseAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected the return type of*IntMethod*not to be System.Int32*because we want to test the " +
-                             "error message, but it is.");
+                    "error message, but it is.");
         }
 
         [Fact]
@@ -243,7 +244,8 @@ public class MethodBaseAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected the return type of method not to be *.String *failure message*, but methodInfo is <null>.");
+                .WithMessage(
+                    "Expected the return type of method not to be *.String *failure message*, but methodInfo is <null>.");
         }
     }
 
@@ -275,8 +277,9 @@ public class MethodBaseAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected the return type of method IntMethod to be void because we want to test the error message " +
-                             "message, but it is \"System.Int32\".");
+                .WithMessage(
+                    "Expected the return type of method IntMethod to be void because we want to test the error message " +
+                    "message, but it is \"System.Int32\".");
         }
 
         [Fact]
@@ -380,12 +383,14 @@ public class MethodBaseAssertionSpecs
 
             // Act
             Action act = () =>
-                methodInfo.Should().HaveAccessModifier(CSharpAccessModifier.Protected, "we want to test the error {0}", "message");
+                methodInfo.Should()
+                    .HaveAccessModifier(CSharpAccessModifier.Protected, "we want to test the error {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected method PrivateMethod to be Protected because we want to test the error message, but it is " +
-                             "Private.");
+                .WithMessage(
+                    "Expected method PrivateMethod to be Protected because we want to test the error message, but it is " +
+                    "Private.");
         }
 
         [Fact]
@@ -420,8 +425,9 @@ public class MethodBaseAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected method set_ProtectedSetProperty to be Public because we want to test the error message, but it" +
-                             " is Protected.");
+                .WithMessage(
+                    "Expected method set_ProtectedSetProperty to be Public because we want to test the error message, but it" +
+                    " is Protected.");
         }
 
         [Fact]
@@ -456,8 +462,9 @@ public class MethodBaseAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected method get_PublicGetProperty to be Internal because we want to test the error message, but it" +
-                             " is Public.");
+                .WithMessage(
+                    "Expected method get_PublicGetProperty to be Internal because we want to test the error message, but it" +
+                    " is Public.");
         }
 
         [Fact]
@@ -483,12 +490,13 @@ public class MethodBaseAssertionSpecs
             // Act
             Action act = () =>
                 methodInfo.Should().HaveAccessModifier(CSharpAccessModifier.ProtectedInternal, "because we want to test the" +
-                                                                                                " error {0}", "message");
+                    " error {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected method InternalMethod to be ProtectedInternal because we want to test the error message, but" +
-                             " it is Internal.");
+                .WithMessage(
+                    "Expected method InternalMethod to be ProtectedInternal because we want to test the error message, but" +
+                    " it is Internal.");
         }
 
         [Fact]
@@ -517,8 +525,9 @@ public class MethodBaseAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected method ProtectedInternalMethod to be Private because we want to test the error message, but it is " +
-                             "ProtectedInternal.");
+                .WithMessage(
+                    "Expected method ProtectedInternalMethod to be Private because we want to test the error message, but it is " +
+                    "ProtectedInternal.");
         }
 
         [Fact]
@@ -590,7 +599,8 @@ public class MethodBaseAssertionSpecs
 
             // Act
             Action act = () =>
-                methodInfo.Should().NotHaveAccessModifier(CSharpAccessModifier.Private, "we want to test the error {0}", "message");
+                methodInfo.Should()
+                    .NotHaveAccessModifier(CSharpAccessModifier.Private, "we want to test the error {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -627,7 +637,8 @@ public class MethodBaseAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected method set_ProtectedSetProperty not to be Protected*because we want to test the error message*");
+                .WithMessage(
+                    "Expected method set_ProtectedSetProperty not to be Protected*because we want to test the error message*");
         }
 
         [Fact]
@@ -701,7 +712,7 @@ public class MethodBaseAssertionSpecs
             // Act
             Action act = () =>
                 methodInfo.Should().NotHaveAccessModifier(CSharpAccessModifier.Internal, "because we want to test the" +
-                                                                                                " error {0}", "message");
+                    " error {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -730,11 +741,13 @@ public class MethodBaseAssertionSpecs
 
             // Act
             Action act = () =>
-                methodInfo.Should().NotHaveAccessModifier(CSharpAccessModifier.ProtectedInternal, "we want to test the error {0}", "message");
+                methodInfo.Should().NotHaveAccessModifier(CSharpAccessModifier.ProtectedInternal, "we want to test the error {0}",
+                    "message");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected method ProtectedInternalMethod not to be ProtectedInternal*because we want to test the error message*");
+                .WithMessage(
+                    "Expected method ProtectedInternalMethod not to be ProtectedInternal*because we want to test the error message*");
         }
 
         [Fact]

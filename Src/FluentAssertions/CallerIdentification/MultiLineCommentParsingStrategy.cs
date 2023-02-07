@@ -12,6 +12,7 @@ internal class MultiLineCommentParsingStrategy : IParsingStrategy
         if (isCommentContext)
         {
             var isEndOfMultilineComment = symbol is '/' && commentContextPreviousChar is '*';
+
             if (isEndOfMultilineComment)
             {
                 isCommentContext = false;
@@ -29,6 +30,7 @@ internal class MultiLineCommentParsingStrategy : IParsingStrategy
             symbol is '*'
             && statement.Length > 0
             && statement[^1] is '/';
+
         if (isStartOfMultilineComment)
         {
             statement.Remove(statement.Length - 1, 1);

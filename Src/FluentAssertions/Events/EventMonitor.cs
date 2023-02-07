@@ -88,6 +88,7 @@ internal class EventMonitor<T> : IMonitor<T>
         }
 
         EventInfo[] events = GetPublicEvents(typeDefiningEventsToMonitor);
+
         if (!events.Any())
         {
             throw new InvalidOperationException($"Type {typeDefiningEventsToMonitor.Name} does not expose any events.");
@@ -127,6 +128,7 @@ internal class EventMonitor<T> : IMonitor<T>
         if (!recorderMap.TryGetValue(eventInfo.Name, out _))
         {
             var recorder = new EventRecorder(subject.Target, eventInfo.Name, utcNow, threadSafeSequenceGenerator);
+
             if (recorderMap.TryAdd(eventInfo.Name, recorder))
             {
                 recorder.Attach(subject, eventInfo);

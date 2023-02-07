@@ -36,7 +36,8 @@ public partial class StringAssertionSpecs
 
         [Fact]
         [SuppressMessage("ReSharper", "StringLiteralTypo")]
-        public void When_start_of_string_does_not_meet_equivalent_and_one_of_them_is_long_it_should_display_both_strings_on_separate_line()
+        public void
+            When_start_of_string_does_not_meet_equivalent_and_one_of_them_is_long_it_should_display_both_strings_on_separate_line()
         {
             // Act
             Action act = () => "ABCDEFGHI".Should().StartWithEquivalentOf("abcddfghi", "it should {0}", "start");
@@ -44,8 +45,8 @@ public partial class StringAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to start with equivalent of " +
-                    "*\"abcddfghi\" because it should start, but " +
-                        "*\"ABCDEFGHI\" differs near \"EFG\" (index 4).");
+                "*\"abcddfghi\" because it should start, but " +
+                "*\"ABCDEFGHI\" differs near \"EFG\" (index 4).");
         }
 
         [Fact]
@@ -79,8 +80,8 @@ public partial class StringAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to start with equivalent of " +
-                    "\"abcdef\", but " +
-                        "\"ABC\" is too short.");
+                "\"abcdef\", but " +
+                "\"ABC\" is too short.");
         }
 
         [Fact]
@@ -113,7 +114,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_string_does_not_start_with_equivalent_of_a_value_but_it_does_it_should_fail_with_a_descriptive_message()
+        public void
+            When_asserting_string_does_not_start_with_equivalent_of_a_value_but_it_does_it_should_fail_with_a_descriptive_message()
         {
             // Arrange
             string value = "ABC";

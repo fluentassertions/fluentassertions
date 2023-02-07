@@ -27,6 +27,7 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
         {
             Type expectationType = comparands.GetExpectedType(context.Options);
             bool isDictionary = DictionaryInterfaceInfo.TryGetFrom(expectationType, "expectation", out var expectedDictionary);
+
             if (isDictionary)
             {
                 Handle(comparands, expectedDictionary, context, nestedValidator);
@@ -46,6 +47,7 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
             && AssertExpectationIsNotNull(comparands.Subject, comparands.Expectation))
         {
             var (isDictionary, actualDictionary) = EnsureSubjectIsDictionary(comparands, expectedDictionary);
+
             if (isDictionary)
             {
                 if (AssertSameLength(comparands, actualDictionary, expectedDictionary))
@@ -111,7 +113,7 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
     }
 
     private static bool AssertSameLength<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(
-        IDictionary<TSubjectKey, TSubjectValue> subject, IDictionary<TExpectedKey, TExpectedValue> expectation)
+            IDictionary<TSubjectKey, TSubjectValue> subject, IDictionary<TExpectedKey, TExpectedValue> expectation)
 
         // Type constraint of TExpectedKey is asymmetric in regards to TSubjectKey
         // but it is valid. This constraint is implicitly enforced by the dictionary interface info which is called before
@@ -164,6 +166,7 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
         }
 
         var additionalKeys = new List<TSubjectKey>();
+
         foreach (TSubjectKey subjectKey in subject.Keys)
         {
             if (!presentKeys.Contains(subjectKey))

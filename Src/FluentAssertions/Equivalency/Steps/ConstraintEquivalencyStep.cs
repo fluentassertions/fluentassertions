@@ -9,7 +9,8 @@ namespace FluentAssertions.Equivalency.Steps;
 
 public class ConstraintEquivalencyStep : EquivalencyStep<Constraint>
 {
-    protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+    protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context,
+        IEquivalencyValidator nestedValidator)
     {
         if (comparands.Subject is not Constraint)
         {
@@ -36,14 +37,14 @@ public class ConstraintEquivalencyStep : EquivalencyStep<Constraint>
 
             if (matchingType)
             {
-                if ((subject is UniqueConstraint subjectUniqueConstraint)
-                    && (expectation is UniqueConstraint expectationUniqueConstraint))
+                if (subject is UniqueConstraint subjectUniqueConstraint
+                    && expectation is UniqueConstraint expectationUniqueConstraint)
                 {
                     CompareConstraints(nestedValidator, context, subjectUniqueConstraint, expectationUniqueConstraint,
                         selectedMembers);
                 }
-                else if ((subject is ForeignKeyConstraint subjectForeignKeyConstraint)
-                         && (expectation is ForeignKeyConstraint expectationForeignKeyConstraint))
+                else if (subject is ForeignKeyConstraint subjectForeignKeyConstraint
+                         && expectation is ForeignKeyConstraint expectationForeignKeyConstraint)
                 {
                     CompareConstraints(nestedValidator, context, subjectForeignKeyConstraint, expectationForeignKeyConstraint,
                         selectedMembers);
@@ -83,6 +84,7 @@ public class ConstraintEquivalencyStep : EquivalencyStep<Constraint>
         if (selectedMembers.TryGetValue("ExtendedProperties", out IMember expectationMember))
         {
             IMember matchingMember = FindMatchFor(expectationMember, context.CurrentNode, subject, options);
+
             if (matchingMember is not null)
             {
                 var nestedComparands = new Comparands
@@ -222,7 +224,8 @@ public class ConstraintEquivalencyStep : EquivalencyStep<Constraint>
             }
 
             failureMessage.Append("{reason}, but constraint does not include ");
-            failureMessage.Append((missingColumnNames.Count == 1)
+
+            failureMessage.Append(missingColumnNames.Count == 1
                 ? "that column. "
                 : "these columns. ");
         }

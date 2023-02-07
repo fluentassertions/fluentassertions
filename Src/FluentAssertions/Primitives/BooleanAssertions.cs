@@ -145,7 +145,7 @@ public class BooleanAssertions<TAssertions>
             .FailWith("but it did not.")
             .Then
             .ClearExpectation();
-        
+
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 

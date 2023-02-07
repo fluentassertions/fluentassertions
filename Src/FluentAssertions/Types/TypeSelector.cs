@@ -63,7 +63,7 @@ public class TypeSelector : IEnumerable<Type>
     public TypeSelector ThatImplement<TInterface>()
     {
         types = types
-            .Where(t => typeof(TInterface).IsAssignableFrom(t) && (t != typeof(TInterface)))
+            .Where(t => typeof(TInterface).IsAssignableFrom(t) && t != typeof(TInterface))
             .ToList();
 
         return this;
@@ -75,7 +75,7 @@ public class TypeSelector : IEnumerable<Type>
     public TypeSelector ThatDoNotImplement<TInterface>()
     {
         types = types
-            .Where(t => !typeof(TInterface).IsAssignableFrom(t) && (t != typeof(TInterface)))
+            .Where(t => !typeof(TInterface).IsAssignableFrom(t) && t != typeof(TInterface))
             .ToList();
 
         return this;
@@ -315,6 +315,7 @@ public class TypeSelector : IEnumerable<Type>
     public TypeSelector UnwrapEnumerableTypes()
     {
         var unwrappedTypes = new List<Type>();
+
         foreach (Type type in types)
         {
             if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))

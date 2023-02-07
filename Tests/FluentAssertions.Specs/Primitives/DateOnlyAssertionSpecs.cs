@@ -3,7 +3,6 @@ using Xunit;
 using Xunit.Sdk;
 
 #if NET6_0_OR_GREATER
-
 namespace FluentAssertions.Specs.Primitives;
 
 public class DateOnlyAssertionSpecs
@@ -784,7 +783,8 @@ public class DateOnlyAssertionSpecs
             Action action = () => someDateOnly.Should().Equals(someDateOnly);
 
             // Assert
-            action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
+            action.Should().Throw<NotSupportedException>()
+                .WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
         }
     }
 }

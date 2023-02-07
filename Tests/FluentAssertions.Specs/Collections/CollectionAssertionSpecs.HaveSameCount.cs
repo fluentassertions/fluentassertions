@@ -166,7 +166,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_collections_to_not_have_same_count_but_both_collections_references_the_same_object_it_should_throw()
+        public void
+            When_asserting_collections_to_not_have_same_count_but_both_collections_references_the_same_object_it_should_throw()
         {
             // Arrange
             var collection = new[] { 1, 2, 3 };

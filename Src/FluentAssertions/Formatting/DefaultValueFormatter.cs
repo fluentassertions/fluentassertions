@@ -77,6 +77,7 @@ public class DefaultValueFormatter : IValueFormatter
 
         MemberInfo[] members = GetMembers(type);
         using var iterator = new Iterator<MemberInfo>(members.OrderBy(mi => mi.Name, StringComparer.Ordinal));
+
         while (iterator.MoveNext())
         {
             WriteMemberValueTextFor(obj, iterator.Current, formattedGraph, formatChild);
@@ -98,7 +99,8 @@ public class DefaultValueFormatter : IValueFormatter
     /// <remarks>The default is <see cref="System.Type.FullName"/>.</remarks>
     protected virtual string TypeDisplayName(Type type) => type.FullName;
 
-    private static void WriteMemberValueTextFor(object value, MemberInfo member, FormattedObjectGraph formattedGraph, FormatChild formatChild)
+    private static void WriteMemberValueTextFor(object value, MemberInfo member, FormattedObjectGraph formattedGraph,
+        FormatChild formatChild)
     {
         object memberValue;
 

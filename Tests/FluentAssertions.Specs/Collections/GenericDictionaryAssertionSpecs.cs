@@ -171,7 +171,8 @@ public class GenericDictionaryAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected dictionary to contain 4 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
+                .WithMessage(
+                    "Expected dictionary to contain 4 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
         }
 
         [Fact]
@@ -320,7 +321,8 @@ public class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().NotHaveCount(1, "we want to test the behaviour with a null subject");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*not contain*1*we want to test the behaviour with a null subject*found <null>*");
+            act.Should().Throw<XunitException>()
+                .WithMessage("*not contain*1*we want to test the behaviour with a null subject*found <null>*");
         }
     }
 
@@ -371,11 +373,13 @@ public class GenericDictionaryAssertionSpecs
             };
 
             // Act
-            Action action = () => dictionary.Should().HaveCountGreaterThan(3, "because we want to test the failure {0}", "message");
+            Action action = () =>
+                dictionary.Should().HaveCountGreaterThan(3, "because we want to test the failure {0}", "message");
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected dictionary to contain more than 3 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
+                .WithMessage(
+                    "Expected dictionary to contain more than 3 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
         }
 
         [Fact]
@@ -388,7 +392,8 @@ public class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().HaveCountGreaterThan(1, "we want to test the behaviour with a null subject");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*more than*1*we want to test the behaviour with a null subject*found <null>*");
+            act.Should().Throw<XunitException>()
+                .WithMessage("*more than*1*we want to test the behaviour with a null subject*found <null>*");
         }
     }
 
@@ -428,7 +433,8 @@ public class GenericDictionaryAssertionSpecs
         }
 
         [Fact]
-        public void When_dictionary_has_a_count_greater_than_or_equal_to_the_number_of_items_it_should_fail_with_descriptive_message_()
+        public void
+            When_dictionary_has_a_count_greater_than_or_equal_to_the_number_of_items_it_should_fail_with_descriptive_message_()
         {
             // Arrange
             var dictionary = new Dictionary<int, string>
@@ -439,11 +445,13 @@ public class GenericDictionaryAssertionSpecs
             };
 
             // Act
-            Action action = () => dictionary.Should().HaveCountGreaterThanOrEqualTo(4, "because we want to test the failure {0}", "message");
+            Action action = () =>
+                dictionary.Should().HaveCountGreaterThanOrEqualTo(4, "because we want to test the failure {0}", "message");
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected dictionary to contain at least 4 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
+                .WithMessage(
+                    "Expected dictionary to contain at least 4 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
         }
 
         [Fact]
@@ -453,10 +461,12 @@ public class GenericDictionaryAssertionSpecs
             Dictionary<int, string> dictionary = null;
 
             // Act
-            Action act = () => dictionary.Should().HaveCountGreaterThanOrEqualTo(1, "we want to test the behaviour with a null subject");
+            Action act = () =>
+                dictionary.Should().HaveCountGreaterThanOrEqualTo(1, "we want to test the behaviour with a null subject");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*at least*1*we want to test the behaviour with a null subject*found <null>*");
+            act.Should().Throw<XunitException>()
+                .WithMessage("*at least*1*we want to test the behaviour with a null subject*found <null>*");
         }
     }
 
@@ -511,7 +521,8 @@ public class GenericDictionaryAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected dictionary to contain fewer than 3 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
+                .WithMessage(
+                    "Expected dictionary to contain fewer than 3 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
         }
 
         [Fact]
@@ -524,7 +535,8 @@ public class GenericDictionaryAssertionSpecs
             Action act = () => dictionary.Should().HaveCountLessThan(1, "we want to test the behaviour with a null subject");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*fewer than*1*we want to test the behaviour with a null subject*found <null>*");
+            act.Should().Throw<XunitException>()
+                .WithMessage("*fewer than*1*we want to test the behaviour with a null subject*found <null>*");
         }
     }
 
@@ -564,7 +576,8 @@ public class GenericDictionaryAssertionSpecs
         }
 
         [Fact]
-        public void When_dictionary_has_a_count_less_than_or_equal_to_the_number_of_items_it_should_fail_with_descriptive_message_()
+        public void
+            When_dictionary_has_a_count_less_than_or_equal_to_the_number_of_items_it_should_fail_with_descriptive_message_()
         {
             // Arrange
             var dictionary = new Dictionary<int, string>
@@ -575,11 +588,13 @@ public class GenericDictionaryAssertionSpecs
             };
 
             // Act
-            Action action = () => dictionary.Should().HaveCountLessThanOrEqualTo(2, "because we want to test the failure {0}", "message");
+            Action action = () =>
+                dictionary.Should().HaveCountLessThanOrEqualTo(2, "because we want to test the failure {0}", "message");
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected dictionary to contain at most 2 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
+                .WithMessage(
+                    "Expected dictionary to contain at most 2 item(s) because we want to test the failure message, but found 3: {[1] = \"One\", [2] = \"Two\", [3] = \"Three\"}.");
         }
 
         [Fact]
@@ -589,10 +604,12 @@ public class GenericDictionaryAssertionSpecs
             Dictionary<int, string> dictionary = null;
 
             // Act
-            Action act = () => dictionary.Should().HaveCountLessThanOrEqualTo(1, "we want to test the behaviour with a null subject");
+            Action act = () =>
+                dictionary.Should().HaveCountLessThanOrEqualTo(1, "we want to test the behaviour with a null subject");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*at most*1*we want to test the behaviour with a null subject*found <null>*");
+            act.Should().Throw<XunitException>()
+                .WithMessage("*at most*1*we want to test the behaviour with a null subject*found <null>*");
         }
     }
 
@@ -608,6 +625,7 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two",
                 [3] = "Three"
             };
+
             var collection = new[] { 4, 5, 6 };
 
             // Act / Assert
@@ -624,6 +642,7 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two",
                 [3] = "Three"
             };
+
             var collection = new[] { 4, 6 };
 
             // Act
@@ -644,6 +663,7 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two",
                 [3] = "Three"
             };
+
             var collection = new[] { 4, 6 };
 
             // Act
@@ -680,6 +700,7 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two",
                 [3] = "Three"
             };
+
             int[] collection = null;
 
             // Act
@@ -703,6 +724,7 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two",
                 [3] = "Three"
             };
+
             var collection = new[] { 4, 6 };
 
             // Act / Assert
@@ -719,6 +741,7 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two",
                 [3] = "Three"
             };
+
             var collection = new[] { 4, 5, 6 };
 
             // Act
@@ -739,6 +762,7 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two",
                 [3] = "Three"
             };
+
             var collection = new[] { 4, 5, 6 };
 
             // Act
@@ -775,6 +799,7 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two",
                 [3] = "Three"
             };
+
             int[] collection = null;
 
             // Act
@@ -786,7 +811,8 @@ public class GenericDictionaryAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_dictionary_and_collection_to_not_have_same_count_but_both_reference_the_same_object_it_should_throw()
+        public void
+            When_asserting_dictionary_and_collection_to_not_have_same_count_but_both_reference_the_same_object_it_should_throw()
         {
             // Arrange
             var dictionary = new Dictionary<int, string>
@@ -795,6 +821,7 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two",
                 [3] = "Three"
             };
+
             var collection = dictionary;
 
             // Act
@@ -849,7 +876,8 @@ public class GenericDictionaryAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected dictionary to be empty because we want to test the failure message, but found {[1] = \"One\"}.");
+                .WithMessage(
+                    "Expected dictionary to be empty because we want to test the failure message, but found {[1] = \"One\"}.");
         }
 
         [Fact]
@@ -866,7 +894,6 @@ public class GenericDictionaryAssertionSpecs
         }
 
 #if !NET5_0_OR_GREATER
-
         [Fact]
         public void When_asserting_dictionary_with_items_is_not_empty_it_should_enumerate_the_dictionary_only_once()
         {
@@ -949,6 +976,7 @@ public class GenericDictionaryAssertionSpecs
                 [1] = "One",
                 [2] = "Two"
             };
+
             var dictionary2 = new Dictionary<int, string>
             {
                 [1] = "One",
@@ -968,6 +996,7 @@ public class GenericDictionaryAssertionSpecs
                 [1] = "One",
                 [2] = null
             };
+
             var dictionary2 = new Dictionary<int, string>
             {
                 [1] = "One",
@@ -987,6 +1016,7 @@ public class GenericDictionaryAssertionSpecs
                 [1] = "One",
                 [2] = "Two"
             };
+
             var dictionary2 = new Dictionary<int, string>
             {
                 [1] = "One",
@@ -1011,6 +1041,7 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two",
                 [3] = "Three"
             };
+
             var dictionary2 = new Dictionary<int, string>
             {
                 [1] = "One",
@@ -1034,6 +1065,7 @@ public class GenericDictionaryAssertionSpecs
                 [1] = "One",
                 [2] = "Two"
             };
+
             var dictionary2 = new Dictionary<int, string>
             {
                 [1] = "One",
@@ -1053,6 +1085,7 @@ public class GenericDictionaryAssertionSpecs
         {
             // Arrange
             Dictionary<int, string> dictionary1 = null;
+
             var dictionary2 = new Dictionary<int, string>
             {
                 [1] = "One",
@@ -1060,7 +1093,8 @@ public class GenericDictionaryAssertionSpecs
             };
 
             // Act
-            Action act = () => dictionary1.Should().Equal(dictionary2, "because we want to test the behaviour with a null subject");
+            Action act = () =>
+                dictionary1.Should().Equal(dictionary2, "because we want to test the behaviour with a null subject");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1076,10 +1110,12 @@ public class GenericDictionaryAssertionSpecs
                 [1] = "One",
                 [2] = "Two"
             };
+
             Dictionary<int, string> dictionary2 = null;
 
             // Act
-            Action act = () => dictionary1.Should().Equal(dictionary2, "because we want to test the behaviour with a null subject");
+            Action act = () =>
+                dictionary1.Should().Equal(dictionary2, "because we want to test the behaviour with a null subject");
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
@@ -1092,6 +1128,7 @@ public class GenericDictionaryAssertionSpecs
         {
             // Arrange
             var dictionary1 = new Dictionary<int, string>();
+
             var dictionary2 = new Dictionary<int, string>
             {
                 [1] = "One",
@@ -1118,6 +1155,7 @@ public class GenericDictionaryAssertionSpecs
                 [1] = "One",
                 [2] = "Two"
             };
+
             var dictionary2 = new Dictionary<int, string>
             {
                 [1] = "One",
@@ -1137,6 +1175,7 @@ public class GenericDictionaryAssertionSpecs
                 [1] = "One",
                 [2] = null
             };
+
             var dictionary2 = new Dictionary<int, string>
             {
                 [1] = "One",
@@ -1156,6 +1195,7 @@ public class GenericDictionaryAssertionSpecs
                 [1] = "One",
                 [2] = "Two"
             };
+
             var dictionary2 = new Dictionary<int, string>
             {
                 [1] = "One",
@@ -1179,6 +1219,7 @@ public class GenericDictionaryAssertionSpecs
                 [1] = "One",
                 [2] = "Two"
             };
+
             var dictionary2 = new Dictionary<int, string>
             {
                 [1] = "One",
@@ -1198,6 +1239,7 @@ public class GenericDictionaryAssertionSpecs
         {
             // Arrange
             Dictionary<int, string> dictionary1 = null;
+
             var dictionary2 = new Dictionary<int, string>
             {
                 [1] = "One",
@@ -1222,6 +1264,7 @@ public class GenericDictionaryAssertionSpecs
                 [1] = "One",
                 [2] = "Two"
             };
+
             Dictionary<int, string> dictionary2 = null;
 
             // Act
@@ -1235,7 +1278,8 @@ public class GenericDictionaryAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_dictionaries_not_to_be_equal_subject_but_both_dictionaries_reference_the_same_object_it_should_throw()
+        public void
+            When_asserting_dictionaries_not_to_be_equal_subject_but_both_dictionaries_reference_the_same_object_it_should_throw()
         {
             // Arrange
             var dictionary1 = new Dictionary<int, string>
@@ -1243,6 +1287,7 @@ public class GenericDictionaryAssertionSpecs
                 [1] = "One",
                 [2] = "Two"
             };
+
             var dictionary2 = dictionary1;
 
             // Act
@@ -1327,7 +1372,7 @@ public class GenericDictionaryAssertionSpecs
             // Arrange
             var dictionary = new Dictionary<string, MyClass>
             {
-                ["Key"] = new MyClass { SomeProperty = 3 }
+                ["Key"] = new() { SomeProperty = 3 }
             };
 
             // Act
@@ -1356,7 +1401,8 @@ public class GenericDictionaryAssertionSpecs
         }
 
         [Fact]
-        public void When_the_contents_of_a_dictionary_are_checked_against_an_empty_list_of_keys_it_should_throw_clear_explanation()
+        public void
+            When_the_contents_of_a_dictionary_are_checked_against_an_empty_list_of_keys_it_should_throw_clear_explanation()
         {
             // Arrange
             var dictionary = new Dictionary<int, string>
@@ -1366,7 +1412,7 @@ public class GenericDictionaryAssertionSpecs
             };
 
             // Act
-            Action act = () => dictionary.Should().ContainKeys(new int[0]);
+            Action act = () => dictionary.Should().ContainKeys();
 
             // Assert
             act.Should().Throw<ArgumentException>().WithMessage(
@@ -1480,7 +1526,8 @@ public class GenericDictionaryAssertionSpecs
         }
 
         [Fact]
-        public void When_the_noncontents_of_a_dictionary_are_checked_against_an_empty_list_of_keys_it_should_throw_clear_explanation()
+        public void
+            When_the_noncontents_of_a_dictionary_are_checked_against_an_empty_list_of_keys_it_should_throw_clear_explanation()
         {
             // Arrange
             var dictionary = new Dictionary<int, string>
@@ -1490,7 +1537,7 @@ public class GenericDictionaryAssertionSpecs
             };
 
             // Act
-            Action act = () => dictionary.Should().NotContainKeys(new int[0]);
+            Action act = () => dictionary.Should().NotContainKeys();
 
             // Assert
             act.Should().Throw<ArgumentException>().WithMessage(
@@ -1498,7 +1545,8 @@ public class GenericDictionaryAssertionSpecs
         }
 
         [Fact]
-        public void When_a_dictionary_checks_a_list_of_keys_not_to_be_present_it_will_honor_the_case_sensitive_equality_comparer_of_the_dictionary()
+        public void
+            When_a_dictionary_checks_a_list_of_keys_not_to_be_present_it_will_honor_the_case_sensitive_equality_comparer_of_the_dictionary()
         {
             // Arrange
             var dictionary = new Dictionary<string, string>(StringComparer.Ordinal)
@@ -1508,14 +1556,15 @@ public class GenericDictionaryAssertionSpecs
             };
 
             // Act
-            Action act = () => dictionary.Should().NotContainKeys(new[] { "One", "Two" });
+            Action act = () => dictionary.Should().NotContainKeys("One", "Two");
 
             // Assert
             act.Should().NotThrow<XunitException>();
         }
 
         [Fact]
-        public void When_a_dictionary_checks_a_list_of_keys_not_to_be_present_it_will_honor_the_case_insensitive_equality_comparer_of_the_dictionary()
+        public void
+            When_a_dictionary_checks_a_list_of_keys_not_to_be_present_it_will_honor_the_case_insensitive_equality_comparer_of_the_dictionary()
         {
             // Arrange
             var dictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
@@ -1525,7 +1574,7 @@ public class GenericDictionaryAssertionSpecs
             };
 
             // Act
-            Action act = () => dictionary.Should().NotContainKeys(new[] { "One", "Two" });
+            Action act = () => dictionary.Should().NotContainKeys("One", "Two");
 
             // Assert
             act.Should().Throw<XunitException>();
@@ -1623,7 +1672,7 @@ public class GenericDictionaryAssertionSpecs
         public void When_the_specified_value_exists_it_should_allow_continuation_using_that_value()
         {
             // Arrange
-            var myClass = new MyClass()
+            var myClass = new MyClass
             {
                 SomeProperty = 0
             };
@@ -1649,7 +1698,7 @@ public class GenericDictionaryAssertionSpecs
             var dictionary = new Dictionary<int, MyClass>
             {
                 [1] = myClass,
-                [2] = new MyClass { SomeProperty = 0 }
+                [2] = new() { SomeProperty = 0 }
             };
 
             // Act
@@ -1718,7 +1767,8 @@ public class GenericDictionaryAssertionSpecs
         }
 
         [Fact]
-        public void When_the_contents_of_a_dictionary_are_checked_against_an_empty_list_of_values_it_should_throw_clear_explanation()
+        public void
+            When_the_contents_of_a_dictionary_are_checked_against_an_empty_list_of_values_it_should_throw_clear_explanation()
         {
             // Arrange
             var dictionary = new Dictionary<int, string>
@@ -1728,7 +1778,7 @@ public class GenericDictionaryAssertionSpecs
             };
 
             // Act
-            Action act = () => dictionary.Should().ContainValues(new string[0]);
+            Action act = () => dictionary.Should().ContainValues();
 
             // Assert
             act.Should().Throw<ArgumentException>().WithMessage(
@@ -1842,7 +1892,8 @@ public class GenericDictionaryAssertionSpecs
         }
 
         [Fact]
-        public void When_the_noncontents_of_a_dictionary_are_checked_against_an_empty_list_of_values_it_should_throw_clear_explanation()
+        public void
+            When_the_noncontents_of_a_dictionary_are_checked_against_an_empty_list_of_values_it_should_throw_clear_explanation()
         {
             // Arrange
             var dictionary = new Dictionary<int, string>
@@ -1852,7 +1903,7 @@ public class GenericDictionaryAssertionSpecs
             };
 
             // Act
-            Action act = () => dictionary.Should().NotContainValues(new string[0]);
+            Action act = () => dictionary.Should().NotContainValues();
 
             // Assert
             act.Should().Throw<ArgumentException>().WithMessage(
@@ -1872,10 +1923,10 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two"
             };
 
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
-        {
-            new KeyValuePair<int, string>(1, "One")
-        };
+            var keyValuePairs = new List<KeyValuePair<int, string>>
+            {
+                new(1, "One")
+            };
 
             // Act / Assert
             dictionary.Should().Contain(keyValuePairs);
@@ -1910,11 +1961,11 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two"
             };
 
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
-        {
-            new KeyValuePair<int, string>(1, "One"),
-            new KeyValuePair<int, string>(2, "Two")
-        };
+            var keyValuePairs = new List<KeyValuePair<int, string>>
+            {
+                new(1, "One"),
+                new(2, "Two")
+            };
 
             // Act / Assert
             dictionary.Should().Contain(keyValuePairs);
@@ -1930,11 +1981,11 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two"
             };
 
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
-        {
-            new KeyValuePair<int, string>(1, "One"),
-            new KeyValuePair<int, string>(2, "Three")
-        };
+            var keyValuePairs = new List<KeyValuePair<int, string>>
+            {
+                new(1, "One"),
+                new(2, "Three")
+            };
 
             // Act
             Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
@@ -1945,7 +1996,8 @@ public class GenericDictionaryAssertionSpecs
         }
 
         [Fact]
-        public void When_a_dictionary_does_not_contain_multiple_values_for_key_value_pairs_it_should_throw_with_clear_explanation()
+        public void
+            When_a_dictionary_does_not_contain_multiple_values_for_key_value_pairs_it_should_throw_with_clear_explanation()
         {
             // Arrange
             var dictionary = new Dictionary<int, string>
@@ -1954,11 +2006,11 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two"
             };
 
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
-        {
-            new KeyValuePair<int, string>(1, "Two"),
-            new KeyValuePair<int, string>(2, "Three")
-        };
+            var keyValuePairs = new List<KeyValuePair<int, string>>
+            {
+                new(1, "Two"),
+                new(2, "Three")
+            };
 
             // Act
             Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
@@ -1978,10 +2030,10 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two"
             };
 
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
-        {
-            new KeyValuePair<int, string>(3, "Three")
-        };
+            var keyValuePairs = new List<KeyValuePair<int, string>>
+            {
+                new(3, "Three")
+            };
 
             // Act
             Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
@@ -2001,12 +2053,12 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two"
             };
 
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
-        {
-            new KeyValuePair<int, string>(1, "One"),
-            new KeyValuePair<int, string>(3, "Three"),
-            new KeyValuePair<int, string>(4, "Four")
-        };
+            var keyValuePairs = new List<KeyValuePair<int, string>>
+            {
+                new(1, "One"),
+                new(3, "Three"),
+                new(4, "Four")
+            };
 
             // Act
             Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
@@ -2021,11 +2073,12 @@ public class GenericDictionaryAssertionSpecs
         {
             // Arrange
             Dictionary<int, string> dictionary = null;
-            List<KeyValuePair<int, string>> keyValuePairs = new List<KeyValuePair<int, string>>()
-        {
-            new KeyValuePair<int, string>(1, "One"),
-            new KeyValuePair<int, string>(1, "Two")
-        };
+
+            List<KeyValuePair<int, string>> keyValuePairs = new()
+            {
+                new KeyValuePair<int, string>(1, "One"),
+                new KeyValuePair<int, string>(1, "Two")
+            };
 
             // Act
             Action act = () => dictionary.Should().Contain(keyValuePairs,
@@ -2045,10 +2098,12 @@ public class GenericDictionaryAssertionSpecs
                 [1] = "One",
                 [2] = "Two"
             };
-            List<KeyValuePair<int, string>> keyValuePairs = new List<KeyValuePair<int, string>>();
+
+            List<KeyValuePair<int, string>> keyValuePairs = new();
 
             // Act
-            Action act = () => dictionary1.Should().Contain(keyValuePairs, "because we want to test the behaviour with an empty set of key/value pairs");
+            Action act = () => dictionary1.Should().Contain(keyValuePairs,
+                "because we want to test the behaviour with an empty set of key/value pairs");
 
             // Assert
             act.Should().Throw<ArgumentException>().WithMessage(
@@ -2064,10 +2119,12 @@ public class GenericDictionaryAssertionSpecs
                 [1] = "One",
                 [2] = "Two"
             };
+
             List<KeyValuePair<int, string>> keyValuePairs = null;
 
             // Act
-            Action act = () => dictionary1.Should().Contain(keyValuePairs, "because we want to test the behaviour with a null subject");
+            Action act = () =>
+                dictionary1.Should().Contain(keyValuePairs, "because we want to test the behaviour with a null subject");
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
@@ -2113,11 +2170,12 @@ public class GenericDictionaryAssertionSpecs
             };
 
             // Act / Assert
-            var items = new List<KeyValuePair<int, string>>()
-        {
-            new KeyValuePair<int, string>(1, "One"),
-            new KeyValuePair<int, string>(2, "Two")
-        };
+            var items = new List<KeyValuePair<int, string>>
+            {
+                new(1, "One"),
+                new(2, "Two")
+            };
+
             dictionary.Should().Contain(items);
         }
 
@@ -2165,11 +2223,11 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two"
             };
 
-            var items = new List<KeyValuePair<int, string>>()
-        {
-            new KeyValuePair<int, string>(1, "Two"),
-            new KeyValuePair<int, string>(2, "Three")
-        };
+            var items = new List<KeyValuePair<int, string>>
+            {
+                new(1, "Two"),
+                new(2, "Three")
+            };
 
             // Act
             Action act = () => dictionary.Should().Contain(items, "we put them {0}", "there");
@@ -2234,7 +2292,8 @@ public class GenericDictionaryAssertionSpecs
         public void When_a_dictionary_like_collection_contains_the_default_key_it_should_succeed()
         {
             // Arrange
-            var subject = new List<KeyValuePair<int, int>>() { new(0, 0) };
+            var subject = new List<KeyValuePair<int, int>>
+                { new(0, 0) };
 
             // Act
             Action act = () => subject.Should().Contain(0, 0);
@@ -2256,10 +2315,10 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two"
             };
 
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
-        {
-            new KeyValuePair<int, string>(3, "Three")
-        };
+            var keyValuePairs = new List<KeyValuePair<int, string>>
+            {
+                new(3, "Three")
+            };
 
             // Act / Assert
             dictionary.Should().NotContain(keyValuePairs);
@@ -2283,7 +2342,8 @@ public class GenericDictionaryAssertionSpecs
         }
 
         [Fact]
-        public void Should_succeed_when_asserting_dictionary_does_not_contain_single_key_value_pair_with_existing_key_but_different_value()
+        public void
+            Should_succeed_when_asserting_dictionary_does_not_contain_single_key_value_pair_with_existing_key_but_different_value()
         {
             // Arrange
             var dictionary = new Dictionary<int, string>
@@ -2292,10 +2352,10 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two"
             };
 
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
-        {
-            new KeyValuePair<int, string>(1, "Two")
-        };
+            var keyValuePairs = new List<KeyValuePair<int, string>>
+            {
+                new(1, "Two")
+            };
 
             // Act / Assert
             dictionary.Should().NotContain(keyValuePairs);
@@ -2311,18 +2371,19 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two"
             };
 
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
-        {
-            new KeyValuePair<int, string>(3, "Three"),
-            new KeyValuePair<int, string>(4, "Four")
-        };
+            var keyValuePairs = new List<KeyValuePair<int, string>>
+            {
+                new(3, "Three"),
+                new(4, "Four")
+            };
 
             // Act / Assert
             dictionary.Should().NotContain(keyValuePairs);
         }
 
         [Fact]
-        public void Should_succeed_when_asserting_dictionary_does_not_contain_multiple_key_value_pairs_with_existing_keys_but_different_values()
+        public void
+            Should_succeed_when_asserting_dictionary_does_not_contain_multiple_key_value_pairs_with_existing_keys_but_different_values()
         {
             // Arrange
             var dictionary = new Dictionary<int, string>
@@ -2331,11 +2392,11 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two"
             };
 
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
-        {
-            new KeyValuePair<int, string>(1, "Three"),
-            new KeyValuePair<int, string>(2, "Four")
-        };
+            var keyValuePairs = new List<KeyValuePair<int, string>>
+            {
+                new(1, "Three"),
+                new(2, "Four")
+            };
 
             // Act / Assert
             dictionary.Should().NotContain(keyValuePairs);
@@ -2351,10 +2412,10 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two"
             };
 
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
-        {
-            new KeyValuePair<int, string>(1, "One")
-        };
+            var keyValuePairs = new List<KeyValuePair<int, string>>
+            {
+                new(1, "One")
+            };
 
             // Act
             Action act = () => dictionary.Should().NotContain(keyValuePairs, "because {0}", "we do");
@@ -2374,11 +2435,11 @@ public class GenericDictionaryAssertionSpecs
                 [2] = "Two"
             };
 
-            var keyValuePairs = new List<KeyValuePair<int, string>>()
-        {
-            new KeyValuePair<int, string>(1, "One"),
-            new KeyValuePair<int, string>(2, "Two")
-        };
+            var keyValuePairs = new List<KeyValuePair<int, string>>
+            {
+                new(1, "One"),
+                new(2, "Two")
+            };
 
             // Act
             Action act = () => dictionary.Should().NotContain(keyValuePairs, "because {0}", "we do");
@@ -2393,7 +2454,8 @@ public class GenericDictionaryAssertionSpecs
         {
             // Arrange
             Dictionary<int, string> dictionary = null;
-            List<KeyValuePair<int, string>> keyValuePairs = new List<KeyValuePair<int, string>>()
+
+            List<KeyValuePair<int, string>> keyValuePairs = new()
             {
                 new KeyValuePair<int, string>(1, "One"),
                 new KeyValuePair<int, string>(1, "Two")
@@ -2409,7 +2471,8 @@ public class GenericDictionaryAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_dictionary_does_not_contain_key_value_pairs_but_expected_key_value_pairs_are_empty_it_should_throw()
+        public void
+            When_asserting_dictionary_does_not_contain_key_value_pairs_but_expected_key_value_pairs_are_empty_it_should_throw()
         {
             // Arrange
             var dictionary1 = new Dictionary<int, string>
@@ -2417,10 +2480,12 @@ public class GenericDictionaryAssertionSpecs
                 [1] = "One",
                 [2] = "Two"
             };
-            List<KeyValuePair<int, string>> keyValuePair = new List<KeyValuePair<int, string>>();
+
+            List<KeyValuePair<int, string>> keyValuePair = new();
 
             // Act
-            Action act = () => dictionary1.Should().NotContain(keyValuePair, "because we want to test the behaviour with an empty set of key/value pairs");
+            Action act = () => dictionary1.Should().NotContain(keyValuePair,
+                "because we want to test the behaviour with an empty set of key/value pairs");
 
             // Assert
             act.Should().Throw<ArgumentException>().WithMessage(
@@ -2428,7 +2493,8 @@ public class GenericDictionaryAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_dictionary_does_not_contain_key_value_pairs_but_expected_key_value_pairs_are_null_it_should_throw()
+        public void
+            When_asserting_dictionary_does_not_contain_key_value_pairs_but_expected_key_value_pairs_are_null_it_should_throw()
         {
             // Arrange
             var dictionary1 = new Dictionary<int, string>
@@ -2436,10 +2502,12 @@ public class GenericDictionaryAssertionSpecs
                 [1] = "One",
                 [2] = "Two"
             };
+
             List<KeyValuePair<int, string>> keyValuePairs = null;
 
             // Act
-            Action act = () => dictionary1.Should().NotContain(keyValuePairs, "because we want to test the behaviour with a null subject");
+            Action act = () =>
+                dictionary1.Should().NotContain(keyValuePairs, "because we want to test the behaviour with a null subject");
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
@@ -2502,11 +2570,12 @@ public class GenericDictionaryAssertionSpecs
             };
 
             // Act / Assert
-            var items = new List<KeyValuePair<int, string>>()
+            var items = new List<KeyValuePair<int, string>>
             {
-                new KeyValuePair<int, string>(3, "Three"),
-                new KeyValuePair<int, string>(4, "Four")
+                new(3, "Three"),
+                new(4, "Four")
             };
+
             dictionary.Should().NotContain(items);
         }
 
@@ -2555,11 +2624,12 @@ public class GenericDictionaryAssertionSpecs
             };
 
             // Act
-            var items = new List<KeyValuePair<int, string>>()
+            var items = new List<KeyValuePair<int, string>>
             {
-                new KeyValuePair<int, string>(1, "One"),
-                new KeyValuePair<int, string>(2, "Two")
+                new(1, "One"),
+                new(2, "Two")
             };
+
             Action act = () => dictionary.Should().NotContain(items, "we did not put them {0}", "there");
 
             // Assert
@@ -2675,23 +2745,23 @@ public class GenericDictionaryAssertionSpecs
         }
 
         public static IEnumerable<object[]> SingleDictionaryData() =>
-                Dictionaries().Select(x => new[] { x });
+            Dictionaries().Select(x => new[] { x });
 
         public static object[] Dictionaries()
         {
             return new object[]
             {
-                new Dictionary<int, int>() { [1] = 42 },
-                new TrueReadOnlyDictionary<int, int>(new Dictionary<int, int>() { [1] = 42 }),
-                new List<KeyValuePair<int, int>> { new KeyValuePair<int, int>(1, 42) }
+                new Dictionary<int, int> { [1] = 42 },
+                new TrueReadOnlyDictionary<int, int>(new Dictionary<int, int> { [1] = 42 }),
+                new List<KeyValuePair<int, int>> { new(1, 42) }
             };
         }
 
         public static IEnumerable<object[]> DictionariesData()
         {
             return from x in Dictionaries()
-                   from y in Dictionaries()
-                   select new[] { x, y };
+                from y in Dictionaries()
+                select new[] { x, y };
         }
     }
 
@@ -2717,7 +2787,7 @@ public class GenericDictionaryAssertionSpecs
 
     /// <summary>
     /// This class only implements <see cref="IReadOnlyDictionary{TKey, TValue}"/>,
-    /// as <see cref="ReadOnlyDictionary{TKey, TValue}"/> also implements <see cref="IDictionary{TKey, TValue}"/>.
+    /// as <see cref="ReadOnlyDictionary{TKey,TValue}"/> also implements <see cref="IDictionary{TKey, TValue}"/>.
     /// </summary>
     /// <typeparam name="TKey">The type of the keys in the dictionary.</typeparam>
     /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
@@ -2847,7 +2917,6 @@ internal class TrackingTestDictionary : IDictionary<int, string>
 internal class TrackingDictionaryEnumerator : IEnumerator<KeyValuePair<int, string>>
 {
     private readonly KeyValuePair<int, string>[] values;
-    private int loopCount;
     private int index;
 
     public TrackingDictionaryEnumerator(KeyValuePair<int, string>[] values)
@@ -2856,14 +2925,11 @@ internal class TrackingDictionaryEnumerator : IEnumerator<KeyValuePair<int, stri
         this.values = values;
     }
 
-    public int LoopCount
-    {
-        get { return loopCount; }
-    }
+    public int LoopCount { get; private set; }
 
     public void IncreaseEnumerationCount()
     {
-        loopCount++;
+        LoopCount++;
     }
 
     public void Dispose()
@@ -2894,7 +2960,7 @@ internal class TrackingDictionaryEnumerator : IEnumerator<KeyValuePair<int, stri
 
 internal class DictionaryNotImplementingIReadOnlyDictionary<TKey, TValue> : IDictionary<TKey, TValue>
 {
-    private readonly Dictionary<TKey, TValue> dictionary = new Dictionary<TKey, TValue>();
+    private readonly Dictionary<TKey, TValue> dictionary = new();
 
     public TValue this[TKey key] { get => dictionary[key]; set => throw new NotImplementedException(); }
 

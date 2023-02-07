@@ -77,7 +77,8 @@ public partial class StringAssertionSpecs
         public class ContainExactly
         {
             [Fact]
-            public void When_string_containment_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw()
+            public void
+                When_string_containment_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw()
             {
                 // Arrange
                 string actual = "ABCDEF";
@@ -88,7 +89,8 @@ public partial class StringAssertionSpecs
 
                 // Assert
                 act.Should().Throw<XunitException>()
-                    .WithMessage("Expected * \"ABCDEF\" to contain \"XYS\" exactly 1 time because that is required, but found it 0 times.");
+                    .WithMessage(
+                        "Expected * \"ABCDEF\" to contain \"XYS\" exactly 1 time because that is required, but found it 0 times.");
             }
 
             [Fact]
@@ -138,7 +140,8 @@ public partial class StringAssertionSpecs
             }
 
             [Fact]
-            public void When_string_containment_exactly_is_asserted_and_actual_value_contains_the_expected_string_exactly_expected_times_it_should_not_throw()
+            public void
+                When_string_containment_exactly_is_asserted_and_actual_value_contains_the_expected_string_exactly_expected_times_it_should_not_throw()
             {
                 // Arrange
                 string actual = "ABCDEBCDF";
@@ -152,7 +155,8 @@ public partial class StringAssertionSpecs
             }
 
             [Fact]
-            public void When_string_containment_exactly_is_asserted_and_actual_value_contains_the_expected_string_but_not_exactly_expected_times_it_should_throw()
+            public void
+                When_string_containment_exactly_is_asserted_and_actual_value_contains_the_expected_string_but_not_exactly_expected_times_it_should_throw()
             {
                 // Arrange
                 string actual = "ABCDEBCDF";
@@ -170,7 +174,8 @@ public partial class StringAssertionSpecs
         public class ContainAtLeast
         {
             [Fact]
-            public void When_string_containment_at_least_is_asserted_and_actual_value_contains_the_expected_string_at_least_expected_times_it_should_not_throw()
+            public void
+                When_string_containment_at_least_is_asserted_and_actual_value_contains_the_expected_string_at_least_expected_times_it_should_not_throw()
             {
                 // Arrange
                 string actual = "ABCDEBCDF";
@@ -184,7 +189,8 @@ public partial class StringAssertionSpecs
             }
 
             [Fact]
-            public void When_string_containment_at_least_is_asserted_and_actual_value_contains_the_expected_string_but_not_at_least_expected_times_it_should_throw()
+            public void
+                When_string_containment_at_least_is_asserted_and_actual_value_contains_the_expected_string_but_not_at_least_expected_times_it_should_throw()
             {
                 // Arrange
                 string actual = "ABCDEBCDF";
@@ -199,7 +205,8 @@ public partial class StringAssertionSpecs
             }
 
             [Fact]
-            public void When_string_containment_at_least_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
+            public void
+                When_string_containment_at_least_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw_earlier()
             {
                 // Arrange
                 string actual = "ABCDEF";
@@ -232,7 +239,8 @@ public partial class StringAssertionSpecs
         public class ContainMoreThan
         {
             [Fact]
-            public void When_string_containment_more_than_is_asserted_and_actual_value_contains_the_expected_string_more_than_expected_times_it_should_not_throw()
+            public void
+                When_string_containment_more_than_is_asserted_and_actual_value_contains_the_expected_string_more_than_expected_times_it_should_not_throw()
             {
                 // Arrange
                 string actual = "ABCDEBCDF";
@@ -246,7 +254,8 @@ public partial class StringAssertionSpecs
             }
 
             [Fact]
-            public void When_string_containment_more_than_is_asserted_and_actual_value_contains_the_expected_string_but_not_more_than_expected_times_it_should_throw()
+            public void
+                When_string_containment_more_than_is_asserted_and_actual_value_contains_the_expected_string_but_not_more_than_expected_times_it_should_throw()
             {
                 // Arrange
                 string actual = "ABCDEBCDF";
@@ -261,7 +270,8 @@ public partial class StringAssertionSpecs
             }
 
             [Fact]
-            public void When_string_containment_more_than_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw()
+            public void
+                When_string_containment_more_than_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_throw()
             {
                 // Arrange
                 string actual = "ABCDEF";
@@ -294,7 +304,8 @@ public partial class StringAssertionSpecs
         public class ContainAtMost
         {
             [Fact]
-            public void When_string_containment_at_most_is_asserted_and_actual_value_contains_the_expected_string_at_most_expected_times_it_should_not_throw()
+            public void
+                When_string_containment_at_most_is_asserted_and_actual_value_contains_the_expected_string_at_most_expected_times_it_should_not_throw()
             {
                 // Arrange
                 string actual = "ABCDEBCDF";
@@ -308,7 +319,8 @@ public partial class StringAssertionSpecs
             }
 
             [Fact]
-            public void When_string_containment_at_most_is_asserted_and_actual_value_contains_the_expected_string_but_not_at_most_expected_times_it_should_throw()
+            public void
+                When_string_containment_at_most_is_asserted_and_actual_value_contains_the_expected_string_but_not_at_most_expected_times_it_should_throw()
             {
                 // Arrange
                 string actual = "ABCDEBCDF";
@@ -323,7 +335,8 @@ public partial class StringAssertionSpecs
             }
 
             [Fact]
-            public void When_string_containment_at_most_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_not_throw()
+            public void
+                When_string_containment_at_most_once_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_not_throw()
             {
                 // Arrange
                 string actual = "ABCDEF";
@@ -354,7 +367,8 @@ public partial class StringAssertionSpecs
         public class ContainsLessThan
         {
             [Fact]
-            public void When_string_containment_less_than_is_asserted_and_actual_value_contains_the_expected_string_less_than_expected_times_it_should_not_throw()
+            public void
+                When_string_containment_less_than_is_asserted_and_actual_value_contains_the_expected_string_less_than_expected_times_it_should_not_throw()
             {
                 // Arrange
                 string actual = "ABCDEBCDF";
@@ -368,7 +382,8 @@ public partial class StringAssertionSpecs
             }
 
             [Fact]
-            public void When_string_containment_less_than_is_asserted_and_actual_value_contains_the_expected_string_but_not_less_than_expected_times_it_should_throw()
+            public void
+                When_string_containment_less_than_is_asserted_and_actual_value_contains_the_expected_string_but_not_less_than_expected_times_it_should_throw()
             {
                 // Arrange
                 string actual = "ABCDEBCDF";
@@ -383,7 +398,8 @@ public partial class StringAssertionSpecs
             }
 
             [Fact]
-            public void When_string_containment_less_than_twice_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_not_throw()
+            public void
+                When_string_containment_less_than_twice_is_asserted_and_actual_value_does_not_contain_the_expected_string_it_should_not_throw()
             {
                 // Arrange
                 string actual = "ABCDEF";

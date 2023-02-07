@@ -36,7 +36,7 @@ public class PropertyInfoSelector : IEnumerable<PropertyInfo>
 
         selectedProperties = types.SelectMany(t => t
             .GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance
-                            | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static));
+                | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static));
     }
 
     /// <summary>

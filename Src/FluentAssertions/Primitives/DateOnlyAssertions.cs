@@ -5,7 +5,6 @@ using System.Linq;
 using FluentAssertions.Execution;
 
 #if NET6_0_OR_GREATER
-
 namespace FluentAssertions.Primitives;
 
 /// <summary>
@@ -330,7 +329,8 @@ public class DateOnlyAssertions<TAssertions>
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject.HasValue)
-            .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but found a <null> DateOnly.", unexpected)
+            .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but found a <null> DateOnly.",
+                unexpected)
             .Then
             .ForCondition(Subject.Value.Year != unexpected)
             .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but it was.", unexpected,
@@ -500,7 +500,8 @@ public class DateOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeOneOf(IEnumerable<DateOnly?> validValues, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeOneOf(IEnumerable<DateOnly?> validValues, string because = "",
+        params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(validValues.Contains(Subject))

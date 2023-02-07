@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq.Expressions;
 using System.Reflection;
-
 using FluentAssertions.Equivalency;
 
 namespace FluentAssertions.Data;
@@ -14,18 +13,13 @@ internal class DataEquivalencyAssertionOptions<T> : EquivalencyAssertionOptions<
     private readonly HashSet<string> excludeColumnNames = new();
     private readonly Dictionary<string, HashSet<string>> excludeColumnNamesByTableName = new();
 
-    private bool allowMismatchedTypes;
-    private bool ignoreUnmatchedColumns;
-    private RowMatchMode rowMatchMode;
-    private bool excludeOriginalData;
+    public bool AllowMismatchedTypes { get; private set; }
 
-    public bool AllowMismatchedTypes => allowMismatchedTypes;
+    public bool IgnoreUnmatchedColumns { get; private set; }
 
-    public bool IgnoreUnmatchedColumns => ignoreUnmatchedColumns;
+    public bool ExcludeOriginalData { get; private set; }
 
-    public bool ExcludeOriginalData => excludeOriginalData;
-
-    public RowMatchMode RowMatchMode => rowMatchMode;
+    public RowMatchMode RowMatchMode { get; private set; }
 
     public ISet<string> ExcludeTableNames => excludeTableNames;
 
@@ -38,25 +32,25 @@ internal class DataEquivalencyAssertionOptions<T> : EquivalencyAssertionOptions<
 
     public IDataEquivalencyAssertionOptions<T> AllowingMismatchedTypes()
     {
-        allowMismatchedTypes = true;
+        AllowMismatchedTypes = true;
         return this;
     }
 
     public IDataEquivalencyAssertionOptions<T> IgnoringUnmatchedColumns()
     {
-        ignoreUnmatchedColumns = true;
+        IgnoreUnmatchedColumns = true;
         return this;
     }
 
     public IDataEquivalencyAssertionOptions<T> UsingRowMatchMode(RowMatchMode rowMatchMode)
     {
-        this.rowMatchMode = rowMatchMode;
+        RowMatchMode = rowMatchMode;
         return this;
     }
 
     public IDataEquivalencyAssertionOptions<T> ExcludingOriginalData()
     {
-        excludeOriginalData = true;
+        ExcludeOriginalData = true;
         return this;
     }
 
@@ -109,7 +103,8 @@ internal class DataEquivalencyAssertionOptions<T> : EquivalencyAssertionOptions<
         return this;
     }
 
-    private void ExcludeMemberOfRelatedTypeByGeneratedPredicate<TDeclaringType, TPropertyType>(Expression<Func<TDeclaringType, TPropertyType>> expression)
+    private void ExcludeMemberOfRelatedTypeByGeneratedPredicate<TDeclaringType, TPropertyType>(
+        Expression<Func<TDeclaringType, TPropertyType>> expression)
     {
         Expression<Func<IMemberInfo, bool>> predicate = BuildMemberSelectionPredicate(
             typeof(TDeclaringType),
@@ -118,7 +113,8 @@ internal class DataEquivalencyAssertionOptions<T> : EquivalencyAssertionOptions<
         Excluding(predicate);
     }
 
-    private void ExcludeMemberOfSubtypeOfRelatedTypeByGeneratedPredicate<TDeclaringType, TInheritingType, TPropertyType>(Expression<Func<TDeclaringType, TPropertyType>> expression)
+    private void ExcludeMemberOfSubtypeOfRelatedTypeByGeneratedPredicate<TDeclaringType, TInheritingType, TPropertyType>(
+        Expression<Func<TDeclaringType, TPropertyType>> expression)
         where TInheritingType : TDeclaringType
     {
         Expression<Func<IMemberInfo, bool>> predicate = BuildMemberSelectionPredicate(
@@ -130,8 +126,8 @@ internal class DataEquivalencyAssertionOptions<T> : EquivalencyAssertionOptions<
 
     private static MemberInfo GetMemberAccessTargetMember(Expression expression)
     {
-        if ((expression is UnaryExpression unaryExpression)
-         && (unaryExpression.NodeType == ExpressionType.Convert))
+        if (expression is UnaryExpression unaryExpression
+            && unaryExpression.NodeType == ExpressionType.Convert)
         {
             // If the expression is a value type, then accessing it will involve an
             // implicit boxing conversion to type object that we need to ignore.
@@ -146,7 +142,8 @@ internal class DataEquivalencyAssertionOptions<T> : EquivalencyAssertionOptions<
         throw new ArgumentException("Expression must be a simple member access", nameof(expression));
     }
 
-    private static Expression<Func<IMemberInfo, bool>> BuildMemberSelectionPredicate(Type relatedSubjectType, MemberInfo referencedMember)
+    private static Expression<Func<IMemberInfo, bool>> BuildMemberSelectionPredicate(Type relatedSubjectType,
+        MemberInfo referencedMember)
     {
         ParameterExpression predicateMemberInfoArgument = Expression.Parameter(typeof(IMemberInfo));
 
@@ -260,7 +257,7 @@ internal class DataEquivalencyAssertionOptions<T> : EquivalencyAssertionOptions<
         }
 
         if (excludeColumnNamesByTableName.TryGetValue(column.Table.TableName, out HashSet<string> excludeColumnsForTable)
-         && excludeColumnsForTable.Contains(column.ColumnName))
+            && excludeColumnsForTable.Contains(column.ColumnName))
         {
             return true;
         }

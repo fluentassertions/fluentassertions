@@ -237,6 +237,7 @@ public class TypedDataSetSpecs : DataSpecs
 
         // Act & Assert
         IEnumerable<string> excludedTables = new[] { "TypedDataTable1" };
+
         dataSet1.Should().BeEquivalentTo(dataSet2,
             config => config.Excluding(dataSet => dataSet.HasErrors).ExcludingTables(excludedTables));
     }
@@ -346,7 +347,7 @@ public class TypedDataSetSpecs : DataSpecs
         var dataSet2 = new TypedDataSetSubclass(dataSet1);
 
         dataSet2.RemotingFormat =
-            (dataSet2.RemotingFormat == SerializationFormat.Binary)
+            dataSet2.RemotingFormat == SerializationFormat.Binary
                 ? SerializationFormat.Xml
                 : SerializationFormat.Binary;
 
@@ -366,14 +367,14 @@ public class TypedDataSetSpecs : DataSpecs
         var dataSet2 = new TypedDataSetSubclass(dataSet1);
 
         dataSet2.RemotingFormat =
-            (dataSet2.RemotingFormat == SerializationFormat.Binary)
+            dataSet2.RemotingFormat == SerializationFormat.Binary
                 ? SerializationFormat.Xml
                 : SerializationFormat.Binary;
 
         // Act & Assert
         dataSet1.Should().BeEquivalentTo(dataSet2, options => options
             .Excluding(dataSet => dataSet.RemotingFormat)
-            .ExcludingRelated((DataTable dataTable) => dataTable.RemotingFormat));
+            .ExcludingRelated(dataTable => dataTable.RemotingFormat));
     }
 
     [Fact]
@@ -385,7 +386,7 @@ public class TypedDataSetSpecs : DataSpecs
         var dataSet2 = new TypedDataSetSubclass(dataSet1);
 
         dataSet2.SchemaSerializationMode =
-            (dataSet2.SchemaSerializationMode == SchemaSerializationMode.ExcludeSchema)
+            dataSet2.SchemaSerializationMode == SchemaSerializationMode.ExcludeSchema
                 ? SchemaSerializationMode.IncludeSchema
                 : SchemaSerializationMode.ExcludeSchema;
 
@@ -405,7 +406,7 @@ public class TypedDataSetSpecs : DataSpecs
         var dataSet2 = new TypedDataSetSubclass(dataSet1);
 
         dataSet2.SchemaSerializationMode =
-            (dataSet2.SchemaSerializationMode == SchemaSerializationMode.ExcludeSchema)
+            dataSet2.SchemaSerializationMode == SchemaSerializationMode.ExcludeSchema
                 ? SchemaSerializationMode.IncludeSchema
                 : SchemaSerializationMode.ExcludeSchema;
 
@@ -506,8 +507,8 @@ public class TypedDataSetSpecs : DataSpecs
         // Act & Assert
         dataSet1.Should().BeEquivalentTo(dataSet2, options => options
             .Excluding(dataSet => dataSet.Relations)
-            .ExcludingRelated((DataTable dataTable) => dataTable.ParentRelations)
-            .ExcludingRelated((DataTable dataTable) => dataTable.ChildRelations));
+            .ExcludingRelated(dataTable => dataTable.ParentRelations)
+            .ExcludingRelated(dataTable => dataTable.ChildRelations));
     }
 
     [Fact]

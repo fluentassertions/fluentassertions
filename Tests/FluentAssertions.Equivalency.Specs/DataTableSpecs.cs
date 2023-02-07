@@ -63,7 +63,8 @@ public class DataTableSpecs : DataSpecs
     }
 
     [Fact]
-    public void When_data_table_type_does_not_match_and_assertion_is_not_configured_to_allow_mismatched_types_equivalence_test_should_fail()
+    public void
+        When_data_table_type_does_not_match_and_assertion_is_not_configured_to_allow_mismatched_types_equivalence_test_should_fail()
     {
         // Arrange
         var typedDataSet = CreateDummyDataSet<TypedDataSet>(identicalTables: true);
@@ -76,11 +77,13 @@ public class DataTableSpecs : DataSpecs
         Action action = () => dataTable.Should().BeEquivalentTo(dataTableOfMismatchedType);
 
         // Assert
-        action.Should().Throw<XunitException>().WithMessage("Expected dataTable to be of type *TypedDataTable1*, but found *System.Data.DataTable*");
+        action.Should().Throw<XunitException>()
+            .WithMessage("Expected dataTable to be of type *TypedDataTable1*, but found *System.Data.DataTable*");
     }
 
     [Fact]
-    public void When_data_table_type_does_not_match_but_assertion_is_configured_to_allow_mismatched_types_equivalence_test_should_succeed()
+    public void
+        When_data_table_type_does_not_match_but_assertion_is_configured_to_allow_mismatched_types_equivalence_test_should_succeed()
     {
         // Arrange
         var typedDataSet = CreateDummyDataSet<TypedDataSet>(identicalTables: true);
@@ -109,7 +112,8 @@ public class DataTableSpecs : DataSpecs
         Action action = () => dataTable1.Should().BeEquivalentTo(dataTable2);
 
         // Assert
-        action.Should().Throw<XunitException>().WithMessage("Expected dataTable1 to have TableName *different*, but found *TypedDataTable1* instead*");
+        action.Should().Throw<XunitException>()
+            .WithMessage("Expected dataTable1 to have TableName *different*, but found *TypedDataTable1* instead*");
     }
 
     [Fact]
@@ -128,13 +132,14 @@ public class DataTableSpecs : DataSpecs
         dataTable1.Should().BeEquivalentTo(
             dataTable2,
             options => options
-            .Excluding(dataTable => dataTable.TableName)
-            .ExcludingRelated((DataColumn dataColumn) => dataColumn.Table)
-            .ExcludingRelated((Constraint constraint) => constraint.Table));
+                .Excluding(dataTable => dataTable.TableName)
+                .ExcludingRelated((DataColumn dataColumn) => dataColumn.Table)
+                .ExcludingRelated((Constraint constraint) => constraint.Table));
     }
 
     [Fact]
-    public void When_data_table_case_sensitivity_does_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail()
+    public void
+        When_data_table_case_sensitivity_does_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail()
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -150,11 +155,13 @@ public class DataTableSpecs : DataSpecs
         Action action = () => dataTable1.Should().BeEquivalentTo(dataTable2);
 
         // Assert
-        action.Should().Throw<XunitException>().WithMessage("Expected dataTable1 to have CaseSensitive value of True, but found False instead*");
+        action.Should().Throw<XunitException>()
+            .WithMessage("Expected dataTable1 to have CaseSensitive value of True, but found False instead*");
     }
 
     [Fact]
-    public void When_data_table_case_sensitivity_does_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed()
+    public void
+        When_data_table_case_sensitivity_does_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed()
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -171,7 +178,8 @@ public class DataTableSpecs : DataSpecs
     }
 
     [Fact]
-    public void When_data_table_display_expression_does_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail()
+    public void
+        When_data_table_display_expression_does_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail()
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -191,7 +199,8 @@ public class DataTableSpecs : DataSpecs
     }
 
     [Fact]
-    public void When_data_table_display_expression_does_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed()
+    public void
+        When_data_table_display_expression_does_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed()
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -208,7 +217,8 @@ public class DataTableSpecs : DataSpecs
     }
 
     [Fact]
-    public void When_one_data_table_has_errors_and_the_other_does_not_and_the_property_that_indicates_the_presence_of_errors_is_not_excluded_equivalence_test_should_fail()
+    public void
+        When_one_data_table_has_errors_and_the_other_does_not_and_the_property_that_indicates_the_presence_of_errors_is_not_excluded_equivalence_test_should_fail()
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -228,7 +238,8 @@ public class DataTableSpecs : DataSpecs
     }
 
     [Fact]
-    public void When_one_data_table_has_errors_and_the_other_does_not_but_the_property_that_indicates_the_presence_of_errors_is_excluded_equivalence_test_should_succeed()
+    public void
+        When_one_data_table_has_errors_and_the_other_does_not_but_the_property_that_indicates_the_presence_of_errors_is_excluded_equivalence_test_should_succeed()
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -247,7 +258,8 @@ public class DataTableSpecs : DataSpecs
     }
 
     [Fact]
-    public void When_data_table_locale_does_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail()
+    public void
+        When_data_table_locale_does_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail()
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -264,7 +276,8 @@ public class DataTableSpecs : DataSpecs
         Action action = () => dataTable1.Should().BeEquivalentTo(dataTable2);
 
         // Assert
-        action.Should().Throw<XunitException>().WithMessage("Expected dataTable1 to have Locale value of *fr-CA*, but found *en-US* instead*");
+        action.Should().Throw<XunitException>()
+            .WithMessage("Expected dataTable1 to have Locale value of *fr-CA*, but found *en-US* instead*");
     }
 
     [Fact]
@@ -286,7 +299,8 @@ public class DataTableSpecs : DataSpecs
     }
 
     [Fact]
-    public void When_data_table_namespace_does_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail()
+    public void
+        When_data_table_namespace_does_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail()
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -302,11 +316,13 @@ public class DataTableSpecs : DataSpecs
         Action action = () => dataTable1.Should().BeEquivalentTo(dataTable2);
 
         // Assert
-        action.Should().Throw<XunitException>().WithMessage("Expected dataTable1 to have Namespace value of *different*, but found *");
+        action.Should().Throw<XunitException>()
+            .WithMessage("Expected dataTable1 to have Namespace value of *different*, but found *");
     }
 
     [Fact]
-    public void When_data_table_namespace_does_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed()
+    public void
+        When_data_table_namespace_does_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed()
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -325,7 +341,8 @@ public class DataTableSpecs : DataSpecs
     }
 
     [Fact]
-    public void When_data_table_prefix_does_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail()
+    public void
+        When_data_table_prefix_does_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail()
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -341,7 +358,8 @@ public class DataTableSpecs : DataSpecs
         Action action = () => dataTable1.Should().BeEquivalentTo(dataTable2);
 
         // Assert
-        action.Should().Throw<XunitException>().WithMessage("Expected dataTable1 to have Prefix value of *different*, but found * instead*");
+        action.Should().Throw<XunitException>()
+            .WithMessage("Expected dataTable1 to have Prefix value of *different*, but found * instead*");
     }
 
     [Fact]
@@ -362,7 +380,8 @@ public class DataTableSpecs : DataSpecs
     }
 
     [Fact]
-    public void When_data_table_remoting_format_does_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail()
+    public void
+        When_data_table_remoting_format_does_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail()
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -370,9 +389,9 @@ public class DataTableSpecs : DataSpecs
         var typedDataSet2 = new TypedDataSetSubclass(typedDataSet1);
 
         typedDataSet2.RemotingFormat =
-            (typedDataSet2.RemotingFormat == SerializationFormat.Binary)
-            ? SerializationFormat.Xml
-            : SerializationFormat.Binary;
+            typedDataSet2.RemotingFormat == SerializationFormat.Binary
+                ? SerializationFormat.Xml
+                : SerializationFormat.Binary;
 
         var dataTable1 = typedDataSet1.ToUntypedDataSet().Tables["TypedDataTable1"];
         var dataTable2 = typedDataSet2.ToUntypedDataSet().Tables["TypedDataTable1"];
@@ -381,11 +400,13 @@ public class DataTableSpecs : DataSpecs
         Action action = () => dataTable1.Should().BeEquivalentTo(dataTable2);
 
         // Assert
-        action.Should().Throw<XunitException>().WithMessage("Expected dataTable1 to have RemotingFormat value of *Binary*, but found *Xml* instead*");
+        action.Should().Throw<XunitException>()
+            .WithMessage("Expected dataTable1 to have RemotingFormat value of *Binary*, but found *Xml* instead*");
     }
 
     [Fact]
-    public void When_data_table_remoting_format_does_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed()
+    public void
+        When_data_table_remoting_format_does_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed()
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -393,9 +414,9 @@ public class DataTableSpecs : DataSpecs
         var typedDataSet2 = new TypedDataSetSubclass(typedDataSet1);
 
         typedDataSet2.RemotingFormat =
-            (typedDataSet2.RemotingFormat == SerializationFormat.Binary)
-            ? SerializationFormat.Xml
-            : SerializationFormat.Binary;
+            typedDataSet2.RemotingFormat == SerializationFormat.Binary
+                ? SerializationFormat.Xml
+                : SerializationFormat.Binary;
 
         var dataTable1 = typedDataSet1.ToUntypedDataSet().Tables["TypedDataTable1"];
         var dataTable2 = typedDataSet2.ToUntypedDataSet().Tables["TypedDataTable1"];
@@ -408,7 +429,8 @@ public class DataTableSpecs : DataSpecs
 
     [Theory]
     [MemberData(nameof(AllChangeTypes))]
-    public void When_data_table_columns_do_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail(ChangeType changeType)
+    public void When_data_table_columns_do_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail(
+        ChangeType changeType)
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -429,7 +451,8 @@ public class DataTableSpecs : DataSpecs
 
     [Theory]
     [MemberData(nameof(AllChangeTypes))]
-    public void When_data_table_columns_do_not_match_but_columns_and_rows_are_excluded_equivalence_test_should_succeed(ChangeType changeType)
+    public void When_data_table_columns_do_not_match_but_columns_and_rows_are_excluded_equivalence_test_should_succeed(
+        ChangeType changeType)
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -449,7 +472,9 @@ public class DataTableSpecs : DataSpecs
 
     [Theory]
     [MemberData(nameof(AllChangeTypes))]
-    public void When_data_table_extended_properties_do_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail(ChangeType changeType)
+    public void
+        When_data_table_extended_properties_do_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail(
+            ChangeType changeType)
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -470,7 +495,9 @@ public class DataTableSpecs : DataSpecs
 
     [Theory]
     [MemberData(nameof(AllChangeTypes))]
-    public void When_data_table_extended_properties_do_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed(ChangeType changeType)
+    public void
+        When_data_table_extended_properties_do_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed(
+            ChangeType changeType)
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -487,7 +514,8 @@ public class DataTableSpecs : DataSpecs
     }
 
     [Fact]
-    public void When_data_table_primary_key_does_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail()
+    public void
+        When_data_table_primary_key_does_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail()
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -509,11 +537,14 @@ public class DataTableSpecs : DataSpecs
                 .Excluding(dataTable => dataTable.Constraints));
 
         // Assert
-        action.Should().Throw<XunitException>().WithMessage("Expected property dataTable1.PrimaryKey to be a collection with * item(s), but *contains * item(s) less than*");
+        action.Should().Throw<XunitException>()
+            .WithMessage(
+                "Expected property dataTable1.PrimaryKey to be a collection with * item(s), but *contains * item(s) less than*");
     }
 
     [Fact]
-    public void When_data_table_primary_key_does_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed()
+    public void
+        When_data_table_primary_key_does_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed()
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -546,7 +577,8 @@ public class DataTableSpecs : DataSpecs
     [Theory]
     [InlineData(NumberOfColumnsInConstraintDifference.SingleColumn)]
     [InlineData(NumberOfColumnsInConstraintDifference.MultipleColumns)]
-    public void When_columns_for_constraint_in_data_table_do_not_match_message_should_list_all_columns_involved(NumberOfColumnsInConstraintDifference difference)
+    public void When_columns_for_constraint_in_data_table_do_not_match_message_should_list_all_columns_involved(
+        NumberOfColumnsInConstraintDifference difference)
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -580,6 +612,7 @@ public class DataTableSpecs : DataSpecs
 
         var missingColumnNames = dataTable2ColumnsForConstraint.Select(col => col.ColumnName)
             .Except(dataTable1ColumnsForConstraint.Select(col => col.ColumnName));
+
         var extraColumnNames = dataTable1ColumnsForConstraint.Select(col => col.ColumnName)
             .Except(dataTable2ColumnsForConstraint.Select(col => col.ColumnName));
 
@@ -598,7 +631,9 @@ public class DataTableSpecs : DataSpecs
 
     [Theory]
     [MemberData(nameof(AllChangeTypes))]
-    public void When_data_table_constraints_do_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail(ChangeType changeType)
+    public void
+        When_data_table_constraints_do_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail(
+            ChangeType changeType)
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -612,8 +647,8 @@ public class DataTableSpecs : DataSpecs
 
         string expectedExceptionPattern =
             changeType == ChangeType.Changed
-            ? "Found unexpected constraint named *Constraint2* in property dataTable1.Constraints*"
-            : "Expected property dataTable1.Columns[*].Unique to be *, but found *";
+                ? "Found unexpected constraint named *Constraint2* in property dataTable1.Constraints*"
+                : "Expected property dataTable1.Columns[*].Unique to be *, but found *";
 
         // Act
         Action action = () => dataTable1.Should().BeEquivalentTo(dataTable2);
@@ -624,7 +659,9 @@ public class DataTableSpecs : DataSpecs
 
     [Theory]
     [MemberData(nameof(AllChangeTypes))]
-    public void When_data_table_constraints_do_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed(ChangeType changeType)
+    public void
+        When_data_table_constraints_do_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed(
+            ChangeType changeType)
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -639,12 +676,13 @@ public class DataTableSpecs : DataSpecs
         // Act & Assert
         dataTable1.Should().BeEquivalentTo(dataTable2, options => options
             .Excluding(dataTable => dataTable.Constraints)
-            .ExcludingRelated((DataColumn dataColumn) => dataColumn.Unique));
+            .ExcludingRelated(dataColumn => dataColumn.Unique));
     }
 
     [Theory]
     [MemberData(nameof(AllChangeTypesWithAcceptChangesValues))]
-    public void When_data_table_rows_do_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail(ChangeType changeType, bool acceptChanges)
+    public void When_data_table_rows_do_not_match_and_the_corresponding_property_is_not_excluded_equivalence_test_should_fail(
+        ChangeType changeType, bool acceptChanges)
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -667,8 +705,8 @@ public class DataTableSpecs : DataSpecs
         {
             exceptionPattern =
                 acceptChanges
-                ? "Expected dataTable1.Rows[1][String] to be *different* with a length of *, but * has a length of *, differs near *"
-                : "Expected dataTable1.Rows[1] to have RowState value of *Modified*, but found *Unchanged* instead*";
+                    ? "Expected dataTable1.Rows[1][String] to be *different* with a length of *, but * has a length of *, differs near *"
+                    : "Expected dataTable1.Rows[1] to have RowState value of *Modified*, but found *Unchanged* instead*";
         }
         else
         {
@@ -685,7 +723,8 @@ public class DataTableSpecs : DataSpecs
 
     [Theory]
     [MemberData(nameof(AllChangeTypesWithAcceptChangesValues))]
-    public void When_data_table_rows_do_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed(ChangeType changeType, bool acceptChanges)
+    public void When_data_table_rows_do_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed(
+        ChangeType changeType, bool acceptChanges)
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -707,7 +746,8 @@ public class DataTableSpecs : DataSpecs
     }
 
     [Fact]
-    public void When_data_table_data_matches_in_different_order_and_the_row_match_mode_is_by_primary_key_equivalence_test_should_succeed()
+    public void
+        When_data_table_data_matches_in_different_order_and_the_row_match_mode_is_by_primary_key_equivalence_test_should_succeed()
     {
         // Arrange
         var typedDataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -851,7 +891,8 @@ public class DataTableSpecs : DataSpecs
             () => dataTable.Should().HaveColumn("Unicorn");
 
         // Assert
-        action.Should().Throw<XunitException>().WithMessage("Expected dataTable to contain a column named *Unicorn*, but it does not.");
+        action.Should().Throw<XunitException>()
+            .WithMessage("Expected dataTable to contain a column named *Unicorn*, but it does not.");
     }
 
     [Fact]
@@ -902,7 +943,8 @@ public class DataTableSpecs : DataSpecs
             () => dataTable.Should().HaveColumns(columnNames);
 
         // Assert
-        action.Should().Throw<XunitException>().WithMessage("Expected dataTable to contain a column named *Unicorn*, but it does not.");
+        action.Should().Throw<XunitException>()
+            .WithMessage("Expected dataTable to contain a column named *Unicorn*, but it does not.");
     }
 
     [Fact]
@@ -920,6 +962,7 @@ public class DataTableSpecs : DataSpecs
             () => dataTable.Should().HaveColumns(nonExistingColumnNames);
 
         // Assert
-        action.Should().Throw<XunitException>().WithMessage("Expected dataTable to contain a column named *Unicorn*, but it does not.");
+        action.Should().Throw<XunitException>()
+            .WithMessage("Expected dataTable to contain a column named *Unicorn*, but it does not.");
     }
 }

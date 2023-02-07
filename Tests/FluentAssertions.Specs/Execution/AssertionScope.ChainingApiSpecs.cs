@@ -27,7 +27,7 @@ public partial class AssertionScopeSpecs
         catch (Exception e)
         {
             // Assert
-            succeeded = (e is XunitException xUnitException) && xUnitException.Message.Contains("Second");
+            succeeded = e is XunitException xUnitException && xUnitException.Message.Contains("Second");
         }
 
         if (!succeeded)
@@ -145,6 +145,7 @@ public partial class AssertionScopeSpecs
     {
         // Arrange
         bool secondConditionEvaluated = false;
+
         try
         {
             using var _ = new AssertionScope();
@@ -195,6 +196,7 @@ public partial class AssertionScopeSpecs
         Action act = () =>
         {
             using var _ = new AssertionScope();
+
             Execute.Assertion
                 .ForCondition(false)
                 .FailWith("First assertion")
@@ -214,6 +216,7 @@ public partial class AssertionScopeSpecs
         Action act = () =>
         {
             using var _ = new AssertionScope();
+
             Execute.Assertion
                 .ForCondition(false)
                 .FailWith("First assertion")
@@ -233,6 +236,7 @@ public partial class AssertionScopeSpecs
         Action act = () =>
         {
             using var _ = new AssertionScope();
+
             Execute.Assertion
                 .ForCondition(false)
                 .FailWith("First assertion")
@@ -252,6 +256,7 @@ public partial class AssertionScopeSpecs
         Action act = () =>
         {
             using var _ = new AssertionScope();
+
             Execute.Assertion
                 .WithExpectation("Expectations are the root ")
                 .ForCondition(false)
@@ -273,6 +278,7 @@ public partial class AssertionScopeSpecs
         Action act = () =>
         {
             using var _ = new AssertionScope();
+
             Execute.Assertion
                 .WithExpectation("Expectations are the {0} ", "root")
                 .ForCondition(false)
@@ -294,6 +300,7 @@ public partial class AssertionScopeSpecs
         Action act = () =>
         {
             using var _ = new AssertionScope();
+
             Execute.Assertion
                 .WithDefaultIdentifier("identifier")
                 .ForCondition(false)
@@ -315,6 +322,7 @@ public partial class AssertionScopeSpecs
         Action act = () =>
         {
             using var _ = new AssertionScope();
+
             Execute.Assertion
                 .BecauseOf("because {0}", "whatever")
                 .ForCondition(false)
@@ -336,6 +344,7 @@ public partial class AssertionScopeSpecs
         Action act = () =>
         {
             using var _ = new AssertionScope();
+
             Execute.Assertion
                 .BecauseOf("because {0}", "whatever")
                 .ForCondition(false)

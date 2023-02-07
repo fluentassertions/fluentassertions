@@ -122,7 +122,8 @@ public static class Formatter
         }
     }
 
-    private static void FormatChild(string path, object value, FormattedObjectGraph output, FormattingContext context, FormattingOptions options, ObjectGraph graph)
+    private static void FormatChild(string path, object value, FormattedObjectGraph output, FormattingContext context,
+        FormattingOptions options, ObjectGraph graph)
     {
         try
         {
@@ -135,7 +136,7 @@ public static class Formatter
             else if (graph.Depth > options.MaxDepth)
             {
                 output.AddLine($"Maximum recursion depth of {options.MaxDepth} was reached. " +
-                       $" Increase {nameof(FormattingOptions.MaxDepth)} on {nameof(AssertionScope)} or {nameof(AssertionOptions)} to get more details.");
+                    $" Increase {nameof(FormattingOptions.MaxDepth)} on {nameof(AssertionScope)} or {nameof(AssertionOptions)} to get more details.");
             }
             else
             {

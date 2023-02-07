@@ -63,6 +63,7 @@ public class Configuration
         }
 
         string setting = store.GetSetting("valueFormatters");
+
         if (!string.IsNullOrEmpty(setting))
         {
             try
@@ -90,6 +91,7 @@ public class Configuration
             if (valueFormatterAssembly is null)
             {
                 string assemblyName = store.GetSetting("valueFormattersAssembly");
+
                 if (!string.IsNullOrEmpty(assemblyName))
                 {
                     valueFormatterAssembly = assemblyName;

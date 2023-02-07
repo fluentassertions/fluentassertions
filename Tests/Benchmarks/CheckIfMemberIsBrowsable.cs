@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
-
 using BenchmarkDotNet.Attributes;
 
 namespace Benchmarks;
@@ -12,6 +11,7 @@ public class CheckIfMemberIsBrowsableBenchmarks
     public bool IsBrowsable { get; set; }
 
     public int BrowsableField;
+
     [EditorBrowsable(EditorBrowsableState.Never)]
     public int NonBrowsableField;
 

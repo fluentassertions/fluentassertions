@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
 using Bogus;
-
 using FluentAssertions.Equivalency;
 using FluentAssertions.Equivalency.Steps;
 using FluentAssertions.Equivalency.Tracing;
@@ -37,7 +36,8 @@ public class UsersOfGetClosedGenericInterfaces
 
         public IEquivalencyValidationContext AsCollectionItem<TItem>(string index) => throw new NotImplementedException();
 
-        public IEquivalencyValidationContext AsDictionaryItem<TKey, TExpectation>(TKey key) => throw new NotImplementedException();
+        public IEquivalencyValidationContext AsDictionaryItem<TKey, TExpectation>(TKey key) =>
+            throw new NotImplementedException();
 
         public IEquivalencyValidationContext Clone() => throw new NotImplementedException();
     }
@@ -85,7 +85,7 @@ public class UsersOfGetClosedGenericInterfaces
     public Type DataType { get; set; }
 
     [GlobalSetup]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0055:Fix formatting", Justification = "Big long list of one-liners")]
+    [SuppressMessage("Style", "IDE0055:Fix formatting", Justification = "Big long list of one-liners")]
     public void GlobalSetup()
     {
         dictionaryStep = new GenericDictionaryEquivalencyStep();
@@ -151,24 +151,35 @@ public class UsersOfGetClosedGenericInterfaces
                     break;
 
                 default:
+                {
+                    if (DataType == typeof(TimeSpan))
                     {
-                        if (DataType == typeof(TimeSpan))
-                            values[i] = faker.Date.Future() - faker.Date.Future();
-                        else if (DataType == typeof(Guid))
-                            values[i] = faker.Random.Guid();
-                        else if (DataType == typeof(Dictionary<int, int>))
-                            values[i] = new Dictionary<int, int>() { { faker.Random.Int(), faker.Random.Int() } };
-                        else if (DataType == typeof(IEnumerable<int>))
-                            values[i] = new int[] { faker.Random.Int(), faker.Random.Int() };
-                        else
-                            throw new Exception("Unable to populate data of type " + DataType);
-
-                        break;
+                        values[i] = faker.Date.Future() - faker.Date.Future();
                     }
+                    else if (DataType == typeof(Guid))
+                    {
+                        values[i] = faker.Random.Guid();
+                    }
+                    else if (DataType == typeof(Dictionary<int, int>))
+                    {
+                        values[i] = new Dictionary<int, int>
+                            { { faker.Random.Int(), faker.Random.Int() } };
+                    }
+                    else if (DataType == typeof(IEnumerable<int>))
+                    {
+                        values[i] = new[] { faker.Random.Int(), faker.Random.Int() };
+                    }
+                    else
+                    {
+                        throw new Exception("Unable to populate data of type " + DataType);
+                    }
+
+                    break;
+                }
             }
         }
 
-        context = new Context()
+        context = new Context
         {
             Options = new Config()
         };

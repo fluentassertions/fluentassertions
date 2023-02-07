@@ -32,7 +32,7 @@ public class DateTimeOffsetValueFormatterSpecs
     public void When_the_offset_is_negative_it_should_include_it_in_the_output()
     {
         // Arrange
-        DateTimeOffset date = new DateTimeOffset(1973, 9, 20, 12, 59, 59, -3.Hours());
+        DateTimeOffset date = new(1973, 9, 20, 12, 59, 59, -3.Hours());
 
         // Act
         string result = Formatter.ToString(date);
@@ -110,7 +110,8 @@ public class DateTimeOffsetValueFormatterSpecs
     [InlineData("0001-02-03 00:00:00.0000100", "<0001-02-03 00:00:00.000010>")]
     [InlineData("0001-02-03 00:00:00.0000010", "<0001-02-03 00:00:00.000001>")]
     [InlineData("0001-02-03 00:00:00.0000001", "<0001-02-03 00:00:00.0000001>")]
-    public void When_datetime_components_are_not_relevant_they_should_not_be_included_in_the_output(string actual, string expected)
+    public void When_datetime_components_are_not_relevant_they_should_not_be_included_in_the_output(string actual,
+        string expected)
     {
         // Arrange
         var value = DateTime.Parse(actual, CultureInfo.InvariantCulture);
@@ -138,7 +139,8 @@ public class DateTimeOffsetValueFormatterSpecs
     [InlineData("0001-02-03 00:00:00.0000100 +1", "<0001-02-03 00:00:00.000010 +1h>")]
     [InlineData("0001-02-03 00:00:00.0000010 +1", "<0001-02-03 00:00:00.000001 +1h>")]
     [InlineData("0001-02-03 00:00:00.0000001 +1", "<0001-02-03 00:00:00.0000001 +1h>")]
-    public void When_datetimeoffset_components_are_not_relevant_they_should_not_be_included_in_the_output(string actual, string expected)
+    public void When_datetimeoffset_components_are_not_relevant_they_should_not_be_included_in_the_output(string actual,
+        string expected)
     {
         // Arrange
         var value = DateTimeOffset.Parse(actual, CultureInfo.InvariantCulture);

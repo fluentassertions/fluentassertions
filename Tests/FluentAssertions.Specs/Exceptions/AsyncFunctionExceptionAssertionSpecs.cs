@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
+using Xunit;
+using Xunit.Sdk;
 #if NETFRAMEWORK
 using FluentAssertions.Specs.Common;
 #endif
-using Xunit;
-using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Exceptions;
 
@@ -215,7 +213,7 @@ public class AsyncFunctionExceptionAssertionSpecs
 
     public static TheoryData<Func<Task>, Exception> AggregateExceptionTestData()
     {
-        var tasks = new Func<Task>[]
+        var tasks = new[]
         {
             AggregateExceptionWithLeftNestedException,
             AggregateExceptionWithRightNestedException
@@ -284,7 +282,8 @@ public class AsyncFunctionExceptionAssertionSpecs
 
         // Assert
         await action.Should().ThrowAsync<XunitException>()
-            .WithMessage("Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.ArgumentNullException.");
+            .WithMessage(
+                "Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.ArgumentNullException.");
     }
 
     [Fact]
@@ -300,7 +299,8 @@ public class AsyncFunctionExceptionAssertionSpecs
 
         // Assert
         await action.Should().ThrowAsync<XunitException>()
-            .WithMessage("Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.ArgumentNullException.");
+            .WithMessage(
+                "Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.ArgumentNullException.");
     }
 
     [Fact]
@@ -316,7 +316,8 @@ public class AsyncFunctionExceptionAssertionSpecs
 
         // Assert
         await action.Should().ThrowAsync<XunitException>()
-            .WithMessage("Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.AggregateException.");
+            .WithMessage(
+                "Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.AggregateException.");
     }
 
     [Fact]
@@ -332,7 +333,8 @@ public class AsyncFunctionExceptionAssertionSpecs
 
         // Assert
         await action.Should().ThrowAsync<XunitException>()
-            .WithMessage("Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.AggregateException.");
+            .WithMessage(
+                "Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.AggregateException.");
     }
 
     [Fact]
@@ -429,7 +431,8 @@ public class AsyncFunctionExceptionAssertionSpecs
 
         // Assert
         await action.Should().ThrowAsync<XunitException>()
-            .WithMessage("Expected a <System.InvalidOperationException> to be thrown because IFoo.Do should do that, but no exception was thrown.");
+            .WithMessage(
+                "Expected a <System.InvalidOperationException> to be thrown because IFoo.Do should do that, but no exception was thrown.");
     }
 
     [Fact]
@@ -445,7 +448,8 @@ public class AsyncFunctionExceptionAssertionSpecs
 
         // Assert
         await action.Should().ThrowAsync<XunitException>()
-            .WithMessage("Expected a <System.InvalidOperationException> to be thrown because IFoo.Do should do that, but no exception was thrown.");
+            .WithMessage(
+                "Expected a <System.InvalidOperationException> to be thrown because IFoo.Do should do that, but no exception was thrown.");
     }
 
     [Fact]
@@ -461,7 +465,8 @@ public class AsyncFunctionExceptionAssertionSpecs
 
         // Assert
         await action.Should().ThrowAsync<XunitException>()
-            .WithMessage("Expected a <System.InvalidOperationException> to be thrown because IFoo.Do should do that, but found <System.ArgumentException>*");
+            .WithMessage(
+                "Expected a <System.InvalidOperationException> to be thrown because IFoo.Do should do that, but found <System.ArgumentException>*");
     }
 
     [Fact]
@@ -477,7 +482,8 @@ public class AsyncFunctionExceptionAssertionSpecs
 
         // Assert
         await action.Should().ThrowAsync<XunitException>()
-            .WithMessage("Expected a <System.InvalidOperationException> to be thrown because IFoo.Do should do that, but found <System.ArgumentException>*");
+            .WithMessage(
+                "Expected a <System.InvalidOperationException> to be thrown because IFoo.Do should do that, but found <System.ArgumentException>*");
     }
 
     [Fact]
@@ -700,7 +706,8 @@ public class AsyncFunctionExceptionAssertionSpecs
     }
 
     [Fact]
-    public async Task When_async_method_throws_exception_through_ValueTask_and_expected_not_to_throw_another_one_it_should_succeed()
+    public async Task
+        When_async_method_throws_exception_through_ValueTask_and_expected_not_to_throw_another_one_it_should_succeed()
     {
         // Arrange
         var asyncObject = new AsyncClass();
@@ -743,7 +750,8 @@ public class AsyncFunctionExceptionAssertionSpecs
     }
 
     [Fact]
-    public async Task When_async_method_succeeds_and_expected_not_to_throw_particular_exception_through_ValueTask_it_should_succeed()
+    public async Task
+        When_async_method_succeeds_and_expected_not_to_throw_particular_exception_through_ValueTask_it_should_succeed()
     {
         // Arrange
         var asyncObject = new AsyncClass();
@@ -1102,6 +1110,7 @@ public class AsyncFunctionExceptionAssertionSpecs
     }
 
     #region NotThrowAfterAsync
+
     [Fact]
     public async Task When_wait_time_is_zero_for_async_func_executed_with_wait_it_should_not_throw()
     {
@@ -1150,6 +1159,7 @@ public class AsyncFunctionExceptionAssertionSpecs
         Func<Task> testAction = async () =>
         {
             using var _ = new AssertionScope();
+
             await action.Should().NotThrowAfterAsync(waitTime, pollInterval,
                 "because we want to test the failure {0}", "message");
         };
@@ -1249,7 +1259,8 @@ public class AsyncFunctionExceptionAssertionSpecs
     public partial class UIFacts
     {
         [UIFact]
-        public async Task When_no_exception_should_be_thrown_on_UI_thread_for_async_func_after_wait_time_but_it_was_it_should_throw()
+        public async Task
+            When_no_exception_should_be_thrown_on_UI_thread_for_async_func_after_wait_time_but_it_was_it_should_throw()
         {
             // Arrange
             var waitTime = 2.Seconds();
@@ -1310,7 +1321,8 @@ public class AsyncFunctionExceptionAssertionSpecs
     public partial class UIFacts
     {
         [UIFact]
-        public async Task When_no_exception_should_be_thrown_on_UI_thread_for_async_func_after_wait_time_and_none_was_it_should_not_throw()
+        public async Task
+            When_no_exception_should_be_thrown_on_UI_thread_for_async_func_after_wait_time_and_none_was_it_should_not_throw()
         {
             // Arrange
             var waitTime = 6.Seconds();
@@ -1337,6 +1349,7 @@ public class AsyncFunctionExceptionAssertionSpecs
             await act.Should().NotThrowAsync();
         }
     }
+
     #endregion
 }
 

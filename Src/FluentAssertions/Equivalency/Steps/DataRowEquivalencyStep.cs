@@ -12,7 +12,8 @@ namespace FluentAssertions.Equivalency.Steps;
 public class DataRowEquivalencyStep : EquivalencyStep<DataRow>
 {
     [SuppressMessage("Style", "IDE0019:Use pattern matching", Justification = "The code is easier to read without it.")]
-    protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+    protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context,
+        IEquivalencyValidator nestedValidator)
     {
         var subject = comparands.Subject as DataRow;
         var expectation = comparands.Expectation as DataRow;
@@ -54,7 +55,8 @@ public class DataRowEquivalencyStep : EquivalencyStep<DataRow>
                             expectation.GetType(), subject.GetType());
                 }
 
-                SelectedDataRowMembers selectedMembers = GetMembersFromExpectation(comparands, context.CurrentNode, context.Options);
+                SelectedDataRowMembers selectedMembers =
+                    GetMembersFromExpectation(comparands, context.CurrentNode, context.Options);
 
                 CompareScalarProperties(subject, expectation, selectedMembers);
 
@@ -98,26 +100,26 @@ public class DataRowEquivalencyStep : EquivalencyStep<DataRow>
             .Select(col => col.ColumnName);
 
         bool ignoreUnmatchedColumns =
-            (dataSetConfig?.IgnoreUnmatchedColumns == true) ||
-            (dataTableConfig?.IgnoreUnmatchedColumns == true) ||
-            (dataRowConfig?.IgnoreUnmatchedColumns == true);
+            dataSetConfig?.IgnoreUnmatchedColumns == true ||
+            dataTableConfig?.IgnoreUnmatchedColumns == true ||
+            dataRowConfig?.IgnoreUnmatchedColumns == true;
 
         DataRowVersion subjectVersion =
-            (subject.RowState == DataRowState.Deleted)
+            subject.RowState == DataRowState.Deleted
                 ? DataRowVersion.Original
                 : DataRowVersion.Current;
 
         DataRowVersion expectationVersion =
-            (expectation.RowState == DataRowState.Deleted)
+            expectation.RowState == DataRowState.Deleted
                 ? DataRowVersion.Original
                 : DataRowVersion.Current;
 
         bool compareOriginalVersions =
-            (subject.RowState == DataRowState.Modified) && (expectation.RowState == DataRowState.Modified);
+            subject.RowState == DataRowState.Modified && expectation.RowState == DataRowState.Modified;
 
-        if ((dataSetConfig?.ExcludeOriginalData == true)
-            || (dataTableConfig?.ExcludeOriginalData == true)
-            || (dataRowConfig?.ExcludeOriginalData == true))
+        if (dataSetConfig?.ExcludeOriginalData == true
+            || dataTableConfig?.ExcludeOriginalData == true
+            || dataRowConfig?.ExcludeOriginalData == true)
         {
             compareOriginalVersions = false;
         }
@@ -128,9 +130,9 @@ public class DataRowEquivalencyStep : EquivalencyStep<DataRow>
             DataColumn subjectColumn = subject.Table.Columns[columnName];
 
             if (subjectColumn is not null
-                && ((dataSetConfig?.ShouldExcludeColumn(subjectColumn) == true)
-                    || (dataTableConfig?.ShouldExcludeColumn(subjectColumn) == true)
-                    || (dataRowConfig?.ShouldExcludeColumn(subjectColumn) == true)))
+                && (dataSetConfig?.ShouldExcludeColumn(subjectColumn) == true
+                    || dataTableConfig?.ShouldExcludeColumn(subjectColumn) == true
+                    || dataRowConfig?.ShouldExcludeColumn(subjectColumn) == true))
             {
                 continue;
             }
@@ -146,7 +148,7 @@ public class DataRowEquivalencyStep : EquivalencyStep<DataRow>
                     .FailWith("Found unexpected column {0} in {context:DataRow}", columnName);
             }
 
-            if ((subjectColumn is not null) && (expectationColumn is not null))
+            if (subjectColumn is not null && expectationColumn is not null)
             {
                 CompareFieldValue(context, parent, subject, expectation, subjectColumn, subjectVersion, expectationColumn,
                     expectationVersion);
@@ -172,7 +174,8 @@ public class DataRowEquivalencyStep : EquivalencyStep<DataRow>
         if (nestedContext is not null)
         {
             parent.RecursivelyAssertEquality(
-                new Comparands(subject[subjectColumn, subjectVersion], expectation[expectationColumn, expectationVersion], typeof(object)),
+                new Comparands(subject[subjectColumn, subjectVersion], expectation[expectationColumn, expectationVersion],
+                    typeof(object)),
                 nestedContext);
         }
     }
@@ -185,7 +188,7 @@ public class DataRowEquivalencyStep : EquivalencyStep<DataRow>
     }
 
     private static readonly ConcurrentDictionary<(Type CompileTimeType, Type RuntimeType, IEquivalencyAssertionOptions Config),
-            SelectedDataRowMembers> SelectedMembersCache = new();
+        SelectedDataRowMembers> SelectedMembersCache = new();
 
     private static SelectedDataRowMembers GetMembersFromExpectation(Comparands comparands, INode currentNode,
         IEquivalencyAssertionOptions config)

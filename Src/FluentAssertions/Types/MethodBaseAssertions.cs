@@ -71,7 +71,8 @@ public abstract class MethodBaseAssertions<TSubject, TAssertions> : MemberInfoAs
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="accessModifier"/>
     /// is not a <see cref="CSharpAccessModifier"/> value.</exception>
-    public AndConstraint<TAssertions> NotHaveAccessModifier(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotHaveAccessModifier(CSharpAccessModifier accessModifier, string because = "",
+        params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 

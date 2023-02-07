@@ -39,7 +39,8 @@ public class MethodInfoSelectorAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_methods_are_virtual_but_non_virtual_methods_are_found_it_should_throw_with_descriptive_message()
+        public void
+            When_asserting_methods_are_virtual_but_non_virtual_methods_are_found_it_should_throw_with_descriptive_message()
         {
             // Arrange
             var methodSelector = new MethodInfoSelector(typeof(ClassWithNonVirtualPublicMethods));
@@ -51,11 +52,11 @@ public class MethodInfoSelectorAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods" +
-                             " to be virtual because we want to test the error message," +
-                             " but the following methods are not virtual:*" +
-                             "Void FluentAssertions*ClassWithNonVirtualPublicMethods.PublicDoNothing*" +
-                             "Void FluentAssertions*ClassWithNonVirtualPublicMethods.InternalDoNothing*" +
-                             "Void FluentAssertions*ClassWithNonVirtualPublicMethods.ProtectedDoNothing");
+                    " to be virtual because we want to test the error message," +
+                    " but the following methods are not virtual:*" +
+                    "Void FluentAssertions*ClassWithNonVirtualPublicMethods.PublicDoNothing*" +
+                    "Void FluentAssertions*ClassWithNonVirtualPublicMethods.InternalDoNothing*" +
+                    "Void FluentAssertions*ClassWithNonVirtualPublicMethods.ProtectedDoNothing");
         }
     }
 
@@ -90,7 +91,8 @@ public class MethodInfoSelectorAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_methods_are_not_virtual_but_virtual_methods_are_found_it_should_throw_with_descriptive_message()
+        public void
+            When_asserting_methods_are_not_virtual_but_virtual_methods_are_found_it_should_throw_with_descriptive_message()
         {
             // Arrange
             var methodSelector = new MethodInfoSelector(typeof(ClassWithAllMethodsVirtual));
@@ -102,11 +104,11 @@ public class MethodInfoSelectorAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods" +
-                             " not to be virtual because we want to test the error message," +
-                             " but the following methods are virtual" +
-                             "*ClassWithAllMethodsVirtual.PublicVirtualDoNothing" +
-                             "*ClassWithAllMethodsVirtual.InternalVirtualDoNothing" +
-                             "*ClassWithAllMethodsVirtual.ProtectedVirtualDoNothing*");
+                    " not to be virtual because we want to test the error message," +
+                    " but the following methods are virtual" +
+                    "*ClassWithAllMethodsVirtual.PublicVirtualDoNothing" +
+                    "*ClassWithAllMethodsVirtual.InternalVirtualDoNothing" +
+                    "*ClassWithAllMethodsVirtual.ProtectedVirtualDoNothing*");
         }
     }
 
@@ -158,7 +160,8 @@ public class MethodInfoSelectorAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_methods_are_decorated_with_attribute_but_they_are_not_it_should_throw_with_descriptive_message()
+        public void
+            When_asserting_methods_are_decorated_with_attribute_but_they_are_not_it_should_throw_with_descriptive_message()
         {
             // Arrange
             var methodSelector = new MethodInfoSelector(typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute));
@@ -170,11 +173,11 @@ public class MethodInfoSelectorAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods to be decorated with" +
-                             " FluentAssertions*DummyMethodAttribute because we want to test the error message," +
-                             " but the following methods are not:*" +
-                             "Void FluentAssertions*ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing*" +
-                             "Void FluentAssertions*ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.ProtectedDoNothing*" +
-                             "Void FluentAssertions*ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PrivateDoNothing");
+                    " FluentAssertions*DummyMethodAttribute because we want to test the error message," +
+                    " but the following methods are not:*" +
+                    "Void FluentAssertions*ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing*" +
+                    "Void FluentAssertions*ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.ProtectedDoNothing*" +
+                    "Void FluentAssertions*ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PrivateDoNothing");
         }
     }
 
@@ -226,22 +229,24 @@ public class MethodInfoSelectorAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_methods_are_not_decorated_with_attribute_but_they_are_it_should_throw_with_descriptive_message()
+        public void
+            When_asserting_methods_are_not_decorated_with_attribute_but_they_are_it_should_throw_with_descriptive_message()
         {
             // Arrange
             var methodSelector = new MethodInfoSelector(typeof(ClassWithAllMethodsDecoratedWithDummyAttribute));
 
             // Act
-            Action act = () =>
-                methodSelector.Should().NotBeDecoratedWith<DummyMethodAttribute>("because we want to test the error {0}", "message");
+            Action act = () => methodSelector.Should()
+                    .NotBeDecoratedWith<DummyMethodAttribute>("because we want to test the error {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected all selected methods to not be decorated*DummyMethodAttribute*because we want to test the error message" +
-                             "*ClassWithAllMethodsDecoratedWithDummyAttribute.PublicDoNothing*" +
-                             "*ClassWithAllMethodsDecoratedWithDummyAttribute.PublicDoNothingWithSameAttributeTwice*" +
-                             "*ClassWithAllMethodsDecoratedWithDummyAttribute.ProtectedDoNothing*" +
-                             "*ClassWithAllMethodsDecoratedWithDummyAttribute.PrivateDoNothing");
+                .WithMessage(
+                    "Expected all selected methods to not be decorated*DummyMethodAttribute*because we want to test the error message" +
+                    "*ClassWithAllMethodsDecoratedWithDummyAttribute.PublicDoNothing*" +
+                    "*ClassWithAllMethodsDecoratedWithDummyAttribute.PublicDoNothingWithSameAttributeTwice*" +
+                    "*ClassWithAllMethodsDecoratedWithDummyAttribute.ProtectedDoNothing*" +
+                    "*ClassWithAllMethodsDecoratedWithDummyAttribute.PrivateDoNothing");
         }
     }
 
@@ -274,10 +279,10 @@ public class MethodInfoSelectorAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods to be Public" +
-                             ", but the following methods are not:*" +
-                             "Void FluentAssertions*ClassWithNonPublicMethods.PublicDoNothing*" +
-                             "Void FluentAssertions*ClassWithNonPublicMethods.DoNothingWithParameter*" +
-                             "Void FluentAssertions*ClassWithNonPublicMethods.DoNothingWithAnotherParameter");
+                    ", but the following methods are not:*" +
+                    "Void FluentAssertions*ClassWithNonPublicMethods.PublicDoNothing*" +
+                    "Void FluentAssertions*ClassWithNonPublicMethods.DoNothingWithParameter*" +
+                    "Void FluentAssertions*ClassWithNonPublicMethods.DoNothingWithAnotherParameter");
         }
 
         [Fact]
@@ -293,11 +298,11 @@ public class MethodInfoSelectorAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods to be Public" +
-                             " because we want to test the error message" +
-                             ", but the following methods are not:*" +
-                             "Void FluentAssertions*ClassWithNonPublicMethods.PublicDoNothing*" +
-                             "Void FluentAssertions*ClassWithNonPublicMethods.DoNothingWithParameter*" +
-                             "Void FluentAssertions*ClassWithNonPublicMethods.DoNothingWithAnotherParameter");
+                    " because we want to test the error message" +
+                    ", but the following methods are not:*" +
+                    "Void FluentAssertions*ClassWithNonPublicMethods.PublicDoNothing*" +
+                    "Void FluentAssertions*ClassWithNonPublicMethods.DoNothingWithParameter*" +
+                    "Void FluentAssertions*ClassWithNonPublicMethods.DoNothingWithAnotherParameter");
         }
     }
 
@@ -330,8 +335,8 @@ public class MethodInfoSelectorAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods to not be Public" +
-                             ", but the following methods are:*" +
-                             "Void FluentAssertions*ClassWithPublicMethods.PublicDoNothing*");
+                    ", but the following methods are:*" +
+                    "Void FluentAssertions*ClassWithPublicMethods.PublicDoNothing*");
         }
 
         [Fact]
@@ -347,9 +352,9 @@ public class MethodInfoSelectorAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected all selected methods to not be Public" +
-                             " because we want to test the error message" +
-                             ", but the following methods are:*" +
-                             "Void FluentAssertions*ClassWithPublicMethods.PublicDoNothing*");
+                    " because we want to test the error message" +
+                    ", but the following methods are:*" +
+                    "Void FluentAssertions*ClassWithPublicMethods.PublicDoNothing*");
         }
     }
 

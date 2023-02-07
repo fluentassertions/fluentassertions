@@ -29,7 +29,7 @@ public partial class CollectionAssertionSpecs
             var collection = new object[] { 1, null, 2, "string" };
 
             // Act / Assert
-            collection.Should().ContainInOrder(new object[] { 1, null, "string" });
+            collection.Should().ContainInOrder(1, null, "string");
         }
 
         [Fact]
@@ -86,7 +86,7 @@ public partial class CollectionAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection {1, 2, 3} to contain items {4, 1} in order because we failed, " +
-                    "but 4 (index 0) did not appear (in the right order).");
+                "but 4 (index 0) did not appear (in the right order).");
         }
 
         [Fact]
@@ -119,14 +119,14 @@ public partial class CollectionAssertionSpecs
         public void Collections_contain_the_empty_sequence()
         {
             // Assert
-            new[] { 1 }.Should().ContainInOrder(new int[0]);
+            new[] { 1 }.Should().ContainInOrder();
         }
 
         [Fact]
         public void Collections_do_not_not_contain_the_empty_sequence()
         {
             // Assert
-            new[] { 1 }.Should().NotContainInOrder(new int[0]);
+            new[] { 1 }.Should().NotContainInOrder();
         }
 
         [Fact]
@@ -200,7 +200,8 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotContainInOrder(4);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Cannot verify absence of ordered containment in a <null> collection.");
+            act.Should().Throw<XunitException>()
+                .WithMessage("Cannot verify absence of ordered containment in a <null> collection.");
         }
 
         [Fact]

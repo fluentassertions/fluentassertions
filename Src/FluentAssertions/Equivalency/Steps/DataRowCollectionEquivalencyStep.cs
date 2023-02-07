@@ -8,7 +8,8 @@ namespace FluentAssertions.Equivalency.Steps;
 
 public class DataRowCollectionEquivalencyStep : EquivalencyStep<DataRowCollection>
 {
-    protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+    protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context,
+        IEquivalencyValidator nestedValidator)
     {
         if (comparands.Subject is not DataRowCollection)
         {
@@ -52,6 +53,7 @@ public class DataRowCollectionEquivalencyStep : EquivalencyStep<DataRowCollectio
                     default:
                         AssertionScope.Current.FailWith(
                             "Unknown RowMatchMode {0} when trying to compare {context:DataRowCollection}", rowMatchMode);
+
                         break;
                 }
             }
@@ -60,7 +62,8 @@ public class DataRowCollectionEquivalencyStep : EquivalencyStep<DataRowCollectio
         return EquivalencyResult.AssertionCompleted;
     }
 
-    private static void MatchRowsByIndexAndCompare(IEquivalencyValidationContext context, IEquivalencyValidator parent, DataRowCollection subject, DataRowCollection expectation)
+    private static void MatchRowsByIndexAndCompare(IEquivalencyValidationContext context, IEquivalencyValidator parent,
+        DataRowCollection subject, DataRowCollection expectation)
     {
         for (int index = 0; index < expectation.Count; index++)
         {
@@ -69,7 +72,8 @@ public class DataRowCollectionEquivalencyStep : EquivalencyStep<DataRowCollectio
         }
     }
 
-    private static void MatchRowsByPrimaryKeyAndCompare(IEquivalencyValidator parent, IEquivalencyValidationContext context, DataRowCollection subject, DataRowCollection expectation)
+    private static void MatchRowsByPrimaryKeyAndCompare(IEquivalencyValidator parent, IEquivalencyValidationContext context,
+        DataRowCollection subject, DataRowCollection expectation)
     {
         Type[] subjectPrimaryKeyTypes = null;
         Type[] expectationPrimaryKeyTypes = null;
@@ -99,7 +103,9 @@ public class DataRowCollectionEquivalencyStep : EquivalencyStep<DataRowCollectio
         if (table.PrimaryKey is null or { Length: 0 })
         {
             AssertionScope.Current
-                .FailWith("Table {0} containing {1} {context:DataRowCollection} does not have a primary key. RowMatchMode.PrimaryKey cannot be applied.", table.TableName, comparisonTerm);
+                .FailWith(
+                    "Table {0} containing {1} {context:DataRowCollection} does not have a primary key. RowMatchMode.PrimaryKey cannot be applied.",
+                    table.TableName, comparisonTerm);
         }
         else
         {
@@ -118,11 +124,11 @@ public class DataRowCollectionEquivalencyStep : EquivalencyStep<DataRowCollectio
     {
         bool matchingTypes = false;
 
-        if ((subjectPrimaryKeyTypes is not null) && (expectationPrimaryKeyTypes is not null))
+        if (subjectPrimaryKeyTypes is not null && expectationPrimaryKeyTypes is not null)
         {
             matchingTypes = subjectPrimaryKeyTypes.Length == expectationPrimaryKeyTypes.Length;
 
-            for (int i = 0; matchingTypes && (i < subjectPrimaryKeyTypes.Length); i++)
+            for (int i = 0; matchingTypes && i < subjectPrimaryKeyTypes.Length; i++)
             {
                 if (subjectPrimaryKeyTypes[i] != expectationPrimaryKeyTypes[i])
                 {
@@ -133,14 +139,16 @@ public class DataRowCollectionEquivalencyStep : EquivalencyStep<DataRowCollectio
             if (!matchingTypes)
             {
                 AssertionScope.Current
-                    .FailWith("Subject and expectation primary keys of table containing {context:DataRowCollection} do not have the same schema and cannot be compared. RowMatchMode.PrimaryKey cannot be applied.");
+                    .FailWith(
+                        "Subject and expectation primary keys of table containing {context:DataRowCollection} do not have the same schema and cannot be compared. RowMatchMode.PrimaryKey cannot be applied.");
             }
         }
 
         return matchingTypes;
     }
 
-    private static void GatherRowsByPrimaryKeyAndCompareData(IEquivalencyValidator parent, IEquivalencyValidationContext context, DataRowCollection subject, DataRowCollection expectation)
+    private static void GatherRowsByPrimaryKeyAndCompareData(IEquivalencyValidator parent, IEquivalencyValidationContext context,
+        DataRowCollection subject, DataRowCollection expectation)
     {
         var expectationRowByKey = expectation.Cast<DataRow>()
             .ToDictionary(row => ExtractPrimaryKey(row));
@@ -173,7 +181,9 @@ public class DataRowCollectionEquivalencyStep : EquivalencyStep<DataRowCollectio
             else
             {
                 AssertionScope.Current
-                    .FailWith("Expected to find a row with key {0} in {context:DataRowCollection}{reason}, but no such row was found", expectationRowByKey.Keys.Single());
+                    .FailWith(
+                        "Expected to find a row with key {0} in {context:DataRowCollection}{reason}, but no such row was found",
+                        expectationRowByKey.Keys.Single());
             }
         }
     }
@@ -218,7 +228,7 @@ public class DataRowCollectionEquivalencyStep : EquivalencyStep<DataRowCollectio
 
             for (int i = 0; i < values.Length; i++)
             {
-                hash = (hash * 389) ^ values[i].GetHashCode();
+                hash = hash * 389 ^ values[i].GetHashCode();
             }
 
             return hash;

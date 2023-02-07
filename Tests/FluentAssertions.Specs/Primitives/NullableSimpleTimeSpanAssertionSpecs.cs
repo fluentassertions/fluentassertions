@@ -143,7 +143,8 @@ public class NullableSimpleTimeSpanAssertionSpecs
     }
 
     [Fact]
-    public void When_asserting_a_nullable_TimeSpan_is_equal_to_a_different_nullable_TimeSpan_it_should_should_throw_appropriately()
+    public void
+        When_asserting_a_nullable_TimeSpan_is_equal_to_a_different_nullable_TimeSpan_it_should_should_throw_appropriately()
     {
         // Arrange
         TimeSpan? nullableTimeSpanA = 1.Seconds();
@@ -157,7 +158,8 @@ public class NullableSimpleTimeSpanAssertionSpecs
     }
 
     [Fact]
-    public void When_asserting_a_nullable_TimeSpan_is_equal_to_another_a_nullable_TimeSpan_but_it_is_null_it_should_fail_with_a_descriptive_message()
+    public void
+        When_asserting_a_nullable_TimeSpan_is_equal_to_another_a_nullable_TimeSpan_but_it_is_null_it_should_fail_with_a_descriptive_message()
     {
         // Arrange
         TimeSpan? nullableTimeSpanA = null;

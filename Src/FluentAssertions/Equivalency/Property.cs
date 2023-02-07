@@ -51,10 +51,8 @@ public class Property : Node, IMember
     {
         get
         {
-            if (isBrowsable == null)
-            {
-                isBrowsable = propertyInfo.GetCustomAttribute<EditorBrowsableAttribute>() is not { State: EditorBrowsableState.Never };
-            }
+            isBrowsable ??=
+                propertyInfo.GetCustomAttribute<EditorBrowsableAttribute>() is not { State: EditorBrowsableState.Never };
 
             return isBrowsable.Value;
         }

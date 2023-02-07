@@ -30,6 +30,7 @@ public class TestFrameworkProviderTests
         {
             TestFrameworkName = "xunit2"
         };
+
         var testFrameworkProvider = new TestFrameworkProvider(configuration);
 
         // Act
@@ -47,6 +48,7 @@ public class TestFrameworkProviderTests
         {
             TestFrameworkName = "foo"
         };
+
         var testFrameworkProvider = new TestFrameworkProvider(configuration);
 
         // Act
@@ -65,6 +67,7 @@ public class TestFrameworkProviderTests
         {
             TestFrameworkName = "nspec3"
         };
+
         var testFrameworkProvider = new TestFrameworkProvider(configuration);
 
         // Act
@@ -83,6 +86,7 @@ public class TestFrameworkProviderTests
         {
             TestFrameworkName = "nunit"
         };
+
         var testFrameworkProvider = new TestFrameworkProvider(configuration);
 
         // Act

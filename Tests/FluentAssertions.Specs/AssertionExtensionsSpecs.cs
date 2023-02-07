@@ -33,6 +33,7 @@ public class AssertionExtensionsSpecs
     {
         MethodInfo equals = t.GetMethod("Equals", BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public,
             null, new[] { typeof(object) }, null);
+
         return equals is not null;
     }
 
@@ -151,8 +152,8 @@ public class AssertionExtensionsSpecs
 
         // Assert
         fakeOverloads.Should().BeEquivalentTo(realOverloads, opt => opt
-            .Using<Type>(ctx => ctx.Subject.Name.Should().Be(ctx.Expectation.Name))
-            .WhenTypeIs<Type>(),
+                .Using<Type>(ctx => ctx.Subject.Name.Should().Be(ctx.Expectation.Name))
+                .WhenTypeIs<Type>(),
             "AssertionExtensions.cs should have a guard overload of Should calling InvalidShouldCall()");
     }
 

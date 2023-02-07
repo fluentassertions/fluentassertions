@@ -15,7 +15,6 @@ using Internal.StaticAndNonStaticClasses.Test;
 using Internal.UnwrapSelectorTestTypes.Test;
 using Internal.ValueTypesAndNotValueTypes.Test;
 using Xunit;
-using ISomeInterface = Internal.Main.Test.ISomeInterface;
 
 namespace FluentAssertions.Specs.Types
 {
@@ -281,7 +280,7 @@ namespace FluentAssertions.Specs.Types
                 .ToArray()
                 .Should()
                 .ContainSingle()
-                    .Which.Should().Be(type);
+                .Which.Should().Be(type);
         }
 
         [Fact]
@@ -298,7 +297,8 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_selecting_types_decorated_with_or_inheriting_an_inheritable_attribute_it_should_only_return_the_applicable_types()
+        public void
+            When_selecting_types_decorated_with_or_inheriting_an_inheritable_attribute_it_should_only_return_the_applicable_types()
         {
             // Arrange
             Type type = typeof(ClassWithSomeAttributeDerived);
@@ -324,7 +324,8 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_selecting_types_not_decorated_with_or_inheriting_an_inheritable_attribute_it_should_only_return_the_applicable_types()
+        public void
+            When_selecting_types_not_decorated_with_or_inheriting_an_inheritable_attribute_it_should_only_return_the_applicable_types()
         {
             // Arrange
             Type type = typeof(ClassWithSomeAttributeDerived);
@@ -350,7 +351,8 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_selecting_types_decorated_with_or_inheriting_a_noninheritable_attribute_it_should_only_return_the_applicable_types()
+        public void
+            When_selecting_types_decorated_with_or_inheriting_a_noninheritable_attribute_it_should_only_return_the_applicable_types()
         {
             // Arrange
             Type type = typeof(ClassWithSomeNonInheritableAttributeDerived);
@@ -363,7 +365,8 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_selecting_types_not_decorated_with_a_noninheritable_attribute_it_should_only_return_the_applicable_types()
+        public void
+            When_selecting_types_not_decorated_with_a_noninheritable_attribute_it_should_only_return_the_applicable_types()
         {
             // Arrange
             Type type = typeof(ClassWithSomeNonInheritableAttributeDerived);
@@ -376,7 +379,8 @@ namespace FluentAssertions.Specs.Types
         }
 
         [Fact]
-        public void When_selecting_types_not_decorated_with_or_inheriting_a_noninheritable_attribute_it_should_only_return_the_applicable_types()
+        public void
+            When_selecting_types_not_decorated_with_or_inheriting_a_noninheritable_attribute_it_should_only_return_the_applicable_types()
         {
             // Arrange
             Type type = typeof(ClassWithSomeNonInheritableAttributeDerived);
@@ -470,7 +474,10 @@ namespace FluentAssertions.Specs.Types
         public void When_selecting_types_that_are_classes_it_should_return_the_correct_types()
         {
             // Arrange
-            TypeSelector types = new[] { typeof(NotOnlyClassesClass), typeof(NotOnlyClassesEnumeration), typeof(INotOnlyClassesInterface) }.Types();
+            TypeSelector types = new[]
+            {
+                typeof(NotOnlyClassesClass), typeof(NotOnlyClassesEnumeration), typeof(INotOnlyClassesInterface)
+            }.Types();
 
             // Act
             IEnumerable<Type> filteredTypes = types.ThatAreClasses();
@@ -744,7 +751,7 @@ namespace Internal.Main.Test
     {
     }
 
-    [AttributeUsage(AttributeTargets.Class, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class)]
     internal class SomeAttribute : Attribute
     {
     }
@@ -939,7 +946,9 @@ namespace Internal.ValueTypesAndNotValueTypes.Test
 }
 
 #pragma warning disable RCS1110 // Declare type inside namespace.
-internal class ClassInGlobalNamespace { }
+internal class ClassInGlobalNamespace
+{
+}
 #pragma warning restore RCS1110
 
 #endregion

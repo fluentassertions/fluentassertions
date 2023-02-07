@@ -57,7 +57,8 @@ internal class MaximumMatchingSolver<TValue>
 
         while (breadthFirstSearchTracker.TryDequeueUnMatchedPredicate(out var unmatchedPredicate))
         {
-            var notVisitedMatchingElements = GetMatchingElements(unmatchedPredicate).Where(element => !visitedElements.Contains(element));
+            var notVisitedMatchingElements =
+                GetMatchingElements(unmatchedPredicate).Where(element => !visitedElements.Contains(element));
 
             foreach (var element in notVisitedMatchingElements)
             {
@@ -148,7 +149,10 @@ internal class MaximumMatchingSolver<TValue>
         public void ReassignElement(Element<TValue> element, Predicate<TValue> newMatchedPredicate)
         {
             var previouslyMatchedPredicate = originalMatches.GetMatchedPredicate(element);
-            previousMatchByPredicate.Add(previouslyMatchedPredicate, new Match { Predicate = newMatchedPredicate, Element = element });
+
+            previousMatchByPredicate.Add(previouslyMatchedPredicate,
+                new Match { Predicate = newMatchedPredicate, Element = element });
+
             unmatchedPredicatesQueue.Enqueue(previouslyMatchedPredicate);
         }
 

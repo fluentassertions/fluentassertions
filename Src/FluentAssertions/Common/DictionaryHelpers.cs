@@ -58,6 +58,7 @@ internal static class DictionaryHelpers
         static bool TryGetValue(TCollection collection, TKey key, out TValue value)
         {
             Func<TKey, TKey, bool> areSameOrEqual = ObjectExtensions.GetComparer<TKey>();
+
             foreach (var kvp in collection)
             {
                 if (areSameOrEqual(kvp.Key, key))

@@ -12,7 +12,8 @@ namespace FluentAssertions.Specialized;
 /// Contains a number of methods to assert that a method yields the expected result.
 /// </summary>
 [DebuggerNonUserCode]
-public abstract class DelegateAssertionsBase<TDelegate, TAssertions> : ReferenceTypeAssertions<TDelegate, DelegateAssertionsBase<TDelegate, TAssertions>>
+public abstract class DelegateAssertionsBase<TDelegate, TAssertions>
+    : ReferenceTypeAssertions<TDelegate, DelegateAssertionsBase<TDelegate, TAssertions>>
     where TDelegate : Delegate
     where TAssertions : DelegateAssertionsBase<TDelegate, TAssertions>
 {
@@ -63,6 +64,7 @@ public abstract class DelegateAssertionsBase<TDelegate, TAssertions> : Reference
         where TException : Exception
     {
         IEnumerable<TException> exceptions = extractor.OfType<TException>(exception);
+
         Execute.Assertion
             .ForCondition(!exceptions.Any())
             .BecauseOf(because, becauseArgs)

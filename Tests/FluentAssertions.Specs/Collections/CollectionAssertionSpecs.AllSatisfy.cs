@@ -56,9 +56,8 @@ public partial class CollectionAssertionSpecs
             var collection = Enumerable.Empty<int>();
 
             // Act
-            Action act = ()
-                => collection.Should()
-                    .AllSatisfy(x => x.Should().Be(1), "because we want to test the failure {0}", "message");
+            Action act = () =>
+                collection.Should().AllSatisfy(x => x.Should().Be(1), "because we want to test the failure {0}", "message");
 
             // Assert
             act.Should()
@@ -93,6 +92,7 @@ public partial class CollectionAssertionSpecs
                     customer =>
                     {
                         customer.Age.Should().BeLessThan(21);
+
                         customer.Items.Should()
                             .AllSatisfy(item => item.Should().Be(3));
                     },
@@ -113,7 +113,7 @@ public partial class CollectionAssertionSpecs
 *Expected item to be 3, but found 2
 *At index 1:
 *Expected customer.Age to be less than 21, but found 22 (difference of 1)"
-                    );
+                );
         }
 
         [Fact]

@@ -36,12 +36,14 @@ public class DateTimeOffsetValueFormatter : IValueFormatter
         formattedGraph.AddFragment("<");
 
         bool hasDate = HasDate(dateTimeOffset);
+
         if (hasDate)
         {
             formattedGraph.AddFragment(dateTimeOffset.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
         }
 
         bool hasTime = HasTime(dateTimeOffset);
+
         if (hasTime)
         {
             if (hasDate)
@@ -103,9 +105,9 @@ public class DateTimeOffsetValueFormatter : IValueFormatter
 
     private static bool HasTime(DateTimeOffset dateTime)
     {
-        return (dateTime.Hour != 0)
-            || (dateTime.Minute != 0)
-            || (dateTime.Second != 0)
+        return dateTime.Hour != 0
+            || dateTime.Minute != 0
+            || dateTime.Second != 0
             || HasMilliSeconds(dateTime)
             || HasMicroSeconds(dateTime)
             || HasNanoSeconds(dateTime);
@@ -113,7 +115,7 @@ public class DateTimeOffsetValueFormatter : IValueFormatter
 
     private static bool HasDate(DateTimeOffset dateTime)
     {
-        return (dateTime.Day != 1) || (dateTime.Month != 1) || (dateTime.Year != 1);
+        return dateTime.Day != 1 || dateTime.Month != 1 || dateTime.Year != 1;
     }
 
     private static bool HasMilliSeconds(DateTimeOffset dateTime)

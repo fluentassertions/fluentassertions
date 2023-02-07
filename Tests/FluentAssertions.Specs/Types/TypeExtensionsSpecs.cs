@@ -2,6 +2,8 @@ using System;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Text;
 using FluentAssertions.Common;
 using Xunit;
 
@@ -164,16 +166,21 @@ public class TypeExtensionsSpecs
     private static MethodInfo GetFakeConversionOperator(Type type, string name, BindingFlags bindingAttr, Type returnType)
     {
         MethodInfo[] methods = type.GetMethods(bindingAttr);
+
         return methods.SingleOrDefault(m =>
             m.Name == name
             && m.ReturnType == returnType
             && m.GetParameters().Select(p => p.ParameterType).SequenceEqual(new[] { type })
-            );
+        );
     }
 
-    private class InheritedType { }
+    private class InheritedType
+    {
+    }
 
-    private class InheritingType : InheritedType { }
+    private class InheritingType : InheritedType
+    {
+    }
 
     private readonly struct TypeWithFakeConversionOperators
     {
@@ -185,9 +192,11 @@ public class TypeExtensionsSpecs
         }
 
 #pragma warning disable IDE1006, SA1300 // These two functions mimic the compiler generated conversion operators
-        public static int op_Implicit(TypeWithFakeConversionOperators typeWithFakeConversionOperators) => typeWithFakeConversionOperators.value;
+        public static int op_Implicit(TypeWithFakeConversionOperators typeWithFakeConversionOperators) =>
+            typeWithFakeConversionOperators.value;
 
-        public static byte op_Explicit(TypeWithFakeConversionOperators typeWithFakeConversionOperators) => (byte)typeWithFakeConversionOperators.value;
+        public static byte op_Explicit(TypeWithFakeConversionOperators typeWithFakeConversionOperators) =>
+            (byte)typeWithFakeConversionOperators.value;
 #pragma warning restore SA1300, IDE1006
     }
 
@@ -197,6 +206,7 @@ public class TypeExtensionsSpecs
 
     private record struct MyRecordStructWithCustomPrintMembers(int Value)
     {
+        // ReSharper disable once RedundantNameQualifier
         private bool PrintMembers(System.Text.StringBuilder builder)
         {
             builder.Append(Value);
@@ -228,31 +238,37 @@ public class TypeExtensionsSpecs
 
         public override int GetHashCode() => Value;
 
-        [System.Runtime.CompilerServices.CompilerGenerated]
-        public static bool operator ==(MyStructWithFakeCompilerGeneratedEquality left, MyStructWithFakeCompilerGeneratedEquality right) => left.Equals(right);
+        [CompilerGenerated]
+        public static bool operator ==(MyStructWithFakeCompilerGeneratedEquality left,
+            MyStructWithFakeCompilerGeneratedEquality right) => left.Equals(right);
 
-        public static bool operator !=(MyStructWithFakeCompilerGeneratedEquality left, MyStructWithFakeCompilerGeneratedEquality right) => !left.Equals(right);
+        public static bool operator !=(MyStructWithFakeCompilerGeneratedEquality left,
+            MyStructWithFakeCompilerGeneratedEquality right) => !left.Equals(right);
     }
 
     // Note that this struct is mistakenly detected as a record struct by the current version of TypeExtensions.IsRecord.
     // This cannot be avoided at present, unless something is changed at language level,
     // or a smarter way to check for record structs is found.
-    private struct MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers : IEquatable<MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers>
+    private struct MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers
+        : IEquatable<MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers>
     {
         public int Value { get; set; }
 
         public bool Equals(MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers other) => Value == other.Value;
 
-        public override bool Equals(object obj) => obj is MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers other && Equals(other);
+        public override bool Equals(object obj) =>
+            obj is MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers other && Equals(other);
 
         public override int GetHashCode() => Value;
 
-        [System.Runtime.CompilerServices.CompilerGenerated]
-        public static bool operator ==(MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers left, MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers right) => left.Equals(right);
+        [CompilerGenerated]
+        public static bool operator ==(MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers left,
+            MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers right) => left.Equals(right);
 
-        public static bool operator !=(MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers left, MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers right) => !left.Equals(right);
+        public static bool operator !=(MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers left,
+            MyStructWithFakeCompilerGeneratedEqualityAndPrintMembers right) => !left.Equals(right);
 
-        private bool PrintMembers(System.Text.StringBuilder builder)
+        private bool PrintMembers(StringBuilder builder)
         {
             builder.Append(Value);
             return true;
@@ -269,9 +285,11 @@ public class TypeExtensionsSpecs
 
         public override int GetHashCode() => Value;
 
-        public static bool operator ==(MyStructWithOverriddenEquality left, MyStructWithOverriddenEquality right) => left.Equals(right);
+        public static bool operator ==(MyStructWithOverriddenEquality left, MyStructWithOverriddenEquality right) =>
+            left.Equals(right);
 
-        public static bool operator !=(MyStructWithOverriddenEquality left, MyStructWithOverriddenEquality right) => !left.Equals(right);
+        public static bool operator !=(MyStructWithOverriddenEquality left, MyStructWithOverriddenEquality right) =>
+            !left.Equals(right);
     }
 
     private class MyClass

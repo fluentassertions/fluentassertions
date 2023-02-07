@@ -60,7 +60,8 @@ public class NumericAssertions<T, TAssertions>
         Execute.Assertion
             .ForCondition(Subject?.CompareTo(expected) == 0)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:value} to be {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
+            .FailWith("Expected {context:value} to be {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected,
+                Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -81,7 +82,8 @@ public class NumericAssertions<T, TAssertions>
         Execute.Assertion
             .ForCondition(expected is T value ? Subject?.CompareTo(value) == 0 : !Subject.HasValue)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:value} to be {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
+            .FailWith("Expected {context:value} to be {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected,
+                Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -141,7 +143,7 @@ public class NumericAssertions<T, TAssertions>
     public AndConstraint<TAssertions> BePositive(string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(Subject?.CompareTo(default(T)) > 0)
+            .ForCondition(Subject?.CompareTo(default) > 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to be positive{reason}, but found {0}.", Subject);
 
@@ -161,7 +163,7 @@ public class NumericAssertions<T, TAssertions>
     public AndConstraint<TAssertions> BeNegative(string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(Subject is T value && !IsNaN(value) && value.CompareTo(default(T)) < 0)
+            .ForCondition(Subject is T value && !IsNaN(value) && value.CompareTo(default) < 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to be negative{reason}, but found {0}.", Subject);
 
@@ -189,7 +191,8 @@ public class NumericAssertions<T, TAssertions>
         Execute.Assertion
             .ForCondition(Subject is T value && !IsNaN(value) && value.CompareTo(expected) < 0)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:value} to be less than {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
+            .FailWith("Expected {context:value} to be less than {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected),
+                expected, Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -216,13 +219,16 @@ public class NumericAssertions<T, TAssertions>
         Execute.Assertion
             .ForCondition(Subject is T value && !IsNaN(value) && value.CompareTo(expected) <= 0)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:value} to be less than or equal to {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
+            .FailWith(
+                "Expected {context:value} to be less than or equal to {0}{reason}, but found {1}" +
+                GenerateDifferenceMessage(expected), expected, Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<TAssertions> BeLessOrEqualTo(T expected, string because = "", params object[] becauseArgs) => BeLessThanOrEqualTo(expected, because, becauseArgs);
+    public AndConstraint<TAssertions> BeLessOrEqualTo(T expected, string because = "", params object[] becauseArgs) =>
+        BeLessThanOrEqualTo(expected, because, becauseArgs);
 
     /// <summary>
     /// Asserts that the numeric value is greater than the specified <paramref name="expected"/> value.
@@ -246,7 +252,9 @@ public class NumericAssertions<T, TAssertions>
         Execute.Assertion
             .ForCondition(Subject?.CompareTo(expected) > 0)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:value} to be greater than {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
+            .FailWith(
+                "Expected {context:value} to be greater than {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected),
+                expected, Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -273,13 +281,16 @@ public class NumericAssertions<T, TAssertions>
         Execute.Assertion
             .ForCondition(Subject?.CompareTo(expected) >= 0)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:value} to be greater than or equal to {0}{reason}, but found {1}" + GenerateDifferenceMessage(expected), expected, Subject);
+            .FailWith(
+                "Expected {context:value} to be greater than or equal to {0}{reason}, but found {1}" +
+                GenerateDifferenceMessage(expected), expected, Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<TAssertions> BeGreaterOrEqualTo(T expected, string because = "", params object[] becauseArgs) => BeGreaterThanOrEqualTo(expected, because, becauseArgs);
+    public AndConstraint<TAssertions> BeGreaterOrEqualTo(T expected, string because = "", params object[] becauseArgs) =>
+        BeGreaterThanOrEqualTo(expected, because, becauseArgs);
 
     /// <summary>
     /// Asserts that a value is within a range.
@@ -309,7 +320,7 @@ public class NumericAssertions<T, TAssertions>
         }
 
         Execute.Assertion
-            .ForCondition(Subject is T value && (value.CompareTo(minimumValue) >= 0) && (value.CompareTo(maximumValue) <= 0))
+            .ForCondition(Subject is T value && value.CompareTo(minimumValue) >= 0 && value.CompareTo(maximumValue) <= 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to be between {0} and {1}{reason}, but found {2}.",
                 minimumValue, maximumValue, Subject);
@@ -345,7 +356,7 @@ public class NumericAssertions<T, TAssertions>
         }
 
         Execute.Assertion
-            .ForCondition(Subject is T value && !((value.CompareTo(minimumValue) >= 0) && (value.CompareTo(maximumValue) <= 0)))
+            .ForCondition(Subject is T value && !(value.CompareTo(minimumValue) >= 0 && value.CompareTo(maximumValue) <= 0))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:value} to not be between {0} and {1}{reason}, but found {2}.",
                 minimumValue, maximumValue, Subject);
@@ -407,6 +418,7 @@ public class NumericAssertions<T, TAssertions>
         Guard.ThrowIfArgumentIsNull(expectedType);
 
         Type subjectType = Subject?.GetType();
+
         if (expectedType.IsGenericTypeDefinition && subjectType?.IsGenericType == true)
         {
             (subjectType?.GetGenericTypeDefinition()).Should().Be(expectedType, because, becauseArgs);
@@ -495,6 +507,7 @@ public class NumericAssertions<T, TAssertions>
     private string GenerateDifferenceMessage(T? expected)
     {
         const string noDifferenceMessage = ".";
+
         if (Subject is not T subject || expected is not T expectedValue)
         {
             return noDifferenceMessage;

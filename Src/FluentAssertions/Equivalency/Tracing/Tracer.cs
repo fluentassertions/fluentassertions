@@ -47,5 +47,5 @@ public class Tracer
         }
     }
 
-    public override string ToString() => (traceWriter is not null) ? traceWriter.ToString() : string.Empty;
+    public override string ToString() => traceWriter is not null ? traceWriter.ToString() : string.Empty;
 }

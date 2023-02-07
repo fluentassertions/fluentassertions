@@ -269,7 +269,7 @@ public class StringComparisonSpecs
 
         // Act
         scope.BecauseOf("{0}", 1.234)
-             .FailWith("{reason}");
+            .FailWith("{reason}");
 
         // Assert
         scope.Invoking(e => e.Dispose()).Should().Throw<XunitException>()
@@ -314,6 +314,7 @@ public class StringComparisonSpecs
         {
             ["FOO"] = 1.234
         };
+
         var strategy = new CollectingAssertionStrategy();
         strategy.HandleFailure(string.Empty);
 
@@ -337,6 +338,7 @@ public class StringComparisonSpecs
     public void Culture_is_ignored_when_sorting_strings()
     {
         using var _ = new AssertionScope();
+
         new[] { "A", "a" }.Should().BeInAscendingOrder()
             .And.BeInAscendingOrder(e => e)
             .And.ThenBeInAscendingOrder(e => e)
@@ -369,4 +371,6 @@ public class StringComparisonSpecs
 
 // Due to CulturedTheory changing CultureInfo
 [CollectionDefinition(nameof(StringComparisonSpecs), DisableParallelization = true)]
-public class StringComparisonDefinition { }
+public class StringComparisonDefinition
+{
+}

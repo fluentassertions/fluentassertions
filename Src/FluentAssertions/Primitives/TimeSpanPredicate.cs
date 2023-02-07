@@ -7,16 +7,15 @@ namespace FluentAssertions.Primitives;
 /// </summary>
 internal class TimeSpanPredicate
 {
-    private readonly string displayText;
     private readonly Func<TimeSpan, TimeSpan, bool> lambda;
 
     public TimeSpanPredicate(Func<TimeSpan, TimeSpan, bool> lambda, string displayText)
     {
         this.lambda = lambda;
-        this.displayText = displayText;
+        DisplayText = displayText;
     }
 
-    public string DisplayText => displayText;
+    public string DisplayText { get; }
 
     public bool IsMatchedBy(TimeSpan actual, TimeSpan expected)
     {

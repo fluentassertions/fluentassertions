@@ -7,7 +7,9 @@ namespace FluentAssertions.Common;
 
 internal static class Guard
 {
-    public static void ThrowIfArgumentIsNull<T>([ValidatedNotNull] T obj, [CallerArgumentExpression(nameof(obj))] string paramName = "")
+    public static void ThrowIfArgumentIsNull<T>([ValidatedNotNull] T obj,
+        [CallerArgumentExpression(nameof(obj))]
+        string paramName = "")
     {
         if (obj is null)
         {
@@ -23,7 +25,9 @@ internal static class Guard
         }
     }
 
-    public static void ThrowIfArgumentIsNullOrEmpty([ValidatedNotNull] string str, [CallerArgumentExpression(nameof(str))] string paramName = "")
+    public static void ThrowIfArgumentIsNullOrEmpty([ValidatedNotNull] string str,
+        [CallerArgumentExpression(nameof(str))]
+        string paramName = "")
     {
         if (string.IsNullOrEmpty(str))
         {
@@ -50,7 +54,9 @@ internal static class Guard
         }
     }
 
-    public static void ThrowIfArgumentContainsNull<T>(IEnumerable<T> values, [CallerArgumentExpression(nameof(values))] string paramName = "")
+    public static void ThrowIfArgumentContainsNull<T>(IEnumerable<T> values,
+        [CallerArgumentExpression(nameof(values))]
+        string paramName = "")
     {
         if (values.Any(t => t is null))
         {
@@ -74,7 +80,9 @@ internal static class Guard
         }
     }
 
-    public static void ThrowIfArgumentIsNegative(TimeSpan timeSpan, [CallerArgumentExpression(nameof(timeSpan))] string paramName = "")
+    public static void ThrowIfArgumentIsNegative(TimeSpan timeSpan,
+        [CallerArgumentExpression(nameof(timeSpan))]
+        string paramName = "")
     {
         if (timeSpan < TimeSpan.Zero)
         {

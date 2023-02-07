@@ -83,13 +83,15 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_collection_does_not_end_with_a_specific_element_in_a_sequence_using_custom_equality_comparison_it_should_throw()
+        public void
+            When_collection_does_not_end_with_a_specific_element_in_a_sequence_using_custom_equality_comparison_it_should_throw()
         {
             // Arrange
             var collection = new[] { "john", "bill", "jane", "mike" };
 
             // Act
-            Action act = () => collection.Should().EndWith(new[] { "bill", "ryan", "mike" }, (s1, s2) => string.Equals(s1, s2, StringComparison.Ordinal), "of some reason");
+            Action act = () => collection.Should().EndWith(new[] { "bill", "ryan", "mike" },
+                (s1, s2) => string.Equals(s1, s2, StringComparison.Ordinal), "of some reason");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -123,13 +125,15 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_collection_ends_with_the_specific_sequence_of_elements_using_custom_equality_comparison_it_should_not_throw()
+        public void
+            When_collection_ends_with_the_specific_sequence_of_elements_using_custom_equality_comparison_it_should_not_throw()
         {
             // Arrange
             var collection = new[] { "john", "bill", "jane", "mike" };
 
             // Act
-            Action act = () => collection.Should().EndWith(new[] { "JaNe", "mIkE" }, (s1, s2) => string.Equals(s1, s2, StringComparison.OrdinalIgnoreCase));
+            Action act = () => collection.Should().EndWith(new[] { "JaNe", "mIkE" },
+                (s1, s2) => string.Equals(s1, s2, StringComparison.OrdinalIgnoreCase));
 
             // Assert
             act.Should().NotThrow();
@@ -162,13 +166,15 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_collection_ends_with_the_specific_sequence_with_null_elements_using_custom_equality_comparison_it_should_not_throw()
+        public void
+            When_collection_ends_with_the_specific_sequence_with_null_elements_using_custom_equality_comparison_it_should_not_throw()
         {
             // Arrange
             var collection = new[] { "john", "bill", "jane", null, "mike", null };
 
             // Act
-            Action act = () => collection.Should().EndWith(new[] { "JaNe", null, "mIkE", null }, (s1, s2) => string.Equals(s1, s2, StringComparison.OrdinalIgnoreCase));
+            Action act = () => collection.Should().EndWith(new[] { "JaNe", null, "mIkE", null },
+                (s1, s2) => string.Equals(s1, s2, StringComparison.OrdinalIgnoreCase));
 
             // Assert
             act.Should().NotThrow();

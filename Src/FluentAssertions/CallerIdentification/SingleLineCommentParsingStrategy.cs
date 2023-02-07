@@ -14,6 +14,7 @@ internal class SingleLineCommentParsingStrategy : IParsingStrategy
         }
 
         var doesSymbolStartComment = symbol is '/' && statement.Length > 0 && statement[^1] is '/';
+
         if (!doesSymbolStartComment)
         {
             return ParsingState.InProgress;

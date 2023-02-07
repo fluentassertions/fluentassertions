@@ -222,7 +222,8 @@ public class GuidAssertionSpecs
             Action action = () => subject.Should().Equals(subject);
 
             // Assert
-            action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() or BeOneOf() instead?");
+            action.Should().Throw<NotSupportedException>()
+                .WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() or BeOneOf() instead?");
         }
     }
 }

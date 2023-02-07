@@ -143,13 +143,14 @@ public class ExtensibilitySpecs
         public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions options)
         {
             string name = expectedMember.Name;
+
             if (name.EndsWith("Id", StringComparison.Ordinal))
             {
                 name = name.Replace("Id", "");
             }
 
             PropertyInfo runtimeProperty = subject.GetType().GetRuntimeProperty(name);
-            return (runtimeProperty is not null) ? new Property(runtimeProperty, parent) : null;
+            return runtimeProperty is not null ? new Property(runtimeProperty, parent) : null;
         }
     }
 
@@ -321,7 +322,7 @@ public class ExtensibilitySpecs
         act.Should().Throw<XunitException>()
             .Which.Message.Should()
             .Contain("Expected property subject.Id to be <null>, but found \"foo\"")
-                .And.NotContain("from expectation");
+            .And.NotContain("from expectation");
     }
 
     [Fact]
@@ -348,7 +349,7 @@ public class ExtensibilitySpecs
         act.Should().Throw<XunitException>()
             .Which.Message.Should()
             .Contain("Expected property subject.Id to be \"bar\", but found <null>")
-                .And.NotContain("from subject");
+            .And.NotContain("from subject");
     }
 
     [Fact]
@@ -407,7 +408,7 @@ public class ExtensibilitySpecs
 
         var expectation = new
         {
-            Date = 14.July(2012).At(13, 0, 0)
+            Date = 14.July(2012).At(13, 0)
         };
 
         // Act
@@ -434,10 +435,10 @@ public class ExtensibilitySpecs
 
         var expectation = new
         {
-            Date = 21.July(2012).At(11, 9, 0),
+            Date = 21.July(2012).At(11, 9),
             Nested = new
             {
-                NestedDate = 14.July(2012).At(13, 0, 0)
+                NestedDate = 14.July(2012).At(13, 0)
             }
         };
 
@@ -624,7 +625,8 @@ public class ExtensibilitySpecs
 
     private class AlwaysFailOnDateTimesEquivalencyStep : IEquivalencyStep
     {
-        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+            IEquivalencyValidator nestedValidator)
         {
             if (comparands.Expectation is DateTime)
             {
@@ -637,7 +639,8 @@ public class ExtensibilitySpecs
 
     private class RelaxingDateTimeEquivalencyStep : IEquivalencyStep
     {
-        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+            IEquivalencyValidator nestedValidator)
         {
             if (comparands.Expectation is DateTime time)
             {
@@ -690,7 +693,8 @@ public class ExtensibilitySpecs
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expectation, options => options
-            .Using<ClassWithSomeFieldsAndProperties>(ctx => ctx.Subject.Should().BeEquivalentTo(ctx.Expectation, nestedOptions => nestedOptions.Excluding(x => x.Property2)))
+            .Using<ClassWithSomeFieldsAndProperties>(ctx =>
+                ctx.Subject.Should().BeEquivalentTo(ctx.Expectation, nestedOptions => nestedOptions.Excluding(x => x.Property2)))
             .WhenTypeIs<ClassWithSomeFieldsAndProperties>());
 
         // Assert
@@ -806,7 +810,8 @@ public class ExtensibilitySpecs
     private class ThrowExceptionEquivalencyStep<TException> : IEquivalencyStep
         where TException : Exception, new()
     {
-        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+            IEquivalencyValidator nestedValidator)
         {
             throw new TException();
         }
@@ -814,7 +819,8 @@ public class ExtensibilitySpecs
 
     private class AlwaysHandleEquivalencyStep : IEquivalencyStep
     {
-        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+            IEquivalencyValidator nestedValidator)
         {
             return EquivalencyResult.AssertionCompleted;
         }
@@ -822,7 +828,8 @@ public class ExtensibilitySpecs
 
     private class NeverHandleEquivalencyStep : IEquivalencyStep
     {
-        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+            IEquivalencyValidator nestedValidator)
         {
             return EquivalencyResult.ContinueWithNext;
         }
@@ -830,7 +837,8 @@ public class ExtensibilitySpecs
 
     private class EqualityEquivalencyStep : IEquivalencyStep
     {
-        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+            IEquivalencyValidator nestedValidator)
         {
             comparands.Subject.Should().Be(comparands.Expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
             return EquivalencyResult.AssertionCompleted;
@@ -846,7 +854,8 @@ public class ExtensibilitySpecs
             this.doAction = doAction;
         }
 
-        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+        public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+            IEquivalencyValidator nestedValidator)
         {
             doAction();
             return EquivalencyResult.AssertionCompleted;

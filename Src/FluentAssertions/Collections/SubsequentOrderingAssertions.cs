@@ -8,8 +8,8 @@ using FluentAssertions.Common;
 namespace FluentAssertions.Collections;
 
 [DebuggerNonUserCode]
-public class SubsequentOrderingAssertions<T> :
-    SubsequentOrderingGenericCollectionAssertions<IEnumerable<T>, T, SubsequentOrderingAssertions<T>>
+public class SubsequentOrderingAssertions<T>
+    : SubsequentOrderingGenericCollectionAssertions<IEnumerable<T>, T, SubsequentOrderingAssertions<T>>
 {
     public SubsequentOrderingAssertions(IEnumerable<T> actualValue, IOrderedEnumerable<T> previousOrderedEnumerable)
         : base(actualValue, previousOrderedEnumerable)
@@ -18,8 +18,8 @@ public class SubsequentOrderingAssertions<T> :
 }
 
 [DebuggerNonUserCode]
-public class SubsequentOrderingGenericCollectionAssertions<TCollection, T> :
-    SubsequentOrderingGenericCollectionAssertions<TCollection, T, SubsequentOrderingGenericCollectionAssertions<TCollection, T>>
+public class SubsequentOrderingGenericCollectionAssertions<TCollection, T>
+    : SubsequentOrderingGenericCollectionAssertions<TCollection, T, SubsequentOrderingGenericCollectionAssertions<TCollection, T>>
     where TCollection : IEnumerable<T>
 {
     public SubsequentOrderingGenericCollectionAssertions(TCollection actualValue, IOrderedEnumerable<T> previousOrderedEnumerable)
@@ -29,8 +29,8 @@ public class SubsequentOrderingGenericCollectionAssertions<TCollection, T> :
 }
 
 [DebuggerNonUserCode]
-public class SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAssertions> :
-    GenericCollectionAssertions<TCollection, T, TAssertions>
+public class SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAssertions>
+    : GenericCollectionAssertions<TCollection, T, TAssertions>
     where TCollection : IEnumerable<T>
     where TAssertions : SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAssertions>
 {
@@ -88,9 +88,12 @@ public class SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAsse
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <see langword="null"/>.</exception>
     public AndConstraint<SubsequentOrderingAssertions<T>> ThenBeInAscendingOrder<TSelector>(
-        Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
+        Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "",
+        params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
+        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer),
+            "Cannot assert collection ordering without specifying a comparer.");
+
         return ThenBeOrderedBy(propertyExpression, comparer, SortOrder.Ascending, because, becauseArgs);
     }
 
@@ -139,9 +142,12 @@ public class SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAsse
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <see langword="null"/>.</exception>
     public AndConstraint<SubsequentOrderingAssertions<T>> ThenBeInDescendingOrder<TSelector>(
-        Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] becauseArgs)
+        Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "",
+        params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer), "Cannot assert collection ordering without specifying a comparer.");
+        Guard.ThrowIfArgumentIsNull(comparer, nameof(comparer),
+            "Cannot assert collection ordering without specifying a comparer.");
+
         return ThenBeOrderedBy(propertyExpression, comparer, SortOrder.Descending, because, becauseArgs);
     }
 
@@ -166,7 +172,7 @@ public class SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAsse
         {
             Func<T, TSelector> keySelector = propertyExpression.Compile();
 
-            IOrderedEnumerable<T> expectation = (direction == SortOrder.Ascending)
+            IOrderedEnumerable<T> expectation = direction == SortOrder.Ascending
                 ? previousOrderedEnumerable.ThenBy(keySelector, comparer)
                 : previousOrderedEnumerable.ThenByDescending(keySelector, comparer);
 

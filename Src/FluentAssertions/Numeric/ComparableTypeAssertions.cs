@@ -248,7 +248,8 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
     }
 
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<TAssertions> BeLessOrEqualTo(T expected, string because = "", params object[] becauseArgs) => BeLessThanOrEqualTo(expected, because, becauseArgs);
+    public AndConstraint<TAssertions> BeLessOrEqualTo(T expected, string because = "", params object[] becauseArgs) =>
+        BeLessThanOrEqualTo(expected, because, becauseArgs);
 
     /// <summary>
     /// Asserts that the subject is greater than another object according to its implementation of <see cref="IComparable{T}"/>.
@@ -297,7 +298,8 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
     }
 
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<TAssertions> BeGreaterOrEqualTo(T expected, string because = "", params object[] becauseArgs) => BeGreaterThanOrEqualTo(expected, because, becauseArgs);
+    public AndConstraint<TAssertions> BeGreaterOrEqualTo(T expected, string because = "", params object[] becauseArgs) =>
+        BeGreaterThanOrEqualTo(expected, because, becauseArgs);
 
     /// <summary>
     /// Asserts that a value is within a range.
@@ -322,7 +324,7 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
         params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition((Subject.CompareTo(minimumValue) >= Equal) && (Subject.CompareTo(maximumValue) <= Equal))
+            .ForCondition(Subject.CompareTo(minimumValue) >= Equal && Subject.CompareTo(maximumValue) <= Equal)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} to be between {0} and {1}{reason}, but found {2}.",
                 minimumValue, maximumValue, Subject);
@@ -353,7 +355,7 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
         params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(!((Subject.CompareTo(minimumValue) >= Equal) && (Subject.CompareTo(maximumValue) <= Equal)))
+            .ForCondition(!(Subject.CompareTo(minimumValue) >= Equal && Subject.CompareTo(maximumValue) <= Equal))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} to not be between {0} and {1}{reason}, but found {2}.",
                 minimumValue, maximumValue, Subject);

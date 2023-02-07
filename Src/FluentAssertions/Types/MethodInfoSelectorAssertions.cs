@@ -162,7 +162,8 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "",
+        params object[] becauseArgs)
         where TAttribute : Attribute
     {
         return BeDecoratedWith<TAttribute>(_ => true, because, becauseArgs);
@@ -214,7 +215,8 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "",
+        params object[] becauseArgs)
         where TAttribute : Attribute
     {
         return NotBeDecoratedWith<TAttribute>(_ => true, because, becauseArgs);
@@ -267,10 +269,13 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> Be(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> Be(CSharpAccessModifier accessModifier, string because = "",
+        params object[] becauseArgs)
     {
         var methods = SubjectMethods.Where(pi => pi.GetCSharpAccessModifier() != accessModifier).ToArray();
-        var message = $"Expected all selected methods to be {accessModifier}{{reason}}, but the following methods are not:" + Environment.NewLine + GetDescriptionsFor(methods);
+
+        var message = $"Expected all selected methods to be {accessModifier}{{reason}}, but the following methods are not:" +
+            Environment.NewLine + GetDescriptionsFor(methods);
 
         Execute.Assertion
             .ForCondition(!methods.Any())
@@ -291,10 +296,13 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> NotBe(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> NotBe(CSharpAccessModifier accessModifier, string because = "",
+        params object[] becauseArgs)
     {
         var methods = SubjectMethods.Where(pi => pi.GetCSharpAccessModifier() == accessModifier).ToArray();
-        var message = $"Expected all selected methods to not be {accessModifier}{{reason}}, but the following methods are:" + Environment.NewLine + GetDescriptionsFor(methods);
+
+        var message = $"Expected all selected methods to not be {accessModifier}{{reason}}, but the following methods are:" +
+            Environment.NewLine + GetDescriptionsFor(methods);
 
         Execute.Assertion
             .ForCondition(!methods.Any())

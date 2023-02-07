@@ -162,7 +162,8 @@ public class BooleanAssertionSpecs
             Action action = () => true.Should().Equals(true);
 
             // Assert
-            action.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
+            action.Should().Throw<NotSupportedException>()
+                .WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
         }
     }
 

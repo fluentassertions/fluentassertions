@@ -23,6 +23,7 @@ internal class MappedPathMatchingRule : IMemberMatchingRule
     {
         Guard.ThrowIfArgumentIsNullOrEmpty(expectationMemberPath,
             nameof(expectationMemberPath), "A member path cannot be null");
+
         Guard.ThrowIfArgumentIsNullOrEmpty(subjectMemberPath,
             nameof(subjectMemberPath), "A member path cannot be null");
 
@@ -31,7 +32,8 @@ internal class MappedPathMatchingRule : IMemberMatchingRule
 
         if (expectationPath.GetContainsSpecificCollectionIndex() || subjectPath.GetContainsSpecificCollectionIndex())
         {
-            throw new ArgumentException("Mapping properties containing a collection index must use the [] format without specific index.");
+            throw new ArgumentException(
+                "Mapping properties containing a collection index must use the [] format without specific index.");
         }
 
         if (!expectationPath.HasSameParentAs(subjectPath))
@@ -43,6 +45,7 @@ internal class MappedPathMatchingRule : IMemberMatchingRule
     public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions options)
     {
         MemberPath path = expectationPath;
+
         if (expectedMember.RootIsCollection)
         {
             path = path.WithCollectionAsRoot();
@@ -51,6 +54,7 @@ internal class MappedPathMatchingRule : IMemberMatchingRule
         if (path.IsEquivalentTo(expectedMember.PathAndName))
         {
             var member = MemberFactory.Find(subject, subjectPath.MemberName, parent);
+
             if (member is null)
             {
                 throw new ArgumentException(

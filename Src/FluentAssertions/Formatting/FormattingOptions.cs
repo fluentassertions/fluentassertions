@@ -25,7 +25,7 @@ public class FormattingOptions
 
     internal FormattingOptions Clone()
     {
-        return new()
+        return new FormattingOptions
         {
             UseLineBreaks = UseLineBreaks,
             MaxDepth = MaxDepth,

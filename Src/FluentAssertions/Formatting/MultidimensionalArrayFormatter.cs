@@ -47,6 +47,7 @@ public class MultidimensionalArrayFormatter : IValueFormatter
             {
                 enumerator.MoveNext();
                 formatChild(string.Join("-", dimensionIndices), enumerator.Current, formattedGraph);
+
                 if (!IsLastIteration(arr, currentDimensionIndex, currentLoopIndex))
                 {
                     formattedGraph.AddFragment(", ");
@@ -74,6 +75,7 @@ public class MultidimensionalArrayFormatter : IValueFormatter
                 }
 
                 currentDimensionIndex = dimensionIndices[currentLoopIndex];
+
                 if (!IsLastIteration(arr, currentDimensionIndex, currentLoopIndex))
                 {
                     formattedGraph.AddFragment(", ");
@@ -91,7 +93,7 @@ public class MultidimensionalArrayFormatter : IValueFormatter
 
     private static bool IsInnerMostLoop(Array arr, int index)
     {
-        return index == arr.Rank - 1;
+        return index == (arr.Rank - 1);
     }
 
     private static bool IsLastIteration(Array arr, int index, int dimension)

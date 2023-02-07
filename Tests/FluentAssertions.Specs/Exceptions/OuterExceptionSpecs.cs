@@ -70,11 +70,13 @@ public class OuterExceptionSpecs
 
         // Assert
         action.Should().Throw<Exception>()
-            .WithMessage("Expected exception message to match the equivalent of*\"Expected mes*\", but*\"OxpectOd message\" does not*");
+            .WithMessage(
+                "Expected exception message to match the equivalent of*\"Expected mes*\", but*\"OxpectOd message\" does not*");
     }
 
     [Fact]
-    public void When_subject_throws_expected_exception_with_message_starting_with_expected_equivalent_message_it_should_not_throw()
+    public void
+        When_subject_throws_expected_exception_with_message_starting_with_expected_equivalent_message_it_should_not_throw()
     {
         // Arrange
         Does testSubject = Does.Throw(new InvalidOperationException("Expected Message"));
@@ -96,13 +98,14 @@ public class OuterExceptionSpecs
 
         // Act
         Action action = () => testSubject
-                .Invoking(s => s.Do())
-                .Should().Throw<InvalidOperationException>()
-                .WithMessage("expected mes");
+            .Invoking(s => s.Do())
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("expected mes");
 
         // Assert
         action.Should().Throw<Exception>()
-            .WithMessage("Expected exception message to match the equivalent of*\"expected mes*\", but*\"OxpectOd message\" does not*");
+            .WithMessage(
+                "Expected exception message to match the equivalent of*\"expected mes*\", but*\"OxpectOd message\" does not*");
     }
 
     [Fact]
@@ -154,7 +157,8 @@ public class OuterExceptionSpecs
     }
 
     [Fact]
-    public void When_subject_throws_some_exception_with_message_which_contains_complete_expected_exception_and_more_it_should_throw()
+    public void
+        When_subject_throws_some_exception_with_message_which_contains_complete_expected_exception_and_more_it_should_throw()
     {
         // Arrange
         Does subjectThatThrows = Does.Throw(new ArgumentNullException("someParam", "message2"));
@@ -266,7 +270,8 @@ public class OuterExceptionSpecs
     }
 
     [Fact]
-    public void When_asserting_with_an_aggregate_exception_and_inner_exception_type_from_argument_the_asserts_should_occur_against_the_aggregate_exception()
+    public void
+        When_asserting_with_an_aggregate_exception_and_inner_exception_type_from_argument_the_asserts_should_occur_against_the_aggregate_exception()
     {
         // Arrange
         Does testSubject = Does.Throw(new AggregateException("Outer Message", new Exception("Inner Message")));

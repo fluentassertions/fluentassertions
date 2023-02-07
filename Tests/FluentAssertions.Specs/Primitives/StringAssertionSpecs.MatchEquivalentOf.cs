@@ -78,7 +78,8 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
-                .WithMessage("Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.*")
+                .WithMessage(
+                    "Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.*")
                 .WithParameterName("wildcardPattern");
         }
     }
@@ -111,7 +112,7 @@ public partial class StringAssertionSpecs
             act
                 .Should().Throw<XunitException>()
                 .WithMessage("Did not expect subject to match the equivalent of*\"*world*\" because that's illegal, " +
-                "but*\"hello WORLD\" matches.");
+                    "but*\"hello WORLD\" matches.");
         }
 
         [Fact]
@@ -128,7 +129,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_a_string_is_negatively_matched_against_the_equivalent_of_null_pattern_it_should_throw_with_a_clear_explanation()
+        public void
+            When_a_string_is_negatively_matched_against_the_equivalent_of_null_pattern_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
             string subject = "hello world";
@@ -143,7 +145,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_a_string_is_negatively_matched_against_the_equivalent_of_an_empty_string_it_should_throw_with_a_clear_explanation()
+        public void
+            When_a_string_is_negatively_matched_against_the_equivalent_of_an_empty_string_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
             string subject = "hello world";
@@ -153,7 +156,8 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
-                .WithMessage("Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.*")
+                .WithMessage(
+                    "Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.*")
                 .WithParameterName("wildcardPattern");
         }
     }

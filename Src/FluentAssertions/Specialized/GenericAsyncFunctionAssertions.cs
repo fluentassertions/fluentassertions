@@ -6,7 +6,8 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Specialized;
 
-public class GenericAsyncFunctionAssertions<TResult> : AsyncFunctionAssertions<Task<TResult>, GenericAsyncFunctionAssertions<TResult>>
+public class GenericAsyncFunctionAssertions<TResult>
+    : AsyncFunctionAssertions<Task<TResult>, GenericAsyncFunctionAssertions<TResult>>
 {
     public GenericAsyncFunctionAssertions(Func<Task<TResult>> subject, IExtractExceptions extractor)
         : this(subject, extractor, new Clock())
@@ -51,11 +52,12 @@ public class GenericAsyncFunctionAssertions<TResult> : AsyncFunctionAssertions<T
             if (success)
             {
                 bool completesWithinTimeout = await CompletesWithinTimeoutAsync(task, remainingTime);
+
                 success = Execute.Assertion
-                .ForCondition(completesWithinTimeout)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
-        }
+                    .ForCondition(completesWithinTimeout)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
+            }
 
             TResult result = success ? task.Result : default;
             return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, result);

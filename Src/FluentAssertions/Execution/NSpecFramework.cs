@@ -32,6 +32,7 @@ internal class NSpecFramework : ITestFramework
     public void Throw(string message)
     {
         Type exceptionType = assembly.GetType("NSpec.Domain.AssertionException");
+
         if (exceptionType is null)
         {
             throw new Exception("Failed to create the NSpec assertion type");

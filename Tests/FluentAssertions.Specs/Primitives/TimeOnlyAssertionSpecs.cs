@@ -5,7 +5,6 @@ using Xunit;
 using Xunit.Sdk;
 
 #if NET6_0_OR_GREATER
-
 namespace FluentAssertions.Specs.Primitives;
 
 public class TimeOnlyAssertionSpecs
@@ -238,8 +237,8 @@ public class TimeOnlyAssertionSpecs
         public void When_subject_time_is_close_to_another_value_that_is_later_by_more_than_20ms_it_should_throw()
         {
             // Arrange
-            TimeOnly time = new TimeOnly(12, 15, 30, 979);
-            TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
+            TimeOnly time = new(12, 15, 30, 979);
+            TimeOnly nearbyTime = new(12, 15, 31);
 
             // Act
             Action act = () => time.Should().BeCloseTo(nearbyTime, 20.Milliseconds());
@@ -254,8 +253,8 @@ public class TimeOnlyAssertionSpecs
         public void When_subject_time_is_close_to_another_value_that_is_earlier_by_more_than_20ms_it_should_throw()
         {
             // Arrange
-            TimeOnly time = new TimeOnly(12, 15, 31, 021);
-            TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
+            TimeOnly time = new(12, 15, 31, 021);
+            TimeOnly nearbyTime = new(12, 15, 31);
 
             // Act
             Action act = () => time.Should().BeCloseTo(nearbyTime, 20.Milliseconds());
@@ -270,8 +269,8 @@ public class TimeOnlyAssertionSpecs
         public void When_subject_time_is_close_to_an_earlier_time_by_35ms_it_should_succeed()
         {
             // Arrange
-            TimeOnly time = new TimeOnly(12, 15, 31, 035);
-            TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
+            TimeOnly time = new(12, 15, 31, 035);
+            TimeOnly nearbyTime = new(12, 15, 31);
 
             // Act / Assert
             time.Should().BeCloseTo(nearbyTime, 35.Milliseconds());
@@ -281,8 +280,8 @@ public class TimeOnlyAssertionSpecs
         public void A_time_is_close_to_a_later_time_when_passing_midnight()
         {
             // Arrange
-            TimeOnly time = new TimeOnly(23, 59, 0);
-            TimeOnly nearbyTime = new TimeOnly(0, 1, 0);
+            TimeOnly time = new(23, 59, 0);
+            TimeOnly nearbyTime = new(0, 1, 0);
 
             // Act / Assert
             time.Should().BeCloseTo(nearbyTime, 2.Minutes());
@@ -292,8 +291,8 @@ public class TimeOnlyAssertionSpecs
         public void A_time_is_close_to_an_earlier_time_when_passing_midnight()
         {
             // Arrange
-            TimeOnly time = new TimeOnly(0, 1, 0);
-            TimeOnly nearbyTime = new TimeOnly(23, 59, 0);
+            TimeOnly time = new(0, 1, 0);
+            TimeOnly nearbyTime = new(23, 59, 0);
 
             // Act / Assert
             time.Should().BeCloseTo(nearbyTime, 2.Minutes());
@@ -303,8 +302,8 @@ public class TimeOnlyAssertionSpecs
         public void A_time_outside_of_the_precision_to_a_later_time_when_passing_midnight_fails()
         {
             // Arrange
-            TimeOnly time = new TimeOnly(23, 58, 59);
-            TimeOnly nearbyTime = new TimeOnly(0, 1, 0);
+            TimeOnly time = new(23, 58, 59);
+            TimeOnly nearbyTime = new(0, 1, 0);
 
             // Act
             Action act = () => time.Should().BeCloseTo(nearbyTime, 2.Minutes());
@@ -318,8 +317,8 @@ public class TimeOnlyAssertionSpecs
         public void A_time_outside_of_the_precision_to_an_earlier_time_when_passing_midnight_fails()
         {
             // Arrange
-            TimeOnly time = new TimeOnly(0, 1, 0);
-            TimeOnly nearbyTime = new TimeOnly(23, 58, 59);
+            TimeOnly time = new(0, 1, 0);
+            TimeOnly nearbyTime = new(23, 58, 59);
 
             // Act
             Action act = () => time.Should().BeCloseTo(nearbyTime, 2.Minutes());
@@ -334,7 +333,7 @@ public class TimeOnlyAssertionSpecs
         {
             // Arrange
             TimeOnly? time = null;
-            TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
+            TimeOnly nearbyTime = new(12, 15, 31);
 
             // Act
             Action act = () => time.Should().BeCloseTo(nearbyTime, 35.Milliseconds());
@@ -349,7 +348,7 @@ public class TimeOnlyAssertionSpecs
         {
             // Arrange
             TimeOnly? time = null;
-            TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
+            TimeOnly nearbyTime = new(12, 15, 31);
 
             // Act
             Action act = () =>
@@ -371,7 +370,7 @@ public class TimeOnlyAssertionSpecs
         {
             // Arrange
             TimeOnly? time = null;
-            TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
+            TimeOnly nearbyTime = new(12, 15, 31);
 
             // Act
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
@@ -386,7 +385,7 @@ public class TimeOnlyAssertionSpecs
         {
             // Arrange
             TimeOnly? time = null;
-            TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
+            TimeOnly nearbyTime = new(12, 15, 31);
 
             // Act
             Action act = () =>
@@ -476,8 +475,8 @@ public class TimeOnlyAssertionSpecs
         public void When_asserting_subject_time_is_not_close_to_an_earlier_time_it_should_throw()
         {
             // Arrange
-            TimeOnly time = new TimeOnly(12, 15, 31, 020);
-            TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
+            TimeOnly time = new(12, 15, 31, 020);
+            TimeOnly nearbyTime = new(12, 15, 31);
 
             // Act
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
@@ -491,8 +490,8 @@ public class TimeOnlyAssertionSpecs
         public void When_asserting_subject_time_is_not_close_to_an_earlier_time_by_a_20ms_timespan_it_should_throw()
         {
             // Arrange
-            TimeOnly time = new TimeOnly(12, 15, 31, 020);
-            TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
+            TimeOnly time = new(12, 15, 31, 020);
+            TimeOnly nearbyTime = new(12, 15, 31);
 
             // Act
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, TimeSpan.FromMilliseconds(20));
@@ -506,19 +505,20 @@ public class TimeOnlyAssertionSpecs
         public void When_asserting_subject_time_is_not_close_to_another_value_that_is_later_by_more_than_20ms_it_should_succeed()
         {
             // Arrange
-            TimeOnly time = new TimeOnly(12, 15, 30, 979);
-            TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
+            TimeOnly time = new(12, 15, 30, 979);
+            TimeOnly nearbyTime = new(12, 15, 31);
 
             // Act / Assert
             time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
         }
 
         [Fact]
-        public void When_asserting_subject_time_is_not_close_to_another_value_that_is_earlier_by_more_than_20ms_it_should_succeed()
+        public void
+            When_asserting_subject_time_is_not_close_to_another_value_that_is_earlier_by_more_than_20ms_it_should_succeed()
         {
             // Arrange
-            TimeOnly time = new TimeOnly(12, 15, 31, 021);
-            TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
+            TimeOnly time = new(12, 15, 31, 021);
+            TimeOnly nearbyTime = new(12, 15, 31);
 
             // Act / Assert
             time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
@@ -528,8 +528,8 @@ public class TimeOnlyAssertionSpecs
         public void When_asserting_subject_datetime_is_not_close_to_an_earlier_datetime_by_35ms_it_should_throw()
         {
             // Arrange
-            TimeOnly time = new TimeOnly(12, 15, 31, 035);
-            TimeOnly nearbyTime = new TimeOnly(12, 15, 31);
+            TimeOnly time = new(12, 15, 31, 035);
+            TimeOnly nearbyTime = new(12, 15, 31);
 
             // Act
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
@@ -573,8 +573,8 @@ public class TimeOnlyAssertionSpecs
         public void A_time_is_not_close_to_a_later_time_when_passing_midnight()
         {
             // Arrange
-            TimeOnly time = new TimeOnly(23, 58, 0);
-            TimeOnly nearbyTime = new TimeOnly(0, 1, 0);
+            TimeOnly time = new(23, 58, 0);
+            TimeOnly nearbyTime = new(0, 1, 0);
 
             // Act / Assert
             time.Should().NotBeCloseTo(nearbyTime, 2.Minutes());
@@ -584,8 +584,8 @@ public class TimeOnlyAssertionSpecs
         public void A_time_is_not_close_to_an_earlier_time_when_passing_midnight()
         {
             // Arrange
-            TimeOnly time = new TimeOnly(0, 2, 0);
-            TimeOnly nearbyTime = new TimeOnly(23, 59, 0);
+            TimeOnly time = new(0, 2, 0);
+            TimeOnly nearbyTime = new(23, 59, 0);
 
             // Act / Assert
             time.Should().NotBeCloseTo(nearbyTime, 2.Minutes());
@@ -595,28 +595,30 @@ public class TimeOnlyAssertionSpecs
         public void A_time_inside_of_the_precision_to_a_later_time_when_passing_midnight_fails()
         {
             // Arrange
-            TimeOnly time = new TimeOnly(23, 59, 0);
-            TimeOnly nearbyTime = new TimeOnly(0, 1, 0);
+            TimeOnly time = new(23, 59, 0);
+            TimeOnly nearbyTime = new(0, 1, 0);
 
             // Act
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 2.Minutes());
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Did not expect * to be within 2m from <00:01:00.000>*, but it was <23:59:00.000>*");
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect * to be within 2m from <00:01:00.000>*, but it was <23:59:00.000>*");
         }
 
         [Fact]
         public void A_time_inside_of_the_precision_to_an_earlier_time_when_passing_midnight_fails()
         {
             // Arrange
-            TimeOnly time = new TimeOnly(0, 1, 0);
-            TimeOnly nearbyTime = new TimeOnly(23, 59, 0);
+            TimeOnly time = new(0, 1, 0);
+            TimeOnly nearbyTime = new(23, 59, 0);
 
             // Act
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 2.Minutes());
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Did not expect * to be within 2m from <23:59:00.000>*, but it was <00:01:00.000>*");
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect * to be within 2m from <23:59:00.000>*, but it was <00:01:00.000>*");
         }
     }
 
@@ -1318,7 +1320,8 @@ public class TimeOnlyAssertionSpecs
             Action act = () => someTimeOnly.Should().Equals(someTimeOnly);
 
             // Assert
-            act.Should().Throw<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
+            act.Should().Throw<NotSupportedException>()
+                .WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
         }
     }
 }

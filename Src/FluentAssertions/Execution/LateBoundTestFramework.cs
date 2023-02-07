@@ -13,6 +13,7 @@ internal abstract class LateBoundTestFramework : ITestFramework
     public void Throw(string message)
     {
         Type exceptionType = assembly.GetType(ExceptionFullName);
+
         if (exceptionType is null)
         {
             throw new Exception(

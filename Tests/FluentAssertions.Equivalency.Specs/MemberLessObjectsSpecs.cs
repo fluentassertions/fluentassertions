@@ -40,7 +40,7 @@ public class MemberLessObjectsSpecs
     public void When_asserting_instance_of_object_is_equivalent_to_null_it_should_fail_with_a_descriptive_message()
     {
         // Arrange
-        object actual = new object();
+        object actual = new();
         object expected = null;
 
         // Act
@@ -56,7 +56,7 @@ public class MemberLessObjectsSpecs
     {
         // Arrange
         object actual = null;
-        object expected = new object();
+        object expected = new();
 
         // Act
         Action act = () => actual.Should().BeEquivalentTo(expected);

@@ -30,7 +30,7 @@ internal class CyclicReferenceDetector : ICloneable2
         {
             isCyclic = !observedReferences.Add(reference);
 
-            if (isCyclic && (handling == CyclicReferenceHandling.ThrowException))
+            if (isCyclic && handling == CyclicReferenceHandling.ThrowException)
             {
                 AssertionScope.Current
                     .BecauseOf(reason)

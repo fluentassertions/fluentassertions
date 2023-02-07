@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Common;
+using static System.Reflection.BindingFlags;
 
 namespace FluentAssertions.Types;
 
@@ -35,7 +36,7 @@ public class MethodInfoSelector : IEnumerable<MethodInfo>
         Guard.ThrowIfArgumentContainsNull(types);
 
         selectedMethods = types.SelectMany(t => t
-            .GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
+            .GetMethods(DeclaredOnly | Instance | Static | Public | NonPublic)
             .Where(method => !HasSpecialName(method)));
     }
 
@@ -152,7 +153,7 @@ public class MethodInfoSelector : IEnumerable<MethodInfo>
     }
 
     /// <summary>
-    /// Only return methods that are async. 
+    /// Only return methods that are async.
     /// </summary>
     public MethodInfoSelector ThatAreAsync()
     {
@@ -161,7 +162,7 @@ public class MethodInfoSelector : IEnumerable<MethodInfo>
     }
 
     /// <summary>
-    /// Only return methods that are not async. 
+    /// Only return methods that are not async.
     /// </summary>
     public MethodInfoSelector ThatAreNotAsync()
     {
@@ -170,7 +171,7 @@ public class MethodInfoSelector : IEnumerable<MethodInfo>
     }
 
     /// <summary>
-    /// Only return methods that are static. 
+    /// Only return methods that are static.
     /// </summary>
     public MethodInfoSelector ThatAreStatic()
     {
@@ -179,7 +180,7 @@ public class MethodInfoSelector : IEnumerable<MethodInfo>
     }
 
     /// <summary>
-    /// Only return methods that are not static. 
+    /// Only return methods that are not static.
     /// </summary>
     public MethodInfoSelector ThatAreNotStatic()
     {
@@ -188,7 +189,7 @@ public class MethodInfoSelector : IEnumerable<MethodInfo>
     }
 
     /// <summary>
-    /// Only return methods that are virtual. 
+    /// Only return methods that are virtual.
     /// </summary>
     public MethodInfoSelector ThatAreVirtual()
     {
@@ -197,7 +198,7 @@ public class MethodInfoSelector : IEnumerable<MethodInfo>
     }
 
     /// <summary>
-    /// Only return methods that are not virtual. 
+    /// Only return methods that are not virtual.
     /// </summary>
     public MethodInfoSelector ThatAreNotVirtual()
     {

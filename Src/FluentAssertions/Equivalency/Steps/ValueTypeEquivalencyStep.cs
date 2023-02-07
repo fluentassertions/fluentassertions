@@ -7,18 +7,21 @@ namespace FluentAssertions.Equivalency.Steps;
 /// </summary>
 public class ValueTypeEquivalencyStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+        IEquivalencyValidator nestedValidator)
     {
         Type expectationType = comparands.GetExpectedType(context.Options);
         EqualityStrategy strategy = context.Options.GetEqualityStrategy(expectationType);
 
         bool canHandle = strategy is EqualityStrategy.Equals or EqualityStrategy.ForceEquals;
+
         if (canHandle)
         {
             context.Tracer.WriteLine(member =>
             {
-                string strategyName = (strategy == EqualityStrategy.Equals)
-                    ? $"{expectationType} overrides Equals" : "we are forced to use Equals";
+                string strategyName = strategy == EqualityStrategy.Equals
+                    ? $"{expectationType} overrides Equals"
+                    : "we are forced to use Equals";
 
                 return $"Treating {member.Description} as a value type because {strategyName}.";
             });

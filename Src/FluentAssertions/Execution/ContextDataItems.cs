@@ -19,6 +19,7 @@ internal class ContextDataItems
     public string AsStringOrDefault(string key)
     {
         DataItem item = items.SingleOrDefault(i => i.Key == key);
+
         if (item is not null)
         {
             if (item.RequiresFormatting)
@@ -80,7 +81,7 @@ internal class ContextDataItems
 
         public DataItem Clone()
         {
-            object value = (Value is ICloneable2 cloneable) ? cloneable.Clone() : Value;
+            object value = Value is ICloneable2 cloneable ? cloneable.Clone() : Value;
             return new DataItem(Key, value, Reportable, RequiresFormatting);
         }
     }

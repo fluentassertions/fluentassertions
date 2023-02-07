@@ -159,7 +159,8 @@ public class PropertyInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "",
+        params object[] becauseArgs)
         where TAttribute : Attribute
     {
         PropertyInfo[] propertiesWithoutAttribute = GetPropertiesWithout<TAttribute>();
@@ -185,7 +186,8 @@ public class PropertyInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "",
+        params object[] becauseArgs)
         where TAttribute : Attribute
     {
         PropertyInfo[] propertiesWithAttribute = GetPropertiesWith<TAttribute>();

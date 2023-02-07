@@ -10,7 +10,8 @@ namespace FluentAssertions.Equivalency.Steps;
 
 public class EnumEqualityStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+        IEquivalencyValidator nestedValidator)
     {
         if (!comparands.GetExpectedType(context.Options).IsEnum)
         {
@@ -24,7 +25,9 @@ public class EnumEqualityStep : IEquivalencyStep
                 decimal? expectationsUnderlyingValue = ExtractDecimal(comparands.Expectation);
                 string expectationName = GetDisplayNameForEnumComparison(comparands.Expectation, expectationsUnderlyingValue);
 
-                return new FailReason($"Expected {{context:enum}} to be equivalent to {expectationName}{{reason}}, but found {{0}}.", comparands.Subject);
+                return new FailReason(
+                    $"Expected {{context:enum}} to be equivalent to {expectationName}{{reason}}, but found {{0}}.",
+                    comparands.Subject);
             });
 
         if (succeeded)
@@ -59,7 +62,8 @@ public class EnumEqualityStep : IEquivalencyStep
                 string subjectsName = GetDisplayNameForEnumComparison(comparands.Subject, subjectsUnderlyingValue);
                 string expectationName = GetDisplayNameForEnumComparison(comparands.Expectation, expectationsUnderlyingValue);
 
-                return new FailReason($"Expected {{context:enum}} to equal {expectationName} by value{{reason}}, but found {subjectsName}.");
+                return new FailReason(
+                    $"Expected {{context:enum}} to equal {expectationName} by value{{reason}}, but found {subjectsName}.");
             });
     }
 
@@ -77,8 +81,9 @@ public class EnumEqualityStep : IEquivalencyStep
 
                 string subjectsName = GetDisplayNameForEnumComparison(comparands.Subject, subjectsUnderlyingValue);
                 string expectationName = GetDisplayNameForEnumComparison(comparands.Expectation, expectationsUnderlyingValue);
+
                 return new FailReason(
-                        $"Expected {{context:enum}} to equal {expectationName} by name{{reason}}, but found {subjectsName}.");
+                    $"Expected {{context:enum}} to equal {expectationName} by name{{reason}}, but found {subjectsName}.");
             });
     }
 

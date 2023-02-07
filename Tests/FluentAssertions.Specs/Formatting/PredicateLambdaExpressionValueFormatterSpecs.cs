@@ -22,7 +22,8 @@ public class PredicateLambdaExpressionValueFormatterSpecs
     }
 
     [Fact]
-    public void When_first_level_properties_are_tested_for_equality_against_constant_expressions_then_output_should_contain_values_of_constant_expressions()
+    public void
+        When_first_level_properties_are_tested_for_equality_against_constant_expressions_then_output_should_contain_values_of_constant_expressions()
     {
         // Arrange
         var expectedText = "foo";

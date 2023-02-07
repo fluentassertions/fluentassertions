@@ -46,7 +46,8 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected collection to contain fewer than 3 item(s) because we want to test the failure message, but found 3: {1, 2, 3}.");
+                .WithMessage(
+                    "Expected collection to contain fewer than 3 item(s) because we want to test the failure message, but found 3: {1, 2, 3}.");
         }
 
         [Fact]
@@ -63,7 +64,8 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*fewer than*1*we want to test the behaviour with a null subject*found <null>*");
+            act.Should().Throw<XunitException>()
+                .WithMessage("*fewer than*1*we want to test the behaviour with a null subject*found <null>*");
         }
     }
 }

@@ -17,11 +17,11 @@ public class CulturedXunitTestCase : XunitTestCase
     public CulturedXunitTestCase() { }
 
     public CulturedXunitTestCase(IMessageSink diagnosticMessageSink,
-                                 TestMethodDisplay defaultMethodDisplay,
-                                 TestMethodDisplayOptions defaultMethodDisplayOptions,
-                                 ITestMethod testMethod,
-                                 string culture,
-                                 object[] testMethodArguments = null)
+        TestMethodDisplay defaultMethodDisplay,
+        TestMethodDisplayOptions defaultMethodDisplayOptions,
+        ITestMethod testMethod,
+        string culture,
+        object[] testMethodArguments = null)
         : base(diagnosticMessageSink, defaultMethodDisplay, defaultMethodDisplayOptions, testMethod, testMethodArguments)
     {
         Initialize(culture);
@@ -36,8 +36,7 @@ public class CulturedXunitTestCase : XunitTestCase
         DisplayName += $"[{culture}]";
     }
 
-    protected override string GetUniqueID()
-        => $"{base.GetUniqueID()}[{culture}]";
+    protected override string GetUniqueID() => $"{base.GetUniqueID()}[{culture}]";
 
     public override void Deserialize(IXunitSerializationInfo data)
     {
@@ -54,10 +53,10 @@ public class CulturedXunitTestCase : XunitTestCase
     }
 
     public override async Task<RunSummary> RunAsync(IMessageSink diagnosticMessageSink,
-                                                    IMessageBus messageBus,
-                                                    object[] constructorArguments,
-                                                    ExceptionAggregator aggregator,
-                                                    CancellationTokenSource cancellationTokenSource)
+        IMessageBus messageBus,
+        object[] constructorArguments,
+        ExceptionAggregator aggregator,
+        CancellationTokenSource cancellationTokenSource)
     {
         CultureInfo originalCulture = CurrentCulture;
         CultureInfo originalUICulture = CurrentUICulture;
@@ -68,7 +67,8 @@ public class CulturedXunitTestCase : XunitTestCase
             CurrentCulture = cultureInfo;
             CurrentUICulture = cultureInfo;
 
-            return await base.RunAsync(diagnosticMessageSink, messageBus, constructorArguments, aggregator, cancellationTokenSource);
+            return await base.RunAsync(diagnosticMessageSink, messageBus, constructorArguments, aggregator,
+                cancellationTokenSource);
         }
         finally
         {

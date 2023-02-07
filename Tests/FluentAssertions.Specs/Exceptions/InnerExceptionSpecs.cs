@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using Xunit;
 using Xunit.Sdk;
 
@@ -47,7 +46,8 @@ public class InnerExceptionSpecs
     }
 
     [Fact]
-    public void WithInnerExceptionExactly_no_parameters_when_subject_throws_subclass_of_expected_inner_exception_it_should_throw_with_clear_description()
+    public void
+        WithInnerExceptionExactly_no_parameters_when_subject_throws_subclass_of_expected_inner_exception_it_should_throw_with_clear_description()
     {
         // Arrange
         var innerException = new ArgumentNullException("InnerExceptionMessage", (Exception)null);
@@ -77,11 +77,12 @@ public class InnerExceptionSpecs
 
         // Act / Assert
         act.Should().Throw<BadImageFormatException>()
-                .WithInnerExceptionExactly<ArgumentNullException>();
+            .WithInnerExceptionExactly<ArgumentNullException>();
     }
 
     [Fact]
-    public void WithInnerExceptionExactly_when_subject_throws_subclass_of_expected_inner_exception_it_should_throw_with_clear_description()
+    public void
+        WithInnerExceptionExactly_when_subject_throws_subclass_of_expected_inner_exception_it_should_throw_with_clear_description()
     {
         // Arrange
         var innerException = new ArgumentNullException("InnerExceptionMessage", (Exception)null);
@@ -99,12 +100,14 @@ public class InnerExceptionSpecs
         catch (XunitException ex)
         {
             // Assert
-            ex.Message.Should().Match("Expected*ArgumentException*the action should do just that*ArgumentNullException*InnerExceptionMessage*");
+            ex.Message.Should()
+                .Match("Expected*ArgumentException*the action should do just that*ArgumentNullException*InnerExceptionMessage*");
         }
     }
 
     [Fact]
-    public void WithInnerExceptionExactly_with_type_exception_when_subject_throws_expected_inner_exception_it_should_not_do_anything()
+    public void
+        WithInnerExceptionExactly_with_type_exception_when_subject_throws_expected_inner_exception_it_should_not_do_anything()
     {
         // Arrange
         Action act = () => throw new BadImageFormatException("", new ArgumentNullException());
@@ -115,7 +118,8 @@ public class InnerExceptionSpecs
     }
 
     [Fact]
-    public void WithInnerExceptionExactly_with_type_exception_no_parameters_when_subject_throws_expected_inner_exception_it_should_not_do_anything()
+    public void
+        WithInnerExceptionExactly_with_type_exception_no_parameters_when_subject_throws_expected_inner_exception_it_should_not_do_anything()
     {
         // Arrange
         Action act = () => throw new BadImageFormatException("", new ArgumentNullException());
@@ -126,7 +130,8 @@ public class InnerExceptionSpecs
     }
 
     [Fact]
-    public void WithInnerExceptionExactly_with_type_exception_when_subject_throws_subclass_of_expected_inner_exception_it_should_throw_with_clear_description()
+    public void
+        WithInnerExceptionExactly_with_type_exception_when_subject_throws_subclass_of_expected_inner_exception_it_should_throw_with_clear_description()
     {
         // Arrange
         var innerException = new ArgumentNullException("InnerExceptionMessage", (Exception)null);
@@ -144,7 +149,8 @@ public class InnerExceptionSpecs
         catch (XunitException ex)
         {
             // Assert
-            ex.Message.Should().Match("Expected*ArgumentException*the action should do just that*ArgumentNullException*InnerExceptionMessage*");
+            ex.Message.Should()
+                .Match("Expected*ArgumentException*the action should do just that*ArgumentNullException*InnerExceptionMessage*");
         }
     }
 
@@ -156,7 +162,7 @@ public class InnerExceptionSpecs
 
         // Act / Assert
         act.Should().Throw<BadImageFormatException>()
-                .WithInnerExceptionExactly<ArgumentNullException>("because {0} should do just that", "the action");
+            .WithInnerExceptionExactly<ArgumentNullException>("because {0} should do just that", "the action");
     }
 
     [Fact]
@@ -205,7 +211,8 @@ public class InnerExceptionSpecs
     }
 
     [Fact]
-    public void When_subject_throws_an_exception_without_expected_inner_exception_and_has_reason_it_should_throw_with_clear_description()
+    public void
+        When_subject_throws_an_exception_without_expected_inner_exception_and_has_reason_it_should_throw_with_clear_description()
     {
         try
         {
@@ -238,7 +245,8 @@ public class InnerExceptionSpecs
     }
 
     [Fact]
-    public void When_an_inner_exception_matches_exactly_it_should_allow_chaining_more_asserts_on_that_exception_type_from_argument()
+    public void
+        When_an_inner_exception_matches_exactly_it_should_allow_chaining_more_asserts_on_that_exception_type_from_argument()
     {
         // Act
         Action act = () =>

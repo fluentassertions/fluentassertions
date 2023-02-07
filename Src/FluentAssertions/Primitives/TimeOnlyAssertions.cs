@@ -6,7 +6,6 @@ using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 #if NET6_0_OR_GREATER
-
 namespace FluentAssertions.Primitives;
 
 /// <summary>
@@ -151,7 +150,7 @@ public class TimeOnlyAssertions<TAssertions>
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
-        TimeSpan? difference = (Subject != null)
+        TimeSpan? difference = Subject != null
             ? MinimumDifference(Subject.Value, nearbyTime)
             : null;
 
@@ -417,7 +416,8 @@ public class TimeOnlyAssertions<TAssertions>
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject.HasValue)
-            .FailWith("Did not expect the hours part of {context:the time} to be {0}{reason}, but found a <null> TimeOnly.", unexpected)
+            .FailWith("Did not expect the hours part of {context:the time} to be {0}{reason}, but found a <null> TimeOnly.",
+                unexpected)
             .Then
             .ForCondition(Subject.Value.Hour != unexpected)
             .FailWith("Did not expect the hours part of {context:the time} to be {0}{reason}, but it was.", unexpected,
@@ -641,7 +641,8 @@ public class TimeOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeOneOf(IEnumerable<TimeOnly?> validValues, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeOneOf(IEnumerable<TimeOnly?> validValues, string because = "",
+        params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(validValues.Contains(Subject))

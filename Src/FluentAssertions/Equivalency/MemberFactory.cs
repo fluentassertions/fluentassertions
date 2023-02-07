@@ -24,12 +24,13 @@ public static class MemberFactory
     internal static IMember Find(object target, string memberName, INode parent)
     {
         PropertyInfo property = target.GetType().FindProperty(memberName);
-        if ((property is not null) && !property.IsIndexer())
+
+        if (property is not null && !property.IsIndexer())
         {
             return new Property(property, parent);
         }
 
         FieldInfo field = target.GetType().FindField(memberName);
-        return (field is not null) ? new Field(field, parent) : null;
+        return field is not null ? new Field(field, parent) : null;
     }
 }

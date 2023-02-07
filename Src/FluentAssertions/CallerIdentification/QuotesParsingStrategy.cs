@@ -26,6 +26,7 @@ internal class QuotesParsingStrategy : IParsingStrategy
             else
             {
                 isQuoteContext = true;
+
                 if (IsVerbatim(statement))
                 {
                     isQuoteEscapeSymbol = '"';

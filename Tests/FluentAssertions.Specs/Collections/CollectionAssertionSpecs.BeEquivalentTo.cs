@@ -129,7 +129,8 @@ public partial class CollectionAssertionSpecs
 
             // Act
             Action act =
-                () => collection.Should().BeEquivalentTo(collection1, "because we want to test the behaviour with a null subject");
+                () => collection.Should()
+                    .BeEquivalentTo(collection1, "because we want to test the behaviour with a null subject");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -286,8 +287,8 @@ public partial class CollectionAssertionSpecs
 
             // Act
             Action act = () => collection.Should().NotBeEquivalentTo(collection1, opt => opt
-                .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.5))
-                .WhenTypeIs<double>(),
+                    .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.5))
+                    .WhenTypeIs<double>(),
                 "because we want to test the failure {0}", "message");
 
             // Assert
@@ -300,7 +301,7 @@ public partial class CollectionAssertionSpecs
         {
             // Arrange
             int[] actual = null;
-            int[] expectation = new[] { 1, 2, 3 };
+            int[] expectation = { 1, 2, 3 };
 
             // Act
             Action act = () =>

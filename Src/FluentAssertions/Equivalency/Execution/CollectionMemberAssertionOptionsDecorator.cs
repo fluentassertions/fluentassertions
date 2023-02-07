@@ -36,7 +36,8 @@ internal class CollectionMemberAssertionOptionsDecorator : IEquivalencyAssertion
     {
         get
         {
-            return new OrderingRuleCollection(inner.OrderingRules.Select(rule => new CollectionMemberOrderingRuleDecorator(rule)));
+            return new OrderingRuleCollection(inner.OrderingRules.Select(rule =>
+                new CollectionMemberOrderingRuleDecorator(rule)));
         }
     }
 

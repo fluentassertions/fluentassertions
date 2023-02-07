@@ -10,8 +10,7 @@ namespace FluentAssertions.Types;
 /// Contains a number of methods to assert that a <see cref="PropertyInfo"/> is in the expected state.
 /// </summary>
 [DebuggerNonUserCode]
-public class PropertyInfoAssertions :
-    MemberInfoAssertions<PropertyInfo, PropertyInfoAssertions>
+public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, PropertyInfoAssertions>
 {
     public PropertyInfoAssertions(PropertyInfo propertyInfo)
         : base(propertyInfo)
@@ -67,9 +66,9 @@ public class PropertyInfoAssertions :
         if (success)
         {
             Execute.Assertion
-            .ForCondition(!Subject.IsVirtual())
-            .BecauseOf(because, becauseArgs)
-            .FailWith($"Expected property {GetDescriptionFor(Subject)} not to be virtual{{reason}}, but it is.");
+                .ForCondition(!Subject.IsVirtual())
+                .BecauseOf(because, becauseArgs)
+                .FailWith($"Expected property {GetDescriptionFor(Subject)} not to be virtual{{reason}}, but it is.");
         }
 
         return new AndConstraint<PropertyInfoAssertions>(this);
@@ -96,11 +95,11 @@ public class PropertyInfoAssertions :
         if (success)
         {
             Execute.Assertion
-            .ForCondition(Subject.CanWrite)
-            .BecauseOf(because, becauseArgs)
-            .FailWith(
-                "Expected {context:property} {0} to have a setter{reason}.",
-                Subject);
+                .ForCondition(Subject.CanWrite)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected {context:property} {0} to have a setter{reason}.",
+                    Subject);
         }
 
         return new AndConstraint<PropertyInfoAssertions>(this);
@@ -119,14 +118,15 @@ public class PropertyInfoAssertions :
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="accessModifier"/>
     /// is not a <see cref="CSharpAccessModifier"/> value.</exception>
-    public AndConstraint<PropertyInfoAssertions> BeWritable(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoAssertions> BeWritable(CSharpAccessModifier accessModifier, string because = "",
+        params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 
         bool success = Execute.Assertion
-          .BecauseOf(because, becauseArgs)
-          .ForCondition(Subject is not null)
-          .FailWith($"Expected {Identifier} to be {accessModifier}{{reason}}, but {{context:property}} is <null>.");
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject is not null)
+            .FailWith($"Expected {Identifier} to be {accessModifier}{{reason}}, but {{context:property}} is <null>.");
 
         if (success)
         {
@@ -159,11 +159,11 @@ public class PropertyInfoAssertions :
         if (success)
         {
             Execute.Assertion
-            .ForCondition(!Subject.CanWrite)
-            .BecauseOf(because, becauseArgs)
-            .FailWith(
-                "Expected {context:property} {0} not to have a setter{reason}.",
-                Subject);
+                .ForCondition(!Subject.CanWrite)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected {context:property} {0} not to have a setter{reason}.",
+                    Subject);
         }
 
         return new AndConstraint<PropertyInfoAssertions>(this);
@@ -189,8 +189,8 @@ public class PropertyInfoAssertions :
         if (success)
         {
             Execute.Assertion.ForCondition(Subject.CanRead)
-            .BecauseOf(because, becauseArgs)
-            .FailWith("Expected property " + Subject.Name + " to have a getter{reason}, but it does not.");
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected property " + Subject.Name + " to have a getter{reason}, but it does not.");
         }
 
         return new AndConstraint<PropertyInfoAssertions>(this);
@@ -209,14 +209,15 @@ public class PropertyInfoAssertions :
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="accessModifier"/>
     /// is not a <see cref="CSharpAccessModifier"/> value.</exception>
-    public AndConstraint<PropertyInfoAssertions> BeReadable(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoAssertions> BeReadable(CSharpAccessModifier accessModifier, string because = "",
+        params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 
         bool success = Execute.Assertion
-           .BecauseOf(because, becauseArgs)
-           .ForCondition(Subject is not null)
-           .FailWith($"Expected {Identifier} to be {accessModifier}{{reason}}, but {{context:property}} is <null>.");
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject is not null)
+            .FailWith($"Expected {Identifier} to be {accessModifier}{{reason}}, but {{context:property}} is <null>.");
 
         if (success)
         {
@@ -249,11 +250,11 @@ public class PropertyInfoAssertions :
         if (success)
         {
             Execute.Assertion
-            .ForCondition(!Subject.CanRead)
-            .BecauseOf(because, becauseArgs)
-            .FailWith(
-                "Expected {context:property} {0} not to have a getter{reason}.",
-                Subject);
+                .ForCondition(!Subject.CanRead)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected {context:property} {0} not to have a getter{reason}.",
+                    Subject);
         }
 
         return new AndConstraint<PropertyInfoAssertions>(this);
@@ -277,16 +278,16 @@ public class PropertyInfoAssertions :
         Guard.ThrowIfArgumentIsNull(propertyType);
 
         bool success = Execute.Assertion
-           .BecauseOf(because, becauseArgs)
-           .ForCondition(Subject is not null)
-           .FailWith("Expected type of property to be {0}{reason}, but {context:property} is <null>.", propertyType);
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject is not null)
+            .FailWith("Expected type of property to be {0}{reason}, but {context:property} is <null>.", propertyType);
 
         if (success)
         {
             Execute.Assertion.ForCondition(Subject.PropertyType == propertyType)
-            .BecauseOf(because, becauseArgs)
-            .FailWith("Expected Type of property " + Subject.Name + " to be {0}{reason}, but it is {1}.",
-            propertyType, Subject.PropertyType);
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected Type of property " + Subject.Name + " to be {0}{reason}, but it is {1}.",
+                    propertyType, Subject.PropertyType);
         }
 
         return new AndConstraint<PropertyInfoAssertions>(this);
@@ -325,16 +326,16 @@ public class PropertyInfoAssertions :
         Guard.ThrowIfArgumentIsNull(propertyType);
 
         bool success = Execute.Assertion
-           .BecauseOf(because, becauseArgs)
-           .ForCondition(Subject is not null)
-           .FailWith("Expected type of property not to be {0}{reason}, but {context:property} is <null>.", propertyType);
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject is not null)
+            .FailWith("Expected type of property not to be {0}{reason}, but {context:property} is <null>.", propertyType);
 
         if (success)
         {
             Execute.Assertion
-            .ForCondition(Subject.PropertyType != propertyType)
-            .BecauseOf(because, becauseArgs)
-            .FailWith("Expected Type of property " + Subject.Name + " not to be {0}{reason}, but it is.", propertyType);
+                .ForCondition(Subject.PropertyType != propertyType)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected Type of property " + Subject.Name + " not to be {0}{reason}, but it is.", propertyType);
         }
 
         return new AndConstraint<PropertyInfoAssertions>(this);

@@ -9,7 +9,6 @@ namespace FluentAssertions.Specs.Specialized;
 public class TaskCompletionSourceAssertionSpecs
 {
 #if NET6_0_OR_GREATER
-
     public class NonGeneric
     {
         [Fact]
@@ -113,7 +112,8 @@ public class TaskCompletionSourceAssertionSpecs
             Func<Task> action = () => Task.FromResult(subject.Should().Equals(subject));
 
             // Assert
-            await action.Should().ThrowAsync<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean CompleteWithinAsync() instead?");
+            await action.Should().ThrowAsync<NotSupportedException>()
+                .WithMessage("Equals is not part of Fluent Assertions. Did you mean CompleteWithinAsync() instead?");
         }
     }
 #endif
@@ -178,6 +178,7 @@ public class TaskCompletionSourceAssertionSpecs
             // Act
             Func<Task> action = async () =>
                 (await testSubject.Should(timer).CompleteWithinAsync(1.Seconds())).Which.Should().Be(42);
+
             testSubject.SetResult(99);
             timer.Complete();
 
@@ -246,7 +247,8 @@ public class TaskCompletionSourceAssertionSpecs
             timer.Complete();
 
             // Assert
-            await action.Should().ThrowAsync<XunitException>().WithMessage("Did not expect*to complete within*because test testArg*");
+            await action.Should().ThrowAsync<XunitException>()
+                .WithMessage("Did not expect*to complete within*because test testArg*");
         }
 
         [Fact]
@@ -288,7 +290,8 @@ public class TaskCompletionSourceAssertionSpecs
             Func<Task<bool>> action = () => Task.FromResult(subject.Should().Equals(subject));
 
             // Assert
-            await action.Should().ThrowAsync<NotSupportedException>().WithMessage("Equals is not part of Fluent Assertions. Did you mean CompleteWithinAsync() instead?");
+            await action.Should().ThrowAsync<NotSupportedException>()
+                .WithMessage("Equals is not part of Fluent Assertions. Did you mean CompleteWithinAsync() instead?");
         }
     }
 }

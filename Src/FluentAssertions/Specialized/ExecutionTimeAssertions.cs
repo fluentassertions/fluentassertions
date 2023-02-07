@@ -69,7 +69,8 @@ public class ExecutionTimeAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<ExecutionTimeAssertions> BeLessThanOrEqualTo(TimeSpan maxDuration, string because = "", params object[] becauseArgs)
+    public AndConstraint<ExecutionTimeAssertions> BeLessThanOrEqualTo(TimeSpan maxDuration, string because = "",
+        params object[] becauseArgs)
     {
         bool Condition(TimeSpan duration) => duration <= maxDuration;
         (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: false, rate: maxDuration);
@@ -78,8 +79,9 @@ public class ExecutionTimeAssertions
             .ForCondition(Condition(elapsed))
             .BecauseOf(because, becauseArgs)
             .FailWith("Execution of " +
-                      execution.ActionDescription.EscapePlaceholders() + " should be less than or equal to {0}{reason}, but it required " +
-                      (isRunning ? "more than " : "exactly ") + "{1}.",
+                execution.ActionDescription.EscapePlaceholders() +
+                " should be less than or equal to {0}{reason}, but it required " +
+                (isRunning ? "more than " : "exactly ") + "{1}.",
                 maxDuration,
                 elapsed);
 
@@ -87,7 +89,8 @@ public class ExecutionTimeAssertions
     }
 
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<ExecutionTimeAssertions> BeLessOrEqualTo(TimeSpan maxDuration, string because = "", params object[] becauseArgs) => BeLessThanOrEqualTo(maxDuration, because, becauseArgs);
+    public AndConstraint<ExecutionTimeAssertions> BeLessOrEqualTo(TimeSpan maxDuration, string because = "",
+        params object[] becauseArgs) => BeLessThanOrEqualTo(maxDuration, because, becauseArgs);
 
     /// <summary>
     /// Asserts that the execution time of the operation is less than a specified amount of time.
@@ -102,7 +105,8 @@ public class ExecutionTimeAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<ExecutionTimeAssertions> BeLessThan(TimeSpan maxDuration, string because = "", params object[] becauseArgs)
+    public AndConstraint<ExecutionTimeAssertions> BeLessThan(TimeSpan maxDuration, string because = "",
+        params object[] becauseArgs)
     {
         bool Condition(TimeSpan duration) => duration < maxDuration;
         (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: false, rate: maxDuration);
@@ -111,8 +115,8 @@ public class ExecutionTimeAssertions
             .ForCondition(Condition(execution.ElapsedTime))
             .BecauseOf(because, becauseArgs)
             .FailWith("Execution of " +
-                      execution.ActionDescription.EscapePlaceholders() + " should be less than {0}{reason}, but it required " +
-                      (isRunning ? "more than " : "exactly ") + "{1}.",
+                execution.ActionDescription.EscapePlaceholders() + " should be less than {0}{reason}, but it required " +
+                (isRunning ? "more than " : "exactly ") + "{1}.",
                 maxDuration,
                 elapsed);
 
@@ -132,7 +136,8 @@ public class ExecutionTimeAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<ExecutionTimeAssertions> BeGreaterThanOrEqualTo(TimeSpan minDuration, string because = "", params object[] becauseArgs)
+    public AndConstraint<ExecutionTimeAssertions> BeGreaterThanOrEqualTo(TimeSpan minDuration, string because = "",
+        params object[] becauseArgs)
     {
         bool Condition(TimeSpan duration) => duration >= minDuration;
         (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: true, rate: minDuration);
@@ -141,8 +146,9 @@ public class ExecutionTimeAssertions
             .ForCondition(Condition(elapsed))
             .BecauseOf(because, becauseArgs)
             .FailWith("Execution of " +
-                      execution.ActionDescription.EscapePlaceholders() + " should be greater than or equal to {0}{reason}, but it required " +
-                      (isRunning ? "more than " : "exactly ") + "{1}.",
+                execution.ActionDescription.EscapePlaceholders() +
+                " should be greater than or equal to {0}{reason}, but it required " +
+                (isRunning ? "more than " : "exactly ") + "{1}.",
                 minDuration,
                 elapsed);
 
@@ -150,7 +156,8 @@ public class ExecutionTimeAssertions
     }
 
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<ExecutionTimeAssertions> BeGreaterOrEqualTo(TimeSpan minDuration, string because = "", params object[] becauseArgs) => BeGreaterThanOrEqualTo(minDuration, because, becauseArgs);
+    public AndConstraint<ExecutionTimeAssertions> BeGreaterOrEqualTo(TimeSpan minDuration, string because = "",
+        params object[] becauseArgs) => BeGreaterThanOrEqualTo(minDuration, because, becauseArgs);
 
     /// <summary>
     /// Asserts that the execution time of the operation is greater than a specified amount of time.
@@ -165,7 +172,8 @@ public class ExecutionTimeAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<ExecutionTimeAssertions> BeGreaterThan(TimeSpan minDuration, string because = "", params object[] becauseArgs)
+    public AndConstraint<ExecutionTimeAssertions> BeGreaterThan(TimeSpan minDuration, string because = "",
+        params object[] becauseArgs)
     {
         bool Condition(TimeSpan duration) => duration > minDuration;
         (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: true, rate: minDuration);
@@ -174,8 +182,8 @@ public class ExecutionTimeAssertions
             .ForCondition(Condition(elapsed))
             .BecauseOf(because, becauseArgs)
             .FailWith("Execution of " +
-                      execution.ActionDescription.EscapePlaceholders() + " should be greater than {0}{reason}, but it required " +
-                      (isRunning ? "more than " : "exactly ") + "{1}.",
+                execution.ActionDescription.EscapePlaceholders() + " should be greater than {0}{reason}, but it required " +
+                (isRunning ? "more than " : "exactly ") + "{1}.",
                 minDuration,
                 elapsed);
 
@@ -200,7 +208,8 @@ public class ExecutionTimeAssertions
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
-    public AndConstraint<ExecutionTimeAssertions> BeCloseTo(TimeSpan expectedDuration, TimeSpan precision, string because = "", params object[] becauseArgs)
+    public AndConstraint<ExecutionTimeAssertions> BeCloseTo(TimeSpan expectedDuration, TimeSpan precision, string because = "",
+        params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
@@ -218,8 +227,8 @@ public class ExecutionTimeAssertions
             .ForCondition(MinCondition(elapsed) && MaxCondition(elapsed))
             .BecauseOf(because, becauseArgs)
             .FailWith("Execution of " + execution.ActionDescription.EscapePlaceholders() +
-                      " should be within {0} from {1}{reason}, but it required " +
-                      (isRunning ? "more than " : "exactly ") + "{2}.",
+                " should be within {0} from {1}{reason}, but it required " +
+                (isRunning ? "more than " : "exactly ") + "{2}.",
                 precision,
                 expectedDuration,
                 elapsed);
@@ -229,5 +238,6 @@ public class ExecutionTimeAssertions
 
     /// <inheritdoc/>
     public override bool Equals(object obj) =>
-        throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean BeLessThanOrEqualTo() or BeGreaterThanOrEqualTo() instead?");
+        throw new NotSupportedException(
+            "Equals is not part of Fluent Assertions. Did you mean BeLessThanOrEqualTo() or BeGreaterThanOrEqualTo() instead?");
 }

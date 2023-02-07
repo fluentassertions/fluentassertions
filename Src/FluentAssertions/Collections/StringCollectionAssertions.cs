@@ -7,8 +7,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Collections;
 
-public class StringCollectionAssertions :
-    StringCollectionAssertions<IEnumerable<string>>
+public class StringCollectionAssertions : StringCollectionAssertions<IEnumerable<string>>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="StringCollectionAssertions"/> class.
@@ -19,8 +18,8 @@ public class StringCollectionAssertions :
     }
 }
 
-public class StringCollectionAssertions<TCollection> :
-    StringCollectionAssertions<TCollection, StringCollectionAssertions<TCollection>>
+public class StringCollectionAssertions<TCollection>
+    : StringCollectionAssertions<TCollection, StringCollectionAssertions<TCollection>>
     where TCollection : IEnumerable<string>
 {
     /// <summary>
@@ -32,8 +31,7 @@ public class StringCollectionAssertions<TCollection> :
     }
 }
 
-public class StringCollectionAssertions<TCollection, TAssertions> :
-    GenericCollectionAssertions<TCollection, string, TAssertions>
+public class StringCollectionAssertions<TCollection, TAssertions> : GenericCollectionAssertions<TCollection, string, TAssertions>
     where TCollection : IEnumerable<string>
     where TAssertions : StringCollectionAssertions<TCollection, TAssertions>
 {
@@ -94,7 +92,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable<string> expectation, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable<string> expectation, string because = "",
+        params object[] becauseArgs)
     {
         return BeEquivalentTo(expectation, config => config, because, becauseArgs);
     }
@@ -127,13 +126,15 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     {
         Guard.ThrowIfArgumentIsNull(config);
 
-        EquivalencyAssertionOptions<IEnumerable<string>> options = config(AssertionOptions.CloneDefaults<string>()).AsCollection();
+        EquivalencyAssertionOptions<IEnumerable<string>>
+            options = config(AssertionOptions.CloneDefaults<string>()).AsCollection();
 
-        var context = new EquivalencyValidationContext(Node.From<IEnumerable<string>>(() => AssertionScope.Current.CallerIdentity), options)
-        {
-            Reason = new Reason(because, becauseArgs),
-            TraceWriter = options.TraceWriter
-        };
+        var context =
+            new EquivalencyValidationContext(Node.From<IEnumerable<string>>(() => AssertionScope.Current.CallerIdentity), options)
+            {
+                Reason = new Reason(because, becauseArgs),
+                TraceWriter = options.TraceWriter
+            };
 
         var comparands = new Comparands
         {
@@ -241,8 +242,11 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     public AndWhichConstraint<TAssertions, string> ContainMatch(string wildcardPattern, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match strings in collection against <null>. Provide a wildcard pattern or use the Contain method.");
-        Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern), "Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the Contain method.");
+        Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern),
+            "Cannot match strings in collection against <null>. Provide a wildcard pattern or use the Contain method.");
+
+        Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern),
+            "Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the Contain method.");
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -267,6 +271,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     private bool ContainsMatch(string wildcardPattern)
     {
         using var scope = new AssertionScope();
+
         return Subject.Any(item =>
         {
             item.Should().Match(wildcardPattern);
@@ -322,13 +327,17 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     public AndConstraint<TAssertions> NotContainMatch(string wildcardPattern, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match strings in collection against <null>. Provide a wildcard pattern or use the NotContain method.");
-        Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern), "Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the NotContain method.");
+        Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern),
+            "Cannot match strings in collection against <null>. Provide a wildcard pattern or use the NotContain method.");
+
+        Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern),
+            "Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the NotContain method.");
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
-            .FailWith("Did not expect {context:collection} to contain a match of {0}{reason}, but found <null>.", wildcardPattern);
+            .FailWith("Did not expect {context:collection} to contain a match of {0}{reason}, but found <null>.",
+                wildcardPattern);
 
         if (success)
         {
@@ -344,6 +353,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     private bool NotContainsMatch(string wildcardPattern)
     {
         using var scope = new AssertionScope();
+
         return Subject.All(item =>
         {
             item.Should().NotMatch(wildcardPattern);

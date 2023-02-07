@@ -33,6 +33,7 @@ public class DictionaryValueFormatter : IValueFormatter
         IEnumerable<KeyValuePair<object, object>> collection = AsEnumerable((IDictionary)value);
 
         using var iterator = new Iterator<KeyValuePair<object, object>>(collection, MaxItems);
+
         while (iterator.MoveNext())
         {
             if (iterator.IsFirst)
@@ -86,6 +87,7 @@ public class DictionaryValueFormatter : IValueFormatter
     private static IEnumerable<KeyValuePair<object, object>> AsEnumerable(IDictionary dictionary)
     {
         IDictionaryEnumerator iterator = dictionary.GetEnumerator();
+
         using (iterator as IDisposable)
         {
             while (iterator.MoveNext())

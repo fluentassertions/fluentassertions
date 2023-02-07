@@ -207,7 +207,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// </param>
     public AndConstraint<TypeAssertions> NotBe(Type unexpected, string because = "", params object[] becauseArgs)
     {
-        string nameOfUnexpectedType = (unexpected is not null) ? $"[{unexpected.AssemblyQualifiedName}]" : "<null>";
+        string nameOfUnexpectedType = unexpected is not null ? $"[{unexpected.AssemblyQualifiedName}]" : "<null>";
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -789,9 +789,9 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     public AndConstraint<TypeAssertions> BeStatic(string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
-           .BecauseOf(because, becauseArgs)
-           .ForCondition(Subject is not null)
-           .FailWith("Expected type to be static{reason}, but {context:type} is <null>.");
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject is not null)
+            .FailWith("Expected type to be static{reason}, but {context:type} is <null>.");
 
         if (success)
         {
@@ -1541,9 +1541,9 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
         Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 
         bool success = Execute.Assertion
-           .BecauseOf(because, becauseArgs)
-           .ForCondition(Subject is not null)
-           .FailWith($"Expected {{context:type}} to be {accessModifier}{{reason}}, but {{context:type}} is <null>.");
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject is not null)
+            .FailWith($"Expected {{context:type}} to be {accessModifier}{{reason}}, but {{context:type}} is <null>.");
 
         if (success)
         {

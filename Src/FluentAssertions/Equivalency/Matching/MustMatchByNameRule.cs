@@ -16,13 +16,13 @@ internal class MustMatchByNameRule : IMemberMatchingRule
         if (config.IncludedProperties != MemberVisibility.None)
         {
             PropertyInfo propertyInfo = subject.GetType().FindProperty(expectedMember.Name);
-            subjectMember = (propertyInfo is not null) && !propertyInfo.IsIndexer() ? new Property(propertyInfo, parent) : null;
+            subjectMember = propertyInfo is not null && !propertyInfo.IsIndexer() ? new Property(propertyInfo, parent) : null;
         }
 
-        if ((subjectMember is null) && config.IncludedFields != MemberVisibility.None)
+        if (subjectMember is null && config.IncludedFields != MemberVisibility.None)
         {
             FieldInfo fieldInfo = subject.GetType().FindField(expectedMember.Name);
-            subjectMember = (fieldInfo is not null) ? new Field(fieldInfo, parent) : null;
+            subjectMember = fieldInfo is not null ? new Field(fieldInfo, parent) : null;
         }
 
         if ((subjectMember is null || !config.UseRuntimeTyping) && ExpectationImplementsMemberExplicitly(subject, expectedMember))
