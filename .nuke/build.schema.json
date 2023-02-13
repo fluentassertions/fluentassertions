@@ -11,7 +11,8 @@
           "description": "Indicates to continue a previously failed build attempt"
         },
         "GenerateBinLog": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "Use this parameter if you encounter build problems in any way, to generate a .binlog file which holds some useful information"
         },
         "Help": {
           "type": "boolean",
