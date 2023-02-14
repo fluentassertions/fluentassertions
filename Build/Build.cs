@@ -41,6 +41,10 @@ class Build : NukeBuild
     string BuildNumber => GitHubActions?.RunNumber.ToString();
     string PullRequestBase => GitHubActions?.BaseRef;
 
+    [Parameter("Use this parameter if you encounter build problems in any way, " +
+        "to generate a .binlog file which holds some useful information.")] 
+    readonly bool? GenerateBinLog;
+
     [Parameter("The key to push to Nuget")]
     [Secret]
     readonly string NuGetApiKey;
@@ -124,6 +128,9 @@ class Build : NukeBuild
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration.CI)
+                .When(GenerateBinLog is true, _ => _
+                    .SetBinaryLog(ArtifactsDirectory / $"{Solution.Core.FluentAssertions.Name}.binlog")
+                )
                 .EnableNoLogo()
                 .EnableNoRestore()
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
