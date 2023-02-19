@@ -2393,6 +2393,8 @@ namespace FluentAssertions.Specialized
             where TException : System.Exception { }
         public System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> ThrowExactlyAsync<TException>(string because = "", params object[] becauseArgs)
             where TException : System.Exception { }
+        public System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> ThrowWithinAsync<TException>(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs)
+            where TException : System.Exception { }
     }
     public abstract class DelegateAssertionsBase<TDelegate, TAssertions> : FluentAssertions.Primitives.ReferenceTypeAssertions<TDelegate, FluentAssertions.Specialized.DelegateAssertionsBase<TDelegate, TAssertions>>
         where TDelegate : System.Delegate
