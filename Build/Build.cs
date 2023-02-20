@@ -42,7 +42,7 @@ class Build : NukeBuild
     string PullRequestBase => GitHubActions?.BaseRef;
 
     [Parameter("Use this parameter if you encounter build problems in any way, " +
-        "to generate a .binlog file which holds some useful information.")] 
+        "to generate a .binlog file which holds some useful information.")]
     readonly bool? GenerateBinLog;
 
     [Parameter("The key to push to Nuget")]
