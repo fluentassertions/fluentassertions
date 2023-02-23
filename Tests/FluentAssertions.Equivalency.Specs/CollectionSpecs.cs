@@ -84,27 +84,6 @@ public class CollectionSpecs
         public bool IsSynchronized => ((ICollection)inner).IsSynchronized;
     }
 
-    private class MultiEnumerable : IEnumerable<int>, IEnumerable<long>
-    {
-        private readonly List<int> ints = new();
-        private readonly List<long> longs = new();
-
-        IEnumerator<int> IEnumerable<int>.GetEnumerator()
-        {
-            return ints.GetEnumerator();
-        }
-
-        public IEnumerator GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        IEnumerator<long> IEnumerable<long>.GetEnumerator()
-        {
-            return longs.GetEnumerator();
-        }
-    }
-
     private class EnumerableOfStringAndObject : IEnumerable<object>, IEnumerable<string>
     {
         IEnumerator IEnumerable.GetEnumerator()
