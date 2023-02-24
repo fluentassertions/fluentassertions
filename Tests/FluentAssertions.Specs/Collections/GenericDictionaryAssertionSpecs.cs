@@ -2759,7 +2759,8 @@ public class GenericDictionaryAssertionSpecs
 
         public static IEnumerable<object[]> DictionariesData()
         {
-            return from x in Dictionaries()
+            return
+                from x in Dictionaries()
                 from y in Dictionaries()
                 select new[] { x, y };
         }

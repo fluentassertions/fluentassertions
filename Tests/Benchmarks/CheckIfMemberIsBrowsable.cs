@@ -19,9 +19,8 @@ public class CheckIfMemberIsBrowsableBenchmarks
         .GetField(IsBrowsable ? nameof(BrowsableField) : nameof(NonBrowsableField));
 
     [Benchmark]
-    public void CheckIfMemberIsBrowsable()
+    public bool CheckIfMemberIsBrowsable()
     {
-        bool _ =
-            SubjectField.GetCustomAttribute<EditorBrowsableAttribute>() is not { State: EditorBrowsableState.Never };
+        return SubjectField.GetCustomAttribute<EditorBrowsableAttribute>() is not { State: EditorBrowsableState.Never };
     }
 }

@@ -80,7 +80,8 @@ public class ObjectExtensionsSpecs
 
     public static IEnumerable<object[]> GetNonNumericAndNumericData()
     {
-        return from x in GetNonNumericIConvertibles()
+        return
+            from x in GetNonNumericIConvertibles()
             from y in GetNumericIConvertibles()
             select new[] { x, y };
     }
@@ -101,7 +102,8 @@ public class ObjectExtensionsSpecs
 
     public static IEnumerable<object[]> GetNumericAndNonNumericData()
     {
-        return from x in GetNumericIConvertibles()
+        return
+            from x in GetNumericIConvertibles()
             from y in GetNonNumericIConvertibles()
             select new[] { x, y };
     }

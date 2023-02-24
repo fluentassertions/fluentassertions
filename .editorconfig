@@ -116,6 +116,7 @@ csharp_space_before_comma = false
 csharp_space_before_dot = false
 csharp_space_before_open_square_brackets = false
 csharp_space_before_semicolon_in_for_statement = false
+csharp_space_between_attribute_sections = false
 csharp_space_between_empty_square_brackets = false
 csharp_space_between_method_call_empty_parameter_list_parentheses = false
 csharp_space_between_method_call_name_and_opening_parenthesis = false

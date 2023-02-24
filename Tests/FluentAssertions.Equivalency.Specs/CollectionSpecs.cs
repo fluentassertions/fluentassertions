@@ -84,27 +84,6 @@ public class CollectionSpecs
         public bool IsSynchronized => ((ICollection)inner).IsSynchronized;
     }
 
-    private class MultiEnumerable : IEnumerable<int>, IEnumerable<long>
-    {
-        private readonly List<int> ints = new();
-        private readonly List<long> longs = new();
-
-        IEnumerator<int> IEnumerable<int>.GetEnumerator()
-        {
-            return ints.GetEnumerator();
-        }
-
-        public IEnumerator GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        IEnumerator<long> IEnumerable<long>.GetEnumerator()
-        {
-            return longs.GetEnumerator();
-        }
-    }
-
     private class EnumerableOfStringAndObject : IEnumerable<object>, IEnumerable<string>
     {
         IEnumerator IEnumerable.GetEnumerator()
@@ -1245,13 +1224,17 @@ public class CollectionSpecs
         };
 
         // Act
-        Action action = () => subject.Should().AllBeEquivalentTo(new
+        Action action = () =>
+        {
+            var expectation = new
             {
                 Name = "someDto",
                 Age = 1,
                 Birthdate = default(DateTime)
-            })
-            .And.HaveCount(3);
+            };
+
+            subject.Should().AllBeEquivalentTo(expectation).And.HaveCount(3);
+        };
 
         // Assert
         action.Should().NotThrow();
@@ -2649,7 +2632,8 @@ public class CollectionSpecs
             new int?[] { null, 1 }, new int?[] { 1, null }, new object[] { null, 1 }, new object[] { 1, null }
         };
 
-        return from x in arrays
+        return
+            from x in arrays
             from y in arrays
             select new[] { x, y };
     }

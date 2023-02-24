@@ -406,7 +406,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="regularExpression"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> MatchRegex([RegexPattern] [StringSyntax("Regex")] string regularExpression,
+    public AndConstraint<TAssertions> MatchRegex([RegexPattern][StringSyntax("Regex")] string regularExpression,
         OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression),
@@ -443,7 +443,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="regularExpression"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> MatchRegex([RegexPattern] [StringSyntax("Regex")] string regularExpression,
+    public AndConstraint<TAssertions> MatchRegex([RegexPattern][StringSyntax("Regex")] string regularExpression,
         string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression),
@@ -578,7 +578,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="regularExpression"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> NotMatchRegex([RegexPattern] [StringSyntax("Regex")] string regularExpression,
+    public AndConstraint<TAssertions> NotMatchRegex([RegexPattern][StringSyntax("Regex")] string regularExpression,
         string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression),
