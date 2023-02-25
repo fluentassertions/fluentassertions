@@ -442,7 +442,7 @@ public class DataSpecs
 
     #endregion
 
-    private static readonly Random Random = new();
+    private static readonly Random Random = new(0);
 
     internal static TDataSet CreateDummyDataSet<TDataSet>(bool identicalTables = false, bool includeDummyData = true,
         bool includeRelation = true)
