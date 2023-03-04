@@ -1140,7 +1140,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     {
         Guard.ThrowIfArgumentIsNull(predicate);
 
-        string expectationPrefix =
+        const string expectationPrefix =
             "Expected {context:collection} to contain a single item matching {0}{reason}, ";
 
         bool success = Execute.Assertion
