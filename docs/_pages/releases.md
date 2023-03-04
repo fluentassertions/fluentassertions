@@ -13,6 +13,8 @@ sidebar:
 
 ### Fixes
 
+* Fixed `.Excluding()`, `.For().Exclude()` not working if root is a collection - [#2101](https://github.com/fluentassertions/fluentassertions/pull/2135)
+
 ## 6.10.0
 
 ### Fixes
