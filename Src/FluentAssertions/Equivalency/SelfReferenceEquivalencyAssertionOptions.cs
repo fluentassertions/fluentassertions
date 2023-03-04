@@ -613,7 +613,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     }
 
     /// <summary>
-    /// Ensures records by default are compared by their members even though they override 
+    /// Ensures records by default are compared by their members even though they override
     /// the <see cref="object.Equals(object)" /> method.
     /// </summary>
     /// <remarks>

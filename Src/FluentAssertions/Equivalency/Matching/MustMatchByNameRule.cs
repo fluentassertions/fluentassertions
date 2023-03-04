@@ -40,7 +40,7 @@ internal class MustMatchByNameRule : IMemberMatchingRule
         {
             Execute.Assertion.FailWith(
                 $"Expectation has {expectedMember.Description} that is non-browsable in the other object, and non-browsable " +
-                $"members on the subject are ignored with the current configuration");
+                "members on the subject are ignored with the current configuration");
         }
 
         return subjectMember;

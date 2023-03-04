@@ -9,7 +9,7 @@ namespace FluentAssertions.Equivalency;
 public interface IObjectInfo
 {
     /// <summary>
-    /// Gets the type of the object 
+    /// Gets the type of the object
     /// </summary>
     [Obsolete("Use CompileTimeType or RuntimeType instead")]
     Type Type { get; }

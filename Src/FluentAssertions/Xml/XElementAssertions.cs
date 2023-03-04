@@ -338,7 +338,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
                 .ForConstraint(occurrenceConstraint, actual)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    $"Expected {{context:subject}} to have an element {{0}} {{expectedOccurrence}}" +
+                    "Expected {context:subject} to have an element {0} {expectedOccurrence}" +
                     $"{{reason}}, but found it {actual.Times()}.",
                     expected.ToString());
         }

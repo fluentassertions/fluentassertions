@@ -84,7 +84,7 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected {Identifier} to be decorated with {typeof(TAttribute)}{{reason}}" +
-                $", but {{context:member}} is <null>.");
+                ", but {context:member} is <null>.");
 
         IEnumerable<TAttribute> attributes = new TAttribute[0];
 
@@ -97,7 +97,7 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     $"Expected {Identifier} {SubjectDescription} to be decorated with {typeof(TAttribute)}{{reason}}" +
-                    $", but that attribute was not found.");
+                    ", but that attribute was not found.");
         }
 
         return new AndWhichConstraint<MemberInfoAssertions<TSubject, TAssertions>, TAttribute>(this, attributes);
@@ -130,7 +130,7 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected {Identifier} to not be decorated with {typeof(TAttribute)}{{reason}}" +
-                $", but {{context:member}} is <null>.");
+                ", but {context:member} is <null>.");
 
         if (success)
         {
@@ -141,7 +141,7 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     $"Expected {Identifier} {SubjectDescription} to not be decorated with {typeof(TAttribute)}{{reason}}" +
-                    $", but that attribute was found.");
+                    ", but that attribute was found.");
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);

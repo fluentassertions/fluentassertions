@@ -372,7 +372,7 @@ public class DataRowSpecs : DataSpecs
     [Fact]
     public void Any_type_is_not_equivalent_to_data_row_colletion()
     {
-        // Arrange 
+        // Arrange
         var o = new object();
 
         // Act

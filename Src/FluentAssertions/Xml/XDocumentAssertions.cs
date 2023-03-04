@@ -330,7 +330,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
                     .ForConstraint(occurrenceConstraint, actual)
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
-                        $"Expected {{context:subject}} to have a root element containing a child {{0}} " +
+                        "Expected {context:subject} to have a root element containing a child {0} " +
                         $"{{expectedOccurrence}}{{reason}}, but found it {actual.Times()}.",
                         expected.ToString());
             }

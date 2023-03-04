@@ -24,7 +24,7 @@ public interface INode
     string Name { get; set; }
 
     /// <summary>
-    /// Gets the type of this node, e.g. the type of the field or property, or the type of the collection item. 
+    /// Gets the type of this node, e.g. the type of the field or property, or the type of the collection item.
     /// </summary>
     Type Type { get; }
 
