@@ -64,7 +64,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
 
     #endregion
 
-    internal SelfReferenceEquivalencyAssertionOptions()
+    private protected SelfReferenceEquivalencyAssertionOptions()
     {
         AddMatchingRule(new MustMatchByNameRule());
 
