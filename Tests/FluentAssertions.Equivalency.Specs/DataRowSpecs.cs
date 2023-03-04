@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -476,7 +477,11 @@ public class DataRowSpecs : DataSpecs
             .ToArray();
 
         // Act
-        Action act = () => actual.Should().HaveColumns(subsetOfColumnNames);
+        Action act = () =>
+        {
+            using var _ = new AssertionScope();
+            actual.Should().HaveColumns(subsetOfColumnNames);
+        };
 
         // Assert
         act.Should().Throw<XunitException>()

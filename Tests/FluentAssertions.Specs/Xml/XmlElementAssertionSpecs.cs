@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -224,8 +225,11 @@ public class XmlElementAssertionSpecs
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 theElement.Should().HaveAttributeWithNamespace("age", "http://www.example.com/2012/test", "36",
                     "because we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()

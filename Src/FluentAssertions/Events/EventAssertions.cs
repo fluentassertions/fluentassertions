@@ -100,26 +100,27 @@ public class EventAssertions<T> : ReferenceTypeAssertions<T, EventAssertions<T>>
 
         IEventRecording recording = Monitor.GetRecordingFor(PropertyChangedEventName);
 
-        if (!recording.Any())
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected object {0} to raise event {1} for property {2}{reason}, but it did not raise that event at all.",
-                    Monitor.Subject, PropertyChangedEventName, propertyName);
-        }
-
-        var actualPropertyNames = recording
-            .SelectMany(@event => @event.Parameters.OfType<PropertyChangedEventArgs>())
-            .Select(eventArgs => eventArgs.PropertyName)
-            .Distinct()
-            .ToArray();
-
-        Execute.Assertion
-            .ForCondition(actualPropertyNames.Contains(propertyName))
+        bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected object {0} to raise event {1} for property {2}{reason}, but it was only raised for {3}.",
-                Monitor.Subject, PropertyChangedEventName, propertyName, actualPropertyNames);
+            .ForCondition(recording.Any())
+            .FailWith(
+                "Expected object {0} to raise event {1} for property {2}{reason}, but it did not raise that event at all.",
+                Monitor.Subject, PropertyChangedEventName, propertyName);
+
+        if (success)
+        {
+            var actualPropertyNames = recording
+                .SelectMany(@event => @event.Parameters.OfType<PropertyChangedEventArgs>())
+                .Select(eventArgs => eventArgs.PropertyName)
+                .Distinct()
+                .ToArray();
+
+            Execute.Assertion
+                .ForCondition(actualPropertyNames.Contains(propertyName))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected object {0} to raise event {1} for property {2}{reason}, but it was only raised for {3}.",
+                    Monitor.Subject, PropertyChangedEventName, propertyName, actualPropertyNames);
+        }
 
         return recording;
     }
