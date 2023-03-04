@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using FluentAssertions.Execution;
@@ -518,10 +517,7 @@ public class DataRowSpecs : DataSpecs
 
         var dataRow = dataSet.TypedDataTable1[0];
 
-        var columnNames = new List<string>();
-
-        columnNames.Add("Unicorn");
-        columnNames.Add("Dragon");
+        var columnNames = new[] { "Unicorn", "Dragon" };
 
         // Act
         Action action =
