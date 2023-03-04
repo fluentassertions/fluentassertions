@@ -112,8 +112,9 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     }
 
     /// <summary>
-    /// Asserts that the thrown exception contains an inner exception of type <param name="innerException" />.
+    /// Asserts that the thrown exception contains an inner exception of type <paramref name="innerException" />.
     /// </summary>
+    /// <param name="innerException">The expected type of the inner exception.</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -147,8 +148,9 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     }
 
     /// <summary>
-    /// Asserts that the thrown exception contains an inner exception of the exact type <param name="innerException" /> (and not a derived exception type).
+    /// Asserts that the thrown exception contains an inner exception of the exact type <paramref name="innerException" /> (and not a derived exception type).
     /// </summary>
+    /// <param name="innerException">The expected type of the inner exception.</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.

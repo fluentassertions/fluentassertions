@@ -12,6 +12,7 @@ public static class DataColumnCollectionAssertionExtensions
     /// <summary>
     /// Asserts that an object reference refers to the exact same object as another object reference.
     /// </summary>
+    /// <param name="assertion">The <see cref="GenericCollectionAssertions{T}"/> object that is being extended.</param>
     /// <param name="expected">The expected object</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -56,6 +57,7 @@ public static class DataColumnCollectionAssertionExtensions
     /// <summary>
     /// Asserts that an object reference refers to a different object than another object reference refers to.
     /// </summary>
+    /// <param name="assertion">The <see cref="GenericCollectionAssertions{T}"/> object that is being extended.</param>
     /// <param name="unexpected">The unexpected object</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -98,6 +100,7 @@ public static class DataColumnCollectionAssertionExtensions
     /// <summary>
     /// Assert that the current collection has the same number of elements as <paramref name="otherCollection" />.
     /// </summary>
+    /// <param name="assertion">The <see cref="GenericCollectionAssertions{T}"/> object that is being extended.</param>
     /// <param name="otherCollection">The other collection with the same expected number of elements</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -134,6 +137,7 @@ public static class DataColumnCollectionAssertionExtensions
     /// Assert that the current collection of <see cref="DataColumn"/>s does not have the same number of columns as
     /// <paramref name="otherCollection" />.
     /// </summary>
+    /// <param name="assertion">The <see cref="GenericCollectionAssertions{T}"/> object that is being extended.</param>
     /// <param name="otherCollection">The other <see cref="DataColumnCollection"/> with the unexpected number of
     /// elements</param>
     /// <param name="because">
