@@ -598,6 +598,57 @@ public class CollectionSpecs
         }
 
         [Fact]
+        public void When_property_in_collection_is_excluded_it_should_not_throw_if_root_is_a_collection()
+        {
+            // Arrange
+            var subject = new
+            {
+                Level = new
+                {
+                    Collection = new[]
+                    {
+                        new
+                        {
+                            Number = 1,
+                            Text = "Text"
+                        },
+                        new
+                        {
+                            Number = 2,
+                            Text = "Actual"
+                        }
+                    }
+                }
+            };
+
+            var expected = new
+            {
+                Level = new
+                {
+                    Collection = new[]
+                    {
+                        new
+                        {
+                            Number = 1,
+                            Text = "Text"
+                        },
+                        new
+                        {
+                            Number = 3,
+                            Text = "Actual"
+                        }
+                    }
+                }
+            };
+
+            // Act / Assert
+            new[] { subject }.Should().BeEquivalentTo(new[] { expected },
+                options => options
+                    .For(x => x.Level.Collection)
+                    .Exclude(x => x.Number));
+        }
+
+        [Fact]
         public void When_collection_in_collection_is_excluded_it_should_not_throw()
         {
             // Arrange
