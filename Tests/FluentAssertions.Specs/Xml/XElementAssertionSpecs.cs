@@ -916,7 +916,10 @@ public class XElementAssertionSpecs
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 theElement.Should().HaveAttribute("age", "36", "because we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(

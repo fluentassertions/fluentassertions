@@ -209,7 +209,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
         {
             XAttribute attribute = Subject.Attribute(expectedName);
 
-            Execute.Assertion
+            success = Execute.Assertion
                 .ForCondition(attribute is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
@@ -217,12 +217,15 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
                     + " but found no such attribute in {2}",
                     expectedText, expectedValue, Subject);
 
-            Execute.Assertion
-                .ForCondition(attribute.Value == expectedValue)
-                .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected attribute {0} in {context:subject} to have value {1}{reason}, but found {2}.",
-                    expectedText, expectedValue, attribute.Value);
+            if (success)
+            {
+                Execute.Assertion
+                    .ForCondition(attribute.Value == expectedValue)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        "Expected attribute {0} in {context:subject} to have value {1}{reason}, but found {2}.",
+                        expectedText, expectedValue, attribute.Value);
+            }
         }
 
         return new AndConstraint<XElementAssertions>(this);

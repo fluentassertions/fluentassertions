@@ -1151,7 +1151,11 @@ public class XDocumentAssertionSpecs
             XDocument document = new();
 
             // Act
-            Action act = () => document.Should().HaveElement("unknown");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                document.Should().HaveElement("unknown");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using FluentAssertions.Events;
+using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
 using FluentAssertions.Formatting;
 using Xunit;
@@ -507,7 +508,11 @@ public class EventAssertionSpecs
             using var monitor = subject.Monitor();
 
             // Act
-            Action act = () => monitor.Should().RaisePropertyChangeFor(null);
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                monitor.Should().RaisePropertyChangeFor(null);
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(

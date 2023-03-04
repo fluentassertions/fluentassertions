@@ -12,6 +12,7 @@ sidebar:
 ### What's new
 
 ### Fixes
+* Improved robustness of several assertions when they're wrapped in an `AssertionScope` - [#2133](https://github.com/fluentassertions/fluentassertions/pull/2133)
 
 ## 6.10.0
 

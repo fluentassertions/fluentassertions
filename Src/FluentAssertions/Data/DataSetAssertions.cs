@@ -37,20 +37,21 @@ public class DataSetAssertions<TDataSet> : ReferenceTypeAssertions<DataSet, Data
     public AndConstraint<DataSetAssertions<TDataSet>> HaveTableCount(int expected, string because = "",
         params object[] becauseArgs)
     {
-        if (Subject is null)
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:DataSet} to contain exactly {0} table(s){reason}, but found <null>.", expected);
-        }
-
-        int actualCount = Subject.Tables.Count;
-
-        Execute.Assertion
-            .ForCondition(actualCount == expected)
+        bool success = Execute.Assertion
+            .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:DataSet} to contain exactly {0} table(s){reason}, but found {1}.", expected,
-                actualCount);
+            .FailWith("Expected {context:DataSet} to contain exactly {0} table(s){reason}, but found <null>.", expected);
+
+        if (success)
+        {
+            int actualCount = Subject.Tables.Count;
+
+            Execute.Assertion
+                .ForCondition(actualCount == expected)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:DataSet} to contain exactly {0} table(s){reason}, but found {1}.", expected,
+                    actualCount);
+        }
 
         return new AndConstraint<DataSetAssertions<TDataSet>>(this);
     }
@@ -115,20 +116,21 @@ public class DataSetAssertions<TDataSet> : ReferenceTypeAssertions<DataSet, Data
     public AndConstraint<DataSetAssertions<TDataSet>> HaveTables(IEnumerable<string> expectedTableNames, string because = "",
         params object[] becauseArgs)
     {
-        if (Subject is null)
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:DataSet} to contain {0} table(s) with specific names{reason}, but found <null>.",
-                    expectedTableNames.Count());
-        }
+        bool success = Execute.Assertion
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:DataSet} to contain {0} table(s) with specific names{reason}, but found <null>.",
+                () => expectedTableNames.Count());
 
-        foreach (var expectedTableName in expectedTableNames)
+        if (success)
         {
-            Execute.Assertion
-                .ForCondition(Subject.Tables.Contains(expectedTableName))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:DataSet} to contain a table named {0}{reason}, but it does not.", expectedTableName);
+            foreach (var expectedTableName in expectedTableNames)
+            {
+                Execute.Assertion
+                    .ForCondition(Subject.Tables.Contains(expectedTableName))
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:DataSet} to contain a table named {0}{reason}, but it does not.", expectedTableName);
+            }
         }
 
         return new AndConstraint<DataSetAssertions<TDataSet>>(this);
