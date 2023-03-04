@@ -34,7 +34,7 @@ internal class CollectingAssertionStrategy : IAssertionStrategy
         if (failureMessages.Any())
         {
             var builder = new StringBuilder();
-            builder.AppendLine(string.Join(Environment.NewLine, failureMessages));
+            builder.AppendJoin(Environment.NewLine, failureMessages).AppendLine();
 
             if (context.Any())
             {
