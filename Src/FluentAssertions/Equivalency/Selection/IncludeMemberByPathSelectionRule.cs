@@ -12,7 +12,6 @@ internal class IncludeMemberByPathSelectionRule : SelectMemberByPathSelectionRul
     private readonly MemberPath memberToInclude;
 
     public IncludeMemberByPathSelectionRule(MemberPath pathToInclude)
-        : base(pathToInclude.ToString())
     {
         memberToInclude = pathToInclude;
     }

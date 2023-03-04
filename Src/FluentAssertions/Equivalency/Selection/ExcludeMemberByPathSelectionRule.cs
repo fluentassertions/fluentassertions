@@ -11,7 +11,6 @@ internal class ExcludeMemberByPathSelectionRule : SelectMemberByPathSelectionRul
     private MemberPath memberToExclude;
 
     public ExcludeMemberByPathSelectionRule(MemberPath pathToExclude)
-        : base(pathToExclude.ToString())
     {
         memberToExclude = pathToExclude;
     }
@@ -26,7 +25,6 @@ internal class ExcludeMemberByPathSelectionRule : SelectMemberByPathSelectionRul
     public void AppendPath(MemberPath nextPath)
     {
         memberToExclude = memberToExclude.AsParentCollectionOf(nextPath);
-        SetSelectedPath(memberToExclude.ToString());
     }
 
     public override string ToString()

@@ -623,6 +623,30 @@ public class SelectionRulesSpecs
         }
 
         [Fact]
+        public void When_only_the_excluded_property_doesnt_match_it_should_not_throw_if_root_is_a_collection()
+        {
+            // Arrange
+            var dto = new Customer
+            {
+                Age = 36,
+                Birthdate = new DateTime(1973, 9, 20),
+                Name = "John"
+            };
+
+            var customer = new Customer
+            {
+                Age = 36,
+                Birthdate = new DateTime(1973, 9, 20),
+                Name = "Dennis"
+            };
+
+            // Act / Assert
+            new[] { dto }.Should().BeEquivalentTo(new[] { customer }, options => options
+                .Excluding(d => d.Name)
+                .Excluding(d => d.Id));
+        }
+
+        [Fact]
         [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public void When_excluding_members_it_should_pass_if_only_the_excluded_members_are_different()
         {
@@ -740,6 +764,41 @@ public class SelectionRulesSpecs
 
             // Assert
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void When_a_deeply_nested_property_with_a_value_mismatch_is_excluded_it_should_not_throw_if_root_is_a_collection()
+        {
+            // Arrange
+            var subject = new Root
+            {
+                Text = "Root",
+                Level = new Level1
+                {
+                    Text = "Level1",
+                    Level = new Level2
+                    {
+                        Text = "Mismatch"
+                    }
+                }
+            };
+
+            var expected = new RootDto
+            {
+                Text = "Root",
+                Level = new Level1Dto
+                {
+                    Text = "Level1",
+                    Level = new Level2Dto
+                    {
+                        Text = "Level2"
+                    }
+                }
+            };
+
+            // Act / Assert
+            new[] { subject }.Should().BeEquivalentTo(new[] { expected },
+                options => options.Excluding(r => r.Level.Level.Text));
         }
 
         [Fact]
@@ -920,6 +979,74 @@ public class SelectionRulesSpecs
 
             // Assert
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void
+            When_excluding_properties_via_non_array_indexers_it_should_exclude_the_specified_paths_if_root_is_a_collection()
+        {
+            // Arrange
+            var subject = new
+            {
+                List = new[]
+                {
+                    new
+                    {
+                        Foo = 1,
+                        Bar = 2
+                    },
+                    new
+                    {
+                        Foo = 3,
+                        Bar = 4
+                    }
+                }.ToList(),
+                Dictionary = new Dictionary<string, ClassWithOnlyAProperty>
+                {
+                    ["Foo"] = new()
+                    {
+                        Value = 1
+                    },
+                    ["Bar"] = new()
+                    {
+                        Value = 2
+                    }
+                }
+            };
+
+            var expected = new
+            {
+                List = new[]
+                {
+                    new
+                    {
+                        Foo = 1,
+                        Bar = 2
+                    },
+                    new
+                    {
+                        Foo = 2,
+                        Bar = 4
+                    }
+                }.ToList(),
+                Dictionary = new Dictionary<string, ClassWithOnlyAProperty>
+                {
+                    ["Foo"] = new()
+                    {
+                        Value = 1
+                    },
+                    ["Bar"] = new()
+                    {
+                        Value = 3
+                    }
+                }
+            };
+
+            // Act / Assert
+            new[] { subject }.Should().BeEquivalentTo(new[] { expected },
+                options => options
+                    .Excluding(x => x.List[1].Foo)
+                    .Excluding(x => x.Dictionary["Bar"].Value));
         }
 
         [Fact]
