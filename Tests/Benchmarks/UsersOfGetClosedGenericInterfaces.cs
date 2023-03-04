@@ -91,98 +91,60 @@ public class UsersOfGetClosedGenericInterfaces
         dictionaryStep = new GenericDictionaryEquivalencyStep();
         enumerableStep = new GenericEnumerableEquivalencyStep();
 
-        values = new object[ValueCount];
-
-        var faker = new Faker();
-
-        faker.Random = new Randomizer(localSeed: 1);
-
-        for (int i = 0; i < values.Length; i++)
+        var faker = new Faker
         {
-            switch (Type.GetTypeCode(DataType))
-            {
-                case TypeCode.DBNull:
-                    values[i] = DBNull.Value;
-                    break;
-                case TypeCode.Boolean:
-                    values[i] = faker.Random.Bool();
-                    break;
-                case TypeCode.Char:
-                    values[i] = faker.Lorem.Letter().Single();
-                    break;
-                case TypeCode.SByte:
-                    values[i] = faker.Random.SByte();
-                    break;
-                case TypeCode.Byte:
-                    values[i] = faker.Random.Byte();
-                    break;
-                case TypeCode.Int16:
-                    values[i] = faker.Random.Short();
-                    break;
-                case TypeCode.UInt16:
-                    values[i] = faker.Random.UShort();
-                    break;
-                case TypeCode.Int32:
-                    values[i] = faker.Random.Int();
-                    break;
-                case TypeCode.UInt32:
-                    values[i] = faker.Random.UInt();
-                    break;
-                case TypeCode.Int64:
-                    values[i] = faker.Random.Long();
-                    break;
-                case TypeCode.UInt64:
-                    values[i] = faker.Random.ULong();
-                    break;
-                case TypeCode.Single:
-                    values[i] = faker.Random.Float();
-                    break;
-                case TypeCode.Double:
-                    values[i] = faker.Random.Double();
-                    break;
-                case TypeCode.Decimal:
-                    values[i] = faker.Random.Decimal();
-                    break;
-                case TypeCode.DateTime:
-                    values[i] = faker.Date.Between(DateTime.UtcNow.AddDays(-30), DateTime.UtcNow.AddDays(+30));
-                    break;
-                case TypeCode.String:
-                    values[i] = faker.Lorem.Lines(1);
-                    break;
+            Random = new Randomizer(localSeed: 1)
+        };
 
-                default:
-                {
-                    if (DataType == typeof(TimeSpan))
-                    {
-                        values[i] = faker.Date.Future() - faker.Date.Future();
-                    }
-                    else if (DataType == typeof(Guid))
-                    {
-                        values[i] = faker.Random.Guid();
-                    }
-                    else if (DataType == typeof(Dictionary<int, int>))
-                    {
-                        values[i] = new Dictionary<int, int>
-                            { { faker.Random.Int(), faker.Random.Int() } };
-                    }
-                    else if (DataType == typeof(IEnumerable<int>))
-                    {
-                        values[i] = new[] { faker.Random.Int(), faker.Random.Int() };
-                    }
-                    else
-                    {
-                        throw new Exception("Unable to populate data of type " + DataType);
-                    }
-
-                    break;
-                }
-            }
-        }
+        values = Enumerable.Range(0, ValueCount).Select(_ => CreateValue(faker)).ToArray();
 
         context = new Context
         {
             Options = new Config()
         };
+    }
+
+    private object CreateValue(Faker faker) => Type.GetTypeCode(DataType) switch
+    {
+        TypeCode.DBNull => DBNull.Value,
+        TypeCode.Boolean => faker.Random.Bool(),
+        TypeCode.Char => faker.Lorem.Letter().Single(),
+        TypeCode.SByte => faker.Random.SByte(),
+        TypeCode.Byte => faker.Random.Byte(),
+        TypeCode.Int16 => faker.Random.Short(),
+        TypeCode.UInt16 => faker.Random.UShort(),
+        TypeCode.Int32 => faker.Random.Int(),
+        TypeCode.UInt32 => faker.Random.UInt(),
+        TypeCode.Int64 => faker.Random.Long(),
+        TypeCode.UInt64 => faker.Random.ULong(),
+        TypeCode.Single => faker.Random.Float(),
+        TypeCode.Double => faker.Random.Double(),
+        TypeCode.Decimal => faker.Random.Decimal(),
+        TypeCode.DateTime => faker.Date.Between(DateTime.UtcNow.AddDays(-30), DateTime.UtcNow.AddDays(+30)),
+        TypeCode.String => faker.Lorem.Lines(1),
+        _ => CustomValue(faker),
+    };
+
+    private object CustomValue(Faker faker)
+    {
+        if (DataType == typeof(TimeSpan))
+        {
+            return faker.Date.Future() - faker.Date.Future();
+        }
+        else if (DataType == typeof(Guid))
+        {
+            return faker.Random.Guid();
+        }
+        else if (DataType == typeof(Dictionary<int, int>))
+        {
+            return new Dictionary<int, int> { { faker.Random.Int(), faker.Random.Int() } };
+        }
+        else if (DataType == typeof(IEnumerable<int>))
+        {
+            return new[] { faker.Random.Int(), faker.Random.Int() };
+        }
+
+        throw new Exception("Unable to populate data of type " + DataType);
     }
 
     [Benchmark]
