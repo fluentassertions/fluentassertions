@@ -1331,7 +1331,7 @@ internal class DummyBaseClass
 {
 }
 
-internal class DummyImplementingClass : DummyBaseClass, IDisposable
+internal sealed class DummyImplementingClass : DummyBaseClass, IDisposable
 {
     public void Dispose()
     {

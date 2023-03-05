@@ -8,7 +8,7 @@ namespace FluentAssertions.Common;
 /// A smarter enumerator that can provide information about the relative location (current, first, last)
 /// of the current item within the collection without unnecessarily iterating the collection.
 /// </summary>
-internal class Iterator<T> : IEnumerator<T>
+internal sealed class Iterator<T> : IEnumerator<T>
 {
     private const int InitialIndex = -1;
     private readonly IEnumerable<T> enumerable;

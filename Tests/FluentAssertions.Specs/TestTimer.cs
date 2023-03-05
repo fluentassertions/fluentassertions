@@ -3,7 +3,7 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions.Specs;
 
-internal class TestTimer : ITimer
+internal sealed class TestTimer : ITimer
 {
     private readonly Func<TimeSpan> getElapsed;
 

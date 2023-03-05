@@ -3011,7 +3011,7 @@ internal class TrackingTestDictionary : IDictionary<int, string>
     }
 }
 
-internal class TrackingDictionaryEnumerator : IEnumerator<KeyValuePair<int, string>>
+internal sealed class TrackingDictionaryEnumerator : IEnumerator<KeyValuePair<int, string>>
 {
     private readonly KeyValuePair<int, string>[] values;
     private int index;

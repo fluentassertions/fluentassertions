@@ -2,7 +2,7 @@
 
 namespace FluentAssertions;
 
-internal class Disposable : IDisposable
+internal sealed class Disposable : IDisposable
 {
     private readonly Action action;
 
