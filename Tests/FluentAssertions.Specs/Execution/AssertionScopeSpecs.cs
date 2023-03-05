@@ -240,18 +240,16 @@ namespace FluentAssertions.Specs.Execution
         public void When_nested_scope_is_disposed_it_passes_reports_to_parent_scope()
         {
             // Arrange/Act
-            using (var outerScope = new AssertionScope())
+            using var outerScope = new AssertionScope();
+            outerScope.AddReportable("outerReportable", "foo");
+
+            using (var innerScope = new AssertionScope())
             {
-                outerScope.AddReportable("outerReportable", "foo");
-
-                using (var innerScope = new AssertionScope())
-                {
-                    innerScope.AddReportable("innerReportable", "bar");
-                }
-
-                // Assert
-                outerScope.Get<string>("innerReportable").Should().Be("bar");
+                innerScope.AddReportable("innerReportable", "bar");
             }
+
+            // Assert
+            outerScope.Get<string>("innerReportable").Should().Be("bar");
         }
 
         public class CustomAssertionStrategy : IAssertionStrategy
