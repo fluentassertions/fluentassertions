@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions.Execution;
@@ -32,7 +33,7 @@ internal class AssertionResultSet
     {
         if (ContainsSuccessfulSet())
         {
-            return new string[0];
+            return Array.Empty<string>();
         }
 
         KeyValuePair<object, string[]>[] bestResultSets = GetBestResultSets();

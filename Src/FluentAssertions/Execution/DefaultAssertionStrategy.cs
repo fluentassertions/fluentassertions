@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using FluentAssertions.Common;
 
@@ -12,7 +13,7 @@ internal class DefaultAssertionStrategy : IAssertionStrategy
     {
         get
         {
-            return new string[0];
+            return Array.Empty<string>();
         }
     }
 
@@ -29,7 +30,7 @@ internal class DefaultAssertionStrategy : IAssertionStrategy
     /// </summary>
     public IEnumerable<string> DiscardFailures()
     {
-        return new string[0];
+        return Array.Empty<string>();
     }
 
     /// <summary>
