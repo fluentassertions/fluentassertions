@@ -572,7 +572,7 @@ public class CyclicRoot
 
 public class CyclicRootWithValueObject
 {
-    public ValueObject Object { get; set; }
+    public ValueObject Value { get; set; }
 
     public CyclicLevelWithValueObject Level { get; set; }
 }
@@ -606,7 +606,7 @@ public class CyclicLevel1
 
 public class CyclicLevelWithValueObject
 {
-    public ValueObject Object { get; set; }
+    public ValueObject Value { get; set; }
 
     public CyclicRootWithValueObject Root { get; set; }
 }

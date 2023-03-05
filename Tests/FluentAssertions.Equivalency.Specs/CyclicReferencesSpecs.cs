@@ -157,23 +157,23 @@ public class CyclicReferencesSpecs
         // Arrange
         var actual = new CyclicRootWithValueObject
         {
-            Object = new ValueObject("MyValue")
+            Value = new ValueObject("MyValue")
         };
 
         actual.Level = new CyclicLevelWithValueObject
         {
-            Object = new ValueObject("MyValue"),
+            Value = new ValueObject("MyValue"),
             Root = null
         };
 
         var expectation = new CyclicRootWithValueObject
         {
-            Object = new ValueObject("MyValue")
+            Value = new ValueObject("MyValue")
         };
 
         expectation.Level = new CyclicLevelWithValueObject
         {
-            Object = new ValueObject("MyValue"),
+            Value = new ValueObject("MyValue"),
             Root = null
         };
 
