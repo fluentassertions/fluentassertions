@@ -309,7 +309,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:dictionary} {0} to contain key {1}{reason}, but could not find {2}.", Subject,
+                        .FailWith("Expected {context:dictionary} {0} to contain keys {1}{reason}, but could not find {2}.", Subject,
                             expected, missingKeys);
                 }
                 else
@@ -413,7 +413,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:dictionary} {0} to not contain key {1}{reason}, but found {2}.", Subject,
+                        .FailWith("Expected {context:dictionary} {0} to not contain keys {1}{reason}, but found {2}.", Subject,
                             unexpected, foundKeys);
                 }
                 else

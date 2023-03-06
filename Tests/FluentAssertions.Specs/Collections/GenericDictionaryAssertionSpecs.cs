@@ -1403,7 +1403,7 @@ public class GenericDictionaryAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain key {2, 3} because we do, but could not find {3}.");
+                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain keys {2, 3} because we do, but could not find {3}.");
         }
 
         [Fact]
@@ -1531,7 +1531,7 @@ public class GenericDictionaryAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to not contain key {2, 3} because we do, but found {2}.");
+                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to not contain keys {2, 3} because we do, but found {2}.");
         }
 
         [Fact]
