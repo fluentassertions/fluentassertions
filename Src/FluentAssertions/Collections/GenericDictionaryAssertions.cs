@@ -401,11 +401,11 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:dictionary} to not contain keys {0}{reason}, but found <null>.", unexpected);
+            .FailWith("Expected {context:dictionary} to not contain keys {0}{reason}, but found <null>.", unexpectedKeys);
 
         if (success)
         {
-            IEnumerable<TKey> foundKeys = unexpected.Where(key => ContainsKey(Subject, key));
+            IEnumerable<TKey> foundKeys = unexpectedKeys.Where(key => ContainsKey(Subject, key));
 
             if (foundKeys.Any())
             {
@@ -414,14 +414,14 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
                         .FailWith("Expected {context:dictionary} {0} to not contain keys {1}{reason}, but found {2}.", Subject,
-                            unexpected, foundKeys);
+                            unexpectedKeys, foundKeys);
                 }
                 else
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
                         .FailWith("Expected {context:dictionary} {0} to not contain key {1}{reason}.", Subject,
-                            unexpected.First());
+                            unexpectedKeys.First());
                 }
             }
         }

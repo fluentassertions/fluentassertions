@@ -64,7 +64,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
 
     #endregion
 
-    internal SelfReferenceEquivalencyAssertionOptions()
+    private protected SelfReferenceEquivalencyAssertionOptions()
     {
         AddMatchingRule(new MustMatchByNameRule());
 
@@ -178,31 +178,31 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
 
     public bool? CompareRecordsByValue => compareRecordsByValue;
 
-    EqualityStrategy IEquivalencyAssertionOptions.GetEqualityStrategy(Type requestedType)
+    EqualityStrategy IEquivalencyAssertionOptions.GetEqualityStrategy(Type type)
     {
         // As the valueFactory parameter captures instance members,
         // be aware if the cache must be cleared on mutating the members.
-        return equalityStrategyCache.GetOrAdd(requestedType, type =>
+        return equalityStrategyCache.GetOrAdd(type, typeKey =>
         {
             EqualityStrategy strategy;
 
-            if (!type.IsPrimitive && referenceTypes.Count > 0 && referenceTypes.Any(t => type.IsSameOrInherits(t)))
+            if (!typeKey.IsPrimitive && referenceTypes.Count > 0 && referenceTypes.Any(t => typeKey.IsSameOrInherits(t)))
             {
                 strategy = EqualityStrategy.ForceMembers;
             }
-            else if (valueTypes.Count > 0 && valueTypes.Any(t => type.IsSameOrInherits(t)))
+            else if (valueTypes.Count > 0 && valueTypes.Any(t => typeKey.IsSameOrInherits(t)))
             {
                 strategy = EqualityStrategy.ForceEquals;
             }
-            else if (!type.IsPrimitive && referenceTypes.Count > 0 && referenceTypes.Any(t => type.IsAssignableToOpenGeneric(t)))
+            else if (!typeKey.IsPrimitive && referenceTypes.Count > 0 && referenceTypes.Any(t => typeKey.IsAssignableToOpenGeneric(t)))
             {
                 strategy = EqualityStrategy.ForceMembers;
             }
-            else if (valueTypes.Count > 0 && valueTypes.Any(t => type.IsAssignableToOpenGeneric(t)))
+            else if (valueTypes.Count > 0 && valueTypes.Any(t => typeKey.IsAssignableToOpenGeneric(t)))
             {
                 strategy = EqualityStrategy.ForceEquals;
             }
-            else if ((compareRecordsByValue.HasValue || getDefaultEqualityStrategy is null) && type.IsRecord())
+            else if ((compareRecordsByValue.HasValue || getDefaultEqualityStrategy is null) && typeKey.IsRecord())
             {
                 strategy = compareRecordsByValue is true ? EqualityStrategy.ForceEquals : EqualityStrategy.ForceMembers;
             }
@@ -210,11 +210,11 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
             {
                 if (getDefaultEqualityStrategy is not null)
                 {
-                    strategy = getDefaultEqualityStrategy(type);
+                    strategy = getDefaultEqualityStrategy(typeKey);
                 }
                 else
                 {
-                    strategy = type.HasValueSemantics() ? EqualityStrategy.Equals : EqualityStrategy.Members;
+                    strategy = typeKey.HasValueSemantics() ? EqualityStrategy.Equals : EqualityStrategy.Members;
                 }
             }
 
@@ -613,7 +613,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     }
 
     /// <summary>
-    /// Ensures records by default are compared by their members even though they override 
+    /// Ensures records by default are compared by their members even though they override
     /// the <see cref="object.Equals(object)" /> method.
     /// </summary>
     /// <remarks>

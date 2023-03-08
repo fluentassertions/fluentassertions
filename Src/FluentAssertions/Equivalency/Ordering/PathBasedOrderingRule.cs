@@ -40,7 +40,7 @@ internal class PathBasedOrderingRule : IOrderingRule
 
     private static bool ContainsIndexingQualifiers(string path)
     {
-        return path.Contains("[", StringComparison.Ordinal) && path.Contains("]", StringComparison.Ordinal);
+        return path.Contains('[', StringComparison.Ordinal) && path.Contains(']', StringComparison.Ordinal);
     }
 
     private string RemoveInitialIndexQualifier(string sourcePath)

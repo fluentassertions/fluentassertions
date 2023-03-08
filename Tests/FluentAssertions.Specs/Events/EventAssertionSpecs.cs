@@ -912,7 +912,7 @@ public class EventAssertionSpecs
             a.OnEvent(new C());
 
             // Act / Assert
-            IEventRecording filteredEvents = aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(b => true);
+            IEventRecording filteredEvents = aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(_ => true);
             filteredEvents.Should().HaveCount(1);
         }
 
@@ -927,7 +927,7 @@ public class EventAssertionSpecs
             a.OnEvent(new C());
 
             // Act
-            Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(b => true);
+            Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(_ => true);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -945,7 +945,7 @@ public class EventAssertionSpecs
             a.OnEvent(new C());
 
             // Act
-            Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(b => true, b => false);
+            Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(_ => true, _ => false);
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -963,7 +963,7 @@ public class EventAssertionSpecs
             a.OnEvent(new B());
 
             // Act
-            Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(b => true, b => false);
+            Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(_ => true, _ => false);
 
             // Assert
             act.Should().Throw<ArgumentException>()

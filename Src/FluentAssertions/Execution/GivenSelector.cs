@@ -62,7 +62,7 @@ public class GivenSelector<T>
     /// <inheritdoc cref="IAssertionScope.FailWith(string)"/>
     public ContinuationOfGiven<T> FailWith(string message)
     {
-        return FailWith(message, new object[0]);
+        return FailWith(message, Array.Empty<object>());
     }
 
     /// <remarks>

@@ -9,6 +9,8 @@ using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
+#pragma warning disable RCS1192, RCS1214 // verbatim string literals and interpolated strings
+
 namespace FluentAssertions.Specs.Execution
 {
     public class CallerIdentifierSpecs
@@ -223,10 +225,12 @@ namespace FluentAssertions.Specs.Execution
             var foo = new Foo();
 
             // Act
+#pragma warning disable format
             Action act = () =>
             {
                 var foo2 = foo; foo2.Should().BeNull();
             };
+#pragma warning restore format
 
             // Assert
             act.Should().Throw<XunitException>()

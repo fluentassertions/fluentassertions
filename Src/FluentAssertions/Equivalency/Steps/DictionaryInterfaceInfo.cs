@@ -100,7 +100,7 @@ internal class DictionaryInterfaceInfo
         {
             if (Type.GetTypeCode(key) != TypeCode.Object)
             {
-                return new DictionaryInterfaceInfo[0];
+                return Array.Empty<DictionaryInterfaceInfo>();
             }
             else
             {

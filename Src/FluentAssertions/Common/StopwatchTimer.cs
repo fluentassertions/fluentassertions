@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace FluentAssertions.Common;
 
-internal class StopwatchTimer : ITimer
+internal sealed class StopwatchTimer : ITimer
 {
     private readonly Stopwatch stopwatch;
 

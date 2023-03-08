@@ -12,7 +12,7 @@ namespace FluentAssertions.Events;
 /// <summary>
 /// Tracks the events an object raises.
 /// </summary>
-internal class EventMonitor<T> : IMonitor<T>
+internal sealed class EventMonitor<T> : IMonitor<T>
 {
     private readonly WeakReference subject;
 

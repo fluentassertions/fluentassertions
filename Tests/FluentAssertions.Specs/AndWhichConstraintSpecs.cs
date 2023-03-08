@@ -14,10 +14,7 @@ public class AndWhichConstraintSpecs
         var continuation = new AndWhichConstraint<StringCollectionAssertions, string>(null, new[] { "hello", "world" });
 
         // Act
-        Action act = () =>
-        {
-            _ = continuation.Which;
-        };
+        Action act = () => _ = continuation.Which;
 
         // Assert
         act.Should().Throw<XunitException>()

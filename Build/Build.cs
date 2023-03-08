@@ -374,7 +374,7 @@ class Build : NukeBuild
             .Select(x => x.Path)
             .ToArray();
 
-    Repository Repository => new Repository(GitRepository.LocalDirectory);
+    Repository Repository => new(GitRepository.LocalDirectory);
     Tree TargetBranch => Repository.Branches[PullRequestBase].Tip.Tree;
     Tree SourceBranch => Repository.Branches[Repository.Head.FriendlyName].Tip.Tree;
 

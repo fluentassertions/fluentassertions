@@ -47,11 +47,11 @@ internal class FullFrameworkReflector : IReflector
         }
         catch (FileLoadException)
         {
-            return new Type[0];
+            return Enumerable.Empty<Type>();
         }
         catch (Exception)
         {
-            return new Type[0];
+            return Array.Empty<Type>();
         }
     }
 }

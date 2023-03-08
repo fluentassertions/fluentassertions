@@ -24,12 +24,7 @@ public static class Services
         {
             lock (Lockable)
             {
-                if (configuration is null)
-                {
-                    configuration = new Configuration(ConfigurationStore);
-                }
-
-                return configuration;
+                return configuration ??= new Configuration(ConfigurationStore);
             }
         }
     }

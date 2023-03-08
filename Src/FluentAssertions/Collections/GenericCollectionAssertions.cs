@@ -71,7 +71,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             .FailWith("Expected type to be {0}{reason}, but found {context:the collection} is <null>.",
                 typeof(TExpectation).FullName);
 
-        IEnumerable<TExpectation> matches = new TExpectation[0];
+        IEnumerable<TExpectation> matches = Enumerable.Empty<TExpectation>();
 
         if (success)
         {
@@ -218,7 +218,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             .FailWith("Expected type to be {0}{reason}, but found {context:collection} is <null>.",
                 typeof(TExpectation).FullName);
 
-        IEnumerable<TExpectation> matches = new TExpectation[0];
+        IEnumerable<TExpectation> matches = Enumerable.Empty<TExpectation>();
 
         if (success)
         {
@@ -701,7 +701,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:collection} to contain {0}{reason}, but found <null>.", expected);
 
-        IEnumerable<T> matches = new T[0];
+        IEnumerable<T> matches = Enumerable.Empty<T>();
 
         if (success)
         {
@@ -740,7 +740,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:collection} to contain {0}{reason}, but found <null>.", predicate.Body);
 
-        IEnumerable<T> matches = new T[0];
+        IEnumerable<T> matches = Enumerable.Empty<T>();
 
         if (success)
         {
@@ -1140,7 +1140,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     {
         Guard.ThrowIfArgumentIsNull(predicate);
 
-        string expectationPrefix =
+        const string expectationPrefix =
             "Expected {context:collection} to contain a single item matching {0}{reason}, ";
 
         bool success = Execute.Assertion
@@ -1148,7 +1148,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             .ForCondition(Subject is not null)
             .FailWith(expectationPrefix + "but found <null>.", predicate);
 
-        T[] matches = new T[0];
+        T[] matches = Array.Empty<T>();
 
         if (success)
         {
@@ -2134,7 +2134,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:collection} to not contain {0}{reason}, but found <null>.", unexpected);
 
-        IEnumerable<T> matched = new T[0];
+        IEnumerable<T> matched = Enumerable.Empty<T>();
 
         if (success)
         {
