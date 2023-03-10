@@ -217,6 +217,34 @@ public class FormatterSpecs
     }
 
     [Fact]
+    public void When_the_object_is_an_anonymous_type_it_should_show_the_properties_recursively()
+    {
+        // Arrange
+        var stuff = new
+        {
+            Description = "stuff",
+            SingleChild = new { ChildId = 4 },
+            Children = new[] { 10, 20, 30, 40 },
+        };
+
+        var expectedStuff = new
+        {
+            Id = 7,
+            Description = "stuff",
+            Children = new[] { 10, 20, 30, 40 },
+        };
+
+        // Act
+        Action act = () => stuff.Should()
+            .Be(expectedStuff);
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("*ChildId =*")
+            .WithMessage("*Children = {10, 20, 30, 40}*");
+    }
+
+    [Fact]
     public void When_the_to_string_override_throws_it_should_use_the_default_behavior()
     {
         // Arrange

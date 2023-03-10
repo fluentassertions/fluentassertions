@@ -107,6 +107,8 @@ public class CollectionSpecs
         public string MyString { get; set; }
 
         public ClassIdentifiedById Child { get; set; }
+
+        public string[] MyCollection { get; set; }
     }
 
     public class ClassIdentifiedById
@@ -212,6 +214,24 @@ public class CollectionSpecs
         act.Should().Throw<XunitException>()
             .WithMessage("*be a collection with 2 item(s)*contains 1 item(s) less than*",
                 "adding a `params object[]` overload cannot distinguish 'an array of objects' from 'an element which is an array of objects'");
+    }
+
+    [Fact]
+    public void When_the_expectation_is_an_anonymous_type_it_should_report_on_member_values()
+    {
+        // Arrange
+        var actual = new[] { new { MyCollection = new[] { "alpha" } } };
+        var expected = new { MyCollection = new List<string> { { "beta" } } };
+
+        // Act
+        Action act = () => actual.Should().ContainEquivalentOf(expected);
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("Expected actual {*MyCollection = {\"alpha\"}*}*contain equivalent of*",
+                "anonymous types are recursively formatted")
+            .And.Message.Should().NotContain("AnonymousType",
+                "anonymous type information is compiler generated noise");
     }
 
     [Fact]
