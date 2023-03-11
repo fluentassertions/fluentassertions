@@ -9,6 +9,31 @@ namespace FluentAssertions.Equivalency.Specs;
 public class CyclicReferencesSpecs
 {
     [Fact]
+    public void Graphs_up_to_the_maximum_depth_are_supported()
+    {
+        // Arrange
+        var actual = new ClassWithFiniteRecursiveProperty(recursiveDepth: 10);
+        var expectation = new ClassWithFiniteRecursiveProperty(recursiveDepth: 10);
+
+        // Act/Assert
+        actual.Should().BeEquivalentTo(expectation);
+    }
+
+    [Fact]
+    public void Graphs_deeper_than_the_maximum_depth_are_not_supported()
+    {
+        // Arrange
+        var actual = new ClassWithFiniteRecursiveProperty(recursiveDepth: 11);
+        var expectation = new ClassWithFiniteRecursiveProperty(recursiveDepth: 11);
+
+        // Act
+        Action act = () => actual.Should().BeEquivalentTo(expectation);
+
+        // Assert
+        act.Should().Throw<XunitException>().WithMessage("*maximum*depth*10*");
+    }
+
+    [Fact]
     public void By_default_cyclic_references_are_not_valid()
     {
         // Arrange
