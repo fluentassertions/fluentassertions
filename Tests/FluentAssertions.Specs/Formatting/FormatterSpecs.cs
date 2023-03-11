@@ -222,26 +222,51 @@ public class FormatterSpecs
         // Arrange
         var stuff = new
         {
-            Description = "stuff",
+            Description = "absent",
             SingleChild = new { ChildId = 4 },
             Children = new[] { 10, 20, 30, 40 },
         };
 
         var expectedStuff = new
         {
-            Id = 7,
-            Description = "stuff",
+            SingleChild = new { ChildId = 4 },
             Children = new[] { 10, 20, 30, 40 },
         };
 
         // Act
-        Action act = () => stuff.Should()
-            .Be(expectedStuff);
+        Action act = () => stuff.Should().Be(expectedStuff);
 
         // Assert
         act.Should().Throw<XunitException>()
             .WithMessage("*ChildId =*")
             .WithMessage("*Children = {10, 20, 30, 40}*");
+    }
+
+    [Fact]
+    public void When_the_object_is_a_record_it_should_show_the_properties_recursively()
+    {
+        // Arrange
+        var stuff = new StuffRecord(
+            RecordId: 9,
+            RecordDescription: "descriptive",
+            SingleChild: new(ChildRecordId: 80),
+            RecordChildren: new() { 4, 5, 6, 7 });
+
+        var expectedStuff = new
+        {
+            RecordDescription = "WRONG_DESCRIPTION",
+        };
+
+        // Act
+        Action act = () => stuff.Should().Be(expectedStuff);
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("*RecordId =*")
+            .WithMessage("*RecordDescription =*")
+            .WithMessage("*SingleChild =*")
+            .WithMessage("*ChildRecordId = 80*")
+            .WithMessage("*RecordChildren = {4, 5, 6, 7}*");
     }
 
     [Fact]
@@ -728,6 +753,10 @@ public class FormatterSpecs
     {
         public List<TChild> Children { get; set; }
     }
+
+    public record StuffRecord(int RecordId, string RecordDescription, ChildRecord SingleChild, List<int> RecordChildren);
+
+    public record ChildRecord(int ChildRecordId);
 
     [Fact]
     public void When_a_custom_formatter_exists_in_any_loaded_assembly_it_should_override_the_default_formatters()

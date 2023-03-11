@@ -460,7 +460,7 @@ internal static class TypeExtensions
 #endif
     }
 
-    private static bool IsAnonymousType(this Type type)
+    public static bool IsAnonymousType(this Type type)
     {
         bool nameContainsAnonymousType = type.FullName.Contains("AnonymousType", StringComparison.Ordinal);
 

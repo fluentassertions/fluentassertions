@@ -35,7 +35,7 @@ public class DefaultValueFormatter : IValueFormatter
             return;
         }
 
-        if (HasDefaultToStringImplementation(value) || IsAnonymousType(value))
+        if (HasCompilerGeneratedToStringImplementation(value))
         {
             WriteTypeAndMemberValues(value, formattedGraph, formatChild);
         }
@@ -60,25 +60,18 @@ public class DefaultValueFormatter : IValueFormatter
         return type.GetNonPrivateMembers(MemberVisibility.Public);
     }
 
+    private static bool HasCompilerGeneratedToStringImplementation(object value)
+    {
+        Type type = value.GetType();
+
+        return HasDefaultToStringImplementation(value) || type.IsAnonymousType() || type.IsRecord();
+    }
+
     private static bool HasDefaultToStringImplementation(object value)
     {
         string str = value.ToString();
 
         return str is null || str == value.GetType().ToString();
-    }
-
-    private static bool IsAnonymousType(object value)
-    {
-        return value is not null && IsAnonymousType(value.GetType());
-    }
-
-    private static bool IsAnonymousType(Type type)
-    {
-        return type.Namespace is null
-            && Attribute.IsDefined(type, typeof(CompilerGeneratedAttribute), inherit: false)
-            && type.Name.Contains("AnonymousType", StringComparison.Ordinal)
-            && (type.Name.StartsWith("<>", StringComparison.Ordinal)
-                || type.Name.StartsWith("VB$", StringComparison.Ordinal));
     }
 
     private void WriteTypeAndMemberValues(object obj, FormattedObjectGraph formattedGraph, FormatChild formatChild)
@@ -90,7 +83,7 @@ public class DefaultValueFormatter : IValueFormatter
 
     private void WriteTypeName(FormattedObjectGraph formattedGraph, Type type)
     {
-        if (!IsAnonymousType(type))
+        if (!type.IsAnonymousType())
         {
             formattedGraph.AddLine(TypeDisplayName(type));
         }
