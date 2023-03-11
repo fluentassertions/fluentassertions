@@ -142,34 +142,6 @@ internal struct StructWithNoMembers
 {
 }
 
-internal class ClassWithInfinitelyRecursiveProperty
-{
-    public ClassWithInfinitelyRecursiveProperty Self
-    {
-        get { return new ClassWithInfinitelyRecursiveProperty(); }
-    }
-}
-
-internal class ClassWithFiniteRecursiveProperty
-{
-    private readonly int depth;
-
-    public ClassWithFiniteRecursiveProperty(int recursiveDepth)
-    {
-        depth = recursiveDepth;
-    }
-
-    public ClassWithFiniteRecursiveProperty Self
-    {
-        get
-        {
-            return depth > 0
-                ? new ClassWithFiniteRecursiveProperty(depth - 1)
-                : null;
-        }
-    }
-}
-
 internal class ClassWithSomeFieldsAndProperties
 {
     public string Field1;
