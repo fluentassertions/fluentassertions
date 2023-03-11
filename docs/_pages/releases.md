@@ -16,6 +16,7 @@ sidebar:
 
 ### Fixes
 * Improved robustness of several assertions when they're wrapped in an `AssertionScope` - [#2133](https://github.com/fluentassertions/fluentassertions/pull/2133)
+* The maximum depth `BeEquivalentTo` uses for recursive comparisons was 9 instead of the expected 10 - [#2145](https://github.com/fluentassertions/fluentassertions/pull/2145)
 
 ## 6.10.0
 

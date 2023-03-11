@@ -45,11 +45,11 @@ public class EquivalencyValidator : IEquivalencyValidator
     private static bool ShouldCompareNodesThisDeep(INode currentNode, IEquivalencyAssertionOptions options,
         AssertionScope assertionScope)
     {
-        bool shouldRecurse = options.AllowInfiniteRecursion || currentNode.Depth < MaxDepth;
+        bool shouldRecurse = options.AllowInfiniteRecursion || currentNode.Depth <= MaxDepth;
 
         if (!shouldRecurse)
         {
-            assertionScope.FailWith("The maximum recursion depth was reached.  ");
+            assertionScope.FailWith($"The maximum recursion depth of {MaxDepth} was reached.  ");
         }
 
         return shouldRecurse;

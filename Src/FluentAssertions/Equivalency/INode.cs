@@ -56,6 +56,10 @@ public interface INode
     /// <summary>
     /// Gets a zero-based number representing the depth within the object graph
     /// </summary>
+    /// <remarks>
+    /// The root object has a depth of <c>0</c>, the next nested object a depth of <c>1</c>, etc.
+    /// See also <a href="https://www.geeksforgeeks.org/height-and-depth-of-a-node-in-a-binary-tree/">this article</a>
+    /// </remarks>
     int Depth { get; }
 
     /// <summary>
