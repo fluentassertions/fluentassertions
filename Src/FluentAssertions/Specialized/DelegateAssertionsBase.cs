@@ -17,21 +17,22 @@ public abstract class DelegateAssertionsBase<TDelegate, TAssertions>
     where TDelegate : Delegate
     where TAssertions : DelegateAssertionsBase<TDelegate, TAssertions>
 {
-    private readonly IExtractExceptions extractor;
+    private protected IExtractExceptions Extractor { get; }
 
     private protected DelegateAssertionsBase(TDelegate @delegate, IExtractExceptions extractor, IClock clock)
         : base(@delegate)
     {
-        this.extractor = extractor ?? throw new ArgumentNullException(nameof(extractor));
+        Extractor = extractor ?? throw new ArgumentNullException(nameof(extractor));
         Clock = clock ?? throw new ArgumentNullException(nameof(clock));
     }
 
     private protected IClock Clock { get; }
 
-    protected ExceptionAssertions<TException> ThrowInternal<TException>(Exception exception, string because, object[] becauseArgs)
+    protected ExceptionAssertions<TException> ThrowInternal<TException>(
+        Exception exception, string because, object[] becauseArgs)
         where TException : Exception
     {
-        TException[] expectedExceptions = extractor.OfType<TException>(exception).ToArray();
+        TException[] expectedExceptions = Extractor.OfType<TException>(exception).ToArray();
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -63,7 +64,7 @@ public abstract class DelegateAssertionsBase<TDelegate, TAssertions>
     protected AndConstraint<TAssertions> NotThrowInternal<TException>(Exception exception, string because, object[] becauseArgs)
         where TException : Exception
     {
-        IEnumerable<TException> exceptions = extractor.OfType<TException>(exception);
+        IEnumerable<TException> exceptions = Extractor.OfType<TException>(exception);
 
         Execute.Assertion
             .ForCondition(!exceptions.Any())
