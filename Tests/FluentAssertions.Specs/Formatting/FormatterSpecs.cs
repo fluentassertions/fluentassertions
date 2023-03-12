@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -239,7 +239,26 @@ public class FormatterSpecs
         // Assert
         act.Should().Throw<XunitException>()
             .WithMessage("*ChildId =*")
-            .WithMessage("*Children = {10, 20, 30, 40}*");
+            .WithMessage("*Children = {10, 20, 30, 40}*")
+            .And.Message.Should().NotContain("AnonymousType");
+    }
+
+    [Fact]
+    public void When_the_object_is_a_tuple_it_should_show_the_properties_recursively()
+    {
+        // Arrange
+        (int TupleId, string Description, List<int> Children) stuff = (1, "description", new() { 1, 2, 3, 4 });
+
+        (int, string, List<int>) expectedStuff = (2, "WRONG_DESCRIPTION", new List<int> { 4, 5, 6, 7 });
+
+        // Act
+        Action act = () => stuff.Should().Be(expectedStuff);
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("*1*description*{1, 2, 3, 4}*")
+            .WithMessage("*2*WRONG_DESCRIPTION*{4, 5, 6, 7}*")
+            .And.Message.Should().NotContain("System.ValueTuple");
     }
 
     [Fact]

@@ -23,6 +23,7 @@ internal static class TypeExtensions
 
     private static readonly ConcurrentDictionary<Type, bool> HasValueSemanticsCache = new();
     private static readonly ConcurrentDictionary<Type, bool> TypeIsRecordCache = new();
+    private static readonly ConcurrentDictionary<Type, bool> TypeIsCompilerGeneratedCache = new();
 
     private static readonly ConcurrentDictionary<(Type Type, MemberVisibility Visibility), TypeMemberReflector>
         TypeMemberReflectorsCache = new();
@@ -429,7 +430,15 @@ internal static class TypeExtensions
             !IsKeyValuePair(t));
     }
 
-    private static bool IsTuple(this Type type)
+    public static bool IsCompilerGeneratedType(this Type type)
+    {
+        return TypeIsCompilerGeneratedCache.GetOrAdd(type, static t => 
+            t.IsRecord() ||
+            t.IsAnonymousType() ||
+            t.IsTuple());
+    }
+
+    public static bool IsTuple(this Type type)
     {
         if (!type.IsGenericType)
         {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -64,7 +64,7 @@ public class DefaultValueFormatter : IValueFormatter
     {
         Type type = value.GetType();
 
-        return HasDefaultToStringImplementation(value) || type.IsAnonymousType() || type.IsRecord();
+        return HasDefaultToStringImplementation(value) || type.IsCompilerGeneratedType();
     }
 
     private static bool HasDefaultToStringImplementation(object value)
@@ -83,7 +83,7 @@ public class DefaultValueFormatter : IValueFormatter
 
     private void WriteTypeName(FormattedObjectGraph formattedGraph, Type type)
     {
-        if (!type.IsAnonymousType())
+        if (!type.IsAnonymousType() && !type.IsTuple())
         {
             formattedGraph.AddLine(TypeDisplayName(type));
         }

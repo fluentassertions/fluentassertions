@@ -217,24 +217,6 @@ public class CollectionSpecs
     }
 
     [Fact]
-    public void When_the_expectation_is_an_anonymous_type_it_should_report_on_member_values()
-    {
-        // Arrange
-        var actual = new[] { new { MyCollection = new[] { "alpha" } } };
-        var expected = new { MyCollection = new List<string> { { "beta" } } };
-
-        // Act
-        Action act = () => actual.Should().ContainEquivalentOf(expected);
-
-        // Assert
-        act.Should().Throw<XunitException>()
-            .WithMessage("Expected actual {*MyCollection = {\"alpha\"}*}*contain equivalent of*",
-                "anonymous types are recursively formatted")
-            .And.Message.Should().NotContain("AnonymousType",
-                "anonymous type information is compiler generated noise");
-    }
-
-    [Fact]
     public void When_the_expectation_is_an_array_of_anonymous_types_it_should_respect_runtime_types()
     {
         // Arrange
