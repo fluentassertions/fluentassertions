@@ -11,7 +11,7 @@ internal abstract class SelectMemberByPathSelectionRule : IMemberSelectionRule
     public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
         MemberSelectionContext context)
     {
-        var currentPath = RemoveIndexQualifiers(currentNode.PathAndName);
+        var currentPath = RemoveRootIndexQualifier(currentNode.PathAndName);
         var members = selectedMembers.ToList();
         AddOrRemoveMembersFrom(members, currentNode, currentPath, context);
 
@@ -22,7 +22,7 @@ internal abstract class SelectMemberByPathSelectionRule : IMemberSelectionRule
         INode parent, string parentPath,
         MemberSelectionContext context);
 
-    private static string RemoveIndexQualifiers(string path)
+    private static string RemoveRootIndexQualifier(string path)
     {
         Match match = new Regex(@"^\[\d+]").Match(path);
 
