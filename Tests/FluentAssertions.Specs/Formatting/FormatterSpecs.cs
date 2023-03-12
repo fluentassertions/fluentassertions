@@ -238,7 +238,8 @@ public class FormatterSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .WithMessage("*ChildId =*")
+            .WithMessage(@"*Description = ""absent""*")
+            .WithMessage("*ChildId = 4*")
             .WithMessage("*Children = {10, 20, 30, 40}*")
             .And.Message.Should().NotContain("AnonymousType");
     }

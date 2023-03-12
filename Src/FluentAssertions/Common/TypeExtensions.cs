@@ -432,10 +432,15 @@ internal static class TypeExtensions
 
     public static bool IsCompilerGeneratedType(this Type type)
     {
-        return TypeIsCompilerGeneratedCache.GetOrAdd(type, static t => 
+        return TypeIsCompilerGeneratedCache.GetOrAdd(type, static t =>
             t.IsRecord() ||
             t.IsAnonymousType() ||
             t.IsTuple());
+    }
+
+    public static bool HasTypeName(this Type type)
+    {
+        return !type.IsAnonymousType() && !type.IsTuple();
     }
 
     public static bool IsTuple(this Type type)
