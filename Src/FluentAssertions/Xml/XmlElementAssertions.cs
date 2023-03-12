@@ -93,7 +93,7 @@ public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAsse
             (string.IsNullOrEmpty(expectedNamespace) ? string.Empty : $"{{{expectedNamespace}}}")
             + expectedName;
 
-        Execute.Assertion
+        bool success = Execute.Assertion
             .ForCondition(attribute is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith(
@@ -101,12 +101,15 @@ public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAsse
                 + " with value {1}{reason}, but found no such attribute in {2}",
                 expectedFormattedName, expectedValue, Subject);
 
-        Execute.Assertion
-            .ForCondition(attribute.Value == expectedValue)
-            .BecauseOf(because, becauseArgs)
-            .FailWith(
-                "Expected attribute {0} in {context:subject} to have value {1}{reason}, but found {2}.",
-                expectedFormattedName, expectedValue, attribute.Value);
+        if (success)
+        {
+            Execute.Assertion
+                .ForCondition(attribute.Value == expectedValue)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected attribute {0} in {context:subject} to have value {1}{reason}, but found {2}.",
+                    expectedFormattedName, expectedValue, attribute.Value);
+        }
 
         return new AndConstraint<XmlElementAssertions>(this);
     }

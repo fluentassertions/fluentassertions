@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using FluentAssertions.Events;
+using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
 using FluentAssertions.Formatting;
 using Xunit;
@@ -507,7 +508,11 @@ public class EventAssertionSpecs
             using var monitor = subject.Monitor();
 
             // Act
-            Action act = () => monitor.Should().RaisePropertyChangeFor(null);
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                monitor.Should().RaisePropertyChangeFor(null);
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -907,7 +912,7 @@ public class EventAssertionSpecs
             a.OnEvent(new C());
 
             // Act / Assert
-            IEventRecording filteredEvents = aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(b => true);
+            IEventRecording filteredEvents = aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(_ => true);
             filteredEvents.Should().HaveCount(1);
         }
 
@@ -922,7 +927,7 @@ public class EventAssertionSpecs
             a.OnEvent(new C());
 
             // Act
-            Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(b => true);
+            Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(_ => true);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -940,7 +945,7 @@ public class EventAssertionSpecs
             a.OnEvent(new C());
 
             // Act
-            Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(b => true, b => false);
+            Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(_ => true, _ => false);
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -958,7 +963,7 @@ public class EventAssertionSpecs
             a.OnEvent(new B());
 
             // Act
-            Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(b => true, b => false);
+            Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(_ => true, _ => false);
 
             // Assert
             act.Should().Throw<ArgumentException>()

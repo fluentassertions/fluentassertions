@@ -65,9 +65,10 @@ internal sealed class EventRecorder : IEventRecording, IDisposable
 
     public void Dispose()
     {
-        if (cleanup is not null)
+        Action localCleanup = cleanup;
+        if (localCleanup is not null)
         {
-            cleanup?.Invoke();
+            localCleanup();
             cleanup = null;
             EventObject = null;
             raisedEvents.Dispose();

@@ -512,7 +512,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
                 .ForConstraint(occurrenceConstraint, actual)
                 .UsingLineBreaks
                 .BecauseOf(because, becauseArgs)
-                .FailWith($"Expected {{context:string}} {{0}} to match regex {{1}} {{expectedOccurrence}}{{reason}}, " +
+                .FailWith("Expected {context:string} {0} to match regex {1} {expectedOccurrence}{reason}, " +
                     $"but found it {actual.Times()}.",
                     Subject, regexStr);
         }

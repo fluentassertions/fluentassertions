@@ -153,7 +153,7 @@ public static class CallerIdentifier
     private static bool IsDotNet(StackFrame frame)
     {
         var frameNamespace = frame.GetMethod()?.DeclaringType?.Namespace;
-        var comparisonType = StringComparison.OrdinalIgnoreCase;
+        const StringComparison comparisonType = StringComparison.OrdinalIgnoreCase;
 
         return frameNamespace?.StartsWith("system.", comparisonType) == true ||
             frameNamespace?.Equals("system", comparisonType) == true;

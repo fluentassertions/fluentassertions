@@ -3,6 +3,7 @@ using System.Data;
 using System.Globalization;
 using System.Linq;
 using FluentAssertions.Data;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -806,7 +807,11 @@ public class DataTableSpecs : DataSpecs
         int correctRowCount = -1;
 
         // Act
-        Action act = () => dataTable.Should().HaveRowCount(correctRowCount);
+        Action act = () =>
+        {
+            using var _ = new AssertionScope();
+            dataTable.Should().HaveRowCount(correctRowCount);
+        };
 
         // Assert
         act.Should().Throw<XunitException>()
@@ -919,7 +924,11 @@ public class DataTableSpecs : DataSpecs
         var existingColumnName = "Does not matter";
 
         // Act
-        Action act = () => actual.Should().HaveColumns(existingColumnName);
+        Action act = () =>
+        {
+            using var _ = new AssertionScope();
+            actual.Should().HaveColumns(existingColumnName);
+        };
 
         // Assert
         act.Should().Throw<XunitException>()

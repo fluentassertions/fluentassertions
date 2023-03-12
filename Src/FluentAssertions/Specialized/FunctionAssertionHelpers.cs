@@ -15,7 +15,6 @@ internal static class FunctionAssertionHelpers
         catch (Exception exception)
         {
             Execute.Assertion
-                .ForCondition(exception is null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect any exception{reason}, but found {0}.", exception);
 

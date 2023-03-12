@@ -17,9 +17,9 @@ internal static class Program
             new SummaryStyle(
                 cultureInfo: CultureInfo.GetCultureInfo("nl-NL"),
                 printUnitsInHeader: true,
-                printUnitsInContent: false,
+                sizeUnit: SizeUnit.KB,
                 timeUnit: TimeUnit.Microsecond,
-                sizeUnit: SizeUnit.KB
+                printUnitsInContent: false
             ));
 
         var config = ManualConfig.CreateMinimumViable().AddExporter(exporter);

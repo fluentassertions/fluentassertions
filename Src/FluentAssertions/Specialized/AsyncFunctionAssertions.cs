@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions.Common;
@@ -111,9 +112,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     /// <summary>
     /// Asserts that the current <see cref="Func{Task}"/> throws an exception of the exact type <typeparamref name="TException"/> (and not a derived exception type).
     /// </summary>
-    /// <typeparam name="TException">
-    /// The type of the exception it should throw.
-    /// </typeparam>
+    /// <typeparam name="TException">The type of exception expected to be thrown.</typeparam>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -155,6 +154,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     /// <summary>
     /// Asserts that the current <see cref="Func{Task}"/> throws an exception of type <typeparamref name="TException"/>.
     /// </summary>
+    /// <typeparam name="TException">The type of exception expected to be thrown.</typeparam>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -178,6 +178,106 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
         }
 
         return new ExceptionAssertions<TException>(Array.Empty<TException>());
+    }
+
+    /// <summary>
+    /// Asserts that the current <see cref="Func{Task}"/> throws an exception of type <typeparamref name="TException"/>
+    /// within a specific timeout.
+    /// </summary>
+    /// <typeparam name="TException">The type of exception expected to be thrown.</typeparam>
+    /// <param name="timeSpan">The allowed time span for the operation.</param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public async Task<ExceptionAssertions<TException>> ThrowWithinAsync<TException>(
+        TimeSpan timeSpan, string because = "", params object[] becauseArgs)
+        where TException : Exception
+    {
+        bool success = Execute.Assertion
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context} to throw {0} within {1}{reason}, but found <null>.",
+                typeof(TException), timeSpan);
+
+        if (success)
+        {
+            Exception caughtException = await InvokeWithInterceptionAsync(timeSpan);
+            return AssertThrows<TException>(caughtException, timeSpan, because, becauseArgs);
+        }
+
+        return new ExceptionAssertions<TException>(Array.Empty<TException>());
+    }
+
+    private ExceptionAssertions<TException> AssertThrows<TException>(
+        Exception exception, TimeSpan timeSpan, string because, object[] becauseArgs)
+        where TException : Exception
+    {
+        TException[] expectedExceptions = Extractor.OfType<TException>(exception).ToArray();
+
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected a <{0}> to be thrown within {1}{reason}, ",
+                typeof(TException), timeSpan)
+            .ForCondition(exception is not null)
+            .FailWith("but no exception was thrown.")
+            .Then
+            .ForCondition(expectedExceptions.Any())
+            .FailWith("but found <{0}>: {1}{2}.",
+                exception?.GetType(),
+                Environment.NewLine,
+                exception)
+            .Then
+            .ClearExpectation();
+
+        return new ExceptionAssertions<TException>(expectedExceptions);
+    }
+
+    private async Task<Exception> InvokeWithInterceptionAsync(TimeSpan timeout)
+    {
+        try
+        {
+            // For the duration of this nested invocation, configure CallerIdentifier
+            // to match the contents of the subject rather than our own call site.
+            //
+            //   Func<Task> action = async () => await subject.Should().BeSomething();
+            //   await action.Should().ThrowAsync<Exception>();
+            //
+            // If an assertion failure occurs, we want the message to talk about "subject"
+            // not "await action".
+            using (CallerIdentifier.OnlyOneFluentAssertionScopeOnCallStack()
+                       ? CallerIdentifier.OverrideStackSearchUsingCurrentScope()
+                       : default)
+            {
+                (TTask task, TimeSpan remainingTime) = InvokeWithTimer(timeout);
+                if (remainingTime < TimeSpan.Zero)
+                {
+                    // timeout reached without exception
+                    return null;
+                }
+
+                if (task.IsFaulted)
+                {
+                    // exception in synchronous portion
+                    return task.Exception!.GetBaseException();
+                }
+
+                // Start monitoring the task regarding timeout.
+                // Here we do not need to know whether the task completes (successfully) in timeout
+                // or does not complete. We are only interested in the exception which is thrown, not returned.
+                // So, we can ignore the result.
+                _ = await CompletesWithinTimeoutAsync(task, remainingTime);
+            }
+
+            return null;
+        }
+        catch (Exception exception)
+        {
+            return exception;
+        }
     }
 
     /// <summary>
@@ -215,6 +315,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     /// <summary>
     /// Asserts that the current <see cref="Func{Task}"/> does not throw an exception of type <typeparamref name="TException"/>.
     /// </summary>
+    /// <typeparam name="TException">The type of exception expected to not be thrown.</typeparam>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -330,18 +431,25 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     /// </summary>
     private protected async Task<bool> CompletesWithinTimeoutAsync(Task target, TimeSpan remainingTime)
     {
-        using var timeoutCancellationTokenSource = new CancellationTokenSource();
+        using var delayCancellationTokenSource = new CancellationTokenSource();
 
         Task completedTask =
-            await Task.WhenAny(target, Clock.DelayAsync(remainingTime, timeoutCancellationTokenSource.Token));
+            await Task.WhenAny(target, Clock.DelayAsync(remainingTime, delayCancellationTokenSource.Token));
+
+        if (completedTask.IsFaulted)
+        {
+            // Throw the inner exception.
+            await completedTask;
+        }
 
         if (completedTask != target)
         {
+            // The monitored task did not complete.
             return false;
         }
 
-        // cancel the clock
-        timeoutCancellationTokenSource.Cancel();
+        // The monitored task is completed, we shall cancel the clock.
+        delayCancellationTokenSource.Cancel();
         return true;
     }
 

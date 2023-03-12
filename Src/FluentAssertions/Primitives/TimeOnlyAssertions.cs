@@ -205,7 +205,7 @@ public class TimeOnlyAssertions<TAssertions>
             .ForCondition(Subject is not null)
             .FailWith("but found <null>.")
             .Then
-            .ForCondition(!Subject?.IsCloseTo(distantTime, precision) == true)
+            .ForCondition(Subject?.IsCloseTo(distantTime, precision) == false)
             .FailWith("but it was {0}.", Subject)
             .Then
             .ClearExpectation();

@@ -35,7 +35,7 @@ public class AssertionOptionsSpecs
     {
         public When_injecting_a_null_configurer()
         {
-            When(() => { return () => AssertionOptions.AssertEquivalencyUsing(defaultsConfigurer: null); });
+            When(() => () => AssertionOptions.AssertEquivalencyUsing(defaultsConfigurer: null));
         }
 
         [Fact]
@@ -80,7 +80,7 @@ public class AssertionOptionsSpecs
                 new MyValueType { Value = 1 }.Should().BeEquivalentTo(new MyValueType { Value = 2 });
             });
 
-            When(() => { AssertionOptions.AssertEquivalencyUsing(o => o.ComparingByMembers<MyValueType>()); });
+            When(() => AssertionOptions.AssertEquivalencyUsing(o => o.ComparingByMembers<MyValueType>()));
         }
 
         [Fact]
@@ -113,7 +113,7 @@ public class AssertionOptionsSpecs
                 new MyClass { Value = 1 }.Should().BeEquivalentTo(new MyClass { Value = 1 });
             });
 
-            When(() => { AssertionOptions.AssertEquivalencyUsing(o => o.ComparingByValue<MyClass>()); });
+            When(() => AssertionOptions.AssertEquivalencyUsing(o => o.ComparingByValue<MyClass>()));
         }
 
         [Fact]
@@ -388,7 +388,7 @@ public class AssertionOptionsSpecs
 
         public When_global_formatting_settings_are_modified()
         {
-            Given(() => { oldSettings = AssertionOptions.FormattingOptions.Clone(); });
+            Given(() => oldSettings = AssertionOptions.FormattingOptions.Clone());
 
             When(() =>
             {

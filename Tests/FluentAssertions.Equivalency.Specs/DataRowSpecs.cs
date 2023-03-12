@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -371,7 +371,7 @@ public class DataRowSpecs : DataSpecs
     [Fact]
     public void Any_type_is_not_equivalent_to_data_row_colletion()
     {
-        // Arrange 
+        // Arrange
         var o = new object();
 
         // Act
@@ -476,7 +476,11 @@ public class DataRowSpecs : DataSpecs
             .ToArray();
 
         // Act
-        Action act = () => actual.Should().HaveColumns(subsetOfColumnNames);
+        Action act = () =>
+        {
+            using var _ = new AssertionScope();
+            actual.Should().HaveColumns(subsetOfColumnNames);
+        };
 
         // Assert
         act.Should().Throw<XunitException>()
@@ -513,10 +517,7 @@ public class DataRowSpecs : DataSpecs
 
         var dataRow = dataSet.TypedDataTable1[0];
 
-        var columnNames = new List<string>();
-
-        columnNames.Add("Unicorn");
-        columnNames.Add("Dragon");
+        var columnNames = new[] { "Unicorn", "Dragon" };
 
         // Act
         Action action =

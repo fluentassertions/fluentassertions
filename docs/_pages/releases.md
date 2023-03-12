@@ -10,8 +10,10 @@ sidebar:
 ## Unreleased
 
 ### What's new
+* Added `ThrowWithinAsync` for assertions on `Task` - [#1974](https://github.com/fluentassertions/fluentassertions/pull/1974)
 
 ### Fixes
+* Improved robustness of several assertions when they're wrapped in an `AssertionScope` - [#2133](https://github.com/fluentassertions/fluentassertions/pull/2133)
 
 * Fixed `.Excluding()`, `.For().Exclude()` not working if root is a collection - [#2101](https://github.com/fluentassertions/fluentassertions/pull/2135)
 

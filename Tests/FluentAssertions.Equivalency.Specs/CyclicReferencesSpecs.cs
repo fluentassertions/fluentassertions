@@ -124,24 +124,22 @@ public class CyclicReferencesSpecs
         // Arrange
         var actual = new CyclicRoot
         {
-            Text = null
-        };
-
-        actual.Level = new CyclicLevel1
-        {
             Text = null,
-            Root = null
+            Level = new CyclicLevel1
+            {
+                Text = null,
+                Root = null
+            }
         };
 
         var expectation = new CyclicRootDto
         {
-            Text = null
-        };
-
-        expectation.Level = new CyclicLevel1Dto
-        {
             Text = null,
-            Root = null
+            Level = new CyclicLevel1Dto
+            {
+                Text = null,
+                Root = null
+            }
         };
 
         // Act
@@ -157,24 +155,22 @@ public class CyclicReferencesSpecs
         // Arrange
         var actual = new CyclicRootWithValueObject
         {
-            Object = new ValueObject("MyValue")
-        };
-
-        actual.Level = new CyclicLevelWithValueObject
-        {
-            Object = new ValueObject("MyValue"),
-            Root = null
+            Value = new ValueObject("MyValue"),
+            Level = new CyclicLevelWithValueObject
+            {
+                Value = new ValueObject("MyValue"),
+                Root = null
+            }
         };
 
         var expectation = new CyclicRootWithValueObject
         {
-            Object = new ValueObject("MyValue")
-        };
-
-        expectation.Level = new CyclicLevelWithValueObject
-        {
-            Object = new ValueObject("MyValue"),
-            Root = null
+            Value = new ValueObject("MyValue"),
+            Level = new CyclicLevelWithValueObject
+            {
+                Value = new ValueObject("MyValue"),
+                Root = null
+            }
         };
 
         // Act

@@ -969,7 +969,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected {{context:type}} to explicitly implement {interfaceType}.{name}{{reason}}" +
-                $", but {{context:type}} is <null>.");
+                ", but {context:type} is <null>.");
 
         if (success)
         {
@@ -1036,7 +1036,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected {{context:type}} to not explicitly implement {interfaceType}.{name}{{reason}}" +
-                $", but {{context:type}} is <null>.");
+                ", but {context:type} is <null>.");
 
         if (success)
         {
@@ -1049,7 +1049,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
                 .ForCondition(!explicitlyImplementsProperty)
                 .FailWith(
                     $"Expected {Subject} to not explicitly implement {interfaceType}.{name}{{reason}}" +
-                    $", but it does.");
+                    ", but it does.");
         }
 
         return new AndConstraint<TypeAssertions>(this);
@@ -1249,7 +1249,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected {indexerType.Name} {{context:type}}[{GetParameterString(parameterTypes)}] to exist{{reason}}" +
-                $", but {{context:type}} is <null>.");
+                ", but {context:type} is <null>.");
 
         PropertyInfo propertyInfo = null;
 
@@ -1263,7 +1263,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
                 .ForCondition(propertyInfo is not null)
                 .FailWith(
                     $"Expected {indexerType.Name} {Subject}[{GetParameterString(parameterTypes)}] to exist{{reason}}" +
-                    $", but it does not.")
+                    ", but it does not.")
                 .Then
                 .ForCondition(propertyInfo.PropertyType == indexerType)
                 .FailWith($"Expected {propertyInfoDescription} to be of type {indexerType}{{reason}}, but it is not.");
@@ -1295,7 +1295,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected indexer {{context:type}}[{GetParameterString(parameterTypes)}] to not exist{{reason}}" +
-                $", but {{context:type}} is <null>.");
+                ", but {context:type} is <null>.");
 
         if (success)
         {
@@ -1306,7 +1306,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
                 .ForCondition(propertyInfo is null)
                 .FailWith(
                     $"Expected indexer {Subject}[{GetParameterString(parameterTypes)}] to not exist{{reason}}" +
-                    $", but it does.");
+                    ", but it does.");
         }
 
         return new AndConstraint<TypeAssertions>(this);
@@ -1339,7 +1339,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected method {{context:type}}.{name}({GetParameterString(parameterTypes)}) to exist{{reason}}" +
-                $", but {{context:type}} is <null>.");
+                ", but {context:type} is <null>.");
 
         MethodInfo methodInfo = null;
 
@@ -1352,7 +1352,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
                 .ForCondition(methodInfo is not null)
                 .FailWith(
                     $"Expected method {Subject}.{name}({GetParameterString(parameterTypes)}) to exist{{reason}}" +
-                    $", but it does not.");
+                    ", but it does not.");
         }
 
         return new AndWhichConstraint<TypeAssertions, MethodInfo>(this, methodInfo);
@@ -1385,7 +1385,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected method {{context:type}}.{name}({GetParameterString(parameterTypes)}) to not exist{{reason}}" +
-                $", but {{context:type}} is <null>.");
+                ", but {context:type} is <null>.");
 
         if (success)
         {
@@ -1397,7 +1397,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
                 .ForCondition(methodInfo is null)
                 .FailWith(
                     $"Expected method {methodInfoDescription}({GetParameterString(parameterTypes)}) to not exist{{reason}}" +
-                    $", but it does.");
+                    ", but it does.");
         }
 
         return new AndConstraint<TypeAssertions>(this);
@@ -1425,7 +1425,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected constructor {{context:type}}({GetParameterString(parameterTypes)}) to exist{{reason}}" +
-                $", but {{context:type}} is <null>.");
+                ", but {context:type} is <null>.");
 
         ConstructorInfo constructorInfo = null;
 
@@ -1438,7 +1438,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
                 .ForCondition(constructorInfo is not null)
                 .FailWith(
                     $"Expected constructor {Subject}({GetParameterString(parameterTypes)}) to exist{{reason}}" +
-                    $", but it does not.");
+                    ", but it does not.");
         }
 
         return new AndWhichConstraint<TypeAssertions, ConstructorInfo>(this, constructorInfo);
@@ -1457,7 +1457,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     public AndWhichConstraint<TypeAssertions, ConstructorInfo> HaveDefaultConstructor(
         string because = "", params object[] becauseArgs)
     {
-        return HaveConstructor(new Type[0], because, becauseArgs);
+        return HaveConstructor(Array.Empty<Type>(), because, becauseArgs);
     }
 
     /// <summary>
@@ -1482,7 +1482,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected constructor {{context:type}}({GetParameterString(parameterTypes)}) not to exist{{reason}}" +
-                $", but {{context:type}} is <null>.");
+                ", but {context:type} is <null>.");
 
         ConstructorInfo constructorInfo = null;
 
@@ -1495,7 +1495,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
                 .ForCondition(constructorInfo is null)
                 .FailWith(
                     $"Expected constructor {Subject}({GetParameterString(parameterTypes)}) not to exist{{reason}}" +
-                    $", but it does.");
+                    ", but it does.");
         }
 
         return new AndWhichConstraint<TypeAssertions, ConstructorInfo>(this, constructorInfo);
@@ -1514,7 +1514,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     public AndWhichConstraint<TypeAssertions, ConstructorInfo> NotHaveDefaultConstructor(
         string because = "", params object[] becauseArgs)
     {
-        return NotHaveConstructor(new Type[0], because, becauseArgs);
+        return NotHaveConstructor(Array.Empty<Type>(), because, becauseArgs);
     }
 
     private static string GetParameterString(IEnumerable<Type> parameterTypes)

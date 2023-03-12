@@ -1726,10 +1726,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         IEnumerable<string> collection = new[] { "build succeded", "test failed", "pack failed" };
 
         // Act
-        Action action = () =>
-        {
-            _ = collection.Should().ContainMatch("* failed").Which;
-        };
+        Action action = () => _ = collection.Should().ContainMatch("* failed").Which;
 
         // Assert
         action.Should().Throw<XunitException>()

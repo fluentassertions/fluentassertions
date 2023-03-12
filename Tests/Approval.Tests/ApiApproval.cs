@@ -67,6 +67,7 @@ public class ApiApproval
                     // omit unchanged files
                     continue;
             }
+
             builder.AppendLine(line.Text);
         }
 

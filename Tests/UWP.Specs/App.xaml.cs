@@ -16,7 +16,7 @@ internal sealed partial class App : Application
         Suspending += OnSuspending;
     }
 
-    protected override void OnLaunched(LaunchActivatedEventArgs e)
+    protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
         if (Window.Current.Content is not Frame rootFrame)
         {
@@ -25,7 +25,7 @@ internal sealed partial class App : Application
             Window.Current.Content = rootFrame;
         }
 
-        UnitTestClient.Run(e.Arguments);
+        UnitTestClient.Run(args.Arguments);
     }
 
     private void OnNavigationFailed(object sender, NavigationFailedEventArgs e) =>

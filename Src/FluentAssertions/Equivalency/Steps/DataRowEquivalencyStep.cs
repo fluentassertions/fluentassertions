@@ -195,9 +195,9 @@ public class DataRowEquivalencyStep : EquivalencyStep<DataRow>
     {
         var cacheKey = (comparands.CompileTimeType, comparands.RuntimeType, config);
 
-        if (!SelectedMembersCache.TryGetValue(cacheKey, out SelectedDataRowMembers selectedMembers))
+        if (!SelectedMembersCache.TryGetValue(cacheKey, out SelectedDataRowMembers selectedDataRowMembers))
         {
-            var members = Enumerable.Empty<IMember>();
+            IEnumerable<IMember> members = Enumerable.Empty<IMember>();
 
             foreach (IMemberSelectionRule rule in config.SelectionRules)
             {
@@ -205,15 +205,17 @@ public class DataRowEquivalencyStep : EquivalencyStep<DataRow>
                     new MemberSelectionContext(comparands.CompileTimeType, comparands.RuntimeType, config));
             }
 
-            selectedMembers = new SelectedDataRowMembers
+            IMember[] selectedMembers = members.ToArray();
+
+            selectedDataRowMembers = new SelectedDataRowMembers
             {
-                HasErrors = members.Any(m => m.Name == nameof(DataRow.HasErrors)),
-                RowState = members.Any(m => m.Name == nameof(DataRow.RowState))
+                HasErrors = selectedMembers.Any(m => m.Name == nameof(DataRow.HasErrors)),
+                RowState = selectedMembers.Any(m => m.Name == nameof(DataRow.RowState))
             };
 
-            SelectedMembersCache.TryAdd(cacheKey, selectedMembers);
+            SelectedMembersCache.TryAdd(cacheKey, selectedDataRowMembers);
         }
 
-        return selectedMembers;
+        return selectedDataRowMembers;
     }
 }

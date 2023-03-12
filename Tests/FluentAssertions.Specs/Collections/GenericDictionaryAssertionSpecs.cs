@@ -1094,7 +1094,10 @@ public class GenericDictionaryAssertionSpecs
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 dictionary1.Should().Equal(dictionary2, "because we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1247,8 +1250,11 @@ public class GenericDictionaryAssertionSpecs
             };
 
             // Act
-            Action act =
-                () => dictionary1.Should().NotEqual(dictionary2, "because we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                dictionary1.Should().NotEqual(dictionary2, "because we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1397,7 +1403,25 @@ public class GenericDictionaryAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain key {2, 3} because we do, but could not find {3}.");
+                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain keys {2, 3} because we do, but could not find {3}.");
+        }
+
+        [Fact]
+        public void Null_dictionaries_do_not_contain_any_keys()
+        {
+            // Arrange
+            Dictionary<int, string> dictionary = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                dictionary.Should().ContainKeys(new[] { 2, 3 }, "because {0}", "we do");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected dictionary to contain keys {2, 3} because we do, but found <null>.");
         }
 
         [Fact]
@@ -1481,8 +1505,11 @@ public class GenericDictionaryAssertionSpecs
             Dictionary<int, string> dictionary = null;
 
             // Act
-            Action act = () => dictionary.Should()
-                .NotContainKey(1, "because we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                dictionary.Should().NotContainKey(1, "because we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1504,7 +1531,7 @@ public class GenericDictionaryAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to not contain key {2, 3} because we do, but found {2}.");
+                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to not contain keys {2, 3} because we do, but found {2}.");
         }
 
         [Fact]
@@ -1523,6 +1550,24 @@ public class GenericDictionaryAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to not contain key 2 because we do.");
+        }
+
+        [Fact]
+        public void Null_dictionaries_do_not_contain_any_keys()
+        {
+            // Arrange
+            Dictionary<int, string> dictionary = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                dictionary.Should().NotContainKeys(new[] { 2 }, "because {0}", "we do");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected dictionary to not contain keys {2} because we do, but found <null>.");
         }
 
         [Fact]
@@ -1650,6 +1695,24 @@ public class GenericDictionaryAssertionSpecs
 
             // Assert
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void Null_dictionaries_do_not_contain_any_values()
+        {
+            // Arrange
+            Dictionary<int, string> dictionary = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                dictionary.Should().ContainValue("One", "because {0}", "we do");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected dictionary to contain values {\"One\"} because we do, but found <null>.");
         }
 
         [Fact]
@@ -1830,8 +1893,11 @@ public class GenericDictionaryAssertionSpecs
             Dictionary<int, string> dictionary = null;
 
             // Act
-            Action act = () => dictionary.Should()
-                .NotContainValue("One", "because we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                dictionary.Should().NotContainValue("One", "because we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -1908,6 +1974,24 @@ public class GenericDictionaryAssertionSpecs
             // Assert
             act.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot verify value containment with an empty sequence*");
+        }
+
+        [Fact]
+        public void Null_dictionaries_do_not_contain_any_values()
+        {
+            // Arrange
+            Dictionary<int, string> dictionary = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                dictionary.Should().NotContainValues(new[] { "Two", "Three" }, "because {0}", "we do");
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected dictionary to not contain values {\"Two\", \"Three\"} because we do, but found <null>.");
         }
     }
 
@@ -2081,8 +2165,11 @@ public class GenericDictionaryAssertionSpecs
             };
 
             // Act
-            Action act = () => dictionary.Should().Contain(keyValuePairs,
-                "because we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                dictionary.Should().Contain(keyValuePairs, "because we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -2280,8 +2367,11 @@ public class GenericDictionaryAssertionSpecs
             Dictionary<int, string> dictionary = null;
 
             // Act
-            Action act = () => dictionary.Should().Contain(1, "One",
-                "because we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                dictionary.Should().Contain(1, "One", "because we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -2462,8 +2552,11 @@ public class GenericDictionaryAssertionSpecs
             };
 
             // Act
-            Action act = () => dictionary.Should().NotContain(keyValuePairs,
-                "because we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                dictionary.Should().NotContain(keyValuePairs, "because we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -2662,8 +2755,11 @@ public class GenericDictionaryAssertionSpecs
             Dictionary<int, string> dictionary = null;
 
             // Act
-            Action act = () => dictionary.Should().NotContain(1, "One",
-                "because we want to test the behaviour with a null subject");
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                dictionary.Should().NotContain(1, "One", "because we want to test the behaviour with a null subject");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -2915,7 +3011,7 @@ internal class TrackingTestDictionary : IDictionary<int, string>
     }
 }
 
-internal class TrackingDictionaryEnumerator : IEnumerator<KeyValuePair<int, string>>
+internal sealed class TrackingDictionaryEnumerator : IEnumerator<KeyValuePair<int, string>>
 {
     private readonly KeyValuePair<int, string>[] values;
     private int index;

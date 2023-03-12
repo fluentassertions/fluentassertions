@@ -3,6 +3,7 @@ using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -684,7 +685,11 @@ public class DataSetSpecs : DataSpecs
         var correctTableCount = -1;
 
         // Act
-        Action act = () => dataSet.Should().HaveTableCount(correctTableCount);
+        Action act = () =>
+        {
+            using var _ = new AssertionScope();
+            dataSet.Should().HaveTableCount(correctTableCount);
+        };
 
         // Assert
         act.Should().Throw<XunitException>()
@@ -777,7 +782,11 @@ public class DataSetSpecs : DataSpecs
             .Select(table => table.TableName);
 
         // Act
-        Action act = () => actual.Should().HaveTables(existingTableNames);
+        Action act = () =>
+        {
+            using var _ = new AssertionScope();
+            actual.Should().HaveTables(existingTableNames);
+        };
 
         // Assert
         act.Should().Throw<XunitException>()

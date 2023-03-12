@@ -293,7 +293,7 @@ internal class CountingGenericCollection<TElement> : ICollection<TElement>
     public bool IsReadOnly { get; private set; }
 }
 
-internal class TrackingTestEnumerable : IEnumerable<int>
+internal sealed class TrackingTestEnumerable : IEnumerable<int>
 {
     private readonly int[] values;
 
@@ -315,7 +315,7 @@ internal class TrackingTestEnumerable : IEnumerable<int>
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
 
-internal class TrackingEnumerator : IEnumerator<int>
+internal sealed class TrackingEnumerator : IEnumerator<int>
 {
     private readonly int[] values;
     private int index;

@@ -254,21 +254,26 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
             "Cannot assert the document has an element if the expected name is <null>.");
 
-        Execute.Assertion
+        bool success = Execute.Assertion
             .ForCondition(Subject.Root is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith(
                 "Expected {context:subject} to have root element with child {0}{reason}, but it has no root element.",
                 expected.ToString());
 
-        XElement xElement = Subject.Root.Element(expected);
+        XElement xElement = null;
 
-        Execute.Assertion
-            .ForCondition(xElement is not null)
-            .BecauseOf(because, becauseArgs)
-            .FailWith(
-                "Expected {context:subject} to have root element with child {0}{reason}, but no such child element was found.",
-                expected.ToString());
+        if (success)
+        {
+            xElement = Subject.Root.Element(expected);
+
+            Execute.Assertion
+                .ForCondition(xElement is not null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected {context:subject} to have root element with child {0}{reason}, but no such child element was found.",
+                    expected.ToString());
+        }
 
         return new AndWhichConstraint<XDocumentAssertions, XElement>(this, xElement);
     }
@@ -325,7 +330,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
                     .ForConstraint(occurrenceConstraint, actual)
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
-                        $"Expected {{context:subject}} to have a root element containing a child {{0}} " +
+                        "Expected {context:subject} to have a root element containing a child {0} " +
                         $"{{expectedOccurrence}}{{reason}}, but found it {actual.Times()}.",
                         expected.ToString());
             }

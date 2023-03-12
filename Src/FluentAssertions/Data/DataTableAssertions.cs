@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Xml.Schema;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
@@ -37,20 +38,21 @@ public class DataTableAssertions<TDataTable> : ReferenceTypeAssertions<DataTable
     public AndConstraint<DataTableAssertions<TDataTable>> HaveRowCount(int expected, string because = "",
         params object[] becauseArgs)
     {
-        if (Subject is null)
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:DataTable} to contain exactly {0} row(s){reason}, but found <null>.", expected);
-        }
-
-        int actualCount = Subject.Rows.Count;
-
-        Execute.Assertion
-            .ForCondition(actualCount == expected)
+        bool success = Execute.Assertion
+            .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:DataTable} to contain exactly {0} row(s){reason}, but found {1}.", expected,
-                actualCount);
+            .FailWith("Expected {context:DataTable} to contain exactly {0} row(s){reason}, but found <null>.", expected);
+
+        if (success)
+        {
+            int actualCount = Subject.Rows.Count;
+
+            Execute.Assertion
+                .ForCondition(actualCount == expected)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:DataTable} to contain exactly {0} row(s){reason}, but found {1}.", expected,
+                    actualCount);
+        }
 
         return new AndConstraint<DataTableAssertions<TDataTable>>(this);
     }
@@ -116,21 +118,22 @@ public class DataTableAssertions<TDataTable> : ReferenceTypeAssertions<DataTable
     public AndConstraint<DataTableAssertions<TDataTable>> HaveColumns(IEnumerable<string> expectedColumnNames,
         string because = "", params object[] becauseArgs)
     {
-        if (Subject is null)
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:DataTable} to contain {0} column(s) with specific names{reason}, but found <null>.",
-                    expectedColumnNames.Count());
-        }
+        bool success = Execute.Assertion
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:DataTable} to contain {0} column(s) with specific names{reason}, but found <null>.",
+                () => expectedColumnNames.Count());
 
-        foreach (var expectedColumnName in expectedColumnNames)
+        if (success)
         {
-            Execute.Assertion
-                .ForCondition(Subject.Columns.Contains(expectedColumnName))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:DataTable} to contain a column named {0}{reason}, but it does not.",
-                    expectedColumnName);
+            foreach (var expectedColumnName in expectedColumnNames)
+            {
+                Execute.Assertion
+                    .ForCondition(Subject.Columns.Contains(expectedColumnName))
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:DataTable} to contain a column named {0}{reason}, but it does not.",
+                        expectedColumnName);
+            }
         }
 
         return new AndConstraint<DataTableAssertions<TDataTable>>(this);

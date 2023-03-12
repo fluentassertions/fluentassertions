@@ -447,7 +447,7 @@ internal static class TypeExtensions
             .SingleOrDefault(m => m.GetParameters().Select(p => p.ParameterType).SequenceEqual(parameterTypes));
     }
 
-    public static IEnumerable<MethodInfo> GetConversionOperators(this Type type, Type sourceType, Type targetType,
+    private static IEnumerable<MethodInfo> GetConversionOperators(this Type type, Type sourceType, Type targetType,
         Func<string, bool> predicate)
     {
         return type

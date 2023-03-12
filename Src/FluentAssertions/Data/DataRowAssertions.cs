@@ -84,22 +84,23 @@ public class DataRowAssertions<TDataRow> : ReferenceTypeAssertions<TDataRow, Dat
     public AndConstraint<DataRowAssertions<TDataRow>> HaveColumns(IEnumerable<string> expectedColumnNames, string because = "",
         params object[] becauseArgs)
     {
-        if (Subject is null)
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected {context:DataRow} to be in a table containing {0} column(s) with specific names{reason}, but found <null>.",
-                    expectedColumnNames.Count());
-        }
+        bool success = Execute.Assertion
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith(
+                "Expected {context:DataRow} to be in a table containing {0} column(s) with specific names{reason}, but found <null>.",
+                () => expectedColumnNames.Count());
 
-        foreach (var expectedColumnName in expectedColumnNames)
+        if (success)
         {
-            Execute.Assertion
-                .ForCondition(Subject.Table.Columns.Contains(expectedColumnName))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected table containing {context:DataRow} to contain a column named {0}{reason}, but it does not.",
-                    expectedColumnName);
+            foreach (var expectedColumnName in expectedColumnNames)
+            {
+                Execute.Assertion
+                    .ForCondition(Subject.Table.Columns.Contains(expectedColumnName))
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected table containing {context:DataRow} to contain a column named {0}{reason}, but it does not.",
+                        expectedColumnName);
+            }
         }
 
         return new AndConstraint<DataRowAssertions<TDataRow>>(this);

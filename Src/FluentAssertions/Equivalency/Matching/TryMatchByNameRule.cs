@@ -8,7 +8,7 @@ namespace FluentAssertions.Equivalency.Matching;
 /// </summary>
 internal class TryMatchByNameRule : IMemberMatchingRule
 {
-    public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions config)
+    public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions options)
     {
         PropertyInfo property = subject.GetType().FindProperty(expectedMember.Name);
 

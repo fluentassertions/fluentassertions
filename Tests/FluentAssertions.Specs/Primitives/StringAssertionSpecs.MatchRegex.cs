@@ -347,7 +347,9 @@ public partial class StringAssertionSpecs
             string subject = "a";
 
             // Act
+#pragma warning disable RE0001 // Invalid regex pattern
             Action act = () => subject.Should().MatchRegex(".**", Exactly.Times(0));
+#pragma warning restore RE0001 // Invalid regex pattern
 
             // Assert
             act.Should().ThrowExactly<XunitException>()
