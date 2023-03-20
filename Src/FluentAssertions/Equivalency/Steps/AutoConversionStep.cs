@@ -56,6 +56,19 @@ public class AutoConversionStep : IEquivalencyStep
 
         try
         {
+            if (expectationType.IsEnum)
+            {
+                if (Enum.IsDefined(expectationType, subject))
+                {
+                    conversionResult = Enum.ToObject(expectationType, subject);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
             conversionResult = Convert.ChangeType(subject, expectationType, CultureInfo.InvariantCulture);
             return true;
         }
