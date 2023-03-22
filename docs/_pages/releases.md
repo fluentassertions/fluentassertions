@@ -15,7 +15,7 @@ sidebar:
 ### Fixes
 * Improved robustness of several assertions when they're wrapped in an `AssertionScope` - [#2133](https://github.com/fluentassertions/fluentassertions/pull/2133)
 
-* Fixed `.Excluding()`, `.For().Exclude()` not working if root is a collection - [#2101](https://github.com/fluentassertions/fluentassertions/pull/2135)
+* Fixed `.Excluding()` and `.For().Exclude()` not working if root is a collection - [#2135](https://github.com/fluentassertions/fluentassertions/pull/2135)
 
 ## 6.10.0
 
