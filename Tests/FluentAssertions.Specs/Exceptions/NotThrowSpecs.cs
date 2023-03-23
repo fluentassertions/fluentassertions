@@ -45,7 +45,7 @@ public class NotThrowSpecs
         action
             .Should().Throw<XunitException>().WithMessage(
                 "Did not expect System.ArgumentException because we passed valid arguments, " +
-                "but found*with message \"An exception was forced\"*");
+                "but found System.ArgumentException: An exception was forced*");
     }
 
     [Fact]
@@ -81,7 +81,7 @@ public class NotThrowSpecs
         action
             .Should().Throw<XunitException>().WithMessage(
                 "Did not expect any exception because we passed valid arguments, " +
-                "but found System.ArgumentException with message \"An exception was forced\"*");
+                "but found System.ArgumentException: An exception was forced*");
     }
 
     [Fact]
