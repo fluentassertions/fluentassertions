@@ -12,6 +12,7 @@ sidebar:
 ### What's new
 * Added `ThrowWithinAsync` for assertions on `Task` - [#1974](https://github.com/fluentassertions/fluentassertions/pull/1974)
 * Added support for converting integers to enums using `AutoConversion` - [#2147](https://github.com/fluentassertions/fluentassertions/pull/2147)
+* Changed exception formatting to include any inner exception - [#2150](https://github.com/fluentassertions/fluentassertions/pull/2150)
 
 ### Fixes
 * Improved robustness of several assertions when they're wrapped in an `AssertionScope` - [#2133](https://github.com/fluentassertions/fluentassertions/pull/2133)

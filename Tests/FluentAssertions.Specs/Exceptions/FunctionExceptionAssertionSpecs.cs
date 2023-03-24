@@ -653,7 +653,7 @@ public class FunctionExceptionAssertionSpecs
         // Assert
         action.Should().Throw<XunitException>()
             .WithMessage(
-                "*Did not expect System.InvalidOperationException because it was so fast, but found System.InvalidOperationException with message*custom message*");
+                "*Did not expect System.InvalidOperationException because it was so fast, but found System.InvalidOperationException: custom message*");
     }
 
     [Fact]

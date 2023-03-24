@@ -156,6 +156,20 @@ public class FormatterSpecs
     }
 
     [Fact]
+    public void When_an_exception_contains_an_inner_exception_they_should_both_appear_in_the_error_message()
+    {
+        // Arrange
+        Exception subject = new("OuterExceptionMessage", new InvalidOperationException("InnerExceptionMessage"));
+
+        // Act
+        string result = Formatter.ToString(subject);
+
+        // Assert
+        result.Should().Contain("OuterExceptionMessage")
+            .And.Contain("InnerExceptionMessage");
+    }
+
+    [Fact]
     public void When_the_object_is_a_generic_type_without_custom_string_representation_it_should_show_the_properties()
     {
         // Arrange
