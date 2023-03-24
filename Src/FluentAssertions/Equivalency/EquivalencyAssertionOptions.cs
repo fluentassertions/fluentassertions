@@ -75,6 +75,21 @@ public class EquivalencyAssertionOptions<TExpectation> :
     }
 
     /// <summary>
+    /// Causes the collection identified by <paramref name="expression"/> to be compared in the order
+    /// in which the items appear in the expectation.
+    /// </summary>
+    public EquivalencyAssertionOptions<TExpectation> WithoutStrictOrderingFor(
+        Expression<Func<TExpectation, object>> expression)
+    {
+        string expressionMemberPath = expression.GetMemberPath().ToString();
+        OrderingRules.Add(new PathBasedOrderingRule(expressionMemberPath)
+        {
+            Invert = true
+        });
+        return this;
+    }
+
+    /// <summary>
     /// Creates a new set of options based on the current instance which acts on a a collection of the <typeparamref name="TExpectation"/>.
     /// </summary>
     public EquivalencyAssertionOptions<IEnumerable<TExpectation>> AsCollection()

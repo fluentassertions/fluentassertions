@@ -1485,6 +1485,31 @@ public class CollectionSpecs
     }
 
     [Fact]
+    public void When_an_unordered_collection_must_not_be_strict_using_an_expression_it_should_not_throw()
+    {
+        // Arrange
+        var subject = new[]
+        {
+            new { Name = "John", UnorderedCollection = new[] { 1, 2, 3, 4, 5 } },
+            new { Name = "Jane", UnorderedCollection = new int[0] }
+        };
+
+        var expectation = new[]
+        {
+            new { Name = "John", UnorderedCollection = new[] { 5, 4, 3, 2, 1 } },
+            new { Name = "Jane", UnorderedCollection = new int[0] }
+        };
+
+        // Act
+        Action action = () => subject.Should().BeEquivalentTo(expectation, options => options
+            .WithStrictOrdering()
+            .WithoutStrictOrderingFor(x => x.UnorderedCollection));
+
+        // Assert
+        action.Should().NotThrow();
+    }
+
+    [Fact]
     public void
         When_an_unordered_collection_must_not_be_strict_using_a_predicate_and_order_was_reset_to_strict_it_should_throw()
     {
