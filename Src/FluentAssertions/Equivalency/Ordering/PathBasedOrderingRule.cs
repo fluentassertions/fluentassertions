@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace FluentAssertions.Equivalency.Ordering;
@@ -62,6 +63,7 @@ internal class PathBasedOrderingRule : IOrderingRule
 
     public override string ToString()
     {
-        return $"Be {(Invert ? "not strict" : "strict")} about the order of collection items when path is " + path;
+        Debug.Assert(!Invert, "When Invert is true, we should never raise errors related to the order.");
+        return "Be struct about the order of collection items when path is " + path;
     }
 }
