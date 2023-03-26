@@ -11,6 +11,8 @@ sidebar:
 
 ### What's new
 
+* Added an expression overload for `WithoutStrictOrderingFor` - [#2151](https://github.com/fluentassertions/fluentassertions/pull/2151)
+
 ### Fixes
 
 ## 6.10.0
