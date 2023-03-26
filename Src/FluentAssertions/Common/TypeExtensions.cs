@@ -443,7 +443,7 @@ internal static class TypeExtensions
         return !type.IsAnonymousType() && !type.IsTuple();
     }
 
-    public static bool IsTuple(this Type type)
+    private static bool IsTuple(this Type type)
     {
         if (!type.IsGenericType)
         {
@@ -474,7 +474,7 @@ internal static class TypeExtensions
 #endif
     }
 
-    public static bool IsAnonymousType(this Type type)
+    private static bool IsAnonymousType(this Type type)
     {
         bool nameContainsAnonymousType = type.FullName.Contains("AnonymousType", StringComparison.Ordinal);
 
