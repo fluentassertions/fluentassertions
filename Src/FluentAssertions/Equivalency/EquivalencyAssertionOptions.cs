@@ -75,7 +75,7 @@ public class EquivalencyAssertionOptions<TExpectation> :
     }
 
     /// <summary>
-    /// Causes the collection identified by <paramref name="expression"/> to be compared in the order
+    /// Causes the collection identified by <paramref name="expression"/> to be compared ignoring the order
     /// in which the items appear in the expectation.
     /// </summary>
     public EquivalencyAssertionOptions<TExpectation> WithoutStrictOrderingFor(
