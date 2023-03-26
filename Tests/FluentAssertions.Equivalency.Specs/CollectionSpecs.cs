@@ -107,8 +107,6 @@ public class CollectionSpecs
         public string MyString { get; set; }
 
         public ClassIdentifiedById Child { get; set; }
-
-        public string[] MyCollection { get; set; }
     }
 
     public class ClassIdentifiedById
