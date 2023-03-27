@@ -1539,6 +1539,30 @@ public class CollectionSpecs
     }
 
     [Fact]
+    public void When_an_unordered_collection_must_not_be_strict_using_an_expression_and_collection_is_not_equal_it_should_throw()
+    {
+        // Arrange
+        var subject = new
+        {
+            UnorderedCollection = new[] { 1 }
+        };
+
+        var expectation = new
+        {
+            UnorderedCollection = new[] { 2 }
+        };
+
+        // Act
+        Action action = () => subject.Should().BeEquivalentTo(expectation, options => options
+            .WithStrictOrdering()
+            .WithoutStrictOrderingFor(x => x.UnorderedCollection));
+
+        // Assert
+        action.Should().Throw<XunitException>()
+            .WithMessage("*not strict*");
+    }
+
+    [Fact]
     public void
         When_asserting_equivalence_of_collections_and_configured_to_use_runtime_properties_it_should_respect_the_runtime_type()
     {
