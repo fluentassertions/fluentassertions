@@ -2231,6 +2231,27 @@ public class SelectionRulesSpecs
         }
 
         [Fact]
+        public void Only_ignore_non_browsable_matching_members()
+        {
+            // Arrange
+            var subject = new
+            {
+                NonExisting = 0
+            };
+
+            var expectation = new
+            {
+                Existing = 1
+            };
+
+            // Act
+            Action action = () => subject.Should().BeEquivalentTo(expectation, config => config.IgnoringNonBrowsableMembersOnSubject());
+
+            // Assert
+            action.Should().Throw<XunitException>();
+        }
+
+        [Fact]
         public void When_property_is_non_browsable_only_in_expectation_excluding_non_browsable_members_should_make_it_succeed()
         {
             // Arrange
