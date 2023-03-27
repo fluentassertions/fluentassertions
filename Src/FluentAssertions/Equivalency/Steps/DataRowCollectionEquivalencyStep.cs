@@ -188,7 +188,7 @@ public class DataRowCollectionEquivalencyStep : EquivalencyStep<DataRowCollectio
         }
     }
 
-    private class CompoundKey : IEquatable<CompoundKey>
+    private sealed class CompoundKey : IEquatable<CompoundKey>
     {
         private readonly object[] values;
 
