@@ -40,11 +40,11 @@ public static class TaskOfTAssertionSpecs
             Func<Task<int>> action = null;
 
             // Act
-            Func<Task> testAction = () =>
+            Func<Task> testAction = async () =>
             {
                 using var _ = new AssertionScope();
 
-                return action.Should().CompleteWithinAsync(
+                await action.Should().CompleteWithinAsync(
                     timeSpan, "because we want to test the failure {0}", "message");
             };
 
@@ -152,12 +152,12 @@ public static class TaskOfTAssertionSpecs
             var taskFactory = new TaskCompletionSource<int>();
 
             // Act
-            Func<Task> action = () =>
+            Func<Task> action = async () =>
             {
                 Func<Task<int>> func = () => taskFactory.Task;
 
                 using var _ = new AssertionScope();
-                return func.Should(timer).CompleteWithinAsync(100.Milliseconds());
+                await func.Should(timer).CompleteWithinAsync(100.Milliseconds());
             };
 
             timer.Complete();
@@ -174,18 +174,18 @@ public static class TaskOfTAssertionSpecs
             var taskFactory = new TaskCompletionSource<int>();
 
             // Act
-            Func<Task> action = () =>
+            Func<Task> action = async () =>
             {
                 Func<Task<int>> func = () => taskFactory.Task;
                 using var _ = new AssertionScope();
-                return func.Should(timer).CompleteWithinAsync(100.Milliseconds()).WithResult(2);
+                await func.Should(timer).CompleteWithinAsync(100.Milliseconds()).WithResult(2);
             };
 
             timer.Complete();
 
             // Assert
             var assertionTask = action.Should().ThrowAsync<XunitException>()
-                .WithMessage("Expected*to complete within 100ms.*Expected return*to be 2, but found 0.");
+                .WithMessage("Expected*to complete within 100ms.*Expected*to be 2, but found 0.");
 
             await Awaiting(() => assertionTask).Should().CompleteWithinAsync(200.Seconds());
         }
