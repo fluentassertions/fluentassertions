@@ -220,14 +220,8 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
-            .WithExpectation("Expected inner {0}{reason}, but ", innerException)
-            .ForCondition(Subject is not null)
-            .FailWith("no exception was thrown.")
-            .Then
             .ForCondition(Subject.Any(e => e.InnerException is not null))
-            .FailWith("the thrown exception has no inner exception.")
-            .Then
-            .ClearExpectation();
+            .FailWith("Expected inner {0}{reason}, but the thrown exception has no inner exception.", innerException);
 
         Exception[] expectedInnerExceptions = Subject
             .Select(e => e.InnerException)
