@@ -35,12 +35,15 @@ internal class MustMatchByNameRule : IMemberMatchingRule
             Execute.Assertion.FailWith(
                 $"Expectation has {expectedMember.Description} that the other object does not have.");
         }
-
-        if (options.IgnoreNonBrowsableOnSubject && !subjectMember.IsBrowsable)
+        else if (options.IgnoreNonBrowsableOnSubject && !subjectMember.IsBrowsable)
         {
             Execute.Assertion.FailWith(
                 $"Expectation has {expectedMember.Description} that is non-browsable in the other object, and non-browsable " +
                 "members on the subject are ignored with the current configuration");
+        }
+        else
+        {
+            // Everything is fine
         }
 
         return subjectMember;
