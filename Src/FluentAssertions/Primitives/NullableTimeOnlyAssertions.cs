@@ -6,7 +6,7 @@ using FluentAssertions.Execution;
 namespace FluentAssertions.Primitives;
 
 /// <summary>
-/// Contains a number of methods to assert that a nullable <see cref="TimeOnly"/> or
+/// Contains a number of methods to assert that a nullable <see cref="TimeOnly"/> is in the expected state.
 /// </summary>
 [DebuggerNonUserCode]
 public class NullableTimeOnlyAssertions : NullableTimeOnlyAssertions<NullableTimeOnlyAssertions>
@@ -18,7 +18,7 @@ public class NullableTimeOnlyAssertions : NullableTimeOnlyAssertions<NullableTim
 }
 
 /// <summary>
-/// Contains a number of methods to assert that a nullable <see cref="TimeOnly"/> or
+/// Contains a number of methods to assert that a nullable <see cref="TimeOnly"/> is in the expected state.
 /// </summary>
 [DebuggerNonUserCode]
 public class NullableTimeOnlyAssertions<TAssertions> : TimeOnlyAssertions<TAssertions>
