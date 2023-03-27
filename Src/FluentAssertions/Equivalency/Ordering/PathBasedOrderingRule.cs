@@ -64,6 +64,6 @@ internal class PathBasedOrderingRule : IOrderingRule
     public override string ToString()
     {
         Debug.Assert(!Invert, "When Invert is true, we should never raise errors related to the order.");
-        return "Be struct about the order of collection items when path is " + path;
+        return "Be strict about the order of collection items when path is " + path;
     }
 }
