@@ -199,7 +199,10 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     {
         Guard.ThrowIfArgumentIsNull(innerException);
 
-        AssertInnerExceptions(innerException, because, becauseArgs);
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject.Any(e => e.InnerException is not null))
+            .FailWith("Expected inner {0}{reason}, but the thrown exception has no inner exception.", innerException);
 
         Exception[] expectedExceptions = Subject
             .Select(e => e.InnerException)

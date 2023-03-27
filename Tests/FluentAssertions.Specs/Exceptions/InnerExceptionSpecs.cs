@@ -166,6 +166,21 @@ public class InnerExceptionSpecs
     }
 
     [Fact]
+    public void An_exception_without_the_expected_inner_exception_has_a_descriptive_message()
+    {
+        // Arrange
+        Action subject = () => throw new BadImageFormatException("");
+
+        // Act
+        Action act = () => subject.Should().Throw<BadImageFormatException>()
+            .WithInnerExceptionExactly<ArgumentNullException>("some {0}", "message");
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("*some message*no inner exception*");
+    }
+
+    [Fact]
     public void When_subject_throws_an_exception_with_an_unexpected_inner_exception_it_should_throw_with_clear_description()
     {
         // Arrange
