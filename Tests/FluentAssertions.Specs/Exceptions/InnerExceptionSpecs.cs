@@ -214,26 +214,6 @@ public class InnerExceptionSpecs
             Does testSubject = Does.Throw<Exception>();
 
             testSubject.Invoking(x => x.Do()).Should().Throw<Exception>()
-                .WithInnerException<InvalidOperationException>();
-
-            throw new XunitException("This point should not be reached");
-        }
-        catch (XunitException ex)
-        {
-            ex.Message.Should().Be(
-                "Expected inner System.InvalidOperationException, but the thrown exception has no inner exception.");
-        }
-    }
-
-    [Fact]
-    public void
-        When_subject_throws_an_exception_without_expected_inner_exception_and_has_reason_it_should_throw_with_clear_description()
-    {
-        try
-        {
-            Does testSubject = Does.Throw<Exception>();
-
-            testSubject.Invoking(x => x.Do()).Should().Throw<Exception>()
                 .WithInnerException<InvalidOperationException>("because {0} should do that", "Does.Do");
 
             throw new XunitException("This point should not be reached");
