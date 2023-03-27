@@ -125,6 +125,8 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     public ExceptionAssertions<Exception> WithInnerException(Type innerException, string because = "",
         params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(innerException);
+
         return new ExceptionAssertions<Exception>(AssertInnerExceptions(innerException, because, becauseArgs));
     }
 
@@ -161,6 +163,8 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     public ExceptionAssertions<Exception> WithInnerExceptionExactly(Type innerException, string because = "",
         params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(innerException);
+
         return new ExceptionAssertions<Exception>(AssertInnerExceptionExactly(innerException, because, becauseArgs));
     }
 
@@ -197,8 +201,6 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     private IEnumerable<Exception> AssertInnerExceptionExactly(Type innerException, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(innerException);
-
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject.Any(e => e.InnerException is not null))
@@ -219,8 +221,6 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
     private IEnumerable<Exception> AssertInnerExceptions(Type innerException, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(innerException);
-
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject.Any(e => e.InnerException is not null))
