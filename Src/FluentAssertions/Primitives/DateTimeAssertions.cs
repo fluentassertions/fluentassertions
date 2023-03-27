@@ -23,7 +23,7 @@ public class DateTimeAssertions : DateTimeAssertions<DateTimeAssertions>
     }
 }
 
-#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CS0659, S1206 // Ignore not overriding Object.GetHashCode()
 #pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
 /// <summary>
 /// Contains a number of methods to assert that a <see cref="DateTime"/> is in the expected state.
