@@ -74,6 +74,17 @@ public class FormattedObjectGraph
         lineBuilder.Append(fragment);
     }
 
+    /// <summary>
+    /// Adds a new line if there are no lines and no fragment that would cause a new line.
+    /// </summary>
+    internal void EnsureNewLine()
+    {
+        if (LineCount == 0 && lineBuilder.Length == 0)
+        {
+            AddLine(string.Empty);
+        }
+    }
+
     private void FlushCurrentLine()
     {
         if (lineBuilder.Length > 0)

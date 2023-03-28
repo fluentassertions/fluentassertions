@@ -217,14 +217,32 @@ public class FormatterSpecs
     }
 
     [Fact]
+    public void When_the_object_is_a_user_defined_type_it_should_show_the_name_on_the_initial_line()
+    {
+        // Arrange
+        var stuff = new BaseStuff
+        {
+            StuffId = 1,
+        };
+
+        // Act
+        Action act = () => stuff.Should().BeNull();
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .And.Message
+                .Should().Match($"*but found FluentAssertions.Specs.Formatting.FormatterSpecs+BaseStuff{Environment.NewLine}{{*");
+    }
+
+    [Fact]
     public void When_the_object_is_an_anonymous_type_it_should_show_the_properties_recursively()
     {
         // Arrange
         var stuff = new
         {
             Description = "absent",
-            SingleChild = new { ChildId = 4 },
-            Children = new[] { 10, 20, 30, 40 },
+            SingleChild = new { ChildId = 8 },
+            Children = new[] { 1, 2, 3, 4 },
         };
 
         var expectedStuff = new
@@ -238,10 +256,30 @@ public class FormatterSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .WithMessage(@"*Description = ""absent""*")
-            .WithMessage("*ChildId = 4*")
-            .WithMessage("*Children = {10, 20, 30, 40}*")
-            .And.Message.Should().NotContain("AnonymousType");
+            .And.Message
+                .Should().Match($"*Expected stuff to be {Environment.NewLine}{{*")
+                .And.Match(@"*Description = ""absent""*")
+                .And.Match($"**SingleChild = {Environment.NewLine}    {{*")
+                .And.Match("*ChildId = 4*")
+                .And.Match("*Children = {10, 20, 30, 40}*")
+                .And.NotContain("AnonymousType");
+    }
+
+    [Fact]
+    public void When_the_object_is_an_empty_anonymous_type_it_should_show_braces_on_the_same_line()
+    {
+        // Arrange
+        var stuff = new
+        {
+        };
+
+        // Act
+        Action act = () => stuff.Should().BeNull();
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .Which.Message.Should().Match("*but found { }*")
+;
     }
 
     [Fact]
@@ -748,6 +786,31 @@ public class FormatterSpecs
         // Assert
         result.Should().Contain($"FluentAssertions.Specs.Formatting.FormatterSpecs+A, {Environment.NewLine}");
         result.Should().Contain($"FluentAssertions.Specs.Formatting.FormatterSpecs+B{Environment.NewLine}");
+    }
+
+    [Fact]
+    public void When_formatting_a_class_it_should_include_class_name_and_braces_on_newlines()
+    {
+        var subject = new BaseStuff { };
+        string result = Formatter.ToString(subject);
+        result.Should().Match(
+            $"FluentAssertions.Specs.Formatting.FormatterSpecs+BaseStuff{Environment.NewLine}{{*{Environment.NewLine}}}");
+    }
+
+    [Fact]
+    public void When_formatting_an_anonymous_class_it_should_include_newlines_between_class_name_and_properties()
+    {
+        var subject = new { Id = 1 };
+        string result = Formatter.ToString(subject);
+        result.Should().Match($"{Environment.NewLine}{{{Environment.NewLine}    Id = 1{Environment.NewLine}}}");
+    }
+
+    [Fact]
+    public void When_formatting_an_empty_anonymous_class_it_should_have_braces_on_the_same_line()
+    {
+        var subject = new { };
+        string result = Formatter.ToString(subject);
+        result.Should().Match($"{{ }}");
     }
 
     public class BaseStuff

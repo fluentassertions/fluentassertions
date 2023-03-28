@@ -83,7 +83,8 @@ public class DefaultValueFormatter : IValueFormatter
 
     private void WriteTypeName(FormattedObjectGraph formattedGraph, Type type)
     {
-        formattedGraph.AddLine(TypeDisplayName(type));
+        var typeName = TypeDisplayName(type);
+        formattedGraph.AddFragment(typeName);
     }
 
     private void WriteTypeValue(object obj, FormattedObjectGraph formattedGraph, FormatChild formatChild, Type type)
@@ -91,14 +92,25 @@ public class DefaultValueFormatter : IValueFormatter
         MemberInfo[] members = GetMembers(type);
         if (members.Length == 0)
         {
-            formattedGraph.AddFragment("{ }");
+            WriteEmptyType(formattedGraph);
         }
         else
         {
-            formattedGraph.AddLine("{");
-            WriteMemberValues(obj, members, formattedGraph, formatChild);
-            formattedGraph.AddFragmentOnNewLine("}");
+            WriteTypeValue(obj, formattedGraph, formatChild, members);
         }
+    }
+
+    private static void WriteEmptyType(FormattedObjectGraph formattedGraph)
+    {
+        formattedGraph.AddFragment("{ }");
+    }
+
+    private static void WriteTypeValue(object obj, FormattedObjectGraph formattedGraph, FormatChild formatChild, MemberInfo[] members)
+    {
+        formattedGraph.EnsureNewLine();
+        formattedGraph.AddLine("{");
+        WriteMemberValues(obj, members, formattedGraph, formatChild);
+        formattedGraph.AddFragmentOnNewLine("}");
     }
 
     private static void WriteMemberValues(object obj, MemberInfo[] members, FormattedObjectGraph formattedGraph, FormatChild formatChild)
