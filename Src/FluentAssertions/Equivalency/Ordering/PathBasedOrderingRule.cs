@@ -16,7 +16,7 @@ internal class PathBasedOrderingRule : IOrderingRule
         this.path = path;
     }
 
-    public bool Invert { get; set; }
+    public bool Invert { get; init; }
 
     /// <summary>
     /// Determines if ordering of the member referred to by the current <paramref name="objectInfo"/> is relevant.

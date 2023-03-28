@@ -182,9 +182,9 @@ public class DataRowEquivalencyStep : EquivalencyStep<DataRow>
 
     private sealed class SelectedDataRowMembers
     {
-        public bool HasErrors { get; set; }
+        public bool HasErrors { get; init; }
 
-        public bool RowState { get; set; }
+        public bool RowState { get; init; }
     }
 
     private static readonly ConcurrentDictionary<(Type CompileTimeType, Type RuntimeType, IEquivalencyAssertionOptions Config),

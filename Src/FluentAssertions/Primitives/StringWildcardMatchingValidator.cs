@@ -70,15 +70,15 @@ internal class StringWildcardMatchingValidator : StringValidator
     /// <summary>
     /// Gets or sets a value indicating whether the subject should not match the pattern.
     /// </summary>
-    public bool Negate { get; set; }
+    public bool Negate { get; init; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the matching process should ignore any casing difference.
     /// </summary>
-    public bool IgnoreCase { get; set; }
+    public bool IgnoreCase { get; init; }
 
     /// <summary>
     /// Ignores the difference between environment newline differences
     /// </summary>
-    public bool IgnoreNewLineDifferences { get; set; }
+    public bool IgnoreNewLineDifferences { get; init; }
 }
