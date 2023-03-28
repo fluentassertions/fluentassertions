@@ -1477,6 +1477,31 @@ public class CollectionSpecs
     }
 
     [Fact]
+    public void When_an_unordered_collection_must_not_be_strict_using_an_expression_it_should_not_throw()
+    {
+        // Arrange
+        var subject = new[]
+        {
+            new { Name = "John", UnorderedCollection = new[] { 1, 2, 3, 4, 5 } },
+            new { Name = "Jane", UnorderedCollection = new int[0] }
+        };
+
+        var expectation = new[]
+        {
+            new { Name = "John", UnorderedCollection = new[] { 5, 4, 3, 2, 1 } },
+            new { Name = "Jane", UnorderedCollection = new int[0] }
+        };
+
+        // Act
+        Action action = () => subject.Should().BeEquivalentTo(expectation, options => options
+            .WithStrictOrdering()
+            .WithoutStrictOrderingFor(x => x.UnorderedCollection));
+
+        // Assert
+        action.Should().NotThrow();
+    }
+
+    [Fact]
     public void
         When_an_unordered_collection_must_not_be_strict_using_a_predicate_and_order_was_reset_to_strict_it_should_throw()
     {
@@ -1503,6 +1528,30 @@ public class CollectionSpecs
         action.Should().Throw<XunitException>()
             .WithMessage(
                 "*Expected*subject[0].UnorderedCollection[0]*to be 2, but found 1.*Expected subject[0].UnorderedCollection[1]*to be 1, but found 2*");
+    }
+
+    [Fact]
+    public void When_an_unordered_collection_must_not_be_strict_using_an_expression_and_collection_is_not_equal_it_should_throw()
+    {
+        // Arrange
+        var subject = new
+        {
+            UnorderedCollection = new[] { 1 }
+        };
+
+        var expectation = new
+        {
+            UnorderedCollection = new[] { 2 }
+        };
+
+        // Act
+        Action action = () => subject.Should().BeEquivalentTo(expectation, options => options
+            .WithStrictOrdering()
+            .WithoutStrictOrderingFor(x => x.UnorderedCollection));
+
+        // Assert
+        action.Should().Throw<XunitException>()
+            .WithMessage("*not strict*");
     }
 
     [Fact]

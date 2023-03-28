@@ -16,6 +16,8 @@ internal class PathBasedOrderingRule : IOrderingRule
         this.path = path;
     }
 
+    public bool Invert { get; set; }
+
     /// <summary>
     /// Determines if ordering of the member referred to by the current <paramref name="objectInfo"/> is relevant.
     /// </summary>
@@ -30,7 +32,7 @@ internal class PathBasedOrderingRule : IOrderingRule
 
         if (currentPropertyPath.Equals(path, StringComparison.OrdinalIgnoreCase))
         {
-            return OrderStrictness.Strict;
+            return Invert ? OrderStrictness.NotStrict : OrderStrictness.Strict;
         }
         else
         {
@@ -62,6 +64,6 @@ internal class PathBasedOrderingRule : IOrderingRule
 
     public override string ToString()
     {
-        return "Be strict about the order of collection items when path is " + path;
+        return $"Be {(Invert ? "not strict" : "strict")} about the order of collection items when path is " + path;
     }
 }
