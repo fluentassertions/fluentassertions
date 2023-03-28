@@ -185,7 +185,7 @@ public static class Formatter
     /// <remarks>
     /// Is used to detect the maximum recursion depth as well as cyclic references in the graph.
     /// </remarks>
-    private class ObjectGraph
+    private sealed class ObjectGraph
     {
         private readonly CyclicReferenceDetector tracker;
         private readonly Stack<string> pathStack;

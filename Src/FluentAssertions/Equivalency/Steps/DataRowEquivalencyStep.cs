@@ -180,7 +180,7 @@ public class DataRowEquivalencyStep : EquivalencyStep<DataRow>
         }
     }
 
-    private class SelectedDataRowMembers
+    private sealed class SelectedDataRowMembers
     {
         public bool HasErrors { get; set; }
 

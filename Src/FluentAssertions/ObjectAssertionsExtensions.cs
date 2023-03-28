@@ -158,7 +158,7 @@ public static class ObjectAssertionsExtensions
 #pragma warning restore SYSLIB0011
     }
 
-    private class SimpleBinder : SerializationBinder
+    private sealed class SimpleBinder : SerializationBinder
     {
         private readonly Type type;
 

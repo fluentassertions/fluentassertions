@@ -96,7 +96,7 @@ internal class MaximumMatchingSolver<TValue>
         public Element<TValue> Element;
     }
 
-    private class MatchCollection : IEnumerable<Match>
+    private sealed class MatchCollection : IEnumerable<Match>
     {
         private readonly Dictionary<Element<TValue>, Match> matchesByElement = new();
 
@@ -120,7 +120,7 @@ internal class MaximumMatchingSolver<TValue>
         IEnumerator IEnumerable.GetEnumerator() => matchesByElement.Values.GetEnumerator();
     }
 
-    private class BreadthFirstSearchTracker
+    private sealed class BreadthFirstSearchTracker
     {
         private readonly Queue<Predicate<TValue>> unmatchedPredicatesQueue = new();
         private readonly Dictionary<Predicate<TValue>, Match> previousMatchByPredicate = new();

@@ -14,7 +14,7 @@ namespace FluentAssertions.Equivalency;
 /// </summary>
 public class ConversionSelector
 {
-    private class ConversionSelectorRule
+    private sealed class ConversionSelectorRule
     {
         public Func<IObjectInfo, bool> Predicate { get; }
 

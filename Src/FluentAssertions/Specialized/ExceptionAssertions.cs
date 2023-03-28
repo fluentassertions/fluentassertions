@@ -263,7 +263,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
                     "\t" + Formatter.ToString(exception)));
     }
 
-    private class ExceptionMessageAssertion
+    private sealed class ExceptionMessageAssertion
     {
         public ExceptionMessageAssertion()
         {

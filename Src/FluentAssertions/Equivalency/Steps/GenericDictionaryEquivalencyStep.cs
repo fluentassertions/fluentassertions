@@ -223,7 +223,7 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
         }
     }
 
-    private class KeyDifference<TSubjectKey, TExpectedKey>
+    private sealed class KeyDifference<TSubjectKey, TExpectedKey>
     {
         public KeyDifference(List<TExpectedKey> missingKeys, List<TSubjectKey> additionalKeys)
         {
