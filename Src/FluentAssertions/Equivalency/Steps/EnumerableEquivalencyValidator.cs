@@ -28,9 +28,9 @@ internal class EnumerableEquivalencyValidator
         Recursive = false;
     }
 
-    public bool Recursive { get; set; }
+    public bool Recursive { get; init; }
 
-    public OrderingRuleCollection OrderingRules { get; set; }
+    public OrderingRuleCollection OrderingRules { get; init; }
 
     public void Execute<T>(object[] subject, T[] expectation)
     {

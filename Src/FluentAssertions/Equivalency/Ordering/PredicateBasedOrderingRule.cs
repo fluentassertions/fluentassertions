@@ -14,7 +14,7 @@ internal class PredicateBasedOrderingRule : IOrderingRule
         this.predicate = predicate.Compile();
     }
 
-    public bool Invert { get; set; }
+    public bool Invert { get; init; }
 
     public OrderStrictness Evaluate(IObjectInfo objectInfo)
     {
