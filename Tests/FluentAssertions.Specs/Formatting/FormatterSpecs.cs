@@ -220,10 +220,7 @@ public class FormatterSpecs
     public void When_the_object_is_a_user_defined_type_it_should_show_the_name_on_the_initial_line()
     {
         // Arrange
-        var stuff = new BaseStuff
-        {
-            StuffId = 1,
-        };
+        var stuff = new StuffRecord(42, "description", new(24), new List<int> { 10, 20, 30, 40 });
 
         // Act
         Action act = () => stuff.Should().BeNull();
@@ -231,7 +228,12 @@ public class FormatterSpecs
         // Assert
         act.Should().Throw<XunitException>()
             .And.Message
-                .Should().Match($"*but found FluentAssertions.Specs.Formatting.FormatterSpecs+BaseStuff{Environment.NewLine}{{*");
+                .Should().Match($"*but found FluentAssertions.Specs.Formatting.FormatterSpecs+StuffRecord{Environment.NewLine}{{*")
+                .And.Match(
+                    $"*, {Environment.NewLine}" +
+                    $"    SingleChild = FluentAssertions.Specs.Formatting.FormatterSpecs+ChildRecord{Environment.NewLine}" +
+                    $"    {{{Environment.NewLine}" +
+                    $"*");
     }
 
     [Fact]
