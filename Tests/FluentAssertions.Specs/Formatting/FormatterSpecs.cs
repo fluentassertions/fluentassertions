@@ -812,7 +812,7 @@ public class FormatterSpecs
     {
         var subject = new { };
         string result = Formatter.ToString(subject);
-        result.Should().Match($"{{ }}");
+        result.Should().Match("{ }");
     }
 
     public class BaseStuff
