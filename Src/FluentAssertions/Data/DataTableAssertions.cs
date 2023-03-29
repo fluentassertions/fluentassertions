@@ -219,11 +219,12 @@ public class DataTableAssertions<TDataTable> : ReferenceTypeAssertions<DataTable
     ///   <item><description>PrimaryKey</description></item>
     ///   <item><description>Rows</description></item>
     /// </list>
-    ///
+    /// <para>
     /// The <see cref="DataTable"/> objects must be of the same type; if two <see cref="DataTable"/> objects
     /// are equivalent in all ways, except that one is a typed <see cref="DataTable"/> that is a subclass
     /// of <see cref="DataTable"/>, then by default, they will not be considered equivalent.
-    ///
+    /// </para>
+    /// <para>
     /// This, as well as testing of any property can be overridden using the <paramref name="config"/> callback.
     /// By calling <see cref="IDataEquivalencyAssertionOptions{T}.AllowingMismatchedTypes"/>, two <see cref="DataTable"/>
     /// objects of differing types can be considered equivalent. Exclude specific properties using
@@ -231,9 +232,11 @@ public class DataTableAssertions<TDataTable> : ReferenceTypeAssertions<DataTable
     /// Exclude columns of the data table using <see cref="IDataEquivalencyAssertionOptions{T}.ExcludingColumn(DataColumn)"/>
     /// or a related function -- this excludes both the <see cref="DataColumn"/> objects in <see cref="DataTable.Columns"/>
     /// and associated field data in <see cref="DataRow"/> objects within the <see cref="DataTable"/>.
-    ///
+    /// </para>
+    /// <para>
     /// You can use <see cref="IDataEquivalencyAssertionOptions{T}.ExcludingRelated(System.Linq.Expressions.Expression{Func{DataTable, object}})"/>
     /// and related functions to exclude properties on other related System.Data types.
+    /// </para>
     /// </remarks>
     /// <param name="expectation">A <see cref="DataColumn"/> with the expected configuration.</param>
     /// <param name="config">

@@ -198,16 +198,19 @@ public class DataSetAssertions<TDataSet> : ReferenceTypeAssertions<DataSet, Data
     ///   <item><description>SchemaSerializationMode</description></item>
     /// </list>
     ///
+    /// <para>
     /// The <see cref="DataSet"/> objects must be of the same type; if two <see cref="DataSet"/> objects
     /// are equivalent in all ways, except that one is a custom subclass of <see cref="DataSet"/> (e.g. to provide
     /// typed accessors for <see cref="DataTable"/> values contained by the <see cref="DataSet"/>), then by default,
     /// they will not be considered equivalent.
-    ///
+    /// </para>
+    /// <para>
     /// This, as well as testing of any property can be overridden using the <paramref name="config"/> callback.
     /// By calling <see cref="IDataEquivalencyAssertionOptions{T}.AllowingMismatchedTypes"/>, two <see cref="DataSet"/>
     /// objects of differing types can be considered equivalent. This setting applies to all types recursively tested
     /// as part of the <see cref="DataSet"/>.
-    ///
+    /// </para>
+    /// <para>
     /// Exclude specific properties using <see cref="IDataEquivalencyAssertionOptions{T}.Excluding(System.Linq.Expressions.Expression{Func{T, object}})"/>.
     /// Exclude specific tables within the data set using <see cref="IDataEquivalencyAssertionOptions{T}.ExcludingTable(string)"/>
     /// or a related function. You can also indicate that columns should be excluded within the <see cref="DataTable"/>
@@ -215,9 +218,11 @@ public class DataSetAssertions<TDataSet> : ReferenceTypeAssertions<DataSet, Data
     /// or a related function. The <see cref="IDataEquivalencyAssertionOptions{T}.ExcludingColumnInAllTables(string)"/> method
     /// can be used to exclude columns across all <see cref="DataTable"/> objects in the <see cref="DataSet"/> that share
     /// the same name.
-    ///
+    /// </para>
+    /// <para>
     /// You can use <see cref="IDataEquivalencyAssertionOptions{T}.ExcludingRelated(System.Linq.Expressions.Expression{Func{DataTable, object}})"/>
     /// and related functions to exclude properties on other related System.Data types.
+    /// </para>
     /// </remarks>
     /// <param name="expectation">A <see cref="DataColumn"/> with the expected configuration.</param>
     /// <param name="config">
