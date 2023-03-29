@@ -58,10 +58,11 @@ internal class StringWildcardMatchingValidator : StringValidator
         get
         {
             var builder = new StringBuilder();
-            builder.Append(Negate ? "Did not expect " : "Expected ");
-            builder.Append("{context:string}");
-            builder.Append(IgnoreCase ? " to match the equivalent of" : " to match");
-            builder.Append(" {0}{reason}, ");
+            builder
+                .Append(Negate ? "Did not expect " : "Expected ")
+                .Append("{context:string}")
+                .Append(IgnoreCase ? " to match the equivalent of" : " to match")
+                .Append(" {0}{reason}, ");
 
             return builder.ToString();
         }

@@ -223,11 +223,11 @@ public class ConstraintEquivalencyStep : EquivalencyStep<Constraint>
                 failureMessage.Append("columns ").Append(missingColumnNames.JoinUsingWritingStyle());
             }
 
-            failureMessage.Append("{reason}, but constraint does not include ");
-
-            failureMessage.Append(missingColumnNames.Count == 1
-                ? "that column. "
-                : "these columns. ");
+            failureMessage
+                .Append("{reason}, but constraint does not include ")
+                .Append(missingColumnNames.Count == 1
+                    ? "that column. "
+                    : "these columns. ");
         }
 
         if (extraColumnNames.Any())
