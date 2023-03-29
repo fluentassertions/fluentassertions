@@ -83,7 +83,7 @@ public class DefaultValueFormatter : IValueFormatter
 
     private void WriteTypeName(FormattedObjectGraph formattedGraph, Type type)
     {
-        var typeName = TypeDisplayName(type);
+        var typeName = type.HasTypeName() ? TypeDisplayName(type) : string.Empty;
         formattedGraph.AddFragment(typeName);
     }
 
@@ -134,7 +134,7 @@ public class DefaultValueFormatter : IValueFormatter
     /// <param name="type">The <see cref="System.Type"/> of the object being formatted.</param>
     /// <returns>The name to be displayed for <paramref name="type"/>.</returns>
     /// <remarks>The default is <see cref="System.Type.FullName"/>.</remarks>
-    protected virtual string TypeDisplayName(Type type) => type.HasTypeName() ? type.FullName : string.Empty;
+    protected virtual string TypeDisplayName(Type type) => type.FullName;
 
     private static void WriteMemberValueTextFor(object value, MemberInfo member, FormattedObjectGraph formattedGraph,
         FormatChild formatChild)
