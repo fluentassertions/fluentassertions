@@ -460,7 +460,7 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Collection("UIFacts")]
-        public partial class UIFacts
+        public class UIFacts
         {
             [UIFact]
             public async Task Caller_identification_should_also_work_for_statements_following_async_code()
