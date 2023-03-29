@@ -33,7 +33,7 @@ public static class EventRaisingExtensions
 
             if (hasSender)
             {
-                object sender = @event.Parameters.First();
+                object sender = @event.Parameters[0];
 
                 if (ReferenceEquals(sender, expectedSender))
                 {
