@@ -71,13 +71,10 @@ internal sealed class Iterator<T> : IEnumerator<T>
 
     public bool MoveNext()
     {
-        if (!hasCompleted)
+        if (!hasCompleted && FetchCurrent())
         {
-            if (FetchCurrent())
-            {
-                PrefetchNext();
-                return true;
-            }
+            PrefetchNext();
+            return true;
         }
 
         hasCompleted = true;
@@ -101,11 +98,10 @@ internal sealed class Iterator<T> : IEnumerator<T>
 
             return true;
         }
-        else
-        {
-            hasCompleted = true;
-            return false;
-        }
+
+        hasCompleted = true;
+
+        return false;
     }
 
     public bool HasReachedMaxItems => Index == maxItems;

@@ -25,44 +25,41 @@ public class DataRowEquivalencyStep : EquivalencyStep<DataRow>
                 AssertionScope.Current.FailWith("Expected {context:DataRow} value to be null, but found {0}", subject);
             }
         }
-        else
+        else if (subject is null)
         {
-            if (subject is null)
+            if (comparands.Subject is null)
             {
-                if (comparands.Subject is null)
-                {
-                    AssertionScope.Current.FailWith("Expected {context:DataRow} to be non-null, but found null");
-                }
-                else
-                {
-                    AssertionScope.Current.FailWith("Expected {context:DataRow} to be of type {0}, but found {1} instead",
-                        expectation.GetType(), comparands.Subject.GetType());
-                }
+                AssertionScope.Current.FailWith("Expected {context:DataRow} to be non-null, but found null");
             }
             else
             {
-                var dataSetConfig = context.Options as DataEquivalencyAssertionOptions<DataSet>;
-                var dataTableConfig = context.Options as DataEquivalencyAssertionOptions<DataTable>;
-                var dataRowConfig = context.Options as DataEquivalencyAssertionOptions<DataRow>;
-
-                if (dataSetConfig?.AllowMismatchedTypes != true
-                    && dataTableConfig?.AllowMismatchedTypes != true
-                    && dataRowConfig?.AllowMismatchedTypes != true)
-                {
-                    AssertionScope.Current
-                        .ForCondition(subject.GetType() == expectation.GetType())
-                        .FailWith("Expected {context:DataRow} to be of type {0}{reason}, but found {1}",
-                            expectation.GetType(), subject.GetType());
-                }
-
-                SelectedDataRowMembers selectedMembers =
-                    GetMembersFromExpectation(comparands, context.CurrentNode, context.Options);
-
-                CompareScalarProperties(subject, expectation, selectedMembers);
-
-                CompareFieldValues(context, nestedValidator, subject, expectation, dataSetConfig, dataTableConfig,
-                    dataRowConfig);
+                AssertionScope.Current.FailWith("Expected {context:DataRow} to be of type {0}, but found {1} instead",
+                    expectation.GetType(), comparands.Subject.GetType());
             }
+        }
+        else
+        {
+            var dataSetConfig = context.Options as DataEquivalencyAssertionOptions<DataSet>;
+            var dataTableConfig = context.Options as DataEquivalencyAssertionOptions<DataTable>;
+            var dataRowConfig = context.Options as DataEquivalencyAssertionOptions<DataRow>;
+
+            if (dataSetConfig?.AllowMismatchedTypes != true
+                && dataTableConfig?.AllowMismatchedTypes != true
+                && dataRowConfig?.AllowMismatchedTypes != true)
+            {
+                AssertionScope.Current
+                    .ForCondition(subject.GetType() == expectation.GetType())
+                    .FailWith("Expected {context:DataRow} to be of type {0}{reason}, but found {1}",
+                        expectation.GetType(), subject.GetType());
+            }
+
+            SelectedDataRowMembers selectedMembers =
+                GetMembersFromExpectation(comparands, context.CurrentNode, context.Options);
+
+            CompareScalarProperties(subject, expectation, selectedMembers);
+
+            CompareFieldValues(context, nestedValidator, subject, expectation, dataSetConfig, dataTableConfig,
+                dataRowConfig);
         }
 
         return EquivalencyResult.AssertionCompleted;

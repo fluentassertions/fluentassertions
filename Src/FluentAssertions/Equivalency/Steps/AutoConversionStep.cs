@@ -63,10 +63,8 @@ public class AutoConversionStep : IEquivalencyStep
                     conversionResult = Enum.ToObject(expectationType, subject);
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
+
+                return false;
             }
 
             conversionResult = Convert.ChangeType(subject, expectationType, CultureInfo.InvariantCulture);

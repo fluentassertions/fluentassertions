@@ -175,10 +175,8 @@ internal class EnumerableEquivalencyValidator
                 indexToBeRemoved = metaIndex;
                 break;
             }
-            else
-            {
-                context.Tracer.WriteLine(_ => $"Contained {failures.Length} failures");
-            }
+
+            context.Tracer.WriteLine(_ => $"Contained {failures.Length} failures");
         }
 
         if (indexToBeRemoved != -1)

@@ -48,12 +48,9 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
         {
             var (isDictionary, actualDictionary) = EnsureSubjectIsDictionary(comparands, expectedDictionary);
 
-            if (isDictionary)
+            if (isDictionary && AssertSameLength(comparands, actualDictionary, expectedDictionary))
             {
-                if (AssertSameLength(comparands, actualDictionary, expectedDictionary))
-                {
-                    AssertDictionaryEquivalence(comparands, context, nestedValidator, actualDictionary, expectedDictionary);
-                }
+                AssertDictionaryEquivalence(comparands, context, nestedValidator, actualDictionary, expectedDictionary);
             }
         }
     }
@@ -78,13 +75,10 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
         bool isDictionary = DictionaryInterfaceInfo.TryGetFromWithKey(comparands.Subject.GetType(), "subject",
             expectedDictionary.Key, out var actualDictionary);
 
-        if (!isDictionary)
+        if (!isDictionary && expectedDictionary.TryConvertFrom(comparands.Subject, out var convertedSubject))
         {
-            if (expectedDictionary.TryConvertFrom(comparands.Subject, out var convertedSubject))
-            {
-                comparands.Subject = convertedSubject;
-                isDictionary = DictionaryInterfaceInfo.TryGetFrom(comparands.Subject.GetType(), "subject", out actualDictionary);
-            }
+            comparands.Subject = convertedSubject;
+            isDictionary = DictionaryInterfaceInfo.TryGetFrom(comparands.Subject.GetType(), "subject", out actualDictionary);
         }
 
         if (!isDictionary)

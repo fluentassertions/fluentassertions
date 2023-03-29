@@ -30,9 +30,7 @@ public class ValueTypeEquivalencyStep : IEquivalencyStep
 
             return EquivalencyResult.AssertionCompleted;
         }
-        else
-        {
-            return EquivalencyResult.ContinueWithNext;
-        }
+
+        return EquivalencyResult.ContinueWithNext;
     }
 }

@@ -173,10 +173,8 @@ public static class ObjectAssertionsExtensions
             {
                 return type;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
     }
 

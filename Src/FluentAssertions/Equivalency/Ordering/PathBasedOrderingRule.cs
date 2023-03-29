@@ -34,10 +34,8 @@ internal class PathBasedOrderingRule : IOrderingRule
         {
             return Invert ? OrderStrictness.NotStrict : OrderStrictness.Strict;
         }
-        else
-        {
-            return OrderStrictness.Irrelevant;
-        }
+
+        return OrderStrictness.Irrelevant;
     }
 
     private static bool ContainsIndexingQualifiers(string path)

@@ -39,12 +39,9 @@ internal abstract class StringValidator
                     Assertion = Assertion.UsingLineBreaks;
                 }
 
-                if (ValidateAgainstSuperfluousWhitespace())
+                if (ValidateAgainstSuperfluousWhitespace() && ValidateAgainstLengthDifferences())
                 {
-                    if (ValidateAgainstLengthDifferences())
-                    {
-                        ValidateAgainstMismatch();
-                    }
+                    ValidateAgainstMismatch();
                 }
             }
         }

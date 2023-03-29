@@ -292,10 +292,8 @@ internal static class TypeExtensions
         {
             return GetInterfaceMembers(typeToReflect, getMembers);
         }
-        else
-        {
-            return GetClassMembers(typeToReflect, getMembers);
-        }
+
+        return GetClassMembers(typeToReflect, getMembers);
     }
 
     private static List<TMemberInfo> GetInterfaceMembers<TMemberInfo>(Type typeToReflect,
@@ -471,10 +469,8 @@ internal static class TypeExtensions
         {
             return type.IsImplementationOfOpenGeneric(definition);
         }
-        else
-        {
-            return type == definition || type.IsDerivedFromOpenGeneric(definition);
-        }
+
+        return type == definition || type.IsDerivedFromOpenGeneric(definition);
     }
 
     private static bool IsImplementationOfOpenGeneric(this Type type, Type definition)

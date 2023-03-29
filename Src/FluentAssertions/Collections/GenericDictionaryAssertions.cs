@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -349,15 +349,12 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:dictionary} not to contain key {0}{reason}, but found <null>.", unexpected);
 
-        if (success)
+        if (success && ContainsKey(Subject, unexpected))
         {
-            if (ContainsKey(Subject, unexpected))
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} {0} not to contain key {1}{reason}, but found it anyhow.", Subject,
-                        unexpected);
-            }
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:dictionary} {0} not to contain key {1}{reason}, but found it anyhow.", Subject,
+                    unexpected);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -569,15 +566,12 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:dictionary} not to contain value {0}{reason}, but found <null>.", unexpected);
 
-        if (success)
+        if (success && GetValues(Subject).Contains(unexpected))
         {
-            if (GetValues(Subject).Contains(unexpected))
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} {0} not to contain value {1}{reason}, but found it anyhow.", Subject,
-                        unexpected);
-            }
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:dictionary} {0} not to contain value {1}{reason}, but found it anyhow.", Subject,
+                    unexpected);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -946,16 +940,13 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
             .FailWith("Expected {context:dictionary} not to contain value {0} at key {1}{reason}, but dictionary is <null>.",
                 value, key);
 
-        if (success)
+        if (success && TryGetValue(Subject, key, out TValue actual))
         {
-            if (TryGetValue(Subject, key, out TValue actual))
-            {
-                Execute.Assertion
-                    .ForCondition(!ObjectExtensions.GetComparer<TValue>()(actual, value))
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} not to contain value {0} at key {1}{reason}, but found it anyhow.",
-                        value, key);
-            }
+            Execute.Assertion
+                .ForCondition(!ObjectExtensions.GetComparer<TValue>()(actual, value))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:dictionary} not to contain value {0} at key {1}{reason}, but found it anyhow.",
+                    value, key);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
