@@ -38,7 +38,7 @@ internal class AssertionResultSet
 
         KeyValuePair<object, string[]>[] bestResultSets = GetBestResultSets();
 
-        KeyValuePair<object, string[]> bestMatch = bestResultSets.FirstOrDefault(r => r.Key.Equals(key));
+        KeyValuePair<object, string[]> bestMatch = Array.Find(bestResultSets, r => r.Key.Equals(key));
 
         if ((bestMatch.Key, bestMatch.Value) == default)
         {

@@ -13,9 +13,8 @@ internal class NSpecFramework : ITestFramework
     {
         get
         {
-            assembly = AppDomain.CurrentDomain
-                .GetAssemblies()
-                .FirstOrDefault(a => a.FullName.StartsWith("nspec,", StringComparison.OrdinalIgnoreCase));
+            assembly = Array.Find(AppDomain.CurrentDomain
+                .GetAssemblies(), a => a.FullName.StartsWith("nspec,", StringComparison.OrdinalIgnoreCase));
 
             if (assembly is null)
             {
