@@ -839,9 +839,9 @@ public class FormatterSpecs
         public List<TChild> Children { get; set; }
     }
 
-    public record StuffRecord(int RecordId, string RecordDescription, ChildRecord SingleChild, List<int> RecordChildren);
+    private record StuffRecord(int RecordId, string RecordDescription, ChildRecord SingleChild, List<int> RecordChildren);
 
-    public record ChildRecord(int ChildRecordId);
+    private record ChildRecord(int ChildRecordId);
 
     [Fact]
     public void When_a_custom_formatter_exists_in_any_loaded_assembly_it_should_override_the_default_formatters()
