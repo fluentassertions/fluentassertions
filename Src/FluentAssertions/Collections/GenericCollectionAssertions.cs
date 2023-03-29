@@ -3347,9 +3347,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     {
         string orderString = propertyExpression.GetMemberPath().ToString();
 
-        orderString = orderString is "\"\"" ? string.Empty : "by " + orderString;
-
-        return orderString;
+        return orderString is "\"\"" ? string.Empty : "by " + orderString;
     }
 
     private static Type GetType<TType>(TType o)

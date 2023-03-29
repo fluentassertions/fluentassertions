@@ -184,41 +184,32 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
         // be aware if the cache must be cleared on mutating the members.
         return equalityStrategyCache.GetOrAdd(type, typeKey =>
         {
-            EqualityStrategy strategy;
-
             if (!typeKey.IsPrimitive && referenceTypes.Count > 0 && referenceTypes.Any(t => typeKey.IsSameOrInherits(t)))
             {
-                strategy = EqualityStrategy.ForceMembers;
+                return EqualityStrategy.ForceMembers;
             }
             else if (valueTypes.Count > 0 && valueTypes.Any(t => typeKey.IsSameOrInherits(t)))
             {
-                strategy = EqualityStrategy.ForceEquals;
+                return EqualityStrategy.ForceEquals;
             }
             else if (!typeKey.IsPrimitive && referenceTypes.Count > 0 && referenceTypes.Any(t => typeKey.IsAssignableToOpenGeneric(t)))
             {
-                strategy = EqualityStrategy.ForceMembers;
+                return EqualityStrategy.ForceMembers;
             }
             else if (valueTypes.Count > 0 && valueTypes.Any(t => typeKey.IsAssignableToOpenGeneric(t)))
             {
-                strategy = EqualityStrategy.ForceEquals;
+                return EqualityStrategy.ForceEquals;
             }
             else if ((compareRecordsByValue.HasValue || getDefaultEqualityStrategy is null) && typeKey.IsRecord())
             {
-                strategy = compareRecordsByValue is true ? EqualityStrategy.ForceEquals : EqualityStrategy.ForceMembers;
+                return compareRecordsByValue is true ? EqualityStrategy.ForceEquals : EqualityStrategy.ForceMembers;
             }
-            else
+            else if (getDefaultEqualityStrategy is not null)
             {
-                if (getDefaultEqualityStrategy is not null)
-                {
-                    strategy = getDefaultEqualityStrategy(typeKey);
-                }
-                else
-                {
-                    strategy = typeKey.HasValueSemantics() ? EqualityStrategy.Equals : EqualityStrategy.Members;
-                }
+                return getDefaultEqualityStrategy(typeKey);
             }
 
-            return strategy;
+            return typeKey.HasValueSemantics() ? EqualityStrategy.Equals : EqualityStrategy.Members;
         });
     }
 
@@ -331,7 +322,6 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// <see cref="EditorBrowsableState.Never"/>). It is not required that they be marked non-browsable in the subject. Use
     /// <see cref="IgnoringNonBrowsableMembersOnSubject"/> to ignore non-browsable members in the subject.
     /// </summary>
-    /// <returns></returns>
     public TSelf ExcludingNonBrowsableMembers()
     {
         excludeNonBrowsableOnExpectation = true;
@@ -342,7 +332,6 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// Instructs the comparison to treat non-browsable members in the subject as though they do not exist. If you need to
     /// ignore non-browsable members in the expectation, use <see cref="ExcludingNonBrowsableMembers"/>.
     /// </summary>
-    /// <returns></returns>
     public TSelf IgnoringNonBrowsableMembersOnSubject()
     {
         ignoreNonBrowsableOnSubject = true;
@@ -742,12 +731,9 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
             builder.AppendLine("- Do not consider members marked non-browsable on the subject");
         }
 
-        if (isRecursive)
+        if (isRecursive && allowInfiniteRecursion)
         {
-            if (allowInfiniteRecursion)
-            {
-                builder.AppendLine("- Recurse indefinitely");
-            }
+            builder.AppendLine("- Recurse indefinitely");
         }
 
         builder.AppendFormat(CultureInfo.InvariantCulture,
@@ -759,8 +745,9 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
             builder.AppendLine("- Ignoring cyclic references");
         }
 
-        builder.AppendLine("- Compare tuples by their properties");
-        builder.AppendLine("- Compare anonymous types by their properties");
+        builder
+            .AppendLine("- Compare tuples by their properties")
+            .AppendLine("- Compare anonymous types by their properties");
 
         if (compareRecordsByValue is true)
         {

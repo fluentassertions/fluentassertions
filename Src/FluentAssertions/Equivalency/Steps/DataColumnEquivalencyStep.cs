@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -141,8 +141,6 @@ public class DataColumnEquivalencyStep : EquivalencyStep<DataColumn>
                 new MemberSelectionContext(comparands.CompileTimeType, comparands.RuntimeType, config));
         }
 
-        members = members.Where(member => CandidateMembers.Contains(member.Name));
-
-        return members;
+        return members.Where(member => CandidateMembers.Contains(member.Name));
     }
 }
