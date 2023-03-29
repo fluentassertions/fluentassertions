@@ -172,11 +172,9 @@ public class SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAsse
         {
             Func<T, TSelector> keySelector = propertyExpression.Compile();
 
-            IOrderedEnumerable<T> expectation = direction == SortOrder.Ascending
+            return direction == SortOrder.Ascending
                 ? previousOrderedEnumerable.ThenBy(keySelector, comparer)
                 : previousOrderedEnumerable.ThenByDescending(keySelector, comparer);
-
-            return expectation;
         }
 
         return base.GetOrderedEnumerable(propertyExpression, comparer, direction, unordered);
