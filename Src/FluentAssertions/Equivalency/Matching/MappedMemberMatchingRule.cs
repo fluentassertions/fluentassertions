@@ -36,13 +36,8 @@ internal class MappedMemberMatchingRule<TExpectation, TSubject> : IMemberMatchin
         {
             var member = MemberFactory.Find(subject, subjectMemberName, parent);
 
-            if (member is null)
-            {
-                throw new ArgumentException(
-                    $"Subject of type {typeof(TSubject)} does not have member {subjectMemberName}");
-            }
-
-            return member;
+            return member ?? throw new ArgumentException(
+                $"Subject of type {typeof(TSubject)} does not have member {subjectMemberName}");
         }
 
         return null;

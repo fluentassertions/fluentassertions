@@ -150,3 +150,9 @@ resharper_expression_is_always_null_highlighting = none
 
 # ReSharper properties
 resharper_keep_user_linebreaks = true
+
+# Use EventHandler<T>. We have some special cases for testing.
+dotnet_diagnostic.RCS1159.severity = error
+
+# Implement IComparable when implementing IComparable<T><T>. Disabled since we don't want to be so strict in tests.
+dotnet_diagnostic.RCS1241.severity = none

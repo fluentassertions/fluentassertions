@@ -691,9 +691,9 @@ public class FormatterSpecs
         public string Description { get; set; }
 
         public string Field;
-#pragma warning disable 169, CA1823, IDE0044
+#pragma warning disable 169, CA1823, IDE0044, RCS1169
         private string privateField;
-#pragma warning restore 169, CA1823, IDE0044
+#pragma warning restore 169, CA1823, IDE0044, RCS1169
     }
 
     public class Stuff<TChild> : BaseStuff
