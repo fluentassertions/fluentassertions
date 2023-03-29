@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
@@ -169,42 +168,5 @@ public class TaskCompletionSourceAssertions<T> : TaskCompletionSourceAssertionsB
         }
 
         return new AndConstraint<TaskCompletionSourceAssertions<T>>(this);
-    }
-}
-
-/// <summary>
-/// Implements base functionality for assertions on TaskCompletionSource.
-/// </summary>
-public class TaskCompletionSourceAssertionsBase
-{
-    protected TaskCompletionSourceAssertionsBase(IClock clock)
-    {
-        Clock = clock ?? throw new ArgumentNullException(nameof(clock));
-    }
-
-    private protected IClock Clock { get; }
-
-    /// <inheritdoc/>
-    public override bool Equals(object obj) =>
-        throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean CompleteWithinAsync() instead?");
-
-    /// <summary>
-    ///     Monitors the specified task whether it completes withing the remaining time span.
-    /// </summary>
-    private protected async Task<bool> CompletesWithinTimeoutAsync(Task target, TimeSpan remainingTime)
-    {
-        using var timeoutCancellationTokenSource = new CancellationTokenSource();
-
-        Task completedTask =
-            await Task.WhenAny(target, Clock.DelayAsync(remainingTime, timeoutCancellationTokenSource.Token));
-
-        if (completedTask != target)
-        {
-            return false;
-        }
-
-        // cancel the clock
-        timeoutCancellationTokenSource.Cancel();
-        return true;
     }
 }

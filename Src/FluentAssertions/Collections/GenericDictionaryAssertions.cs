@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
@@ -673,6 +674,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
+    [SuppressMessage("Design", "MA0051:Method is too long", Justification = "Needs refactoring")]
     public new AndConstraint<TAssertions> Contain(IEnumerable<KeyValuePair<TKey, TValue>> expected,
         string because = "", params object[] becauseArgs)
     {

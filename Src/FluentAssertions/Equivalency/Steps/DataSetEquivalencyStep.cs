@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FluentAssertions.Data;
 using FluentAssertions.Execution;
@@ -55,6 +56,7 @@ public class DataSetEquivalencyStep : EquivalencyStep<DataSet>
         return EquivalencyResult.AssertionCompleted;
     }
 
+    [SuppressMessage("Design", "MA0051:Method is too long")]
     private static void CompareScalarProperties(DataSet subject, DataSet expectation, Dictionary<string, IMember> selectedMembers)
     {
         // Note: The members here are listed in the XML documentation for the DataSet.BeEquivalentTo extension

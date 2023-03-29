@@ -47,7 +47,8 @@ internal sealed class DictionaryInterfaceInfo
         {
             throw new ArgumentException(
                 $"The {role} implements multiple dictionary types. It is not known which type should be " +
-                $"use for equivalence.{Environment.NewLine}The following IDictionary interfaces are implemented: {string.Join(", ", (IEnumerable<DictionaryInterfaceInfo>)interfaces)}");
+                $"use for equivalence.{Environment.NewLine}The following IDictionary interfaces are implemented: " +
+                $"{string.Join(", ", (IEnumerable<DictionaryInterfaceInfo>)interfaces)}", nameof(role));
         }
 
         if (interfaces.Length == 1)

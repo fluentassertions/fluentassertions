@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
@@ -2291,6 +2292,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
+    [SuppressMessage("Design", "MA0051:Method is too long", Justification = "Needs refactoring")]
     public AndConstraint<TAssertions> NotContainEquivalentOf<TExpectation>(TExpectation unexpected,
         Func<EquivalencyAssertionOptions<TExpectation>,
             EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs)

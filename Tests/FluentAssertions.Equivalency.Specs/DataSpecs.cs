@@ -370,7 +370,9 @@ public class DataSpecs
             Namespace = copyFrom.Namespace;
             Prefix = copyFrom.Prefix;
             RemotingFormat = copyFrom.RemotingFormat;
+#pragma warning disable MA0056
             SchemaSerializationMode = copyFrom.SchemaSerializationMode;
+#pragma warning restore MA0056
 
             CopyTable<TypedDataTable1, TypedDataRow1>(
                 from: copyFrom.TypedDataTable1,

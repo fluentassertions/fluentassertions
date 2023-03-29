@@ -43,13 +43,13 @@ internal class ObjectReference
 
     private bool IsParentOrChildOf(ObjectReference other)
     {
-        string[] path = GetPathElements();
+        string[] elements = GetPathElements();
         string[] otherPath = other.GetPathElements();
 
-        int commonElements = Math.Min(path.Length, otherPath.Length);
-        int longerPathAdditionalElements = Math.Max(path.Length, otherPath.Length) - commonElements;
+        int commonElements = Math.Min(elements.Length, otherPath.Length);
+        int longerPathAdditionalElements = Math.Max(elements.Length, otherPath.Length) - commonElements;
 
-        return longerPathAdditionalElements > 0 && otherPath.Take(commonElements).SequenceEqual(path.Take(commonElements));
+        return longerPathAdditionalElements > 0 && otherPath.Take(commonElements).SequenceEqual(elements.Take(commonElements));
     }
 
     /// <summary>

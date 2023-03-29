@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency.Matching;
@@ -57,7 +57,7 @@ internal class MappedPathMatchingRule : IMemberMatchingRule
 
             if (member is null)
             {
-                throw new ArgumentException(
+                throw new MissingMemberException(
                     $"Subject of type {subject?.GetType().Name} does not have member {subjectPath.MemberName}");
             }
 

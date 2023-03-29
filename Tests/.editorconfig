@@ -156,3 +156,33 @@ dotnet_diagnostic.RCS1159.severity = error
 
 # Implement IComparable when implementing IComparable<T><T>. Disabled since we don't want to be so strict in tests.
 dotnet_diagnostic.RCS1241.severity = none
+
+# Use Array.Empty<T>(). We don't care.
+dotnet_diagnostic.MA0005.severity = none
+
+# 'System.BadImageFormatException' is a reserved exception type. Don't care.
+dotnet_diagnostic.MA0012.severity = none
+
+# Do not raise System.ApplicationException type
+dotnet_diagnostic.MA0014.severity = none
+
+# Prefer returning collection abstraction instead of implementation
+dotnet_diagnostic.MA0016.severity = none
+
+# Implement the functionality (or raise NotSupportedException or PlatformNotSupportedException). We do this on purpose in tests.
+dotnet_diagnostic.MA0025.severity = none
+
+# Fix TODO comment. 
+dotnet_diagnostic.MA0026.severity = none
+
+# File name must match type name. Too many purposeful violations.
+dotnet_diagnostic.MA0048.severity = none
+
+# Method is too long. In tests, we tend to go beyond the limit
+dotnet_diagnostic.MA0051.severity = none
+
+#  A class that implements IComparable<T> should also implement IEquatable<T>. Don't care about this.
+dotnet_diagnostic.MA0096.severity = none
+
+# A class that implements IComparable<T> or IComparable should override comparison operators. Don't care about this.
+dotnet_diagnostic.MA0097.severity = none

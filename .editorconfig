@@ -337,3 +337,30 @@ dotnet_diagnostic.RCS1186.severity = none
 
 # Use bit shift operator.
 dotnet_diagnostic.RCS1237.severity = none
+
+# Use an overload that has a IEqualityComparer<string> or IComparer<string> parameter
+dotnet_diagnostic.MA0002.severity = suggestion
+
+# Use Task.ConfigureAwait(false) as the current SynchronizationContext is not needed
+dotnet_diagnostic.MA0004.severity = none
+
+#  Use string.Equals instead of Equals operator 
+dotnet_diagnostic.MA0006.severity = none
+
+# Add regex evaluation timeout
+dotnet_diagnostic.MA0009.severity = none
+
+# Use an overload of 'ToString' that has a 'System.IFormatProvider' parameter. Already caught by CA1305.
+dotnet_diagnostic.MA0011.severity = none
+
+# Use an overload of 'System.ArgumentException' with the parameter name. Just a suggestion since we have a bunch of justified exceptions. 
+dotnet_diagnostic.MA0015.severity = suggestion
+
+# Use an explicit StringComparer to compute hash codes
+dotnet_diagnostic.MA0021.severity = none
+
+# Declare types in namespaces. Already caught by CA1050 
+dotnet_diagnostic.MA0047.severity = none
+
+# Use an overload of 'GetHashCode' that has a StringComparison parameter
+dotnet_diagnostic.MA0074.severity = none

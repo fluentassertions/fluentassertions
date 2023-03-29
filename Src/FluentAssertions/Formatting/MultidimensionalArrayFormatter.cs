@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace FluentAssertions.Formatting;
@@ -18,6 +19,7 @@ public class MultidimensionalArrayFormatter : IValueFormatter
         return value is Array { Rank: >= 2 };
     }
 
+    [SuppressMessage("Design", "MA0051:Method is too long", Justification = "Required refactoring")]
     public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
     {
         var arr = (Array)value;
