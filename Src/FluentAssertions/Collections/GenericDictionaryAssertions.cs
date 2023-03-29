@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -715,7 +715,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
                         .FailWith("Expected {context:dictionary} {0} to contain key {1}{reason}.", Subject,
-                            expectedKeys.First());
+                            expectedKeys[0]);
                 }
             }
 

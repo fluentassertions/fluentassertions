@@ -89,7 +89,7 @@ public class AttributeBasedFormatter : IValueFormatter
             where method.IsDecoratedWithOrInherit<ValueFormatterAttribute>()
             let methodParameters = method.GetParameters()
             where methodParameters.Length == 2
-            select new { Type = methodParameters.First().ParameterType, Method = method }
+            select new { Type = methodParameters[0].ParameterType, Method = method }
             into formatter
             group formatter by formatter.Type
             into formatterGroup

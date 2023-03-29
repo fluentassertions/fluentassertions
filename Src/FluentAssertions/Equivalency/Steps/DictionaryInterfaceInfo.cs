@@ -126,7 +126,7 @@ internal class DictionaryInterfaceInfo
         var suitableKeyValuePairCollection = enumerables
             .Select(enumerable => enumerable.GenericTypeArguments[0])
             .Where(itemType => itemType.IsGenericType && itemType.GetGenericTypeDefinition() == typeof(KeyValuePair<,>))
-            .SingleOrDefault(itemType => itemType.GenericTypeArguments.First() == Key);
+            .SingleOrDefault(itemType => itemType.GenericTypeArguments[0] == Key);
 
         if (suitableKeyValuePairCollection != null)
         {

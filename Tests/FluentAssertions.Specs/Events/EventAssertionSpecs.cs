@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Linq;
 using FluentAssertions.Events;
@@ -385,7 +385,7 @@ public class EventAssertionSpecs
                 .Raise(nameof(observable.PropertyChanged))
                 .WithSender(observable);
 
-            recording.Should().ContainSingle().Which.Parameters.First().Should().BeSameAs(observable);
+            recording.Should().ContainSingle().Which.Parameters[0].Should().BeSameAs(observable);
         }
 
         [Fact]
