@@ -291,7 +291,7 @@ public class TypeSelector : IEnumerable<Type>
     /// </summary>
     public TypeSelector UnwrapTaskTypes()
     {
-        types = types.Select(type =>
+        types = types.ConvertAll(type =>
         {
             if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Task<>))
             {
@@ -304,7 +304,7 @@ public class TypeSelector : IEnumerable<Type>
             }
 
             return type == typeof(Task) || type == typeof(ValueTask) ? typeof(void) : type;
-        }).ToList();
+        });
 
         return this;
     }
