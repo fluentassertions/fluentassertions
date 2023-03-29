@@ -1,6 +1,6 @@
 namespace FluentAssertions.Equivalency.Steps;
 
-internal class AssertionContext<TSubject> : IAssertionContext<TSubject>
+internal sealed class AssertionContext<TSubject> : IAssertionContext<TSubject>
 {
     private AssertionContext(INode currentNode, TSubject subject, TSubject expectation, string because,
         object[] becauseArgs)
