@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Linq;
 using FluentAssertions.Events;
@@ -991,7 +991,9 @@ public class EventAssertionSpecs
 
     public class ClassThatRaisesEventsItself : IInheritsEventRaisingInterface
     {
+#pragma warning disable RCS1159
         public event PropertyChangedEventHandler PropertyChanged;
+#pragma warning restore RCS1159
 
         public event EventHandler InterfaceEvent;
 

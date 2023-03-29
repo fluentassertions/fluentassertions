@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -25,20 +25,20 @@ public class DataColumnEquivalencyStep : EquivalencyStep<DataColumn>
         }
         else if (subject is null)
         {
-                if (comparands.Subject is null)
-                {
-                    AssertionScope.Current.FailWith("Expected {context:DataColumn} to be non-null, but found null");
-                }
-                else
-                {
-                    AssertionScope.Current.FailWith("Expected {context:DataColumn} to be of type {0}, but found {1} instead",
-                        expectation.GetType(), comparands.Subject.GetType());
-                }
+            if (comparands.Subject is null)
+            {
+                AssertionScope.Current.FailWith("Expected {context:DataColumn} to be non-null, but found null");
             }
             else
             {
-                CompareSubjectAndExpectationOfTypeDataColumn(comparands, context, nestedValidator, subject);
+                AssertionScope.Current.FailWith("Expected {context:DataColumn} to be of type {0}, but found {1} instead",
+                    expectation.GetType(), comparands.Subject.GetType());
             }
+        }
+        else
+        {
+            CompareSubjectAndExpectationOfTypeDataColumn(comparands, context, nestedValidator, subject);
+        }
 
         return EquivalencyResult.AssertionCompleted;
     }
@@ -103,7 +103,7 @@ public class DataColumnEquivalencyStep : EquivalencyStep<DataColumn>
         return query.FirstOrDefault();
     }
 
-    // Note: This list of candidate members is duplicated in the XML documentation for the
+    // NOTE: This list of candidate members is duplicated in the XML documentation for the
     // DataColumn.BeEquivalentTo extension method in DataColumnAssertions.cs. If this ever
     // needs to change, keep them in sync.
     private static readonly ISet<string> CandidateMembers =

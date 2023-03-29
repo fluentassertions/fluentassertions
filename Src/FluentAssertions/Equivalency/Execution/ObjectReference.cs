@@ -69,5 +69,5 @@ internal class ObjectReference
         return Invariant($"{{\"{path}\", {@object}}}");
     }
 
-    public bool IsComplexType => isComplexType ?? (@object is not null && !@object.GetType().OverridesEquals());
+    public bool IsComplexType => isComplexType ?? (@object?.GetType().OverridesEquals() == false);
 }

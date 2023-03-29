@@ -302,3 +302,38 @@ resharper_blank_lines_before_multiline_statements = 1
 
 resharper_parentheses_non_obvious_operations = arithmetic, multiplicative, equality, relational, additive
 resharper_parentheses_redundancy_style = remove_if_not_clarifies_precedence
+
+dotnet_analyzer_diagnostic.category-roslynator.severity = error
+
+# Remove suffix 'Async' from non-asynchronous method name. Disabled because we like that suffix for now.
+dotnet_diagnostic.RCS1047.severity = none
+
+# Combine 'Enumerable.Where' method chain. It doesn't make it more readable in all cases.
+dotnet_diagnostic.RCS1112.severity = suggestion
+
+# Inline local variable.
+dotnet_diagnostic.RCS1124.severity = suggestion
+
+# Add exception to documentation comment. Nice suggestion, but we don't want to document exceptions for internal code.
+dotnet_diagnostic.RCS1140.severity = suggestion
+
+# Use conditional access. Suggestion because it doesn't always improve readability
+dotnet_diagnostic.RCS1146.severity = suggestion
+
+# Enum should declare explicit values. Disabled because we're not storing them.
+dotnet_diagnostic.RCS1161.severity = none
+
+# Static member in generic type should use a type parameter. Disabled because it's not always applicable.
+dotnet_diagnostic.RCS1158.severity = none
+
+# Add region name to #endregion.
+dotnet_diagnostic.RCS1189.severity = none
+
+# Convert comment to documentation comment. Disabled because it also complains about SMELL/REFACTOR comments
+dotnet_diagnostic.RCS1181.severity = none
+
+# Use Regex instance instead of static method. Disabled because it's not always worth it.
+dotnet_diagnostic.RCS1186.severity = none
+
+# Use bit shift operator.
+dotnet_diagnostic.RCS1237.severity = none
