@@ -153,16 +153,19 @@ public class DataRowAssertions<TDataRow> : ReferenceTypeAssertions<TDataRow, Dat
     ///   <item><description>RowState</description></item>
     /// </list>
     ///
+    /// <para>
     /// The <see cref="DataRow"/> objects must be of the same type; if two <see cref="DataRow"/> objects
     /// are equivalent in all ways, except that one is part of a typed <see cref="DataTable"/> and is of a subclass
     /// of <see cref="DataRow"/>, then by default, they will not be considered equivalent.
-    ///
+    /// </para>
+    /// <para>
     /// This, as well as testing of any property can be overridden using the <paramref name="config"/> callback.
     /// By calling <see cref="IDataEquivalencyAssertionOptions{T}.AllowingMismatchedTypes"/>, two <see cref="DataRow"/>
     /// objects of differing types can be considered equivalent. Exclude specific properties using
     /// <see cref="IDataEquivalencyAssertionOptions{T}.Excluding(System.Linq.Expressions.Expression{Func{T, object}})"/>.
     /// Exclude columns of the data table (which also excludes the related field data in <see cref="DataRow"/>
     /// objects) using <see cref="IDataEquivalencyAssertionOptions{T}.ExcludingColumn(DataColumn)"/> or a related function.
+    /// </para>
     /// </remarks>
     ///
     /// You can use <see cref="IDataEquivalencyAssertionOptions{T}.ExcludingRelated(System.Linq.Expressions.Expression{Func{DataTable, object}})"/>

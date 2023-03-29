@@ -88,12 +88,15 @@ public class DataColumnAssertions : ReferenceTypeAssertions<DataColumn, DataColu
     ///   <item><description>Unique</description></item>
     /// </list>
     ///
+    /// <para>
     /// Testing of any property can be overridden using the <paramref name="config"/> callback. Exclude specific properties using
     /// <see cref="IDataEquivalencyAssertionOptions{T}.Excluding(System.Linq.Expressions.Expression{Func{T, object}})"/>.
-    ///
+    /// </para>
+    /// <para>
     /// If <see cref="IDataEquivalencyAssertionOptions{T}.ExcludingColumn(DataColumn)"/> or a related function is
     /// used and the exclusion matches the subject <see cref="DataColumn"/>, then the equivalency test will never
     /// fail.
+    /// </para>
     /// </remarks>
     /// <param name="expectation">A <see cref="DataColumn"/> with the expected configuration.</param>
     /// <param name="config">
