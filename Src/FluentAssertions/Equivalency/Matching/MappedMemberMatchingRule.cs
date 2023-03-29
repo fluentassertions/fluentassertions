@@ -31,20 +31,18 @@ internal class MappedMemberMatchingRule<TExpectation, TSubject> : IMemberMatchin
 
     public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions options)
     {
-        if (parent.Type.IsSameOrInherits(typeof(TExpectation)) && subject is TSubject)
+        if (parent.Type.IsSameOrInherits(typeof(TExpectation)) && subject is TSubject &&
+            expectedMember.Name == expectationMemberName)
         {
-            if (expectedMember.Name == expectationMemberName)
+            var member = MemberFactory.Find(subject, subjectMemberName, parent);
+
+            if (member is null)
             {
-                var member = MemberFactory.Find(subject, subjectMemberName, parent);
-
-                if (member is null)
-                {
-                    throw new ArgumentException(
-                        $"Subject of type {typeof(TSubject)} does not have member {subjectMemberName}");
-                }
-
-                return member;
+                throw new ArgumentException(
+                    $"Subject of type {typeof(TSubject)} does not have member {subjectMemberName}");
             }
+
+            return member;
         }
 
         return null;

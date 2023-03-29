@@ -33,12 +33,9 @@ internal class IncludeMemberByPredicateSelectionRule : IMemberSelectionRule
         {
             IMember member = MemberFactory.Create(memberInfo, currentNode);
 
-            if (predicate(new MemberToMemberInfoAdapter(member)))
+            if (predicate(new MemberToMemberInfoAdapter(member)) && !members.Any(p => p.IsEquivalentTo(member)))
             {
-                if (!members.Any(p => p.IsEquivalentTo(member)))
-                {
-                    members.Add(member);
-                }
+                members.Add(member);
             }
         }
 

@@ -38,16 +38,13 @@ public class DefaultValueFormatter : IValueFormatter
         {
             WriteTypeAndMemberValues(value, formattedGraph, formatChild);
         }
+        else if (context.UseLineBreaks)
+        {
+            formattedGraph.AddFragmentOnNewLine(value.ToString());
+        }
         else
         {
-            if (context.UseLineBreaks)
-            {
-                formattedGraph.AddFragmentOnNewLine(value.ToString());
-            }
-            else
-            {
-                formattedGraph.AddFragment(value.ToString());
-            }
+            formattedGraph.AddFragment(value.ToString());
         }
     }
 

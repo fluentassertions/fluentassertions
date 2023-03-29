@@ -41,10 +41,8 @@ public class Tracer
         {
             return traceWriter.AddBlock(getTraceMessage(currentNode));
         }
-        else
-        {
-            return new Disposable(() => { });
-        }
+
+        return new Disposable(() => { });
     }
 
     public override string ToString() => traceWriter is not null ? traceWriter.ToString() : string.Empty;

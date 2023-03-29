@@ -23,31 +23,28 @@ public class DataRelationEquivalencyStep : EquivalencyStep<DataRelation>
                 AssertionScope.Current.FailWith("Expected {context:DataRelation} to be null, but found {0}", subject);
             }
         }
-        else
+        else if (subject is null)
         {
-            if (subject is null)
+            if (comparands.Subject is null)
             {
-                if (comparands.Subject is null)
-                {
-                    AssertionScope.Current.FailWith("Expected {context:DataRelation} value to be non-null, but found null");
-                }
-                else
-                {
-                    AssertionScope.Current.FailWith("Expected {context:DataRelation} of type {0}, but found {1} instead",
-                        expectation.GetType(), comparands.Subject.GetType());
-                }
+                AssertionScope.Current.FailWith("Expected {context:DataRelation} value to be non-null, but found null");
             }
             else
             {
-                var selectedMembers = GetMembersFromExpectation(context.CurrentNode, comparands, context.Options)
-                    .ToDictionary(member => member.Name);
-
-                CompareScalarProperties(subject, expectation, selectedMembers);
-
-                CompareCollections(context, comparands, nestedValidator, context.Options, selectedMembers);
-
-                CompareRelationConstraints(context, nestedValidator, subject, expectation, selectedMembers);
+                AssertionScope.Current.FailWith("Expected {context:DataRelation} of type {0}, but found {1} instead",
+                    expectation.GetType(), comparands.Subject.GetType());
             }
+        }
+        else
+        {
+            var selectedMembers = GetMembersFromExpectation(context.CurrentNode, comparands, context.Options)
+                .ToDictionary(member => member.Name);
+
+            CompareScalarProperties(subject, expectation, selectedMembers);
+
+            CompareCollections(context, comparands, nestedValidator, context.Options, selectedMembers);
+
+            CompareRelationConstraints(context, nestedValidator, subject, expectation, selectedMembers);
         }
 
         return EquivalencyResult.AssertionCompleted;

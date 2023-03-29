@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -102,14 +102,12 @@ internal sealed class DictionaryInterfaceInfo
             {
                 return Array.Empty<DictionaryInterfaceInfo>();
             }
-            else
-            {
-                return key
-                    .GetClosedGenericInterfaces(typeof(IDictionary<,>))
-                    .Select(@interface => @interface.GetGenericArguments())
-                    .Select(arguments => new DictionaryInterfaceInfo(arguments[0], arguments[1]))
-                    .ToArray();
-            }
+
+            return key
+                .GetClosedGenericInterfaces(typeof(IDictionary<,>))
+                .Select(@interface => @interface.GetGenericArguments())
+                .Select(arguments => new DictionaryInterfaceInfo(arguments[0], arguments[1]))
+                .ToArray();
         });
     }
 

@@ -23,10 +23,8 @@ public class DataColumnEquivalencyStep : EquivalencyStep<DataColumn>
                 AssertionScope.Current.FailWith("Expected {context:DataColumn} value to be null, but found {0}", subject);
             }
         }
-        else
+        else if (subject is null)
         {
-            if (subject is null)
-            {
                 if (comparands.Subject is null)
                 {
                     AssertionScope.Current.FailWith("Expected {context:DataColumn} to be non-null, but found null");
@@ -41,7 +39,6 @@ public class DataColumnEquivalencyStep : EquivalencyStep<DataColumn>
             {
                 CompareSubjectAndExpectationOfTypeDataColumn(comparands, context, nestedValidator, subject);
             }
-        }
 
         return EquivalencyResult.AssertionCompleted;
     }

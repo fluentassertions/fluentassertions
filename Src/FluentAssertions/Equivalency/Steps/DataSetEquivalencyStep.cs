@@ -20,39 +20,36 @@ public class DataSetEquivalencyStep : EquivalencyStep<DataSet>
                 AssertionScope.Current.FailWith("Expected {context:DataSet} value to be null, but found {0}", subject);
             }
         }
-        else
+        else if (subject is null)
         {
-            if (subject is null)
+            if (comparands.Subject is null)
             {
-                if (comparands.Subject is null)
-                {
-                    AssertionScope.Current.FailWith("Expected {context:DataSet} to be non-null, but found null");
-                }
-                else
-                {
-                    AssertionScope.Current.FailWith("Expected {context:DataSet} to be of type {0}, but found {1} instead",
-                        expectation.GetType(), comparands.Subject.GetType());
-                }
+                AssertionScope.Current.FailWith("Expected {context:DataSet} to be non-null, but found null");
             }
             else
             {
-                var dataConfig = context.Options as DataEquivalencyAssertionOptions<DataSet>;
-
-                if (dataConfig?.AllowMismatchedTypes != true)
-                {
-                    AssertionScope.Current
-                        .ForCondition(subject.GetType() == expectation.GetType())
-                        .FailWith("Expected {context:DataSet} to be of type {0}{reason}, but found {1}", expectation.GetType(),
-                            subject.GetType());
-                }
-
-                var selectedMembers = GetMembersFromExpectation(comparands, context.CurrentNode, context.Options)
-                    .ToDictionary(member => member.Name);
-
-                CompareScalarProperties(subject, expectation, selectedMembers);
-
-                CompareCollections(context, nestedValidator, context.Options, subject, expectation, dataConfig, selectedMembers);
+                AssertionScope.Current.FailWith("Expected {context:DataSet} to be of type {0}, but found {1} instead",
+                    expectation.GetType(), comparands.Subject.GetType());
             }
+        }
+        else
+        {
+            var dataConfig = context.Options as DataEquivalencyAssertionOptions<DataSet>;
+
+            if (dataConfig?.AllowMismatchedTypes != true)
+            {
+                AssertionScope.Current
+                    .ForCondition(subject.GetType() == expectation.GetType())
+                    .FailWith("Expected {context:DataSet} to be of type {0}{reason}, but found {1}", expectation.GetType(),
+                        subject.GetType());
+            }
+
+            var selectedMembers = GetMembersFromExpectation(comparands, context.CurrentNode, context.Options)
+                .ToDictionary(member => member.Name);
+
+            CompareScalarProperties(subject, expectation, selectedMembers);
+
+            CompareCollections(context, nestedValidator, context.Options, subject, expectation, dataConfig, selectedMembers);
         }
 
         return EquivalencyResult.AssertionCompleted;

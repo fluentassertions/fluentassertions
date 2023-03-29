@@ -14,28 +14,25 @@ public class DictionaryEquivalencyStep : EquivalencyStep<IDictionary>
         var subject = comparands.Subject as IDictionary;
         var expectation = comparands.Expectation as IDictionary;
 
-        if (PreconditionsAreMet(expectation, subject))
+        if (PreconditionsAreMet(expectation, subject) && expectation is not null)
         {
-            if (expectation is not null)
+            foreach (object key in expectation.Keys)
             {
-                foreach (object key in expectation.Keys)
+                if (context.Options.IsRecursive)
                 {
-                    if (context.Options.IsRecursive)
-                    {
-                        context.Tracer.WriteLine(member =>
-                            Invariant($"Recursing into dictionary item {key} at {member.Description}"));
+                    context.Tracer.WriteLine(member =>
+                        Invariant($"Recursing into dictionary item {key} at {member.Description}"));
 
-                        nestedValidator.RecursivelyAssertEquality(new Comparands(subject[key], expectation[key], typeof(object)),
-                            context.AsDictionaryItem<object, IDictionary>(key));
-                    }
-                    else
-                    {
-                        context.Tracer.WriteLine(member =>
-                            Invariant(
-                                $"Comparing dictionary item {key} at {member.Description} between subject and expectation"));
+                    nestedValidator.RecursivelyAssertEquality(new Comparands(subject[key], expectation[key], typeof(object)),
+                        context.AsDictionaryItem<object, IDictionary>(key));
+                }
+                else
+                {
+                    context.Tracer.WriteLine(member =>
+                        Invariant(
+                            $"Comparing dictionary item {key} at {member.Description} between subject and expectation"));
 
-                        subject[key].Should().Be(expectation[key], context.Reason.FormattedMessage, context.Reason.Arguments);
-                    }
+                    subject[key].Should().Be(expectation[key], context.Reason.FormattedMessage, context.Reason.Arguments);
                 }
             }
         }

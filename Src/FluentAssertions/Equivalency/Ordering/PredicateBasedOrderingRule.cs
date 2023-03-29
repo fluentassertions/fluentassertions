@@ -22,10 +22,8 @@ internal class PredicateBasedOrderingRule : IOrderingRule
         {
             return Invert ? OrderStrictness.NotStrict : OrderStrictness.Strict;
         }
-        else
-        {
-            return OrderStrictness.Irrelevant;
-        }
+
+        return OrderStrictness.Irrelevant;
     }
 
     public override string ToString()
