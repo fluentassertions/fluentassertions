@@ -33,7 +33,7 @@ internal class MessageBuilder
     public string Build(string message, object[] messageArgs, string reason, ContextDataItems contextData, string identifier,
         string fallbackIdentifier)
     {
-        message = Regex.Replace(message, "{reason}", SanitizeReason(reason));
+        message = message.Replace("{reason}", SanitizeReason(reason), StringComparison.Ordinal);
 
         message = SubstituteIdentifier(message, identifier?.EscapePlaceholders(), fallbackIdentifier);
 
