@@ -8,7 +8,7 @@ namespace FluentAssertions.Equivalency;
 
 public class Node : INode
 {
-    private static readonly Regex MatchFirstIndex = new(@"^\[\d+\]$");
+    private static readonly Regex MatchFirstIndex = new(@"^\[[0-9]+\]$");
 
     private string path;
     private string name;

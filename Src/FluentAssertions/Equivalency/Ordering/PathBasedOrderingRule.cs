@@ -45,7 +45,7 @@ internal class PathBasedOrderingRule : IOrderingRule
 
     private string RemoveInitialIndexQualifier(string sourcePath)
     {
-        var indexQualifierRegex = new Regex(@"^\[\d+]\.");
+        var indexQualifierRegex = new Regex(@"^\[[0-9]+]\.");
 
         if (!indexQualifierRegex.IsMatch(path))
         {
