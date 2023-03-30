@@ -60,6 +60,7 @@ public class DataTableEquivalencyStep : EquivalencyStep<DataTable>
         return EquivalencyResult.AssertionCompleted;
     }
 
+    [SuppressMessage("Design", "MA0051:Method is too long")]
     private static void CompareScalarProperties(DataTable subject, DataTable expectation,
         Dictionary<string, IMember> selectedMembers)
     {

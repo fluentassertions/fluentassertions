@@ -79,7 +79,7 @@ public class EquivalencyValidator : IEquivalencyValidator
             }
         }
 
-        throw new NotImplementedException(
+        throw new NotSupportedException(
             $"Do not know how to compare {comparands.Subject} and {comparands.Expectation}. Please report an issue through https://www.fluentassertions.com.");
     }
 }

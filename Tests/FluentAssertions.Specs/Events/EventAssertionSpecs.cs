@@ -973,7 +973,9 @@ public class EventAssertionSpecs
 
     public class A
     {
+#pragma warning disable MA0046
         public event EventHandler<object> Event;
+#pragma warning restore MA0046
 
         public void OnEvent(object o)
         {
@@ -1064,7 +1066,9 @@ public class EventAssertionSpecs
 
         public event PropertyChangedEventHandler PropertyChanged = (_, _) => { };
 
+#pragma warning disable MA0046
         public event Action<string, int, string> NonConventionalEvent = (_, _, _) => { };
+#pragma warning restore MA0046
 
         public void RaiseNonConventionalEvent(string first, int second, string third)
         {
@@ -1073,9 +1077,9 @@ public class EventAssertionSpecs
 
         public void RaiseEventWithoutSender()
         {
-#pragma warning disable AV1235 // 'sender' is deliberately null
+#pragma warning disable AV1235, MA0091 // 'sender' is deliberately null
             PropertyChanged(null, new PropertyChangedEventArgs(""));
-#pragma warning restore AV1235
+#pragma warning restore AV1235, MA0091
         }
 
         public void RaiseEventWithSender()
@@ -1085,7 +1089,9 @@ public class EventAssertionSpecs
 
         public void RaiseEventWithSpecificSender(object sender)
         {
+#pragma warning disable MA0091
             PropertyChanged(sender, new PropertyChangedEventArgs(""));
+#pragma warning restore MA0091
         }
 
         public void RaiseEventWithSenderAndPropertyName(string propertyName)

@@ -340,7 +340,7 @@ public class MemberMatchingSpecs
 
         // Assert
         act.Should()
-            .Throw<ArgumentException>()
+            .Throw<MissingMemberException>()
             .WithMessage("*not have member NonExistingProperty*");
     }
 
@@ -425,7 +425,7 @@ public class MemberMatchingSpecs
 
         // Assert
         act.Should()
-            .Throw<ArgumentException>()
+            .Throw<MissingMemberException>()
             .WithMessage("*does not have member NonExistingProperty*");
     }
 

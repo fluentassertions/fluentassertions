@@ -191,10 +191,10 @@ public sealed class AssertionScope : IAssertionScope
         expectation = () =>
         {
             var messageBuilder = new MessageBuilder(FormattingOptions);
-            string reason = localReason?.Invoke() ?? string.Empty;
+            string actualReason = localReason?.Invoke() ?? string.Empty;
             string identifier = GetIdentifier();
 
-            return messageBuilder.Build(message, args, reason, contextData, identifier, fallbackIdentifier);
+            return messageBuilder.Build(message, args, actualReason, contextData, identifier, fallbackIdentifier);
         };
 
         return this;

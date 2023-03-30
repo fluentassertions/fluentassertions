@@ -86,6 +86,8 @@ public class DataRowEquivalencyStep : EquivalencyStep<DataRow>
         }
     }
 
+    [SuppressMessage("Maintainability", "AV1561:Signature contains too many parameters", Justification = "Needs to be refactored")]
+    [SuppressMessage("Design", "MA0051:Method is too long", Justification = "Needs to be refactored")]
     private static void CompareFieldValues(IEquivalencyValidationContext context, IEquivalencyValidator parent,
         DataRow subject, DataRow expectation, DataEquivalencyAssertionOptions<DataSet> dataSetConfig,
         DataEquivalencyAssertionOptions<DataTable> dataTableConfig, DataEquivalencyAssertionOptions<DataRow> dataRowConfig)

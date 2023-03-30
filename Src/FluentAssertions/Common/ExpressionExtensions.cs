@@ -37,8 +37,10 @@ internal static class ExpressionExtensions
     /// E.g. Parent.Child.Sibling.Name.
     /// </example>
     /// <exception cref="ArgumentNullException"><paramref name="expression"/> is <see langword="null"/>.</exception>
+#pragma warning disable MA0051
     public static MemberPath GetMemberPath<TDeclaringType, TPropertyType>(
         this Expression<Func<TDeclaringType, TPropertyType>> expression)
+#pragma warning restore MA0051
     {
         Guard.ThrowIfArgumentIsNull(expression, nameof(expression), "Expected an expression, but found <null>.");
 

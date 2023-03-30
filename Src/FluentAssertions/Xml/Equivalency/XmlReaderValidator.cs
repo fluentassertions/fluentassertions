@@ -38,7 +38,9 @@ internal class XmlReaderValidator
         }
     }
 
+#pragma warning disable MA0051
     private Failure Validate()
+#pragma warning restore MA0051
     {
         if (subjectReader is null && expectationReader is null)
         {

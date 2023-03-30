@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using FluentAssertions.Execution;
@@ -135,6 +136,7 @@ public class ConstraintEquivalencyStep : EquivalencyStep<Constraint>
         }
     }
 
+    [SuppressMessage("Design", "MA0051:Method is too long", Justification = "Needs to be refactored")]
     private static void CompareConstraints(IEquivalencyValidator parent, IEquivalencyValidationContext context,
         ForeignKeyConstraint subject, ForeignKeyConstraint expectation, Dictionary<string, IMember> selectedMembers)
     {

@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
@@ -718,6 +719,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// A string that represents the current object.
     /// </returns>
     /// <filterpriority>2</filterpriority>
+    [SuppressMessage("Design", "MA0051:Method is too long")]
     public override string ToString()
     {
         var builder = new StringBuilder();

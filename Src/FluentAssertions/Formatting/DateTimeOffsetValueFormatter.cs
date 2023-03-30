@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using FluentAssertions.Common;
 
@@ -18,6 +19,7 @@ public class DateTimeOffsetValueFormatter : IValueFormatter
         return value is DateTime or DateTimeOffset;
     }
 
+    [SuppressMessage("Design", "MA0051:Method is too long", Justification = "Needs to be refactored")]
     public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
     {
         DateTimeOffset dateTimeOffset;

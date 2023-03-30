@@ -17,12 +17,12 @@ internal class MappedMemberMatchingRule<TExpectation, TSubject> : IMemberMatchin
     {
         if (Regex.IsMatch(expectationMemberName, @"[\.\[\]]"))
         {
-            throw new ArgumentException("The expectation's member name cannot be a nested path");
+            throw new ArgumentException("The expectation's member name cannot be a nested path", nameof(expectationMemberName));
         }
 
         if (Regex.IsMatch(subjectMemberName, @"[\.\[\]]"))
         {
-            throw new ArgumentException("The subject's member name cannot be a nested path");
+            throw new ArgumentException("The subject's member name cannot be a nested path", nameof(subjectMemberName));
         }
 
         this.expectationMemberName = expectationMemberName;
@@ -36,7 +36,7 @@ internal class MappedMemberMatchingRule<TExpectation, TSubject> : IMemberMatchin
         {
             var member = MemberFactory.Find(subject, subjectMemberName, parent);
 
-            return member ?? throw new ArgumentException(
+            return member ?? throw new MissingMemberException(
                 $"Subject of type {typeof(TSubject)} does not have member {subjectMemberName}");
         }
 
