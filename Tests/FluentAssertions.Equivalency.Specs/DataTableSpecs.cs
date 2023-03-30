@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
@@ -30,6 +31,125 @@ public class DataTableSpecs : DataSpecs
     {
         // Act & Assert
         ((DataTable)null).Should().BeEquivalentTo(null);
+    }
+
+    [Fact]
+    public void When_row_match_mode_is_invalid_it_should_fail()
+    {
+        // Arrange
+        var typedDataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+        var subject = typedDataSet.ToUntypedDataSet().Tables["TypedDataTable1"];
+        var expectation = typedDataSet.ToUntypedDataSet().Tables["TypedDataTable1"];
+
+        // Act
+        Action action = () => subject.Should().BeEquivalentTo(expectation, options => options.UsingRowMatchMode((RowMatchMode)2));
+
+        // Assert
+        action.Should().Throw<XunitException>().WithMessage(
+            "Unknown RowMatchMode *when trying to compare *");
+    }
+
+    [Theory]
+    [MemberData(nameof(EmptyPrimaryKeys))]
+    public void When_row_match_mode_is_primary_key_without_primary_key_it_should_fail(DataColumn[] emptyPrimaryKey)
+    {
+        // Arrange
+        var typedDataSet = CreateDummyDataSet<TypedDataSetSubclass>(includeRelation: false);
+
+        var subject = typedDataSet.ToUntypedDataSet().Tables["TypedDataTable1"];
+        var expectation = typedDataSet.ToUntypedDataSet().Tables["TypedDataTable1"];
+
+        subject.PrimaryKey = emptyPrimaryKey;
+
+        // Act
+        Action action = () =>
+            subject.Should().BeEquivalentTo(expectation, options => options.UsingRowMatchMode(RowMatchMode.PrimaryKey));
+
+        // Assert
+        action.Should().Throw<XunitException>().WithMessage(
+            "*Table *containing *does not have a primary key. RowMatchMode.PrimaryKey cannot be applied.*");
+    }
+
+    public static TheoryData<DataColumn[]> EmptyPrimaryKeys => new()
+    {
+        null,
+        new DataColumn[] { }
+    };
+
+    [Fact]
+    public void When_primary_key_types_do_not_match_it_should_throw()
+    {
+        // Arrange
+        var typedDataSetSubject = CreateDummyDataSet<TypedDataSetSubclass>(includeDummyData: false, includeRelation: false);
+        var typedDataSetExpectation = new TypedDataSetSubclass(typedDataSetSubject);
+
+        var subject = typedDataSetSubject.ToUntypedDataSet().Tables["TypedDataTable1"];
+        var expectation = typedDataSetExpectation.ToUntypedDataSet().Tables["TypedDataTable1"];
+
+        subject.PrimaryKey[0].DataType = typeof(long);
+        subject.Rows.Add(1L);
+        subject.AcceptChanges();
+        expectation.Rows.Add(1);
+        expectation.AcceptChanges();
+
+        // Act
+        Action action = () =>
+            subject.Should().BeEquivalentTo(expectation, options => options.UsingRowMatchMode(RowMatchMode.PrimaryKey));
+
+        // Assert
+        action.Should().Throw<XunitException>().WithMessage(
+            "*Subject and expectation primary keys of table containing *do not have the same schema and cannot be compared. " +
+            "RowMatchMode.PrimaryKey cannot be applied.*");
+    }
+
+    [Fact]
+    public void When_primary_key_of_one_rows_differ_it_should_fail()
+    {
+        // Arrange
+        var typedDataSetSubject = CreateDummyDataSet<TypedDataSetSubclass>();
+        var typedDataSetExpectation = new TypedDataSetSubclass(typedDataSetSubject);
+
+        var subject = typedDataSetSubject.ToUntypedDataSet().Tables["TypedDataTable1"];
+        var expectation = typedDataSetExpectation.ToUntypedDataSet().Tables["TypedDataTable1"];
+
+        expectation.Rows[0].SetField(expectation.PrimaryKey[0], 0);
+
+        expectation.AcceptChanges();
+
+        // Act
+        Action action = () =>
+            subject.Should().BeEquivalentTo(expectation, options => options.UsingRowMatchMode(RowMatchMode.PrimaryKey));
+
+        // Assert
+        action.Should().Throw<XunitException>().WithMessage(
+            "Found unexpected row in *with key *Expected to find a row with key *in *, but no such row was found*");
+    }
+
+    [Fact]
+    public void When_primary_key_of_multiple_rows_differ_it_should_fail()
+    {
+        // Arrange
+        var typedDataSetSubject = CreateDummyDataSet<TypedDataSetSubclass>();
+        var typedDataSetExpectation = new TypedDataSetSubclass(typedDataSetSubject);
+
+        var subject = typedDataSetSubject.ToUntypedDataSet().Tables["TypedDataTable1"];
+        var expectation = typedDataSetExpectation.ToUntypedDataSet().Tables["TypedDataTable1"];
+
+        for (int i = 0; i < 3; i++)
+        {
+            expectation.Rows[i].SetField(expectation.PrimaryKey[0], i);
+        }
+
+        expectation.AcceptChanges();
+
+        // Act
+        Action action = () =>
+            subject.Should().BeEquivalentTo(expectation, options => options.UsingRowMatchMode(RowMatchMode.PrimaryKey));
+
+        // Assert
+        action.Should().Throw<XunitException>().WithMessage(
+            "Found unexpected row in *with key * rows were expected in *and not found*");
     }
 
     [Fact]
