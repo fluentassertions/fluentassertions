@@ -12,7 +12,7 @@ namespace FluentAssertions.Common;
 internal class MemberPathSegmentEqualityComparer : IEqualityComparer<string>
 {
     private const string AnyIndexQualifier = "*";
-    private static readonly Regex IndexQualifierRegex = new(@"^\d+$");
+    private static readonly Regex IndexQualifierRegex = new("^[0-9]+$");
 
     /// <summary>
     /// Compares two segments of a <see cref="MemberPath"/>.

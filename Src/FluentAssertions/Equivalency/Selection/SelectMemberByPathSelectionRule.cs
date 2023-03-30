@@ -50,7 +50,7 @@ internal abstract class SelectMemberByPathSelectionRule : IMemberSelectionRule
 
     private static string RemoveIndexQualifiers(string path)
     {
-        Match match = new Regex(@"^\[\d+]").Match(path);
+        Match match = new Regex(@"^\[[0-9]+]").Match(path);
 
         if (match.Success)
         {

@@ -47,7 +47,7 @@ internal static class StringExtensions
     /// </summary>
     public static string WithoutSpecificCollectionIndices(this string indexedPath)
     {
-        return Regex.Replace(indexedPath, @"\[\d+\]", "[]");
+        return Regex.Replace(indexedPath, @"\[[0-9]+\]", "[]");
     }
 
     /// <summary>
@@ -55,7 +55,7 @@ internal static class StringExtensions
     /// </summary>
     public static bool ContainsSpecificCollectionIndex(this string indexedPath)
     {
-        return Regex.IsMatch(indexedPath, @"\[\d+\]");
+        return Regex.IsMatch(indexedPath, @"\[[0-9]+\]");
     }
 
     /// <summary>
