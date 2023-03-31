@@ -26,7 +26,7 @@ internal class CyclicReferenceDetector : ICloneable2
     {
         bool isCyclic = false;
 
-        if (reference.IsComplexType)
+        if (reference.CompareByMembers)
         {
             isCyclic = !observedReferences.Add(reference);
 
