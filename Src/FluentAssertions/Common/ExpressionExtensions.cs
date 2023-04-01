@@ -74,10 +74,10 @@ internal static class ExpressionExtensions
 
                 case ExpressionType.ArrayIndex:
                     var binaryExpression = (BinaryExpression)node;
-                    var constantExpression = (ConstantExpression)binaryExpression.Right;
+                    var indexExpression = (ConstantExpression)binaryExpression.Right;
                     node = binaryExpression.Left;
 
-                    segments.Add("[" + constantExpression.Value + "]");
+                    segments.Add("[" + indexExpression.Value + "]");
                     break;
 
                 case ExpressionType.Parameter:
@@ -87,15 +87,15 @@ internal static class ExpressionExtensions
                 case ExpressionType.Call:
                     var methodCallExpression = (MethodCallExpression)node;
 
-                    if (methodCallExpression.Method.Name != "get_Item" || methodCallExpression.Arguments.Count != 1 ||
-                        methodCallExpression.Arguments[0] is not ConstantExpression)
+#pragma warning disable SA1010 // https://github.com/DotNetAnalyzers/StyleCopAnalyzers/pull/3507
+                    if (methodCallExpression is not { Method.Name: "get_Item", Arguments: [ConstantExpression argumentExpression] })
                     {
                         throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
                     }
+#pragma warning restore SA1010
 
-                    constantExpression = (ConstantExpression)methodCallExpression.Arguments[0];
                     node = methodCallExpression.Object;
-                    segments.Add("[" + constantExpression.Value + "]");
+                    segments.Add("[" + argumentExpression.Value + "]");
                     break;
 
                 default:
@@ -158,11 +158,12 @@ internal static class ExpressionExtensions
                 case ExpressionType.Call:
                     var methodCallExpression = (MethodCallExpression)node;
 
-                    if (methodCallExpression.Method.Name != "get_Item" || methodCallExpression.Arguments.Count != 1 ||
-                        methodCallExpression.Arguments[0] is not ConstantExpression)
+#pragma warning disable SA1010 // https://github.com/DotNetAnalyzers/StyleCopAnalyzers/pull/3507
+                    if (methodCallExpression is not { Method.Name: "get_Item", Arguments: [ConstantExpression] })
                     {
                         throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
                     }
+#pragma warning restore SA1010
 
                     node = methodCallExpression.Object;
                     break;
