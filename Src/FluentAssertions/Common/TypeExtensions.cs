@@ -24,11 +24,8 @@ internal static class TypeExtensions
     private static readonly ConcurrentDictionary<Type, bool> HasValueSemanticsCache = new();
     private static readonly ConcurrentDictionary<Type, bool> TypeIsRecordCache = new();
 
-    private static readonly ConcurrentDictionary<(Type Type, MemberVisibility Visibility), IEnumerable<PropertyInfo>>
-        NonPrivatePropertiesCache = new();
-
-    private static readonly ConcurrentDictionary<(Type Type, MemberVisibility Visibility), IEnumerable<FieldInfo>>
-        NonPrivateFieldsCache = new();
+    private static readonly ConcurrentDictionary<(Type Type, MemberVisibility Visibility), TypeMemberReflector>
+        TypeMemberReflectorsCache = new();
 
     public static bool IsDecoratedWith<TAttribute>(this Type type)
         where TAttribute : Attribute
@@ -219,145 +216,25 @@ internal static class TypeExtensions
         return null;
     }
 
-    public static IEnumerable<MemberInfo> GetNonPrivateMembers(this Type typeToReflect, MemberVisibility visibility)
+    public static MemberInfo[] GetNonPrivateMembers(this Type typeToReflect, MemberVisibility visibility)
     {
-        return
-            GetNonPrivateProperties(typeToReflect, visibility)
-                .Concat<MemberInfo>(GetNonPrivateFields(typeToReflect, visibility))
-                .ToArray();
+        return GetTypeReflectorFor(typeToReflect, visibility).NonPrivateMembers;
     }
 
-    public static IEnumerable<PropertyInfo> GetNonPrivateProperties(this Type typeToReflect, MemberVisibility visibility)
+    public static PropertyInfo[] GetNonPrivateProperties(this Type typeToReflect, MemberVisibility visibility)
     {
-        return NonPrivatePropertiesCache.GetOrAdd((typeToReflect, visibility), static key =>
-        {
-            IEnumerable<PropertyInfo> query =
-                from propertyInfo in GetPropertiesFromHierarchy(key.Type, key.Visibility)
-                where HasNonPrivateGetter(propertyInfo)
-                where !propertyInfo.IsIndexer()
-                select propertyInfo;
-
-            return query.ToArray();
-        });
+        return GetTypeReflectorFor(typeToReflect, visibility).NonPrivateProperties;
     }
 
-    private static IEnumerable<PropertyInfo> GetPropertiesFromHierarchy(Type typeToReflect, MemberVisibility memberVisibility)
+    public static FieldInfo[] GetNonPrivateFields(this Type typeToReflect, MemberVisibility visibility)
     {
-        bool includeInternals = memberVisibility.HasFlag(MemberVisibility.Internal);
-
-        return GetMembersFromHierarchy(typeToReflect, type =>
-        {
-            return type
-                .GetProperties(AllInstanceMembersFlag | BindingFlags.DeclaredOnly)
-                .Where(property => property.GetMethod?.IsPrivate == false)
-                .Where(property => includeInternals || property.GetMethod is { IsAssembly: false, IsFamilyOrAssembly: false })
-                .ToArray();
-        });
+        return GetTypeReflectorFor(typeToReflect, visibility).NonPrivateFields;
     }
 
-    public static IEnumerable<FieldInfo> GetNonPrivateFields(this Type typeToReflect, MemberVisibility visibility)
+    private static TypeMemberReflector GetTypeReflectorFor(Type typeToReflect, MemberVisibility visibility)
     {
-        return NonPrivateFieldsCache.GetOrAdd((typeToReflect, visibility), static key =>
-        {
-            IEnumerable<FieldInfo> query =
-                from fieldInfo in GetFieldsFromHierarchy(key.Type, key.Visibility)
-                where !fieldInfo.IsPrivate
-                where !fieldInfo.IsFamily
-                select fieldInfo;
-
-            return query.ToArray();
-        });
-    }
-
-    private static IEnumerable<FieldInfo> GetFieldsFromHierarchy(Type typeToReflect, MemberVisibility memberVisibility)
-    {
-        bool includeInternals = memberVisibility.HasFlag(MemberVisibility.Internal);
-
-        return GetMembersFromHierarchy(typeToReflect, type =>
-        {
-            return type
-                .GetFields(AllInstanceMembersFlag)
-                .Where(field => !field.IsPrivate)
-                .Where(field => includeInternals || (!field.IsAssembly && !field.IsFamilyOrAssembly))
-                .ToArray();
-        });
-    }
-
-    private static IEnumerable<TMemberInfo> GetMembersFromHierarchy<TMemberInfo>(
-        Type typeToReflect,
-        Func<Type, IEnumerable<TMemberInfo>> getMembers)
-        where TMemberInfo : MemberInfo
-    {
-        if (typeToReflect.IsInterface)
-        {
-            return GetInterfaceMembers(typeToReflect, getMembers);
-        }
-
-        return GetClassMembers(typeToReflect, getMembers);
-    }
-
-    private static List<TMemberInfo> GetInterfaceMembers<TMemberInfo>(Type typeToReflect,
-        Func<Type, IEnumerable<TMemberInfo>> getMembers)
-        where TMemberInfo : MemberInfo
-    {
-        List<TMemberInfo> members = new();
-
-        var considered = new List<Type>();
-        var queue = new Queue<Type>();
-        considered.Add(typeToReflect);
-        queue.Enqueue(typeToReflect);
-
-        while (queue.Count > 0)
-        {
-            Type subType = queue.Dequeue();
-
-            foreach (Type subInterface in subType.GetInterfaces())
-            {
-                if (considered.Contains(subInterface))
-                {
-                    continue;
-                }
-
-                considered.Add(subInterface);
-                queue.Enqueue(subInterface);
-            }
-
-            IEnumerable<TMemberInfo> typeMembers = getMembers(subType);
-
-            IEnumerable<TMemberInfo> newPropertyInfos = typeMembers.Where(x => !members.Contains(x));
-
-            members.InsertRange(0, newPropertyInfos);
-        }
-
-        return members;
-    }
-
-    private static List<TMemberInfo> GetClassMembers<TMemberInfo>(Type typeToReflect,
-        Func<Type, IEnumerable<TMemberInfo>> getMembers)
-        where TMemberInfo : MemberInfo
-    {
-        List<TMemberInfo> members = new();
-
-        while (typeToReflect != null)
-        {
-            foreach (var memberInfo in getMembers(typeToReflect))
-            {
-                if (members.All(mi => mi.Name != memberInfo.Name))
-                {
-                    members.Add(memberInfo);
-                }
-            }
-
-            typeToReflect = typeToReflect.BaseType;
-        }
-
-        return members;
-    }
-
-    private static bool HasNonPrivateGetter(PropertyInfo propertyInfo)
-    {
-        MethodInfo getMethod = propertyInfo.GetGetMethod(nonPublic: true);
-        return getMethod is { IsPrivate: false, IsFamily: false };
+        return TypeMemberReflectorsCache.GetOrAdd((typeToReflect, visibility),
+            static key => new TypeMemberReflector(key.Type, key.Visibility));
     }
 
     /// <summary>
@@ -404,11 +281,6 @@ internal static class TypeExtensions
         return type.GetMethod(methodName, Enumerable.Empty<Type>());
     }
 
-    public static bool HasParameterlessMethod(this Type type, string methodName)
-    {
-        return type.GetParameterlessMethod(methodName) is not null;
-    }
-
     public static PropertyInfo FindPropertyByName(this Type type, string propertyName)
     {
         return type.GetProperty(propertyName, AllStaticAndInstanceMembersFlag);
@@ -424,6 +296,11 @@ internal static class TypeExtensions
                 m.GetParameters().Length == 1) is not null;
 
         return hasGetter || hasSetter;
+    }
+
+    private static bool HasParameterlessMethod(this Type type, string methodName)
+    {
+        return type.GetParameterlessMethod(methodName) is not null;
     }
 
     public static PropertyInfo GetIndexerByParameterTypes(this Type type, IEnumerable<Type> parameterTypes)
