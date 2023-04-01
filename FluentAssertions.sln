@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		Tests\Default.testsettings = Tests\Default.testsettings
+		Directory.Build.props = Directory.Build.props
 		Src\JetBrainsAnnotations.cs = Src\JetBrainsAnnotations.cs
 		nuget.config = nuget.config
 		README.md = README.md
