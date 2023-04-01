@@ -31,38 +31,38 @@ public class EquivalencyValidator : IEquivalencyValidator
     {
         var scope = AssertionScope.Current;
 
-        if (ShouldCompareNodesThisDeep(context.CurrentNode, context.Options, scope))
+        if (ShouldContinueThisDeep(context.CurrentNode, context.Options, scope))
         {
-            UpdateScopeWithReportableContext(scope, comparands, context.CurrentNode);
+            TrackWhatIsNeededToProvideContextToFailures(scope, comparands, context.CurrentNode);
 
             if (!context.IsCyclicReference(comparands.Expectation))
             {
-                RunStepsUntilEquivalencyIsProven(comparands, context);
+                TryToProveNodesAreEquivalent(comparands, context);
             }
         }
     }
 
-    private static bool ShouldCompareNodesThisDeep(INode currentNode, IEquivalencyAssertionOptions options,
+    private static bool ShouldContinueThisDeep(INode currentNode, IEquivalencyAssertionOptions options,
         AssertionScope assertionScope)
     {
         bool shouldRecurse = options.AllowInfiniteRecursion || currentNode.Depth <= MaxDepth;
-
         if (!shouldRecurse)
         {
+            // This will throw, unless we're inside an AssertionScope
             assertionScope.FailWith($"The maximum recursion depth of {MaxDepth} was reached.  ");
         }
 
         return shouldRecurse;
     }
 
-    private static void UpdateScopeWithReportableContext(AssertionScope scope, Comparands comparands, INode currentNode)
+    private static void TrackWhatIsNeededToProvideContextToFailures(AssertionScope scope, Comparands comparands, INode currentNode)
     {
         scope.Context = new Lazy<string>(() => currentNode.Description);
 
         scope.TrackComparands(comparands.Subject, comparands.Expectation);
     }
 
-    private void RunStepsUntilEquivalencyIsProven(Comparands comparands, IEquivalencyValidationContext context)
+    private void TryToProveNodesAreEquivalent(Comparands comparands, IEquivalencyValidationContext context)
     {
         using var _ = context.Tracer.WriteBlock(node => node.Description);
 
@@ -71,7 +71,6 @@ public class EquivalencyValidator : IEquivalencyValidator
         foreach (IEquivalencyStep step in AssertionOptions.EquivalencyPlan)
         {
             var result = step.Handle(comparands, context, this);
-
             if (result == EquivalencyResult.AssertionCompleted)
             {
                 context.Tracer.WriteLine(getMessage(step));

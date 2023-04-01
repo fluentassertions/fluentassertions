@@ -13,14 +13,14 @@ internal class ObjectReference
 {
     private readonly object @object;
     private readonly string path;
-    private readonly bool? isComplexType;
+    private readonly bool? compareByMembers;
     private string[] pathElements;
 
-    public ObjectReference(object @object, string path, bool? isComplexType = null)
+    public ObjectReference(object @object, string path, bool? compareByMembers = null)
     {
         this.@object = @object;
         this.path = path;
-        this.isComplexType = isComplexType;
+        this.compareByMembers = compareByMembers;
     }
 
     /// <summary>
@@ -69,5 +69,5 @@ internal class ObjectReference
         return Invariant($"{{\"{path}\", {@object}}}");
     }
 
-    public bool IsComplexType => isComplexType ?? (@object?.GetType().OverridesEquals() == false);
+    public bool CompareByMembers => compareByMembers ?? (@object?.GetType().OverridesEquals() == false);
 }
