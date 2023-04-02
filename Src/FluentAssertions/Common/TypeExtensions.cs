@@ -438,7 +438,11 @@ internal static class TypeExtensions
             t.IsTuple());
     }
 
-    public static bool HasTypeName(this Type type)
+    /// <summary>
+    /// Check if the type has a human-readable name.
+    /// </summary>
+    /// <returns>false for compiler generated type names, otherwise true.</returns>
+    public static bool HasFriendlyName(this Type type)
     {
         return !type.IsAnonymous() && !type.IsTuple();
     }

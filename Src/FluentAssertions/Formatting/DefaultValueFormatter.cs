@@ -83,7 +83,7 @@ public class DefaultValueFormatter : IValueFormatter
 
     private void WriteTypeName(FormattedObjectGraph formattedGraph, Type type)
     {
-        var typeName = type.HasTypeName() ? TypeDisplayName(type) : string.Empty;
+        var typeName = type.HasFriendlyName() ? TypeDisplayName(type) : string.Empty;
         formattedGraph.AddFragment(typeName);
     }
 
