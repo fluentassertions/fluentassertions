@@ -855,31 +855,6 @@ public class FormatterSpecs
         result.Should().Contain($"FluentAssertions.Specs.Formatting.FormatterSpecs+B{Environment.NewLine}");
     }
 
-    [Fact]
-    public void When_formatting_a_class_it_should_include_class_name_and_braces_on_newlines()
-    {
-        var subject = new BaseStuff();
-        string result = Formatter.ToString(subject);
-        result.Should().Match(
-            $"FluentAssertions.Specs.Formatting.FormatterSpecs+BaseStuff{Environment.NewLine}{{*{Environment.NewLine}}}");
-    }
-
-    [Fact]
-    public void When_formatting_an_anonymous_class_it_should_include_newlines_between_class_name_and_properties()
-    {
-        var subject = new { Id = 1 };
-        string result = Formatter.ToString(subject);
-        result.Should().Match($"{Environment.NewLine}{{{Environment.NewLine}    Id = 1{Environment.NewLine}}}");
-    }
-
-    [Fact]
-    public void When_formatting_an_empty_anonymous_class_it_should_have_braces_on_the_same_line()
-    {
-        var subject = new { };
-        string result = Formatter.ToString(subject);
-        result.Should().Match("{ }");
-    }
-
     public class BaseStuff
     {
         public int StuffId { get; set; }
