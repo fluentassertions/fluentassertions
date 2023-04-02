@@ -77,7 +77,7 @@ public class FormattedObjectGraph
     /// <summary>
     /// Adds a new line if there are no lines and no fragment that would cause a new line.
     /// </summary>
-    internal void EnsureNewLine()
+    internal void EnsureInitialNewLine()
     {
         if (LineCount == 0 && lineBuilder.Length == 0)
         {

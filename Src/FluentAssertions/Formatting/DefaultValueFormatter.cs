@@ -107,7 +107,7 @@ public class DefaultValueFormatter : IValueFormatter
 
     private static void WriteTypeValue(object obj, FormattedObjectGraph formattedGraph, FormatChild formatChild, MemberInfo[] members)
     {
-        formattedGraph.EnsureNewLine();
+        formattedGraph.EnsureInitialNewLine();
         formattedGraph.AddLine("{");
         WriteMemberValues(obj, members, formattedGraph, formatChild);
         formattedGraph.AddFragmentOnNewLine("}");
