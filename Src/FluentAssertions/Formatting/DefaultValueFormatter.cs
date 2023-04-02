@@ -64,7 +64,7 @@ public class DefaultValueFormatter : IValueFormatter
     {
         Type type = value.GetType();
 
-        return HasDefaultToStringImplementation(value) || type.IsCompilerGeneratedType();
+        return HasDefaultToStringImplementation(value) || type.IsCompilerGenerated();
     }
 
     private static bool HasDefaultToStringImplementation(object value)

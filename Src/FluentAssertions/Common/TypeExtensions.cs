@@ -425,22 +425,22 @@ internal static class TypeExtensions
     {
         return HasValueSemanticsCache.GetOrAdd(type, static t =>
             t.OverridesEquals() &&
-            !t.IsAnonymousType() &&
+            !t.IsAnonymous() &&
             !t.IsTuple() &&
             !IsKeyValuePair(t));
     }
 
-    public static bool IsCompilerGeneratedType(this Type type)
+    public static bool IsCompilerGenerated(this Type type)
     {
         return TypeIsCompilerGeneratedCache.GetOrAdd(type, static t =>
             t.IsRecord() ||
-            t.IsAnonymousType() ||
+            t.IsAnonymous() ||
             t.IsTuple());
     }
 
     public static bool HasTypeName(this Type type)
     {
-        return !type.IsAnonymousType() && !type.IsTuple();
+        return !type.IsAnonymous() && !type.IsTuple();
     }
 
     private static bool IsTuple(this Type type)
@@ -474,7 +474,7 @@ internal static class TypeExtensions
 #endif
     }
 
-    private static bool IsAnonymousType(this Type type)
+    private static bool IsAnonymous(this Type type)
     {
         bool nameContainsAnonymousType = type.FullName.Contains("AnonymousType", StringComparison.Ordinal);
 

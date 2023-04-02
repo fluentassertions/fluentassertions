@@ -169,14 +169,14 @@ public class TypeExtensionsSpecs
     [InlineData(typeof(MyClass), false)]
     public void IsCompilerGeneratedType_should_detect_records_and_tuples_correctly(Type type, bool expected)
     {
-        type.IsCompilerGeneratedType().Should().Be(expected);
+        type.IsCompilerGenerated().Should().Be(expected);
     }
 
     [Fact]
     public void IsCompilerGeneratedType_should_detect_anonymous_types_correctly()
     {
         var value = new { Id = 1 };
-        value.GetType().IsCompilerGeneratedType().Should().BeTrue();
+        value.GetType().IsCompilerGenerated().Should().BeTrue();
     }
 
     [Fact]
