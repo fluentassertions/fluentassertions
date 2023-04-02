@@ -92,25 +92,15 @@ public class DefaultValueFormatter : IValueFormatter
         MemberInfo[] members = GetMembers(type);
         if (members.Length == 0)
         {
-            WriteEmptyType(formattedGraph);
+            formattedGraph.AddFragment("{ }");
         }
         else
         {
-            WriteTypeValue(obj, formattedGraph, formatChild, members);
+            formattedGraph.EnsureInitialNewLine();
+            formattedGraph.AddLine("{");
+            WriteMemberValues(obj, members, formattedGraph, formatChild);
+            formattedGraph.AddFragmentOnNewLine("}");
         }
-    }
-
-    private static void WriteEmptyType(FormattedObjectGraph formattedGraph)
-    {
-        formattedGraph.AddFragment("{ }");
-    }
-
-    private static void WriteTypeValue(object obj, FormattedObjectGraph formattedGraph, FormatChild formatChild, MemberInfo[] members)
-    {
-        formattedGraph.EnsureInitialNewLine();
-        formattedGraph.AddLine("{");
-        WriteMemberValues(obj, members, formattedGraph, formatChild);
-        formattedGraph.AddFragmentOnNewLine("}");
     }
 
     private static void WriteMemberValues(object obj, MemberInfo[] members, FormattedObjectGraph formattedGraph, FormatChild formatChild)
