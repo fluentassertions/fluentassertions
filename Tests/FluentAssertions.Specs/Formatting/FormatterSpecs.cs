@@ -233,7 +233,7 @@ public class FormatterSpecs
                     $"*, {Environment.NewLine}" +
                     $"    SingleChild = FluentAssertions.Specs.Formatting.FormatterSpecs+ChildRecord{Environment.NewLine}" +
                     $"    {{{Environment.NewLine}" +
-                    $"*");
+                    "*");
     }
 
     [Fact]
@@ -793,7 +793,7 @@ public class FormatterSpecs
     [Fact]
     public void When_formatting_a_class_it_should_include_class_name_and_braces_on_newlines()
     {
-        var subject = new BaseStuff { };
+        var subject = new BaseStuff();
         string result = Formatter.ToString(subject);
         result.Should().Match(
             $"FluentAssertions.Specs.Formatting.FormatterSpecs+BaseStuff{Environment.NewLine}{{*{Environment.NewLine}}}");
