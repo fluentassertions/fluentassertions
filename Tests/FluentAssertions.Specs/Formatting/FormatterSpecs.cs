@@ -211,9 +211,34 @@ public class FormatterSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .WithMessage("*Children =*")
-            .WithMessage("*Description =*")
-            .WithMessage("*StuffId =*");
+            .And.Message.Should().Match(
+            """
+            Expected stuff to be equal to {FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32, *]]
+                {
+                    Children = {1, 2, 3, 4}, 
+                    Description = "Stuff_1", 
+                    StuffId = 1
+                }, FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32, *]]
+                {
+                    Children = {1, 2, 3, 4}, 
+                    Description = "WRONG_DESCRIPTION", 
+                    StuffId = 2
+                }
+            }
+            , but {FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32, *]]
+                {
+                    Children = {1, 2, 3, 4}, 
+                    Description = "Stuff_1", 
+                    StuffId = 1
+                }, FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32, *]]
+                {
+                    Children = {1, 2, 3, 4}, 
+                    Description = "Stuff_2", 
+                    StuffId = 2
+                }
+            }
+             differs at index 1.
+            """);
     }
 
     [Fact]
@@ -227,13 +252,19 @@ public class FormatterSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .And.Message
-                .Should().Match($"*but found FluentAssertions.Specs.Formatting.FormatterSpecs+StuffRecord{Environment.NewLine}{{*")
-                .And.Match(
-                    $"*, {Environment.NewLine}" +
-                    $"    SingleChild = FluentAssertions.Specs.Formatting.FormatterSpecs+ChildRecord{Environment.NewLine}" +
-                    $"    {{{Environment.NewLine}" +
-                    "*");
+            .And.Message.Should().Be(
+            """
+            Expected stuff to be <null>, but found FluentAssertions.Specs.Formatting.FormatterSpecs+StuffRecord
+            {
+                RecordChildren = {10, 20, 30, 40}, 
+                RecordDescription = "description", 
+                RecordId = 42, 
+                SingleChild = FluentAssertions.Specs.Formatting.FormatterSpecs+ChildRecord
+                {
+                    ChildRecordId = 24
+                }
+            }.
+            """);
     }
 
     [Fact]
@@ -258,13 +289,25 @@ public class FormatterSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .And.Message
-                .Should().Match($"*Expected stuff to be {Environment.NewLine}{{*")
-                .And.Match(@"*Description = ""absent""*")
-                .And.Match($"**SingleChild = {Environment.NewLine}    {{*")
-                .And.Match("*ChildId = 4*")
-                .And.Match("*Children = {10, 20, 30, 40}*")
-                .And.NotContain("AnonymousType");
+            .And.Message.Should().Be(
+            """
+            Expected stuff to be 
+            {
+                Children = {10, 20, 30, 40}, 
+                SingleChild = 
+                {
+                    ChildId = 4
+                }
+            }, but found 
+            {
+                Children = {1, 2, 3, 4}, 
+                Description = "absent", 
+                SingleChild = 
+                {
+                    ChildId = 8
+                }
+            }.
+            """);
     }
 
     [Fact]
@@ -297,9 +340,20 @@ public class FormatterSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .WithMessage("*1*description*{1, 2, 3, 4}*")
-            .WithMessage("*2*WRONG_DESCRIPTION*{4, 5, 6, 7}*")
-            .And.Message.Should().NotContain("System.ValueTuple");
+            .And.Message.Should().Be(
+            """
+            Expected stuff to be equal to 
+            {
+                Item1 = 2, 
+                Item2 = "WRONG_DESCRIPTION", 
+                Item3 = {4, 5, 6, 7}
+            }, but found 
+            {
+                Item1 = 1, 
+                Item2 = "description", 
+                Item3 = {1, 2, 3, 4}
+            }.
+            """);
     }
 
     [Fact]
@@ -322,11 +376,22 @@ public class FormatterSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .WithMessage("*RecordId =*")
-            .WithMessage("*RecordDescription =*")
-            .WithMessage("*SingleChild =*")
-            .WithMessage("*ChildRecordId = 80*")
-            .WithMessage("*RecordChildren = {4, 5, 6, 7}*");
+            .And.Message.Should().Be(
+            """
+            Expected stuff to be 
+            {
+                RecordDescription = "WRONG_DESCRIPTION"
+            }, but found FluentAssertions.Specs.Formatting.FormatterSpecs+StuffRecord
+            {
+                RecordChildren = {4, 5, 6, 7}, 
+                RecordDescription = "descriptive", 
+                RecordId = 9, 
+                SingleChild = FluentAssertions.Specs.Formatting.FormatterSpecs+ChildRecord
+                {
+                    ChildRecordId = 80
+                }
+            }.
+            """);
     }
 
     [Fact]
