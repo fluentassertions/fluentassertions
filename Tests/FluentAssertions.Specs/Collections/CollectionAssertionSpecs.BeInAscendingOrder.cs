@@ -154,6 +154,62 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
+        public void Can_use_a_cast_expression_in_the_ordering_expression()
+        {
+            // Arrange
+            var collection = new SomeClass[]
+            {
+                new() { Text = "a", Number = 1 }
+            };
+
+            // Act & Assert
+            collection.Should().BeInAscendingOrder(o => (float)o.Number);
+        }
+
+        [Fact]
+        public void Can_use_an_index_into_a_list_in_the_ordering_expression()
+        {
+            // Arrange
+            var collection = new[]
+            {
+                new List<SomeClass> { new() { Text = "a", Number = 1 } }
+            };
+
+            // Act & Assert
+            collection.Should().BeInAscendingOrder(o => o[0].Number);
+        }
+
+        [Fact]
+        public void Can_use_an_index_into_an_array_in_the_ordering_expression()
+        {
+            // Arrange
+            var collection = new[]
+            {
+                new[] { new SomeClass { Text = "a", Number = 1 } }
+            };
+
+            // Act & Assert
+            collection.Should().BeInAscendingOrder(o => o[0].Number);
+        }
+
+        [Fact]
+        public void Unsupported_ordering_expressions_are_invalid()
+        {
+            // Arrange
+            var collection = new SomeClass[]
+            {
+                new() { Text = "a", Number = 1 }
+            };
+
+            // Act
+            Action act = () => collection.Should().BeInAscendingOrder(o => o.Number > 1);
+
+            // Assert
+            act.Should().Throw<ArgumentException>()
+                .WithMessage("*Expression <*> cannot be used to select a member.*");
+        }
+
+        [Fact]
         public void
             When_asserting_the_items_in_an_unordered_collection_are_ordered_ascending_using_the_specified_property_it_should_throw()
         {
