@@ -29,6 +29,16 @@ public class TimeOnlyAssertionSpecs
         timeOnly.Should().NotBeNull();
     }
 
+    [Fact]
+    public void Should_succeed_when_asserting_nullable_timeonly_value_with_null_to_be_null()
+    {
+        // Arrange
+        TimeOnly? timeOnly = null;
+
+        // Act/Assert
+        timeOnly.Should().BeNull();
+    }
+
     public class Be
     {
         [Fact]
@@ -1288,6 +1298,65 @@ public class TimeOnlyAssertionSpecs
 
             // Act/Assert
             value.Should().BeOneOf(new TimeOnly(15, 1, 30), null);
+        }
+    }
+
+    public class NotBe
+    {
+        [Fact]
+        public void Different_timeonly_values_are_valid()
+        {
+            // Arrange
+            TimeOnly time = new(19, 06, 04);
+            TimeOnly otherTime = new(20, 06, 05);
+
+            // Act & Assert
+            time.Should().NotBe(otherTime);
+        }
+
+        [Fact]
+        public void Different_timeonly_values_with_different_nullability_are_valid()
+        {
+            // Arrange
+            TimeOnly time = new(19, 06, 04);
+            TimeOnly? otherTime = new(19, 07, 05);
+
+            // Act & Assert
+            time.Should().NotBe(otherTime);
+        }
+
+        [Fact]
+        public void Same_timeonly_values_are_invalid()
+        {
+            // Arrange
+            TimeOnly time = new(19, 06, 04);
+            TimeOnly sameTime = new(19, 06, 04);
+
+            // Act
+            Action act =
+                () => time.Should().NotBe(sameTime, "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected time not to be <19:06:04.000> because we want to test the failure message, but it is.");
+        }
+
+        [Fact]
+        public void Same_timeonly_values_with_different_nullability_are_invalid()
+        {
+            // Arrange
+            TimeOnly time = new(19, 06, 04);
+            TimeOnly? sameTime = new(19, 06, 04);
+
+            // Act
+            Action act =
+                () => time.Should().NotBe(sameTime, "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected time not to be <19:06:04.000> because we want to test the failure message, but it is.");
         }
     }
 
