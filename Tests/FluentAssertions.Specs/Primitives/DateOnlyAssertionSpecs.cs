@@ -27,6 +27,16 @@ public class DateOnlyAssertionSpecs
         dateOnly.Should().NotBeNull();
     }
 
+    [Fact]
+    public void Should_succeed_when_asserting_nullable_dateonly_value_with_null_to_be_null()
+    {
+        // Arrange
+        DateOnly? dateOnly = null;
+
+        // Act/Assert
+        dateOnly.Should().BeNull();
+    }
+
     public class Be
     {
         [Fact]
@@ -599,6 +609,65 @@ public class DateOnlyAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect the month part of subject to be 12, but found a <null> DateOnly.");
+        }
+    }
+
+    public class NotBe
+    {
+        [Fact]
+        public void Different_dateonly_values_are_valid()
+        {
+            // Arrange
+            DateOnly date = new(2020, 06, 04);
+            DateOnly otherDate = new(2020, 06, 05);
+
+            // Act & Assert
+            date.Should().NotBe(otherDate);
+        }
+
+        [Fact]
+        public void Different_dateonly_values_with_different_nullability_are_valid()
+        {
+            // Arrange
+            DateOnly date = new(2020, 06, 04);
+            DateOnly? otherDate = new(2020, 07, 05);
+
+            // Act & Assert
+            date.Should().NotBe(otherDate);
+        }
+
+        [Fact]
+        public void Same_dateonly_values_are_invalid()
+        {
+            // Arrange
+            DateOnly date = new(2020, 06, 04);
+            DateOnly sameDate = new(2020, 06, 04);
+
+            // Act
+            Action act =
+                () => date.Should().NotBe(sameDate, "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected date not to be <2020-06-04> because we want to test the failure message, but it is.");
+        }
+
+        [Fact]
+        public void Same_dateonly_values_with_different_nullability_are_invalid()
+        {
+            // Arrange
+            DateOnly date = new(2020, 06, 04);
+            DateOnly? sameDate = new(2020, 06, 04);
+
+            // Act
+            Action act =
+                () => date.Should().NotBe(sameDate, "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected date not to be <2020-06-04> because we want to test the failure message, but it is.");
         }
     }
 
