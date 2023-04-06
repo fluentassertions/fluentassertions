@@ -167,7 +167,7 @@ public class TypeExtensionsSpecs
     [InlineData(typeof(int), false)]
     [InlineData(typeof(string), false)]
     [InlineData(typeof(MyClass), false)]
-    public void IsCompilerGeneratedType_should_detect_records_and_tuples_correctly(Type type, bool expected)
+    public void Records_and_tuples_are_detected_correctly(Type type, bool expected)
     {
         type.IsCompilerGenerated().Should().Be(expected);
     }
