@@ -2072,6 +2072,7 @@ public class CollectionSpecs
     public void When_the_number_of_dimensions_of_the_arrays_are_not_the_same_it_should_throw()
     {
         // Arrange
+#pragma warning disable format // VS and Rider disagree on how to format a multidimensional array initializer
         var actual = new[,,]
         {
             {
@@ -2085,6 +2086,7 @@ public class CollectionSpecs
                 { 6 }
             }
         };
+#pragma warning restore format
 
         var expectation = new[,]
         {

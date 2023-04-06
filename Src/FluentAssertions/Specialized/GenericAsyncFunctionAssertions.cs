@@ -59,7 +59,9 @@ public class GenericAsyncFunctionAssertions<TResult>
                     .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
             }
 
+#pragma warning disable CA1849 // Call async methods when in an async method
             TResult result = success ? task.Result : default;
+#pragma warning restore CA1849 // Call async methods when in an async method
             return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, result);
         }
 

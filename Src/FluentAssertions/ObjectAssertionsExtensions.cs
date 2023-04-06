@@ -151,11 +151,11 @@ public static class ObjectAssertionsExtensions
             Binder = new SimpleBinder(subject.GetType())
         };
 
-#pragma warning disable SYSLIB0011 // BinaryFormatter is obsoleted, GH-issue 1779 tracks the upcoming removal in .NET 8.0
+#pragma warning disable SYSLIB0011, CA2300 // BinaryFormatter is obsoleted, GH-issue 1779 tracks the upcoming removal in .NET 8.0
         binaryFormatter.Serialize(stream, subject);
         stream.Position = 0;
         return binaryFormatter.Deserialize(stream);
-#pragma warning restore SYSLIB0011
+#pragma warning restore SYSLIB0011, CA2300
     }
 
     private sealed class SimpleBinder : SerializationBinder

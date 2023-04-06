@@ -6,7 +6,7 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions.Specialized;
 
-#pragma warning disable CS0659
+#pragma warning disable CS0659, S1206 // Ignore not overriding Object.GetHashCode()
 /// <summary>
 /// Implements base functionality for assertions on TaskCompletionSource.
 /// </summary>

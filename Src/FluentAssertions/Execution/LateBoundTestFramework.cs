@@ -16,7 +16,7 @@ internal abstract class LateBoundTestFramework : ITestFramework
 
         if (exceptionType is null)
         {
-            throw new Exception(
+            throw new NotSupportedException(
                 $"Failed to create the assertion exception for the current test framework: \"{ExceptionFullName}, {assembly.FullName}\"");
         }
 

@@ -414,7 +414,7 @@ public class DataSpecs
         {
             if (randomizeRowOrder)
             {
-                foreach (var row in from.OrderBy(row => Guid.NewGuid()))
+                foreach (var row in from.OrderBy(_ => Guid.NewGuid()))
                 {
                     to.ImportRow(row);
                 }
@@ -591,12 +591,16 @@ public class DataSpecs
     public static IEnumerable<object[]> AllChangeTypes =>
         Enum.GetValues(typeof(ChangeType)).Cast<ChangeType>().Select(t => new object[] { t });
 
-    public static IEnumerable<object[]> AllChangeTypesWithAcceptChangesValues =>
-        Enum.GetValues(typeof(ChangeType)).Cast<ChangeType>().Join(
-            new[] { true, false },
-            changeType => true,
-            acceptChanges => true,
-            (changeType, acceptChanges) => new object[] { changeType, acceptChanges });
+    public static IEnumerable<object[]> AllChangeTypesWithAcceptChangesValues
+    {
+        get
+        {
+            return
+                from changeType in Enum.GetValues(typeof(ChangeType)).Cast<ChangeType>()
+                from acceptChanges in new[] { true, false }
+                select new object[] { changeType, acceptChanges };
+        }
+    }
 
     [SuppressMessage("Style", "IDE0010:Add missing cases", Justification = "Every enum value is covered")]
     protected static void ApplyChange(DataColumnCollection columns, ChangeType changeType)

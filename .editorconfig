@@ -134,11 +134,31 @@ dotnet_diagnostic.CA1062.severity = suggestion
 dotnet_code_quality.CA1062.exclude_extension_method_this_parameter = true
 dotnet_code_quality.exclude_extension_method_this_parameter = true
 dotnet_code_quality.null_check_validation_methods = ThrowIfArgumentIsNull
+# CA1031: Do not catch general exception types
+dotnet_diagnostic.CA1031.severity = none
+# CA1303: Do not pass literals as localized parameters
+dotnet_diagnostic.CA1303.severity = none
+# CA1304: Specify CultureInfo
 dotnet_diagnostic.CA1304.severity = error
+# CA1307: Specify StringComparison for clarity
 dotnet_diagnostic.CA1307.severity = error
+# CA1308: Normalize strings to uppercase
 dotnet_diagnostic.CA1308.severity = error
+# CA1309: Use ordinal StringComparison
 dotnet_diagnostic.CA1309.severity = error
+# CA1724: Type names should not match namespaces
+dotnet_diagnostic.CA1724.severity = none
+# CA1819: Properties should not return arrays
+dotnet_diagnostic.CA1819.severity = none
+# CA1851: Possible multiple enumerations of IEnumerable collection. Related to GH-issue #2000
+dotnet_diagnostic.CA1851.severity = suggestion
+# CA2007: Do not directly await a Task
+dotnet_diagnostic.CA2007.severity = none
+# CA2225: Operator overloads have named alternates
+dotnet_diagnostic.CA2225.severity = none
+# CA3075: Insecure DTD Processing
 dotnet_diagnostic.CA3075.severity = none
+# CA5369: Use XmlReader for Deserialize
 dotnet_diagnostic.CA5369.severity = none
 
 # Banned API Analyzers
@@ -316,6 +336,10 @@ dotnet_diagnostic.RCS1124.severity = suggestion
 
 # Add exception to documentation comment. Nice suggestion, but we don't want to document exceptions for internal code.
 dotnet_diagnostic.RCS1140.severity = suggestion
+
+# Missing documentation
+dotnet_diagnostic.RCS1141.severity = suggestion
+dotnet_diagnostic.RCS1142.severity = suggestion
 
 # Use conditional access. Suggestion because it doesn't always improve readability
 dotnet_diagnostic.RCS1146.severity = suggestion

@@ -17,6 +17,8 @@ using FluentAssertions.Equivalency.Tracing;
 
 namespace FluentAssertions.Equivalency;
 
+#pragma warning disable CA1033 //An unsealed externally visible type provides an explicit method implementation of a public interface and does not provide an alternative externally visible method that has the same name.
+
 /// <summary>
 /// Represents the run-time behavior of a structural equivalency assertion.
 /// </summary>

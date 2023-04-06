@@ -3,7 +3,6 @@
     <TargetFrameworks>net47;net6.0</TargetFrameworks>
     <RootNamespace>XUnit2.Specs</RootNamespace>
     <AssemblyName>XUnit2.Specs</AssemblyName>
-    <CodeAnalysisRuleSet>..\..\..\TestRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Src\FluentAssertions\FluentAssertions.csproj" />

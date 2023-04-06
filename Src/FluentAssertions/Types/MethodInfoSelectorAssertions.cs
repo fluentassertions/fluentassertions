@@ -9,7 +9,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Types;
 
-#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CS0659, S1206 // Ignore not overriding Object.GetHashCode()
 #pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
 /// <summary>
 /// Contains assertions for the <see cref="MethodInfo"/> objects returned by the parent <see cref="MethodInfoSelector"/>.

@@ -38,7 +38,9 @@ class Build : NukeBuild
     GitHubActions GitHubActions => GitHubActions.Instance;
 
     string BranchSpec => GitHubActions?.Ref;
+
     string BuildNumber => GitHubActions?.RunNumber.ToString();
+
     string PullRequestBase => GitHubActions?.BaseRef;
 
     [Parameter("Use this parameter if you encounter build problems in any way, " +
@@ -375,7 +377,9 @@ class Build : NukeBuild
             .ToArray();
 
     Repository Repository => new(GitRepository.LocalDirectory);
+
     Tree TargetBranch => Repository.Branches[PullRequestBase].Tip.Tree;
+
     Tree SourceBranch => Repository.Branches[Repository.Head.FriendlyName].Tip.Tree;
 
     bool RunAllTargets => string.IsNullOrWhiteSpace(PullRequestBase) || Changes.Any(x => x.StartsWith("Build"));

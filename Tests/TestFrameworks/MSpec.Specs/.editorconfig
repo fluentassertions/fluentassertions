@@ -8,3 +8,27 @@ dotnet_style_readonly_field = true:none
 
 # IDE0040: Add accessibility modifiers
 dotnet_style_require_accessibility_modifiers = for_non_interface_members:none
+
+# StyleCop
+# SA1306: The name of a field in C# does not begin with a lower-case letter.
+dotnet_diagnostic.SA1306.severity = none
+# SA1310: A field name in C# contains an underscore.
+dotnet_diagnostic.SA1310.severity = none
+# SA1400: The access modifier for a C# element has not been explicitly defined.
+dotnet_diagnostic.SA1400.severity = none
+# SA1649: The file name of a C# code file does not match the first type declared in the file.
+dotnet_diagnostic.SA1649.severity = none
+
+# Roslynator
+# RCS1169: Make field read-only
+dotnet_diagnostic.RCS1169.severity = none
+# RCS1213: Remove unused member declaration
+dotnet_diagnostic.RCS1213.severity = none
+
+# SonarLint
+# S101: Types should be named in PascalCase
+dotnet_diagnostic.S101.severity = none
+# S1144: Unused private types or members should be removed
+dotnet_diagnostic.S1144.severity = none
+# S2933: Fields that are only assigned in the constructor should be "readonly"
+dotnet_diagnostic.S2933.severity = none

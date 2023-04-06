@@ -9,7 +9,7 @@ using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
-#pragma warning disable RCS1192, RCS1214 // verbatim string literals and interpolated strings
+#pragma warning disable RCS1192, RCS1214, S4144 // verbatim string literals and interpolated strings
 
 namespace FluentAssertions.Specs.Execution
 {
@@ -550,6 +550,7 @@ namespace FluentAssertions.Specs.Execution
         }
     }
 
+#pragma warning disable IDE0060, RCS1163 // Remove unused parameter
     [SuppressMessage("The name of a C# element does not begin with an upper-case letter", "SA1300")]
     [SuppressMessage("Parameter is never used", "CA1801")]
     public class Foo
@@ -574,6 +575,7 @@ namespace FluentAssertions.Specs.Execution
     {
         public static Foo GetFooStatic(this Foo foo, string prm) => foo;
     }
+#pragma warning restore IDE0060, RCS1163 // Remove unused parameter
 }
 
 namespace System

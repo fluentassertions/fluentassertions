@@ -5,7 +5,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Specialized;
 
-#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CS0659, S1206 // Ignore not overriding Object.GetHashCode()
 #pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
 /// <summary>
 /// Provides methods for asserting that the execution time of an <see cref="Action"/> satisfies certain conditions.
