@@ -88,7 +88,7 @@ internal static class StringExtensions
             return @this;
         }
 
-        if (other.StartsWith("[", StringComparison.Ordinal))
+        if (other.StartsWith('['))
         {
             separator = string.Empty;
         }
