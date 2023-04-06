@@ -243,7 +243,7 @@ public static class CallerIdentifier
 
     private static bool IsStringLiteral(string candidate)
     {
-        return candidate.StartsWith("\"", StringComparison.Ordinal);
+        return candidate.StartsWith('\"');
     }
 
     private static bool IsNumeric(string candidate)

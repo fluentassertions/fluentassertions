@@ -16,4 +16,8 @@ internal static class SystemExtensions
 
     public static bool Contains(this string str, char value, StringComparison comparison) =>
         str.IndexOf(value, comparison) != -1;
+
+    // https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/String.Comparison.cs,1014
+    public static bool StartsWith(this string str, char value) =>
+        str.Length != 0 && str[0] == value;
 }
