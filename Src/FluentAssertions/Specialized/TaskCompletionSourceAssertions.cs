@@ -5,7 +5,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Specialized;
 
-#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CS0659, S1206 // Ignore not overriding Object.GetHashCode()
 #pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
 
 #if NET6_0_OR_GREATER
@@ -131,7 +131,9 @@ public class TaskCompletionSourceAssertions<T> : TaskCompletionSourceAssertionsB
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
 
+#pragma warning disable CA1849 // Call async methods when in an async method
             T result = subject.Task.IsCompleted ? subject.Task.Result : default;
+#pragma warning restore CA1849 // Call async methods when in an async method
             return new AndWhichConstraint<TaskCompletionSourceAssertions<T>, T>(this, result);
         }
 

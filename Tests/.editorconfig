@@ -49,14 +49,20 @@ dotnet_diagnostic.CA1711.severity = none
 dotnet_diagnostic.CA1714.severity = none
 # CA1716: Identifiers should not match keywords
 dotnet_diagnostic.CA1716.severity = none
+# CA1720: Identifiers should not contain type names
+dotnet_diagnostic.CA1720.severity = none
+# CA1812: Type is an internal class that is apparently never instantiated.
+dotnet_diagnostic.CA1812.severity = none
 # CA1813 Avoid unsealed attributes
 dotnet_diagnostic.CA1813.severity = none
 # CA1814: Prefer jagged arrays over multidimensional
 dotnet_diagnostic.CA1814.severity = none
-# CA1818: Type is an internal class that is apparently never instantiated.
-dotnet_diagnostic.CA1812.severity = none
 # CA1822: Member does not access instance data and can be marked as static
 dotnet_diagnostic.CA1822.severity = none
+# CA1825: Avoid unnecessary zero-length array allocations.  Use Array.Empty<int>() instead
+dotnet_diagnostic.CA1825.severity = none
+# CA1852: A type that's not accessible outside its assembly and has no subtypes within its containing assembly is not marked sealed
+dotnet_diagnostic.CA1852.severity = none
 # CA2000: Dispose objects before losing scope
 dotnet_diagnostic.CA2000.severity = none
 # CA2201: Exception type System.Exception is not sufficiently specific
@@ -151,8 +157,26 @@ resharper_expression_is_always_null_highlighting = none
 # ReSharper properties
 resharper_keep_user_linebreaks = true
 
+# Make class static
+dotnet_diagnostic.RCS1102.severity = none
+
+# Mark local variable as const.
+dotnet_diagnostic.RCS1118.severity = none
+
 # Use EventHandler<T>. We have some special cases for testing.
 dotnet_diagnostic.RCS1159.severity = error
+
+# Unused parameter
+dotnet_diagnostic.RCS1163.severity = none
+
+# Use read-only auto-implemented property
+dotnet_diagnostic.RCS1170.severity = none
+
+# Implement exception constructors
+dotnet_diagnostic.RCS1194.severity = none
+
+# Removed unused method declaration
+dotnet_diagnostic.RCS1213.severity = none
 
 # Implement IComparable when implementing IComparable<T><T>. Disabled since we don't want to be so strict in tests.
 dotnet_diagnostic.RCS1241.severity = none
@@ -162,6 +186,9 @@ dotnet_diagnostic.MA0005.severity = none
 
 # 'System.BadImageFormatException' is a reserved exception type. Don't care.
 dotnet_diagnostic.MA0012.severity = none
+
+# Use an overload of System.ArgumentException with the parameter name. Don't care.
+dotnet_diagnostic.MA0013.severity = none
 
 # Do not raise System.ApplicationException type
 dotnet_diagnostic.MA0014.severity = none
@@ -186,3 +213,30 @@ dotnet_diagnostic.MA0096.severity = none
 
 # A class that implements IComparable<T> or IComparable should override comparison operators. Don't care about this.
 dotnet_diagnostic.MA0097.severity = none
+
+# Rename class to match pascal case naming rules
+dotnet_diagnostic.S101.severity = none
+
+# Remove the unused private method
+dotnet_diagnostic.S1144.severity = none
+
+# Remove this empty class, write its code or make it an "interface"
+dotnet_diagnostic.S2094.severity = none
+
+# Add a nested comment explaining why this method is empty
+dotnet_diagnostic.S1186.severity = none
+
+# Rename this enumeration to remove the 'Enum' suffix
+dotnet_diagnostic.S2344.severity = none
+
+# Provide a getter for 'Property' or replace the property witha 'SetProperty' method
+dotnet_diagnostic.S2376.severity = none
+
+# Use the 'value' parameter in this property set accessor declaration
+dotnet_diagnostic.S3237.severity = none
+
+# Use a constructor overloads that allows a more meaningful exception message to be provided
+dotnet_diagnostic.S3928.severity = none
+
+# Remove this unread private field 'field' or refactor the code to use its value
+dotnet_diagnostic.S4487.severity = none

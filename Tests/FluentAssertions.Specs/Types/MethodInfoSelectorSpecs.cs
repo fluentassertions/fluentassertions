@@ -445,9 +445,9 @@ public class MethodInfoSelectorSpecs
 
 internal class TestClassForMethodSelector
 {
-#pragma warning disable 67 // "event is never used"
+#pragma warning disable 67, S3264 // "event is never used"
     public event EventHandler SomethingChanged = (_, _) => { };
-#pragma warning restore 67
+#pragma warning restore 67, S3264
 
     public virtual void PublicVirtualVoidMethod()
     {

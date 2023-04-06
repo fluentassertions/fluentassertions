@@ -945,10 +945,10 @@ namespace Internal.ValueTypesAndNotValueTypes.Test
     }
 }
 
-#pragma warning disable RCS1110 // Declare type inside namespace.
+#pragma warning disable RCS1110, S3903 // Declare type inside namespace.
 internal class ClassInGlobalNamespace
 {
 }
-#pragma warning restore RCS1110
+#pragma warning restore RCS1110, S3903
 
 #endregion

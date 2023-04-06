@@ -1,0 +1,7 @@
+[*.cs]
+
+# SonarLint
+# S1144: SonarLint cannot see the private ctor is used in [ClassData]
+dotnet_diagnostic.S1144.severity = none
+# S3885: "Assembly.Load" should be used
+dotnet_diagnostic.S3885.severity = none
