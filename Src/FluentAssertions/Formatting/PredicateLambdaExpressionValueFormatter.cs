@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -37,7 +38,15 @@ public class PredicateLambdaExpressionValueFormatter : IValueFormatter
     /// </summary>
     private static Expression ReduceConstantSubExpressions(Expression expression)
     {
-        return new ConstantSubExpressionReductionVisitor().Visit(expression);
+        try
+        {
+            return new ConstantSubExpressionReductionVisitor().Visit(expression);
+        }
+        catch (InvalidOperationException)
+        {
+            // Fallback if we make an invalid rewrite of the expression.
+            return expression;
+        }
     }
 
     /// <summary>
@@ -104,6 +113,11 @@ public class PredicateLambdaExpressionValueFormatter : IValueFormatter
 
         private static bool ExpressionIsConstant(Expression expression)
         {
+            if (expression is NewExpression or MemberInitExpression)
+            {
+                return false;
+            }
+
             var visitor = new ParameterDetector();
             visitor.Visit(expression);
             return !visitor.HasParameters;

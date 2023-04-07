@@ -13,14 +13,13 @@ sidebar:
 * Added `ThrowWithinAsync` for assertions on `Task` - [#1974](https://github.com/fluentassertions/fluentassertions/pull/1974)
 * Added support for converting integers to enums using `AutoConversion` - [#2147](https://github.com/fluentassertions/fluentassertions/pull/2147)
 * Changed exception formatting to include any inner exception - [#2150](https://github.com/fluentassertions/fluentassertions/pull/2150)
-
 * Added an expression overload for `WithoutStrictOrderingFor` - [#2151](https://github.com/fluentassertions/fluentassertions/pull/2151)
 
 ### Fixes
 * Improved robustness of several assertions when they're wrapped in an `AssertionScope` - [#2133](https://github.com/fluentassertions/fluentassertions/pull/2133)
 * The maximum depth `BeEquivalentTo` uses for recursive comparisons was 9 instead of the expected 10 - [#2145](https://github.com/fluentassertions/fluentassertions/pull/2145)
-
 * Fixed `.Excluding()` and `.For().Exclude()` not working if root is a collection - [#2135](https://github.com/fluentassertions/fluentassertions/pull/2135)
+* Prevent `InvalidOperationException` when formatting a lambda expression calling a constructor - [#2176](https://github.com/fluentassertions/fluentassertions/pull/2176)
 
 ## 6.10.0
 
