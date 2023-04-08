@@ -173,7 +173,7 @@ public class TypeExtensionsSpecs
     }
 
     [Fact]
-    public void IsCompilerGeneratedType_should_detect_anonymous_types_correctly()
+    public void Anonymous_types_are_detected_correctly()
     {
         var value = new { Id = 1 };
         value.GetType().IsCompilerGenerated().Should().BeTrue();
