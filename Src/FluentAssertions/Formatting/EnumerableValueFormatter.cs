@@ -29,18 +29,14 @@ public class EnumerableValueFormatter : IValueFormatter
 
     public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
     {
-        int startCount = formattedGraph.LineCount;
         IEnumerable<object> collection = ((IEnumerable)value).Cast<object>();
 
         using var iterator = new Iterator<object>(collection, MaxItems);
 
+        var iteratorGraph = formattedGraph.StartPossibleMultilineFragment();
+
         while (iterator.MoveNext())
         {
-            if (iterator.IsFirst)
-            {
-                formattedGraph.AddFragment("{");
-            }
-
             if (!iterator.HasReachedMaxItems)
             {
                 formatChild(iterator.Index.ToString(CultureInfo.InvariantCulture), iterator.Current, formattedGraph);
@@ -49,34 +45,27 @@ public class EnumerableValueFormatter : IValueFormatter
             {
                 using IDisposable _ = formattedGraph.WithIndentation();
                 string moreItemsMessage = value is ICollection c ? $"…{c.Count - MaxItems} more…" : "…more…";
-                AddLineOrFragment(formattedGraph, startCount, moreItemsMessage);
+                iteratorGraph.AddLineOrFragment(moreItemsMessage);
+            }
+
+            if (iterator.IsFirst)
+            {
+                iteratorGraph.AddFragmentAtStart("{");
             }
 
             if (iterator.IsLast)
             {
-                AddLineOrFragment(formattedGraph, startCount, "}");
+                iteratorGraph.AddLineOrFragment("}");
             }
             else
             {
-                formattedGraph.AddFragment(", ");
+                iteratorGraph.AddFragmentAtEndOfLine(", ");
             }
         }
 
         if (iterator.IsEmpty)
         {
-            formattedGraph.AddFragment("{empty}");
-        }
-    }
-
-    private static void AddLineOrFragment(FormattedObjectGraph formattedGraph, int startCount, string fragment)
-    {
-        if (formattedGraph.LineCount > (startCount + 1))
-        {
-            formattedGraph.AddLine(fragment);
-        }
-        else
-        {
-            formattedGraph.AddFragment(fragment);
+            iteratorGraph.AddFragment("{empty}");
         }
     }
 }

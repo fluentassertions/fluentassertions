@@ -213,7 +213,8 @@ public class FormatterSpecs
         act.Should().Throw<XunitException>()
             .And.Message.Should().Match(
             """
-            Expected stuff to be equal to {
+            Expected stuff to be equal to 
+            {
                 FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32*]]
                 {
                     Children = {1, 2, 3, 4}, 
@@ -226,8 +227,8 @@ public class FormatterSpecs
                     Description = "WRONG_DESCRIPTION", 
                     StuffId = 2
                 }
-            }
-            , but {
+            }, but 
+            {
                 FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32*]]
                 {
                     Children = {1, 2, 3, 4}, 
@@ -240,8 +241,7 @@ public class FormatterSpecs
                     Description = "Stuff_2", 
                     StuffId = 2
                 }
-            }
-             differs at index 1.
+            } differs at index 1.
             """);
     }
 
@@ -1139,7 +1139,7 @@ public class FormatterSpecs
         // Act
         string str = Formatter.ToString(values);
 
-        str.Should().Match(
+        str.Should().Match(Environment.NewLine +
             "{*FluentAssertions*FormatterSpecs+CustomClass" + Environment.NewLine +
             "    {" + Environment.NewLine +
             "        IntProperty = 1, " + Environment.NewLine +

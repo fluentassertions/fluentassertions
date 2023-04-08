@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using FluentAssertions.Execution;
 
@@ -15,7 +16,7 @@ namespace FluentAssertions.Formatting;
 /// to the maximum number of lines provided through its constructor. It will throw
 /// a <see cref="MaxLinesExceededException"/> if the number of lines exceeds the maximum.
 /// </remarks>
-public class FormattedObjectGraph
+public partial class FormattedObjectGraph
 {
     private readonly int maxLines;
     private readonly List<string> lines = new();
@@ -139,5 +140,12 @@ public class FormattedObjectGraph
         return string.Join(Environment.NewLine, lines.Concat(new[] { lineBuilder.ToString() }));
     }
 
-    private string Whitespace => new(' ', indentation * SpacesPerIndentation);
+    internal PossibleMultilineFragment StartPossibleMultilineFragment()
+    {
+        return new PossibleMultilineFragment(this);
+    }
+
+    private string Whitespace => MakeWhitespace(indentation);
+
+    private static string MakeWhitespace(int indent) => new(' ', indent * SpacesPerIndentation);
 }
