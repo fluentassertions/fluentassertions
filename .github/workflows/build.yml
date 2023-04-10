@@ -29,18 +29,12 @@ jobs:
       env:
         NuGetApiKey: ${{ secrets.NUGETAPIKEY }}
 
-    - name: Check for 'lcov.info' existence
-      id: check_files
-      uses: andstor/file-existence-action@v2
-      with:
-        files: "TestResults/reports/lcov.info"
-
     - name: coveralls
       uses: coverallsapp/github-action@v2
-      if: steps.check_files.outputs.files_exists == 'true'
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         file: TestResults/reports/lcov.info
+        allow-empty: true
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
