@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using FluentAssertions.Execution;
 
@@ -16,7 +15,7 @@ namespace FluentAssertions.Formatting;
 /// to the maximum number of lines provided through its constructor. It will throw
 /// a <see cref="MaxLinesExceededException"/> if the number of lines exceeds the maximum.
 /// </remarks>
-public partial class FormattedObjectGraph
+public class FormattedObjectGraph
 {
     private readonly int maxLines;
     private readonly List<string> lines = new();
@@ -140,7 +139,7 @@ public partial class FormattedObjectGraph
         return string.Join(Environment.NewLine, lines.Concat(new[] { lineBuilder.ToString() }));
     }
 
-    internal PossibleMultilineFragment StartPossibleMultilineFragment()
+    internal PossibleMultilineFragment KeepOnSingleLineAsLongAsPossible()
     {
         return new PossibleMultilineFragment(this);
     }
@@ -148,4 +147,86 @@ public partial class FormattedObjectGraph
     private string Whitespace => MakeWhitespace(indentation);
 
     private static string MakeWhitespace(int indent) => new(' ', indent * SpacesPerIndentation);
+
+    /// <summary>
+    /// Write fragments that may be on a single line or span multiple lines,
+    /// and this is not known until later parts of the fragment are written.
+    /// </summary>
+    internal record PossibleMultilineFragment
+    {
+        private readonly FormattedObjectGraph parentGraph;
+        private readonly int startingLineBuilderIndex;
+        private readonly int startingLineCount;
+
+        public PossibleMultilineFragment(FormattedObjectGraph parentGraph)
+        {
+            this.parentGraph = parentGraph;
+            startingLineBuilderIndex = parentGraph.lineBuilder.Length;
+            startingLineCount = parentGraph.lines.Count;
+        }
+
+        /// <summary>
+        /// Write the fragment at the position the graph was in when this instance was created.
+        ///
+        /// <para>
+        /// If more lines have been added since this instance was created then write the
+        /// fragment on a new line, otherwise write it on the same line.
+        /// </para>
+        /// </summary>
+        internal void AddStartingLineOrFragment(string fragment)
+        {
+            if (FormatOnSingleLine)
+            {
+                parentGraph.lineBuilder.Insert(startingLineBuilderIndex, fragment);
+            }
+            else
+            {
+                parentGraph.lines.Insert(startingLineCount, Environment.NewLine + fragment);
+                InsertAtStartOfLine(startingLineCount + 1, MakeWhitespace(1));
+            }
+        }
+
+        private bool FormatOnSingleLine => parentGraph.lines.Count == startingLineCount;
+
+        private void InsertAtStartOfLine(int lineIndex, string insertion)
+        {
+            parentGraph.lines[lineIndex] = parentGraph.lines[lineIndex].Insert(0, insertion);
+        }
+
+        /// <summary>
+        /// If more lines have been added since this instance was created then write the
+        /// fragment on a new line, otherwise write it on the same line.
+        /// </summary>
+        internal void AddLineOrFragment(string fragment)
+        {
+            if (FormatOnSingleLine)
+            {
+                parentGraph.AddFragment(fragment);
+            }
+            else
+            {
+                parentGraph.AddFragmentOnNewLine(fragment);
+            }
+        }
+
+        /// <summary>
+        /// Write the fragment.  If more lines have been added since this instance was
+        /// created then also flush the line and indent the next line.
+        /// </summary>
+        internal void AddEndingLineOrFragment(string fragment)
+        {
+            if (FormatOnSingleLine)
+            {
+                parentGraph.AddFragment(fragment);
+            }
+            else
+            {
+                parentGraph.AddFragment(fragment);
+                parentGraph.FlushCurrentLine();
+                parentGraph.lineBuilderWhitespace += MakeWhitespace(1);
+            }
+        }
+
+        internal void AddFragment(string fragment) => parentGraph.AddFragment(fragment);
+    }
 }

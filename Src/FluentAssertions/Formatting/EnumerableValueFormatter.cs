@@ -33,7 +33,7 @@ public class EnumerableValueFormatter : IValueFormatter
 
         using var iterator = new Iterator<object>(collection, MaxItems);
 
-        var iteratorGraph = formattedGraph.StartPossibleMultilineFragment();
+        var iteratorGraph = formattedGraph.KeepOnSingleLineAsLongAsPossible();
 
         while (iterator.MoveNext())
         {
@@ -50,16 +50,20 @@ public class EnumerableValueFormatter : IValueFormatter
 
             if (iterator.IsFirst)
             {
-                iteratorGraph.AddFragmentAtStart("{");
+                iteratorGraph.AddStartingLineOrFragment("{");
             }
 
+            // We cannot know whether or not the enumerable will take up more than one line of
+            // output until we have formatted the first item. So we format the first item, then
+            // go back and insert the enumerable's opening brace in the correct place depending
+            // on whether that first item was all on one line or not.
             if (iterator.IsLast)
             {
                 iteratorGraph.AddLineOrFragment("}");
             }
             else
             {
-                iteratorGraph.AddFragmentAtEndOfLine(", ");
+                iteratorGraph.AddEndingLineOrFragment(", ");
             }
         }
 
