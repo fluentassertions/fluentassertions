@@ -327,8 +327,7 @@ public class FormatterSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .Which.Message.Should().Match("*but found { }*")
-;
+            .Which.Message.Should().Match("*but found { }*");
     }
 
     [Fact]

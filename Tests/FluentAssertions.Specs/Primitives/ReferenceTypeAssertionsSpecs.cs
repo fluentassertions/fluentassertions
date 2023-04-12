@@ -42,8 +42,15 @@ public class ReferenceTypeAssertionsSpecs
         act
             .Should().Throw<XunitException>()
             .WithMessage(
-                @"Expected subject to refer to*{*UserName = ""JohnDoe""*} because " +
-                @"they are the same, but found*{*Name = ""John Doe""*}.");
+            """
+            Expected subject to refer to 
+            {
+                UserName = "JohnDoe"
+            } because they are the same, but found 
+            {
+                Name = "John Doe"
+            }.
+            """);
     }
 
     [Fact]
