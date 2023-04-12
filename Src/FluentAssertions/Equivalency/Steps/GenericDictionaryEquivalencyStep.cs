@@ -114,11 +114,6 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
         // the AssertSameLength method.
         where TExpectedKey : TSubjectKey
     {
-        if (expectation.Count == subject.Count)
-        {
-            return true;
-        }
-
         KeyDifference<TSubjectKey, TExpectedKey> keyDifference = CalculateKeyDifference(subject, expectation);
 
         bool hasMissingKeys = keyDifference.MissingKeys.Count > 0;
