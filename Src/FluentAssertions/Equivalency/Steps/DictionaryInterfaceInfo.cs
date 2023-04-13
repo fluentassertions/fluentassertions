@@ -37,10 +37,8 @@ internal sealed class DictionaryInterfaceInfo
     /// <remarks>>
     /// The <paramref name="role"/> is used to describe the <paramref name="target"/> in failure messages.
     /// </remarks>
-    public static bool TryGetFrom(Type target, string role, out DictionaryInterfaceInfo result)
+    public static DictionaryInterfaceInfo FindFrom(Type target, string role)
     {
-        result = null;
-
         var interfaces = GetDictionaryInterfacesFrom(target);
 
         if (interfaces.Length > 1)
@@ -51,14 +49,12 @@ internal sealed class DictionaryInterfaceInfo
                 $"{string.Join(", ", (IEnumerable<DictionaryInterfaceInfo>)interfaces)}", nameof(role));
         }
 
-        if (interfaces.Length == 1)
+        if (interfaces.Length == 0)
         {
-            result = interfaces.Single();
-
-            return true;
+            return null;
         }
 
-        return false;
+        return interfaces[0];
     }
 
     /// <summary>
@@ -69,10 +65,8 @@ internal sealed class DictionaryInterfaceInfo
     /// <remarks>>
     /// The <paramref name="role"/> is used to describe the <paramref name="target"/> in failure messages.
     /// </remarks>
-    public static bool TryGetFromWithKey(Type target, string role, Type key, out DictionaryInterfaceInfo result)
+    public static DictionaryInterfaceInfo FindFromWithKey(Type target, string role, Type key)
     {
-        result = null;
-
         var suitableDictionaryInterfaces = GetDictionaryInterfacesFrom(target)
             .Where(info => info.Key.IsAssignableFrom(key))
             .ToArray();
@@ -83,16 +77,15 @@ internal sealed class DictionaryInterfaceInfo
             AssertionScope.Current.FailWith(
                 $"The {role} implements multiple IDictionary interfaces taking a key of {key}. ");
 
-            return false;
+            return null;
         }
 
         if (suitableDictionaryInterfaces.Length == 0)
         {
-            return false;
+            return null;
         }
 
-        result = suitableDictionaryInterfaces.Single();
-        return true;
+        return suitableDictionaryInterfaces[0];
     }
 
     private static DictionaryInterfaceInfo[] GetDictionaryInterfacesFrom(Type target)
@@ -118,7 +111,7 @@ internal sealed class DictionaryInterfaceInfo
     /// <returns>
     /// <see langword="true"/> if the conversion succeeded or <see langword="false"/> otherwise.
     /// </returns>
-    public bool TryConvertFrom(object convertable, out object dictionary)
+    public object ConvertFrom(object convertable)
     {
         Type[] enumerables = convertable.GetType().GetClosedGenericInterfaces(typeof(IEnumerable<>));
 
@@ -132,12 +125,10 @@ internal sealed class DictionaryInterfaceInfo
             Type pairValueType = suitableKeyValuePairCollection.GenericTypeArguments.Last();
 
             var methodInfo = ConvertToDictionaryMethod.MakeGenericMethod(Key, pairValueType);
-            dictionary = methodInfo.Invoke(null, new[] { convertable });
-            return true;
+            return methodInfo.Invoke(null, new[] { convertable });
         }
 
-        dictionary = null;
-        return false;
+        return null;
     }
 
     private static Dictionary<TKey, TValue> ConvertToDictionaryInternal<TKey, TValue>(

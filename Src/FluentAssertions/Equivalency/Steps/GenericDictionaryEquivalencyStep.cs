@@ -22,9 +22,7 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
         if (comparands.Expectation != null)
         {
             Type expectationType = comparands.GetExpectedType(context.Options);
-            bool isDictionary = DictionaryInterfaceInfo.TryGetFrom(expectationType, "expectation", out var expectedDictionary);
-
-            if (isDictionary)
+            if (DictionaryInterfaceInfo.FindFrom(expectationType, "expectation") is { } expectedDictionary)
             {
                 Handle(comparands, expectedDictionary, context, nestedValidator);
 
@@ -39,14 +37,10 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
         IEquivalencyValidationContext context,
         IEquivalencyValidator nestedValidator)
     {
-        if (AssertSubjectIsNotNull(comparands.Subject))
+        if (AssertSubjectIsNotNull(comparands.Subject)
+            && EnsureSubjectIsDictionary(comparands, expectedDictionary) is { } actualDictionary)
         {
-            var (isDictionary, actualDictionary) = EnsureSubjectIsDictionary(comparands, expectedDictionary);
-
-            if (isDictionary)
-            {
-                AssertDictionaryEquivalence(comparands, context, nestedValidator, actualDictionary, expectedDictionary);
-            }
+            AssertDictionaryEquivalence(comparands, context, nestedValidator, actualDictionary, expectedDictionary);
         }
     }
 
@@ -57,26 +51,26 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
             .FailWith("Expected {context:Subject} not to be {0}{reason}.", new object[] { null });
     }
 
-    private static (bool isDictionary, DictionaryInterfaceInfo info) EnsureSubjectIsDictionary(Comparands comparands,
+    private static DictionaryInterfaceInfo EnsureSubjectIsDictionary(Comparands comparands,
         DictionaryInterfaceInfo expectedDictionary)
     {
-        bool isDictionary = DictionaryInterfaceInfo.TryGetFromWithKey(comparands.Subject.GetType(), "subject",
-            expectedDictionary.Key, out var actualDictionary);
+        var actualDictionary = DictionaryInterfaceInfo.FindFromWithKey(comparands.Subject.GetType(), "subject",
+            expectedDictionary.Key);
 
-        if (!isDictionary && expectedDictionary.TryConvertFrom(comparands.Subject, out var convertedSubject))
+        if (actualDictionary is null && expectedDictionary.ConvertFrom(comparands.Subject) is { } convertedSubject)
         {
             comparands.Subject = convertedSubject;
-            isDictionary = DictionaryInterfaceInfo.TryGetFrom(comparands.Subject.GetType(), "subject", out actualDictionary);
+            actualDictionary = DictionaryInterfaceInfo.FindFrom(comparands.Subject.GetType(), "subject");
         }
 
-        if (!isDictionary)
+        if (actualDictionary is null)
         {
             AssertionScope.Current.FailWith(
                 $"Expected {{context:subject}} to be a dictionary or collection of key-value pairs that is keyed to type {expectedDictionary.Key}. " +
                 $"It implements {actualDictionary}.");
         }
 
-        return (isDictionary, actualDictionary);
+        return actualDictionary;
     }
 
     private static void FailWithLengthDifference<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(
