@@ -24,24 +24,17 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
             Type expectationType = comparands.GetExpectedType(context.Options);
             if (DictionaryInterfaceInfo.FindFrom(expectationType, "expectation") is { } expectedDictionary)
             {
-                Handle(comparands, expectedDictionary, context, nestedValidator);
+                if (AssertSubjectIsNotNull(comparands.Subject)
+                    && EnsureSubjectIsDictionary(comparands, expectedDictionary) is { } actualDictionary)
+                {
+                    AssertDictionaryEquivalence(comparands, context, nestedValidator, actualDictionary, expectedDictionary);
+                }
 
                 return EquivalencyResult.AssertionCompleted;
             }
         }
 
         return EquivalencyResult.ContinueWithNext;
-    }
-
-    private static void Handle(Comparands comparands, DictionaryInterfaceInfo expectedDictionary,
-        IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
-    {
-        if (AssertSubjectIsNotNull(comparands.Subject)
-            && EnsureSubjectIsDictionary(comparands, expectedDictionary) is { } actualDictionary)
-        {
-            AssertDictionaryEquivalence(comparands, context, nestedValidator, actualDictionary, expectedDictionary);
-        }
     }
 
     private static bool AssertSubjectIsNotNull(object subject)
