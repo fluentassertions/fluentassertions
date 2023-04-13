@@ -10,10 +10,6 @@ namespace FluentAssertions.Equivalency.Steps;
 public class GenericDictionaryEquivalencyStep : IEquivalencyStep
 {
 #pragma warning disable SA1110 // Allow opening parenthesis on new line to reduce line length
-    private static readonly MethodInfo AssertSameLengthMethod =
-        new Func<IDictionary<object, object>, IDictionary<object, object>, bool>(AssertSameLength).GetMethodInfo()
-            .GetGenericMethodDefinition();
-
     private static readonly MethodInfo AssertDictionaryEquivalenceMethod =
         new Action<EquivalencyValidationContext, IEquivalencyValidator, IEquivalencyAssertionOptions,
                 IDictionary<object, object>, IDictionary<object, object>>
@@ -47,7 +43,7 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
         {
             var (isDictionary, actualDictionary) = EnsureSubjectIsDictionary(comparands, expectedDictionary);
 
-            if (isDictionary && AssertSameLength(comparands, actualDictionary, expectedDictionary))
+            if (isDictionary)
             {
                 AssertDictionaryEquivalence(comparands, context, nestedValidator, actualDictionary, expectedDictionary);
             }
@@ -83,22 +79,7 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
         return (isDictionary, actualDictionary);
     }
 
-    private static bool AssertSameLength(Comparands comparands, DictionaryInterfaceInfo actualDictionary,
-        DictionaryInterfaceInfo expectedDictionary)
-    {
-        if (comparands.Subject is ICollection subjectCollection
-            && comparands.Expectation is ICollection expectationCollection
-            && subjectCollection.Count == expectationCollection.Count)
-        {
-            return true;
-        }
-
-        return (bool)AssertSameLengthMethod
-            .MakeGenericMethod(actualDictionary.Key, actualDictionary.Value, expectedDictionary.Key, expectedDictionary.Value)
-            .Invoke(null, new[] { comparands.Subject, comparands.Expectation });
-    }
-
-    private static bool AssertSameLength<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(
+    private static void FailWithLengthDifference<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(
             IDictionary<TSubjectKey, TSubjectValue> subject, IDictionary<TExpectedKey, TExpectedValue> expectation)
 
         // Type constraint of TExpectedKey is asymmetric in regards to TSubjectKey
@@ -111,7 +92,7 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
         bool hasMissingKeys = keyDifference.MissingKeys.Count > 0;
         bool hasAdditionalKeys = keyDifference.AdditionalKeys.Any();
 
-        return Execute.Assertion
+        Execute.Assertion
             .WithExpectation("Expected {context:subject} to be a dictionary with {0} item(s){reason}, ", expectation.Count)
             .ForCondition(!hasMissingKeys || hasAdditionalKeys)
             .FailWith("but it misses key(s) {0}", keyDifference.MissingKeys)
@@ -175,31 +156,38 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
         IDictionary<TExpectedKey, TExpectedValue> expectation)
         where TExpectedKey : TSubjectKey
     {
-        foreach (TExpectedKey key in expectation.Keys)
+        if (subject.Count != expectation.Count)
         {
-            if (subject.TryGetValue(key, out TSubjectValue subjectValue))
+            FailWithLengthDifference(subject, expectation);
+        }
+        else
+        {
+            foreach (TExpectedKey key in expectation.Keys)
             {
-                if (options.IsRecursive)
+                if (subject.TryGetValue(key, out TSubjectValue subjectValue))
                 {
-                    // Run the child assertion without affecting the current context
-                    using (new AssertionScope())
+                    if (options.IsRecursive)
                     {
-                        var nestedComparands = new Comparands(subject[key], expectation[key], typeof(TExpectedValue));
+                        // Run the child assertion without affecting the current context
+                        using (new AssertionScope())
+                        {
+                            var nestedComparands = new Comparands(subject[key], expectation[key], typeof(TExpectedValue));
 
-                        parent.RecursivelyAssertEquality(nestedComparands,
-                            context.AsDictionaryItem<TExpectedKey, TExpectedValue>(key));
+                            parent.RecursivelyAssertEquality(nestedComparands,
+                                context.AsDictionaryItem<TExpectedKey, TExpectedValue>(key));
+                        }
+                    }
+                    else
+                    {
+                        subjectValue.Should().Be(expectation[key], context.Reason.FormattedMessage, context.Reason.Arguments);
                     }
                 }
                 else
                 {
-                    subjectValue.Should().Be(expectation[key], context.Reason.FormattedMessage, context.Reason.Arguments);
+                    AssertionScope.Current
+                        .BecauseOf(context.Reason)
+                        .FailWith("Expected {context:subject} to contain key {0}{reason}.", key);
                 }
-            }
-            else
-            {
-                AssertionScope.Current
-                    .BecauseOf(context.Reason)
-                    .FailWith("Expected {context:subject} to contain key {0}{reason}.", key);
             }
         }
     }
