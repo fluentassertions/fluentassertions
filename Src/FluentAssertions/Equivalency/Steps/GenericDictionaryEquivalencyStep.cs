@@ -43,8 +43,7 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
         IEquivalencyValidationContext context,
         IEquivalencyValidator nestedValidator)
     {
-        if (AssertSubjectIsNotNull(comparands.Subject)
-            && AssertExpectationIsNotNull(comparands.Subject, comparands.Expectation))
+        if (AssertSubjectIsNotNull(comparands.Subject))
         {
             var (isDictionary, actualDictionary) = EnsureSubjectIsDictionary(comparands, expectedDictionary);
 
@@ -60,13 +59,6 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
         return AssertionScope.Current
             .ForCondition(subject is not null)
             .FailWith("Expected {context:Subject} not to be {0}{reason}.", new object[] { null });
-    }
-
-    private static bool AssertExpectationIsNotNull(object subject, object expectation)
-    {
-        return AssertionScope.Current
-            .ForCondition(expectation is not null)
-            .FailWith("Expected {context:Subject} to be {0}{reason}, but found {1}.", null, subject);
     }
 
     private static (bool isDictionary, DictionaryInterfaceInfo info) EnsureSubjectIsDictionary(Comparands comparands,
