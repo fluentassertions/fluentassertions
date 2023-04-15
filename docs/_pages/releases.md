@@ -9,6 +9,8 @@ sidebar:
 
 ## Unreleased
 
+## 6.11.0
+
 ### What's new
 * Added `ThrowWithinAsync` for assertions on `Task` - [#1974](https://github.com/fluentassertions/fluentassertions/pull/1974)
 * Added support for converting integers to enums using `AutoConversion` - [#2147](https://github.com/fluentassertions/fluentassertions/pull/2147)
