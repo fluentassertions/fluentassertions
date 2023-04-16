@@ -79,7 +79,7 @@ internal class MaximumMatchingSolver<TValue>
         return Enumerable.Empty<Match>();
     }
 
-    private IEnumerable<Element<TValue>> GetMatchingElements(Predicate<TValue> predicate)
+    private List<Element<TValue>> GetMatchingElements(Predicate<TValue> predicate)
     {
         if (!matchingElementsByPredicate.TryGetValue(predicate, out var matchingElements))
         {

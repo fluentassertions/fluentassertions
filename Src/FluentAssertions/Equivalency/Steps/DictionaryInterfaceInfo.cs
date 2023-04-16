@@ -15,7 +15,7 @@ internal sealed class DictionaryInterfaceInfo
 {
     // ReSharper disable once PossibleNullReferenceException
     private static readonly MethodInfo ConvertToDictionaryMethod =
-        new Func<IEnumerable<KeyValuePair<object, object>>, IDictionary<object, object>>(ConvertToDictionaryInternal)
+        new Func<IEnumerable<KeyValuePair<object, object>>, Dictionary<object, object>>(ConvertToDictionaryInternal)
             .GetMethodInfo().GetGenericMethodDefinition();
 
     private static readonly ConcurrentDictionary<Type, DictionaryInterfaceInfo[]> Cache = new();
@@ -140,7 +140,7 @@ internal sealed class DictionaryInterfaceInfo
         return false;
     }
 
-    private static IDictionary<TKey, TValue> ConvertToDictionaryInternal<TKey, TValue>(
+    private static Dictionary<TKey, TValue> ConvertToDictionaryInternal<TKey, TValue>(
         IEnumerable<KeyValuePair<TKey, TValue>> collection)
     {
         return collection.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);

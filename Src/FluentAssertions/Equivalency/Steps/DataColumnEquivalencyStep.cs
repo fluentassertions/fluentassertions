@@ -106,7 +106,7 @@ public class DataColumnEquivalencyStep : EquivalencyStep<DataColumn>
     // NOTE: This list of candidate members is duplicated in the XML documentation for the
     // DataColumn.BeEquivalentTo extension method in DataColumnAssertions.cs. If this ever
     // needs to change, keep them in sync.
-    private static readonly ISet<string> CandidateMembers =
+    private static readonly HashSet<string> CandidateMembers =
         new HashSet<string>
         {
             nameof(DataColumn.AllowDBNull),
