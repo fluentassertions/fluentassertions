@@ -56,7 +56,7 @@ public class PredicateLambdaExpressionValueFormatter : IValueFormatter
     /// This simplification is only implemented for the chain of AND operators because this is the most common predicate scenario.
     /// Similar logic can be implemented in the future for other operators.
     /// </summary>
-    private static IEnumerable<Expression> ExtractChainOfExpressionsJoinedWithAndOperator(BinaryExpression binaryExpression)
+    private static List<Expression> ExtractChainOfExpressionsJoinedWithAndOperator(BinaryExpression binaryExpression)
     {
         var visitor = new AndOperatorChainExtractor();
         visitor.Visit(binaryExpression);

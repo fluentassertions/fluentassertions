@@ -38,7 +38,7 @@ internal sealed class TypeMemberReflector
         return query.ToArray();
     }
 
-    private static IEnumerable<PropertyInfo> GetPropertiesFromHierarchy(Type typeToReflect, MemberVisibility memberVisibility)
+    private static List<PropertyInfo> GetPropertiesFromHierarchy(Type typeToReflect, MemberVisibility memberVisibility)
     {
         bool includeInternals = memberVisibility.HasFlag(MemberVisibility.Internal);
 
@@ -63,7 +63,7 @@ internal sealed class TypeMemberReflector
         return query.ToArray();
     }
 
-    private static IEnumerable<FieldInfo> GetFieldsFromHierarchy(Type typeToReflect, MemberVisibility memberVisibility)
+    private static List<FieldInfo> GetFieldsFromHierarchy(Type typeToReflect, MemberVisibility memberVisibility)
     {
         bool includeInternals = memberVisibility.HasFlag(MemberVisibility.Internal);
 
@@ -77,7 +77,7 @@ internal sealed class TypeMemberReflector
         });
     }
 
-    private static IEnumerable<TMemberInfo> GetMembersFromHierarchy<TMemberInfo>(
+    private static List<TMemberInfo> GetMembersFromHierarchy<TMemberInfo>(
         Type typeToReflect,
         Func<Type, IEnumerable<TMemberInfo>> getMembers)
         where TMemberInfo : MemberInfo
