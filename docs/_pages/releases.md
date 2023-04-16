@@ -237,7 +237,7 @@ sidebar:
 
 ### Fixes
 
-* Reported actual value when it contained `{{{{` or `}}}}` - [#1234](https://github.com/fluentassertions/fluentassertions/pull/1234).
+* Reported actual value when it contained {% raw %}`{{{{` or `}}}}`{% endraw %} - [#1234](https://github.com/fluentassertions/fluentassertions/pull/1234).
 * Changed dictionary assertion `NotContainKeys` to honour the key comparer if applicable - [#1233](https://github.com/fluentassertions/fluentassertions/pull/1233).
 * Ensures that date time assertions like "a is less than an hour after b" don't succeed when `a - b == -30.Minutes()` [#1313](https://github.com/fluentassertions/fluentassertions/pull/1313).
 * Event raising assertions like `WithSender` and `WithArgs` will only return the events that match the constraints - [#1321](https://github.com/fluentassertions/fluentassertions/pull/1321)
