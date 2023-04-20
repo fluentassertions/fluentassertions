@@ -1,11 +1,18 @@
-[![build](https://github.com/fluentassertions/fluentassertions/actions/workflows/build.yml/badge.svg)](https://github.com/fluentassertions/fluentassertions/actions/workflows/build.yml)
-[![](https://img.shields.io/github/release/FluentAssertions/FluentAssertions.svg?label=latest%20release)](https://github.com/FluentAssertions/FluentAssertions/releases/latest)
-[![](https://img.shields.io/nuget/dt/FluentAssertions.svg?label=nuget%20downloads)](https://www.nuget.org/packages/FluentAssertions)
-[![](https://img.shields.io/librariesio/dependents/nuget/FluentAssertions.svg?label=dependent%20libraries)](https://libraries.io/nuget/FluentAssertions)
-![](https://img.shields.io/badge/release%20strategy-githubflow-orange.svg)
-[![Coverage Status](https://coveralls.io/repos/github/fluentassertions/fluentassertions/badge.svg?branch=master)](https://coveralls.io/github/fluentassertions/fluentassertions?branch=master)
+<a href="https://www.fluentassertions.com"><img src="docs/assets/images/fluent_assertions_large_horizontal.svg" style="width:400px"/></a>
 
-# About this project
+# Extension methods to fluently assert the outcome of .NET tests
+![build](https://img.shields.io/github/actions/workflow/status/fluentassertions/fluentassertions/build.yml?branch=develop)
+![Coveralls branch](https://img.shields.io/coverallsCoverage/github/fluentassertions/fluentassertions?branch=develop)
+[![](https://img.shields.io/github/release/FluentAssertions/FluentAssertions.svg?label=latest%20release&color=007edf)](https://github.com/FluentAssertions/FluentAssertions/releases/latest)
+[![](https://img.shields.io/nuget/dt/FluentAssertions.svg?label=downloads&color=007edf&logo=nuget)](https://www.nuget.org/packages/FluentAssertions)
+[![](https://img.shields.io/librariesio/dependents/nuget/FluentAssertions.svg?label=dependent%20libraries)](https://libraries.io/nuget/FluentAssertions)
+[![GitHub Repo stars](https://img.shields.io/github/stars/fluentassertions/fluentassertions)](https://github.com/fluentassertions/fluentassertions/stargazers)
+![GitHub contributors](https://img.shields.io/github/contributors/fluentassertions/fluentassertions)
+[![GitHub last commit](https://img.shields.io/github/last-commit/fluentassertions/fluentassertions)](https://github.com/fluentassertions/fluentassertions)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/fluentassertions/fluentassertions)
+![open issues](https://img.shields.io/github/issues/fluentassertions/fluentassertions)
+![](https://img.shields.io/badge/release%20strategy-githubflow-orange.svg)
+
 A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or BDD-style unit tests. Targets .NET Framework 4.7, as well as .NET Core 2.1, .NET Core 3.0, .NET 6, .NET Standard 2.0 and 2.1.
 
 See https://www.fluentassertions.com for [background information](https://fluentassertions.com/about/), [usage documentation](https://fluentassertions.com/introduction), an [extensibility guide](https://fluentassertions.com/extensibility/), support information and more [tips & tricks](https://fluentassertions.com/tips/).
@@ -26,15 +33,12 @@ If you've verified the changes and decided they are valid, you can accept them  
 # Powered By
 <a href="https://aws.amazon.com/"><img src="docs/assets/images/aws.png" style="width:100px"/></a>&nbsp;
 <a href="https://www.infosupport.com/"><img src="docs/assets/images/info-support.jpg" style="width:100px"/></a>&nbsp;
-<a href="https://www.jetbrains.com/rider/"><img src="docs/assets/images/jetbrainsrider.svg" style="width:150px"/></a>&nbsp;<a href="https://www.semanticmerge.com/"><img src="docs/assets/images/semantic-merge.png" style="width:150px"/></a>
+<a href="https://www.jetbrains.com/rider/"><img src="docs/assets/images/jetbrainsrider.svg" style="width:150px"/></a>&nbsp;
 
 With support from the following public [sponsors](https://github.com/sponsors/fluentassertions)  
-<a href="https://github.com/waywedo"><img src="https://avatars.githubusercontent.com/u/20328638?s=52&v=4"/></a>
-<a href="https://github.com/rena0157"><img src="https://avatars.githubusercontent.com/u/33334607?s=52&v=4"/></a>
-<a href="https://github.com/hassanhabib"><img src="https://avatars.githubusercontent.com/u/1453985?s=52&v=4"/></a>
-<a href="https://github.com/DerAlbertCom"><img src="https://avatars.githubusercontent.com/u/136992?s=52&v=4"/></a>
+<a href="https://github.com/jfoshee"><img src="https://avatars.githubusercontent.com/u/480334?s=52&v=4"/></a>
+<a href="https://github.com/Alexei000"><img src="https://avatars.githubusercontent.com/u/12892366?s=52&v=4" style="width:52px"/></a>
 <a href="https://github.com/mediaclip"><img src="https://avatars.githubusercontent.com/u/6798228?s=52&v=4"/></a>
-<a href="https://github.com/eNeRGy164"><img src="https://avatars.githubusercontent.com/u/10671831?s=52&v=4"/></a>
-<a href="https://github.com/rash127"><img src="https://avatars.githubusercontent.com/u/110633040?s=52&v=4"/></a>
-<a href="https://github.com/michaeldera"><img src="https://avatars.githubusercontent.com/u/12817839?s=52&v=4"/></a>
+<a href="https://github.com/DerAlbertCom"><img src="https://avatars.githubusercontent.com/u/136992?s=52&v=4"/></a>
+<a href="https://github.com/waywedo"><img src="https://avatars.githubusercontent.com/u/20328638?s=52&v=4"/></a>
 
