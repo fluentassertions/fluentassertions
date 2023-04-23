@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
@@ -49,6 +49,25 @@ public class ReferenceTypeAssertionsSpecs
             } because they are the same, but found 
             {
                 Name = "John Doe"
+            }.
+            """);
+    }
+
+    [Fact]
+    public void When_a_derived_class_has_longer_formatting_than_the_base_class()
+    {
+        var subject = new BBase[] { new Simple(), new Complex("goodbye") };
+        Action act = () => subject.Should().BeEmpty();
+        act.Should().Throw<XunitException>()
+            .WithMessage(
+            """
+            Expected subject to be empty, but found
+            {
+                Simple(Hello),
+                FluentAssertions.Specs.Primitives.Complex
+                {
+                    Statement = "goodbye"
+                }
             }.
             """);
     }
@@ -516,5 +535,23 @@ internal class ClassWithCustomEqualMethod
     public override string ToString()
     {
         return $"ClassWithCustomEqualMethod({Key})";
+    }
+}
+
+public abstract class BBase
+{ }
+
+public class Simple : BBase
+{
+    public override string ToString() => "Simple(Hello)";
+}
+
+public class Complex : BBase
+{
+    public string Statement { get; set; }
+
+    public Complex(string statement)
+    {
+        Statement = statement;
     }
 }
