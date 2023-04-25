@@ -37,7 +37,7 @@ public class TimeSpanValueFormatter : IValueFormatter
 
         List<string> fragments = GetNonZeroFragments(timeSpan);
 
-        if (!fragments.Any())
+        if (fragments.Count == 0)
         {
             formattedGraph.AddFragment("default");
         }

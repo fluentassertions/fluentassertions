@@ -117,7 +117,7 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
         KeyDifference<TSubjectKey, TExpectedKey> keyDifference = CalculateKeyDifference(subject, expectation);
 
         bool hasMissingKeys = keyDifference.MissingKeys.Count > 0;
-        bool hasAdditionalKeys = keyDifference.AdditionalKeys.Any();
+        bool hasAdditionalKeys = keyDifference.AdditionalKeys.Count != 0;
 
         return Execute.Assertion
             .WithExpectation("Expected {context:subject} to be a dictionary with {0} item(s){reason}, ", expectation.Count)

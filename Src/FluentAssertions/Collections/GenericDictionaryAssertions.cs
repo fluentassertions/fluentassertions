@@ -720,7 +720,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
             KeyValuePair<TKey, TValue>[] keyValuePairsNotSameOrEqualInSubject = expectedKeyValuePairs
                 .Where(keyValuePair => !areSameOrEqual(GetValue(Subject, keyValuePair.Key), keyValuePair.Value)).ToArray();
 
-            if (keyValuePairsNotSameOrEqualInSubject.Any())
+            if (keyValuePairsNotSameOrEqualInSubject.Length != 0)
             {
                 if (keyValuePairsNotSameOrEqualInSubject.Length > 1)
                 {
@@ -865,14 +865,14 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
             KeyValuePair<TKey, TValue>[] keyValuePairsFound =
                 keyValuePairs.Where(keyValuePair => ContainsKey(Subject, keyValuePair.Key)).ToArray();
 
-            if (keyValuePairsFound.Any())
+            if (keyValuePairsFound.Length != 0)
             {
                 Func<TValue, TValue, bool> areSameOrEqual = ObjectExtensions.GetComparer<TValue>();
 
                 KeyValuePair<TKey, TValue>[] keyValuePairsSameOrEqualInSubject = keyValuePairsFound
                     .Where(keyValuePair => areSameOrEqual(GetValue(Subject, keyValuePair.Key), keyValuePair.Value)).ToArray();
 
-                if (keyValuePairsSameOrEqualInSubject.Any())
+                if (keyValuePairsSameOrEqualInSubject.Length != 0)
                 {
                     if (keyValuePairsSameOrEqualInSubject.Length > 1)
                     {

@@ -212,7 +212,7 @@ public class ConstraintEquivalencyStep : EquivalencyStep<Constraint>
 
         var failureMessage = new StringBuilder();
 
-        if (missingColumnNames.Any())
+        if (missingColumnNames.Count != 0)
         {
             failureMessage.Append("Expected {context:constraint} to include ");
 
@@ -232,7 +232,7 @@ public class ConstraintEquivalencyStep : EquivalencyStep<Constraint>
                     : "these columns. ");
         }
 
-        if (extraColumnNames.Any())
+        if (extraColumnNames.Count != 0)
         {
             failureMessage.Append("Did not expect {context:constraint} to include ");
 

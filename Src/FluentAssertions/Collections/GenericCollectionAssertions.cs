@@ -896,7 +896,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
                 string[] failures = scope.Discard();
 
-                if (!failures.Any())
+                if (failures.Length == 0)
                 {
                     return new AndWhichConstraint<TAssertions, T>((TAssertions)this, actualItem);
                 }
@@ -1156,7 +1156,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             ICollection<T> actualItems = Subject.ConvertOrCastToCollection();
 
             Execute.Assertion
-                .ForCondition(actualItems.Any())
+                .ForCondition(actualItems.Count != 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(expectationPrefix + "but the collection is empty.", predicate);
 
@@ -2336,7 +2336,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
                     string[] failures = scope.Discard();
 
-                    if (!failures.Any())
+                    if (failures.Length == 0)
                     {
                         foundIndices.Add(index);
                     }
@@ -2786,7 +2786,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             .FailWith("but the collection is <null>.")
             .Then
             .Given(subject => subject.ConvertOrCastToCollection())
-            .ForCondition(collection => collection.Any())
+            .ForCondition(collection => collection.Count != 0)
             .FailWith("but the collection is empty.")
             .Then
             .Given(collection => collection.Where(item => !compiledPredicate(item)))
@@ -2943,7 +2943,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
                 failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
             }
 
-            if (failuresFromInspectors.Any())
+            if (failuresFromInspectors.Length != 0)
             {
                 string failureMessage = Environment.NewLine
                     + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
@@ -3031,7 +3031,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
                 failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
             }
 
-            if (failuresFromInspectors.Any())
+            if (failuresFromInspectors.Length != 0)
             {
                 string failureMessage = Environment.NewLine
                     + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
@@ -3114,7 +3114,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
                 List<MaximumMatching.Predicate<T>> unmatchedPredicates = maximumMatchingSolution.GetUnmatchedPredicates();
 
-                if (unmatchedPredicates.Any())
+                if (unmatchedPredicates.Count != 0)
                 {
                     message += doubleNewLine + "The following predicates did not have matching elements:";
 
@@ -3125,7 +3125,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
                 List<Element<T>> unmatchedElements = maximumMatchingSolution.GetUnmatchedElements();
 
-                if (unmatchedElements.Any())
+                if (unmatchedElements.Count != 0)
                 {
                     message += doubleNewLine + "The following elements did not match any predicate:";
 
