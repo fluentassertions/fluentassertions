@@ -315,6 +315,68 @@ public class FormatterSpecs
     }
 
     [Fact]
+    public void When_the_object_is_a_list_of_anonymous_type_it_should_show_the_properties_recursively_with_newlines_and_indentation()
+    {
+        // Arrange
+        var stuff = new[]
+        {
+            new
+            {
+                Description = "absent",
+            },
+            new
+            {
+                Description = "absent",
+            },
+        };
+
+        var expectedStuff = new[]
+        {
+            new
+            {
+                ComplexChildren = new[]
+                {
+                    new { Property = "hello" },
+                    new { Property = "goodbye" },
+                },
+            },
+        };
+
+        // Act
+        Action act = () => stuff.Should().BeEquivalentTo(expectedStuff);
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .And.Message.Should().StartWith(
+            """
+            Expected stuff to be a collection with 1 item(s), but 
+            {
+                {
+                    Description = "absent"
+                }, 
+                {
+                    Description = "absent"
+                }
+            }
+            contains 1 item(s) more than
+
+            {
+                {
+                    ComplexChildren = 
+                    {
+                        {
+                            Property = "hello"
+                        }, 
+                        {
+                            Property = "goodbye"
+                        }
+                    }
+                }
+            }.
+            """);
+    }
+
+    [Fact]
     public void When_the_object_is_an_empty_anonymous_type_it_should_show_braces_on_the_same_line()
     {
         // Arrange

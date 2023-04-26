@@ -79,9 +79,21 @@ public class FormattedObjectGraph
     /// </summary>
     internal void EnsureInitialNewLine()
     {
-        if (LineCount == 0 && lineBuilder.Length == 0)
+        if (LineCount == 0)
         {
-            AddLine(string.Empty);
+            InsertInitialNewLine();
+        }
+    }
+
+    /// <summary>
+    /// Inserts an empty line as the first line unless it is already.
+    /// </summary>
+    private void InsertInitialNewLine()
+    {
+        if (lines.Count == 0 || !string.IsNullOrEmpty(lines[0]))
+        {
+            lines.Insert(0, string.Empty);
+            lineBuilderWhitespace = Whitespace;
         }
     }
 
@@ -156,7 +168,7 @@ public class FormattedObjectGraph
     {
         private readonly FormattedObjectGraph parentGraph;
         private readonly int startingLineBuilderIndex;
-        private readonly int startingLineCount;
+        private int startingLineCount;
 
         public PossibleMultilineFragment(FormattedObjectGraph parentGraph)
         {
@@ -181,8 +193,9 @@ public class FormattedObjectGraph
             }
             else
             {
-                parentGraph.lines.Insert(startingLineCount, Environment.NewLine + fragment);
-                InsertAtStartOfLine(startingLineCount + 1, MakeWhitespace(1));
+                parentGraph.InsertInitialNewLine();
+                parentGraph.lines.Insert(startingLineCount + 1, parentGraph.Whitespace + fragment);
+                InsertAtStartOfLine(startingLineCount + 2, MakeWhitespace(1));
             }
         }
 
@@ -190,8 +203,36 @@ public class FormattedObjectGraph
 
         private void InsertAtStartOfLine(int lineIndex, string insertion)
         {
-            parentGraph.lines[lineIndex] = parentGraph.lines[lineIndex].Insert(0, insertion);
+            if (!parentGraph.lines[lineIndex].StartsWith(insertion, StringComparison.Ordinal))
+            {
+                parentGraph.lines[lineIndex] = parentGraph.lines[lineIndex].Insert(0, insertion);
+            }
         }
+
+        public void InsertLineOrFragment(string fragment)
+        {
+            if (FormatOnSingleLine)
+            {
+                parentGraph.lineBuilder.Insert(startingLineBuilderIndex, fragment);
+            }
+            else
+            {
+                parentGraph.lines[startingLineCount] = parentGraph.lines[startingLineCount]
+                    .Insert(startingLineBuilderIndex, InsertNewLineIntoFragment(fragment));
+            }
+        }
+
+        private string InsertNewLineIntoFragment(string fragment)
+        {
+            if (StartingLineHasBeenAddedTo())
+            {
+                return fragment + Environment.NewLine + MakeWhitespace(parentGraph.indentation + 1);
+            }
+
+            return fragment;
+        }
+
+        private bool StartingLineHasBeenAddedTo() => parentGraph.lines[startingLineCount].Length > startingLineBuilderIndex;
 
         /// <summary>
         /// If more lines have been added since this instance was created then write the

@@ -34,6 +34,7 @@ public class EnumerableValueFormatter : IValueFormatter
         using var iterator = new Iterator<object>(collection, MaxItems);
 
         var iteratorGraph = formattedGraph.KeepOnSingleLineAsLongAsPossible();
+        FormattedObjectGraph.PossibleMultilineFragment separatingCommaGraph = null;
 
         while (iterator.MoveNext())
         {
@@ -48,10 +49,8 @@ public class EnumerableValueFormatter : IValueFormatter
                 iteratorGraph.AddLineOrFragment(moreItemsMessage);
             }
 
-            if (iterator.IsFirst)
-            {
-                iteratorGraph.AddStartingLineOrFragment("{");
-            }
+            separatingCommaGraph?.InsertLineOrFragment(", ");
+            separatingCommaGraph = formattedGraph.KeepOnSingleLineAsLongAsPossible();
 
             // We cannot know whether or not the enumerable will take up more than one line of
             // output until we have formatted the first item. So we format the first item, then
@@ -59,11 +58,8 @@ public class EnumerableValueFormatter : IValueFormatter
             // on whether that first item was all on one line or not.
             if (iterator.IsLast)
             {
+                iteratorGraph.AddStartingLineOrFragment("{");
                 iteratorGraph.AddLineOrFragment("}");
-            }
-            else
-            {
-                iteratorGraph.AddEndingLineOrFragment(", ");
             }
         }
 
