@@ -245,7 +245,7 @@ public class ExtensibilitySpecs
         subject.Should().BeEquivalentTo(expectation,
             o => o
                 .Using<string>(c => c.Subject.Should().HaveLength(c.Expectation.Length))
-                .When(si => si.ParentType == expectation.GetType() && si.Path.EndsWith("Id", StringComparison.InvariantCulture)));
+                .When(si => si.ParentType == expectation.GetType() && si.Path.EndsWith("Id", StringComparison.Ordinal)));
     }
 
     [Fact]
