@@ -60,19 +60,19 @@ class Build : NukeBuild
     [GitRepository]
     readonly GitRepository GitRepository;
 
-    [PackageExecutable("nspec", "NSpecRunner.exe", Version = "3.1.0")]
+    [NuGetPackage("nspec", "NSpecRunner.exe", Version = "3.1.0")]
     Tool NSpec3;
 
 #if OS_WINDOWS
-    [PackageExecutable("Node.js.redist", "node.exe", Version = "16.17.1", Framework = "win-x64")]
+    [NuGetPackage("Node.js.redist", "node.exe", Version = "16.17.1", Framework = "win-x64")]
 #elif OS_MAC
-    [PackageExecutable("Node.js.redist", "node", Version = "16.17.1", Framework = "osx-x64")]
+    [NuGetPackage("Node.js.redist", "node", Version = "16.17.1", Framework = "osx-x64")]
 #else
-    [PackageExecutable("Node.js.redist", "node", Version = "16.17.1", Framework = "linux-x64")]
+    [NuGetPackage("Node.js.redist", "node", Version = "16.17.1", Framework = "linux-x64")]
 #endif
     Tool Node;
 
-    string YarnCli => $"{ToolPathResolver.GetPackageExecutable("Yarn.MSBuild", "yarn.js", "1.22.19")} --silent";
+    string YarnCli => $"{NuGetToolPathResolver.GetPackageExecutable("Yarn.MSBuild", "yarn.js", "1.22.19")}";
 
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
 
@@ -84,8 +84,8 @@ class Build : NukeBuild
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
-            EnsureCleanDirectory(ArtifactsDirectory);
-            EnsureCleanDirectory(TestResultsDirectory);
+            ArtifactsDirectory.CreateOrCleanDirectory();
+            TestResultsDirectory.CreateOrCleanDirectory();
         });
 
     Target CalculateNugetVersion => _ => _
@@ -171,8 +171,10 @@ class Build : NukeBuild
         .OnlyWhenDynamic(() => EnvironmentInfo.IsWin && (RunAllTargets || HasSourceChanges))
         .Executes(() =>
         {
-            IEnumerable<string> testAssemblies = Projects
-                    .SelectMany(project => GlobFiles(project.Directory, "bin/Debug/net47/*.Specs.dll"));
+            string[] testAssemblies = Projects
+                    .SelectMany(project => project.Directory.GlobFiles("bin/Debug/net47/*.Specs.dll"))
+                    .Select(_ => _.ToString())
+                    .ToArray();
 
             Assert.NotEmpty(testAssemblies.ToList());
 
@@ -248,7 +250,7 @@ class Build : NukeBuild
         .Executes(() =>
         {
             ReportGenerator(s => s
-                .SetProcessToolPath(ToolPathResolver.GetPackageExecutable("ReportGenerator", "ReportGenerator.dll", framework: "net6.0"))
+                .SetProcessToolPath(NuGetToolPathResolver .GetPackageExecutable("ReportGenerator", "ReportGenerator.dll", framework: "net6.0"))
                 .SetTargetDirectory(TestResultsDirectory / "reports")
                 .AddReports(TestResultsDirectory / "**/coverage.cobertura.xml")
                 .AddReportTypes(
@@ -299,7 +301,7 @@ class Build : NukeBuild
 
             if (EnvironmentInfo.IsWin)
             {
-                NSpec3(Solution.TestFrameworks.NSpec3_Net47_Specs.Directory / "bin" / "Debug" / "net47" / "NSpec3.Specs.dll");
+                NSpec3( $"{Solution.TestFrameworks.NSpec3_Net47_Specs.Directory / "bin" / "Debug" / "net47" / "NSpec3.Specs.dll"}");
             }
 
             ReportTestOutcome(projects.Select(p => $"*{p.Name}*.trx").ToArray());
@@ -334,9 +336,9 @@ class Build : NukeBuild
         .ProceedAfterFailure()
         .Executes(() =>
         {
-            IReadOnlyCollection<string> packages = GlobFiles(ArtifactsDirectory, "*.nupkg");
+            var packages = ArtifactsDirectory.GlobFiles("*.nupkg");
 
-            Assert.NotEmpty(packages.ToList());
+            Assert.NotEmpty(packages);
 
             DotNetNuGetPush(s => s
                 .SetApiKey(NuGetApiKey)
@@ -352,8 +354,8 @@ class Build : NukeBuild
         .ProceedAfterFailure()
         .Executes(() =>
         {
-            Node($"{YarnCli} install", workingDirectory: RootDirectory);
-            Node($"{YarnCli} run cspell", workingDirectory: RootDirectory,
+            Node($"{YarnCli} --silent install", workingDirectory: RootDirectory);
+            Node($"{YarnCli} --silent run cspell", workingDirectory: RootDirectory,
                 customLogger: (_, msg) => Error(msg));
         });
 
