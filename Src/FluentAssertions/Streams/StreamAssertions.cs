@@ -232,8 +232,9 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected the position of {context:stream} to be {0}{reason}, but it failed with:{1}{2}",
-                        expected, Environment.NewLine, exception.Message);
+                    .FailWith("Expected the position of {context:stream} to be {0}{reason}, but it failed with:"
+                                + Environment.NewLine + "{1}",
+                        expected, exception.Message);
 
                 return new AndConstraint<TAssertions>((TAssertions)this);
             }
@@ -280,8 +281,9 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected the position of {context:stream} not to be {0}{reason}, but it failed with:{1}{2}",
-                        unexpected, Environment.NewLine, exception.Message);
+                    .FailWith("Expected the position of {context:stream} not to be {0}{reason}, but it failed with:"
+                                + Environment.NewLine + "{1}",
+                        unexpected, exception.Message);
 
                 return new AndConstraint<TAssertions>((TAssertions)this);
             }
@@ -328,8 +330,9 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected the length of {context:stream} to be {0}{reason}, but it failed with:{1}{2}",
-                        expected, Environment.NewLine, exception.Message);
+                    .FailWith("Expected the length of {context:stream} to be {0}{reason}, but it failed with:"
+                                + Environment.NewLine + "{1}",
+                        expected, exception.Message);
 
                 return new AndConstraint<TAssertions>((TAssertions)this);
             }
@@ -376,8 +379,9 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected the length of {context:stream} not to be {0}{reason}, but it failed with:{1}{2}",
-                        unexpected, Environment.NewLine, exception.Message);
+                    .FailWith("Expected the length of {context:stream} not to be {0}{reason}, but it failed with:"
+                                + Environment.NewLine + "{1}",
+                        unexpected, exception.Message);
 
                 return new AndConstraint<TAssertions>((TAssertions)this);
             }
