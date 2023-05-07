@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 
@@ -34,7 +35,7 @@ public class DefaultValueFormatter : IValueFormatter
             return;
         }
 
-        if (HasDefaultToStringImplementation(value))
+        if (HasCompilerGeneratedToStringImplementation(value))
         {
             WriteTypeAndMemberValues(value, formattedGraph, formatChild);
         }
@@ -59,6 +60,13 @@ public class DefaultValueFormatter : IValueFormatter
         return type.GetNonPrivateMembers(MemberVisibility.Public);
     }
 
+    private static bool HasCompilerGeneratedToStringImplementation(object value)
+    {
+        Type type = value.GetType();
+
+        return HasDefaultToStringImplementation(value) || type.IsCompilerGenerated();
+    }
+
     private static bool HasDefaultToStringImplementation(object value)
     {
         string str = value.ToString();
@@ -69,10 +77,34 @@ public class DefaultValueFormatter : IValueFormatter
     private void WriteTypeAndMemberValues(object obj, FormattedObjectGraph formattedGraph, FormatChild formatChild)
     {
         Type type = obj.GetType();
-        formattedGraph.AddLine(TypeDisplayName(type));
-        formattedGraph.AddLine("{");
+        WriteTypeName(formattedGraph, type);
+        WriteTypeValue(obj, formattedGraph, formatChild, type);
+    }
 
+    private void WriteTypeName(FormattedObjectGraph formattedGraph, Type type)
+    {
+        var typeName = type.HasFriendlyName() ? TypeDisplayName(type) : string.Empty;
+        formattedGraph.AddFragment(typeName);
+    }
+
+    private void WriteTypeValue(object obj, FormattedObjectGraph formattedGraph, FormatChild formatChild, Type type)
+    {
         MemberInfo[] members = GetMembers(type);
+        if (members.Length == 0)
+        {
+            formattedGraph.AddFragment("{ }");
+        }
+        else
+        {
+            formattedGraph.EnsureInitialNewLine();
+            formattedGraph.AddLine("{");
+            WriteMemberValues(obj, members, formattedGraph, formatChild);
+            formattedGraph.AddFragmentOnNewLine("}");
+        }
+    }
+
+    private static void WriteMemberValues(object obj, MemberInfo[] members, FormattedObjectGraph formattedGraph, FormatChild formatChild)
+    {
         using var iterator = new Iterator<MemberInfo>(members.OrderBy(mi => mi.Name, StringComparer.Ordinal));
 
         while (iterator.MoveNext())
@@ -84,8 +116,6 @@ public class DefaultValueFormatter : IValueFormatter
                 formattedGraph.AddFragment(", ");
             }
         }
-
-        formattedGraph.AddFragmentOnNewLine("}");
     }
 
     /// <summary>

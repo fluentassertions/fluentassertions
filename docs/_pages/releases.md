@@ -22,6 +22,7 @@ sidebar:
 * The maximum depth `BeEquivalentTo` uses for recursive comparisons was 9 instead of the expected 10 - [#2145](https://github.com/fluentassertions/fluentassertions/pull/2145)
 * Fixed `.Excluding()` and `.For().Exclude()` not working if root is a collection - [#2135](https://github.com/fluentassertions/fluentassertions/pull/2135)
 * Prevent `InvalidOperationException` when formatting a lambda expression calling a constructor - [#2176](https://github.com/fluentassertions/fluentassertions/pull/2176)
+* Format records and anonymous objects with their member values instead of the generated `ToString` - [#2144](https://github.com/fluentassertions/fluentassertions/pull/2144)
 
 ## 6.10.0
 
