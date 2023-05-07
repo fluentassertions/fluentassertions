@@ -211,7 +211,7 @@ public class FormatterSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .And.Message.Should().Match(
+            .WithMessage(
             """
             Expected stuff to be equal to 
             {
@@ -256,7 +256,7 @@ public class FormatterSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .And.Message.Should().Be(
+            .Which.Message.Should().Be(
             """
             Expected stuff to be <null>, but found FluentAssertions.Specs.Formatting.FormatterSpecs+StuffRecord
             {
@@ -293,7 +293,7 @@ public class FormatterSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .And.Message.Should().Be(
+            .Which.Message.Should().Be(
             """
             Expected stuff to be 
             {
@@ -347,7 +347,7 @@ public class FormatterSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .And.Message.Should().StartWith(
+            .Which.Message.Should().StartWith(
             """
             Expected stuff to be a collection with 1 item(s), but 
             {
@@ -405,7 +405,7 @@ public class FormatterSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .And.Message.Should().Be(
+            .Which.Message.Should().Be(
             """
             Expected stuff to be equal to 
             {
@@ -441,7 +441,7 @@ public class FormatterSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .And.Message.Should().Be(
+            .Which.Message.Should().Be(
             """
             Expected stuff to be 
             {
