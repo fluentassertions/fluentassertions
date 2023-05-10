@@ -275,7 +275,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
         return Subject.Any(item =>
         {
             item.Should().Match(wildcardPattern);
-            return !scope.Discard().Any();
+            return scope.Discard().Length == 0;
         });
     }
 
@@ -285,7 +285,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
         {
             using var scope = new AssertionScope();
             item.Should().Match(wildcardPattern);
-            return !scope.Discard().Any();
+            return scope.Discard().Length == 0;
         });
     }
 
@@ -357,7 +357,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
         return Subject.All(item =>
         {
             item.Should().NotMatch(wildcardPattern);
-            return !scope.Discard().Any();
+            return scope.Discard().Length == 0;
         });
     }
 }

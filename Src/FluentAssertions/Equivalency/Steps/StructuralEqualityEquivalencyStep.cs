@@ -36,7 +36,7 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
         {
             IMember[] selectedMembers = GetMembersFromExpectation(context.CurrentNode, comparands, context.Options).ToArray();
 
-            if (context.CurrentNode.IsRoot && !selectedMembers.Any())
+            if (context.CurrentNode.IsRoot && selectedMembers.Length == 0)
             {
                 throw new InvalidOperationException(
                     "No members were found for comparison. " +

@@ -267,7 +267,7 @@ namespace FluentAssertions.Specs.Execution
 
             public void ThrowIfAny(IDictionary<string, object> context)
             {
-                if (failureMessages.Any())
+                if (failureMessages.Count > 0)
                 {
                     var builder = new StringBuilder();
                     builder.AppendJoin(Environment.NewLine, failureMessages).AppendLine();

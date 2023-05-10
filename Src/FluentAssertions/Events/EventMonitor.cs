@@ -89,7 +89,7 @@ internal sealed class EventMonitor<T> : IMonitor<T>
 
         EventInfo[] events = GetPublicEvents(typeDefiningEventsToMonitor);
 
-        if (!events.Any())
+        if (events.Length == 0)
         {
             throw new InvalidOperationException($"Type {typeDefiningEventsToMonitor.Name} does not expose any events.");
         }

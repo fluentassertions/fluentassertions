@@ -48,7 +48,7 @@ public class PropertyInfoSelectorAssertions
         PropertyInfo[] nonVirtualProperties = GetAllNonVirtualPropertiesFromSelection();
 
         Execute.Assertion
-            .ForCondition(!nonVirtualProperties.Any())
+            .ForCondition(nonVirtualProperties.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
                 "Expected all selected properties to be virtual{reason}, but the following properties are not virtual:" +
@@ -72,7 +72,7 @@ public class PropertyInfoSelectorAssertions
         PropertyInfo[] virtualProperties = GetAllVirtualPropertiesFromSelection();
 
         Execute.Assertion
-            .ForCondition(!virtualProperties.Any())
+            .ForCondition(virtualProperties.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
                 "Expected all selected properties not to be virtual{reason}, but the following properties are virtual:" +
@@ -96,7 +96,7 @@ public class PropertyInfoSelectorAssertions
         PropertyInfo[] readOnlyProperties = GetAllReadOnlyPropertiesFromSelection();
 
         Execute.Assertion
-            .ForCondition(!readOnlyProperties.Any())
+            .ForCondition(readOnlyProperties.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
                 "Expected all selected properties to have a setter{reason}, but the following properties do not:" +
@@ -120,7 +120,7 @@ public class PropertyInfoSelectorAssertions
         PropertyInfo[] writableProperties = GetAllWritablePropertiesFromSelection();
 
         Execute.Assertion
-            .ForCondition(!writableProperties.Any())
+            .ForCondition(writableProperties.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
                 "Expected selected properties to not have a setter{reason}, but the following properties do:" +
@@ -166,7 +166,7 @@ public class PropertyInfoSelectorAssertions
         PropertyInfo[] propertiesWithoutAttribute = GetPropertiesWithout<TAttribute>();
 
         Execute.Assertion
-            .ForCondition(!propertiesWithoutAttribute.Any())
+            .ForCondition(propertiesWithoutAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
                 "Expected all selected properties to be decorated with {0}{reason}" +
@@ -193,7 +193,7 @@ public class PropertyInfoSelectorAssertions
         PropertyInfo[] propertiesWithAttribute = GetPropertiesWith<TAttribute>();
 
         Execute.Assertion
-            .ForCondition(!propertiesWithAttribute.Any())
+            .ForCondition(propertiesWithAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
                 "Expected all selected properties not to be decorated with {0}{reason}" +

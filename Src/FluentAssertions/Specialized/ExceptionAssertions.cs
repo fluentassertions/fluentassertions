@@ -212,7 +212,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
             .Where(e => e?.GetType() == innerException).ToArray();
 
         Execute.Assertion
-            .ForCondition(expectedExceptions.Any())
+            .ForCondition(expectedExceptions.Length > 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected inner {0}{reason}, but found {1}.", innerException, SingleSubject.InnerException);
 
@@ -233,7 +233,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
             .ToArray();
 
         Execute.Assertion
-            .ForCondition(expectedInnerExceptions.Any())
+            .ForCondition(expectedInnerExceptions.Length > 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected inner {0}{reason}, but found {1}.", innerException, SingleSubject.InnerException);
 
