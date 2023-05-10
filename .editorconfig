@@ -152,6 +152,8 @@ dotnet_diagnostic.CA1724.severity = none
 dotnet_diagnostic.CA1819.severity = none
 # CA1851: Possible multiple enumerations of IEnumerable collection. Related to GH-issue #2000
 dotnet_diagnostic.CA1851.severity = suggestion
+# CA1860: Avoid using 'Enumerable.Any()' extension method
+dotnet_diagnostic.CA1860.severity = warning
 # CA2007: Do not directly await a Task
 dotnet_diagnostic.CA2007.severity = none
 # CA2225: Operator overloads have named alternates
@@ -160,6 +162,8 @@ dotnet_diagnostic.CA2225.severity = none
 dotnet_diagnostic.CA3075.severity = none
 # CA5369: Use XmlReader for Deserialize
 dotnet_diagnostic.CA5369.severity = none
+
+dotnet_diagnostic.CA1859.severity = none
 
 # Banned API Analyzers
 dotnet_diagnostic.RS0030.severity = error

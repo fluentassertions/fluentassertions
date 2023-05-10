@@ -330,7 +330,7 @@ public class TypeSelector : IEnumerable<Type>
                     .Select(ied => ied.GetGenericArguments().Single())
                     .ToList();
 
-                if (iEnumerableImplementations.Count != 0)
+                if (iEnumerableImplementations.Count > 0)
                 {
                     unwrappedTypes.AddRange(iEnumerableImplementations);
                 }

@@ -169,7 +169,7 @@ public sealed class AssertionScope : IAssertionScope
             {
                 string becauseOrEmpty = because ?? string.Empty;
 
-                return becauseArgs?.Length != 0
+                return becauseArgs?.Length > 0
                     ? string.Format(CultureInfo.InvariantCulture, becauseOrEmpty, becauseArgs)
                     : becauseOrEmpty;
             }
