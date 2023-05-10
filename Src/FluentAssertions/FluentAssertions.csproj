@@ -49,7 +49,7 @@
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2022.3.1" PrivateAssets="all" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-    <PackageReference Include="PolySharp" Version="1.12.1" PrivateAssets="all" />
+    <PackageReference Include="PolySharp" Version="1.13.1" PrivateAssets="all" />
     <None Include="..\FluentAssertions.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">

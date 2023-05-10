@@ -192,8 +192,9 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
         Execute.Assertion
             .ForCondition(condition(SingleSubject))
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected exception where {0}{reason}, but the condition was not met by:{1}{1}{2}.",
-                exceptionExpression, Environment.NewLine, Subject);
+            .FailWith("Expected exception where {0}{reason}, but the condition was not met by:"
+                        + Environment.NewLine + Environment.NewLine + "{1}.",
+                exceptionExpression, Subject);
 
         return this;
     }

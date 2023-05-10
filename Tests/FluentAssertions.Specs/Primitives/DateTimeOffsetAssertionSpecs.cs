@@ -14,7 +14,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_nullable_datetimeoffset_value_with_a_value_to_have_a_value_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04);
+            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04).ToDateTimeOffset();
 
             // Act
             Action action = () => nullableDateTime.Should().HaveValue();
@@ -57,7 +57,7 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_fail_when_asserting_nullable_datetimeoffset_value_with_a_value_to_not_have_a_value()
         {
             // Arrange
-            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04);
+            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04).ToDateTimeOffset();
 
             // Act
             Action action = () =>
@@ -74,7 +74,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_nullable_datetimeoffset_value_with_a_value_not_be_null_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04);
+            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04).ToDateTimeOffset();
 
             // Act
             Action action = () => nullableDateTime.Should().NotBeNull();
@@ -117,7 +117,7 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_fail_when_asserting_nullable_datetimeoffset_value_with_a_value_to_be_null()
         {
             // Arrange
-            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04);
+            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04).ToDateTimeOffset();
 
             // Act
             Action action = () =>
@@ -134,8 +134,8 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_succeed_when_asserting_datetimeoffset_value_is_equal_to_the_same_value()
         {
             // Arrange
-            DateTimeOffset dateTime = new DateTime(2016, 06, 04);
-            DateTimeOffset sameDateTime = new DateTime(2016, 06, 04);
+            DateTimeOffset dateTime = new DateTime(2016, 06, 04).ToDateTimeOffset();
+            DateTimeOffset sameDateTime = new DateTime(2016, 06, 04).ToDateTimeOffset();
 
             // Act
             Action act = () => dateTime.Should().Be(sameDateTime);
@@ -148,8 +148,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_datetimeoffset_value_is_equal_to_the_same_nullable_value_be_should_succeed()
         {
             // Arrange
-            DateTimeOffset dateTime = 4.June(2016);
-            DateTimeOffset? sameDateTime = 4.June(2016);
+            DateTimeOffset dateTime = 4.June(2016).ToDateTimeOffset();
+            DateTimeOffset? sameDateTime = 4.June(2016).ToDateTimeOffset();
 
             // Act
             Action act = () => dateTime.Should().Be(sameDateTime);
@@ -220,8 +220,8 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_succeed_when_asserting_nullable_datetimeoffset_value_equals_the_same_value()
         {
             // Arrange
-            DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04);
-            DateTimeOffset? nullableDateTimeB = new DateTime(2016, 06, 04);
+            DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04).ToDateTimeOffset();
+            DateTimeOffset? nullableDateTimeB = new DateTime(2016, 06, 04).ToDateTimeOffset();
 
             // Act
             Action action = () =>
@@ -246,8 +246,8 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_fail_when_asserting_nullable_datetimeoffset_value_equals_a_different_value()
         {
             // Arrange
-            DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04);
-            DateTimeOffset? nullableDateTimeB = new DateTime(2016, 06, 06);
+            DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04).ToDateTimeOffset();
+            DateTimeOffset? nullableDateTimeB = new DateTime(2016, 06, 06).ToDateTimeOffset();
 
             // Act
             Action action = () =>
@@ -313,8 +313,8 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_succeed_when_asserting_datetimeoffset_value_is_not_equal_to_a_different_value()
         {
             // Arrange
-            DateTimeOffset dateTime = new DateTime(2016, 06, 04);
-            DateTimeOffset otherDateTime = new DateTime(2016, 06, 05);
+            DateTimeOffset dateTime = new DateTime(2016, 06, 04).ToDateTimeOffset();
+            DateTimeOffset otherDateTime = new DateTime(2016, 06, 05).ToDateTimeOffset();
 
             // Act
             Action act = () => dateTime.Should().NotBe(otherDateTime);
@@ -327,8 +327,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_datetimeoffset_value_is_not_equal_to_a_nullable_different_value_notbe_should_succeed()
         {
             // Arrange
-            DateTimeOffset dateTime = 4.June(2016);
-            DateTimeOffset? otherDateTime = 5.June(2016);
+            DateTimeOffset dateTime = 4.June(2016).ToDateTimeOffset();
+            DateTimeOffset? otherDateTime = 5.June(2016).ToDateTimeOffset();
 
             // Act
             Action act = () => dateTime.Should().NotBe(otherDateTime);
@@ -390,8 +390,8 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_succeed_when_asserting_value_is_exactly_equal_to_the_same_value()
         {
             // Arrange
-            DateTimeOffset dateTime = new DateTime(2016, 06, 04);
-            DateTimeOffset sameDateTime = new DateTime(2016, 06, 04);
+            DateTimeOffset dateTime = new DateTime(2016, 06, 04).ToDateTimeOffset();
+            DateTimeOffset sameDateTime = new DateTime(2016, 06, 04).ToDateTimeOffset();
 
             // Act / Assert
             dateTime.Should().BeExactly(sameDateTime);
@@ -401,8 +401,8 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_succeed_when_asserting_value_is_exactly_equal_to_the_same_nullable_value()
         {
             // Arrange
-            DateTimeOffset dateTime = 4.June(2016);
-            DateTimeOffset? sameDateTime = 4.June(2016);
+            DateTimeOffset dateTime = 4.June(2016).ToDateTimeOffset();
+            DateTimeOffset? sameDateTime = 4.June(2016).ToDateTimeOffset();
 
             // Act / Assert
             dateTime.Should().BeExactly(sameDateTime);
@@ -442,8 +442,8 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_succeed_when_asserting_nullable_value_is_exactly_equal_to_the_same_nullable_value()
         {
             // Arrange
-            DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04);
-            DateTimeOffset? nullableDateTimeB = new DateTime(2016, 06, 04);
+            DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04).ToDateTimeOffset();
+            DateTimeOffset? nullableDateTimeB = new DateTime(2016, 06, 04).ToDateTimeOffset();
 
             // Act / Assert
             nullableDateTimeA.Should().BeExactly(nullableDateTimeB);
@@ -464,8 +464,8 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_fail_when_asserting_nullable_value_exactly_equals_a_different_value()
         {
             // Arrange
-            DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04);
-            DateTimeOffset? nullableDateTimeB = new DateTime(2016, 06, 06);
+            DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04).ToDateTimeOffset();
+            DateTimeOffset? nullableDateTimeB = new DateTime(2016, 06, 06).ToDateTimeOffset();
 
             // Act
             Action action = () =>
@@ -2490,8 +2490,8 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_support_chaining_constraints_with_and()
         {
             // Arrange
-            DateTimeOffset yesterday = new DateTime(2016, 06, 03);
-            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04);
+            DateTimeOffset yesterday = new DateTime(2016, 06, 03).ToDateTimeOffset();
+            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04).ToDateTimeOffset();
 
             // Act
             Action action = () =>

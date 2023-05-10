@@ -10,10 +10,6 @@ namespace FluentAssertions.Equivalency.Steps;
 public class GenericDictionaryEquivalencyStep : IEquivalencyStep
 {
 #pragma warning disable SA1110 // Allow opening parenthesis on new line to reduce line length
-    private static readonly MethodInfo AssertSameLengthMethod =
-        new Func<IDictionary<object, object>, IDictionary<object, object>, bool>(AssertSameLength).GetMethodInfo()
-            .GetGenericMethodDefinition();
-
     private static readonly MethodInfo AssertDictionaryEquivalenceMethod =
         new Action<EquivalencyValidationContext, IEquivalencyValidator, IEquivalencyAssertionOptions,
                 IDictionary<object, object>, IDictionary<object, object>>
@@ -26,33 +22,19 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
         if (comparands.Expectation != null)
         {
             Type expectationType = comparands.GetExpectedType(context.Options);
-            bool isDictionary = DictionaryInterfaceInfo.TryGetFrom(expectationType, "expectation", out var expectedDictionary);
-
-            if (isDictionary)
+            if (DictionaryInterfaceInfo.FindFrom(expectationType, "expectation") is { } expectedDictionary)
             {
-                Handle(comparands, expectedDictionary, context, nestedValidator);
+                if (AssertSubjectIsNotNull(comparands.Subject)
+                    && EnsureSubjectIsDictionary(comparands, expectedDictionary) is { } actualDictionary)
+                {
+                    AssertDictionaryEquivalence(comparands, context, nestedValidator, actualDictionary, expectedDictionary);
+                }
 
                 return EquivalencyResult.AssertionCompleted;
             }
         }
 
         return EquivalencyResult.ContinueWithNext;
-    }
-
-    private static void Handle(Comparands comparands, DictionaryInterfaceInfo expectedDictionary,
-        IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
-    {
-        if (AssertSubjectIsNotNull(comparands.Subject)
-            && AssertExpectationIsNotNull(comparands.Subject, comparands.Expectation))
-        {
-            var (isDictionary, actualDictionary) = EnsureSubjectIsDictionary(comparands, expectedDictionary);
-
-            if (isDictionary && AssertSameLength(comparands, actualDictionary, expectedDictionary))
-            {
-                AssertDictionaryEquivalence(comparands, context, nestedValidator, actualDictionary, expectedDictionary);
-            }
-        }
     }
 
     private static bool AssertSubjectIsNotNull(object subject)
@@ -62,51 +44,29 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
             .FailWith("Expected {context:Subject} not to be {0}{reason}.", new object[] { null });
     }
 
-    private static bool AssertExpectationIsNotNull(object subject, object expectation)
-    {
-        return AssertionScope.Current
-            .ForCondition(expectation is not null)
-            .FailWith("Expected {context:Subject} to be {0}{reason}, but found {1}.", null, subject);
-    }
-
-    private static (bool isDictionary, DictionaryInterfaceInfo info) EnsureSubjectIsDictionary(Comparands comparands,
+    private static DictionaryInterfaceInfo EnsureSubjectIsDictionary(Comparands comparands,
         DictionaryInterfaceInfo expectedDictionary)
     {
-        bool isDictionary = DictionaryInterfaceInfo.TryGetFromWithKey(comparands.Subject.GetType(), "subject",
-            expectedDictionary.Key, out var actualDictionary);
+        var actualDictionary = DictionaryInterfaceInfo.FindFromWithKey(comparands.Subject.GetType(), "subject",
+            expectedDictionary.Key);
 
-        if (!isDictionary && expectedDictionary.TryConvertFrom(comparands.Subject, out var convertedSubject))
+        if (actualDictionary is null && expectedDictionary.ConvertFrom(comparands.Subject) is { } convertedSubject)
         {
             comparands.Subject = convertedSubject;
-            isDictionary = DictionaryInterfaceInfo.TryGetFrom(comparands.Subject.GetType(), "subject", out actualDictionary);
+            actualDictionary = DictionaryInterfaceInfo.FindFrom(comparands.Subject.GetType(), "subject");
         }
 
-        if (!isDictionary)
+        if (actualDictionary is null)
         {
             AssertionScope.Current.FailWith(
                 $"Expected {{context:subject}} to be a dictionary or collection of key-value pairs that is keyed to type {expectedDictionary.Key}. " +
                 $"It implements {actualDictionary}.");
         }
 
-        return (isDictionary, actualDictionary);
+        return actualDictionary;
     }
 
-    private static bool AssertSameLength(Comparands comparands, DictionaryInterfaceInfo actualDictionary,
-        DictionaryInterfaceInfo expectedDictionary)
-    {
-        if (comparands.Subject is ICollection subjectCollection
-            && comparands.Expectation is ICollection expectationCollection
-            && subjectCollection.Count == expectationCollection.Count)
-        {
-            return true;
-        }
-
-        return (bool)AssertSameLengthMethod
-            .MakeGenericMethod(actualDictionary.Key, actualDictionary.Value, expectedDictionary.Key, expectedDictionary.Value)
-            .Invoke(null, new[] { comparands.Subject, comparands.Expectation });
-    }
-
-    private static bool AssertSameLength<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(
+    private static void FailWithLengthDifference<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(
             IDictionary<TSubjectKey, TSubjectValue> subject, IDictionary<TExpectedKey, TExpectedValue> expectation)
 
         // Type constraint of TExpectedKey is asymmetric in regards to TSubjectKey
@@ -119,7 +79,7 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
         bool hasMissingKeys = keyDifference.MissingKeys.Count > 0;
         bool hasAdditionalKeys = keyDifference.AdditionalKeys.Count > 0;
 
-        return Execute.Assertion
+        Execute.Assertion
             .WithExpectation("Expected {context:subject} to be a dictionary with {0} item(s){reason}, ", expectation.Count)
             .ForCondition(!hasMissingKeys || hasAdditionalKeys)
             .FailWith("but it misses key(s) {0}", keyDifference.MissingKeys)
@@ -183,31 +143,38 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
         IDictionary<TExpectedKey, TExpectedValue> expectation)
         where TExpectedKey : TSubjectKey
     {
-        foreach (TExpectedKey key in expectation.Keys)
+        if (subject.Count != expectation.Count)
         {
-            if (subject.TryGetValue(key, out TSubjectValue subjectValue))
+            FailWithLengthDifference(subject, expectation);
+        }
+        else
+        {
+            foreach (TExpectedKey key in expectation.Keys)
             {
-                if (options.IsRecursive)
+                if (subject.TryGetValue(key, out TSubjectValue subjectValue))
                 {
-                    // Run the child assertion without affecting the current context
-                    using (new AssertionScope())
+                    if (options.IsRecursive)
                     {
-                        var nestedComparands = new Comparands(subject[key], expectation[key], typeof(TExpectedValue));
+                        // Run the child assertion without affecting the current context
+                        using (new AssertionScope())
+                        {
+                            var nestedComparands = new Comparands(subject[key], expectation[key], typeof(TExpectedValue));
 
-                        parent.RecursivelyAssertEquality(nestedComparands,
-                            context.AsDictionaryItem<TExpectedKey, TExpectedValue>(key));
+                            parent.RecursivelyAssertEquality(nestedComparands,
+                                context.AsDictionaryItem<TExpectedKey, TExpectedValue>(key));
+                        }
+                    }
+                    else
+                    {
+                        subjectValue.Should().Be(expectation[key], context.Reason.FormattedMessage, context.Reason.Arguments);
                     }
                 }
                 else
                 {
-                    subjectValue.Should().Be(expectation[key], context.Reason.FormattedMessage, context.Reason.Arguments);
+                    AssertionScope.Current
+                        .BecauseOf(context.Reason)
+                        .FailWith("Expected {context:subject} to contain key {0}{reason}.", key);
                 }
-            }
-            else
-            {
-                AssertionScope.Current
-                    .BecauseOf(context.Reason)
-                    .FailWith("Expected {context:subject} to contain key {0}{reason}.", key);
             }
         }
     }
