@@ -18,7 +18,7 @@ jobs:
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@main
         with:
-          upload-result: false
+          upload-result: ${{ github.ref_name == 'master' || github.ref_name == 'develop' }}
           args: --baseline,qodana.sarif.json
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
