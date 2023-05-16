@@ -260,6 +260,85 @@ public class AssemblyAssertionSpecs
             act.Should().NotThrow();
         }
     }
+
+    public class BeUnsigned
+    {
+        [Fact]
+        public void Guards_for_unsigned_assembly()
+        {
+            // Arrange
+            var assembly = typeof(AssemblyA.ClassA).Assembly;
+
+            // Act
+            Action act = () => assembly.Should().BeUnsigned();
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void Throws_for_signed_assemblies()
+        {
+            // Arrange
+            var assembly = GetType().Assembly;
+
+            // Act
+            Action act = () => assembly.Should().BeUnsigned();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected assembly * to be unsigned, but it is.");
+        }
+    }
+
+    public class HavePublicKey
+    {
+        [Fact]
+        public void Guards_for_signed_assembly_with_expected_public_key()
+        {
+            // Arrange
+            var assembly = GetType().Assembly;
+
+            // Act
+            Action act = () => assembly.Should().HavePublicKey(
+                "0024000004800000940000000602000000240000525341310004000001000100" +
+                "2d25ff515c85b13ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f" +
+                "970d2a4874932fed35db546e89af2da88c194bf1b7f7ac70de7988c78406f762" +
+                "9c547283061282a825616eb7eb48a9514a7570942936020a9bb37dca9ff60b77" +
+                "8309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f");
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void Throws_for_unsigned_assembly()
+        {
+            // Arrange
+            var assembly = typeof(AssemblyA.ClassA).Assembly;
+
+            // Act
+            Action act = () => assembly.Should().HavePublicKey("0024000004800000940000000602000000240000525341310004000001000100");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected assembly * to have public key *, but it unsigned.");
+        }
+
+        [Fact]
+        public void Throws_for_differently_signed_assembly()
+        {
+            // Arrange
+            var assembly = GetType().Assembly;
+
+            // Act
+            Action act = () => assembly.Should().HavePublicKey("0024000004800000940000000602000000240000525341310004000001000100");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected assembly * to have public key *, but it has * instead.");
+        }
+    }
 }
 
 [DummyClass("name", true)]

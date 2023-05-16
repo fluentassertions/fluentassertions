@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
+using System.Xml.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
@@ -99,7 +101,7 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
     }
 
     /// <summary>
-    /// Asserts that the Assembly defines a type called <paramref name="namespace"/> and <paramref name="name"/>.
+    /// Asserts that the assembly defines a type called <paramref name="namespace"/> and <paramref name="name"/>.
     /// </summary>
     /// <param name="namespace">The namespace of the class.</param>
     /// <param name="name">The name of the class.</param>
@@ -137,6 +139,56 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
         }
 
         return new AndWhichConstraint<AssemblyAssertions, Type>(this, foundType);
+    }
+
+    /// <summary>Asserts that the assembly is unsigned.</summary>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+    /// </param>
+    public AndConstraint<AssemblyAssertions> BeUnsigned(string because = "", params object[] becauseArgs)
+    {
+        Execute.Assertion
+        .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject.GetName().GetPublicKey() is null)
+            .FailWith(
+                "Expected assembly {0} to be unsigned{reason}, but it is.", Subject.FullName);
+
+        return new(this);
+    }
+
+    /// <summary>Asserts that the assembly has the specified public key.</summary>
+    /// <param name="publicKey">
+    /// The base-16 string representation of the public key.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="publicKey"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="publicKey"/> is empty.</exception>
+    public AndConstraint<AssemblyAssertions> HavePublicKey(string publicKey, string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNullOrEmpty(publicKey);
+
+        var bytes = Subject.GetName().GetPublicKey() ?? Array.Empty<byte>();
+        var assemblyKey = BitConverter.ToString(bytes).Replace("-", string.Empty);
+
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(assemblyKey == publicKey)
+            .FailWith(
+                "Expected assembly {0} to have public key {1}{because}, " +
+                "but it has {2} instead.",
+                Subject.FullName, publicKey, assemblyKey);
+
+        return new(this);
     }
 
     /// <summary>
