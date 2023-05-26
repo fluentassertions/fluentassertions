@@ -152,8 +152,8 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
     public AndConstraint<AssemblyAssertions> BeUnsigned(string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
-        .BecauseOf(because, becauseArgs)
-            .ForCondition(Subject.GetName().GetPublicKey() is null)
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject.GetName().GetPublicKey() is not { Length: > 0 })
             .FailWith(
                 "Expected assembly {0} to be unsigned{reason}, but it is.", Subject.FullName);
 

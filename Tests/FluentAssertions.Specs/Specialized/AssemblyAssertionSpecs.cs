@@ -267,7 +267,7 @@ public class AssemblyAssertionSpecs
         public void Guards_for_unsigned_assembly()
         {
             // Arrange
-            var assembly = typeof(AssemblyA.ClassA).Assembly;
+            var assembly = typeof(UnsignedAssembly.Class).Assembly;
 
             // Act & Assert
             assembly.Should().BeUnsigned();
@@ -309,7 +309,7 @@ public class AssemblyAssertionSpecs
         public void Throws_for_unsigned_assembly()
         {
             // Arrange
-            var assembly = typeof(AssemblyA.ClassA).Assembly;
+            var assembly = typeof(UnsignedAssembly.Class).Assembly;
 
             // Act
             Action act = () => assembly.Should().HavePublicKey("0024000004800000940000000602000000240000525341310004000001000100");
