@@ -294,15 +294,15 @@ public class AssemblyAssertionSpecs
         public void Guards_for_signed_assembly_with_expected_public_key()
         {
             // Arrange
-            var assembly = GetType().Assembly;
+            var assembly = typeof(AssertionOptions).Assembly;
 
             // Act & Assert
             assembly.Should().HavePublicKey(
                 "0024000004800000940000000602000000240000525341310004000001000100" +
-                "2d25ff515c85b13ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f" +
-                "970d2a4874932fed35db546e89af2da88c194bf1b7f7ac70de7988c78406f762" +
-                "9c547283061282a825616eb7eb48a9514a7570942936020a9bb37dca9ff60b77" +
-                "8309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f");
+                "2D25FF515C85B13BA08F61D466CFF5D80A7F28BA197BBF8796085213E7A3406F" +
+                "970D2A4874932FED35DB546E89AF2DA88C194BF1B7F7AC70DE7988C78406F762" +
+                "9C547283061282A825616EB7EB48A9514A7570942936020A9BB37DCA9FF60B77" +
+                "8309900851575614491C6D25018FADB75828F4C7A17BF2D7DC86E7B6EAFC5D8F");
         }
 
         [Fact]
@@ -323,7 +323,7 @@ public class AssemblyAssertionSpecs
         public void Throws_signed_assembly_with_different_public_key()
         {
             // Arrange
-            var assembly = GetType().Assembly;
+            var assembly = typeof(AssertionOptions).Assembly;
 
             // Act
             Action act = () => assembly.Should().HavePublicKey("0024000004800000940000000602000000240000525341310004000001000100");

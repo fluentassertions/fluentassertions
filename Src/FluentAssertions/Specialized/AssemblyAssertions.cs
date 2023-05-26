@@ -177,8 +177,16 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
     {
         Guard.ThrowIfArgumentIsNullOrEmpty(publicKey);
 
-        var bytes = Subject.GetName().GetPublicKey() ?? Array.Empty<byte>();
+        var bytes = Subject.GetName().GetPublicKey();
         var assemblyKey = BitConverter.ToString(bytes).Replace("-", string.Empty, StringComparison.Ordinal);
+
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(bytes.Length != 0)
+            .FailWith(
+                "Expected assembly {0} to have public key {1}{because}, " +
+                "but it unsigned.",
+                Subject.FullName, publicKey);
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
