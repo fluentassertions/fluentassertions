@@ -178,7 +178,7 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
         Guard.ThrowIfArgumentIsNullOrEmpty(publicKey);
 
         var bytes = Subject.GetName().GetPublicKey() ?? Array.Empty<byte>();
-        var assemblyKey = BitConverter.ToString(bytes).Replace("-", string.Empty);
+        var assemblyKey = BitConverter.ToString(bytes).Replace("-", string.Empty, StringComparison.Ordinal);
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
