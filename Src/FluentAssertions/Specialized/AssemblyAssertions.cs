@@ -182,19 +182,17 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected assembly {0} to have public key {1}{because}, ", Subject.FullName, publicKey)
+            .ForCondition(bytes is not null)
+            .FailWith("but public key's bytes are null.")
+            .Then
             .ForCondition(bytes.Length != 0)
-            .FailWith(
-                "Expected assembly {0} to have public key {1}{because}, " +
-                "but it unsigned.",
-                Subject.FullName, publicKey);
-
-        Execute.Assertion
-            .BecauseOf(because, becauseArgs)
+            .FailWith("but it unsigned.")
+            .Then
             .ForCondition(assemblyKey == publicKey)
-            .FailWith(
-                "Expected assembly {0} to have public key {1}{because}, " +
-                "but it has {2} instead.",
-                Subject.FullName, publicKey, assemblyKey);
+            .FailWith("but it has {0} instead.", assemblyKey)
+            .Then
+            .ClearExpectation();
 
         return new(this);
     }
