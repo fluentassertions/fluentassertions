@@ -284,7 +284,7 @@ public class AssemblyAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected assembly * to be unsigned, but it is.");
+                .WithMessage("Did not expect the assembly * to be signed, but it is.");
         }
     }
 

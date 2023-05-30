@@ -155,7 +155,7 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject.GetName().GetPublicKey() is not { Length: > 0 })
             .FailWith(
-                "Expected assembly {0} to be unsigned{reason}, but it is.", Subject.FullName);
+                "Did not expect the assembly {0} to be signed{reason}, but it is.", Subject.FullName);
 
         return new(this);
     }
