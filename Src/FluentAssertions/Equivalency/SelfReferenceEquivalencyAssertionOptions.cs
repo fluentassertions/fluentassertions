@@ -414,8 +414,12 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     }
 
     /// <summary>
-    /// Causes the structural equality check to include nested collections and complex types.
+    /// Causes the structural equality comparison to recursively traverse the object graph and compare the fields and
+    /// properties of any nested objects and objects in collections.
     /// </summary>
+    /// <remarks>
+    /// This is the default behavior. You can override this using <see cref="ExcludingNestedObjects"/>.
+    /// </remarks>
     public TSelf IncludingNestedObjects()
     {
         isRecursive = true;
@@ -423,10 +427,11 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     }
 
     /// <summary>
-    /// Causes the structural equality check to exclude nested collections and complex types.
+    /// Stops the structural equality check from recursively comparing the members any nested objects.
     /// </summary>
     /// <remarks>
-    /// Behaves similarly to the old property assertions API.
+    /// If a property or field points to a complex type or collection, a simple <see cref="object.Equals(object)"/> call will
+    /// be done instead of recursively looking at the properties or fields of the nested object.
     /// </remarks>
     public TSelf ExcludingNestedObjects()
     {
