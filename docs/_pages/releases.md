@@ -9,6 +9,9 @@ sidebar:
 
 ## Unreleased
 
+### Fixes
+* `because` and `becauseArgs` were not included in the error message when collections of enums were not equivalent - [#2214](https://github.com/fluentassertions/fluentassertions/pull/2214)
+
 ## 6.11.0
 
 ### What's new
