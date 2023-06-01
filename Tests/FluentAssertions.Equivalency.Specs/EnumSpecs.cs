@@ -68,6 +68,54 @@ public class EnumSpecs
     }
 
     [Fact]
+    public void Comparing_collections_of_enums_by_value_includes_custom_message()
+    {
+        // Arrange
+        var subject = new[] { EnumOne.One };
+        var expectation = new[] { EnumOne.Two };
+
+        // Act
+        Action act = () => subject.Should().BeEquivalentTo(expectation, "some {0}", "reason");
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("Expected *EnumOne.Two {value: 3}*some reason*but*EnumOne.One {value: 0}*");
+    }
+
+    [Fact]
+    public void Comparing_collections_of_enums_by_name_includes_custom_message()
+    {
+        // Arrange
+        var subject = new[] { EnumOne.Two };
+        var expectation = new[] { EnumFour.Three };
+
+        // Act
+        Action act = () => subject.Should().BeEquivalentTo(expectation, config => config.ComparingEnumsByName(),
+            "some {0}", "reason");
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("Expected*to equal EnumFour.Three {value: 3} by name*some reason*but found EnumOne.Two {value: 3}*");
+    }
+
+    [Fact]
+    public void Comparing_collections_of_numerics_with_collections_of_enums_includes_custom_message()
+    {
+        // Arrange
+        var actual = new[] { 1 };
+
+        var expected = new[] { TestEnum.First };
+
+        // Act
+        Action act = () => actual.Should().BeEquivalentTo(expected, options => options.ComparingEnumsByValue(),
+            "some {0}", "reason");
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("*some reason*");
+    }
+
+    [Fact]
     public void When_asserting_members_from_different_enum_types_are_equivalent_it_should_compare_by_value_by_default()
     {
         // Arrange
