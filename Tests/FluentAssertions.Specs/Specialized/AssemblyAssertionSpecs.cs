@@ -270,7 +270,7 @@ public class AssemblyAssertionSpecs
             var unsignedAssembly = FindAssembly.Stub();
 
             // Act & Assert
-            unsignedAssembly.Should().BeUnsigned();
+            unsignedAssembly.Should().NotHavePublicKey();
         }
 
         [Fact]
@@ -280,7 +280,7 @@ public class AssemblyAssertionSpecs
             var signedAssembly = FindAssembly.Stub("0123456789ABCEF007");
 
             // Act
-            Action act = () => signedAssembly.Should().BeUnsigned();
+            Action act = () => signedAssembly.Should().NotHavePublicKey();
 
             // Assert
             act.Should().Throw<XunitException>()
