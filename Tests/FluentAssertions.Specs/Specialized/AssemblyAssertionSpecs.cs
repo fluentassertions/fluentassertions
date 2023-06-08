@@ -267,7 +267,7 @@ public class AssemblyAssertionSpecs
         public void Guards_for_unsigned_assembly()
         {
             // Arrange
-            var unsignedAssembly = typeof(UnsignedAssembly.Class).Assembly;
+            var unsignedAssembly = FindAssembly.Stub();
 
             // Act & Assert
             unsignedAssembly.Should().BeUnsigned();
@@ -277,7 +277,7 @@ public class AssemblyAssertionSpecs
         public void Throws_for_signed_assembly()
         {
             // Arrange
-            var signedAssembly = typeof(AssertionOptions).Assembly;
+            var signedAssembly = FindAssembly.Stub("0123456789ABCEF007");
 
             // Act
             Action act = () => signedAssembly.Should().BeUnsigned();
@@ -290,29 +290,27 @@ public class AssemblyAssertionSpecs
 
     public class HavePublicKey
     {
-        [Fact]
-        public void Guards_for_signed_assembly_with_expected_public_key()
+        [Theory]
+        [InlineData("0123456789ABCEF007")]
+        [InlineData("0123456789abcef007")]
+        [InlineData("0123456789ABcef007")]
+        public void Guards_for_signed_assembly_with_expected_public_key(string publicKey)
         {
             // Arrange
-            var signedAssembly = typeof(AssertionOptions).Assembly;
+            var signedAssembly = FindAssembly.Stub("0123456789ABCEF007");
 
             // Act & Assert
-            signedAssembly.Should().HavePublicKey(
-                "0024000004800000940000000602000000240000525341310004000001000100" +
-                "2D25FF515C85B13BA08F61D466CFF5D80A7F28BA197BBF8796085213E7A3406F" +
-                "970D2A4874932FED35DB546E89AF2DA88C194BF1B7F7AC70DE7988C78406F762" +
-                "9C547283061282A825616EB7EB48A9514A7570942936020A9BB37DCA9FF60B77" +
-                "8309900851575614491C6D25018FADB75828F4C7A17BF2D7DC86E7B6EAFC5D8F");
+            signedAssembly.Should().HavePublicKey(publicKey);
         }
 
         [Fact]
         public void Throws_for_unsigned_assembly()
         {
             // Arrange
-            var unsignedAssembly = typeof(UnsignedAssembly.Class).Assembly;
+            var unsignedAssembly = FindAssembly.Stub();
 
             // Act
-            Action act = () => unsignedAssembly.Should().HavePublicKey("0024000004800000940000000602000000240000525341310004000001000100");
+            Action act = () => unsignedAssembly.Should().HavePublicKey("1234");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -323,10 +321,10 @@ public class AssemblyAssertionSpecs
         public void Throws_signed_assembly_with_different_public_key()
         {
             // Arrange
-            var signedAssembly = typeof(AssertionOptions).Assembly;
+            var signedAssembly = FindAssembly.Stub("0123456789ABCEF007");
 
             // Act
-            Action act = () => signedAssembly.Should().HavePublicKey("0024000004800000940000000602000000240000525341310004000001000100");
+            Action act = () => signedAssembly.Should().HavePublicKey("1234");
 
             // Assert
             act.Should().Throw<XunitException>()
