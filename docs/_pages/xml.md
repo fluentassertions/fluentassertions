@@ -21,6 +21,9 @@ xElement.Should().HaveElement("address");
 xElement.Should().HaveElementWithNamespace("address", "http://www.example.com/2012/test");
 
 xElement.Should().HaveInnerText("some textanother textmore text");
+
+xElement.Should().HaveElement("settings", Exactly.Once());
+xElement.Should().HaveElement("settings", AtLeast.Twice());
 ```
 
 Those two last assertions also support `XName` parameters:
