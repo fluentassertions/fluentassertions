@@ -924,17 +924,13 @@ namespace Internal.ValueTypesAndNotValueTypes.Test
     {
     }
 
-    internal record struct InternalRecordStructValueType
-    {
-    }
+    internal record struct InternalRecordStructValueType;
 
     internal class InternalClassNotValueType
     {
     }
 
-    internal record class InternalRecordClass
-    {
-    }
+    internal record class InternalRecordClass;
 
     internal enum InternalEnumValueType
     {
