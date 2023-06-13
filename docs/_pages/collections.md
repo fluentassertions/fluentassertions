@@ -99,7 +99,7 @@ collection.Should().NotBeInDescendingOrder();
 ```
 
 Since **6.9.0** there is a slight change in how culture is taken into comparison. Now by default `StringComparer.Ordinal` is used to compare strings.
-If you want to overrule this behaviour use the `IComparer<T>` overload. The use case is e.g. if you get data from a database ordered by culture aware sort order.
+If you want to overrule this behavior use the `IComparer<T>` overload. The use case is e.g. if you get data from a database ordered by culture aware sort order.
 
 ```csharp
 collection.Should().BeInAscendingOrder(item => item.SomeProp, StringComparer.CurrentCulture);
