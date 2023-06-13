@@ -13,7 +13,7 @@ public class EnumerableValueFormatter : IValueFormatter
     /// The number of items to include when formatting this object.
     /// </summary>
     /// <remarks>The default value is 32.</remarks>
-    protected virtual int MaxItems { get; } = 32;
+    protected virtual int MaxItems => 32;
 
     /// <summary>
     /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.

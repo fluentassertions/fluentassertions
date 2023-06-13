@@ -12,7 +12,7 @@ public class DefaultValueFormatter : IValueFormatter
     /// The number of spaces to indent the members of this object by.
     /// </summary>
     /// <remarks>The default value is 3.</remarks>
-    protected virtual int SpacesPerIndentionLevel { get; } = 3;
+    protected virtual int SpacesPerIndentionLevel => 3;
 
     /// <summary>
     /// Determines whether this instance can handle the specified value.
