@@ -98,6 +98,16 @@ collection.Should().NotBeInAscendingOrder();
 collection.Should().NotBeInDescendingOrder();
 ```
 
+Since **6.9.0** there is a slight change in how culture is taken into comparison. Now by default `StringComparer.Ordinal` is used to compare strings.
+If you want to overrule this behavior use the `IComparer<T>` overload. The use case is e.g. if you get data from a database ordered by culture aware sort order.
+
+```csharp
+collection.Should().BeInAscendingOrder(item => item.SomeProp, StringComparer.CurrentCulture);
+collection.Should().BeInDescendingOrder(item => item.SomeProp, StringComparer.CurrentCulture);
+collection.Should().NotBeInAscendingOrder(item => item.SomeProp, StringComparer.CurrentCulture);
+collection.Should().NotBeInDescendingOrder(item => item.SomeProp, StringComparer.CurrentCulture);
+```
+ 
 For `String` collections there are specific methods to assert the items. For the `ContainMatch` and `NotContainMatch` methods we support wildcards.
 
 The pattern can be a combination of literal and wildcard characters, but it doesn't support regular expressions.
