@@ -2674,8 +2674,6 @@ public class SelectionRulesSpecs
 
         private class ClassWhereMemberThatCouldBeNonBrowsableIsBrowsable
         {
-            public int BrowsableField = -1;
-
             public int BrowsableProperty { get; set; }
 
             public int FieldThatMightBeNonBrowsable = -1;
@@ -2685,8 +2683,6 @@ public class SelectionRulesSpecs
 
         private class ClassWhereMemberThatCouldBeNonBrowsableIsNonBrowsable
         {
-            public int BrowsableField = -1;
-
             public int BrowsableProperty { get; set; }
 
             [EditorBrowsable(EditorBrowsableState.Never)]
