@@ -2476,7 +2476,7 @@ public class DateTimeOffsetAssertionSpecs
             DateTimeOffset someDateTimeOffset = new(2022, 9, 25, 13, 48, 42, 0, TimeSpan.Zero);
 
             // Act
-            Action action = () => someDateTimeOffset.Should().BeLessThan(0.Seconds()).Equals(someDateTimeOffset);
+            Func<bool> action = () => someDateTimeOffset.Should().BeLessThan(0.Seconds()).Equals(someDateTimeOffset);
 
             // Assert
             action.Should().Throw<NotSupportedException>()
@@ -2587,7 +2587,7 @@ public class DateTimeOffsetAssertionSpecs
             DateTimeOffset someDateTimeOffset = new(2022, 9, 25, 13, 48, 42, 0, TimeSpan.Zero);
 
             // Act
-            Action action = () => someDateTimeOffset.Should().Equals(someDateTimeOffset);
+            Func<bool> action = () => someDateTimeOffset.Should().Equals(someDateTimeOffset);
 
             // Assert
             action.Should().Throw<NotSupportedException>()
