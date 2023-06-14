@@ -1243,7 +1243,7 @@ public class ObjectAssertionSpecs
             var someObject = new Exception();
 
             // Act
-            Action action = () => someObject.Should().Equals(someObject);
+            Func<bool> action = () => someObject.Should().Equals(someObject);
 
             // Assert
             action.Should().Throw<NotSupportedException>()

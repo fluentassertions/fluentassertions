@@ -55,7 +55,7 @@ namespace FluentAssertions.Specs.Types
             TypeSelector propertyInfoSelector = null;
 
             // Act
-            Action act = () => propertyInfoSelector.Should();
+            Func<TypeSelectorAssertions> act = () => propertyInfoSelector.Should();
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()

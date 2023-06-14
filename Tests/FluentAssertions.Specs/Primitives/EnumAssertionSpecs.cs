@@ -896,7 +896,7 @@ public class EnumAssertionSpecs
             MyEnum? subject = null;
 
             // Act
-            Action action = () => subject.Should().Equals(subject);
+            Func<bool> action = () => subject.Should().Equals(subject);
 
             // Assert
             action.Should().Throw<NotSupportedException>()

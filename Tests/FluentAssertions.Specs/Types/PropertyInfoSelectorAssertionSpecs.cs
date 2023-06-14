@@ -16,7 +16,7 @@ public class PropertyInfoSelectorAssertionSpecs
             var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesVirtual));
 
             // Act
-            Action act = () =>
+            Func<AndConstraint<PropertyInfoSelectorAssertions>> act = () =>
                 propertyInfoSelector.Should().BeVirtual();
 
             // Assert
@@ -298,7 +298,7 @@ public class PropertyInfoSelectorAssertionSpecs
             var someObject = new PropertyInfoSelectorAssertions();
 
             // Act
-            Action action = () => someObject.Equals(someObject);
+            Func<bool> action = () => someObject.Equals(someObject);
 
             // Assert
             action.Should().Throw<NotSupportedException>()
