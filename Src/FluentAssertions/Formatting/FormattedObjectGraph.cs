@@ -168,7 +168,7 @@ public class FormattedObjectGraph
     {
         private readonly FormattedObjectGraph parentGraph;
         private readonly int startingLineBuilderIndex;
-        private int startingLineCount;
+        private readonly int startingLineCount;
 
         public PossibleMultilineFragment(FormattedObjectGraph parentGraph)
         {
