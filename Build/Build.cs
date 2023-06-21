@@ -356,7 +356,7 @@ class Build : NukeBuild
         {
             Node($"{YarnCli} --silent install", workingDirectory: RootDirectory);
             Node($"{YarnCli} --silent run cspell", workingDirectory: RootDirectory,
-                customLogger: (_, msg) => Error(msg));
+                logger: (_, msg) => Error(msg));
         });
 
     bool HasDocumentationChanges => Changes.Any(x => IsDocumentation(x));
