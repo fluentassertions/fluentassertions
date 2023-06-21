@@ -55,7 +55,7 @@ internal static class MethodInfoExtensions
 
         MethodImplOptions implementationOptions = (MethodImplOptions)implementationFlagsMatchingImplementationOptions;
 
-        if (implementationOptions != 0)
+        if (implementationOptions != default)
         {
             return (true, new MethodImplAttribute(implementationOptions));
         }
