@@ -13,9 +13,7 @@ internal class SingleLineCommentParsingStrategy : IParsingStrategy
             return ParsingState.GoToNextSymbol;
         }
 
-#pragma warning disable SA1010 // https://github.com/DotNetAnalyzers/StyleCopAnalyzers/pull/3507
         var doesSymbolStartComment = symbol is '/' && statement is [.., '/'];
-#pragma warning restore SA1010
 
         if (!doesSymbolStartComment)
         {
