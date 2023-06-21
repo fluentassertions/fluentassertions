@@ -87,12 +87,10 @@ internal static class ExpressionExtensions
                 case ExpressionType.Call:
                     var methodCallExpression = (MethodCallExpression)node;
 
-#pragma warning disable SA1010 // https://github.com/DotNetAnalyzers/StyleCopAnalyzers/pull/3507
                     if (methodCallExpression is not { Method.Name: "get_Item", Arguments: [ConstantExpression argumentExpression] })
                     {
                         throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
                     }
-#pragma warning restore SA1010
 
                     node = methodCallExpression.Object;
                     segments.Add("[" + argumentExpression.Value + "]");
@@ -158,12 +156,10 @@ internal static class ExpressionExtensions
                 case ExpressionType.Call:
                     var methodCallExpression = (MethodCallExpression)node;
 
-#pragma warning disable SA1010 // https://github.com/DotNetAnalyzers/StyleCopAnalyzers/pull/3507
                     if (methodCallExpression is not { Method.Name: "get_Item", Arguments: [ConstantExpression] })
                     {
                         throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
                     }
-#pragma warning restore SA1010
 
                     node = methodCallExpression.Object;
                     break;
