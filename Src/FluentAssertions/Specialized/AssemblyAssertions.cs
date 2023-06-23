@@ -141,7 +141,7 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
         return new AndWhichConstraint<AssemblyAssertions, Type>(this, foundType);
     }
 
-    /// <summary>Asserts that the assembly is unsigned/has no public key.</summary>
+    /// <summary>Asserts that the assembly is unsigned.</summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -149,7 +149,7 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<AssemblyAssertions> NotHavePublicKey(string because = "", params object[] becauseArgs)
+    public AndConstraint<AssemblyAssertions> BeUnsigned(string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -160,7 +160,7 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
         return new(this);
     }
 
-    /// <summary>Asserts that the assembly has the specified public key.</summary>
+    /// <summary>Asserts that the assembly is signed with the specified public key.</summary>
     /// <param name="publicKey">
     /// The base-16 string representation of the public key.
     /// </param>
@@ -173,7 +173,7 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="publicKey"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="publicKey"/> is empty.</exception>
-    public AndConstraint<AssemblyAssertions> HavePublicKey(string publicKey, string because = "", params object[] becauseArgs)
+    public AndConstraint<AssemblyAssertions> BeSignedWithPublicKey(string publicKey, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNullOrEmpty(publicKey);
 

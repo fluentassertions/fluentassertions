@@ -270,7 +270,7 @@ public class AssemblyAssertionSpecs
             var unsignedAssembly = FindAssembly.Stub();
 
             // Act & Assert
-            unsignedAssembly.Should().NotHavePublicKey();
+            unsignedAssembly.Should().BeUnsigned();
         }
 
         [Fact]
@@ -280,7 +280,7 @@ public class AssemblyAssertionSpecs
             var signedAssembly = FindAssembly.Stub("0123456789ABCEF007");
 
             // Act
-            Action act = () => signedAssembly.Should().NotHavePublicKey();
+            Action act = () => signedAssembly.Should().BeUnsigned();
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -288,7 +288,7 @@ public class AssemblyAssertionSpecs
         }
     }
 
-    public class HavePublicKey
+    public class BeSignedWithPublicKey
     {
         [Theory]
         [InlineData("0123456789ABCEF007")]
@@ -300,7 +300,7 @@ public class AssemblyAssertionSpecs
             var signedAssembly = FindAssembly.Stub("0123456789ABCEF007");
 
             // Act & Assert
-            signedAssembly.Should().HavePublicKey(publicKey);
+            signedAssembly.Should().BeSignedWithPublicKey(publicKey);
         }
 
         [Fact]
@@ -310,7 +310,7 @@ public class AssemblyAssertionSpecs
             var unsignedAssembly = FindAssembly.Stub();
 
             // Act
-            Action act = () => unsignedAssembly.Should().HavePublicKey("1234");
+            Action act = () => unsignedAssembly.Should().BeSignedWithPublicKey("1234");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -324,7 +324,7 @@ public class AssemblyAssertionSpecs
             var signedAssembly = FindAssembly.Stub("0123456789ABCEF007");
 
             // Act
-            Action act = () => signedAssembly.Should().HavePublicKey("1234");
+            Action act = () => signedAssembly.Should().BeSignedWithPublicKey("1234");
 
             // Assert
             act.Should().Throw<XunitException>()
