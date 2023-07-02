@@ -5,3 +5,7 @@ failThreshold: 0
 
 dotnet:
   solution: FluentAssertions.sln
+
+exclude:
+  - name: ConvertIfStatementToReturnStatement
+  - name: ConvertIfStatementToConditionalTernaryExpression
