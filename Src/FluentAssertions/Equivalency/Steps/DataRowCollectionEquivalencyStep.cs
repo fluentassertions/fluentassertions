@@ -205,15 +205,7 @@ public class DataRowCollectionEquivalencyStep : EquivalencyStep<DataRowCollectio
                 return false;
             }
 
-            for (int i = 0; i < values.Length; i++)
-            {
-                if (!values[i].Equals(other.values[i]))
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return values.SequenceEqual(other.values);
         }
 
         public override bool Equals(object obj) => Equals(obj as CompoundKey);
@@ -222,9 +214,9 @@ public class DataRowCollectionEquivalencyStep : EquivalencyStep<DataRowCollectio
         {
             int hash = 0;
 
-            for (int i = 0; i < values.Length; i++)
+            foreach (var value in values)
             {
-                hash = hash * 389 ^ values[i].GetHashCode();
+                hash = hash * 389 ^ value.GetHashCode();
             }
 
             return hash;
