@@ -19,16 +19,12 @@ public class DataRowCollectionEquivalencyStep : EquivalencyStep<DataRowCollectio
         }
         else
         {
-            RowMatchMode rowMatchMode = RowMatchMode.Index;
-
-            if (context.Options is DataEquivalencyAssertionOptions<DataSet> dataSetConfig)
+            RowMatchMode rowMatchMode = context.Options switch
             {
-                rowMatchMode = dataSetConfig.RowMatchMode;
-            }
-            else if (context.Options is DataEquivalencyAssertionOptions<DataTable> dataTableConfig)
-            {
-                rowMatchMode = dataTableConfig.RowMatchMode;
-            }
+                DataEquivalencyAssertionOptions<DataSet> dataSetConfig => dataSetConfig.RowMatchMode,
+                DataEquivalencyAssertionOptions<DataTable> dataTableConfig => dataTableConfig.RowMatchMode,
+                _ => RowMatchMode.Index
+            };
 
             var subject = (DataRowCollection)comparands.Subject;
             var expectation = (DataRowCollection)comparands.Expectation;
