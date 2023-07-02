@@ -12,7 +12,7 @@ namespace FluentAssertions.Types;
 /// </summary>
 public class PropertyInfoSelector : IEnumerable<PropertyInfo>
 {
-    private IEnumerable<PropertyInfo> selectedProperties = new List<PropertyInfo>();
+    private IEnumerable<PropertyInfo> selectedProperties;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PropertyInfoSelector"/> class.

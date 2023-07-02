@@ -13,7 +13,7 @@ namespace FluentAssertions.Types;
 /// </summary>
 public class MethodInfoSelector : IEnumerable<MethodInfo>
 {
-    private IEnumerable<MethodInfo> selectedMethods = new List<MethodInfo>();
+    private IEnumerable<MethodInfo> selectedMethods;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MethodInfoSelector"/> class.
