@@ -74,8 +74,6 @@ internal class XmlReaderValidator
                     currentNode.GetXPath());
             }
 
-            failure = null;
-
 #pragma warning disable IDE0010 // The default case handles the many missing cases
             switch (expectationIterator.NodeType)
 #pragma warning restore IDE0010
