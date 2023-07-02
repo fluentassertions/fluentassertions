@@ -421,7 +421,7 @@ public class NumericAssertions<T, TAssertions>
 
         if (expectedType.IsGenericTypeDefinition && subjectType?.IsGenericType == true)
         {
-            (subjectType?.GetGenericTypeDefinition()).Should().Be(expectedType, because, becauseArgs);
+            subjectType.GetGenericTypeDefinition().Should().Be(expectedType, because, becauseArgs);
         }
         else
         {
