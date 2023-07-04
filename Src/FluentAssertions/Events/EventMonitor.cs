@@ -160,10 +160,9 @@ internal sealed class EventMonitor<T> : IMonitor<T>
         }
         catch when (options.ShouldIgnoreEventAccessorExceptions)
         {
-            if (!recorderMap.TryRemove(eventInfo.Name, out _))
+            if (!options.RecordEventsWithBrokenAccessor)
             {
-                throw new InvalidOperationException(
-                    $"Could not remove event {eventInfo.Name} with broken event accessor from event recording.");
+                recorderMap.TryRemove(eventInfo.Name, out _);
             }
         }
     }
