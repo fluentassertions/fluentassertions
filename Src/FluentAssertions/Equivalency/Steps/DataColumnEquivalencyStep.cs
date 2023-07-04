@@ -106,26 +106,25 @@ public class DataColumnEquivalencyStep : EquivalencyStep<DataColumn>
     // NOTE: This list of candidate members is duplicated in the XML documentation for the
     // DataColumn.BeEquivalentTo extension method in DataColumnAssertions.cs. If this ever
     // needs to change, keep them in sync.
-    private static readonly HashSet<string> CandidateMembers =
-        new HashSet<string>
-        {
-            nameof(DataColumn.AllowDBNull),
-            nameof(DataColumn.AutoIncrement),
-            nameof(DataColumn.AutoIncrementSeed),
-            nameof(DataColumn.AutoIncrementStep),
-            nameof(DataColumn.Caption),
-            nameof(DataColumn.ColumnName),
-            nameof(DataColumn.DataType),
-            nameof(DataColumn.DateTimeMode),
-            nameof(DataColumn.DefaultValue),
-            nameof(DataColumn.Expression),
-            nameof(DataColumn.ExtendedProperties),
-            nameof(DataColumn.MaxLength),
-            nameof(DataColumn.Namespace),
-            nameof(DataColumn.Prefix),
-            nameof(DataColumn.ReadOnly),
-            nameof(DataColumn.Unique),
-        };
+    private static readonly HashSet<string> CandidateMembers = new()
+    {
+        nameof(DataColumn.AllowDBNull),
+        nameof(DataColumn.AutoIncrement),
+        nameof(DataColumn.AutoIncrementSeed),
+        nameof(DataColumn.AutoIncrementStep),
+        nameof(DataColumn.Caption),
+        nameof(DataColumn.ColumnName),
+        nameof(DataColumn.DataType),
+        nameof(DataColumn.DateTimeMode),
+        nameof(DataColumn.DefaultValue),
+        nameof(DataColumn.Expression),
+        nameof(DataColumn.ExtendedProperties),
+        nameof(DataColumn.MaxLength),
+        nameof(DataColumn.Namespace),
+        nameof(DataColumn.Prefix),
+        nameof(DataColumn.ReadOnly),
+        nameof(DataColumn.Unique),
+    };
 
     private static IEnumerable<IMember> GetMembersFromExpectation(INode currentNode, Comparands comparands,
         IEquivalencyAssertionOptions config)

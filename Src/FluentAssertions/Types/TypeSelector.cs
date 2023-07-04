@@ -293,14 +293,13 @@ public class TypeSelector : IEnumerable<Type>
     {
         types = types.ConvertAll(type =>
         {
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Task<>))
+            if (type.IsGenericType)
             {
-                return type.GetGenericArguments().Single();
-            }
-
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(ValueTask<>))
-            {
-                return type.GetGenericArguments().Single();
+                Type genericTypeDefinition = type.GetGenericTypeDefinition();
+                if (genericTypeDefinition == typeof(Task<>) || genericTypeDefinition == typeof(ValueTask<>))
+                {
+                    return type.GetGenericArguments().Single();
+                }
             }
 
             return type == typeof(Task) || type == typeof(ValueTask) ? typeof(void) : type;

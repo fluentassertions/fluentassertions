@@ -8,17 +8,12 @@ public static class MemberFactory
 {
     public static IMember Create(MemberInfo memberInfo, INode parent)
     {
-        if (memberInfo.MemberType == MemberTypes.Field)
+        return memberInfo.MemberType switch
         {
-            return new Field((FieldInfo)memberInfo, parent);
-        }
-
-        if (memberInfo.MemberType == MemberTypes.Property)
-        {
-            return new Property((PropertyInfo)memberInfo, parent);
-        }
-
-        throw new NotSupportedException($"Don't know how to deal with a {memberInfo.MemberType}");
+            MemberTypes.Field => new Field((FieldInfo)memberInfo, parent),
+            MemberTypes.Property => new Property((PropertyInfo)memberInfo, parent),
+            _ => throw new NotSupportedException($"Don't know how to deal with a {memberInfo.MemberType}")
+        };
     }
 
     internal static IMember Find(object target, string memberName, INode parent)
