@@ -927,6 +927,23 @@ public static class AssertionExtensions
         return new EventMonitor<T>(eventSource, options);
     }
 
+    /// <summary>
+    /// Starts monitoring <paramref name="eventSource"/> for its events.
+    /// </summary>
+    /// <param name="eventSource">The object for which to monitor the events.</param>
+    /// <param name="configureOptions">
+    /// An optional delegate that can be used to configure the <see cref="EventMonitorOptions"/> used to monitor the events.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="eventSource"/> is <see langword="null"/>.</exception>
+    public static IMonitor<T> Monitor<T>(this T eventSource, Action<EventMonitorOptions> configureOptions)
+    {
+        var options = new EventMonitorOptions();
+
+        configureOptions(options);
+
+        return new EventMonitor<T>(eventSource, options);
+    }
+
 #endif
 
 #if NET6_0_OR_GREATER

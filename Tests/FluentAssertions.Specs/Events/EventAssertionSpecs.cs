@@ -4,12 +4,12 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Events;
+using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
 using FluentAssertions.Formatting;
 using Xunit;
 using Xunit.Sdk;
 #if NETFRAMEWORK
-using System.Reflection;
 using System.Reflection.Emit;
 #endif
 
@@ -386,7 +386,7 @@ public class EventAssertionSpecs
                 .Raise(nameof(observable.PropertyChanged))
                 .WithSender(observable);
 
-            recording.Should().ContainSingle().Which.Parameters.First().Should().BeSameAs(observable);
+            recording.Should().ContainSingle().Which.Parameters[0].Should().BeSameAs(observable);
         }
 
         [Fact]
@@ -1027,11 +1027,48 @@ public class EventAssertionSpecs
                 using var monitor = c.Monitor<IRemoveFailingEvent>(opt => opt.IgnoreEventAccessorExceptions());
             }).Should().NotThrow();
         }
+
+        [Fact]
+        public void
+            Recording_event_with_broken_add_accessor_should_not_fail_test()
+        {
+            // Arrange
+            var classToMonitor = new TestEventBrokenEventHandlerRaising();
+
+            using var monitor = classToMonitor.Monitor<IAddFailingEvent>(opt => opt.IgnoreEventAccessorExceptions(true));
+
+            //Act
+            classToMonitor.RaiseOkEvent();
+
+            //Assert
+            monitor.MonitoredEvents.Should().HaveCount(1);
+        }
+
+        [Fact]
+        public void
+            Ignoring_broken_event_accessor_should_also_not_record_events()
+        {
+            // Arrange
+            var classToMonitor = new TestEventBrokenEventHandlerRaising();
+
+            using var monitor = classToMonitor.Monitor<IAddFailingEvent>(opt => opt.IgnoreEventAccessorExceptions(false));
+
+            //Act
+            classToMonitor.RaiseOkEvent();
+
+            //Assert
+            monitor.MonitoredEvents.Should().BeEmpty();
+        }
     }
 
     private interface IAddOkEvent
     {
         event EventHandler OkEvent;
+    }
+
+    private interface IAddFailingRecordableEvent
+    {
+        public event EventHandler AddFailingRecorableEvent;
     }
 
     private interface IAddFailingEvent
@@ -1045,12 +1082,26 @@ public class EventAssertionSpecs
     }
 
     [SuppressMessage("Usage", "CA1801:Check Unused Parameter", Justification = "This is on purpose for testing.")]
-    private class TestEventBrokenEventHandlerRaising : IAddFailingEvent, IRemoveFailingEvent, IAddOkEvent
+    private class TestEventBrokenEventHandlerRaising : IAddFailingEvent, IRemoveFailingEvent, IAddOkEvent, IAddFailingRecordableEvent
     {
         public event EventHandler AddFailingEvent
         {
             add { throw new InvalidOperationException("Add is failing"); }
             remove { OkEvent -= value; }
+        }
+
+        public event EventHandler AddFailingRecorableEvent
+        {
+            add
+            {
+                OkEvent += value;
+                throw new InvalidOperationException("Add is failing");
+            }
+
+            remove
+            {
+                OkEvent -= value;
+            }
         }
 
         public event EventHandler OkEvent;
