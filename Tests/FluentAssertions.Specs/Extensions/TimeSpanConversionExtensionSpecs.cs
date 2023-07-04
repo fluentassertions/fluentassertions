@@ -88,6 +88,26 @@ public class TimeSpanConversionExtensionSpecs
     }
 
     [Fact]
+    public void Add_time_span_to_given_seconds()
+    {
+        // Act
+        TimeSpan time = 4.Seconds(TimeSpan.FromSeconds(1));
+
+        // Assert
+        time.Should().Be(TimeSpan.FromSeconds(5));
+    }
+
+    [Fact]
+    public void Subtract_time_span_from_given_seconds()
+    {
+        // Act
+        TimeSpan time = 4.Seconds(TimeSpan.FromSeconds(-1));
+
+        // Assert
+        time.Should().Be(TimeSpan.FromSeconds(3));
+    }
+
+    [Fact]
     public void When_getting_the_nanoseconds_component_it_should_return_the_correct_value()
     {
         // Arrange

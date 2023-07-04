@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -69,7 +68,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_single_element_collection_with_no_parameters_ordered_in_descending_it_should_succeed()
         {
             // Arrange
-            var collection = new int[] { 42 };
+            var collection = new[] { 42 };
 
             // Act
             Action act = () => collection.Should().BeInDescendingOrder();
@@ -84,7 +83,7 @@ public partial class CollectionAssertionSpecs
             // Arrange
             var collection = new SomeClass[]
             {
-            new SomeClass { Text = "a", Number = 1 }
+                new() { Text = "a", Number = 1 }
             };
 
             // Act
@@ -95,13 +94,15 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_the_items_in_an_unordered_collection_are_ordered_descending_using_the_given_comparer_it_should_throw()
+        public void
+            When_asserting_the_items_in_an_unordered_collection_are_ordered_descending_using_the_given_comparer_it_should_throw()
         {
             // Arrange
             var collection = new[] { "z", "x", "y" };
 
             // Act
-            Action action = () => collection.Should().BeInDescendingOrder(Comparer<object>.Default, "because letters are ordered");
+            Action action = () =>
+                collection.Should().BeInDescendingOrder(Comparer<object>.Default, "because letters are ordered");
 
             // Assert
             action.Should().Throw<XunitException>()
@@ -110,7 +111,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_the_items_in_an_descendingly_ordered_collection_are_ordered_descending_using_the_given_comparer_it_should_succeed()
+        public void
+            When_asserting_the_items_in_an_descendingly_ordered_collection_are_ordered_descending_using_the_given_comparer_it_should_succeed()
         {
             // Arrange
             var collection = new[] { "z", "y", "x" };
@@ -120,7 +122,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_the_items_in_an_unordered_collection_are_ordered_descending_using_the_specified_property_it_should_throw()
+        public void
+            When_asserting_the_items_in_an_unordered_collection_are_ordered_descending_using_the_specified_property_it_should_throw()
         {
             // Arrange
             var collection = new[]
@@ -139,7 +142,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_the_items_in_an_unordered_collection_are_ordered_descending_using_the_specified_property_and_the_given_comparer_it_should_throw()
+        public void
+            When_asserting_the_items_in_an_unordered_collection_are_ordered_descending_using_the_specified_property_and_the_given_comparer_it_should_throw()
         {
             // Arrange
             var collection = new[]
@@ -150,7 +154,8 @@ public partial class CollectionAssertionSpecs
             };
 
             // Act
-            Action act = () => collection.Should().BeInDescendingOrder(o => o.Text, StringComparer.OrdinalIgnoreCase, "it should be sorted");
+            Action act = () =>
+                collection.Should().BeInDescendingOrder(o => o.Text, StringComparer.OrdinalIgnoreCase, "it should be sorted");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -158,7 +163,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_the_items_in_an_descendingly_ordered_collection_are_ordered_descending_using_the_specified_property_it_should_succeed()
+        public void
+            When_asserting_the_items_in_an_descendingly_ordered_collection_are_ordered_descending_using_the_specified_property_it_should_succeed()
         {
             // Arrange
             var collection = new[]
@@ -176,7 +182,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_the_items_in_an_descendingly_ordered_collection_are_ordered_descending_using_the_specified_property_and_the_given_comparer_it_should_succeed()
+        public void
+            When_asserting_the_items_in_an_descendingly_ordered_collection_are_ordered_descending_using_the_specified_property_and_the_given_comparer_it_should_succeed()
         {
             // Arrange
             var collection = new[]
@@ -269,7 +276,8 @@ public partial class CollectionAssertionSpecs
             string[] strings = { "dennis", "roy", "barbara" };
 
             // Act
-            Action act = () => strings.Should().BeInDescendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()), "of {0}", "reasons");
+            Action act = () =>
+                strings.Should().BeInDescendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()), "of {0}", "reasons");
 
             // Assert
             act.Should()
@@ -291,7 +299,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_the_items_in_an_unordered_collection_are_not_in_descending_order_using_the_given_comparer_it_should_succeed()
+        public void
+            When_asserting_the_items_in_an_unordered_collection_are_not_in_descending_order_using_the_given_comparer_it_should_succeed()
         {
             // Arrange
             var collection = new[] { "x", "y", "x" };
@@ -316,13 +325,15 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_the_items_in_a_descending_ordered_collection_are_not_in_descending_order_using_the_given_comparer_it_should_throw()
+        public void
+            When_asserting_the_items_in_a_descending_ordered_collection_are_not_in_descending_order_using_the_given_comparer_it_should_throw()
         {
             // Arrange
             var collection = new[] { "c", "b", "a" };
 
             // Act
-            Action action = () => collection.Should().NotBeInDescendingOrder(Comparer<object>.Default, "because numbers are not ordered");
+            Action action = () =>
+                collection.Should().NotBeInDescendingOrder(Comparer<object>.Default, "because numbers are not ordered");
 
             // Assert
             action.Should().Throw<XunitException>()
@@ -362,7 +373,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_single_element_collection_with_no_parameters_not_be_ordered_in_descending_it_should_throw()
         {
             // Arrange
-            var collection = new int[] { 42 };
+            var collection = new[] { 42 };
 
             // Act
             Action act = () => collection.Should().NotBeInDescendingOrder();
@@ -373,12 +384,13 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_single_element_collection_by_property_expression_to_not_be_ordered_in_descending_it_should_throw()
+        public void
+            When_asserting_single_element_collection_by_property_expression_to_not_be_ordered_in_descending_it_should_throw()
         {
             // Arrange
             var collection = new SomeClass[]
             {
-            new SomeClass { Text = "a", Number = 1 }
+                new() { Text = "a", Number = 1 }
             };
 
             // Act
@@ -389,7 +401,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_the_items_in_a_descending_ordered_collection_are_not_ordered_descending_using_the_given_comparer_it_should_throw()
+        public void
+            When_asserting_the_items_in_a_descending_ordered_collection_are_not_ordered_descending_using_the_given_comparer_it_should_throw()
         {
             // Arrange
             var collection = new[] { 3, 2, 1 };
@@ -403,7 +416,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_the_items_not_in_an_descendingly_ordered_collection_are_not_ordered_descending_using_the_given_comparer_it_should_succeed()
+        public void
+            When_asserting_the_items_not_in_an_descendingly_ordered_collection_are_not_ordered_descending_using_the_given_comparer_it_should_succeed()
         {
             // Arrange
             var collection = new[] { 1, 2, 3 };
@@ -416,7 +430,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_the_items_in_a_descending_ordered_collection_are_not_ordered_descending_using_the_specified_property_it_should_throw()
+        public void
+            When_asserting_the_items_in_a_descending_ordered_collection_are_not_ordered_descending_using_the_specified_property_it_should_throw()
         {
             // Arrange
             var collection = new[]
@@ -435,7 +450,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_the_items_in_an_ordered_collection_are_not_ordered_descending_using_the_specified_property_and_the_given_comparer_it_should_throw()
+        public void
+            When_asserting_the_items_in_an_ordered_collection_are_not_ordered_descending_using_the_specified_property_and_the_given_comparer_it_should_throw()
         {
             // Arrange
             var collection = new[]
@@ -446,7 +462,9 @@ public partial class CollectionAssertionSpecs
             };
 
             // Act
-            Action act = () => collection.Should().NotBeInDescendingOrder(o => o.Text, StringComparer.OrdinalIgnoreCase, "it should not be sorted");
+            Action act = () =>
+                collection.Should()
+                    .NotBeInDescendingOrder(o => o.Text, StringComparer.OrdinalIgnoreCase, "it should not be sorted");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -454,7 +472,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_the_items_not_in_an_descendingly_ordered_collection_are_not_ordered_descending_using_the_specified_property_it_should_succeed()
+        public void
+            When_asserting_the_items_not_in_an_descendingly_ordered_collection_are_not_ordered_descending_using_the_specified_property_it_should_succeed()
         {
             // Arrange
             var collection = new[]
@@ -472,7 +491,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_the_items_not_in_an_descendingly_ordered_collection_are_not_ordered_descending_using_the_specified_property_and_the_given_comparer_it_should_succeed()
+        public void
+            When_asserting_the_items_not_in_an_descendingly_ordered_collection_are_not_ordered_descending_using_the_specified_property_and_the_given_comparer_it_should_succeed()
         {
             // Arrange
             var collection = new[]
@@ -565,7 +585,8 @@ public partial class CollectionAssertionSpecs
             string[] strings = { "roy", "dennis", "barbara" };
 
             // Act
-            Action act = () => strings.Should().NotBeInDescendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()), "of {0}", "reasons");
+            Action act = () =>
+                strings.Should().NotBeInDescendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()), "of {0}", "reasons");
 
             // Assert
             act.Should()

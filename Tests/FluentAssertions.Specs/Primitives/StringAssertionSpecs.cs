@@ -3,9 +3,6 @@ using Xunit;
 
 namespace FluentAssertions.Specs.Primitives;
 
-/// <summary>
-/// <see cref="String"/> assertion specs.
-/// </summary>
 public partial class StringAssertionSpecs
 {
     [Fact]

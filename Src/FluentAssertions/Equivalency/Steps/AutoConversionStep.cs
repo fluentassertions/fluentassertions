@@ -13,14 +13,15 @@ namespace FluentAssertions.Equivalency.Steps;
 /// </remarks>
 public class AutoConversionStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+        IEquivalencyValidator nestedValidator)
     {
         if (!context.Options.ConversionSelector.RequiresConversion(comparands, context.CurrentNode))
         {
             return EquivalencyResult.ContinueWithNext;
         }
 
-        if ((comparands.Expectation is null) || (comparands.Subject is null))
+        if (comparands.Expectation is null || comparands.Subject is null)
         {
             return EquivalencyResult.ContinueWithNext;
         }
@@ -35,13 +36,15 @@ public class AutoConversionStep : IEquivalencyStep
 
         if (TryChangeType(comparands.Subject, expectationType, out object convertedSubject))
         {
-            context.Tracer.WriteLine(member => Invariant($"Converted subject {comparands.Subject} at {member.Description} to {expectationType}"));
+            context.Tracer.WriteLine(member =>
+                Invariant($"Converted subject {comparands.Subject} at {member.Description} to {expectationType}"));
 
             comparands.Subject = convertedSubject;
         }
         else
         {
-            context.Tracer.WriteLine(member => Invariant($"Subject {comparands.Subject} at {member.Description} could not be converted to {expectationType}"));
+            context.Tracer.WriteLine(member =>
+                Invariant($"Subject {comparands.Subject} at {member.Description} could not be converted to {expectationType}"));
         }
 
         return EquivalencyResult.ContinueWithNext;
@@ -50,8 +53,20 @@ public class AutoConversionStep : IEquivalencyStep
     private static bool TryChangeType(object subject, Type expectationType, out object conversionResult)
     {
         conversionResult = null;
+
         try
         {
+            if (expectationType.IsEnum)
+            {
+                if (Enum.IsDefined(expectationType, subject))
+                {
+                    conversionResult = Enum.ToObject(expectationType, subject);
+                    return true;
+                }
+
+                return false;
+            }
+
             conversionResult = Convert.ChangeType(subject, expectationType, CultureInfo.InvariantCulture);
             return true;
         }

@@ -36,17 +36,20 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_collection_has_a_count_greater_than_or_equal_to_the_number_of_items_it_should_fail_with_descriptive_message_()
+        public void
+            When_collection_has_a_count_greater_than_or_equal_to_the_number_of_items_it_should_fail_with_descriptive_message_()
         {
             // Arrange
             var collection = new[] { 1, 2, 3 };
 
             // Act
-            Action action = () => collection.Should().HaveCountGreaterThanOrEqualTo(4, "because we want to test the failure {0}", "message");
+            Action action = () =>
+                collection.Should().HaveCountGreaterThanOrEqualTo(4, "because we want to test the failure {0}", "message");
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected collection to contain at least 4 item(s) because we want to test the failure message, but found 3: {1, 2, 3}.");
+                .WithMessage(
+                    "Expected collection to contain at least 4 item(s) because we want to test the failure message, but found 3: {1, 2, 3}.");
         }
 
         [Fact]
@@ -63,7 +66,8 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*at least*1*we want to test the behaviour with a null subject*found <null>*");
+            act.Should().Throw<XunitException>()
+                .WithMessage("*at least*1*we want to test the behaviour with a null subject*found <null>*");
         }
     }
 }

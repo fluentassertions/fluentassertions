@@ -20,7 +20,7 @@ public class DictionaryValueFormatter : IValueFormatter
     /// </summary>
     /// <param name="value">The value for which to create a <see cref="string"/>.</param>
     /// <returns>
-    /// <c>true</c> if the current <see cref="IValueFormatter"/> can handle the specified value; otherwise, <c>false</c>.
+    /// <see langword="true"/> if the current <see cref="IValueFormatter"/> can handle the specified value; otherwise, <see langword="false"/>.
     /// </returns>
     public virtual bool CanHandle(object value)
     {
@@ -33,6 +33,7 @@ public class DictionaryValueFormatter : IValueFormatter
         IEnumerable<KeyValuePair<object, object>> collection = AsEnumerable((IDictionary)value);
 
         using var iterator = new Iterator<KeyValuePair<object, object>>(collection, MaxItems);
+
         while (iterator.MoveNext())
         {
             if (iterator.IsFirst)
@@ -86,6 +87,7 @@ public class DictionaryValueFormatter : IValueFormatter
     private static IEnumerable<KeyValuePair<object, object>> AsEnumerable(IDictionary dictionary)
     {
         IDictionaryEnumerator iterator = dictionary.GetEnumerator();
+
         using (iterator as IDisposable)
         {
             while (iterator.MoveNext())

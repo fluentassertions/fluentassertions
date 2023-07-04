@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 
@@ -19,7 +20,7 @@ public class DefaultValueFormatter : IValueFormatter
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>
-    /// <c>true</c> if this instance can handle the specified value; otherwise, <c>false</c>.
+    /// <see langword="true"/> if this instance can handle the specified value; otherwise, <see langword="false"/>.
     /// </returns>
     public virtual bool CanHandle(object value)
     {
@@ -34,20 +35,17 @@ public class DefaultValueFormatter : IValueFormatter
             return;
         }
 
-        if (HasDefaultToStringImplementation(value))
+        if (HasCompilerGeneratedToStringImplementation(value))
         {
             WriteTypeAndMemberValues(value, formattedGraph, formatChild);
         }
+        else if (context.UseLineBreaks)
+        {
+            formattedGraph.AddFragmentOnNewLine(value.ToString());
+        }
         else
         {
-            if (context.UseLineBreaks)
-            {
-                formattedGraph.AddFragmentOnNewLine(value.ToString());
-            }
-            else
-            {
-                formattedGraph.AddFragment(value.ToString());
-            }
+            formattedGraph.AddFragment(value.ToString());
         }
     }
 
@@ -59,7 +57,14 @@ public class DefaultValueFormatter : IValueFormatter
     /// <remarks>The default is all non-private members.</remarks>
     protected virtual MemberInfo[] GetMembers(Type type)
     {
-        return type.GetNonPrivateMembers(MemberVisibility.Public).ToArray();
+        return type.GetNonPrivateMembers(MemberVisibility.Public);
+    }
+
+    private static bool HasCompilerGeneratedToStringImplementation(object value)
+    {
+        Type type = value.GetType();
+
+        return HasDefaultToStringImplementation(value) || type.IsCompilerGenerated();
     }
 
     private static bool HasDefaultToStringImplementation(object value)
@@ -72,11 +77,36 @@ public class DefaultValueFormatter : IValueFormatter
     private void WriteTypeAndMemberValues(object obj, FormattedObjectGraph formattedGraph, FormatChild formatChild)
     {
         Type type = obj.GetType();
-        formattedGraph.AddLine(TypeDisplayName(type));
-        formattedGraph.AddLine("{");
+        WriteTypeName(formattedGraph, type);
+        WriteTypeValue(obj, formattedGraph, formatChild, type);
+    }
 
+    private void WriteTypeName(FormattedObjectGraph formattedGraph, Type type)
+    {
+        var typeName = type.HasFriendlyName() ? TypeDisplayName(type) : string.Empty;
+        formattedGraph.AddFragment(typeName);
+    }
+
+    private void WriteTypeValue(object obj, FormattedObjectGraph formattedGraph, FormatChild formatChild, Type type)
+    {
         MemberInfo[] members = GetMembers(type);
-        using var iterator = new Iterator<MemberInfo>(members.OrderBy(mi => mi.Name));
+        if (members.Length == 0)
+        {
+            formattedGraph.AddFragment("{ }");
+        }
+        else
+        {
+            formattedGraph.EnsureInitialNewLine();
+            formattedGraph.AddLine("{");
+            WriteMemberValues(obj, members, formattedGraph, formatChild);
+            formattedGraph.AddFragmentOnNewLine("}");
+        }
+    }
+
+    private static void WriteMemberValues(object obj, MemberInfo[] members, FormattedObjectGraph formattedGraph, FormatChild formatChild)
+    {
+        using var iterator = new Iterator<MemberInfo>(members.OrderBy(mi => mi.Name, StringComparer.Ordinal));
+
         while (iterator.MoveNext())
         {
             WriteMemberValueTextFor(obj, iterator.Current, formattedGraph, formatChild);
@@ -86,8 +116,6 @@ public class DefaultValueFormatter : IValueFormatter
                 formattedGraph.AddFragment(", ");
             }
         }
-
-        formattedGraph.AddFragmentOnNewLine("}");
     }
 
     /// <summary>
@@ -98,7 +126,8 @@ public class DefaultValueFormatter : IValueFormatter
     /// <remarks>The default is <see cref="System.Type.FullName"/>.</remarks>
     protected virtual string TypeDisplayName(Type type) => type.FullName;
 
-    private static void WriteMemberValueTextFor(object value, MemberInfo member, FormattedObjectGraph formattedGraph, FormatChild formatChild)
+    private static void WriteMemberValueTextFor(object value, MemberInfo member, FormattedObjectGraph formattedGraph,
+        FormatChild formatChild)
     {
         object memberValue;
 

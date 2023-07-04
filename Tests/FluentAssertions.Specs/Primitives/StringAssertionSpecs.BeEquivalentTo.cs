@@ -82,7 +82,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_the_expected_string_is_equivalent_to_the_actual_string_but_with_trailing_spaces_it_should_throw_with_clear_error_message()
+        public void
+            When_the_expected_string_is_equivalent_to_the_actual_string_but_with_trailing_spaces_it_should_throw_with_clear_error_message()
         {
             // Act
             Action act = () => "ABC".Should().BeEquivalentTo("abc ", "because I say {0}", "so");
@@ -93,7 +94,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_the_actual_string_equivalent_to_the_expected_but_with_trailing_spaces_it_should_throw_with_clear_error_message()
+        public void
+            When_the_actual_string_equivalent_to_the_expected_but_with_trailing_spaces_it_should_throw_with_clear_error_message()
         {
             // Act
             Action act = () => "ABC ".Should().BeEquivalentTo("abc", "because I say {0}", "so");

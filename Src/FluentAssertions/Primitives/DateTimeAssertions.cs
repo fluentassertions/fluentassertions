@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
@@ -22,7 +23,7 @@ public class DateTimeAssertions : DateTimeAssertions<DateTimeAssertions>
     }
 }
 
-#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CS0659, S1206 // Ignore not overriding Object.GetHashCode()
 #pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
 /// <summary>
 /// Contains a number of methods to assert that a <see cref="DateTime"/> is in the expected state.
@@ -154,13 +155,11 @@ public class DateTimeAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public AndConstraint<TAssertions> BeCloseTo(DateTime nearbyTime, TimeSpan precision, string because = "",
         params object[] becauseArgs)
     {
-        if (precision < TimeSpan.Zero)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         long distanceToMinInTicks = (nearbyTime - DateTime.MinValue).Ticks;
         DateTime minimumValue = nearbyTime.AddTicks(-Math.Min(precision.Ticks, distanceToMinInTicks));
@@ -168,12 +167,18 @@ public class DateTimeAssertions<TAssertions>
         long distanceToMaxInTicks = (DateTime.MaxValue - nearbyTime).Ticks;
         DateTime maximumValue = nearbyTime.AddTicks(Math.Min(precision.Ticks, distanceToMaxInTicks));
 
+        TimeSpan? difference = (Subject - nearbyTime)?.Duration();
+
         Execute.Assertion
-            .ForCondition((Subject >= minimumValue) && (Subject.Value <= maximumValue))
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:the date and time} to be within {0} from {1}{reason}, but found {2}.",
-                precision,
-                nearbyTime, Subject);
+            .WithExpectation("Expected {context:the date and time} to be within {0} from {1}{reason}", precision, nearbyTime)
+            .ForCondition(Subject is not null)
+            .FailWith(", but found <null>.")
+            .Then
+            .ForCondition(Subject >= minimumValue && Subject <= maximumValue)
+            .FailWith(", but {0} was off by {1}.", Subject, difference)
+            .Then
+            .ClearExpectation();
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -199,13 +204,11 @@ public class DateTimeAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public AndConstraint<TAssertions> NotBeCloseTo(DateTime distantTime, TimeSpan precision, string because = "",
         params object[] becauseArgs)
     {
-        if (precision < TimeSpan.Zero)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         long distanceToMinInTicks = (distantTime - DateTime.MinValue).Ticks;
         DateTime minimumValue = distantTime.AddTicks(-Math.Min(precision.Ticks, distanceToMinInTicks));
@@ -214,7 +217,7 @@ public class DateTimeAssertions<TAssertions>
         DateTime maximumValue = distantTime.AddTicks(Math.Min(precision.Ticks, distanceToMaxInTicks));
 
         Execute.Assertion
-            .ForCondition((Subject < minimumValue) || (Subject > maximumValue))
+            .ForCondition(Subject < minimumValue || Subject > maximumValue)
             .BecauseOf(because, becauseArgs)
             .FailWith(
                 "Did not expect {context:the date and time} to be within {0} from {1}{reason}, but it was {2}.",
@@ -427,7 +430,8 @@ public class DateTimeAssertions<TAssertions>
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject.HasValue)
-            .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but found a <null> DateTime.", unexpected)
+            .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but found a <null> DateTime.",
+                unexpected)
             .Then
             .ForCondition(Subject.Value.Year != unexpected)
             .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but it was.", unexpected,
@@ -884,7 +888,8 @@ public class DateTimeAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeOneOf(IEnumerable<DateTime?> validValues, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeOneOf(IEnumerable<DateTime?> validValues, string because = "",
+        params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(validValues.Contains(Subject))
@@ -911,12 +916,12 @@ public class DateTimeAssertions<TAssertions>
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
-            .WithExpectation("Expected {context:the date and time} to be in " + expectedKind.ToString() + "{reason}")
+            .WithExpectation("Expected {context:the date and time} to be in " + expectedKind + "{reason}")
             .ForCondition(Subject.HasValue)
             .FailWith(", but found a <null> DateTime.")
             .Then
             .ForCondition(Subject.Value.Kind == expectedKind)
-            .FailWith(", but found " + Subject.Value.Kind.ToString() + ".")
+            .FailWith(", but found " + Subject.Value.Kind + ".")
             .Then
             .ClearExpectation();
 
@@ -925,5 +930,5 @@ public class DateTimeAssertions<TAssertions>
 
     /// <inheritdoc/>
     public override bool Equals(object obj) =>
-        throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
+        throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
 }

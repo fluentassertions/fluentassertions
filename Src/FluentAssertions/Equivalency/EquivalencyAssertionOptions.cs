@@ -18,8 +18,8 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// Represents the run-time type-specific behavior of a structural equivalency assertion.
 /// </summary>
-public class EquivalencyAssertionOptions<TExpectation> :
-    SelfReferenceEquivalencyAssertionOptions<EquivalencyAssertionOptions<TExpectation>>
+public class EquivalencyAssertionOptions<TExpectation>
+    : SelfReferenceEquivalencyAssertionOptions<EquivalencyAssertionOptions<TExpectation>>
 {
     public EquivalencyAssertionOptions()
     {
@@ -43,7 +43,8 @@ public class EquivalencyAssertionOptions<TExpectation> :
     /// Selects a collection to define exclusions at.
     /// Allows to navigate deeper by using <see cref="For{TNext}"/>.
     /// </summary>
-    public NestedExclusionOptionBuilder<TExpectation, TNext> For<TNext>(Expression<Func<TExpectation, IEnumerable<TNext>>> expression)
+    public NestedExclusionOptionBuilder<TExpectation, TNext> For<TNext>(
+        Expression<Func<TExpectation, IEnumerable<TNext>>> expression)
     {
         var selectionRule = new ExcludeMemberByPathSelectionRule(expression.GetMemberPath());
         AddSelectionRule(selectionRule);
@@ -71,6 +72,21 @@ public class EquivalencyAssertionOptions<TExpectation> :
     {
         string expressionMemberPath = expression.GetMemberPath().ToString();
         OrderingRules.Add(new PathBasedOrderingRule(expressionMemberPath));
+        return this;
+    }
+
+    /// <summary>
+    /// Causes the collection identified by <paramref name="expression"/> to be compared ignoring the order
+    /// in which the items appear in the expectation.
+    /// </summary>
+    public EquivalencyAssertionOptions<TExpectation> WithoutStrictOrderingFor(
+        Expression<Func<TExpectation, object>> expression)
+    {
+        string expressionMemberPath = expression.GetMemberPath().ToString();
+        OrderingRules.Add(new PathBasedOrderingRule(expressionMemberPath)
+        {
+            Invert = true
+        });
         return this;
     }
 

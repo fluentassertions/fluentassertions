@@ -29,7 +29,7 @@ namespace FluentAssertions.Specs.Types
     {
     }
 
-    [AttributeUsage(AttributeTargets.Class, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class)]
     public class DummyClassAttribute : Attribute
     {
         public string Name { get; }
@@ -132,15 +132,25 @@ namespace FluentAssertions.Specs.Types
         void ExplicitImplicitMethod(string overload);
     }
 
-    public class ClassWithoutMembers { }
+    public class ClassWithoutMembers
+    {
+    }
 
-    public interface IPublicInterface { }
+    public interface IPublicInterface
+    {
+    }
 
-    internal interface IInternalInterface { }
+    internal interface IInternalInterface
+    {
+    }
 
-    internal class InternalClass { }
+    internal class InternalClass
+    {
+    }
 
-    internal struct InternalStruct { }
+    internal struct InternalStruct
+    {
+    }
 
     internal enum InternalEnum
     {
@@ -150,15 +160,23 @@ namespace FluentAssertions.Specs.Types
 
     internal class Nested
     {
-        private class PrivateClass { }
+        private class PrivateClass
+        {
+        }
 
         protected enum ProtectedEnum { }
 
-        public interface IPublicInterface { }
+        public interface IPublicInterface
+        {
+        }
 
-        internal class InternalClass { }
+        internal class InternalClass
+        {
+        }
 
-        protected internal interface IProtectedInternalInterface { }
+        protected internal interface IProtectedInternalInterface
+        {
+        }
     }
 
     internal readonly struct TypeWithConversionOperators
@@ -170,24 +188,38 @@ namespace FluentAssertions.Specs.Types
             this.value = value;
         }
 
-        public static implicit operator int(TypeWithConversionOperators typeWithConversionOperators) => typeWithConversionOperators.value;
+        public static implicit operator int(TypeWithConversionOperators typeWithConversionOperators) =>
+            typeWithConversionOperators.value;
 
-        public static explicit operator byte(TypeWithConversionOperators typeWithConversionOperators) => (byte)typeWithConversionOperators.value;
+        public static explicit operator byte(TypeWithConversionOperators typeWithConversionOperators) =>
+            (byte)typeWithConversionOperators.value;
     }
 
-    internal sealed class Sealed { }
+    internal sealed class Sealed
+    {
+    }
 
-    internal abstract class Abstract { }
+    internal abstract class Abstract
+    {
+    }
 
-    internal static class Static { }
+    internal static class Static
+    {
+    }
 
-    internal struct Struct { }
+    internal struct Struct
+    {
+    }
 
     public delegate void ExampleDelegate();
 
-    internal class ClassNotInDummyNamespace { }
+    internal class ClassNotInDummyNamespace
+    {
+    }
 
-    internal class OtherClassNotInDummyNamespace { }
+    internal class OtherClassNotInDummyNamespace
+    {
+    }
 
     #endregion
 }
@@ -211,17 +243,23 @@ namespace AssemblyB
 
 namespace DummyNamespace
 {
-    internal class ClassInDummyNamespace { }
+    internal class ClassInDummyNamespace
+    {
+    }
 
     namespace InnerDummyNamespace
     {
-        internal class ClassInInnerDummyNamespace { }
+        internal class ClassInInnerDummyNamespace
+        {
+        }
     }
 }
 
 namespace DummyNamespaceTwo
 {
-    internal class ClassInDummyNamespaceTwo { }
+    internal class ClassInDummyNamespaceTwo
+    {
+    }
 }
 
 #endregion

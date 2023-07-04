@@ -11,43 +11,47 @@ internal static class ReadOnlyNonGenericCollectionWrapper
     public static ReadOnlyNonGenericCollectionWrapper<DataTableCollection, DataTable> Create(DataTableCollection collection)
     {
         return
-            (collection != null)
-            ? new ReadOnlyNonGenericCollectionWrapper<DataTableCollection, DataTable>(collection)
-            : null;
+            collection != null
+                ? new ReadOnlyNonGenericCollectionWrapper<DataTableCollection, DataTable>(collection)
+                : null;
     }
 
     public static ReadOnlyNonGenericCollectionWrapper<DataColumnCollection, DataColumn> Create(DataColumnCollection collection)
     {
         return
-            (collection != null)
-            ? new ReadOnlyNonGenericCollectionWrapper<DataColumnCollection, DataColumn>(collection)
-            : null;
+            collection != null
+                ? new ReadOnlyNonGenericCollectionWrapper<DataColumnCollection, DataColumn>(collection)
+                : null;
     }
 
     public static ReadOnlyNonGenericCollectionWrapper<DataRowCollection, DataRow> Create(DataRowCollection collection)
     {
         return
-            (collection != null)
-            ? new ReadOnlyNonGenericCollectionWrapper<DataRowCollection, DataRow>(collection)
-            : null;
+            collection != null
+                ? new ReadOnlyNonGenericCollectionWrapper<DataRowCollection, DataRow>(collection)
+                : null;
     }
 }
 
-internal class ReadOnlyNonGenericCollectionWrapper<TCollection, TItem> : ICollection<TItem>
+internal class ReadOnlyNonGenericCollectionWrapper<TCollection, TItem> : ICollection<TItem>, ICollectionWrapper<TCollection>
     where TCollection : ICollection
 {
     public TCollection UnderlyingCollection { get; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ReadOnlyNonGenericCollectionWrapper{TCollection, TItem}"/> class.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="collection"/> is <see langword="null"/>.</exception>
     public ReadOnlyNonGenericCollectionWrapper(TCollection collection)
     {
-        Guard.ThrowIfArgumentIsNull(collection, nameof(collection));
+        Guard.ThrowIfArgumentIsNull(collection);
 
         UnderlyingCollection = collection;
     }
 
     public int Count => UnderlyingCollection.Count;
 
-    public bool IsReadOnly => true;
+    bool ICollection<TItem>.IsReadOnly => true;
 
     public IEnumerator<TItem> GetEnumerator() => UnderlyingCollection.Cast<TItem>().GetEnumerator();
 
@@ -57,18 +61,9 @@ internal class ReadOnlyNonGenericCollectionWrapper<TCollection, TItem> : ICollec
 
     public void CopyTo(TItem[] array, int arrayIndex) => UnderlyingCollection.CopyTo(array, arrayIndex);
 
-    /*
+    void ICollection<TItem>.Add(TItem item) => throw new NotSupportedException();
 
-    Mutation is not supported, but these methods must be implemented to satisfy ICollection<T>:
-    * Add
-    * Clear
-    * Remove
+    void ICollection<TItem>.Clear() => throw new NotSupportedException();
 
-    */
-
-    public void Add(TItem item) => throw new NotSupportedException();
-
-    public void Clear() => throw new NotSupportedException();
-
-    public bool Remove(TItem item) => throw new NotSupportedException();
+    bool ICollection<TItem>.Remove(TItem item) => throw new NotSupportedException();
 }

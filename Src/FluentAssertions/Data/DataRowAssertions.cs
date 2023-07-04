@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
-
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
@@ -35,7 +34,8 @@ public class DataRowAssertions<TDataRow> : ReferenceTypeAssertions<TDataRow, Dat
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndWhichConstraint<DataRowAssertions<TDataRow>, DataColumn> HaveColumn(string expectedColumnName, string because = "", params object[] becauseArgs)
+    public AndWhichConstraint<DataRowAssertions<TDataRow>, DataColumn> HaveColumn(string expectedColumnName, string because = "",
+        params object[] becauseArgs)
     {
         var subjectColumn = default(DataColumn);
 
@@ -43,13 +43,15 @@ public class DataRowAssertions<TDataRow> : ReferenceTypeAssertions<TDataRow, Dat
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:DataRow} to contain a column named {0}{reason}, but found <null>.", expectedColumnName);
+                .FailWith("Expected {context:DataRow} to contain a column named {0}{reason}, but found <null>.",
+                    expectedColumnName);
         }
         else if (!Subject.Table.Columns.Contains(expectedColumnName))
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:DataRow} to contain a column named {0}{reason}, but it does not.", expectedColumnName);
+                .FailWith("Expected {context:DataRow} to contain a column named {0}{reason}, but it does not.",
+                    expectedColumnName);
         }
         else
         {
@@ -79,21 +81,26 @@ public class DataRowAssertions<TDataRow> : ReferenceTypeAssertions<TDataRow, Dat
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<DataRowAssertions<TDataRow>> HaveColumns(IEnumerable<string> expectedColumnNames, string because = "", params object[] becauseArgs)
+    public AndConstraint<DataRowAssertions<TDataRow>> HaveColumns(IEnumerable<string> expectedColumnNames, string because = "",
+        params object[] becauseArgs)
     {
-        if (Subject is null)
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:DataRow} to be in a table containing {0} column(s) with specific names{reason}, but found <null>.", expectedColumnNames.Count());
-        }
+        bool success = Execute.Assertion
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith(
+                "Expected {context:DataRow} to be in a table containing {0} column(s) with specific names{reason}, but found <null>.",
+                () => expectedColumnNames.Count());
 
-        foreach (var expectedColumnName in expectedColumnNames)
+        if (success)
         {
-            Execute.Assertion
-                .ForCondition(Subject.Table.Columns.Contains(expectedColumnName))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected table containing {context:DataRow} to contain a column named {0}{reason}, but it does not.", expectedColumnName);
+            foreach (var expectedColumnName in expectedColumnNames)
+            {
+                Execute.Assertion
+                    .ForCondition(Subject.Table.Columns.Contains(expectedColumnName))
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected table containing {context:DataRow} to contain a column named {0}{reason}, but it does not.",
+                        expectedColumnName);
+            }
         }
 
         return new AndConstraint<DataRowAssertions<TDataRow>>(this);
@@ -114,8 +121,7 @@ public class DataRowAssertions<TDataRow> : ReferenceTypeAssertions<TDataRow, Dat
     /// The <see cref="DataRow"/> objects must be of the same type; if two <see cref="DataRow"/> objects
     /// are equivalent in all ways, except that one is part of a typed <see cref="DataTable"/> and is of a subclass
     /// of <see cref="DataRow"/>, then by default, they will not be considered equivalent. This can be overridden
-    /// with the <see cref="BeEquivalentTo(DataRow, Func{IDataEquivalencyAssertionOptions{DataRow}, IDataEquivalencyAssertionOptions{DataRow}}, string, object[])"/>
-    /// overload.
+    /// by using the overload that takes <see cref="IDataEquivalencyAssertionOptions{DataSet}"/>.
     /// </remarks>
     /// <param name="expectation">A <see cref="DataColumn"/> with the expected configuration.</param>
     /// <param name="because">
@@ -125,7 +131,8 @@ public class DataRowAssertions<TDataRow> : ReferenceTypeAssertions<TDataRow, Dat
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<DataRowAssertions<TDataRow>> BeEquivalentTo(DataRow expectation, string because = "", params object[] becauseArgs)
+    public AndConstraint<DataRowAssertions<TDataRow>> BeEquivalentTo(DataRow expectation, string because = "",
+        params object[] becauseArgs)
     {
         return BeEquivalentTo(
             expectation,
@@ -146,16 +153,19 @@ public class DataRowAssertions<TDataRow> : ReferenceTypeAssertions<TDataRow, Dat
     ///   <item><description>RowState</description></item>
     /// </list>
     ///
+    /// <para>
     /// The <see cref="DataRow"/> objects must be of the same type; if two <see cref="DataRow"/> objects
     /// are equivalent in all ways, except that one is part of a typed <see cref="DataTable"/> and is of a subclass
     /// of <see cref="DataRow"/>, then by default, they will not be considered equivalent.
-    ///
+    /// </para>
+    /// <para>
     /// This, as well as testing of any property can be overridden using the <paramref name="config"/> callback.
     /// By calling <see cref="IDataEquivalencyAssertionOptions{T}.AllowingMismatchedTypes"/>, two <see cref="DataRow"/>
     /// objects of differing types can be considered equivalent. Exclude specific properties using
     /// <see cref="IDataEquivalencyAssertionOptions{T}.Excluding(System.Linq.Expressions.Expression{Func{T, object}})"/>.
     /// Exclude columns of the data table (which also excludes the related field data in <see cref="DataRow"/>
     /// objects) using <see cref="IDataEquivalencyAssertionOptions{T}.ExcludingColumn(DataColumn)"/> or a related function.
+    /// </para>
     /// </remarks>
     ///
     /// You can use <see cref="IDataEquivalencyAssertionOptions{T}.ExcludingRelated(System.Linq.Expressions.Expression{Func{DataTable, object}})"/>
@@ -174,11 +184,16 @@ public class DataRowAssertions<TDataRow> : ReferenceTypeAssertions<TDataRow, Dat
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<DataRowAssertions<TDataRow>> BeEquivalentTo(DataRow expectation, Func<IDataEquivalencyAssertionOptions<DataRow>, IDataEquivalencyAssertionOptions<DataRow>> config, string because = "", params object[] becauseArgs)
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
+    public AndConstraint<DataRowAssertions<TDataRow>> BeEquivalentTo(DataRow expectation,
+        Func<IDataEquivalencyAssertionOptions<DataRow>, IDataEquivalencyAssertionOptions<DataRow>> config, string because = "",
+        params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(config, nameof(config));
+        Guard.ThrowIfArgumentIsNull(config);
 
-        IDataEquivalencyAssertionOptions<DataRow> options = config(AssertionOptions.CloneDefaults<DataRow, DataEquivalencyAssertionOptions<DataRow>>(e => new(e)));
+        IDataEquivalencyAssertionOptions<DataRow> options =
+            config(AssertionOptions.CloneDefaults<DataRow, DataEquivalencyAssertionOptions<DataRow>>(e =>
+                new DataEquivalencyAssertionOptions<DataRow>(e)));
 
         var context = new EquivalencyValidationContext(Node.From<DataRow>(() => AssertionScope.Current.CallerIdentity), options)
         {

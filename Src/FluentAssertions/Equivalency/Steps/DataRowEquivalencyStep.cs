@@ -12,7 +12,8 @@ namespace FluentAssertions.Equivalency.Steps;
 public class DataRowEquivalencyStep : EquivalencyStep<DataRow>
 {
     [SuppressMessage("Style", "IDE0019:Use pattern matching", Justification = "The code is easier to read without it.")]
-    protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+    protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context,
+        IEquivalencyValidator nestedValidator)
     {
         var subject = comparands.Subject as DataRow;
         var expectation = comparands.Expectation as DataRow;
@@ -24,43 +25,41 @@ public class DataRowEquivalencyStep : EquivalencyStep<DataRow>
                 AssertionScope.Current.FailWith("Expected {context:DataRow} value to be null, but found {0}", subject);
             }
         }
-        else
+        else if (subject is null)
         {
-            if (subject is null)
+            if (comparands.Subject is null)
             {
-                if (comparands.Subject is null)
-                {
-                    AssertionScope.Current.FailWith("Expected {context:DataRow} to be non-null, but found null");
-                }
-                else
-                {
-                    AssertionScope.Current.FailWith("Expected {context:DataRow} to be of type {0}, but found {1} instead",
-                        expectation.GetType(), comparands.Subject.GetType());
-                }
+                AssertionScope.Current.FailWith("Expected {context:DataRow} to be non-null, but found null");
             }
             else
             {
-                var dataSetConfig = context.Options as DataEquivalencyAssertionOptions<DataSet>;
-                var dataTableConfig = context.Options as DataEquivalencyAssertionOptions<DataTable>;
-                var dataRowConfig = context.Options as DataEquivalencyAssertionOptions<DataRow>;
-
-                if (dataSetConfig?.AllowMismatchedTypes != true
-                    && dataTableConfig?.AllowMismatchedTypes != true
-                    && dataRowConfig?.AllowMismatchedTypes != true)
-                {
-                    AssertionScope.Current
-                        .ForCondition(subject.GetType() == expectation.GetType())
-                        .FailWith("Expected {context:DataRow} to be of type {0}{reason}, but found {1}",
-                            expectation.GetType(), subject.GetType());
-                }
-
-                SelectedDataRowMembers selectedMembers = GetMembersFromExpectation(comparands, context.CurrentNode, context.Options);
-
-                CompareScalarProperties(subject, expectation, selectedMembers);
-
-                CompareFieldValues(context, nestedValidator, subject, expectation, dataSetConfig, dataTableConfig,
-                    dataRowConfig);
+                AssertionScope.Current.FailWith("Expected {context:DataRow} to be of type {0}, but found {1} instead",
+                    expectation.GetType(), comparands.Subject.GetType());
             }
+        }
+        else
+        {
+            var dataSetConfig = context.Options as DataEquivalencyAssertionOptions<DataSet>;
+            var dataTableConfig = context.Options as DataEquivalencyAssertionOptions<DataTable>;
+            var dataRowConfig = context.Options as DataEquivalencyAssertionOptions<DataRow>;
+
+            if (dataSetConfig?.AllowMismatchedTypes != true
+                && dataTableConfig?.AllowMismatchedTypes != true
+                && dataRowConfig?.AllowMismatchedTypes != true)
+            {
+                AssertionScope.Current
+                    .ForCondition(subject.GetType() == expectation.GetType())
+                    .FailWith("Expected {context:DataRow} to be of type {0}{reason}, but found {1}",
+                        expectation.GetType(), subject.GetType());
+            }
+
+            SelectedDataRowMembers selectedMembers =
+                GetMembersFromExpectation(comparands, context.CurrentNode, context.Options);
+
+            CompareScalarProperties(subject, expectation, selectedMembers);
+
+            CompareFieldValues(context, nestedValidator, subject, expectation, dataSetConfig, dataTableConfig,
+                dataRowConfig);
         }
 
         return EquivalencyResult.AssertionCompleted;
@@ -87,6 +86,8 @@ public class DataRowEquivalencyStep : EquivalencyStep<DataRow>
         }
     }
 
+    [SuppressMessage("Maintainability", "AV1561:Signature contains too many parameters", Justification = "Needs to be refactored")]
+    [SuppressMessage("Design", "MA0051:Method is too long", Justification = "Needs to be refactored")]
     private static void CompareFieldValues(IEquivalencyValidationContext context, IEquivalencyValidator parent,
         DataRow subject, DataRow expectation, DataEquivalencyAssertionOptions<DataSet> dataSetConfig,
         DataEquivalencyAssertionOptions<DataTable> dataTableConfig, DataEquivalencyAssertionOptions<DataRow> dataRowConfig)
@@ -98,26 +99,26 @@ public class DataRowEquivalencyStep : EquivalencyStep<DataRow>
             .Select(col => col.ColumnName);
 
         bool ignoreUnmatchedColumns =
-            (dataSetConfig?.IgnoreUnmatchedColumns == true) ||
-            (dataTableConfig?.IgnoreUnmatchedColumns == true) ||
-            (dataRowConfig?.IgnoreUnmatchedColumns == true);
+            dataSetConfig?.IgnoreUnmatchedColumns == true ||
+            dataTableConfig?.IgnoreUnmatchedColumns == true ||
+            dataRowConfig?.IgnoreUnmatchedColumns == true;
 
         DataRowVersion subjectVersion =
-            (subject.RowState == DataRowState.Deleted)
+            subject.RowState == DataRowState.Deleted
                 ? DataRowVersion.Original
                 : DataRowVersion.Current;
 
         DataRowVersion expectationVersion =
-            (expectation.RowState == DataRowState.Deleted)
+            expectation.RowState == DataRowState.Deleted
                 ? DataRowVersion.Original
                 : DataRowVersion.Current;
 
         bool compareOriginalVersions =
-            (subject.RowState == DataRowState.Modified) && (expectation.RowState == DataRowState.Modified);
+            subject.RowState == DataRowState.Modified && expectation.RowState == DataRowState.Modified;
 
-        if ((dataSetConfig?.ExcludeOriginalData == true)
-            || (dataTableConfig?.ExcludeOriginalData == true)
-            || (dataRowConfig?.ExcludeOriginalData == true))
+        if (dataSetConfig?.ExcludeOriginalData == true
+            || dataTableConfig?.ExcludeOriginalData == true
+            || dataRowConfig?.ExcludeOriginalData == true)
         {
             compareOriginalVersions = false;
         }
@@ -128,9 +129,9 @@ public class DataRowEquivalencyStep : EquivalencyStep<DataRow>
             DataColumn subjectColumn = subject.Table.Columns[columnName];
 
             if (subjectColumn is not null
-                && ((dataSetConfig?.ShouldExcludeColumn(subjectColumn) == true)
-                    || (dataTableConfig?.ShouldExcludeColumn(subjectColumn) == true)
-                    || (dataRowConfig?.ShouldExcludeColumn(subjectColumn) == true)))
+                && (dataSetConfig?.ShouldExcludeColumn(subjectColumn) == true
+                    || dataTableConfig?.ShouldExcludeColumn(subjectColumn) == true
+                    || dataRowConfig?.ShouldExcludeColumn(subjectColumn) == true))
             {
                 continue;
             }
@@ -146,7 +147,7 @@ public class DataRowEquivalencyStep : EquivalencyStep<DataRow>
                     .FailWith("Found unexpected column {0} in {context:DataRow}", columnName);
             }
 
-            if ((subjectColumn is not null) && (expectationColumn is not null))
+            if (subjectColumn is not null && expectationColumn is not null)
             {
                 CompareFieldValue(context, parent, subject, expectation, subjectColumn, subjectVersion, expectationColumn,
                     expectationVersion);
@@ -172,29 +173,30 @@ public class DataRowEquivalencyStep : EquivalencyStep<DataRow>
         if (nestedContext is not null)
         {
             parent.RecursivelyAssertEquality(
-                new Comparands(subject[subjectColumn, subjectVersion], expectation[expectationColumn, expectationVersion], typeof(object)),
+                new Comparands(subject[subjectColumn, subjectVersion], expectation[expectationColumn, expectationVersion],
+                    typeof(object)),
                 nestedContext);
         }
     }
 
-    private class SelectedDataRowMembers
+    private sealed class SelectedDataRowMembers
     {
-        public bool HasErrors { get; set; }
+        public bool HasErrors { get; init; }
 
-        public bool RowState { get; set; }
+        public bool RowState { get; init; }
     }
 
     private static readonly ConcurrentDictionary<(Type CompileTimeType, Type RuntimeType, IEquivalencyAssertionOptions Config),
-            SelectedDataRowMembers> SelectedMembersCache = new();
+        SelectedDataRowMembers> SelectedMembersCache = new();
 
     private static SelectedDataRowMembers GetMembersFromExpectation(Comparands comparands, INode currentNode,
         IEquivalencyAssertionOptions config)
     {
         var cacheKey = (comparands.CompileTimeType, comparands.RuntimeType, config);
 
-        if (!SelectedMembersCache.TryGetValue(cacheKey, out SelectedDataRowMembers selectedMembers))
+        if (!SelectedMembersCache.TryGetValue(cacheKey, out SelectedDataRowMembers selectedDataRowMembers))
         {
-            var members = Enumerable.Empty<IMember>();
+            IEnumerable<IMember> members = Enumerable.Empty<IMember>();
 
             foreach (IMemberSelectionRule rule in config.SelectionRules)
             {
@@ -202,15 +204,17 @@ public class DataRowEquivalencyStep : EquivalencyStep<DataRow>
                     new MemberSelectionContext(comparands.CompileTimeType, comparands.RuntimeType, config));
             }
 
-            selectedMembers = new SelectedDataRowMembers
+            IMember[] selectedMembers = members.ToArray();
+
+            selectedDataRowMembers = new SelectedDataRowMembers
             {
-                HasErrors = members.Any(m => m.Name == nameof(DataRow.HasErrors)),
-                RowState = members.Any(m => m.Name == nameof(DataRow.RowState))
+                HasErrors = selectedMembers.Any(m => m.Name == nameof(DataRow.HasErrors)),
+                RowState = selectedMembers.Any(m => m.Name == nameof(DataRow.RowState))
             };
 
-            SelectedMembersCache.TryAdd(cacheKey, selectedMembers);
+            SelectedMembersCache.TryAdd(cacheKey, selectedDataRowMembers);
         }
 
-        return selectedMembers;
+        return selectedDataRowMembers;
     }
 }

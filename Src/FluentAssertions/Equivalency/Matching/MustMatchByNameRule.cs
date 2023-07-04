@@ -9,23 +9,23 @@ namespace FluentAssertions.Equivalency.Matching;
 /// </summary>
 internal class MustMatchByNameRule : IMemberMatchingRule
 {
-    public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions config)
+    public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions options)
     {
         IMember subjectMember = null;
 
-        if (config.IncludedProperties != MemberVisibility.None)
+        if (options.IncludedProperties != MemberVisibility.None)
         {
-            PropertyInfo propertyInfo = subject.GetType().FindProperty(expectedMember.Name, expectedMember.Type);
-            subjectMember = (propertyInfo is not null) && !propertyInfo.IsIndexer() ? new Property(propertyInfo, parent) : null;
+            PropertyInfo propertyInfo = subject.GetType().FindProperty(expectedMember.Name);
+            subjectMember = propertyInfo is not null && !propertyInfo.IsIndexer() ? new Property(propertyInfo, parent) : null;
         }
 
-        if ((subjectMember is null) && config.IncludedFields != MemberVisibility.None)
+        if (subjectMember is null && options.IncludedFields != MemberVisibility.None)
         {
-            FieldInfo fieldInfo = subject.GetType().FindField(expectedMember.Name, expectedMember.Type);
-            subjectMember = (fieldInfo is not null) ? new Field(fieldInfo, parent) : null;
+            FieldInfo fieldInfo = subject.GetType().FindField(expectedMember.Name);
+            subjectMember = fieldInfo is not null ? new Field(fieldInfo, parent) : null;
         }
 
-        if ((subjectMember is null || !config.UseRuntimeTyping) && ExpectationImplementsMemberExplicitly(subject, expectedMember))
+        if ((subjectMember is null || !options.UseRuntimeTyping) && ExpectationImplementsMemberExplicitly(subject, expectedMember))
         {
             subjectMember = expectedMember;
         }
@@ -35,12 +35,15 @@ internal class MustMatchByNameRule : IMemberMatchingRule
             Execute.Assertion.FailWith(
                 $"Expectation has {expectedMember.Description} that the other object does not have.");
         }
-
-        if (config.IgnoreNonBrowsableOnSubject && !subjectMember.IsBrowsable)
+        else if (options.IgnoreNonBrowsableOnSubject && !subjectMember.IsBrowsable)
         {
             Execute.Assertion.FailWith(
                 $"Expectation has {expectedMember.Description} that is non-browsable in the other object, and non-browsable " +
-                $"members on the subject are ignored with the current configuration");
+                "members on the subject are ignored with the current configuration");
+        }
+        else
+        {
+            // Everything is fine
         }
 
         return subjectMember;

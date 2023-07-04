@@ -12,6 +12,38 @@ public class PredicateLambdaExpressionValueFormatterSpecs
     private readonly PredicateLambdaExpressionValueFormatter formatter = new();
 
     [Fact]
+    public void Constructor_expression_with_argument_can_be_formatted()
+    {
+        // Arrange
+        Expression expression = (string arg) => new TestItem { Value = arg };
+
+        // Act
+        string result = Formatter.ToString(expression);
+
+        // Assert
+        result.Should().Be("new TestItem() {Value = arg}");
+    }
+
+    [Fact]
+    public void Constructor_expression_can_be_simplified()
+    {
+        // Arrange
+        string value = "foo";
+        Expression expression = () => new TestItem { Value = value };
+
+        // Act
+        string result = Formatter.ToString(expression);
+
+        // Assert
+        result.Should().Be("new TestItem() {Value = \"foo\"}");
+    }
+
+    private sealed class TestItem
+    {
+        public string Value { get; set; }
+    }
+
+    [Fact]
     public void When_first_level_properties_are_tested_for_equality_against_constants_then_output_should_be_readable()
     {
         // Act
@@ -22,7 +54,8 @@ public class PredicateLambdaExpressionValueFormatterSpecs
     }
 
     [Fact]
-    public void When_first_level_properties_are_tested_for_equality_against_constant_expressions_then_output_should_contain_values_of_constant_expressions()
+    public void
+        When_first_level_properties_are_tested_for_equality_against_constant_expressions_then_output_should_contain_values_of_constant_expressions()
     {
         // Arrange
         var expectedText = "foo";

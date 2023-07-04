@@ -7,8 +7,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Collections;
 
-public class StringCollectionAssertions :
-    StringCollectionAssertions<IEnumerable<string>>
+public class StringCollectionAssertions : StringCollectionAssertions<IEnumerable<string>>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="StringCollectionAssertions"/> class.
@@ -19,8 +18,8 @@ public class StringCollectionAssertions :
     }
 }
 
-public class StringCollectionAssertions<TCollection> :
-    StringCollectionAssertions<TCollection, StringCollectionAssertions<TCollection>>
+public class StringCollectionAssertions<TCollection>
+    : StringCollectionAssertions<TCollection, StringCollectionAssertions<TCollection>>
     where TCollection : IEnumerable<string>
 {
     /// <summary>
@@ -32,8 +31,7 @@ public class StringCollectionAssertions<TCollection> :
     }
 }
 
-public class StringCollectionAssertions<TCollection, TAssertions> :
-    GenericCollectionAssertions<TCollection, string, TAssertions>
+public class StringCollectionAssertions<TCollection, TAssertions> : GenericCollectionAssertions<TCollection, string, TAssertions>
     where TCollection : IEnumerable<string>
     where TAssertions : StringCollectionAssertions<TCollection, TAssertions>
 {
@@ -47,7 +45,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
 
     /// <summary>
     /// Expects the current collection to contain all the same elements in the same order as the collection identified by
-    /// <paramref name="expected" />. Elements are compared using their <see cref="object.Equals(object)" />.
+    /// <paramref name="expected" />. Elements are compared using their <see cref="object.Equals(object)" />.  To ignore
+    /// the element order, use <see cref="BeEquivalentTo(string[])"/> instead.
     /// </summary>
     /// <param name="expected">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
     public new AndConstraint<TAssertions> Equal(params string[] expected)
@@ -57,7 +56,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
 
     /// <summary>
     /// Expects the current collection to contain all the same elements in the same order as the collection identified by
-    /// <paramref name="expected" />. Elements are compared using their <see cref="object.Equals(object)" />.
+    /// <paramref name="expected" />. Elements are compared using their <see cref="object.Equals(object)" />.  To ignore
+    /// the element order, use <see cref="BeEquivalentTo(IEnumerable{string}, string, object[])"/> instead.
     /// </summary>
     /// <param name="expected">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
     public AndConstraint<TAssertions> Equal(IEnumerable<string> expected)
@@ -69,7 +69,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     /// Asserts that a collection of string is equivalent to another collection of strings.
     /// </summary>
     /// <remarks>
-    /// The two collections are equivalent when they both contain the same strings in any order.
+    /// The two collections are equivalent when they both contain the same strings in any order. To assert that the elements
+    /// are in the same order, use <see cref="Equal(string[])"/> instead.
     /// </remarks>
     public AndConstraint<TAssertions> BeEquivalentTo(params string[] expectation)
     {
@@ -80,7 +81,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     /// Asserts that a collection of objects is equivalent to another collection of objects.
     /// </summary>
     /// <remarks>
-    /// The two collections are equivalent when they both contain the same strings in any order.
+    /// The two collections are equivalent when they both contain the same strings in any order.  To assert that the elements
+    /// are in the same order, use <see cref="Equal(IEnumerable{string})"/> instead.
     /// </remarks>
     /// <param name="expectation">An <see cref="IEnumerable{String}"/> with the expected elements.</param>
     /// <param name="because">
@@ -90,7 +92,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable<string> expectation, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable<string> expectation, string because = "",
+        params object[] becauseArgs)
     {
         return BeEquivalentTo(expectation, config => config, because, becauseArgs);
     }
@@ -99,7 +102,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     /// Asserts that a collection of objects is equivalent to another collection of objects.
     /// </summary>
     /// <remarks>
-    /// The two collections are equivalent when they both contain the same strings in any order.
+    /// The two collections are equivalent when they both contain the same strings in any order.  To assert that the elements
+    /// are in the same order, use <see cref="Equal(string[])"/> instead.
     /// </remarks>
     /// <param name="expectation">An <see cref="IEnumerable{String}"/> with the expected elements.</param>
     /// <param name="config">
@@ -115,19 +119,22 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable<string> expectation,
         Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(config, nameof(config));
+        Guard.ThrowIfArgumentIsNull(config);
 
-        EquivalencyAssertionOptions<IEnumerable<string>> options = config(AssertionOptions.CloneDefaults<string>()).AsCollection();
+        EquivalencyAssertionOptions<IEnumerable<string>>
+            options = config(AssertionOptions.CloneDefaults<string>()).AsCollection();
 
-        var context = new EquivalencyValidationContext(Node.From<IEnumerable<string>>(() => AssertionScope.Current.CallerIdentity), options)
-        {
-            Reason = new Reason(because, becauseArgs),
-            TraceWriter = options.TraceWriter
-        };
+        var context =
+            new EquivalencyValidationContext(Node.From<IEnumerable<string>>(() => AssertionScope.Current.CallerIdentity), options)
+            {
+                Reason = new Reason(because, becauseArgs),
+                TraceWriter = options.TraceWriter
+            };
 
         var comparands = new Comparands
         {
@@ -175,12 +182,13 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> AllBe(string expectation,
         Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
         string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(config, nameof(config));
+        Guard.ThrowIfArgumentIsNull(config);
 
         string[] repeatedExpectation = RepeatAsManyAs(expectation, Subject).ToArray();
 
@@ -229,17 +237,16 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     /// </item>
     /// </list>
     /// </remarks>
-    /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
     public AndWhichConstraint<TAssertions, string> ContainMatch(string wildcardPattern, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match strings in collection against <null>. Provide a wildcard pattern or use the Contain method.");
+        Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern),
+            "Cannot match strings in collection against <null>. Provide a wildcard pattern or use the Contain method.");
 
-        if (wildcardPattern.Length == 0)
-        {
-            throw new ArgumentException("Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the Contain method.", nameof(wildcardPattern));
-        }
+        Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern),
+            "Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the Contain method.");
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -264,10 +271,11 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     private bool ContainsMatch(string wildcardPattern)
     {
         using var scope = new AssertionScope();
+
         return Subject.Any(item =>
         {
             item.Should().Match(wildcardPattern);
-            return !scope.Discard().Any();
+            return scope.Discard().Length == 0;
         });
     }
 
@@ -277,7 +285,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
         {
             using var scope = new AssertionScope();
             item.Should().Match(wildcardPattern);
-            return !scope.Discard().Any();
+            return scope.Discard().Length == 0;
         });
     }
 
@@ -314,22 +322,22 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     /// </item>
     /// </list>
     /// </remarks>
-    /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
     public AndConstraint<TAssertions> NotContainMatch(string wildcardPattern, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern), "Cannot match strings in collection against <null>. Provide a wildcard pattern or use the NotContain method.");
+        Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern),
+            "Cannot match strings in collection against <null>. Provide a wildcard pattern or use the NotContain method.");
 
-        if (wildcardPattern.Length == 0)
-        {
-            throw new ArgumentException("Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the NotContain method.", nameof(wildcardPattern));
-        }
+        Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern),
+            "Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the NotContain method.");
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
-            .FailWith("Did not expect {context:collection} to contain a match of {0}{reason}, but found <null>.", wildcardPattern);
+            .FailWith("Did not expect {context:collection} to contain a match of {0}{reason}, but found <null>.",
+                wildcardPattern);
 
         if (success)
         {
@@ -345,10 +353,11 @@ public class StringCollectionAssertions<TCollection, TAssertions> :
     private bool NotContainsMatch(string wildcardPattern)
     {
         using var scope = new AssertionScope();
+
         return Subject.All(item =>
         {
             item.Should().NotMatch(wildcardPattern);
-            return !scope.Discard().Any();
+            return scope.Discard().Length == 0;
         });
     }
 }

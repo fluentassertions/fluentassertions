@@ -12,7 +12,7 @@ public class ExecutionTime
     /// Initializes a new instance of the <see cref="ExecutionTime"/> class.
     /// </summary>
     /// <param name="action">The action of which the execution time must be asserted.</param>
-    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <see langword="null"/>.</exception>
     public ExecutionTime(Action action, StartTimer createTimer)
         : this(action, "the action", createTimer)
     {
@@ -22,7 +22,7 @@ public class ExecutionTime
     /// Initializes a new instance of the <see cref="ExecutionTime"/> class.
     /// </summary>
     /// <param name="action">The action of which the execution time must be asserted.</param>
-    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <see langword="null"/>.</exception>
     public ExecutionTime(Func<Task> action, StartTimer createTimer)
         : this(action, "the action", createTimer)
     {
@@ -33,13 +33,14 @@ public class ExecutionTime
     /// </summary>
     /// <param name="action">The action of which the execution time must be asserted.</param>
     /// <param name="actionDescription">The description of the action to be asserted.</param>
-    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <see langword="null"/>.</exception>
     protected ExecutionTime(Action action, string actionDescription, StartTimer createTimer)
     {
-        Guard.ThrowIfArgumentIsNull(action, nameof(action));
+        Guard.ThrowIfArgumentIsNull(action);
 
         ActionDescription = actionDescription;
         IsRunning = true;
+
         Task = Task.Run(() =>
         {
             // move stopwatch as close to action start as possible
@@ -73,13 +74,14 @@ public class ExecutionTime
     /// The original constructor shall stay in place in order to keep backward-compatibility
     /// and to avoid unnecessary wrapping action in <see cref="Task"/>.
     /// </remarks>
-    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="action"/> is <see langword="null"/>.</exception>
     protected ExecutionTime(Func<Task> action, string actionDescription, StartTimer createTimer)
     {
-        Guard.ThrowIfArgumentIsNull(action, nameof(action));
+        Guard.ThrowIfArgumentIsNull(action);
 
         ActionDescription = actionDescription;
         IsRunning = true;
+
         Task = Task.Run(async () =>
         {
             // move stopwatch as close to action start as possible

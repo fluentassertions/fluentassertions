@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Formatting;
@@ -21,11 +20,11 @@ public class AttributeBasedFormatter : IValueFormatter
     /// </summary>
     /// <param name="value">The value for which to create a <see cref="string"/>.</param>
     /// <returns>
-    /// <c>true</c> if the current <see cref="IValueFormatter"/> can handle the specified value; otherwise, <c>false</c>.
+    /// <see langword="true"/> if the current <see cref="IValueFormatter"/> can handle the specified value; otherwise, <see langword="false"/>.
     /// </returns>
     public bool CanHandle(object value)
     {
-        return IsScanningEnabled && (value is not null) && (GetFormatter(value) is not null);
+        return IsScanningEnabled && value is not null && GetFormatter(value) is not null;
     }
 
     private static bool IsScanningEnabled
@@ -37,7 +36,7 @@ public class AttributeBasedFormatter : IValueFormatter
     {
         MethodInfo method = GetFormatter(value);
 
-        object[] parameters = new[] { value, formattedGraph };
+        object[] parameters = { value, formattedGraph };
 
         method.Invoke(null, parameters);
     }
@@ -45,6 +44,7 @@ public class AttributeBasedFormatter : IValueFormatter
     private MethodInfo GetFormatter(object value)
     {
         Type valueType = value.GetType();
+
         do
         {
             if (Formatters.TryGetValue(valueType, out var formatter))
@@ -89,8 +89,10 @@ public class AttributeBasedFormatter : IValueFormatter
             where method.IsDecoratedWithOrInherit<ValueFormatterAttribute>()
             let methodParameters = method.GetParameters()
             where methodParameters.Length == 2
-            select new { Type = methodParameters.First().ParameterType, Method = method } into formatter
-            group formatter by formatter.Type into formatterGroup
+            select new { Type = methodParameters[0].ParameterType, Method = method }
+            into formatter
+            group formatter by formatter.Type
+            into formatterGroup
             select formatterGroup.First();
 
         return query.ToDictionary(f => f.Type, f => f.Method);
@@ -101,8 +103,8 @@ public class AttributeBasedFormatter : IValueFormatter
         Configuration configuration = Configuration.Current;
         ValueFormatterDetectionMode mode = configuration.ValueFormatterDetectionMode;
 
-        return (mode == ValueFormatterDetectionMode.Scan) || (
-            (mode == ValueFormatterDetectionMode.Specific) &&
+        return mode == ValueFormatterDetectionMode.Scan || (
+            mode == ValueFormatterDetectionMode.Specific &&
             assembly.FullName.Split(',')[0].Equals(configuration.ValueFormatterAssembly, StringComparison.OrdinalIgnoreCase));
     }
 }

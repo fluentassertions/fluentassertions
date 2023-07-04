@@ -843,7 +843,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         // Assert
         action.Should().Throw<XunitException>()
             .WithMessage("Expected collection to intersect with {\"four\", \"five\"} because they should share items," +
-                         " but {\"one\", \"two\", \"three\"} does not contain any shared items.");
+                " but {\"one\", \"two\", \"three\"} does not contain any shared items.");
     }
 
     [Fact]
@@ -1465,8 +1465,8 @@ public partial class GenericCollectionAssertionOfStringSpecs
     public void When_two_arrays_contain_the_same_elements_it_should_treat_them_as_equivalent()
     {
         // Arrange
-        string[] array1 = new[] { "one", "two", "three" };
-        string[] array2 = new[] { "three", "two", "one" };
+        string[] array1 = { "one", "two", "three" };
+        string[] array2 = { "three", "two", "one" };
 
         // Act / Assert
         array1.Should().BeEquivalentTo(array2);
@@ -1697,7 +1697,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
     public void When_collection_contains_a_match_it_should_not_throw()
     {
         // Arrange
-        IEnumerable<string> collection = new string[] { "build succeded", "test failed" };
+        IEnumerable<string> collection = new[] { "build succeded", "test failed" };
 
         // Act
         Action action = () => collection.Should().ContainMatch("* failed");
@@ -1710,7 +1710,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
     public void When_collection_contains_multiple_matches_it_should_not_throw()
     {
         // Arrange
-        IEnumerable<string> collection = new string[] { "build succeded", "test failed", "pack failed" };
+        IEnumerable<string> collection = new[] { "build succeded", "test failed", "pack failed" };
 
         // Act
         Action action = () => collection.Should().ContainMatch("* failed");
@@ -1723,13 +1723,10 @@ public partial class GenericCollectionAssertionOfStringSpecs
     public void When_collection_contains_multiple_matches_which_should_throw()
     {
         // Arrange
-        IEnumerable<string> collection = new string[] { "build succeded", "test failed", "pack failed" };
+        IEnumerable<string> collection = new[] { "build succeded", "test failed", "pack failed" };
 
         // Act
-        Action action = () =>
-        {
-            _ = collection.Should().ContainMatch("* failed").Which;
-        };
+        Action action = () => _ = collection.Should().ContainMatch("* failed").Which;
 
         // Assert
         action.Should().Throw<XunitException>()
@@ -1741,21 +1738,22 @@ public partial class GenericCollectionAssertionOfStringSpecs
     public void When_collection_does_not_contain_a_match_it_should_throw()
     {
         // Arrange
-        IEnumerable<string> collection = new string[] { "build succeded", "test failed" };
+        IEnumerable<string> collection = new[] { "build succeded", "test failed" };
 
         // Act
         Action action = () => collection.Should().ContainMatch("* stopped", "because {0}", "we do");
 
         // Assert
         action.Should().Throw<XunitException>()
-            .WithMessage("Expected collection {\"build succeded\", \"test failed\"} to contain a match of \"* stopped\" because we do.");
+            .WithMessage(
+                "Expected collection {\"build succeded\", \"test failed\"} to contain a match of \"* stopped\" because we do.");
     }
 
     [Fact]
     public void When_collection_contains_a_match_that_differs_in_casing_it_should_throw()
     {
         // Arrange
-        IEnumerable<string> collection = new string[] { "build succeded", "test failed" };
+        IEnumerable<string> collection = new[] { "build succeded", "test failed" };
 
         // Act
         Action action = () => collection.Should().ContainMatch("* Failed");
@@ -1801,14 +1799,15 @@ public partial class GenericCollectionAssertionOfStringSpecs
     public void When_asserting_collection_to_have_null_match_it_should_throw()
     {
         // Arrange
-        IEnumerable<string> collection = new string[] { "build succeded", "test failed" };
+        IEnumerable<string> collection = new[] { "build succeded", "test failed" };
 
         // Act
         Action action = () => collection.Should().ContainMatch(null);
 
         // Assert
         action.Should().Throw<ArgumentNullException>()
-            .WithMessage("Cannot match strings in collection against <null>. Provide a wildcard pattern or use the Contain method.*")
+            .WithMessage(
+                "Cannot match strings in collection against <null>. Provide a wildcard pattern or use the Contain method.*")
             .WithParameterName("wildcardPattern");
     }
 
@@ -1816,14 +1815,15 @@ public partial class GenericCollectionAssertionOfStringSpecs
     public void When_asserting_collection_to_have_empty_string_match_it_should_throw()
     {
         // Arrange
-        IEnumerable<string> collection = new string[] { "build succeded", "test failed" };
+        IEnumerable<string> collection = new[] { "build succeded", "test failed" };
 
         // Act
         Action action = () => collection.Should().ContainMatch(string.Empty);
 
         // Assert
         action.Should().Throw<ArgumentException>()
-            .WithMessage("Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the Contain method.*")
+            .WithMessage(
+                "Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the Contain method.*")
             .WithParameterName("wildcardPattern");
     }
 
@@ -1835,7 +1835,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
     public void When_collection_doesnt_contain_a_match_it_should_not_throw()
     {
         // Arrange
-        IEnumerable<string> collection = new string[] { "build succeded", "test" };
+        IEnumerable<string> collection = new[] { "build succeded", "test" };
 
         // Act
         Action action = () => collection.Should().NotContainMatch("* failed");
@@ -1848,7 +1848,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
     public void When_collection_doesnt_contain_multiple_matches_it_should_not_throw()
     {
         // Arrange
-        IEnumerable<string> collection = new string[] { "build succeded", "test", "pack" };
+        IEnumerable<string> collection = new[] { "build succeded", "test", "pack" };
 
         // Act
         Action action = () => collection.Should().NotContainMatch("* failed");
@@ -1861,35 +1861,37 @@ public partial class GenericCollectionAssertionOfStringSpecs
     public void When_collection_contains_a_match_it_should_throw()
     {
         // Arrange
-        IEnumerable<string> collection = new string[] { "build succeded", "test failed" };
+        IEnumerable<string> collection = new[] { "build succeded", "test failed" };
 
         // Act
         Action action = () => collection.Should().NotContainMatch("* failed", "because {0}", "it shouldn't");
 
         // Assert
         action.Should().Throw<XunitException>()
-            .WithMessage("Did not expect collection {\"build succeded\", \"test failed\"} to contain a match of \"* failed\" because it shouldn't.");
+            .WithMessage(
+                "Did not expect collection {\"build succeded\", \"test failed\"} to contain a match of \"* failed\" because it shouldn't.");
     }
 
     [Fact]
     public void When_collection_contains_multiple_matches_it_should_throw()
     {
         // Arrange
-        IEnumerable<string> collection = new string[] { "build failed", "test failed" };
+        IEnumerable<string> collection = new[] { "build failed", "test failed" };
 
         // Act
         Action action = () => collection.Should().NotContainMatch("* failed", "because {0}", "it shouldn't");
 
         // Assert
         action.Should().Throw<XunitException>()
-            .WithMessage("Did not expect collection {\"build failed\", \"test failed\"} to contain a match of \"* failed\" because it shouldn't.");
+            .WithMessage(
+                "Did not expect collection {\"build failed\", \"test failed\"} to contain a match of \"* failed\" because it shouldn't.");
     }
 
     [Fact]
     public void When_collection_contains_a_match_with_different_casing_it_should_not_throw()
     {
         // Arrange
-        IEnumerable<string> collection = new string[] { "build succeded", "test failed" };
+        IEnumerable<string> collection = new[] { "build succeded", "test failed" };
 
         // Act
         Action action = () => collection.Should().NotContainMatch("* Failed");
@@ -1902,14 +1904,15 @@ public partial class GenericCollectionAssertionOfStringSpecs
     public void When_asserting_collection_to_not_have_null_match_it_should_throw()
     {
         // Arrange
-        IEnumerable<string> collection = new string[] { "build succeded", "test failed" };
+        IEnumerable<string> collection = new[] { "build succeded", "test failed" };
 
         // Act
         Action action = () => collection.Should().NotContainMatch(null);
 
         // Assert
         action.Should().Throw<ArgumentNullException>()
-            .WithMessage("Cannot match strings in collection against <null>. Provide a wildcard pattern or use the NotContain method.*")
+            .WithMessage(
+                "Cannot match strings in collection against <null>. Provide a wildcard pattern or use the NotContain method.*")
             .WithParameterName("wildcardPattern");
     }
 
@@ -1917,14 +1920,15 @@ public partial class GenericCollectionAssertionOfStringSpecs
     public void When_asserting_collection_to_not_have_empty_string_match_it_should_throw()
     {
         // Arrange
-        IEnumerable<string> collection = new string[] { "build succeded", "test failed" };
+        IEnumerable<string> collection = new[] { "build succeded", "test failed" };
 
         // Act
         Action action = () => collection.Should().NotContainMatch(string.Empty);
 
         // Assert
         action.Should().Throw<ArgumentException>()
-            .WithMessage("Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the NotContain method.*")
+            .WithMessage(
+                "Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the NotContain method.*")
             .WithParameterName("wildcardPattern");
     }
 
@@ -1954,7 +1958,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
     public void When_string_collection_satisfies_all_inspectors_it_should_succeed()
     {
         // Arrange
-        string[] collection = new[] { "John", "Jane" };
+        string[] collection = { "John", "Jane" };
 
         // Act / Assert
         collection.Should().SatisfyRespectively(
@@ -1967,7 +1971,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
     public void When_string_collection_does_not_satisfy_all_inspectors_it_should_throw()
     {
         // Arrange
-        string[] collection = new[] { "Jack", "Jessica" };
+        string[] collection = { "Jack", "Jessica" };
 
         // Act
         Action act = () => collection.Should().SatisfyRespectively(new Action<string>[]
@@ -1984,4 +1988,19 @@ public partial class GenericCollectionAssertionOfStringSpecs
     }
 
     #endregion
+
+    [Fact]
+    public void When_accidentally_using_equals_it_should_throw_a_helpful_error()
+    {
+        // Arrange
+        var someCollection = new List<string> { "one", "two", "three" };
+
+        // Act
+        Action action = () => someCollection.Should().Equals(someCollection);
+
+        // Assert
+        action.Should().Throw<NotSupportedException>()
+            .WithMessage(
+                "Equals is not part of Fluent Assertions. Did you mean BeSameAs(), Equal(), or BeEquivalentTo() instead?");
+    }
 }

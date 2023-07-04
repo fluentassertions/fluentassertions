@@ -13,9 +13,10 @@ internal abstract class LateBoundTestFramework : ITestFramework
     public void Throw(string message)
     {
         Type exceptionType = assembly.GetType(ExceptionFullName);
+
         if (exceptionType is null)
         {
-            throw new Exception(
+            throw new NotSupportedException(
                 $"Failed to create the assertion exception for the current test framework: \"{ExceptionFullName}, {assembly.FullName}\"");
         }
 
@@ -28,9 +29,8 @@ internal abstract class LateBoundTestFramework : ITestFramework
         {
             string prefix = AssemblyName + ",";
 
-            assembly = AppDomain.CurrentDomain
-                .GetAssemblies()
-                .FirstOrDefault(a => a.FullName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
+            assembly = Array.Find(AppDomain.CurrentDomain
+                .GetAssemblies(), a => a.FullName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
 
             return assembly is not null;
         }

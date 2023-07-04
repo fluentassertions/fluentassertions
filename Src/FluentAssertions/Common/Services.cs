@@ -24,12 +24,7 @@ public static class Services
         {
             lock (Lockable)
             {
-                if (configuration is null)
-                {
-                    configuration = new Configuration(ConfigurationStore);
-                }
-
-                return configuration;
+                return configuration ??= new Configuration(ConfigurationStore);
             }
         }
     }
@@ -46,6 +41,6 @@ public static class Services
 #else
         ConfigurationStore = new NullConfigurationStore();
 #endif
-        ThrowException = TestFrameworkProvider.Throw;
+        ThrowException = new TestFrameworkProvider(Configuration).Throw;
     }
 }

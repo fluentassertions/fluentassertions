@@ -9,7 +9,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Types;
 
-#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CS0659, S1206 // Ignore not overriding Object.GetHashCode()
 #pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
 /// <summary>
 /// Contains assertions for the <see cref="MethodInfo"/> objects returned by the parent <see cref="MethodInfoSelector"/>.
@@ -21,10 +21,10 @@ public class MethodInfoSelectorAssertions
     /// Initializes a new instance of the <see cref="MethodInfoSelectorAssertions"/> class.
     /// </summary>
     /// <param name="methods">The methods to assert.</param>
-    /// <exception cref="ArgumentNullException"><paramref name="methods"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="methods"/> is <see langword="null"/>.</exception>
     public MethodInfoSelectorAssertions(params MethodInfo[] methods)
     {
-        Guard.ThrowIfArgumentIsNull(methods, nameof(methods));
+        Guard.ThrowIfArgumentIsNull(methods);
 
         SubjectMethods = methods;
     }
@@ -54,7 +54,7 @@ public class MethodInfoSelectorAssertions
             GetDescriptionsFor(nonVirtualMethods);
 
         Execute.Assertion
-            .ForCondition(!nonVirtualMethods.Any())
+            .ForCondition(nonVirtualMethods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage);
 
@@ -81,7 +81,7 @@ public class MethodInfoSelectorAssertions
             GetDescriptionsFor(virtualMethods);
 
         Execute.Assertion
-            .ForCondition(!virtualMethods.Any())
+            .ForCondition(virtualMethods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage);
 
@@ -118,7 +118,7 @@ public class MethodInfoSelectorAssertions
             GetDescriptionsFor(nonAsyncMethods);
 
         Execute.Assertion
-            .ForCondition(!nonAsyncMethods.Any())
+            .ForCondition(nonAsyncMethods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage);
 
@@ -145,7 +145,7 @@ public class MethodInfoSelectorAssertions
             GetDescriptionsFor(asyncMethods);
 
         Execute.Assertion
-            .ForCondition(!asyncMethods.Any())
+            .ForCondition(asyncMethods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage);
 
@@ -162,7 +162,8 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "",
+        params object[] becauseArgs)
         where TAttribute : Attribute
     {
         return BeDecoratedWith<TAttribute>(_ => true, because, becauseArgs);
@@ -182,11 +183,12 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
         MethodInfo[] methodsWithoutAttribute = GetMethodsWithout(isMatchingAttributePredicate);
 
@@ -196,7 +198,7 @@ public class MethodInfoSelectorAssertions
             GetDescriptionsFor(methodsWithoutAttribute);
 
         Execute.Assertion
-            .ForCondition(!methodsWithoutAttribute.Any())
+            .ForCondition(methodsWithoutAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage, typeof(TAttribute));
 
@@ -213,7 +215,8 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "",
+        params object[] becauseArgs)
         where TAttribute : Attribute
     {
         return NotBeDecoratedWith<TAttribute>(_ => true, because, becauseArgs);
@@ -233,11 +236,12 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<MethodInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
         MethodInfo[] methodsWithAttribute = GetMethodsWith(isMatchingAttributePredicate);
 
@@ -247,7 +251,7 @@ public class MethodInfoSelectorAssertions
             GetDescriptionsFor(methodsWithAttribute);
 
         Execute.Assertion
-            .ForCondition(!methodsWithAttribute.Any())
+            .ForCondition(methodsWithAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage, typeof(TAttribute));
 
@@ -265,13 +269,16 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> Be(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> Be(CSharpAccessModifier accessModifier, string because = "",
+        params object[] becauseArgs)
     {
         var methods = SubjectMethods.Where(pi => pi.GetCSharpAccessModifier() != accessModifier).ToArray();
-        var message = $"Expected all selected methods to be {accessModifier}{{reason}}, but the following methods are not:" + Environment.NewLine + GetDescriptionsFor(methods);
+
+        var message = $"Expected all selected methods to be {accessModifier}{{reason}}, but the following methods are not:" +
+            Environment.NewLine + GetDescriptionsFor(methods);
 
         Execute.Assertion
-            .ForCondition(!methods.Any())
+            .ForCondition(methods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(message);
 
@@ -289,13 +296,16 @@ public class MethodInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodInfoSelectorAssertions> NotBe(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
+    public AndConstraint<MethodInfoSelectorAssertions> NotBe(CSharpAccessModifier accessModifier, string because = "",
+        params object[] becauseArgs)
     {
         var methods = SubjectMethods.Where(pi => pi.GetCSharpAccessModifier() == accessModifier).ToArray();
-        var message = $"Expected all selected methods to not be {accessModifier}{{reason}}, but the following methods are:" + Environment.NewLine + GetDescriptionsFor(methods);
+
+        var message = $"Expected all selected methods to not be {accessModifier}{{reason}}, but the following methods are:" +
+            Environment.NewLine + GetDescriptionsFor(methods);
 
         Execute.Assertion
-            .ForCondition(!methods.Any())
+            .ForCondition(methods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(message);
 
@@ -330,5 +340,5 @@ public class MethodInfoSelectorAssertions
 
     /// <inheritdoc/>
     public override bool Equals(object obj) =>
-        throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
+        throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
 }

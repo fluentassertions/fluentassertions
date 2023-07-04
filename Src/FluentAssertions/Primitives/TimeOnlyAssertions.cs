@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 #if NET6_0_OR_GREATER
-
 namespace FluentAssertions.Primitives;
 
 /// <summary>
@@ -20,7 +20,7 @@ public class TimeOnlyAssertions : TimeOnlyAssertions<TimeOnlyAssertions>
     }
 }
 
-#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CS0659, S1206 // Ignore not overriding Object.GetHashCode()
 #pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
 /// <summary>
 /// Contains a number of methods to assert that a <see cref="TimeOnly"/> is in the expected state.
@@ -123,6 +123,92 @@ public class TimeOnlyAssertions<TAssertions>
             .ForCondition(Subject != unexpected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:time} not to be {0}{reason}, but it is.", unexpected);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that the current <see cref="TimeOnly"/>  is within the specified time
+    /// from the specified <paramref name="nearbyTime"/> value.
+    /// </summary>
+    /// <param name="nearbyTime">
+    /// The expected time to compare the actual value with.
+    /// </param>
+    /// <param name="precision">
+    /// The maximum amount of time which the two values may differ.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
+    public AndConstraint<TAssertions> BeCloseTo(TimeOnly nearbyTime, TimeSpan precision, string because = "",
+        params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNegative(precision);
+
+        TimeSpan? difference = Subject != null
+            ? MinimumDifference(Subject.Value, nearbyTime)
+            : null;
+
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:the time} to be within {0} from {1}{reason}, ", precision, nearbyTime)
+            .ForCondition(Subject is not null)
+            .FailWith("but found <null>.")
+            .Then
+            .ForCondition(Subject?.IsCloseTo(nearbyTime, precision) == true)
+            .FailWith("but {0} was off by {1}.", Subject, difference)
+            .Then
+            .ClearExpectation();
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    private static TimeSpan? MinimumDifference(TimeOnly a, TimeOnly b)
+    {
+        var diff1 = a - b;
+        var diff2 = b - a;
+
+        return diff1 < diff2 ? diff1 : diff2;
+    }
+
+    /// <summary>
+    /// Asserts that the current <see cref="TimeOnly"/>  is not within the specified time
+    /// from the specified <paramref name="distantTime"/> value.
+    /// </summary>
+    /// <param name="distantTime">
+    /// The time to compare the actual value with.
+    /// </param>
+    /// <param name="precision">
+    /// The maximum amount of time which the two values must differ.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
+    public AndConstraint<TAssertions> NotBeCloseTo(TimeOnly distantTime, TimeSpan precision, string because = "",
+        params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNegative(precision);
+
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Did not expect {context:the time} to be within {0} from {1}{reason}, ", precision, distantTime)
+            .ForCondition(Subject is not null)
+            .FailWith("but found <null>.")
+            .Then
+            .ForCondition(Subject?.IsCloseTo(distantTime, precision) == false)
+            .FailWith("but it was {0}.", Subject)
+            .Then
+            .ClearExpectation();
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -330,7 +416,8 @@ public class TimeOnlyAssertions<TAssertions>
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject.HasValue)
-            .FailWith("Did not expect the hours part of {context:the time} to be {0}{reason}, but found a <null> TimeOnly.", unexpected)
+            .FailWith("Did not expect the hours part of {context:the time} to be {0}{reason}, but found a <null> TimeOnly.",
+                unexpected)
             .Then
             .ForCondition(Subject.Value.Hour != unexpected)
             .FailWith("Did not expect the hours part of {context:the time} to be {0}{reason}, but it was.", unexpected,
@@ -554,7 +641,8 @@ public class TimeOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeOneOf(IEnumerable<TimeOnly?> validValues, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeOneOf(IEnumerable<TimeOnly?> validValues, string because = "",
+        params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(validValues.Contains(Subject))
@@ -566,7 +654,7 @@ public class TimeOnlyAssertions<TAssertions>
 
     /// <inheritdoc/>
     public override bool Equals(object obj) =>
-        throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
+        throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
 }
 
 #endif

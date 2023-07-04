@@ -29,7 +29,7 @@ public partial class CollectionAssertionSpecs
             var collection = new object[] { 1, null, 2, "string" };
 
             // Act / Assert
-            collection.Should().ContainInOrder(new object[] { 1, null, "string" });
+            collection.Should().ContainInOrder(1, null, "string");
         }
 
         [Fact]
@@ -86,7 +86,22 @@ public partial class CollectionAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected collection {1, 2, 3} to contain items {4, 1} in order because we failed, " +
-                    "but 4 (index 0) did not appear (in the right order).");
+                "but 4 (index 0) did not appear (in the right order).");
+        }
+
+        [Fact]
+        public void When_a_collection_does_not_contain_items_with_assertion_scope_all_items_are_reported()
+        {
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                new[] { 1, 2, 3 }.Should().ContainInOrder(4).And.ContainInOrder(5);
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "*but 4 (index 0)*but 5 (index 0)*");
         }
 
         [Fact]
@@ -104,14 +119,14 @@ public partial class CollectionAssertionSpecs
         public void Collections_contain_the_empty_sequence()
         {
             // Assert
-            new[] { 1 }.Should().ContainInOrder(new int[0]);
+            new[] { 1 }.Should().ContainInOrder();
         }
 
         [Fact]
         public void Collections_do_not_not_contain_the_empty_sequence()
         {
             // Assert
-            new[] { 1 }.Should().NotContainInOrder(new int[0]);
+            new[] { 1 }.Should().NotContainInOrder();
         }
 
         [Fact]
@@ -185,7 +200,8 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().NotContainInOrder(4);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Cannot verify absence of ordered containment in a <null> collection.");
+            act.Should().Throw<XunitException>()
+                .WithMessage("Cannot verify absence of ordered containment in a <null> collection.");
         }
 
         [Fact]

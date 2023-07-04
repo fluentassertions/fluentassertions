@@ -26,7 +26,8 @@ internal sealed class EventRecorder : IEventRecording, IDisposable
     /// <param name="eventName">The name of the event that's recorded</param>
     /// <param name="utcNow">A delegate to get the current date and time in UTC format.</param>
     /// <param name="sequenceGenerator">Class used to generate a sequence in a thread-safe manner.</param>
-    public EventRecorder(object eventRaiser, string eventName, Func<DateTime> utcNow, ThreadSafeSequenceGenerator sequenceGenerator)
+    public EventRecorder(object eventRaiser, string eventName, Func<DateTime> utcNow,
+        ThreadSafeSequenceGenerator sequenceGenerator)
     {
         this.utcNow = utcNow;
         EventObject = eventRaiser;
@@ -64,9 +65,10 @@ internal sealed class EventRecorder : IEventRecording, IDisposable
 
     public void Dispose()
     {
-        if (cleanup is not null)
+        Action localCleanup = cleanup;
+        if (localCleanup is not null)
         {
-            cleanup?.Invoke();
+            localCleanup();
             cleanup = null;
             EventObject = null;
             raisedEvents.Dispose();

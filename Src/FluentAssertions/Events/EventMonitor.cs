@@ -12,12 +12,11 @@ namespace FluentAssertions.Events;
 /// <summary>
 /// Tracks the events an object raises.
 /// </summary>
-internal class EventMonitor<T> : IMonitor<T>
+internal sealed class EventMonitor<T> : IMonitor<T>
 {
     private readonly WeakReference subject;
 
-    private readonly ConcurrentDictionary<string, EventRecorder> recorderMap =
-        new ConcurrentDictionary<string, EventRecorder>();
+    private readonly ConcurrentDictionary<string, EventRecorder> recorderMap = new();
 
     public EventMonitor(object eventSource, EventMonitorOptions options)
     {
@@ -93,7 +92,8 @@ internal class EventMonitor<T> : IMonitor<T>
         }
 
         EventInfo[] events = GetPublicEvents(typeDefiningEventsToMonitor);
-        if (!events.Any())
+
+        if (events.Length == 0)
         {
             throw new InvalidOperationException($"Type {typeDefiningEventsToMonitor.Name} does not expose any events.");
         }
@@ -144,6 +144,7 @@ internal class EventMonitor<T> : IMonitor<T>
         if (!recorderMap.TryGetValue(eventInfo.Name, out _))
         {
             var recorder = new EventRecorder(subject.Target, eventInfo.Name, utcNow, threadSafeSequenceGenerator);
+
             if (recorderMap.TryAdd(eventInfo.Name, recorder))
             {
                 AttachEventHandler(eventInfo, recorder);

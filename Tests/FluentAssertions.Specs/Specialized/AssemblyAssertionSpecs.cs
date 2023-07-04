@@ -180,7 +180,8 @@ public class AssemblyAssertionSpecs
         }
 
         [Fact]
-        public void When_an_assembly_does_not_define_a_type_and_Should_DefineType_is_asserted_it_should_fail_with_a_useful_message()
+        public void
+            When_an_assembly_does_not_define_a_type_and_Should_DefineType_is_asserted_it_should_fail_with_a_useful_message()
         {
             // Arrange
             var thisAssembly = GetType().Assembly;
@@ -192,8 +193,8 @@ public class AssemblyAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage($"Expected assembly \"{thisAssembly.FullName}\" " +
-                             "to define type \"FakeNamespace\".\"FakeName\" " +
-                             "because we want to test the failure message, but it does not.");
+                    "to define type \"FakeNamespace\".\"FakeName\" " +
+                    "because we want to test the failure message, but it does not.");
         }
 
         [Fact]
@@ -238,7 +239,7 @@ public class AssemblyAssertionSpecs
             Action act = () => thisAssembly.Should().DefineType(GetType().Namespace, string.Empty);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
     }

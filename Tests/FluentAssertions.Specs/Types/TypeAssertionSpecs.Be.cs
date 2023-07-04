@@ -1,6 +1,6 @@
 ﻿using System;
-using FluentAssertions.Primitives;
-using FluentAssertions.Types;
+using AssemblyA;
+using AssemblyB;
 using Xunit;
 using Xunit.Sdk;
 
@@ -96,10 +96,10 @@ public partial class TypeAssertionSpecs
             // Arrange
 #pragma warning disable 436 // disable the warning on conflicting types, as this is the intention for the spec
 
-            Type typeFromThisAssembly = typeof(AssemblyB.ClassC);
+            Type typeFromThisAssembly = typeof(ClassC);
 
             Type typeFromOtherAssembly =
-                new AssemblyA.ClassA().ReturnClassC().GetType();
+                new ClassA().ReturnClassC().GetType();
 
 #pragma warning restore 436
 
@@ -109,7 +109,8 @@ public partial class TypeAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected type to be [AssemblyB.ClassC, AssemblyB*] *failure message*, but found [AssemblyB.ClassC, FluentAssertions.Specs*].");
+                .WithMessage(
+                    "Expected type to be [AssemblyB.ClassC, AssemblyB*] *failure message*, but found [AssemblyB.ClassC, FluentAssertions.Specs*].");
         }
 
         [Fact]

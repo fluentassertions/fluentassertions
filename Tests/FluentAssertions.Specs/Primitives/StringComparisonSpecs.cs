@@ -269,7 +269,7 @@ public class StringComparisonSpecs
 
         // Act
         scope.BecauseOf("{0}", 1.234)
-             .FailWith("{reason}");
+            .FailWith("{reason}");
 
         // Assert
         scope.Invoking(e => e.Dispose()).Should().Throw<XunitException>()
@@ -314,6 +314,7 @@ public class StringComparisonSpecs
         {
             ["FOO"] = 1.234
         };
+
         var strategy = new CollectingAssertionStrategy();
         strategy.HandleFailure(string.Empty);
 
@@ -325,29 +326,51 @@ public class StringComparisonSpecs
             .WithMessage("*1.234*", "it should always use . as decimal separator");
     }
 
-    public static IEnumerable<object[]> EquivalencyData
+    [CulturedTheory("tr-TR")]
+    [MemberData(nameof(EquivalencyData))]
+    public void Matching_strings_for_equivalence_ignores_the_culture(string subject, string expected)
     {
-        get
-        {
-            const string LowerCaseI = "i";
-            const string UpperCaseI = "I";
-
-            return new List<object[]> { new object[] { LowerCaseI, UpperCaseI } };
-        }
+        // Assert
+        subject.Should().MatchEquivalentOf(expected);
     }
 
-    public static IEnumerable<object[]> EqualityData
+    [CulturedFact("en-US")]
+    public void Culture_is_ignored_when_sorting_strings()
     {
-        get
-        {
-            const string SinhalaLithDigitEight = "෮";
-            const string MyanmarTaiLaingDigitEight = "꧸";
+        using var _ = new AssertionScope();
 
-            return new List<object[]> { new object[] { SinhalaLithDigitEight, MyanmarTaiLaingDigitEight } };
-        }
+        new[] { "A", "a" }.Should().BeInAscendingOrder()
+            .And.BeInAscendingOrder(e => e)
+            .And.ThenBeInAscendingOrder(e => e)
+            .And.NotBeInDescendingOrder()
+            .And.NotBeInDescendingOrder(e => e);
+
+        new[] { "a", "A" }.Should().BeInDescendingOrder()
+            .And.BeInDescendingOrder(e => e)
+            .And.ThenBeInDescendingOrder(e => e)
+            .And.NotBeInAscendingOrder()
+            .And.NotBeInAscendingOrder(e => e);
     }
+
+    private const string LowerCaseI = "i";
+    private const string UpperCaseI = "I";
+
+    public static TheoryData<string, string> EquivalencyData => new()
+    {
+        { LowerCaseI, UpperCaseI }
+    };
+
+    private const string SinhalaLithDigitEight = "෮";
+    private const string MyanmarTaiLaingDigitEight = "꧸";
+
+    public static TheoryData<string, string> EqualityData => new()
+    {
+        { SinhalaLithDigitEight, MyanmarTaiLaingDigitEight }
+    };
 }
 
 // Due to CulturedTheory changing CultureInfo
 [CollectionDefinition(nameof(StringComparisonSpecs), DisableParallelization = true)]
-public class StringComparisonDefinition { }
+public class StringComparisonDefinition
+{
+}

@@ -48,11 +48,12 @@ public static class ObjectAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="options"/> is <see langword="null"/>.</exception>
     public static AndConstraint<ObjectAssertions> BeBinarySerializable<T>(this ObjectAssertions assertions,
         Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> options, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(options, nameof(options));
+        Guard.ThrowIfArgumentIsNull(options);
 
         try
         {
@@ -67,9 +68,9 @@ public static class ObjectAssertionsExtensions
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:{1}{1}{2}.",
+                .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:"
+                            + Environment.NewLine + Environment.NewLine + "{1}.",
                     assertions.Subject,
-                    Environment.NewLine,
                     exc.Message);
         }
 
@@ -112,10 +113,12 @@ public static class ObjectAssertionsExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="options"/> is <see langword="null"/>.</exception>
     public static AndConstraint<ObjectAssertions> BeDataContractSerializable<T>(this ObjectAssertions assertions,
-        Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> options, string because = "", params object[] becauseArgs)
+        Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> options, string because = "",
+        params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(options, nameof(options));
+        Guard.ThrowIfArgumentIsNull(options);
 
         try
         {
@@ -130,9 +133,9 @@ public static class ObjectAssertionsExtensions
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:{1}{1}{2}.",
+                .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:"
+                            + Environment.NewLine + Environment.NewLine + "{1}.",
                     assertions.Subject,
-                    Environment.NewLine,
                     exc.Message);
         }
 
@@ -142,19 +145,20 @@ public static class ObjectAssertionsExtensions
     private static object CreateCloneUsingBinarySerializer(object subject)
     {
         using var stream = new MemoryStream();
+
         var binaryFormatter = new BinaryFormatter
         {
             Binder = new SimpleBinder(subject.GetType())
         };
 
-#pragma warning disable SYSLIB0011 // BinaryFormatter is obsoleted, GH-issue 1779 tracks the upcoming removal in .NET 8.0
+#pragma warning disable SYSLIB0011, CA2300 // BinaryFormatter is obsoleted, GH-issue 1779 tracks the upcoming removal in .NET 8.0
         binaryFormatter.Serialize(stream, subject);
         stream.Position = 0;
         return binaryFormatter.Deserialize(stream);
-#pragma warning restore SYSLIB0011
+#pragma warning restore SYSLIB0011, CA2300
     }
 
-    private class SimpleBinder : SerializationBinder
+    private sealed class SimpleBinder : SerializationBinder
     {
         private readonly Type type;
 
@@ -165,14 +169,12 @@ public static class ObjectAssertionsExtensions
 
         public override Type BindToType(string assemblyName, string typeName)
         {
-            if ((type.FullName == typeName) && (type.Assembly.FullName == assemblyName))
+            if (type.FullName == typeName && type.Assembly.FullName == assemblyName)
             {
                 return type;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
     }
 
@@ -211,9 +213,9 @@ public static class ObjectAssertionsExtensions
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:{1}{1}{2}.",
+                .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:"
+                            + Environment.NewLine + Environment.NewLine + "{1}.",
                     assertions.Subject,
-                    Environment.NewLine,
                     exc.Message);
         }
 

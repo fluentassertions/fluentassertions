@@ -10,6 +10,36 @@ namespace FluentAssertions.Equivalency.Specs;
 public class BasicSpecs
 {
     [Fact]
+    public void A_null_configuration_is_invalid()
+    {
+        // Arrange
+        var actual = new { };
+        var expectation = new { };
+
+        // Act
+        Action act = () => actual.Should().BeEquivalentTo(expectation, config: null);
+
+        // Assert
+        act.Should().ThrowExactly<ArgumentNullException>()
+            .WithParameterName("config");
+    }
+
+    [Fact]
+    public void A_null_as_the_configuration_is_not_valid_for_inequivalency_assertions()
+    {
+        // Arrange
+        var actual = new { };
+        var expectation = new { };
+
+        // Act
+        Action act = () => actual.Should().NotBeEquivalentTo(expectation, config: null);
+
+        // Assert
+        act.Should().ThrowExactly<ArgumentNullException>()
+            .WithParameterName("config");
+    }
+
+    [Fact]
     public void When_expectation_is_null_it_should_throw()
     {
         // Arrange
@@ -166,7 +196,7 @@ public class BasicSpecs
 
         public new virtual bool Equals(object obj)
         {
-            return (obj is VirtualClass other) && other.Property == Property;
+            return obj is VirtualClass other && other.Property == Property;
         }
     }
 

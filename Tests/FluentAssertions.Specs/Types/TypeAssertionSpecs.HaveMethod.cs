@@ -23,8 +23,8 @@ public partial class TypeAssertionSpecs
                 type.Should()
                     .HaveMethod("VoidMethod", new Type[] { })
                     .Which.Should()
-                        .HaveAccessModifier(CSharpAccessModifier.Private)
-                        .And.ReturnVoid();
+                    .HaveAccessModifier(CSharpAccessModifier.Private)
+                    .And.ReturnVoid();
 
             // Assert
             act.Should().NotThrow();
@@ -39,7 +39,7 @@ public partial class TypeAssertionSpecs
             // Act
             Action act = () =>
                 type.Should().HaveMethod(
-                        "NonExistentMethod", new[] { typeof(int), typeof(Type) }, "we want to test the failure {0}", "message");
+                    "NonExistentMethod", new[] { typeof(int), typeof(Type) }, "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -107,7 +107,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveMethod(string.Empty, new[] { typeof(string) });
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
 
@@ -213,7 +213,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveMethod(string.Empty, new[] { typeof(string) });
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
 

@@ -37,9 +37,9 @@ public class MethodInfoAssertions : MethodBaseAssertions<MethodInfo, MethodInfoA
         if (success)
         {
             Execute.Assertion
-            .ForCondition(!Subject.IsNonVirtual())
-            .BecauseOf(because, becauseArgs)
-            .FailWith("Expected method " + SubjectDescription + " to be virtual{reason}, but it is not virtual.");
+                .ForCondition(!Subject.IsNonVirtual())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected method " + SubjectDescription + " to be virtual{reason}, but it is not virtual.");
         }
 
         return new AndConstraint<MethodInfoAssertions>(this);
@@ -93,9 +93,9 @@ public class MethodInfoAssertions : MethodBaseAssertions<MethodInfo, MethodInfoA
         if (success)
         {
             Execute.Assertion
-            .ForCondition(Subject.IsAsync())
-            .BecauseOf(because, becauseArgs)
-            .FailWith("Expected method " + SubjectDescription + " to be async{reason}, but it is not.");
+                .ForCondition(Subject.IsAsync())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected method " + SubjectDescription + " to be async{reason}, but it is not.");
         }
 
         return new AndConstraint<MethodInfoAssertions>(this);
@@ -139,7 +139,8 @@ public class MethodInfoAssertions : MethodBaseAssertions<MethodInfo, MethodInfoA
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> ReturnVoid(string because = "", params object[] becauseArgs)
+    public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> ReturnVoid(string because = "",
+        params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -169,10 +170,11 @@ public class MethodInfoAssertions : MethodBaseAssertions<MethodInfo, MethodInfoA
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="returnType"/> is <c>null</c>.</exception>
-    public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> Return(Type returnType, string because = "", params object[] becauseArgs)
+    /// <exception cref="ArgumentNullException"><paramref name="returnType"/> is <see langword="null"/>.</exception>
+    public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> Return(Type returnType, string because = "",
+        params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(returnType, nameof(returnType));
+        Guard.ThrowIfArgumentIsNull(returnType);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -202,7 +204,8 @@ public class MethodInfoAssertions : MethodBaseAssertions<MethodInfo, MethodInfoA
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> Return<TReturn>(string because = "", params object[] becauseArgs)
+    public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> Return<TReturn>(string because = "",
+        params object[] becauseArgs)
     {
         return Return(typeof(TReturn), because, becauseArgs);
     }
@@ -217,7 +220,8 @@ public class MethodInfoAssertions : MethodBaseAssertions<MethodInfo, MethodInfoA
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> NotReturnVoid(string because = "", params object[] becauseArgs)
+    public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> NotReturnVoid(string because = "",
+        params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -246,10 +250,11 @@ public class MethodInfoAssertions : MethodBaseAssertions<MethodInfo, MethodInfoA
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="returnType"/> is <c>null</c>.</exception>
-    public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> NotReturn(Type returnType, string because = "", params object[] becauseArgs)
+    /// <exception cref="ArgumentNullException"><paramref name="returnType"/> is <see langword="null"/>.</exception>
+    public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> NotReturn(Type returnType, string because = "",
+        params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(returnType, nameof(returnType));
+        Guard.ThrowIfArgumentIsNull(returnType);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -260,10 +265,10 @@ public class MethodInfoAssertions : MethodBaseAssertions<MethodInfo, MethodInfoA
         if (success)
         {
             Execute.Assertion
-            .ForCondition(returnType != Subject.ReturnType)
-            .BecauseOf(because, becauseArgs)
-            .FailWith(
-                "Expected the return type of method " + Subject.Name + " not to be {0}{reason}, but it is.", returnType);
+                .ForCondition(returnType != Subject.ReturnType)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected the return type of method " + Subject.Name + " not to be {0}{reason}, but it is.", returnType);
         }
 
         return new AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>>(this);
@@ -280,7 +285,8 @@ public class MethodInfoAssertions : MethodBaseAssertions<MethodInfo, MethodInfoA
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> NotReturn<TReturn>(string because = "", params object[] becauseArgs)
+    public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> NotReturn<TReturn>(string because = "",
+        params object[] becauseArgs)
     {
         return NotReturn(typeof(TReturn), because, becauseArgs);
     }

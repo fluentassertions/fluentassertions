@@ -67,7 +67,7 @@ public class OrderingRuleCollection : IEnumerable<IOrderingRule>
     /// </summary>
     public bool IsOrderingStrictFor(IObjectInfo objectInfo)
     {
-        List<OrderStrictness> results = rules.Select(r => r.Evaluate(objectInfo)).ToList();
+        List<OrderStrictness> results = rules.ConvertAll(r => r.Evaluate(objectInfo));
         return results.Contains(OrderStrictness.Strict) && !results.Contains(OrderStrictness.NotStrict);
     }
 }

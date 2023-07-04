@@ -37,7 +37,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage($"Expected value to be {expected} because we want to test the failure message, but found {value} (difference of {expectedDifference}).");
+                .WithMessage(
+                    $"Expected value to be {expected} because we want to test the failure message, but found {value} (difference of {expectedDifference}).");
         }
 
         [Theory]
@@ -94,7 +95,8 @@ public class NumericDifferenceAssertionsSpecs
         [InlineData(20, 50, -30)]
         [InlineData(123, -123, 246)]
         [InlineData(-123, 123, -246)]
-        public void The_difference_between_nullable_ints_is_included_in_the_message(int? value, int expected, int expectedDifference)
+        public void The_difference_between_nullable_ints_is_included_in_the_message(int? value, int expected,
+            int expectedDifference)
         {
             // Act
             Action act = () =>
@@ -103,7 +105,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage($"Expected value to be {expected} because we want to test the failure message, but found {value} (difference of {expectedDifference}).");
+                .WithMessage(
+                    $"Expected value to be {expected} because we want to test the failure message, but found {value} (difference of {expectedDifference}).");
         }
 
         [Fact]
@@ -120,7 +123,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be 19u because we want to test the failure message, but found 29u (difference of 10).");
+                .WithMessage(
+                    "Expected value to be 19u because we want to test the failure message, but found 29u (difference of 10).");
         }
 
         [Theory]
@@ -135,7 +139,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage($"Expected value to be {expected}L because we want to test the failure message, but found {value}L.");
+                .WithMessage(
+                    $"Expected value to be {expected}L because we want to test the failure message, but found {value}L.");
         }
 
         [Theory]
@@ -150,12 +155,13 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage($"Expected value to be {expected}L because we want to test the failure message, but found {value}L (difference of {expectedDifference}).");
+                .WithMessage(
+                    $"Expected value to be {expected}L because we want to test the failure message, but found {value}L (difference of {expectedDifference}).");
         }
 
         [Theory]
-        [InlineData(8, 5)]
-        [InlineData(1, 9)]
+        [InlineData(8L, 5)]
+        [InlineData(1L, 9)]
         public void The_difference_between_small_nullable_longs_is_not_included_in_the_message(long? value, long expected)
         {
             // Act
@@ -165,13 +171,15 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage($"Expected value to be {expected}L because we want to test the failure message, but found {value}L.");
+                .WithMessage(
+                    $"Expected value to be {expected}L because we want to test the failure message, but found {value}L.");
         }
 
         [Theory]
-        [InlineData(50, 20, 30)]
-        [InlineData(20, 50, -30)]
-        public void The_difference_between_nullable_longs_is_included_in_the_message(long? value, long expected, long expectedDifference)
+        [InlineData(50L, 20, 30)]
+        [InlineData(20L, 50, -30)]
+        public void The_difference_between_nullable_longs_is_included_in_the_message(long? value, long expected,
+            long expectedDifference)
         {
             // Act
             Action act = () =>
@@ -180,7 +188,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage($"Expected value to be {expected}L because we want to test the failure message, but found {value}L (difference of {expectedDifference}).");
+                .WithMessage(
+                    $"Expected value to be {expected}L because we want to test the failure message, but found {value}L (difference of {expectedDifference}).");
         }
 
         [Theory]
@@ -195,13 +204,15 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage($"Expected value to be {expected}s because we want to test the failure message, but found {value}s.");
+                .WithMessage(
+                    $"Expected value to be {expected}s because we want to test the failure message, but found {value}s.");
         }
 
         [Theory]
         [InlineData(50, 20, 30)]
         [InlineData(20, 50, -30)]
-        public void The_difference_between_shorts_is_included_in_the_message(short value, short expected, short expectedDifference)
+        public void The_difference_between_shorts_is_included_in_the_message(short value, short expected,
+            short expectedDifference)
         {
             // Act
             Action act = () =>
@@ -210,7 +221,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage($"Expected value to be {expected}s because we want to test the failure message, but found {value}s (difference of {expectedDifference}).");
+                .WithMessage(
+                    $"Expected value to be {expected}s because we want to test the failure message, but found {value}s (difference of {expectedDifference}).");
         }
 
         [Fact]
@@ -244,7 +256,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be 2s because we want to test the failure message, but found 15s (difference of 13).");
+                .WithMessage(
+                    "Expected value to be 2s because we want to test the failure message, but found 15s (difference of 13).");
         }
 
         [Fact]
@@ -278,7 +291,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be 20UL because we want to test the failure message, but found 50UL (difference of 30).");
+                .WithMessage(
+                    "Expected value to be 20UL because we want to test the failure message, but found 50UL (difference of 30).");
         }
 
         [Fact]
@@ -312,7 +326,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be 20UL because we want to test the failure message, but found 50UL (difference of 30).");
+                .WithMessage(
+                    "Expected value to be 20UL because we want to test the failure message, but found 50UL (difference of 30).");
         }
 
         [Fact]
@@ -329,7 +344,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be 2us because we want to test the failure message, but found 11us (difference of 9).");
+                .WithMessage(
+                    "Expected value to be 2us because we want to test the failure message, but found 11us (difference of 9).");
         }
 
         [Fact]
@@ -346,7 +362,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be 1.0 because we want to test the failure message, but found 1.5 (difference of 0.5).");
+                .WithMessage(
+                    "Expected value to be 1.0 because we want to test the failure message, but found 1.5 (difference of 0.5).");
         }
 
         [Fact]
@@ -363,7 +380,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be 1.0 because we want to test the failure message, but found 1.5 (difference of 0.5).");
+                .WithMessage(
+                    "Expected value to be 1.0 because we want to test the failure message, but found 1.5 (difference of 0.5).");
         }
 
         [Fact]
@@ -380,7 +398,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be 1F because we want to test the failure message, but found 1.5F (difference of 0.5).");
+                .WithMessage(
+                    "Expected value to be 1F because we want to test the failure message, but found 1.5F (difference of 0.5).");
         }
 
         [Fact]
@@ -397,7 +416,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be 1F because we want to test the failure message, but found 1.5F (difference of 0.5).");
+                .WithMessage(
+                    "Expected value to be 1F because we want to test the failure message, but found 1.5F (difference of 0.5).");
         }
 
         [Fact]
@@ -414,7 +434,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be 1m because we want to test the failure message, but found 1.5m (difference of 0.5).");
+                .WithMessage(
+                    "Expected value to be 1m because we want to test the failure message, but found 1.5m (difference of 0.5).");
         }
 
         [Fact]
@@ -431,7 +452,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be 1m because we want to test the failure message, but found 1.5m (difference of 0.5).");
+                .WithMessage(
+                    "Expected value to be 1m because we want to test the failure message, but found 1.5m (difference of 0.5).");
         }
 
         [Fact]
@@ -448,7 +470,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be 3y because we want to test the failure message, but found 1y (difference of -2).");
+                .WithMessage(
+                    "Expected value to be 3y because we want to test the failure message, but found 1y (difference of -2).");
         }
 
         [Fact]
@@ -465,7 +488,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be 3y because we want to test the failure message, but found 1y (difference of -2).");
+                .WithMessage(
+                    "Expected value to be 3y because we want to test the failure message, but found 1y (difference of -2).");
         }
     }
 
@@ -519,7 +543,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be less than 22 because we want to test the failure message, but found 52 (difference of 30).");
+                .WithMessage(
+                    "Expected value to be less than 22 because we want to test the failure message, but found 52 (difference of 30).");
         }
     }
 
@@ -539,7 +564,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be less than or equal to 2 because we want to test the failure message, but found 4.");
+                .WithMessage(
+                    "Expected value to be less than or equal to 2 because we want to test the failure message, but found 4.");
         }
 
         [Fact]
@@ -556,7 +582,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be less than or equal to 22 because we want to test the failure message, but found 52 (difference of 30).");
+                .WithMessage(
+                    "Expected value to be less than or equal to 22 because we want to test the failure message, but found 52 (difference of 30).");
         }
     }
 
@@ -610,7 +637,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be greater than 52 because we want to test the failure message, but found 22 (difference of -30).");
+                .WithMessage(
+                    "Expected value to be greater than 52 because we want to test the failure message, but found 22 (difference of -30).");
         }
 
         [Fact]
@@ -661,7 +689,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be greater than 2.3F because we want to test the failure message, but found 2.3F.");
+                .WithMessage(
+                    "Expected value to be greater than 2.3F because we want to test the failure message, but found 2.3F.");
         }
 
         [Fact]
@@ -678,7 +707,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be greater than 11us because we want to test the failure message, but found 11us.");
+                .WithMessage(
+                    "Expected value to be greater than 11us because we want to test the failure message, but found 11us.");
         }
 
         [Fact]
@@ -712,7 +742,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be greater than 15UL because we want to test the failure message, but found 15UL.");
+                .WithMessage(
+                    "Expected value to be greater than 15UL because we want to test the failure message, but found 15UL.");
         }
     }
 
@@ -732,7 +763,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be greater than or equal to 4 because we want to test the failure message, but found 2.");
+                .WithMessage(
+                    "Expected value to be greater than or equal to 4 because we want to test the failure message, but found 2.");
         }
 
         [Fact]
@@ -749,7 +781,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected value to be greater than or equal to 52 because we want to test the failure message, but found 22 (difference of -30).");
+                .WithMessage(
+                    "Expected value to be greater than or equal to 52 because we want to test the failure message, but found 22 (difference of -30).");
         }
     }
 
@@ -823,7 +856,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected long.MinValue to be 9223372036854775807L*found -9223372036854775808L (difference of -18446744073709551615).");
+                .WithMessage(
+                    "Expected long.MinValue to be 9223372036854775807L*found -9223372036854775808L (difference of -18446744073709551615).");
         }
 
         [Fact]
@@ -839,7 +873,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected minValue to be 9223372036854775807L*found -9223372036854775808L (difference of -18446744073709551615).");
+                .WithMessage(
+                    "Expected minValue to be 9223372036854775807L*found -9223372036854775808L (difference of -18446744073709551615).");
         }
 
         [Fact]
@@ -852,7 +887,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected ulong.MinValue to be 18446744073709551615UL*found 0UL (difference of -18446744073709551615).");
+                .WithMessage(
+                    "Expected ulong.MinValue to be 18446744073709551615UL*found 0UL (difference of -18446744073709551615).");
         }
 
         [Fact]
@@ -881,7 +917,8 @@ public class NumericDifferenceAssertionsSpecs
             // Assert
             act
                 .Should().Throw<XunitException>()
-                .WithMessage("Expected decimal.MinValue to be 79228162514264337593543950335M*found -79228162514264337593543950335M.");
+                .WithMessage(
+                    "Expected decimal.MinValue to be 79228162514264337593543950335M*found -79228162514264337593543950335M.");
         }
 
         [Fact]

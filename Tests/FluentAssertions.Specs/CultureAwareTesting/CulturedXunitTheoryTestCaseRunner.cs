@@ -14,14 +14,15 @@ public class CulturedXunitTheoryTestCaseRunner : XunitTheoryTestCaseRunner
     private CultureInfo originalUICulture;
 
     public CulturedXunitTheoryTestCaseRunner(CulturedXunitTheoryTestCase culturedXunitTheoryTestCase,
-                                             string displayName,
-                                             string skipReason,
-                                             object[] constructorArguments,
-                                             IMessageSink diagnosticMessageSink,
-                                             IMessageBus messageBus,
-                                             ExceptionAggregator aggregator,
-                                             CancellationTokenSource cancellationTokenSource)
-        : base(culturedXunitTheoryTestCase, displayName, skipReason, constructorArguments, diagnosticMessageSink, messageBus, aggregator, cancellationTokenSource)
+        string displayName,
+        string skipReason,
+        object[] constructorArguments,
+        IMessageSink diagnosticMessageSink,
+        IMessageBus messageBus,
+        ExceptionAggregator aggregator,
+        CancellationTokenSource cancellationTokenSource)
+        : base(culturedXunitTheoryTestCase, displayName, skipReason, constructorArguments, diagnosticMessageSink, messageBus,
+            aggregator, cancellationTokenSource)
     {
         culture = culturedXunitTheoryTestCase.Culture;
     }

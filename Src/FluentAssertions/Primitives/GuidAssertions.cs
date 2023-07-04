@@ -16,7 +16,7 @@ public class GuidAssertions : GuidAssertions<GuidAssertions>
     }
 }
 
-#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CS0659, S1206 // Ignore not overriding Object.GetHashCode()
 #pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
 /// <summary>
 /// Contains a number of methods to assert that a <see cref="Guid"/> is in the correct state.
@@ -171,5 +171,5 @@ public class GuidAssertions<TAssertions>
 
     /// <inheritdoc/>
     public override bool Equals(object obj) =>
-        throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
+        throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean Be() or BeOneOf() instead?");
 }

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
 using System.Linq;
-
 using FluentAssertions.Collections;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
@@ -15,6 +12,7 @@ public static class DataColumnCollectionAssertionExtensions
     /// <summary>
     /// Asserts that an object reference refers to the exact same object as another object reference.
     /// </summary>
+    /// <param name="assertion">The <see cref="GenericCollectionAssertions{T}"/> object that is being extended.</param>
     /// <param name="expected">The expected object</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -23,6 +21,7 @@ public static class DataColumnCollectionAssertionExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public static AndConstraint<GenericCollectionAssertions<DataColumn>> BeSameAs(
         this GenericCollectionAssertions<DataColumn> assertion, DataColumnCollection expected, string because = "",
         params object[] becauseArgs)
@@ -30,7 +29,7 @@ public static class DataColumnCollectionAssertionExtensions
         Guard.ThrowIfArgumentIsNull(
             expected, nameof(expected), "Cannot verify same reference against a <null> collection (use BeNull instead?).");
 
-        if (assertion.Subject is ReadOnlyNonGenericCollectionWrapper<DataColumnCollection, DataColumn> wrapper)
+        if (assertion.Subject is ICollectionWrapper<DataColumnCollection> wrapper)
         {
             var actualSubject = wrapper.UnderlyingCollection;
 
@@ -58,6 +57,7 @@ public static class DataColumnCollectionAssertionExtensions
     /// <summary>
     /// Asserts that an object reference refers to a different object than another object reference refers to.
     /// </summary>
+    /// <param name="assertion">The <see cref="GenericCollectionAssertions{T}"/> object that is being extended.</param>
     /// <param name="unexpected">The unexpected object</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -66,6 +66,7 @@ public static class DataColumnCollectionAssertionExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
     public static AndConstraint<GenericCollectionAssertions<DataColumn>> NotBeSameAs(
         this GenericCollectionAssertions<DataColumn> assertion, DataColumnCollection unexpected, string because = "",
         params object[] becauseArgs)
@@ -73,7 +74,7 @@ public static class DataColumnCollectionAssertionExtensions
         Guard.ThrowIfArgumentIsNull(
             unexpected, nameof(unexpected), "Cannot verify same reference against a <null> collection (use NotBeNull instead?).");
 
-        if (assertion.Subject is ReadOnlyNonGenericCollectionWrapper<DataColumnCollection, DataColumn> wrapper)
+        if (assertion.Subject is ICollectionWrapper<DataColumnCollection> wrapper)
         {
             var actualSubject = wrapper.UnderlyingCollection;
 
@@ -99,6 +100,7 @@ public static class DataColumnCollectionAssertionExtensions
     /// <summary>
     /// Assert that the current collection has the same number of elements as <paramref name="otherCollection" />.
     /// </summary>
+    /// <param name="assertion">The <see cref="GenericCollectionAssertions{T}"/> object that is being extended.</param>
     /// <param name="otherCollection">The other collection with the same expected number of elements</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -107,6 +109,7 @@ public static class DataColumnCollectionAssertionExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <see langword="null"/>.</exception>
     public static AndConstraint<GenericCollectionAssertions<DataColumn>> HaveSameCount(
         this GenericCollectionAssertions<DataColumn> assertion, DataColumnCollection otherCollection, string because = "",
         params object[] becauseArgs)
@@ -121,7 +124,7 @@ public static class DataColumnCollectionAssertionExtensions
             .ForCondition(subject => subject is not null)
             .FailWith("the same count as {0}{reason}, but found <null>.", otherCollection)
             .Then
-            .Given((subject) => (actual: subject.Count(), expected: otherCollection.Count))
+            .Given(subject => (actual: subject.Count(), expected: otherCollection.Count))
             .ForCondition(count => count.actual == count.expected)
             .FailWith("{0} column(s){reason}, but found {1}.", count => count.expected, count => count.actual)
             .Then
@@ -134,6 +137,7 @@ public static class DataColumnCollectionAssertionExtensions
     /// Assert that the current collection of <see cref="DataColumn"/>s does not have the same number of columns as
     /// <paramref name="otherCollection" />.
     /// </summary>
+    /// <param name="assertion">The <see cref="GenericCollectionAssertions{T}"/> object that is being extended.</param>
     /// <param name="otherCollection">The other <see cref="DataColumnCollection"/> with the unexpected number of
     /// elements</param>
     /// <param name="because">
@@ -143,6 +147,7 @@ public static class DataColumnCollectionAssertionExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <see langword="null"/>.</exception>
     public static AndConstraint<GenericCollectionAssertions<DataColumn>> NotHaveSameCount(
         this GenericCollectionAssertions<DataColumn> assertion, DataColumnCollection otherCollection, string because = "",
         params object[] becauseArgs)
@@ -157,7 +162,7 @@ public static class DataColumnCollectionAssertionExtensions
             .ForCondition(subject => subject is not null)
             .FailWith("the same count as {0}{reason}, but found <null>.", otherCollection)
             .Then
-            .Given((subject) => (actual: subject.Count(), expected: otherCollection.Count))
+            .Given(subject => (actual: subject.Count(), expected: otherCollection.Count))
             .ForCondition(count => count.actual != count.expected)
             .FailWith("{0} column(s){reason}, but found {1}.", count => count.expected, count => count.actual)
             .Then

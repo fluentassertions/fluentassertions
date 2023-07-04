@@ -64,7 +64,8 @@ public class TimeSpanFormatterSpecs
     [InlineData("-01:02:03.123456", "-1h, 2m, 3s, 123ms and 456.0µs")]
     [InlineData("01:02:03.1234567", "1h, 2m, 3s, 123ms and 456.7µs")]
     [InlineData("-01:02:03.1234567", "-1h, 2m, 3s, 123ms and 456.7µs")]
-    public void When_timespan_components_are_not_relevant_they_should_not_be_included_in_the_output(string actual, string expected)
+    public void When_timespan_components_are_not_relevant_they_should_not_be_included_in_the_output(string actual,
+        string expected)
     {
         // Arrange
         var value = TimeSpan.Parse(actual, CultureInfo.InvariantCulture);

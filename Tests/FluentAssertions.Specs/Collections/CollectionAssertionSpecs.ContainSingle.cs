@@ -53,7 +53,7 @@ public partial class CollectionAssertionSpecs
 
         // Assert
         string expectedMessage =
-            $"Expected collection to contain a single item matching (item == 2), but the collection is empty.";
+            "Expected collection to contain a single item matching (item == 2), but the collection is empty.";
 
         act.Should().Throw<XunitException>().WithMessage(expectedMessage);
     }
@@ -74,7 +74,7 @@ public partial class CollectionAssertionSpecs
 
         // Assert
         string expectedMessage =
-            $"Expected collection to contain a single item matching (item == 2), but found <null>.";
+            "Expected collection to contain a single item matching (item == 2), but found <null>.";
 
         act.Should().Throw<XunitException>().WithMessage(expectedMessage);
     }
@@ -91,7 +91,7 @@ public partial class CollectionAssertionSpecs
 
         // Assert
         string expectedMessage =
-            $"Expected collection to contain a single item matching (item == 2), but no such item was found.";
+            "Expected collection to contain a single item matching (item == 2), but no such item was found.";
 
         act.Should().Throw<XunitException>().WithMessage(expectedMessage);
     }
@@ -108,7 +108,7 @@ public partial class CollectionAssertionSpecs
 
         // Assert
         string expectedMessage =
-            $"Expected collection to contain a single item matching (item == 2), but 3 such items were found.";
+            "Expected collection to contain a single item matching (item == 2), but 3 such items were found.";
 
         act.Should().Throw<XunitException>().WithMessage(expectedMessage);
     }
@@ -178,7 +178,8 @@ public partial class CollectionAssertionSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .WithMessage("Expected collection to contain a single item because more is not allowed, but the collection is empty.");
+            .WithMessage(
+                "Expected collection to contain a single item because more is not allowed, but the collection is empty.");
     }
 
     [Fact]
@@ -285,6 +286,6 @@ public partial class CollectionAssertionSpecs
         // Assert
         act.Should().Throw<XunitException>()
             .WithMessage("Expected*to contain a single item, but the collection is empty*" +
-            "Expected*to contain a single item, but the collection is empty*");
+                "Expected*to contain a single item, but the collection is empty*");
     }
 }

@@ -6,7 +6,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
 
-#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CS0659, S1206 // Ignore not overriding Object.GetHashCode()
 #pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
 /// <summary>
 /// Contains a number of methods to assert that a reference type object is in the expected state.
@@ -128,7 +128,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     {
         BeOfType(typeof(T), because, becauseArgs);
 
-        T typedSubject = (Subject is T type)
+        T typedSubject = Subject is T type
             ? type
             : default;
 
@@ -148,10 +148,10 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="expectedType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="expectedType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeOfType(Type expectedType, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(expectedType, nameof(expectedType));
+        Guard.ThrowIfArgumentIsNull(expectedType);
 
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -162,6 +162,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
         if (success)
         {
             Type subjectType = Subject.GetType();
+
             if (expectedType.IsGenericTypeDefinition && subjectType.IsGenericType)
             {
                 subjectType.GetGenericTypeDefinition().Should().Be(expectedType, because, becauseArgs);
@@ -206,10 +207,10 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="unexpectedType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpectedType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotBeOfType(Type unexpectedType, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(unexpectedType, nameof(unexpectedType));
+        Guard.ThrowIfArgumentIsNull(unexpectedType);
 
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -220,6 +221,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
         if (success)
         {
             Type subjectType = Subject.GetType();
+
             if (unexpectedType.IsGenericTypeDefinition && subjectType.IsGenericType)
             {
                 subjectType.GetGenericTypeDefinition().Should().NotBe(unexpectedType, because, becauseArgs);
@@ -262,7 +264,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
                 .FailWith("Expected {context} to be assignable to {0}{reason}, but {1} is not.", typeof(T), Subject.GetType());
         }
 
-        T typedSubject = (Subject is T type)
+        T typedSubject = Subject is T type
             ? type
             : default;
 
@@ -281,10 +283,10 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <returns>An <see cref="AndConstraint{TAssertions}"/> which can be used to chain assertions.</returns>
-    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeAssignableTo(Type type, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(type, nameof(type));
+        Guard.ThrowIfArgumentIsNull(type);
 
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -339,10 +341,10 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
     /// <returns>An <see cref="AndConstraint{TAssertions}"/> which can be used to chain assertions.</returns>
-    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotBeAssignableTo(Type type, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(type, nameof(type));
+        Guard.ThrowIfArgumentIsNull(type);
 
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -397,7 +399,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <returns>An <see cref="AndConstraint{T}" /> which can be used to chain assertions.</returns>
-    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> Match<T>(Expression<Func<T, bool>> predicate,
         string because = "",
         params object[] becauseArgs)
@@ -422,5 +424,5 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
 
     /// <inheritdoc/>
     public override bool Equals(object obj) =>
-        throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
+        throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean BeSameAs() instead?");
 }

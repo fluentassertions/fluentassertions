@@ -27,15 +27,16 @@ public class GivenSelector<T>
     /// Specify the condition that must be satisfied upon the subject selected through a prior selector.
     /// </summary>
     /// <param name="predicate">
-    /// If <c>true</c> the assertion will be treated as successful and no exceptions will be thrown.
+    /// If <see langword="true"/> the assertion will be treated as successful and no exceptions will be thrown.
     /// </param>
     /// <remarks>
     /// The condition will not be evaluated if the prior assertion failed,
     /// nor will <see cref="FailWith(string, Func{T, object}[])"/> throw any exceptions.
     /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public GivenSelector<T> ForCondition(Func<T, bool> predicate)
     {
-        Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+        Guard.ThrowIfArgumentIsNull(predicate);
 
         if (continueAsserting)
         {
@@ -50,9 +51,10 @@ public class GivenSelector<T>
     /// nor will <see cref="FailWith(string, Func{T,object}[])"/> throw any exceptions.
     /// </remarks>
     /// <inheritdoc cref="IAssertionScope.Given{T}"/>
+    /// <exception cref="ArgumentNullException"><paramref name="selector"/> is <see langword="null"/>.</exception>
     public GivenSelector<TOut> Given<TOut>(Func<T, TOut> selector)
     {
-        Guard.ThrowIfArgumentIsNull(selector, nameof(selector));
+        Guard.ThrowIfArgumentIsNull(selector);
 
         return new GivenSelector<TOut>(() => selector(subject), predecessor, continueAsserting);
     }
@@ -60,7 +62,7 @@ public class GivenSelector<T>
     /// <inheritdoc cref="IAssertionScope.FailWith(string)"/>
     public ContinuationOfGiven<T> FailWith(string message)
     {
-        return FailWith(message, new object[0]);
+        return FailWith(message, Array.Empty<object>());
     }
 
     /// <remarks>

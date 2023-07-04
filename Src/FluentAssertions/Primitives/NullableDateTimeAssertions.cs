@@ -6,8 +6,7 @@ using FluentAssertions.Extensions;
 namespace FluentAssertions.Primitives;
 
 /// <summary>
-/// Contains a number of methods to assert that a nullable <see cref="DateTime"/> or
-/// <see cref="DateTimeOffset"/> is in the expected state.
+/// Contains a number of methods to assert that a nullable <see cref="DateTime"/> is in the expected state.
 /// </summary>
 /// <remarks>
 /// You can use the <see cref="FluentDateTimeExtensions"/> for a more fluent way of specifying a <see cref="DateTime"/>.
@@ -22,8 +21,7 @@ public class NullableDateTimeAssertions : NullableDateTimeAssertions<NullableDat
 }
 
 /// <summary>
-/// Contains a number of methods to assert that a nullable <see cref="DateTime"/> or
-/// <see cref="DateTimeOffset"/> is in the expected state.
+/// Contains a number of methods to assert that a nullable <see cref="DateTime"/> is in the expected state.
 /// </summary>
 /// <remarks>
 /// You can use the <see cref="FluentDateTimeExtensions"/> for a more fluent way of specifying a <see cref="DateTime"/>.
@@ -38,7 +36,7 @@ public class NullableDateTimeAssertions<TAssertions> : DateTimeAssertions<TAsser
     }
 
     /// <summary>
-    /// Asserts that a nullable <see cref="DateTime"/> value is not <c>null</c>.
+    /// Asserts that a nullable <see cref="DateTime"/> value is not <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -58,7 +56,7 @@ public class NullableDateTimeAssertions<TAssertions> : DateTimeAssertions<TAsser
     }
 
     /// <summary>
-    /// Asserts that a nullable <see cref="DateTime"/> value is not <c>null</c>.
+    /// Asserts that a nullable <see cref="DateTime"/> value is not <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -73,7 +71,7 @@ public class NullableDateTimeAssertions<TAssertions> : DateTimeAssertions<TAsser
     }
 
     /// <summary>
-    /// Asserts that a nullable <see cref="DateTime"/> value is <c>null</c>.
+    /// Asserts that a nullable <see cref="DateTime"/> value is <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -93,7 +91,7 @@ public class NullableDateTimeAssertions<TAssertions> : DateTimeAssertions<TAsser
     }
 
     /// <summary>
-    /// Asserts that a nullable <see cref="DateTime"/> value is <c>null</c>.
+    /// Asserts that a nullable <see cref="DateTime"/> value is <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion

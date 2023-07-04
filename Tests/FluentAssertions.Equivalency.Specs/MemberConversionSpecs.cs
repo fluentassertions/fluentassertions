@@ -52,6 +52,32 @@ public class MemberConversionSpecs
     }
 
     [Fact]
+    public void Numbers_can_be_converted_to_enums()
+    {
+        // Arrange
+        var expectation = new { Property = EnumFour.Three };
+        var subject = new { Property = 3 };
+
+        // Act / Assert
+        subject.Should().BeEquivalentTo(expectation, options => options.WithAutoConversion());
+    }
+
+    [Fact]
+    public void Numbers_that_are_out_of_range_cannot_be_converted_to_enums()
+    {
+        // Arrange
+        var expectation = new { Property = EnumFour.Three };
+        var subject = new { Property = 4 };
+
+        // Act
+        Action act = () => subject.Should().BeEquivalentTo(expectation, options => options.WithAutoConversion());
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("*subject*Property*EnumFour*");
+    }
+
+    [Fact]
     public void When_injecting_a_null_predicate_into_WithAutoConversionFor_it_should_throw()
     {
         // Arrange
@@ -144,7 +170,7 @@ public class MemberConversionSpecs
     {
         // Arrange
         string str = "This is a test";
-        CustomConvertible obj = new CustomConvertible(str);
+        CustomConvertible obj = new(str);
 
         // Act
         Action act = () => obj.Should().BeEquivalentTo(str, options => options.WithAutoConversion());

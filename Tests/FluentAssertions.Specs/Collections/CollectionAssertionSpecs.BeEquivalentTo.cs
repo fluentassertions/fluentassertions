@@ -129,7 +129,8 @@ public partial class CollectionAssertionSpecs
 
             // Act
             Action act =
-                () => collection.Should().BeEquivalentTo(collection1, "because we want to test the behaviour with a null subject");
+                () => collection.Should()
+                    .BeEquivalentTo(collection1, "because we want to test the behaviour with a null subject");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -286,8 +287,8 @@ public partial class CollectionAssertionSpecs
 
             // Act
             Action act = () => collection.Should().NotBeEquivalentTo(collection1, opt => opt
-                .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.5))
-                .WhenTypeIs<double>(),
+                    .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.5))
+                    .WhenTypeIs<double>(),
                 "because we want to test the failure {0}", "message");
 
             // Assert
@@ -300,17 +301,18 @@ public partial class CollectionAssertionSpecs
         {
             // Arrange
             int[] actual = null;
+            int[] expectation = { 1, 2, 3 };
 
             // Act
             Action act = () =>
             {
                 using var _ = new AssertionScope();
-                actual.Should().NotBeEquivalentTo(new[] { 1, 2, 3 }, opt => opt, "we want to test the failure {0}", "message");
+                actual.Should().NotBeEquivalentTo(expectation, opt => opt, "we want to test the failure {0}", "message");
             };
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected actual not to be equivalent *failure message*, but found <null>.");
+                .WithMessage("Expected actual not to be equivalent *failure message*, but found <null>.*");
         }
 
         [Fact]

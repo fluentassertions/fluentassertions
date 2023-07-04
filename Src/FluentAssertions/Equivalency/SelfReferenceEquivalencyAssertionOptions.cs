@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
@@ -15,6 +16,8 @@ using FluentAssertions.Equivalency.Steps;
 using FluentAssertions.Equivalency.Tracing;
 
 namespace FluentAssertions.Equivalency;
+
+#pragma warning disable CA1033 //An unsealed externally visible type provides an explicit method implementation of a public interface and does not provide an alternative externally visible method that has the same name.
 
 /// <summary>
 /// Represents the run-time behavior of a structural equivalency assertion.
@@ -60,11 +63,11 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     private bool ignoreNonBrowsableOnSubject;
     private bool excludeNonBrowsableOnExpectation;
 
-    private bool compareRecordsByValue;
+    private bool? compareRecordsByValue;
 
     #endregion
 
-    internal SelfReferenceEquivalencyAssertionOptions()
+    private protected SelfReferenceEquivalencyAssertionOptions()
     {
         AddMatchingRule(new MustMatchByNameRule());
 
@@ -176,49 +179,40 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
 
     bool IEquivalencyAssertionOptions.ExcludeNonBrowsableOnExpectation => excludeNonBrowsableOnExpectation;
 
-    public bool CompareRecordsByValue => compareRecordsByValue;
+    public bool? CompareRecordsByValue => compareRecordsByValue;
 
-    EqualityStrategy IEquivalencyAssertionOptions.GetEqualityStrategy(Type requestedType)
+    EqualityStrategy IEquivalencyAssertionOptions.GetEqualityStrategy(Type type)
     {
         // As the valueFactory parameter captures instance members,
         // be aware if the cache must be cleared on mutating the members.
-        return equalityStrategyCache.GetOrAdd(requestedType, type =>
+        return equalityStrategyCache.GetOrAdd(type, typeKey =>
         {
-            EqualityStrategy strategy;
-
-            if (!type.IsPrimitive && referenceTypes.Count > 0 && referenceTypes.Any(t => type.IsSameOrInherits(t)))
+            if (!typeKey.IsPrimitive && referenceTypes.Count > 0 && referenceTypes.Any(t => typeKey.IsSameOrInherits(t)))
             {
-                strategy = EqualityStrategy.ForceMembers;
+                return EqualityStrategy.ForceMembers;
             }
-            else if (valueTypes.Count > 0 && valueTypes.Any(t => type.IsSameOrInherits(t)))
+            else if (valueTypes.Count > 0 && valueTypes.Any(t => typeKey.IsSameOrInherits(t)))
             {
-                strategy = EqualityStrategy.ForceEquals;
+                return EqualityStrategy.ForceEquals;
             }
-            else if (!type.IsPrimitive && referenceTypes.Count > 0 && referenceTypes.Any(t => type.IsAssignableToOpenGeneric(t)))
+            else if (!typeKey.IsPrimitive && referenceTypes.Count > 0 && referenceTypes.Any(t => typeKey.IsAssignableToOpenGeneric(t)))
             {
-                strategy = EqualityStrategy.ForceMembers;
+                return EqualityStrategy.ForceMembers;
             }
-            else if (valueTypes.Count > 0 && valueTypes.Any(t => type.IsAssignableToOpenGeneric(t)))
+            else if (valueTypes.Count > 0 && valueTypes.Any(t => typeKey.IsAssignableToOpenGeneric(t)))
             {
-                strategy = EqualityStrategy.ForceEquals;
+                return EqualityStrategy.ForceEquals;
             }
-            else if (type.IsRecord())
+            else if ((compareRecordsByValue.HasValue || getDefaultEqualityStrategy is null) && typeKey.IsRecord())
             {
-                strategy = compareRecordsByValue ? EqualityStrategy.ForceEquals : EqualityStrategy.ForceMembers;
+                return compareRecordsByValue is true ? EqualityStrategy.ForceEquals : EqualityStrategy.ForceMembers;
             }
-            else
+            else if (getDefaultEqualityStrategy is not null)
             {
-                if (getDefaultEqualityStrategy is not null)
-                {
-                    strategy = getDefaultEqualityStrategy(type);
-                }
-                else
-                {
-                    strategy = type.HasValueSemantics() ? EqualityStrategy.Equals : EqualityStrategy.Members;
-                }
+                return getDefaultEqualityStrategy(typeKey);
             }
 
-            return strategy;
+            return typeKey.HasValueSemantics() ? EqualityStrategy.Equals : EqualityStrategy.Members;
         });
     }
 
@@ -331,7 +325,6 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// <see cref="EditorBrowsableState.Never"/>). It is not required that they be marked non-browsable in the subject. Use
     /// <see cref="IgnoringNonBrowsableMembersOnSubject"/> to ignore non-browsable members in the subject.
     /// </summary>
-    /// <returns></returns>
     public TSelf ExcludingNonBrowsableMembers()
     {
         excludeNonBrowsableOnExpectation = true;
@@ -342,7 +335,6 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// Instructs the comparison to treat non-browsable members in the subject as though they do not exist. If you need to
     /// ignore non-browsable members in the expectation, use <see cref="ExcludingNonBrowsableMembers"/>.
     /// </summary>
-    /// <returns></returns>
     public TSelf IgnoringNonBrowsableMembersOnSubject()
     {
         ignoreNonBrowsableOnSubject = true;
@@ -422,8 +414,12 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     }
 
     /// <summary>
-    /// Causes the structural equality check to include nested collections and complex types.
+    /// Causes the structural equality comparison to recursively traverse the object graph and compare the fields and
+    /// properties of any nested objects and objects in collections.
     /// </summary>
+    /// <remarks>
+    /// This is the default behavior. You can override this using <see cref="ExcludingNestedObjects"/>.
+    /// </remarks>
     public TSelf IncludingNestedObjects()
     {
         isRecursive = true;
@@ -431,10 +427,11 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     }
 
     /// <summary>
-    /// Causes the structural equality check to exclude nested collections and complex types.
+    /// Stops the structural equality check from recursively comparing the members any nested objects.
     /// </summary>
     /// <remarks>
-    /// Behaves similarly to the old property assertions API.
+    /// If a property or field points to a complex type or collection, a simple <see cref="object.Equals(object)"/> call will
+    /// be done instead of recursively looking at the properties or fields of the nested object.
     /// </remarks>
     public TSelf ExcludingNestedObjects()
     {
@@ -613,7 +610,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     }
 
     /// <summary>
-    /// Ensures records by default are compared by their members even though they override 
+    /// Ensures records by default are compared by their members even though they override
     /// the <see cref="object.Equals(object)" /> method.
     /// </summary>
     /// <remarks>
@@ -636,9 +633,10 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// Marks <paramref name="type" /> as a type that should be compared by its members even though it may override
     /// the <see cref="object.Equals(object)" /> method.
     /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
     public TSelf ComparingByMembers(Type type)
     {
-        Guard.ThrowIfArgumentIsNull(type, nameof(type));
+        Guard.ThrowIfArgumentIsNull(type);
 
         if (type.IsPrimitive)
         {
@@ -666,9 +664,10 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// Marks <paramref name="type" /> as a value type which must be compared using its
     /// <see cref="object.Equals(object)" /> method, regardless of it overriding it or not.
     /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
     public TSelf ComparingByValue(Type type)
     {
-        Guard.ThrowIfArgumentIsNull(type, nameof(type));
+        Guard.ThrowIfArgumentIsNull(type);
 
         if (referenceTypes.Any(t => type.IsSameOrInherits(t)))
         {
@@ -727,6 +726,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// A string that represents the current object.
     /// </returns>
     /// <filterpriority>2</filterpriority>
+    [SuppressMessage("Design", "MA0051:Method is too long")]
     public override string ToString()
     {
         var builder = new StringBuilder();
@@ -740,12 +740,9 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
             builder.AppendLine("- Do not consider members marked non-browsable on the subject");
         }
 
-        if (isRecursive)
+        if (isRecursive && allowInfiniteRecursion)
         {
-            if (allowInfiniteRecursion)
-            {
-                builder.AppendLine("- Recurse indefinitely");
-            }
+            builder.AppendLine("- Recurse indefinitely");
         }
 
         builder.AppendFormat(CultureInfo.InvariantCulture,
@@ -757,10 +754,11 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
             builder.AppendLine("- Ignoring cyclic references");
         }
 
-        builder.AppendLine($"- Compare tuples by their properties");
-        builder.AppendLine($"- Compare anonymous types by their properties");
+        builder
+            .AppendLine("- Compare tuples by their properties")
+            .AppendLine("- Compare anonymous types by their properties");
 
-        if (compareRecordsByValue)
+        if (compareRecordsByValue is true)
         {
             builder.AppendLine("- Compare records by value");
         }

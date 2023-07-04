@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
@@ -12,8 +13,8 @@ namespace FluentAssertions.Collections;
 /// Contains a number of methods to assert that a <typeparamref name="TCollection"/> is in the expected state.
 /// </summary>
 [DebuggerNonUserCode]
-public class GenericDictionaryAssertions<TCollection, TKey, TValue> :
-    GenericDictionaryAssertions<TCollection, TKey, TValue, GenericDictionaryAssertions<TCollection, TKey, TValue>>
+public class GenericDictionaryAssertions<TCollection, TKey, TValue>
+    : GenericDictionaryAssertions<TCollection, TKey, TValue, GenericDictionaryAssertions<TCollection, TKey, TValue>>
     where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
 {
     public GenericDictionaryAssertions(TCollection keyValuePairs)
@@ -26,8 +27,8 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue> :
 /// Contains a number of methods to assert that a <typeparamref name="TCollection"/> is in the expected state.
 /// </summary>
 [DebuggerNonUserCode]
-public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions> :
-    GenericCollectionAssertions<TCollection, KeyValuePair<TKey, TValue>, TAssertions>
+public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
+    : GenericCollectionAssertions<TCollection, KeyValuePair<TKey, TValue>, TAssertions>
     where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
     where TAssertions : GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
 {
@@ -51,48 +52,51 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> Equal<T>(T expected,
         string because = "", params object[] becauseArgs)
         where T : IEnumerable<KeyValuePair<TKey, TValue>>
     {
-        if (Subject is null)
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} to be equal to {0}{reason}, but found {1}.", expected, Subject);
-        }
-
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare dictionary with <null>.");
 
-        IEnumerable<TKey> subjectKeys = GetKeys(Subject);
-        IEnumerable<TKey> expectedKeys = GetKeys(expected);
-        IEnumerable<TKey> missingKeys = expectedKeys.Except(subjectKeys);
-        IEnumerable<TKey> additionalKeys = subjectKeys.Except(expectedKeys);
+        bool success = Execute.Assertion
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:dictionary} to be equal to {0}{reason}, but found {1}.", expected, Subject);
 
-        if (missingKeys.Any())
+        if (success)
         {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} to be equal to {0}{reason}, but could not find keys {1}.", expected,
-                    missingKeys);
-        }
+            IEnumerable<TKey> subjectKeys = GetKeys(Subject);
+            IEnumerable<TKey> expectedKeys = GetKeys(expected);
+            IEnumerable<TKey> missingKeys = expectedKeys.Except(subjectKeys);
+            IEnumerable<TKey> additionalKeys = subjectKeys.Except(expectedKeys);
 
-        if (additionalKeys.Any())
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} to be equal to {0}{reason}, but found additional keys {1}.", expected,
-                    additionalKeys);
-        }
+            if (missingKeys.Any())
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:dictionary} to be equal to {0}{reason}, but could not find keys {1}.", expected,
+                        missingKeys);
+            }
 
-        Func<TValue, TValue, bool> areSameOrEqual = ObjectExtensions.GetComparer<TValue>();
-        foreach (var key in expectedKeys)
-        {
-            Execute.Assertion
-                .ForCondition(areSameOrEqual(GetValue(Subject, key), GetValue(expected, key)))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} to be equal to {0}{reason}, but {1} differs at key {2}.",
-                expected, Subject, key);
+            if (additionalKeys.Any())
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:dictionary} to be equal to {0}{reason}, but found additional keys {1}.", expected,
+                        additionalKeys);
+            }
+
+            Func<TValue, TValue, bool> areSameOrEqual = ObjectExtensions.GetComparer<TValue>();
+
+            foreach (var key in expectedKeys)
+            {
+                Execute.Assertion
+                    .ForCondition(areSameOrEqual(GetValue(Subject, key), GetValue(expected, key)))
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:dictionary} to be equal to {0}{reason}, but {1} differs at key {2}.",
+                        expected, Subject, key);
+            }
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -111,41 +115,44 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotEqual<T>(T unexpected,
         string because = "", params object[] becauseArgs)
         where T : IEnumerable<KeyValuePair<TKey, TValue>>
     {
-        if (Subject is null)
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected dictionaries not to be equal{reason}, but found {0}.", Subject);
-        }
-
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare dictionary with <null>.");
 
-        if (ReferenceEquals(Subject, unexpected))
+        bool success = Execute.Assertion
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected dictionaries not to be equal{reason}, but found {0}.", Subject);
+
+        if (success)
         {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected dictionaries not to be equal{reason}, but they both reference the same object.");
-        }
+            if (ReferenceEquals(Subject, unexpected))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected dictionaries not to be equal{reason}, but they both reference the same object.");
+            }
 
-        IEnumerable<TKey> subjectKeys = GetKeys(Subject);
-        IEnumerable<TKey> unexpectedKeys = GetKeys(unexpected);
-        IEnumerable<TKey> missingKeys = unexpectedKeys.Except(subjectKeys);
-        IEnumerable<TKey> additionalKeys = subjectKeys.Except(unexpectedKeys);
+            IEnumerable<TKey> subjectKeys = GetKeys(Subject);
+            IEnumerable<TKey> unexpectedKeys = GetKeys(unexpected);
+            IEnumerable<TKey> missingKeys = unexpectedKeys.Except(subjectKeys);
+            IEnumerable<TKey> additionalKeys = subjectKeys.Except(unexpectedKeys);
 
-        Func<TValue, TValue, bool> areSameOrEqual = ObjectExtensions.GetComparer<TValue>();
-        bool foundDifference = missingKeys.Any()
-            || additionalKeys.Any()
-            || subjectKeys.Any(key => !areSameOrEqual(GetValue(Subject, key), GetValue(unexpected, key)));
+            Func<TValue, TValue, bool> areSameOrEqual = ObjectExtensions.GetComparer<TValue>();
 
-        if (!foundDifference)
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect dictionaries {0} and {1} to be equal{reason}.", unexpected, Subject);
+            bool foundDifference = missingKeys.Any()
+                || additionalKeys.Any()
+                || subjectKeys.Any(key => !areSameOrEqual(GetValue(Subject, key), GetValue(unexpected, key)));
+
+            if (!foundDifference)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Did not expect dictionaries {0} and {1} to be equal{reason}.", unexpected, Subject);
+            }
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -203,19 +210,21 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
         Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(config, nameof(config));
+        Guard.ThrowIfArgumentIsNull(config);
 
         EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
 
-        var context = new EquivalencyValidationContext(Node.From<TExpectation>(() => AssertionScope.Current.CallerIdentity), options)
-        {
-            Reason = new Reason(because, becauseArgs),
-            TraceWriter = options.TraceWriter
-        };
+        var context =
+            new EquivalencyValidationContext(Node.From<TExpectation>(() => AssertionScope.Current.CallerIdentity), options)
+            {
+                Reason = new Reason(because, becauseArgs),
+                TraceWriter = options.TraceWriter
+            };
 
         var comparands = new Comparands
         {
@@ -275,42 +284,42 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
     public AndConstraint<TAssertions> ContainKeys(IEnumerable<TKey> expected,
         string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify key containment against a <null> collection of keys");
+        Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
+            "Cannot verify key containment against a <null> collection of keys");
 
         ICollection<TKey> expectedKeys = expected.ConvertOrCastToCollection();
+        Guard.ThrowIfArgumentIsEmpty(expectedKeys, nameof(expected), "Cannot verify key containment against an empty sequence");
 
-        if (!expectedKeys.Any())
+        bool success = Execute.Assertion
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:dictionary} to contain keys {0}{reason}, but found <null>.", expected);
+
+        if (success)
         {
-            throw new ArgumentException("Cannot verify key containment against an empty sequence", nameof(expected));
-        }
+            IEnumerable<TKey> missingKeys = expectedKeys.Where(key => !ContainsKey(Subject, key));
 
-        if (Subject is null)
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} to contain keys {0}{reason}, but found {1}.", expected, Subject);
-        }
-
-        IEnumerable<TKey> missingKeys = expectedKeys.Where(key => !ContainsKey(Subject, key));
-
-        if (missingKeys.Any())
-        {
-            if (expectedKeys.Count > 1)
+            if (missingKeys.Any())
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} {0} to contain key {1}{reason}, but could not find {2}.", Subject,
-                        expected, missingKeys);
-            }
-            else
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} {0} to contain key {1}{reason}.", Subject,
-                        expected.Cast<object>().First());
+                if (expectedKeys.Count > 1)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:dictionary} {0} to contain keys {1}{reason}, but could not find {2}.", Subject,
+                            expected, missingKeys);
+                }
+                else
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:dictionary} {0} to contain key {1}{reason}.", Subject,
+                            expected.First());
+                }
             }
         }
 
@@ -336,18 +345,17 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     public AndConstraint<TAssertions> NotContainKey(TKey unexpected,
         string because = "", params object[] becauseArgs)
     {
-        if (Subject is null)
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} not to contain key {0}{reason}, but found {1}.", unexpected, Subject);
-        }
+        bool success = Execute.Assertion
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:dictionary} not to contain key {0}{reason}, but found <null>.", unexpected);
 
-        if (ContainsKey(Subject, unexpected))
+        if (success && ContainsKey(Subject, unexpected))
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} {0} not to contain key {1}{reason}, but found it anyhow.", Subject, unexpected);
+                .FailWith("Expected {context:dictionary} {0} not to contain key {1}{reason}, but found it anyhow.", Subject,
+                    unexpected);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -375,42 +383,44 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="unexpected"/> is empty.</exception>
     public AndConstraint<TAssertions> NotContainKeys(IEnumerable<TKey> unexpected,
         string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify key containment against a <null> collection of keys");
+        Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected),
+            "Cannot verify key containment against a <null> collection of keys");
 
         ICollection<TKey> unexpectedKeys = unexpected.ConvertOrCastToCollection();
 
-        if (!unexpectedKeys.Any())
-        {
-            throw new ArgumentException("Cannot verify key containment against an empty sequence", nameof(unexpected));
-        }
+        Guard.ThrowIfArgumentIsEmpty(unexpectedKeys, nameof(unexpected),
+            "Cannot verify key containment against an empty sequence");
 
-        if (Subject is null)
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} to contain keys {0}{reason}, but found {1}.", unexpected, Subject);
-        }
+        bool success = Execute.Assertion
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:dictionary} to not contain keys {0}{reason}, but found <null>.", unexpectedKeys);
 
-        IEnumerable<TKey> foundKeys = unexpected.Where(key => ContainsKey(Subject, key));
-
-        if (foundKeys.Any())
+        if (success)
         {
-            if (unexpectedKeys.Count > 1)
+            IEnumerable<TKey> foundKeys = unexpectedKeys.Where(key => ContainsKey(Subject, key));
+
+            if (foundKeys.Any())
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} {0} to not contain key {1}{reason}, but found {2}.", Subject,
-                        unexpected, foundKeys);
-            }
-            else
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} {0} to not contain key {1}{reason}.", Subject,
-                        unexpected.Cast<object>().First());
+                if (unexpectedKeys.Count > 1)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:dictionary} {0} to not contain keys {1}{reason}, but found {2}.", Subject,
+                            unexpectedKeys, foundKeys);
+                }
+                else
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:dictionary} {0} to not contain key {1}{reason}.", Subject,
+                            unexpectedKeys.First());
+                }
             }
         }
 
@@ -437,7 +447,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
         string because = "", params object[] becauseArgs)
     {
         AndWhichConstraint<TAssertions, IEnumerable<TValue>> innerConstraint =
-                ContainValuesAndWhich(new[] { expected }, because, becauseArgs);
+            ContainValuesAndWhich(new[] { expected }, because, becauseArgs);
 
         return
             new AndWhichConstraint<TAssertions, TValue>(
@@ -466,56 +476,60 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
     public AndConstraint<TAssertions> ContainValues(IEnumerable<TValue> expected,
         string because = "", params object[] becauseArgs)
     {
+        Guard.ThrowIfArgumentIsNull(expected, nameof(expected),
+            "Cannot verify value containment against a <null> collection of values");
+
         return ContainValuesAndWhich(expected, because, becauseArgs);
     }
 
-    private AndWhichConstraint<TAssertions, IEnumerable<TValue>> ContainValuesAndWhich(IEnumerable<TValue> expected, string because = "",
+    private AndWhichConstraint<TAssertions, IEnumerable<TValue>> ContainValuesAndWhich(IEnumerable<TValue> expected,
+        string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot verify value containment against a <null> collection of values");
-
         ICollection<TValue> expectedValues = expected.ConvertOrCastToCollection();
 
-        if (!expectedValues.Any())
-        {
-            throw new ArgumentException("Cannot verify value containment with an empty sequence", nameof(expected));
-        }
+        Guard.ThrowIfArgumentIsEmpty(expectedValues, nameof(expected),
+            "Cannot verify value containment against an empty sequence");
 
-        if (Subject is null)
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} to contain value {0}{reason}, but found {1}.", expected, Subject);
-        }
+        bool success = Execute.Assertion
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:dictionary} to contain values {0}{reason}, but found {1}.", expected, Subject);
 
-        IEnumerable<TValue> subjectValues = GetValues(Subject);
-        IEnumerable<TValue> missingValues = expectedValues.Except(subjectValues);
+        IEnumerable<TValue> matchedConstraint = null;
 
-        if (missingValues.Any())
+        if (success)
         {
-            if (expectedValues.Count > 1)
+            IEnumerable<TValue> subjectValues = GetValues(Subject);
+            IEnumerable<TValue> missingValues = expectedValues.Except(subjectValues);
+
+            if (missingValues.Any())
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} {0} to contain value {1}{reason}, but could not find {2}.", Subject,
-                        expected, missingValues);
+                if (expectedValues.Count > 1)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:dictionary} {0} to contain value {1}{reason}, but could not find {2}.", Subject,
+                            expected, missingValues);
+                }
+                else
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:dictionary} {0} to contain value {1}{reason}.", Subject,
+                            expected.First());
+                }
             }
-            else
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} {0} to contain value {1}{reason}.", Subject,
-                        expected.Cast<object>().First());
-            }
+
+            matchedConstraint = RepetitionPreservingIntersect(subjectValues, expectedValues);
         }
 
-        return
-            new AndWhichConstraint<TAssertions,
-                    IEnumerable<TValue>>((TAssertions)this,
-                        RepetitionPreservingIntersect(subjectValues, expectedValues));
+        return new AndWhichConstraint<TAssertions, IEnumerable<TValue>>((TAssertions)this, matchedConstraint);
     }
 
     /// <summary>
@@ -548,18 +562,17 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     public AndConstraint<TAssertions> NotContainValue(TValue unexpected,
         string because = "", params object[] becauseArgs)
     {
-        if (Subject is null)
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} not to contain value {0}{reason}, but found {1}.", unexpected, Subject);
-        }
+        bool success = Execute.Assertion
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:dictionary} not to contain value {0}{reason}, but found <null>.", unexpected);
 
-        if (GetValues(Subject).Contains(unexpected))
+        if (success && GetValues(Subject).Contains(unexpected))
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} {0} not to contain value {1}{reason}, but found it anyhow.", Subject, unexpected);
+                .FailWith("Expected {context:dictionary} {0} not to contain value {1}{reason}, but found it anyhow.", Subject,
+                    unexpected);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -587,42 +600,44 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="unexpected"/> is empty.</exception>
     public AndConstraint<TAssertions> NotContainValues(IEnumerable<TValue> unexpected,
         string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify value containment against a <null> collection of values");
+        Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected),
+            "Cannot verify value containment against a <null> collection of values");
 
         ICollection<TValue> unexpectedValues = unexpected.ConvertOrCastToCollection();
 
-        if (!unexpectedValues.Any())
-        {
-            throw new ArgumentException("Cannot verify value containment with an empty sequence", nameof(unexpected));
-        }
+        Guard.ThrowIfArgumentIsEmpty(unexpectedValues, nameof(unexpected),
+            "Cannot verify value containment with an empty sequence");
 
-        if (Subject is null)
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} to not contain value {0}{reason}, but found {1}.", unexpected, Subject);
-        }
+        bool success = Execute.Assertion
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:dictionary} to not contain values {0}{reason}, but found <null>.", unexpected);
 
-        IEnumerable<TValue> foundValues = unexpectedValues.Intersect(GetValues(Subject));
-
-        if (foundValues.Any())
+        if (success)
         {
-            if (unexpectedValues.Count > 1)
+            IEnumerable<TValue> foundValues = unexpectedValues.Intersect(GetValues(Subject));
+
+            if (foundValues.Any())
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} {0} to not contain value {1}{reason}, but found {2}.", Subject,
-                        unexpected, foundValues);
-            }
-            else
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} {0} to not contain value {1}{reason}.", Subject,
-                        unexpected.Cast<object>().First());
+                if (unexpectedValues.Count > 1)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:dictionary} {0} to not contain value {1}{reason}, but found {2}.", Subject,
+                            unexpected, foundValues);
+                }
+                else
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:dictionary} {0} to not contain value {1}{reason}.", Subject,
+                            unexpected.First());
+                }
             }
         }
 
@@ -657,6 +672,9 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
+    [SuppressMessage("Design", "MA0051:Method is too long", Justification = "Needs refactoring")]
     public new AndConstraint<TAssertions> Contain(IEnumerable<KeyValuePair<TKey, TValue>> expected,
         string because = "", params object[] becauseArgs)
     {
@@ -664,60 +682,64 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
 
         ICollection<KeyValuePair<TKey, TValue>> expectedKeyValuePairs = expected.ConvertOrCastToCollection();
 
-        if (!expectedKeyValuePairs.Any())
-        {
-            throw new ArgumentException("Cannot verify key containment against an empty collection of key/value pairs",
-                nameof(expected));
-        }
+        Guard.ThrowIfArgumentIsEmpty(expectedKeyValuePairs, nameof(expected),
+            "Cannot verify key containment against an empty collection of key/value pairs");
 
-        if (Subject is null)
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} to contain key/value pairs {0}{reason}, but dictionary is {1}.", expected, Subject);
-        }
+        bool success = Execute.Assertion
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:dictionary} to contain key/value pairs {0}{reason}, but dictionary is <null>.",
+                expected);
 
-        TKey[] expectedKeys = expectedKeyValuePairs.Select(keyValuePair => keyValuePair.Key).ToArray();
-        IEnumerable<TKey> missingKeys = expectedKeys.Where(key => !ContainsKey(Subject, key));
-
-        if (missingKeys.Any())
+        if (success)
         {
-            if (expectedKeyValuePairs.Count > 1)
+            TKey[] expectedKeys = expectedKeyValuePairs.Select(keyValuePair => keyValuePair.Key).ToArray();
+            IEnumerable<TKey> missingKeys = expectedKeys.Where(key => !ContainsKey(Subject, key));
+
+            if (missingKeys.Any())
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} {0} to contain key(s) {1}{reason}, but could not find keys {2}.", Subject,
-                        expectedKeys, missingKeys);
+                if (expectedKeyValuePairs.Count > 1)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:dictionary} {0} to contain key(s) {1}{reason}, but could not find keys {2}.",
+                            Subject,
+                            expectedKeys, missingKeys);
+                }
+                else
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:dictionary} {0} to contain key {1}{reason}.", Subject,
+                            expectedKeys[0]);
+                }
             }
-            else
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} {0} to contain key {1}{reason}.", Subject,
-                        expectedKeys.Cast<object>().First());
-            }
-        }
 
-        Func<TValue, TValue, bool> areSameOrEqual = ObjectExtensions.GetComparer<TValue>();
-        KeyValuePair<TKey, TValue>[] keyValuePairsNotSameOrEqualInSubject = expectedKeyValuePairs.Where(keyValuePair => !areSameOrEqual(GetValue(Subject, keyValuePair.Key), keyValuePair.Value)).ToArray();
+            Func<TValue, TValue, bool> areSameOrEqual = ObjectExtensions.GetComparer<TValue>();
 
-        if (keyValuePairsNotSameOrEqualInSubject.Any())
-        {
-            if (keyValuePairsNotSameOrEqualInSubject.Length > 1)
-            {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} to contain {0}{reason}, but {context:dictionary} differs at keys {1}.",
-                        expectedKeyValuePairs, keyValuePairsNotSameOrEqualInSubject.Select(keyValuePair => keyValuePair.Key));
-            }
-            else
-            {
-                KeyValuePair<TKey, TValue> expectedKeyValuePair = keyValuePairsNotSameOrEqualInSubject[0];
-                TValue actual = GetValue(Subject, expectedKeyValuePair.Key);
+            KeyValuePair<TKey, TValue>[] keyValuePairsNotSameOrEqualInSubject = expectedKeyValuePairs
+                .Where(keyValuePair => !areSameOrEqual(GetValue(Subject, keyValuePair.Key), keyValuePair.Value)).ToArray();
 
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:dictionary} to contain value {0} at key {1}{reason}, but found {2}.", expectedKeyValuePair.Value, expectedKeyValuePair.Key, actual);
+            if (keyValuePairsNotSameOrEqualInSubject.Length > 0)
+            {
+                if (keyValuePairsNotSameOrEqualInSubject.Length > 1)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith(
+                            "Expected {context:dictionary} to contain {0}{reason}, but {context:dictionary} differs at keys {1}.",
+                            expectedKeyValuePairs, keyValuePairsNotSameOrEqualInSubject.Select(keyValuePair => keyValuePair.Key));
+                }
+                else
+                {
+                    KeyValuePair<TKey, TValue> expectedKeyValuePair = keyValuePairsNotSameOrEqualInSubject[0];
+                    TValue actual = GetValue(Subject, expectedKeyValuePair.Key);
+
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:dictionary} to contain value {0} at key {1}{reason}, but found {2}.",
+                            expectedKeyValuePair.Value, expectedKeyValuePair.Key, actual);
+                }
             }
         }
 
@@ -761,28 +783,32 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     public AndConstraint<TAssertions> Contain(TKey key, TValue value,
         string because = "", params object[] becauseArgs)
     {
-        if (Subject is null)
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} to contain value {0} at key {1}{reason}, but dictionary is {2}.", value, key,
-                    Subject);
-        }
+        bool success = Execute.Assertion
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:dictionary} to contain value {0} at key {1}{reason}, but dictionary is <null>.",
+                value, key);
 
-        if (TryGetValue(Subject, key, out TValue actual))
+        if (success)
         {
-            Func<TValue, TValue, bool> areSameOrEqual = ObjectExtensions.GetComparer<TValue>();
-            Execute.Assertion
-                .ForCondition(areSameOrEqual(actual, value))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} to contain value {0} at key {1}{reason}, but found {2}.", value, key, actual);
-        }
-        else
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} to contain value {0} at key {1}{reason}, but the key was not found.", value,
-                    key);
+            if (TryGetValue(Subject, key, out TValue actual))
+            {
+                Func<TValue, TValue, bool> areSameOrEqual = ObjectExtensions.GetComparer<TValue>();
+
+                Execute.Assertion
+                    .ForCondition(areSameOrEqual(actual, value))
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:dictionary} to contain value {0} at key {1}{reason}, but found {2}.", value, key,
+                        actual);
+            }
+            else
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:dictionary} to contain value {0} at key {1}{reason}, but the key was not found.",
+                        value,
+                        key);
+            }
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -816,6 +842,8 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="items"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="items"/> is empty.</exception>
     public new AndConstraint<TAssertions> NotContain(IEnumerable<KeyValuePair<TKey, TValue>> items,
         string because = "", params object[] becauseArgs)
     {
@@ -823,42 +851,47 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
 
         ICollection<KeyValuePair<TKey, TValue>> keyValuePairs = items.ConvertOrCastToCollection();
 
-        if (!keyValuePairs.Any())
+        Guard.ThrowIfArgumentIsEmpty(keyValuePairs, nameof(items),
+            "Cannot verify key containment against an empty collection of key/value pairs");
+
+        bool success = Execute.Assertion
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:dictionary} to not contain key/value pairs {0}{reason}, but dictionary is <null>.",
+                items);
+
+        if (success)
         {
-            throw new ArgumentException("Cannot verify key containment against an empty collection of key/value pairs",
-                nameof(items));
-        }
+            KeyValuePair<TKey, TValue>[] keyValuePairsFound =
+                keyValuePairs.Where(keyValuePair => ContainsKey(Subject, keyValuePair.Key)).ToArray();
 
-        if (Subject is null)
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} to not contain key/value pairs {0}{reason}, but dictionary is {1}.", items, Subject);
-        }
-
-        KeyValuePair<TKey, TValue>[] keyValuePairsFound = keyValuePairs.Where(keyValuePair => ContainsKey(Subject, keyValuePair.Key)).ToArray();
-
-        if (keyValuePairsFound.Any())
-        {
-            Func<TValue, TValue, bool> areSameOrEqual = ObjectExtensions.GetComparer<TValue>();
-            KeyValuePair<TKey, TValue>[] keyValuePairsSameOrEqualInSubject = keyValuePairsFound
-                .Where(keyValuePair => areSameOrEqual(GetValue(Subject, keyValuePair.Key), keyValuePair.Value)).ToArray();
-
-            if (keyValuePairsSameOrEqualInSubject.Any())
+            if (keyValuePairsFound.Length > 0)
             {
-                if (keyValuePairsSameOrEqualInSubject.Length > 1)
-                {
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:dictionary} to not contain key/value pairs {0}{reason}, but found them anyhow.", keyValuePairs);
-                }
-                else
-                {
-                    KeyValuePair<TKey, TValue> keyValuePair = keyValuePairsSameOrEqualInSubject[0];
+                Func<TValue, TValue, bool> areSameOrEqual = ObjectExtensions.GetComparer<TValue>();
 
-                    Execute.Assertion
-                        .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:dictionary} to not contain value {0} at key {1}{reason}, but found it anyhow.", keyValuePair.Value, keyValuePair.Key);
+                KeyValuePair<TKey, TValue>[] keyValuePairsSameOrEqualInSubject = keyValuePairsFound
+                    .Where(keyValuePair => areSameOrEqual(GetValue(Subject, keyValuePair.Key), keyValuePair.Value)).ToArray();
+
+                if (keyValuePairsSameOrEqualInSubject.Length > 0)
+                {
+                    if (keyValuePairsSameOrEqualInSubject.Length > 1)
+                    {
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith(
+                                "Expected {context:dictionary} to not contain key/value pairs {0}{reason}, but found them anyhow.",
+                                keyValuePairs);
+                    }
+                    else
+                    {
+                        KeyValuePair<TKey, TValue> keyValuePair = keyValuePairsSameOrEqualInSubject[0];
+
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith(
+                                "Expected {context:dictionary} to not contain value {0} at key {1}{reason}, but found it anyhow.",
+                                keyValuePair.Value, keyValuePair.Key);
+                    }
                 }
             }
         }
@@ -903,20 +936,19 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     public AndConstraint<TAssertions> NotContain(TKey key, TValue value,
         string because = "", params object[] becauseArgs)
     {
-        if (Subject is null)
-        {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} not to contain value {0} at key {1}{reason}, but dictionary is {2}.", value,
-                    key, Subject);
-        }
+        bool success = Execute.Assertion
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:dictionary} not to contain value {0} at key {1}{reason}, but dictionary is <null>.",
+                value, key);
 
-        if (TryGetValue(Subject, key, out TValue actual))
+        if (success && TryGetValue(Subject, key, out TValue actual))
         {
             Execute.Assertion
                 .ForCondition(!ObjectExtensions.GetComparer<TValue>()(actual, value))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:dictionary} not to contain value {0} at key {1}{reason}, but found it anyhow.", value, key);
+                .FailWith("Expected {context:dictionary} not to contain value {0} at key {1}{reason}, but found it anyhow.",
+                    value, key);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);

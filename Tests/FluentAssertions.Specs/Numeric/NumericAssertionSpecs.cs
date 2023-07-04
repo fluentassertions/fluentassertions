@@ -1561,7 +1561,8 @@ public class NumericAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -1734,7 +1735,8 @@ public class NumericAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -1892,7 +1894,8 @@ public class NumericAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -1988,7 +1991,8 @@ public class NumericAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -2161,7 +2165,8 @@ public class NumericAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -2334,7 +2339,8 @@ public class NumericAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -3962,5 +3968,19 @@ public class NumericAssertionSpecs
 
         // Assert
         action.Should().NotThrow();
+    }
+
+    [Fact]
+    public void Should_throw_a_helpful_error_when_accidentally_using_equals()
+    {
+        // Arrange
+        int value = 1;
+
+        // Act
+        Action action = () => value.Should().Equals(1);
+
+        // Assert
+        action.Should().Throw<NotSupportedException>()
+            .WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
     }
 }

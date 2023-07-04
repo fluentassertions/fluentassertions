@@ -157,9 +157,9 @@ public class TypedDataTableSpecs : DataSpecs
         dataTable1.Should().BeEquivalentTo(
             dataTable2,
             options => options
-            .Excluding(dataTable => dataTable.TableName)
-            .ExcludingRelated((DataColumn dataColumn) => dataColumn.Table)
-            .ExcludingRelated((Constraint constraint) => constraint.Table));
+                .Excluding(dataTable => dataTable.TableName)
+                .ExcludingRelated((DataColumn dataColumn) => dataColumn.Table)
+                .ExcludingRelated((Constraint constraint) => constraint.Table));
     }
 
     [Fact]
@@ -397,9 +397,9 @@ public class TypedDataTableSpecs : DataSpecs
         var dataSet2 = new TypedDataSetSubclass(dataSet1);
 
         dataSet2.RemotingFormat =
-            (dataSet2.RemotingFormat == SerializationFormat.Binary)
-            ? SerializationFormat.Xml
-            : SerializationFormat.Binary;
+            dataSet2.RemotingFormat == SerializationFormat.Binary
+                ? SerializationFormat.Xml
+                : SerializationFormat.Binary;
 
         var dataTable1 = dataSet1.TypedDataTable1;
         var dataTable2 = dataSet2.TypedDataTable1;
@@ -420,9 +420,9 @@ public class TypedDataTableSpecs : DataSpecs
         var dataSet2 = new TypedDataSetSubclass(dataSet1);
 
         dataSet2.RemotingFormat =
-            (dataSet2.RemotingFormat == SerializationFormat.Binary)
-            ? SerializationFormat.Xml
-            : SerializationFormat.Binary;
+            dataSet2.RemotingFormat == SerializationFormat.Binary
+                ? SerializationFormat.Xml
+                : SerializationFormat.Binary;
 
         var dataTable1 = dataSet1.TypedDataTable1;
         var dataTable2 = dataSet2.TypedDataTable1;
@@ -597,7 +597,7 @@ public class TypedDataTableSpecs : DataSpecs
         // Act & Assert
         dataTable1.Should().BeEquivalentTo(dataTable2, options => options
             .Excluding(dataTable => dataTable.Constraints)
-            .ExcludingRelated((DataColumn dataColumn) => dataColumn.Unique));
+            .ExcludingRelated(dataColumn => dataColumn.Unique));
     }
 
     [Theory]

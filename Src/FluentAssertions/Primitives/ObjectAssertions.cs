@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
@@ -17,6 +18,8 @@ public class ObjectAssertions : ObjectAssertions<object, ObjectAssertions>
     }
 }
 
+#pragma warning disable CS0659, S1206 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
 /// <summary>
 /// Contains a number of methods to assert that a <typeparamref name="TSubject"/> is in the expected state.
 /// </summary>
@@ -120,11 +123,12 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
         Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(config, nameof(config));
+        Guard.ThrowIfArgumentIsNull(config);
 
         EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
 
@@ -196,15 +200,17 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(
         TExpectation unexpected,
         Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config,
         string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(config, nameof(config));
+        Guard.ThrowIfArgumentIsNull(config);
 
         bool hasMismatches;
+
         using (var scope = new AssertionScope())
         {
             Subject.Should().BeEquivalentTo(unexpected, config);
@@ -219,6 +225,45 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
+
+    /// <summary>
+    /// Asserts that a value is one of the specified <paramref name="validValues"/>.
+    /// </summary>
+    /// <param name="validValues">
+    /// The values that are valid.
+    /// </param>
+    public AndConstraint<TAssertions> BeOneOf(params TSubject[] validValues)
+    {
+        return BeOneOf(validValues, string.Empty);
+    }
+
+    /// <summary>
+    /// Asserts that a value is one of the specified <paramref name="validValues"/>.
+    /// </summary>
+    /// <param name="validValues">
+    /// The values that are valid.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> BeOneOf(IEnumerable<TSubject> validValues, string because = "",
+        params object[] becauseArgs)
+    {
+        Execute.Assertion
+            .ForCondition(validValues.Contains(Subject))
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:object} to be one of {0}{reason}, but found {1}.", validValues, Subject);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <inheritdoc/>
+    public override bool Equals(object obj) =>
+        throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean Be() or BeSameAs() instead?");
 
     /// <summary>
     /// Returns the type of the subject the assertion applies on.

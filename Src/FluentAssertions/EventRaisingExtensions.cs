@@ -27,13 +27,14 @@ public static class EventRaisingExtensions
         foreach (OccurredEvent @event in eventRecording)
         {
             bool hasSender = Execute.Assertion
-                .ForCondition(@event.Parameters.Any())
+                .ForCondition(@event.Parameters.Length > 0)
                 .FailWith("Expected event from sender {0}, " +
-                          $"but event {eventRecording.EventName} does not have any parameters", expectedSender);
+                    $"but event {eventRecording.EventName} does not have any parameters", expectedSender);
 
             if (hasSender)
             {
-                object sender = @event.Parameters.First();
+                object sender = @event.Parameters[0];
+
                 if (ReferenceEquals(sender, expectedSender))
                 {
                     eventsForSender.Add(@event);
@@ -46,7 +47,7 @@ public static class EventRaisingExtensions
         }
 
         Execute.Assertion
-            .ForCondition(eventsForSender.Any())
+            .ForCondition(eventsForSender.Count > 0)
             .FailWith("Expected sender {0}, but found {1}.",
                 () => expectedSender,
                 () => otherSenders.Distinct());
@@ -61,9 +62,10 @@ public static class EventRaisingExtensions
     /// <returns>
     /// Returns only the events having some argument matching both type and predicate.
     /// </returns>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public static IEventRecording WithArgs<T>(this IEventRecording eventRecording, Expression<Func<T, bool>> predicate)
     {
-        Guard.ThrowIfArgumentIsNull(predicate, nameof(predicate));
+        Guard.ThrowIfArgumentIsNull(predicate);
 
         Func<T, bool> compiledPredicate = predicate.Compile();
 
@@ -71,7 +73,7 @@ public static class EventRaisingExtensions
 
         foreach (OccurredEvent @event in eventRecording)
         {
-            var typedParameters = @event.Parameters.OfType<T>().ToArray();
+            IEnumerable<T> typedParameters = @event.Parameters.OfType<T>();
 
             if (typedParameters.Any(parameter => compiledPredicate(parameter)))
             {
@@ -79,7 +81,7 @@ public static class EventRaisingExtensions
             }
         }
 
-        bool foundMatchingEvent = eventsWithMatchingPredicate.Any();
+        bool foundMatchingEvent = eventsWithMatchingPredicate.Count > 0;
 
         Execute.Assertion
             .ForCondition(foundMatchingEvent)
@@ -98,7 +100,7 @@ public static class EventRaisingExtensions
     /// Returns only the events having arguments matching both type and all predicates.
     /// </returns>
     /// <remarks>
-    /// If a <c>null</c> is provided as predicate argument, the corresponding event parameter value is ignored.
+    /// If a <see langword="null"/> is provided as predicate argument, the corresponding event parameter value is ignored.
     /// </remarks>
     public static IEventRecording WithArgs<T>(this IEventRecording eventRecording, params Expression<Func<T, bool>>[] predicates)
     {
@@ -109,7 +111,7 @@ public static class EventRaisingExtensions
         foreach (OccurredEvent @event in eventRecording)
         {
             var typedParameters = @event.Parameters.OfType<T>().ToArray();
-            bool hasArgumentOfRightType = typedParameters.Any();
+            bool hasArgumentOfRightType = typedParameters.Length > 0;
 
             if (predicates.Length > typedParameters.Length)
             {
@@ -118,6 +120,7 @@ public static class EventRaisingExtensions
             }
 
             bool isMatch = hasArgumentOfRightType;
+
             for (int index = 0; index < predicates.Length && isMatch; index++)
             {
                 isMatch = compiledPredicates[index]?.Invoke(typedParameters[index]) ?? true;
@@ -129,12 +132,13 @@ public static class EventRaisingExtensions
             }
         }
 
-        bool foundMatchingEvent = eventsWithMatchingPredicate.Any();
+        bool foundMatchingEvent = eventsWithMatchingPredicate.Count > 0;
 
         if (!foundMatchingEvent)
         {
             Execute.Assertion
-                .FailWith("Expected at least one event with some arguments of type <{0}> that pairwise match {1}, but found none.",
+                .FailWith(
+                    "Expected at least one event with some arguments of type <{0}> that pairwise match {1}, but found none.",
                     typeof(T),
                     string.Join(" | ", predicates.Where(p => p is not null).Select(p => p.Body.ToString())));
         }

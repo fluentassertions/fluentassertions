@@ -122,7 +122,8 @@ public static class Formatter
         }
     }
 
-    private static void FormatChild(string path, object value, FormattedObjectGraph output, FormattingContext context, FormattingOptions options, ObjectGraph graph)
+    private static void FormatChild(string path, object value, FormattedObjectGraph output, FormattingContext context,
+        FormattingOptions options, ObjectGraph graph)
     {
         try
         {
@@ -135,7 +136,7 @@ public static class Formatter
             else if (graph.Depth > options.MaxDepth)
             {
                 output.AddLine($"Maximum recursion depth of {options.MaxDepth} was reached. " +
-                       $" Increase {nameof(FormattingOptions.MaxDepth)} on {nameof(AssertionScope)} or {nameof(AssertionOptions)} to get more details.");
+                    $" Increase {nameof(FormattingOptions.MaxDepth)} on {nameof(AssertionScope)} or {nameof(AssertionOptions)} to get more details.");
             }
             else
             {
@@ -163,10 +164,7 @@ public static class Formatter
     /// </summary>
     public static void RemoveFormatter(IValueFormatter formatter)
     {
-        if (CustomFormatters.Contains(formatter))
-        {
-            CustomFormatters.Remove(formatter);
-        }
+        CustomFormatters.Remove(formatter);
     }
 
     /// <summary>
@@ -187,7 +185,7 @@ public static class Formatter
     /// <remarks>
     /// Is used to detect the maximum recursion depth as well as cyclic references in the graph.
     /// </remarks>
-    private class ObjectGraph
+    private sealed class ObjectGraph
     {
         private readonly CyclicReferenceDetector tracker;
         private readonly Stack<string> pathStack;
@@ -219,7 +217,7 @@ public static class Formatter
 
         public override string ToString()
         {
-            return string.Join(".", pathStack.Reverse().ToArray());
+            return string.Join(".", pathStack.Reverse());
         }
     }
 }

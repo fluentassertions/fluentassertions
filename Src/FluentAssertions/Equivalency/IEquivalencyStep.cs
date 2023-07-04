@@ -17,9 +17,3 @@ public interface IEquivalencyStep
     /// </remarks>
     EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator);
 }
-
-public enum EquivalencyResult
-{
-    ContinueWithNext,
-    AssertionCompleted
-}

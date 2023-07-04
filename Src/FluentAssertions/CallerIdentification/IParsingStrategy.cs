@@ -4,10 +4,11 @@ namespace FluentAssertions.CallerIdentification;
 
 /// <summary>
 /// Represents a stateful parsing strategy that is used to help identify the "caller" to use in an assertion message.
-///
+/// </summary>
+/// <remarks>
 /// The strategies will be instantiated at the beginning of a "caller identification" task, and will live until
 /// the statement can be identified (and thus some are stateful).
-/// </summary>
+/// </remarks>
 internal interface IParsingStrategy
 {
     /// <summary>

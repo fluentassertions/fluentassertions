@@ -1,0 +1,7 @@
+version: "1.0"
+
+linter: jetbrains/qodana-dotnet:latest
+failThreshold: 0
+
+dotnet:
+  solution: FluentAssertions.sln

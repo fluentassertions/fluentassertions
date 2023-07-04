@@ -19,10 +19,14 @@ public class TypeSelector : IEnumerable<Type>
     {
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TypeSelector"/> class.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="types"/> is or contains <see langword="null"/>.</exception>
     public TypeSelector(IEnumerable<Type> types)
     {
-        Guard.ThrowIfArgumentIsNull(types, nameof(types));
-        Guard.ThrowIfArgumentContainsNull(types, nameof(types));
+        Guard.ThrowIfArgumentIsNull(types);
+        Guard.ThrowIfArgumentContainsNull(types);
 
         this.types = types.ToList();
     }
@@ -59,7 +63,7 @@ public class TypeSelector : IEnumerable<Type>
     public TypeSelector ThatImplement<TInterface>()
     {
         types = types
-            .Where(t => typeof(TInterface).IsAssignableFrom(t) && (t != typeof(TInterface)))
+            .Where(t => typeof(TInterface).IsAssignableFrom(t) && t != typeof(TInterface))
             .ToList();
 
         return this;
@@ -71,7 +75,7 @@ public class TypeSelector : IEnumerable<Type>
     public TypeSelector ThatDoNotImplement<TInterface>()
     {
         types = types
-            .Where(t => !typeof(TInterface).IsAssignableFrom(t) && (t != typeof(TInterface)))
+            .Where(t => !typeof(TInterface).IsAssignableFrom(t) && t != typeof(TInterface))
             .ToList();
 
         return this;
@@ -166,6 +170,24 @@ public class TypeSelector : IEnumerable<Type>
     }
 
     /// <summary>
+    /// Filters and returns the types that are value types
+    /// </summary>
+    public TypeSelector ThatAreValueTypes()
+    {
+        types = types.Where(t => t.IsValueType).ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Filters and returns the types that are not value types
+    /// </summary>
+    public TypeSelector ThatAreNotValueTypes()
+    {
+        types = types.Where(t => !t.IsValueType).ToList();
+        return this;
+    }
+
+    /// <summary>
     /// Determines whether the type is a class
     /// </summary>
     public TypeSelector ThatAreClasses()
@@ -180,6 +202,60 @@ public class TypeSelector : IEnumerable<Type>
     public TypeSelector ThatAreNotClasses()
     {
         types = types.Where(t => !t.IsClass).ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Filters and returns the types that are abstract
+    /// </summary>
+    public TypeSelector ThatAreAbstract()
+    {
+        types = types.Where(t => t.IsCSharpAbstract()).ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Filters and returns the types that are not abstract
+    /// </summary>
+    public TypeSelector ThatAreNotAbstract()
+    {
+        types = types.Where(t => !t.IsCSharpAbstract()).ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Filters and returns the types that are sealed
+    /// </summary>
+    public TypeSelector ThatAreSealed()
+    {
+        types = types.Where(t => t.IsSealed).ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Filters and returns the types that are not sealed
+    /// </summary>
+    public TypeSelector ThatAreNotSealed()
+    {
+        types = types.Where(t => !t.IsSealed).ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Filters and returns only the types that are interfaces
+    /// </summary>
+    public TypeSelector ThatAreInterfaces()
+    {
+        types = types.Where(t => t.IsInterface).ToList();
+        return this;
+    }
+
+    /// <summary>
+    /// Filters and returns only the types that are not interfaces
+    /// </summary>
+    public TypeSelector ThatAreNotInterfaces()
+    {
+        types = types.Where(t => !t.IsInterface).ToList();
         return this;
     }
 
@@ -215,7 +291,7 @@ public class TypeSelector : IEnumerable<Type>
     /// </summary>
     public TypeSelector UnwrapTaskTypes()
     {
-        types = types.Select(type =>
+        types = types.ConvertAll(type =>
         {
             if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Task<>))
             {
@@ -228,7 +304,7 @@ public class TypeSelector : IEnumerable<Type>
             }
 
             return type == typeof(Task) || type == typeof(ValueTask) ? typeof(void) : type;
-        }).ToList();
+        });
 
         return this;
     }
@@ -239,6 +315,7 @@ public class TypeSelector : IEnumerable<Type>
     public TypeSelector UnwrapEnumerableTypes()
     {
         var unwrappedTypes = new List<Type>();
+
         foreach (Type type in types)
         {
             if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
@@ -253,7 +330,7 @@ public class TypeSelector : IEnumerable<Type>
                     .Select(ied => ied.GetGenericArguments().Single())
                     .ToList();
 
-                if (iEnumerableImplementations.Any())
+                if (iEnumerableImplementations.Count > 0)
                 {
                     unwrappedTypes.AddRange(iEnumerableImplementations);
                 }

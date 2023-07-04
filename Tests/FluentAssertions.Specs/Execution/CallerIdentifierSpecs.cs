@@ -9,6 +9,8 @@ using FluentAssertions.Extensions;
 using Xunit;
 using Xunit.Sdk;
 
+#pragma warning disable RCS1192, RCS1214, S4144 // verbatim string literals and interpolated strings
+
 namespace FluentAssertions.Specs.Execution
 {
     public class CallerIdentifierSpecs
@@ -71,7 +73,7 @@ namespace FluentAssertions.Specs.Execution
 
             // Assert
             await action.Should().ThrowAsync<XunitException>()
-                .WithMessage("Expected bob to not complete within 1s because test testArg.");
+                .WithMessage("Did not expect bob to complete within 1s because test testArg.");
         }
 
         [Fact]
@@ -223,10 +225,12 @@ namespace FluentAssertions.Specs.Execution
             var foo = new Foo();
 
             // Act
+#pragma warning disable format
             Action act = () =>
             {
                 var foo2 = foo; foo2.Should().BeNull();
             };
+#pragma warning restore format
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -456,7 +460,7 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Collection("UIFacts")]
-        public partial class UIFacts
+        public class UIFacts
         {
             [UIFact]
             public async Task Caller_identification_should_also_work_for_statements_following_async_code()
@@ -546,6 +550,7 @@ namespace FluentAssertions.Specs.Execution
         }
     }
 
+#pragma warning disable IDE0060, RCS1163 // Remove unused parameter
     [SuppressMessage("The name of a C# element does not begin with an upper-case letter", "SA1300")]
     [SuppressMessage("Parameter is never used", "CA1801")]
     public class Foo
@@ -570,6 +575,7 @@ namespace FluentAssertions.Specs.Execution
     {
         public static Foo GetFooStatic(this Foo foo, string prm) => foo;
     }
+#pragma warning restore IDE0060, RCS1163 // Remove unused parameter
 }
 
 namespace System

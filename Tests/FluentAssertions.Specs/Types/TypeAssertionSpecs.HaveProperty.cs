@@ -23,8 +23,8 @@ public partial class TypeAssertionSpecs
                 type.Should()
                     .HaveProperty(typeof(string), "PrivateWriteProtectedReadProperty")
                     .Which.Should()
-                        .BeWritable(CSharpAccessModifier.Private)
-                        .And.BeReadable(CSharpAccessModifier.Protected);
+                    .BeWritable(CSharpAccessModifier.Private)
+                    .And.BeReadable(CSharpAccessModifier.Protected);
 
             // Assert
             act.Should().NotThrow();
@@ -119,7 +119,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveProperty(typeof(string), string.Empty);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
     }
@@ -137,8 +137,8 @@ public partial class TypeAssertionSpecs
                 type.Should()
                     .HaveProperty<string>("PrivateWriteProtectedReadProperty")
                     .Which.Should()
-                        .BeWritable(CSharpAccessModifier.Private)
-                        .And.BeReadable(CSharpAccessModifier.Protected);
+                    .BeWritable(CSharpAccessModifier.Private)
+                    .And.BeReadable(CSharpAccessModifier.Protected);
 
             // Assert
             act.Should().NotThrow();
@@ -170,7 +170,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveProperty<string>(string.Empty);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
     }
@@ -249,7 +249,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveProperty(string.Empty);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
     }

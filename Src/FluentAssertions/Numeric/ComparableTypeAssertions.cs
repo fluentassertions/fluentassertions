@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
@@ -100,11 +102,12 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
         Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
         params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(config, nameof(config));
+        Guard.ThrowIfArgumentIsNull(config);
 
         EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
 
@@ -245,7 +248,8 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
     }
 
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<TAssertions> BeLessOrEqualTo(T expected, string because = "", params object[] becauseArgs) => BeLessThanOrEqualTo(expected, because, becauseArgs);
+    public AndConstraint<TAssertions> BeLessOrEqualTo(T expected, string because = "", params object[] becauseArgs) =>
+        BeLessThanOrEqualTo(expected, because, becauseArgs);
 
     /// <summary>
     /// Asserts that the subject is greater than another object according to its implementation of <see cref="IComparable{T}"/>.
@@ -294,7 +298,8 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
     }
 
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<TAssertions> BeGreaterOrEqualTo(T expected, string because = "", params object[] becauseArgs) => BeGreaterThanOrEqualTo(expected, because, becauseArgs);
+    public AndConstraint<TAssertions> BeGreaterOrEqualTo(T expected, string because = "", params object[] becauseArgs) =>
+        BeGreaterThanOrEqualTo(expected, because, becauseArgs);
 
     /// <summary>
     /// Asserts that a value is within a range.
@@ -319,7 +324,7 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
         params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition((Subject.CompareTo(minimumValue) >= Equal) && (Subject.CompareTo(maximumValue) <= Equal))
+            .ForCondition(Subject.CompareTo(minimumValue) >= Equal && Subject.CompareTo(maximumValue) <= Equal)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} to be between {0} and {1}{reason}, but found {2}.",
                 minimumValue, maximumValue, Subject);
@@ -350,10 +355,45 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
         params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(!((Subject.CompareTo(minimumValue) >= Equal) && (Subject.CompareTo(maximumValue) <= Equal)))
+            .ForCondition(!(Subject.CompareTo(minimumValue) >= Equal && Subject.CompareTo(maximumValue) <= Equal))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} to not be between {0} and {1}{reason}, but found {2}.",
                 minimumValue, maximumValue, Subject);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that a value is one of the specified <paramref name="validValues"/>.
+    /// </summary>
+    /// <param name="validValues">
+    /// The values that are valid.
+    /// </param>
+    public AndConstraint<TAssertions> BeOneOf(params T[] validValues)
+    {
+        return BeOneOf(validValues, string.Empty);
+    }
+
+    /// <summary>
+    /// Asserts that a value is one of the specified <paramref name="validValues"/>.
+    /// </summary>
+    /// <param name="validValues">
+    /// The values that are valid.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> BeOneOf(IEnumerable<T> validValues, string because = "",
+        params object[] becauseArgs)
+    {
+        Execute.Assertion
+            .ForCondition(validValues.Any(val => Equals(Subject, val)))
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:object} to be one of {0}{reason}, but found {1}.", validValues, Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }

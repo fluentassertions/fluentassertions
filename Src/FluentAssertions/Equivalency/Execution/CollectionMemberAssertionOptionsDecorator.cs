@@ -36,7 +36,8 @@ internal class CollectionMemberAssertionOptionsDecorator : IEquivalencyAssertion
     {
         get
         {
-            return new OrderingRuleCollection(inner.OrderingRules.Select(rule => new CollectionMemberOrderingRuleDecorator(rule)));
+            return new OrderingRuleCollection(inner.OrderingRules.Select(rule =>
+                new CollectionMemberOrderingRuleDecorator(rule)));
         }
     }
 
@@ -65,7 +66,7 @@ internal class CollectionMemberAssertionOptionsDecorator : IEquivalencyAssertion
 
     public bool ExcludeNonBrowsableOnExpectation => inner.ExcludeNonBrowsableOnExpectation;
 
-    public bool CompareRecordsByValue => inner.CompareRecordsByValue;
+    public bool? CompareRecordsByValue => inner.CompareRecordsByValue;
 
     public EqualityStrategy GetEqualityStrategy(Type type)
     {

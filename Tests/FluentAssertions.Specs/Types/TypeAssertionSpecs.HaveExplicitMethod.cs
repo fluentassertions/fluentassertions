@@ -29,7 +29,8 @@ public partial class TypeAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_a_type_explicitly_implements_a_method_which_it_implements_implicitly_and_explicitly_it_succeeds()
+        public void
+            When_asserting_a_type_explicitly_implements_a_method_which_it_implements_implicitly_and_explicitly_it_succeeds()
         {
             // Arrange
             var type = typeof(ClassExplicitlyImplementingInterface);
@@ -179,7 +180,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveExplicitMethod(typeof(IExplicitInterface), string.Empty, new Type[0]);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
     }
@@ -260,7 +261,7 @@ public partial class TypeAssertionSpecs
                 type.Should().HaveExplicitMethod<IExplicitInterface>(string.Empty, new Type[0]);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
     }
@@ -288,7 +289,8 @@ public partial class TypeAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_a_type_does_not_explicitly_implement_a_method_which_it_implements_implicitly_and_explicitly_it_fails()
+        public void
+            When_asserting_a_type_does_not_explicitly_implement_a_method_which_it_implements_implicitly_and_explicitly_it_fails()
         {
             // Arrange
             var type = typeof(ClassExplicitlyImplementingInterface);
@@ -435,7 +437,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveExplicitMethod(typeof(IExplicitInterface), string.Empty, new Type[0]);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
     }
@@ -519,7 +521,7 @@ public partial class TypeAssertionSpecs
                 type.Should().NotHaveExplicitMethod<IExplicitInterface>(string.Empty, new Type[0]);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
         }
     }

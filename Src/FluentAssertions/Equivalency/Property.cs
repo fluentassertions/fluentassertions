@@ -26,6 +26,7 @@ public class Property : Node, IMember
         DeclaringType = propertyInfo.DeclaringType;
         Name = propertyInfo.Name;
         Type = propertyInfo.PropertyType;
+        ParentType = propertyInfo.DeclaringType;
         Path = parent.PathAndName;
         GetSubjectId = parent.GetSubjectId;
         RootIsCollection = parent.RootIsCollection;
@@ -36,7 +37,7 @@ public class Property : Node, IMember
         return propertyInfo.GetValue(obj);
     }
 
-    public Type DeclaringType { get; private set; }
+    public Type DeclaringType { get; }
 
     public Type ReflectedType { get; }
 
@@ -50,10 +51,8 @@ public class Property : Node, IMember
     {
         get
         {
-            if (isBrowsable == null)
-            {
-                isBrowsable = propertyInfo.GetCustomAttribute<EditorBrowsableAttribute>() is not { State: EditorBrowsableState.Never };
-            }
+            isBrowsable ??=
+                propertyInfo.GetCustomAttribute<EditorBrowsableAttribute>() is not { State: EditorBrowsableState.Never };
 
             return isBrowsable.Value;
         }

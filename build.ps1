@@ -25,6 +25,7 @@ $env:DOTNET_CLI_TELEMETRY_OPTOUT = 1
 $env:DOTNET_MULTILEVEL_LOOKUP = 0
 $env:DOTNET_ROLL_FORWARD = "Major"
 $env:NUKE_TELEMETRY_OPTOUT = 1
+$env:DOTNET_CLI_UI_LANGUAGE = "en-US"
 
 ###########################################################################
 # EXECUTION

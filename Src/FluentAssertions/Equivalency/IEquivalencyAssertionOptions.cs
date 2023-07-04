@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-
 using FluentAssertions.Equivalency.Tracing;
 
 namespace FluentAssertions.Equivalency;
@@ -88,10 +87,10 @@ public interface IEquivalencyAssertionOptions
     /// <summary>
     /// Gets a value indicating whether records should be compared by value instead of their members
     /// </summary>
-    bool CompareRecordsByValue { get; }
+    bool? CompareRecordsByValue { get; }
 
     /// <summary>
-    /// Gets the currently configured tracer, or <c>null</c> if no tracing was configured.
+    /// Gets the currently configured tracer, or <see langword="null"/> if no tracing was configured.
     /// </summary>
     ITraceWriter TraceWriter { get; }
 
@@ -99,27 +98,4 @@ public interface IEquivalencyAssertionOptions
     /// Determines the right strategy for evaluating the equality of objects of this type.
     /// </summary>
     EqualityStrategy GetEqualityStrategy(Type type);
-}
-
-public enum EqualityStrategy
-{
-    /// <summary>
-    /// The object overrides <see cref="object.Equals(object)"/>, so use that.
-    /// </summary>
-    Equals,
-
-    /// <summary>
-    /// The object does not seem to override <see cref="object.Equals(object)"/>, so compare by members
-    /// </summary>
-    Members,
-
-    /// <summary>
-    /// Compare using <see cref="object.Equals(object)"/>, whether or not the object overrides it.
-    /// </summary>
-    ForceEquals,
-
-    /// <summary>
-    /// Compare the members, regardless of an <see cref="object.Equals(object)"/> override exists or not.
-    /// </summary>
-    ForceMembers,
 }

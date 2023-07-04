@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions.Execution;
 
@@ -11,9 +10,10 @@ namespace FluentAssertions.Equivalency;
 /// </summary>
 internal class MultiDimensionalArrayEquivalencyStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+        IEquivalencyValidator nestedValidator)
     {
-        if (comparands.Expectation is not Array expectationAsArray || expectationAsArray?.Rank == 1)
+        if (comparands.Expectation is not Array expectationAsArray || expectationAsArray.Rank == 1)
         {
             return EquivalencyResult.ContinueWithNext;
         }
@@ -96,51 +96,5 @@ internal class MultiDimensionalArrayEquivalencyStep : IEquivalencyStep
             .ForCondition(subjectAsArray.Rank == expectation.Rank)
             .FailWith("Expected {context:array} to have {0} dimension(s), but it has {1}.", expectation.Rank,
                 subjectAsArray.Rank);
-    }
-}
-
-internal class Digit
-{
-    private readonly int length;
-    private readonly Digit nextDigit;
-    private int index;
-
-    public Digit(int length, Digit nextDigit)
-    {
-        this.length = length;
-        this.nextDigit = nextDigit;
-    }
-
-    public int[] GetIndices()
-    {
-        var indices = new List<int>();
-
-        Digit digit = this;
-        while (digit is not null)
-        {
-            indices.Add(digit.index);
-            digit = digit.nextDigit;
-        }
-
-        return indices.ToArray();
-    }
-
-    public bool Increment()
-    {
-        bool success = nextDigit?.Increment() == true;
-        if (!success)
-        {
-            if (index < (length - 1))
-            {
-                index++;
-                success = true;
-            }
-            else
-            {
-                index = 0;
-            }
-        }
-
-        return success;
     }
 }

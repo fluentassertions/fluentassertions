@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Execution;
@@ -32,10 +31,10 @@ internal class CollectingAssertionStrategy : IAssertionStrategy
     /// </summary>
     public void ThrowIfAny(IDictionary<string, object> context)
     {
-        if (failureMessages.Any())
+        if (failureMessages.Count > 0)
         {
             var builder = new StringBuilder();
-            builder.AppendLine(string.Join(Environment.NewLine, failureMessages));
+            builder.AppendJoin(Environment.NewLine, failureMessages).AppendLine();
 
             if (context.Any())
             {

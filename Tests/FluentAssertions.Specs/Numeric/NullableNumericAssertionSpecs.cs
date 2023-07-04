@@ -1,4 +1,5 @@
 using System;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -726,7 +727,8 @@ public class NullableNumericAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -741,7 +743,8 @@ public class NullableNumericAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -836,7 +839,11 @@ public class NullableNumericAssertionSpecs
             double? value = null;
 
             // Act
-            Action act = () => value.Should().BeApproximately(3.14, 0.001);
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                value.Should().BeApproximately(3.14, 0.001);
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -884,7 +891,8 @@ public class NullableNumericAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -899,7 +907,8 @@ public class NullableNumericAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -988,6 +997,24 @@ public class NullableNumericAssertionSpecs
         }
 
         [Fact]
+        public void When_nullable_float_has_no_value_it_should_throw()
+        {
+            // Arrange
+            float? value = null;
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                value.Should().BeApproximately(3.14F, 0.001F);
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected value to approximate 3.14F +/- 0.001F, but it was <null>.");
+        }
+
+        [Fact]
         public void When_nullable_float_is_not_approximating_a_value_it_should_throw()
         {
             // Arrange
@@ -1029,7 +1056,8 @@ public class NullableNumericAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -1044,7 +1072,8 @@ public class NullableNumericAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -1139,7 +1168,11 @@ public class NullableNumericAssertionSpecs
             decimal? value = null;
 
             // Act
-            Action act = () => value.Should().BeApproximately(3.14m, 0.001m);
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                value.Should().BeApproximately(3.14m, 0.001m);
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -1175,7 +1208,8 @@ public class NullableNumericAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -1190,7 +1224,8 @@ public class NullableNumericAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -1333,7 +1368,8 @@ public class NullableNumericAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -1348,7 +1384,8 @@ public class NullableNumericAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -1490,7 +1527,8 @@ public class NullableNumericAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -1505,7 +1543,8 @@ public class NullableNumericAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]

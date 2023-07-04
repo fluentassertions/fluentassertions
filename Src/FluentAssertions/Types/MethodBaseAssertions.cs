@@ -37,7 +37,7 @@ public abstract class MethodBaseAssertions<TSubject, TAssertions> : MemberInfoAs
     public AndConstraint<TAssertions> HaveAccessModifier(
         CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsOutOfRange(accessModifier, nameof(accessModifier));
+        Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -71,9 +71,10 @@ public abstract class MethodBaseAssertions<TSubject, TAssertions> : MemberInfoAs
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="accessModifier"/>
     /// is not a <see cref="CSharpAccessModifier"/> value.</exception>
-    public AndConstraint<TAssertions> NotHaveAccessModifier(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotHaveAccessModifier(CSharpAccessModifier accessModifier, string because = "",
+        params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsOutOfRange(accessModifier, nameof(accessModifier));
+        Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)

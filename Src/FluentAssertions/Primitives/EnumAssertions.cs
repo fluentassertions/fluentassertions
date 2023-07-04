@@ -20,7 +20,7 @@ public class EnumAssertions<TEnum> : EnumAssertions<TEnum, EnumAssertions<TEnum>
     }
 }
 
-#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CS0659, S1206 // Ignore not overriding Object.GetHashCode()
 #pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
 /// <summary>
 /// Contains a number of methods to assert that a <typeparamref name="TEnum"/> is in the expected state.
@@ -195,7 +195,7 @@ public class EnumAssertions<TEnum, TAssertions>
     public AndConstraint<TAssertions> HaveValue(decimal expected, string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(Subject is TEnum value && (GetValue(value) == expected))
+            .ForCondition(Subject is TEnum value && GetValue(value) == expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:the enum} to have value {0}{reason}, but found {1}.",
                 expected, Subject);
@@ -217,7 +217,7 @@ public class EnumAssertions<TEnum, TAssertions>
     public AndConstraint<TAssertions> NotHaveValue(decimal unexpected, string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(!(Subject is TEnum value && (GetValue(value) == unexpected)))
+            .ForCondition(!(Subject is TEnum value && GetValue(value) == unexpected))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:the enum} to not have value {0}{reason}, but found {1}.",
                 unexpected, Subject);
@@ -240,7 +240,7 @@ public class EnumAssertions<TEnum, TAssertions>
         where T : struct, Enum
     {
         Execute.Assertion
-            .ForCondition(Subject is TEnum value && (GetValue(value) == GetValue(expected)))
+            .ForCondition(Subject is TEnum value && GetValue(value) == GetValue(expected))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:the enum} to have same value as {0}{reason}, but found {1}.",
                 expected, Subject);
@@ -263,7 +263,7 @@ public class EnumAssertions<TEnum, TAssertions>
         where T : struct, Enum
     {
         Execute.Assertion
-            .ForCondition(!(Subject is TEnum value && (GetValue(value) == GetValue(unexpected))))
+            .ForCondition(!(Subject is TEnum value && GetValue(value) == GetValue(unexpected)))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:the enum} to not have same value as {0}{reason}, but found {1}.",
                 unexpected, Subject);
@@ -286,7 +286,7 @@ public class EnumAssertions<TEnum, TAssertions>
         where T : struct, Enum
     {
         Execute.Assertion
-            .ForCondition(Subject is TEnum value && (GetName(value) == GetName(expected)))
+            .ForCondition(Subject is TEnum value && GetName(value) == GetName(expected))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:the enum} to have same name as {0}{reason}, but found {1}.",
                 expected, Subject);
@@ -309,7 +309,7 @@ public class EnumAssertions<TEnum, TAssertions>
         where T : struct, Enum
     {
         Execute.Assertion
-            .ForCondition(!(Subject is TEnum value && (GetName(value) == GetName(unexpected))))
+            .ForCondition(!(Subject is TEnum value && GetName(value) == GetName(unexpected)))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:the enum} to not have same name as {0}{reason}, but found {1}.",
                 unexpected, Subject);
@@ -374,7 +374,7 @@ public class EnumAssertions<TEnum, TAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <returns>An <see cref="AndConstraint{T}" /> which can be used to chain assertions.</returns>
-    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> Match(Expression<Func<TEnum?, bool>> predicate,
         string because = "",
         params object[] becauseArgs)
@@ -413,10 +413,15 @@ public class EnumAssertions<TEnum, TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="validValues"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="validValues"/> is empty.</exception>
     public AndConstraint<TAssertions> BeOneOf(IEnumerable<TEnum> validValues, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(validValues, nameof(validValues), "Cannot assert that an enum is one of a null list of enums");
-        Guard.ThrowIfArgumentIsEmpty(validValues, nameof(validValues), "Cannot assert that an enum is one of an empty list of enums");
+        Guard.ThrowIfArgumentIsNull(validValues, nameof(validValues),
+            "Cannot assert that an enum is one of a null list of enums");
+
+        Guard.ThrowIfArgumentIsEmpty(validValues, nameof(validValues),
+            "Cannot assert that an enum is one of an empty list of enums");
 
         Execute.Assertion
             .ForCondition(Subject is not null)
@@ -443,5 +448,5 @@ public class EnumAssertions<TEnum, TAssertions>
 
     /// <inheritdoc/>
     public override bool Equals(object obj) =>
-        throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
+        throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
 }

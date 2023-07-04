@@ -8,7 +8,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Types;
 
-#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CS0659, S1206 // Ignore not overriding Object.GetHashCode()
 #pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
 /// <summary>
 /// Contains assertions for the <see cref="PropertyInfo"/> objects returned by the parent <see cref="PropertyInfoSelector"/>.
@@ -25,10 +25,10 @@ public class PropertyInfoSelectorAssertions
     /// Initializes a new instance of the <see cref="PropertyInfoSelectorAssertions"/> class, for a number of <see cref="PropertyInfo"/> objects.
     /// </summary>
     /// <param name="properties">The properties to assert.</param>
-    /// <exception cref="ArgumentNullException"><paramref name="properties"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="properties"/> is <see langword="null"/>.</exception>
     public PropertyInfoSelectorAssertions(params PropertyInfo[] properties)
     {
-        Guard.ThrowIfArgumentIsNull(properties, nameof(properties));
+        Guard.ThrowIfArgumentIsNull(properties);
 
         SubjectProperties = properties;
     }
@@ -48,7 +48,7 @@ public class PropertyInfoSelectorAssertions
         PropertyInfo[] nonVirtualProperties = GetAllNonVirtualPropertiesFromSelection();
 
         Execute.Assertion
-            .ForCondition(!nonVirtualProperties.Any())
+            .ForCondition(nonVirtualProperties.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
                 "Expected all selected properties to be virtual{reason}, but the following properties are not virtual:" +
@@ -72,7 +72,7 @@ public class PropertyInfoSelectorAssertions
         PropertyInfo[] virtualProperties = GetAllVirtualPropertiesFromSelection();
 
         Execute.Assertion
-            .ForCondition(!virtualProperties.Any())
+            .ForCondition(virtualProperties.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
                 "Expected all selected properties not to be virtual{reason}, but the following properties are virtual:" +
@@ -96,7 +96,7 @@ public class PropertyInfoSelectorAssertions
         PropertyInfo[] readOnlyProperties = GetAllReadOnlyPropertiesFromSelection();
 
         Execute.Assertion
-            .ForCondition(!readOnlyProperties.Any())
+            .ForCondition(readOnlyProperties.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
                 "Expected all selected properties to have a setter{reason}, but the following properties do not:" +
@@ -120,7 +120,7 @@ public class PropertyInfoSelectorAssertions
         PropertyInfo[] writableProperties = GetAllWritablePropertiesFromSelection();
 
         Execute.Assertion
-            .ForCondition(!writableProperties.Any())
+            .ForCondition(writableProperties.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
                 "Expected selected properties to not have a setter{reason}, but the following properties do:" +
@@ -159,13 +159,14 @@ public class PropertyInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "",
+        params object[] becauseArgs)
         where TAttribute : Attribute
     {
         PropertyInfo[] propertiesWithoutAttribute = GetPropertiesWithout<TAttribute>();
 
         Execute.Assertion
-            .ForCondition(!propertiesWithoutAttribute.Any())
+            .ForCondition(propertiesWithoutAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
                 "Expected all selected properties to be decorated with {0}{reason}" +
@@ -185,13 +186,14 @@ public class PropertyInfoSelectorAssertions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "",
+        params object[] becauseArgs)
         where TAttribute : Attribute
     {
         PropertyInfo[] propertiesWithAttribute = GetPropertiesWith<TAttribute>();
 
         Execute.Assertion
-            .ForCondition(!propertiesWithAttribute.Any())
+            .ForCondition(propertiesWithAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(
                 "Expected all selected properties not to be decorated with {0}{reason}" +
@@ -229,5 +231,5 @@ public class PropertyInfoSelectorAssertions
 
     /// <inheritdoc/>
     public override bool Equals(object obj) =>
-        throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
+        throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
 }

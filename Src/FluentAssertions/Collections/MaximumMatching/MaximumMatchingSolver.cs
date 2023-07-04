@@ -57,7 +57,8 @@ internal class MaximumMatchingSolver<TValue>
 
         while (breadthFirstSearchTracker.TryDequeueUnMatchedPredicate(out var unmatchedPredicate))
         {
-            var notVisitedMatchingElements = GetMatchingElements(unmatchedPredicate).Where(element => !visitedElements.Contains(element));
+            var notVisitedMatchingElements =
+                GetMatchingElements(unmatchedPredicate).Where(element => !visitedElements.Contains(element));
 
             foreach (var element in notVisitedMatchingElements)
             {
@@ -78,7 +79,7 @@ internal class MaximumMatchingSolver<TValue>
         return Enumerable.Empty<Match>();
     }
 
-    private IEnumerable<Element<TValue>> GetMatchingElements(Predicate<TValue> predicate)
+    private List<Element<TValue>> GetMatchingElements(Predicate<TValue> predicate)
     {
         if (!matchingElementsByPredicate.TryGetValue(predicate, out var matchingElements))
         {
@@ -95,7 +96,7 @@ internal class MaximumMatchingSolver<TValue>
         public Element<TValue> Element;
     }
 
-    private class MatchCollection : IEnumerable<Match>
+    private sealed class MatchCollection : IEnumerable<Match>
     {
         private readonly Dictionary<Element<TValue>, Match> matchesByElement = new();
 
@@ -119,7 +120,7 @@ internal class MaximumMatchingSolver<TValue>
         IEnumerator IEnumerable.GetEnumerator() => matchesByElement.Values.GetEnumerator();
     }
 
-    private class BreadthFirstSearchTracker
+    private sealed class BreadthFirstSearchTracker
     {
         private readonly Queue<Predicate<TValue>> unmatchedPredicatesQueue = new();
         private readonly Dictionary<Predicate<TValue>, Match> previousMatchByPredicate = new();
@@ -148,7 +149,10 @@ internal class MaximumMatchingSolver<TValue>
         public void ReassignElement(Element<TValue> element, Predicate<TValue> newMatchedPredicate)
         {
             var previouslyMatchedPredicate = originalMatches.GetMatchedPredicate(element);
-            previousMatchByPredicate.Add(previouslyMatchedPredicate, new Match { Predicate = newMatchedPredicate, Element = element });
+
+            previousMatchByPredicate.Add(previouslyMatchedPredicate,
+                new Match { Predicate = newMatchedPredicate, Element = element });
+
             unmatchedPredicatesQueue.Enqueue(previouslyMatchedPredicate);
         }
 

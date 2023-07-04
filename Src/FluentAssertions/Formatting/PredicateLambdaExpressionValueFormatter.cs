@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -10,7 +11,7 @@ namespace FluentAssertions.Formatting;
 /// </summary>
 public class PredicateLambdaExpressionValueFormatter : IValueFormatter
 {
-    public bool CanHandle(object value) => value is LambdaExpression lambdaExpression;
+    public bool CanHandle(object value) => value is LambdaExpression;
 
     public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
     {
@@ -37,7 +38,15 @@ public class PredicateLambdaExpressionValueFormatter : IValueFormatter
     /// </summary>
     private static Expression ReduceConstantSubExpressions(Expression expression)
     {
-        return new ConstantSubExpressionReductionVisitor().Visit(expression);
+        try
+        {
+            return new ConstantSubExpressionReductionVisitor().Visit(expression);
+        }
+        catch (InvalidOperationException)
+        {
+            // Fallback if we make an invalid rewrite of the expression.
+            return expression;
+        }
     }
 
     /// <summary>
@@ -47,7 +56,7 @@ public class PredicateLambdaExpressionValueFormatter : IValueFormatter
     /// This simplification is only implemented for the chain of AND operators because this is the most common predicate scenario.
     /// Similar logic can be implemented in the future for other operators.
     /// </summary>
-    private static IEnumerable<Expression> ExtractChainOfExpressionsJoinedWithAndOperator(BinaryExpression binaryExpression)
+    private static List<Expression> ExtractChainOfExpressionsJoinedWithAndOperator(BinaryExpression binaryExpression)
     {
         var visitor = new AndOperatorChainExtractor();
         visitor.Visit(binaryExpression);
@@ -57,7 +66,7 @@ public class PredicateLambdaExpressionValueFormatter : IValueFormatter
     /// <summary>
     /// Expression visitor which can detect whether the expression depends on parameters.
     /// </summary>
-    private class ParameterDetector : ExpressionVisitor
+    private sealed class ParameterDetector : ExpressionVisitor
     {
         public bool HasParameters { get; private set; }
 
@@ -77,7 +86,7 @@ public class PredicateLambdaExpressionValueFormatter : IValueFormatter
     /// <summary>
     /// Expression visitor which can replace constant sub-expressions with constant values.
     /// </summary>
-    private class ConstantSubExpressionReductionVisitor : ExpressionVisitor
+    private sealed class ConstantSubExpressionReductionVisitor : ExpressionVisitor
     {
         public override Expression Visit(Expression node)
         {
@@ -104,6 +113,11 @@ public class PredicateLambdaExpressionValueFormatter : IValueFormatter
 
         private static bool ExpressionIsConstant(Expression expression)
         {
+            if (expression is NewExpression or MemberInitExpression)
+            {
+                return false;
+            }
+
             var visitor = new ParameterDetector();
             visitor.Visit(expression);
             return !visitor.HasParameters;
@@ -114,9 +128,9 @@ public class PredicateLambdaExpressionValueFormatter : IValueFormatter
     /// Expression visitor which can extract sub-expressions from an expression which has the following form:
     /// (SubExpression1) AND (SubExpression2) ... AND (SubExpressionN)
     /// </summary>
-    private class AndOperatorChainExtractor : ExpressionVisitor
+    private sealed class AndOperatorChainExtractor : ExpressionVisitor
     {
-        public List<Expression> AndChain { get; } = new List<Expression>();
+        public List<Expression> AndChain { get; } = new();
 
         public override Expression Visit(Expression node)
         {

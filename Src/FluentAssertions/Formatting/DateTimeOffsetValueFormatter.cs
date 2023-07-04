@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using FluentAssertions.Common;
 
@@ -11,13 +12,14 @@ public class DateTimeOffsetValueFormatter : IValueFormatter
     /// </summary>
     /// <param name="value">The value for which to create a <see cref="string"/>.</param>
     /// <returns>
-    /// <c>true</c> if the current <see cref="IValueFormatter"/> can handle the specified value; otherwise, <c>false</c>.
+    /// <see langword="true"/> if the current <see cref="IValueFormatter"/> can handle the specified value; otherwise, <see langword="false"/>.
     /// </returns>
     public bool CanHandle(object value)
     {
-        return (value is DateTime) || (value is DateTimeOffset);
+        return value is DateTime or DateTimeOffset;
     }
 
+    [SuppressMessage("Design", "MA0051:Method is too long", Justification = "Needs to be refactored")]
     public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
     {
         DateTimeOffset dateTimeOffset;
@@ -36,12 +38,14 @@ public class DateTimeOffsetValueFormatter : IValueFormatter
         formattedGraph.AddFragment("<");
 
         bool hasDate = HasDate(dateTimeOffset);
+
         if (hasDate)
         {
             formattedGraph.AddFragment(dateTimeOffset.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
         }
 
         bool hasTime = HasTime(dateTimeOffset);
+
         if (hasTime)
         {
             if (hasDate)
@@ -103,9 +107,9 @@ public class DateTimeOffsetValueFormatter : IValueFormatter
 
     private static bool HasTime(DateTimeOffset dateTime)
     {
-        return (dateTime.Hour != 0)
-            || (dateTime.Minute != 0)
-            || (dateTime.Second != 0)
+        return dateTime.Hour != 0
+            || dateTime.Minute != 0
+            || dateTime.Second != 0
             || HasMilliSeconds(dateTime)
             || HasMicroSeconds(dateTime)
             || HasNanoSeconds(dateTime);
@@ -113,7 +117,7 @@ public class DateTimeOffsetValueFormatter : IValueFormatter
 
     private static bool HasDate(DateTimeOffset dateTime)
     {
-        return (dateTime.Day != 1) || (dateTime.Month != 1) || (dateTime.Year != 1);
+        return dateTime.Day != 1 || dateTime.Month != 1 || dateTime.Year != 1;
     }
 
     private static bool HasMilliSeconds(DateTimeOffset dateTime)

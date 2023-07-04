@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using FluentAssertions.Execution;
@@ -9,7 +10,8 @@ namespace FluentAssertions.Equivalency.Steps;
 
 public class ConstraintEquivalencyStep : EquivalencyStep<Constraint>
 {
-    protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+    protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context,
+        IEquivalencyValidator nestedValidator)
     {
         if (comparands.Subject is not Constraint)
         {
@@ -36,14 +38,14 @@ public class ConstraintEquivalencyStep : EquivalencyStep<Constraint>
 
             if (matchingType)
             {
-                if ((subject is UniqueConstraint subjectUniqueConstraint)
-                    && (expectation is UniqueConstraint expectationUniqueConstraint))
+                if (subject is UniqueConstraint subjectUniqueConstraint
+                    && expectation is UniqueConstraint expectationUniqueConstraint)
                 {
                     CompareConstraints(nestedValidator, context, subjectUniqueConstraint, expectationUniqueConstraint,
                         selectedMembers);
                 }
-                else if ((subject is ForeignKeyConstraint subjectForeignKeyConstraint)
-                         && (expectation is ForeignKeyConstraint expectationForeignKeyConstraint))
+                else if (subject is ForeignKeyConstraint subjectForeignKeyConstraint
+                         && expectation is ForeignKeyConstraint expectationForeignKeyConstraint)
                 {
                     CompareConstraints(nestedValidator, context, subjectForeignKeyConstraint, expectationForeignKeyConstraint,
                         selectedMembers);
@@ -83,6 +85,7 @@ public class ConstraintEquivalencyStep : EquivalencyStep<Constraint>
         if (selectedMembers.TryGetValue("ExtendedProperties", out IMember expectationMember))
         {
             IMember matchingMember = FindMatchFor(expectationMember, context.CurrentNode, subject, options);
+
             if (matchingMember is not null)
             {
                 var nestedComparands = new Comparands
@@ -133,6 +136,7 @@ public class ConstraintEquivalencyStep : EquivalencyStep<Constraint>
         }
     }
 
+    [SuppressMessage("Design", "MA0051:Method is too long", Justification = "Needs to be refactored")]
     private static void CompareConstraints(IEquivalencyValidator parent, IEquivalencyValidationContext context,
         ForeignKeyConstraint subject, ForeignKeyConstraint expectation, Dictionary<string, IMember> selectedMembers)
     {
@@ -208,7 +212,7 @@ public class ConstraintEquivalencyStep : EquivalencyStep<Constraint>
 
         var failureMessage = new StringBuilder();
 
-        if (missingColumnNames.Any())
+        if (missingColumnNames.Count > 0)
         {
             failureMessage.Append("Expected {context:constraint} to include ");
 
@@ -221,13 +225,14 @@ public class ConstraintEquivalencyStep : EquivalencyStep<Constraint>
                 failureMessage.Append("columns ").Append(missingColumnNames.JoinUsingWritingStyle());
             }
 
-            failureMessage.Append("{reason}, but constraint does not include ");
-            failureMessage.Append((missingColumnNames.Count == 1)
-                ? "that column. "
-                : "these columns. ");
+            failureMessage
+                .Append("{reason}, but constraint does not include ")
+                .Append(missingColumnNames.Count == 1
+                    ? "that column. "
+                    : "these columns. ");
         }
 
-        if (extraColumnNames.Any())
+        if (extraColumnNames.Count > 0)
         {
             failureMessage.Append("Did not expect {context:constraint} to include ");
 

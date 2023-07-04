@@ -1,0 +1,244 @@
+[*.cs]
+
+# IDE0051: Private member is unused
+dotnet_diagnostic.IDE0051.severity = none
+# IDE0070: GetHashCode implementation can be simplified
+dotnet_diagnostic.IDE0070.severity = none
+
+# CA1002 Change 'List<T>' to use 'Collection<T>', 'ReadOnlyCollection<T>' or 'KeyedCollection<K,V>'
+dotnet_diagnostic.CA1002.severity = none
+# CA1003 Change the event to replace the type with a generic EventHandler
+dotnet_diagnostic.CA1003.severity = none
+# CA1008: Add a member to Color that has a value of zero with a suggested name of 'None'
+dotnet_diagnostic.CA1008.severity = none
+# CA1014 Mark assemblies with CLSCompliant
+dotnet_diagnostic.CA1014.severity = none
+# CA1017 Mark assembly with ComVisisble(false)
+dotnet_diagnostic.CA1017.severity = none
+# CA1024 Use properties where appropriate
+dotnet_diagnostic.CA1024.severity = none
+# CA1028: Enum Storage should be Int32
+dotnet_diagnostic.CA1028.severity = none
+# CA1032: Implement standard exception constructors
+dotnet_diagnostic.CA1032.severity = none
+# CA1036: Override methods on comparable types
+dotnet_diagnostic.CA1036.severity = none
+# CA1040: Avoid empty interfaces
+dotnet_diagnostic.CA1040.severity = none
+# CA1044: Properties should not be write only
+dotnet_diagnostic.CA1044.severity = none
+# CA1051: Do not declare visible instance fields
+dotnet_diagnostic.CA1051.severity = none
+
+# CA1052 Type is a static holder type but is neither static nor NotInheritable
+dotnet_diagnostic.CA1052.severity = none
+
+# CA1062: Validate arguments of public methods
+dotnet_diagnostic.CA1062.severity = none
+# CA1064: Exceptions should be public
+dotnet_diagnostic.CA1064.severity = none
+# CA1307: Specify StringComparison
+dotnet_diagnostic.CA1307.severity = none
+# CA1506 Rewrite or refactor the code to decrease its class coupling
+dotnet_diagnostic.CA1506.severity = none
+# CA1707: Remove the underscores from member name
+dotnet_diagnostic.CA1707.severity = none
+# CA1711: Rename type name so that it does not end in 'Enum'
+dotnet_diagnostic.CA1711.severity = none
+# CA1714: Flags enums should have plural names
+dotnet_diagnostic.CA1714.severity = none
+# CA1716: Identifiers should not match keywords
+dotnet_diagnostic.CA1716.severity = none
+# CA1720: Identifiers should not contain type names
+dotnet_diagnostic.CA1720.severity = none
+# CA1812: Type is an internal class that is apparently never instantiated.
+dotnet_diagnostic.CA1812.severity = none
+# CA1813 Avoid unsealed attributes
+dotnet_diagnostic.CA1813.severity = none
+# CA1814: Prefer jagged arrays over multidimensional
+dotnet_diagnostic.CA1814.severity = none
+# CA1822: Member does not access instance data and can be marked as static
+dotnet_diagnostic.CA1822.severity = none
+# CA1825: Avoid unnecessary zero-length array allocations.  Use Array.Empty<int>() instead
+dotnet_diagnostic.CA1825.severity = none
+# CA1852: A type that's not accessible outside its assembly and has no subtypes within its containing assembly is not marked sealed
+dotnet_diagnostic.CA1852.severity = none
+# CA1861: Avoid constant arrays as arguments
+dotnet_diagnostic.CA1861.severity = none
+# CA2000: Dispose objects before losing scope
+dotnet_diagnostic.CA2000.severity = none
+# CA2201: Exception type System.Exception is not sufficiently specific
+dotnet_diagnostic.CA2201.severity = none
+# CA2208: Call the ArgumentNullException constructor that contains a message and/or paramName parameter
+dotnet_diagnostic.CA2208.severity = none
+# CA2227: Collection properties should be read only
+dotnet_diagnostic.CA2227.severity = none
+# CA5394 Random is an insecure random number generator
+dotnet_diagnostic.CA5394.severity = none
+
+# AV1000: Type contains the word 'and', which suggests it has multiple purposes
+dotnet_diagnostic.AV1000.severity = none
+# AV1008: Class should be non-static or its name should be suffixed with Extensions
+dotnet_diagnostic.AV1008.severity = none
+# AV1115: Member or local function contains the word 'and', which suggests doing multiple things
+dotnet_diagnostic.AV1115.severity = none
+# AV1135: Do not return null for strings, collections or tasks
+dotnet_diagnostic.AV1135.severity = none
+# AV1505: Namespace should match with assembly name
+dotnet_diagnostic.AV1505.severity = none
+# AV1564: Parameter in public or internal member is of type bool or bool?
+dotnet_diagnostic.AV1564.severity = none
+# AV1708: Type name contains term that should be avoided
+dotnet_diagnostic.AV1708.severity = none
+# AV1225: Method raises event, so it should be named
+dotnet_diagnostic.AV1225.severity = none
+# AV1250; Method returns the result of a query, which uses deferred execution
+dotnet_diagnostic.AV1250.severity = none
+# AV1507: File contains additional type
+dotnet_diagnostic.AV1507.severity = none
+# AV1532: Loop statement contains nested loop
+dotnet_diagnostic.AV1532.severity = none
+# AV1553 Optional parameter of type string has default value null
+dotnet_diagnostic.AV1553.severity = none
+# AV1555: Parameter in the call to is invoked with a named argument
+dotnet_diagnostic.AV1555.severity = none
+# AV1704: Type contains one or more digits in its name
+dotnet_diagnostic.AV1704.severity = none
+# AV1706: Parameter should have a more descriptive name
+dotnet_diagnostic.AV1706.severity = none
+# AV1710: Property contains the name of its containing type
+dotnet_diagnostic.AV1710.severity = none
+# AV1755: Name of async method should end with Async or TaskAsync
+dotnet_diagnostic.AV1755.severity = none
+
+# SA0001: XmlCommentAnalysisDisabled
+dotnet_diagnostic.SA0001.severity = none
+# SA1001: CommasMustBeSpacedCorrectly
+dotnet_diagnostic.SA1001.severity = none
+# SA1009: Closing parenthesis should not be preceded by a space
+dotnet_diagnostic.SA1009.severity = none
+# SA1111: Closing parenthesis should be on line of the last parameter
+dotnet_diagnostic.SA1111.severity = none
+# SA1118: The parameter spans multiple lines
+dotnet_diagnostic.SA1118.severity = none
+# SA1122: Use string.Empty for empty strings
+dotnet_diagnostic.SA1122.severity = none
+# SA1124: Regions should not be used
+dotnet_diagnostic.SA1124.severity = none
+# SA1312: variable should begin with lower-case letter
+dotnet_diagnostic.SA1312.severity = none # re-enable if using statements can be discarded
+# SA1313: parameter should begin with lower-case letter
+dotnet_diagnostic.SA1313.severity = none # re-enable when parameters discards are available
+# SA1401: Field should be private
+dotnet_diagnostic.SA1401.severity = none
+# SA1402: File may only contain a single type
+dotnet_diagnostic.SA1402.severity = none
+# SA1403: File may only contain a single namespace
+dotnet_diagnostic.SA1403.severity = none
+# SA1404: Remove unused locals
+dotnet_diagnostic.SA1404.severity = none
+# SA1502: Element should not be on a single line
+dotnet_diagnostic.SA1502.severity = none
+# SA1600: Elements should be documented
+dotnet_diagnostic.SA1600.severity = none
+# SA1601: Partial elements should be documented
+dotnet_diagnostic.SA1601.severity = none
+# SA1602: Enumeration items should be documented
+dotnet_diagnostic.SA1602.severity = none
+# SA1611: The documentation for parameter is missing
+dotnet_diagnostic.SA1611.severity = none
+# SA1615: Element return value should be documented
+dotnet_diagnostic.SA1615.severity = none
+
+# SA1005: Single line comments should begin with single space
+dotnet_diagnostic.SA1005.severity = suggestion
+
+# ReSharper/Rider
+resharper_expression_is_always_null_highlighting = none
+
+# ReSharper properties
+resharper_keep_user_linebreaks = true
+
+# Make class static
+dotnet_diagnostic.RCS1102.severity = none
+
+# Mark local variable as const.
+dotnet_diagnostic.RCS1118.severity = none
+
+# Use EventHandler<T>. We have some special cases for testing.
+dotnet_diagnostic.RCS1159.severity = error
+
+# Unused parameter
+dotnet_diagnostic.RCS1163.severity = none
+
+# Use read-only auto-implemented property
+dotnet_diagnostic.RCS1170.severity = none
+
+# Implement exception constructors
+dotnet_diagnostic.RCS1194.severity = none
+
+# Removed unused method declaration
+dotnet_diagnostic.RCS1213.severity = none
+
+# Implement IComparable when implementing IComparable<T><T>. Disabled since we don't want to be so strict in tests.
+dotnet_diagnostic.RCS1241.severity = none
+
+# Use Array.Empty<T>(). We don't care.
+dotnet_diagnostic.MA0005.severity = none
+
+# 'System.BadImageFormatException' is a reserved exception type. Don't care.
+dotnet_diagnostic.MA0012.severity = none
+
+# Use an overload of System.ArgumentException with the parameter name. Don't care.
+dotnet_diagnostic.MA0013.severity = none
+
+# Do not raise System.ApplicationException type
+dotnet_diagnostic.MA0014.severity = none
+
+# Prefer returning collection abstraction instead of implementation
+dotnet_diagnostic.MA0016.severity = none
+
+# Implement the functionality (or raise NotSupportedException or PlatformNotSupportedException). We do this on purpose in tests.
+dotnet_diagnostic.MA0025.severity = none
+
+# Fix TODO comment. 
+dotnet_diagnostic.MA0026.severity = none
+
+# File name must match type name. Too many purposeful violations.
+dotnet_diagnostic.MA0048.severity = none
+
+# Method is too long. In tests, we tend to go beyond the limit
+dotnet_diagnostic.MA0051.severity = none
+
+#  A class that implements IComparable<T> should also implement IEquatable<T>. Don't care about this.
+dotnet_diagnostic.MA0096.severity = none
+
+# A class that implements IComparable<T> or IComparable should override comparison operators. Don't care about this.
+dotnet_diagnostic.MA0097.severity = none
+
+# Rename class to match pascal case naming rules
+dotnet_diagnostic.S101.severity = none
+
+# Remove the unused private method
+dotnet_diagnostic.S1144.severity = none
+
+# Remove this empty class, write its code or make it an "interface"
+dotnet_diagnostic.S2094.severity = none
+
+# Add a nested comment explaining why this method is empty
+dotnet_diagnostic.S1186.severity = none
+
+# Rename this enumeration to remove the 'Enum' suffix
+dotnet_diagnostic.S2344.severity = none
+
+# Provide a getter for 'Property' or replace the property witha 'SetProperty' method
+dotnet_diagnostic.S2376.severity = none
+
+# Use the 'value' parameter in this property set accessor declaration
+dotnet_diagnostic.S3237.severity = none
+
+# Use a constructor overloads that allows a more meaningful exception message to be provided
+dotnet_diagnostic.S3928.severity = none
+
+# Remove this unread private field 'field' or refactor the code to use its value
+dotnet_diagnostic.S4487.severity = none

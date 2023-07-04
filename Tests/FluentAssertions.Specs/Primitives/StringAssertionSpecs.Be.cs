@@ -155,7 +155,8 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_the_actual_string_is_the_same_as_the_expected_but_with_trailing_spaces_it_should_throw_with_clear_error_message()
+        public void
+            When_the_actual_string_is_the_same_as_the_expected_but_with_trailing_spaces_it_should_throw_with_clear_error_message()
         {
             // Act
             Action act = () => "ABC ".Should().Be("ABC", "because I say {0}", "so");

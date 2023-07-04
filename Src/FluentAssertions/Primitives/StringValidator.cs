@@ -30,7 +30,7 @@ internal abstract class StringValidator
 
     public void Validate()
     {
-        if ((Expected is not null) || (Subject is not null))
+        if (Expected is not null || Subject is not null)
         {
             if (ValidateAgainstNulls())
             {
@@ -39,12 +39,9 @@ internal abstract class StringValidator
                     Assertion = Assertion.UsingLineBreaks;
                 }
 
-                if (ValidateAgainstSuperfluousWhitespace())
+                if (ValidateAgainstSuperfluousWhitespace() && ValidateAgainstLengthDifferences())
                 {
-                    if (ValidateAgainstLengthDifferences())
-                    {
-                        ValidateAgainstMismatch();
-                    }
+                    ValidateAgainstMismatch();
                 }
             }
         }
@@ -52,7 +49,7 @@ internal abstract class StringValidator
 
     private bool ValidateAgainstNulls()
     {
-        if ((Expected is null) != (Subject is null))
+        if (Expected is null != Subject is null)
         {
             Assertion.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.", Expected, Subject);
             return false;
@@ -63,7 +60,7 @@ internal abstract class StringValidator
 
     private static bool IsLongOrMultiline(string value)
     {
-        return (value.Length > HumanReadableLength) || value.Contains(Environment.NewLine, StringComparison.Ordinal);
+        return value.Length > HumanReadableLength || value.Contains(Environment.NewLine, StringComparison.Ordinal);
     }
 
     protected virtual bool ValidateAgainstSuperfluousWhitespace()

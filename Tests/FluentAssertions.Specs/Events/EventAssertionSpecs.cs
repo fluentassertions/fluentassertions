@@ -1,8 +1,4 @@
-﻿#if NETFRAMEWORK
-using System.Reflection.Emit;
-#endif
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -12,6 +8,10 @@ using FluentAssertions.Extensions;
 using FluentAssertions.Formatting;
 using Xunit;
 using Xunit.Sdk;
+#if NETFRAMEWORK
+using System.Reflection;
+using System.Reflection.Emit;
+#endif
 
 namespace FluentAssertions.Specs.Events;
 
@@ -97,7 +97,7 @@ public class EventAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected object " + Formatter.ToString(subject) +
-                             " to not raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did.");
+                    " to not raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did.");
         }
 
         [Fact]
@@ -225,7 +225,7 @@ public class EventAssertionSpecs
             // Arrange
             void Action(int _)
             {
-                EventRaisingClass subject = new EventRaisingClass();
+                EventRaisingClass subject = new();
                 using var monitor = subject.Monitor();
                 subject.RaiseEventWithSender();
                 monitor.Should().Raise("PropertyChanged");
@@ -509,7 +509,11 @@ public class EventAssertionSpecs
             using var monitor = subject.Monitor();
 
             // Act
-            Action act = () => monitor.Should().RaisePropertyChangeFor(null);
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                monitor.Should().RaisePropertyChangeFor(null);
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -632,6 +636,20 @@ public class EventAssertionSpecs
             act.Should().Throw<ArgumentException>()
                 .WithParameterName("expression");
         }
+
+        [Fact]
+        public void Event_assertions_should_expose_the_monitor()
+        {
+            // Arrange
+            var subject = new EventRaisingClass();
+            using var monitor = subject.Monitor();
+
+            // Act
+            var exposedMonitor = monitor.Should().Monitor;
+
+            // Assert
+            ((object)exposedMonitor).Should().BeSameAs(monitor);
+        }
     }
 
     public class Metadata
@@ -708,13 +726,17 @@ public class EventAssertionSpecs
         {
             Type baseType = typeof(EventRaisingClass);
             Type interfaceType = typeof(IEventRaisingInterface);
-            AssemblyName assemblyName = new AssemblyName { Name = baseType.Assembly.FullName + ".GeneratedForTest" };
+
+            AssemblyName assemblyName = new() { Name = baseType.Assembly.FullName + ".GeneratedForTest" };
+
             AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName,
                 AssemblyBuilderAccess.Run);
+
             ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name, false);
             string typeName = baseType.Name + "_GeneratedForTest";
+
             TypeBuilder typeBuilder =
-                 moduleBuilder.DefineType(typeName, TypeAttributes.Public, baseType, new[] { interfaceType });
+                moduleBuilder.DefineType(typeName, TypeAttributes.Public, baseType, new[] { interfaceType });
 
             MethodBuilder addHandler = EmitAddRemoveEventHandler("add");
             typeBuilder.DefineMethodOverride(addHandler, interfaceType.GetMethod("add_InterfaceEvent"));
@@ -811,7 +833,7 @@ public class EventAssertionSpecs
         public void One_matching_argument_type_before_mismatching_types_passes()
         {
             // Arrange
-            A a = new A();
+            A a = new();
             using var aMonitor = a.Monitor();
 
             a.OnEvent(new B());
@@ -826,7 +848,7 @@ public class EventAssertionSpecs
         public void One_matching_argument_type_after_mismatching_types_passes()
         {
             // Arrange
-            A a = new A();
+            A a = new();
             using var aMonitor = a.Monitor();
 
             a.OnEvent(new C());
@@ -841,7 +863,7 @@ public class EventAssertionSpecs
         public void Throws_when_none_of_the_arguments_are_of_the_expected_type()
         {
             // Arrange
-            A a = new A();
+            A a = new();
             using var aMonitor = a.Monitor();
 
             a.OnEvent(new C());
@@ -859,7 +881,7 @@ public class EventAssertionSpecs
         public void One_matching_argument_type_anywhere_between_mismatching_types_passes()
         {
             // Arrange
-            A a = new A();
+            A a = new();
             using var aMonitor = a.Monitor();
 
             a.OnEvent(new C());
@@ -875,7 +897,7 @@ public class EventAssertionSpecs
         public void One_matching_argument_type_anywhere_between_mismatching_types_with_parameters_passes()
         {
             // Arrange
-            A a = new A();
+            A a = new();
             using var aMonitor = a.Monitor();
 
             a.OnEvent(new C());
@@ -883,7 +905,7 @@ public class EventAssertionSpecs
             a.OnEvent(new C());
 
             // Act / Assert
-            IEventRecording filteredEvents = aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(b => true);
+            IEventRecording filteredEvents = aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(_ => true);
             filteredEvents.Should().HaveCount(1);
         }
 
@@ -891,14 +913,14 @@ public class EventAssertionSpecs
         public void Mismatching_argument_types_with_one_parameter_matching_a_different_type_fails()
         {
             // Arrange
-            A a = new A();
+            A a = new();
             using var aMonitor = a.Monitor();
 
             a.OnEvent(new C());
             a.OnEvent(new C());
 
             // Act
-            Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(b => true);
+            Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(_ => true);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -909,14 +931,14 @@ public class EventAssertionSpecs
         public void Mismatching_argument_types_with_two_or_more_parameters_matching_a_different_type_fails()
         {
             // Arrange
-            A a = new A();
+            A a = new();
             using var aMonitor = a.Monitor();
 
             a.OnEvent(new C());
             a.OnEvent(new C());
 
             // Act
-            Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(b => true, b => false);
+            Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(_ => true, _ => false);
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -927,14 +949,14 @@ public class EventAssertionSpecs
         public void One_matching_argument_type_with_two_or_more_parameters_matching_a_mismatching_type_fails()
         {
             // Arrange
-            A a = new A();
+            A a = new();
             using var aMonitor = a.Monitor();
 
             a.OnEvent(new C());
             a.OnEvent(new B());
 
             // Act
-            Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(b => true, b => false);
+            Action act = () => aMonitor.GetRecordingFor(nameof(A.Event)).WithArgs<B>(_ => true, _ => false);
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -1047,7 +1069,9 @@ public class EventAssertionSpecs
 
     public class A
     {
+#pragma warning disable MA0046
         public event EventHandler<object> Event;
+#pragma warning restore MA0046
 
         public void OnEvent(object o)
         {
@@ -1065,7 +1089,9 @@ public class EventAssertionSpecs
 
     public class ClassThatRaisesEventsItself : IInheritsEventRaisingInterface
     {
+#pragma warning disable RCS1159
         public event PropertyChangedEventHandler PropertyChanged;
+#pragma warning restore RCS1159
 
         public event EventHandler InterfaceEvent;
 
@@ -1136,7 +1162,9 @@ public class EventAssertionSpecs
 
         public event PropertyChangedEventHandler PropertyChanged = (_, _) => { };
 
+#pragma warning disable MA0046
         public event Action<string, int, string> NonConventionalEvent = (_, _, _) => { };
+#pragma warning restore MA0046
 
         public void RaiseNonConventionalEvent(string first, int second, string third)
         {
@@ -1145,9 +1173,9 @@ public class EventAssertionSpecs
 
         public void RaiseEventWithoutSender()
         {
-#pragma warning disable AV1235 // 'sender' is deliberately null
+#pragma warning disable AV1235, MA0091 // 'sender' is deliberately null
             PropertyChanged(null, new PropertyChangedEventArgs(""));
-#pragma warning restore AV1235
+#pragma warning restore AV1235, MA0091
         }
 
         public void RaiseEventWithSender()
@@ -1157,7 +1185,9 @@ public class EventAssertionSpecs
 
         public void RaiseEventWithSpecificSender(object sender)
         {
+#pragma warning disable MA0091
             PropertyChanged(sender, new PropertyChangedEventArgs(""));
+#pragma warning restore MA0091
         }
 
         public void RaiseEventWithSenderAndPropertyName(string propertyName)

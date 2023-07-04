@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -36,6 +36,7 @@ public class FormatterSpecs
     {
         // Arrange
         var a = new A();
+
         var b = new B
         {
             X = a,
@@ -155,18 +156,32 @@ public class FormatterSpecs
     }
 
     [Fact]
+    public void When_an_exception_contains_an_inner_exception_they_should_both_appear_in_the_error_message()
+    {
+        // Arrange
+        Exception subject = new("OuterExceptionMessage", new InvalidOperationException("InnerExceptionMessage"));
+
+        // Act
+        string result = Formatter.ToString(subject);
+
+        // Assert
+        result.Should().Contain("OuterExceptionMessage")
+            .And.Contain("InnerExceptionMessage");
+    }
+
+    [Fact]
     public void When_the_object_is_a_generic_type_without_custom_string_representation_it_should_show_the_properties()
     {
         // Arrange
         var stuff = new List<Stuff<int>>
         {
-            new Stuff<int>
+            new()
             {
                 StuffId = 1,
                 Description = "Stuff_1",
                 Children = new List<int> { 1, 2, 3, 4 }
             },
-            new Stuff<int>
+            new()
             {
                 StuffId = 2,
                 Description = "Stuff_2",
@@ -176,13 +191,13 @@ public class FormatterSpecs
 
         var expectedStuff = new List<Stuff<int>>
         {
-            new Stuff<int>
+            new()
             {
                 StuffId = 1,
                 Description = "Stuff_1",
                 Children = new List<int> { 1, 2, 3, 4 }
             },
-            new Stuff<int>
+            new()
             {
                 StuffId = 2,
                 Description = "WRONG_DESCRIPTION",
@@ -196,9 +211,252 @@ public class FormatterSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .WithMessage("*Children =*")
-            .WithMessage("*Description =*")
-            .WithMessage("*StuffId =*");
+            .WithMessage(
+            """
+            Expected stuff to be equal to 
+            {
+                FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32*]]
+                {
+                    Children = {1, 2, 3, 4}, 
+                    Description = "Stuff_1", 
+                    StuffId = 1
+                }, 
+                FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32*]]
+                {
+                    Children = {1, 2, 3, 4}, 
+                    Description = "WRONG_DESCRIPTION", 
+                    StuffId = 2
+                }
+            }, but 
+            {
+                FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32*]]
+                {
+                    Children = {1, 2, 3, 4}, 
+                    Description = "Stuff_1", 
+                    StuffId = 1
+                }, 
+                FluentAssertions.Specs.Formatting.FormatterSpecs+Stuff`1[[System.Int32*]]
+                {
+                    Children = {1, 2, 3, 4}, 
+                    Description = "Stuff_2", 
+                    StuffId = 2
+                }
+            } differs at index 1.
+            """);
+    }
+
+    [Fact]
+    public void When_the_object_is_a_user_defined_type_it_should_show_the_name_on_the_initial_line()
+    {
+        // Arrange
+        var stuff = new StuffRecord(42, "description", new(24), new List<int> { 10, 20, 30, 40 });
+
+        // Act
+        Action act = () => stuff.Should().BeNull();
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .Which.Message.Should().Be(
+            """
+            Expected stuff to be <null>, but found FluentAssertions.Specs.Formatting.FormatterSpecs+StuffRecord
+            {
+                RecordChildren = {10, 20, 30, 40}, 
+                RecordDescription = "description", 
+                RecordId = 42, 
+                SingleChild = FluentAssertions.Specs.Formatting.FormatterSpecs+ChildRecord
+                {
+                    ChildRecordId = 24
+                }
+            }.
+            """);
+    }
+
+    [Fact]
+    public void When_the_object_is_an_anonymous_type_it_should_show_the_properties_recursively()
+    {
+        // Arrange
+        var stuff = new
+        {
+            Description = "absent",
+            SingleChild = new { ChildId = 8 },
+            Children = new[] { 1, 2, 3, 4 },
+        };
+
+        var expectedStuff = new
+        {
+            SingleChild = new { ChildId = 4 },
+            Children = new[] { 10, 20, 30, 40 },
+        };
+
+        // Act
+        Action act = () => stuff.Should().Be(expectedStuff);
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .Which.Message.Should().Be(
+            """
+            Expected stuff to be 
+            {
+                Children = {10, 20, 30, 40}, 
+                SingleChild = 
+                {
+                    ChildId = 4
+                }
+            }, but found 
+            {
+                Children = {1, 2, 3, 4}, 
+                Description = "absent", 
+                SingleChild = 
+                {
+                    ChildId = 8
+                }
+            }.
+            """);
+    }
+
+    [Fact]
+    public void When_the_object_is_a_list_of_anonymous_type_it_should_show_the_properties_recursively_with_newlines_and_indentation()
+    {
+        // Arrange
+        var stuff = new[]
+        {
+            new
+            {
+                Description = "absent",
+            },
+            new
+            {
+                Description = "absent",
+            },
+        };
+
+        var expectedStuff = new[]
+        {
+            new
+            {
+                ComplexChildren = new[]
+                {
+                    new { Property = "hello" },
+                    new { Property = "goodbye" },
+                },
+            },
+        };
+
+        // Act
+        Action act = () => stuff.Should().BeEquivalentTo(expectedStuff);
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .Which.Message.Should().StartWith(
+            """
+            Expected stuff to be a collection with 1 item(s), but 
+            {
+                {
+                    Description = "absent"
+                }, 
+                {
+                    Description = "absent"
+                }
+            }
+            contains 1 item(s) more than
+
+            {
+                {
+                    ComplexChildren = 
+                    {
+                        {
+                            Property = "hello"
+                        }, 
+                        {
+                            Property = "goodbye"
+                        }
+                    }
+                }
+            }.
+            """);
+    }
+
+    [Fact]
+    public void When_the_object_is_an_empty_anonymous_type_it_should_show_braces_on_the_same_line()
+    {
+        // Arrange
+        var stuff = new
+        {
+        };
+
+        // Act
+        Action act = () => stuff.Should().BeNull();
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .Which.Message.Should().Match("*but found { }*");
+    }
+
+    [Fact]
+    public void When_the_object_is_a_tuple_it_should_show_the_properties_recursively()
+    {
+        // Arrange
+        (int TupleId, string Description, List<int> Children) stuff = (1, "description", new() { 1, 2, 3, 4 });
+
+        (int, string, List<int>) expectedStuff = (2, "WRONG_DESCRIPTION", new List<int> { 4, 5, 6, 7 });
+
+        // Act
+        Action act = () => stuff.Should().Be(expectedStuff);
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .Which.Message.Should().Be(
+            """
+            Expected stuff to be equal to 
+            {
+                Item1 = 2, 
+                Item2 = "WRONG_DESCRIPTION", 
+                Item3 = {4, 5, 6, 7}
+            }, but found 
+            {
+                Item1 = 1, 
+                Item2 = "description", 
+                Item3 = {1, 2, 3, 4}
+            }.
+            """);
+    }
+
+    [Fact]
+    public void When_the_object_is_a_record_it_should_show_the_properties_recursively()
+    {
+        // Arrange
+        var stuff = new StuffRecord(
+            RecordId: 9,
+            RecordDescription: "descriptive",
+            SingleChild: new(ChildRecordId: 80),
+            RecordChildren: new() { 4, 5, 6, 7 });
+
+        var expectedStuff = new
+        {
+            RecordDescription = "WRONG_DESCRIPTION",
+        };
+
+        // Act
+        Action act = () => stuff.Should().Be(expectedStuff);
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .Which.Message.Should().Be(
+            """
+            Expected stuff to be 
+            {
+                RecordDescription = "WRONG_DESCRIPTION"
+            }, but found FluentAssertions.Specs.Formatting.FormatterSpecs+StuffRecord
+            {
+                RecordChildren = {4, 5, 6, 7}, 
+                RecordDescription = "descriptive", 
+                RecordId = 9, 
+                SingleChild = FluentAssertions.Specs.Formatting.FormatterSpecs+ChildRecord
+                {
+                    ChildRecordId = 80
+                }
+            }.
+            """);
     }
 
     [Fact]
@@ -224,6 +482,7 @@ public class FormatterSpecs
 
         int maxDepth = 10;
         int iterations = (maxDepth / 2) + 1; // Each iteration adds two levels of depth to the graph
+
         foreach (int i in Enumerable.Range(0, iterations))
         {
             var newHead = new Node();
@@ -249,6 +508,7 @@ public class FormatterSpecs
         var node = head;
 
         int iterations = 10;
+
         foreach (int i in Enumerable.Range(0, iterations))
         {
             var newHead = new Node();
@@ -458,11 +718,7 @@ public class FormatterSpecs
         string result = Formatter.ToString(value);
 
         // Assert
-#if NETCOREAPP3_0_OR_GREATER
-        result.Should().Be("0.33333334F");
-#else
-        result.Should().Be("0.333333343F");
-#endif
+        result.Should().BeOneOf("0.33333334F", "0.333333343F");
     }
 
     [Fact]
@@ -555,11 +811,7 @@ public class FormatterSpecs
         string result = Formatter.ToString(value);
 
         // Assert
-#if NETCOREAPP3_0_OR_GREATER
-        result.Should().Be("0.3333333333333333");
-#else
-        result.Should().Be("0.33333333333333331");
-#endif
+        result.Should().BeOneOf("0.3333333333333333", "0.33333333333333331");
     }
 
     [Fact]
@@ -617,7 +869,7 @@ public class FormatterSpecs
         // Arrange
         var subject = new Dictionary<MyKey, MyValue>
         {
-            [new() { KeyProp = 13 }] = new() { ValueProp = 37 }
+            [new MyKey { KeyProp = 13 }] = new() { ValueProp = 37 }
         };
 
         // Act
@@ -654,13 +906,14 @@ public class FormatterSpecs
     }
 
     [Fact]
-    public void When_formatting_multiple_items_with_a_custom_string_representation_using_line_breaks_it_should_end_lines_with_a_comma()
+    public void
+        When_formatting_multiple_items_with_a_custom_string_representation_using_line_breaks_it_should_end_lines_with_a_comma()
     {
         // Arrange
         var subject = new[] { typeof(A), typeof(B) };
 
         // Act
-        string result = Formatter.ToString(subject, new FormattingOptions { UseLineBreaks = true } );
+        string result = Formatter.ToString(subject, new FormattingOptions { UseLineBreaks = true });
 
         // Assert
         result.Should().Contain($"FluentAssertions.Specs.Formatting.FormatterSpecs+A, {Environment.NewLine}");
@@ -681,15 +934,19 @@ public class FormatterSpecs
         public string Description { get; set; }
 
         public string Field;
-#pragma warning disable 169, CA1823, IDE0044
+#pragma warning disable 169, CA1823, IDE0044, RCS1169
         private string privateField;
-#pragma warning restore 169, CA1823, IDE0044
+#pragma warning restore 169, CA1823, IDE0044, RCS1169
     }
 
     public class Stuff<TChild> : BaseStuff
     {
         public List<TChild> Children { get; set; }
     }
+
+    private record StuffRecord(int RecordId, string RecordDescription, ChildRecord SingleChild, List<int> RecordChildren);
+
+    private record ChildRecord(int ChildRecordId);
 
     [Fact]
     public void When_a_custom_formatter_exists_in_any_loaded_assembly_it_should_override_the_default_formatters()
@@ -715,7 +972,7 @@ public class FormatterSpecs
         // Arrange
         Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
 
-        var subject = new SomeClassInheritedFromClassWithCustomFormatterLvl1()
+        var subject = new SomeClassInheritedFromClassWithCustomFormatterLvl1
         {
             Property = "SomeValue"
         };
@@ -733,7 +990,7 @@ public class FormatterSpecs
         // Arrange
         Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
 
-        var subject = new SomeClassInheritedFromClassWithCustomFormatterLvl2()
+        var subject = new SomeClassInheritedFromClassWithCustomFormatterLvl2
         {
             Property = "SomeValue"
         };
@@ -751,7 +1008,7 @@ public class FormatterSpecs
         // Arrange
         Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
 
-        var subject = new SomeClassInheritedFromClassWithCustomFormatterLvl3()
+        var subject = new SomeClassInheritedFromClassWithCustomFormatterLvl3
         {
             Property = "SomeValue"
         };
@@ -897,10 +1154,10 @@ public class FormatterSpecs
 
         // Assert
         str.Should().Match(
-"*CustomClass" + Environment.NewLine +
-"{" + Environment.NewLine +
-"    IntProperty = 0" + Environment.NewLine +
-"}*");
+            "*CustomClass" + Environment.NewLine +
+            "{" + Environment.NewLine +
+            "    IntProperty = 0" + Environment.NewLine +
+            "}*");
     }
 
     private class CustomClass
@@ -933,8 +1190,8 @@ public class FormatterSpecs
         // Arrange
         var values = new CustomClass[]
         {
-            new CustomClass { IntProperty = 1 },
-            new CustomClass { IntProperty = 2 }
+            new() { IntProperty = 1 },
+            new() { IntProperty = 2 }
         };
 
         var formatter = new SingleItemValueFormatter();
@@ -943,12 +1200,12 @@ public class FormatterSpecs
         // Act
         string str = Formatter.ToString(values);
 
-        str.Should().Match(
-"{*FluentAssertions*FormatterSpecs+CustomClass" + Environment.NewLine +
-"    {" + Environment.NewLine +
-"        IntProperty = 1, " + Environment.NewLine +
-"        StringProperty = <null>" + Environment.NewLine +
-"    },*…1 more…*}*");
+        str.Should().Match(Environment.NewLine +
+            "{*FluentAssertions*FormatterSpecs+CustomClass" + Environment.NewLine +
+            "    {" + Environment.NewLine +
+            "        IntProperty = 1, " + Environment.NewLine +
+            "        StringProperty = <null>" + Environment.NewLine +
+            "    },*…1 more…*}*");
     }
 
     private class SingleItemValueFormatter : EnumerableValueFormatter
@@ -974,7 +1231,9 @@ public class FormatterSpecs
 
 // Due to the tests that call Configuration.Current
 [CollectionDefinition("FormatterSpecs", DisableParallelization = true)]
-public class FormatterSpecsDefinition { }
+public class FormatterSpecsDefinition
+{
+}
 
 internal class ExceptionThrowingClass
 {
@@ -1003,7 +1262,7 @@ internal class Node
         Children = new List<Node>();
     }
 
-    public static Node Default { get; } = new Node();
+    public static Node Default { get; } = new();
 
     public List<Node> Children { get; set; }
 }

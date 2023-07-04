@@ -12,25 +12,27 @@ namespace FluentAssertions.Specialized;
 /// Contains a number of methods to assert that a method yields the expected result.
 /// </summary>
 [DebuggerNonUserCode]
-public abstract class DelegateAssertionsBase<TDelegate, TAssertions> : ReferenceTypeAssertions<TDelegate, DelegateAssertionsBase<TDelegate, TAssertions>>
+public abstract class DelegateAssertionsBase<TDelegate, TAssertions>
+    : ReferenceTypeAssertions<TDelegate, DelegateAssertionsBase<TDelegate, TAssertions>>
     where TDelegate : Delegate
     where TAssertions : DelegateAssertionsBase<TDelegate, TAssertions>
 {
-    private readonly IExtractExceptions extractor;
+    private protected IExtractExceptions Extractor { get; }
 
     private protected DelegateAssertionsBase(TDelegate @delegate, IExtractExceptions extractor, IClock clock)
         : base(@delegate)
     {
-        this.extractor = extractor ?? throw new ArgumentNullException(nameof(extractor));
+        Extractor = extractor ?? throw new ArgumentNullException(nameof(extractor));
         Clock = clock ?? throw new ArgumentNullException(nameof(clock));
     }
 
     private protected IClock Clock { get; }
 
-    protected ExceptionAssertions<TException> ThrowInternal<TException>(Exception exception, string because, object[] becauseArgs)
+    protected ExceptionAssertions<TException> ThrowInternal<TException>(
+        Exception exception, string because, object[] becauseArgs)
         where TException : Exception
     {
-        TException[] expectedExceptions = extractor.OfType<TException>(exception).ToArray();
+        TException[] expectedExceptions = Extractor.OfType<TException>(exception).ToArray();
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -38,10 +40,9 @@ public abstract class DelegateAssertionsBase<TDelegate, TAssertions> : Reference
             .ForCondition(exception is not null)
             .FailWith("but no exception was thrown.")
             .Then
-            .ForCondition(expectedExceptions.Any())
-            .FailWith("but found <{0}>: {1}{2}.",
+            .ForCondition(expectedExceptions.Length > 0)
+            .FailWith("but found <{0}>:" + Environment.NewLine + "{1}.",
                 exception?.GetType(),
-                Environment.NewLine,
                 exception)
             .Then
             .ClearExpectation();
@@ -62,7 +63,8 @@ public abstract class DelegateAssertionsBase<TDelegate, TAssertions> : Reference
     protected AndConstraint<TAssertions> NotThrowInternal<TException>(Exception exception, string because, object[] becauseArgs)
         where TException : Exception
     {
-        IEnumerable<TException> exceptions = extractor.OfType<TException>(exception);
+        IEnumerable<TException> exceptions = Extractor.OfType<TException>(exception);
+
         Execute.Assertion
             .ForCondition(!exceptions.Any())
             .BecauseOf(because, becauseArgs)

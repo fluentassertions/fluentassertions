@@ -71,7 +71,7 @@ public static class CallerIdentifier
         return caller;
     }
 
-    private class StackFrameReference : IDisposable
+    private sealed class StackFrameReference : IDisposable
     {
         public int SkipStackFrameCount { get; }
 
@@ -87,13 +87,13 @@ public static class CallerIdentifier
 
             int firstUserCodeFrameIndex = 0;
 
-            while ((firstUserCodeFrameIndex < allStackFrames.Length)
-                && IsCurrentAssembly(allStackFrames[firstUserCodeFrameIndex]))
+            while (firstUserCodeFrameIndex < allStackFrames.Length
+                   && IsCurrentAssembly(allStackFrames[firstUserCodeFrameIndex]))
             {
                 firstUserCodeFrameIndex++;
             }
 
-            SkipStackFrameCount = allStackFrames.Length - firstUserCodeFrameIndex + 1;
+            SkipStackFrameCount = (allStackFrames.Length - firstUserCodeFrameIndex) + 1;
 
             previousReference = StartStackSearchAfterStackFrame.Value;
             StartStackSearchAfterStackFrame.Value = this;
@@ -153,7 +153,7 @@ public static class CallerIdentifier
     private static bool IsDotNet(StackFrame frame)
     {
         var frameNamespace = frame.GetMethod()?.DeclaringType?.Namespace;
-        var comparisonType = StringComparison.OrdinalIgnoreCase;
+        const StringComparison comparisonType = StringComparison.OrdinalIgnoreCase;
 
         return frameNamespace?.StartsWith("system.", comparisonType) == true ||
             frameNamespace?.Equals("system", comparisonType) == true;
@@ -161,7 +161,7 @@ public static class CallerIdentifier
 
     private static bool IsCompilerServices(StackFrame frame)
     {
-        return frame.GetMethod()?.DeclaringType?.Namespace == "System.Runtime.CompilerServices";
+        return frame.GetMethod()?.DeclaringType?.Namespace is "System.Runtime.CompilerServices";
     }
 
     private static string ExtractVariableNameFrom(StackFrame frame)
@@ -172,6 +172,7 @@ public static class CallerIdentifier
         if (!string.IsNullOrEmpty(statement))
         {
             Logger(statement);
+
             if (!IsBooleanLiteral(statement) && !IsNumeric(statement) && !IsStringLiteral(statement) &&
                 !StartsWithNewKeyword(statement))
             {
@@ -187,7 +188,7 @@ public static class CallerIdentifier
         string fileName = frame.GetFileName();
         int expectedLineNumber = frame.GetFileLineNumber();
 
-        if (string.IsNullOrEmpty(fileName) || (expectedLineNumber == 0))
+        if (string.IsNullOrEmpty(fileName) || expectedLineNumber == 0)
         {
             return null;
         }
@@ -204,9 +205,9 @@ public static class CallerIdentifier
             }
 
             return currentLine == expectedLineNumber
-                   && line != null
-                       ? GetSourceCodeStatementFrom(frame, reader, line)
-                       : null;
+                && line != null
+                    ? GetSourceCodeStatementFrom(frame, reader, line)
+                    : null;
         }
         catch
         {
@@ -218,12 +219,14 @@ public static class CallerIdentifier
     private static string GetSourceCodeStatementFrom(StackFrame frame, StreamReader reader, string line)
     {
         int column = frame.GetFileColumnNumber();
+
         if (column > 0)
         {
             line = line.Substring(Math.Min(column - 1, line.Length - 1));
         }
 
         var sb = new CallerStatementBuilder();
+
         do
         {
             sb.Append(line);
@@ -240,7 +243,7 @@ public static class CallerIdentifier
 
     private static bool IsStringLiteral(string candidate)
     {
-        return candidate.StartsWith("\"", StringComparison.Ordinal);
+        return candidate.StartsWith('\"');
     }
 
     private static bool IsNumeric(string candidate)

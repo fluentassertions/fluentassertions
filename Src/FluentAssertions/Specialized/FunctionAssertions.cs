@@ -40,12 +40,18 @@ public class FunctionAssertions<T> : DelegateAssertions<Func<T>, FunctionAsserti
     /// </param>
     public new AndWhichConstraint<FunctionAssertions<T>, T> NotThrow(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
-           .ForCondition(Subject is not null)
-           .BecauseOf(because, becauseArgs)
-           .FailWith("Expected {context} not to throw{reason}, but found <null>.");
+        bool success = Execute.Assertion
+            .ForCondition(Subject is not null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
-        T result = FunctionAssertionHelpers.NotThrow(Subject, because, becauseArgs);
+        T result = default;
+
+        if (success)
+        {
+            result = FunctionAssertionHelpers.NotThrow(Subject, because, becauseArgs);
+        }
+
         return new AndWhichConstraint<FunctionAssertions<T>, T>(this, result);
     }
 
@@ -71,15 +77,22 @@ public class FunctionAssertions<T> : DelegateAssertions<Func<T>, FunctionAsserti
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
-    public new AndWhichConstraint<FunctionAssertions<T>, T> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="waitTime"/> or <paramref name="pollInterval"/> are negative.</exception>
+    public new AndWhichConstraint<FunctionAssertions<T>, T> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval,
+        string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        bool success = Execute.Assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw any exceptions after {0}{reason}, but found <null>.", waitTime);
 
-        T result = FunctionAssertionHelpers.NotThrowAfter(Subject, Clock, waitTime, pollInterval, because, becauseArgs);
+        T result = default;
+
+        if (success)
+        {
+            result = FunctionAssertionHelpers.NotThrowAfter(Subject, Clock, waitTime, pollInterval, because, becauseArgs);
+        }
+
         return new AndWhichConstraint<FunctionAssertions<T>, T>(this, result);
     }
 }

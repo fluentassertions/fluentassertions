@@ -38,7 +38,9 @@ internal class XmlReaderValidator
         }
     }
 
+#pragma warning disable MA0051
     private Failure Validate()
+#pragma warning restore MA0051
     {
         if (subjectReader is null && expectationReader is null)
         {
@@ -62,9 +64,11 @@ internal class XmlReaderValidator
                 var expectation = expectationIterator.NodeType == XmlNodeType.Text
                     ? $"content \"{expectationIterator.Value}\""
                     : $"{expectationIterator.NodeType} \"{expectationIterator.LocalName}\"";
+
                 var subject = subjectIterator.NodeType == XmlNodeType.Text
                     ? $"content \"{subjectIterator.Value}\""
                     : $"{subjectIterator.NodeType} \"{subjectIterator.LocalName}\"";
+
                 return new Failure(
                     $"Expected {expectation} in {{context:subject}} at {{0}}{{reason}}, but found {subject}.",
                     currentNode.GetXPath());
@@ -78,6 +82,7 @@ internal class XmlReaderValidator
             {
                 case XmlNodeType.Element:
                     failure = ValidateStartElement();
+
                     if (failure is not null)
                     {
                         return failure;
@@ -160,7 +165,7 @@ internal class XmlReaderValidator
         {
             AttributeData expectedAttribute = expectedAttributes.SingleOrDefault(
                 ea => ea.NamespaceUri == subjectAttribute.NamespaceUri
-                      && ea.LocalName == subjectAttribute.LocalName);
+                    && ea.LocalName == subjectAttribute.LocalName);
 
             if (expectedAttribute is null)
             {
@@ -229,7 +234,7 @@ internal class XmlReaderValidator
 
     private Failure ValidateAgainstNulls()
     {
-        if ((expectationReader is null) != (subjectReader is null))
+        if (expectationReader is null != subjectReader is null)
         {
             return new Failure(
                 "Expected {context:subject} to be equivalent to {0}{reason}, but found {1}.",

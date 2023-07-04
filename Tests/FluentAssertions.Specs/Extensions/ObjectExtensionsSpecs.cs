@@ -22,25 +22,25 @@ public class ObjectExtensionsSpecs
         success.Should().BeFalse();
     }
 
-    public static IEnumerable<object[]> GetNonEquivalentNumericData()
+    public static TheoryData<object, object> GetNonEquivalentNumericData => new()
     {
-        yield return new object[] { double.Epsilon, 0M }; // double.Epsilon cannot be represented in Decimal
-        yield return new object[] { 0M, double.Epsilon };
-        yield return new object[] { double.Epsilon, 0.3M }; // 0.3M cannot be represented in double
-        yield return new object[] { 0.3M, double.Epsilon };
-        yield return new object[] { (byte)2, 256 }; // 256 cannot be represented in byte
-        yield return new object[] { 256, (byte)2 };
-        yield return new object[] { -1, (ushort)65535 }; // 65535 is -1 casted to ushort
-        yield return new object[] { (ushort)65535, -1 };
-        yield return new object[] { 0.02d, 0 };
-        yield return new object[] { 0, 0.02d };
-        yield return new object[] { 0.02f, 0 };
-        yield return new object[] { 0, 0.02f };
-        yield return new object[] { long.MaxValue, 9.22337204E+18 };
-        yield return new object[] { 9.22337204E+18, long.MaxValue };
-        yield return new object[] { 9223372030000000000L, 9.22337204E+18 };
-        yield return new object[] { 9.22337204E+18, 9223372030000000000L };
-    }
+        { double.Epsilon, 0M }, // double.Epsilon cannot be represented in Decimal
+        { 0M, double.Epsilon },
+        { double.Epsilon, 0.3M }, // 0.3M cannot be represented in double
+        { 0.3M, double.Epsilon },
+        { (byte)2, 256 }, // 256 cannot be represented in byte
+        { 256, (byte)2 },
+        { -1, (ushort)65535 }, // 65535 is -1 casted to ushort
+        { (ushort)65535, -1 },
+        { 0.02d, 0 },
+        { 0, 0.02d },
+        { 0.02f, 0 },
+        { 0, 0.02f },
+        { long.MaxValue, 9.22337204E+18 },
+        { 9.22337204E+18, long.MaxValue },
+        { 9223372030000000000L, 9.22337204E+18 },
+        { 9.22337204E+18, 9223372030000000000L }
+    };
 
     [Theory]
     [MemberData(nameof(GetNumericAndNumericData))]
@@ -58,9 +58,10 @@ public class ObjectExtensionsSpecs
 
     public static IEnumerable<object[]> GetNumericAndNumericData()
     {
-        return from x in GetNumericIConvertibles()
-               from y in GetNumericIConvertibles()
-               select new[] { x, y };
+        return
+            from x in GetNumericIConvertibles()
+            from y in GetNumericIConvertibles()
+            select new[] { x, y };
     }
 
     [Theory]
@@ -79,9 +80,10 @@ public class ObjectExtensionsSpecs
 
     public static IEnumerable<object[]> GetNonNumericAndNumericData()
     {
-        return from x in GetNonNumericIConvertibles()
-               from y in GetNumericIConvertibles()
-               select new[] { x, y };
+        return
+            from x in GetNonNumericIConvertibles()
+            from y in GetNumericIConvertibles()
+            select new[] { x, y };
     }
 
     [Theory]
@@ -100,9 +102,10 @@ public class ObjectExtensionsSpecs
 
     public static IEnumerable<object[]> GetNumericAndNonNumericData()
     {
-        return from x in GetNumericIConvertibles()
-               from y in GetNonNumericIConvertibles()
-               select new[] { x, y };
+        return
+            from x in GetNumericIConvertibles()
+            from y in GetNonNumericIConvertibles()
+            select new[] { x, y };
     }
 
     [Theory]
@@ -122,10 +125,12 @@ public class ObjectExtensionsSpecs
     public static IEnumerable<object[]> GetNonNumericAndNonNumericData()
     {
         object[] nonNumerics = GetNonNumericIConvertibles();
-        return from x in nonNumerics
-               from y in nonNumerics
-               where x != y
-               select new[] { x, y };
+
+        return
+            from x in nonNumerics
+            from y in nonNumerics
+            where x != y
+            select new[] { x, y };
     }
 
     private static object[] GetNumericIConvertibles()

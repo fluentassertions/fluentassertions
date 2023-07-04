@@ -181,20 +181,20 @@ public partial class CollectionAssertionSpecs
         }
     }
 
-    private class InfiniteEnumerable : IEnumerable<object>
+    private sealed class InfiniteEnumerable : IEnumerable<object>
     {
         public IEnumerator<object> GetEnumerator() => new InfiniteEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
-    private class InfiniteEnumerator : IEnumerator<object>
+    private sealed class InfiniteEnumerator : IEnumerator<object>
     {
         public bool MoveNext() => true;
 
         public void Reset() { }
 
-        public object Current => new object();
+        public object Current => new();
 
         object IEnumerator.Current => Current;
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency.Matching;
@@ -12,10 +12,18 @@ internal class MappedPathMatchingRule : IMemberMatchingRule
     private readonly MemberPath expectationPath;
     private readonly MemberPath subjectPath;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MappedPathMatchingRule"/> class.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="expectationMemberPath"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="expectationMemberPath"/> is empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="subjectMemberPath"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="subjectMemberPath"/> is empty.</exception>
     public MappedPathMatchingRule(string expectationMemberPath, string subjectMemberPath)
     {
         Guard.ThrowIfArgumentIsNullOrEmpty(expectationMemberPath,
             nameof(expectationMemberPath), "A member path cannot be null");
+
         Guard.ThrowIfArgumentIsNullOrEmpty(subjectMemberPath,
             nameof(subjectMemberPath), "A member path cannot be null");
 
@@ -24,7 +32,8 @@ internal class MappedPathMatchingRule : IMemberMatchingRule
 
         if (expectationPath.GetContainsSpecificCollectionIndex() || subjectPath.GetContainsSpecificCollectionIndex())
         {
-            throw new ArgumentException("Mapping properties containing a collection index must use the [] format without specific index.");
+            throw new ArgumentException(
+                "Mapping properties containing a collection index must use the [] format without specific index.");
         }
 
         if (!expectationPath.HasSameParentAs(subjectPath))
@@ -36,6 +45,7 @@ internal class MappedPathMatchingRule : IMemberMatchingRule
     public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions options)
     {
         MemberPath path = expectationPath;
+
         if (expectedMember.RootIsCollection)
         {
             path = path.WithCollectionAsRoot();
@@ -43,10 +53,11 @@ internal class MappedPathMatchingRule : IMemberMatchingRule
 
         if (path.IsEquivalentTo(expectedMember.PathAndName))
         {
-            var member = MemberFactory.Find(subject, subjectPath.MemberName, expectedMember.Type, parent);
+            var member = MemberFactory.Find(subject, subjectPath.MemberName, parent);
+
             if (member is null)
             {
-                throw new ArgumentException(
+                throw new MissingMemberException(
                     $"Subject of type {subject?.GetType().Name} does not have member {subjectPath.MemberName}");
             }
 

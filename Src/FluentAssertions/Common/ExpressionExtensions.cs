@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -8,6 +8,10 @@ namespace FluentAssertions.Common;
 
 internal static class ExpressionExtensions
 {
+    /// <summary>
+    /// Gets the <see cref="PropertyInfo"/> of an <see cref="Expression{T}" /> returning a property.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="expression"/> is <see langword="null"/>.</exception>
     public static PropertyInfo GetPropertyInfo<T, TValue>(this Expression<Func<T, TValue>> expression)
     {
         Guard.ThrowIfArgumentIsNull(expression, nameof(expression), "Expected a property expression, but found <null>.");
@@ -32,8 +36,11 @@ internal static class ExpressionExtensions
     /// <example>
     /// E.g. Parent.Child.Sibling.Name.
     /// </example>
+    /// <exception cref="ArgumentNullException"><paramref name="expression"/> is <see langword="null"/>.</exception>
+#pragma warning disable MA0051
     public static MemberPath GetMemberPath<TDeclaringType, TPropertyType>(
         this Expression<Func<TDeclaringType, TPropertyType>> expression)
+#pragma warning restore MA0051
     {
         Guard.ThrowIfArgumentIsNull(expression, nameof(expression), "Expected an expression, but found <null>.");
 
@@ -67,10 +74,10 @@ internal static class ExpressionExtensions
 
                 case ExpressionType.ArrayIndex:
                     var binaryExpression = (BinaryExpression)node;
-                    var constantExpression = (ConstantExpression)binaryExpression.Right;
+                    var indexExpression = (ConstantExpression)binaryExpression.Right;
                     node = binaryExpression.Left;
 
-                    segments.Add("[" + constantExpression.Value + "]");
+                    segments.Add("[" + indexExpression.Value + "]");
                     break;
 
                 case ExpressionType.Parameter:
@@ -79,14 +86,14 @@ internal static class ExpressionExtensions
 
                 case ExpressionType.Call:
                     var methodCallExpression = (MethodCallExpression)node;
-                    if (methodCallExpression.Method.Name != "get_Item" || methodCallExpression.Arguments.Count != 1 || methodCallExpression.Arguments[0] is not ConstantExpression)
+
+                    if (methodCallExpression is not { Method.Name: "get_Item", Arguments: [ConstantExpression argumentExpression] })
                     {
                         throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
                     }
 
-                    constantExpression = (ConstantExpression)methodCallExpression.Arguments[0];
                     node = methodCallExpression.Object;
-                    segments.Add("[" + constantExpression.Value + "]");
+                    segments.Add("[" + argumentExpression.Value + "]");
                     break;
 
                 default:
@@ -97,7 +104,7 @@ internal static class ExpressionExtensions
         // If any members were accessed in the expression, the first one found is the last member.
         Type declaringType = declaringTypes.FirstOrDefault() ?? typeof(TDeclaringType);
 
-        string[] reversedSegments = segments.AsEnumerable().Reverse().ToArray();
+        IEnumerable<string> reversedSegments = segments.AsEnumerable().Reverse();
         string segmentPath = string.Join(".", reversedSegments);
 
         return new MemberPath(typeof(TDeclaringType), declaringType, segmentPath.Replace(".[", "[", StringComparison.Ordinal));
@@ -106,6 +113,7 @@ internal static class ExpressionExtensions
     /// <summary>
     /// Validates that the expression can be used to construct a <see cref="MemberPath"/>.
     /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="expression"/> is <see langword="null"/>.</exception>
     public static void ValidateMemberPath<TDeclaringType, TPropertyType>(
         this Expression<Func<TDeclaringType, TPropertyType>> expression)
     {
@@ -147,7 +155,8 @@ internal static class ExpressionExtensions
 
                 case ExpressionType.Call:
                     var methodCallExpression = (MethodCallExpression)node;
-                    if (methodCallExpression.Method.Name != "get_Item" || methodCallExpression.Arguments.Count != 1 || methodCallExpression.Arguments[0] is not ConstantExpression)
+
+                    if (methodCallExpression is not { Method.Name: "get_Item", Arguments: [ConstantExpression] })
                     {
                         throw new ArgumentException(GetUnsupportedExpressionMessage(expression.Body), nameof(expression));
                     }

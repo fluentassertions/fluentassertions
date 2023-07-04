@@ -89,9 +89,10 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
     public new AndConstraint<TypeAssertions> BeAssignableTo(Type type, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(type, nameof(type));
+        Guard.ThrowIfArgumentIsNull(type);
 
         bool isAssignable = type.IsGenericTypeDefinition
             ? Subject.IsAssignableToOpenGeneric(type)
@@ -134,9 +135,10 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
     public new AndConstraint<TypeAssertions> NotBeAssignableTo(Type type, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(type, nameof(type));
+        Guard.ThrowIfArgumentIsNull(type);
 
         bool isAssignable = type.IsGenericTypeDefinition
             ? Subject.IsAssignableToOpenGeneric(type)
@@ -205,7 +207,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// </param>
     public AndConstraint<TypeAssertions> NotBe(Type unexpected, string because = "", params object[] becauseArgs)
     {
-        string nameOfUnexpectedType = (unexpected is not null) ? $"[{unexpected.AssemblyQualifiedName}]" : "<null>";
+        string nameOfUnexpectedType = unexpected is not null ? $"[{unexpected.AssemblyQualifiedName}]" : "<null>";
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -254,11 +256,12 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<TypeAssertions, TAttribute> BeDecoratedWith<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
         BeDecoratedWith<TAttribute>(because, becauseArgs);
 
@@ -313,11 +316,12 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<TypeAssertions, TAttribute> BeDecoratedWithOrInherit<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
         BeDecoratedWithOrInherit<TAttribute>(because, becauseArgs);
 
@@ -369,11 +373,12 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> NotBeDecoratedWith<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -424,11 +429,12 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> NotBeDecoratedWithOrInherit<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -451,10 +457,10 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> Implement(Type interfaceType, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(interfaceType, nameof(interfaceType));
+        Guard.ThrowIfArgumentIsNull(interfaceType);
 
         bool containsInterface = Subject.GetInterfaces().Contains(interfaceType);
 
@@ -500,10 +506,10 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> NotImplement(Type interfaceType, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(interfaceType, nameof(interfaceType));
+        Guard.ThrowIfArgumentIsNull(interfaceType);
 
         bool containsInterface = Subject.GetInterfaces().Contains(interfaceType);
 
@@ -549,10 +555,10 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="baseType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="baseType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> BeDerivedFrom(Type baseType, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(baseType, nameof(baseType));
+        Guard.ThrowIfArgumentIsNull(baseType);
 
         bool isDerivedFrom = baseType.IsGenericTypeDefinition
             ? Subject.IsDerivedFromOpenGeneric(baseType)
@@ -600,10 +606,10 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="baseType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="baseType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> NotBeDerivedFrom(Type baseType, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(baseType, nameof(baseType));
+        Guard.ThrowIfArgumentIsNull(baseType);
 
         bool isDerivedFrom = baseType.IsGenericTypeDefinition
             ? Subject.IsDerivedFromOpenGeneric(baseType)
@@ -783,9 +789,9 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     public AndConstraint<TypeAssertions> BeStatic(string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
-           .BecauseOf(because, becauseArgs)
-           .ForCondition(Subject is not null)
-           .FailWith("Expected type to be static{reason}, but {context:type} is <null>.");
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject is not null)
+            .FailWith("Expected type to be static{reason}, but {context:type} is <null>.");
 
         if (success)
         {
@@ -845,13 +851,14 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="propertyType"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="propertyType"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="name"/> is empty.</exception>
     public AndWhichConstraint<TypeAssertions, PropertyInfo> HaveProperty(
         Type propertyType, string name, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(propertyType, nameof(propertyType));
-        Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
+        Guard.ThrowIfArgumentIsNull(propertyType);
+        Guard.ThrowIfArgumentIsNullOrEmpty(name);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -891,7 +898,8 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="name"/> is empty.</exception>
     public AndWhichConstraint<TypeAssertions, PropertyInfo> HaveProperty<TProperty>(
         string name, string because = "", params object[] becauseArgs)
     {
@@ -909,10 +917,11 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="name"/> is empty.</exception>
     public AndConstraint<TypeAssertions> NotHaveProperty(string name, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
+        Guard.ThrowIfArgumentIsNullOrEmpty(name);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -946,20 +955,21 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="name"/> is empty.</exception>
     public AndConstraint<TypeAssertions> HaveExplicitProperty(
         Type interfaceType, string name, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(interfaceType, nameof(interfaceType));
-        Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
+        Guard.ThrowIfArgumentIsNull(interfaceType);
+        Guard.ThrowIfArgumentIsNullOrEmpty(name);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected {{context:type}} to explicitly implement {interfaceType}.{name}{{reason}}" +
-                $", but {{context:type}} is <null>.");
+                ", but {context:type} is <null>.");
 
         if (success)
         {
@@ -990,7 +1000,8 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="name"/> is empty.</exception>
     public AndConstraint<TypeAssertions> HaveExplicitProperty<TInterface>(
         string name, string because = "", params object[] becauseArgs)
         where TInterface : class
@@ -1011,20 +1022,21 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="name"/> is empty.</exception>
     public AndConstraint<TypeAssertions> NotHaveExplicitProperty(
         Type interfaceType, string name, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(interfaceType, nameof(interfaceType));
-        Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
+        Guard.ThrowIfArgumentIsNull(interfaceType);
+        Guard.ThrowIfArgumentIsNullOrEmpty(name);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected {{context:type}} to not explicitly implement {interfaceType}.{name}{{reason}}" +
-                $", but {{context:type}} is <null>.");
+                ", but {context:type} is <null>.");
 
         if (success)
         {
@@ -1037,7 +1049,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
                 .ForCondition(!explicitlyImplementsProperty)
                 .FailWith(
                     $"Expected {Subject} to not explicitly implement {interfaceType}.{name}{{reason}}" +
-                    $", but it does.");
+                    ", but it does.");
         }
 
         return new AndConstraint<TypeAssertions>(this);
@@ -1056,7 +1068,8 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="name"/> is empty.</exception>
     public AndConstraint<TypeAssertions> NotHaveExplicitProperty<TInterface>(
         string name, string because = "", params object[] becauseArgs)
         where TInterface : class
@@ -1078,15 +1091,16 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="name"/> is empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> HaveExplicitMethod(
         Type interfaceType, string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(interfaceType, nameof(interfaceType));
-        Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
-        Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
+        Guard.ThrowIfArgumentIsNull(interfaceType);
+        Guard.ThrowIfArgumentIsNullOrEmpty(name);
+        Guard.ThrowIfArgumentIsNull(parameterTypes);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -1126,8 +1140,9 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="name"/> is empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> HaveExplicitMethod<TInterface>(
         string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
         where TInterface : class
@@ -1149,15 +1164,16 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="interfaceType"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="name"/> is empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> NotHaveExplicitMethod(
         Type interfaceType, string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(interfaceType, nameof(interfaceType));
-        Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
-        Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
+        Guard.ThrowIfArgumentIsNull(interfaceType);
+        Guard.ThrowIfArgumentIsNullOrEmpty(name);
+        Guard.ThrowIfArgumentIsNull(parameterTypes);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -1197,8 +1213,9 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="name"/> is empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> NotHaveExplicitMethod<TInterface>(
         string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
         where TInterface : class
@@ -1219,20 +1236,20 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="indexerType"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="indexerType"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<TypeAssertions, PropertyInfo> HaveIndexer(
         Type indexerType, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(indexerType, nameof(indexerType));
-        Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
+        Guard.ThrowIfArgumentIsNull(indexerType);
+        Guard.ThrowIfArgumentIsNull(parameterTypes);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected {indexerType.Name} {{context:type}}[{GetParameterString(parameterTypes)}] to exist{{reason}}" +
-                $", but {{context:type}} is <null>.");
+                ", but {context:type} is <null>.");
 
         PropertyInfo propertyInfo = null;
 
@@ -1246,7 +1263,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
                 .ForCondition(propertyInfo is not null)
                 .FailWith(
                     $"Expected {indexerType.Name} {Subject}[{GetParameterString(parameterTypes)}] to exist{{reason}}" +
-                    $", but it does not.")
+                    ", but it does not.")
                 .Then
                 .ForCondition(propertyInfo.PropertyType == indexerType)
                 .FailWith($"Expected {propertyInfoDescription} to be of type {indexerType}{{reason}}, but it is not.");
@@ -1267,18 +1284,18 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> NotHaveIndexer(
         IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
+        Guard.ThrowIfArgumentIsNull(parameterTypes);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected indexer {{context:type}}[{GetParameterString(parameterTypes)}] to not exist{{reason}}" +
-                $", but {{context:type}} is <null>.");
+                ", but {context:type} is <null>.");
 
         if (success)
         {
@@ -1289,7 +1306,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
                 .ForCondition(propertyInfo is null)
                 .FailWith(
                     $"Expected indexer {Subject}[{GetParameterString(parameterTypes)}] to not exist{{reason}}" +
-                    $", but it does.");
+                    ", but it does.");
         }
 
         return new AndConstraint<TypeAssertions>(this);
@@ -1308,20 +1325,21 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="name"/> is empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<TypeAssertions, MethodInfo> HaveMethod(
         string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
-        Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
+        Guard.ThrowIfArgumentIsNullOrEmpty(name);
+        Guard.ThrowIfArgumentIsNull(parameterTypes);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected method {{context:type}}.{name}({GetParameterString(parameterTypes)}) to exist{{reason}}" +
-                $", but {{context:type}} is <null>.");
+                ", but {context:type} is <null>.");
 
         MethodInfo methodInfo = null;
 
@@ -1334,7 +1352,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
                 .ForCondition(methodInfo is not null)
                 .FailWith(
                     $"Expected method {Subject}.{name}({GetParameterString(parameterTypes)}) to exist{{reason}}" +
-                    $", but it does not.");
+                    ", but it does not.");
         }
 
         return new AndWhichConstraint<TypeAssertions, MethodInfo>(this, methodInfo);
@@ -1353,20 +1371,21 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c> or empty.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="name"/> is empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> NotHaveMethod(
         string name, IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNullOrEmpty(name, nameof(name));
-        Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
+        Guard.ThrowIfArgumentIsNullOrEmpty(name);
+        Guard.ThrowIfArgumentIsNull(parameterTypes);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected method {{context:type}}.{name}({GetParameterString(parameterTypes)}) to not exist{{reason}}" +
-                $", but {{context:type}} is <null>.");
+                ", but {context:type} is <null>.");
 
         if (success)
         {
@@ -1378,7 +1397,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
                 .ForCondition(methodInfo is null)
                 .FailWith(
                     $"Expected method {methodInfoDescription}({GetParameterString(parameterTypes)}) to not exist{{reason}}" +
-                    $", but it does.");
+                    ", but it does.");
         }
 
         return new AndConstraint<TypeAssertions>(this);
@@ -1395,18 +1414,18 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<TypeAssertions, ConstructorInfo> HaveConstructor(
         IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
+        Guard.ThrowIfArgumentIsNull(parameterTypes);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected constructor {{context:type}}({GetParameterString(parameterTypes)}) to exist{{reason}}" +
-                $", but {{context:type}} is <null>.");
+                ", but {context:type} is <null>.");
 
         ConstructorInfo constructorInfo = null;
 
@@ -1419,7 +1438,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
                 .ForCondition(constructorInfo is not null)
                 .FailWith(
                     $"Expected constructor {Subject}({GetParameterString(parameterTypes)}) to exist{{reason}}" +
-                    $", but it does not.");
+                    ", but it does not.");
         }
 
         return new AndWhichConstraint<TypeAssertions, ConstructorInfo>(this, constructorInfo);
@@ -1438,7 +1457,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     public AndWhichConstraint<TypeAssertions, ConstructorInfo> HaveDefaultConstructor(
         string because = "", params object[] becauseArgs)
     {
-        return HaveConstructor(new Type[0], because, becauseArgs);
+        return HaveConstructor(Array.Empty<Type>(), because, becauseArgs);
     }
 
     /// <summary>
@@ -1452,18 +1471,18 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="parameterTypes"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<TypeAssertions, ConstructorInfo> NotHaveConstructor(
         IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(parameterTypes, nameof(parameterTypes));
+        Guard.ThrowIfArgumentIsNull(parameterTypes);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected constructor {{context:type}}({GetParameterString(parameterTypes)}) not to exist{{reason}}" +
-                $", but {{context:type}} is <null>.");
+                ", but {context:type} is <null>.");
 
         ConstructorInfo constructorInfo = null;
 
@@ -1476,7 +1495,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
                 .ForCondition(constructorInfo is null)
                 .FailWith(
                     $"Expected constructor {Subject}({GetParameterString(parameterTypes)}) not to exist{{reason}}" +
-                    $", but it does.");
+                    ", but it does.");
         }
 
         return new AndWhichConstraint<TypeAssertions, ConstructorInfo>(this, constructorInfo);
@@ -1495,7 +1514,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     public AndWhichConstraint<TypeAssertions, ConstructorInfo> NotHaveDefaultConstructor(
         string because = "", params object[] becauseArgs)
     {
-        return NotHaveConstructor(new Type[0], because, becauseArgs);
+        return NotHaveConstructor(Array.Empty<Type>(), because, becauseArgs);
     }
 
     private static string GetParameterString(IEnumerable<Type> parameterTypes)
@@ -1519,12 +1538,12 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     public AndConstraint<TypeAssertions> HaveAccessModifier(
         CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsOutOfRange(accessModifier, nameof(accessModifier));
+        Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 
         bool success = Execute.Assertion
-           .BecauseOf(because, becauseArgs)
-           .ForCondition(Subject is not null)
-           .FailWith($"Expected {{context:type}} to be {accessModifier}{{reason}}, but {{context:type}} is <null>.");
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject is not null)
+            .FailWith($"Expected {{context:type}} to be {accessModifier}{{reason}}, but {{context:type}} is <null>.");
 
         if (success)
         {
@@ -1557,7 +1576,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     public AndConstraint<TypeAssertions> NotHaveAccessModifier(
         CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsOutOfRange(accessModifier, nameof(accessModifier));
+        Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -1610,13 +1629,13 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceType"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="targetType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceType"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="targetType"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<TypeAssertions, MethodInfo> HaveImplicitConversionOperator(
         Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(sourceType, nameof(sourceType));
-        Guard.ThrowIfArgumentIsNull(targetType, nameof(targetType));
+        Guard.ThrowIfArgumentIsNull(sourceType);
+        Guard.ThrowIfArgumentIsNull(targetType);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -1672,13 +1691,13 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceType"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="targetType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceType"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="targetType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> NotHaveImplicitConversionOperator(
         Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(sourceType, nameof(sourceType));
-        Guard.ThrowIfArgumentIsNull(targetType, nameof(targetType));
+        Guard.ThrowIfArgumentIsNull(sourceType);
+        Guard.ThrowIfArgumentIsNull(targetType);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -1732,13 +1751,13 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceType"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="targetType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceType"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="targetType"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<TypeAssertions, MethodInfo> HaveExplicitConversionOperator(
         Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(sourceType, nameof(sourceType));
-        Guard.ThrowIfArgumentIsNull(targetType, nameof(targetType));
+        Guard.ThrowIfArgumentIsNull(sourceType);
+        Guard.ThrowIfArgumentIsNull(targetType);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -1794,13 +1813,13 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceType"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="targetType"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceType"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="targetType"/> is <see langword="null"/>.</exception>
     public AndConstraint<TypeAssertions> NotHaveExplicitConversionOperator(
         Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(sourceType, nameof(sourceType));
-        Guard.ThrowIfArgumentIsNull(targetType, nameof(targetType));
+        Guard.ThrowIfArgumentIsNull(sourceType);
+        Guard.ThrowIfArgumentIsNull(targetType);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)

@@ -9,7 +9,7 @@ internal static class EnumerableExtensions
     {
         var buffer = new StringBuilder();
 
-        T lastItem = default(T);
+        T lastItem = default;
         bool first = true;
 
         foreach (var item in items)

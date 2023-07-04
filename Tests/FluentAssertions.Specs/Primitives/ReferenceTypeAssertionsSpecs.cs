@@ -1,6 +1,8 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
+using FluentAssertions.Primitives;
 using Xunit;
 using Xunit.Sdk;
 
@@ -40,8 +42,34 @@ public class ReferenceTypeAssertionsSpecs
         act
             .Should().Throw<XunitException>()
             .WithMessage(
-                "Expected subject to refer to*{ UserName = JohnDoe } because " +
-                "they are the same, but found*{ Name = John Doe }.");
+            """
+            Expected subject to refer to 
+            {
+                UserName = "JohnDoe"
+            } because they are the same, but found 
+            {
+                Name = "John Doe"
+            }.
+            """);
+    }
+
+    [Fact]
+    public void When_a_derived_class_has_longer_formatting_than_the_base_class()
+    {
+        var subject = new SimpleComplexBase[] { new Simple(), new Complex("goodbye") };
+        Action act = () => subject.Should().BeEmpty();
+        act.Should().Throw<XunitException>()
+            .WithMessage(
+            """
+            Expected subject to be empty, but found 
+            {
+                Simple(Hello), 
+                FluentAssertions.Specs.Primitives.Complex
+                {
+                    Statement = "goodbye"
+                }
+            }.
+            """);
     }
 
     [Fact]
@@ -87,10 +115,10 @@ public class ReferenceTypeAssertionsSpecs
     public void When_object_is_of_the_expected_open_generic_type_it_should_not_throw()
     {
         // Arrange
-        var aList = new System.Collections.Generic.List<string>();
+        var aList = new List<string>();
 
         // Act
-        Action action = () => aList.Should().BeOfType(typeof(System.Collections.Generic.List<>));
+        Action action = () => aList.Should().BeOfType(typeof(List<>));
 
         // Assert
         action.Should().NotThrow();
@@ -100,14 +128,14 @@ public class ReferenceTypeAssertionsSpecs
     public void When_object_is_not_of_the_expected_open_generic_type_it_should_throw()
     {
         // Arrange
-        var aList = new System.Collections.Generic.List<string>();
+        var aList = new List<string>();
 
         // Act
-        Action action = () => aList.Should().BeOfType(typeof(System.Collections.Generic.Dictionary<,>));
+        Action action = () => aList.Should().BeOfType(typeof(Dictionary<,>));
 
         // Assert
         action.Should().Throw<XunitException>()
-            .WithMessage($"Expected type to be {typeof(System.Collections.Generic.Dictionary<,>).FullName}, but found {typeof(System.Collections.Generic.List<>).FullName}.");
+            .WithMessage($"Expected type to be {typeof(Dictionary<,>).FullName}, but found {typeof(List<>).FullName}.");
     }
 
     [Fact]
@@ -157,8 +185,8 @@ public class ReferenceTypeAssertionsSpecs
         // Assert
         act.Should().Throw<XunitException>()
             .WithMessage(
-            "Expected type to be System.Int32, but found System.String.*" +
-            "Expected type to be System.Int64, but found System.String.");
+                "Expected type to be System.Int32, but found System.String.*" +
+                "Expected type to be System.Int64, but found System.String.");
     }
 
     [Fact]
@@ -193,14 +221,14 @@ public class ReferenceTypeAssertionsSpecs
     public void When_object_is_of_the_unexpected_open_generic_type_it_should_throw()
     {
         // Arrange
-        var aList = new System.Collections.Generic.List<string>();
+        var aList = new List<string>();
 
         // Act
-        Action action = () => aList.Should().NotBeOfType(typeof(System.Collections.Generic.List<>));
+        Action action = () => aList.Should().NotBeOfType(typeof(List<>));
 
         // Assert
         action.Should().Throw<XunitException>()
-            .WithMessage("Expected type not to be [" + typeof(System.Collections.Generic.List<>).AssemblyQualifiedName + "], but it is.");
+            .WithMessage("Expected type not to be [" + typeof(List<>).AssemblyQualifiedName + "], but it is.");
     }
 
     [Fact]
@@ -220,10 +248,10 @@ public class ReferenceTypeAssertionsSpecs
     public void When_object_is_not_of_the_unexpected_open_generic_type_it_should_not_throw()
     {
         // Arrange
-        var aList = new System.Collections.Generic.List<string>();
+        var aList = new List<string>();
 
         // Act
-        Action action = () => aList.Should().NotBeOfType(typeof(System.Collections.Generic.Dictionary<,>));
+        Action action = () => aList.Should().NotBeOfType(typeof(Dictionary<,>));
 
         // Assert
         action.Should().NotThrow();
@@ -233,7 +261,7 @@ public class ReferenceTypeAssertionsSpecs
     public void When_generic_object_is_not_of_the_unexpected_type_it_should_not_throw()
     {
         // Arrange
-        var aList = new System.Collections.Generic.List<string>();
+        var aList = new List<string>();
 
         // Act
         Action action = () => aList.Should().NotBeOfType<string>();
@@ -249,7 +277,7 @@ public class ReferenceTypeAssertionsSpecs
         var aString = "blah";
 
         // Act
-        Action action = () => aString.Should().NotBeOfType(typeof(System.Collections.Generic.Dictionary<,>));
+        Action action = () => aString.Should().NotBeOfType(typeof(Dictionary<,>));
 
         // Assert
         action.Should().NotThrow();
@@ -371,8 +399,8 @@ public class ReferenceTypeAssertionsSpecs
         // Assert
         act.Should().Throw<XunitException>().WithMessage(
             "Expected subject to be*FluentAssertions*SomeDto*{*Age = 2*Birthdate = <2009-02-22>*" +
-                "  Name = \"Teddie\"*}, but found*FluentAssertions*SomeDto*{*Age = 37*" +
-                    "  Birthdate = <1973-09-20>*Name = \"Dennis\"*}.");
+            "  Name = \"Teddie\"*}, but found*FluentAssertions*SomeDto*{*Age = 37*" +
+            "  Birthdate = <1973-09-20>*Name = \"Dennis\"*}.");
     }
 
     [Fact]
@@ -403,10 +431,37 @@ public class ReferenceTypeAssertionsSpecs
         // Assert
         act.Should().Throw<XunitException>()
             .WithMessage($"Expected subject to be System.Object (HashCode={other.GetHashCode()}), " +
-                         $"but found System.Object (HashCode={subject.GetHashCode()}).");
+                $"but found System.Object (HashCode={subject.GetHashCode()}).");
     }
 
     #endregion
+
+    public class Miscellaneous
+    {
+        [Fact]
+        public void Should_throw_a_helpful_error_when_accidentally_using_equals()
+        {
+            // Arrange
+            var subject = new ReferenceTypeAssertionsDummy(null);
+
+            // Act
+            Action action = () => subject.Equals(subject);
+
+            // Assert
+            action.Should().Throw<NotSupportedException>()
+                .WithMessage("Equals is not part of Fluent Assertions. Did you mean BeSameAs() instead?");
+        }
+
+        public class ReferenceTypeAssertionsDummy : ReferenceTypeAssertions<object, ReferenceTypeAssertionsDummy>
+        {
+            public ReferenceTypeAssertionsDummy(object subject)
+                : base(subject)
+            {
+            }
+
+            protected override string Identifier => string.Empty;
+        }
+    }
 }
 
 public class SomeDto
@@ -425,7 +480,7 @@ internal class ClassWithCustomEqualMethod
         Key = key;
     }
 
-    private int Key { get; set; }
+    private int Key { get; }
 
     private bool Equals(ClassWithCustomEqualMethod other)
     {
@@ -480,5 +535,23 @@ internal class ClassWithCustomEqualMethod
     public override string ToString()
     {
         return $"ClassWithCustomEqualMethod({Key})";
+    }
+}
+
+public abstract class SimpleComplexBase
+{ }
+
+public class Simple : SimpleComplexBase
+{
+    public override string ToString() => "Simple(Hello)";
+}
+
+public class Complex : SimpleComplexBase
+{
+    public string Statement { get; set; }
+
+    public Complex(string statement)
+    {
+        Statement = statement;
     }
 }

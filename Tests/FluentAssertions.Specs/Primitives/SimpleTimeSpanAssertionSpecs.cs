@@ -339,7 +339,8 @@ public class SimpleTimeSpanAssertionSpecs
         TimeSpan expected = 1.Seconds();
 
         // Act
-        Action act = () => nullTimeSpan.Should().BeGreaterThanOrEqualTo(expected, "because we want to test the failure {0}", "message");
+        Action act = () =>
+            nullTimeSpan.Should().BeGreaterThanOrEqualTo(expected, "because we want to test the failure {0}", "message");
 
         // Assert
         act.Should().Throw<XunitException>().WithMessage(
@@ -377,7 +378,8 @@ public class SimpleTimeSpanAssertionSpecs
         TimeSpan actual = 1.Seconds();
 
         // Act
-        Action act = () => actual.Should().BeGreaterThanOrEqualTo(2.Seconds(), "because we want to test the failure {0}", "message");
+        Action act = () =>
+            actual.Should().BeGreaterThanOrEqualTo(2.Seconds(), "because we want to test the failure {0}", "message");
 
         // Assert
         act.Should().Throw<XunitException>().WithMessage(
@@ -470,7 +472,8 @@ public class SimpleTimeSpanAssertionSpecs
         TimeSpan expected = 1.Seconds();
 
         // Act
-        Action act = () => nullTimeSpan.Should().BeLessThanOrEqualTo(expected, "because we want to test the failure {0}", "message");
+        Action act = () =>
+            nullTimeSpan.Should().BeLessThanOrEqualTo(expected, "because we want to test the failure {0}", "message");
 
         // Assert
         act.Should().Throw<XunitException>().WithMessage(
@@ -515,6 +518,20 @@ public class SimpleTimeSpanAssertionSpecs
             "Expected actual to be less than or equal to 1s because we want to test the failure message, but found 2s.");
     }
 
+    [Fact]
+    public void When_accidentally_using_equals_it_should_throw_a_helpful_error()
+    {
+        // Arrange
+        TimeSpan someTimeSpan = 2.Seconds();
+
+        // Act
+        Action act = () => someTimeSpan.Should().Equals(someTimeSpan);
+
+        // Assert
+        act.Should().Throw<NotSupportedException>()
+            .WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
+    }
+
     #region Be Close To
 
     [Fact]
@@ -529,7 +546,8 @@ public class SimpleTimeSpanAssertionSpecs
 
         // Assert
         act.Should().Throw<ArgumentOutOfRangeException>()
-            .WithMessage("* value of precision must be non-negative*");
+            .WithParameterName("precision")
+            .WithMessage("*must be non-negative*");
     }
 
     [Fact]
@@ -629,7 +647,8 @@ public class SimpleTimeSpanAssertionSpecs
         var nearbyTime = new TimeSpan(1, 12, 15, 31, 000);
 
         // Act
-        Action act = () => time.Should().BeCloseTo(nearbyTime, TimeSpan.FromMilliseconds(20), "we want to test the error message");
+        Action act = () =>
+            time.Should().BeCloseTo(nearbyTime, TimeSpan.FromMilliseconds(20), "we want to test the error message");
 
         // Assert
         act.Should().Throw<XunitException>()
@@ -653,7 +672,8 @@ public class SimpleTimeSpanAssertionSpecs
 
         // Assert
         act.Should().Throw<ArgumentOutOfRangeException>()
-            .WithMessage("* value of precision must be non-negative*");
+            .WithParameterName("precision")
+            .WithMessage("*must be non-negative*");
     }
 
     [Fact]
@@ -667,7 +687,8 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage("Expected time to not be within 20ms from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m, 30s and 980ms.");
+        act.Should().Throw<XunitException>()
+            .WithMessage("Expected time to not be within 20ms from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m, 30s and 980ms.");
     }
 
     [Fact]
@@ -681,7 +702,8 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage("Expected time to not be within 20ms from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m, 31s and 20ms.");
+        act.Should().Throw<XunitException>()
+            .WithMessage("Expected time to not be within 20ms from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m, 31s and 20ms.");
     }
 
     [Fact]
@@ -695,7 +717,8 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => time.Should().NotBeCloseTo(nearbyTime, TimeSpan.FromMilliseconds(20));
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage("Expected time to not be within 20ms from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m, 31s and 20ms.");
+        act.Should().Throw<XunitException>()
+            .WithMessage("Expected time to not be within 20ms from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m, 31s and 20ms.");
     }
 
     [Fact]
@@ -737,7 +760,8 @@ public class SimpleTimeSpanAssertionSpecs
         Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage("Expected time to not be within 35ms from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m, 31s and 35ms.");
+        act.Should().Throw<XunitException>()
+            .WithMessage("Expected time to not be within 35ms from 1d, 12h, 15m and 31s, but found 1d, 12h, 15m, 31s and 35ms.");
     }
 
     [Fact]

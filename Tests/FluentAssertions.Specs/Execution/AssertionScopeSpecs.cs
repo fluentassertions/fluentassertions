@@ -68,6 +68,7 @@ namespace FluentAssertions.Specs.Execution
             // Arrange
             var scope = new AssertionScope();
             bool failReasonCalled = false;
+
             AssertionScope.Current
                 .ForCondition(true)
                 .FailWith(() =>
@@ -235,6 +236,22 @@ namespace FluentAssertions.Specs.Execution
                 .WithMessage("*but found false*but found true*");
         }
 
+        [Fact]
+        public void When_nested_scope_is_disposed_it_passes_reports_to_parent_scope()
+        {
+            // Arrange/Act
+            using var outerScope = new AssertionScope();
+            outerScope.AddReportable("outerReportable", "foo");
+
+            using (var innerScope = new AssertionScope())
+            {
+                innerScope.AddReportable("innerReportable", "bar");
+            }
+
+            // Assert
+            outerScope.Get<string>("innerReportable").Should().Be("bar");
+        }
+
         public class CustomAssertionStrategy : IAssertionStrategy
         {
             private readonly List<string> failureMessages = new();
@@ -250,10 +267,10 @@ namespace FluentAssertions.Specs.Execution
 
             public void ThrowIfAny(IDictionary<string, object> context)
             {
-                if (failureMessages.Any())
+                if (failureMessages.Count > 0)
                 {
                     var builder = new StringBuilder();
-                    builder.AppendLine(string.Join(Environment.NewLine, failureMessages));
+                    builder.AppendJoin(Environment.NewLine, failureMessages).AppendLine();
 
                     if (context.Any())
                     {
@@ -290,9 +307,9 @@ namespace FluentAssertions.Specs.Execution
     }
 }
 
-#pragma warning disable RCS1110, CA1050 // Declare type inside namespace.
+#pragma warning disable RCS1110, CA1050, S3903 // Declare type inside namespace.
 public class AssertionScopeSpecsWithoutNamespace
-#pragma warning restore RCS1110, CA1050 // Declare type inside namespace.
+#pragma warning restore RCS1110, CA1050, S3903 // Declare type inside namespace.
 {
     [Fact]
     public void This_class_should_not_be_inside_a_namespace()

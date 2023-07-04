@@ -1,12 +1,6 @@
 name: build
 
-on:
-  pull_request:
-    paths-ignore:
-      - docs/**
-  push:
-    paths-ignore:
-      - docs/**
+on: [push, pull_request]
 
 jobs:
   build:
@@ -17,32 +11,62 @@ jobs:
       DOTNET_NOLOGO: true
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
 
     - name: Setup .NET SDKs
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: |
           2.1.x
           3.1.x
           6.0.x
+          7.0.x
 
     - name: Run NUKE
       run: ./build.ps1
       env:
-        BranchSpec: ${{ github.ref }}
-        BuildNumber: ${{ github.run_number }}
-        ApiKey: ${{ secrets.NUGETAPIKEY }}
+        NuGetApiKey: ${{ secrets.NUGETAPIKEY }}
+
+    - name: Check for 'lcov.info' existence
+      id: check_files
+      uses: andstor/file-existence-action@v2
+      with:
+        files: "TestResults/reports/lcov.info"
 
     - name: coveralls
-      uses: coverallsapp/github-action@1.1.3
+      uses: coverallsapp/github-action@v2
+      if: steps.check_files.outputs.files_exists == 'true'
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: TestResults/reports/lcov.info
+        file: TestResults/reports/lcov.info
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         path: ./Artifacts/*
+  only-unit-tests:
+
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, macos-12]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET SDKs
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: |
+          2.1.x
+          3.1.x
+          6.0.x
+          7.0.x
+
+    - name: Run NUKE
+      run: ./build.sh UnitTests

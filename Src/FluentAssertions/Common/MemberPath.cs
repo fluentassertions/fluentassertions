@@ -24,6 +24,10 @@ internal class MemberPath
     {
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MemberPath"/> class.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="dottedPath"/> is <see langword="null"/>.</exception>
     public MemberPath(Type reflectedType, Type declaringType, string dottedPath)
         : this(dottedPath)
     {
@@ -31,6 +35,10 @@ internal class MemberPath
         this.declaringType = declaringType;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MemberPath"/> class.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="dottedPath"/> is <see langword="null"/>.</exception>
     public MemberPath(string dottedPath)
     {
         Guard.ThrowIfArgumentIsNull(
@@ -51,7 +59,7 @@ internal class MemberPath
 
     public bool IsSameAs(MemberPath candidate)
     {
-        if ((declaringType == candidate.declaringType) || declaringType?.IsAssignableFrom(candidate.reflectedType) == true)
+        if (declaringType == candidate.declaringType || declaringType?.IsAssignableFrom(candidate.reflectedType) == true)
         {
             string[] candidateSegments = candidate.Segments;
 
@@ -66,7 +74,7 @@ internal class MemberPath
         string[] candidateSegments = candidate.Segments;
 
         return candidateSegments.Length > Segments.Length &&
-               candidateSegments.Take(Segments.Length).SequenceEqual(Segments, MemberPathSegmentEqualityComparer);
+            candidateSegments.Take(Segments.Length).SequenceEqual(Segments, MemberPathSegmentEqualityComparer);
     }
 
     private bool IsChildOf(MemberPath candidate)
@@ -74,8 +82,8 @@ internal class MemberPath
         string[] candidateSegments = candidate.Segments;
 
         return candidateSegments.Length < Segments.Length
-               && candidateSegments.SequenceEqual(Segments.Take(candidateSegments.Length),
-                   MemberPathSegmentEqualityComparer);
+            && candidateSegments.SequenceEqual(Segments.Take(candidateSegments.Length),
+                MemberPathSegmentEqualityComparer);
     }
 
     public MemberPath AsParentCollectionOf(MemberPath nextPath)
@@ -95,7 +103,7 @@ internal class MemberPath
     public bool HasSameParentAs(MemberPath path)
     {
         return Segments.Length == path.Segments.Length
-               && GetParentSegments().SequenceEqual(path.GetParentSegments(), MemberPathSegmentEqualityComparer);
+            && GetParentSegments().SequenceEqual(path.GetParentSegments(), MemberPathSegmentEqualityComparer);
     }
 
     private IEnumerable<string> GetParentSegments() => Segments.Take(Segments.Length - 1);

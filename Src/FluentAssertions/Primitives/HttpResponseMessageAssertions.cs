@@ -209,7 +209,8 @@ public class HttpResponseMessageAssertions<TAssertions> : ObjectAssertions<HttpR
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> NotHaveStatusCode(HttpStatusCode unexpected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotHaveStatusCode(HttpStatusCode unexpected, string because = "",
+        params object[] becauseArgs)
     {
         var success = Execute.Assertion
             .ForCondition(Subject is not null)

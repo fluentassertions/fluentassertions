@@ -35,12 +35,13 @@ public partial class StringAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to start with \"ABB\" because it should start," +
-                    " but \"ABC\" differs near \"C\" (index 2).");
+                " but \"ABC\" differs near \"C\" (index 2).");
         }
 
         [Fact]
         [SuppressMessage("ReSharper", "StringLiteralTypo")]
-        public void When_string_does_not_start_with_expected_phrase_and_one_of_them_is_long_it_should_display_both_strings_on_separate_line()
+        public void
+            When_string_does_not_start_with_expected_phrase_and_one_of_them_is_long_it_should_display_both_strings_on_separate_line()
         {
             // Act
             Action act = () => "ABCDEFGHI".Should().StartWith("ABCDDFGHI", "it should {0}", "start");
@@ -48,7 +49,7 @@ public partial class StringAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to start with " +
-                    "*\"ABCDDFGHI\" because it should start, but " +
+                "*\"ABCDDFGHI\" because it should start, but " +
                 "*\"ABCDEFGHI\" differs near \"EFG\" (index 4).");
         }
 

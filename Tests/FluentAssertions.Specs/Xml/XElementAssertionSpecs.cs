@@ -49,6 +49,7 @@ public class XElementAssertionSpecs
                 new XElement("parent",
                     new XElement("child",
                         new XElement("grandChild2")));
+
             var expected =
                 new XElement("parent",
                     new XElement("child",
@@ -81,7 +82,7 @@ public class XElementAssertionSpecs
         public void When_element_is_expected_to_equal_null_it_fails()
         {
             // Arrange
-            XElement theElement = new XElement("element");
+            XElement theElement = new("element");
 
             // Act
             Action act = () => theElement.Should().Be(null, "we want to test the failure {0}", "message");
@@ -130,6 +131,7 @@ public class XElementAssertionSpecs
                 new XElement("parent",
                     new XElement("child",
                         new XElement("grandChild")));
+
             var element =
                 new XElement("parent",
                     new XElement("child",
@@ -162,7 +164,7 @@ public class XElementAssertionSpecs
         public void When_an_element_is_not_supposed_to_be_null_it_succeeds()
         {
             // Arrange
-            XElement theElement = new XElement("element");
+            XElement theElement = new("element");
 
             // Act
             Action act = () => theElement.Should().NotBe(null);
@@ -387,7 +389,8 @@ public class XElementAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_a_xml_element_is_equivalent_to_a_different_xml_element_elements_missing_it_should_fail_with_descriptive_message()
+        public void
+            When_asserting_a_xml_element_is_equivalent_to_a_different_xml_element_elements_missing_it_should_fail_with_descriptive_message()
         {
             // Arrange
             var theElement = XElement.Parse("<parent><child /><child2 /></parent>");
@@ -403,7 +406,8 @@ public class XElementAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_a_xml_element_is_equivalent_to_a_different_xml_element_with_extra_elements_it_should_fail_with_descriptive_message()
+        public void
+            When_asserting_a_xml_element_is_equivalent_to_a_different_xml_element_with_extra_elements_it_should_fail_with_descriptive_message()
         {
             // Arrange
             var theElement = XElement.Parse("<parent><child /></parent>");
@@ -419,7 +423,8 @@ public class XElementAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_an_empty_xml_element_is_equivalent_to_a_different_xml_element_with_text_content_it_should_fail()
+        public void
+            When_asserting_an_empty_xml_element_is_equivalent_to_a_different_xml_element_with_text_content_it_should_fail()
         {
             // Arrange
             var theElement = XElement.Parse("<parent><child /></parent>");
@@ -463,7 +468,7 @@ public class XElementAssertionSpecs
         [Fact]
         public void When_an_element_is_equivalent_to_null_it_fails()
         {
-            XElement theElement = new XElement("element");
+            XElement theElement = new("element");
 
             // Act
             Action act = () =>
@@ -476,7 +481,7 @@ public class XElementAssertionSpecs
 
         [Fact]
         public void
-           When_asserting_an_xml_element_is_equivalent_to_a_different_xml_element_with_different_namespace_prefix_it_should_succeed()
+            When_asserting_an_xml_element_is_equivalent_to_a_different_xml_element_with_different_namespace_prefix_it_should_succeed()
         {
             // Arrange
             var subject = XElement.Parse("<xml xmlns=\"urn:a\"/>");
@@ -491,7 +496,8 @@ public class XElementAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_an_xml_element_is_equivalent_to_a_different_xml_element_which_differs_only_on_unused_namespace_declaration_it_should_succeed()
+        public void
+            When_asserting_an_xml_element_is_equivalent_to_a_different_xml_element_which_differs_only_on_unused_namespace_declaration_it_should_succeed()
         {
             // Arrange
             var subject = XElement.Parse("<xml xmlns:a=\"urn:a\"/>");
@@ -506,7 +512,8 @@ public class XElementAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_an_xml_element_is_equivalent_to_different_xml_element_which_lacks_attributes_it_should_fail_with_descriptive_message()
+        public void
+            When_asserting_an_xml_element_is_equivalent_to_different_xml_element_which_lacks_attributes_it_should_fail_with_descriptive_message()
         {
             // Arrange
             var theElement = XElement.Parse("<xml><element b=\"1\"/></xml>");
@@ -522,7 +529,8 @@ public class XElementAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_an_xml_element_is_equivalent_to_different_xml_element_which_has_extra_attributes_it_should_fail_with_descriptive_message()
+        public void
+            When_asserting_an_xml_element_is_equivalent_to_different_xml_element_which_has_extra_attributes_it_should_fail_with_descriptive_message()
         {
             // Arrange
             var theElement = XElement.Parse("<xml><element a=\"b\"/></xml>");
@@ -555,7 +563,8 @@ public class XElementAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_an_xml_element_is_equivalent_to_different_xml_element_which_has_attribute_with_different_namespace_it_should_fail_with_descriptive_message()
+        public void
+            When_asserting_an_xml_element_is_equivalent_to_different_xml_element_which_has_attribute_with_different_namespace_it_should_fail_with_descriptive_message()
         {
             // Arrange
             var theElement = XElement.Parse("<xml><element xmlns:ns=\"urn:a\" ns:a=\"b\"/></xml>");
@@ -571,7 +580,8 @@ public class XElementAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_an_xml_element_is_equivalent_to_different_xml_element_which_has_different_text_contents_it_should_fail_with_descriptive_message()
+        public void
+            When_asserting_an_xml_element_is_equivalent_to_different_xml_element_which_has_different_text_contents_it_should_fail_with_descriptive_message()
         {
             // Arrange
             var theElement = XElement.Parse("<xml>a</xml>");
@@ -587,7 +597,8 @@ public class XElementAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_an_xml_element_is_equivalent_to_different_xml_element_with_different_comments_it_should_succeed()
+        public void
+            When_asserting_an_xml_element_is_equivalent_to_different_xml_element_with_different_comments_it_should_succeed()
         {
             // Arrange
             var subject = XElement.Parse("<xml><!--Comment--><a/></xml>");
@@ -604,7 +615,8 @@ public class XElementAssertionSpecs
     public class NotBeEquivalentTo
     {
         [Fact]
-        public void When_asserting_a_xml_element_is_not_equivalent_to_a_different_xml_element_with_elements_missing_it_should_succeed()
+        public void
+            When_asserting_a_xml_element_is_not_equivalent_to_a_different_xml_element_with_elements_missing_it_should_succeed()
         {
             // Arrange
             var element = XElement.Parse("<parent><child /><child2 /></parent>");
@@ -619,7 +631,8 @@ public class XElementAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_a_xml_element_is_not_equivalent_to_a_different_xml_element_with_extra_elements_it_should_succeed()
+        public void
+            When_asserting_a_xml_element_is_not_equivalent_to_a_different_xml_element_with_extra_elements_it_should_succeed()
         {
             // Arrange
             var element = XElement.Parse("<parent><child /></parent>");
@@ -650,7 +663,8 @@ public class XElementAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_a_xml_element_is_not_equivalent_to_a_different_xml_element_with_same_contents_but_different_ns_prefixes_it_should_fail()
+        public void
+            When_asserting_a_xml_element_is_not_equivalent_to_a_different_xml_element_with_same_contents_but_different_ns_prefixes_it_should_fail()
         {
             // Arrange
             var theElement = XElement.Parse(@"<parent xmlns:ns1=""a""><ns1:child /></parent>");
@@ -666,7 +680,8 @@ public class XElementAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_a_xml_element_is_not_equivalent_to_a_different_xml_element_with_same_contents_but_extra_unused_xmlns_declaration_it_should_fail()
+        public void
+            When_asserting_a_xml_element_is_not_equivalent_to_a_different_xml_element_with_same_contents_but_extra_unused_xmlns_declaration_it_should_fail()
         {
             // Arrange
             var theElement = XElement.Parse(@"<xml xmlns:ns1=""a"" />");
@@ -698,7 +713,8 @@ public class XElementAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_a_xml_element_is_not_equivalent_to_a_different_xml_element_with_same_structure_it_should_fail_with_descriptive_message()
+        public void
+            When_asserting_a_xml_element_is_not_equivalent_to_a_different_xml_element_with_same_structure_it_should_fail_with_descriptive_message()
         {
             // Arrange
             var theElement = XElement.Parse("<parent><child /></parent>");
@@ -714,7 +730,8 @@ public class XElementAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_a_xml_element_is_not_equivalent_to_the_same_xml_element_it_should_fail_with_descriptive_message()
+        public void
+            When_asserting_a_xml_element_is_not_equivalent_to_the_same_xml_element_it_should_fail_with_descriptive_message()
         {
             // Arrange
             var theElement = XElement.Parse("<parent><child /></parent>");
@@ -757,7 +774,7 @@ public class XElementAssertionSpecs
         [Fact]
         public void When_an_element_is_not_equivalent_to_null_it_succeeds()
         {
-            XElement theElement = new XElement("element");
+            XElement theElement = new("element");
 
             // Act
             Action act = () => theElement.Should().NotBeEquivalentTo(null);
@@ -799,7 +816,8 @@ public class XElementAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_element_has_a_specific_value_but_it_has_a_different_value_it_should_throw_with_descriptive_message()
+        public void
+            When_asserting_element_has_a_specific_value_but_it_has_a_different_value_it_should_throw_with_descriptive_message()
         {
             // Arrange
             var theElement = XElement.Parse("<user>grega</user>");
@@ -890,14 +908,18 @@ public class XElementAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_element_has_attribute_with_specific_value_but_attribute_does_not_exist_it_should_fail_with_descriptive_message()
+        public void
+            When_asserting_element_has_attribute_with_specific_value_but_attribute_does_not_exist_it_should_fail_with_descriptive_message()
         {
             // Arrange
             var theElement = XElement.Parse(@"<user name=""martin"" />");
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 theElement.Should().HaveAttribute("age", "36", "because we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -906,7 +928,8 @@ public class XElementAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_element_has_attribute_with_ns_and_specific_value_but_attribute_does_not_exist_it_should_fail_with_descriptive_message()
+        public void
+            When_asserting_element_has_attribute_with_ns_and_specific_value_but_attribute_does_not_exist_it_should_fail_with_descriptive_message()
         {
             // Arrange
             var theElement = XElement.Parse(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
@@ -939,7 +962,8 @@ public class XElementAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_element_has_attribute_with_ns_and_specific_value_but_attribute_has_different_value_it_should_fail()
+        public void
+            When_asserting_element_has_attribute_with_ns_and_specific_value_but_attribute_has_different_value_it_should_fail()
         {
             // Arrange
             var theElement = XElement.Parse(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
@@ -954,7 +978,8 @@ public class XElementAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_element_has_attribute_with_specific_value_but_attribute_has_different_value_it_should_fail_with_descriptive_message()
+        public void
+            When_asserting_element_has_attribute_with_specific_value_but_attribute_has_different_value_it_should_fail_with_descriptive_message()
         {
             // Arrange
             var theElement = XElement.Parse(@"<user name=""martin"" />");
@@ -970,14 +995,15 @@ public class XElementAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_element_has_attribute_with_ns_and_specific_value_but_attribute_has_different_value_it_should_fail_with_descriptive_message()
+        public void
+            When_asserting_element_has_attribute_with_ns_and_specific_value_but_attribute_has_different_value_it_should_fail_with_descriptive_message()
         {
             // Arrange
             var theElement = XElement.Parse(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
 
             // Act
             Action act = () =>
-                 theElement.Should().HaveAttribute(XName.Get("name", "http://www.example.com/2012/test"), "dennis",
+                theElement.Should().HaveAttribute(XName.Get("name", "http://www.example.com/2012/test"), "dennis",
                     "because we want to test the failure {0}", "message");
 
             // Assert
@@ -1021,7 +1047,7 @@ public class XElementAssertionSpecs
         [Fact]
         public void When_asserting_element_has_an_attribute_with_a_null_name_it_should_throw()
         {
-            XElement theElement = new XElement("element");
+            XElement theElement = new("element");
 
             // Act
             Action act = () =>
@@ -1035,7 +1061,7 @@ public class XElementAssertionSpecs
         [Fact]
         public void When_asserting_element_has_an_attribute_with_a_null_XName_it_should_throw()
         {
-            XElement theElement = new XElement("element");
+            XElement theElement = new("element");
 
             // Act
             Action act = () =>
@@ -1049,14 +1075,14 @@ public class XElementAssertionSpecs
         [Fact]
         public void When_asserting_element_has_an_attribute_with_an_empty_name_it_should_throw()
         {
-            XElement theElement = new XElement("element");
+            XElement theElement = new("element");
 
             // Act
             Action act = () =>
                 theElement.Should().HaveAttribute(string.Empty, "value");
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("expectedName");
         }
     }
@@ -1187,13 +1213,14 @@ public class XElementAssertionSpecs
             // Assert
             matchedElement.Should().BeOfType<XElement>()
                 .And.HaveAttribute("attr", "1");
+
             matchedElement.Name.Should().Be(XName.Get("child"));
         }
 
         [Fact]
         public void When_asserting_element_has_a_child_element_with_a_null_name_it_should_throw()
         {
-            XElement theElement = new XElement("element");
+            XElement theElement = new("element");
 
             // Act
             Action act = () =>
@@ -1207,7 +1234,7 @@ public class XElementAssertionSpecs
         [Fact]
         public void When_asserting_element_has_a_child_element_with_a_null_XName_it_should_throw()
         {
-            XElement theElement = new XElement("element");
+            XElement theElement = new("element");
 
             // Act
             Action act = () =>
@@ -1221,14 +1248,14 @@ public class XElementAssertionSpecs
         [Fact]
         public void When_asserting_element_has_a_child_element_with_an_empty_name_it_should_throw()
         {
-            XElement theElement = new XElement("element");
+            XElement theElement = new("element");
 
             // Act
             Action act = () =>
                 theElement.Should().HaveElement(string.Empty);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
+            act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("expected");
         }
     }

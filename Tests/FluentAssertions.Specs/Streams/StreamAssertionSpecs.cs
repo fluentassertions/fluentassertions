@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using FluentAssertions.Execution;
 using Xunit;
@@ -359,7 +358,7 @@ public class StreamAssertionSpecs
         }
 
         [Theory]
-        [MemberData(nameof(StreamAssertionSpecs.GetPositionExceptions), MemberType = typeof(StreamAssertionSpecs))]
+        [MemberData(nameof(GetPositionExceptions), MemberType = typeof(StreamAssertionSpecs))]
         public void When_a_throwing_stream_should_have_a_position_it_should_fail(Exception exception)
         {
             // Arrange
@@ -426,7 +425,7 @@ public class StreamAssertionSpecs
         }
 
         [Theory]
-        [MemberData(nameof(StreamAssertionSpecs.GetPositionExceptions), MemberType = typeof(StreamAssertionSpecs))]
+        [MemberData(nameof(GetPositionExceptions), MemberType = typeof(StreamAssertionSpecs))]
         public void When_a_throwing_stream_should_not_have_a_position_it_should_fail(Exception exception)
         {
             // Arrange
@@ -443,13 +442,13 @@ public class StreamAssertionSpecs
         }
     }
 
-    public static IEnumerable<object[]> GetPositionExceptions()
+    public static TheoryData<Exception> GetPositionExceptions => new()
     {
         // https://docs.microsoft.com/en-us/dotnet/api/system.io.stream.position#exceptions
-        yield return new object[] { new IOException("GetPositionExceptionMessage") };
-        yield return new object[] { new NotSupportedException("GetPositionExceptionMessage") };
-        yield return new object[] { new ObjectDisposedException("GetPositionExceptionMessage") };
-    }
+        new IOException("GetPositionExceptionMessage"),
+        new NotSupportedException("GetPositionExceptionMessage"),
+        new ObjectDisposedException("GetPositionExceptionMessage")
+    };
 
     public class HaveLength
     {
@@ -501,7 +500,7 @@ public class StreamAssertionSpecs
         }
 
         [Theory]
-        [MemberData(nameof(StreamAssertionSpecs.GetLengthExceptions), MemberType = typeof(StreamAssertionSpecs))]
+        [MemberData(nameof(GetLengthExceptions), MemberType = typeof(StreamAssertionSpecs))]
         public void When_a_throwing_stream_should_have_a_length_it_should_fail(Exception exception)
         {
             // Arrange
@@ -568,7 +567,7 @@ public class StreamAssertionSpecs
         }
 
         [Theory]
-        [MemberData(nameof(StreamAssertionSpecs.GetLengthExceptions), MemberType = typeof(StreamAssertionSpecs))]
+        [MemberData(nameof(GetLengthExceptions), MemberType = typeof(StreamAssertionSpecs))]
         public void When_a_throwing_stream_should_not_have_a_length_it_should_fail(Exception exception)
         {
             // Arrange
@@ -585,13 +584,13 @@ public class StreamAssertionSpecs
         }
     }
 
-    public static IEnumerable<object[]> GetLengthExceptions()
+    public static TheoryData<Exception> GetLengthExceptions => new()
     {
         // https://docs.microsoft.com/en-us/dotnet/api/system.io.stream.length#exceptions
-        yield return new object[] { new IOException("GetLengthExceptionMessage") };
-        yield return new object[] { new NotSupportedException("GetLengthExceptionMessage") };
-        yield return new object[] { new ObjectDisposedException("GetLengthExceptionMessage") };
-    }
+        new IOException("GetLengthExceptionMessage"),
+        new NotSupportedException("GetLengthExceptionMessage"),
+        new ObjectDisposedException("GetLengthExceptionMessage")
+    };
 
     public class BeReadOnly
     {

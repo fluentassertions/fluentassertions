@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
+using Xunit;
+using Xunit.Sdk;
 #if NETFRAMEWORK
 using FluentAssertions.Specs.Common;
 #endif
-using Xunit;
-using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Exceptions;
 
@@ -20,11 +19,16 @@ public class FunctionExceptionAssertionSpecs
         Func<int> action = null;
 
         // Act
-        Action testAction = () => action.Should().NotThrow("because we want to test the failure {0}", "message");
+        Action testAction = () =>
+        {
+            using var _ = new AssertionScope();
+            action.Should().NotThrow("because we want to test the failure {0}", "message");
+        };
 
         // Assert
         testAction.Should().Throw<XunitException>()
-            .WithMessage("*because we want to test the failure message*found <null>*");
+            .WithMessage("*because we want to test the failure message*found <null>*")
+            .Where(e => !e.Message.Contains("NullReferenceException"));
     }
 
     [Fact]
@@ -63,9 +67,9 @@ public class FunctionExceptionAssertionSpecs
     }
 #pragma warning restore xUnit1026 // Theory methods should use all of their parameters
 
-    public static IEnumerable<object[]> AggregateExceptionTestData()
+    public static TheoryData<Func<int>, Exception> AggregateExceptionTestData()
     {
-        var tasks = new Func<int>[]
+        var tasks = new[]
         {
             AggregateExceptionWithLeftNestedException,
             AggregateExceptionWithRightNestedException
@@ -78,15 +82,19 @@ public class FunctionExceptionAssertionSpecs
             new InvalidOperationException()
         };
 
+        var data = new TheoryData<Func<int>, Exception>();
+
         foreach (var task in tasks)
         {
             foreach (var type in types)
             {
-                yield return new object[] { task, type };
+                data.Add(task, type);
             }
         }
 
-        yield return new object[] { (Func<int>)EmptyAggregateException, new AggregateException() };
+        data.Add(EmptyAggregateException, new AggregateException());
+
+        return data;
     }
 
     private static int AggregateExceptionWithLeftNestedException()
@@ -134,12 +142,16 @@ public class FunctionExceptionAssertionSpecs
         Func<int> act = null;
 
         // Act
-        Action action = () => act.Should().Throw<ArgumentNullException>(
-            "because we want to test the failure {0}", "message");
+        Action action = () =>
+        {
+            using var _ = new AssertionScope();
+            act.Should().Throw<ArgumentNullException>("because we want to test the failure {0}", "message");
+        };
 
         // Assert
         action.Should().Throw<XunitException>()
-            .WithMessage("*because we want to test the failure message*found <null>*");
+            .WithMessage("*because we want to test the failure message*found <null>*")
+            .Where(e => !e.Message.Contains("NullReferenceException"));
     }
 
     [Fact]
@@ -204,7 +216,8 @@ public class FunctionExceptionAssertionSpecs
     }
 
     [Fact]
-    public void When_function_does_not_throw_expected_exception_but_throws_aggregate_in_aggregate_it_should_fail_with_inner_exception_one_level_deep()
+    public void
+        When_function_does_not_throw_expected_exception_but_throws_aggregate_in_aggregate_it_should_fail_with_inner_exception_one_level_deep()
     {
         // Arrange
         Func<int> f = () => throw new AggregateException(new AggregateException(new ArgumentNullException()));
@@ -247,6 +260,7 @@ public class FunctionExceptionAssertionSpecs
     #endregion
 
     #region ThrowExactly
+
     [Fact]
     public void When_subject_is_null_when_an_exact_exception_should_be_thrown_it_should_throw()
     {
@@ -254,12 +268,16 @@ public class FunctionExceptionAssertionSpecs
         Func<int> act = null;
 
         // Act
-        Action action = () => act.Should().ThrowExactly<ArgumentNullException>(
-            "because we want to test the failure {0}", "message");
+        Action action = () =>
+        {
+            using var _ = new AssertionScope();
+            act.Should().ThrowExactly<ArgumentNullException>("because we want to test the failure {0}", "message");
+        };
 
         // Assert
         action.Should().Throw<XunitException>()
-            .WithMessage("*because we want to test the failure message*found <null>*");
+            .WithMessage("*because we want to test the failure message*found <null>*")
+            .Where(e => !e.Message.Contains("NullReferenceException"));
     }
 
     [Fact]
@@ -331,6 +349,7 @@ public class FunctionExceptionAssertionSpecs
     #endregion
 
     #region NotThrow
+
     [Fact]
     public void When_subject_is_null_when_an_exception_should_not_be_thrown_it_should_throw()
     {
@@ -352,12 +371,16 @@ public class FunctionExceptionAssertionSpecs
         Func<int> act = null;
 
         // Act
-        Action action = () => act.Should().NotThrow<ArgumentNullException>(
-            "because we want to test the failure {0}", "message");
+        Action action = () =>
+        {
+            using var _ = new AssertionScope();
+            act.Should().NotThrow<ArgumentNullException>("because we want to test the failure {0}", "message");
+        };
 
         // Assert
         action.Should().Throw<XunitException>()
-            .WithMessage("*because we want to test the failure message*found <null>*");
+            .WithMessage("*because we want to test the failure message*found <null>*")
+            .Where(e => !e.Message.Contains("NullReferenceException"));
     }
 
     [Fact]
@@ -399,7 +422,8 @@ public class FunctionExceptionAssertionSpecs
     }
 
     [Fact]
-    public void When_function_throw_aggregate_in_aggregate_exception_and_that_was_not_expected_it_should_fail_with_most_inner_exception_in_message()
+    public void
+        When_function_throw_aggregate_in_aggregate_exception_and_that_was_not_expected_it_should_fail_with_most_inner_exception_in_message()
     {
         // Arrange
         Func<int> f = () => throw new AggregateException(new AggregateException(new ArgumentNullException()));
@@ -422,6 +446,7 @@ public class FunctionExceptionAssertionSpecs
         Action act = () =>
         {
             using var _ = new AssertionScope();
+
             throwingFunction.Should().NotThrow()
                 .And.BeNull();
         };
@@ -437,6 +462,7 @@ public class FunctionExceptionAssertionSpecs
     #endregion
 
     #region NotThrowAfter
+
     [Fact]
     public void When_subject_is_null_it_should_throw()
     {
@@ -446,12 +472,16 @@ public class FunctionExceptionAssertionSpecs
         Func<int> action = null;
 
         // Act
-        Action testAction = () => action.Should().NotThrowAfter(
-            waitTime, pollInterval, "because we want to test the failure {0}", "message");
+        Action testAction = () =>
+        {
+            using var _ = new AssertionScope();
+            action.Should().NotThrowAfter(waitTime, pollInterval, "because we want to test the failure {0}", "message");
+        };
 
         // Assert
         testAction.Should().Throw<XunitException>()
-            .WithMessage("*because we want to test the failure message*found <null>*");
+            .WithMessage("*because we want to test the failure message*found <null>*")
+            .Where(e => !e.Message.Contains("NullReferenceException"));
     }
 
     [Fact]
@@ -468,7 +498,8 @@ public class FunctionExceptionAssertionSpecs
 
         // Assert
         action.Should().Throw<ArgumentOutOfRangeException>()
-            .WithMessage("* value of waitTime must be non-negative*");
+            .WithParameterName("waitTime")
+            .WithMessage("*must be non-negative*");
     }
 
     [Fact]
@@ -485,7 +516,8 @@ public class FunctionExceptionAssertionSpecs
 
         // Assert
         action.Should().Throw<ArgumentOutOfRangeException>()
-            .WithMessage("* value of pollInterval must be non-negative*");
+            .WithParameterName("pollInterval")
+            .WithMessage("*must be non-negative*");
     }
 
     [Fact]
@@ -513,7 +545,7 @@ public class FunctionExceptionAssertionSpecs
 
         // Assert
         action.Should().Throw<XunitException>()
-                     .WithMessage("Did not expect any exceptions after 100ms because we passed valid arguments*");
+            .WithMessage("Did not expect any exceptions after 100ms because we passed valid arguments*");
     }
 
     [Fact]
@@ -563,7 +595,7 @@ public class FunctionExceptionAssertionSpecs
 
         // Act
         Action act = () => throwShorterThanWaitTime.Should(clock).NotThrowAfter(waitTime, pollInterval)
-                .Which.Should().Be(42);
+            .Which.Should().Be(42);
 
         // Assert
         act.Should().NotThrow();
@@ -581,6 +613,7 @@ public class FunctionExceptionAssertionSpecs
         Action act = () =>
         {
             using var _ = new AssertionScope();
+
             throwingFunction.Should().NotThrowAfter(waitTime, pollInterval)
                 .And.BeNull();
         };
@@ -594,9 +627,12 @@ public class FunctionExceptionAssertionSpecs
     }
 
     #endregion
+
     #region NotThrow<T>
+
     [Fact]
-    public void When_function_does_not_throw_at_all_when_some_particular_exception_was_not_expected_it_should_succeed_but_then_cannot_continue_assertion()
+    public void
+        When_function_does_not_throw_at_all_when_some_particular_exception_was_not_expected_it_should_succeed_but_then_cannot_continue_assertion()
     {
         // Arrange
         Func<int> f = () => 12;
@@ -616,7 +652,8 @@ public class FunctionExceptionAssertionSpecs
 
         // Assert
         action.Should().Throw<XunitException>()
-            .WithMessage("*Did not expect System.InvalidOperationException because it was so fast, but found System.InvalidOperationException with message*custom message*");
+            .WithMessage(
+                "*Did not expect System.InvalidOperationException because it was so fast, but found System.InvalidOperationException: custom message*");
     }
 
     [Fact]

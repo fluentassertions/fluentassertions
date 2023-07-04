@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using Xunit;
 using Xunit.Sdk;
@@ -78,6 +79,62 @@ public class DataColumnSpecs : DataSpecs
     }
 
     [Fact]
+    public void Can_exclude_a_column_from_all_tables()
+    {
+        // Arrange
+        var subjectDataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+        var expectationDataSet = new TypedDataSetSubclass(subjectDataSet);
+
+        var subject = subjectDataSet.TypedDataTable1.DecimalColumn;
+        var expectation = expectationDataSet.TypedDataTable1.DecimalColumn;
+
+        expectation.Unique = true;
+        expectation.Caption = "Test";
+
+        // Act & Assert
+        subject.Should().BeEquivalentTo(expectation, options => options
+            .ExcludingColumnInAllTables(expectation.ColumnName));
+    }
+
+    [Fact]
+    public void When_DataColumn_has_changes_but_is_excluded_as_params_it_should_succeed()
+    {
+        // Arrange
+        var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
+        var dataSet2 = new TypedDataSetSubclass(dataSet1);
+
+        var dataColumn1 = dataSet1.TypedDataTable1.DecimalColumn;
+        var dataColumn2 = dataSet2.TypedDataTable1.DecimalColumn;
+
+        dataColumn2.Unique = true;
+        dataColumn2.Caption = "Test";
+
+        // Act & Assert
+        dataColumn1.Should().BeEquivalentTo(dataColumn2, options => options
+            .ExcludingColumns(dataColumn2));
+    }
+
+    [Fact]
+    public void When_DataColumn_has_changes_but_is_excluded_as_enumerable_it_should_succeed()
+    {
+        // Arrange
+        var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
+        var dataSet2 = new TypedDataSetSubclass(dataSet1);
+
+        var dataColumn1 = dataSet1.TypedDataTable1.DecimalColumn;
+        var dataColumn2 = dataSet2.TypedDataTable1.DecimalColumn;
+
+        dataColumn2.Unique = true;
+        dataColumn2.Caption = "Test";
+
+        // Act & Assert
+        IEnumerable<DataColumn> excludedColumns = new[] { dataColumn2 };
+
+        dataColumn1.Should().BeEquivalentTo(dataColumn2, options => options
+            .ExcludingColumns(excludedColumns));
+    }
+
+    [Fact]
     public void When_DataColumn_has_changes_but_is_excluded_it_should_succeed_when_compared_via_DataTable()
     {
         // Arrange
@@ -93,7 +150,7 @@ public class DataColumnSpecs : DataSpecs
         // Act & Assert
         dataTable1.Should().BeEquivalentTo(dataTable2, options => options
             .ExcludingColumn(dataTable2.DecimalColumn)
-            .ExcludingRelated((DataTable dataTable) => dataTable.Constraints));
+            .ExcludingRelated(dataTable => dataTable.Constraints));
     }
 
     [Fact]
@@ -111,7 +168,7 @@ public class DataColumnSpecs : DataSpecs
         // Act & Assert
         dataSet1.Should().BeEquivalentTo(dataSet2, options => options
             .ExcludingColumn(dataTable2.DecimalColumn)
-            .ExcludingRelated((DataTable dataTable) => dataTable.Constraints));
+            .ExcludingRelated(dataTable => dataTable.Constraints));
     }
 
     [Fact]

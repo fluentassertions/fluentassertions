@@ -18,24 +18,25 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
         if (comparands.Expectation is null)
         {
             AssertionScope.Current
-            .BecauseOf(context.Reason)
-            .FailWith(
-                "Expected {context:subject} to be <null>{reason}, but found {0}.",
-                comparands.Subject);
+                .BecauseOf(context.Reason)
+                .FailWith(
+                    "Expected {context:subject} to be <null>{reason}, but found {0}.",
+                    comparands.Subject);
         }
         else if (comparands.Subject is null)
         {
             AssertionScope.Current
-            .BecauseOf(context.Reason)
-            .FailWith(
-                "Expected {context:object} to be {0}{reason}, but found {1}.",
-                comparands.Expectation,
-                comparands.Subject);
+                .BecauseOf(context.Reason)
+                .FailWith(
+                    "Expected {context:object} to be {0}{reason}, but found {1}.",
+                    comparands.Expectation,
+                    comparands.Subject);
         }
         else
         {
             IMember[] selectedMembers = GetMembersFromExpectation(context.CurrentNode, comparands, context.Options).ToArray();
-            if (context.CurrentNode.IsRoot && !selectedMembers.Any())
+
+            if (context.CurrentNode.IsRoot && selectedMembers.Length == 0)
             {
                 throw new InvalidOperationException(
                     "No members were found for comparison. " +
@@ -55,6 +56,7 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
         IEquivalencyValidator parent, IMember selectedMember, IEquivalencyAssertionOptions options)
     {
         IMember matchingMember = FindMatchFor(selectedMember, context.CurrentNode, comparands.Subject, options);
+
         if (matchingMember is not null)
         {
             var nestedComparands = new Comparands

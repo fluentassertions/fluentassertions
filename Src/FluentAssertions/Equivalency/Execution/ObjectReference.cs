@@ -13,14 +13,14 @@ internal class ObjectReference
 {
     private readonly object @object;
     private readonly string path;
-    private readonly bool? isComplexType;
+    private readonly bool? compareByMembers;
     private string[] pathElements;
 
-    public ObjectReference(object @object, string path, bool? isComplexType = null)
+    public ObjectReference(object @object, string path, bool? compareByMembers = null)
     {
         this.@object = @object;
         this.path = path;
-        this.isComplexType = isComplexType;
+        this.compareByMembers = compareByMembers;
     }
 
     /// <summary>
@@ -39,17 +39,17 @@ internal class ObjectReference
 
     private string[] GetPathElements() => pathElements
         ??= path.ToUpperInvariant().Replace("][", "].[", StringComparison.Ordinal)
-                .Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+            .Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
 
     private bool IsParentOrChildOf(ObjectReference other)
     {
-        string[] path = GetPathElements();
+        string[] elements = GetPathElements();
         string[] otherPath = other.GetPathElements();
 
-        int commonElements = Math.Min(path.Length, otherPath.Length);
-        int longerPathAdditionalElements = Math.Max(path.Length, otherPath.Length) - commonElements;
+        int commonElements = Math.Min(elements.Length, otherPath.Length);
+        int longerPathAdditionalElements = Math.Max(elements.Length, otherPath.Length) - commonElements;
 
-        return (longerPathAdditionalElements > 0) && otherPath.Take(commonElements).SequenceEqual(path.Take(commonElements));
+        return longerPathAdditionalElements > 0 && otherPath.Take(commonElements).SequenceEqual(elements.Take(commonElements));
     }
 
     /// <summary>
@@ -69,5 +69,5 @@ internal class ObjectReference
         return Invariant($"{{\"{path}\", {@object}}}");
     }
 
-    public bool IsComplexType => isComplexType ?? (@object is not null && !@object.GetType().OverridesEquals());
+    public bool CompareByMembers => compareByMembers ?? (@object?.GetType().OverridesEquals() == false);
 }

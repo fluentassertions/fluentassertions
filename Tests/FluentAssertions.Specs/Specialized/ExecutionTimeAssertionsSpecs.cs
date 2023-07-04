@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions.Extensions;
@@ -84,6 +85,21 @@ public class ExecutionTimeAssertionsSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "*action should be less than or equal to 100ms, but it required more than*");
+        }
+
+        [Fact]
+        public void Actions_with_brackets_fail_with_correctly_formatted_message()
+        {
+            // Arrange
+            var subject = new List<object>();
+
+            // Act
+            Action act = () =>
+                subject.ExecutionTimeOf(s => s.AddRange(new object[] { })).Should().BeLessOrEqualTo(1.Nanoseconds());
+
+            // Assert
+            act.Should().ThrowExactly<XunitException>()
+                .Which.Message.Should().Contain("{}").And.NotContain("{0}");
         }
     }
 
@@ -189,6 +205,20 @@ public class ExecutionTimeAssertionsSpecs
             act.Should().Throw<XunitException>().WithMessage(
                 "*action should be less than 100ms, but it required more than*");
         }
+
+        [Fact]
+        public void Actions_with_brackets_fail_with_correctly_formatted_message()
+        {
+            // Arrange
+            var subject = new List<object>();
+
+            // Act
+            Action act = () => subject.ExecutionTimeOf(s => s.AddRange(new object[] { })).Should().BeLessThan(1.Nanoseconds());
+
+            // Assert
+            act.Should().ThrowExactly<XunitException>()
+                .Which.Message.Should().Contain("{}").And.NotContain("{0}");
+        }
     }
 
     public class BeGreaterThanOrEqualTo
@@ -264,6 +294,21 @@ public class ExecutionTimeAssertionsSpecs
 
             // Assert
             act.Should().NotThrow<XunitException>();
+        }
+
+        [Fact]
+        public void Actions_with_brackets_fail_with_correctly_formatted_message()
+        {
+            // Arrange
+            var subject = new List<object>();
+
+            // Act
+            Action act = () =>
+                subject.ExecutionTimeOf(s => s.AddRange(new object[] { })).Should().BeGreaterThanOrEqualTo(1.Days());
+
+            // Assert
+            act.Should().ThrowExactly<XunitException>()
+                .Which.Message.Should().Contain("{}").And.NotContain("{0}");
         }
     }
 
@@ -341,6 +386,20 @@ public class ExecutionTimeAssertionsSpecs
             // Assert
             act.Should().NotThrow<XunitException>();
         }
+
+        [Fact]
+        public void Actions_with_brackets_fail_with_correctly_formatted_message()
+        {
+            // Arrange
+            var subject = new List<object>();
+
+            // Act
+            Action act = () => subject.ExecutionTimeOf(s => s.AddRange(new object[] { })).Should().BeGreaterThan(1.Days());
+
+            // Assert
+            act.Should().ThrowExactly<XunitException>()
+                .Which.Message.Should().Contain("{}").And.NotContain("{0}");
+        }
     }
 
     public class BeCloseTo
@@ -357,7 +416,8 @@ public class ExecutionTimeAssertionsSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -436,6 +496,21 @@ public class ExecutionTimeAssertionsSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "*action should be within 50ms from 100ms, but it required*");
+        }
+
+        [Fact]
+        public void Actions_with_brackets_fail_with_correctly_formatted_message()
+        {
+            // Arrange
+            var subject = new List<object>();
+
+            // Act
+            Action act = () => subject.ExecutionTimeOf(s => s.AddRange(new object[] { }))
+                .Should().BeCloseTo(1.Days(), 50.Milliseconds());
+
+            // Assert
+            act.Should().ThrowExactly<XunitException>()
+                .Which.Message.Should().Contain("{}").And.NotContain("{0}");
         }
     }
 
@@ -542,6 +617,20 @@ public class ExecutionTimeAssertionsSpecs
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("action");
+        }
+
+        [Fact]
+        public void When_accidentally_using_equals_it_should_throw_a_helpful_error()
+        {
+            // Arrange
+            var subject = new object();
+
+            // Act
+            Action act = () => subject.ExecutionTimeOf(s => s.ToString()).Should().Equals(1.Seconds());
+
+            // Assert
+            act.Should().Throw<NotSupportedException>().WithMessage(
+                "Equals is not part of Fluent Assertions. Did you mean BeLessThanOrEqualTo() or BeGreaterThanOrEqualTo() instead?");
         }
     }
 

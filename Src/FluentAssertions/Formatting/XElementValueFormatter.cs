@@ -12,7 +12,7 @@ public class XElementValueFormatter : IValueFormatter
     /// </summary>
     /// <param name="value">The value for which to create a <see cref="string"/>.</param>
     /// <returns>
-    /// <c>true</c> if the current <see cref="IValueFormatter"/> can handle the specified value; otherwise, <c>false</c>.
+    /// <see langword="true"/> if the current <see cref="IValueFormatter"/> can handle the specified value; otherwise, <see langword="false"/>.
     /// </returns>
     public bool CanHandle(object value)
     {
@@ -39,7 +39,7 @@ public class XElementValueFormatter : IValueFormatter
 
         // Can't use env.newline because the input doc may have unix or windows style
         // line-breaks
-        string firstLine = lines.First().RemoveNewLines();
+        string firstLine = lines[0].RemoveNewLines();
         string lastLine = lines.Last().RemoveNewLines();
 
         string formattedElement = firstLine + "…" + lastLine;

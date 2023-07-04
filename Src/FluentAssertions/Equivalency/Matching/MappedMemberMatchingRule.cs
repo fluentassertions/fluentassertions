@@ -17,12 +17,12 @@ internal class MappedMemberMatchingRule<TExpectation, TSubject> : IMemberMatchin
     {
         if (Regex.IsMatch(expectationMemberName, @"[\.\[\]]"))
         {
-            throw new ArgumentException("The expectation's member name cannot be a nested path");
+            throw new ArgumentException("The expectation's member name cannot be a nested path", nameof(expectationMemberName));
         }
 
-        if (Regex.IsMatch(subjectMemberName, $@"[\.\[\]]"))
+        if (Regex.IsMatch(subjectMemberName, @"[\.\[\]]"))
         {
-            throw new ArgumentException("The subject's member name cannot be a nested path");
+            throw new ArgumentException("The subject's member name cannot be a nested path", nameof(subjectMemberName));
         }
 
         this.expectationMemberName = expectationMemberName;
@@ -31,19 +31,13 @@ internal class MappedMemberMatchingRule<TExpectation, TSubject> : IMemberMatchin
 
     public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions options)
     {
-        if (parent.Type.IsSameOrInherits(typeof(TExpectation)) && subject is TSubject)
+        if (parent.Type.IsSameOrInherits(typeof(TExpectation)) && subject is TSubject &&
+            expectedMember.Name == expectationMemberName)
         {
-            if (expectedMember.Name == expectationMemberName)
-            {
-                var member = MemberFactory.Find(subject, subjectMemberName, expectedMember.Type, parent);
-                if (member is null)
-                {
-                    throw new ArgumentException(
-                        $"Subject of type {typeof(TSubject)} does not have member {subjectMemberName}");
-                }
+            var member = MemberFactory.Find(subject, subjectMemberName, parent);
 
-                return member;
-            }
+            return member ?? throw new MissingMemberException(
+                $"Subject of type {typeof(TSubject)} does not have member {subjectMemberName}");
         }
 
         return null;

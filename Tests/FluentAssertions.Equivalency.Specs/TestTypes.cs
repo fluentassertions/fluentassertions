@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
+// ReSharper disable NotAccessedField.Global
+// ReSharper disable NotAccessedField.Local
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable UnusedMember.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 #pragma warning disable SA1649
 
 namespace FluentAssertions.Equivalency.Specs;
@@ -22,7 +27,7 @@ public enum EnumLong : long
 
 public class ClassOne
 {
-    public ClassTwo RefOne { get; set; } = new ClassTwo();
+    public ClassTwo RefOne { get; set; } = new();
 
     public int ValOne { get; set; } = 1;
 }
@@ -137,34 +142,6 @@ internal struct StructWithNoMembers
 {
 }
 
-internal class ClassWithInfinitelyRecursiveProperty
-{
-    public ClassWithInfinitelyRecursiveProperty Self
-    {
-        get { return new ClassWithInfinitelyRecursiveProperty(); }
-    }
-}
-
-internal class ClassWithFiniteRecursiveProperty
-{
-    private readonly int depth;
-
-    public ClassWithFiniteRecursiveProperty(int recursiveDepth)
-    {
-        depth = recursiveDepth;
-    }
-
-    public ClassWithFiniteRecursiveProperty Self
-    {
-        get
-        {
-            return depth > 0
-                ? new ClassWithFiniteRecursiveProperty(depth - 1)
-                : null;
-        }
-    }
-}
-
 internal class ClassWithSomeFieldsAndProperties
 {
     public string Field1;
@@ -182,11 +159,15 @@ internal class ClassWithSomeFieldsAndProperties
 
 internal class ClassWithCctor
 {
-    static ClassWithCctor() { }
+    // ReSharper disable once EmptyConstructor
+    static ClassWithCctor()
+    {
+    }
 }
 
 internal class ClassWithCctorAndNonDefaultConstructor
 {
+    // ReSharper disable once EmptyConstructor
     static ClassWithCctorAndNonDefaultConstructor() { }
 
     public ClassWithCctorAndNonDefaultConstructor(int _) { }
@@ -267,11 +248,11 @@ public class CustomerType
         Code = code;
     }
 
-    public string Code { get; private set; }
+    public string Code { get; }
 
     public override bool Equals(object obj)
     {
-        return (obj is CustomerType other) && Code == other.Code;
+        return obj is CustomerType other && Code == other.Code;
     }
 
     public override int GetHashCode()
@@ -286,7 +267,7 @@ public class CustomerType
             return true;
         }
 
-        if ((a is null) || (b is null))
+        if (a is null || b is null)
         {
             return false;
         }
@@ -563,7 +544,7 @@ public class CyclicRoot
 
 public class CyclicRootWithValueObject
 {
-    public ValueObject Object { get; set; }
+    public ValueObject Value { get; set; }
 
     public CyclicLevelWithValueObject Level { get; set; }
 }
@@ -597,7 +578,7 @@ public class CyclicLevel1
 
 public class CyclicLevelWithValueObject
 {
-    public ValueObject Object { get; set; }
+    public ValueObject Value { get; set; }
 
     public CyclicRootWithValueObject Root { get; set; }
 }

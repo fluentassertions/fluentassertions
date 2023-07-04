@@ -26,11 +26,11 @@ internal class CyclicReferenceDetector : ICloneable2
     {
         bool isCyclic = false;
 
-        if (reference.IsComplexType)
+        if (reference.CompareByMembers)
         {
             isCyclic = !observedReferences.Add(reference);
 
-            if (isCyclic && (handling == CyclicReferenceHandling.ThrowException))
+            if (isCyclic && handling == CyclicReferenceHandling.ThrowException)
             {
                 AssertionScope.Current
                     .BecauseOf(reason)

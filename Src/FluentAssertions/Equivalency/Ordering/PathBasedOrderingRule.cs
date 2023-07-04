@@ -16,12 +16,15 @@ internal class PathBasedOrderingRule : IOrderingRule
         this.path = path;
     }
 
+    public bool Invert { get; init; }
+
     /// <summary>
     /// Determines if ordering of the member referred to by the current <paramref name="objectInfo"/> is relevant.
     /// </summary>
     public OrderStrictness Evaluate(IObjectInfo objectInfo)
     {
         string currentPropertyPath = objectInfo.Path;
+
         if (!ContainsIndexingQualifiers(path))
         {
             currentPropertyPath = RemoveInitialIndexQualifier(currentPropertyPath);
@@ -29,26 +32,25 @@ internal class PathBasedOrderingRule : IOrderingRule
 
         if (currentPropertyPath.Equals(path, StringComparison.OrdinalIgnoreCase))
         {
-            return OrderStrictness.Strict;
+            return Invert ? OrderStrictness.NotStrict : OrderStrictness.Strict;
         }
-        else
-        {
-            return OrderStrictness.Irrelevant;
-        }
+
+        return OrderStrictness.Irrelevant;
     }
 
     private static bool ContainsIndexingQualifiers(string path)
     {
-        return path.Contains("[", StringComparison.Ordinal) && path.Contains("]", StringComparison.Ordinal);
+        return path.Contains('[', StringComparison.Ordinal) && path.Contains(']', StringComparison.Ordinal);
     }
 
     private string RemoveInitialIndexQualifier(string sourcePath)
     {
-        var indexQualifierRegex = new Regex(@"^\[\d+]\.");
+        var indexQualifierRegex = new Regex(@"^\[[0-9]+]\.");
 
         if (!indexQualifierRegex.IsMatch(path))
         {
             Match match = indexQualifierRegex.Match(sourcePath);
+
             if (match.Success)
             {
                 sourcePath = sourcePath.Substring(match.Length);
@@ -60,6 +62,6 @@ internal class PathBasedOrderingRule : IOrderingRule
 
     public override string ToString()
     {
-        return "Be strict about the order of collection items when path is " + path;
+        return $"Be {(Invert ? "not strict" : "strict")} about the order of collection items when path is " + path;
     }
 }

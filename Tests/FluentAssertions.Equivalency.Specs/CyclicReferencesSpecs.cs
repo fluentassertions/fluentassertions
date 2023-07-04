@@ -9,16 +9,55 @@ namespace FluentAssertions.Equivalency.Specs;
 public class CyclicReferencesSpecs
 {
     [Fact]
-    public void When_validating_nested_properties_that_have_cyclic_references_it_should_throw()
+    public void Graphs_up_to_the_maximum_depth_are_supported()
     {
         // Arrange
-        var cyclicRoot = new CyclicRoot { Text = "Root" };
+        var actual = new ClassWithFiniteRecursiveProperty(recursiveDepth: 10);
+        var expectation = new ClassWithFiniteRecursiveProperty(recursiveDepth: 10);
 
-        cyclicRoot.Level = new CyclicLevel1 { Text = "Level1", Root = cyclicRoot };
+        // Act/Assert
+        actual.Should().BeEquivalentTo(expectation);
+    }
 
-        var cyclicRootDto = new CyclicRootDto { Text = "Root" };
+    [Fact]
+    public void Graphs_deeper_than_the_maximum_depth_are_not_supported()
+    {
+        // Arrange
+        var actual = new ClassWithFiniteRecursiveProperty(recursiveDepth: 11);
+        var expectation = new ClassWithFiniteRecursiveProperty(recursiveDepth: 11);
 
-        cyclicRootDto.Level = new CyclicLevel1Dto { Text = "Level1", Root = cyclicRootDto };
+        // Act
+        Action act = () => actual.Should().BeEquivalentTo(expectation);
+
+        // Assert
+        act.Should().Throw<XunitException>().WithMessage("*maximum*depth*10*");
+    }
+
+    [Fact]
+    public void By_default_cyclic_references_are_not_valid()
+    {
+        // Arrange
+        var cyclicRoot = new CyclicRoot
+        {
+            Text = "Root"
+        };
+
+        cyclicRoot.Level = new CyclicLevel1
+        {
+            Text = "Level1",
+            Root = cyclicRoot
+        };
+
+        var cyclicRootDto = new CyclicRootDto
+        {
+            Text = "Root"
+        };
+
+        cyclicRootDto.Level = new CyclicLevel1Dto
+        {
+            Text = "Level1",
+            Root = cyclicRootDto
+        };
 
         // Act
         Action act = () => cyclicRoot.Should().BeEquivalentTo(cyclicRootDto);
@@ -30,25 +69,7 @@ public class CyclicReferencesSpecs
     }
 
     [Fact]
-    public void When_validating_nested_properties_and_ignoring_cyclic_references_it_should_succeed()
-    {
-        // Arrange
-        var cyclicRoot = new CyclicRoot { Text = "Root" };
-        cyclicRoot.Level = new CyclicLevel1 { Text = "Level1", Root = cyclicRoot };
-
-        var cyclicRootDto = new CyclicRootDto { Text = "Root" };
-        cyclicRootDto.Level = new CyclicLevel1Dto { Text = "Level1", Root = cyclicRootDto };
-
-        // Act
-        Action act = () =>
-            cyclicRoot.Should().BeEquivalentTo(cyclicRootDto, options => options.IgnoringCyclicReferences());
-
-        // Assert
-        act.Should().NotThrow();
-    }
-
-    [Fact]
-    public void When_two_cyclic_graphs_are_equivalent_when_ignoring_cycle_references_it_should_succeed()
+    public void Two_graphs_with_ignored_cyclic_references_can_be_compared()
     {
         // Arrange
         var actual = new Parent();
@@ -68,14 +89,14 @@ public class CyclicReferencesSpecs
         act.Should().NotThrow();
     }
 
-    public class Parent
+    private class Parent
     {
         public Child Child1 { get; set; }
 
         public Child Child2 { get; set; }
     }
 
-    public class Child
+    private class Child
     {
         public Child(Parent parent, int stuff = 0)
         {
@@ -83,51 +104,69 @@ public class CyclicReferencesSpecs
             Stuff = stuff;
         }
 
-        public Parent Parent { get; set; }
+        public Parent Parent { get; }
 
-        public int Stuff { get; set; }
+        public int Stuff { get; }
     }
 
     [Fact]
-    public void When_validating_nested_properties_that_are_null_it_should_not_throw_on_cyclic_references()
+    public void Nested_properties_that_are_null_are_not_treated_as_cyclic_references()
     {
         // Arrange
-        var actual = new CyclicRoot { Text = null };
+        var actual = new CyclicRoot
+        {
+            Text = null,
+            Level = new CyclicLevel1
+            {
+                Text = null,
+                Root = null
+            }
+        };
 
-        actual.Level = new CyclicLevel1 { Text = null, Root = null };
+        var expectation = new CyclicRootDto
+        {
+            Text = null,
+            Level = new CyclicLevel1Dto
+            {
+                Text = null,
+                Root = null
+            }
+        };
 
-        var expectation = new CyclicRootDto { Text = null };
-
-        expectation.Level = new CyclicLevel1Dto { Text = null, Root = null };
-
-        // Act
-        Action act = () => actual.Should().BeEquivalentTo(expectation);
-
-        // Assert
-        act.Should().NotThrow();
+        // Act / Assert
+        actual.Should().BeEquivalentTo(expectation);
     }
 
     [Fact]
-    public void When_the_graph_contains_the_same_value_object_it_should_not_be_treated_as_a_cyclic_reference()
+    public void Equivalent_value_objects_are_not_treated_as_cyclic_references()
     {
         // Arrange
-        var actual = new CyclicRootWithValueObject { Object = new ValueObject("MyValue") };
+        var actual = new CyclicRootWithValueObject
+        {
+            Value = new ValueObject("MyValue"),
+            Level = new CyclicLevelWithValueObject
+            {
+                Value = new ValueObject("MyValue"),
+                Root = null
+            }
+        };
 
-        actual.Level = new CyclicLevelWithValueObject { Object = new ValueObject("MyValue"), Root = null };
+        var expectation = new CyclicRootWithValueObject
+        {
+            Value = new ValueObject("MyValue"),
+            Level = new CyclicLevelWithValueObject
+            {
+                Value = new ValueObject("MyValue"),
+                Root = null
+            }
+        };
 
-        var expectation = new CyclicRootWithValueObject { Object = new ValueObject("MyValue") };
-
-        expectation.Level = new CyclicLevelWithValueObject { Object = new ValueObject("MyValue"), Root = null };
-
-        // Act
-        Action act = () => actual.Should().BeEquivalentTo(expectation);
-
-        // Assert
-        act.Should().NotThrow();
+        // Act  / Assert
+        actual.Should().BeEquivalentTo(expectation);
     }
 
     [Fact]
-    public void When_asserting_types_with_infinite_object_graphs_are_equivalent_it_should_not_overflow_the_stack()
+    public void Cyclic_references_do_not_trigger_stack_overflows()
     {
         // Arrange
         var recursiveClass1 = new ClassWithInfinitelyRecursiveProperty();
@@ -142,24 +181,18 @@ public class CyclicReferencesSpecs
     }
 
     [Fact]
-    public void
-        When_asserting_equivalence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion()
+    public void Cyclic_references_can_be_ignored_in_equivalency_assertions()
     {
         // Arrange
         var recursiveClass1 = new ClassWithFiniteRecursiveProperty(15);
         var recursiveClass2 = new ClassWithFiniteRecursiveProperty(15);
 
-        // Act
-        Action act =
-            () => recursiveClass1.Should().BeEquivalentTo(recursiveClass2,
-                options => options.AllowingInfiniteRecursion());
-
-        // Assert
-        act.Should().NotThrow();
+        // Act / Assert
+        recursiveClass1.Should().BeEquivalentTo(recursiveClass2, options => options.AllowingInfiniteRecursion());
     }
 
     [Fact]
-    public void Allowing_infinite_recursion_is_described_in_the_failure_message()
+    public void Allowing_infinite_recursion_is_reported_in_the_failure_message()
     {
         // Arrange
         var recursiveClass1 = new ClassWithFiniteRecursiveProperty(1);
@@ -175,59 +208,29 @@ public class CyclicReferencesSpecs
     }
 
     [Fact]
-    public void When_injecting_a_null_config_to_BeEquivalentTo_it_should_throw()
-    {
-        // Arrange
-        var recursiveClass1 = new ClassWithFiniteRecursiveProperty(15);
-        var recursiveClass2 = new ClassWithFiniteRecursiveProperty(15);
-
-        // Act
-        Action act = () => recursiveClass1.Should().BeEquivalentTo(recursiveClass2, config: null);
-
-        // Assert
-        act.Should().ThrowExactly<ArgumentNullException>()
-            .WithParameterName("config");
-    }
-
-    [Fact]
-    public void
-        When_asserting_inequivalence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion()
+    public void Can_ignore_cyclic_references_for_inequivalency_assertions()
     {
         // Arrange
         var recursiveClass1 = new ClassWithFiniteRecursiveProperty(15);
         var recursiveClass2 = new ClassWithFiniteRecursiveProperty(16);
 
-        // Act
-        Action act =
-            () => recursiveClass1.Should().NotBeEquivalentTo(recursiveClass2,
+        // Act / Assert
+        recursiveClass1.Should().NotBeEquivalentTo(recursiveClass2,
                 options => options.AllowingInfiniteRecursion());
-
-        // Assert
-        act.Should().NotThrow();
     }
 
     [Fact]
-    public void When_injecting_a_null_config_to_NotBeEquivalentTo_it_should_throw()
-    {
-        // Arrange
-        var recursiveClass1 = new ClassWithFiniteRecursiveProperty(15);
-        var recursiveClass2 = new ClassWithFiniteRecursiveProperty(16);
-
-        // Act
-        Action act = () => recursiveClass1.Should().NotBeEquivalentTo(recursiveClass2, config: null);
-
-        // Assert
-        act.Should().ThrowExactly<ArgumentNullException>()
-            .WithParameterName("config");
-    }
-
-    [Fact]
-    public void When_an_enumerable_collection_returns_itself_it_should_detect_the_cyclic_reference()
+    public void Can_detect_cyclic_references_in_enumerables()
     {
         // Act
         var instance1 = new SelfReturningEnumerable();
         var instance2 = new SelfReturningEnumerable();
-        var actual = new List<SelfReturningEnumerable> { instance1, instance2 };
+
+        var actual = new List<SelfReturningEnumerable>
+        {
+            instance1,
+            instance2
+        };
 
         // Assert
         Action act = () => actual.Should().BeEquivalentTo(
@@ -251,62 +254,81 @@ public class CyclicReferencesSpecs
         }
     }
 
-    internal class LogbookEntryProjection
-    {
-        public virtual LogbookCode Logbook { get; set; }
-
-        public virtual ICollection<LogbookRelation> LogbookRelations { get; set; }
-    }
-
-    internal class LogbookRelation
-    {
-        public virtual LogbookCode Logbook { get; set; }
-    }
-
-    internal class LogbookCode
-    {
-        public LogbookCode(string key)
-        {
-            Key = key;
-        }
-
-        public string Key { get; protected set; }
-    }
-
     [Fact]
-    public void When_the_root_object_is_referenced_from_a_nested_object_it_should_treat_it_as_a_cyclic_reference()
+    public void Can_detect_cyclic_references_in_nested_objects_referring_to_the_root()
     {
         // Arrange
-        var company1 = new MyCompany { Name = "Company" };
-        var user1 = new MyUser { Name = "User", Company = company1 };
-        var logo1 = new MyCompanyLogo { Url = "blank", Company = company1, CreatedBy = user1 };
+        var company1 = new MyCompany
+        {
+            Name = "Company"
+        };
+
+        var user1 = new MyUser
+        {
+            Name = "User",
+            Company = company1
+        };
+
+        var logo1 = new MyCompanyLogo
+        {
+            Url = "blank",
+            Company = company1,
+            CreatedBy = user1
+        };
+
         company1.Logo = logo1;
 
-        var company2 = new MyCompany { Name = "Company" };
-        var user2 = new MyUser { Name = "User", Company = company2 };
-        var logo2 = new MyCompanyLogo { Url = "blank", Company = company2, CreatedBy = user2 };
+        var company2 = new MyCompany
+        {
+            Name = "Company"
+        };
+
+        var user2 = new MyUser
+        {
+            Name = "User",
+            Company = company2
+        };
+
+        var logo2 = new MyCompanyLogo
+        {
+            Url = "blank",
+            Company = company2,
+            CreatedBy = user2
+        };
+
         company2.Logo = logo2;
 
-        // Act
-        Action action = () => company1.Should().BeEquivalentTo(company2, o => o.IgnoringCyclicReferences());
-
-        // Assert
-        action.Should().NotThrow();
+        // Act / Assert
+        company1.Should().BeEquivalentTo(company2, o => o.IgnoringCyclicReferences());
     }
 
     [Fact]
     public void Allow_ignoring_cyclic_references_in_value_types_compared_by_members()
     {
         // Arrange
-        var expectation = new ValueTypeCircularDependency() { Title = "First" };
+        var expectation = new ValueTypeCircularDependency
+        {
+            Title = "First"
+        };
 
-        var second = new ValueTypeCircularDependency() { Title = "Second", Previous = expectation };
+        var second = new ValueTypeCircularDependency
+        {
+            Title = "Second",
+            Previous = expectation
+        };
 
         expectation.Next = second;
 
-        var subject = new ValueTypeCircularDependency() { Title = "First" };
+        var subject = new ValueTypeCircularDependency
+        {
+            Title = "First"
+        };
 
-        var secondCopy = new ValueTypeCircularDependency() { Title = "SecondDifferent", Previous = subject };
+        var secondCopy = new ValueTypeCircularDependency
+        {
+            Title = "SecondDifferent",
+            Previous = subject
+        };
 
         subject.Next = secondCopy;
 
@@ -322,7 +344,7 @@ public class CyclicReferencesSpecs
             .Which.Message.Should().NotContain("maximum recursion depth was reached");
     }
 
-    public class ValueTypeCircularDependency
+    private class ValueTypeCircularDependency
     {
         public string Title { get; set; }
 
@@ -337,12 +359,40 @@ public class CyclicReferencesSpecs
                 return true;
             }
 
-            return (obj is ValueTypeCircularDependency baseObj) && baseObj.Title == Title;
+            return obj is ValueTypeCircularDependency baseObj && baseObj.Title == Title;
         }
 
         public override int GetHashCode()
         {
             return Title.GetHashCode();
+        }
+    }
+
+    private class ClassWithInfinitelyRecursiveProperty
+    {
+        public ClassWithInfinitelyRecursiveProperty Self
+        {
+            get { return new ClassWithInfinitelyRecursiveProperty(); }
+        }
+    }
+
+    private class ClassWithFiniteRecursiveProperty
+    {
+        private readonly int depth;
+
+        public ClassWithFiniteRecursiveProperty(int recursiveDepth)
+        {
+            depth = recursiveDepth;
+        }
+
+        public ClassWithFiniteRecursiveProperty Self
+        {
+            get
+            {
+                return depth > 0
+                    ? new ClassWithFiniteRecursiveProperty(depth - 1)
+                    : null;
+            }
         }
     }
 }

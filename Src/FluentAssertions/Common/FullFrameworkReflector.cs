@@ -20,18 +20,19 @@ internal class FullFrameworkReflector : IReflector
     {
         string assemblyName = ass.GetName().Name;
 
-        return !assemblyName.StartsWith("microsoft.", StringComparison.OrdinalIgnoreCase) &&
-               !assemblyName.StartsWith("xunit", StringComparison.OrdinalIgnoreCase) &&
-               !assemblyName.StartsWith("jetbrains.", StringComparison.OrdinalIgnoreCase) &&
-               !assemblyName.StartsWith("system", StringComparison.OrdinalIgnoreCase) &&
-               !assemblyName.StartsWith("mscorlib", StringComparison.OrdinalIgnoreCase) &&
-               !assemblyName.StartsWith("newtonsoft", StringComparison.OrdinalIgnoreCase);
+        return
+            !assemblyName.StartsWith("microsoft.", StringComparison.OrdinalIgnoreCase) &&
+            !assemblyName.StartsWith("xunit", StringComparison.OrdinalIgnoreCase) &&
+            !assemblyName.StartsWith("jetbrains.", StringComparison.OrdinalIgnoreCase) &&
+            !assemblyName.StartsWith("system", StringComparison.OrdinalIgnoreCase) &&
+            !assemblyName.StartsWith("mscorlib", StringComparison.OrdinalIgnoreCase) &&
+            !assemblyName.StartsWith("newtonsoft", StringComparison.OrdinalIgnoreCase);
     }
 
     private static bool IsDynamic(Assembly assembly)
     {
-        return (assembly.GetType().FullName == "System.Reflection.Emit.AssemblyBuilder") ||
-               (assembly.GetType().FullName == "System.Reflection.Emit.InternalAssemblyBuilder");
+        return assembly.GetType().FullName is "System.Reflection.Emit.AssemblyBuilder"
+            or "System.Reflection.Emit.InternalAssemblyBuilder";
     }
 
     private static IEnumerable<Type> GetExportedTypes(Assembly assembly)
@@ -46,11 +47,11 @@ internal class FullFrameworkReflector : IReflector
         }
         catch (FileLoadException)
         {
-            return new Type[0];
+            return Enumerable.Empty<Type>();
         }
         catch (Exception)
         {
-            return new Type[0];
+            return Array.Empty<Type>();
         }
     }
 }

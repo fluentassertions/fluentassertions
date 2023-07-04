@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
@@ -17,7 +18,7 @@ public class SimpleTimeSpanAssertions : SimpleTimeSpanAssertions<SimpleTimeSpanA
     }
 }
 
-#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CS0659, S1206 // Ignore not overriding Object.GetHashCode()
 #pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
 /// <summary>
 /// Contains a number of methods to assert that a nullable <see cref="TimeSpan"/> is in the expected state.
@@ -165,7 +166,8 @@ public class SimpleTimeSpanAssertions<TAssertions>
     }
 
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<TAssertions> BeLessOrEqualTo(TimeSpan expected, string because = "", params object[] becauseArgs) => BeLessThanOrEqualTo(expected, because, becauseArgs);
+    public AndConstraint<TAssertions> BeLessOrEqualTo(TimeSpan expected, string because = "", params object[] becauseArgs) =>
+        BeLessThanOrEqualTo(expected, because, becauseArgs);
 
     /// <summary>
     /// Asserts that the time difference of the current <see cref="TimeSpan"/> is greater than the
@@ -213,7 +215,8 @@ public class SimpleTimeSpanAssertions<TAssertions>
     }
 
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<TAssertions> BeGreaterOrEqualTo(TimeSpan expected, string because = "", params object[] becauseArgs) => BeGreaterThanOrEqualTo(expected, because, becauseArgs);
+    public AndConstraint<TAssertions> BeGreaterOrEqualTo(TimeSpan expected, string because = "", params object[] becauseArgs) =>
+        BeGreaterThanOrEqualTo(expected, because, becauseArgs);
 
     /// <summary>
     /// Asserts that the current <see cref="TimeSpan"/> is within the specified time
@@ -236,19 +239,17 @@ public class SimpleTimeSpanAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public AndConstraint<TAssertions> BeCloseTo(TimeSpan nearbyTime, TimeSpan precision, string because = "",
         params object[] becauseArgs)
     {
-        if (precision < TimeSpan.Zero)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         TimeSpan minimumValue = nearbyTime - precision;
         TimeSpan maximumValue = nearbyTime + precision;
 
         Execute.Assertion
-            .ForCondition((Subject >= minimumValue) && (Subject.Value <= maximumValue))
+            .ForCondition(Subject >= minimumValue && Subject.Value <= maximumValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:time} to be within {0} from {1}{reason}, but found {2}.",
                 precision,
@@ -278,13 +279,11 @@ public class SimpleTimeSpanAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="precision"/> is negative.</exception>
     public AndConstraint<TAssertions> NotBeCloseTo(TimeSpan distantTime, TimeSpan precision, string because = "",
         params object[] becauseArgs)
     {
-        if (precision < TimeSpan.Zero)
-        {
-            throw new ArgumentOutOfRangeException(nameof(precision), $"The value of {nameof(precision)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(precision);
 
         TimeSpan minimumValue = distantTime - precision;
         TimeSpan maximumValue = distantTime + precision;
@@ -301,5 +300,5 @@ public class SimpleTimeSpanAssertions<TAssertions>
 
     /// <inheritdoc/>
     public override bool Equals(object obj) =>
-        throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
+        throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
 }

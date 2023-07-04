@@ -5,7 +5,6 @@ using System.Linq;
 using FluentAssertions.Execution;
 
 #if NET6_0_OR_GREATER
-
 namespace FluentAssertions.Primitives;
 
 /// <summary>
@@ -20,7 +19,7 @@ public class DateOnlyAssertions : DateOnlyAssertions<DateOnlyAssertions>
     }
 }
 
-#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CS0659, S1206 // Ignore not overriding Object.GetHashCode()
 #pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
 /// <summary>
 /// Contains a number of methods to assert that a <see cref="DateOnly"/> is in the expected state.
@@ -330,7 +329,8 @@ public class DateOnlyAssertions<TAssertions>
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject.HasValue)
-            .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but found a <null> DateOnly.", unexpected)
+            .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but found a <null> DateOnly.",
+                unexpected)
             .Then
             .ForCondition(Subject.Value.Year != unexpected)
             .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but it was.", unexpected,
@@ -500,7 +500,8 @@ public class DateOnlyAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeOneOf(IEnumerable<DateOnly?> validValues, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeOneOf(IEnumerable<DateOnly?> validValues, string because = "",
+        params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(validValues.Contains(Subject))
@@ -512,7 +513,7 @@ public class DateOnlyAssertions<TAssertions>
 
     /// <inheritdoc/>
     public override bool Equals(object obj) =>
-        throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
+        throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
 }
 
 #endif

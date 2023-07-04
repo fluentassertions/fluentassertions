@@ -127,7 +127,8 @@ public class NullableBooleanAssertionSpecs
     }
 
     [Fact]
-    public void When_asserting_nullable_boolean_value_with_a_value_to_be_not_have_a_value_it_should_fail_with_descriptive_message()
+    public void
+        When_asserting_nullable_boolean_value_with_a_value_to_be_not_have_a_value_it_should_fail_with_descriptive_message()
     {
         // Arrange
         bool? nullableBoolean = true;
@@ -213,7 +214,8 @@ public class NullableBooleanAssertionSpecs
 
         // Assert
         action.Should().Throw<XunitException>()
-            .WithMessage("Expected nullableBoolean not to be <null> because we want to test the failure message, but found <null>.");
+            .WithMessage(
+                "Expected nullableBoolean not to be <null> because we want to test the failure message, but found <null>.");
     }
 
     [Fact]

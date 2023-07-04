@@ -13,7 +13,8 @@ public class EqualityComparerEquivalencyStep<T> : IEquivalencyStep
         this.comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
     }
 
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+        IEquivalencyValidator nestedValidator)
     {
         if (comparands.GetExpectedType(context.Options) != typeof(T))
         {

@@ -36,7 +36,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_collection_has_a_count_that_is_different_from_the_number_of_items_it_should_fail_with_descriptive_message_()
+        public void
+            When_collection_has_a_count_that_is_different_from_the_number_of_items_it_should_fail_with_descriptive_message_()
         {
             // Arrange
             var collection = new[] { 1, 2, 3 };
@@ -46,7 +47,8 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected collection to contain 4 item(s) because we want to test the failure message, but found 3: {1, 2, 3}.");
+                .WithMessage(
+                    "Expected collection to contain 4 item(s) because we want to test the failure message, but found 3: {1, 2, 3}.");
         }
 
         [Fact]
@@ -57,6 +59,24 @@ public partial class CollectionAssertionSpecs
 
             // Act / Assert
             collection.Should().HaveCount(c => c >= 3);
+        }
+
+        [Fact]
+        public void When_asserting_a_collection_with_incorrect_predicates_in_assertion_scope_all_are_reported()
+        {
+            // Arrange
+            var collection = new[] { 1, 2, 3 };
+
+            // Act
+            Action act = () =>
+            {
+                using var _ = new AssertionScope();
+                collection.Should().HaveCount(c => c > 3).And.HaveCount(c => c < 3);
+            };
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "*to have a count (c > 3)*to have a count (c < 3)*");
         }
 
         [Fact]
@@ -130,7 +150,7 @@ public partial class CollectionAssertionSpecs
             var collection = new[] { 1, 2, 3 };
 
             // Act
-            Action act = () => collection.Should().HaveCount(c => c % 2 == 1);
+            Action act = () => collection.Should().HaveCount(c => (c % 2) == 1);
 
             // Assert
             act.Should().NotThrow();
@@ -143,7 +163,7 @@ public partial class CollectionAssertionSpecs
             var collection = new[] { 1, 2, 3 };
 
             // Act
-            Action act = () => collection.Should().HaveCount(c => c % 2 == 0);
+            Action act = () => collection.Should().HaveCount(c => (c % 2) == 0);
 
             // Assert
             act.Should().Throw<XunitException>();
@@ -230,7 +250,8 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*not contain*1*we want to test the behaviour with a null subject*found <null>*");
+            act.Should().Throw<XunitException>()
+                .WithMessage("*not contain*1*we want to test the behaviour with a null subject*found <null>*");
         }
     }
 }

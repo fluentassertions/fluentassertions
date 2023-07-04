@@ -28,9 +28,9 @@ internal class EnumerableEquivalencyValidator
         Recursive = false;
     }
 
-    public bool Recursive { get; set; }
+    public bool Recursive { get; init; }
 
-    public OrderingRuleCollection OrderingRules { get; set; }
+    public OrderingRuleCollection OrderingRules { get; init; }
 
     public void Execute<T>(object[] subject, T[] expectation)
     {
@@ -40,12 +40,15 @@ internal class EnumerableEquivalencyValidator
             {
                 using var _ = context.Tracer.WriteBlock(member =>
                     Invariant($"Structurally comparing {subject} and expectation {expectation} at {member.Description}"));
+
                 AssertElementGraphEquivalency(subject, expectation, context.CurrentNode);
             }
             else
             {
                 using var _ = context.Tracer.WriteBlock(member =>
-                    Invariant($"Comparing subject {subject} and expectation {expectation} at {member.Description} using simple value equality"));
+                    Invariant(
+                        $"Comparing subject {subject} and expectation {expectation} at {member.Description} using simple value equality"));
+
                 subject.Should().BeEquivalentTo(expectation);
             }
         }
@@ -89,20 +92,26 @@ internal class EnumerableEquivalencyValidator
     private void AssertElementGraphEquivalencyWithStrictOrdering<T>(object[] subjects, T[] expectations)
     {
         int failedCount = 0;
+
         foreach (int index in Enumerable.Range(0, expectations.Length))
         {
             T expectation = expectations[index];
 
             using var _ = context.Tracer.WriteBlock(member =>
-                Invariant($"Strictly comparing expectation {expectation} at {member.Description} to item with index {index} in {subjects}"));
+                Invariant(
+                    $"Strictly comparing expectation {expectation} at {member.Description} to item with index {index} in {subjects}"));
+
             bool succeeded = StrictlyMatchAgainst(subjects, expectation, index);
+
             if (!succeeded)
             {
                 failedCount++;
+
                 if (failedCount >= FailedItemsFastFailThreshold)
                 {
                     context.Tracer.WriteLine(member =>
                         $"Aborting strict order comparison of collections after {FailedItemsFastFailThreshold} items failed at {member.Description}");
+
                     break;
                 }
             }
@@ -112,20 +121,26 @@ internal class EnumerableEquivalencyValidator
     private void AssertElementGraphEquivalencyWithLooseOrdering<T>(object[] subjects, T[] expectations)
     {
         int failedCount = 0;
+
         foreach (int index in Enumerable.Range(0, expectations.Length))
         {
             T expectation = expectations[index];
 
             using var _ = context.Tracer.WriteBlock(member =>
-                Invariant($"Finding the best match of {expectation} within all items in {subjects} at {member.Description}[{index}]"));
+                Invariant(
+                    $"Finding the best match of {expectation} within all items in {subjects} at {member.Description}[{index}]"));
+
             bool succeeded = LooselyMatchAgainst(subjects, expectation, index);
+
             if (!succeeded)
             {
                 failedCount++;
+
                 if (failedCount >= FailedItemsFastFailThreshold)
                 {
                     context.Tracer.WriteLine(member =>
                         $"Fail failing loose order comparison of collection after {FailedItemsFastFailThreshold} items failed at {member.Description}");
+
                     break;
                 }
             }
@@ -138,7 +153,10 @@ internal class EnumerableEquivalencyValidator
     {
         var results = new AssertionResultSet();
         int index = 0;
-        GetTraceMessage getMessage = member => $"Comparing subject at {member.Description}[{index}] with the expectation at {member.Description}[{expectationIndex}]";
+
+        GetTraceMessage getMessage = member =>
+            $"Comparing subject at {member.Description}[{index}] with the expectation at {member.Description}[{expectationIndex}]";
+
         int indexToBeRemoved = -1;
 
         for (var metaIndex = 0; metaIndex < unmatchedSubjectIndexes.Count; metaIndex++)
@@ -150,16 +168,15 @@ internal class EnumerableEquivalencyValidator
             string[] failures = TryToMatch(subject, expectation, expectationIndex);
 
             results.AddSet(index, failures);
+
             if (results.ContainsSuccessfulSet())
             {
                 context.Tracer.WriteLine(_ => "It's a match");
                 indexToBeRemoved = metaIndex;
                 break;
             }
-            else
-            {
-                context.Tracer.WriteLine(_ => $"Contained {failures.Length} failures");
-            }
+
+            context.Tracer.WriteLine(_ => $"Contained {failures.Length} failures");
         }
 
         if (indexToBeRemoved != -1)
@@ -178,7 +195,9 @@ internal class EnumerableEquivalencyValidator
     private string[] TryToMatch<T>(object subject, T expectation, int expectationIndex)
     {
         using var scope = new AssertionScope();
-        parent.RecursivelyAssertEquality(new Comparands(subject, expectation, typeof(T)), context.AsCollectionItem<T>(expectationIndex));
+
+        parent.RecursivelyAssertEquality(new Comparands(subject, expectation, typeof(T)),
+            context.AsCollectionItem<T>(expectationIndex));
 
         return scope.Discard();
     }

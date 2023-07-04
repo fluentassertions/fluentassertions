@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
-
 using BenchmarkDotNet.Attributes;
-
 using Bogus;
-
 using FluentAssertions;
 using FluentAssertions.Data;
 
@@ -48,7 +45,7 @@ public class LargeDataTableEquivalencyBenchmarks
 
     private static object GetData(Faker faker, Type columnType)
     {
-        return (Type.GetTypeCode(columnType)) switch
+        return Type.GetTypeCode(columnType) switch
         {
             TypeCode.Empty or TypeCode.DBNull => null,
             TypeCode.Boolean => faker.Random.Bool(),
@@ -73,9 +70,13 @@ public class LargeDataTableEquivalencyBenchmarks
     private static object GetDefault(Faker faker, Type columnType)
     {
         if (columnType == typeof(TimeSpan))
+        {
             return faker.Date.Future() - faker.Date.Future();
+        }
         else if (columnType == typeof(Guid))
+        {
             return faker.Random.Guid();
+        }
 
         throw new Exception("Unable to populate column of type " + columnType);
     }

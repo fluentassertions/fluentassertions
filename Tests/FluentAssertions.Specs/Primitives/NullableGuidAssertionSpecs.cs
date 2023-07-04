@@ -168,7 +168,8 @@ public class NullableGuidAssertionSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .WithMessage("Did not expect a value because we want to test the failure message, but found {11111111-aaaa-bbbb-cccc-999999999999}.");
+            .WithMessage(
+                "Did not expect a value because we want to test the failure message, but found {11111111-aaaa-bbbb-cccc-999999999999}.");
     }
 
     [Fact]
@@ -182,7 +183,8 @@ public class NullableGuidAssertionSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .WithMessage("Did not expect a value because we want to test the failure message, but found {11111111-aaaa-bbbb-cccc-999999999999}.");
+            .WithMessage(
+                "Did not expect a value because we want to test the failure message, but found {11111111-aaaa-bbbb-cccc-999999999999}.");
     }
 
     [Fact]

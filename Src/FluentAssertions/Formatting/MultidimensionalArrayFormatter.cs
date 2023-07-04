@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace FluentAssertions.Formatting;
@@ -11,13 +12,14 @@ public class MultidimensionalArrayFormatter : IValueFormatter
     /// </summary>
     /// <param name="value">The value for which to create a <see cref="string"/>.</param>
     /// <returns>
-    /// <c>true</c> if the current <see cref="IValueFormatter"/> can handle the specified value; otherwise, <c>false</c>.
+    /// <see langword="true"/> if the current <see cref="IValueFormatter"/> can handle the specified value; otherwise, <see langword="false"/>.
     /// </returns>
     public bool CanHandle(object value)
     {
         return value is Array { Rank: >= 2 };
     }
 
+    [SuppressMessage("Design", "MA0051:Method is too long", Justification = "Required refactoring")]
     public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
     {
         var arr = (Array)value;
@@ -47,6 +49,7 @@ public class MultidimensionalArrayFormatter : IValueFormatter
             {
                 enumerator.MoveNext();
                 formatChild(string.Join("-", dimensionIndices), enumerator.Current, formattedGraph);
+
                 if (!IsLastIteration(arr, currentDimensionIndex, currentLoopIndex))
                 {
                     formattedGraph.AddFragment(", ");
@@ -74,6 +77,7 @@ public class MultidimensionalArrayFormatter : IValueFormatter
                 }
 
                 currentDimensionIndex = dimensionIndices[currentLoopIndex];
+
                 if (!IsLastIteration(arr, currentDimensionIndex, currentLoopIndex))
                 {
                     formattedGraph.AddFragment(", ");
@@ -91,7 +95,7 @@ public class MultidimensionalArrayFormatter : IValueFormatter
 
     private static bool IsInnerMostLoop(Array arr, int index)
     {
-        return index == arr.Rank - 1;
+        return index == (arr.Rank - 1);
     }
 
     private static bool IsLastIteration(Array arr, int index, int dimension)

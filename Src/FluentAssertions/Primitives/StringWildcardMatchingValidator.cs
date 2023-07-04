@@ -1,7 +1,6 @@
 using System;
 using System.Text;
 using System.Text.RegularExpressions;
-
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Primitives;
@@ -30,7 +29,9 @@ internal class StringWildcardMatchingValidator : StringValidator
 
     private bool IsMatch()
     {
-        RegexOptions options = IgnoreCase ? RegexOptions.IgnoreCase : RegexOptions.None;
+        RegexOptions options = IgnoreCase
+            ? RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
+            : RegexOptions.None;
 
         string input = CleanNewLines(Subject);
         string pattern = ConvertWildcardToRegEx(CleanNewLines(Expected));
@@ -42,8 +43,8 @@ internal class StringWildcardMatchingValidator : StringValidator
     {
         return "^"
             + Regex.Escape(wildcardExpression)
-             .Replace("\\*", ".*", StringComparison.Ordinal)
-             .Replace("\\?", ".", StringComparison.Ordinal)
+                .Replace("\\*", ".*", StringComparison.Ordinal)
+                .Replace("\\?", ".", StringComparison.Ordinal)
             + "$";
     }
 
@@ -57,10 +58,11 @@ internal class StringWildcardMatchingValidator : StringValidator
         get
         {
             var builder = new StringBuilder();
-            builder.Append(Negate ? "Did not expect " : "Expected ");
-            builder.Append("{context:string}");
-            builder.Append(IgnoreCase ? " to match the equivalent of" : " to match");
-            builder.Append(" {0}{reason}, ");
+            builder
+                .Append(Negate ? "Did not expect " : "Expected ")
+                .Append("{context:string}")
+                .Append(IgnoreCase ? " to match the equivalent of" : " to match")
+                .Append(" {0}{reason}, ");
 
             return builder.ToString();
         }
@@ -69,15 +71,15 @@ internal class StringWildcardMatchingValidator : StringValidator
     /// <summary>
     /// Gets or sets a value indicating whether the subject should not match the pattern.
     /// </summary>
-    public bool Negate { get; set; }
+    public bool Negate { get; init; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the matching process should ignore any casing difference.
     /// </summary>
-    public bool IgnoreCase { get; set; }
+    public bool IgnoreCase { get; init; }
 
     /// <summary>
     /// Ignores the difference between environment newline differences
     /// </summary>
-    public bool IgnoreNewLineDifferences { get; set; }
+    public bool IgnoreNewLineDifferences { get; init; }
 }

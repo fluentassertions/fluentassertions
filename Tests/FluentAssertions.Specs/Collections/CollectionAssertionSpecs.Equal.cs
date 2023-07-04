@@ -77,7 +77,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_two_collections_are_not_equal_because_the_actual_collection_contains_more_items_it_should_throw_using_the_reason()
+        public void
+            When_two_collections_are_not_equal_because_the_actual_collection_contains_more_items_it_should_throw_using_the_reason()
         {
             // Arrange
             var collection1 = new[] { 1, 2, 3 };
@@ -92,7 +93,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_two_collections_are_not_equal_because_the_actual_collection_contains_less_items_it_should_throw_using_the_reason()
+        public void
+            When_two_collections_are_not_equal_because_the_actual_collection_contains_less_items_it_should_throw_using_the_reason()
         {
             // Arrange
             var collection1 = new[] { 1, 2, 3 };
@@ -129,7 +131,8 @@ public partial class CollectionAssertionSpecs
             var collection1 = new[] { 1, 2, 3 };
 
             // Act
-            Action act = () => collection.Should().Equal(collection1, "because we want to test the behaviour with a null subject");
+            Action act = () =>
+                collection.Should().Equal(collection1, "because we want to test the behaviour with a null subject");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -144,7 +147,8 @@ public partial class CollectionAssertionSpecs
             int[] collection1 = null;
 
             // Act
-            Action act = () => collection.Should().Equal(collection1, "because we want to test the behaviour with a null subject");
+            Action act = () =>
+                collection.Should().Equal(collection1, "because we want to test the behaviour with a null subject");
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
@@ -187,6 +191,7 @@ public partial class CollectionAssertionSpecs
         {
             // Arrange
             var actual = new List<string> { "ONE", "TWO", "THREE", "FOUR" };
+
             var expected = new[]
             {
                 new { Value = "One" },
@@ -208,6 +213,7 @@ public partial class CollectionAssertionSpecs
         {
             // Arrange
             var actual = new List<string> { "ONE", "TWO", "THREE", "FOUR" };
+
             var expected = new[]
             {
                 new { Value = "One" },
@@ -311,7 +317,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_equality_with_a_collection_built_from_params_arguments_that_are_assignable_to_the_subjects_type_parameter_it_should_succeed_by_treating_the_arguments_as_of_that_type()
+        public void
+            When_asserting_equality_with_a_collection_built_from_params_arguments_that_are_assignable_to_the_subjects_type_parameter_it_should_succeed_by_treating_the_arguments_as_of_that_type()
         {
             // Arrange
             byte[] byteArray = { 0xfe, 0xdc, 0xba, 0x98, 0x76, 0x54, 0x32, 0x10 };
@@ -411,7 +418,8 @@ public partial class CollectionAssertionSpecs
             var collection2 = collection1;
 
             // Act
-            Action act = () => collection1.Should().NotEqual(collection2, "because we want to test the behaviour with same objects");
+            Action act = () =>
+                collection1.Should().NotEqual(collection2, "because we want to test the behaviour with same objects");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace FluentAssertions.Common;
@@ -11,7 +12,7 @@ namespace FluentAssertions.Common;
 internal class MemberPathSegmentEqualityComparer : IEqualityComparer<string>
 {
     private const string AnyIndexQualifier = "*";
-    private static readonly Regex IndexQualifierRegex = new(@"^\d+$");
+    private static readonly Regex IndexQualifierRegex = new("^[0-9]+$");
 
     /// <summary>
     /// Compares two segments of a <see cref="MemberPath"/>.
@@ -34,13 +35,13 @@ internal class MemberPathSegmentEqualityComparer : IEqualityComparer<string>
         return x == y;
     }
 
-    private static bool IsIndexQualifier(string segment)
-        => segment == AnyIndexQualifier || IndexQualifierRegex.IsMatch(segment);
+    private static bool IsIndexQualifier(string segment) =>
+        segment == AnyIndexQualifier || IndexQualifierRegex.IsMatch(segment);
 
     public int GetHashCode(string obj)
     {
 #if NETCOREAPP2_1_OR_GREATER
-        return obj.GetHashCode(System.StringComparison.Ordinal);
+        return obj.GetHashCode(StringComparison.Ordinal);
 #else
         return obj.GetHashCode();
 #endif

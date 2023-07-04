@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel;
-
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency;

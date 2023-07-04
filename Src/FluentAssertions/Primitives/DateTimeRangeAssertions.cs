@@ -5,7 +5,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
 
-#pragma warning disable CS0659 // Ignore not overriding Object.GetHashCode()
+#pragma warning disable CS0659, S1206 // Ignore not overriding Object.GetHashCode()
 #pragma warning disable CA1065 // Ignore throwing NotSupportedException from Equals
 /// <summary>
 /// Contains a number of methods to assert that two <see cref="DateTime"/> objects differ in the expected way.
@@ -24,8 +24,7 @@ public class DateTimeRangeAssertions<TAssertions>
     private readonly TAssertions parentAssertions;
     private readonly TimeSpanPredicate predicate;
 
-    private readonly Dictionary<TimeSpanCondition, TimeSpanPredicate> predicates = new Dictionary
-        <TimeSpanCondition, TimeSpanPredicate>
+    private readonly Dictionary<TimeSpanCondition, TimeSpanPredicate> predicates = new()
     {
         [TimeSpanCondition.MoreThan] = new TimeSpanPredicate((ts1, ts2) => ts1 > ts2, "more than"),
         [TimeSpanCondition.AtLeast] = new TimeSpanPredicate((ts1, ts2) => ts1 >= ts2, "at least"),
@@ -70,7 +69,7 @@ public class DateTimeRangeAssertions<TAssertions>
             .ForCondition(subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected date and/or time {0} to be " + predicate.DisplayText +
-                      " {1} before {2}{reason}, but found a <null> DateTime.",
+                " {1} before {2}{reason}, but found a <null> DateTime.",
                 subject, timeSpan, target);
 
         if (success)
@@ -109,7 +108,7 @@ public class DateTimeRangeAssertions<TAssertions>
             .ForCondition(subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected date and/or time {0} to be " + predicate.DisplayText +
-                      " {1} after {2}{reason}, but found a <null> DateTime.",
+                " {1} after {2}{reason}, but found a <null> DateTime.",
                 subject, timeSpan, target);
 
         if (success)
@@ -130,10 +129,10 @@ public class DateTimeRangeAssertions<TAssertions>
 
     private static string PositionRelativeToTarget(DateTime actual, DateTime target)
     {
-        return actual - target >= TimeSpan.Zero ? "ahead" : "behind";
+        return (actual - target) >= TimeSpan.Zero ? "ahead" : "behind";
     }
 
     /// <inheritdoc/>
     public override bool Equals(object obj) =>
-        throw new NotSupportedException("Calling Equals on Assertion classes is not supported.");
+        throw new NotSupportedException("Equals is not part of Fluent Assertions. Did you mean Before() or After() instead?");
 }

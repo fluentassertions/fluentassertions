@@ -10,7 +10,8 @@ namespace FluentAssertions.Equivalency.Steps;
 public class DataRelationEquivalencyStep : EquivalencyStep<DataRelation>
 {
     [SuppressMessage("Style", "IDE0019:Use pattern matching", Justification = "The code is easier to read without it.")]
-    protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+    protected override EquivalencyResult OnHandle(Comparands comparands, IEquivalencyValidationContext context,
+        IEquivalencyValidator nestedValidator)
     {
         var subject = comparands.Subject as DataRelation;
         var expectation = comparands.Expectation as DataRelation;
@@ -22,31 +23,28 @@ public class DataRelationEquivalencyStep : EquivalencyStep<DataRelation>
                 AssertionScope.Current.FailWith("Expected {context:DataRelation} to be null, but found {0}", subject);
             }
         }
-        else
+        else if (subject is null)
         {
-            if (subject is null)
+            if (comparands.Subject is null)
             {
-                if (comparands.Subject is null)
-                {
-                    AssertionScope.Current.FailWith("Expected {context:DataRelation} value to be non-null, but found null");
-                }
-                else
-                {
-                    AssertionScope.Current.FailWith("Expected {context:DataRelation} of type {0}, but found {1} instead",
-                        expectation.GetType(), comparands.Subject.GetType());
-                }
+                AssertionScope.Current.FailWith("Expected {context:DataRelation} value to be non-null, but found null");
             }
             else
             {
-                var selectedMembers = GetMembersFromExpectation(context.CurrentNode, comparands, context.Options)
-                    .ToDictionary(member => member.Name);
-
-                CompareScalarProperties(subject, expectation, selectedMembers);
-
-                CompareCollections(context, comparands, nestedValidator, context.Options, selectedMembers);
-
-                CompareRelationConstraints(context, nestedValidator, subject, expectation, selectedMembers);
+                AssertionScope.Current.FailWith("Expected {context:DataRelation} of type {0}, but found {1} instead",
+                    expectation.GetType(), comparands.Subject.GetType());
             }
+        }
+        else
+        {
+            var selectedMembers = GetMembersFromExpectation(context.CurrentNode, comparands, context.Options)
+                .ToDictionary(member => member.Name);
+
+            CompareScalarProperties(subject, expectation, selectedMembers);
+
+            CompareCollections(context, comparands, nestedValidator, context.Options, selectedMembers);
+
+            CompareRelationConstraints(context, nestedValidator, subject, expectation, selectedMembers);
         }
 
         return EquivalencyResult.AssertionCompleted;
@@ -89,6 +87,7 @@ public class DataRelationEquivalencyStep : EquivalencyStep<DataRelation>
         if (selectedMembers.TryGetValue(nameof(DataRelation.ExtendedProperties), out IMember expectationMember))
         {
             IMember matchingMember = FindMatchFor(expectationMember, context.CurrentNode, comparands.Subject, config);
+
             if (matchingMember is not null)
             {
                 var nestedComparands = new Comparands
@@ -171,8 +170,8 @@ public class DataRelationEquivalencyStep : EquivalencyStep<DataRelation>
                 DataColumn expectationColumn = expectationColumns[i];
 
                 bool columnsAreEquivalent =
-                    (subjectColumn.Table.TableName == expectationColumn.Table.TableName) &&
-                    (subjectColumn.ColumnName == expectationColumn.ColumnName);
+                    subjectColumn.Table.TableName == expectationColumn.Table.TableName &&
+                    subjectColumn.ColumnName == expectationColumn.ColumnName;
 
                 AssertionScope.Current
                     .ForCondition(columnsAreEquivalent)

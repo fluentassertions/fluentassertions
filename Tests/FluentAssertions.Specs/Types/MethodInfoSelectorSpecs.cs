@@ -196,7 +196,8 @@ public class MethodInfoSelectorSpecs
     }
 
     [Fact]
-    public void When_selecting_methods_decorated_with_or_inheriting_an_inheritable_attribute_it_should_only_return_the_applicable_methods()
+    public void
+        When_selecting_methods_decorated_with_or_inheriting_an_inheritable_attribute_it_should_only_return_the_applicable_methods()
     {
         // Arrange
         Type type = typeof(TestClassForMethodSelectorWithInheritableAttributeDerived);
@@ -222,7 +223,8 @@ public class MethodInfoSelectorSpecs
     }
 
     [Fact]
-    public void When_selecting_methods_not_decorated_with_or_inheriting_an_inheritable_attribute_it_should_only_return_the_applicable_methods()
+    public void
+        When_selecting_methods_not_decorated_with_or_inheriting_an_inheritable_attribute_it_should_only_return_the_applicable_methods()
     {
         // Arrange
         Type type = typeof(TestClassForMethodSelectorWithInheritableAttributeDerived);
@@ -241,36 +243,67 @@ public class MethodInfoSelectorSpecs
         Type type = typeof(TestClassForMethodSelectorWithNonInheritableAttributeDerived);
 
         // Act
-        IEnumerable<MethodInfo> methods = type.Methods().ThatAreDecoratedWith<DummyMethodNonInheritableAttributeAttribute>().ToArray();
+        IEnumerable<MethodInfo> methods = type.Methods().ThatAreDecoratedWith<DummyMethodNonInheritableAttributeAttribute>()
+            .ToArray();
 
         // Assert
         methods.Should().BeEmpty();
     }
 
     [Fact]
-    public void When_selecting_methods_decorated_with_or_inheriting_a_noninheritable_attribute_it_should_only_return_the_applicable_methods()
+    public void
+        When_selecting_methods_decorated_with_or_inheriting_a_noninheritable_attribute_it_should_only_return_the_applicable_methods()
     {
         // Arrange
         Type type = typeof(TestClassForMethodSelectorWithNonInheritableAttributeDerived);
 
         // Act
-        IEnumerable<MethodInfo> methods = type.Methods().ThatAreDecoratedWithOrInherit<DummyMethodNonInheritableAttributeAttribute>().ToArray();
+        IEnumerable<MethodInfo> methods =
+            type.Methods().ThatAreDecoratedWithOrInherit<DummyMethodNonInheritableAttributeAttribute>().ToArray();
 
         // Assert
         methods.Should().BeEmpty();
     }
 
     [Fact]
-    public void When_selecting_methods_not_decorated_with_a_noninheritable_attribute_it_should_only_return_the_applicable_methods()
+    public void
+        When_selecting_methods_not_decorated_with_a_noninheritable_attribute_it_should_only_return_the_applicable_methods()
     {
         // Arrange
         Type type = typeof(TestClassForMethodSelectorWithNonInheritableAttributeDerived);
 
         // Act
-        IEnumerable<MethodInfo> methods = type.Methods().ThatAreNotDecoratedWith<DummyMethodNonInheritableAttributeAttribute>().ToArray();
+        IEnumerable<MethodInfo> methods = type.Methods().ThatAreNotDecoratedWith<DummyMethodNonInheritableAttributeAttribute>()
+            .ToArray();
 
         // Assert
         methods.Should().ContainSingle();
+    }
+
+    [Fact]
+    public void When_selecting_methods_that_are_abstract_it_should_only_return_the_applicable_methods()
+    {
+        // Arrange
+        Type type = typeof(TestClassForMethodSelectorWithAbstractAndVirtualMethods);
+
+        // Act
+        IEnumerable<MethodInfo> methods = type.Methods().ThatAreAbstract().ToArray();
+
+        // Assert
+        methods.Should().HaveCount(3);
+    }
+
+    [Fact]
+    public void When_selecting_methods_that_are_not_abstract_it_should_only_return_the_applicable_methods()
+    {
+        // Arrange
+        Type type = typeof(TestClassForMethodSelectorWithAbstractAndVirtualMethods);
+
+        // Act
+        IEnumerable<MethodInfo> methods = type.Methods().ThatAreNotAbstract().ToArray();
+
+        // Assert
+        methods.Should().HaveCount(10);
     }
 
     [Fact]
@@ -362,13 +395,15 @@ public class MethodInfoSelectorSpecs
     }
 
     [Fact]
-    public void When_selecting_methods_not_decorated_with_or_inheriting_a_noninheritable_attribute_it_should_only_return_the_applicable_methods()
+    public void
+        When_selecting_methods_not_decorated_with_or_inheriting_a_noninheritable_attribute_it_should_only_return_the_applicable_methods()
     {
         // Arrange
         Type type = typeof(TestClassForMethodSelectorWithNonInheritableAttributeDerived);
 
         // Act
-        IEnumerable<MethodInfo> methods = type.Methods().ThatAreNotDecoratedWithOrInherit<DummyMethodNonInheritableAttributeAttribute>().ToArray();
+        IEnumerable<MethodInfo> methods =
+            type.Methods().ThatAreNotDecoratedWithOrInherit<DummyMethodNonInheritableAttributeAttribute>().ToArray();
 
         // Assert
         methods.Should().ContainSingle();
@@ -390,15 +425,29 @@ public class MethodInfoSelectorSpecs
             .And.Contain(typeof(int))
             .And.Contain(typeof(string));
     }
+
+    [Fact]
+    public void When_accidentally_using_equals_it_should_throw_a_helpful_error()
+    {
+        // Arrange
+        Type type = typeof(TestClassForMethodSelector);
+
+        // Act
+        Action action = () => type.Methods().Should().Equals(null);
+
+        // Assert
+        action.Should().Throw<NotSupportedException>()
+            .WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
+    }
 }
 
 #region Internal classes used in unit tests
 
 internal class TestClassForMethodSelector
 {
-#pragma warning disable 67 // "event is never used"
+#pragma warning disable 67, S3264 // "event is never used"
     public event EventHandler SomethingChanged = (_, _) => { };
-#pragma warning restore 67
+#pragma warning restore 67, S3264
 
     public virtual void PublicVirtualVoidMethod()
     {
@@ -451,7 +500,8 @@ internal class TestClassForMethodSelectorWithInheritableAttributeDerived : TestC
     public override void PublicVirtualVoidMethodWithAttribute() { }
 }
 
-internal class TestClassForMethodSelectorWithNonInheritableAttributeDerived : TestClassForMethodSelectorWithNonInheritableAttribute
+internal class TestClassForMethodSelectorWithNonInheritableAttributeDerived
+    : TestClassForMethodSelectorWithNonInheritableAttribute
 {
     public override void PublicVirtualVoidMethodWithAttribute() { }
 }
@@ -485,10 +535,39 @@ public class DummyMethodNonInheritableAttributeAttribute : Attribute
     public bool Filter { get; set; }
 }
 
-[AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
 public class DummyMethodAttribute : Attribute
 {
     public bool Filter { get; set; }
+}
+
+internal abstract class TestClassForMethodSelectorWithAbstractAndVirtualMethods
+{
+    public abstract void PublicAbstractMethod();
+
+    protected abstract void ProtectedAbstractMethod();
+
+    internal abstract void InternalAbstractMethod();
+
+    public static void PublicStaticMethod() { }
+
+    protected static void ProtectedStaticMethod() { }
+
+    internal static void InternalStaticMethod() { }
+
+    public virtual void PublicVirtualMethod() { }
+
+    protected virtual void ProptectedVirtualMethod() { }
+
+    internal virtual void InternalVirtualMethod() { }
+
+    public void PublicNotAbstractMethod() { }
+
+    protected void ProtectedNotAbstractMethod() { }
+
+    internal void InternalNotAbstractMethod() { }
+
+    private void PrivateAbstractMethod() { }
 }
 
 #endregion

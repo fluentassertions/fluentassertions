@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
-
 using FluentAssertions.Collections;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
@@ -25,7 +24,7 @@ public static class DataTableCollectionAssertionExtensions
         this GenericCollectionAssertions<DataTable> assertion, DataTableCollection expected, string because = "",
         params object[] becauseArgs)
     {
-        if (assertion.Subject is ReadOnlyNonGenericCollectionWrapper<DataTableCollection, DataTable> wrapper)
+        if (assertion.Subject is ICollectionWrapper<DataTableCollection> wrapper)
         {
             var actualSubject = wrapper.UnderlyingCollection;
 
@@ -65,7 +64,7 @@ public static class DataTableCollectionAssertionExtensions
         this GenericCollectionAssertions<DataTable> assertion, DataTableCollection unexpected, string because = "",
         params object[] becauseArgs)
     {
-        if (assertion.Subject is ReadOnlyNonGenericCollectionWrapper<DataTableCollection, DataTable> wrapper)
+        if (assertion.Subject is ICollectionWrapper<DataTableCollection> wrapper)
         {
             var actualSubject = wrapper.UnderlyingCollection;
 
@@ -138,6 +137,7 @@ public static class DataTableCollectionAssertionExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <see langword="null"/>.</exception>
     public static AndConstraint<GenericCollectionAssertions<DataTable>> HaveSameCount(
         this GenericCollectionAssertions<DataTable> assertion, DataTableCollection otherCollection, string because = "",
         params object[] becauseArgs)
@@ -152,7 +152,7 @@ public static class DataTableCollectionAssertionExtensions
             .ForCondition(subject => subject is not null)
             .FailWith("the same count as {0}{reason}, but found <null>.", otherCollection)
             .Then
-            .Given((subject) => (actual: subject.Count(), expected: otherCollection.Count))
+            .Given(subject => (actual: subject.Count(), expected: otherCollection.Count))
             .ForCondition(count => count.actual == count.expected)
             .FailWith("{0} table(s){reason}, but found {1}.", count => count.expected, count => count.actual)
             .Then
@@ -173,6 +173,7 @@ public static class DataTableCollectionAssertionExtensions
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="otherCollection"/> is <see langword="null"/>.</exception>
     public static AndConstraint<GenericCollectionAssertions<DataTable>> NotHaveSameCount(
         this GenericCollectionAssertions<DataTable> assertion, DataTableCollection otherCollection, string because = "",
         params object[] becauseArgs)
@@ -187,7 +188,7 @@ public static class DataTableCollectionAssertionExtensions
             .ForCondition(subject => subject is not null)
             .FailWith("the same count as {0}{reason}, but found <null>.", otherCollection)
             .Then
-            .Given((subject) => (actual: subject.Count(), expected: otherCollection.Count))
+            .Given(subject => (actual: subject.Count(), expected: otherCollection.Count))
             .ForCondition(count => count.actual != count.expected)
             .FailWith("{0} table(s){reason}, but found {1}.", count => count.expected, count => count.actual)
             .Then

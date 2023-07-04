@@ -81,7 +81,7 @@ public partial class TypeAssertionSpecs
             // Act
             Action act = () =>
                 typeWithAttribute.Should()
-                    .BeDecoratedWith<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled);
+                    .BeDecoratedWith<DummyClassAttribute>(a => a.Name == "Expected" && a.IsEnabled);
 
             // Assert
             act.Should().NotThrow();
@@ -97,7 +97,7 @@ public partial class TypeAssertionSpecs
             Action act = () =>
                 typeWithAttribute.Should()
                     .BeDecoratedWith<DummyClassAttribute>(a => a.Name == "Expected")
-                        .Which.IsEnabled.Should().BeTrue();
+                    .Which.IsEnabled.Should().BeTrue();
 
             // Assert
             act.Should().NotThrow();
@@ -112,7 +112,7 @@ public partial class TypeAssertionSpecs
             // Act
             Action act = () =>
                 typeWithAttribute.Should()
-                    .BeDecoratedWith<DummyClassAttribute>(a => (a.Name == "Unexpected") && a.IsEnabled);
+                    .BeDecoratedWith<DummyClassAttribute>(a => a.Name == "Unexpected" && a.IsEnabled);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -179,7 +179,7 @@ public partial class TypeAssertionSpecs
             // Act
             Action act = () =>
                 typeWithoutAttribute.Should()
-                    .NotBeDecoratedWith<DummyClassAttribute>(a => (a.Name == "Unexpected") && a.IsEnabled);
+                    .NotBeDecoratedWith<DummyClassAttribute>(a => a.Name == "Unexpected" && a.IsEnabled);
 
             // Assert
             act.Should().NotThrow();
@@ -194,7 +194,7 @@ public partial class TypeAssertionSpecs
             // Act
             Action act = () =>
                 typeWithoutAttribute.Should()
-                    .NotBeDecoratedWith<DummyClassAttribute>(a => (a.Name == "Expected") && a.IsEnabled);
+                    .NotBeDecoratedWith<DummyClassAttribute>(a => a.Name == "Expected" && a.IsEnabled);
 
             // Assert
             act.Should().Throw<XunitException>()

@@ -3,7 +3,6 @@ using Xunit;
 using Xunit.Sdk;
 
 #if NET6_0_OR_GREATER
-
 namespace FluentAssertions.Specs.Primitives;
 
 public class DateOnlyAssertionSpecs
@@ -26,6 +25,16 @@ public class DateOnlyAssertionSpecs
 
         // Act/Assert
         dateOnly.Should().NotBeNull();
+    }
+
+    [Fact]
+    public void Should_succeed_when_asserting_nullable_dateonly_value_with_null_to_be_null()
+    {
+        // Arrange
+        DateOnly? dateOnly = null;
+
+        // Act/Assert
+        dateOnly.Should().BeNull();
     }
 
     public class Be
@@ -603,6 +612,65 @@ public class DateOnlyAssertionSpecs
         }
     }
 
+    public class NotBe
+    {
+        [Fact]
+        public void Different_dateonly_values_are_valid()
+        {
+            // Arrange
+            DateOnly date = new(2020, 06, 04);
+            DateOnly otherDate = new(2020, 06, 05);
+
+            // Act & Assert
+            date.Should().NotBe(otherDate);
+        }
+
+        [Fact]
+        public void Different_dateonly_values_with_different_nullability_are_valid()
+        {
+            // Arrange
+            DateOnly date = new(2020, 06, 04);
+            DateOnly? otherDate = new(2020, 07, 05);
+
+            // Act & Assert
+            date.Should().NotBe(otherDate);
+        }
+
+        [Fact]
+        public void Same_dateonly_values_are_invalid()
+        {
+            // Arrange
+            DateOnly date = new(2020, 06, 04);
+            DateOnly sameDate = new(2020, 06, 04);
+
+            // Act
+            Action act =
+                () => date.Should().NotBe(sameDate, "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected date not to be <2020-06-04> because we want to test the failure message, but it is.");
+        }
+
+        [Fact]
+        public void Same_dateonly_values_with_different_nullability_are_invalid()
+        {
+            // Arrange
+            DateOnly date = new(2020, 06, 04);
+            DateOnly? sameDate = new(2020, 06, 04);
+
+            // Act
+            Action act =
+                () => date.Should().NotBe(sameDate, "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected date not to be <2020-06-04> because we want to test the failure message, but it is.");
+        }
+    }
+
     public class HaveDay
     {
         [Fact]
@@ -769,6 +837,23 @@ public class DateOnlyAssertionSpecs
                 .HaveValue()
                 .And
                 .BeAfter(earlierDateOnly);
+        }
+    }
+
+    public class Miscellaneous
+    {
+        [Fact]
+        public void Should_throw_a_helpful_error_when_accidentally_using_equals()
+        {
+            // Arrange
+            DateOnly someDateOnly = new(2022, 9, 25);
+
+            // Act
+            Action action = () => someDateOnly.Should().Equals(someDateOnly);
+
+            // Assert
+            action.Should().Throw<NotSupportedException>()
+                .WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
         }
     }
 }

@@ -22,9 +22,11 @@ public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
         description = predicate.ToString();
     }
 
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context, IEquivalencyValidator nestedValidator)
+    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
+        IEquivalencyValidator nestedValidator)
     {
         bool success = false;
+
         using (var scope = new AssertionScope())
         {
             // Try without conversion
@@ -34,6 +36,7 @@ public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
             }
 
             bool converted = false;
+
             if (!success && context.Options.ConversionSelector.RequiresConversion(comparands, context.CurrentNode))
             {
                 // Convert into a child context
@@ -46,6 +49,7 @@ public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
             {
                 // Try again after conversion
                 success = ExecuteAssertion(comparands, context);
+
                 if (success)
                 {
                     // If the assertion succeeded after conversion, discard the failures from
@@ -75,7 +79,8 @@ public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
         bool expectationIsValidType =
             AssertionScope.Current
                 .ForCondition(expectationIsNull || comparands.Expectation.GetType().IsSameOrInherits(typeof(TSubject)))
-                .FailWith("Expected " + context.CurrentNode.Description + " from expectation to be a {0}{reason}, but found a {1}.",
+                .FailWith(
+                    "Expected " + context.CurrentNode.Description + " from expectation to be a {0}{reason}, but found a {1}.",
                     typeof(TSubject), comparands.Expectation?.GetType());
 
         if (subjectIsValidType && expectationIsValidType)

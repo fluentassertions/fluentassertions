@@ -18,10 +18,10 @@ internal class StringEqualityValidator : StringValidator
     protected override bool ValidateAgainstSuperfluousWhitespace()
     {
         return Assertion
-            .ForCondition(!((Expected.Length > Subject.Length) && Expected.TrimEnd().Equals(Subject, comparisonMode)))
+            .ForCondition(!(Expected.Length > Subject.Length && Expected.TrimEnd().Equals(Subject, comparisonMode)))
             .FailWith(ExpectationDescription + "{0}{reason}, but it misses some extra whitespace at the end.", Expected)
             .Then
-            .ForCondition(!((Subject.Length > Expected.Length) && Subject.TrimEnd().Equals(Expected, comparisonMode)))
+            .ForCondition(!(Subject.Length > Expected.Length && Subject.TrimEnd().Equals(Expected, comparisonMode)))
             .FailWith(ExpectationDescription + "{0}{reason}, but it has unexpected whitespace at the end.", Expected);
     }
 
@@ -34,7 +34,7 @@ internal class StringEqualityValidator : StringValidator
                 string mismatchSegment = GetMismatchSegmentForStringsOfDifferentLengths();
 
                 string message = ExpectationDescription +
-                                    "{0} with a length of {1}{reason}, but {2} has a length of {3}, differs near " + mismatchSegment + ".";
+                    "{0} with a length of {1}{reason}, but {2} has a length of {3}, differs near " + mismatchSegment + ".";
 
                 return new FailReason(message, Expected, Expected.Length, Subject, Subject.Length);
             });
@@ -60,6 +60,7 @@ internal class StringEqualityValidator : StringValidator
     protected override void ValidateAgainstMismatch()
     {
         int indexOfMismatch = Subject.IndexOfFirstMismatch(Expected, comparisonMode);
+
         if (indexOfMismatch != -1)
         {
             Assertion.FailWith(

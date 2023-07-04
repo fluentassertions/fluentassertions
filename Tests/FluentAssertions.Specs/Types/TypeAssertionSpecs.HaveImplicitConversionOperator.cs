@@ -24,7 +24,7 @@ public partial class TypeAssertionSpecs
                 type.Should()
                     .HaveImplicitConversionOperator(sourceType, targetType)
                     .Which.Should()
-                        .NotBeNull();
+                    .NotBeNull();
 
             // Assert
             act.Should().NotThrow();
@@ -112,7 +112,7 @@ public partial class TypeAssertionSpecs
                 type.Should()
                     .HaveImplicitConversionOperator<TypeWithConversionOperators, int>()
                     .Which.Should()
-                        .NotBeNull();
+                    .NotBeNull();
 
             // Assert
             act.Should().NotThrow();

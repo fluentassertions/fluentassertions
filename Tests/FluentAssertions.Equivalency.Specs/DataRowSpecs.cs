@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -63,7 +62,8 @@ public class DataRowSpecs : DataSpecs
     }
 
     [Fact]
-    public void When_data_row_subject_is_deleted_and_expectation_is_not_but_the_row_state_is_excluded_equivalency_test_should_succeed()
+    public void
+        When_data_row_subject_is_deleted_and_expectation_is_not_but_the_row_state_is_excluded_equivalency_test_should_succeed()
     {
         // Arrange
         var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -83,7 +83,8 @@ public class DataRowSpecs : DataSpecs
     }
 
     [Fact]
-    public void When_data_row_expectation_is_deleted_and_subject_is_not_but_the_row_state_is_excluded_equivalency_test_should_succeed()
+    public void
+        When_data_row_expectation_is_deleted_and_subject_is_not_but_the_row_state_is_excluded_equivalency_test_should_succeed()
     {
         // Arrange
         var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -147,11 +148,13 @@ public class DataRowSpecs : DataSpecs
         Action action = () => dataRow1.Should().BeEquivalentTo(dataRow2);
 
         // Assert
-        action.Should().Throw<XunitException>().WithMessage("Expected dataRow1[Decimal, DataRowVersion.Original] to be *, but found *");
+        action.Should().Throw<XunitException>()
+            .WithMessage("Expected dataRow1[Decimal, DataRowVersion.Original] to be *, but found *");
     }
 
     [Fact]
-    public void When_data_row_is_modified_and_original_data_differs_but_original_data_is_excluded_then_equivalency_test_should_succeed()
+    public void
+        When_data_row_is_modified_and_original_data_differs_but_original_data_is_excluded_then_equivalency_test_should_succeed()
     {
         // Arrange
         var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -196,7 +199,8 @@ public class DataRowSpecs : DataSpecs
         Action action = () => dataTable[0].Should().BeEquivalentTo(dataTableOfMismatchedType[0]);
 
         // Assert
-        action.Should().Throw<XunitException>().WithMessage("Expected dataTable[0] to be of type *TypedDataRow2, but found *TypedDataRow1*");
+        action.Should().Throw<XunitException>()
+            .WithMessage("Expected dataTable[0] to be of type *TypedDataRow2, but found *TypedDataRow1*");
     }
 
     [Fact]
@@ -217,7 +221,8 @@ public class DataRowSpecs : DataSpecs
     }
 
     [Fact]
-    public void When_one_data_row_has_errors_and_the_other_does_not_and_the_corresponding_property_is_not_excluded_then_equivalency_test_should_fail()
+    public void
+        When_one_data_row_has_errors_and_the_other_does_not_and_the_corresponding_property_is_not_excluded_then_equivalency_test_should_fail()
     {
         // Arrange
         var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -237,7 +242,8 @@ public class DataRowSpecs : DataSpecs
     }
 
     [Fact]
-    public void When_one_data_row_has_errors_and_the_other_does_not_but_the_corresponding_property_is_excluded_then_equivalency_test_should_succeed()
+    public void
+        When_one_data_row_has_errors_and_the_other_does_not_but_the_corresponding_property_is_excluded_then_equivalency_test_should_succeed()
     {
         // Arrange
         var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -254,7 +260,8 @@ public class DataRowSpecs : DataSpecs
     }
 
     [Fact]
-    public void When_the_data_row_state_does_not_match_and_the_corresponding_property_is_not_excluded_equivalency_test_should_fail()
+    public void
+        When_the_data_row_state_does_not_match_and_the_corresponding_property_is_not_excluded_equivalency_test_should_fail()
     {
         // Arrange
         var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -277,7 +284,8 @@ public class DataRowSpecs : DataSpecs
     }
 
     [Fact]
-    public void When_the_data_row_state_does_not_match_but_the_corresponding_property_is_excluded_equivalency_test_should_succeed()
+    public void
+        When_the_data_row_state_does_not_match_but_the_corresponding_property_is_excluded_equivalency_test_should_succeed()
     {
         // Arrange
         var dataSet1 = CreateDummyDataSet<TypedDataSetSubclass>();
@@ -341,6 +349,7 @@ public class DataRowSpecs : DataSpecs
         // Arrange
         var table = new DataTable();
         var dataRow = table.NewRow();
+
         var subject = new
         {
             DataRow = "foobar"
@@ -362,7 +371,7 @@ public class DataRowSpecs : DataSpecs
     [Fact]
     public void Any_type_is_not_equivalent_to_data_row_colletion()
     {
-        // Arrange 
+        // Arrange
         var o = new object();
 
         // Act
@@ -414,7 +423,8 @@ public class DataRowSpecs : DataSpecs
             () => dataRow.Should().HaveColumn("Does not matter");
 
         // Assert
-        action.Should().Throw<XunitException>().WithMessage("Expected dataRow to contain a column named *Does not matter*, but found <null>*");
+        action.Should().Throw<XunitException>()
+            .WithMessage("Expected dataRow to contain a column named *Does not matter*, but found <null>*");
     }
 
     [Fact]
@@ -466,7 +476,11 @@ public class DataRowSpecs : DataSpecs
             .ToArray();
 
         // Act
-        Action act = () => actual.Should().HaveColumns(subsetOfColumnNames);
+        Action act = () =>
+        {
+            using var _ = new AssertionScope();
+            actual.Should().HaveColumns(subsetOfColumnNames);
+        };
 
         // Assert
         act.Should().Throw<XunitException>()
@@ -491,7 +505,8 @@ public class DataRowSpecs : DataSpecs
             () => dataRow.Should().HaveColumns(subsetOfColumnNamesWithUnicorn);
 
         // Assert
-        action.Should().Throw<XunitException>().WithMessage("Expected table containing dataRow to contain a column named *Unicorn*");
+        action.Should().Throw<XunitException>()
+            .WithMessage("Expected table containing dataRow to contain a column named *Unicorn*");
     }
 
     [Fact]
@@ -502,16 +517,14 @@ public class DataRowSpecs : DataSpecs
 
         var dataRow = dataSet.TypedDataTable1[0];
 
-        var columnNames = new List<string>();
-
-        columnNames.Add("Unicorn");
-        columnNames.Add("Dragon");
+        var columnNames = new[] { "Unicorn", "Dragon" };
 
         // Act
         Action action =
             () => dataRow.Should().HaveColumns(columnNames);
 
         // Assert
-        action.Should().Throw<XunitException>().WithMessage("Expected table containing dataRow to contain a column named *Unicorn*");
+        action.Should().Throw<XunitException>()
+            .WithMessage("Expected table containing dataRow to contain a column named *Unicorn*");
     }
 }

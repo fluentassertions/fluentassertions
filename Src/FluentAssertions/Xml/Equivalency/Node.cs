@@ -11,7 +11,7 @@ internal sealed class Node
     private readonly string name;
     private int count;
 
-    public static Node CreateRoot() => new Node(null, null);
+    public static Node CreateRoot() => new(null, null);
 
     private Node(Node parent, string name)
     {
@@ -46,6 +46,7 @@ internal sealed class Node
     private IEnumerable<Node> GetPath()
     {
         Node current = this;
+
         while (current.Parent is not null)
         {
             yield return current;
@@ -58,7 +59,7 @@ internal sealed class Node
     public Node Push(string localName)
     {
         Node node = children.Find(e => e.name == localName)
-                    ?? AddChildNode(localName);
+            ?? AddChildNode(localName);
 
         node.count++;
 

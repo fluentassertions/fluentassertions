@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using FluentAssertions.Common;
 using static System.FormattableString;
 
@@ -34,7 +33,7 @@ public class Comparands
     {
         get
         {
-            return ((compileTimeType != typeof(object)) || Expectation is null) ? compileTimeType : RuntimeType;
+            return compileTimeType != typeof(object) || Expectation is null ? compileTimeType : RuntimeType;
         }
 
         // SMELL: Do we really need this? Can we replace it by making Comparands generic or take a constructor parameter?

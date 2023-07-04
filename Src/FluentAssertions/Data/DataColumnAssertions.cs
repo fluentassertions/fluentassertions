@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Diagnostics;
-
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
@@ -54,7 +53,8 @@ public class DataColumnAssertions : ReferenceTypeAssertions<DataColumn, DataColu
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<DataColumnAssertions> BeEquivalentTo(DataColumn expectation, string because = "", params object[] becauseArgs)
+    public AndConstraint<DataColumnAssertions> BeEquivalentTo(DataColumn expectation, string because = "",
+        params object[] becauseArgs)
     {
         return BeEquivalentTo(
             expectation,
@@ -88,12 +88,15 @@ public class DataColumnAssertions : ReferenceTypeAssertions<DataColumn, DataColu
     ///   <item><description>Unique</description></item>
     /// </list>
     ///
+    /// <para>
     /// Testing of any property can be overridden using the <paramref name="config"/> callback. Exclude specific properties using
     /// <see cref="IDataEquivalencyAssertionOptions{T}.Excluding(System.Linq.Expressions.Expression{Func{T, object}})"/>.
-    ///
+    /// </para>
+    /// <para>
     /// If <see cref="IDataEquivalencyAssertionOptions{T}.ExcludingColumn(DataColumn)"/> or a related function is
     /// used and the exclusion matches the subject <see cref="DataColumn"/>, then the equivalency test will never
     /// fail.
+    /// </para>
     /// </remarks>
     /// <param name="expectation">A <see cref="DataColumn"/> with the expected configuration.</param>
     /// <param name="config">
@@ -109,17 +112,23 @@ public class DataColumnAssertions : ReferenceTypeAssertions<DataColumn, DataColu
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<DataColumnAssertions> BeEquivalentTo(DataColumn expectation, Func<IDataEquivalencyAssertionOptions<DataColumn>, IDataEquivalencyAssertionOptions<DataColumn>> config, string because = "", params object[] becauseArgs)
+    /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
+    public AndConstraint<DataColumnAssertions> BeEquivalentTo(DataColumn expectation,
+        Func<IDataEquivalencyAssertionOptions<DataColumn>, IDataEquivalencyAssertionOptions<DataColumn>> config,
+        string because = "", params object[] becauseArgs)
     {
-        Guard.ThrowIfArgumentIsNull(config, nameof(config));
+        Guard.ThrowIfArgumentIsNull(config);
 
-        IDataEquivalencyAssertionOptions<DataColumn> options = config(AssertionOptions.CloneDefaults<DataColumn, DataEquivalencyAssertionOptions<DataColumn>>(e => new(e)));
+        IDataEquivalencyAssertionOptions<DataColumn> options =
+            config(AssertionOptions.CloneDefaults<DataColumn, DataEquivalencyAssertionOptions<DataColumn>>(e =>
+                new DataEquivalencyAssertionOptions<DataColumn>(e)));
 
-        var context = new EquivalencyValidationContext(Node.From<DataColumn>(() => AssertionScope.Current.CallerIdentity), options)
-        {
-            Reason = new Reason(because, becauseArgs),
-            TraceWriter = options.TraceWriter
-        };
+        var context =
+            new EquivalencyValidationContext(Node.From<DataColumn>(() => AssertionScope.Current.CallerIdentity), options)
+            {
+                Reason = new Reason(because, becauseArgs),
+                TraceWriter = options.TraceWriter
+            };
 
         var comparands = new Comparands
         {

@@ -19,7 +19,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_element_at_each_position_matches_predicate_at_same_position_should_not_throw()
         {
             // Arrange
-            var collection = new int[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().Satisfy(
@@ -35,7 +35,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_element_at_each_position_matches_predicate_at_reverse_position_should_not_throw()
         {
             // Arrange
-            var collection = new int[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().Satisfy(
@@ -51,7 +51,7 @@ public partial class CollectionAssertionSpecs
         public void When_one_element_does_not_have_matching_predicate_Satisfy_should_throw()
         {
             // Arrange
-            var collection = new int[] { 1, 2 };
+            var collection = new[] { 1, 2 };
 
             // Act
             Action act = () => collection.Should().Satisfy(
@@ -61,16 +61,17 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-@"Expected collection to satisfy all predicates, but:
+                @"Expected collection to satisfy all predicates, but:
 *The following predicates did not have matching elements:
 *(element == 3)");
         }
 
         [Fact]
-        public void When_some_predicates_have_multiple_matching_elements_and_most_restricitve_predicates_are_last_should_not_throw()
+        public void
+            When_some_predicates_have_multiple_matching_elements_and_most_restricitve_predicates_are_last_should_not_throw()
         {
             // Arrange
-            var collection = new int[] { 1, 2, 3, 4 };
+            var collection = new[] { 1, 2, 3, 4 };
 
             // Act
             Action act = () => collection.Should().Satisfy(
@@ -84,10 +85,11 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_some_predicates_have_multiple_matching_elements_and_most_restricitve_predicates_are_first_should_not_throw()
+        public void
+            When_some_predicates_have_multiple_matching_elements_and_most_restricitve_predicates_are_first_should_not_throw()
         {
             // Arrange
-            var collection = new int[] { 1, 2, 3, 4 };
+            var collection = new[] { 1, 2, 3, 4 };
 
             // Act
             Action act = () => collection.Should().Satisfy(
@@ -104,7 +106,7 @@ public partial class CollectionAssertionSpecs
         public void When_second_predicate_matches_first_and_last_element_and_solution_exists_should_not_throw()
         {
             // Arrange
-            var collection = new int[] { 1, 2, 3 };
+            var collection = new[] { 1, 2, 3 };
 
             // Act
             Action act = () => collection.Should().Satisfy(
@@ -117,7 +119,8 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_assertion_fails_then_failure_message_must_contain_predicates_without_matching_elements_and_elements_without_matching_predicates()
+        public void
+            When_assertion_fails_then_failure_message_must_contain_predicates_without_matching_elements_and_elements_without_matching_predicates()
         {
             // Arrange
             IEnumerable<SomeClass> collection = new[]
@@ -132,15 +135,15 @@ public partial class CollectionAssertionSpecs
             Action act = () => collection.Should().Satisfy(
                 new Expression<Func<SomeClass, bool>>[]
                 {
-                element => element.Text == "four" && element.Number == 4,
-                element => element.Text == "two" && element.Number == 2,
+                    element => element.Text == "four" && element.Number == 4,
+                    element => element.Text == "two" && element.Number == 2,
                 },
                 because: "we want to test formatting ({0})",
                 becauseArgs: "args");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-@"Expected collection to satisfy all predicates because we want to test formatting (args), but:
+                @"Expected collection to satisfy all predicates because we want to test formatting (args), but:
 *The following predicates did not have matching elements:
 *(element.Text == ""two"") AndAlso (element.Number == 2)
 *The following elements did not match any predicate:
@@ -187,6 +190,7 @@ public partial class CollectionAssertionSpecs
             Action act = () =>
             {
                 using var _ = new AssertionScope();
+
                 collection.Should().Satisfy(
                     new Expression<Func<int, bool>>[]
                     {
@@ -235,7 +239,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-@"Expected collection to satisfy all predicates, but:
+                @"Expected collection to satisfy all predicates, but:
 *The following elements did not match any predicate:
 *Index: 0, Element: 1
 *Index: 2, Element: 3");

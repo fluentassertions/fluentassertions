@@ -3,11 +3,10 @@ using System.Diagnostics;
 using FluentAssertions.Execution;
 
 #if NET6_0_OR_GREATER
-
 namespace FluentAssertions.Primitives;
 
 /// <summary>
-/// Contains a number of methods to assert that a nullable <see cref="TimeOnly"/> or
+/// Contains a number of methods to assert that a nullable <see cref="TimeOnly"/> is in the expected state.
 /// </summary>
 [DebuggerNonUserCode]
 public class NullableTimeOnlyAssertions : NullableTimeOnlyAssertions<NullableTimeOnlyAssertions>
@@ -19,7 +18,7 @@ public class NullableTimeOnlyAssertions : NullableTimeOnlyAssertions<NullableTim
 }
 
 /// <summary>
-/// Contains a number of methods to assert that a nullable <see cref="TimeOnly"/> or
+/// Contains a number of methods to assert that a nullable <see cref="TimeOnly"/> is in the expected state.
 /// </summary>
 [DebuggerNonUserCode]
 public class NullableTimeOnlyAssertions<TAssertions> : TimeOnlyAssertions<TAssertions>
@@ -31,7 +30,7 @@ public class NullableTimeOnlyAssertions<TAssertions> : TimeOnlyAssertions<TAsser
     }
 
     /// <summary>
-    /// Asserts that a nullable <see cref="TimeOnly"/> value is not <c>null</c>.
+    /// Asserts that a nullable <see cref="TimeOnly"/> value is not <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -51,7 +50,7 @@ public class NullableTimeOnlyAssertions<TAssertions> : TimeOnlyAssertions<TAsser
     }
 
     /// <summary>
-    /// Asserts that a nullable <see cref="TimeOnly"/> value is not <c>null</c>.
+    /// Asserts that a nullable <see cref="TimeOnly"/> value is not <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -66,7 +65,7 @@ public class NullableTimeOnlyAssertions<TAssertions> : TimeOnlyAssertions<TAsser
     }
 
     /// <summary>
-    /// Asserts that a nullable <see cref="TimeOnly"/> value is <c>null</c>.
+    /// Asserts that a nullable <see cref="TimeOnly"/> value is <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
@@ -86,7 +85,7 @@ public class NullableTimeOnlyAssertions<TAssertions> : TimeOnlyAssertions<TAsser
     }
 
     /// <summary>
-    /// Asserts that a nullable <see cref="TimeOnly"/> value is <c>null</c>.
+    /// Asserts that a nullable <see cref="TimeOnly"/> value is <see langword="null"/>.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion

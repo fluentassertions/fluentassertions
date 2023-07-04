@@ -14,7 +14,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_nullable_datetimeoffset_value_with_a_value_to_have_a_value_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04);
+            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04).ToDateTimeOffset();
 
             // Act
             Action action = () => nullableDateTime.Should().HaveValue();
@@ -57,7 +57,7 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_fail_when_asserting_nullable_datetimeoffset_value_with_a_value_to_not_have_a_value()
         {
             // Arrange
-            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04);
+            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04).ToDateTimeOffset();
 
             // Act
             Action action = () =>
@@ -74,7 +74,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_nullable_datetimeoffset_value_with_a_value_not_be_null_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04);
+            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04).ToDateTimeOffset();
 
             // Act
             Action action = () => nullableDateTime.Should().NotBeNull();
@@ -117,7 +117,7 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_fail_when_asserting_nullable_datetimeoffset_value_with_a_value_to_be_null()
         {
             // Arrange
-            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04);
+            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04).ToDateTimeOffset();
 
             // Act
             Action action = () =>
@@ -134,8 +134,8 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_succeed_when_asserting_datetimeoffset_value_is_equal_to_the_same_value()
         {
             // Arrange
-            DateTimeOffset dateTime = new DateTime(2016, 06, 04);
-            DateTimeOffset sameDateTime = new DateTime(2016, 06, 04);
+            DateTimeOffset dateTime = new DateTime(2016, 06, 04).ToDateTimeOffset();
+            DateTimeOffset sameDateTime = new DateTime(2016, 06, 04).ToDateTimeOffset();
 
             // Act
             Action act = () => dateTime.Should().Be(sameDateTime);
@@ -148,8 +148,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_datetimeoffset_value_is_equal_to_the_same_nullable_value_be_should_succeed()
         {
             // Arrange
-            DateTimeOffset dateTime = 4.June(2016);
-            DateTimeOffset? sameDateTime = 4.June(2016);
+            DateTimeOffset dateTime = 4.June(2016).ToDateTimeOffset();
+            DateTimeOffset? sameDateTime = 4.June(2016).ToDateTimeOffset();
 
             // Act
             Action act = () => dateTime.Should().Be(sameDateTime);
@@ -220,8 +220,8 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_succeed_when_asserting_nullable_datetimeoffset_value_equals_the_same_value()
         {
             // Arrange
-            DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04);
-            DateTimeOffset? nullableDateTimeB = new DateTime(2016, 06, 04);
+            DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04).ToDateTimeOffset();
+            DateTimeOffset? nullableDateTimeB = new DateTime(2016, 06, 04).ToDateTimeOffset();
 
             // Act
             Action action = () =>
@@ -246,8 +246,8 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_fail_when_asserting_nullable_datetimeoffset_value_equals_a_different_value()
         {
             // Arrange
-            DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04);
-            DateTimeOffset? nullableDateTimeB = new DateTime(2016, 06, 06);
+            DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04).ToDateTimeOffset();
+            DateTimeOffset? nullableDateTimeB = new DateTime(2016, 06, 06).ToDateTimeOffset();
 
             // Act
             Action action = () =>
@@ -270,7 +270,8 @@ public class DateTimeOffsetAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected nullableDateTime to represent the same point in time as <2016-03-27 +1h> because we want to test the failure message, but found a <null> DateTimeOffset.");
+                .WithMessage(
+                    "Expected nullableDateTime to represent the same point in time as <2016-03-27 +1h> because we want to test the failure message, but found a <null> DateTimeOffset.");
         }
 
         [Fact]
@@ -286,7 +287,8 @@ public class DateTimeOffsetAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected nullableDateTime to be <null> because we want to test the failure message, but it was <2016-03-27 +1h>.");
+                .WithMessage(
+                    "Expected nullableDateTime to be <null> because we want to test the failure message, but it was <2016-03-27 +1h>.");
         }
 
         [Fact]
@@ -311,8 +313,8 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_succeed_when_asserting_datetimeoffset_value_is_not_equal_to_a_different_value()
         {
             // Arrange
-            DateTimeOffset dateTime = new DateTime(2016, 06, 04);
-            DateTimeOffset otherDateTime = new DateTime(2016, 06, 05);
+            DateTimeOffset dateTime = new DateTime(2016, 06, 04).ToDateTimeOffset();
+            DateTimeOffset otherDateTime = new DateTime(2016, 06, 05).ToDateTimeOffset();
 
             // Act
             Action act = () => dateTime.Should().NotBe(otherDateTime);
@@ -325,8 +327,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_datetimeoffset_value_is_not_equal_to_a_nullable_different_value_notbe_should_succeed()
         {
             // Arrange
-            DateTimeOffset dateTime = 4.June(2016);
-            DateTimeOffset? otherDateTime = 5.June(2016);
+            DateTimeOffset dateTime = 4.June(2016).ToDateTimeOffset();
+            DateTimeOffset? otherDateTime = 5.June(2016).ToDateTimeOffset();
 
             // Act
             Action act = () => dateTime.Should().NotBe(otherDateTime);
@@ -355,7 +357,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_datetimeoffset_value_is_not_equal_to_the_same_nullable_value_notbe_should_failed()
         {
             // Arrange
-            DateTimeOffset dateTime = new DateTimeOffset(10.March(2012), 1.Hours());
+            DateTimeOffset dateTime = new(10.March(2012), 1.Hours());
             DateTimeOffset? sameDateTime = new DateTimeOffset(10.March(2012), 1.Hours());
 
             // Act
@@ -369,7 +371,7 @@ public class DateTimeOffsetAssertionSpecs
 
         [Fact]
         public void
-        When_asserting_different_date_time_offsets_representing_different_world_times_it_should_not_succeed()
+            When_asserting_different_date_time_offsets_representing_different_world_times_it_should_not_succeed()
         {
             // Arrange
             var specificDate = 1.May(2008).At(6, 32);
@@ -388,8 +390,8 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_succeed_when_asserting_value_is_exactly_equal_to_the_same_value()
         {
             // Arrange
-            DateTimeOffset dateTime = new DateTime(2016, 06, 04);
-            DateTimeOffset sameDateTime = new DateTime(2016, 06, 04);
+            DateTimeOffset dateTime = new DateTime(2016, 06, 04).ToDateTimeOffset();
+            DateTimeOffset sameDateTime = new DateTime(2016, 06, 04).ToDateTimeOffset();
 
             // Act / Assert
             dateTime.Should().BeExactly(sameDateTime);
@@ -399,8 +401,8 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_succeed_when_asserting_value_is_exactly_equal_to_the_same_nullable_value()
         {
             // Arrange
-            DateTimeOffset dateTime = 4.June(2016);
-            DateTimeOffset? sameDateTime = 4.June(2016);
+            DateTimeOffset dateTime = 4.June(2016).ToDateTimeOffset();
+            DateTimeOffset? sameDateTime = 4.June(2016).ToDateTimeOffset();
 
             // Act / Assert
             dateTime.Should().BeExactly(sameDateTime);
@@ -440,8 +442,8 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_succeed_when_asserting_nullable_value_is_exactly_equal_to_the_same_nullable_value()
         {
             // Arrange
-            DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04);
-            DateTimeOffset? nullableDateTimeB = new DateTime(2016, 06, 04);
+            DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04).ToDateTimeOffset();
+            DateTimeOffset? nullableDateTimeB = new DateTime(2016, 06, 04).ToDateTimeOffset();
 
             // Act / Assert
             nullableDateTimeA.Should().BeExactly(nullableDateTimeB);
@@ -462,8 +464,8 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_fail_when_asserting_nullable_value_exactly_equals_a_different_value()
         {
             // Arrange
-            DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04);
-            DateTimeOffset? nullableDateTimeB = new DateTime(2016, 06, 06);
+            DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04).ToDateTimeOffset();
+            DateTimeOffset? nullableDateTimeB = new DateTime(2016, 06, 06).ToDateTimeOffset();
 
             // Act
             Action action = () =>
@@ -486,7 +488,8 @@ public class DateTimeOffsetAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected nullableDateTime to be exactly <2016-03-27 +1h> because we want to test the failure message, but found a <null> DateTimeOffset.");
+                .WithMessage(
+                    "Expected nullableDateTime to be exactly <2016-03-27 +1h> because we want to test the failure message, but found a <null> DateTimeOffset.");
         }
     }
 
@@ -534,7 +537,7 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_fail_when_asserting_value_is_not_exactly_equal_to_the_same_nullable_value()
         {
             // Arrange
-            DateTimeOffset dateTime = new DateTimeOffset(10.March(2012), 1.Hours());
+            DateTimeOffset dateTime = new(10.March(2012), 1.Hours());
             DateTimeOffset? sameDateTime = new DateTimeOffset(10.March(2012), 1.Hours());
 
             // Act
@@ -561,7 +564,8 @@ public class DateTimeOffsetAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -624,8 +628,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_close_to_a_later_datetimeoffset_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset time = new DateTimeOffset(2016, 06, 04, 12, 15, 30, 980, TimeSpan.Zero);
-            DateTimeOffset nearbyTime = new DateTimeOffset(2016, 06, 04, 12, 15, 31, 0, TimeSpan.Zero);
+            DateTimeOffset time = new(2016, 06, 04, 12, 15, 30, 980, TimeSpan.Zero);
+            DateTimeOffset nearbyTime = new(2016, 06, 04, 12, 15, 31, 0, TimeSpan.Zero);
 
             // Act
             Action act = () => time.Should().BeCloseTo(nearbyTime, 20.Milliseconds());
@@ -638,8 +642,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_close_to_an_earlier_datetimeoffset_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset time = new DateTimeOffset(2016, 06, 04, 12, 15, 31, 020, TimeSpan.Zero);
-            DateTimeOffset nearbyTime = new DateTimeOffset(2016, 06, 04, 12, 15, 31, 0, TimeSpan.Zero);
+            DateTimeOffset time = new(2016, 06, 04, 12, 15, 31, 020, TimeSpan.Zero);
+            DateTimeOffset nearbyTime = new(2016, 06, 04, 12, 15, 31, 0, TimeSpan.Zero);
 
             // Act
             Action act = () => time.Should().BeCloseTo(nearbyTime, 20.Milliseconds());
@@ -649,7 +653,8 @@ public class DateTimeOffsetAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_subject_datetimeoffset_is_close_to_another_value_that_is_later_by_more_than_20ms_it_should_throw()
+        public void
+            When_asserting_subject_datetimeoffset_is_close_to_another_value_that_is_later_by_more_than_20ms_it_should_throw()
         {
             // Arrange
             DateTimeOffset time = 13.March(2012).At(12, 15, 30, 979).ToDateTimeOffset(1.Hours());
@@ -661,11 +666,12 @@ public class DateTimeOffsetAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected time to be within 20ms from <2012-03-13 12:15:31 +1H>, but it was <2012-03-13 12:15:30.979 +1H>.");
+                    "Expected time to be within 20ms from <2012-03-13 12:15:31 +1H>, but <2012-03-13 12:15:30.979 +1H> was off by 21ms.");
         }
 
         [Fact]
-        public void When_asserting_subject_datetimeoffset_is_close_to_another_value_that_is_earlier_by_more_than_20ms_it_should_throw()
+        public void
+            When_asserting_subject_datetimeoffset_is_close_to_another_value_that_is_earlier_by_more_than_20ms_it_should_throw()
         {
             // Arrange
             DateTimeOffset time = 13.March(2012).At(12, 15, 31, 021).ToDateTimeOffset(1.Hours());
@@ -677,11 +683,12 @@ public class DateTimeOffsetAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected time to be within 20ms from <2012-03-13 12:15:31 +1h>, but it was <2012-03-13 12:15:31.021 +1h>.");
+                    "Expected time to be within 20ms from <2012-03-13 12:15:31 +1h>, but <2012-03-13 12:15:31.021 +1h> was off by 21ms.");
         }
 
         [Fact]
-        public void When_asserting_subject_datetimeoffset_is_close_to_another_value_that_is_earlier_by_more_than_a_35ms_timespan_it_should_throw()
+        public void
+            When_asserting_subject_datetimeoffset_is_close_to_another_value_that_is_earlier_by_more_than_a_35ms_timespan_it_should_throw()
         {
             // Arrange
             DateTimeOffset time = 13.March(2012).At(12, 15, 31, 036).WithOffset(1.Hours());
@@ -693,7 +700,7 @@ public class DateTimeOffsetAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage(
-                    "Expected time to be within 35ms from <2012-03-13 12:15:31 +1h>, but it was <2012-03-13 12:15:31.036 +1h>.");
+                    "Expected time to be within 35ms from <2012-03-13 12:15:31 +1h>, but <2012-03-13 12:15:31.036 +1h> was off by 36ms.");
         }
 
         [Fact]
@@ -722,7 +729,7 @@ public class DateTimeOffsetAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected*, but it was <null>.");
+                .WithMessage("Expected*, but found <null>.");
         }
 
         [Fact]
@@ -768,7 +775,8 @@ public class DateTimeOffsetAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
-                .WithMessage("* value of precision must be non-negative*");
+                .WithParameterName("precision")
+                .WithMessage("*must be non-negative*");
         }
 
         [Fact]
@@ -831,23 +839,25 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_not_close_to_a_later_datetimeoffset_it_should_throw()
         {
             // Arrange
-            DateTimeOffset time = new DateTimeOffset(2016, 06, 04, 12, 15, 30, 980, TimeSpan.Zero);
-            DateTimeOffset nearbyTime = new DateTimeOffset(2016, 06, 04, 12, 15, 31, 0, TimeSpan.Zero);
+            DateTimeOffset time = new(2016, 06, 04, 12, 15, 30, 980, TimeSpan.Zero);
+            DateTimeOffset nearbyTime = new(2016, 06, 04, 12, 15, 31, 0, TimeSpan.Zero);
 
             // Act
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect time to be within 20ms from <2016-06-04 12:15:31 +0h>, but it was <2016-06-04 12:15:30.980 +0h>.");
+                .WithMessage(
+                    "Did not expect time to be within 20ms from <2016-06-04 12:15:31 +0h>, but it was <2016-06-04 12:15:30.980 +0h>.");
         }
 
         [Fact]
-        public void When_asserting_subject_datetimeoffset_is_not_close_to_a_later_datetimeoffset_by_a_20ms_timespan_it_should_throw()
+        public void
+            When_asserting_subject_datetimeoffset_is_not_close_to_a_later_datetimeoffset_by_a_20ms_timespan_it_should_throw()
         {
             // Arrange
-            DateTimeOffset time = new DateTimeOffset(2016, 06, 04, 12, 15, 30, 980, TimeSpan.Zero);
-            DateTimeOffset nearbyTime = new DateTimeOffset(2016, 06, 04, 12, 15, 31, 0, TimeSpan.Zero);
+            DateTimeOffset time = new(2016, 06, 04, 12, 15, 30, 980, TimeSpan.Zero);
+            DateTimeOffset nearbyTime = new(2016, 06, 04, 12, 15, 31, 0, TimeSpan.Zero);
 
             // Act
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, TimeSpan.FromMilliseconds(20));
@@ -861,19 +871,21 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_not_close_to_an_earlier_datetimeoffset_it_should_throw()
         {
             // Arrange
-            DateTimeOffset time = new DateTimeOffset(2016, 06, 04, 12, 15, 31, 020, TimeSpan.Zero);
-            DateTimeOffset nearbyTime = new DateTimeOffset(2016, 06, 04, 12, 15, 31, 0, TimeSpan.Zero);
+            DateTimeOffset time = new(2016, 06, 04, 12, 15, 31, 020, TimeSpan.Zero);
+            DateTimeOffset nearbyTime = new(2016, 06, 04, 12, 15, 31, 0, TimeSpan.Zero);
 
             // Act
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect time to be within 20ms from <2016-06-04 12:15:31 +0h>, but it was <2016-06-04 12:15:31.020 +0h>.");
+                .WithMessage(
+                    "Did not expect time to be within 20ms from <2016-06-04 12:15:31 +0h>, but it was <2016-06-04 12:15:31.020 +0h>.");
         }
 
         [Fact]
-        public void When_asserting_subject_datetimeoffset_is_not_close_to_another_value_that_is_later_by_more_than_20ms_it_should_succeed()
+        public void
+            When_asserting_subject_datetimeoffset_is_not_close_to_another_value_that_is_later_by_more_than_20ms_it_should_succeed()
         {
             // Arrange
             DateTimeOffset time = 13.March(2012).At(12, 15, 30, 979).ToDateTimeOffset(1.Hours());
@@ -887,7 +899,8 @@ public class DateTimeOffsetAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_subject_datetimeoffset_is_not_close_to_another_value_that_is_earlier_by_more_than_20ms_it_should_succeed()
+        public void
+            When_asserting_subject_datetimeoffset_is_not_close_to_another_value_that_is_earlier_by_more_than_20ms_it_should_succeed()
         {
             // Arrange
             DateTimeOffset time = 13.March(2012).At(12, 15, 31, 021).ToDateTimeOffset(1.Hours());
@@ -912,7 +925,8 @@ public class DateTimeOffsetAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect time to be within 35ms from <2012-03-13 12:15:31 +1h>, but it was <2012-03-13 12:15:31.035 +1h>.");
+                .WithMessage(
+                    "Did not expect time to be within 35ms from <2012-03-13 12:15:31 +1h>, but it was <2012-03-13 12:15:31.035 +1h>.");
         }
 
         [Fact]
@@ -942,7 +956,8 @@ public class DateTimeOffsetAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect time to be within 100ms from <0001-01-01 00:00:00.000>, but it was <00:00:00.050 +0h>.");
+                .WithMessage(
+                    "Did not expect time to be within 100ms from <0001-01-01 00:00:00.000>, but it was <00:00:00.050 +0h>.");
         }
 
         [Fact]
@@ -957,7 +972,8 @@ public class DateTimeOffsetAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect time to be within 100ms from <9999-12-31 23:59:59.9999999 +0h>, but it was <9999-12-31 23:59:59.9499999 +0h>.");
+                .WithMessage(
+                    "Did not expect time to be within 100ms from <9999-12-31 23:59:59.9999999 +0h>, but it was <9999-12-31 23:59:59.9499999 +0h>.");
         }
     }
 
@@ -967,8 +983,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_a_point_of_time_is_before_a_later_point_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset earlierDate = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset laterDate = new DateTimeOffset(new DateTime(2016, 06, 04, 0, 5, 0), TimeSpan.Zero);
+            DateTimeOffset earlierDate = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset laterDate = new(new DateTime(2016, 06, 04, 0, 5, 0), TimeSpan.Zero);
 
             // Act
             Action act = () => earlierDate.Should().BeBefore(laterDate);
@@ -981,8 +997,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_is_before_earlier_expected_datetimeoffset_it_should_throw()
         {
             // Arrange
-            DateTimeOffset expected = new DateTimeOffset(new DateTime(2016, 06, 03), TimeSpan.Zero);
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset expected = new(new DateTime(2016, 06, 03), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().BeBefore(expected);
@@ -996,8 +1012,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_before_the_same_datetimeoffset_it_should_throw()
         {
             // Arrange
-            DateTimeOffset expected = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset expected = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().BeBefore(expected);
@@ -1014,8 +1030,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_a_point_of_time_is_not_before_another_it_should_throw()
         {
             // Arrange
-            DateTimeOffset earlierDate = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset laterDate = new DateTimeOffset(new DateTime(2016, 06, 04, 0, 5, 0), TimeSpan.Zero);
+            DateTimeOffset earlierDate = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset laterDate = new(new DateTime(2016, 06, 04, 0, 5, 0), TimeSpan.Zero);
 
             // Act
             Action act = () => earlierDate.Should().NotBeBefore(laterDate);
@@ -1029,8 +1045,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_is_not_before_earlier_expected_datetimeoffset_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset expected = new DateTimeOffset(new DateTime(2016, 06, 03), TimeSpan.Zero);
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset expected = new(new DateTime(2016, 06, 03), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().NotBeBefore(expected);
@@ -1043,8 +1059,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_not_before_the_same_datetimeoffset_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset expected = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset expected = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().NotBeBefore(expected);
@@ -1060,8 +1076,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_on_or_before_expected_datetimeoffset_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2016, 06, 05), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2016, 06, 05), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().BeOnOrBefore(expectation);
@@ -1071,11 +1087,12 @@ public class DateTimeOffsetAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_subject_datetimeoffset_is_on_or_before_the_same_date_as_the_expected_datetimeoffset_should_succeed()
+        public void
+            When_asserting_subject_datetimeoffset_is_on_or_before_the_same_date_as_the_expected_datetimeoffset_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().BeOnOrBefore(expectation);
@@ -1088,8 +1105,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_not_on_or_before_earlier_expected_datetimeoffset_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2016, 06, 03), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2016, 06, 03), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().BeOnOrBefore(expectation);
@@ -1106,8 +1123,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_on_or_before_expected_datetimeoffset_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2016, 06, 05), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2016, 06, 05), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().NotBeOnOrBefore(expectation);
@@ -1118,11 +1135,12 @@ public class DateTimeOffsetAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_subject_datetimeoffset_is_on_or_before_the_same_date_as_the_expected_datetimeoffset_should_throw()
+        public void
+            When_asserting_subject_datetimeoffset_is_on_or_before_the_same_date_as_the_expected_datetimeoffset_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().NotBeOnOrBefore(expectation);
@@ -1136,8 +1154,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_not_on_or_before_earlier_expected_datetimeoffset_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2016, 06, 03), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2016, 06, 03), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().NotBeOnOrBefore(expectation);
@@ -1153,8 +1171,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_after_earlier_expected_datetimeoffset_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2016, 06, 03), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2016, 06, 03), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().BeAfter(expectation);
@@ -1167,8 +1185,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_after_later_expected_datetimeoffset_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2016, 06, 05), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2016, 06, 05), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().BeAfter(expectation);
@@ -1182,8 +1200,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_after_the_same_expected_datetimeoffset_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().BeAfter(expectation);
@@ -1200,8 +1218,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_not_after_earlier_expected_datetimeoffset_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2016, 06, 03), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2016, 06, 03), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().NotBeAfter(expectation);
@@ -1215,8 +1233,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_not_after_later_expected_datetimeoffset_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2016, 06, 05), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2016, 06, 05), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().NotBeAfter(expectation);
@@ -1229,8 +1247,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_not_after_the_same_expected_datetimeoffset_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().NotBeAfter(expectation);
@@ -1246,8 +1264,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_on_or_after_earlier_expected_datetimeoffset_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2016, 06, 03), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2016, 06, 03), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().BeOnOrAfter(expectation);
@@ -1260,8 +1278,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_on_or_after_the_same_expected_datetimeoffset_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().BeOnOrAfter(expectation);
@@ -1274,8 +1292,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_on_or_after_later_expected_datetimeoffset_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2016, 06, 05), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2016, 06, 05), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().BeOnOrAfter(expectation);
@@ -1292,8 +1310,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_not_on_or_after_earlier_expected_datetimeoffset_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2016, 06, 03), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2016, 06, 03), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().NotBeOnOrAfter(expectation);
@@ -1307,8 +1325,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_not_on_or_after_the_same_expected_datetimeoffset_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().NotBeOnOrAfter(expectation);
@@ -1322,8 +1340,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_not_on_or_after_later_expected_datetimeoffset_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2016, 06, 05), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2016, 06, 05), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().NotBeOnOrAfter(expectation);
@@ -1339,7 +1357,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_have_year_with_the_same_value_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 06, 04), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 06, 04), TimeSpan.Zero);
             int expectation = 2009;
 
             // Act
@@ -1353,7 +1371,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_have_year_with_a_different_value_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 06, 04), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 06, 04), TimeSpan.Zero);
             int expectation = 2008;
 
             // Act
@@ -1386,7 +1404,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_not_have_year_with_the_same_value_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 06, 04), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 06, 04), TimeSpan.Zero);
             int expectation = 2009;
 
             // Act
@@ -1401,7 +1419,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_not_have_year_with_a_different_value_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 06, 04), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 06, 04), TimeSpan.Zero);
             int expectation = 2008;
 
             // Act
@@ -1433,7 +1451,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_have_month_with_the_same_value_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31), TimeSpan.Zero);
             int expectation = 12;
 
             // Act
@@ -1447,7 +1465,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_have_a_month_with_a_different_value_it_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31), TimeSpan.Zero);
             int expectation = 11;
 
             // Act
@@ -1480,7 +1498,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_not_have_month_with_the_same_value_it_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31), TimeSpan.Zero);
             int expectation = 12;
 
             // Act
@@ -1495,7 +1513,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_not_have_a_month_with_a_different_value_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31), TimeSpan.Zero);
             int expectation = 11;
 
             // Act
@@ -1527,7 +1545,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_have_day_with_the_same_value_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31), TimeSpan.Zero);
             int expectation = 31;
 
             // Act
@@ -1541,7 +1559,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_have_day_with_a_different_value_it_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31), TimeSpan.Zero);
             int expectation = 30;
 
             // Act
@@ -1574,7 +1592,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_not_have_day_with_the_same_value_it_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31), TimeSpan.Zero);
             int expectation = 31;
 
             // Act
@@ -1589,7 +1607,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_not_have_day_with_a_different_value_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31), TimeSpan.Zero);
             int expectation = 30;
 
             // Act
@@ -1621,7 +1639,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_have_hour_with_the_same_value_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
             int expectation = 23;
 
             // Act
@@ -1635,7 +1653,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_have_hour_with_different_value_it_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
             int expectation = 22;
 
             // Act
@@ -1668,7 +1686,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_not_have_hour_with_the_same_value_it_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
             int expectation = 23;
 
             // Act
@@ -1683,7 +1701,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_not_have_hour_with_different_value_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
             int expectation = 22;
 
             // Act
@@ -1715,7 +1733,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_have_minutes_with_the_same_value_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
             int expectation = 59;
 
             // Act
@@ -1729,7 +1747,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_have_minutes_with_different_value_it_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
             int expectation = 58;
 
             // Act
@@ -1762,7 +1780,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_not_have_minutes_with_the_same_value_it_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
             int expectation = 59;
 
             // Act
@@ -1777,7 +1795,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_not_have_minutes_with_different_value_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
             int expectation = 58;
 
             // Act
@@ -1809,7 +1827,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_have_seconds_with_the_same_value_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
             int expectation = 0;
 
             // Act
@@ -1823,7 +1841,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_have_seconds_with_different_value_it_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
             int expectation = 1;
 
             // Act
@@ -1856,7 +1874,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_not_have_seconds_with_the_same_value_it_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
             int expectation = 0;
 
             // Act
@@ -1871,7 +1889,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_not_have_seconds_with_different_value_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
             int expectation = 1;
 
             // Act
@@ -1903,7 +1921,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_have_offset_with_the_same_value_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.FromHours(7));
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.FromHours(7));
             TimeSpan expectation = TimeSpan.FromHours(7);
 
             // Act
@@ -1917,7 +1935,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_have_offset_with_different_value_it_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 10), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 10), TimeSpan.Zero);
             TimeSpan expectation = TimeSpan.FromHours(3);
 
             // Act
@@ -1950,7 +1968,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_not_have_offset_with_the_same_value_it_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.FromHours(7));
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.FromHours(7));
             TimeSpan expectation = TimeSpan.FromHours(7);
 
             // Act
@@ -1965,7 +1983,7 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_not_have_offset_with_different_value_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
             TimeSpan expectation = TimeSpan.FromHours(3);
 
             // Act
@@ -1997,8 +2015,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_be_same_date_as_another_with_the_same_date_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 4, 5, 6), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2009, 12, 31), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 4, 5, 6), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2009, 12, 31), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().BeSameDateAs(expectation);
@@ -2008,11 +2026,12 @@ public class DateTimeOffsetAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_subject_datetimeoffset_should_be_same_as_another_with_same_date_but_different_time_it_should_succeed()
+        public void
+            When_asserting_subject_datetimeoffset_should_be_same_as_another_with_same_date_but_different_time_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 4, 5, 6), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2009, 12, 31, 11, 15, 11), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 4, 5, 6), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2009, 12, 31, 11, 15, 11), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().BeSameDateAs(expectation);
@@ -2026,7 +2045,7 @@ public class DateTimeOffsetAssertionSpecs
         {
             // Arrange
             DateTimeOffset? subject = null;
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2009, 12, 31), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2009, 12, 31), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().BeSameDateAs(expectation);
@@ -2040,8 +2059,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_have_same_date_as_another_but_it_doesnt_it_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2009, 12, 30), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2009, 12, 30), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().BeSameDateAs(expectation);
@@ -2058,8 +2077,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_not_be_same_date_as_another_with_the_same_date_it_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 4, 5, 6), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2009, 12, 31), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 4, 5, 6), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2009, 12, 31), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().NotBeSameDateAs(expectation);
@@ -2070,11 +2089,12 @@ public class DateTimeOffsetAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_subject_datetimeoffset_should_not_be_same_as_another_with_same_date_but_different_time_it_should_throw()
+        public void
+            When_asserting_subject_datetimeoffset_should_not_be_same_as_another_with_same_date_but_different_time_it_should_throw()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 4, 5, 6), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2009, 12, 31, 11, 15, 11), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 4, 5, 6), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2009, 12, 31, 11, 15, 11), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().NotBeSameDateAs(expectation);
@@ -2089,7 +2109,7 @@ public class DateTimeOffsetAssertionSpecs
         {
             // Arrange
             DateTimeOffset? subject = null;
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2009, 12, 31), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2009, 12, 31), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().NotBeSameDateAs(expectation);
@@ -2103,8 +2123,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_should_not_have_same_date_as_another_but_it_doesnt_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31), TimeSpan.Zero);
-            DateTimeOffset expectation = new DateTimeOffset(new DateTime(2009, 12, 30), TimeSpan.Zero);
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2009, 12, 30), TimeSpan.Zero);
 
             // Act
             Action act = () => subject.Should().NotBeSameDateAs(expectation);
@@ -2292,13 +2312,15 @@ public class DateTimeOffsetAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected subject <00:00:15 +0h> to be more than 10s after <00:00:30 +0h>, but it is behind by 15s.");
+                .WithMessage(
+                    "Expected subject <00:00:15 +0h> to be more than 10s after <00:00:30 +0h>, but it is behind by 15s.");
         }
 
         [Theory]
         [InlineData(30, 20)] // edge case
         [InlineData(30, 15)]
-        public void When_asserting_subject_be_at_least_10_seconds_after_target_but_subject_is_before_target_it_should_throw(int targetSeconds, int subjectSeconds)
+        public void When_asserting_subject_be_at_least_10_seconds_after_target_but_subject_is_before_target_it_should_throw(
+            int targetSeconds, int subjectSeconds)
         {
             // Arrange
             var expectation = 1.January(0001).At(0, 0, targetSeconds).WithOffset(0.Hours());
@@ -2309,7 +2331,8 @@ public class DateTimeOffsetAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage($"Expected subject <00:00:{subjectSeconds} +0h> to be at least 10s after <00:00:30 +0h>, but it is behind by {Math.Abs(subjectSeconds - targetSeconds)}s.");
+                .WithMessage(
+                    $"Expected subject <00:00:{subjectSeconds} +0h> to be at least 10s after <00:00:30 +0h>, but it is behind by {Math.Abs(subjectSeconds - targetSeconds)}s.");
         }
 
         [Fact]
@@ -2330,7 +2353,8 @@ public class DateTimeOffsetAssertionSpecs
         [Theory]
         [InlineData(30, 20)] // edge case
         [InlineData(30, 25)]
-        public void When_asserting_subject_be_within_10_seconds_after_target_but_subject_is_before_target_it_should_throw(int targetSeconds, int subjectSeconds)
+        public void When_asserting_subject_be_within_10_seconds_after_target_but_subject_is_before_target_it_should_throw(
+            int targetSeconds, int subjectSeconds)
         {
             // Arrange
             var expectation = 1.January(0001).At(0, 0, targetSeconds).WithOffset(0.Hours());
@@ -2341,7 +2365,8 @@ public class DateTimeOffsetAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage($"Expected subject <00:00:{subjectSeconds} +0h> to be within 10s after <00:00:30 +0h>, but it is behind by {Math.Abs(subjectSeconds - targetSeconds)}s.");
+                .WithMessage(
+                    $"Expected subject <00:00:{subjectSeconds} +0h> to be within 10s after <00:00:30 +0h>, but it is behind by {Math.Abs(subjectSeconds - targetSeconds)}s.");
         }
 
         [Fact]
@@ -2371,13 +2396,15 @@ public class DateTimeOffsetAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected subject <00:00:45 +0h> to be more than 10s before <00:00:30 +0h>, but it is ahead by 15s.");
+                .WithMessage(
+                    "Expected subject <00:00:45 +0h> to be more than 10s before <00:00:30 +0h>, but it is ahead by 15s.");
         }
 
         [Theory]
         [InlineData(30, 40)] // edge case
         [InlineData(30, 45)]
-        public void When_asserting_subject_be_at_least_10_seconds_before_target_but_subject_is_after_target_it_should_throw(int targetSeconds, int subjectSeconds)
+        public void When_asserting_subject_be_at_least_10_seconds_before_target_but_subject_is_after_target_it_should_throw(
+            int targetSeconds, int subjectSeconds)
         {
             // Arrange
             var expectation = 1.January(0001).At(0, 0, targetSeconds).WithOffset(0.Hours());
@@ -2388,7 +2415,8 @@ public class DateTimeOffsetAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage($"Expected subject <00:00:{subjectSeconds} +0h> to be at least 10s before <00:00:30 +0h>, but it is ahead by {Math.Abs(subjectSeconds - targetSeconds)}s.");
+                .WithMessage(
+                    $"Expected subject <00:00:{subjectSeconds} +0h> to be at least 10s before <00:00:30 +0h>, but it is ahead by {Math.Abs(subjectSeconds - targetSeconds)}s.");
         }
 
         [Fact]
@@ -2409,7 +2437,8 @@ public class DateTimeOffsetAssertionSpecs
         [Theory]
         [InlineData(30, 40)] // edge case
         [InlineData(30, 35)]
-        public void When_asserting_subject_be_within_10_seconds_before_target_but_subject_is_after_target_it_should_throw(int targetSeconds, int subjectSeconds)
+        public void When_asserting_subject_be_within_10_seconds_before_target_but_subject_is_after_target_it_should_throw(
+            int targetSeconds, int subjectSeconds)
         {
             // Arrange
             var expectation = 1.January(0001).At(0, 0, targetSeconds).WithOffset(0.Hours());
@@ -2420,7 +2449,8 @@ public class DateTimeOffsetAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage($"Expected subject <00:00:{subjectSeconds} +0h> to be within 10s before <00:00:30 +0h>, but it is ahead by {Math.Abs(subjectSeconds - targetSeconds)}s.");
+                .WithMessage(
+                    $"Expected subject <00:00:{subjectSeconds} +0h> to be within 10s before <00:00:30 +0h>, but it is ahead by {Math.Abs(subjectSeconds - targetSeconds)}s.");
         }
 
         [Fact]
@@ -2435,7 +2465,22 @@ public class DateTimeOffsetAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected subject <00:00:45 +0h> to be less than 10s before <00:00:30 +0h>, but it is ahead by 15s.");
+                .WithMessage(
+                    "Expected subject <00:00:45 +0h> to be less than 10s before <00:00:30 +0h>, but it is ahead by 15s.");
+        }
+
+        [Fact]
+        public void Should_throw_a_helpful_error_when_accidentally_using_equals_with_a_range()
+        {
+            // Arrange
+            DateTimeOffset someDateTimeOffset = new(2022, 9, 25, 13, 48, 42, 0, TimeSpan.Zero);
+
+            // Act
+            Action action = () => someDateTimeOffset.Should().BeLessThan(0.Seconds()).Equals(someDateTimeOffset);
+
+            // Assert
+            action.Should().Throw<NotSupportedException>()
+                .WithMessage("Equals is not part of Fluent Assertions. Did you mean Before() or After() instead?");
         }
     }
 
@@ -2445,8 +2490,8 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_support_chaining_constraints_with_and()
         {
             // Arrange
-            DateTimeOffset yesterday = new DateTime(2016, 06, 03);
-            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04);
+            DateTimeOffset yesterday = new DateTime(2016, 06, 03).ToDateTimeOffset();
+            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04).ToDateTimeOffset();
 
             // Act
             Action action = () =>
@@ -2494,10 +2539,11 @@ public class DateTimeOffsetAssertionSpecs
         public void When_a_value_is_one_of_the_specified_values_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset value = new DateTimeOffset(2016, 12, 30, 23, 58, 57, TimeSpan.FromHours(4));
+            DateTimeOffset value = new(2016, 12, 30, 23, 58, 57, TimeSpan.FromHours(4));
 
             // Act
-            Action action = () => value.Should().BeOneOf(new DateTimeOffset(2216, 1, 30, 0, 5, 7, TimeSpan.FromHours(2)), new DateTimeOffset(2016, 12, 30, 23, 58, 57, TimeSpan.FromHours(4)));
+            Action action = () => value.Should().BeOneOf(new DateTimeOffset(2216, 1, 30, 0, 5, 7, TimeSpan.FromHours(2)),
+                new DateTimeOffset(2016, 12, 30, 23, 58, 57, TimeSpan.FromHours(4)));
 
             // Assert
             action.Should().NotThrow();
@@ -2510,7 +2556,8 @@ public class DateTimeOffsetAssertionSpecs
             DateTimeOffset? value = null;
 
             // Act
-            Action action = () => value.Should().BeOneOf(new DateTimeOffset(2216, 1, 30, 0, 5, 7, TimeSpan.FromHours(1)), new DateTimeOffset(2016, 2, 10, 2, 45, 7, TimeSpan.FromHours(2)));
+            Action action = () => value.Should().BeOneOf(new DateTimeOffset(2216, 1, 30, 0, 5, 7, TimeSpan.FromHours(1)),
+                new DateTimeOffset(2016, 2, 10, 2, 45, 7, TimeSpan.FromHours(2)));
 
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
@@ -2528,6 +2575,23 @@ public class DateTimeOffsetAssertionSpecs
 
             // Assert
             action.Should().NotThrow();
+        }
+    }
+
+    public class Miscellaneous
+    {
+        [Fact]
+        public void Should_throw_a_helpful_error_when_accidentally_using_equals()
+        {
+            // Arrange
+            DateTimeOffset someDateTimeOffset = new(2022, 9, 25, 13, 48, 42, 0, TimeSpan.Zero);
+
+            // Act
+            Action action = () => someDateTimeOffset.Should().Equals(someDateTimeOffset);
+
+            // Assert
+            action.Should().Throw<NotSupportedException>()
+                .WithMessage("Equals is not part of Fluent Assertions. Did you mean Be() instead?");
         }
     }
 }

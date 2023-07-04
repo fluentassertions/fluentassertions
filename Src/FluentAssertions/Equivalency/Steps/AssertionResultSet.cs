@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions.Execution;
@@ -32,12 +33,12 @@ internal class AssertionResultSet
     {
         if (ContainsSuccessfulSet())
         {
-            return new string[0];
+            return Array.Empty<string>();
         }
 
         KeyValuePair<object, string[]>[] bestResultSets = GetBestResultSets();
 
-        KeyValuePair<object, string[]> bestMatch = bestResultSets.FirstOrDefault(r => r.Key.Equals(key));
+        KeyValuePair<object, string[]> bestMatch = Array.Find(bestResultSets, r => r.Key.Equals(key));
 
         if ((bestMatch.Key, bestMatch.Value) == default)
         {

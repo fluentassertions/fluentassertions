@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Text;
+﻿using System.Text;
 
 namespace FluentAssertions.CallerIdentification;
 
@@ -11,7 +10,7 @@ internal class QuotesParsingStrategy : IParsingStrategy
 
     public ParsingState Parse(char symbol, StringBuilder statement)
     {
-        if (symbol == '"')
+        if (symbol is '"')
         {
             if (isQuoteContext)
             {
@@ -27,6 +26,7 @@ internal class QuotesParsingStrategy : IParsingStrategy
             else
             {
                 isQuoteContext = true;
+
                 if (IsVerbatim(statement))
                 {
                     isQuoteEscapeSymbol = '"';
@@ -54,17 +54,7 @@ internal class QuotesParsingStrategy : IParsingStrategy
 
     private bool IsVerbatim(StringBuilder statement)
     {
-        return
-            statement.Length >= 1
-            &&
-                new[]
-                {
-                    "$@",
-                    "@$",
-                }
-                .Any(verbatimStringOpener =>
-                    previousChar == verbatimStringOpener[1]
-                    && statement[statement.Length - 1] == verbatimStringOpener[1]
-                    && statement[statement.Length - 2] == verbatimStringOpener[0]);
+        return (previousChar is '@' && statement is [.., '$', '@'])
+            || (previousChar is '$' && statement is [.., '@', '$']);
     }
 }

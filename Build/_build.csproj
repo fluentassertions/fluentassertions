@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
@@ -7,11 +7,24 @@
     <NukeRootDirectory>..\</NukeRootDirectory>
     <NukeScriptDirectory>..\</NukeScriptDirectory>
   </PropertyGroup>
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+    <DefineConstants>OS_WINDOWS</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
+    <DefineConstants>OS_LINUX</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+    <DefineConstants>OS_MAC</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
-    <PackageDownload Include="GitVersion.Tool" Version="[5.10.3]" />
+    <PackageDownload Include="GitVersion.Tool" Version="[5.12.0]" />
     <PackageDownload Include="NSpec" Version="[3.1.0]" />
-    <PackageDownload Include="ReportGenerator" Version="[5.1.9]" />
-    <PackageDownload Include="xunit.runner.console" Version="[2.4.2-pre.12]" />
-    <PackageReference Include="Nuke.Common" Version="6.1.2" />
+    <PackageDownload Include="ReportGenerator" Version="[5.1.20]" />
+    <PackageDownload Include="xunit.runner.console" Version="[2.4.2]" />
+    <PackageDownload Include="Node.js.redist" Version="[16.17.1]" />
+    <PackageReference Include="LibGit2Sharp" Version="0.27.2" />
+    <PackageReference Include="Nuke.Common" Version="7.0.2" />
+    <PackageReference Include="Nuke.Components" Version="7.0.2" />
+    <PackageDownload Include="Yarn.MSBuild" Version="[1.22.19]" />
   </ItemGroup>
 </Project>

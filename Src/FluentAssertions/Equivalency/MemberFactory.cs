@@ -21,15 +21,16 @@ public static class MemberFactory
         throw new NotSupportedException($"Don't know how to deal with a {memberInfo.MemberType}");
     }
 
-    internal static IMember Find(object target, string memberName, Type preferredMemberType, INode parent)
+    internal static IMember Find(object target, string memberName, INode parent)
     {
-        PropertyInfo property = target.GetType().FindProperty(memberName, preferredMemberType);
-        if ((property is not null) && !property.IsIndexer())
+        PropertyInfo property = target.GetType().FindProperty(memberName);
+
+        if (property is not null && !property.IsIndexer())
         {
             return new Property(property, parent);
         }
 
-        FieldInfo field = target.GetType().FindField(memberName, preferredMemberType);
-        return (field is not null) ? new Field(field, parent) : null;
+        FieldInfo field = target.GetType().FindField(memberName);
+        return field is not null ? new Field(field, parent) : null;
     }
 }

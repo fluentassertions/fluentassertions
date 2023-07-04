@@ -12,7 +12,7 @@ public class TimeSpanValueFormatter : IValueFormatter
     /// </summary>
     /// <param name="value">The value for which to create a <see cref="string"/>.</param>
     /// <returns>
-    /// <c>true</c> if the current <see cref="IValueFormatter"/> can handle the specified value; otherwise, <c>false</c>.
+    /// <see langword="true"/> if the current <see cref="IValueFormatter"/> can handle the specified value; otherwise, <see langword="false"/>.
     /// </returns>
     public bool CanHandle(object value)
     {
@@ -37,12 +37,12 @@ public class TimeSpanValueFormatter : IValueFormatter
 
         List<string> fragments = GetNonZeroFragments(timeSpan);
 
-        if (!fragments.Any())
+        if (fragments.Count == 0)
         {
             formattedGraph.AddFragment("default");
         }
 
-        string sign = (timeSpan.Ticks >= 0) ? string.Empty : "-";
+        string sign = timeSpan.Ticks >= 0 ? string.Empty : "-";
 
         if (fragments.Count == 1)
         {
@@ -73,9 +73,10 @@ public class TimeSpanValueFormatter : IValueFormatter
     private static void AddMicrosecondsIfNotZero(TimeSpan timeSpan, List<string> fragments)
     {
         var ticks = timeSpan.Ticks % TimeSpan.TicksPerMillisecond;
+
         if (ticks > 0)
         {
-            var microSeconds = ticks / (double)TimeSpan.TicksPerMillisecond * 1000;
+            var microSeconds = ticks * (1000.0 / TimeSpan.TicksPerMillisecond);
             fragments.Add(microSeconds.ToString("0.0", CultureInfo.InvariantCulture) + "µs");
         }
     }

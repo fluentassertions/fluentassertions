@@ -38,14 +38,19 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     public ExceptionAssertions<TException> Throw<TException>(string because = "", params object[] becauseArgs)
         where TException : Exception
     {
-        Execute.Assertion
+        bool success = Execute.Assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to throw {0}{reason}, but found <null>.", typeof(TException));
 
-        FailIfSubjectIsAsyncVoid();
-        Exception exception = InvokeSubjectWithInterception();
-        return ThrowInternal<TException>(exception, because, becauseArgs);
+        if (success)
+        {
+            FailIfSubjectIsAsyncVoid();
+            Exception exception = InvokeSubjectWithInterception();
+            return ThrowInternal<TException>(exception, because, becauseArgs);
+        }
+
+        return new ExceptionAssertions<TException>(Array.Empty<TException>());
     }
 
     /// <summary>
@@ -61,14 +66,19 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     public AndConstraint<TAssertions> NotThrow<TException>(string because = "", params object[] becauseArgs)
         where TException : Exception
     {
-        Execute.Assertion
+        bool success = Execute.Assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw {0}{reason}, but found <null>.", typeof(TException));
 
-        FailIfSubjectIsAsyncVoid();
-        Exception exception = InvokeSubjectWithInterception();
-        return NotThrowInternal<TException>(exception, because, becauseArgs);
+        if (success)
+        {
+            FailIfSubjectIsAsyncVoid();
+            Exception exception = InvokeSubjectWithInterception();
+            return NotThrowInternal<TException>(exception, because, becauseArgs);
+        }
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
     /// <summary>
@@ -83,14 +93,19 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     /// </param>
     public AndConstraint<TAssertions> NotThrow(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        bool success = Execute.Assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
-        FailIfSubjectIsAsyncVoid();
-        Exception exception = InvokeSubjectWithInterception();
-        return NotThrowInternal(exception, because, becauseArgs);
+        if (success)
+        {
+            FailIfSubjectIsAsyncVoid();
+            Exception exception = InvokeSubjectWithInterception();
+            return NotThrowInternal(exception, because, becauseArgs);
+        }
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
     /// <summary>
@@ -113,24 +128,29 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
         params object[] becauseArgs)
         where TException : Exception
     {
-        Execute.Assertion
+        bool success = Execute.Assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to throw exactly {0}{reason}, but found <null>.", typeof(TException));
 
-        FailIfSubjectIsAsyncVoid();
-        Exception exception = InvokeSubjectWithInterception();
+        if (success)
+        {
+            FailIfSubjectIsAsyncVoid();
+            Exception exception = InvokeSubjectWithInterception();
 
-        Type expectedType = typeof(TException);
+            Type expectedType = typeof(TException);
 
-        Execute.Assertion
-            .ForCondition(exception is not null)
-            .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {0}{reason}, but no exception was thrown.", expectedType);
+            Execute.Assertion
+                .ForCondition(exception is not null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {0}{reason}, but no exception was thrown.", expectedType);
 
-        exception.Should().BeOfType(expectedType, because, becauseArgs);
+            exception.Should().BeOfType(expectedType, because, becauseArgs);
 
-        return new ExceptionAssertions<TException>(new[] { exception as TException });
+            return new ExceptionAssertions<TException>(new[] { exception as TException });
+        }
+
+        return new ExceptionAssertions<TException>(Array.Empty<TException>());
     }
 
     /// <summary>
@@ -155,45 +175,44 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
-    public AndConstraint<TAssertions> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="waitTime"/> or <paramref name="pollInterval"/> are negative.</exception>
+    public AndConstraint<TAssertions> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval, string because = "",
+        params object[] becauseArgs)
     {
-        Execute.Assertion
+        Guard.ThrowIfArgumentIsNegative(waitTime);
+        Guard.ThrowIfArgumentIsNegative(pollInterval);
+
+        bool success = Execute.Assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw after {0}{reason}, but found <null>.", waitTime);
 
-        FailIfSubjectIsAsyncVoid();
-        if (waitTime < TimeSpan.Zero)
+        if (success)
         {
-            throw new ArgumentOutOfRangeException(nameof(waitTime), $"The value of {nameof(waitTime)} must be non-negative.");
-        }
+            FailIfSubjectIsAsyncVoid();
 
-        if (pollInterval < TimeSpan.Zero)
-        {
-            throw new ArgumentOutOfRangeException(nameof(pollInterval), $"The value of {nameof(pollInterval)} must be non-negative.");
-        }
+            TimeSpan? invocationEndTime = null;
+            Exception exception = null;
+            ITimer timer = Clock.StartTimer();
 
-        TimeSpan? invocationEndTime = null;
-        Exception exception = null;
-        ITimer timer = Clock.StartTimer();
-
-        while (invocationEndTime is null || invocationEndTime < waitTime)
-        {
-            exception = InvokeSubjectWithInterception();
-            if (exception is null)
+            while (invocationEndTime is null || invocationEndTime < waitTime)
             {
-                break;
+                exception = InvokeSubjectWithInterception();
+
+                if (exception is null)
+                {
+                    break;
+                }
+
+                Clock.Delay(pollInterval);
+                invocationEndTime = timer.Elapsed;
             }
 
-            Clock.Delay(pollInterval);
-            invocationEndTime = timer.Elapsed;
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(exception is null)
+                .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
         }
-
-        Execute.Assertion
-            .BecauseOf(because, becauseArgs)
-            .ForCondition(exception is null)
-            .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -215,8 +234,8 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
             // If an assertion failure occurs, we want the message to talk about "subject"
             // not "action".
             using (CallerIdentifier.OnlyOneFluentAssertionScopeOnCallStack()
-                ? CallerIdentifier.OverrideStackSearchUsingCurrentScope()
-                : default)
+                       ? CallerIdentifier.OverrideStackSearchUsingCurrentScope()
+                       : default)
             {
                 InvokeSubject();
             }
@@ -233,7 +252,8 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     {
         if (Subject.GetMethodInfo().IsDecoratedWithOrInherit<AsyncStateMachineAttribute>())
         {
-            throw new InvalidOperationException("Cannot use action assertions on an async void method. Assign the async method to a variable of type Func<Task> instead of Action so that it can be awaited.");
+            throw new InvalidOperationException(
+                "Cannot use action assertions on an async void method. Assign the async method to a variable of type Func<Task> instead of Action so that it can be awaited.");
         }
     }
 }

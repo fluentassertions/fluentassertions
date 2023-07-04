@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -7,32 +6,12 @@ namespace FluentAssertions.Equivalency.Selection;
 
 internal abstract class SelectMemberByPathSelectionRule : IMemberSelectionRule
 {
-    private string selectedPath;
-
-    protected SelectMemberByPathSelectionRule(string selectedPath)
-    {
-        this.selectedPath = selectedPath;
-    }
-
     public virtual bool IncludesMembers => false;
-
-    protected void SetSelectedPath(string path)
-    {
-        this.selectedPath = path;
-    }
 
     public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
         MemberSelectionContext context)
     {
-        string currentPath = currentNode.PathAndName;
-
-        // If we're part of a collection comparison, the selected path will not include an index,
-        // so we need to remove it from the current node as well.
-        if (!ContainsIndexingQualifiers(selectedPath))
-        {
-            currentPath = RemoveIndexQualifiers(currentPath);
-        }
-
+        var currentPath = RemoveRootIndexQualifier(currentNode.PathAndName);
         var members = selectedMembers.ToList();
         AddOrRemoveMembersFrom(members, currentNode, currentPath, context);
 
@@ -43,14 +22,10 @@ internal abstract class SelectMemberByPathSelectionRule : IMemberSelectionRule
         INode parent, string parentPath,
         MemberSelectionContext context);
 
-    private static bool ContainsIndexingQualifiers(string path)
+    private static string RemoveRootIndexQualifier(string path)
     {
-        return path.Contains("[", StringComparison.Ordinal) && path.Contains("]", StringComparison.Ordinal);
-    }
+        Match match = new Regex(@"^\[[0-9]+]").Match(path);
 
-    private static string RemoveIndexQualifiers(string path)
-    {
-        Match match = new Regex(@"^\[\d+]").Match(path);
         if (match.Success)
         {
             path = path.Substring(match.Length);

@@ -1,8 +1,10 @@
-﻿using BenchmarkDotNet.Columns;
+﻿using System.Globalization;
+using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Reports;
 using BenchmarkDotNet.Running;
+using Perfolizer.Horology;
 
 namespace Benchmarks;
 
@@ -13,11 +15,11 @@ internal static class Program
         var exporter = new CsvExporter(
             CsvSeparator.CurrentCulture,
             new SummaryStyle(
-                cultureInfo: System.Globalization.CultureInfo.GetCultureInfo("nl-NL"),
+                cultureInfo: CultureInfo.GetCultureInfo("nl-NL"),
                 printUnitsInHeader: true,
-                printUnitsInContent: false,
-                timeUnit: Perfolizer.Horology.TimeUnit.Microsecond,
-                sizeUnit: SizeUnit.KB
+                sizeUnit: SizeUnit.KB,
+                timeUnit: TimeUnit.Microsecond,
+                printUnitsInContent: false
             ));
 
         var config = ManualConfig.CreateMinimumViable().AddExporter(exporter);

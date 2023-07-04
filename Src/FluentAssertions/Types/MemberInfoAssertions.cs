@@ -71,22 +71,22 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<MemberInfoAssertions<TSubject, TAssertions>, TAttribute> BeDecoratedWith<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
         string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected {Identifier} to be decorated with {typeof(TAttribute)}{{reason}}" +
-                $", but {{context:member}} is <null>.");
+                ", but {context:member} is <null>.");
 
-        IEnumerable<TAttribute> attributes = new TAttribute[0];
+        IEnumerable<TAttribute> attributes = Array.Empty<TAttribute>();
 
         if (success)
         {
@@ -97,7 +97,7 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     $"Expected {Identifier} {SubjectDescription} to be decorated with {typeof(TAttribute)}{{reason}}" +
-                    $", but that attribute was not found.");
+                    ", but that attribute was not found.");
         }
 
         return new AndWhichConstraint<MemberInfoAssertions<TSubject, TAssertions>, TAttribute>(this, attributes);
@@ -117,20 +117,20 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="isMatchingAttributePredicate"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotBeDecoratedWith<TAttribute>(
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
         string because = "", params object[] becauseArgs)
         where TAttribute : Attribute
     {
-        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate, nameof(isMatchingAttributePredicate));
+        Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
         bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected {Identifier} to not be decorated with {typeof(TAttribute)}{{reason}}" +
-                $", but {{context:member}} is <null>.");
+                ", but {context:member} is <null>.");
 
         if (success)
         {
@@ -141,7 +141,7 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     $"Expected {Identifier} {SubjectDescription} to not be decorated with {typeof(TAttribute)}{{reason}}" +
-                    $", but that attribute was found.");
+                    ", but that attribute was found.");
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -136,8 +137,8 @@ public class XmlElementAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected theElement to have attribute \"age\" with value \"36\"" +
-                             " because we want to test the failure message" +
-                             ", but found no such attribute in <user name=\"martin\"*");
+                    " because we want to test the failure message" +
+                    ", but found no such attribute in <user name=\"martin\"*");
         }
 
         [Fact]
@@ -173,8 +174,8 @@ public class XmlElementAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected attribute \"name\" in theElement to have value \"dennis\"" +
-                             " because we want to test the failure message" +
-                             ", but found \"martin\".");
+                    " because we want to test the failure message" +
+                    ", but found \"martin\".");
         }
     }
 
@@ -198,7 +199,7 @@ public class XmlElementAssertionSpecs
 
         [Fact]
         public void
-                When_asserting_xml_element_has_attribute_with_ns_and_specific_value_but_attribute_does_not_exist_it_should_fail()
+            When_asserting_xml_element_has_attribute_with_ns_and_specific_value_but_attribute_does_not_exist_it_should_fail()
         {
             // Arrange
             var xmlDoc = new XmlDocument();
@@ -215,7 +216,7 @@ public class XmlElementAssertionSpecs
 
         [Fact]
         public void
-                When_asserting_xml_element_has_attribute_with_ns_and_specific_value_but_attribute_does_not_exist_it_should_fail_with_descriptive_message()
+            When_asserting_xml_element_has_attribute_with_ns_and_specific_value_but_attribute_does_not_exist_it_should_fail_with_descriptive_message()
         {
             // Arrange
             var document = new XmlDocument();
@@ -224,8 +225,11 @@ public class XmlElementAssertionSpecs
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 theElement.Should().HaveAttributeWithNamespace("age", "http://www.example.com/2012/test", "36",
                     "because we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -237,7 +241,7 @@ public class XmlElementAssertionSpecs
 
         [Fact]
         public void
-                When_asserting_xml_element_has_attribute_with_ns_and_specific_value_but_attribute_has_different_value_it_should_fail()
+            When_asserting_xml_element_has_attribute_with_ns_and_specific_value_but_attribute_has_different_value_it_should_fail()
         {
             // Arrange
             var xmlDoc = new XmlDocument();
@@ -254,7 +258,7 @@ public class XmlElementAssertionSpecs
 
         [Fact]
         public void
-                    When_asserting_xml_element_has_attribute_with_ns_and_specific_value_but_attribute_has_different_value_it_should_fail_with_descriptive_message()
+            When_asserting_xml_element_has_attribute_with_ns_and_specific_value_but_attribute_has_different_value_it_should_fail_with_descriptive_message()
         {
             // Arrange
             var document = new XmlDocument();
@@ -282,10 +286,12 @@ public class XmlElementAssertionSpecs
         {
             // Arrange
             var xml = new XmlDocument();
+
             xml.LoadXml(
                 @"<parent>
                     <child />
                   </parent>");
+
             var element = xml.DocumentElement;
 
             // Act
@@ -301,10 +307,12 @@ public class XmlElementAssertionSpecs
         {
             // Arrange
             var xmlDoc = new XmlDocument();
+
             xmlDoc.LoadXml(
                 @"<parent>
                     <child />
                   </parent>");
+
             var element = xmlDoc.DocumentElement;
 
             // Act
@@ -320,10 +328,12 @@ public class XmlElementAssertionSpecs
         {
             // Arrange
             var document = new XmlDocument();
+
             document.LoadXml(
                 @"<parent>
                     <child />
                   </parent>");
+
             var theElement = document.DocumentElement;
 
             // Act
@@ -342,10 +352,12 @@ public class XmlElementAssertionSpecs
         {
             // Arrange
             var xmlDoc = new XmlDocument();
+
             xmlDoc.LoadXml(
                 @"<parent>
                     <child attr='1' />
                   </parent>");
+
             var element = xmlDoc.DocumentElement;
 
             // Act
@@ -354,6 +366,7 @@ public class XmlElementAssertionSpecs
             // Assert
             matchedElement.Should().BeOfType<XmlElement>()
                 .And.HaveAttribute("attr", "1");
+
             matchedElement.Name.Should().Be("child");
         }
 
@@ -362,10 +375,12 @@ public class XmlElementAssertionSpecs
         {
             // Arrange
             var xmlDoc = new XmlDocument();
+
             xmlDoc.LoadXml(
                 @"<parent xmlns=""test"">
                     <child>value</child>
                 </parent>");
+
             var element = xmlDoc.DocumentElement;
 
             // Act
@@ -381,10 +396,12 @@ public class XmlElementAssertionSpecs
         {
             // Arrange
             var xmlDoc = new XmlDocument();
+
             xmlDoc.LoadXml(
                 @"<parent>
                     <child xmlns=""test"">value</child>
                 </parent>");
+
             var element = xmlDoc.DocumentElement;
 
             // Act
@@ -403,10 +420,12 @@ public class XmlElementAssertionSpecs
         {
             // Arrange
             var xmlDoc = new XmlDocument();
+
             xmlDoc.LoadXml(
                 @"<parent xmlns:c='http://www.example.com/2012/test'>
                     <c:child />
                   </parent>");
+
             var element = xmlDoc.DocumentElement;
 
             // Act
@@ -422,10 +441,12 @@ public class XmlElementAssertionSpecs
         {
             // Arrange
             var xmlDoc = new XmlDocument();
+
             xmlDoc.LoadXml(
                 @"<parent>
                     <child />
                   </parent>");
+
             var element = xmlDoc.DocumentElement;
 
             // Act
@@ -441,10 +462,12 @@ public class XmlElementAssertionSpecs
         {
             // Arrange
             var document = new XmlDocument();
+
             document.LoadXml(
                 @"<parent>
                     <child />
                   </parent>");
+
             var theElement = document.DocumentElement;
 
             // Act

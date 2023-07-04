@@ -5,7 +5,7 @@ using FluentAssertions.Execution;
 namespace FluentAssertions.Equivalency;
 
 /// <summary>
-/// Is responsible for validating the equality of one or more properties of a subject with another object.
+/// Is responsible for validating the equivalency of a subject with another object.
 /// </summary>
 public class EquivalencyValidator : IEquivalencyValidator
 {
@@ -31,41 +31,43 @@ public class EquivalencyValidator : IEquivalencyValidator
     {
         var scope = AssertionScope.Current;
 
-        if (ShouldCompareMembersThisDeep(context.CurrentNode, context.Options, scope))
+        if (ShouldContinueThisDeep(context.CurrentNode, context.Options, scope))
         {
-            UpdateScopeWithReportableContext(scope, comparands, context.CurrentNode);
+            TrackWhatIsNeededToProvideContextToFailures(scope, comparands, context.CurrentNode);
 
             if (!context.IsCyclicReference(comparands.Expectation))
             {
-                RunStepsUntilEquivalencyIsProven(comparands, context);
+                TryToProveNodesAreEquivalent(comparands, context);
             }
         }
     }
 
-    private static bool ShouldCompareMembersThisDeep(INode currentNode, IEquivalencyAssertionOptions options,
+    private static bool ShouldContinueThisDeep(INode currentNode, IEquivalencyAssertionOptions options,
         AssertionScope assertionScope)
     {
-        bool shouldRecurse = options.AllowInfiniteRecursion || currentNode.Depth < MaxDepth;
+        bool shouldRecurse = options.AllowInfiniteRecursion || currentNode.Depth <= MaxDepth;
         if (!shouldRecurse)
         {
-            assertionScope.FailWith("The maximum recursion depth was reached.  ");
+            // This will throw, unless we're inside an AssertionScope
+            assertionScope.FailWith($"The maximum recursion depth of {MaxDepth} was reached.  ");
         }
 
         return shouldRecurse;
     }
 
-    private static void UpdateScopeWithReportableContext(AssertionScope scope, Comparands comparands, INode currentNode)
+    private static void TrackWhatIsNeededToProvideContextToFailures(AssertionScope scope, Comparands comparands, INode currentNode)
     {
         scope.Context = new Lazy<string>(() => currentNode.Description);
 
         scope.TrackComparands(comparands.Subject, comparands.Expectation);
     }
 
-    private void RunStepsUntilEquivalencyIsProven(Comparands comparands, IEquivalencyValidationContext context)
+    private void TryToProveNodesAreEquivalent(Comparands comparands, IEquivalencyValidationContext context)
     {
         using var _ = context.Tracer.WriteBlock(node => node.Description);
 
         Func<IEquivalencyStep, GetTraceMessage> getMessage = step => _ => $"Equivalency was proven by {step.GetType().Name}";
+
         foreach (IEquivalencyStep step in AssertionOptions.EquivalencyPlan)
         {
             var result = step.Handle(comparands, context, this);
@@ -76,7 +78,7 @@ public class EquivalencyValidator : IEquivalencyValidator
             }
         }
 
-        throw new NotImplementedException(
+        throw new NotSupportedException(
             $"Do not know how to compare {comparands.Subject} and {comparands.Expectation}. Please report an issue through https://www.fluentassertions.com.");
     }
 }

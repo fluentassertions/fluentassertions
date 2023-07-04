@@ -1,5 +1,4 @@
 ﻿using System.Xml.Linq;
-
 using FluentAssertions.Formatting;
 using Xunit;
 

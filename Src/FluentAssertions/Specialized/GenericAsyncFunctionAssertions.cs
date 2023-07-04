@@ -6,7 +6,8 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Specialized;
 
-public class GenericAsyncFunctionAssertions<TResult> : AsyncFunctionAssertions<Task<TResult>, GenericAsyncFunctionAssertions<TResult>>
+public class GenericAsyncFunctionAssertions<TResult>
+    : AsyncFunctionAssertions<Task<TResult>, GenericAsyncFunctionAssertions<TResult>>
 {
     public GenericAsyncFunctionAssertions(Func<Task<TResult>> subject, IExtractExceptions extractor)
         : this(subject, extractor, new Clock())
@@ -14,7 +15,9 @@ public class GenericAsyncFunctionAssertions<TResult> : AsyncFunctionAssertions<T
     }
 
     public GenericAsyncFunctionAssertions(Func<Task<TResult>> subject, IExtractExceptions extractor, IClock clock)
+#pragma warning disable CS0618 // is currently obsolete to make it protected in Version 7
         : base(subject, extractor, clock)
+#pragma warning restore CS0618
     {
     }
 
@@ -32,39 +35,37 @@ public class GenericAsyncFunctionAssertions<TResult> : AsyncFunctionAssertions<T
     public new async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> CompleteWithinAsync(
         TimeSpan timeSpan, string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        bool success = Execute.Assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to complete within {0}{reason}, but found <null>.", timeSpan);
 
-        ITimer timer = Clock.StartTimer();
-        Task<TResult> task = Subject.Invoke();
-        TimeSpan remainingTime = timeSpan - timer.Elapsed;
-
-        bool success = Execute.Assertion
-            .ForCondition(remainingTime >= TimeSpan.Zero)
-            .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
-
         if (success)
         {
-            using var timeoutCancellationTokenSource = new CancellationTokenSource();
-            Task completedTask =
-                await Task.WhenAny(task, Clock.DelayAsync(remainingTime, timeoutCancellationTokenSource.Token));
+            (Task<TResult> task, TimeSpan remainingTime) = InvokeWithTimer(timeSpan);
 
-            if (completedTask == task)
-            {
-                timeoutCancellationTokenSource.Cancel();
-                await completedTask;
-            }
-
-            Execute.Assertion
-                .ForCondition(completedTask == task)
+            success = Execute.Assertion
+                .ForCondition(remainingTime >= TimeSpan.Zero)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
+
+            if (success)
+            {
+                bool completesWithinTimeout = await CompletesWithinTimeoutAsync(task, remainingTime);
+
+                success = Execute.Assertion
+                    .ForCondition(completesWithinTimeout)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:task} to complete within {0}{reason}.", timeSpan);
+            }
+
+#pragma warning disable CA1849 // Call async methods when in an async method
+            TResult result = success ? task.Result : default;
+#pragma warning restore CA1849 // Call async methods when in an async method
+            return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, result);
         }
 
-        return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, task.Result);
+        return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, default(TResult));
     }
 
     /// <summary>
@@ -77,23 +78,28 @@ public class GenericAsyncFunctionAssertions<TResult> : AsyncFunctionAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public new async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAsync(string because = "", params object[] becauseArgs)
+    public new async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAsync(
+        string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        bool success = Execute.Assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
-        try
+        if (success)
         {
-            TResult result = await Subject.Invoke();
-            return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, result);
+            try
+            {
+                TResult result = await Subject.Invoke();
+                return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, result);
+            }
+            catch (Exception exception)
+            {
+                _ = NotThrowInternal(exception, because, becauseArgs);
+            }
         }
-        catch (Exception exception)
-        {
-            NotThrowInternal(exception, because, becauseArgs);
-            return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, default(TResult));
-        }
+
+        return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, default(TResult));
     }
 
     /// <summary>
@@ -118,53 +124,51 @@ public class GenericAsyncFunctionAssertions<TResult> : AsyncFunctionAssertions<T
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    /// <exception cref="ArgumentOutOfRangeException">Throws if waitTime or pollInterval are negative.</exception>
-    public new Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAfterAsync(TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="waitTime"/> or <paramref name="pollInterval"/> are negative.</exception>
+    public new Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAfterAsync(
+        TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
     {
-        if (waitTime < TimeSpan.Zero)
-        {
-            throw new ArgumentOutOfRangeException(nameof(waitTime), $"The value of {nameof(waitTime)} must be non-negative.");
-        }
+        Guard.ThrowIfArgumentIsNegative(waitTime);
+        Guard.ThrowIfArgumentIsNegative(pollInterval);
 
-        if (pollInterval < TimeSpan.Zero)
-        {
-            throw new ArgumentOutOfRangeException(nameof(pollInterval),
-                $"The value of {nameof(pollInterval)} must be non-negative.");
-        }
-
-        Execute.Assertion
+        bool success = Execute.Assertion
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw any exceptions after {0}{reason}, but found <null>.", waitTime);
 
-        return AssertionTaskAsync();
-
-        async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> AssertionTaskAsync()
+        if (success)
         {
-            TimeSpan? invocationEndTime = null;
-            Exception exception = null;
-            ITimer timer = Clock.StartTimer();
+            return AssertionTaskAsync();
 
-            while (invocationEndTime is null || invocationEndTime < waitTime)
+            async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> AssertionTaskAsync()
             {
-                try
+                TimeSpan? invocationEndTime = null;
+                Exception exception = null;
+                ITimer timer = Clock.StartTimer();
+
+                while (invocationEndTime is null || invocationEndTime < waitTime)
                 {
-                    TResult result = await Subject.Invoke();
-                    return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, result);
+                    try
+                    {
+                        TResult result = await Subject.Invoke();
+                        return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, result);
+                    }
+                    catch (Exception ex)
+                    {
+                        exception = ex;
+                        await Clock.DelayAsync(pollInterval, CancellationToken.None);
+                        invocationEndTime = timer.Elapsed;
+                    }
                 }
-                catch (Exception ex)
-                {
-                    exception = ex;
-                    await Clock.DelayAsync(pollInterval, CancellationToken.None);
-                    invocationEndTime = timer.Elapsed;
-                }
+
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
+
+                return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, default(TResult));
             }
-
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);
-
-            return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, default(TResult));
         }
+
+        return Task.FromResult(new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, default(TResult)));
     }
 }
