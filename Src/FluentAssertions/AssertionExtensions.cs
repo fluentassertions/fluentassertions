@@ -469,7 +469,6 @@ public static class AssertionExtensions
     }
 
 #if NET6_0_OR_GREATER
-
     /// <summary>
     /// Returns an <see cref="DateOnlyAssertions"/> object that can be used to assert the
     /// current <see cref="DateOnly"/>.
@@ -918,7 +917,14 @@ public static class AssertionExtensions
     /// <exception cref="ArgumentNullException"><paramref name="eventSource"/> is <see langword="null"/>.</exception>
     public static IMonitor<T> Monitor<T>(this T eventSource, Func<DateTime> utcNow = null)
     {
-        return new EventMonitor<T>(eventSource, utcNow ?? (() => DateTime.UtcNow));
+        var options = new EventMonitorOptions();
+
+        if (utcNow is not null)
+        {
+            options.ConfigureTimestampProvider(utcNow);
+        }
+
+        return new EventMonitor<T>(eventSource, options);
     }
 
 #endif
