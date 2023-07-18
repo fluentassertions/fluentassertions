@@ -286,6 +286,20 @@ public class AssemblyAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage("Did not expect the assembly * to be signed, but it is.");
         }
+
+        [Fact]
+        public void Throws_for_null_subject()
+        {
+            // Arrange
+            Assembly nullAssembly = null;
+
+            // Act
+            Action act = () => nullAssembly.Should().BeUnsigned();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected assembly to be unsigned, but nullAssembly is <null>.");
+        }
     }
 
     public class BeSignedWithPublicKey
@@ -329,6 +343,20 @@ public class AssemblyAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected assembly * to have public key *, but it has * instead.");
+        }
+
+        [Fact]
+        public void Throws_for_null_assembly()
+        {
+            // Arrange
+            Assembly nullAssembly = null;
+
+            // Act
+            Action act = () => nullAssembly.Should().BeSignedWithPublicKey("1234");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected assembly to have public key *, but nullAssembly is <null>.");
         }
     }
 }

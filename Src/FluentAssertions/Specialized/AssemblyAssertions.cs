@@ -151,11 +151,19 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
     /// </param>
     public AndConstraint<AssemblyAssertions> BeUnsigned(string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        bool success = Execute.Assertion
             .BecauseOf(because, becauseArgs)
-            .ForCondition(Subject.GetName().GetPublicKey() is not { Length: > 0 })
-            .FailWith(
-                "Did not expect the assembly {0} to be signed{reason}, but it is.", Subject.FullName);
+            .ForCondition(Subject is not null)
+            .FailWith("Expected assembly to be unsigned{reason}, but {context:assembly} is <null>.");
+
+        if (success)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(Subject.GetName().GetPublicKey() is not { Length: > 0 })
+                .FailWith(
+                    "Did not expect the assembly {0} to be signed{reason}, but it is.", Subject.FullName);
+        }
 
         return new(this);
     }
@@ -177,19 +185,27 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
     {
         Guard.ThrowIfArgumentIsNullOrEmpty(publicKey);
 
-        var bytes = Subject.GetName().GetPublicKey();
-        var assemblyKey = BitConverter.ToString(bytes).Replace("-", string.Empty, StringComparison.Ordinal);
+        bool success = Execute.Assertion
+          .BecauseOf(because, becauseArgs)
+          .ForCondition(Subject is not null)
+          .FailWith("Expected assembly to have public key {0}{reason}, but {context:assembly} is <null>.", publicKey);
 
-        Execute.Assertion
-            .BecauseOf(because, becauseArgs)
-            .WithExpectation("Expected assembly {0} to have public key {1}{because}, ", Subject.FullName, publicKey)
-            .ForCondition(bytes.Length != 0)
-            .FailWith("but it unsigned.")
-            .Then
-            .ForCondition(assemblyKey == publicKey)
-            .FailWith("but it has {0} instead.", assemblyKey)
-            .Then
-            .ClearExpectation();
+        if (success)
+        {
+            var bytes = Subject.GetName().GetPublicKey();
+            var assemblyKey = BitConverter.ToString(bytes).Replace("-", string.Empty, StringComparison.Ordinal);
+
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected assembly {0} to have public key {1}{because}, ", Subject.FullName, publicKey)
+                .ForCondition(bytes.Length != 0)
+                .FailWith("but it unsigned.")
+                .Then
+                .ForCondition(assemblyKey == publicKey)
+                .FailWith("but it has {0} instead.", assemblyKey)
+                .Then
+                .ClearExpectation();
+        }
 
         return new(this);
     }
