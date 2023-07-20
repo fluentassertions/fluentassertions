@@ -2195,6 +2195,8 @@ namespace FluentAssertions.Reflection
     {
         public AssemblyAssertions(System.Reflection.Assembly assembly) { }
         protected override string Identifier { get; }
+        public FluentAssertions.AndConstraint<FluentAssertions.Reflection.AssemblyAssertions> BeSignedWithPublicKey(string publicKey, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Reflection.AssemblyAssertions> BeUnsigned(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Reflection.AssemblyAssertions, System.Type> DefineType(string @namespace, string name, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Reflection.AssemblyAssertions> NotReference(System.Reflection.Assembly assembly, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Reflection.AssemblyAssertions> Reference(System.Reflection.Assembly assembly, string because = "", params object[] becauseArgs) { }
