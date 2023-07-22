@@ -162,6 +162,10 @@ public static class Formatter
     /// <summary>
     /// Removes a custom formatter that was previously added though <see cref="AddFormatter"/>.
     /// </summary>
+    /// <remarks>
+    /// This method is not thread-safe and should not be invoked from within a unit test.
+    /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
+    /// </remarks>
     public static void RemoveFormatter(IValueFormatter formatter)
     {
         CustomFormatters.Remove(formatter);
@@ -170,6 +174,10 @@ public static class Formatter
     /// <summary>
     /// Ensures a custom formatter is included in the chain, just before the default formatter is executed.
     /// </summary>
+    /// <remarks>
+    /// This method is not thread-safe and should not be invoked from within a unit test.
+    /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
+    /// </remarks>
     public static void AddFormatter(IValueFormatter formatter)
     {
         if (!CustomFormatters.Contains(formatter))
