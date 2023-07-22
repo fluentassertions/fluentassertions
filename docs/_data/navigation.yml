@@ -85,6 +85,8 @@ sidebar:
         url: /extensibility/#rendering-objects-with-beauty
       - title: Customizing Equivalency Assertions
         url: /extensibility/#to-be-or-not-to-be-a-value-type
+      - title: Thread Safety
+        url: /extensibility/#thread-safety
 
   - title: Tips & Tricks
     url: /tips
