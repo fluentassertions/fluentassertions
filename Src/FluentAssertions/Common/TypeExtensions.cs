@@ -530,7 +530,7 @@ internal static class TypeExtensions
     {
         if (type.IsConstructedGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
         {
-            type = type.GetGenericArguments().First();
+            type = type.GetGenericArguments()[0];
         }
 
         return type;
