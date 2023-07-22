@@ -129,7 +129,7 @@ internal class MemberPath
     /// <summary>
     /// Returns the name of the member the current path points to without its parent path.
     /// </summary>
-    public string MemberName => Segments.Last();
+    public string MemberName => Segments[^1];
 
     public override string ToString()
     {
