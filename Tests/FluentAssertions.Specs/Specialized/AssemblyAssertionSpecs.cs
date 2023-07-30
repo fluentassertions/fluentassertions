@@ -280,11 +280,11 @@ public class AssemblyAssertionSpecs
             var signedAssembly = FindAssembly.Stub("0123456789ABCEF007");
 
             // Act
-            Action act = () => signedAssembly.Should().BeUnsigned();
+            Action act = () => signedAssembly.Should().BeUnsigned("this assembly is never shipped");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Did not expect the assembly * to be signed, but it is.");
+                .WithMessage("Did not expect the assembly * to be signed because this assembly is never shipped, but it is.");
         }
 
         [Fact]
@@ -324,11 +324,11 @@ public class AssemblyAssertionSpecs
             var unsignedAssembly = FindAssembly.Stub();
 
             // Act
-            Action act = () => unsignedAssembly.Should().BeSignedWithPublicKey("1234");
+            Action act = () => unsignedAssembly.Should().BeSignedWithPublicKey("1234", "signing is part of the contract");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected assembly * to have public key *, but it is unsigned.");
+                .WithMessage(@"Expected assembly * to have public key ""1234"" because signing is part of the contract, but it is unsigned.");
         }
 
         [Fact]
@@ -338,11 +338,11 @@ public class AssemblyAssertionSpecs
             var signedAssembly = FindAssembly.Stub("0123456789ABCEF007");
 
             // Act
-            Action act = () => signedAssembly.Should().BeSignedWithPublicKey("1234");
+            Action act = () => signedAssembly.Should().BeSignedWithPublicKey("1234", "signing is part of the contract");
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected assembly * to have public key *, but it has * instead.");
+                .WithMessage(@"Expected assembly * to have public key ""1234"" because signing is part of the contract, but it has * instead.");
         }
 
         [Fact]

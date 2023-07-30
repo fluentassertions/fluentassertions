@@ -193,12 +193,12 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected assembly {0} to have public key {1}{because}, ", Subject.FullName, publicKey)
+                .WithExpectation("Expected assembly {0} to have public key {1} ", Subject.FullName, publicKey)
                 .ForCondition(bytes.Length != 0)
-                .FailWith("but it is unsigned.")
+                .FailWith("{reason}, but it is unsigned.")
                 .Then
                 .ForCondition(string.Equals(assemblyKey, publicKey, StringComparison.OrdinalIgnoreCase))
-                .FailWith("but it has {0} instead.", assemblyKey)
+                .FailWith("{reason}, but it has {0} instead.", assemblyKey)
                 .Then
                 .ClearExpectation();
         }
