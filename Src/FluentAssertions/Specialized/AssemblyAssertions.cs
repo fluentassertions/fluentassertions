@@ -189,7 +189,7 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
         if (success)
         {
             var bytes = Subject.GetName().GetPublicKey() ?? Array.Empty<byte>();
-            var assemblyKey = BitConverter.ToString(bytes).Replace("-", string.Empty, StringComparison.Ordinal);
+            string assemblyKey = ToHexString(bytes);
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -205,6 +205,13 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
 
         return new(this);
     }
+
+    private static string ToHexString(byte[] bytes) =>
+#if NET6_0_OR_GREATER
+        Convert.ToHexString(bytes);
+#else
+        BitConverter.ToString(bytes).Replace("-", string.Empty, StringComparison.Ordinal);
+#endif
 
     /// <summary>
     /// Returns the type of the subject the assertion applies on.
