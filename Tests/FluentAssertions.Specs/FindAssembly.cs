@@ -28,8 +28,8 @@ public static class FindAssembly
             ? Array.Empty<byte>()
             : Convert.FromHexString(chars);
 #else
-    private static byte[] FromHexString(string chars)
-    {
+        private static byte[] FromHexString(string chars)
+        {
             if (chars.Length % 2 != 0)
             {
                 throw new ArgumentException("Input string length must be even.");
