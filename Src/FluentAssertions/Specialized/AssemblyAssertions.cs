@@ -152,9 +152,8 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
     public AndConstraint<AssemblyAssertions> BeUnsigned(string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
-            .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
-            .FailWith("Expected assembly to be unsigned{reason}, but {context:assembly} is <null>.");
+            .FailWith("Can't check for assembly signing if {context:assembly} reference is <null>.");
 
         if (success)
         {
@@ -186,22 +185,21 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
         Guard.ThrowIfArgumentIsNullOrEmpty(publicKey);
 
         bool success = Execute.Assertion
-          .BecauseOf(because, becauseArgs)
-          .ForCondition(Subject is not null)
-          .FailWith("Expected assembly to have public key {0}{reason}, but {context:assembly} is <null>.", publicKey);
+            .ForCondition(Subject is not null)
+            .FailWith("Can't check for assembly signing if {context:assembly} reference is <null>.");
 
         if (success)
         {
-            var bytes = Subject.GetName().GetPublicKey();
+            var bytes = Subject.GetName().GetPublicKey() ?? Array.Empty<byte>();
             var assemblyKey = BitConverter.ToString(bytes).Replace("-", string.Empty, StringComparison.Ordinal);
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected assembly {0} to have public key {1}{because}, ", Subject.FullName, publicKey)
                 .ForCondition(bytes.Length != 0)
-                .FailWith("but it unsigned.")
+                .FailWith("but it is unsigned.")
                 .Then
-                .ForCondition(assemblyKey == publicKey)
+                .ForCondition(string.Equals(assemblyKey, publicKey, StringComparison.OrdinalIgnoreCase))
                 .FailWith("but it has {0} instead.", assemblyKey)
                 .Then
                 .ClearExpectation();

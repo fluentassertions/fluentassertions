@@ -30,17 +30,21 @@ public static class FindAssembly
 #else
     private static byte[] FromHexString(string chars)
     {
-        var bytes = new byte[chars.Length / 2];
+            if (chars.Length % 2 != 0)
+            {
+                throw new ArgumentException("Input string length must be even.");
+            }
 
-        for (int i = 0, j = 0; j < bytes.Length; j++, i += 2)
-        {
-            bytes[j] = (byte)((Hex(chars[i]) << 4) | Hex(chars[i + 1]));
+            var bytes = new byte[chars.Length / 2];
 
-            static byte Hex(char c) => (byte)(c > '9' ? (c & 0x5F) - 55 : c - '0');
+            for (var i = 0; i < bytes.Length; i++)
+            {
+                var bits = chars.Substring(i * 2, 2);
+                bytes[i] = Convert.ToByte(bits, 16);
+            }
+
+            return bytes;
         }
-
-        return bytes;
-    }
 #endif
     }
 }

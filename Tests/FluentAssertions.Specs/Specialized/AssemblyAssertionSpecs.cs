@@ -298,7 +298,7 @@ public class AssemblyAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected assembly to be unsigned, but nullAssembly is <null>.");
+                .WithMessage("Can't check for assembly signing if nullAssembly reference is <null>.");
         }
     }
 
@@ -328,7 +328,7 @@ public class AssemblyAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected assembly * to have public key *, but it unsigned.");
+                .WithMessage("Expected assembly * to have public key *, but it is unsigned.");
         }
 
         [Fact]
@@ -356,7 +356,7 @@ public class AssemblyAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage("Expected assembly to have public key *, but nullAssembly is <null>.");
+                .WithMessage("Can't check for assembly signing if nullAssembly reference is <null>.");
         }
     }
 }
