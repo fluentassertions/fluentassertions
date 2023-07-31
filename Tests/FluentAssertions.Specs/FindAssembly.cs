@@ -24,15 +24,15 @@ public static class FindAssembly
 
 #if NET6_0_OR_GREATER
         private static byte[] FromHexString(string chars)
-            => string.IsNullOrEmpty(chars)
-            ? Array.Empty<byte>()
+            => chars is null
+            ? null
             : Convert.FromHexString(chars);
 #else
         private static byte[] FromHexString(string chars)
         {
-            if (chars.Length % 2 != 0)
+            if (chars is null)
             {
-                throw new ArgumentException("Input string length must be even.");
+                return null;
             }
 
             var bytes = new byte[chars.Length / 2];

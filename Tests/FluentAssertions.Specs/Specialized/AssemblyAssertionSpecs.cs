@@ -317,11 +317,13 @@ public class AssemblyAssertionSpecs
             signedAssembly.Should().BeSignedWithPublicKey(publicKey);
         }
 
-        [Fact]
-        public void Throws_for_unsigned_assembly()
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        public void Throws_for_unsigned_assembly(string noKey)
         {
             // Arrange
-            var unsignedAssembly = FindAssembly.Stub();
+            var unsignedAssembly = FindAssembly.Stub(noKey);
 
             // Act
             Action act = () => unsignedAssembly.Should().BeSignedWithPublicKey("1234", "signing is part of the contract");
