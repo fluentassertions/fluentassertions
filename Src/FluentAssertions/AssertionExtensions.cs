@@ -22,6 +22,10 @@ using JetBrains.Annotations;
 #if !NETSTANDARD2_0
 using FluentAssertions.Events;
 #endif
+#if NET6_0_OR_GREATER
+using System.Text.Json;
+using FluentAssertions.Json;
+#endif
 
 namespace FluentAssertions;
 
@@ -465,6 +469,26 @@ public static class AssertionExtensions
     public static NullableTimeOnlyAssertions Should(this TimeOnly? actualValue)
     {
         return new NullableTimeOnlyAssertions(actualValue);
+    }
+
+    /// <summary>
+    /// Returns an <see cref="JsonElementAssertions"/> object that can be used to assert the
+    /// current <see cref="JsonElement"/>.
+    /// </summary>
+    [Pure]
+    public static JsonElementAssertions Should(this JsonElement actualValue)
+    {
+        return new JsonElementAssertions(actualValue);
+    }
+
+    /// <summary>
+    /// Returns an <see cref="JsonSerializerOptionsAssertions"/> object that can be used to assert the
+    /// current <see cref="JsonSerializerOptions"/>.
+    /// </summary>
+    [Pure]
+    public static JsonSerializerOptionsAssertions Should(this JsonSerializerOptions actualValue)
+    {
+        return new JsonSerializerOptionsAssertions(actualValue);
     }
 
 #endif
