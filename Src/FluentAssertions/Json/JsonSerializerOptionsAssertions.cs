@@ -10,13 +10,13 @@ namespace FluentAssertions.Json;
 /// <summary>
 ///     Contains a number of methods to assert that an <see cref="JsonSerializerOptions" /> is in the expected state.
 /// </summary>
-// [DebuggerNonUserCode]
+[DebuggerNonUserCode]
 public class JsonSerializerOptionsAssertions : ReferenceTypeAssertions<JsonSerializerOptions, JsonSerializerOptionsAssertions>
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="JsonSerializerOptionsAssertions" /> class.
     /// </summary>
-    /// <param name="subject">The subject</param>
+    /// <param name="subject">The subject.</param>
     public JsonSerializerOptionsAssertions(JsonSerializerOptions subject)
         : base(subject)
     {
