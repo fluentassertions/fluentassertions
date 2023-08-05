@@ -42,6 +42,108 @@ public class JsonElementAssertions
         return new(this);
     }
 
+    /// <summary>
+    ///     Asserts that the current <see cref="JsonElement"/> is the JSON null node.
+    /// </summary>
+    /// <param name="because">
+    ///     A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    ///     is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    ///     Zero or more objects to format using the placeholders in <see paramref="because" />.
+    /// </param>
+    public AndConstraint<JsonElementAssertions> BeNull(string because = "", params object[] becauseArgs)
+    {
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject.ValueKind == JsonValueKind.Null)
+            .FailWith("Expected {context:JSON} to be a JSON null{reason}, but found {0}.", Subject);
+
+        return new(this);
+    }
+
+    /// <summary>
+    ///     Asserts that the current <see cref="JsonElement"/> is the JSON string node.
+    /// </summary>
+    /// <param name="value">The value of the JSON string node.</param>
+    /// <param name="because">
+    ///     A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    ///     is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    ///     Zero or more objects to format using the placeholders in <see paramref="because" />.
+    /// </param>
+    public AndConstraint<JsonElementAssertions> BeString(string value, string because = "", params object[] becauseArgs)
+    {
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject.ValueKind == JsonValueKind.String && Subject.GetString() == value)
+            .FailWith("Expected {context:JSON} to be a JSON string {0}{reason}, but found {1}.", value, Subject);
+
+        return new(this);
+    }
+
+    /// <summary>
+    ///     Asserts that the current <see cref="JsonElement"/> is the JSON number node.
+    /// </summary>
+    /// <param name="value">The value of the JSON string node.</param>
+    /// <param name="because">
+    ///     A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    ///     is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    ///     Zero or more objects to format using the placeholders in <see paramref="because" />.
+    /// </param>
+    public AndConstraint<JsonElementAssertions> BeNumber(decimal value, string because = "", params object[] becauseArgs)
+    {
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject.ValueKind == JsonValueKind.Number && Subject.GetDecimal() == value)
+            .FailWith("Expected {context:JSON} to be a JSON string {0}{reason}, but found {1}.", value, Subject);
+
+        return new(this);
+    }
+
+    /// <summary>
+    ///     Asserts that the current <see cref="JsonElement"/> is the JSON true node.
+    /// </summary>
+    /// <param name="because">
+    ///     A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    ///     is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    ///     Zero or more objects to format using the placeholders in <see paramref="because" />.
+    /// </param>
+    public AndConstraint<JsonElementAssertions> BeTrue(string because = "", params object[] becauseArgs)
+    {
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject.ValueKind == JsonValueKind.True)
+            .FailWith("Expected {context:JSON} to be a JSON true{reason}, but found {0}.", Subject);
+
+        return new(this);
+    }
+
+    /// <summary>
+    ///     Asserts that the current <see cref="JsonElement"/> is the JSON false node.
+    /// </summary>
+    /// <param name="because">
+    ///     A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    ///     is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    ///     Zero or more objects to format using the placeholders in <see paramref="because" />.
+    /// </param>
+    public AndConstraint<JsonElementAssertions> BeFalse(string because = "", params object[] becauseArgs)
+    {
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject.ValueKind == JsonValueKind.False)
+            .FailWith("Expected {context:JSON} to be JSON false{reason}, but found {0}.", Subject);
+
+        return new(this);
+    }
+
     public void Be(long jsonNumber)
     {
         Execute.Assertion
