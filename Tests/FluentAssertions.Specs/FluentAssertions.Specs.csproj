@@ -13,6 +13,10 @@
     <Compile Remove="Events\*.cs" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' != 'net6.0' ">
+    <Compile Remove="Json\*.cs" />
+  </ItemGroup>
+
   <ItemGroup Condition="'$(TargetFramework)' == 'net47'">
     <!--
       (SRCU = System.Runtime.CompilerServices.Unsafe)

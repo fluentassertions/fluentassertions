@@ -1,10 +1,11 @@
-﻿#if NET6_0_OR_GREATER
-
-using System.Text.Json;
+﻿using System.Text.Json;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Json;
 
+/// <summary>
+/// Contains a number of methods to assert that an <see cref="JsonElement" /> is in the expected state.
+/// </summary>
 public class JsonElementAssertions
 {
     public JsonElement Subject { get; }
@@ -22,5 +23,3 @@ public class JsonElementAssertions
             .FailWith("Expected {context:JSON} to be a number with value {0}, but got {1} instead.", jsonNumber, Subject.GetInt64());
     }
 }
-
-#endif
