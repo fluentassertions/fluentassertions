@@ -354,7 +354,7 @@ internal sealed class TrackingEnumerator : IEnumerator<int>
 
 internal class OneTimeEnumerable<T> : IEnumerable<T>
 {
-    private readonly IEnumerable<T> items;
+    private readonly T[] items;
     private int enumerations;
 
     public OneTimeEnumerable(params T[] items) => this.items = items;
@@ -368,7 +368,7 @@ internal class OneTimeEnumerable<T> : IEnumerable<T>
             throw new InvalidOperationException("OneTimeEnumerable can be enumerated one time only");
         }
 
-        return items.GetEnumerator();
+        return items.AsEnumerable().GetEnumerator();
     }
 }
 
