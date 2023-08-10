@@ -199,7 +199,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
         return this;
     }
 
-    private IEnumerable<Exception> AssertInnerExceptionExactly(Type innerException, string because = "",
+    private Exception[] AssertInnerExceptionExactly(Type innerException, string because = "",
         params object[] becauseArgs)
     {
         Execute.Assertion
@@ -219,7 +219,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
         return expectedExceptions;
     }
 
-    private IEnumerable<Exception> AssertInnerExceptions(Type innerException, string because = "",
+    private Exception[] AssertInnerExceptions(Type innerException, string because = "",
         params object[] becauseArgs)
     {
         Execute.Assertion
