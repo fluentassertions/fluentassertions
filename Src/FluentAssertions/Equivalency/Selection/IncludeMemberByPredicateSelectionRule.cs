@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using FluentAssertions.Common;
@@ -33,7 +32,7 @@ internal class IncludeMemberByPredicateSelectionRule : IMemberSelectionRule
         {
             IMember member = MemberFactory.Create(memberInfo, currentNode);
 
-            if (predicate(new MemberToMemberInfoAdapter(member)) && !members.Any(p => p.IsEquivalentTo(member)))
+            if (predicate(new MemberToMemberInfoAdapter(member)) && !members.Exists(p => p.IsEquivalentTo(member)))
             {
                 members.Add(member);
             }
