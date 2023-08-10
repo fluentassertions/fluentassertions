@@ -33,7 +33,7 @@ internal class CallerStatementBuilder
         while (symbolEnumerator.MoveNext() && parsingState != ParsingState.Done)
         {
             var hasParsingStrategyWaitingForEndContext = priorityOrderedParsingStrategies
-                .Any(s => s.IsWaitingForContextEnd());
+                .Exists(s => s.IsWaitingForContextEnd());
 
             parsingState = ParsingState.InProgress;
 

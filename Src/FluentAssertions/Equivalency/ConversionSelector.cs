@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using FluentAssertions.Common;
@@ -83,7 +82,7 @@ public class ConversionSelector
 
         var objectInfo = new ObjectInfo(comparands, currentNode);
 
-        return inclusions.Any(p => p.Predicate(objectInfo)) && !exclusions.Any(p => p.Predicate(objectInfo));
+        return inclusions.Exists(p => p.Predicate(objectInfo)) && !exclusions.Exists(p => p.Predicate(objectInfo));
     }
 
     public override string ToString()
