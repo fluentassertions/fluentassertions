@@ -14,11 +14,11 @@ internal class AllPropertiesSelectionRule : IMemberSelectionRule
     public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
         MemberSelectionContext context)
     {
-        IEnumerable<IMember> selectedNonPrivateProperties = context.Type
-            .GetNonPrivateProperties(context.IncludedProperties)
+        IEnumerable<IMember> selectedProperties = context.Type
+            .GetProperties(context.IncludedProperties)
             .Select(info => new Property(context.Type, info, currentNode));
 
-        return selectedMembers.Union(selectedNonPrivateProperties).ToList();
+        return selectedMembers.Union(selectedProperties).ToList();
     }
 
     /// <summary>
