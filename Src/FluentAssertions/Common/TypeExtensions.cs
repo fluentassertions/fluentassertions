@@ -184,10 +184,10 @@ internal static class TypeExtensions
     /// </returns>
     public static PropertyInfo FindProperty(this Type type, string propertyName, MemberVisibility memberVisibility)
     {
-        var properties = type.GetNonPrivateProperties(memberVisibility);
+        var properties = type.GetProperties(memberVisibility);
 
         return Array.Find(properties, p =>
-            p.Name == propertyName || p.Name.EndsWith("." + propertyName, StringComparison.OrdinalIgnoreCase));
+            p.Name == propertyName || p.Name.EndsWith("." + propertyName, StringComparison.Ordinal));
     }
 
     /// <summary>
@@ -198,24 +198,24 @@ internal static class TypeExtensions
     /// </returns>
     public static FieldInfo FindField(this Type type, string fieldName, MemberVisibility memberVisibility)
     {
-        var fields = type.GetNonPrivateFields(memberVisibility);
+        var fields = type.GetFields(memberVisibility);
 
         return Array.Find(fields, p => p.Name == fieldName);
     }
 
-    public static MemberInfo[] GetNonPrivateMembers(this Type typeToReflect, MemberVisibility visibility)
+    public static MemberInfo[] GetMembers(this Type typeToReflect, MemberVisibility visibility)
     {
-        return GetTypeReflectorFor(typeToReflect, visibility).NonPrivateMembers;
+        return GetTypeReflectorFor(typeToReflect, visibility).Members;
     }
 
-    public static PropertyInfo[] GetNonPrivateProperties(this Type typeToReflect, MemberVisibility visibility)
+    public static PropertyInfo[] GetProperties(this Type typeToReflect, MemberVisibility visibility)
     {
-        return GetTypeReflectorFor(typeToReflect, visibility).NonPrivateProperties;
+        return GetTypeReflectorFor(typeToReflect, visibility).Properties;
     }
 
-    public static FieldInfo[] GetNonPrivateFields(this Type typeToReflect, MemberVisibility visibility)
+    public static FieldInfo[] GetFields(this Type typeToReflect, MemberVisibility visibility)
     {
-        return GetTypeReflectorFor(typeToReflect, visibility).NonPrivateFields;
+        return GetTypeReflectorFor(typeToReflect, visibility).Fields;
     }
 
     private static TypeMemberReflector GetTypeReflectorFor(Type typeToReflect, MemberVisibility visibility)
