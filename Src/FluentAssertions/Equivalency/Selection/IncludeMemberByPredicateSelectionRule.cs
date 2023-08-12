@@ -27,7 +27,7 @@ internal class IncludeMemberByPredicateSelectionRule : IMemberSelectionRule
     {
         var members = new List<IMember>(selectedMembers);
 
-        foreach (MemberInfo memberInfo in currentNode.Type.GetNonPrivateMembers(MemberVisibility.Public |
+        foreach (MemberInfo memberInfo in currentNode.Type.GetMembers(MemberVisibility.Public |
                      MemberVisibility.Internal))
         {
             IMember member = MemberFactory.Create(memberInfo, currentNode);

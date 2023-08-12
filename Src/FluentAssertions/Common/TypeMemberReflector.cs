@@ -16,22 +16,22 @@ internal sealed class TypeMemberReflector
 
     public TypeMemberReflector(Type typeToReflect, MemberVisibility visibility)
     {
-        NonPrivateProperties = LoadNonPrivateProperties(typeToReflect, visibility);
-        NonPrivateFields = LoadNonPrivateFields(typeToReflect, visibility);
-        NonPrivateMembers = NonPrivateProperties.Concat<MemberInfo>(NonPrivateFields).ToArray();
+        Properties = LoadProperties(typeToReflect, visibility);
+        Fields = LoadFields(typeToReflect, visibility);
+        Members = Properties.Concat<MemberInfo>(Fields).ToArray();
     }
 
-    public MemberInfo[] NonPrivateMembers { get; }
+    public MemberInfo[] Members { get; }
 
-    public PropertyInfo[] NonPrivateProperties { get; }
+    public PropertyInfo[] Properties { get; }
 
-    public FieldInfo[] NonPrivateFields { get; }
+    public FieldInfo[] Fields { get; }
 
-    private static PropertyInfo[] LoadNonPrivateProperties(Type typeToReflect, MemberVisibility visibility)
+    private static PropertyInfo[] LoadProperties(Type typeToReflect, MemberVisibility visibility)
     {
         IEnumerable<PropertyInfo> query =
             from propertyInfo in GetPropertiesFromHierarchy(typeToReflect, visibility)
-            where HasNonPrivateGetter(propertyInfo, visibility)
+            where HasGetter(propertyInfo, visibility)
             where !propertyInfo.IsIndexer()
             select propertyInfo;
 
@@ -64,7 +64,7 @@ internal sealed class TypeMemberReflector
             property.Name.Contains('.', StringComparison.Ordinal);
     }
 
-    private static FieldInfo[] LoadNonPrivateFields(Type typeToReflect, MemberVisibility visibility)
+    private static FieldInfo[] LoadFields(Type typeToReflect, MemberVisibility visibility)
     {
         IEnumerable<FieldInfo> query =
             from fieldInfo in GetFieldsFromHierarchy(typeToReflect, visibility)
@@ -165,7 +165,7 @@ internal sealed class TypeMemberReflector
         return members;
     }
 
-    private static bool HasNonPrivateGetter(PropertyInfo propertyInfo, MemberVisibility visibility)
+    private static bool HasGetter(PropertyInfo propertyInfo, MemberVisibility visibility)
     {
         MethodInfo getMethod = propertyInfo.GetGetMethod(nonPublic: true);
 

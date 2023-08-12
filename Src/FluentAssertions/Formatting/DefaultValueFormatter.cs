@@ -56,7 +56,7 @@ public class DefaultValueFormatter : IValueFormatter
     /// <remarks>The default is all non-private members.</remarks>
     protected virtual MemberInfo[] GetMembers(Type type)
     {
-        return type.GetNonPrivateMembers(MemberVisibility.Public);
+        return type.GetMembers(MemberVisibility.Public);
     }
 
     private static bool HasCompilerGeneratedToStringImplementation(object value)
