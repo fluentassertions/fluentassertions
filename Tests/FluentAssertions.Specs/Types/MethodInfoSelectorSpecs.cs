@@ -45,7 +45,7 @@ public class MethodInfoSelectorSpecs
         MethodInfoSelector methodInfoSelector = null;
 
         // Act
-        Func<MethodInfoSelectorAssertions> act = () => methodInfoSelector.Should();
+        var act = () => methodInfoSelector.Should();
 
         // Assert
         act.Should().ThrowExactly<ArgumentNullException>()
@@ -433,7 +433,7 @@ public class MethodInfoSelectorSpecs
         Type type = typeof(TestClassForMethodSelector);
 
         // Act
-        Func<bool> action = () => type.Methods().Should().Equals(null);
+        var action = () => type.Methods().Should().Equals(null);
 
         // Assert
         action.Should().Throw<NotSupportedException>()
