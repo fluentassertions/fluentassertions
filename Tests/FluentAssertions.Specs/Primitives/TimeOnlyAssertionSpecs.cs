@@ -1386,7 +1386,7 @@ public class TimeOnlyAssertionSpecs
             TimeOnly someTimeOnly = new(21, 1);
 
             // Act
-            Func<bool> act = () => someTimeOnly.Should().Equals(someTimeOnly);
+            var act = () => someTimeOnly.Should().Equals(null);
 
             // Assert
             act.Should().Throw<NotSupportedException>()
