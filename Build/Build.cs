@@ -162,7 +162,9 @@ class Build : NukeBuild
     Project[] Projects => new[]
     {
         Solution.Specs.FluentAssertions_Specs,
-        Solution.Specs.FluentAssertions_Equivalency_Specs
+        Solution.Specs.FluentAssertions_Equivalency_Specs,
+        Solution.Specs.FSharp_Specs,
+        Solution.Specs.VB_Specs
     };
 
     Target UnitTestsNetFramework => _ => _
