@@ -1,7 +1,8 @@
 name: Qodana
 
 on:
-  pull_request:
+  workflow_dispatch:
+  pull_request_target:
   push:
     branches:
       - master
@@ -14,9 +15,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
+          ref: ${{ github.event.pull_request.head.sha }}  # to check out the actual pull request commit, not the merge commit
           fetch-depth: 0
       - name: 'Qodana Scan'
-        uses: JetBrains/qodana-action@main
+        uses: JetBrains/qodana-action@v2023.2
         with:
           upload-result: ${{ github.ref_name == 'master' || github.ref_name == 'develop' }}
           args: --baseline,qodana.sarif.json
