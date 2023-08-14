@@ -313,7 +313,7 @@ internal class ClassWithAllPropertiesVirtual
 {
     public virtual string PublicVirtualProperty { set { } }
 
-    internal virtual string InternalVirtualProperty { get { return null; } }
+    internal virtual string InternalVirtualProperty => null;
 
     protected virtual string ProtectedVirtualProperty { get; set; }
 }
@@ -334,16 +334,16 @@ internal class ClassWithNonVirtualPublicProperties : IInterfaceWithProperty
 
 internal class ClassWithReadOnlyProperties
 {
-    public string ReadOnlyProperty { get { return ""; } }
+    public string ReadOnlyProperty => "";
 
-    public string ReadOnlyProperty2 { get { return ""; } }
+    public string ReadOnlyProperty2 => "";
 
     public string ReadWriteProperty { get => ""; set { } }
 }
 
 internal class ClassWithWritableProperties
 {
-    public string ReadOnlyProperty { get { return ""; } }
+    public string ReadOnlyProperty => "";
 
     public string ReadWriteProperty { get => ""; set { } }
 
@@ -357,9 +357,9 @@ internal class ClassWithOnlyWritableProperties
 
 internal class ClassWithOnlyReadOnlyProperties
 {
-    public string ReadOnlyProperty { get { return ""; } }
+    public string ReadOnlyProperty => "";
 
-    public string ReadOnlyProperty2 { get { return ""; } }
+    public string ReadOnlyProperty2 => "";
 }
 
 internal class ClassWithAllPropertiesDecoratedWithDummyAttribute
