@@ -9,3 +9,9 @@ dotnet:
 exclude:
   - name: ConvertIfStatementToReturnStatement
   - name: ConvertIfStatementToConditionalTernaryExpression
+  - name: All
+    paths:
+      - Build
+      - Tests/AssemblyA
+      - Tests/AssemblyB
+      - Tests/Benchmarks
