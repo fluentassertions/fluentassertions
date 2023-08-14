@@ -338,16 +338,16 @@ internal class ClassWithReadOnlyProperties
 
     public string ReadOnlyProperty2 { get { return ""; } }
 
-    public string ReadWriteProperty { get { return ""; } set { } }
+    public string ReadWriteProperty { get => ""; set { } }
 }
 
 internal class ClassWithWritableProperties
 {
     public string ReadOnlyProperty { get { return ""; } }
 
-    public string ReadWriteProperty { get { return ""; } set { } }
+    public string ReadWriteProperty { get => ""; set { } }
 
-    public string ReadWriteProperty2 { get { return ""; } set { } }
+    public string ReadWriteProperty2 { get => ""; set { } }
 }
 
 internal class ClassWithOnlyWritableProperties

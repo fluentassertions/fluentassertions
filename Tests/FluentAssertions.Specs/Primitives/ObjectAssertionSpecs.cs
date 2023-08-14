@@ -1394,8 +1394,8 @@ public class ObjectAssertionSpecs
 
         public string NonSerializable
         {
-            get { return nonSerializable; }
-            set { nonSerializable = value; }
+            get => nonSerializable;
+            set => nonSerializable = value;
         }
     }
 
