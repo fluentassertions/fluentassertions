@@ -12,7 +12,7 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
   </PropertyGroup>
-  
+
   <PropertyGroup Label="Package info">
     <Authors>Dennis Doomen;Jonas Nyrup</Authors>
     <PackageDescription>
@@ -31,7 +31,7 @@
     <PackageReleaseNotes>See https://fluentassertions.com/releases/</PackageReleaseNotes>
     <Copyright>Copyright Dennis Doomen 2010-$([System.DateTime]::Now.ToString(yyyy))</Copyright>
   </PropertyGroup>
-  
+
   <ItemGroup Label="Internals visible to">
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>FluentAssertions.Specs, PublicKey=00240000048000009400000006020000002400005253413100040000010001002d25ff515c85b13ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f970d2a4874932fed35db546e89af2da88c194bf1b7f7ac70de7988c78406f7629c547283061282a825616eb7eb48a9514a7570942936020a9bb37dca9ff60b778309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f</_Parameter1>
@@ -114,11 +114,10 @@
         </TfmSpecificFrameworkAssemblyReferences>
         <Reference Include="System.Net.Http" />
         <Reference Include="System.Configuration" />
-        <Reference Include="System.Data" />
         <Reference Include="System.Xml" />
         <Reference Include="System.Xml.Linq" />
       </ItemGroup>
     </When>
   </Choose>
-  
+
 </Project>

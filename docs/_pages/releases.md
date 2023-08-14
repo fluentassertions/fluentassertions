@@ -17,6 +17,8 @@ sidebar:
 
 ### Breaking Changes (for users)
 
+* Moved support for `DataSet`, `DataTable`, `DataRow` and `DataColumn` into a new package `FluentAssertions.DataSet` - [#2267](https://github.com/fluentassertions/fluentassertions/pull/2267)
+
 ### Breaking Changes (for extensions)
 
 ## 6.12.0
