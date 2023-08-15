@@ -162,7 +162,7 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
                     "Did not expect the assembly {0} to be signed{reason}, but it is.", Subject.FullName);
         }
 
-        return new(this);
+        return new AndConstraint<AssemblyAssertions>(this);
     }
 
     /// <summary>Asserts that the assembly is signed with the specified public key.</summary>
@@ -203,7 +203,7 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
                 .ClearExpectation();
         }
 
-        return new(this);
+        return new AndConstraint<AssemblyAssertions>(this);
     }
 
     private static string ToHexString(byte[] bytes) =>

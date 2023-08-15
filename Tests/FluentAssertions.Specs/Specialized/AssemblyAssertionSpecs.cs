@@ -330,7 +330,7 @@ public class AssemblyAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage(@"Expected assembly * to have public key ""1234"" because signing is part of the contract, but it is unsigned.");
+                .WithMessage("Expected assembly * to have public key \"1234\" because signing is part of the contract, but it is unsigned.");
         }
 
         [Fact]
@@ -344,7 +344,7 @@ public class AssemblyAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>()
-                .WithMessage(@"Expected assembly * to have public key ""1234"" because signing is part of the contract, but it has * instead.");
+                .WithMessage("Expected assembly * to have public key \"1234\" because signing is part of the contract, but it has * instead.");
         }
 
         [Fact]
