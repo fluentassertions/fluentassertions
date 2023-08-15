@@ -167,7 +167,7 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
 
     /// <summary>Asserts that the assembly is signed with the specified public key.</summary>
     /// <param name="publicKey">
-    /// The base-16 string representation of the public key.
+    /// The base-16 string representation of the public key, like "e0851575614491c6d25018fadb75".
     /// </param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
