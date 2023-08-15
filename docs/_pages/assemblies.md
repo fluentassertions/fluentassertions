@@ -16,7 +16,7 @@ assembly.Should().Reference(otherAssembly);
 assembly.Should().NotReference(otherAssembly);
 ```
 
-Furthermore, you can assert if an assembly is assigned with a specif public key, or that the assembly is not signed at all.
+Furthermore, you can assert if an assembly is assigned with a specific public key, or that the assembly is not signed at all.
 The first can be useful, to ensure that the public key of your package is not changed unintentionally, the latter to prevent unintended siging.
 To assert this, use the following syntax:
 
