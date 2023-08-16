@@ -43,7 +43,7 @@ public class ClassWithWriteOnlyProperty
 
     public int WriteOnlyProperty
     {
-        set { writeOnlyPropertyValue = value; }
+        set => writeOnlyPropertyValue = value;
     }
 
     public string SomeOtherProperty { get; set; }
@@ -616,9 +616,33 @@ public class Vehicle : IVehicle
     public int VehicleId { get; set; }
 }
 
+public class VehicleWithField
+{
+    public int VehicleId;
+}
+
 public class ExplicitVehicle : IVehicle
 {
     int IVehicle.VehicleId { get; set; }
+
+    public int VehicleId { get; set; }
+}
+
+public interface IReadOnlyVehicle
+{
+    int VehicleId { get; }
+}
+
+public class ExplicitReadOnlyVehicle : IReadOnlyVehicle
+{
+    private readonly int explicitValue;
+
+    public ExplicitReadOnlyVehicle(int explicitValue)
+    {
+        this.explicitValue = explicitValue;
+    }
+
+    int IReadOnlyVehicle.VehicleId => explicitValue;
 
     public int VehicleId { get; set; }
 }
