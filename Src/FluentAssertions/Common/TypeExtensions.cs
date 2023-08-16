@@ -15,9 +15,6 @@ internal static class TypeExtensions
     private const BindingFlags PublicInstanceMembersFlag =
         BindingFlags.Public | BindingFlags.Instance;
 
-    private const BindingFlags AllInstanceMembersFlag =
-        BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
-
     private const BindingFlags AllStaticAndInstanceMembersFlag =
         PublicInstanceMembersFlag | BindingFlags.NonPublic | BindingFlags.Static;
 
@@ -176,45 +173,34 @@ internal static class TypeExtensions
     }
 
     /// <summary>
-    /// Finds the property by a case-sensitive name.
+    /// Finds the property by a case-sensitive name and with a certain visibility.
     /// </summary>
+    /// <remarks>
+    /// If both a normal property and one that was implemented through an explicit interface implementation with the same name exist,
+    /// then the normal property will be returned.
+    /// </remarks>
     /// <returns>
     /// Returns <see langword="null"/> if no such property exists.
     /// </returns>
-    public static PropertyInfo FindProperty(this Type type, string propertyName)
+    public static PropertyInfo FindProperty(this Type type, string propertyName, MemberVisibility memberVisibility)
     {
-        while (type != typeof(object))
-        {
-            if (type.GetProperty(propertyName, AllInstanceMembersFlag | BindingFlags.DeclaredOnly) is { } property)
-            {
-                return property;
-            }
+        var properties = type.GetNonPrivateProperties(memberVisibility);
 
-            type = type.BaseType;
-        }
-
-        return null;
+        return Array.Find(properties, p =>
+            p.Name == propertyName || p.Name.EndsWith("." + propertyName, StringComparison.OrdinalIgnoreCase));
     }
 
     /// <summary>
     /// Finds the field by a case-sensitive name.
     /// </summary>
     /// <returns>
-    /// Returns <see langword="null"/> if no such property exists.
+    /// Returns <see langword="null"/> if no such field exists.
     /// </returns>
-    public static FieldInfo FindField(this Type type, string fieldName)
+    public static FieldInfo FindField(this Type type, string fieldName, MemberVisibility memberVisibility)
     {
-        while (type != typeof(object))
-        {
-            if (type.GetField(fieldName, AllInstanceMembersFlag | BindingFlags.DeclaredOnly) is { } field)
-            {
-                return field;
-            }
+        var fields = type.GetNonPrivateFields(memberVisibility);
 
-            type = type.BaseType;
-        }
-
-        return null;
+        return Array.Find(fields, p => p.Name == fieldName);
     }
 
     public static MemberInfo[] GetNonPrivateMembers(this Type typeToReflect, MemberVisibility visibility)
@@ -318,8 +304,11 @@ internal static class TypeExtensions
 
     public static ConstructorInfo GetConstructor(this Type type, IEnumerable<Type> parameterTypes)
     {
+        const BindingFlags allInstanceMembersFlag =
+            BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+
         return type
-            .GetConstructors(AllInstanceMembersFlag)
+            .GetConstructors(allInstanceMembersFlag)
             .SingleOrDefault(m => m.GetParameters().Select(p => p.ParameterType).SequenceEqual(parameterTypes));
     }
 

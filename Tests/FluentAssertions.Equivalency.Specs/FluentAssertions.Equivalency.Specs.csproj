@@ -57,6 +57,7 @@
 
   <ItemGroup>
     <PackageReference Include="Chill" Version="4.1.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2023.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="xunit" Version="2.5.0" />
     <PackageReference Include="Xunit.StaFact" Version="1.1.11" />

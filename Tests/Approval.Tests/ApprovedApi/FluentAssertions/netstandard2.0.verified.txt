@@ -967,6 +967,7 @@ namespace FluentAssertions.Equivalency
         None = 0,
         Internal = 1,
         Public = 2,
+        ExplicitlyImplemented = 4,
     }
     public class NestedExclusionOptionBuilder<TExpectation, TCurrent>
     {
