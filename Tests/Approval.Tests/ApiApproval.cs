@@ -28,10 +28,12 @@ public class ApiApproval
         string assemblyPath = Uri.UnescapeDataString(uri.Path);
         var containingDirectory = Path.GetDirectoryName(assemblyPath);
         var configurationName = new DirectoryInfo(containingDirectory).Parent.Name;
+
         var assemblyFile = Path.GetFullPath(
             Path.Combine(
                 GetSourceDirectory(),
-                Path.Combine("..", "..", "Src", "FluentAssertions", "bin", configurationName, frameworkVersion, "FluentAssertions.dll")));
+                Path.Combine("..", "..", "Src", "FluentAssertions", "bin", configurationName, frameworkVersion,
+                    "FluentAssertions.dll")));
 
         var assembly = Assembly.LoadFile(Path.GetFullPath(assemblyFile));
         var publicApi = assembly.GeneratePublicApi(options: null);
@@ -53,6 +55,7 @@ public class ApiApproval
         var diff = InlineDiffBuilder.Diff(verified, received);
 
         var builder = new StringBuilder();
+
         foreach (var line in diff.Lines)
         {
             switch (line.Type)
@@ -79,9 +82,12 @@ public class ApiApproval
     {
         public TargetFrameworksTheoryData()
         {
-            var csproj = Path.Combine(GetSourceDirectory(), Path.Combine("..", "..", "Src", "FluentAssertions", "FluentAssertions.csproj"));
+            var csproj = Path.Combine(GetSourceDirectory(),
+                Path.Combine("..", "..", "Src", "FluentAssertions", "FluentAssertions.csproj"));
+
             var project = XDocument.Load(csproj);
             var targetFrameworks = project.XPathSelectElement("/Project/PropertyGroup/TargetFrameworks");
+
             foreach (string targetFramework in targetFrameworks!.Value.Split(';'))
             {
                 Add(targetFramework);

@@ -15,19 +15,20 @@ internal class MustMatchByNameRule : IMemberMatchingRule
 
         if (options.IncludedProperties != MemberVisibility.None)
         {
-            PropertyInfo propertyInfo = subject.GetType().FindProperty(expectedMember.Name);
+            PropertyInfo propertyInfo = subject.GetType().FindProperty(
+                expectedMember.Name,
+                options.IncludedProperties | MemberVisibility.ExplicitlyImplemented);
+
             subjectMember = propertyInfo is not null && !propertyInfo.IsIndexer() ? new Property(propertyInfo, parent) : null;
         }
 
         if (subjectMember is null && options.IncludedFields != MemberVisibility.None)
         {
-            FieldInfo fieldInfo = subject.GetType().FindField(expectedMember.Name);
-            subjectMember = fieldInfo is not null ? new Field(fieldInfo, parent) : null;
-        }
+            FieldInfo fieldInfo = subject.GetType().FindField(
+                expectedMember.Name,
+                options.IncludedFields);
 
-        if ((subjectMember is null || !options.UseRuntimeTyping) && ExpectationImplementsMemberExplicitly(subject, expectedMember))
-        {
-            subjectMember = expectedMember;
+            subjectMember = fieldInfo is not null ? new Field(fieldInfo, parent) : null;
         }
 
         if (subjectMember is null)
@@ -47,11 +48,6 @@ internal class MustMatchByNameRule : IMemberMatchingRule
         }
 
         return subjectMember;
-    }
-
-    private static bool ExpectationImplementsMemberExplicitly(object expectation, IMember subjectMember)
-    {
-        return subjectMember.DeclaringType.IsInstanceOfType(expectation);
     }
 
     /// <inheritdoc />
