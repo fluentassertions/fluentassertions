@@ -58,10 +58,10 @@ public class AutoConversionStep : IEquivalencyStep
         {
             if (expectationType.IsEnum)
             {
-                if (Enum.IsDefined(expectationType, subject))
+                if (subject is sbyte or byte or short or ushort or int or uint or long or ulong)
                 {
                     conversionResult = Enum.ToObject(expectationType, subject);
-                    return true;
+                    return Enum.IsDefined(expectationType, conversionResult);
                 }
 
                 return false;
