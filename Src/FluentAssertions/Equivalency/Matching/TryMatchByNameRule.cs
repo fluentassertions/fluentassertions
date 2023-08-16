@@ -10,14 +10,20 @@ internal class TryMatchByNameRule : IMemberMatchingRule
 {
     public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions options)
     {
-        PropertyInfo property = subject.GetType().FindProperty(expectedMember.Name);
-
-        if (property is not null && !property.IsIndexer())
+        if (options.IncludedProperties != MemberVisibility.None)
         {
-            return new Property(property, parent);
+            PropertyInfo property = subject.GetType().FindProperty(expectedMember.Name,
+                options.IncludedProperties | MemberVisibility.ExplicitlyImplemented);
+
+            if (property is not null && !property.IsIndexer())
+            {
+                return new Property(property, parent);
+            }
         }
 
-        FieldInfo field = subject.GetType().FindField(expectedMember.Name);
+        FieldInfo field = subject.GetType()
+            .FindField(expectedMember.Name, options.IncludedFields);
+
         return field is not null ? new Field(field, parent) : null;
     }
 

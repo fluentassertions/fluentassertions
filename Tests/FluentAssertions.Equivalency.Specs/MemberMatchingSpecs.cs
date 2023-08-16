@@ -62,8 +62,8 @@ public class MemberMatchingSpecs
         subject.Should()
             .BeEquivalentTo(expectation, opt => opt
                 .WithMapping<ParentOfSubjectWithProperty1>(
-                    e => e.Parent[0].Property2,
-                    s => s.Parent[0].Property1));
+                    e => e.Children[0].Property2,
+                    s => s.Children[0].Property1));
     }
 
     [Fact]
@@ -81,6 +81,25 @@ public class MemberMatchingSpecs
         subject.Should()
             .BeEquivalentTo(expectation, opt => opt
                 .WithMapping<ExpectationWithProperty2, SubjectWithProperty1>("Property2", "Property1"));
+    }
+
+    [Fact]
+    public void Nested_explicitly_implemented_properties_can_be_mapped_using_a_nested_type_and_property_names()
+    {
+        // Arrange
+        var subject = new ParentOfSubjectWithExplicitlyImplementedProperty(new[] { new SubjectWithExplicitImplementedProperty() });
+
+        ((IProperty)subject.Children[0]).Property = "Hello";
+
+        var expectation = new ParentOfExpectationWithProperty2(new[]
+        {
+            new ExpectationWithProperty2 { Property2 = "Hello" }
+        });
+
+        // Act / Assert
+        subject.Should()
+            .BeEquivalentTo(expectation, opt => opt
+                .WithMapping<ExpectationWithProperty2, SubjectWithExplicitImplementedProperty>("Property2", "Property"));
     }
 
     [Fact]
@@ -142,6 +161,25 @@ public class MemberMatchingSpecs
         subject.Should()
             .BeEquivalentTo(expectation, opt => opt
                 .WithMapping("Property2", "Property1"));
+    }
+
+    [Fact]
+    public void Properties_can_be_mapped_by_name_to_an_explicitly_implemented_property()
+    {
+        // Arrange
+        var subject = new SubjectWithExplicitImplementedProperty();
+
+        ((IProperty)subject).Property = "Hello";
+
+        var expectation = new ExpectationWithProperty2
+        {
+            Property2 = "Hello"
+        };
+
+        // Act / Assert
+        subject.Should()
+            .BeEquivalentTo(expectation, opt => opt
+                .WithMapping("Property2", "Property"));
     }
 
     [Fact]
@@ -515,27 +553,47 @@ public class MemberMatchingSpecs
 
     internal class ParentOfExpectationWithProperty2
     {
-        public ExpectationWithProperty2[] Parent { get; }
+        public ExpectationWithProperty2[] Children { get; }
 
-        public ParentOfExpectationWithProperty2(ExpectationWithProperty2[] parent)
+        public ParentOfExpectationWithProperty2(ExpectationWithProperty2[] children)
         {
-            Parent = parent;
+            Children = children;
         }
     }
 
     internal class ParentOfSubjectWithProperty1
     {
-        public SubjectWithProperty1[] Parent { get; }
+        public SubjectWithProperty1[] Children { get; }
 
-        public ParentOfSubjectWithProperty1(SubjectWithProperty1[] parent)
+        public ParentOfSubjectWithProperty1(SubjectWithProperty1[] children)
         {
-            Parent = parent;
+            Children = children;
+        }
+    }
+
+    internal class ParentOfSubjectWithExplicitlyImplementedProperty
+    {
+        public SubjectWithExplicitImplementedProperty[] Children { get; }
+
+        public ParentOfSubjectWithExplicitlyImplementedProperty(SubjectWithExplicitImplementedProperty[] children)
+        {
+            Children = children;
         }
     }
 
     internal class SubjectWithProperty1
     {
         public string Property1 { get; set; }
+    }
+
+    internal class SubjectWithExplicitImplementedProperty : IProperty
+    {
+        string IProperty.Property { get; set; }
+    }
+
+    internal interface IProperty
+    {
+        string Property { get; set; }
     }
 
     internal class ExpectationWithProperty2
