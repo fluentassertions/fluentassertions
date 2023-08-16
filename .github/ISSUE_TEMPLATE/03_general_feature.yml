@@ -24,3 +24,13 @@ body:
       placeholder: Alternative designs
     validations:
       required: false
+  - type: dropdown
+    id: pull-request
+    attributes:
+      label: Could you help with a pull-request?
+      description: Make sure you have read the sections about [contributing changes](https://github.com/fluentassertions/fluentassertions/blob/develop/CONTRIBUTING.md#contributing-changes) and [dos and don'ts](https://github.com/fluentassertions/fluentassertions/blob/develop/CONTRIBUTING.md#dos-and-donts).
+      options:
+        - "No"
+        - "Yes"
+    validations:
+      required: true
