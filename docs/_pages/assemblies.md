@@ -21,6 +21,6 @@ The first can be useful, to ensure that the public key of your package is not ch
 To assert this, use the following syntax:
 
 ```csharp
-assembly.Should().HavePublicKey("somePublicKey");
+assembly.Should().HavePublicKey("e0851575614491c6d25018fadb75");
 assembly.Should().BeUnsigned();
 ```
