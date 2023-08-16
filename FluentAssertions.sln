@@ -1,4 +1,3 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32505.426
@@ -52,7 +51,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentAssertions.Equivalenc
 EndProject
 Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "VB.Specs", "Tests\VB.Specs\VB.Specs.vbproj", "{0C0211B6-D185-4518-A15A-38AC092EDC50}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp.Specs", "Tests\FSharp.Specs\FSharp.Specs.fsproj", "{0A69DC62-CA14-44E5-BAF9-2EB2E2E2CADF}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp.Specs", "Tests\FSharp.Specs\FSharp.Specs.fsproj", "{0A69DC62-CA14-44E5-BAF9-2EB2E2E2CADF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

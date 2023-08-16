@@ -5,7 +5,7 @@
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\Src\FluentAssertions\FluentAssertions.snk</AssemblyOriginatorKeyFile>
     <IsPackable>false</IsPackable>
-    <NoWarn>$(NoWarn),IDE0052,1573,1591,1712</NoWarn>
+    <NoWarn>$(NoWarn),IDE0052,1573,1591,1712,CS8002</NoWarn>
     <DebugType>full</DebugType>
   </PropertyGroup>
 
