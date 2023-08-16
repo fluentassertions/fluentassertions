@@ -263,11 +263,13 @@ public class AssemblyAssertionSpecs
 
     public class BeUnsigned
     {
-        [Fact]
-        public void Guards_for_unsigned_assembly()
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        public void Guards_for_unsigned_assembly(string noKey)
         {
             // Arrange
-            var unsignedAssembly = FindAssembly.Stub();
+            var unsignedAssembly = FindAssembly.Stub(noKey);
 
             // Act & Assert
             unsignedAssembly.Should().BeUnsigned();

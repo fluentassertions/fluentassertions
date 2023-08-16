@@ -7,7 +7,7 @@ public static class FindAssembly
 {
     public static Assembly Containing<T>() => typeof(T).Assembly;
 
-    public static Assembly Stub(string publicKey = "") => new AssemblyStub(publicKey);
+    public static Assembly Stub(string publicKey) => new AssemblyStub(publicKey);
 
     private sealed class AssemblyStub : Assembly
     {
