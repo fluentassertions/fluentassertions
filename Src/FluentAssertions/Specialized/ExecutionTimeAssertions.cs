@@ -72,11 +72,10 @@ public class ExecutionTimeAssertions
     public AndConstraint<ExecutionTimeAssertions> BeLessThanOrEqualTo(TimeSpan maxDuration, string because = "",
         params object[] becauseArgs)
     {
-        bool Condition(TimeSpan duration) => duration <= maxDuration;
-        (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: false, rate: maxDuration);
+        (bool isRunning, TimeSpan elapsed) = PollUntil(duration => duration <= maxDuration, expectedResult: false, rate: maxDuration);
 
         Execute.Assertion
-            .ForCondition(Condition(elapsed))
+            .ForCondition(elapsed <= maxDuration)
             .BecauseOf(because, becauseArgs)
             .FailWith("Execution of " +
                 execution.ActionDescription.EscapePlaceholders() +
@@ -108,11 +107,10 @@ public class ExecutionTimeAssertions
     public AndConstraint<ExecutionTimeAssertions> BeLessThan(TimeSpan maxDuration, string because = "",
         params object[] becauseArgs)
     {
-        bool Condition(TimeSpan duration) => duration < maxDuration;
-        (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: false, rate: maxDuration);
+        (bool isRunning, TimeSpan elapsed) = PollUntil(duration => duration < maxDuration, expectedResult: false, rate: maxDuration);
 
         Execute.Assertion
-            .ForCondition(Condition(execution.ElapsedTime))
+            .ForCondition(elapsed < maxDuration)
             .BecauseOf(because, becauseArgs)
             .FailWith("Execution of " +
                 execution.ActionDescription.EscapePlaceholders() + " should be less than {0}{reason}, but it required " +
@@ -139,11 +137,10 @@ public class ExecutionTimeAssertions
     public AndConstraint<ExecutionTimeAssertions> BeGreaterThanOrEqualTo(TimeSpan minDuration, string because = "",
         params object[] becauseArgs)
     {
-        bool Condition(TimeSpan duration) => duration >= minDuration;
-        (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: true, rate: minDuration);
+        (bool isRunning, TimeSpan elapsed) = PollUntil(duration => duration >= minDuration, expectedResult: true, rate: minDuration);
 
         Execute.Assertion
-            .ForCondition(Condition(elapsed))
+            .ForCondition(elapsed >= minDuration)
             .BecauseOf(because, becauseArgs)
             .FailWith("Execution of " +
                 execution.ActionDescription.EscapePlaceholders() +
@@ -175,11 +172,10 @@ public class ExecutionTimeAssertions
     public AndConstraint<ExecutionTimeAssertions> BeGreaterThan(TimeSpan minDuration, string because = "",
         params object[] becauseArgs)
     {
-        bool Condition(TimeSpan duration) => duration > minDuration;
-        (bool isRunning, TimeSpan elapsed) = PollUntil(Condition, expectedResult: true, rate: minDuration);
+        (bool isRunning, TimeSpan elapsed) = PollUntil(duration => duration > minDuration, expectedResult: true, rate: minDuration);
 
         Execute.Assertion
-            .ForCondition(Condition(elapsed))
+            .ForCondition(elapsed > minDuration)
             .BecauseOf(because, becauseArgs)
             .FailWith("Execution of " +
                 execution.ActionDescription.EscapePlaceholders() + " should be greater than {0}{reason}, but it required " +
@@ -216,15 +212,12 @@ public class ExecutionTimeAssertions
         TimeSpan minimumValue = expectedDuration - precision;
         TimeSpan maximumValue = expectedDuration + precision;
 
-        bool MaxCondition(TimeSpan duration) => duration <= maximumValue;
-        bool MinCondition(TimeSpan duration) => duration >= minimumValue;
-
         // for polling we only use max condition, we don't want poll to stop if
         // elapsed time didn't even get to the acceptable range
-        (bool isRunning, TimeSpan elapsed) = PollUntil(MaxCondition, expectedResult: false, rate: maximumValue);
+        (bool isRunning, TimeSpan elapsed) = PollUntil(duration => duration <= maximumValue, expectedResult: false, rate: maximumValue);
 
         Execute.Assertion
-            .ForCondition(MinCondition(elapsed) && MaxCondition(elapsed))
+            .ForCondition(elapsed >= minimumValue && elapsed <= maximumValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Execution of " + execution.ActionDescription.EscapePlaceholders() +
                 " should be within {0} from {1}{reason}, but it required " +
