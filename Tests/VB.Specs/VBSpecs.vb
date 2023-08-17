@@ -7,7 +7,7 @@ Namespace VB.Specs
         <Fact>
         Public Sub Caller_identification_works_with_parentheses()
             ' Arrange
-            Dim subject = False
+            Const subject = False
 
             ' Act
             Dim act As Action = Sub() subject.Should().BeTrue()
@@ -19,7 +19,7 @@ Namespace VB.Specs
         <Fact>
         Public Sub Caller_identification_works_without_parentheses()
             ' Arrange
-            Dim subject = False
+            Const subject = False
 
             ' Act
             Dim act As Action = Sub() subject.Should.BeTrue()
