@@ -487,7 +487,7 @@ public class SelectionRulesSpecs
             // Act
             Action act =
                 () =>
-                    class1.Should().BeEquivalentTo(class2, opts => opts.Including(_ => _.Field1).Including(_ => _.Field2));
+                    class1.Should().BeEquivalentTo(class2, opts => opts.Including(o => o.Field1).Including(o => o.Field2));
 
             // Assert
             act.Should().NotThrow("the only selected fields have the same value");
@@ -518,7 +518,7 @@ public class SelectionRulesSpecs
             Action act =
                 () =>
                     class1.Should().BeEquivalentTo(class2,
-                        opts => opts.Including(_ => _.Field1).Including(_ => _.Field2).Including(_ => _.Field3));
+                        opts => opts.Including(o => o.Field1).Including(o => o.Field2).Including(o => o.Field3));
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("Expected field class1.Field3*");
@@ -669,7 +669,7 @@ public class SelectionRulesSpecs
             Action act =
                 () =>
                     class1.Should().BeEquivalentTo(class2,
-                        opts => opts.Excluding(_ => _.Field3).Excluding(_ => _.Property1));
+                        opts => opts.Excluding(o => o.Field3).Excluding(o => o.Property1));
 
             // Assert
             act.Should().NotThrow("the non-excluded fields have the same value");
@@ -696,7 +696,7 @@ public class SelectionRulesSpecs
 
             // Act
             Action act =
-                () => class1.Should().BeEquivalentTo(class2, opts => opts.Excluding(_ => _.Property1));
+                () => class1.Should().BeEquivalentTo(class2, opts => opts.Excluding(o => o.Property1));
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage("Expected*Field3*");
@@ -1476,7 +1476,7 @@ public class SelectionRulesSpecs
             expectation.Property = "ExpectedBaseValue";
 
             // Act / Assert
-            subject.Should().BeEquivalentTo(expectation, _ => _.RespectingRuntimeTypes());
+            subject.Should().BeEquivalentTo(expectation, o => o.RespectingRuntimeTypes());
         }
 
         [Fact]
@@ -1498,8 +1498,8 @@ public class SelectionRulesSpecs
             ((AnotherBaseWithProperty)expectation).Property = "ExpectedBaseValue";
 
             // Act / Assert
-            subject.Should().BeEquivalentTo(expectation, _ => _
-                .Including(_ => _.Property));
+            subject.Should().BeEquivalentTo(expectation, opt => opt
+                .Including(o => o.Property));
         }
 
         [Fact]
@@ -1515,7 +1515,7 @@ public class SelectionRulesSpecs
             ((AnotherBaseWithProperty)expectation).Property = "ExpectedBaseValue";
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(expectation, _ => _
+            Action act = () => subject.Should().BeEquivalentTo(expectation, o => o
                 .Excluding(b => b.Property));
 
             // Assert
@@ -1646,7 +1646,7 @@ public class SelectionRulesSpecs
             // Act / Assert
             subject.Should().BeEquivalentTo(expectation, options => options
                 .IncludingFields()
-                .Including(_ => _.Field));
+                .Including(o => o.Field));
         }
 
         [Fact]
