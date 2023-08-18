@@ -12,6 +12,7 @@ sidebar:
 ### What's new
 * Added `Be`, `NotBe` and `BeOneOf` for object comparisons with custom comparer - [#2111](https://github.com/fluentassertions/fluentassertions/pull/2111)
 * Added `BeSignedWithPublicKey()` and `BeUnsigned()` for assertions on `Assembly` - [#2207](https://github.com/fluentassertions/fluentassertions/pull/2207)
+* Added `NotContainItemsAssignableTo` for asserting that collection does not contain any item assignable to specific type [#2266](https://github.com/fluentassertions/fluentassertions/pull/2266)
 
 ### Fixes
 * `because` and `becauseArgs` were not included in the error message when collections of enums were not equivalent - [#2214](https://github.com/fluentassertions/fluentassertions/pull/2214)
