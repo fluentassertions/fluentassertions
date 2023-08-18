@@ -124,10 +124,10 @@ public static class ObjectAssertionsExtensions
     private static object CreateCloneUsingXmlSerializer(object subject)
     {
         using var stream = new MemoryStream();
-        var binaryFormatter = new XmlSerializer(subject.GetType());
-        binaryFormatter.Serialize(stream, subject);
+        var serializer = new XmlSerializer(subject.GetType());
+        serializer.Serialize(stream, subject);
 
         stream.Position = 0;
-        return binaryFormatter.Deserialize(stream);
+        return serializer.Deserialize(stream);
     }
 }
