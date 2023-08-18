@@ -15,3 +15,5 @@ exclude:
       - Tests/AssemblyA
       - Tests/AssemblyB
       - Tests/Benchmarks
+      - Tests/UWP.Specs
+      
