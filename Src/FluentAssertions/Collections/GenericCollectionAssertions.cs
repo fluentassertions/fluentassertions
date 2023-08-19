@@ -1079,7 +1079,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     }
 
     /// <summary>
-    /// Asserts that the current collection does not contain any element that is assignable to the type <typeparamref name="TExpectation" />.
+    /// Asserts that the current collection does not contain any elements that are assignable to the type <typeparamref name="TExpectation" />.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -1092,7 +1092,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         NotContainItemsAssignableTo(typeof(TExpectation), because, becauseArgs);
 
     /// <summary>
-    /// Asserts that the current collection does not contain any element that is assignable to the given type.
+    /// Asserts that the current collection does not contain any elements that are assignable to the given type.
     /// </summary>
     /// <param name="type">
     /// Object type that should not be in collection
