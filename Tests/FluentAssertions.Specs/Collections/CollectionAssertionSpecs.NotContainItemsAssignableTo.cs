@@ -1,6 +1,4 @@
 ﻿using System;
-using FluentAssertions.Collections;
-using FluentAssertions.Specs.Collections.Data;
 using Xunit;
 using Xunit.Sdk;
 
