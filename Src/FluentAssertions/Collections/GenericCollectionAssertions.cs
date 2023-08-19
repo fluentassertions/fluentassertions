@@ -1079,7 +1079,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     }
 
     /// <summary>
-    /// Asserts that the current collection does not contain any elements that are assignable to the type <typeparamref name="TExpectation" />.
+    /// Asserts that the current collection does not contain any elements that are assignable to the type <typeparamref name="TUnexpected" />.
     /// </summary>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
@@ -1088,8 +1088,8 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotContainItemsAssignableTo<TExpectation>(string because = "", params object[] becauseArgs) =>
-        NotContainItemsAssignableTo(typeof(TExpectation), because, becauseArgs);
+    public AndConstraint<TAssertions> NotContainItemsAssignableTo<TUnexpected>(string because = "", params object[] becauseArgs) =>
+        NotContainItemsAssignableTo(typeof(TUnexpected), because, becauseArgs);
 
     /// <summary>
     /// Asserts that the current collection does not contain any elements that are assignable to the given type.
