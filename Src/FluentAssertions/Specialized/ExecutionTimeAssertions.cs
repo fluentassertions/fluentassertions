@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -87,10 +86,6 @@ public class ExecutionTimeAssertions
         return new AndConstraint<ExecutionTimeAssertions>(this);
     }
 
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<ExecutionTimeAssertions> BeLessOrEqualTo(TimeSpan maxDuration, string because = "",
-        params object[] becauseArgs) => BeLessThanOrEqualTo(maxDuration, because, becauseArgs);
-
     /// <summary>
     /// Asserts that the execution time of the operation is less than a specified amount of time.
     /// </summary>
@@ -151,10 +146,6 @@ public class ExecutionTimeAssertions
 
         return new AndConstraint<ExecutionTimeAssertions>(this);
     }
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<ExecutionTimeAssertions> BeGreaterOrEqualTo(TimeSpan minDuration, string because = "",
-        params object[] becauseArgs) => BeGreaterThanOrEqualTo(minDuration, because, becauseArgs);
 
     /// <summary>
     /// Asserts that the execution time of the operation is greater than a specified amount of time.
