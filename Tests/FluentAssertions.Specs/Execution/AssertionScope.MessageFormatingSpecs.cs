@@ -207,12 +207,12 @@ public partial class AssertionScopeSpecs
     [InlineData("\r")]
     [InlineData("\\r")]
     [InlineData("\\\r")]
-    [InlineData("\\\\r")]
+    [InlineData(@"\\r")]
     [InlineData("\\\\\r")]
     [InlineData("\n")]
     [InlineData("\\n")]
     [InlineData("\\\n")]
-    [InlineData("\\\\n")]
+    [InlineData(@"\\n")]
     [InlineData("\\\\\n")]
     [Theory]
     public void Message_should_not_have_modified_carriage_return_or_line_feed_control_characters_in_supplied_arguments(string str)
@@ -220,7 +220,7 @@ public partial class AssertionScopeSpecs
         // Arrange
         var scope = new AssertionScope();
 
-        AssertionScope.Current.FailWith("\\{0}\\A", str);
+        AssertionScope.Current.FailWith(@"\{0}\A", str);
 
         // Act
         Action act = scope.Dispose;
