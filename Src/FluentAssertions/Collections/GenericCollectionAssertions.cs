@@ -79,7 +79,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected type to be {0}{reason}, ", typeof(TExpectation).FullName)
-                .ForCondition(Subject.All(x => x is not null))
+                .ForCondition(Subject!.All(x => x is not null))
                 .FailWith("but found a null element.")
                 .Then
                 .ForCondition(Subject.All(x => typeof(TExpectation).IsAssignableFrom(GetType(x))))
@@ -226,7 +226,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected type to be {0}{reason}, ", typeof(TExpectation).FullName)
-                .ForCondition(Subject.All(x => x is not null))
+                .ForCondition(Subject!.All(x => x is not null))
                 .FailWith("but found a null element.")
                 .Then
                 .ForCondition(Subject.All(x => typeof(TExpectation) == GetType(x)))
@@ -748,7 +748,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             Func<T, bool> func = predicate.Compile();
 
             Execute.Assertion
-                .ForCondition(Subject.Any(func))
+                .ForCondition(Subject!.Any(func))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:collection} {0} to have an item matching {1}{reason}.", Subject, predicate.Body);
 
@@ -786,7 +786,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
         if (success)
         {
-            IEnumerable<T> missingItems = expectedObjects.Except(Subject);
+            IEnumerable<T> missingItems = expectedObjects.Except(Subject!);
 
             if (missingItems.Any())
             {
@@ -875,7 +875,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             using var scope = new AssertionScope();
             scope.AddReportable("configuration", () => options.ToString());
 
-            foreach (T actualItem in Subject)
+            foreach (T actualItem in Subject!)
             {
                 var context =
                     new EquivalencyValidationContext(Node.From<TExpectation>(() => AssertionScope.Current.CallerIdentity),
@@ -1375,7 +1375,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
         if (success)
         {
-            int actualCount = Subject.Count();
+            int actualCount = Subject!.Count();
 
             Execute.Assertion
                 .ForCondition(actualCount == expected)
@@ -1415,7 +1415,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         {
             Func<int, bool> compiledPredicate = countPredicate.Compile();
 
-            int actualCount = Subject.Count();
+            int actualCount = Subject!.Count();
 
             if (!compiledPredicate(actualCount))
             {
@@ -1579,7 +1579,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
         if (success)
         {
-            if (index < Subject.Count())
+            if (index < Subject!.Count())
             {
                 actual = Subject.ElementAt(index);
 
@@ -1731,7 +1731,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
         if (success)
         {
-            IEnumerable<T> sharedItems = Subject.Intersect(otherCollection);
+            IEnumerable<T> sharedItems = Subject!.Intersect(otherCollection);
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -2225,7 +2225,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         if (success)
         {
             Func<T, bool> compiledPredicate = predicate.Compile();
-            IEnumerable<T> unexpectedItems = Subject.Where(item => compiledPredicate(item));
+            IEnumerable<T> unexpectedItems = Subject!.Where(item => compiledPredicate(item));
 
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -2267,7 +2267,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
         if (success)
         {
-            IEnumerable<T> foundItems = unexpectedObjects.Intersect(Subject);
+            IEnumerable<T> foundItems = unexpectedObjects.Intersect(Subject!);
 
             if (foundItems.Any())
             {
@@ -2361,7 +2361,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             {
                 int index = 0;
 
-                foreach (T actualItem in Subject)
+                foreach (T actualItem in Subject!)
                 {
                     var context =
                         new EquivalencyValidationContext(Node.From<TExpectation>(() => AssertionScope.Current.CallerIdentity),
@@ -2598,7 +2598,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         {
             Func<T, TKey> compiledPredicate = predicate.Compile();
 
-            T[] values = Subject
+            T[] values = Subject!
                 .Where(e => compiledPredicate(e) is null)
                 .ToArray();
 
@@ -2631,7 +2631,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
         if (success)
         {
-            int[] indices = Subject
+            int[] indices = Subject!
                 .Select((item, index) => (Item: item, Index: index))
                 .Where(e => e.Item is null)
                 .Select(e => e.Index)
@@ -2870,7 +2870,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         {
             Func<T, TKey> compiledPredicate = predicate.Compile();
 
-            IGrouping<TKey, T>[] groupWithMultipleItems = Subject
+            IGrouping<TKey, T>[] groupWithMultipleItems = Subject!
                 .GroupBy(compiledPredicate)
                 .Where(g => g.Count() > 1)
                 .ToArray();
@@ -2920,7 +2920,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
         if (success)
         {
-            IEnumerable<T> groupWithMultipleItems = Subject
+            IEnumerable<T> groupWithMultipleItems = Subject!
                 .GroupBy(o => o)
                 .Where(g => g.Count() > 1)
                 .Select(g => g.Key);
