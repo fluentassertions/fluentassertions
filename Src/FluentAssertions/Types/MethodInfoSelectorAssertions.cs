@@ -54,7 +54,7 @@ public class MethodInfoSelectorAssertions
             GetDescriptionsFor(nonVirtualMethods);
 
         Execute.Assertion
-            .ForCondition(!nonVirtualMethods.Any())
+            .ForCondition(nonVirtualMethods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage);
 
@@ -81,7 +81,7 @@ public class MethodInfoSelectorAssertions
             GetDescriptionsFor(virtualMethods);
 
         Execute.Assertion
-            .ForCondition(!virtualMethods.Any())
+            .ForCondition(virtualMethods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage);
 
@@ -118,7 +118,7 @@ public class MethodInfoSelectorAssertions
             GetDescriptionsFor(nonAsyncMethods);
 
         Execute.Assertion
-            .ForCondition(!nonAsyncMethods.Any())
+            .ForCondition(nonAsyncMethods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage);
 
@@ -145,7 +145,7 @@ public class MethodInfoSelectorAssertions
             GetDescriptionsFor(asyncMethods);
 
         Execute.Assertion
-            .ForCondition(!asyncMethods.Any())
+            .ForCondition(asyncMethods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage);
 
@@ -198,7 +198,7 @@ public class MethodInfoSelectorAssertions
             GetDescriptionsFor(methodsWithoutAttribute);
 
         Execute.Assertion
-            .ForCondition(!methodsWithoutAttribute.Any())
+            .ForCondition(methodsWithoutAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage, typeof(TAttribute));
 
@@ -251,7 +251,7 @@ public class MethodInfoSelectorAssertions
             GetDescriptionsFor(methodsWithAttribute);
 
         Execute.Assertion
-            .ForCondition(!methodsWithAttribute.Any())
+            .ForCondition(methodsWithAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(failureMessage, typeof(TAttribute));
 
@@ -278,7 +278,7 @@ public class MethodInfoSelectorAssertions
             Environment.NewLine + GetDescriptionsFor(methods);
 
         Execute.Assertion
-            .ForCondition(!methods.Any())
+            .ForCondition(methods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(message);
 
@@ -305,7 +305,7 @@ public class MethodInfoSelectorAssertions
             Environment.NewLine + GetDescriptionsFor(methods);
 
         Execute.Assertion
-            .ForCondition(!methods.Any())
+            .ForCondition(methods.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith(message);
 

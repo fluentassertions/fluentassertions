@@ -18,12 +18,6 @@ namespace FluentAssertions.Specialized;
 public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerable<TException>, ExceptionAssertions<TException>>
     where TException : Exception
 {
-    #region Private Definitions
-
-    private static readonly ExceptionMessageAssertion OuterMessageAssertion = new();
-
-    #endregion
-
     public ExceptionAssertions(IEnumerable<TException> exceptions)
         : base(exceptions)
     {
@@ -86,7 +80,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
             .ForCondition(Subject.Any())
             .FailWith("Expected exception with message {0}{reason}, but no exception was thrown.", expectedWildcardPattern);
 
-        OuterMessageAssertion.Execute(Subject.Select(exc => exc.Message), expectedWildcardPattern, because,
+        ExceptionMessageAssertion.Execute(Subject.Select(exc => exc.Message), expectedWildcardPattern, because,
             becauseArgs);
 
         return this;
@@ -192,13 +186,14 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
         Execute.Assertion
             .ForCondition(condition(SingleSubject))
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected exception where {0}{reason}, but the condition was not met by:{1}{1}{2}.",
-                exceptionExpression, Environment.NewLine, Subject);
+            .FailWith("Expected exception where {0}{reason}, but the condition was not met by:"
+                        + Environment.NewLine + Environment.NewLine + "{1}.",
+                exceptionExpression, Subject);
 
         return this;
     }
 
-    private IEnumerable<Exception> AssertInnerExceptionExactly(Type innerException, string because = "",
+    private Exception[] AssertInnerExceptionExactly(Type innerException, string because = "",
         params object[] becauseArgs)
     {
         Execute.Assertion
@@ -211,14 +206,14 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
             .Where(e => e?.GetType() == innerException).ToArray();
 
         Execute.Assertion
-            .ForCondition(expectedExceptions.Any())
+            .ForCondition(expectedExceptions.Length > 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected inner {0}{reason}, but found {1}.", innerException, SingleSubject.InnerException);
 
         return expectedExceptions;
     }
 
-    private IEnumerable<Exception> AssertInnerExceptions(Type innerException, string because = "",
+    private Exception[] AssertInnerExceptions(Type innerException, string because = "",
         params object[] becauseArgs)
     {
         Execute.Assertion
@@ -232,7 +227,7 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
             .ToArray();
 
         Execute.Assertion
-            .ForCondition(expectedInnerExceptions.Any())
+            .ForCondition(expectedInnerExceptions.Length > 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected inner {0}{reason}, but found {1}.", innerException, SingleSubject.InnerException);
 
@@ -263,16 +258,11 @@ public class ExceptionAssertions<TException> : ReferenceTypeAssertions<IEnumerab
                     "\t" + Formatter.ToString(exception)));
     }
 
-    private sealed class ExceptionMessageAssertion
+    private static class ExceptionMessageAssertion
     {
-        public ExceptionMessageAssertion()
-        {
-            Context = "exception message";
-        }
+        private const string Context = "exception message";
 
-        public string Context { get; }
-
-        public void Execute(IEnumerable<string> messages, string expectation, string because, params object[] becauseArgs)
+        public static void Execute(IEnumerable<string> messages, string expectation, string because, params object[] becauseArgs)
         {
             using var _ = new AssertionScope();
             var results = new AssertionResultSet();

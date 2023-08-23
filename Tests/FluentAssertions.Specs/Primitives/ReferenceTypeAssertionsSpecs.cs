@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
@@ -42,8 +42,34 @@ public class ReferenceTypeAssertionsSpecs
         act
             .Should().Throw<XunitException>()
             .WithMessage(
-                "Expected subject to refer to*{ UserName = JohnDoe } because " +
-                "they are the same, but found*{ Name = John Doe }.");
+            """
+            Expected subject to refer to 
+            {
+                UserName = "JohnDoe"
+            } because they are the same, but found 
+            {
+                Name = "John Doe"
+            }.
+            """);
+    }
+
+    [Fact]
+    public void When_a_derived_class_has_longer_formatting_than_the_base_class()
+    {
+        var subject = new SimpleComplexBase[] { new Simple(), new Complex("goodbye") };
+        Action act = () => subject.Should().BeEmpty();
+        act.Should().Throw<XunitException>()
+            .WithMessage(
+            """
+            Expected subject to be empty, but found 
+            {
+                Simple(Hello), 
+                FluentAssertions.Specs.Primitives.Complex
+                {
+                    Statement = "goodbye"
+                }
+            }.
+            """);
     }
 
     [Fact]
@@ -509,5 +535,23 @@ internal class ClassWithCustomEqualMethod
     public override string ToString()
     {
         return $"ClassWithCustomEqualMethod({Key})";
+    }
+}
+
+public abstract class SimpleComplexBase
+{ }
+
+public class Simple : SimpleComplexBase
+{
+    public override string ToString() => "Simple(Hello)";
+}
+
+public class Complex : SimpleComplexBase
+{
+    public string Statement { get; set; }
+
+    public Complex(string statement)
+    {
+        Statement = statement;
     }
 }

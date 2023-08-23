@@ -87,7 +87,7 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
     {
         Type[] enumerableInterfaces = GetIEnumerableInterfaces(type);
 
-        return !typeof(string).IsAssignableFrom(type) && enumerableInterfaces.Any();
+        return !typeof(string).IsAssignableFrom(type) && enumerableInterfaces.Length > 0;
     }
 
     private static Type[] GetIEnumerableInterfaces(Type type)

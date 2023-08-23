@@ -1094,9 +1094,11 @@ public class XElementAssertionSpecs
         {
             // Arrange
             var element = XElement.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () =>
@@ -1111,9 +1113,11 @@ public class XElementAssertionSpecs
         {
             // Arrange
             var element = XElement.Parse(
-                @"<parent xmlns:c='http://www.example.com/2012/test'>
+                """
+                <parent xmlns:c='http://www.example.com/2012/test'>
                     <c:child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () =>
@@ -1128,9 +1132,11 @@ public class XElementAssertionSpecs
         {
             // Arrange
             var theElement = XElement.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () =>
@@ -1146,9 +1152,11 @@ public class XElementAssertionSpecs
         {
             // Arrange
             var theElement = XElement.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () =>
@@ -1164,9 +1172,11 @@ public class XElementAssertionSpecs
         {
             // Arrange
             var theElement = XElement.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () =>
@@ -1183,9 +1193,11 @@ public class XElementAssertionSpecs
         {
             // Arrange
             var theElement = XElement.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () =>
@@ -1203,9 +1215,11 @@ public class XElementAssertionSpecs
         {
             // Arrange
             var element = XElement.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child attr='1' />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             var matchedElement = element.Should().HaveElement("child").Subject;
@@ -1267,10 +1281,12 @@ public class XElementAssertionSpecs
         {
             // Arrange
             var element = XElement.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act / Assert
             element.Should().HaveElement("child", Exactly.Twice());
@@ -1301,11 +1317,13 @@ public class XElementAssertionSpecs
         {
             // Arrange
             var element = XElement.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
                     <child />
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () => element.Should().HaveElement("child", Exactly.Twice());
@@ -1320,11 +1338,13 @@ public class XElementAssertionSpecs
         {
             // Arrange
             var element = XElement.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
                     <child />
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () => element.Should().HaveElement(null, Exactly.Twice());
@@ -1339,11 +1359,13 @@ public class XElementAssertionSpecs
         {
             // Arrange
             var element = XElement.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
                     <child />
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () => element.Should().HaveElement((XName)null, Exactly.Twice());
@@ -1358,11 +1380,13 @@ public class XElementAssertionSpecs
         {
             // Arrange
             var element = XElement.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
                     <child />
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act / Assert
             element.Should().HaveElement("child", AtLeast.Twice())
@@ -1374,11 +1398,13 @@ public class XElementAssertionSpecs
         {
             // Arrange
             var element = XElement.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
                     <child />
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () => element.Should().HaveElement("child", Exactly.Once())

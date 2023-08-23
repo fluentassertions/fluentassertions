@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using FluentAssertions.Common;
@@ -111,7 +110,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     {
         get
         {
-            bool hasConflictingRules = selectionRules.Any(rule => rule.IncludesMembers);
+            bool hasConflictingRules = selectionRules.Exists(rule => rule.IncludesMembers);
 
             if (includedProperties.HasFlag(MemberVisibility.Public) && !hasConflictingRules)
             {
@@ -187,19 +186,19 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
         // be aware if the cache must be cleared on mutating the members.
         return equalityStrategyCache.GetOrAdd(type, typeKey =>
         {
-            if (!typeKey.IsPrimitive && referenceTypes.Count > 0 && referenceTypes.Any(t => typeKey.IsSameOrInherits(t)))
+            if (!typeKey.IsPrimitive && referenceTypes.Count > 0 && referenceTypes.Exists(t => typeKey.IsSameOrInherits(t)))
             {
                 return EqualityStrategy.ForceMembers;
             }
-            else if (valueTypes.Count > 0 && valueTypes.Any(t => typeKey.IsSameOrInherits(t)))
+            else if (valueTypes.Count > 0 && valueTypes.Exists(t => typeKey.IsSameOrInherits(t)))
             {
                 return EqualityStrategy.ForceEquals;
             }
-            else if (!typeKey.IsPrimitive && referenceTypes.Count > 0 && referenceTypes.Any(t => typeKey.IsAssignableToOpenGeneric(t)))
+            else if (!typeKey.IsPrimitive && referenceTypes.Count > 0 && referenceTypes.Exists(t => typeKey.IsAssignableToOpenGeneric(t)))
             {
                 return EqualityStrategy.ForceMembers;
             }
-            else if (valueTypes.Count > 0 && valueTypes.Any(t => typeKey.IsAssignableToOpenGeneric(t)))
+            else if (valueTypes.Count > 0 && valueTypes.Exists(t => typeKey.IsAssignableToOpenGeneric(t)))
             {
                 return EqualityStrategy.ForceEquals;
             }
@@ -414,8 +413,12 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     }
 
     /// <summary>
-    /// Causes the structural equality check to include nested collections and complex types.
+    /// Causes the structural equality comparison to recursively traverse the object graph and compare the fields and
+    /// properties of any nested objects and objects in collections.
     /// </summary>
+    /// <remarks>
+    /// This is the default behavior. You can override this using <see cref="ExcludingNestedObjects"/>.
+    /// </remarks>
     public TSelf IncludingNestedObjects()
     {
         isRecursive = true;
@@ -423,10 +426,11 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     }
 
     /// <summary>
-    /// Causes the structural equality check to exclude nested collections and complex types.
+    /// Stops the structural equality check from recursively comparing the members any nested objects.
     /// </summary>
     /// <remarks>
-    /// Behaves similarly to the old property assertions API.
+    /// If a property or field points to a complex type or collection, a simple <see cref="object.Equals(object)"/> call will
+    /// be done instead of recursively looking at the properties or fields of the nested object.
     /// </remarks>
     public TSelf ExcludingNestedObjects()
     {
@@ -638,7 +642,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
             throw new InvalidOperationException($"Cannot compare a primitive type such as {type.Name} by its members");
         }
 
-        if (valueTypes.Any(t => type.IsSameOrInherits(t)))
+        if (valueTypes.Exists(t => type.IsSameOrInherits(t)))
         {
             throw new InvalidOperationException(
                 $"Can't compare {type.Name} by its members if it already setup to be compared by value");
@@ -664,7 +668,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     {
         Guard.ThrowIfArgumentIsNull(type);
 
-        if (referenceTypes.Any(t => type.IsSameOrInherits(t)))
+        if (referenceTypes.Exists(t => type.IsSameOrInherits(t)))
         {
             throw new InvalidOperationException(
                 $"Can't compare {type.Name} by value if it already setup to be compared by its members");

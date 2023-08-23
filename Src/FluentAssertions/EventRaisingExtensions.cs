@@ -27,7 +27,7 @@ public static class EventRaisingExtensions
         foreach (OccurredEvent @event in eventRecording)
         {
             bool hasSender = Execute.Assertion
-                .ForCondition(@event.Parameters.Any())
+                .ForCondition(@event.Parameters.Length > 0)
                 .FailWith("Expected event from sender {0}, " +
                     $"but event {eventRecording.EventName} does not have any parameters", expectedSender);
 
@@ -47,7 +47,7 @@ public static class EventRaisingExtensions
         }
 
         Execute.Assertion
-            .ForCondition(eventsForSender.Any())
+            .ForCondition(eventsForSender.Count > 0)
             .FailWith("Expected sender {0}, but found {1}.",
                 () => expectedSender,
                 () => otherSenders.Distinct());
@@ -81,7 +81,7 @@ public static class EventRaisingExtensions
             }
         }
 
-        bool foundMatchingEvent = eventsWithMatchingPredicate.Any();
+        bool foundMatchingEvent = eventsWithMatchingPredicate.Count > 0;
 
         Execute.Assertion
             .ForCondition(foundMatchingEvent)
@@ -111,7 +111,7 @@ public static class EventRaisingExtensions
         foreach (OccurredEvent @event in eventRecording)
         {
             var typedParameters = @event.Parameters.OfType<T>().ToArray();
-            bool hasArgumentOfRightType = typedParameters.Any();
+            bool hasArgumentOfRightType = typedParameters.Length > 0;
 
             if (predicates.Length > typedParameters.Length)
             {
@@ -132,7 +132,7 @@ public static class EventRaisingExtensions
             }
         }
 
-        bool foundMatchingEvent = eventsWithMatchingPredicate.Any();
+        bool foundMatchingEvent = eventsWithMatchingPredicate.Count > 0;
 
         if (!foundMatchingEvent)
         {

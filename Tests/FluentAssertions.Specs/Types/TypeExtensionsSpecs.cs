@@ -145,6 +145,40 @@ public class TypeExtensionsSpecs
         type.IsRecord().Should().Be(expected);
     }
 
+    [Theory]
+    [InlineData(typeof(Tuple<int>), true)]
+    [InlineData(typeof(Tuple<int, string>), true)]
+    [InlineData(typeof(Tuple<int, string, long>), true)]
+    [InlineData(typeof(Tuple<int, string, long, char>), true)]
+    [InlineData(typeof(Tuple<int, string, long, char, decimal>), true)]
+    [InlineData(typeof(Tuple<int, string, long, char, decimal, float>), true)]
+    [InlineData(typeof(Tuple<int, string, long, char, decimal, float, byte>), true)]
+    [InlineData(typeof(ValueTuple<int>), true)]
+    [InlineData(typeof(ValueTuple<int, string>), true)]
+    [InlineData(typeof(ValueTuple<int, string, long>), true)]
+    [InlineData(typeof(ValueTuple<int, string, long, char>), true)]
+    [InlineData(typeof(ValueTuple<int, string, long, char, decimal>), true)]
+    [InlineData(typeof(ValueTuple<int, string, long, char, decimal, float>), true)]
+    [InlineData(typeof(MyRecord), true)]
+    [InlineData(typeof(MyRecordStruct), true)]
+    [InlineData(typeof(MyRecordStructWithCustomPrintMembers), true)]
+    [InlineData(typeof(MyRecordStructWithOverriddenEquality), true)]
+    [InlineData(typeof(MyReadonlyRecordStruct), true)]
+    [InlineData(typeof(int), false)]
+    [InlineData(typeof(string), false)]
+    [InlineData(typeof(MyClass), false)]
+    public void Records_and_tuples_are_detected_correctly(Type type, bool expected)
+    {
+        type.IsCompilerGenerated().Should().Be(expected);
+    }
+
+    [Fact]
+    public void Anonymous_types_are_detected_correctly()
+    {
+        var value = new { Id = 1 };
+        value.GetType().IsCompilerGenerated().Should().BeTrue();
+    }
+
     [Fact]
     public void When_checking_if_anonymous_type_is_record_it_should_return_false()
     {

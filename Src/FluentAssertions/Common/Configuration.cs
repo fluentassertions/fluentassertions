@@ -40,12 +40,7 @@ public class Configuration
         {
             lock (propertiesAccessLock)
             {
-                if (!valueFormatterDetectionMode.HasValue)
-                {
-                    valueFormatterDetectionMode = DetermineFormatterDetectionMode();
-                }
-
-                return valueFormatterDetectionMode.Value;
+                return valueFormatterDetectionMode ??= DetermineFormatterDetectionMode();
             }
         }
 

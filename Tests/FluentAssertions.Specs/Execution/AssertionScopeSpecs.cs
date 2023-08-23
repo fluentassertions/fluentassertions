@@ -267,7 +267,7 @@ namespace FluentAssertions.Specs.Execution
 
             public void ThrowIfAny(IDictionary<string, object> context)
             {
-                if (failureMessages.Any())
+                if (failureMessages.Count > 0)
                 {
                     var builder = new StringBuilder();
                     builder.AppendJoin(Environment.NewLine, failureMessages).AppendLine();
@@ -307,9 +307,9 @@ namespace FluentAssertions.Specs.Execution
     }
 }
 
-#pragma warning disable RCS1110, CA1050 // Declare type inside namespace.
+#pragma warning disable RCS1110, CA1050, S3903 // Declare type inside namespace.
 public class AssertionScopeSpecsWithoutNamespace
-#pragma warning restore RCS1110, CA1050 // Declare type inside namespace.
+#pragma warning restore RCS1110, CA1050, S3903 // Declare type inside namespace.
 {
     [Fact]
     public void This_class_should_not_be_inside_a_namespace()

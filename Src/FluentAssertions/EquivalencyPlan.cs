@@ -38,6 +38,10 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
     /// Adds a new <see cref="IEquivalencyStep"/> after any of the built-in steps, with the exception of the final
     /// <see cref="SimpleEqualityEquivalencyStep"/>.
     /// </summary>
+    /// <remarks>
+    /// This method is not thread-safe and should not be invoked on <see cref="AssertionOptions.EquivalencyPlan"/> from within a unit test.
+    /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
+    /// </remarks>
     public void Add<TStep>()
         where TStep : IEquivalencyStep, new()
     {
@@ -47,6 +51,10 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
     /// <summary>
     /// Adds a new <see cref="IEquivalencyStep"/> right after the specified <typeparamref name="TPredecessor"/>.
     /// </summary>
+    /// <remarks>
+    /// This method is not thread-safe and should not be invoked on <see cref="AssertionOptions.EquivalencyPlan"/> from within a unit test.
+    /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
+    /// </remarks>
     public void AddAfter<TPredecessor, TStep>()
         where TStep : IEquivalencyStep, new()
     {
@@ -65,6 +73,10 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
     /// <summary>
     /// Inserts a new <see cref="IEquivalencyStep"/> before any of the built-in steps.
     /// </summary>
+    /// <remarks>
+    /// This method is not thread-safe and should not be invoked on <see cref="AssertionOptions.EquivalencyPlan"/> from within a unit test.
+    /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
+    /// </remarks>
     public void Insert<TStep>()
         where TStep : IEquivalencyStep, new()
     {
@@ -74,6 +86,10 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
     /// <summary>
     /// Inserts a new <see cref="IEquivalencyStep"/> just before the <typeparamref name="TSuccessor"/>.
     /// </summary>
+    /// <remarks>
+    /// This method is not thread-safe and should not be invoked on <see cref="AssertionOptions.EquivalencyPlan"/> from within a unit test.
+    /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
+    /// </remarks>
     public void InsertBefore<TSuccessor, TStep>()
         where TStep : IEquivalencyStep, new()
     {
@@ -92,6 +108,10 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
     /// <summary>
     /// Removes all instances of the specified <typeparamref name="TStep"/> from the current step.
     /// </summary>
+    /// <remarks>
+    /// This method is not thread-safe and should not be invoked on <see cref="AssertionOptions.EquivalencyPlan"/> from within a unit test.
+    /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
+    /// </remarks>
     public void Remove<TStep>()
         where TStep : IEquivalencyStep
     {
@@ -101,11 +121,22 @@ public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
     /// <summary>
     /// Removes each and every built-in <see cref="IEquivalencyStep"/>.
     /// </summary>
+    /// <remarks>
+    /// This method is not thread-safe and should not be invoked on <see cref="AssertionOptions.EquivalencyPlan"/> from within a unit test.
+    /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
+    /// </remarks>
     public void Clear()
     {
         steps.Clear();
     }
 
+    /// <summary>
+    /// Removes all custom <see cref="IEquivalencyStep"/>s.
+    /// </summary>
+    /// <remarks>
+    /// This method should not be invoked on <see cref="AssertionOptions.EquivalencyPlan"/> from within a unit test.
+    /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
+    /// </remarks>
     public void Reset()
     {
         steps = GetDefaultSteps();

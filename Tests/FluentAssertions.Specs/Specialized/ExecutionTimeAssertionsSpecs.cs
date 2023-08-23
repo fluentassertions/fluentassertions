@@ -598,7 +598,7 @@ public class ExecutionTimeAssertionsSpecs
             object subject = null;
 
             // Act
-            Action act = () => subject.ExecutionTimeOf(s => s.ToString()).Should().BeLessThan(1.Days());
+            var act = () => subject.ExecutionTimeOf(s => s.ToString()).Should().BeLessThan(1.Days());
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
@@ -626,7 +626,7 @@ public class ExecutionTimeAssertionsSpecs
             var subject = new object();
 
             // Act
-            Action act = () => subject.ExecutionTimeOf(s => s.ToString()).Should().Equals(1.Seconds());
+            var act = () => subject.ExecutionTimeOf(s => s.ToString()).Should().Equals(1.Seconds());
 
             // Assert
             act.Should().Throw<NotSupportedException>().WithMessage(

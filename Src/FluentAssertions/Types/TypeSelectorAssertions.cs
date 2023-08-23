@@ -52,12 +52,11 @@ public class TypeSelectorAssertions
             .ToArray();
 
         Execute.Assertion
-            .ForCondition(!typesWithoutAttribute.Any())
+            .ForCondition(typesWithoutAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to be decorated with {0}{reason}," +
-                " but the attribute was not found on the following types:{1}{2}.",
+                " but the attribute was not found on the following types:" + Environment.NewLine + "{1}.",
                 typeof(TAttribute),
-                Environment.NewLine,
                 GetDescriptionsFor(typesWithoutAttribute));
 
         return new AndConstraint<TypeSelectorAssertions>(this);
@@ -89,13 +88,12 @@ public class TypeSelectorAssertions
             .ToArray();
 
         Execute.Assertion
-            .ForCondition(!typesWithoutMatchingAttribute.Any())
+            .ForCondition(typesWithoutMatchingAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to be decorated with {0} that matches {1}{reason}," +
-                " but no matching attribute was found on the following types:{2}{3}.",
+                " but no matching attribute was found on the following types:" + Environment.NewLine + "{2}.",
                 typeof(TAttribute),
                 isMatchingAttributePredicate,
-                Environment.NewLine,
                 GetDescriptionsFor(typesWithoutMatchingAttribute));
 
         return new AndConstraint<TypeSelectorAssertions>(this);
@@ -120,12 +118,11 @@ public class TypeSelectorAssertions
             .ToArray();
 
         Execute.Assertion
-            .ForCondition(!typesWithoutAttribute.Any())
+            .ForCondition(typesWithoutAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to be decorated with or inherit {0}{reason}," +
-                " but the attribute was not found on the following types:{1}{2}.",
+                " but the attribute was not found on the following types:" + Environment.NewLine + "{1}.",
                 typeof(TAttribute),
-                Environment.NewLine,
                 GetDescriptionsFor(typesWithoutAttribute));
 
         return new AndConstraint<TypeSelectorAssertions>(this);
@@ -157,13 +154,12 @@ public class TypeSelectorAssertions
             .ToArray();
 
         Execute.Assertion
-            .ForCondition(!typesWithoutMatchingAttribute.Any())
+            .ForCondition(typesWithoutMatchingAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to be decorated with or inherit {0} that matches {1}{reason}," +
-                " but no matching attribute was found on the following types:{2}{3}.",
+                " but no matching attribute was found on the following types:" + Environment.NewLine + "{2}.",
                 typeof(TAttribute),
                 isMatchingAttributePredicate,
-                Environment.NewLine,
                 GetDescriptionsFor(typesWithoutMatchingAttribute));
 
         return new AndConstraint<TypeSelectorAssertions>(this);
@@ -187,12 +183,11 @@ public class TypeSelectorAssertions
             .ToArray();
 
         Execute.Assertion
-            .ForCondition(!typesWithAttribute.Any())
+            .ForCondition(typesWithAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to not be decorated with {0}{reason}," +
-                " but the attribute was found on the following types:{1}{2}.",
+                " but the attribute was found on the following types:" + Environment.NewLine + "{1}.",
                 typeof(TAttribute),
-                Environment.NewLine,
                 GetDescriptionsFor(typesWithAttribute));
 
         return new AndConstraint<TypeSelectorAssertions>(this);
@@ -224,13 +219,12 @@ public class TypeSelectorAssertions
             .ToArray();
 
         Execute.Assertion
-            .ForCondition(!typesWithMatchingAttribute.Any())
+            .ForCondition(typesWithMatchingAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to not be decorated with {0} that matches {1}{reason}," +
-                " but a matching attribute was found on the following types:{2}{3}.",
+                " but a matching attribute was found on the following types:" + Environment.NewLine + "{2}.",
                 typeof(TAttribute),
                 isMatchingAttributePredicate,
-                Environment.NewLine,
                 GetDescriptionsFor(typesWithMatchingAttribute));
 
         return new AndConstraint<TypeSelectorAssertions>(this);
@@ -255,12 +249,11 @@ public class TypeSelectorAssertions
             .ToArray();
 
         Execute.Assertion
-            .ForCondition(!typesWithAttribute.Any())
+            .ForCondition(typesWithAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to not be decorated with or inherit {0}{reason}," +
-                " but the attribute was found on the following types:{1}{2}.",
+                " but the attribute was found on the following types:" + Environment.NewLine + "{1}.",
                 typeof(TAttribute),
-                Environment.NewLine,
                 GetDescriptionsFor(typesWithAttribute));
 
         return new AndConstraint<TypeSelectorAssertions>(this);
@@ -292,13 +285,12 @@ public class TypeSelectorAssertions
             .ToArray();
 
         Execute.Assertion
-            .ForCondition(!typesWithMatchingAttribute.Any())
+            .ForCondition(typesWithMatchingAttribute.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to not be decorated with or inherit {0} that matches {1}{reason}," +
-                " but a matching attribute was found on the following types:{2}{3}.",
+                " but a matching attribute was found on the following types:" + Environment.NewLine + "{2}.",
                 typeof(TAttribute),
                 isMatchingAttributePredicate,
-                Environment.NewLine,
                 GetDescriptionsFor(typesWithMatchingAttribute));
 
         return new AndConstraint<TypeSelectorAssertions>(this);
@@ -318,9 +310,9 @@ public class TypeSelectorAssertions
     {
         var notSealedTypes = Subject.Where(type => !type.IsCSharpSealed()).ToArray();
 
-        Execute.Assertion.ForCondition(!notSealedTypes.Any())
+        Execute.Assertion.ForCondition(notSealedTypes.Length == 0)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected all types to be sealed{reason}, but the following types are not:{0}{1}.", Environment.NewLine,
+            .FailWith("Expected all types to be sealed{reason}, but the following types are not:" + Environment.NewLine + "{0}.",
                 GetDescriptionsFor(notSealedTypes));
 
         return new AndConstraint<TypeSelectorAssertions>(this);
@@ -340,9 +332,9 @@ public class TypeSelectorAssertions
     {
         var sealedTypes = Subject.Where(type => type.IsCSharpSealed()).ToArray();
 
-        Execute.Assertion.ForCondition(!sealedTypes.Any())
+        Execute.Assertion.ForCondition(sealedTypes.Length == 0)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected all types not to be sealed{reason}, but the following types are:{0}{1}.", Environment.NewLine,
+            .FailWith("Expected all types not to be sealed{reason}, but the following types are:" + Environment.NewLine + "{0}.",
                 GetDescriptionsFor(sealedTypes));
 
         return new AndConstraint<TypeSelectorAssertions>(this);
@@ -369,12 +361,11 @@ public class TypeSelectorAssertions
             .ToArray();
 
         Execute.Assertion
-            .ForCondition(!typesNotInNamespace.Any())
+            .ForCondition(typesNotInNamespace.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected all types to be in namespace {0}{reason}," +
-                " but the following types are in a different namespace:{1}{2}.",
+                " but the following types are in a different namespace:" + Environment.NewLine + "{1}.",
                 @namespace,
-                Environment.NewLine,
                 GetDescriptionsFor(typesNotInNamespace));
 
         return new AndConstraint<TypeSelectorAssertions>(this);
@@ -401,12 +392,11 @@ public class TypeSelectorAssertions
             .ToArray();
 
         Execute.Assertion
-            .ForCondition(!typesInNamespace.Any())
+            .ForCondition(typesInNamespace.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected no types to be in namespace {0}{reason}," +
-                " but the following types are in the namespace:{1}{2}.",
+                " but the following types are in the namespace:" + Environment.NewLine + "{1}.",
                 @namespace,
-                Environment.NewLine,
                 GetDescriptionsFor(typesInNamespace));
 
         return new AndConstraint<TypeSelectorAssertions>(this);
@@ -433,12 +423,11 @@ public class TypeSelectorAssertions
             .ToArray();
 
         Execute.Assertion
-            .ForCondition(!typesNotUnderNamespace.Any())
+            .ForCondition(typesNotUnderNamespace.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected the namespaces of all types to start with {0}{reason}," +
-                " but the namespaces of the following types do not start with it:{1}{2}.",
+                " but the namespaces of the following types do not start with it:" + Environment.NewLine + "{1}.",
                 @namespace,
-                Environment.NewLine,
                 GetDescriptionsFor(typesNotUnderNamespace));
 
         return new AndConstraint<TypeSelectorAssertions>(this);
@@ -466,12 +455,11 @@ public class TypeSelectorAssertions
             .ToArray();
 
         Execute.Assertion
-            .ForCondition(!typesUnderNamespace.Any())
+            .ForCondition(typesUnderNamespace.Length == 0)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected the namespaces of all types to not start with {0}{reason}," +
-                " but the namespaces of the following types start with it:{1}{2}.",
+                " but the namespaces of the following types start with it:" + Environment.NewLine + "{1}.",
                 @namespace,
-                Environment.NewLine,
                 GetDescriptionsFor(typesUnderNamespace));
 
         return new AndConstraint<TypeSelectorAssertions>(this);

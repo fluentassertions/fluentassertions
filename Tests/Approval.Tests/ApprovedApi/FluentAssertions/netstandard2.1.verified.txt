@@ -500,6 +500,8 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> NotContainInConsecutiveOrder(System.Collections.Generic.IEnumerable<T> unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainInOrder(params T[] unexpected) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainInOrder(System.Collections.Generic.IEnumerable<T> unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotContainItemsAssignableTo(System.Type type, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotContainItemsAssignableTo<TExpectation>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainNulls(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainNulls<TKey>(System.Linq.Expressions.Expression<System.Func<T, TKey>> predicate, string because = "", params object[] becauseArgs)
             where TKey :  class { }
@@ -2102,6 +2104,9 @@ namespace FluentAssertions.Primitives
     public class ObjectAssertions : FluentAssertions.Primitives.ObjectAssertions<object, FluentAssertions.Primitives.ObjectAssertions>
     {
         public ObjectAssertions(object value) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> Be<TExpectation>(TExpectation expected, System.Collections.Generic.IEqualityComparer<TExpectation> comparer, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeOneOf<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> validValues, System.Collections.Generic.IEqualityComparer<TExpectation> comparer, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> NotBe<TExpectation>(TExpectation unexpected, System.Collections.Generic.IEqualityComparer<TExpectation> comparer, string because = "", params object[] becauseArgs) { }
     }
     public class ObjectAssertions<TSubject, TAssertions> : FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions>
         where TAssertions : FluentAssertions.Primitives.ObjectAssertions<TSubject, TAssertions>
@@ -2109,12 +2114,15 @@ namespace FluentAssertions.Primitives
         public ObjectAssertions(TSubject value) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(TSubject expected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> Be(TSubject expected, System.Collections.Generic.IEqualityComparer<TSubject> comparer, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(params TSubject[] validValues) { }
         public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<TSubject> validValues, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeOneOf(System.Collections.Generic.IEnumerable<TSubject> validValues, System.Collections.Generic.IEqualityComparer<TSubject> comparer, string because = "", params object[] becauseArgs) { }
         public override bool Equals(object obj) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(TSubject unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBe(TSubject unexpected, System.Collections.Generic.IEqualityComparer<TSubject> comparer, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(TExpectation unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(TExpectation unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
     }
@@ -2238,6 +2246,8 @@ namespace FluentAssertions.Reflection
     {
         public AssemblyAssertions(System.Reflection.Assembly assembly) { }
         protected override string Identifier { get; }
+        public FluentAssertions.AndConstraint<FluentAssertions.Reflection.AssemblyAssertions> BeSignedWithPublicKey(string publicKey, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Reflection.AssemblyAssertions> BeUnsigned(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Reflection.AssemblyAssertions, System.Type> DefineType(string @namespace, string name, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Reflection.AssemblyAssertions> NotReference(System.Reflection.Assembly assembly, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Reflection.AssemblyAssertions> Reference(System.Reflection.Assembly assembly, string because = "", params object[] becauseArgs) { }

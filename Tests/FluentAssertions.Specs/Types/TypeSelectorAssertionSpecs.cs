@@ -803,7 +803,7 @@ public class TypeSelectorAssertionSpecs
             });
 
             // Act
-            Action action = () => types.Should().Equals(types);
+            var action = () => types.Should().Equals(null);
 
             // Assert
             action.Should().Throw<NotSupportedException>()

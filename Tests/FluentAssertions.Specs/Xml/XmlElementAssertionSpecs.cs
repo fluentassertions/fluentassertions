@@ -94,7 +94,7 @@ public class XmlElementAssertionSpecs
         {
             // Arrange
             var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(@"<user name=""martin"" />");
+            xmlDoc.LoadXml("""<user name="martin" />""");
             var element = xmlDoc.DocumentElement;
 
             // Act
@@ -110,7 +110,7 @@ public class XmlElementAssertionSpecs
         {
             // Arrange
             var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(@"<user name=""martin"" />");
+            xmlDoc.LoadXml("""<user name="martin" />""");
             var element = xmlDoc.DocumentElement;
 
             // Act
@@ -127,7 +127,7 @@ public class XmlElementAssertionSpecs
         {
             // Arrange
             var document = new XmlDocument();
-            document.LoadXml(@"<user name=""martin"" />");
+            document.LoadXml("""<user name="martin" />""");
             var theElement = document.DocumentElement;
 
             // Act
@@ -147,7 +147,7 @@ public class XmlElementAssertionSpecs
         {
             // Arrange
             var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(@"<user name=""martin"" />");
+            xmlDoc.LoadXml("""<user name="martin" />""");
             var element = xmlDoc.DocumentElement;
 
             // Act
@@ -164,7 +164,7 @@ public class XmlElementAssertionSpecs
         {
             // Arrange
             var document = new XmlDocument();
-            document.LoadXml(@"<user name=""martin"" />");
+            document.LoadXml("""<user name="martin" />""");
             var theElement = document.DocumentElement;
 
             // Act
@@ -186,7 +186,7 @@ public class XmlElementAssertionSpecs
         {
             // Arrange
             var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
+            xmlDoc.LoadXml("""<user xmlns:a="http://www.example.com/2012/test" a:name="martin" />""");
             var element = xmlDoc.DocumentElement;
 
             // Act
@@ -203,7 +203,7 @@ public class XmlElementAssertionSpecs
         {
             // Arrange
             var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
+            xmlDoc.LoadXml("""<user xmlns:a="http://www.example.com/2012/test" a:name="martin" />""");
             var element = xmlDoc.DocumentElement;
 
             // Act
@@ -220,7 +220,7 @@ public class XmlElementAssertionSpecs
         {
             // Arrange
             var document = new XmlDocument();
-            document.LoadXml(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
+            document.LoadXml("""<user xmlns:a="http://www.example.com/2012/test" a:name="martin" />""");
             var theElement = document.DocumentElement;
 
             // Act
@@ -245,7 +245,7 @@ public class XmlElementAssertionSpecs
         {
             // Arrange
             var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
+            xmlDoc.LoadXml("""<user xmlns:a="http://www.example.com/2012/test" a:name="martin" />""");
             var element = xmlDoc.DocumentElement;
 
             // Act
@@ -262,7 +262,7 @@ public class XmlElementAssertionSpecs
         {
             // Arrange
             var document = new XmlDocument();
-            document.LoadXml(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
+            document.LoadXml("""<user xmlns:a="http://www.example.com/2012/test" a:name="martin" />""");
             var theElement = document.DocumentElement;
 
             // Act
@@ -288,9 +288,11 @@ public class XmlElementAssertionSpecs
             var xml = new XmlDocument();
 
             xml.LoadXml(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             var element = xml.DocumentElement;
 
@@ -309,9 +311,11 @@ public class XmlElementAssertionSpecs
             var xmlDoc = new XmlDocument();
 
             xmlDoc.LoadXml(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             var element = xmlDoc.DocumentElement;
 
@@ -330,9 +334,11 @@ public class XmlElementAssertionSpecs
             var document = new XmlDocument();
 
             document.LoadXml(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             var theElement = document.DocumentElement;
 
@@ -354,9 +360,11 @@ public class XmlElementAssertionSpecs
             var xmlDoc = new XmlDocument();
 
             xmlDoc.LoadXml(
-                @"<parent>
+                """
+                <parent>
                     <child attr='1' />
-                  </parent>");
+                </parent>
+                """);
 
             var element = xmlDoc.DocumentElement;
 
@@ -377,9 +385,11 @@ public class XmlElementAssertionSpecs
             var xmlDoc = new XmlDocument();
 
             xmlDoc.LoadXml(
-                @"<parent xmlns=""test"">
+                """
+                <parent xmlns="test">
                     <child>value</child>
-                </parent>");
+                </parent>
+                """);
 
             var element = xmlDoc.DocumentElement;
 
@@ -398,9 +408,11 @@ public class XmlElementAssertionSpecs
             var xmlDoc = new XmlDocument();
 
             xmlDoc.LoadXml(
-                @"<parent>
-                    <child xmlns=""test"">value</child>
-                </parent>");
+                """
+                <parent>
+                    <child xmlns="test">value</child>
+                </parent>
+                """);
 
             var element = xmlDoc.DocumentElement;
 
@@ -422,9 +434,11 @@ public class XmlElementAssertionSpecs
             var xmlDoc = new XmlDocument();
 
             xmlDoc.LoadXml(
-                @"<parent xmlns:c='http://www.example.com/2012/test'>
+                """
+                <parent xmlns:c='http://www.example.com/2012/test'>
                     <c:child />
-                  </parent>");
+                </parent>
+                """);
 
             var element = xmlDoc.DocumentElement;
 
@@ -443,9 +457,11 @@ public class XmlElementAssertionSpecs
             var xmlDoc = new XmlDocument();
 
             xmlDoc.LoadXml(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             var element = xmlDoc.DocumentElement;
 
@@ -464,9 +480,11 @@ public class XmlElementAssertionSpecs
             var document = new XmlDocument();
 
             document.LoadXml(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             var theElement = document.DocumentElement;
 

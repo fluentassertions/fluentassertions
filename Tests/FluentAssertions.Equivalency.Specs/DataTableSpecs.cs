@@ -237,6 +237,24 @@ public class DataTableSpecs : DataSpecs
     }
 
     [Fact]
+    public void When_excluding_invalid_constraint_it_should_throw()
+    {
+        // Arrange
+        var typedDataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+
+        var subject = typedDataSet.ToUntypedDataSet().Tables["TypedDataTable1"];
+        var expectation = typedDataSet.ToUntypedDataSet().Tables["TypedDataTable1"];
+
+        // Act
+        Action action = () => subject.Should().BeEquivalentTo(expectation, options => options
+            .ExcludingRelated((Constraint constraint) => new object()));
+
+        // Assert
+        action.Should().Throw<ArgumentException>().WithMessage(
+            "*Expression must be a simple member access*");
+    }
+
+    [Fact]
     public void When_data_table_name_does_not_match_but_the_corresponding_property_is_excluded_equivalence_test_should_succeed()
     {
         // Arrange

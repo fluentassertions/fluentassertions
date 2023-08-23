@@ -16,7 +16,7 @@ public class PropertyInfoSelectorAssertionSpecs
             var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesVirtual));
 
             // Act
-            Action act = () =>
+            var act = () =>
                 propertyInfoSelector.Should().BeVirtual();
 
             // Assert
@@ -298,7 +298,7 @@ public class PropertyInfoSelectorAssertionSpecs
             var someObject = new PropertyInfoSelectorAssertions();
 
             // Act
-            Action action = () => someObject.Equals(someObject);
+            var action = () => someObject.Equals(null);
 
             // Assert
             action.Should().Throw<NotSupportedException>()
@@ -313,7 +313,7 @@ internal class ClassWithAllPropertiesVirtual
 {
     public virtual string PublicVirtualProperty { set { } }
 
-    internal virtual string InternalVirtualProperty { get { return null; } }
+    internal virtual string InternalVirtualProperty => null;
 
     protected virtual string ProtectedVirtualProperty { get; set; }
 }
@@ -334,20 +334,20 @@ internal class ClassWithNonVirtualPublicProperties : IInterfaceWithProperty
 
 internal class ClassWithReadOnlyProperties
 {
-    public string ReadOnlyProperty { get { return ""; } }
+    public string ReadOnlyProperty => "";
 
-    public string ReadOnlyProperty2 { get { return ""; } }
+    public string ReadOnlyProperty2 => "";
 
-    public string ReadWriteProperty { get { return ""; } set { } }
+    public string ReadWriteProperty { get => ""; set { } }
 }
 
 internal class ClassWithWritableProperties
 {
-    public string ReadOnlyProperty { get { return ""; } }
+    public string ReadOnlyProperty => "";
 
-    public string ReadWriteProperty { get { return ""; } set { } }
+    public string ReadWriteProperty { get => ""; set { } }
 
-    public string ReadWriteProperty2 { get { return ""; } set { } }
+    public string ReadWriteProperty2 { get => ""; set { } }
 }
 
 internal class ClassWithOnlyWritableProperties
@@ -357,9 +357,9 @@ internal class ClassWithOnlyWritableProperties
 
 internal class ClassWithOnlyReadOnlyProperties
 {
-    public string ReadOnlyProperty { get { return ""; } }
+    public string ReadOnlyProperty => "";
 
-    public string ReadOnlyProperty2 { get { return ""; } }
+    public string ReadOnlyProperty2 => "";
 }
 
 internal class ClassWithAllPropertiesDecoratedWithDummyAttribute

@@ -19,16 +19,12 @@ public class DataRowCollectionEquivalencyStep : EquivalencyStep<DataRowCollectio
         }
         else
         {
-            RowMatchMode rowMatchMode = RowMatchMode.Index;
-
-            if (context.Options is DataEquivalencyAssertionOptions<DataSet> dataSetConfig)
+            RowMatchMode rowMatchMode = context.Options switch
             {
-                rowMatchMode = dataSetConfig.RowMatchMode;
-            }
-            else if (context.Options is DataEquivalencyAssertionOptions<DataTable> dataTableConfig)
-            {
-                rowMatchMode = dataTableConfig.RowMatchMode;
-            }
+                DataEquivalencyAssertionOptions<DataSet> dataSetConfig => dataSetConfig.RowMatchMode,
+                DataEquivalencyAssertionOptions<DataTable> dataTableConfig => dataTableConfig.RowMatchMode,
+                _ => RowMatchMode.Index
+            };
 
             var subject = (DataRowCollection)comparands.Subject;
             var expectation = (DataRowCollection)comparands.Expectation;
@@ -209,15 +205,7 @@ public class DataRowCollectionEquivalencyStep : EquivalencyStep<DataRowCollectio
                 return false;
             }
 
-            for (int i = 0; i < values.Length; i++)
-            {
-                if (!values[i].Equals(other.values[i]))
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return values.SequenceEqual(other.values);
         }
 
         public override bool Equals(object obj) => Equals(obj as CompoundKey);
@@ -226,9 +214,9 @@ public class DataRowCollectionEquivalencyStep : EquivalencyStep<DataRowCollectio
         {
             int hash = 0;
 
-            for (int i = 0; i < values.Length; i++)
+            foreach (var value in values)
             {
-                hash = hash * 389 ^ values[i].GetHashCode();
+                hash = hash * 389 ^ value.GetHashCode();
             }
 
             return hash;

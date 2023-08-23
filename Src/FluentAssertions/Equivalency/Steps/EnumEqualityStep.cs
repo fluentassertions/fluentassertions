@@ -20,6 +20,7 @@ public class EnumEqualityStep : IEquivalencyStep
 
         bool succeeded = Execute.Assertion
             .ForCondition(comparands.Subject?.GetType().IsEnum == true)
+            .BecauseOf(context.Reason)
             .FailWith(() =>
             {
                 decimal? expectationsUnderlyingValue = ExtractDecimal(comparands.Expectation);
@@ -35,11 +36,11 @@ public class EnumEqualityStep : IEquivalencyStep
             switch (context.Options.EnumEquivalencyHandling)
             {
                 case EnumEquivalencyHandling.ByValue:
-                    HandleByValue(comparands);
+                    HandleByValue(comparands, context.Reason);
                     break;
 
                 case EnumEquivalencyHandling.ByName:
-                    HandleByName(comparands);
+                    HandleByName(comparands, context.Reason);
                     break;
 
                 default:
@@ -50,13 +51,14 @@ public class EnumEqualityStep : IEquivalencyStep
         return EquivalencyResult.AssertionCompleted;
     }
 
-    private static void HandleByValue(Comparands comparands)
+    private static void HandleByValue(Comparands comparands, Reason reason)
     {
         decimal? subjectsUnderlyingValue = ExtractDecimal(comparands.Subject);
         decimal? expectationsUnderlyingValue = ExtractDecimal(comparands.Expectation);
 
         Execute.Assertion
             .ForCondition(subjectsUnderlyingValue == expectationsUnderlyingValue)
+            .BecauseOf(reason)
             .FailWith(() =>
             {
                 string subjectsName = GetDisplayNameForEnumComparison(comparands.Subject, subjectsUnderlyingValue);
@@ -67,13 +69,14 @@ public class EnumEqualityStep : IEquivalencyStep
             });
     }
 
-    private static void HandleByName(Comparands comparands)
+    private static void HandleByName(Comparands comparands, Reason reason)
     {
         string subject = comparands.Subject.ToString();
         string expected = comparands.Expectation.ToString();
 
         Execute.Assertion
             .ForCondition(subject == expected)
+            .BecauseOf(reason)
             .FailWith(() =>
             {
                 decimal? subjectsUnderlyingValue = ExtractDecimal(comparands.Subject);

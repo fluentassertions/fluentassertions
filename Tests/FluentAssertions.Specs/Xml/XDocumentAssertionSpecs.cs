@@ -844,9 +844,11 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var document = XDocument.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             XElement root = document.Should().HaveRoot("parent").Subject;
@@ -860,9 +862,11 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var theDocument = XDocument.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () => theDocument.Should().HaveRoot("unknown");
@@ -877,9 +881,11 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var theDocument = XDocument.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () =>
@@ -912,9 +918,11 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var theDocument = XDocument.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () => theDocument.Should().HaveRoot(null);
@@ -929,9 +937,11 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var theDocument = XDocument.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () => theDocument.Should().HaveRoot((XName)null);
@@ -946,9 +956,11 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var document = XDocument.Parse(
-                @"<parent xmlns='http://www.example.com/2012/test'>
+                """
+                <parent xmlns='http://www.example.com/2012/test'>
                     <child/>
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () =>
@@ -963,9 +975,11 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var theDocument = XDocument.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () =>
@@ -981,9 +995,11 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var theDocument = XDocument.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () =>
@@ -1007,9 +1023,11 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var document = XDocument.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             XElement element = document.Should().HaveElement("child").Subject;
@@ -1023,9 +1041,11 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var theDocument = XDocument.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () =>
@@ -1041,9 +1061,11 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var theDocument = XDocument.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () =>
@@ -1060,9 +1082,11 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var document = XDocument.Parse(
-                @"<parent xmlns:test='http://www.example.org/2012/test'>
+                """
+                <parent xmlns:test='http://www.example.org/2012/test'>
                     <test:child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () =>
@@ -1077,9 +1101,11 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var document = XDocument.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () =>
@@ -1097,9 +1123,11 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var theDocument = XDocument.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () =>
@@ -1118,9 +1146,11 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var document = XDocument.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child attr='1' />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             XElement matchedElement = document.Should().HaveElement("child").Subject;
@@ -1167,9 +1197,11 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var document = XDocument.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () => document.Should().HaveElement(null);
@@ -1184,9 +1216,11 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var document = XDocument.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () => document.Should().HaveElement((XName)null);
@@ -1204,10 +1238,12 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var document = XDocument.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act / Assert
             document.Should().HaveElement("child", Exactly.Twice());
@@ -1259,11 +1295,13 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var document = XDocument.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
                     <child />
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () => document.Should().HaveElement("child", Exactly.Twice());
@@ -1279,11 +1317,13 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var document = XDocument.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
                     <child />
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () => document.Should().HaveElement(null, Exactly.Twice());
@@ -1298,11 +1338,13 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var document = XDocument.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
                     <child />
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () => document.Should().HaveElement((XName)null, Exactly.Twice());
@@ -1317,11 +1359,13 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var document = XDocument.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
                     <child />
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act / Assert
             document.Should().HaveElement("child", AtLeast.Twice())
@@ -1333,11 +1377,13 @@ public class XDocumentAssertionSpecs
         {
             // Arrange
             var document = XDocument.Parse(
-                @"<parent>
+                """
+                <parent>
                     <child />
                     <child />
                     <child />
-                  </parent>");
+                </parent>
+                """);
 
             // Act
             Action act = () => document.Should().HaveElement("child", Exactly.Once())

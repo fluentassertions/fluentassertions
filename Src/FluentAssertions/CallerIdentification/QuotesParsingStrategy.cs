@@ -54,9 +54,7 @@ internal class QuotesParsingStrategy : IParsingStrategy
 
     private bool IsVerbatim(StringBuilder statement)
     {
-#pragma warning disable SA1010 // https://github.com/DotNetAnalyzers/StyleCopAnalyzers/pull/3507
         return (previousChar is '@' && statement is [.., '$', '@'])
             || (previousChar is '$' && statement is [.., '@', '$']);
-#pragma warning restore SA1010
     }
 }

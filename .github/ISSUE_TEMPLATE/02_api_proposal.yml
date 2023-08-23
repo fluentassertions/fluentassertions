@@ -67,3 +67,13 @@ body:
       placeholder: Risks
     validations:
       required: false
+  - type: dropdown
+    id: pull-request
+    attributes:
+      label: Could you help with a proof-of-concept (as PR in that or a separate repo) first and as pull-request later on?
+      description: This is mainly to help demonstrate your suggestion. Please also make sure you have read the sections about [contributing changes](https://github.com/fluentassertions/fluentassertions/blob/develop/CONTRIBUTING.md#contributing-changes) and [dos and don'ts](https://github.com/fluentassertions/fluentassertions/blob/develop/CONTRIBUTING.md#dos-and-donts).
+      options:
+        - "No"
+        - "Yes"
+    validations:
+      required: true

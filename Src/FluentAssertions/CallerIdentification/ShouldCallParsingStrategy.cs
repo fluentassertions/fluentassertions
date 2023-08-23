@@ -4,13 +4,13 @@ namespace FluentAssertions.CallerIdentification;
 
 internal class ShouldCallParsingStrategy : IParsingStrategy
 {
-    private const string ShouldCall = ".Should(";
+    private const string ShouldCall = ".Should";
 
     public ParsingState Parse(char symbol, StringBuilder statement)
     {
-        if (statement.Length >= ShouldCall.Length)
+        if (statement.Length >= ShouldCall.Length + 1)
         {
-            var leftIndex = statement.Length - 1;
+            var leftIndex = statement.Length - 2;
             var rightIndex = ShouldCall.Length - 1;
 
             for (var i = 0; i < ShouldCall.Length; i++)
@@ -21,7 +21,12 @@ internal class ShouldCallParsingStrategy : IParsingStrategy
                 }
             }
 
-            statement.Remove(statement.Length - ShouldCall.Length, ShouldCall.Length);
+            if (statement[^1] is not ('(' or '.'))
+            {
+                return ParsingState.InProgress;
+            }
+
+            statement.Remove(statement.Length - (ShouldCall.Length + 1), ShouldCall.Length + 1);
             return ParsingState.Done;
         }
 

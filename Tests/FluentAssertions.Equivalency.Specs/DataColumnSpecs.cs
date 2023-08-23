@@ -79,6 +79,24 @@ public class DataColumnSpecs : DataSpecs
     }
 
     [Fact]
+    public void Can_exclude_a_column_from_all_tables()
+    {
+        // Arrange
+        var subjectDataSet = CreateDummyDataSet<TypedDataSetSubclass>();
+        var expectationDataSet = new TypedDataSetSubclass(subjectDataSet);
+
+        var subject = subjectDataSet.TypedDataTable1.DecimalColumn;
+        var expectation = expectationDataSet.TypedDataTable1.DecimalColumn;
+
+        expectation.Unique = true;
+        expectation.Caption = "Test";
+
+        // Act & Assert
+        subject.Should().BeEquivalentTo(expectation, options => options
+            .ExcludingColumnInAllTables(expectation.ColumnName));
+    }
+
+    [Fact]
     public void When_DataColumn_has_changes_but_is_excluded_as_params_it_should_succeed()
     {
         // Arrange

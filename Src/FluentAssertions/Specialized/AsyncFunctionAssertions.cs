@@ -225,10 +225,9 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
             .ForCondition(exception is not null)
             .FailWith("but no exception was thrown.")
             .Then
-            .ForCondition(expectedExceptions.Any())
-            .FailWith("but found <{0}>: {1}{2}.",
+            .ForCondition(expectedExceptions.Length > 0)
+            .FailWith("but found <{0}>:" + Environment.NewLine + "{1}.",
                 exception?.GetType(),
-                Environment.NewLine,
                 exception)
             .Then
             .ClearExpectation();

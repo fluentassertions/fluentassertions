@@ -96,7 +96,7 @@ public class DataSetEquivalencyStep : EquivalencyStep<DataSet>
         if (selectedMembers.ContainsKey(nameof(expectation.Locale)))
         {
             AssertionScope.Current
-                .ForCondition(subject.Locale == expectation.Locale)
+                .ForCondition(Equals(subject.Locale, expectation.Locale))
                 .FailWith("Expected {context:DataSet} to have Locale value of {0}{reason}, but found {1} instead",
                     expectation.Locale, subject.Locale);
         }

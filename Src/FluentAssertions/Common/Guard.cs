@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
 
 namespace FluentAssertions.Common;
 
 internal static class Guard
 {
-    public static void ThrowIfArgumentIsNull<T>([ValidatedNotNull] T obj,
+    public static void ThrowIfArgumentIsNull<T>([ValidatedNotNull][NoEnumeration] T obj,
         [CallerArgumentExpression(nameof(obj))]
         string paramName = "")
     {
@@ -17,7 +18,7 @@ internal static class Guard
         }
     }
 
-    public static void ThrowIfArgumentIsNull<T>([ValidatedNotNull] T obj, string paramName, string message)
+    public static void ThrowIfArgumentIsNull<T>([ValidatedNotNull][NoEnumeration] T obj, string paramName, string message)
     {
         if (obj is null)
         {

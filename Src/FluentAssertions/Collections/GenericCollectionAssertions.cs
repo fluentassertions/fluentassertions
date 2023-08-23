@@ -896,7 +896,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
                 string[] failures = scope.Discard();
 
-                if (!failures.Any())
+                if (failures.Length == 0)
                 {
                     return new AndWhichConstraint<TAssertions, T>((TAssertions)this, actualItem);
                 }
@@ -1079,6 +1079,52 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     }
 
     /// <summary>
+    /// Asserts that the current collection does not contain any elements that are assignable to the type <typeparamref name="TExpectation" />.
+    /// </summary>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> NotContainItemsAssignableTo<TExpectation>(string because = "", params object[] becauseArgs) =>
+        NotContainItemsAssignableTo(typeof(TExpectation), because, becauseArgs);
+
+    /// <summary>
+    /// Asserts that the current collection does not contain any elements that are assignable to the given type.
+    /// </summary>
+    /// <param name="type">
+    /// Object type that should not be in collection
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> NotContainItemsAssignableTo(Type type, string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(type);
+
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} to not contain any elements assignable to type {0}{reason}, ",
+                type.FullName)
+            .ForCondition(Subject is not null)
+            .FailWith("but found <null>.")
+            .Then
+            .Given(() => Subject.ConvertOrCastToCollection())
+            .ForCondition(subject => subject.All(x => !type.IsAssignableFrom(GetType(x))))
+            .FailWith("but found {0}.", subject => subject.Select(x => GetType(x)))
+            .Then
+            .ClearExpectation();
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
     /// Expects the current collection to contain only a single item.
     /// </summary>
     /// <param name="because">
@@ -1156,7 +1202,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             ICollection<T> actualItems = Subject.ConvertOrCastToCollection();
 
             Execute.Assertion
-                .ForCondition(actualItems.Any())
+                .ForCondition(actualItems.Count > 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(expectationPrefix + "but the collection is empty.", predicate);
 
@@ -2336,7 +2382,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
                     string[] failures = scope.Discard();
 
-                    if (!failures.Any())
+                    if (failures.Length == 0)
                     {
                         foundIndices.Add(index);
                     }
@@ -2786,7 +2832,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             .FailWith("but the collection is <null>.")
             .Then
             .Given(subject => subject.ConvertOrCastToCollection())
-            .ForCondition(collection => collection.Any())
+            .ForCondition(collection => collection.Count > 0)
             .FailWith("but the collection is empty.")
             .Then
             .Given(collection => collection.Where(item => !compiledPredicate(item)))
@@ -2943,7 +2989,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
                 failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
             }
 
-            if (failuresFromInspectors.Any())
+            if (failuresFromInspectors.Length > 0)
             {
                 string failureMessage = Environment.NewLine
                     + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
@@ -3031,7 +3077,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
                 failuresFromInspectors = CollectFailuresFromInspectors(elementInspectors);
             }
 
-            if (failuresFromInspectors.Any())
+            if (failuresFromInspectors.Length > 0)
             {
                 string failureMessage = Environment.NewLine
                     + string.Join(Environment.NewLine, failuresFromInspectors.Select(x => x.IndentLines()));
@@ -3114,7 +3160,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
                 List<MaximumMatching.Predicate<T>> unmatchedPredicates = maximumMatchingSolution.GetUnmatchedPredicates();
 
-                if (unmatchedPredicates.Any())
+                if (unmatchedPredicates.Count > 0)
                 {
                     message += doubleNewLine + "The following predicates did not have matching elements:";
 
@@ -3125,7 +3171,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
                 List<Element<T>> unmatchedElements = maximumMatchingSolution.GetUnmatchedElements();
 
-                if (unmatchedElements.Any())
+                if (unmatchedElements.Count > 0)
                 {
                     message += doubleNewLine + "The following elements did not match any predicate:";
 

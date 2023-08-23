@@ -252,7 +252,7 @@ public static class TaskAssertionSpecs
             // Assert
             await action.Should().ThrowAsync<XunitException>().WithMessage(
                 "Expected a <System.InvalidOperationException> to be thrown,"
-                + " but found <System.NotSupportedException>: *foo*");
+                + " but found <System.NotSupportedException>:*foo*");
         }
 
         [Fact]
@@ -440,7 +440,7 @@ public static class TaskAssertionSpecs
             // Assert
             await action.Should().ThrowAsync<XunitException>().WithMessage(
                 "Expected a <System.InvalidOperationException> to be thrown within 100ms,"
-                + " but found <System.NotSupportedException>: *foo*");
+                + " but found <System.NotSupportedException>:*foo*");
         }
 
         [Fact]
@@ -462,7 +462,7 @@ public static class TaskAssertionSpecs
             // Assert
             await action.Should().ThrowAsync<XunitException>().WithMessage(
                 "Expected a <System.InvalidOperationException> to be thrown within 1s,"
-                + " but found <System.NotSupportedException>: *foo*");
+                + " but found <System.NotSupportedException>:*foo*");
         }
     }
 

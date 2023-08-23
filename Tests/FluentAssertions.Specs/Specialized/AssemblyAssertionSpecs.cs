@@ -260,6 +260,109 @@ public class AssemblyAssertionSpecs
             act.Should().NotThrow();
         }
     }
+
+    public class BeUnsigned
+    {
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        public void Guards_for_unsigned_assembly(string noKey)
+        {
+            // Arrange
+            var unsignedAssembly = FindAssembly.Stub(noKey);
+
+            // Act & Assert
+            unsignedAssembly.Should().BeUnsigned();
+        }
+
+        [Fact]
+        public void Throws_for_signed_assembly()
+        {
+            // Arrange
+            var signedAssembly = FindAssembly.Stub("0123456789ABCEF007");
+
+            // Act
+            Action act = () => signedAssembly.Should().BeUnsigned("this assembly is never shipped");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect the assembly * to be signed because this assembly is never shipped, but it is.");
+        }
+
+        [Fact]
+        public void Throws_for_null_subject()
+        {
+            // Arrange
+            Assembly nullAssembly = null;
+
+            // Act
+            Action act = () => nullAssembly.Should().BeUnsigned();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Can't check for assembly signing if nullAssembly reference is <null>.");
+        }
+    }
+
+    public class BeSignedWithPublicKey
+    {
+        [Theory]
+        [InlineData("0123456789ABCEF007")]
+        [InlineData("0123456789abcef007")]
+        [InlineData("0123456789ABcef007")]
+        public void Guards_for_signed_assembly_with_expected_public_key(string publicKey)
+        {
+            // Arrange
+            var signedAssembly = FindAssembly.Stub("0123456789ABCEF007");
+
+            // Act & Assert
+            signedAssembly.Should().BeSignedWithPublicKey(publicKey);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        public void Throws_for_unsigned_assembly(string noKey)
+        {
+            // Arrange
+            var unsignedAssembly = FindAssembly.Stub(noKey);
+
+            // Act
+            Action act = () => unsignedAssembly.Should().BeSignedWithPublicKey("1234", "signing is part of the contract");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected assembly * to have public key \"1234\" because signing is part of the contract, but it is unsigned.");
+        }
+
+        [Fact]
+        public void Throws_signed_assembly_with_different_public_key()
+        {
+            // Arrange
+            var signedAssembly = FindAssembly.Stub("0123456789ABCEF007");
+
+            // Act
+            Action act = () => signedAssembly.Should().BeSignedWithPublicKey("1234", "signing is part of the contract");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected assembly * to have public key \"1234\" because signing is part of the contract, but it has * instead.");
+        }
+
+        [Fact]
+        public void Throws_for_null_assembly()
+        {
+            // Arrange
+            Assembly nullAssembly = null;
+
+            // Act
+            Action act = () => nullAssembly.Should().BeSignedWithPublicKey("1234");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Can't check for assembly signing if nullAssembly reference is <null>.");
+        }
+    }
 }
 
 [DummyClass("name", true)]

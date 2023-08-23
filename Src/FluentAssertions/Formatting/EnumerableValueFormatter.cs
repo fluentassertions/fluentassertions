@@ -13,7 +13,7 @@ public class EnumerableValueFormatter : IValueFormatter
     /// The number of items to include when formatting this object.
     /// </summary>
     /// <remarks>The default value is 32.</remarks>
-    protected virtual int MaxItems { get; } = 32;
+    protected virtual int MaxItems => 32;
 
     /// <summary>
     /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.
@@ -29,18 +29,15 @@ public class EnumerableValueFormatter : IValueFormatter
 
     public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
     {
-        int startCount = formattedGraph.LineCount;
         IEnumerable<object> collection = ((IEnumerable)value).Cast<object>();
 
         using var iterator = new Iterator<object>(collection, MaxItems);
 
+        var iteratorGraph = formattedGraph.KeepOnSingleLineAsLongAsPossible();
+        FormattedObjectGraph.PossibleMultilineFragment separatingCommaGraph = null;
+
         while (iterator.MoveNext())
         {
-            if (iterator.IsFirst)
-            {
-                formattedGraph.AddFragment("{");
-            }
-
             if (!iterator.HasReachedMaxItems)
             {
                 formatChild(iterator.Index.ToString(CultureInfo.InvariantCulture), iterator.Current, formattedGraph);
@@ -49,34 +46,26 @@ public class EnumerableValueFormatter : IValueFormatter
             {
                 using IDisposable _ = formattedGraph.WithIndentation();
                 string moreItemsMessage = value is ICollection c ? $"…{c.Count - MaxItems} more…" : "…more…";
-                AddLineOrFragment(formattedGraph, startCount, moreItemsMessage);
+                iteratorGraph.AddLineOrFragment(moreItemsMessage);
             }
 
+            separatingCommaGraph?.InsertLineOrFragment(", ");
+            separatingCommaGraph = formattedGraph.KeepOnSingleLineAsLongAsPossible();
+
+            // We cannot know whether or not the enumerable will take up more than one line of
+            // output until we have formatted the first item. So we format the first item, then
+            // go back and insert the enumerable's opening brace in the correct place depending
+            // on whether that first item was all on one line or not.
             if (iterator.IsLast)
             {
-                AddLineOrFragment(formattedGraph, startCount, "}");
-            }
-            else
-            {
-                formattedGraph.AddFragment(", ");
+                iteratorGraph.AddStartingLineOrFragment("{");
+                iteratorGraph.AddLineOrFragment("}");
             }
         }
 
         if (iterator.IsEmpty)
         {
-            formattedGraph.AddFragment("{empty}");
-        }
-    }
-
-    private static void AddLineOrFragment(FormattedObjectGraph formattedGraph, int startCount, string fragment)
-    {
-        if (formattedGraph.LineCount > (startCount + 1))
-        {
-            formattedGraph.AddLine(fragment);
-        }
-        else
-        {
-            formattedGraph.AddFragment(fragment);
+            iteratorGraph.AddFragment("{empty}");
         }
     }
 }

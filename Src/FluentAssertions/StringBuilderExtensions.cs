@@ -15,6 +15,6 @@ internal static class StringBuilderExtensions
 
 #if NET47 || NETSTANDARD2_0
     public static StringBuilder AppendJoin<T>(this StringBuilder stringBuilder, string separator, IEnumerable<T> values) =>
-        stringBuilder.Append(string.Join(Environment.NewLine, values));
+        stringBuilder.Append(string.Join(separator, values));
 #endif
 }

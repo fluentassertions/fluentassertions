@@ -1,0 +1,19 @@
+version: "1.0"
+
+linter: jetbrains/qodana-dotnet:latest
+failThreshold: 0
+
+dotnet:
+  solution: FluentAssertions.sln
+
+exclude:
+  - name: ConvertIfStatementToReturnStatement
+  - name: ConvertIfStatementToConditionalTernaryExpression
+  - name: All
+    paths:
+      - Build
+      - Tests/AssemblyA
+      - Tests/AssemblyB
+      - Tests/Benchmarks
+      - Tests/UWP.Specs
+      

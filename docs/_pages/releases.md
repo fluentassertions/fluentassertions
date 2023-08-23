@@ -7,7 +7,18 @@ sidebar:
   nav: "sidebar"
 ---
 
-## Unreleased
+## 6.12.0
+
+### What's new
+* Added `Be`, `NotBe` and `BeOneOf` for object comparisons with custom comparer - [#2111](https://github.com/fluentassertions/fluentassertions/pull/2111)
+* Added `BeSignedWithPublicKey()` and `BeUnsigned()` for assertions on `Assembly` - [#2207](https://github.com/fluentassertions/fluentassertions/pull/2207)
+* Added `NotContainItemsAssignableTo` for asserting that a collection does not contain any items assignable to a specific type - [#2266](https://github.com/fluentassertions/fluentassertions/pull/2266)
+
+### Fixes
+* `because` and `becauseArgs` were not included in the error message when collections of enums were not equivalent - [#2214](https://github.com/fluentassertions/fluentassertions/pull/2214)
+* Improve caller identification for tests written in Visual Basic - [#2254](https://github.com/fluentassertions/fluentassertions/pull/2254)
+* Improved auto conversion to enums for objects of different integral type - [#2261](https://github.com/fluentassertions/fluentassertions/pull/2261)
+* Fixed exceptions when trying to auto convert strings or enums of different type to enums- [#2261](https://github.com/fluentassertions/fluentassertions/pull/2261)
 
 ## 6.11.0
 
@@ -22,6 +33,7 @@ sidebar:
 * The maximum depth `BeEquivalentTo` uses for recursive comparisons was 9 instead of the expected 10 - [#2145](https://github.com/fluentassertions/fluentassertions/pull/2145)
 * Fixed `.Excluding()` and `.For().Exclude()` not working if root is a collection - [#2135](https://github.com/fluentassertions/fluentassertions/pull/2135)
 * Prevent `InvalidOperationException` when formatting a lambda expression calling a constructor - [#2176](https://github.com/fluentassertions/fluentassertions/pull/2176)
+* Format records and anonymous objects with their member values instead of the generated `ToString` - [#2144](https://github.com/fluentassertions/fluentassertions/pull/2144)
 
 ## 6.10.0
 
