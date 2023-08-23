@@ -7,6 +7,16 @@ sidebar:
   nav: "sidebar"
 ---
 
+## 7.0 Alpha 1
+
+### What's new
+
+### Fixes
+
+### Breaking Changes (for users)
+
+### Breaking Changes (for extensions)
+
 ## 6.12.0
 
 ### What's new
