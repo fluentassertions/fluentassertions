@@ -144,7 +144,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
         if (success)
         {
             Execute.Assertion
-                .ForCondition(Subject.Value == expected)
+                .ForCondition(Subject!.Value == expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:subject} '{0}' to have value {1}{reason}, but found {2}.",
@@ -207,7 +207,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
 
         if (success)
         {
-            XAttribute attribute = Subject.Attribute(expectedName);
+            XAttribute attribute = Subject!.Attribute(expectedName);
 
             success = Execute.Assertion
                 .ForCondition(attribute is not null)
@@ -220,7 +220,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
             if (success)
             {
                 Execute.Assertion
-                    .ForCondition(attribute.Value == expectedValue)
+                    .ForCondition(attribute!.Value == expectedValue)
                     .BecauseOf(because, becauseArgs)
                     .FailWith(
                         "Expected attribute {0} in {context:subject} to have value {1}{reason}, but found {2}.",
@@ -282,7 +282,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
 
         if (success)
         {
-            xElement = Subject.Element(expected);
+            xElement = Subject!.Element(expected);
 
             Execute.Assertion
                 .ForCondition(xElement is not null)
@@ -331,7 +331,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
 
         if (success)
         {
-            xElements = Subject.Elements(expected);
+            xElements = Subject!.Elements(expected);
             int actual = xElements.Count();
 
             Execute.Assertion

@@ -104,7 +104,7 @@ public class XmlElementAssertions : XmlNodeAssertions<XmlElement, XmlElementAsse
         if (success)
         {
             Execute.Assertion
-                .ForCondition(attribute.Value == expectedValue)
+                .ForCondition(attribute!.Value == expectedValue)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected attribute {0} in {context:subject} to have value {1}{reason}, but found {2}.",

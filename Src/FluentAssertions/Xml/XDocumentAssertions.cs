@@ -265,7 +265,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
 
         if (success)
         {
-            xElement = Subject.Root.Element(expected);
+            xElement = Subject.Root!.Element(expected);
 
             Execute.Assertion
                 .ForCondition(xElement is not null)
@@ -312,7 +312,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
 
         if (success)
         {
-            var root = Subject.Root;
+            var root = Subject!.Root;
 
             success = Execute.Assertion
                 .ForCondition(root is not null)
@@ -323,7 +323,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
 
             if (success)
             {
-                xElements = root.Elements(expected);
+                xElements = root!.Elements(expected);
                 int actual = xElements.Count();
 
                 Execute.Assertion
