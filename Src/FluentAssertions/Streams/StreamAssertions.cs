@@ -53,7 +53,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject.CanWrite)
+                .ForCondition(Subject!.CanWrite)
                 .FailWith("Expected {context:stream} to be writable{reason}, but it was not.");
         }
 
@@ -81,7 +81,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(!Subject.CanWrite)
+                .ForCondition(!Subject!.CanWrite)
                 .FailWith("Expected {context:stream} not to be writable{reason}, but it was.");
         }
 
@@ -109,7 +109,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject.CanSeek)
+                .ForCondition(Subject!.CanSeek)
                 .FailWith("Expected {context:stream} to be seekable{reason}, but it was not.");
         }
 
@@ -137,7 +137,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(!Subject.CanSeek)
+                .ForCondition(!Subject!.CanSeek)
                 .FailWith("Expected {context:stream} not to be seekable{reason}, but it was.");
         }
 
@@ -165,7 +165,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject.CanRead)
+                .ForCondition(Subject!.CanRead)
                 .FailWith("Expected {context:stream} to be readable{reason}, but it was not.");
         }
 
@@ -193,7 +193,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(!Subject.CanRead)
+                .ForCondition(!Subject!.CanRead)
                 .FailWith("Expected {context:stream} not to be readable{reason}, but it was.");
         }
 
@@ -225,7 +225,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
 
             try
             {
-                position = Subject.Position;
+                position = Subject!.Position;
             }
             catch (Exception exception)
                 when (exception is IOException or NotSupportedException or ObjectDisposedException)
@@ -274,7 +274,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
 
             try
             {
-                position = Subject.Position;
+                position = Subject!.Position;
             }
             catch (Exception exception)
                 when (exception is IOException or NotSupportedException or ObjectDisposedException)
@@ -323,7 +323,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
 
             try
             {
-                length = Subject.Length;
+                length = Subject!.Length;
             }
             catch (Exception exception)
                 when (exception is IOException or NotSupportedException or ObjectDisposedException)
@@ -372,7 +372,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
 
             try
             {
-                length = Subject.Length;
+                length = Subject!.Length;
             }
             catch (Exception exception)
                 when (exception is IOException or NotSupportedException or ObjectDisposedException)
@@ -417,7 +417,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(!Subject.CanWrite && Subject.CanRead)
+                .ForCondition(!Subject!.CanWrite && Subject.CanRead)
                 .FailWith("Expected {context:stream} to be read-only{reason}, but it was writable or not readable.");
         }
 
@@ -445,7 +445,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject.CanWrite || !Subject.CanRead)
+                .ForCondition(Subject!.CanWrite || !Subject.CanRead)
                 .FailWith("Expected {context:stream} not to be read-only{reason}, but it was.");
         }
 
@@ -473,7 +473,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject.CanWrite && !Subject.CanRead)
+                .ForCondition(Subject!.CanWrite && !Subject.CanRead)
                 .FailWith("Expected {context:stream} to be write-only{reason}, but it was readable or not writable.");
         }
 
@@ -501,7 +501,7 @@ public class StreamAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(!Subject.CanWrite || Subject.CanRead)
+                .ForCondition(!Subject!.CanWrite || Subject.CanRead)
                 .FailWith("Expected {context:stream} not to be write-only{reason}, but it was.");
         }
 
