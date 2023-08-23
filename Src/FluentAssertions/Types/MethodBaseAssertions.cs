@@ -52,7 +52,7 @@ public abstract class MethodBaseAssertions<TSubject, TAssertions> : MemberInfoAs
                 .ForCondition(accessModifier == subjectAccessModifier)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    $"Expected method {Subject.Name} to be {accessModifier}{{reason}}, but it is {subjectAccessModifier}.");
+                    $"Expected method {Subject!.Name} to be {accessModifier}{{reason}}, but it is {subjectAccessModifier}.");
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -88,7 +88,7 @@ public abstract class MethodBaseAssertions<TSubject, TAssertions> : MemberInfoAs
             Execute.Assertion
                 .ForCondition(accessModifier != subjectAccessModifier)
                 .BecauseOf(because, becauseArgs)
-                .FailWith($"Expected method {Subject.Name} not to be {accessModifier}{{reason}}, but it is.");
+                .FailWith($"Expected method {Subject!.Name} not to be {accessModifier}{{reason}}, but it is.");
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
