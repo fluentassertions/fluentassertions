@@ -11,6 +11,8 @@ sidebar:
 
 ### What's new
 
+### Improvements
+
 ### Fixes
 
 ### Breaking Changes (for users)
