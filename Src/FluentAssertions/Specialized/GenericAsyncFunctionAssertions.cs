@@ -90,7 +90,7 @@ public class GenericAsyncFunctionAssertions<TResult>
         {
             try
             {
-                TResult result = await Subject.Invoke();
+                TResult result = await Subject!.Invoke();
                 return new AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>(this, result);
             }
             catch (Exception exception)

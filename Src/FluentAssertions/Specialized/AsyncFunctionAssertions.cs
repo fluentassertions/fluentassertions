@@ -300,7 +300,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
         {
             try
             {
-                await Subject.Invoke();
+                await Subject!.Invoke();
             }
             catch (Exception exception)
             {
@@ -334,7 +334,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
         {
             try
             {
-                await Subject.Invoke();
+                await Subject!.Invoke();
             }
             catch (Exception exception)
             {

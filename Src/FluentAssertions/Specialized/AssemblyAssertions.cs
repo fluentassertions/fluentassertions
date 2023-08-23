@@ -47,7 +47,7 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
 
         if (success)
         {
-            var subjectName = Subject.GetName().Name;
+            var subjectName = Subject!.GetName().Name;
 
             IEnumerable<string> references = Subject.GetReferencedAssemblies().Select(x => x.Name);
 
@@ -85,7 +85,7 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
 
         if (success)
         {
-            var subjectName = Subject.GetName().Name;
+            var subjectName = Subject!.GetName().Name;
 
             IEnumerable<string> references = Subject.GetReferencedAssemblies().Select(x => x.Name);
 
@@ -127,7 +127,7 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
 
         if (success)
         {
-            foundType = Subject.GetTypes().SingleOrDefault(t => t.Namespace == @namespace && t.Name == name);
+            foundType = Subject!.GetTypes().SingleOrDefault(t => t.Namespace == @namespace && t.Name == name);
 
             Execute.Assertion
                 .ForCondition(foundType is not null)
@@ -157,7 +157,7 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject.GetName().GetPublicKey() is not { Length: > 0 })
+                .ForCondition(Subject!.GetName().GetPublicKey() is not { Length: > 0 })
                 .FailWith(
                     "Did not expect the assembly {0} to be signed{reason}, but it is.", Subject.FullName);
         }
@@ -188,7 +188,7 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
 
         if (success)
         {
-            var bytes = Subject.GetName().GetPublicKey() ?? Array.Empty<byte>();
+            var bytes = Subject!.GetName().GetPublicKey() ?? Array.Empty<byte>();
             string assemblyKey = ToHexString(bytes);
 
             Execute.Assertion
