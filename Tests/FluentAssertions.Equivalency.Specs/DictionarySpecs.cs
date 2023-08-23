@@ -221,7 +221,7 @@ public class DictionarySpecs
 
         ICollection<string> IDictionary<string, object>.Keys
         {
-            get { return Keys.Select(_ => _.ToString(CultureInfo.InvariantCulture)).ToList(); }
+            get { return Keys.Select(key => key.ToString(CultureInfo.InvariantCulture)).ToList(); }
         }
 
         ICollection<object> IDictionary<string, object>.Values => Values;
