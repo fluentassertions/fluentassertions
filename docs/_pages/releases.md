@@ -7,7 +7,7 @@ sidebar:
   nav: "sidebar"
 ---
 
-## Unreleased
+## 6.12.0
 
 ### What's new
 * Added `Be`, `NotBe` and `BeOneOf` for object comparisons with custom comparer - [#2111](https://github.com/fluentassertions/fluentassertions/pull/2111)
