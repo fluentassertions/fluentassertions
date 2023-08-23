@@ -40,6 +40,7 @@ sidebar:
 * `AllSatisfy` now succeeds when asserting that an empty collection satisfies some predicates - [#2321](https://github.com/fluentassertions/fluentassertions/pull/2321)
 * `OnlyContain` now succeeds when asserting that an empty collection matches some predicates - [#2350](https://github.com/fluentassertions/fluentassertions/pull/2350)
 * Dropped support for `NSpec3` test framework - [#2356](https://github.com/fluentassertions/fluentassertions/pull/2356)
+* Dropped support for `BinaryFormatter` - [#2278](https://github.com/fluentassertions/fluentassertions/pull/2278)
 
 ### Breaking Changes (for extensions)
 * Add `ForConstraint` to `IAssertionsScope` to support chaining `.ForConstraint()` after `.Then` - [#2324](https://github.com/fluentassertions/fluentassertions/pull/2324)
