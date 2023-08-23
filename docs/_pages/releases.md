@@ -19,6 +19,7 @@ sidebar:
 * Improve caller identification for tests written in Visual Basic - [#2254](https://github.com/fluentassertions/fluentassertions/pull/2254)
 * Improved auto conversion to enums for objects of different integral type - [#2261](https://github.com/fluentassertions/fluentassertions/pull/2261)
 * Fixed exceptions when trying to auto convert strings or enums of different type to enums- [#2261](https://github.com/fluentassertions/fluentassertions/pull/2261)
+* Format records and anonymous objects with their member values instead of the generated `ToString` - [#2144](https://github.com/fluentassertions/fluentassertions/pull/2144)
 
 ## 6.11.0
 
@@ -33,7 +34,6 @@ sidebar:
 * The maximum depth `BeEquivalentTo` uses for recursive comparisons was 9 instead of the expected 10 - [#2145](https://github.com/fluentassertions/fluentassertions/pull/2145)
 * Fixed `.Excluding()` and `.For().Exclude()` not working if root is a collection - [#2135](https://github.com/fluentassertions/fluentassertions/pull/2135)
 * Prevent `InvalidOperationException` when formatting a lambda expression calling a constructor - [#2176](https://github.com/fluentassertions/fluentassertions/pull/2176)
-* Format records and anonymous objects with their member values instead of the generated `ToString` - [#2144](https://github.com/fluentassertions/fluentassertions/pull/2144)
 
 ## 6.10.0
 
