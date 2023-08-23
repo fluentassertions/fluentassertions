@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
 using System.Text.Json;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
@@ -37,7 +39,7 @@ public class JsonSerializerOptionsAssertions : ReferenceTypeAssertions<JsonSeria
     ///     Zero or more objects to format using the placeholders in <see paramref="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="json"/> is <see langword="null"/>.</exception>
-    public AndConstraint<ValueWrapper<T>> Deserialize<T>(string json, string because = "", params object[] becauseArgs)
+    public AndConstraint<ValueWrapper<T>> Deserialize<T>(Stream json, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(json);
 
@@ -53,6 +55,13 @@ public class JsonSerializerOptionsAssertions : ReferenceTypeAssertions<JsonSeria
             .FailWith("Expected {context:the options} to deserialize {0}{reason}, but it failed: {1}.", json, failure?.Message);
 
         return new(new(deserialzed));
+    }
+
+    /// <inheritdoc cref="Deserialize{T}(Stream, string, object[])"/>
+    public AndConstraint<ValueWrapper<T>> Deserialize<T>(string json, string because = "", params object[] becauseArgs)
+    {
+        Stream stream = json is null ? null : new MemoryStream(Encoding.UTF8.GetBytes(json));
+        return Deserialize<T>(stream, because, becauseArgs);
     }
 
     /// <summary>
@@ -83,7 +92,7 @@ public class JsonSerializerOptionsAssertions : ReferenceTypeAssertions<JsonSeria
         return new(new(serialized));
     }
 
-    private T TryDeserialize<T>(string json, out Exception failure)
+    private T TryDeserialize<T>(Stream json, out Exception failure)
     {
         try
         {

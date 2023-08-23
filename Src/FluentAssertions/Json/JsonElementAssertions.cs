@@ -86,7 +86,7 @@ public class JsonElementAssertions
     /// <summary>
     ///     Asserts that the current <see cref="JsonElement"/> is the JSON number node.
     /// </summary>
-    /// <param name="value">The value of the JSON string node.</param>
+    /// <param name="value">The value of the JSON number node.</param>
     /// <param name="because">
     ///     A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     ///     is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -103,6 +103,10 @@ public class JsonElementAssertions
 
         return new(this);
     }
+
+    /// <inheritdoc cref="BeNumber(decimal, string, object[])"/>
+    public AndConstraint<JsonElementAssertions> BeNumber(long value, string because = "", params object[] becauseArgs)
+        => BeNumber((decimal)value, because, becauseArgs);
 
     /// <summary>
     ///     Asserts that the current <see cref="JsonElement"/> is the JSON true node.
@@ -144,11 +148,5 @@ public class JsonElementAssertions
         return new(this);
     }
 
-    public void Be(long jsonNumber)
-    {
-        Execute.Assertion
-            .ForCondition(Subject.ValueKind == JsonValueKind.Number
-                && Subject.GetInt64() == jsonNumber)
-            .FailWith("Expected {context:JSON} to be a number with value {0}, but got {1} instead.", jsonNumber, Subject.GetInt64());
-    }
+
 }

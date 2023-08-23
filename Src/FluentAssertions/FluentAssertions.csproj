@@ -65,6 +65,7 @@
     <When Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
       <ItemGroup>
         <Compile Remove="Common/NullConfigurationStore.cs" />
+        <Compile Remove="Json/*.cs" />
         <Compile Remove="SystemExtensions.cs" />
       </ItemGroup>
       <ItemGroup>
@@ -74,6 +75,7 @@
     <When Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
       <ItemGroup>
         <Compile Remove="Common/NullConfigurationStore.cs" />
+        <Compile Remove="Json/*.cs" />
         <Compile Remove="SystemExtensions.cs" />
       </ItemGroup>
       <ItemGroup>
@@ -84,6 +86,7 @@
       <ItemGroup>
         <Compile Remove="Common/AppSettingsConfigurationStore.cs" />
         <Compile Remove="Common/ConfigurationStoreExceptionInterceptor.cs" />
+        <Compile Remove="Json/*.cs" />
         <Compile Remove="SystemExtensions.cs" />
       </ItemGroup>
     </When>
@@ -93,6 +96,7 @@
         <Compile Remove="Common/ConfigurationStoreExceptionInterceptor.cs" />
         <Compile Remove="Events/*.cs" />
         <Compile Remove="EventRaisingExtensions.cs" />
+        <Compile Remove="Json/*.cs" />
       </ItemGroup>
       <ItemGroup>
         <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.0" />
@@ -101,6 +105,7 @@
     <When Condition="'$(TargetFramework)' == 'net47'">
       <ItemGroup>
         <Compile Remove="Common/NullConfigurationStore.cs" />
+        <Compile Remove="Json/*.cs" />
       </ItemGroup>
       <ItemGroup>
         <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.0" />
