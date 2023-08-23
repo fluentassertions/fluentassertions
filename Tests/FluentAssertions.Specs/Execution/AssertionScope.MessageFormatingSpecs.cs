@@ -238,7 +238,7 @@ public partial class AssertionScopeSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .WithMessage(@"* near ""\"" *");
+            .WithMessage("""* near "\" *""");
     }
 
     [Fact]
@@ -249,7 +249,7 @@ public partial class AssertionScopeSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .WithMessage(@"* to be ""A\"" *");
+            .WithMessage("""* to be "A\" *""");
     }
 
     [Fact]
