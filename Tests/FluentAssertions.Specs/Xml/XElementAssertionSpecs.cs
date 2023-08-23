@@ -667,8 +667,8 @@ public class XElementAssertionSpecs
             When_asserting_a_xml_element_is_not_equivalent_to_a_different_xml_element_with_same_contents_but_different_ns_prefixes_it_should_fail()
         {
             // Arrange
-            var theElement = XElement.Parse(@"<parent xmlns:ns1=""a""><ns1:child /></parent>");
-            var otherXElement = XElement.Parse(@"<parent xmlns:ns2=""a""><ns2:child /></parent>");
+            var theElement = XElement.Parse("""<parent xmlns:ns1="a"><ns1:child /></parent>""");
+            var otherXElement = XElement.Parse("""<parent xmlns:ns2="a"><ns2:child /></parent>""");
 
             // Act
             Action act = () =>
@@ -866,7 +866,7 @@ public class XElementAssertionSpecs
         public void When_asserting_element_has_attribute_with_ns_and_specific_value_and_it_does_it_should_succeed()
         {
             // Arrange
-            var element = XElement.Parse(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
+            var element = XElement.Parse("""<user xmlns:a="http://www.example.com/2012/test" a:name="martin" />""");
 
             // Act
             Action act = () =>
@@ -880,7 +880,7 @@ public class XElementAssertionSpecs
         public void When_asserting_element_has_attribute_with_specific_value_but_attribute_does_not_exist_it_should_fail()
         {
             // Arrange
-            var theElement = XElement.Parse(@"<user name=""martin"" />");
+            var theElement = XElement.Parse("""<user name="martin" />""");
 
             // Act
             Action act = () =>
@@ -895,7 +895,7 @@ public class XElementAssertionSpecs
         public void When_asserting_element_has_attribute_with_ns_and_specific_value_but_attribute_does_not_exist_it_should_fail()
         {
             // Arrange
-            var theElement = XElement.Parse(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
+            var theElement = XElement.Parse("""<user xmlns:a="http://www.example.com/2012/test" a:name="martin" />""");
 
             // Act
             Action act = () =>
@@ -912,7 +912,7 @@ public class XElementAssertionSpecs
             When_asserting_element_has_attribute_with_specific_value_but_attribute_does_not_exist_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var theElement = XElement.Parse(@"<user name=""martin"" />");
+            var theElement = XElement.Parse("""<user name="martin" />""");
 
             // Act
             Action act = () =>
@@ -932,7 +932,7 @@ public class XElementAssertionSpecs
             When_asserting_element_has_attribute_with_ns_and_specific_value_but_attribute_does_not_exist_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var theElement = XElement.Parse(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
+            var theElement = XElement.Parse("""<user xmlns:a="http://www.example.com/2012/test" a:name="martin" />""");
 
             // Act
             Action act = () =>
@@ -950,7 +950,7 @@ public class XElementAssertionSpecs
         public void When_asserting_element_has_attribute_with_specific_value_but_attribute_has_different_value_it_should_fail()
         {
             // Arrange
-            var theElement = XElement.Parse(@"<user name=""martin"" />");
+            var theElement = XElement.Parse("""<user name="martin" />""");
 
             // Act
             Action act = () =>
@@ -966,7 +966,7 @@ public class XElementAssertionSpecs
             When_asserting_element_has_attribute_with_ns_and_specific_value_but_attribute_has_different_value_it_should_fail()
         {
             // Arrange
-            var theElement = XElement.Parse(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
+            var theElement = XElement.Parse("""<user xmlns:a="http://www.example.com/2012/test" a:name="martin" />""");
 
             // Act
             Action act = () =>
@@ -982,7 +982,7 @@ public class XElementAssertionSpecs
             When_asserting_element_has_attribute_with_specific_value_but_attribute_has_different_value_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var theElement = XElement.Parse(@"<user name=""martin"" />");
+            var theElement = XElement.Parse("""<user name="martin" />""");
 
             // Act
             Action act = () =>
@@ -999,7 +999,7 @@ public class XElementAssertionSpecs
             When_asserting_element_has_attribute_with_ns_and_specific_value_but_attribute_has_different_value_it_should_fail_with_descriptive_message()
         {
             // Arrange
-            var theElement = XElement.Parse(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
+            var theElement = XElement.Parse("""<user xmlns:a="http://www.example.com/2012/test" a:name="martin" />""");
 
             // Act
             Action act = () =>
