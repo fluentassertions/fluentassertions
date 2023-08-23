@@ -53,7 +53,7 @@ public class BufferedStreamAssertions<TAssertions> : StreamAssertions<BufferedSt
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject.BufferSize == expected)
+                .ForCondition(Subject!.BufferSize == expected)
                 .FailWith("Expected the buffer size of {context:stream} to be {0}{reason}, but it was {1}.",
                     expected, Subject.BufferSize);
         }
@@ -84,7 +84,7 @@ public class BufferedStreamAssertions<TAssertions> : StreamAssertions<BufferedSt
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject.BufferSize != unexpected)
+                .ForCondition(Subject!.BufferSize != unexpected)
                 .FailWith("Expected the buffer size of {context:stream} not to be {0}{reason}, but it was.",
                     unexpected);
         }
