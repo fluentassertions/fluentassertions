@@ -150,7 +150,7 @@ public class MethodInfoAssertions : MethodBaseAssertions<MethodInfo, MethodInfoA
         if (success)
         {
             Execute.Assertion
-                .ForCondition(typeof(void) == Subject.ReturnType)
+                .ForCondition(typeof(void) == Subject!.ReturnType)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected the return type of method " + Subject.Name + " to be void{reason}, but it is {0}.",
                     Subject.ReturnType.FullName);
@@ -184,7 +184,7 @@ public class MethodInfoAssertions : MethodBaseAssertions<MethodInfo, MethodInfoA
         if (success)
         {
             Execute.Assertion
-                .ForCondition(returnType == Subject.ReturnType)
+                .ForCondition(returnType == Subject!.ReturnType)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected the return type of method " + Subject.Name + " to be {0}{reason}, but it is {1}.",
                     returnType, Subject.ReturnType.FullName);
@@ -231,7 +231,7 @@ public class MethodInfoAssertions : MethodBaseAssertions<MethodInfo, MethodInfoA
         if (success)
         {
             Execute.Assertion
-                .ForCondition(typeof(void) != Subject.ReturnType)
+                .ForCondition(typeof(void) != Subject!.ReturnType)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected the return type of method " + Subject.Name + " not to be void{reason}, but it is.");
         }
@@ -265,7 +265,7 @@ public class MethodInfoAssertions : MethodBaseAssertions<MethodInfo, MethodInfoA
         if (success)
         {
             Execute.Assertion
-                .ForCondition(returnType != Subject.ReturnType)
+                .ForCondition(returnType != Subject!.ReturnType)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected the return type of method " + Subject.Name + " not to be {0}{reason}, but it is.", returnType);

@@ -95,7 +95,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
         if (success)
         {
             Execute.Assertion
-                .ForCondition(Subject.CanWrite)
+                .ForCondition(Subject!.CanWrite)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:property} {0} to have a setter{reason}.",
@@ -132,7 +132,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
         {
             Subject.Should().BeWritable(because, becauseArgs);
 
-            Subject.GetSetMethod(nonPublic: true).Should().HaveAccessModifier(accessModifier, because, becauseArgs);
+            Subject!.GetSetMethod(nonPublic: true).Should().HaveAccessModifier(accessModifier, because, becauseArgs);
         }
 
         return new AndConstraint<PropertyInfoAssertions>(this);
@@ -159,7 +159,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
         if (success)
         {
             Execute.Assertion
-                .ForCondition(!Subject.CanWrite)
+                .ForCondition(!Subject!.CanWrite)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:property} {0} not to have a setter{reason}.",
@@ -188,7 +188,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
 
         if (success)
         {
-            Execute.Assertion.ForCondition(Subject.CanRead)
+            Execute.Assertion.ForCondition(Subject!.CanRead)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected property " + Subject.Name + " to have a getter{reason}, but it does not.");
         }
@@ -223,7 +223,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
         {
             Subject.Should().BeReadable(because, becauseArgs);
 
-            Subject.GetGetMethod(nonPublic: true).Should().HaveAccessModifier(accessModifier, because, becauseArgs);
+            Subject!.GetGetMethod(nonPublic: true).Should().HaveAccessModifier(accessModifier, because, becauseArgs);
         }
 
         return new AndConstraint<PropertyInfoAssertions>(this);
@@ -250,7 +250,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
         if (success)
         {
             Execute.Assertion
-                .ForCondition(!Subject.CanRead)
+                .ForCondition(!Subject!.CanRead)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:property} {0} not to have a getter{reason}.",
@@ -284,7 +284,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
 
         if (success)
         {
-            Execute.Assertion.ForCondition(Subject.PropertyType == propertyType)
+            Execute.Assertion.ForCondition(Subject!.PropertyType == propertyType)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected Type of property " + Subject.Name + " to be {0}{reason}, but it is {1}.",
                     propertyType, Subject.PropertyType);
@@ -333,7 +333,7 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
         if (success)
         {
             Execute.Assertion
-                .ForCondition(Subject.PropertyType != propertyType)
+                .ForCondition(Subject!.PropertyType != propertyType)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected Type of property " + Subject.Name + " not to be {0}{reason}, but it is.", propertyType);
         }
