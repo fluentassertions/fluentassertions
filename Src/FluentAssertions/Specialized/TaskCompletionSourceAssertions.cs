@@ -45,7 +45,7 @@ public class TaskCompletionSourceAssertions : TaskCompletionSourceAssertionsBase
 
         if (success)
         {
-            bool completesWithinTimeout = await CompletesWithinTimeoutAsync(subject.Task, timeSpan);
+            bool completesWithinTimeout = await CompletesWithinTimeoutAsync(subject!.Task, timeSpan);
             Execute.Assertion
                 .ForCondition(completesWithinTimeout)
                 .BecauseOf(because, becauseArgs)
@@ -76,7 +76,7 @@ public class TaskCompletionSourceAssertions : TaskCompletionSourceAssertionsBase
 
         if (success)
         {
-            bool completesWithinTimeout = await CompletesWithinTimeoutAsync(subject.Task, timeSpan);
+            bool completesWithinTimeout = await CompletesWithinTimeoutAsync(subject!.Task, timeSpan);
             Execute.Assertion
                 .ForCondition(!completesWithinTimeout)
                 .BecauseOf(because, becauseArgs)
@@ -124,7 +124,7 @@ public class TaskCompletionSourceAssertions<T> : TaskCompletionSourceAssertionsB
 
         if (success)
         {
-            bool completesWithinTimeout = await CompletesWithinTimeoutAsync(subject.Task, timeSpan);
+            bool completesWithinTimeout = await CompletesWithinTimeoutAsync(subject!.Task, timeSpan);
 
             Execute.Assertion
                 .ForCondition(completesWithinTimeout)
@@ -161,7 +161,7 @@ public class TaskCompletionSourceAssertions<T> : TaskCompletionSourceAssertionsB
 
         if (success)
         {
-            bool completesWithinTimeout = await CompletesWithinTimeoutAsync(subject.Task, timeSpan);
+            bool completesWithinTimeout = await CompletesWithinTimeoutAsync(subject!.Task, timeSpan);
 
             Execute.Assertion
                 .ForCondition(!completesWithinTimeout)
