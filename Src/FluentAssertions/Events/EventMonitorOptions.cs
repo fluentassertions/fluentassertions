@@ -3,7 +3,7 @@ using System;
 namespace FluentAssertions.Events;
 
 /// <summary>
-/// Settings for the <see cref="EventMonitor{T}"/>.
+/// Settings for the EventMonitor.
 /// </summary>
 public class EventMonitorOptions
 {

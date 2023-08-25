@@ -35,16 +35,11 @@ internal sealed class EventMonitor<T> : IMonitor<T>
     private readonly ThreadSafeSequenceGenerator threadSafeSequenceGenerator = new();
     private readonly EventMonitorOptions options;
 
-    public EventMetadata[] MonitoredEvents
-    {
-        get
-        {
-            return recorderMap
-                .Values
-                .Select(recorder => new EventMetadata(recorder.EventName, recorder.EventHandlerType))
-                .ToArray();
-        }
-    }
+    public EventMetadata[] MonitoredEvents =>
+        recorderMap
+            .Values
+            .Select(recorder => new EventMetadata(recorder.EventName, recorder.EventHandlerType))
+            .ToArray();
 
     public OccurredEvent[] OccurredEvents
     {
@@ -127,7 +122,7 @@ internal sealed class EventMonitor<T> : IMonitor<T>
         recorderMap.Clear();
     }
 
-    private void DisposeSafeIfRequested(EventRecorder recorder)
+    private void DisposeSafeIfRequested(IDisposable recorder)
     {
         try
         {
