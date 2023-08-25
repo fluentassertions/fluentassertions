@@ -667,7 +667,11 @@ public class EventAssertionSpecs
             // Assert
             metadata.Should().BeEquivalentTo(new[]
             {
-                new { EventName = nameof(ClassThatRaisesEventsItself.InterfaceEvent), HandlerType = typeof(EventHandler) },
+                new
+                {
+                    EventName = nameof(ClassThatRaisesEventsItself.InterfaceEvent),
+                    HandlerType = typeof(EventHandler)
+                },
                 new
                 {
                     EventName = nameof(ClassThatRaisesEventsItself.PropertyChanged),
@@ -689,7 +693,11 @@ public class EventAssertionSpecs
             // Assert
             metadata.Should().BeEquivalentTo(new[]
             {
-                new { EventName = nameof(IEventRaisingInterface.InterfaceEvent), HandlerType = typeof(EventHandler) }
+                new
+                {
+                    EventName = nameof(IEventRaisingInterface.InterfaceEvent),
+                    HandlerType = typeof(EventHandler)
+                }
             });
         }
 
@@ -753,6 +761,7 @@ public class EventAssertionSpecs
                         MethodAttributes.Private | MethodAttributes.Virtual | MethodAttributes.Final |
                         MethodAttributes.HideBySig |
                         MethodAttributes.NewSlot);
+
                 method.SetReturnType(typeof(void));
                 method.SetParameters(typeof(EventHandler));
                 ILGenerator gen = method.GetILGenerator();
@@ -795,22 +804,21 @@ public class EventAssertionSpecs
             eventSource.RaiseNonConventionalEvent("first", 123, "third");
 
             // Assert
-            monitor.OccurredEvents.Should().BeEquivalentTo(
-                new[]
+            monitor.OccurredEvents.Should().BeEquivalentTo(new[]
+            {
+                new
                 {
-                    new
-                    {
-                        EventName = "PropertyChanged",
-                        TimestampUtc = utcNow - 1.Hours(),
-                        Parameters = new object[] { eventSource, new PropertyChangedEventArgs("theProperty") }
-                    },
-                    new
-                    {
-                        EventName = "NonConventionalEvent",
-                        TimestampUtc = utcNow,
-                        Parameters = new object[] { "first", 123, "third" }
-                    }
-                }, o => o.WithStrictOrdering());
+                    EventName = "PropertyChanged",
+                    TimestampUtc = utcNow - 1.Hours(),
+                    Parameters = new object[] { eventSource, new PropertyChangedEventArgs("theProperty") }
+                },
+                new
+                {
+                    EventName = "NonConventionalEvent",
+                    TimestampUtc = utcNow,
+                    Parameters = new object[] { "first", 123, "third" }
+                }
+            }, o => o.WithStrictOrdering());
         }
 
         [Fact]
@@ -967,28 +975,26 @@ public class EventAssertionSpecs
     public class MonitorDefaultBehavior
     {
         [Fact]
-        public void Broken_event_add_accessors_should_fail_the_test()
+        public void Broken_event_add_accessors_fails()
         {
             // Arrange
-            var cut = new TestEventBrokenEventHandlerRaising();
+            var sut = new TestEventBrokenEventHandlerRaising();
 
-            // Act
-            // Assert
-            cut.Invoking(c =>
+            // Act / Assert
+            sut.Invoking(c =>
             {
                 using var monitor = c.Monitor<IAddFailingEvent>();
             }).Should().Throw<TargetInvocationException>();
         }
 
         [Fact]
-        public void Broken_event_remove_accessors_should_fail_the_test()
+        public void Broken_event_remove_accessors_fails()
         {
             // Arrange
-            var cut = new TestEventBrokenEventHandlerRaising();
+            var sut = new TestEventBrokenEventHandlerRaising();
 
-            // Act
-            // Assert
-            cut.Invoking(c =>
+            // Act / Assert
+            sut.Invoking(c =>
             {
                 using var monitor = c.Monitor<IRemoveFailingEvent>();
             }).Should().Throw<TargetInvocationException>();
@@ -998,14 +1004,12 @@ public class EventAssertionSpecs
     public class IgnoreMisbehavingEventAccessors
     {
         [Fact]
-        public void
-            Monitoring_class_with_broken_event_add_accessor_should_not_fail_test()
+        public void Monitoring_class_with_broken_event_add_accessor_succeeds()
         {
             // Arrange
             var classToMonitor = new TestEventBrokenEventHandlerRaising();
 
-            //Act
-            //Assert
+            // Act / Assert
             classToMonitor.Invoking(c =>
             {
                 using var monitor = c.Monitor<IAddFailingEvent>(opt => opt.IgnoreEventAccessorExceptions());
@@ -1013,15 +1017,12 @@ public class EventAssertionSpecs
         }
 
         [Fact]
-        public void
-            Class_with_broken_event_remove_accessor_should_not_fail_test()
+        public void Class_with_broken_event_remove_accessor_succeeds()
         {
             // Arrange
             var classToMonitor = new TestEventBrokenEventHandlerRaising();
 
-            //Act
-
-            //Assert
+            // Act / Assert
             classToMonitor.Invoking(c =>
             {
                 using var monitor = c.Monitor<IRemoveFailingEvent>(opt => opt.IgnoreEventAccessorExceptions());
@@ -1029,8 +1030,7 @@ public class EventAssertionSpecs
         }
 
         [Fact]
-        public void
-            Recording_event_with_broken_add_accessor_should_not_fail_test()
+        public void Recording_event_with_broken_add_accessor_succeeds()
         {
             // Arrange
             var classToMonitor = new TestEventBrokenEventHandlerRaising();
@@ -1045,8 +1045,7 @@ public class EventAssertionSpecs
         }
 
         [Fact]
-        public void
-            Ignoring_broken_event_accessor_should_also_not_record_events()
+        public void Ignoring_broken_event_accessor_should_also_not_record_events()
         {
             // Arrange
             var classToMonitor = new TestEventBrokenEventHandlerRaising();
