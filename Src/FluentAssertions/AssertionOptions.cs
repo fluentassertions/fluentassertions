@@ -33,6 +33,10 @@ public static class AssertionOptions
     /// <summary>
     /// Allows configuring the defaults used during a structural equivalency assertion.
     /// </summary>
+    /// <remarks>
+    /// This method is not thread-safe and should not be invoked from within a unit test.
+    /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
+    /// </remarks>
     /// <param name="defaultsConfigurer">
     /// An action that is used to configure the defaults.
     /// </param>
@@ -49,10 +53,18 @@ public static class AssertionOptions
     /// Represents a mutable plan consisting of steps that are executed while asserting a (collection of) object(s)
     /// is structurally equivalent to another (collection of) object(s).
     /// </summary>
+    /// <remarks>
+    /// Members on this property are not thread-safe and should not be invoked from within a unit test.
+    /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
+    /// </remarks>
     public static EquivalencyPlan EquivalencyPlan { get; }
 
     /// <summary>
     /// Gets the default formatting options used by the formatters in Fluent Assertions.
     /// </summary>
+    /// <remarks>
+    /// Members on this property should not be invoked from within a unit test.
+    /// See the <see href="https://fluentassertions.com/extensibility/#thread-safety">docs</see> on how to safely use it.
+    /// </remarks>
     public static FormattingOptions FormattingOptions { get; } = new();
 }

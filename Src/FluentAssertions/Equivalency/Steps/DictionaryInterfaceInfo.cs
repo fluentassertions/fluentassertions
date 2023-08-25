@@ -122,7 +122,7 @@ internal sealed class DictionaryInterfaceInfo
 
         if (suitableKeyValuePairCollection != null)
         {
-            Type pairValueType = suitableKeyValuePairCollection.GenericTypeArguments.Last();
+            Type pairValueType = suitableKeyValuePairCollection.GenericTypeArguments[^1];
 
             var methodInfo = ConvertToDictionaryMethod.MakeGenericMethod(Key, pairValueType);
             return methodInfo.Invoke(null, new[] { convertable });

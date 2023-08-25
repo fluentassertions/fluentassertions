@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Xml.Linq;
 using FluentAssertions.Common;
 
@@ -40,7 +39,7 @@ public class XElementValueFormatter : IValueFormatter
         // Can't use env.newline because the input doc may have unix or windows style
         // line-breaks
         string firstLine = lines[0].RemoveNewLines();
-        string lastLine = lines.Last().RemoveNewLines();
+        string lastLine = lines[^1].RemoveNewLines();
 
         string formattedElement = firstLine + "…" + lastLine;
         return formattedElement.EscapePlaceholders();

@@ -122,10 +122,10 @@ internal static class TypeExtensions
         return GetCustomAttributes<TAttribute>(type, inherit).Where(isMatchingAttribute);
     }
 
-    private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(this Type type, bool inherit = false)
+    private static TAttribute[] GetCustomAttributes<TAttribute>(this Type type, bool inherit = false)
         where TAttribute : Attribute
     {
-        return (IEnumerable<TAttribute>)type.GetCustomAttributes(typeof(TAttribute), inherit);
+        return (TAttribute[])type.GetCustomAttributes(typeof(TAttribute), inherit);
     }
 
     private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(Type type,
@@ -530,7 +530,7 @@ internal static class TypeExtensions
     {
         if (type.IsConstructedGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
         {
-            type = type.GetGenericArguments().First();
+            type = type.GetGenericArguments()[0];
         }
 
         return type;

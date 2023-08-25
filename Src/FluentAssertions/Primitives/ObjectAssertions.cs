@@ -16,6 +16,97 @@ public class ObjectAssertions : ObjectAssertions<object, ObjectAssertions>
         : base(value)
     {
     }
+
+    /// <summary>
+    /// Asserts that a value equals <paramref name="expected"/> using the provided <paramref name="comparer"/>.
+    /// </summary>
+    /// <param name="expected">The expected value</param>
+    /// <param name="comparer">
+    /// An equality comparer to compare values.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <see langword="null"/>.</exception>
+    public AndConstraint<ObjectAssertions> Be<TExpectation>(TExpectation expected, IEqualityComparer<TExpectation> comparer, string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(comparer);
+
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(Subject is TExpectation subject && comparer.Equals(subject, expected))
+            .WithDefaultIdentifier(Identifier)
+            .FailWith("Expected {context} to be {0}{reason}, but found {1}.", expected,
+                Subject);
+
+        return new AndConstraint<ObjectAssertions>(this);
+    }
+
+    /// <summary>
+    /// Asserts that a value does not equal <paramref name="unexpected"/> using the provided <paramref name="comparer"/>.
+    /// </summary>
+    /// <param name="unexpected">The unexpected value</param>
+    /// <param name="comparer">
+    /// An equality comparer to compare values.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <see langword="null"/>.</exception>
+    public AndConstraint<ObjectAssertions> NotBe<TExpectation>(TExpectation unexpected, IEqualityComparer<TExpectation> comparer, string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(comparer);
+
+        Execute.Assertion
+            .ForCondition(Subject is not TExpectation subject || !comparer.Equals(subject, unexpected))
+            .BecauseOf(because, becauseArgs)
+            .WithDefaultIdentifier(Identifier)
+            .FailWith("Did not expect {context} to be equal to {0}{reason}.", unexpected);
+
+        return new AndConstraint<ObjectAssertions>(this);
+    }
+
+    /// <summary>
+    /// Asserts that a value is one of the specified <paramref name="validValues"/> using the provided <paramref name="comparer"/>.
+    /// </summary>
+    /// <param name="validValues">
+    /// The values that are valid.
+    /// </param>
+    /// <param name="comparer">
+    /// An equality comparer to compare values.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="validValues"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <see langword="null"/>.</exception>
+    public AndConstraint<ObjectAssertions> BeOneOf<TExpectation>(IEnumerable<TExpectation> validValues,
+        IEqualityComparer<TExpectation> comparer,
+        string because = "",
+        params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(validValues);
+        Guard.ThrowIfArgumentIsNull(comparer);
+
+        Execute.Assertion
+            .ForCondition(Subject is TExpectation subject && validValues.Contains(subject, comparer))
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:object} to be one of {0}{reason}, but found {1}.", validValues, Subject);
+
+        return new AndConstraint<ObjectAssertions>(this);
+    }
 }
 
 #pragma warning disable CS0659, S1206 // Ignore not overriding Object.GetHashCode()
@@ -32,7 +123,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     }
 
     /// <summary>
-    /// Asserts that a <typeparamref name="TSubject"/> equals another <typeparamref name="TSubject"/> using its <see cref="object.Equals(object)" /> implementation.
+    /// Asserts that a value equals <paramref name="expected"/> using its <see cref="object.Equals(object)" /> implementation.
     /// </summary>
     /// <param name="expected">The expected value</param>
     /// <param name="because">
@@ -55,7 +146,36 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     }
 
     /// <summary>
-    /// Asserts that a <typeparamref name="TSubject"/> does not equal another <typeparamref name="TSubject"/> using its <see cref="object.Equals(object)" /> method.
+    /// Asserts that a value equals <paramref name="expected"/> using the provided <paramref name="comparer"/>.
+    /// </summary>
+    /// <param name="expected">The expected value</param>
+    /// <param name="comparer">
+    /// An equality comparer to compare values.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <see langword="null"/>.</exception>
+    public AndConstraint<TAssertions> Be(TSubject expected, IEqualityComparer<TSubject> comparer, string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(comparer);
+
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .ForCondition(comparer.Equals(Subject, expected))
+            .WithDefaultIdentifier(Identifier)
+            .FailWith("Expected {context} to be {0}{reason}, but found {1}.", expected,
+                Subject);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that a value does not equal <paramref name="unexpected"/> using its <see cref="object.Equals(object)" /> method.
     /// </summary>
     /// <param name="unexpected">The unexpected value</param>
     /// <param name="because">
@@ -69,6 +189,34 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     {
         Execute.Assertion
             .ForCondition(!ObjectExtensions.GetComparer<TSubject>()(Subject, unexpected))
+            .BecauseOf(because, becauseArgs)
+            .WithDefaultIdentifier(Identifier)
+            .FailWith("Did not expect {context} to be equal to {0}{reason}.", unexpected);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that a value does not equal <paramref name="unexpected"/> using the provided <paramref name="comparer"/>.
+    /// </summary>
+    /// <param name="unexpected">The unexpected value</param>
+    /// <param name="comparer">
+    /// An equality comparer to compare values.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <see langword="null"/>.</exception>
+    public AndConstraint<TAssertions> NotBe(TSubject unexpected, IEqualityComparer<TSubject> comparer, string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(comparer);
+
+        Execute.Assertion
+            .ForCondition(!comparer.Equals(Subject, unexpected))
             .BecauseOf(because, becauseArgs)
             .WithDefaultIdentifier(Identifier)
             .FailWith("Did not expect {context} to be equal to {0}{reason}.", unexpected);
@@ -255,6 +403,40 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
     {
         Execute.Assertion
             .ForCondition(validValues.Contains(Subject))
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:object} to be one of {0}{reason}, but found {1}.", validValues, Subject);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that a value is one of the specified <paramref name="validValues"/>.
+    /// </summary>
+    /// <param name="validValues">
+    /// The values that are valid.
+    /// </param>
+    /// <param name="comparer">
+    /// An equality comparer to compare values.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="validValues"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <see langword="null"/>.</exception>
+    public AndConstraint<TAssertions> BeOneOf(IEnumerable<TSubject> validValues,
+        IEqualityComparer<TSubject> comparer,
+        string because = "",
+        params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(validValues);
+        Guard.ThrowIfArgumentIsNull(comparer);
+
+        Execute.Assertion
+            .ForCondition(validValues.Contains(Subject, comparer))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:object} to be one of {0}{reason}, but found {1}.", validValues, Subject);
 

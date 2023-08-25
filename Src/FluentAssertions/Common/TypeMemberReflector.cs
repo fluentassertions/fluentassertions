@@ -136,7 +136,7 @@ internal sealed class TypeMemberReflector
         {
             foreach (var memberInfo in getMembers(typeToReflect))
             {
-                if (members.All(mi => mi.Name != memberInfo.Name))
+                if (members.TrueForAll(mi => mi.Name != memberInfo.Name))
                 {
                     members.Add(memberInfo);
                 }

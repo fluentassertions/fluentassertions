@@ -64,11 +64,11 @@ class Build : NukeBuild
     Tool NSpec3;
 
 #if OS_WINDOWS
-    [NuGetPackage("Node.js.redist", "node.exe", Version = "16.17.1", Framework = "win-x64")]
+    [NuGetPackage("Node.js.redist", "node.exe", Version = "16.20.0", Framework = "win-x64")]
 #elif OS_MAC
-    [NuGetPackage("Node.js.redist", "node", Version = "16.17.1", Framework = "osx-x64")]
+    [NuGetPackage("Node.js.redist", "node", Version = "16.20.0", Framework = "osx-x64")]
 #else
-    [NuGetPackage("Node.js.redist", "node", Version = "16.17.1", Framework = "linux-x64")]
+    [NuGetPackage("Node.js.redist", "node", Version = "16.20.0", Framework = "linux-x64")]
 #endif
     Tool Node;
 
@@ -162,7 +162,9 @@ class Build : NukeBuild
     Project[] Projects => new[]
     {
         Solution.Specs.FluentAssertions_Specs,
-        Solution.Specs.FluentAssertions_Equivalency_Specs
+        Solution.Specs.FluentAssertions_Equivalency_Specs,
+        Solution.Specs.FSharp_Specs,
+        Solution.Specs.VB_Specs
     };
 
     Target UnitTestsNetFramework => _ => _

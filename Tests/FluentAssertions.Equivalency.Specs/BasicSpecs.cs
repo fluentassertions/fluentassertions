@@ -387,7 +387,7 @@ public class BasicSpecs
         act.Should().NotThrow();
     }
 
-    private struct Option<T> : IEquatable<Option<T>>
+    private readonly struct Option<T> : IEquatable<Option<T>>
         where T : class
     {
         public T Value { get; }

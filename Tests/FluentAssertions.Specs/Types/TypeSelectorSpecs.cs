@@ -55,7 +55,7 @@ namespace FluentAssertions.Specs.Types
             TypeSelector propertyInfoSelector = null;
 
             // Act
-            Action act = () => propertyInfoSelector.Should();
+            var act = () => propertyInfoSelector.Should();
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
@@ -924,17 +924,13 @@ namespace Internal.ValueTypesAndNotValueTypes.Test
     {
     }
 
-    internal record struct InternalRecordStructValueType
-    {
-    }
+    internal record struct InternalRecordStructValueType;
 
     internal class InternalClassNotValueType
     {
     }
 
-    internal record class InternalRecordClass
-    {
-    }
+    internal record class InternalRecordClass;
 
     internal enum InternalEnumValueType
     {

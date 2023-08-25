@@ -56,10 +56,34 @@ public class MemberConversionSpecs
     {
         // Arrange
         var expectation = new { Property = EnumFour.Three };
-        var subject = new { Property = 3 };
+        var subject = new { Property = 3UL };
 
         // Act / Assert
         subject.Should().BeEquivalentTo(expectation, options => options.WithAutoConversion());
+    }
+
+    [Fact]
+    public void Enums_are_not_converted_to_enums_of_different_type()
+    {
+        // Arrange
+        var expectation = new { Property = EnumTwo.Two };
+        var subject = new { Property = EnumThree.Two };
+
+        // Act / Assert
+        subject.Should().BeEquivalentTo(expectation, options => options.WithAutoConversion());
+    }
+
+    [Fact]
+    public void Strings_are_not_converted_to_enums()
+    {
+        // Arrange
+        var expectation = new { Property = EnumTwo.Two };
+        var subject = new { Property = "Two" };
+
+        // Act / Assert
+        var act = () => subject.Should().BeEquivalentTo(expectation, options => options.WithAutoConversion());
+
+        act.Should().Throw<XunitException>();
     }
 
     [Fact]

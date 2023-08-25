@@ -9,6 +9,7 @@ using AssemblyA;
 using AssemblyB;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
+using FluentAssertions.Primitives;
 using Xunit;
 using Xunit.Sdk;
 
@@ -99,6 +100,92 @@ public class ObjectAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>();
         }
+
+        [Fact]
+        public void An_untyped_value_is_equal_to_another_according_to_a_comparer()
+        {
+            // Arrange
+            object value = new SomeClass(5);
+
+            // Act / Assert
+            value.Should().Be(new SomeClass(5), new SomeClassEqualityComparer());
+        }
+
+        [Fact]
+        public void A_typed_value_is_equal_to_another_according_to_a_comparer()
+        {
+            // Arrange
+            var value = new SomeClass(5);
+
+            // Act / Assert
+            value.Should().Be(new SomeClass(5), new SomeClassEqualityComparer());
+        }
+
+        [Fact]
+        public void An_untyped_value_is_not_equal_to_another_according_to_a_comparer()
+        {
+            // Arrange
+            object value = new SomeClass(3);
+
+            // Act
+            Action act = () => value.Should().Be(new SomeClass(4), new SomeClassEqualityComparer(), "I said so");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected value to be SomeClass(4)*I said so*found SomeClass(3).");
+        }
+
+        [Fact]
+        public void A_typed_value_is_not_equal_to_another_according_to_a_comparer()
+        {
+            // Arrange
+            var value = new SomeClass(3);
+
+            // Act
+            Action act = () => value.Should().Be(new SomeClass(4), new SomeClassEqualityComparer(), "I said so");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected value to be SomeClass(4)*I said so*found SomeClass(3).");
+        }
+
+        [Fact]
+        public void A_typed_value_is_not_of_the_same_type()
+        {
+            // Arrange
+            var value = new ClassWithCustomEqualMethod(3);
+
+            // Act
+            Action act = () => value.Should().Be(new SomeClass(3), new SomeClassEqualityComparer(), "I said so");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected value to be SomeClass(3)*I said so*found ClassWithCustomEqualMethod(3).");
+        }
+
+        [Fact]
+        public void A_untyped_value_requires_a_comparer()
+        {
+            // Arrange
+            object value = new SomeClass(3);
+
+            // Act
+            Action act = () => value.Should().Be(new SomeClass(3), comparer: null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithParameterName("comparer");
+        }
+
+        [Fact]
+        public void A_typed_value_requires_a_comparer()
+        {
+            // Arrange
+            var value = new SomeClass(3);
+
+            // Act
+            Action act = () => value.Should().Be(new SomeClass(3), comparer: null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithParameterName("comparer");
+        }
     }
 
     public class NotBe
@@ -145,6 +232,88 @@ public class ObjectAssertionSpecs
             act.Should().Throw<XunitException>().WithMessage(
                 "Did not expect someObject to be equal to ClassWithCustomEqualMethod(1) " +
                 "because we want to test the failure message.");
+        }
+
+        [Fact]
+        public void An_untyped_value_is_not_equal_to_another_according_to_a_comparer()
+        {
+            // Arrange
+            object value = new SomeClass(5);
+
+            // Act / Assert
+            value.Should().NotBe(new SomeClass(4), new SomeClassEqualityComparer());
+        }
+
+        [Fact]
+        public void A_typed_value_is_not_equal_to_another_according_to_a_comparer()
+        {
+            // Arrange
+            var value = new SomeClass(5);
+
+            // Act / Assert
+            value.Should().NotBe(new SomeClass(4), new SomeClassEqualityComparer());
+        }
+
+        [Fact]
+        public void An_untyped_value_is_equal_to_another_according_to_a_comparer()
+        {
+            // Arrange
+            object value = new SomeClass(3);
+
+            // Act
+            Action act = () => value.Should().NotBe(new SomeClass(3), new SomeClassEqualityComparer(), "I said so");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Did not expect value to be equal to SomeClass(3)*I said so*");
+        }
+
+        [Fact]
+        public void A_typed_value_is_equal_to_another_according_to_a_comparer()
+        {
+            // Arrange
+            var value = new SomeClass(3);
+
+            // Act
+            Action act = () => value.Should().NotBe(new SomeClass(3), new SomeClassEqualityComparer(), "I said so");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Did not expect value to be equal to SomeClass(3)*I said so*");
+        }
+
+        [Fact]
+        public void A_typed_value_is_not_of_the_same_type()
+        {
+            // Arrange
+            var value = new ClassWithCustomEqualMethod(3);
+
+            // Act / Assert
+            value.Should().NotBe(new SomeClass(3), new SomeClassEqualityComparer(), "I said so");
+        }
+
+        [Fact]
+        public void An_untyped_value_requires_a_comparer()
+        {
+            // Arrange
+            object value = new SomeClass(3);
+
+            // Act
+            Action act = () => value.Should().NotBe(new SomeClass(3), comparer: null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithParameterName("comparer");
+        }
+
+        [Fact]
+        public void A_typed_value_requires_a_comparer()
+        {
+            // Arrange
+            var value = new SomeClass(3);
+
+            // Act
+            Action act = () => value.Should().NotBe(new SomeClass(3), comparer: null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithParameterName("comparer");
         }
     }
 
@@ -195,6 +364,149 @@ public class ObjectAssertionSpecs
 
             // Assert
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void An_untyped_value_is_one_of_the_specified_values()
+        {
+            // Arrange
+            object value = new SomeClass(5);
+
+            // Act / Assert
+            value.Should().BeOneOf(new[] { new SomeClass(4), new SomeClass(5) }, new SomeClassEqualityComparer());
+        }
+
+        [Fact]
+        public void A_typed_value_is_one_of_the_specified_values()
+        {
+            // Arrange
+            var value = new SomeClass(5);
+
+            // Act / Assert
+            value.Should().BeOneOf(new[] { new SomeClass(4), new SomeClass(5) }, new SomeClassEqualityComparer());
+        }
+
+        [Fact]
+        public void An_untyped_value_is_not_one_of_the_specified_values()
+        {
+            // Arrange
+            object value = new SomeClass(3);
+
+            // Act
+            Action act = () => value.Should().BeOneOf(new[] { new SomeClass(4), new SomeClass(5) },
+                new SomeClassEqualityComparer(), "I said so");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+               .WithMessage("Expected value to be one of {SomeClass(4), SomeClass(5)}*I said so*SomeClass(3).");
+        }
+
+        [Fact]
+        public void An_untyped_value_is_not_one_of_no_values()
+        {
+            // Arrange
+            object value = new SomeClass(3);
+
+            // Act
+            Action act = () => value.Should().BeOneOf(Array.Empty<SomeClass>(), new SomeClassEqualityComparer());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void A_typed_value_is_not_one_of_the_specified_values()
+        {
+            // Arrange
+            var value = new SomeClass(3);
+
+            // Act
+            Action act = () => value.Should().BeOneOf(new[] { new SomeClass(4), new SomeClass(5) },
+                new SomeClassEqualityComparer(), "I said so");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+               .WithMessage("Expected value to be one of {SomeClass(4), SomeClass(5)}*I said so*SomeClass(3).");
+        }
+
+        [Fact]
+        public void A_typed_value_is_not_one_of_no_values()
+        {
+            // Arrange
+            var value = new SomeClass(3);
+
+            // Act
+            Action act = () => value.Should().BeOneOf(Array.Empty<SomeClass>(), new SomeClassEqualityComparer());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void A_typed_value_is_not_the_same_type_as_the_specified_values()
+        {
+            // Arrange
+            var value = new ClassWithCustomEqualMethod(3);
+
+            // Act
+            Action act = () => value.Should().BeOneOf(new[] { new SomeClass(4), new SomeClass(5) },
+                new SomeClassEqualityComparer(), "I said so");
+
+            // Assert
+            act.Should().Throw<XunitException>()
+               .WithMessage("Expected value to be one of {SomeClass(4), SomeClass(5)}*I said so*ClassWithCustomEqualMethod(3).");
+        }
+
+        [Fact]
+        public void An_untyped_value_requires_an_expectation()
+        {
+            // Arrange
+            object value = new SomeClass(3);
+
+            // Act
+            Action act = () => value.Should().BeOneOf(null, new SomeClassEqualityComparer());
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithParameterName("validValues");
+        }
+
+        [Fact]
+        public void A_typed_value_requires_an_expectation()
+        {
+            // Arrange
+            var value = new SomeClass(3);
+
+            // Act
+            Action act = () => value.Should().BeOneOf(null, new SomeClassEqualityComparer());
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithParameterName("validValues");
+        }
+
+        [Fact]
+        public void An_untyped_value_requires_a_comparer()
+        {
+            // Arrange
+            object value = new SomeClass(3);
+
+            // Act
+            Action act = () => value.Should().BeOneOf(Array.Empty<SomeClass>(), comparer: null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithParameterName("comparer");
+        }
+
+        [Fact]
+        public void A_typed_value_requires_a_comparer()
+        {
+            // Arrange
+            var value = new SomeClass(3);
+
+            // Act
+            Action act = () => value.Should().BeOneOf(Array.Empty<SomeClass>(), comparer: null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>().WithParameterName("comparer");
         }
     }
 
@@ -931,7 +1243,7 @@ public class ObjectAssertionSpecs
             var someObject = new Exception();
 
             // Act
-            Action action = () => someObject.Should().Equals(someObject);
+            var action = () => someObject.Should().Equals(null);
 
             // Assert
             action.Should().Throw<NotSupportedException>()
@@ -1082,8 +1394,8 @@ public class ObjectAssertionSpecs
 
         public string NonSerializable
         {
-            get { return nonSerializable; }
-            set { nonSerializable = value; }
+            get => nonSerializable;
+            set => nonSerializable = value;
         }
     }
 
@@ -1337,4 +1649,36 @@ internal sealed class DummyImplementingClass : DummyBaseClass, IDisposable
     {
         // Ignore
     }
+}
+
+internal class SomeClass
+{
+    public SomeClass(int key)
+    {
+        Key = key;
+    }
+
+    public int Key { get; }
+
+    public override string ToString() => $"SomeClass({Key})";
+}
+
+internal class SomeClassEqualityComparer : IEqualityComparer<SomeClass>
+{
+    public bool Equals(SomeClass x, SomeClass y) => x.Key == y.Key;
+
+    public int GetHashCode(SomeClass obj) => obj.Key;
+}
+
+internal class SomeClassAssertions : ObjectAssertions<SomeClass, SomeClassAssertions>
+{
+    public SomeClassAssertions(SomeClass value)
+        : base(value)
+    {
+    }
+}
+
+internal static class AssertionExtensions
+{
+    public static SomeClassAssertions Should(this SomeClass value) => new(value);
 }

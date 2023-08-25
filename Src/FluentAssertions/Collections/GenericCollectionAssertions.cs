@@ -1079,6 +1079,52 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     }
 
     /// <summary>
+    /// Asserts that the current collection does not contain any elements that are assignable to the type <typeparamref name="TExpectation" />.
+    /// </summary>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> NotContainItemsAssignableTo<TExpectation>(string because = "", params object[] becauseArgs) =>
+        NotContainItemsAssignableTo(typeof(TExpectation), because, becauseArgs);
+
+    /// <summary>
+    /// Asserts that the current collection does not contain any elements that are assignable to the given type.
+    /// </summary>
+    /// <param name="type">
+    /// Object type that should not be in collection
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> NotContainItemsAssignableTo(Type type, string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(type);
+
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} to not contain any elements assignable to type {0}{reason}, ",
+                type.FullName)
+            .ForCondition(Subject is not null)
+            .FailWith("but found <null>.")
+            .Then
+            .Given(() => Subject.ConvertOrCastToCollection())
+            .ForCondition(subject => subject.All(x => !type.IsAssignableFrom(GetType(x))))
+            .FailWith("but found {0}.", subject => subject.Select(x => GetType(x)))
+            .Then
+            .ClearExpectation();
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
     /// Expects the current collection to contain only a single item.
     /// </summary>
     /// <param name="because">

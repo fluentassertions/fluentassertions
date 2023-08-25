@@ -557,7 +557,7 @@ namespace FluentAssertions.Specs.Execution
     {
         public string Field = "bar";
 
-        public string Bar { get; } = "bar";
+        public string Bar => "bar";
 
         public string BarMethod() => Bar;
 
