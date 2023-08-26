@@ -1013,7 +1013,7 @@ public class EventAssertionSpecs
             // Act / Assert
             classToMonitor.Invoking(c =>
             {
-                using var monitor = c.Monitor<IAddFailingEvent>(opt => opt.IgnoreEventAccessorExceptions());
+                using var monitor = c.Monitor<IAddFailingEvent>(opt => opt.IgnoringEventAccessorExceptions());
             }).Should().NotThrow();
         }
 
@@ -1026,7 +1026,7 @@ public class EventAssertionSpecs
             // Act / Assert
             classToMonitor.Invoking(c =>
             {
-                using var monitor = c.Monitor<IRemoveFailingEvent>(opt => opt.IgnoreEventAccessorExceptions());
+                using var monitor = c.Monitor<IRemoveFailingEvent>(opt => opt.IgnoringEventAccessorExceptions());
             }).Should().NotThrow();
         }
 
@@ -1038,7 +1038,7 @@ public class EventAssertionSpecs
 
             using var monitor =
                 classToMonitor.Monitor<IAddFailingEvent>(opt =>
-                    opt.IgnoreEventAccessorExceptions().RecordEventsWithBrokenAccessor());
+                    opt.IgnoringEventAccessorExceptions().RecordingEventsWithBrokenAccessor());
 
             //Act
             classToMonitor.RaiseOkEvent();
@@ -1053,7 +1053,7 @@ public class EventAssertionSpecs
             // Arrange
             var classToMonitor = new TestEventBrokenEventHandlerRaising();
 
-            using var monitor = classToMonitor.Monitor<IAddFailingEvent>(opt => opt.IgnoreEventAccessorExceptions());
+            using var monitor = classToMonitor.Monitor<IAddFailingEvent>(opt => opt.IgnoringEventAccessorExceptions());
 
             //Act
             classToMonitor.RaiseOkEvent();

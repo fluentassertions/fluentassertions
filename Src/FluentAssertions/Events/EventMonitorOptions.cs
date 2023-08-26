@@ -13,7 +13,7 @@ public class EventMonitorOptions
     internal bool ShouldIgnoreEventAccessorExceptions { get; private set; }
 
     /// <summary>
-    /// This will record the event, even if the event accessor add event accessor threw an exception. To ignore exceptions in the event add accessor, call <see cref="IgnoreEventAccessorExceptions"/> property to true. default: false.
+    /// This will record the event, even if the event accessor add event threw an exception. To ignore exceptions in the event add accessor, call <see cref="IgnoringEventAccessorExceptions"/> property to set it to true. default: false.
     /// </summary>
     internal bool ShouldRecordEventsWithBrokenAccessor { get; private set; }
 
@@ -25,18 +25,16 @@ public class EventMonitorOptions
     /// <summary>
     /// When called it will ignore event accessor Exceptions.
     /// </summary>
-    /// <returns>The options instance for method stacking.</returns>
-    public EventMonitorOptions IgnoreEventAccessorExceptions()
+    public EventMonitorOptions IgnoringEventAccessorExceptions()
     {
         ShouldIgnoreEventAccessorExceptions = true;
         return this;
     }
 
     /// <summary>
-    /// When called it will ignore event accessor Exceptions.
+    /// When called it will record the event even when the accessor threw an exception.
     /// </summary>
-    /// <returns>The options instance for method stacking.</returns>
-    public EventMonitorOptions RecordEventsWithBrokenAccessor()
+    public EventMonitorOptions RecordingEventsWithBrokenAccessor()
     {
         ShouldRecordEventsWithBrokenAccessor = true;
         return this;
@@ -46,7 +44,6 @@ public class EventMonitorOptions
     /// Sets the timestamp provider. By default it is <see cref="DateTime.UtcNow"/>.
     /// </summary>
     /// <param name="timestampProvider">The timestamp provider.</param>
-    /// <returns>The options instance for method stacking.</returns>
     internal EventMonitorOptions ConfigureTimestampProvider(Func<DateTime> timestampProvider)
     {
         if (timestampProvider != null)
