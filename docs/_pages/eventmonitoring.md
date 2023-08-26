@@ -116,7 +116,7 @@ using var monitoredSubject = subject.Monitor(options => options.IgnoreEventAcces
 
 The event monitor will now ignore all events that throw exceptions when subscribing (`add`) or unsubscribing (`remove`) them.
 
-> Note, that if there is an exception in the `add` event acessor, the event cannot be asserted, as it cannot be subscribed successfully.
+> Note, that if there is an exception in the `add` event accessor, the event cannot be asserted, as it cannot be subscribed successfully.
 
 ## Limitations
 
