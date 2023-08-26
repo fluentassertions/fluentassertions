@@ -155,7 +155,7 @@ internal sealed class EventMonitor<T> : IMonitor<T>
         }
         catch when (options.ShouldIgnoreEventAccessorExceptions)
         {
-            if (!options.RecordEventsWithBrokenAccessor)
+            if (!options.ShouldRecordEventsWithBrokenAccessor)
             {
                 recorderMap.TryRemove(eventInfo.Name, out _);
             }

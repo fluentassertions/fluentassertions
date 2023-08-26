@@ -1035,7 +1035,7 @@ public class EventAssertionSpecs
             // Arrange
             var classToMonitor = new TestEventBrokenEventHandlerRaising();
 
-            using var monitor = classToMonitor.Monitor<IAddFailingEvent>(opt => opt.IgnoreEventAccessorExceptions(true));
+            using var monitor = classToMonitor.Monitor<IAddFailingEvent>(opt => opt.IgnoreEventAccessorExceptions().RecordEventsWithBrokenAccessor());
 
             //Act
             classToMonitor.RaiseOkEvent();

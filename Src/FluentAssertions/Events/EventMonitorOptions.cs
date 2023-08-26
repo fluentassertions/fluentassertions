@@ -15,7 +15,7 @@ public class EventMonitorOptions
     /// <summary>
     /// This will record the event, even if the event accessor add event accessor threw an exception. To ignore exceptions in the event add accessor, call <see cref="IgnoreEventAccessorExceptions"/> property to true. default: false.
     /// </summary>
-    internal bool RecordEventsWithBrokenAccessor { get; private set; }
+    internal bool ShouldRecordEventsWithBrokenAccessor { get; private set; }
 
     /// <summary>
     /// Func used to generate the timestamp.
@@ -25,12 +25,20 @@ public class EventMonitorOptions
     /// <summary>
     /// When called it will ignore event accessor Exceptions.
     /// </summary>
-    /// <param name="recordEventsWithBrokenAccessor">This will record the event, even if the event add event accessor threw an exception. default: false.</param>
     /// <returns>The options instance for method stacking.</returns>
-    public EventMonitorOptions IgnoreEventAccessorExceptions(bool recordEventsWithBrokenAccessor = false)
+    public EventMonitorOptions IgnoreEventAccessorExceptions()
     {
         ShouldIgnoreEventAccessorExceptions = true;
-        RecordEventsWithBrokenAccessor = recordEventsWithBrokenAccessor;
+        return this;
+    }
+
+    /// <summary>
+    /// When called it will ignore event accessor Exceptions.
+    /// </summary>
+    /// <returns>The options instance for method stacking.</returns>
+    public EventMonitorOptions RecordEventsWithBrokenAccessor()
+    {
+        ShouldRecordEventsWithBrokenAccessor = true;
         return this;
     }
 
