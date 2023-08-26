@@ -1050,7 +1050,7 @@ public class EventAssertionSpecs
             // Arrange
             var classToMonitor = new TestEventBrokenEventHandlerRaising();
 
-            using var monitor = classToMonitor.Monitor<IAddFailingEvent>(opt => opt.IgnoreEventAccessorExceptions(false));
+            using var monitor = classToMonitor.Monitor<IAddFailingEvent>(opt => opt.IgnoreEventAccessorExceptions());
 
             //Act
             classToMonitor.RaiseOkEvent();
@@ -1085,8 +1085,8 @@ public class EventAssertionSpecs
     {
         public event EventHandler AddFailingEvent
         {
-            add { throw new InvalidOperationException("Add is failing"); }
-            remove { OkEvent -= value; }
+            add => throw new InvalidOperationException("Add is failing");
+            remove => OkEvent -= value;
         }
 
         public event EventHandler AddFailingRecorableEvent
@@ -1097,18 +1097,15 @@ public class EventAssertionSpecs
                 throw new InvalidOperationException("Add is failing");
             }
 
-            remove
-            {
-                OkEvent -= value;
-            }
+            remove => OkEvent -= value;
         }
 
         public event EventHandler OkEvent;
 
         public event EventHandler RemoveFailingEvent
         {
-            add { OkEvent += value; }
-            remove { throw new InvalidOperationException("Remove is failing"); }
+            add => OkEvent += value;
+            remove => throw new InvalidOperationException("Remove is failing");
         }
 
         public void RaiseOkEvent()
