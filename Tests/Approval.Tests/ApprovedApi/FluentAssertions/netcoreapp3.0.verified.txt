@@ -1277,6 +1277,7 @@ namespace FluentAssertions.Events
     {
         public EventMonitorOptions() { }
         public FluentAssertions.Events.EventMonitorOptions IgnoreEventAccessorExceptions() { }
+        public FluentAssertions.Events.EventMonitorOptions RecordEventsWithBrokenAccessor() { }
     }
     public interface IEventRecording : System.Collections.Generic.IEnumerable<FluentAssertions.Events.OccurredEvent>, System.Collections.IEnumerable
     {
