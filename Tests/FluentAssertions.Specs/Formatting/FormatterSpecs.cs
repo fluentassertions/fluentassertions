@@ -1169,8 +1169,6 @@ public class FormatterSpecs
 
     private class CustomClassValueFormatter : DefaultValueFormatter
     {
-        protected override int SpacesPerIndentionLevel => 8;
-
         public override bool CanHandle(object value) => value is CustomClass;
 
         protected override MemberInfo[] GetMembers(Type type)

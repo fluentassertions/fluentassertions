@@ -30,6 +30,7 @@ sidebar:
   * `ExecutionTimeAssertions`
     * `BeGreaterOrEqualTo`: Use `BeGreaterThanOrEqualTo`
     * `BeLessOrEqualTo`: Use `BeLessThanOrEqualTo`
+* Removed the `DefaultValueFormatter.SpacesPerIndentionLevel` property which was added during the development of v6, but wasn't removed before the release of v6 - [#2281](https://github.com/fluentassertions/fluentassertions/pull/2281)
 
 ### Breaking Changes (for extensions)
 

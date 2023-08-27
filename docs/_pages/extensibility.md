@@ -139,7 +139,6 @@ public class DirectoryInfoValueFormatter : IValueFormatter
 
 Say you want to customize the formatting of your `CustomClass` type to:
 
-* Increase the indentation from the default 3 to 8,
 * Exclude all `string` members and
 * Exclude the namespace of the type.
 
@@ -148,8 +147,6 @@ An easy way to achieve this is by extending the `DefaultValueFormatter`.
 ```csharp
 class CustomClassFormatter : DefaultValueFormatter
 {
-    protected override int SpacesPerIndentionLevel => 8;
-
     public override bool CanHandle(object value) => value is CustomClass;
 
     protected override MemberInfo[] GetMembers(Type type) =>
