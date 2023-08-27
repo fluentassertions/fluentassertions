@@ -17,17 +17,12 @@ public static class AssertionOptions
         EquivalencyPlan = new EquivalencyPlan();
     }
 
+    /// <summary>
+    /// Creates a clone of the default options and allows the caller to modify them.
+    /// </summary>
     public static EquivalencyAssertionOptions<T> CloneDefaults<T>()
     {
         return new EquivalencyAssertionOptions<T>(defaults);
-    }
-
-    internal static TOptions CloneDefaults<T, TOptions>(Func<EquivalencyAssertionOptions, TOptions> predicate)
-        where TOptions : EquivalencyAssertionOptions<T>
-    {
-        Guard.ThrowIfArgumentIsNull(predicate);
-
-        return predicate(defaults);
     }
 
     /// <summary>

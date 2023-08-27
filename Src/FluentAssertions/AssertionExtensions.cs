@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -12,7 +11,6 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using FluentAssertions.Collections;
 using FluentAssertions.Common;
-using FluentAssertions.Data;
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
 using FluentAssertions.Reflection;
@@ -386,46 +384,6 @@ public static class AssertionExtensions
         where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
     {
         return new GenericDictionaryAssertions<TCollection, TKey, TValue>(actualValue);
-    }
-
-    /// <summary>
-    /// Returns an assertions object that provides methods for asserting the state of a <see cref="DataTableCollection"/>.
-    /// </summary>
-    [Pure]
-    public static GenericCollectionAssertions<DataTable> Should(this DataTableCollection actualValue)
-    {
-        return new GenericCollectionAssertions<DataTable>(
-            ReadOnlyNonGenericCollectionWrapper.Create(actualValue));
-    }
-
-    /// <summary>
-    /// Returns an assertions object that provides methods for asserting the state of a <see cref="DataColumnCollection"/>.
-    /// </summary>
-    [Pure]
-    public static GenericCollectionAssertions<DataColumn> Should(this DataColumnCollection actualValue)
-    {
-        return new GenericCollectionAssertions<DataColumn>(
-            ReadOnlyNonGenericCollectionWrapper.Create(actualValue));
-    }
-
-    /// <summary>
-    /// Returns an assertions object that provides methods for asserting the state of a <see cref="DataRowCollection"/>.
-    /// </summary>
-    [Pure]
-    public static GenericCollectionAssertions<DataRow> Should(this DataRowCollection actualValue)
-    {
-        return new GenericCollectionAssertions<DataRow>(
-            ReadOnlyNonGenericCollectionWrapper.Create(actualValue));
-    }
-
-    /// <summary>
-    /// Returns a <see cref="DataColumnAssertions"/> object that can be used to assert the
-    /// current <see cref="DataColumn"/>.
-    /// </summary>
-    [Pure]
-    public static DataColumnAssertions Should(this DataColumn actualValue)
-    {
-        return new DataColumnAssertions(actualValue);
     }
 
     /// <summary>
