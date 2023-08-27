@@ -24,7 +24,7 @@ internal class NegatedStringStartStrategy : IStringComparisonStrategy
     private bool IgnoreCase
         => stringComparison == StringComparison.OrdinalIgnoreCase;
 
-    public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
+    public void ValidateAgainstMismatch(Assertion assertion, string subject, string expected)
     {
         assertion
             .ForCondition(!subject.StartsWith(expected, stringComparison))

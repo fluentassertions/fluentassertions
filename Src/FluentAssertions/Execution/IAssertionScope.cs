@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Execution;
 
@@ -178,8 +179,32 @@ public interface IAssertionScope : IDisposable
     /// </remarks>
     IAssertionScope UsingLineBreaks { get; }
 
+    ContextDataItems ContextData { get; }
+
+    /// <summary>
+    /// Exposes the options the scope will use for formatting objects in case an assertion fails.
+    /// </summary>
+    FormattingOptions FormattingOptions { get; }
+
     /// <summary>
     /// Discards and returns the failures that happened up to now.
     /// </summary>
     string[] Discard();
+
+    /// <summary>
+    /// Adds a pre-formatted failure message to the current scope.
+    /// </summary>
+    void AddPreFormattedFailure(string formattedFailureMessage);
+
+    /// <summary>
+    /// Adds some information to the assertion scope that will be included in the message
+    /// that is emitted if an assertion fails. The value is only calculated on failure.
+    /// </summary>
+    void AddReportable(string key, Func<string> valueFunc);
+
+    /// <summary>
+    /// Adds some information to the assertion scope that will be included in the message
+    /// that is emitted if an assertion fails.
+    /// </summary>
+    void AddReportable(string key, string value);
 }

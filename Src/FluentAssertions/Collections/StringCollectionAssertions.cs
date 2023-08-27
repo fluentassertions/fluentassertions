@@ -12,8 +12,8 @@ public class StringCollectionAssertions : StringCollectionAssertions<IEnumerable
     /// <summary>
     /// Initializes a new instance of the <see cref="StringCollectionAssertions"/> class.
     /// </summary>
-    public StringCollectionAssertions(IEnumerable<string> actualValue)
-        : base(actualValue)
+    public StringCollectionAssertions(IEnumerable<string> actualValue, Assertion assertion)
+        : base(actualValue, assertion)
     {
     }
 }
@@ -25,8 +25,8 @@ public class StringCollectionAssertions<TCollection>
     /// <summary>
     /// Initializes a new instance of the <see cref="StringCollectionAssertions{TCollection}"/> class.
     /// </summary>
-    public StringCollectionAssertions(TCollection actualValue)
-        : base(actualValue)
+    public StringCollectionAssertions(TCollection actualValue, Assertion assertion)
+        : base(actualValue, assertion)
     {
     }
 }
@@ -38,8 +38,8 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// <summary>
     /// Initializes a new instance of the <see cref="StringCollectionAssertions{TCollection, TAssertions}"/> class.
     /// </summary>
-    public StringCollectionAssertions(TCollection actualValue)
-        : base(actualValue)
+    public StringCollectionAssertions(TCollection actualValue, Assertion assertion)
+        : base(actualValue, assertion)
     {
     }
 

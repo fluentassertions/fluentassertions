@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Collections;
 
@@ -16,8 +17,8 @@ public class SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAsse
     private readonly IOrderedEnumerable<T> previousOrderedEnumerable;
     private bool subsequentOrdering;
 
-    public SubsequentOrderingGenericCollectionAssertions(TCollection actualValue, IOrderedEnumerable<T> previousOrderedEnumerable)
-        : base(actualValue)
+    public SubsequentOrderingGenericCollectionAssertions(TCollection actualValue, IOrderedEnumerable<T> previousOrderedEnumerable, Assertion assertion)
+        : base(actualValue, assertion)
     {
         this.previousOrderedEnumerable = previousOrderedEnumerable;
     }
@@ -167,8 +168,8 @@ public class SubsequentOrderingGenericCollectionAssertions<TCollection, T>
     : SubsequentOrderingGenericCollectionAssertions<TCollection, T, SubsequentOrderingGenericCollectionAssertions<TCollection, T>>
     where TCollection : IEnumerable<T>
 {
-    public SubsequentOrderingGenericCollectionAssertions(TCollection actualValue, IOrderedEnumerable<T> previousOrderedEnumerable)
-        : base(actualValue, previousOrderedEnumerable)
+    public SubsequentOrderingGenericCollectionAssertions(TCollection actualValue, IOrderedEnumerable<T> previousOrderedEnumerable, Assertion assertion)
+        : base(actualValue, previousOrderedEnumerable, assertion)
     {
     }
 }

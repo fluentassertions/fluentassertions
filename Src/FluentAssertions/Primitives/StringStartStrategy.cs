@@ -25,11 +25,13 @@ internal class StringStartStrategy : IStringComparisonStrategy
     private bool IgnoreCase
         => stringComparison == StringComparison.OrdinalIgnoreCase;
 
-    public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
+    public void ValidateAgainstMismatch(Assertion assertion, string subject, string expected)
     {
-        if (!assertion
-                .ForCondition(subject.Length >= expected.Length)
-                .FailWith(ExpectationDescription + "{0}{reason}, but {1} is too short.", expected, subject))
+        assertion
+            .ForCondition(subject.Length >= expected.Length)
+            .FailWith(ExpectationDescription + "{0}{reason}, but {1} is too short.", expected, subject);
+
+        if (!assertion.Succeeded)
         {
             return;
         }
