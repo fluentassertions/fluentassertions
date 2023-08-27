@@ -246,7 +246,7 @@
     Assert.IsFalse(actual > expected);
 
   new: |
-    actual.Should().BeLessOrEqualTo(expected);
+    actual.Should().BeLessThanOrEqualTo(expected);
 
   old-message: |
     Assert.IsFalse failed.
@@ -258,7 +258,7 @@
     Assert.IsTrue(actual >= expected);
 
   new: |
-    actual.Should().BeGreaterOrEqualTo(expected);
+    actual.Should().BeGreaterThanOrEqualTo(expected);
 
   old-message: |
     Assert.IsTrue failed.
@@ -294,7 +294,7 @@
     Assert.IsFalse(actual < expected);
 
   new: |
-    actual.Should().BeGreaterOrEqualTo(expected);
+    actual.Should().BeGreaterThanOrEqualTo(expected);
 
   old-message: |
     Assert.IsFalse failed.
@@ -306,7 +306,7 @@
     Assert.IsTrue(actual <= expected);
 
   new: |
-    actual.Should().BeLessOrEqualTo(expected);
+    actual.Should().BeLessThanOrEqualTo(expected);
 
   old-message: |
     Assert.IsTrue failed.
