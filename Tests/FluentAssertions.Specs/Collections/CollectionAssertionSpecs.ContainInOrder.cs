@@ -90,7 +90,7 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_a_collection_does_not_contain_items_with_assertion_scope_all_items_are_reported()
+        public void Even_with_an_assertion_scope_only_the_first_failure_in_a_chained_assertion_is_reported()
         {
             // Act
             Action act = () =>
@@ -100,8 +100,7 @@ public partial class CollectionAssertionSpecs
             };
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "*but 4 (index 0)*but 5 (index 0)*");
+            act.Should().Throw<XunitException>().WithMessage("*but 4 (index 0) did not appear (in the right order).");
         }
 
         [Fact]

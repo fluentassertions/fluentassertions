@@ -19,9 +19,12 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
     where TSubject : MemberInfo
     where TAssertions : MemberInfoAssertions<TSubject, TAssertions>
 {
-    protected MemberInfoAssertions(TSubject subject)
-        : base(subject)
+    private readonly AssertionChain assertionChain;
+
+    protected MemberInfoAssertions(TSubject subject, AssertionChain assertionChain)
+        : base(subject, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -80,7 +83,7 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
     {
         Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
@@ -89,11 +92,11 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
 
         IEnumerable<TAttribute> attributes = [];
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
 
-            Execute.Assertion
+            assertionChain
                 .ForCondition(attributes.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
@@ -126,18 +129,18 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
     {
         Guard.ThrowIfArgumentIsNull(isMatchingAttributePredicate);
 
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith(
                 $"Expected {Identifier} to not be decorated with {typeof(TAttribute)}{{reason}}" +
                 ", but {context:member} is <null>.");
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             IEnumerable<TAttribute> attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
 
-            Execute.Assertion
+            assertionChain
                 .ForCondition(!attributes.Any())
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
@@ -150,5 +153,5 @@ public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTyp
 
     protected override string Identifier => "member";
 
-    internal virtual string SubjectDescription => $"{Subject.DeclaringType}.{Subject.Name}";
+    private protected virtual string SubjectDescription => $"{Subject.DeclaringType}.{Subject.Name}";
 }

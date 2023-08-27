@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Common;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Events;
 
@@ -66,7 +67,7 @@ internal sealed class EventMonitor<T> : IMonitor<T>
 
     public EventAssertions<T> Should()
     {
-        return new EventAssertions<T>(this);
+        return new EventAssertions<T>(this, AssertionChain.GetOrCreate());
     }
 
     public IEventRecording GetRecordingFor(string eventName)

@@ -571,6 +571,29 @@ public class DictionarySpecs
     }
 
     [Fact]
+    public void Can_compare_non_generic_dictionaries_without_recursing()
+    {
+        // Arrange
+        var expected = new NonGenericDictionary
+        {
+            ["Key2"] = "Value2",
+            ["Key1"] = "Value1"
+        };
+
+        var subject = new NonGenericDictionary
+        {
+            ["Key1"] = "Value1",
+            ["Key3"] = "Value2"
+        };
+
+        // Act
+        Action act = () => subject.Should().BeEquivalentTo(expected, options => options.ExcludingNestedObjects());
+
+        // Assert
+        act.Should().Throw<XunitException>().WithMessage("Expected subject[\"Key2\"] to be \"Value2\", but found <null>*");
+    }
+
+    [Fact]
     public void When_asserting_equivalence_of_dictionaries_it_should_respect_the_declared_type()
     {
         // Arrange

@@ -19,24 +19,13 @@ internal class CyclicReferenceDetector : ICloneable2
     /// Determines whether the specified object reference is a cyclic reference to the same object earlier in the
     /// equivalency validation.
     /// </summary>
-    /// <remarks>
-    /// The behavior of a cyclic reference is determined by the <paramref name="handling"/> parameter.
-    /// </remarks>
-    public bool IsCyclicReference(ObjectReference reference, CyclicReferenceHandling handling, Reason reason = null)
+    public bool IsCyclicReference(ObjectReference reference)
     {
         bool isCyclic = false;
 
         if (reference.CompareByMembers)
         {
             isCyclic = !observedReferences.Add(reference);
-
-            if (isCyclic && handling == CyclicReferenceHandling.ThrowException)
-            {
-                AssertionScope.Current
-                    .BecauseOf(reason)
-                    .FailWith(
-                        "Expected {context:subject} to be {expectation}{reason}, but it contains a cyclic reference.");
-            }
         }
 
         return isCyclic;

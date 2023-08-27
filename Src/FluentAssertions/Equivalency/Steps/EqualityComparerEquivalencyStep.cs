@@ -29,7 +29,8 @@ public class EqualityComparerEquivalencyStep<T> : IEquivalencyStep
             return EquivalencyResult.ContinueWithNext;
         }
 
-        Execute.Assertion
+        AssertionChain.GetOrCreate()
+            .For(context)
             .BecauseOf(context.Reason.FormattedMessage, context.Reason.Arguments)
             .ForCondition(comparands.Subject is T)
             .FailWith("Expected {context:object} to be of type {0}{because}, but found {1}", typeof(T), comparands.Subject)

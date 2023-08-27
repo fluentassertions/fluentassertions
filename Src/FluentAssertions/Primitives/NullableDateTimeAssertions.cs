@@ -15,8 +15,8 @@ namespace FluentAssertions.Primitives;
 [DebuggerNonUserCode]
 public class NullableDateTimeAssertions : NullableDateTimeAssertions<NullableDateTimeAssertions>
 {
-    public NullableDateTimeAssertions(DateTime? expected)
-        : base(expected)
+    public NullableDateTimeAssertions(DateTime? expected, AssertionChain assertionChain)
+        : base(expected, assertionChain)
     {
     }
 }
@@ -31,9 +31,12 @@ public class NullableDateTimeAssertions : NullableDateTimeAssertions<NullableDat
 public class NullableDateTimeAssertions<TAssertions> : DateTimeAssertions<TAssertions>
     where TAssertions : NullableDateTimeAssertions<TAssertions>
 {
-    public NullableDateTimeAssertions(DateTime? expected)
-        : base(expected)
+    private readonly AssertionChain assertionChain;
+
+    public NullableDateTimeAssertions(DateTime? expected, AssertionChain assertionChain)
+        : base(expected, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -48,7 +51,7 @@ public class NullableDateTimeAssertions<TAssertions> : DateTimeAssertions<TAsser
     /// </param>
     public AndConstraint<TAssertions> HaveValue([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:nullable date and time} to have a value{reason}, but found {0}.", Subject);
@@ -83,7 +86,7 @@ public class NullableDateTimeAssertions<TAssertions> : DateTimeAssertions<TAsser
     /// </param>
     public AndConstraint<TAssertions> NotHaveValue([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(!Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:nullable date and time} to have a value{reason}, but found {0}.", Subject);

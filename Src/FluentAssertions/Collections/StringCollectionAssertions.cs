@@ -13,8 +13,8 @@ public class StringCollectionAssertions : StringCollectionAssertions<IEnumerable
     /// <summary>
     /// Initializes a new instance of the <see cref="StringCollectionAssertions"/> class.
     /// </summary>
-    public StringCollectionAssertions(IEnumerable<string> actualValue)
-        : base(actualValue)
+    public StringCollectionAssertions(IEnumerable<string> actualValue, AssertionChain assertionChain)
+        : base(actualValue, assertionChain)
     {
     }
 }
@@ -26,8 +26,8 @@ public class StringCollectionAssertions<TCollection>
     /// <summary>
     /// Initializes a new instance of the <see cref="StringCollectionAssertions{TCollection}"/> class.
     /// </summary>
-    public StringCollectionAssertions(TCollection actualValue)
-        : base(actualValue)
+    public StringCollectionAssertions(TCollection actualValue, AssertionChain assertionChain)
+        : base(actualValue, assertionChain)
     {
     }
 }
@@ -36,12 +36,15 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     where TCollection : IEnumerable<string>
     where TAssertions : StringCollectionAssertions<TCollection, TAssertions>
 {
+    private readonly AssertionChain assertionChain;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="StringCollectionAssertions{TCollection, TAssertions}"/> class.
     /// </summary>
-    public StringCollectionAssertions(TCollection actualValue)
-        : base(actualValue)
+    public StringCollectionAssertions(TCollection actualValue, AssertionChain assertionChain)
+        : base(actualValue, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -131,7 +134,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
             options = config(AssertionOptions.CloneDefaults<string>()).AsCollection();
 
         var context =
-            new EquivalencyValidationContext(Node.From<IEnumerable<string>>(() => AssertionScope.Current.CallerIdentity), options)
+            new EquivalencyValidationContext(Node.From<IEnumerable<string>>(() => CurrentAssertionChain.CallerIdentifier), options)
             {
                 Reason = new Reason(because, becauseArgs),
                 TraceWriter = options.TraceWriter
@@ -248,45 +251,48 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
         Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern),
             "Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the Contain method.");
 
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:collection} to contain a match of {0}{reason}, but found <null>.", wildcardPattern);
 
-        IEnumerable<string> matched = [];
+        string[] matches = [];
 
-        if (success)
+        int? firstMatch = null;
+
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(ContainsMatch(wildcardPattern))
-                .FailWith("Expected {context:collection} {0} to contain a match of {1}{reason}.", Subject, wildcardPattern);
+            (matches, firstMatch) = AllThatMatch(wildcardPattern);
 
-            matched = AllThatMatch(wildcardPattern);
+            assertionChain
+                .BecauseOf(because, becauseArgs)
+                .ForCondition(matches.Length > 0)
+                .FailWith("Expected {context:collection} {0} to contain a match of {1}{reason}.", Subject, wildcardPattern);
         }
 
-        return new AndWhichConstraint<TAssertions, string>((TAssertions)this, matched);
+        return new AndWhichConstraint<TAssertions, string>((TAssertions)this, matches, assertionChain, "[" + firstMatch + "]");
     }
 
-    private bool ContainsMatch(string wildcardPattern)
+    private (string[] MatchingItems, int? FirstMatchingIndex) AllThatMatch(string wildcardPattern)
     {
-        using var scope = new AssertionScope();
+        int? firstMatchingIndex = null;
 
-        return Subject.Any(item =>
-        {
-            item.Should().Match(wildcardPattern);
-            return scope.Discard().Length == 0;
-        });
-    }
-
-    private IEnumerable<string> AllThatMatch(string wildcardPattern)
-    {
-        return Subject.Where(item =>
+        var matches = Subject.Where((item, index) =>
         {
             using var scope = new AssertionScope();
+
             item.Should().Match(wildcardPattern);
-            return scope.Discard().Length == 0;
+
+            if (scope.Discard().Length == 0)
+            {
+                firstMatchingIndex ??= index;
+                return true;
+            }
+
+            return false;
         });
+
+        return (matches.ToArray(), firstMatchingIndex);
     }
 
     /// <summary>
@@ -333,15 +339,15 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
         Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern),
             "Cannot match strings in collection against an empty string. Provide a wildcard pattern or use the NotContain method.");
 
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Did not expect {context:collection} to contain a match of {0}{reason}, but found <null>.",
                 wildcardPattern);
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(NotContainsMatch(wildcardPattern))
                 .FailWith("Did not expect {context:collection} {0} to contain a match of {1}{reason}.", Subject, wildcardPattern);

@@ -165,7 +165,7 @@ public class AssemblyAssertionSpecs
     public class DefineType
     {
         [Fact]
-        public void When_an_assembly_defines_a_type_and_Should_DefineType_is_asserted_it_should_succeed()
+        public void Can_find_a_specific_type()
         {
             // Arrange
             var thisAssembly = GetType().Assembly;
@@ -177,6 +177,22 @@ public class AssemblyAssertionSpecs
 
             // Assert
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void Can_continue_assertions_on_the_found_type()
+        {
+            // Arrange
+            var thisAssembly = GetType().Assembly;
+
+            // Act
+            Action act = () => thisAssembly
+                .Should().DefineType(GetType().Namespace, typeof(WellKnownClassWithAttribute).Name)
+                .Which.Should().BeDecoratedWith<SerializableAttribute>();
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected*WellKnownClassWithAttribute*decorated*SerializableAttribute*not found.");
         }
 
         [Fact]

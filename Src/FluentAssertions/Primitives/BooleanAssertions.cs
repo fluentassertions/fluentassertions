@@ -12,8 +12,8 @@ namespace FluentAssertions.Primitives;
 public class BooleanAssertions
     : BooleanAssertions<BooleanAssertions>
 {
-    public BooleanAssertions(bool? value)
-        : base(value)
+    public BooleanAssertions(bool? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 }
@@ -27,8 +27,11 @@ public class BooleanAssertions
 public class BooleanAssertions<TAssertions>
     where TAssertions : BooleanAssertions<TAssertions>
 {
-    public BooleanAssertions(bool? value)
+    private readonly AssertionChain assertionChain;
+
+    public BooleanAssertions(bool? value, AssertionChain assertionChain)
     {
+        this.assertionChain = assertionChain;
         Subject = value;
     }
 
@@ -49,7 +52,7 @@ public class BooleanAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> BeFalse([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject == false)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:boolean} to be {0}{reason}, but found {1}.", false, Subject);
@@ -69,7 +72,7 @@ public class BooleanAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> BeTrue([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject == true)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:boolean} to be {0}{reason}, but found {1}.", true, Subject);
@@ -88,9 +91,10 @@ public class BooleanAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> Be(bool expected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> Be(bool expected, [StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject == expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:boolean} to be {0}{reason}, but found {1}.", expected, Subject);
@@ -109,9 +113,10 @@ public class BooleanAssertions<TAssertions>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<TAssertions> NotBe(bool unexpected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBe(bool unexpected, [StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject != unexpected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:boolean} not to be {0}{reason}, but found {1}.", unexpected, Subject);
@@ -136,16 +141,15 @@ public class BooleanAssertions<TAssertions>
     {
         bool? antecedent = Subject;
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(antecedent is not null)
             .BecauseOf(because, becauseArgs)
-            .WithExpectation("Expected {context:antecedent} ({0}) to imply consequent ({1}){reason}, ", antecedent, consequent)
-            .FailWith("but found null.")
-            .Then
-            .ForCondition(!antecedent.Value || consequent)
-            .FailWith("but it did not.")
-            .Then
-            .ClearExpectation();
+            .WithExpectation("Expected {context:antecedent} ({0}) to imply consequent ({1}){reason}, ", antecedent, consequent,
+                chain => chain
+                    .FailWith("but found null.")
+                    .Then
+                    .ForCondition(!antecedent.Value || consequent)
+                    .FailWith("but it did not."));
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }

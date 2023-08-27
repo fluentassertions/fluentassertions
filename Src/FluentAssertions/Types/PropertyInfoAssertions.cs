@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
+using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Types;
 
@@ -13,9 +14,12 @@ namespace FluentAssertions.Types;
 [DebuggerNonUserCode]
 public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, PropertyInfoAssertions>
 {
-    public PropertyInfoAssertions(PropertyInfo propertyInfo)
-        : base(propertyInfo)
+    private readonly AssertionChain assertionChain;
+
+    public PropertyInfoAssertions(PropertyInfo propertyInfo, AssertionChain assertionChain)
+        : base(propertyInfo, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -31,18 +35,21 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     public AndConstraint<PropertyInfoAssertions> BeVirtual(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
-            .FailWith("Expected property to be virtual{reason}, but {context:property} is <null>.");
+            .FailWith("Expected property to be virtual{reason}, but {context:property} is <null>.")
+            .Then
+            .ForCondition(Subject.IsVirtual())
+            .BecauseOf(because, becauseArgs)
+            .FailWith(() =>
+            {
+                var subjectDescription = assertionChain.HasOverriddenCallerIdentifier
+                    ? assertionChain.CallerIdentifier
+                    : "property " + Subject.ToFormattedString();
 
-        if (success)
-        {
-            Execute.Assertion
-                .ForCondition(Subject.IsVirtual())
-                .BecauseOf(because, becauseArgs)
-                .FailWith($"Expected property {GetDescriptionFor(Subject)} to be virtual{{reason}}, but it is not.");
-        }
+                return new FailReason($"Expected {subjectDescription} to be virtual{{reason}}, but it is not.");
+            });
 
         return new AndConstraint<PropertyInfoAssertions>(this);
     }
@@ -57,20 +64,24 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoAssertions> NotBeVirtual([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoAssertions> NotBeVirtual([StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
-            .FailWith("Expected property not to be virtual{reason}, but {context:property} is <null>.");
+            .FailWith("Expected property not to be virtual{reason}, but {context:property} is <null>.")
+            .Then
+            .ForCondition(!Subject.IsVirtual())
+            .BecauseOf(because, becauseArgs)
+            .FailWith(() =>
+            {
+                var subjectDescription = assertionChain.HasOverriddenCallerIdentifier
+                    ? assertionChain.CallerIdentifier
+                    : "property " + Subject.ToFormattedString();
 
-        if (success)
-        {
-            Execute.Assertion
-                .ForCondition(!Subject.IsVirtual())
-                .BecauseOf(because, becauseArgs)
-                .FailWith($"Expected property {GetDescriptionFor(Subject)} not to be virtual{{reason}}, but it is.");
-        }
+                return new FailReason($"Expected property {subjectDescription} not to be virtual{{reason}}, but it is.");
+            });
 
         return new AndConstraint<PropertyInfoAssertions>(this);
     }
@@ -88,20 +99,21 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     public AndConstraint<PropertyInfoAssertions> BeWritable(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
-            .FailWith("Expected property to have a setter{reason}, but {context:property} is <null>.");
+            .FailWith("Expected property to have a setter{reason}, but {context:property} is <null>.")
+            .Then
+            .ForCondition(Subject!.CanWrite)
+            .BecauseOf(because, becauseArgs)
+            .FailWith(() =>
+            {
+                var subjectDescription = assertionChain.HasOverriddenCallerIdentifier
+                    ? assertionChain.CallerIdentifier
+                    : "property " + Subject.ToFormattedString();
 
-        if (success)
-        {
-            Execute.Assertion
-                .ForCondition(Subject!.CanWrite)
-                .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected {context:property} {0} to have a setter{reason}.",
-                    Subject);
-        }
+                return new FailReason($"Expected {subjectDescription} to have a setter{{reason}}.");
+            });
 
         return new AndConstraint<PropertyInfoAssertions>(this);
     }
@@ -124,24 +136,25 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     {
         Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 
-        bool success = Execute.Assertion
+        var subjectDescription = assertionChain.HasOverriddenCallerIdentifier
+            ? assertionChain.CallerIdentifier
+            : "property " + Subject.ToFormattedString();
+
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
-            .FailWith($"Expected {Identifier} to be {accessModifier}{{reason}}, but {{context:property}} is <null>.");
+            .FailWith($"Expected {{context:project}} to be {accessModifier}{{reason}}, but it is <null>.")
+            .Then
+            .ForCondition(Subject!.CanWrite)
+            .BecauseOf(because, becauseArgs)
+            .FailWith($"Expected {subjectDescription} to have a setter{{reason}}.");
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            success = Execute.Assertion
-                .ForCondition(Subject!.CanWrite)
-                .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected {context:property} {0} to have a setter{reason}.",
-                    Subject);
+            assertionChain.OverrideCallerIdentifier(() => "setter of " + subjectDescription);
+            assertionChain.ReuseOnce();
 
-            if (success)
-            {
-                Subject!.GetSetMethod(nonPublic: true).Should().HaveAccessModifier(accessModifier, because, becauseArgs);
-            }
+            Subject!.GetSetMethod(nonPublic: true).Should().HaveAccessModifier(accessModifier, because, becauseArgs);
         }
 
         return new AndConstraint<PropertyInfoAssertions>(this);
@@ -160,20 +173,21 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     public AndConstraint<PropertyInfoAssertions> NotBeWritable(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
-            .FailWith("Expected property not to have a setter{reason}, but {context:property} is <null>.");
+            .FailWith("Expected {context:property} not to have a setter{reason}, but it is <null>.")
+            .Then
+            .ForCondition(!Subject!.CanWrite)
+            .BecauseOf(because, becauseArgs)
+            .FailWith(() =>
+            {
+                var subjectDescription = assertionChain.HasOverriddenCallerIdentifier
+                    ? assertionChain.CallerIdentifier
+                    : "property " + Subject.ToFormattedString();
 
-        if (success)
-        {
-            Execute.Assertion
-                .ForCondition(!Subject!.CanWrite)
-                .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected {context:property} {0} not to have a setter{reason}.",
-                    Subject);
-        }
+                return new FailReason($"Did not expect {subjectDescription} to have a setter{{reason}}.");
+            });
 
         return new AndConstraint<PropertyInfoAssertions>(this);
     }
@@ -188,19 +202,24 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoAssertions> BeReadable([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoAssertions> BeReadable([StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
-            .FailWith("Expected property to have a getter{reason}, but {context:property} is <null>.");
+            .FailWith("Expected property to have a getter{reason}, but {context:property} is <null>.")
+            .Then
+            .ForCondition(Subject!.CanRead)
+            .BecauseOf(because, becauseArgs)
+            .FailWith(() =>
+            {
+                var subjectDescription = assertionChain.HasOverriddenCallerIdentifier
+                    ? assertionChain.CallerIdentifier
+                    : "property " + Subject.ToFormattedString();
 
-        if (success)
-        {
-            Execute.Assertion.ForCondition(Subject!.CanRead)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected property " + Subject.Name + " to have a getter{reason}, but it does not.");
-        }
+                return new FailReason($"Expected property {subjectDescription} to have a getter{{reason}}, but it does not.");
+            });
 
         return new AndConstraint<PropertyInfoAssertions>(this);
     }
@@ -223,21 +242,25 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     {
         Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 
-        bool success = Execute.Assertion
+        var subjectDescription = assertionChain.HasOverriddenCallerIdentifier
+            ? assertionChain.CallerIdentifier
+            : "property " + Subject.ToFormattedString();
+
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
-            .FailWith($"Expected {Identifier} to be {accessModifier}{{reason}}, but {{context:property}} is <null>.");
+            .FailWith($"Expected {{context:property}} to be {accessModifier}{{reason}}, but it is <null>.")
+            .Then
+            .ForCondition(Subject!.CanRead)
+            .BecauseOf(because, becauseArgs)
+            .FailWith($"Expected {subjectDescription} to have a getter{{reason}}, but it does not.");
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            success = Execute.Assertion.ForCondition(Subject!.CanRead)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected property " + Subject.Name + " to have a getter{reason}, but it does not.");
+            assertionChain.OverrideCallerIdentifier(() => "getter of " + subjectDescription);
+            assertionChain.ReuseOnce();
 
-            if (success)
-            {
-                Subject!.GetGetMethod(nonPublic: true).Should().HaveAccessModifier(accessModifier, because, becauseArgs);
-            }
+            Subject!.GetGetMethod(nonPublic: true).Should().HaveAccessModifier(accessModifier, because, becauseArgs);
         }
 
         return new AndConstraint<PropertyInfoAssertions>(this);
@@ -256,20 +279,21 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     public AndConstraint<PropertyInfoAssertions> NotBeReadable(
         [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
-            .FailWith("Expected property not to have a getter{reason}, but {context:property} is <null>.");
+            .FailWith("Expected property not to have a getter{reason}, but {context:property} is <null>.")
+            .Then
+            .ForCondition(!Subject!.CanRead)
+            .BecauseOf(because, becauseArgs)
+            .FailWith(() =>
+            {
+                var subjectDescription = assertionChain.HasOverriddenCallerIdentifier
+                    ? assertionChain.CallerIdentifier
+                    : "property " + Subject.ToFormattedString();
 
-        if (success)
-        {
-            Execute.Assertion
-                .ForCondition(!Subject!.CanRead)
-                .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected {context:property} {0} not to have a getter{reason}.",
-                    Subject);
-        }
+                return new FailReason($"Did not expect {subjectDescription} to have a getter{{reason}}.");
+            });
 
         return new AndConstraint<PropertyInfoAssertions>(this);
     }
@@ -291,18 +315,14 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     {
         Guard.ThrowIfArgumentIsNull(propertyType);
 
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
-            .FailWith("Expected type of property to be {0}{reason}, but {context:property} is <null>.", propertyType);
-
-        if (success)
-        {
-            Execute.Assertion.ForCondition(Subject!.PropertyType == propertyType)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected Type of property " + Subject.Name + " to be {0}{reason}, but it is {1}.",
-                    propertyType, Subject.PropertyType);
-        }
+            .FailWith("Expected type of property to be {0}{reason}, but {context:property} is <null>.", propertyType)
+            .Then.ForCondition(Subject!.PropertyType == propertyType)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected type of property {2} to be {0}{reason}, but it is {1}.",
+                propertyType, Subject.PropertyType, Subject);
 
         return new AndConstraint<PropertyInfoAssertions>(this);
     }
@@ -318,7 +338,8 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoAssertions> Return<TReturn>([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoAssertions> Return<TReturn>([StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
     {
         return Return(typeof(TReturn), because, becauseArgs);
     }
@@ -340,18 +361,14 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     {
         Guard.ThrowIfArgumentIsNull(propertyType);
 
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
-            .FailWith("Expected type of property not to be {0}{reason}, but {context:property} is <null>.", propertyType);
-
-        if (success)
-        {
-            Execute.Assertion
-                .ForCondition(Subject!.PropertyType != propertyType)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected Type of property " + Subject.Name + " not to be {0}{reason}, but it is.", propertyType);
-        }
+            .FailWith("Expected type of property not to be {0}{reason}, but {context:property} is <null>.", propertyType)
+            .Then
+            .ForCondition(Subject!.PropertyType != propertyType)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected type of property {1} not to be {0}{reason}, but it is.", propertyType, Subject);
 
         return new AndConstraint<PropertyInfoAssertions>(this);
     }
@@ -367,24 +384,13 @@ public class PropertyInfoAssertions : MemberInfoAssertions<PropertyInfo, Propert
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<PropertyInfoAssertions> NotReturn<TReturn>([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    public AndConstraint<PropertyInfoAssertions> NotReturn<TReturn>([StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
     {
         return NotReturn(typeof(TReturn), because, becauseArgs);
     }
 
-    internal static string GetDescriptionFor(PropertyInfo property)
-    {
-        if (property is null)
-        {
-            return string.Empty;
-        }
-
-        var propTypeName = property.PropertyType.Name;
-
-        return $"{propTypeName} {property.DeclaringType}.{property.Name}";
-    }
-
-    internal override string SubjectDescription => GetDescriptionFor(Subject);
+    private protected override string SubjectDescription => Formatter.ToString(Subject);
 
     /// <summary>
     /// Returns the type of the subject the assertion applies on.

@@ -1,8 +1,8 @@
-﻿using System.Reflection;
+using System.Reflection;
 
 namespace FluentAssertions.Formatting;
 
-public class PropertyInfoFormatter : IValueFormatter
+public class MethodInfoFormatter : IValueFormatter
 {
     /// <summary>
     /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.
@@ -13,18 +13,24 @@ public class PropertyInfoFormatter : IValueFormatter
     /// </returns>
     public bool CanHandle(object value)
     {
-        return value is PropertyInfo;
+        return value is MethodInfo;
     }
 
     public void Format(object value, FormattedObjectGraph formattedGraph, FormattingContext context, FormatChild formatChild)
     {
-        if (value is not PropertyInfo property)
+        var method = (MethodInfo)value;
+        if (method.IsSpecialName && method.Name == "op_Implicit")
         {
-            formattedGraph.AddFragment("<null>");
+            formattedGraph.AddFragment($"implicit operator {method.ReturnType.Name}({method.GetParameters()[0].ParameterType.Name})");
+        }
+        else if (method.IsSpecialName && method.Name == "op_Explicit")
+        {
+            formattedGraph.AddFragment(
+                $"explicit operator {method.ReturnType.Name}({method.GetParameters()[0].ParameterType.Name})");
         }
         else
         {
-            formattedGraph.AddFragment($"{property.DeclaringType?.Name ?? string.Empty}.{property.Name}");
+            formattedGraph.AddFragment($"{method!.DeclaringType!.Name + "." + method.Name}");
         }
     }
 }

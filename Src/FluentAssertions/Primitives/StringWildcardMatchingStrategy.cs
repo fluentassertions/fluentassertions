@@ -8,7 +8,7 @@ namespace FluentAssertions.Primitives;
 
 internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
 {
-    public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
+    public void ValidateAgainstMismatch(AssertionChain assertionChain, string subject, string expected)
     {
         bool isMatch = IsMatch(subject, expected);
 
@@ -19,11 +19,11 @@ internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
 
         if (Negate)
         {
-            assertion.FailWith(ExpectationDescription + "but {1} matches.", expected, subject);
+            assertionChain.FailWith(ExpectationDescription + "but {1} matches.", expected, subject);
         }
         else
         {
-            assertion.FailWith(ExpectationDescription + "but {1} does not.", expected, subject);
+            assertionChain.FailWith(ExpectationDescription + "but {1} does not.", expected, subject);
         }
     }
 

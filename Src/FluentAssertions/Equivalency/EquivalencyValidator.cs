@@ -15,10 +15,6 @@ public class EquivalencyValidator : IValidateChildNodeEquivalency
     {
         using var scope = new AssertionScope();
 
-        scope.AssumeSingleCaller();
-        scope.AddReportable("configuration", () => context.Options.ToString());
-        scope.BecauseOf(context.Reason);
-
         RecursivelyAssertEquivalencyOf(comparands, context);
 
         if (context.TraceWriter is not null)
@@ -34,37 +30,38 @@ public class EquivalencyValidator : IValidateChildNodeEquivalency
 
     public void AssertEquivalencyOf(Comparands comparands, IEquivalencyValidationContext context)
     {
-        var scope = AssertionScope.Current;
+        var assertionChain = AssertionChain.GetOrCreate()
+            .For(context)
+            .BecauseOf(context.Reason);
 
-        if (ShouldContinueThisDeep(context.CurrentNode, context.Options, scope))
+        if (ShouldContinueThisDeep(context.CurrentNode, context.Options, assertionChain))
         {
-            TrackWhatIsNeededToProvideContextToFailures(scope, comparands, context.CurrentNode);
-
             if (!context.IsCyclicReference(comparands.Expectation))
             {
                 TryToProveNodesAreEquivalent(comparands, context);
+            }
+            else if (context.Options.CyclicReferenceHandling == CyclicReferenceHandling.ThrowException)
+            {
+                assertionChain.FailWith("Expected {context:subject} to be {expectation}{reason}, but it contains a cyclic reference.");
+            }
+            else
+            {
+                // If cyclic references are allowed, we consider the objects to be equivalent
             }
         }
     }
 
     private static bool ShouldContinueThisDeep(INode currentNode, IEquivalencyOptions options,
-        AssertionScope assertionScope)
+        AssertionChain assertionChain)
     {
         bool shouldRecurse = options.AllowInfiniteRecursion || currentNode.Depth <= MaxDepth;
         if (!shouldRecurse)
         {
             // This will throw, unless we're inside an AssertionScope
-            assertionScope.FailWith($"The maximum recursion depth of {MaxDepth} was reached.  ");
+            assertionChain.FailWith($"The maximum recursion depth of {MaxDepth} was reached.  ");
         }
 
         return shouldRecurse;
-    }
-
-    private static void TrackWhatIsNeededToProvideContextToFailures(AssertionScope scope, Comparands comparands, INode currentNode)
-    {
-        scope.Context = new Lazy<string>(() => currentNode.Description);
-
-        scope.TrackComparands(comparands.Subject, comparands.Expectation);
     }
 
     private void TryToProveNodesAreEquivalent(Comparands comparands, IEquivalencyValidationContext context)

@@ -42,7 +42,7 @@ public partial class GenericDictionaryAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain value {\"Two\", \"Three\"} because we do, but could not find {\"Three\"}.");
+                "Expected dictionary {[1] = \"One\", [2] = \"Two\"} to contain values {\"Two\", \"Three\"} because we do, but could not find \"Three\".");
         }
 
         [Fact]
@@ -63,6 +63,23 @@ public partial class GenericDictionaryAssertionSpecs
             act.Should().Throw<ArgumentException>().WithMessage(
                 "Cannot verify value containment against an empty sequence*");
         }
+    }
+
+    [Fact]
+    public void Can_run_another_assertion_on_the_result()
+    {
+        // Arrange
+        var dictionary = new Dictionary<int, string>
+        {
+            [1] = "One",
+            [2] = "Two"
+        };
+
+        // Act
+        Action act = () => dictionary.Should().ContainValues("Two", "One").Which.Should().Contain("Three");
+
+        // Assert
+        act.Should().Throw<XunitException>().WithMessage("Expected dictionary[1 and 2]*to contain*Three*");
     }
 
     public class NotContainValues

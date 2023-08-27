@@ -17,9 +17,12 @@ public abstract class MethodBaseAssertions<TSubject, TAssertions> : MemberInfoAs
     where TSubject : MethodBase
     where TAssertions : MethodBaseAssertions<TSubject, TAssertions>
 {
-    protected MethodBaseAssertions(TSubject subject)
-        : base(subject)
+    private readonly AssertionChain assertionChain;
+
+    protected MethodBaseAssertions(TSubject subject, AssertionChain assertionChain)
+        : base(subject, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -41,20 +44,27 @@ public abstract class MethodBaseAssertions<TSubject, TAssertions> : MemberInfoAs
     {
         Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
-            .FailWith($"Expected method to be {accessModifier}{{reason}}, but {{context:member}} is <null>.");
+            .FailWith($"Expected method to be {accessModifier}{{reason}}, but {{context:method}} is <null>.");
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             CSharpAccessModifier subjectAccessModifier = Subject.GetCSharpAccessModifier();
 
-            Execute.Assertion
+            assertionChain
                 .ForCondition(accessModifier == subjectAccessModifier)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    $"Expected method {Subject!.Name} to be {accessModifier}{{reason}}, but it is {subjectAccessModifier}.");
+                .FailWith(() =>
+                {
+                    var subject = assertionChain.HasOverriddenCallerIdentifier
+                        ? assertionChain.CallerIdentifier
+                        : "method " + Subject.ToFormattedString();
+
+                    return new FailReason(
+                        $"Expected {subject} to be {accessModifier}{{reason}}, but it is {subjectAccessModifier}.");
+                });
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -78,19 +88,26 @@ public abstract class MethodBaseAssertions<TSubject, TAssertions> : MemberInfoAs
     {
         Guard.ThrowIfArgumentIsOutOfRange(accessModifier);
 
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith($"Expected method not to be {accessModifier}{{reason}}, but {{context:member}} is <null>.");
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             CSharpAccessModifier subjectAccessModifier = Subject.GetCSharpAccessModifier();
 
-            Execute.Assertion
+            assertionChain
                 .ForCondition(accessModifier != subjectAccessModifier)
                 .BecauseOf(because, becauseArgs)
-                .FailWith($"Expected method {Subject!.Name} not to be {accessModifier}{{reason}}, but it is.");
+                .FailWith(() =>
+                {
+                    var subject = assertionChain.HasOverriddenCallerIdentifier
+                        ? assertionChain.CallerIdentifier
+                        : "method " + Subject.ToFormattedString();
+
+                    return new FailReason($"Expected {subject} not to be {accessModifier}{{reason}}, but it is.");
+                });
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);

@@ -15,9 +15,11 @@ public class EnumerableEquivalencyStep : IEquivalencyStep
             return EquivalencyResult.ContinueWithNext;
         }
 
-        if (AssertSubjectIsCollection(comparands.Subject))
+        var assertionChain = AssertionChain.GetOrCreate().For(context);
+
+        if (AssertSubjectIsCollection(assertionChain, comparands.Subject))
         {
-            var validator = new EnumerableEquivalencyValidator(valueChildNodes, context)
+            var validator = new EnumerableEquivalencyValidator(assertionChain, valueChildNodes, context)
             {
                 Recursive = context.CurrentNode.IsRoot || context.Options.IsRecursive,
                 OrderingRules = context.Options.OrderingRules
@@ -29,20 +31,20 @@ public class EnumerableEquivalencyStep : IEquivalencyStep
         return EquivalencyResult.EquivalencyProven;
     }
 
-    private static bool AssertSubjectIsCollection(object subject)
+    private static bool AssertSubjectIsCollection(AssertionChain assertionChain, object subject)
     {
-        bool conditionMet = AssertionScope.Current
+        assertionChain
             .ForCondition(subject is not null)
             .FailWith("Expected a collection, but {context:Subject} is <null>.");
 
-        if (conditionMet)
+        if (assertionChain.Succeeded)
         {
-            conditionMet = AssertionScope.Current
+            assertionChain
                 .ForCondition(IsCollection(subject.GetType()))
                 .FailWith("Expected a collection, but {context:Subject} is of a non-collection type.");
         }
 
-        return conditionMet;
+        return assertionChain.Succeeded;
     }
 
     private static bool IsCollection(Type type)

@@ -10,8 +10,8 @@ namespace FluentAssertions.Primitives;
 public class NullableEnumAssertions<TEnum> : NullableEnumAssertions<TEnum, NullableEnumAssertions<TEnum>>
     where TEnum : struct, Enum
 {
-    public NullableEnumAssertions(TEnum? subject)
-        : base(subject)
+    public NullableEnumAssertions(TEnum? subject, AssertionChain assertionChain)
+        : base(subject, assertionChain)
     {
     }
 }
@@ -23,9 +23,12 @@ public class NullableEnumAssertions<TEnum, TAssertions> : EnumAssertions<TEnum, 
     where TEnum : struct, Enum
     where TAssertions : NullableEnumAssertions<TEnum, TAssertions>
 {
-    public NullableEnumAssertions(TEnum? subject)
-        : base(subject)
+    private readonly AssertionChain assertionChain;
+
+    public NullableEnumAssertions(TEnum? subject, AssertionChain assertionChain)
+        : base(subject, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -40,12 +43,12 @@ public class NullableEnumAssertions<TEnum, TAssertions> : EnumAssertions<TEnum, 
     /// </param>
     public AndWhichConstraint<TAssertions, TEnum> HaveValue([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:nullable enum} to have a value{reason}, but found {0}.", Subject);
 
-        return new AndWhichConstraint<TAssertions, TEnum>((TAssertions)this, Subject.GetValueOrDefault());
+        return new AndWhichConstraint<TAssertions, TEnum>((TAssertions)this, Subject.GetValueOrDefault(), assertionChain, ".Value");
     }
 
     /// <summary>
@@ -75,7 +78,7 @@ public class NullableEnumAssertions<TEnum, TAssertions> : EnumAssertions<TEnum, 
     /// </param>
     public AndConstraint<TAssertions> NotHaveValue([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(!Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:nullable enum} to have a value{reason}, but found {0}.", Subject);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Common;
 
@@ -76,5 +77,13 @@ internal static class ObjectExtensions
             ushort or
             uint or
             ulong);
+    }
+
+    /// <summary>
+    /// Convenience method to format an object to a string using the <see cref="Formatter"/> class.
+    /// </summary>
+    public static string ToFormattedString(this object source)
+    {
+        return Formatter.ToString(source);
     }
 }

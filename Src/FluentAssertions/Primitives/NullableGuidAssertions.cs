@@ -11,8 +11,8 @@ namespace FluentAssertions.Primitives;
 [DebuggerNonUserCode]
 public class NullableGuidAssertions : NullableGuidAssertions<NullableGuidAssertions>
 {
-    public NullableGuidAssertions(Guid? value)
-        : base(value)
+    public NullableGuidAssertions(Guid? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 }
@@ -24,9 +24,12 @@ public class NullableGuidAssertions : NullableGuidAssertions<NullableGuidAsserti
 public class NullableGuidAssertions<TAssertions> : GuidAssertions<TAssertions>
     where TAssertions : NullableGuidAssertions<TAssertions>
 {
-    public NullableGuidAssertions(Guid? value)
-        : base(value)
+    private readonly AssertionChain assertionChain;
+
+    public NullableGuidAssertions(Guid? value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -41,7 +44,7 @@ public class NullableGuidAssertions<TAssertions> : GuidAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> HaveValue([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected a value{reason}.");
@@ -76,7 +79,7 @@ public class NullableGuidAssertions<TAssertions> : GuidAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> NotHaveValue([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(!Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
@@ -112,7 +115,7 @@ public class NullableGuidAssertions<TAssertions> : GuidAssertions<TAssertions>
     /// </param>
     public AndConstraint<TAssertions> Be(Guid? expected, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        Execute.Assertion
+        assertionChain
             .ForCondition(Subject == expected)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:Guid} to be {0}{reason}, but found {1}.", expected, Subject);

@@ -1,5 +1,6 @@
 using System.Reflection;
 using FluentAssertions.Common;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency.Matching;
 
@@ -8,7 +9,7 @@ namespace FluentAssertions.Equivalency.Matching;
 /// </summary>
 internal class TryMatchByNameRule : IMemberMatchingRule
 {
-    public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyOptions options)
+    public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyOptions options, AssertionChain assertionChain)
     {
         if (options.IncludedProperties != MemberVisibility.None)
         {
