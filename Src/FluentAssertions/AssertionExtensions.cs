@@ -917,7 +917,31 @@ public static class AssertionExtensions
     /// <exception cref="ArgumentNullException"><paramref name="eventSource"/> is <see langword="null"/>.</exception>
     public static IMonitor<T> Monitor<T>(this T eventSource, Func<DateTime> utcNow = null)
     {
-        return new EventMonitor<T>(eventSource, utcNow ?? (() => DateTime.UtcNow));
+        var options = new EventMonitorOptions();
+
+        if (utcNow is not null)
+        {
+            options.ConfigureTimestampProvider(utcNow);
+        }
+
+        return new EventMonitor<T>(eventSource, options);
+    }
+
+    /// <summary>
+    /// Starts monitoring <paramref name="eventSource"/> for its events.
+    /// </summary>
+    /// <param name="eventSource">The object for which to monitor the events.</param>
+    /// <param name="configureOptions">
+    /// An optional delegate that can be used to configure the <see cref="EventMonitorOptions"/> used to monitor the events.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="eventSource"/> is <see langword="null"/>.</exception>
+    public static IMonitor<T> Monitor<T>(this T eventSource, Action<EventMonitorOptions> configureOptions)
+    {
+        var options = new EventMonitorOptions();
+
+        configureOptions(options);
+
+        return new EventMonitor<T>(eventSource, options);
     }
 
 #endif

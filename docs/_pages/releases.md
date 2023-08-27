@@ -7,31 +7,13 @@ sidebar:
   nav: "sidebar"
 ---
 
-## 7.0 Alpha 1
+## Unreleased
 
 ### What's new
-
-### Improvements
-
-### Fixes
-
-### Breaking Changes (for users)
-
-### Breaking Changes (for extensions)
-
-## 6.12.0
-
-### What's new
-* Added `Be`, `NotBe` and `BeOneOf` for object comparisons with custom comparer - [#2111](https://github.com/fluentassertions/fluentassertions/pull/2111)
-* Added `BeSignedWithPublicKey()` and `BeUnsigned()` for assertions on `Assembly` - [#2207](https://github.com/fluentassertions/fluentassertions/pull/2207)
-* Added `NotContainItemsAssignableTo` for asserting that a collection does not contain any items assignable to a specific type - [#2266](https://github.com/fluentassertions/fluentassertions/pull/2266)
+* Added option for event monitoring to ignore failing event accessors - [#1954](https://github.com/fluentassertions/fluentassertions/pull/1954)
 
 ### Fixes
 * `because` and `becauseArgs` were not included in the error message when collections of enums were not equivalent - [#2214](https://github.com/fluentassertions/fluentassertions/pull/2214)
-* Improve caller identification for tests written in Visual Basic - [#2254](https://github.com/fluentassertions/fluentassertions/pull/2254)
-* Improved auto conversion to enums for objects of different integral type - [#2261](https://github.com/fluentassertions/fluentassertions/pull/2261)
-* Fixed exceptions when trying to auto convert strings or enums of different type to enums- [#2261](https://github.com/fluentassertions/fluentassertions/pull/2261)
-* Format records and anonymous objects with their member values instead of the generated `ToString` - [#2144](https://github.com/fluentassertions/fluentassertions/pull/2144)
 
 ## 6.11.0
 
@@ -46,6 +28,7 @@ sidebar:
 * The maximum depth `BeEquivalentTo` uses for recursive comparisons was 9 instead of the expected 10 - [#2145](https://github.com/fluentassertions/fluentassertions/pull/2145)
 * Fixed `.Excluding()` and `.For().Exclude()` not working if root is a collection - [#2135](https://github.com/fluentassertions/fluentassertions/pull/2135)
 * Prevent `InvalidOperationException` when formatting a lambda expression calling a constructor - [#2176](https://github.com/fluentassertions/fluentassertions/pull/2176)
+* Format records and anonymous objects with their member values instead of the generated `ToString` - [#2144](https://github.com/fluentassertions/fluentassertions/pull/2144)
 
 ## 6.10.0
 
@@ -302,20 +285,20 @@ sidebar:
 * Dropped support for .NET Framework 4.5, .NET Standard 1.3 and 1.6 - [#1227](https://github.com/fluentassertions/fluentassertions/pull/1227).
 * Dropped support for older test frameworks such as MSTest v1, NSpec v1 and v2, XUnit v1, Gallio and MBUnit - [#1227](https://github.com/fluentassertions/fluentassertions/pull/1227).
 * Removed `[Not]Have{Im,Ex}plictConversionOperator` (they had typos) - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
-  * Use the equivalent assertions without the typo "plict" instead.
+    * Use the equivalent assertions without the typo "plict" instead.
 * Removed `NotBeAscendingInOrder`/`NotBeDescendingInOrder` - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
-  * Use `NotBeInAscendingOrder`/`NotBeInDescendingOrder` instead.
+    * Use `NotBeInAscendingOrder`/`NotBeInDescendingOrder` instead.
 * Removed `HasAttribute`, `HasMatchingAttribute` and `IsDecoratedWith(Type, bool)` `Type` extensions - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
-  * Use `IsDecoratedWith`/`IsDecoratedWithOrInherits` instead.
+    * Use `IsDecoratedWith`/`IsDecoratedWithOrInherits` instead.
 * Made `EquivalencyAssertionOptionsExtentions` `internal` (and fixed a typo in the type name) - [#1221](https://github.com/fluentassertions/fluentassertions/pull/1221).
 * Changed `ReferenceTypeAssertions.Subject` to be `readonly` - [#1229](https://github.com/fluentassertions/fluentassertions/pull/1229).
-  * Set the `Subject` through the constructor instead.
+    * Set the `Subject` through the constructor instead.
 * Changed `TypeAssertions.HaveAccessModifier` return type from `AndConstraint<Type>` to `AndConstraint<TypeAssertions>` - [#1159](https://github.com/fluentassertions/fluentassertions/pull/1159).
 * Changed `TypeAssertions.NotHaveAccessModifier` return type from `AndConstraint<Type>` to `AndConstraint<TypeAssertions>` - [#1159](https://github.com/fluentassertions/fluentassertions/pull/1159).
 * Changed `AllBeAssignableTo<T>` and `AllBeOfType<T>` return type from `AndConstraint<TAssertions>` to `AndWhichConstraint<TAssertions, IEnumerable<T>>` - [#1265](https://github.com/fluentassertions/fluentassertions/pull/1265).
 * The new extension on `TaskCompletionSource<T>` overlays the previously used assertions based on `ObjectAssertions`.
 * Removed `[Not]BeCloseTo` for `DateTime[Offset]` and `TimeSpan` that took an `int precision` - [#1278](https://github.com/fluentassertions/fluentassertions/pull/1278).
-  * Use the overloads that take a `TimeSpan precision` instead.
+    * Use the overloads that take a `TimeSpan precision` instead.
 * Aligned strings to be compared using `Ordinal[Ignorecase]` - [#1283](https://github.com/fluentassertions/fluentassertions/pull/1283).
 * Changed `AutoConversion` to convert using `CultureInfo.InvariantCulture` instead of `CultureInfo.CurrentCulture` - [#1283](https://github.com/fluentassertions/fluentassertions/pull/1283).
 * Renamed `StartWithEquivalent` and `EndWithEquivalent` to `StartWithEquivalentOf` and `EndWithEquivalentOf` to make the API for Equivalent methods consistent - [#1292](https://github.com/fluentassertions/fluentassertions/pull/1292).
@@ -343,7 +326,7 @@ sidebar:
 ### Breaking Changes (Extensibility)
 
 * Removed parameterless constructors from: `CollectionAssertions`, `ReferenceTypeAssertions`, `MemberInfoAssertions`, `MethodBaseAssertions` and `MethodInfoAssertions` - [#1229](https://github.com/fluentassertions/fluentassertions/pull/1229).
-  * Use the constructors taking a `subject` instead.
+    * Use the constructors taking a `subject` instead.
 * Restrict generic constraints on `[Nullable]NumericAssertions<T>` to `IComparable<T>` - [#1266](https://github.com/fluentassertions/fluentassertions/pull/1266).
 * Changed return type of `[Nullable]NumericAssertions.Subject` from `IComparable` to `T?` and `T`, respectively - [#1266](https://github.com/fluentassertions/fluentassertions/pull/1266).
 * Removed `Succeeded` and `SourceSucceeded` from `Continuation` and `IAssertionScope` - [#1325](https://github.com/fluentassertions/fluentassertions/pull/1325)

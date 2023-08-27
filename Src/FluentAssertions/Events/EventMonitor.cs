@@ -18,29 +18,28 @@ internal sealed class EventMonitor<T> : IMonitor<T>
 
     private readonly ConcurrentDictionary<string, EventRecorder> recorderMap = new();
 
-    public EventMonitor(object eventSource, Func<DateTime> utcNow)
+    public EventMonitor(object eventSource, EventMonitorOptions options)
     {
         Guard.ThrowIfArgumentIsNull(eventSource, nameof(eventSource), "Cannot monitor the events of a <null> object.");
+        Guard.ThrowIfArgumentIsNull(options, nameof(options), "Event monitor needs configuration.");
+
+        this.options = options;
 
         subject = new WeakReference(eventSource);
 
-        Attach(typeof(T), utcNow);
+        Attach(typeof(T), this.options.TimestampProvider);
     }
 
     public T Subject => (T)subject.Target;
 
     private readonly ThreadSafeSequenceGenerator threadSafeSequenceGenerator = new();
+    private readonly EventMonitorOptions options;
 
-    public EventMetadata[] MonitoredEvents
-    {
-        get
-        {
-            return recorderMap
-                .Values
-                .Select(recorder => new EventMetadata(recorder.EventName, recorder.EventHandlerType))
-                .ToArray();
-        }
-    }
+    public EventMetadata[] MonitoredEvents =>
+        recorderMap
+            .Values
+            .Select(recorder => new EventMetadata(recorder.EventName, recorder.EventHandlerType))
+            .ToArray();
 
     public OccurredEvent[] OccurredEvents
     {
@@ -117,10 +116,22 @@ internal sealed class EventMonitor<T> : IMonitor<T>
     {
         foreach (EventRecorder recorder in recorderMap.Values)
         {
-            recorder.Dispose();
+            DisposeSafeIfRequested(recorder);
         }
 
         recorderMap.Clear();
+    }
+
+    private void DisposeSafeIfRequested(IDisposable recorder)
+    {
+        try
+        {
+            recorder.Dispose();
+        }
+        catch when (options.ShouldIgnoreEventAccessorExceptions)
+        {
+            // ignore
+        }
     }
 
     private void AttachEventHandler(EventInfo eventInfo, Func<DateTime> utcNow)
@@ -131,7 +142,22 @@ internal sealed class EventMonitor<T> : IMonitor<T>
 
             if (recorderMap.TryAdd(eventInfo.Name, recorder))
             {
-                recorder.Attach(subject, eventInfo);
+                AttachEventHandler(eventInfo, recorder);
+            }
+        }
+    }
+
+    private void AttachEventHandler(EventInfo eventInfo, EventRecorder recorder)
+    {
+        try
+        {
+            recorder.Attach(subject, eventInfo);
+        }
+        catch when (options.ShouldIgnoreEventAccessorExceptions)
+        {
+            if (!options.ShouldRecordEventsWithBrokenAccessor)
+            {
+                recorderMap.TryRemove(eventInfo.Name, out _);
             }
         }
     }
