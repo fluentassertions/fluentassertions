@@ -30,7 +30,6 @@ internal static class MethodInfoExtensions
         if (typeof(TAttribute) == typeof(MethodImplAttribute) && memberInfo is MethodBase methodBase)
         {
             (bool success, MethodImplAttribute methodImplAttribute) = RecreateMethodImplAttribute(methodBase);
-
             if (success)
             {
                 customAttributes.Add(methodImplAttribute as TAttribute);

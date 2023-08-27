@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using FluentAssertions.Common;
+using FluentAssertions.Execution;
 using static System.FormattableString;
 
 namespace FluentAssertions.Equivalency.Steps;
@@ -13,8 +14,8 @@ namespace FluentAssertions.Equivalency.Steps;
 /// </remarks>
 public class AutoConversionStep : IEquivalencyStep
 {
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+    public EquivalencyResult Handle(Comparands comparands, AssertionChain assertionChain, IEquivalencyValidationContext context,
+        IValidateChildNodeEquivalency nestedValidator)
     {
         if (!context.Options.ConversionSelector.RequiresConversion(comparands, context.CurrentNode))
         {

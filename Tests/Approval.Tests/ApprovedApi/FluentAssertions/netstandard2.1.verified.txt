@@ -10,10 +10,10 @@ namespace FluentAssertions
         public System.Collections.Generic.IEnumerable<T> OfType<T>(System.Exception actualException)
             where T : System.Exception { }
     }
-    public class AndConstraint<T>
+    public class AndConstraint<TParent>
     {
-        public AndConstraint(T parentConstraint) { }
-        public T And { get; }
+        public AndConstraint(TParent parent) { }
+        public TParent And { get; }
     }
     public class AndWhichConstraint<TParentConstraint, TMatchedElement> : FluentAssertions.AndConstraint<TParentConstraint>
     {
@@ -21,6 +21,13 @@ namespace FluentAssertions
         public AndWhichConstraint(TParentConstraint parentConstraint, TMatchedElement matchedConstraint) { }
         public TMatchedElement Subject { get; }
         public TMatchedElement Which { get; }
+    }
+    public class AndWhich<TParent, TSubject> : FluentAssertions.AndConstraint<TParent>
+    {
+        public AndWhich(TParent parent, System.Collections.Generic.IEnumerable<TSubject> subjects) { }
+        public AndWhich(TParent parent, TSubject subject, FluentAssertions.Execution.AssertionChain assertionChain, string pathPostfix) { }
+        public TSubject Subject { get; }
+        public TSubject Which { get; }
     }
     public static class AssertionExtensions
     {
@@ -37,8 +44,7 @@ namespace FluentAssertions
         public static FluentAssertions.Specialized.MemberExecutionTime<T> ExecutionTimeOf<T>(this T subject, System.Linq.Expressions.Expression<System.Action<T>> action, FluentAssertions.Common.StartTimer createTimer = null) { }
         public static System.Action Invoking<T>(this T subject, System.Action<T> action) { }
         public static System.Func<TResult> Invoking<T, TResult>(this T subject, System.Func<T, TResult> action) { }
-        public static FluentAssertions.Events.IMonitor<T> Monitor<T>(this T eventSource) { }
-        public static FluentAssertions.Events.IMonitor<T> Monitor<T>(this T eventSource, System.Action<FluentAssertions.Events.EventMonitorOptions> configureOptions) { }
+        public static FluentAssertions.Events.IMonitor<T> Monitor<T>(this T eventSource, System.Func<System.DateTime> utcNow = null) { }
         public static FluentAssertions.Specialized.ExecutionTimeAssertions Should(this FluentAssertions.Specialized.ExecutionTime executionTime) { }
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
             "ly following \'And\'", true)]
@@ -58,28 +64,30 @@ namespace FluentAssertions
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
             "ly following \'And\'", true)]
         public static void Should(this FluentAssertions.Types.TypeSelectorAssertions _) { }
-        public static FluentAssertions.Specialized.ActionAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Action action) { }
-        public static FluentAssertions.Collections.StringCollectionAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Collections.Generic.IEnumerable<string> @this) { }
+        public static FluentAssertions.Numeric.NumericAssertions<int> Should(this FluentAssertions.WhichResult<int> actualValue) { }
+        public static FluentAssertions.Primitives.ObjectAssertions Should(this FluentAssertions.WhichResult<object> tuple) { }
+        public static FluentAssertions.Specialized.ActionAssertions Should(this System.Action action) { }
+        public static FluentAssertions.Collections.StringCollectionAssertions Should(this System.Collections.Generic.IEnumerable<string> @this) { }
         public static FluentAssertions.Primitives.DateTimeAssertions Should(this System.DateTime actualValue) { }
         public static FluentAssertions.Primitives.NullableDateTimeAssertions Should(this System.DateTime? actualValue) { }
         public static FluentAssertions.Primitives.DateTimeOffsetAssertions Should(this System.DateTimeOffset actualValue) { }
         public static FluentAssertions.Primitives.NullableDateTimeOffsetAssertions Should(this System.DateTimeOffset? actualValue) { }
-        public static FluentAssertions.Specialized.NonGenericAsyncFunctionAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Func<System.Threading.Tasks.Task> action) { }
+        public static FluentAssertions.Specialized.NonGenericAsyncFunctionAssertions Should(this System.Func<System.Threading.Tasks.Task> action) { }
         public static FluentAssertions.Primitives.GuidAssertions Should(this System.Guid actualValue) { }
         public static FluentAssertions.Primitives.NullableGuidAssertions Should(this System.Guid? actualValue) { }
-        public static FluentAssertions.Streams.BufferedStreamAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.IO.BufferedStream actualValue) { }
-        public static FluentAssertions.Streams.StreamAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.IO.Stream actualValue) { }
-        public static FluentAssertions.Primitives.HttpResponseMessageAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Net.Http.HttpResponseMessage actualValue) { }
-        public static FluentAssertions.Types.AssemblyAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Reflection.Assembly assembly) { }
-        public static FluentAssertions.Types.ConstructorInfoAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Reflection.ConstructorInfo constructorInfo) { }
-        public static FluentAssertions.Types.MethodInfoAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Reflection.MethodInfo methodInfo) { }
-        public static FluentAssertions.Types.PropertyInfoAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Reflection.PropertyInfo propertyInfo) { }
+        public static FluentAssertions.Streams.BufferedStreamAssertions Should(this System.IO.BufferedStream actualValue) { }
+        public static FluentAssertions.Streams.StreamAssertions Should(this System.IO.Stream actualValue) { }
+        public static FluentAssertions.Primitives.HttpResponseMessageAssertions Should(this System.Net.Http.HttpResponseMessage actualValue) { }
+        public static FluentAssertions.Types.AssemblyAssertions Should(this System.Reflection.Assembly assembly) { }
+        public static FluentAssertions.Types.ConstructorInfoAssertions Should(this System.Reflection.ConstructorInfo constructorInfo) { }
+        public static FluentAssertions.Types.MethodInfoAssertions Should(this System.Reflection.MethodInfo methodInfo) { }
+        public static FluentAssertions.Types.PropertyInfoAssertions Should(this System.Reflection.PropertyInfo propertyInfo) { }
         public static FluentAssertions.Primitives.SimpleTimeSpanAssertions Should(this System.TimeSpan actualValue) { }
         public static FluentAssertions.Primitives.NullableSimpleTimeSpanAssertions Should(this System.TimeSpan? actualValue) { }
-        public static FluentAssertions.Types.TypeAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Type subject) { }
-        public static FluentAssertions.Xml.XAttributeAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Xml.Linq.XAttribute actualValue) { }
-        public static FluentAssertions.Xml.XDocumentAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Xml.Linq.XDocument actualValue) { }
-        public static FluentAssertions.Xml.XElementAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Xml.Linq.XElement actualValue) { }
+        public static FluentAssertions.Types.TypeAssertions Should(this System.Type subject) { }
+        public static FluentAssertions.Xml.XAttributeAssertions Should(this System.Xml.Linq.XAttribute actualValue) { }
+        public static FluentAssertions.Xml.XDocumentAssertions Should(this System.Xml.Linq.XDocument actualValue) { }
+        public static FluentAssertions.Xml.XElementAssertions Should(this System.Xml.Linq.XElement actualValue) { }
         public static FluentAssertions.Primitives.BooleanAssertions Should(this bool actualValue) { }
         public static FluentAssertions.Primitives.NullableBooleanAssertions Should(this bool? actualValue) { }
         public static FluentAssertions.Numeric.NumericAssertions<byte> Should(this byte actualValue) { }
@@ -94,12 +102,12 @@ namespace FluentAssertions
         public static FluentAssertions.Numeric.NullableNumericAssertions<int> Should(this int? actualValue) { }
         public static FluentAssertions.Numeric.NumericAssertions<long> Should(this long actualValue) { }
         public static FluentAssertions.Numeric.NullableNumericAssertions<long> Should(this long? actualValue) { }
-        public static FluentAssertions.Primitives.ObjectAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this object actualValue) { }
+        public static FluentAssertions.Primitives.ObjectAssertions Should(this object actualValue) { }
         public static FluentAssertions.Numeric.NumericAssertions<sbyte> Should(this sbyte actualValue) { }
         public static FluentAssertions.Numeric.NullableNumericAssertions<sbyte> Should(this sbyte? actualValue) { }
         public static FluentAssertions.Numeric.NumericAssertions<short> Should(this short actualValue) { }
         public static FluentAssertions.Numeric.NullableNumericAssertions<short> Should(this short? actualValue) { }
-        public static FluentAssertions.Primitives.StringAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this string actualValue) { }
+        public static FluentAssertions.Primitives.StringAssertions Should(this string actualValue) { }
         public static FluentAssertions.Numeric.NumericAssertions<uint> Should(this uint actualValue) { }
         public static FluentAssertions.Numeric.NullableNumericAssertions<uint> Should(this uint? actualValue) { }
         public static FluentAssertions.Numeric.NumericAssertions<ulong> Should(this ulong actualValue) { }
@@ -134,10 +142,11 @@ namespace FluentAssertions
             "ly following \'And\'", true)]
         public static void Should<TAssertions>(this FluentAssertions.Primitives.SimpleTimeSpanAssertions<TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.SimpleTimeSpanAssertions<TAssertions> { }
-        public static FluentAssertions.Collections.GenericCollectionAssertions<T> Should<T>([System.Diagnostics.CodeAnalysis.NotNull] this System.Collections.Generic.IEnumerable<T> actualValue) { }
-        public static FluentAssertions.Specialized.GenericAsyncFunctionAssertions<T> Should<T>([System.Diagnostics.CodeAnalysis.NotNull] this System.Func<System.Threading.Tasks.Task<T>> action) { }
-        public static FluentAssertions.Specialized.FunctionAssertions<T> Should<T>([System.Diagnostics.CodeAnalysis.NotNull] this System.Func<T> func) { }
-        public static FluentAssertions.Numeric.ComparableTypeAssertions<T> Should<T>([System.Diagnostics.CodeAnalysis.NotNull] this System.IComparable<T> comparableValue) { }
+        public static FluentAssertions.Numeric.ComparableTypeAssertions<T> Should<T>(this FluentAssertions.WhichResult<System.IComparable<T>> tuple) { }
+        public static FluentAssertions.Collections.GenericCollectionAssertions<T> Should<T>(this System.Collections.Generic.IEnumerable<T> actualValue) { }
+        public static FluentAssertions.Specialized.GenericAsyncFunctionAssertions<T> Should<T>(this System.Func<System.Threading.Tasks.Task<T>> action) { }
+        public static FluentAssertions.Specialized.FunctionAssertions<T> Should<T>(this System.Func<T> func) { }
+        public static FluentAssertions.Numeric.ComparableTypeAssertions<T> Should<T>(this System.IComparable<T> comparableValue) { }
         public static FluentAssertions.Specialized.TaskCompletionSourceAssertions<T> Should<T>(this System.Threading.Tasks.TaskCompletionSource<T> tcs) { }
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
             "ly following \'And\'", true)]
@@ -153,9 +162,9 @@ namespace FluentAssertions
             "ly following \'And\'", true)]
         public static void Should<TSubject, TAssertions>(this FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions> _)
             where TAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions> { }
-        public static FluentAssertions.Collections.GenericDictionaryAssertions<System.Collections.Generic.IDictionary<TKey, TValue>, TKey, TValue> Should<TKey, TValue>([System.Diagnostics.CodeAnalysis.NotNull] this System.Collections.Generic.IDictionary<TKey, TValue> actualValue) { }
-        public static FluentAssertions.Collections.GenericDictionaryAssertions<System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>>, TKey, TValue> Should<TKey, TValue>([System.Diagnostics.CodeAnalysis.NotNull] this System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>> actualValue) { }
-        public static FluentAssertions.Collections.GenericDictionaryAssertions<TCollection, TKey, TValue> Should<TCollection, TKey, TValue>([System.Diagnostics.CodeAnalysis.NotNull] this TCollection actualValue)
+        public static FluentAssertions.Collections.GenericDictionaryAssertions<System.Collections.Generic.IDictionary<TKey, TValue>, TKey, TValue> Should<TKey, TValue>(this System.Collections.Generic.IDictionary<TKey, TValue> actualValue) { }
+        public static FluentAssertions.Collections.GenericDictionaryAssertions<System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>>, TKey, TValue> Should<TKey, TValue>(this System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>> actualValue) { }
+        public static FluentAssertions.Collections.GenericDictionaryAssertions<TCollection, TKey, TValue> Should<TCollection, TKey, TValue>(this TCollection actualValue)
             where TCollection : System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>> { }
     }
     public static class AssertionOptions
@@ -298,10 +307,6 @@ namespace FluentAssertions
         public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<ushort>> BeCloseTo(this FluentAssertions.Numeric.NumericAssertions<ushort> parent, ushort nearbyValue, ushort delta, string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<uint>> BeCloseTo(this FluentAssertions.Numeric.NumericAssertions<uint> parent, uint nearbyValue, uint delta, string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<ulong>> BeCloseTo(this FluentAssertions.Numeric.NumericAssertions<ulong> parent, ulong nearbyValue, ulong delta, string because = "", params object[] becauseArgs) { }
-        public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<double>> BeNaN(this FluentAssertions.Numeric.NullableNumericAssertions<double> parent, string because = "", params object[] becauseArgs) { }
-        public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<float>> BeNaN(this FluentAssertions.Numeric.NullableNumericAssertions<float> parent, string because = "", params object[] becauseArgs) { }
-        public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<double>> BeNaN(this FluentAssertions.Numeric.NumericAssertions<double> parent, string because = "", params object[] becauseArgs) { }
-        public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<float>> BeNaN(this FluentAssertions.Numeric.NumericAssertions<float> parent, string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<decimal>> NotBeApproximately(this FluentAssertions.Numeric.NullableNumericAssertions<decimal> parent, decimal unexpectedValue, decimal precision, string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<decimal>> NotBeApproximately(this FluentAssertions.Numeric.NullableNumericAssertions<decimal> parent, decimal? unexpectedValue, decimal precision, string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<double>> NotBeApproximately(this FluentAssertions.Numeric.NullableNumericAssertions<double> parent, double unexpectedValue, double precision, string because = "", params object[] becauseArgs) { }
@@ -319,10 +324,6 @@ namespace FluentAssertions
         public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<ushort>> NotBeCloseTo(this FluentAssertions.Numeric.NumericAssertions<ushort> parent, ushort distantValue, ushort delta, string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<uint>> NotBeCloseTo(this FluentAssertions.Numeric.NumericAssertions<uint> parent, uint distantValue, uint delta, string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<ulong>> NotBeCloseTo(this FluentAssertions.Numeric.NumericAssertions<ulong> parent, ulong distantValue, ulong delta, string because = "", params object[] becauseArgs) { }
-        public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<double>> NotBeNaN(this FluentAssertions.Numeric.NullableNumericAssertions<double> parent, string because = "", params object[] becauseArgs) { }
-        public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NullableNumericAssertions<float>> NotBeNaN(this FluentAssertions.Numeric.NullableNumericAssertions<float> parent, string because = "", params object[] becauseArgs) { }
-        public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<double>> NotBeNaN(this FluentAssertions.Numeric.NumericAssertions<double> parent, string because = "", params object[] becauseArgs) { }
-        public static FluentAssertions.AndConstraint<FluentAssertions.Numeric.NumericAssertions<float>> NotBeNaN(this FluentAssertions.Numeric.NumericAssertions<float> parent, string because = "", params object[] becauseArgs) { }
     }
     public static class ObjectAssertionsExtensions
     {
@@ -366,28 +367,34 @@ namespace FluentAssertions
         public static FluentAssertions.Types.TypeSelector Types(this System.Reflection.Assembly assembly) { }
         public static FluentAssertions.Types.TypeSelector Types(this System.Type type) { }
     }
+    public class WhichResult<T>
+    {
+        public WhichResult(T matchedElement, FluentAssertions.Execution.AssertionChain assertionChain) { }
+        public FluentAssertions.Execution.AssertionChain AssertionChain { get; }
+        public T MatchedElement { get; }
+    }
     public static class XmlAssertionExtensions
     {
-        public static FluentAssertions.Xml.XmlElementAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Xml.XmlElement actualValue) { }
-        public static FluentAssertions.Xml.XmlNodeAssertions Should([System.Diagnostics.CodeAnalysis.NotNull] this System.Xml.XmlNode actualValue) { }
+        public static FluentAssertions.Xml.XmlElementAssertions Should(this System.Xml.XmlElement actualValue) { }
+        public static FluentAssertions.Xml.XmlNodeAssertions Should(this System.Xml.XmlNode actualValue) { }
     }
 }
 namespace FluentAssertions.Collections
 {
     public class GenericCollectionAssertions<T> : FluentAssertions.Collections.GenericCollectionAssertions<System.Collections.Generic.IEnumerable<T>, T, FluentAssertions.Collections.GenericCollectionAssertions<T>>
     {
-        public GenericCollectionAssertions(System.Collections.Generic.IEnumerable<T> actualValue) { }
+        public GenericCollectionAssertions(System.Collections.Generic.IEnumerable<T> actualValue, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class GenericCollectionAssertions<TCollection, T> : FluentAssertions.Collections.GenericCollectionAssertions<TCollection, T, FluentAssertions.Collections.GenericCollectionAssertions<TCollection, T>>
         where TCollection : System.Collections.Generic.IEnumerable<T>
     {
-        public GenericCollectionAssertions(TCollection actualValue) { }
+        public GenericCollectionAssertions(TCollection actualValue, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class GenericCollectionAssertions<TCollection, T, TAssertions> : FluentAssertions.Primitives.ReferenceTypeAssertions<TCollection, TAssertions>
         where TCollection : System.Collections.Generic.IEnumerable<T>
         where TAssertions : FluentAssertions.Collections.GenericCollectionAssertions<TCollection, T, TAssertions>
     {
-        public GenericCollectionAssertions(TCollection actualValue) { }
+        public GenericCollectionAssertions(TCollection actualValue, FluentAssertions.Execution.AssertionChain assertionChain) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> AllBeAssignableTo(System.Type expectedType, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, System.Collections.Generic.IEnumerable<TExpectation>> AllBeAssignableTo<TExpectation>(string because = "", params object[] becauseArgs) { }
@@ -424,7 +431,7 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> ContainInOrder(params T[] expected) { }
         public FluentAssertions.AndConstraint<TAssertions> ContainInOrder(System.Collections.Generic.IEnumerable<T> expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> ContainItemsAssignableTo<TExpectation>(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<TAssertions, T> ContainSingle(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhich<TAssertions, T> ContainSingle(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, T> ContainSingle(System.Linq.Expressions.Expression<System.Func<T, bool>> predicate, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> EndWith(System.Collections.Generic.IEnumerable<T> expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> EndWith(T element, string because = "", params object[] becauseArgs) { }
@@ -492,13 +499,13 @@ namespace FluentAssertions.Collections
     public class GenericDictionaryAssertions<TCollection, TKey, TValue> : FluentAssertions.Collections.GenericDictionaryAssertions<TCollection, TKey, TValue, FluentAssertions.Collections.GenericDictionaryAssertions<TCollection, TKey, TValue>>
         where TCollection : System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>>
     {
-        public GenericDictionaryAssertions(TCollection keyValuePairs) { }
+        public GenericDictionaryAssertions(TCollection keyValuePairs, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions> : FluentAssertions.Collections.GenericCollectionAssertions<TCollection, System.Collections.Generic.KeyValuePair<TKey, TValue>, TAssertions>
         where TCollection : System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>>
         where TAssertions : FluentAssertions.Collections.GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     {
-        public GenericDictionaryAssertions(TCollection keyValuePairs) { }
+        public GenericDictionaryAssertions(TCollection keyValuePairs, FluentAssertions.Execution.AssertionChain assertionChain) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<TExpectation>, FluentAssertions.Equivalency.EquivalencyOptions<TExpectation>> config, string because = "", params object[] becauseArgs) { }
@@ -529,18 +536,18 @@ namespace FluentAssertions.Collections
     }
     public class StringCollectionAssertions : FluentAssertions.Collections.StringCollectionAssertions<System.Collections.Generic.IEnumerable<string>>
     {
-        public StringCollectionAssertions(System.Collections.Generic.IEnumerable<string> actualValue) { }
+        public StringCollectionAssertions(System.Collections.Generic.IEnumerable<string> actualValue, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class StringCollectionAssertions<TCollection> : FluentAssertions.Collections.StringCollectionAssertions<TCollection, FluentAssertions.Collections.StringCollectionAssertions<TCollection>>
         where TCollection : System.Collections.Generic.IEnumerable<string>
     {
-        public StringCollectionAssertions(TCollection actualValue) { }
+        public StringCollectionAssertions(TCollection actualValue, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class StringCollectionAssertions<TCollection, TAssertions> : FluentAssertions.Collections.GenericCollectionAssertions<TCollection, string, TAssertions>
         where TCollection : System.Collections.Generic.IEnumerable<string>
         where TAssertions : FluentAssertions.Collections.StringCollectionAssertions<TCollection, TAssertions>
     {
-        public StringCollectionAssertions(TCollection actualValue) { }
+        public StringCollectionAssertions(TCollection actualValue, FluentAssertions.Execution.AssertionChain assertionChain) { }
         public FluentAssertions.AndConstraint<TAssertions> AllBe(string expectation, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> AllBe(string expectation, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(params string[] expectation) { }
@@ -553,18 +560,18 @@ namespace FluentAssertions.Collections
     }
     public class SubsequentOrderingAssertions<T> : FluentAssertions.Collections.SubsequentOrderingGenericCollectionAssertions<System.Collections.Generic.IEnumerable<T>, T, FluentAssertions.Collections.SubsequentOrderingAssertions<T>>
     {
-        public SubsequentOrderingAssertions(System.Collections.Generic.IEnumerable<T> actualValue, System.Linq.IOrderedEnumerable<T> previousOrderedEnumerable) { }
+        public SubsequentOrderingAssertions(System.Collections.Generic.IEnumerable<T> actualValue, System.Linq.IOrderedEnumerable<T> previousOrderedEnumerable, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class SubsequentOrderingGenericCollectionAssertions<TCollection, T> : FluentAssertions.Collections.SubsequentOrderingGenericCollectionAssertions<TCollection, T, FluentAssertions.Collections.SubsequentOrderingGenericCollectionAssertions<TCollection, T>>
         where TCollection : System.Collections.Generic.IEnumerable<T>
     {
-        public SubsequentOrderingGenericCollectionAssertions(TCollection actualValue, System.Linq.IOrderedEnumerable<T> previousOrderedEnumerable) { }
+        public SubsequentOrderingGenericCollectionAssertions(TCollection actualValue, System.Linq.IOrderedEnumerable<T> previousOrderedEnumerable, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAssertions> : FluentAssertions.Collections.GenericCollectionAssertions<TCollection, T, TAssertions>
         where TCollection : System.Collections.Generic.IEnumerable<T>
         where TAssertions : FluentAssertions.Collections.SubsequentOrderingGenericCollectionAssertions<TCollection, T, TAssertions>
     {
-        public SubsequentOrderingGenericCollectionAssertions(TCollection actualValue, System.Linq.IOrderedEnumerable<T> previousOrderedEnumerable) { }
+        public SubsequentOrderingGenericCollectionAssertions(TCollection actualValue, System.Linq.IOrderedEnumerable<T> previousOrderedEnumerable, FluentAssertions.Execution.AssertionChain assertionChain) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.SubsequentOrderingAssertions<T>> ThenBeInAscendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.SubsequentOrderingAssertions<T>> ThenBeInAscendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, System.Collections.Generic.IComparer<TSelector> comparer, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Collections.SubsequentOrderingAssertions<T>> ThenBeInDescendingOrder<TSelector>(System.Linq.Expressions.Expression<System.Func<T, TSelector>> propertyExpression, string because = "", params object[] becauseArgs) { }
@@ -699,13 +706,13 @@ namespace FluentAssertions.Equivalency
     public enum EquivalencyResult
     {
         ContinueWithNext = 0,
-        AssertionCompleted = 1,
+        EquivalencyProven = 1,
     }
     public abstract class EquivalencyStep<T> : FluentAssertions.Equivalency.IEquivalencyStep
     {
         protected EquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
-        protected abstract FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator);
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator) { }
+        protected abstract FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator);
     }
     public class EquivalencyValidationContext : FluentAssertions.Equivalency.IEquivalencyValidationContext
     {
@@ -722,11 +729,11 @@ namespace FluentAssertions.Equivalency
         public bool IsCyclicReference(object expectation) { }
         public override string ToString() { }
     }
-    public class EquivalencyValidator : FluentAssertions.Equivalency.IEquivalencyValidator
+    public class EquivalencyValidator : FluentAssertions.Equivalency.IValidateChildNodeEquivalency
     {
         public EquivalencyValidator() { }
         public void AssertEquality(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.EquivalencyValidationContext context) { }
-        public void RecursivelyAssertEquality(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context) { }
+        public void AssertEquivalencyOf(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.IEquivalencyValidationContext context) { }
     }
     public class Field : FluentAssertions.Equivalency.Node, FluentAssertions.Equivalency.IMember, FluentAssertions.Equivalency.INode
     {
@@ -757,11 +764,7 @@ namespace FluentAssertions.Equivalency
         FluentAssertions.Equivalency.CyclicReferenceHandling CyclicReferenceHandling { get; }
         FluentAssertions.Equivalency.EnumEquivalencyHandling EnumEquivalencyHandling { get; }
         bool ExcludeNonBrowsableOnExpectation { get; }
-        bool IgnoreCase { get; }
-        bool IgnoreLeadingWhitespace { get; }
-        bool IgnoreNewlineStyle { get; }
         bool IgnoreNonBrowsableOnSubject { get; }
-        bool IgnoreTrailingWhitespace { get; }
         FluentAssertions.Equivalency.MemberVisibility IncludedFields { get; }
         FluentAssertions.Equivalency.MemberVisibility IncludedProperties { get; }
         bool IsRecursive { get; }
@@ -775,7 +778,7 @@ namespace FluentAssertions.Equivalency
     }
     public interface IEquivalencyStep
     {
-        FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator);
+        FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator);
     }
     public interface IEquivalencyValidationContext
     {
@@ -788,10 +791,6 @@ namespace FluentAssertions.Equivalency
         FluentAssertions.Equivalency.IEquivalencyValidationContext AsNestedMember(FluentAssertions.Equivalency.IMember expectationMember);
         FluentAssertions.Equivalency.IEquivalencyValidationContext Clone();
         bool IsCyclicReference(object expectation);
-    }
-    public interface IEquivalencyValidator
-    {
-        void RecursivelyAssertEquality(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context);
     }
     public interface IMember : FluentAssertions.Equivalency.INode
     {
@@ -813,7 +812,7 @@ namespace FluentAssertions.Equivalency
     }
     public interface IMemberMatchingRule
     {
-        FluentAssertions.Equivalency.IMember Match(FluentAssertions.Equivalency.IMember expectedMember, object subject, FluentAssertions.Equivalency.INode parent, FluentAssertions.Equivalency.IEquivalencyOptions options);
+        FluentAssertions.Equivalency.IMember Match(FluentAssertions.Equivalency.IMember expectedMember, object subject, FluentAssertions.Equivalency.INode parent, FluentAssertions.Equivalency.IEquivalencyOptions options, FluentAssertions.Execution.AssertionChain assertionChain);
     }
     public interface IMemberSelectionRule
     {
@@ -845,6 +844,10 @@ namespace FluentAssertions.Equivalency
     public interface IOrderingRule
     {
         FluentAssertions.Equivalency.OrderStrictness Evaluate(FluentAssertions.Equivalency.IObjectInfo objectInfo);
+    }
+    public interface IValidateChildNodeEquivalency
+    {
+        void AssertEquivalencyOf(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.IEquivalencyValidationContext context);
     }
     public static class MemberFactory
     {
@@ -922,10 +925,6 @@ namespace FluentAssertions.Equivalency
         protected SelfReferenceEquivalencyOptions(FluentAssertions.Equivalency.IEquivalencyOptions defaults) { }
         public bool? CompareRecordsByValue { get; }
         public FluentAssertions.Equivalency.ConversionSelector ConversionSelector { get; }
-        public bool IgnoreCase { get; }
-        public bool IgnoreLeadingWhitespace { get; }
-        public bool IgnoreNewlineStyle { get; }
-        public bool IgnoreTrailingWhitespace { get; }
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         protected FluentAssertions.Equivalency.OrderingRuleCollection OrderingRules { get; }
         public FluentAssertions.Equivalency.Tracing.ITraceWriter TraceWriter { get; }
@@ -946,12 +945,8 @@ namespace FluentAssertions.Equivalency
         public TSelf ExcludingNestedObjects() { }
         public TSelf ExcludingNonBrowsableMembers() { }
         public TSelf ExcludingProperties() { }
-        public TSelf IgnoringCase() { }
         public TSelf IgnoringCyclicReferences() { }
-        public TSelf IgnoringLeadingWhitespace() { }
-        public TSelf IgnoringNewlineStyle() { }
         public TSelf IgnoringNonBrowsableMembersOnSubject() { }
-        public TSelf IgnoringTrailingWhitespace() { }
         public TSelf Including(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }
         public TSelf IncludingAllDeclaredProperties() { }
         public TSelf IncludingAllRuntimeProperties() { }
@@ -968,7 +963,6 @@ namespace FluentAssertions.Equivalency
         public TSelf Using(FluentAssertions.Equivalency.IMemberMatchingRule matchingRule) { }
         public TSelf Using(FluentAssertions.Equivalency.IMemberSelectionRule selectionRule) { }
         public TSelf Using(FluentAssertions.Equivalency.IOrderingRule orderingRule) { }
-        public TSelf Using(System.Collections.Generic.IEqualityComparer<string> comparer) { }
         public FluentAssertions.Equivalency.SelfReferenceEquivalencyOptions<TSelf>.Restriction<TProperty> Using<TProperty>(System.Action<FluentAssertions.Equivalency.IAssertionContext<TProperty>> action) { }
         public TSelf Using<T>(System.Collections.Generic.IEqualityComparer<T> comparer) { }
         public TSelf Using<T, TEqualityComparer>()
@@ -1003,91 +997,91 @@ namespace FluentAssertions.Equivalency.Steps
 {
     public class AssertionRuleEquivalencyStep<TSubject> : FluentAssertions.Equivalency.IEquivalencyStep
     {
-        public AssertionRuleEquivalencyStep(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate, System.Action<FluentAssertions.Equivalency.IAssertionContext<TSubject>> assertion) { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public AssertionRuleEquivalencyStep(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate, System.Action<FluentAssertions.Equivalency.IAssertionContext<TSubject>> assertionAction) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator) { }
         public override string ToString() { }
     }
     public class AutoConversionStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public AutoConversionStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator) { }
         public override string ToString() { }
     }
     public class DictionaryEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Collections.IDictionary>
     {
         public DictionaryEquivalencyStep() { }
-        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator) { }
     }
     public class EnumEqualityStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public EnumEqualityStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator) { }
     }
     public class EnumerableEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public EnumerableEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator) { }
     }
     public class EqualityComparerEquivalencyStep<T> : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public EqualityComparerEquivalencyStep(System.Collections.Generic.IEqualityComparer<T> comparer) { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator) { }
         public override string ToString() { }
     }
     public class GenericDictionaryEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public GenericDictionaryEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator) { }
     }
     public class GenericEnumerableEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public GenericEnumerableEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator) { }
     }
     public class ReferenceEqualityEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public ReferenceEqualityEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator) { }
     }
     public class RunAllUserStepsEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public RunAllUserStepsEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator) { }
     }
     public class SimpleEqualityEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public SimpleEqualityEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator) { }
     }
     public class StringEqualityEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public StringEqualityEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator) { }
     }
     public class StructuralEqualityEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public StructuralEqualityEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator) { }
     }
     public class ValueTypeEquivalencyStep : FluentAssertions.Equivalency.IEquivalencyStep
     {
         public ValueTypeEquivalencyStep() { }
-        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        public FluentAssertions.Equivalency.EquivalencyResult Handle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator) { }
     }
     public class XAttributeEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Xml.Linq.XAttribute>
     {
         public XAttributeEquivalencyStep() { }
-        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator) { }
     }
     public class XDocumentEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Xml.Linq.XDocument>
     {
         public XDocumentEquivalencyStep() { }
-        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator) { }
     }
     public class XElementEquivalencyStep : FluentAssertions.Equivalency.EquivalencyStep<System.Xml.Linq.XElement>
     {
         public XElementEquivalencyStep() { }
-        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IEquivalencyValidator nestedValidator) { }
+        protected override FluentAssertions.Equivalency.EquivalencyResult OnHandle(FluentAssertions.Equivalency.Comparands comparands, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Equivalency.IEquivalencyValidationContext context, FluentAssertions.Equivalency.IValidateChildNodeEquivalency nestedValidator) { }
     }
 }
 namespace FluentAssertions.Equivalency.Tracing
@@ -1117,7 +1111,7 @@ namespace FluentAssertions.Events
 {
     public class EventAssertions<T> : FluentAssertions.Primitives.ReferenceTypeAssertions<T, FluentAssertions.Events.EventAssertions<T>>
     {
-        protected EventAssertions(FluentAssertions.Events.IMonitor<T> monitor) { }
+        protected EventAssertions(FluentAssertions.Events.IMonitor<T> monitor, FluentAssertions.Execution.AssertionChain assertionChain) { }
         protected override string Identifier { get; }
         public FluentAssertions.Events.IMonitor<T> Monitor { get; }
         public void NotRaise(string eventName, string because = "", params object[] becauseArgs) { }
@@ -1130,12 +1124,6 @@ namespace FluentAssertions.Events
         public EventMetadata(string eventName, System.Type handlerType) { }
         public string EventName { get; }
         public System.Type HandlerType { get; }
-    }
-    public class EventMonitorOptions
-    {
-        public EventMonitorOptions() { }
-        public FluentAssertions.Events.EventMonitorOptions IgnoringEventAccessorExceptions() { }
-        public FluentAssertions.Events.EventMonitorOptions RecordingEventsWithBrokenAccessor() { }
     }
     public interface IEventRecording : System.Collections.Generic.IEnumerable<FluentAssertions.Events.OccurredEvent>, System.Collections.IEnumerable
     {
@@ -1163,76 +1151,60 @@ namespace FluentAssertions.Events
 }
 namespace FluentAssertions.Execution
 {
+    public sealed class AssertionChain
+    {
+        public string CallerIdentifier { get; }
+        public bool Succeeded { get; }
+        public FluentAssertions.Execution.AssertionChain UsingLineBreaks { get; }
+        public void AddCallerPostfix(string postfix) { }
+        public void AddPreFormattedFailure(string failure) { }
+        public void AddReportable(string key, System.Func<string> getValue) { }
+        public void AddReportable(string key, string value) { }
+        public void AppendTracing(string tracingBlock) { }
+        public FluentAssertions.Execution.AssertionChain BecauseOf(FluentAssertions.Execution.Reason reason) { }
+        public FluentAssertions.Execution.AssertionChain BecauseOf(string because, params object[] becauseArgs) { }
+        public FluentAssertions.Execution.Continuation FailWith(System.Func<FluentAssertions.Execution.FailReason> failReasonFunc) { }
+        public FluentAssertions.Execution.Continuation FailWith(string message) { }
+        public FluentAssertions.Execution.Continuation FailWith(string message, params System.Func<object>[] argProviders) { }
+        public FluentAssertions.Execution.Continuation FailWith(string message, params object[] args) { }
+        public FluentAssertions.Execution.AssertionChain ForCondition(bool condition) { }
+        public FluentAssertions.Execution.AssertionChain ForConstraint(FluentAssertions.OccurrenceConstraint constraint, int actualOccurrences) { }
+        public FluentAssertions.Execution.GivenSelector<T> Given<T>(System.Func<T> selector) { }
+        public void OverrideCallerIdentifier(System.Func<string> getCallerIdentifier) { }
+        public FluentAssertions.Execution.AssertionChain WithDefaultIdentifier(string identifier) { }
+        public FluentAssertions.Execution.AssertionChain WithExpectation(string message, params object[] args) { }
+        public void WithReportable(string name, System.Func<string> content) { }
+        public static FluentAssertions.Execution.AssertionChain GetOrCreate() { }
+        public static void ReuseOnce(FluentAssertions.Execution.AssertionChain assertionChain) { }
+    }
     [System.Serializable]
     public class AssertionFailedException : System.Exception
     {
         public AssertionFailedException(string message) { }
         protected AssertionFailedException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) { }
     }
-    public sealed class AssertionScope : FluentAssertions.Execution.IAssertionScope, System.IDisposable
+    public sealed class AssertionScope : System.IDisposable
     {
         public AssertionScope() { }
         public AssertionScope(FluentAssertions.Execution.IAssertionStrategy assertionStrategy) { }
-        public AssertionScope(System.Lazy<string> context) { }
-        public AssertionScope(string context) { }
-        public string CallerIdentity { get; }
-        public System.Lazy<string> Context { get; set; }
+        public AssertionScope(System.Lazy<string> name) { }
+        public AssertionScope(string name) { }
         public FluentAssertions.Formatting.FormattingOptions FormattingOptions { get; }
-        public FluentAssertions.Execution.AssertionScope UsingLineBreaks { get; }
+        public System.Lazy<string> Name { get; set; }
         public static FluentAssertions.Execution.AssertionScope Current { get; }
-        public void AddNonReportable(string key, object value) { }
         public void AddPreFormattedFailure(string formattedFailureMessage) { }
-        public void AddReportable(string key, System.Func<string> valueFunc) { }
-        public void AddReportable(string key, string value) { }
-        public void AppendTracing(string tracingBlock) { }
-        public void AssumeSingleCaller() { }
-        public FluentAssertions.Execution.AssertionScope BecauseOf(FluentAssertions.Execution.Reason reason) { }
-        public FluentAssertions.Execution.AssertionScope BecauseOf(string because, params object[] becauseArgs) { }
-        public FluentAssertions.Execution.Continuation ClearExpectation() { }
         public string[] Discard() { }
         public void Dispose() { }
-        public FluentAssertions.Execution.Continuation FailWith(System.Func<FluentAssertions.Execution.FailReason> failReasonFunc) { }
-        public FluentAssertions.Execution.Continuation FailWith(string message) { }
-        public FluentAssertions.Execution.Continuation FailWith(string message, params System.Func<object>[] argProviders) { }
-        public FluentAssertions.Execution.Continuation FailWith(string message, params object[] args) { }
-        public FluentAssertions.Execution.AssertionScope ForCondition(bool condition) { }
-        public FluentAssertions.Execution.AssertionScope ForConstraint(FluentAssertions.OccurrenceConstraint constraint, int actualOccurrences) { }
-        public T Get<T>(string key) { }
-        public FluentAssertions.Execution.GivenSelector<T> Given<T>(System.Func<T> selector) { }
         public bool HasFailures() { }
-        public FluentAssertions.Execution.AssertionScope WithDefaultIdentifier(string identifier) { }
-        public FluentAssertions.Execution.AssertionScope WithExpectation(string message, params object[] args) { }
     }
     public class Continuation
     {
-        public FluentAssertions.Execution.IAssertionScope Then { get; }
-        public static bool op_Implicit(FluentAssertions.Execution.Continuation continuation) { }
+        public FluentAssertions.Execution.AssertionChain Then { get; }
     }
     public class ContinuationOfGiven<TSubject>
     {
+        public bool Succeeded { get; }
         public FluentAssertions.Execution.GivenSelector<TSubject> Then { get; }
-        public static bool op_Implicit(FluentAssertions.Execution.ContinuationOfGiven<TSubject> continuationOfGiven) { }
-    }
-    public sealed class ContinuedAssertionScope : FluentAssertions.Execution.IAssertionScope, System.IDisposable
-    {
-        public FluentAssertions.Execution.IAssertionScope UsingLineBreaks { get; }
-        public FluentAssertions.Execution.IAssertionScope BecauseOf(string because, params object[] becauseArgs) { }
-        public FluentAssertions.Execution.Continuation ClearExpectation() { }
-        public string[] Discard() { }
-        public void Dispose() { }
-        public FluentAssertions.Execution.Continuation FailWith(System.Func<FluentAssertions.Execution.FailReason> failReasonFunc) { }
-        public FluentAssertions.Execution.Continuation FailWith(string message) { }
-        public FluentAssertions.Execution.Continuation FailWith(string message, params System.Func<object>[] argProviders) { }
-        public FluentAssertions.Execution.Continuation FailWith(string message, params object[] args) { }
-        public FluentAssertions.Execution.IAssertionScope ForCondition(bool condition) { }
-        public FluentAssertions.Execution.IAssertionScope ForConstraint(FluentAssertions.OccurrenceConstraint constraint, int actualOccurrences) { }
-        public FluentAssertions.Execution.GivenSelector<T> Given<T>(System.Func<T> selector) { }
-        public FluentAssertions.Execution.IAssertionScope WithDefaultIdentifier(string identifier) { }
-        public FluentAssertions.Execution.IAssertionScope WithExpectation(string message, params object[] args) { }
-    }
-    public static class Execute
-    {
-        public static FluentAssertions.Execution.AssertionScope Assertion { get; }
     }
     public class FailReason
     {
@@ -1242,28 +1214,12 @@ namespace FluentAssertions.Execution
     }
     public class GivenSelector<T>
     {
-        public FluentAssertions.Execution.ContinuationOfGiven<T> ClearExpectation() { }
+        public bool Succeeded { get; }
         public FluentAssertions.Execution.ContinuationOfGiven<T> FailWith(string message) { }
         public FluentAssertions.Execution.ContinuationOfGiven<T> FailWith(string message, params System.Func<T, object>[] args) { }
         public FluentAssertions.Execution.ContinuationOfGiven<T> FailWith(string message, params object[] args) { }
         public FluentAssertions.Execution.GivenSelector<T> ForCondition(System.Func<T, bool> predicate) { }
         public FluentAssertions.Execution.GivenSelector<TOut> Given<TOut>(System.Func<T, TOut> selector) { }
-    }
-    public interface IAssertionScope : System.IDisposable
-    {
-        FluentAssertions.Execution.IAssertionScope UsingLineBreaks { get; }
-        FluentAssertions.Execution.IAssertionScope BecauseOf(string because, params object[] becauseArgs);
-        FluentAssertions.Execution.Continuation ClearExpectation();
-        string[] Discard();
-        FluentAssertions.Execution.Continuation FailWith(System.Func<FluentAssertions.Execution.FailReason> failReasonFunc);
-        FluentAssertions.Execution.Continuation FailWith(string message);
-        FluentAssertions.Execution.Continuation FailWith(string message, params System.Func<object>[] argProviders);
-        FluentAssertions.Execution.Continuation FailWith(string message, params object[] args);
-        FluentAssertions.Execution.IAssertionScope ForCondition(bool condition);
-        FluentAssertions.Execution.IAssertionScope ForConstraint(FluentAssertions.OccurrenceConstraint constraint, int actualOccurrences);
-        FluentAssertions.Execution.GivenSelector<T> Given<T>(System.Func<T> selector);
-        FluentAssertions.Execution.IAssertionScope WithDefaultIdentifier(string identifier);
-        FluentAssertions.Execution.IAssertionScope WithExpectation(string message, params object[] args);
     }
     public interface IAssertionStrategy
     {
@@ -1469,8 +1425,6 @@ namespace FluentAssertions.Formatting
         public int MaxDepth { get; set; }
         public int MaxLines { get; set; }
         public bool UseLineBreaks { get; set; }
-        public void AddFormatter(FluentAssertions.Formatting.IValueFormatter formatter) { }
-        public void RemoveFormatter(FluentAssertions.Formatting.IValueFormatter formatter) { }
     }
     public class GuidValueFormatter : FluentAssertions.Formatting.IValueFormatter
     {
@@ -1613,12 +1567,12 @@ namespace FluentAssertions.Numeric
 {
     public class ComparableTypeAssertions<T> : FluentAssertions.Numeric.ComparableTypeAssertions<T, FluentAssertions.Numeric.ComparableTypeAssertions<T>>
     {
-        public ComparableTypeAssertions(System.IComparable<T> value) { }
+        public ComparableTypeAssertions(System.IComparable<T> value, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class ComparableTypeAssertions<T, TAssertions> : FluentAssertions.Primitives.ReferenceTypeAssertions<System.IComparable<T>, TAssertions>
         where TAssertions : FluentAssertions.Numeric.ComparableTypeAssertions<T, TAssertions>
     {
-        public ComparableTypeAssertions(System.IComparable<T> value) { }
+        public ComparableTypeAssertions(System.IComparable<T> value, FluentAssertions.Execution.AssertionChain assertionChain) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(T expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation, string because = "", params object[] becauseArgs) { }
@@ -1638,13 +1592,13 @@ namespace FluentAssertions.Numeric
     public class NullableNumericAssertions<T> : FluentAssertions.Numeric.NullableNumericAssertions<T, FluentAssertions.Numeric.NullableNumericAssertions<T>>
         where T :  struct, System.IComparable<T>
     {
-        public NullableNumericAssertions(T? value) { }
+        public NullableNumericAssertions(T? value, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class NullableNumericAssertions<T, TAssertions> : FluentAssertions.Numeric.NumericAssertions<T, TAssertions>
         where T :  struct, System.IComparable<T>
         where TAssertions : FluentAssertions.Numeric.NullableNumericAssertions<T, TAssertions>
     {
-        public NullableNumericAssertions(T? value) { }
+        public NullableNumericAssertions(T? value, FluentAssertions.Execution.AssertionChain assertionChain) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Match(System.Linq.Expressions.Expression<System.Func<T?, bool>> predicate, string because = "", params object[] becauseArgs) { }
@@ -1654,13 +1608,14 @@ namespace FluentAssertions.Numeric
     public class NumericAssertions<T> : FluentAssertions.Numeric.NumericAssertions<T, FluentAssertions.Numeric.NumericAssertions<T>>
         where T :  struct, System.IComparable<T>
     {
-        public NumericAssertions(T value) { }
+        public NumericAssertions(T value, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class NumericAssertions<T, TAssertions>
         where T :  struct, System.IComparable<T>
         where TAssertions : FluentAssertions.Numeric.NumericAssertions<T, TAssertions>
     {
-        public NumericAssertions(T value) { }
+        public NumericAssertions(T value, FluentAssertions.Execution.AssertionChain assertionChain) { }
+        public FluentAssertions.Execution.AssertionChain CurrentAssertionChain { get; }
         public T? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(T expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Be(T? expected, string because = "", params object[] becauseArgs) { }
@@ -1686,12 +1641,12 @@ namespace FluentAssertions.Primitives
 {
     public class BooleanAssertions : FluentAssertions.Primitives.BooleanAssertions<FluentAssertions.Primitives.BooleanAssertions>
     {
-        public BooleanAssertions(bool? value) { }
+        public BooleanAssertions(bool? value, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class BooleanAssertions<TAssertions>
         where TAssertions : FluentAssertions.Primitives.BooleanAssertions<TAssertions>
     {
-        public BooleanAssertions(bool? value) { }
+        public BooleanAssertions(bool? value, FluentAssertions.Execution.AssertionChain assertionChain) { }
         public bool? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(bool expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeFalse(string because = "", params object[] becauseArgs) { }
@@ -1702,12 +1657,12 @@ namespace FluentAssertions.Primitives
     }
     public class DateTimeAssertions : FluentAssertions.Primitives.DateTimeAssertions<FluentAssertions.Primitives.DateTimeAssertions>
     {
-        public DateTimeAssertions(System.DateTime? value) { }
+        public DateTimeAssertions(System.DateTime? value, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class DateTimeAssertions<TAssertions>
         where TAssertions : FluentAssertions.Primitives.DateTimeAssertions<TAssertions>
     {
-        public DateTimeAssertions(System.DateTime? value) { }
+        public DateTimeAssertions(System.DateTime? value, FluentAssertions.Execution.AssertionChain assertionChain) { }
         public System.DateTime? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(System.DateTime expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Be(System.DateTime? expected, string because = "", params object[] becauseArgs) { }
@@ -1739,7 +1694,6 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotBeAfter(System.DateTime unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeBefore(System.DateTime unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeCloseTo(System.DateTime distantTime, System.TimeSpan precision, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeIn(System.DateTimeKind unexpectedKind, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeOnOrAfter(System.DateTime unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeOnOrBefore(System.DateTime unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeSameDateAs(System.DateTime unexpected, string because = "", params object[] becauseArgs) { }
@@ -1752,12 +1706,12 @@ namespace FluentAssertions.Primitives
     }
     public class DateTimeOffsetAssertions : FluentAssertions.Primitives.DateTimeOffsetAssertions<FluentAssertions.Primitives.DateTimeOffsetAssertions>
     {
-        public DateTimeOffsetAssertions(System.DateTimeOffset? value) { }
+        public DateTimeOffsetAssertions(System.DateTimeOffset? value, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class DateTimeOffsetAssertions<TAssertions>
         where TAssertions : FluentAssertions.Primitives.DateTimeOffsetAssertions<TAssertions>
     {
-        public DateTimeOffsetAssertions(System.DateTimeOffset? value) { }
+        public DateTimeOffsetAssertions(System.DateTimeOffset? value, FluentAssertions.Execution.AssertionChain assertionChain) { }
         public System.DateTimeOffset? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(System.DateTimeOffset expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Be(System.DateTimeOffset? expected, string because = "", params object[] becauseArgs) { }
@@ -1807,7 +1761,7 @@ namespace FluentAssertions.Primitives
     public class DateTimeOffsetRangeAssertions<TAssertions>
         where TAssertions : FluentAssertions.Primitives.DateTimeOffsetAssertions<TAssertions>
     {
-        protected DateTimeOffsetRangeAssertions(TAssertions parentAssertions, System.DateTimeOffset? subject, FluentAssertions.Primitives.TimeSpanCondition condition, System.TimeSpan timeSpan) { }
+        protected DateTimeOffsetRangeAssertions(TAssertions parentAssertions, FluentAssertions.Execution.AssertionChain assertionChain, System.DateTimeOffset? subject, FluentAssertions.Primitives.TimeSpanCondition condition, System.TimeSpan timeSpan) { }
         public FluentAssertions.AndConstraint<TAssertions> After(System.DateTimeOffset target, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Before(System.DateTimeOffset target, string because = "", params object[] becauseArgs) { }
         public override bool Equals(object obj) { }
@@ -1815,7 +1769,7 @@ namespace FluentAssertions.Primitives
     public class DateTimeRangeAssertions<TAssertions>
         where TAssertions : FluentAssertions.Primitives.DateTimeAssertions<TAssertions>
     {
-        protected DateTimeRangeAssertions(TAssertions parentAssertions, System.DateTime? subject, FluentAssertions.Primitives.TimeSpanCondition condition, System.TimeSpan timeSpan) { }
+        protected DateTimeRangeAssertions(TAssertions parentAssertions, FluentAssertions.Execution.AssertionChain assertionChain, System.DateTime? subject, FluentAssertions.Primitives.TimeSpanCondition condition, System.TimeSpan timeSpan) { }
         public FluentAssertions.AndConstraint<TAssertions> After(System.DateTime target, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Before(System.DateTime target, string because = "", params object[] becauseArgs) { }
         public override bool Equals(object obj) { }
@@ -1823,13 +1777,13 @@ namespace FluentAssertions.Primitives
     public class EnumAssertions<TEnum> : FluentAssertions.Primitives.EnumAssertions<TEnum, FluentAssertions.Primitives.EnumAssertions<TEnum>>
         where TEnum :  struct, System.Enum
     {
-        public EnumAssertions(TEnum subject) { }
+        public EnumAssertions(TEnum subject, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class EnumAssertions<TEnum, TAssertions>
         where TEnum :  struct, System.Enum
         where TAssertions : FluentAssertions.Primitives.EnumAssertions<TEnum, TAssertions>
     {
-        public EnumAssertions(TEnum subject) { }
+        public EnumAssertions(TEnum subject, FluentAssertions.Execution.AssertionChain assertionChain) { }
         public TEnum? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(TEnum expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Be(TEnum? expected, string because = "", params object[] becauseArgs) { }
@@ -1856,12 +1810,12 @@ namespace FluentAssertions.Primitives
     }
     public class GuidAssertions : FluentAssertions.Primitives.GuidAssertions<FluentAssertions.Primitives.GuidAssertions>
     {
-        public GuidAssertions(System.Guid? value) { }
+        public GuidAssertions(System.Guid? value, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class GuidAssertions<TAssertions>
         where TAssertions : FluentAssertions.Primitives.GuidAssertions<TAssertions>
     {
-        public GuidAssertions(System.Guid? value) { }
+        public GuidAssertions(System.Guid? value, FluentAssertions.Execution.AssertionChain assertionChain) { }
         public System.Guid? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(System.Guid expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Be(string expected, string because = "", params object[] becauseArgs) { }
@@ -1873,12 +1827,12 @@ namespace FluentAssertions.Primitives
     }
     public class HttpResponseMessageAssertions : FluentAssertions.Primitives.HttpResponseMessageAssertions<FluentAssertions.Primitives.HttpResponseMessageAssertions>
     {
-        public HttpResponseMessageAssertions(System.Net.Http.HttpResponseMessage value) { }
+        public HttpResponseMessageAssertions(System.Net.Http.HttpResponseMessage value, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class HttpResponseMessageAssertions<TAssertions> : FluentAssertions.Primitives.ObjectAssertions<System.Net.Http.HttpResponseMessage, TAssertions>
         where TAssertions : FluentAssertions.Primitives.HttpResponseMessageAssertions<TAssertions>
     {
-        protected HttpResponseMessageAssertions(System.Net.Http.HttpResponseMessage value) { }
+        protected HttpResponseMessageAssertions(System.Net.Http.HttpResponseMessage value, FluentAssertions.Execution.AssertionChain assertionChain) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> BeRedirection(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeSuccessful(string because = "", params object[] becauseArgs) { }
@@ -1890,12 +1844,12 @@ namespace FluentAssertions.Primitives
     }
     public class NullableBooleanAssertions : FluentAssertions.Primitives.NullableBooleanAssertions<FluentAssertions.Primitives.NullableBooleanAssertions>
     {
-        public NullableBooleanAssertions(bool? value) { }
+        public NullableBooleanAssertions(bool? value, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class NullableBooleanAssertions<TAssertions> : FluentAssertions.Primitives.BooleanAssertions<TAssertions>
         where TAssertions : FluentAssertions.Primitives.NullableBooleanAssertions<TAssertions>
     {
-        public NullableBooleanAssertions(bool? value) { }
+        public NullableBooleanAssertions(bool? value, FluentAssertions.Execution.AssertionChain assertionChain) { }
         public FluentAssertions.AndConstraint<TAssertions> Be(bool? expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
@@ -1907,12 +1861,12 @@ namespace FluentAssertions.Primitives
     }
     public class NullableDateTimeAssertions : FluentAssertions.Primitives.NullableDateTimeAssertions<FluentAssertions.Primitives.NullableDateTimeAssertions>
     {
-        public NullableDateTimeAssertions(System.DateTime? expected) { }
+        public NullableDateTimeAssertions(System.DateTime? expected, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class NullableDateTimeAssertions<TAssertions> : FluentAssertions.Primitives.DateTimeAssertions<TAssertions>
         where TAssertions : FluentAssertions.Primitives.NullableDateTimeAssertions<TAssertions>
     {
-        public NullableDateTimeAssertions(System.DateTime? expected) { }
+        public NullableDateTimeAssertions(System.DateTime? expected, FluentAssertions.Execution.AssertionChain assertionChain) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs) { }
@@ -1920,12 +1874,12 @@ namespace FluentAssertions.Primitives
     }
     public class NullableDateTimeOffsetAssertions : FluentAssertions.Primitives.NullableDateTimeOffsetAssertions<FluentAssertions.Primitives.NullableDateTimeOffsetAssertions>
     {
-        public NullableDateTimeOffsetAssertions(System.DateTimeOffset? expected) { }
+        public NullableDateTimeOffsetAssertions(System.DateTimeOffset? expected, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class NullableDateTimeOffsetAssertions<TAssertions> : FluentAssertions.Primitives.DateTimeOffsetAssertions<TAssertions>
         where TAssertions : FluentAssertions.Primitives.NullableDateTimeOffsetAssertions<TAssertions>
     {
-        public NullableDateTimeOffsetAssertions(System.DateTimeOffset? expected) { }
+        public NullableDateTimeOffsetAssertions(System.DateTimeOffset? expected, FluentAssertions.Execution.AssertionChain assertionChain) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeNull(string because = "", params object[] becauseArgs) { }
@@ -1934,13 +1888,13 @@ namespace FluentAssertions.Primitives
     public class NullableEnumAssertions<TEnum> : FluentAssertions.Primitives.NullableEnumAssertions<TEnum, FluentAssertions.Primitives.NullableEnumAssertions<TEnum>>
         where TEnum :  struct, System.Enum
     {
-        public NullableEnumAssertions(TEnum? subject) { }
+        public NullableEnumAssertions(TEnum? subject, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class NullableEnumAssertions<TEnum, TAssertions> : FluentAssertions.Primitives.EnumAssertions<TEnum, TAssertions>
         where TEnum :  struct, System.Enum
         where TAssertions : FluentAssertions.Primitives.NullableEnumAssertions<TEnum, TAssertions>
     {
-        public NullableEnumAssertions(TEnum? subject) { }
+        public NullableEnumAssertions(TEnum? subject, FluentAssertions.Execution.AssertionChain assertionChain) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, TEnum> HaveValue(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndWhichConstraint<TAssertions, TEnum> NotBeNull(string because = "", params object[] becauseArgs) { }
@@ -1948,12 +1902,12 @@ namespace FluentAssertions.Primitives
     }
     public class NullableGuidAssertions : FluentAssertions.Primitives.NullableGuidAssertions<FluentAssertions.Primitives.NullableGuidAssertions>
     {
-        public NullableGuidAssertions(System.Guid? value) { }
+        public NullableGuidAssertions(System.Guid? value, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class NullableGuidAssertions<TAssertions> : FluentAssertions.Primitives.GuidAssertions<TAssertions>
         where TAssertions : FluentAssertions.Primitives.NullableGuidAssertions<TAssertions>
     {
-        public NullableGuidAssertions(System.Guid? value) { }
+        public NullableGuidAssertions(System.Guid? value, FluentAssertions.Execution.AssertionChain assertionChain) { }
         public FluentAssertions.AndConstraint<TAssertions> Be(System.Guid? expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
@@ -1962,12 +1916,12 @@ namespace FluentAssertions.Primitives
     }
     public class NullableSimpleTimeSpanAssertions : FluentAssertions.Primitives.NullableSimpleTimeSpanAssertions<FluentAssertions.Primitives.NullableSimpleTimeSpanAssertions>
     {
-        public NullableSimpleTimeSpanAssertions(System.TimeSpan? value) { }
+        public NullableSimpleTimeSpanAssertions(System.TimeSpan? value, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class NullableSimpleTimeSpanAssertions<TAssertions> : FluentAssertions.Primitives.SimpleTimeSpanAssertions<TAssertions>
         where TAssertions : FluentAssertions.Primitives.NullableSimpleTimeSpanAssertions<TAssertions>
     {
-        public NullableSimpleTimeSpanAssertions(System.TimeSpan? value) { }
+        public NullableSimpleTimeSpanAssertions(System.TimeSpan? value, FluentAssertions.Execution.AssertionChain assertionChain) { }
         public FluentAssertions.AndConstraint<TAssertions> Be(System.TimeSpan? expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNull(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveValue(string because = "", params object[] becauseArgs) { }
@@ -1976,7 +1930,7 @@ namespace FluentAssertions.Primitives
     }
     public class ObjectAssertions : FluentAssertions.Primitives.ObjectAssertions<object, FluentAssertions.Primitives.ObjectAssertions>
     {
-        public ObjectAssertions(object value) { }
+        public ObjectAssertions(object value, FluentAssertions.Execution.AssertionChain assertionChain) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> Be<TExpectation>(TExpectation expected, System.Collections.Generic.IEqualityComparer<TExpectation> comparer, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeOneOf<TExpectation>(System.Collections.Generic.IEnumerable<TExpectation> validValues, System.Collections.Generic.IEqualityComparer<TExpectation> comparer, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> NotBe<TExpectation>(TExpectation unexpected, System.Collections.Generic.IEqualityComparer<TExpectation> comparer, string because = "", params object[] becauseArgs) { }
@@ -1984,7 +1938,7 @@ namespace FluentAssertions.Primitives
     public class ObjectAssertions<TSubject, TAssertions> : FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions>
         where TAssertions : FluentAssertions.Primitives.ObjectAssertions<TSubject, TAssertions>
     {
-        public ObjectAssertions(TSubject value) { }
+        public ObjectAssertions(TSubject value, FluentAssertions.Execution.AssertionChain assertionChain) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(TSubject expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Be(TSubject expected, System.Collections.Generic.IEqualityComparer<TSubject> comparer, string because = "", params object[] becauseArgs) { }
@@ -2002,7 +1956,8 @@ namespace FluentAssertions.Primitives
     public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
         where TAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions>
     {
-        protected ReferenceTypeAssertions(TSubject subject) { }
+        protected ReferenceTypeAssertions(TSubject subject, FluentAssertions.Execution.AssertionChain assertionChain) { }
+        public FluentAssertions.Execution.AssertionChain CurrentAssertionChain { get; }
         protected abstract string Identifier { get; }
         public TSubject Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> BeAssignableTo(System.Type type, string because = "", params object[] becauseArgs) { }
@@ -2021,17 +1976,15 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotBeOfType(System.Type unexpectedType, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeOfType<T>(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeSameAs(TSubject unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> Satisfy<T>(System.Action<T> assertion)
-            where T : TSubject { }
     }
     public class SimpleTimeSpanAssertions : FluentAssertions.Primitives.SimpleTimeSpanAssertions<FluentAssertions.Primitives.SimpleTimeSpanAssertions>
     {
-        public SimpleTimeSpanAssertions(System.TimeSpan? value) { }
+        public SimpleTimeSpanAssertions(System.TimeSpan? value, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class SimpleTimeSpanAssertions<TAssertions>
         where TAssertions : FluentAssertions.Primitives.SimpleTimeSpanAssertions<TAssertions>
     {
-        public SimpleTimeSpanAssertions(System.TimeSpan? value) { }
+        public SimpleTimeSpanAssertions(System.TimeSpan? value, FluentAssertions.Execution.AssertionChain assertionChain) { }
         public System.TimeSpan? Subject { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(System.TimeSpan expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeCloseTo(System.TimeSpan nearbyTime, System.TimeSpan precision, string because = "", params object[] becauseArgs) { }
@@ -2047,17 +2000,16 @@ namespace FluentAssertions.Primitives
     }
     public class StringAssertions : FluentAssertions.Primitives.StringAssertions<FluentAssertions.Primitives.StringAssertions>
     {
-        public StringAssertions(string value) { }
+        public StringAssertions(string value, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class StringAssertions<TAssertions> : FluentAssertions.Primitives.ReferenceTypeAssertions<string, TAssertions>
         where TAssertions : FluentAssertions.Primitives.StringAssertions<TAssertions>
     {
-        public StringAssertions(string value) { }
+        public StringAssertions(string value, FluentAssertions.Execution.AssertionChain assertionChain) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(string expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(string expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(string expected, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeLowerCased(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNullOrEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNullOrWhiteSpace(string because = "", params object[] becauseArgs) { }
@@ -2072,15 +2024,11 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> ContainAny(System.Collections.Generic.IEnumerable<string> values, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> ContainEquivalentOf(string expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> ContainEquivalentOf(string expected, FluentAssertions.OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> ContainEquivalentOf(string expected, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> ContainEquivalentOf(string expected, FluentAssertions.OccurrenceConstraint occurrenceConstraint, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> EndWith(string expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> EndWithEquivalentOf(string expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> EndWithEquivalentOf(string expected, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveLength(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Match(string wildcardPattern, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> MatchEquivalentOf(string wildcardPattern, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> MatchEquivalentOf(string wildcardPattern, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> MatchRegex(string regularExpression, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> MatchRegex(System.Text.RegularExpressions.Regex regularExpression, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> MatchRegex(string regularExpression, FluentAssertions.OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs) { }
@@ -2088,7 +2036,6 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotBe(string unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo(string unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo(string unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeLowerCased(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeNullOrEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeNullOrWhiteSpace(string because = "", params object[] becauseArgs) { }
@@ -2099,21 +2046,16 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotContainAny(params string[] values) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainAny(System.Collections.Generic.IEnumerable<string> values, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainEquivalentOf(string unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotContainEquivalentOf(string unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotEndWith(string unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotEndWithEquivalentOf(string unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotEndWithEquivalentOf(string unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotMatch(string wildcardPattern, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotMatchEquivalentOf(string wildcardPattern, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotMatchEquivalentOf(string wildcardPattern, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotMatchRegex(string regularExpression, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotMatchRegex(System.Text.RegularExpressions.Regex regularExpression, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotStartWith(string unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotStartWithEquivalentOf(string unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotStartWithEquivalentOf(string unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> StartWith(string expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> StartWithEquivalentOf(string expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> StartWithEquivalentOf(string expected, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
     }
     public enum TimeSpanCondition
     {
@@ -2128,8 +2070,8 @@ namespace FluentAssertions.Specialized
 {
     public class ActionAssertions : FluentAssertions.Specialized.DelegateAssertions<System.Action, FluentAssertions.Specialized.ActionAssertions>
     {
-        public ActionAssertions(System.Action subject, FluentAssertions.Specialized.IExtractExceptions extractor) { }
-        public ActionAssertions(System.Action subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Common.IClock clock) { }
+        public ActionAssertions(System.Action subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Execution.AssertionChain assertionChain) { }
+        public ActionAssertions(System.Action subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Common.IClock clock) { }
         protected override string Identifier { get; }
         protected override void InvokeSubject() { }
         public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ActionAssertions> NotThrow(string because = "", params object[] becauseArgs) { }
@@ -2139,7 +2081,7 @@ namespace FluentAssertions.Specialized
         where TTask : System.Threading.Tasks.Task
         where TAssertions : FluentAssertions.Specialized.AsyncFunctionAssertions<TTask, TAssertions>
     {
-        protected AsyncFunctionAssertions(System.Func<TTask> subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Common.IClock clock) { }
+        protected AsyncFunctionAssertions(System.Func<TTask> subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Common.IClock clock) { }
         protected override string Identifier { get; }
         public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> NotCompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
         public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> NotThrowAsync<TException>(string because = "", params object[] becauseArgs)
@@ -2165,7 +2107,7 @@ namespace FluentAssertions.Specialized
         where TDelegate : System.Delegate
         where TAssertions : FluentAssertions.Specialized.DelegateAssertions<TDelegate, TAssertions>
     {
-        protected DelegateAssertions(TDelegate @delegate, FluentAssertions.Specialized.IExtractExceptions extractor) { }
+        protected DelegateAssertions(TDelegate @delegate, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Execution.AssertionChain assertionChain) { }
         protected abstract void InvokeSubject();
         public FluentAssertions.AndConstraint<TAssertions> NotThrow<TException>(string because = "", params object[] becauseArgs)
             where TException : System.Exception { }
@@ -2177,7 +2119,7 @@ namespace FluentAssertions.Specialized
     public class ExceptionAssertions<TException> : FluentAssertions.Primitives.ReferenceTypeAssertions<System.Collections.Generic.IEnumerable<TException>, FluentAssertions.Specialized.ExceptionAssertions<TException>>
         where TException : System.Exception
     {
-        public ExceptionAssertions(System.Collections.Generic.IEnumerable<TException> exceptions) { }
+        public ExceptionAssertions(System.Collections.Generic.IEnumerable<TException> exceptions, FluentAssertions.Execution.AssertionChain assertionChain) { }
         public TException And { get; }
         protected override string Identifier { get; }
         public TException Which { get; }
@@ -2199,7 +2141,7 @@ namespace FluentAssertions.Specialized
     }
     public class ExecutionTimeAssertions
     {
-        public ExecutionTimeAssertions(FluentAssertions.Specialized.ExecutionTime executionTime) { }
+        public ExecutionTimeAssertions(FluentAssertions.Specialized.ExecutionTime executionTime, FluentAssertions.Execution.AssertionChain assertionChain) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ExecutionTimeAssertions> BeCloseTo(System.TimeSpan expectedDuration, System.TimeSpan precision, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ExecutionTimeAssertions> BeGreaterThan(System.TimeSpan minDuration, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ExecutionTimeAssertions> BeGreaterThanOrEqualTo(System.TimeSpan minDuration, string because = "", params object[] becauseArgs) { }
@@ -2209,8 +2151,8 @@ namespace FluentAssertions.Specialized
     }
     public class FunctionAssertions<T> : FluentAssertions.Specialized.DelegateAssertions<System.Func<T>, FluentAssertions.Specialized.FunctionAssertions<T>>
     {
-        public FunctionAssertions(System.Func<T> subject, FluentAssertions.Specialized.IExtractExceptions extractor) { }
-        public FunctionAssertions(System.Func<T> subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Common.IClock clock) { }
+        public FunctionAssertions(System.Func<T> subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Execution.AssertionChain assertionChain) { }
+        public FunctionAssertions(System.Func<T> subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Common.IClock clock) { }
         protected override string Identifier { get; }
         protected override void InvokeSubject() { }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.FunctionAssertions<T>, T> NotThrow(string because = "", params object[] becauseArgs) { }
@@ -2218,8 +2160,8 @@ namespace FluentAssertions.Specialized
     }
     public class GenericAsyncFunctionAssertions<TResult> : FluentAssertions.Specialized.AsyncFunctionAssertions<System.Threading.Tasks.Task<TResult>, FluentAssertions.Specialized.GenericAsyncFunctionAssertions<TResult>>
     {
-        public GenericAsyncFunctionAssertions(System.Func<System.Threading.Tasks.Task<TResult>> subject, FluentAssertions.Specialized.IExtractExceptions extractor) { }
-        public GenericAsyncFunctionAssertions(System.Func<System.Threading.Tasks.Task<TResult>> subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Common.IClock clock) { }
+        public GenericAsyncFunctionAssertions(System.Func<System.Threading.Tasks.Task<TResult>> subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Execution.AssertionChain assertionChain) { }
+        public GenericAsyncFunctionAssertions(System.Func<System.Threading.Tasks.Task<TResult>> subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Common.IClock clock) { }
         public System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.GenericAsyncFunctionAssertions<TResult>, TResult>> CompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
         public System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAfterAsync(System.TimeSpan waitTime, System.TimeSpan pollInterval, string because = "", params object[] becauseArgs) { }
         public System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAsync(string because = "", params object[] becauseArgs) { }
@@ -2235,8 +2177,8 @@ namespace FluentAssertions.Specialized
     }
     public class NonGenericAsyncFunctionAssertions : FluentAssertions.Specialized.AsyncFunctionAssertions<System.Threading.Tasks.Task, FluentAssertions.Specialized.NonGenericAsyncFunctionAssertions>
     {
-        public NonGenericAsyncFunctionAssertions(System.Func<System.Threading.Tasks.Task> subject, FluentAssertions.Specialized.IExtractExceptions extractor) { }
-        public NonGenericAsyncFunctionAssertions(System.Func<System.Threading.Tasks.Task> subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Common.IClock clock) { }
+        public NonGenericAsyncFunctionAssertions(System.Func<System.Threading.Tasks.Task> subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Execution.AssertionChain assertionChain) { }
+        public NonGenericAsyncFunctionAssertions(System.Func<System.Threading.Tasks.Task> subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Common.IClock clock) { }
         public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<FluentAssertions.Specialized.NonGenericAsyncFunctionAssertions>> CompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
         public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<FluentAssertions.Specialized.NonGenericAsyncFunctionAssertions>> NotThrowAfterAsync(System.TimeSpan waitTime, System.TimeSpan pollInterval, string because = "", params object[] becauseArgs) { }
         public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<FluentAssertions.Specialized.NonGenericAsyncFunctionAssertions>> NotThrowAsync(string because = "", params object[] becauseArgs) { }
@@ -2248,8 +2190,8 @@ namespace FluentAssertions.Specialized
     }
     public class TaskCompletionSourceAssertions<T> : FluentAssertions.Specialized.TaskCompletionSourceAssertionsBase
     {
-        public TaskCompletionSourceAssertions(System.Threading.Tasks.TaskCompletionSource<T> tcs) { }
-        public TaskCompletionSourceAssertions(System.Threading.Tasks.TaskCompletionSource<T> tcs, FluentAssertions.Common.IClock clock) { }
+        public TaskCompletionSourceAssertions(System.Threading.Tasks.TaskCompletionSource<T> tcs, FluentAssertions.Execution.AssertionChain assertionChain) { }
+        public TaskCompletionSourceAssertions(System.Threading.Tasks.TaskCompletionSource<T> tcs, FluentAssertions.Execution.AssertionChain assertionChain, FluentAssertions.Common.IClock clock) { }
         public System.Threading.Tasks.Task<FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.TaskCompletionSourceAssertions<T>, T>> CompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
         public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<FluentAssertions.Specialized.TaskCompletionSourceAssertions<T>>> NotCompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
     }
@@ -2258,25 +2200,25 @@ namespace FluentAssertions.Streams
 {
     public class BufferedStreamAssertions : FluentAssertions.Streams.BufferedStreamAssertions<FluentAssertions.Streams.BufferedStreamAssertions>
     {
-        public BufferedStreamAssertions(System.IO.BufferedStream stream) { }
+        public BufferedStreamAssertions(System.IO.BufferedStream stream, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class BufferedStreamAssertions<TAssertions> : FluentAssertions.Streams.StreamAssertions<System.IO.BufferedStream, TAssertions>
         where TAssertions : FluentAssertions.Streams.BufferedStreamAssertions<TAssertions>
     {
-        public BufferedStreamAssertions(System.IO.BufferedStream stream) { }
+        public BufferedStreamAssertions(System.IO.BufferedStream stream, FluentAssertions.Execution.AssertionChain assertionChain) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> HaveBufferSize(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveBufferSize(int unexpected, string because = "", params object[] becauseArgs) { }
     }
     public class StreamAssertions : FluentAssertions.Streams.StreamAssertions<System.IO.Stream, FluentAssertions.Streams.StreamAssertions>
     {
-        public StreamAssertions(System.IO.Stream stream) { }
+        public StreamAssertions(System.IO.Stream stream, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class StreamAssertions<TSubject, TAssertions> : FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions>
         where TSubject : System.IO.Stream
         where TAssertions : FluentAssertions.Streams.StreamAssertions<TSubject, TAssertions>
     {
-        public StreamAssertions(TSubject stream) { }
+        public StreamAssertions(TSubject stream, FluentAssertions.Execution.AssertionChain assertionChain) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> BeReadOnly(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeReadable(string because = "", params object[] becauseArgs) { }
@@ -2302,7 +2244,7 @@ namespace FluentAssertions.Types
     }
     public class AssemblyAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<System.Reflection.Assembly, FluentAssertions.Types.AssemblyAssertions>
     {
-        public AssemblyAssertions(System.Reflection.Assembly assembly) { }
+        public AssemblyAssertions(System.Reflection.Assembly assembly, FluentAssertions.Execution.AssertionChain assertionChain) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.AssemblyAssertions> BeSignedWithPublicKey(string publicKey, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.AssemblyAssertions> BeUnsigned(string because = "", params object[] becauseArgs) { }
@@ -2312,14 +2254,14 @@ namespace FluentAssertions.Types
     }
     public class ConstructorInfoAssertions : FluentAssertions.Types.MethodBaseAssertions<System.Reflection.ConstructorInfo, FluentAssertions.Types.ConstructorInfoAssertions>
     {
-        public ConstructorInfoAssertions(System.Reflection.ConstructorInfo constructorInfo) { }
+        public ConstructorInfoAssertions(System.Reflection.ConstructorInfo constructorInfo, FluentAssertions.Execution.AssertionChain assertionChain) { }
         protected override string Identifier { get; }
     }
     public abstract class MemberInfoAssertions<TSubject, TAssertions> : FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions>
         where TSubject : System.Reflection.MemberInfo
         where TAssertions : FluentAssertions.Types.MemberInfoAssertions<TSubject, TAssertions>
     {
-        protected MemberInfoAssertions(TSubject subject) { }
+        protected MemberInfoAssertions(TSubject subject, FluentAssertions.Execution.AssertionChain assertionChain) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.MemberInfoAssertions<TSubject, TAssertions>, TAttribute> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : System.Attribute { }
@@ -2334,13 +2276,13 @@ namespace FluentAssertions.Types
         where TSubject : System.Reflection.MethodBase
         where TAssertions : FluentAssertions.Types.MethodBaseAssertions<TSubject, TAssertions>
     {
-        protected MethodBaseAssertions(TSubject subject) { }
+        protected MethodBaseAssertions(TSubject subject, FluentAssertions.Execution.AssertionChain assertionChain) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveAccessModifier(FluentAssertions.Common.CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotHaveAccessModifier(FluentAssertions.Common.CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs) { }
     }
     public class MethodInfoAssertions : FluentAssertions.Types.MethodBaseAssertions<System.Reflection.MethodInfo, FluentAssertions.Types.MethodInfoAssertions>
     {
-        public MethodInfoAssertions(System.Reflection.MethodInfo methodInfo) { }
+        public MethodInfoAssertions(System.Reflection.MethodInfo methodInfo, FluentAssertions.Execution.AssertionChain assertionChain) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.MethodInfoAssertions> BeAsync(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.MethodInfoAssertions> BeVirtual(string because = "", params object[] becauseArgs) { }
@@ -2384,7 +2326,7 @@ namespace FluentAssertions.Types
     }
     public class MethodInfoSelectorAssertions
     {
-        public MethodInfoSelectorAssertions(params System.Reflection.MethodInfo[] methods) { }
+        public MethodInfoSelectorAssertions(FluentAssertions.Execution.AssertionChain assertionChain, params System.Reflection.MethodInfo[] methods) { }
         protected string Context { get; }
         public System.Collections.Generic.IEnumerable<System.Reflection.MethodInfo> SubjectMethods { get; }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.MethodInfoSelectorAssertions> Be(FluentAssertions.Common.CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs) { }
@@ -2405,7 +2347,7 @@ namespace FluentAssertions.Types
     }
     public class PropertyInfoAssertions : FluentAssertions.Types.MemberInfoAssertions<System.Reflection.PropertyInfo, FluentAssertions.Types.PropertyInfoAssertions>
     {
-        public PropertyInfoAssertions(System.Reflection.PropertyInfo propertyInfo) { }
+        public PropertyInfoAssertions(System.Reflection.PropertyInfo propertyInfo, FluentAssertions.Execution.AssertionChain assertionChain) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.PropertyInfoAssertions> BeReadable(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.PropertyInfoAssertions> BeReadable(FluentAssertions.Common.CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs) { }
@@ -2447,7 +2389,7 @@ namespace FluentAssertions.Types
     }
     public class PropertyInfoSelectorAssertions
     {
-        public PropertyInfoSelectorAssertions(params System.Reflection.PropertyInfo[] properties) { }
+        public PropertyInfoSelectorAssertions(FluentAssertions.Execution.AssertionChain assertionChain, params System.Reflection.PropertyInfo[] properties) { }
         protected string Context { get; }
         public System.Collections.Generic.IEnumerable<System.Reflection.PropertyInfo> SubjectProperties { get; }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.PropertyInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
@@ -2462,7 +2404,7 @@ namespace FluentAssertions.Types
     }
     public class TypeAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<System.Type, FluentAssertions.Types.TypeAssertions>
     {
-        public TypeAssertions(System.Type type) { }
+        public TypeAssertions(System.Type type, FluentAssertions.Execution.AssertionChain assertionChain) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> Be(System.Type expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> Be<TExpected>(string because = "", params object[] becauseArgs) { }
@@ -2580,7 +2522,7 @@ namespace FluentAssertions.Types
     }
     public class TypeSelectorAssertions
     {
-        public TypeSelectorAssertions(params System.Type[] types) { }
+        public TypeSelectorAssertions(FluentAssertions.Execution.AssertionChain assertionChain, params System.Type[] types) { }
         public System.Collections.Generic.IEnumerable<System.Type> Subject { get; }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : System.Attribute { }
@@ -2611,7 +2553,7 @@ namespace FluentAssertions.Xml
 {
     public class XAttributeAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<System.Xml.Linq.XAttribute, FluentAssertions.Xml.XAttributeAssertions>
     {
-        public XAttributeAssertions(System.Xml.Linq.XAttribute attribute) { }
+        public XAttributeAssertions(System.Xml.Linq.XAttribute attribute, FluentAssertions.Execution.AssertionChain assertionChain) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<FluentAssertions.Xml.XAttributeAssertions> Be(System.Xml.Linq.XAttribute expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Xml.XAttributeAssertions> HaveValue(string expected, string because = "", params object[] becauseArgs) { }
@@ -2619,7 +2561,7 @@ namespace FluentAssertions.Xml
     }
     public class XDocumentAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<System.Xml.Linq.XDocument, FluentAssertions.Xml.XDocumentAssertions>
     {
-        public XDocumentAssertions(System.Xml.Linq.XDocument document) { }
+        public XDocumentAssertions(System.Xml.Linq.XDocument document, FluentAssertions.Execution.AssertionChain assertionChain) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<FluentAssertions.Xml.XDocumentAssertions> Be(System.Xml.Linq.XDocument expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Xml.XDocumentAssertions> BeEquivalentTo(System.Xml.Linq.XDocument expected, string because = "", params object[] becauseArgs) { }
@@ -2634,7 +2576,7 @@ namespace FluentAssertions.Xml
     }
     public class XElementAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<System.Xml.Linq.XElement, FluentAssertions.Xml.XElementAssertions>
     {
-        public XElementAssertions(System.Xml.Linq.XElement xElement) { }
+        public XElementAssertions(System.Xml.Linq.XElement xElement, FluentAssertions.Execution.AssertionChain assertionChain) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> Be(System.Xml.Linq.XElement expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Xml.XElementAssertions> BeEquivalentTo(System.Xml.Linq.XElement expected, string because = "", params object[] becauseArgs) { }
@@ -2650,7 +2592,7 @@ namespace FluentAssertions.Xml
     }
     public class XmlElementAssertions : FluentAssertions.Xml.XmlNodeAssertions<System.Xml.XmlElement, FluentAssertions.Xml.XmlElementAssertions>
     {
-        public XmlElementAssertions(System.Xml.XmlElement xmlElement) { }
+        public XmlElementAssertions(System.Xml.XmlElement xmlElement, FluentAssertions.Execution.AssertionChain assertionChain) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<FluentAssertions.Xml.XmlElementAssertions> HaveAttribute(string expectedName, string expectedValue, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Xml.XmlElementAssertions> HaveAttributeWithNamespace(string expectedName, string expectedNamespace, string expectedValue, string because = "", params object[] becauseArgs) { }
@@ -2660,13 +2602,13 @@ namespace FluentAssertions.Xml
     }
     public class XmlNodeAssertions : FluentAssertions.Xml.XmlNodeAssertions<System.Xml.XmlNode, FluentAssertions.Xml.XmlNodeAssertions>
     {
-        public XmlNodeAssertions(System.Xml.XmlNode xmlNode) { }
+        public XmlNodeAssertions(System.Xml.XmlNode xmlNode, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
     public class XmlNodeAssertions<TSubject, TAssertions> : FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions>
         where TSubject : System.Xml.XmlNode
         where TAssertions : FluentAssertions.Xml.XmlNodeAssertions<TSubject, TAssertions>
     {
-        public XmlNodeAssertions(TSubject xmlNode) { }
+        public XmlNodeAssertions(TSubject xmlNode, FluentAssertions.Execution.AssertionChain assertionChain) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(System.Xml.XmlNode expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo(System.Xml.XmlNode unexpected, string because = "", params object[] becauseArgs) { }

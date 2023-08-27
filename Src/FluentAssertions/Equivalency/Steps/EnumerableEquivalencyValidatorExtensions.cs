@@ -6,10 +6,10 @@ namespace FluentAssertions.Equivalency.Steps;
 
 internal static class EnumerableEquivalencyValidatorExtensions
 {
-    public static Continuation AssertEitherCollectionIsNotEmpty<T>(this IAssertionScope scope, ICollection<object> subject,
+    public static Continuation AssertEitherCollectionIsNotEmpty<T>(this AssertionChain assertionChain, ICollection<object> subject,
         ICollection<T> expectation)
     {
-        return scope
+        return assertionChain
             .ForCondition(subject.Count > 0 || expectation.Count == 0)
             .FailWith(", but found an empty collection.")
             .Then
@@ -19,10 +19,10 @@ internal static class EnumerableEquivalencyValidatorExtensions
                 subject.Count);
     }
 
-    public static Continuation AssertCollectionHasEnoughItems<T>(this IAssertionScope scope, ICollection<object> subject,
+    public static Continuation AssertCollectionHasEnoughItems<T>(this AssertionChain assertionChain, ICollection<object> subject,
         ICollection<T> expectation)
     {
-        return scope
+        return assertionChain
             .ForCondition(subject.Count >= expectation.Count)
             .FailWith($", but {{0}}{Environment.NewLine}contains {{1}} item(s) less than{Environment.NewLine}{{2}}.",
                 subject,
@@ -30,10 +30,10 @@ internal static class EnumerableEquivalencyValidatorExtensions
                 expectation);
     }
 
-    public static Continuation AssertCollectionHasNotTooManyItems<T>(this IAssertionScope scope, ICollection<object> subject,
+    public static Continuation AssertCollectionHasNotTooManyItems<T>(this AssertionChain assertionChain, ICollection<object> subject,
         ICollection<T> expectation)
     {
-        return scope
+        return assertionChain
             .ForCondition(subject.Count <= expectation.Count)
             .FailWith($", but {{0}}{Environment.NewLine}contains {{1}} item(s) more than{Environment.NewLine}{{2}}.",
                 subject,

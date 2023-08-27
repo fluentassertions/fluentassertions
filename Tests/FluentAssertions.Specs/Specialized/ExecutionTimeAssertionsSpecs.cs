@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
 using FluentAssertions.Specialized;
 using Xunit;
@@ -580,7 +581,7 @@ public class ExecutionTimeAssertionsSpecs
             ExecutionTime executionTime = null;
 
             // Act
-            Func<ExecutionTimeAssertions> act = () => new ExecutionTimeAssertions(executionTime);
+            Func<ExecutionTimeAssertions> act = () => new ExecutionTimeAssertions(executionTime, AssertionChain.GetOrCreate());
 
             // Assert
             act.Should().Throw<ArgumentNullException>()

@@ -75,7 +75,7 @@ public class EquivalencyValidationContext : IEquivalencyValidationContext
             is EqualityStrategy.Members or EqualityStrategy.ForceMembers;
 
         var reference = new ObjectReference(expectation, CurrentNode.PathAndName, compareByMembers);
-        return CyclicReferenceDetector.IsCyclicReference(reference, Options.CyclicReferenceHandling, Reason);
+        return CyclicReferenceDetector.IsCyclicReference(reference);
     }
 
     public ITraceWriter TraceWriter { get; set; }

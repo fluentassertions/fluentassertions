@@ -264,15 +264,11 @@ public class StringComparisonSpecs
     [CulturedFact("tr-TR")]
     public void When_formatting_reason_arguments_it_should_ignore_culture()
     {
-        // Arrange
-        var scope = new AssertionScope();
-
         // Act
-        scope.BecauseOf("{0}", 1.234)
-            .FailWith("{reason}");
+        Action act = () => 1.Should().Be(2, "{0}", 1.234);
 
         // Assert
-        scope.Invoking(e => e.Dispose()).Should().Throw<XunitException>()
+        act.Should().Throw<XunitException>()
             .WithMessage("*1.234*", "it should always use . as decimal separator");
     }
 

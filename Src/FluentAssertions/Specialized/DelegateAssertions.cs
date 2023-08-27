@@ -16,14 +16,18 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     where TDelegate : Delegate
     where TAssertions : DelegateAssertions<TDelegate, TAssertions>
 {
-    protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor)
-        : base(@delegate, extractor, new Clock())
+    private readonly AssertionChain assertionChain;
+
+    protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor, AssertionChain assertionChain)
+        : base(@delegate, extractor, assertionChain, new Clock())
     {
+        this.assertionChain = assertionChain;
     }
 
-    private protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor, IClock clock)
-        : base(@delegate, extractor, clock)
+    private protected DelegateAssertions(TDelegate @delegate, IExtractExceptions extractor, AssertionChain assertionChain, IClock clock)
+        : base(@delegate, extractor, assertionChain, clock)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -39,19 +43,19 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     public ExceptionAssertions<TException> Throw<TException>([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TException : Exception
     {
-        bool success = Execute.Assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to throw {0}{reason}, but found <null>.", typeof(TException));
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             FailIfSubjectIsAsyncVoid();
             Exception exception = InvokeSubjectWithInterception();
             return ThrowInternal<TException>(exception, because, becauseArgs);
         }
 
-        return new ExceptionAssertions<TException>([]);
+        return new ExceptionAssertions<TException>([], assertionChain);
     }
 
     /// <summary>
@@ -67,12 +71,12 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
     public AndConstraint<TAssertions> NotThrow<TException>([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
         where TException : Exception
     {
-        bool success = Execute.Assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw {0}{reason}, but found <null>.", typeof(TException));
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             FailIfSubjectIsAsyncVoid();
             Exception exception = InvokeSubjectWithInterception();
@@ -102,32 +106,32 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
         params object[] becauseArgs)
         where TException : Exception
     {
-        bool success = Execute.Assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} to throw exactly {0}{reason}, but found <null>.", typeof(TException));
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             FailIfSubjectIsAsyncVoid();
             Exception exception = InvokeSubjectWithInterception();
 
             Type expectedType = typeof(TException);
 
-            success = Execute.Assertion
+            assertionChain
                 .ForCondition(exception is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {0}{reason}, but no exception was thrown.", expectedType);
 
-            if (success)
+            if (assertionChain.Succeeded)
             {
                 exception.Should().BeOfType(expectedType, because, becauseArgs);
             }
 
-            return new ExceptionAssertions<TException>([exception as TException]);
+            return new ExceptionAssertions<TException>([exception as TException], assertionChain);
         }
 
-        return new ExceptionAssertions<TException>([]);
+        return new ExceptionAssertions<TException>([], assertionChain);
     }
 
     protected abstract void InvokeSubject();

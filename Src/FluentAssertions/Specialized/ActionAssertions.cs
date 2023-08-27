@@ -12,14 +12,18 @@ namespace FluentAssertions.Specialized;
 [DebuggerNonUserCode]
 public class ActionAssertions : DelegateAssertions<Action, ActionAssertions>
 {
-    public ActionAssertions(Action subject, IExtractExceptions extractor)
-        : base(subject, extractor)
+    private readonly AssertionChain assertionChain;
+
+    public ActionAssertions(Action subject, IExtractExceptions extractor, AssertionChain assertionChain)
+        : base(subject, extractor, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
-    public ActionAssertions(Action subject, IExtractExceptions extractor, IClock clock)
-        : base(subject, extractor, clock)
+    public ActionAssertions(Action subject, IExtractExceptions extractor, AssertionChain assertionChain, IClock clock)
+        : base(subject, extractor, assertionChain, clock)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -34,12 +38,12 @@ public class ActionAssertions : DelegateAssertions<Action, ActionAssertions>
     /// </param>
     public AndConstraint<ActionAssertions> NotThrow([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw{reason}, but found <null>.");
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             FailIfSubjectIsAsyncVoid();
             Exception exception = InvokeSubjectWithInterception();
@@ -78,12 +82,12 @@ public class ActionAssertions : DelegateAssertions<Action, ActionAssertions>
         Guard.ThrowIfArgumentIsNegative(waitTime);
         Guard.ThrowIfArgumentIsNegative(pollInterval);
 
-        bool success = Execute.Assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context} not to throw after {0}{reason}, but found <null>.", waitTime);
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             FailIfSubjectIsAsyncVoid();
 
@@ -104,7 +108,7 @@ public class ActionAssertions : DelegateAssertions<Action, ActionAssertions>
                 invocationEndTime = timer.Elapsed;
             }
 
-            Execute.Assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(exception is null)
                 .FailWith("Did not expect any exceptions after {0}{reason}, but found {1}.", waitTime, exception);

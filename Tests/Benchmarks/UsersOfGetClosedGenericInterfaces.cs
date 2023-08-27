@@ -160,7 +160,7 @@ public class UsersOfGetClosedGenericInterfaces
     {
         for (int i = 0; i < values.Length; i++)
         {
-            dictionaryStep.Handle(new Comparands(values[i], values[0], typeof(object)), context, null);
+            dictionaryStep.Handle(new Comparands(values[i], values[0], typeof(object)), AssertionChain.GetOrCreate(), context, null);
         }
     }
 
@@ -169,7 +169,7 @@ public class UsersOfGetClosedGenericInterfaces
     {
         for (int i = 0; i < values.Length; i++)
         {
-            enumerableStep.Handle(new Comparands(values[i], values[0], typeof(object)), context, null);
+            enumerableStep.Handle(new Comparands(values[i], values[0], typeof(object)), AssertionChain.GetOrCreate(), context, null);
         }
     }
 }

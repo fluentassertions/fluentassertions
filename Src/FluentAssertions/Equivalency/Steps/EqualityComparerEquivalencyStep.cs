@@ -13,8 +13,8 @@ public class EqualityComparerEquivalencyStep<T> : IEquivalencyStep
         this.comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
     }
 
-    public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator nestedValidator)
+    public EquivalencyResult Handle(Comparands comparands, AssertionChain assertionChain, IEquivalencyValidationContext context,
+        IValidateChildNodeEquivalency nestedValidator)
     {
         var expectedType = context.Options.UseRuntimeTyping ? comparands.RuntimeType : comparands.CompileTimeType;
 
@@ -29,7 +29,7 @@ public class EqualityComparerEquivalencyStep<T> : IEquivalencyStep
             return EquivalencyResult.ContinueWithNext;
         }
 
-        Execute.Assertion
+        assertionChain
             .BecauseOf(context.Reason.FormattedMessage, context.Reason.Arguments)
             .ForCondition(comparands.Subject is T)
             .FailWith("Expected {context:object} to be of type {0}{because}, but found {1}", typeof(T), comparands.Subject)
@@ -39,7 +39,7 @@ public class EqualityComparerEquivalencyStep<T> : IEquivalencyStep
             .FailWith("Expected {context:object} to be equal to {1} according to {0}{because}, but {2} was not.",
                 comparer.ToString(), comparands.Expectation, comparands.Subject);
 
-        return EquivalencyResult.AssertionCompleted;
+        return EquivalencyResult.EquivalencyProven;
     }
 
     public override string ToString()

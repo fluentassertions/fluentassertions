@@ -24,7 +24,7 @@ namespace FluentAssertions.Specs.Execution
             // Arrange
             var scope = new AssertionScope();
 
-            AssertionScope.Current.FailWith("Failure1");
+            AssertionChain.GetOrCreate().FailWith("Failure1");
 
             // Act
             Action act = scope.Dispose;
@@ -46,7 +46,7 @@ namespace FluentAssertions.Specs.Execution
             // Arrange
             var scope = new AssertionScope();
 
-            AssertionScope.Current.FailWith("Failure{0}", 1);
+            AssertionChain.GetOrCreate().FailWith("Failure{0}", 1);
 
             // Act
             Action act = scope.Dispose;
@@ -69,7 +69,7 @@ namespace FluentAssertions.Specs.Execution
             var scope = new AssertionScope();
             bool failReasonCalled = false;
 
-            AssertionScope.Current
+            AssertionChain.GetOrCreate()
                 .ForCondition(true)
                 .FailWith(() =>
                 {
@@ -91,7 +91,9 @@ namespace FluentAssertions.Specs.Execution
             // Arrange
             var scope = new AssertionScope();
 
-            AssertionScope.Current.FailWith(() => new FailReason("Failure{0}", 1));
+            AssertionChain
+                .GetOrCreate()
+                .FailWith(() => new FailReason("Failure{0}", 1));
 
             // Act
             Action act = scope.Dispose;
@@ -113,14 +115,14 @@ namespace FluentAssertions.Specs.Execution
             // Arrange
             var scope = new AssertionScope();
 
-            AssertionScope.Current.FailWith("Failure1");
+            AssertionChain.GetOrCreate().FailWith("Failure1");
 
             using (var nestedScope = new AssertionScope())
             {
-                nestedScope.FailWith("Failure2");
+                AssertionChain.GetOrCreate().FailWith("Failure2");
 
                 using var deeplyNestedScope = new AssertionScope();
-                deeplyNestedScope.FailWith("Failure3");
+                AssertionChain.GetOrCreate().FailWith("Failure3");
             }
 
             // Act
@@ -143,14 +145,14 @@ namespace FluentAssertions.Specs.Execution
             // Arrange
             var scope = new AssertionScope();
 
-            AssertionScope.Current.FailWith("Failure1");
+            AssertionChain.GetOrCreate().FailWith("Failure1");
 
             using (var nestedScope = new AssertionScope())
             {
-                nestedScope.FailWith("Failure2");
+                AssertionChain.GetOrCreate().FailWith("Failure2");
 
                 using var deeplyNestedScope = new AssertionScope();
-                deeplyNestedScope.FailWith("Failure3");
+                AssertionChain.GetOrCreate().FailWith("Failure3");
                 deeplyNestedScope.Discard();
             }
 
@@ -170,7 +172,7 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
-        public async Task When_using_AssertionScope_across_thread_boundaries_it_should_work()
+        public async Task When_using_a_scope_across_thread_boundaries_it_should_work()
         {
             using var semaphore = new SemaphoreSlim(0, 1);
             await Task.WhenAll(SemaphoreYieldAndWait(semaphore), SemaphoreYieldAndRelease(semaphore));
@@ -199,7 +201,7 @@ namespace FluentAssertions.Specs.Execution
             var scope = new AssertionScope(new FailWithStupidMessageAssertionStrategy());
 
             // Act
-            Action act = () => scope.FailWith("Failure 1");
+            Action act = () => AssertionChain.GetOrCreate().FailWith("Failure 1");
 
             // Assert
             act.Should().ThrowExactly<XunitException>()
@@ -240,7 +242,7 @@ namespace FluentAssertions.Specs.Execution
         public void When_nested_scope_is_disposed_it_passes_reports_to_parent_scope()
         {
             // Arrange/Act
-            using var outerScope = new AssertionScope();
+            var outerScope = new AssertionScope();
             outerScope.AddReportable("outerReportable", "foo");
 
             using (var innerScope = new AssertionScope())
@@ -248,8 +250,13 @@ namespace FluentAssertions.Specs.Execution
                 innerScope.AddReportable("innerReportable", "bar");
             }
 
+            AssertionChain.GetOrCreate().FailWith("whatever reason");
+
+            Action act = () => outerScope.Dispose();
+
             // Assert
-            outerScope.Get<string>("innerReportable").Should().Be("bar");
+            act.Should().Throw<XunitException>()
+                .Which.Message.Should().Match("Whatever reason*outerReportable*foo*innerReportable*bar*");
         }
 
         [Fact]
