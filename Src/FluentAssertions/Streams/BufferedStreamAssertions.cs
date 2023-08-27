@@ -1,9 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
-#if NET6_0_OR_GREATER || NETSTANDARD2_1
-using System.Diagnostics.CodeAnalysis;
 using FluentAssertions.Execution;
-#endif
 
 namespace FluentAssertions.Streams;
 
@@ -14,8 +11,8 @@ namespace FluentAssertions.Streams;
 [DebuggerNonUserCode]
 public class BufferedStreamAssertions : BufferedStreamAssertions<BufferedStreamAssertions>
 {
-    public BufferedStreamAssertions(BufferedStream stream)
-        : base(stream)
+    public BufferedStreamAssertions(BufferedStream stream, AssertionChain assertionChain)
+        : base(stream, assertionChain)
     {
     }
 }
@@ -23,14 +20,16 @@ public class BufferedStreamAssertions : BufferedStreamAssertions<BufferedStreamA
 public class BufferedStreamAssertions<TAssertions> : StreamAssertions<BufferedStream, TAssertions>
     where TAssertions : BufferedStreamAssertions<TAssertions>
 {
-    public BufferedStreamAssertions(BufferedStream stream)
-        : base(stream)
+#if NET6_0_OR_GREATER || NETSTANDARD2_1
+
+    private readonly AssertionChain assertionChain;
+
+    public BufferedStreamAssertions(BufferedStream stream, AssertionChain assertionChain)
+        : base(stream, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
-    protected override string Identifier => "buffered stream";
-
-#if NET6_0_OR_GREATER || NETSTANDARD2_1
     /// <summary>
     /// Asserts that the current <see cref="BufferedStream"/> has the <paramref name="expected"/> buffer size.
     /// </summary>
@@ -42,18 +41,17 @@ public class BufferedStreamAssertions<TAssertions> : StreamAssertions<BufferedSt
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> HaveBufferSize(int expected,
-        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> HaveBufferSize(int expected, string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected the buffer size of {context:stream} to be {0}{reason}, but found a <null> reference.",
                 expected);
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject!.BufferSize == expected)
                 .FailWith("Expected the buffer size of {context:stream} to be {0}{reason}, but it was {1}.",
@@ -74,18 +72,17 @@ public class BufferedStreamAssertions<TAssertions> : StreamAssertions<BufferedSt
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotHaveBufferSize(int unexpected,
-        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotHaveBufferSize(int unexpected, string because = "", params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected the buffer size of {context:stream} not to be {0}{reason}, but found a <null> reference.",
                 unexpected);
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject!.BufferSize != unexpected)
                 .FailWith("Expected the buffer size of {context:stream} not to be {0}{reason}, but it was.",
@@ -94,5 +91,12 @@ public class BufferedStreamAssertions<TAssertions> : StreamAssertions<BufferedSt
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
+#else
+    public BufferedStreamAssertions(BufferedStream stream, AssertionChain assertionChain)
+        : base(stream, assertionChain)
+    {
+    }
 #endif
+
+    protected override string Identifier => "buffered stream";
 }

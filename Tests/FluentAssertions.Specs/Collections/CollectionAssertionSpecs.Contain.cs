@@ -104,7 +104,8 @@ public partial class CollectionAssertionSpecs
             Action act = () =>
             {
                 using var _ = new AssertionScope();
-                collection.Should().Contain([4]).And.Contain([5, 6]);
+                collection.Should().Contain([4]);
+                collection.Should().Contain([5, 6]);
             };
 
             // Assert
@@ -184,6 +185,20 @@ public partial class CollectionAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected*greater*4*2*");
+        }
+
+        [Fact]
+        public void Can_chain_another_assertion_on_the_single_result()
+        {
+            // Arrange
+            IEnumerable<int> collection = [1, 2, 3];
+
+            // Act
+            Action act = () => collection.Should().Contain(item => item == 2).Which.Should().BeGreaterThan(4);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected collection[1]*greater*4*2*");
         }
 
         [Fact]
@@ -395,7 +410,7 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_asserting_multiple_collection_in_assertion_scope_all_should_be_reported()
+        public void Assertion_scopes_do_not_affect_chained_calls()
         {
             // Arrange
             int[] collection = [1, 2, 3];
@@ -409,7 +424,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*to not contain {1, 2}*to not contain 3*");
+                "*but found {1, 2}.");
         }
 
         [Fact]

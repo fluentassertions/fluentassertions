@@ -1,6 +1,5 @@
 ﻿using System;
 using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
 using Xunit;
 using Xunit.Sdk;
 
@@ -70,23 +69,15 @@ public class AssertionFailureSpecs
             .WithMessage("Expected it to fail\r\nbecause AssertionsTestSubClass should always fail.");
     }
 
-    internal class AssertionsTestSubClass : ReferenceTypeAssertions<object, AssertionsTestSubClass>
+    internal class AssertionsTestSubClass
     {
+        private readonly AssertionChain assertionChain = AssertionChain.GetOrCreate();
+
         public void AssertFail(string because, params object[] becauseArgs)
         {
-            Execute.Assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected it to fail{reason}");
-        }
-
-        protected override string Identifier
-        {
-            get { return "test"; }
-        }
-
-        public AssertionsTestSubClass()
-            : base(null)
-        {
         }
     }
 }

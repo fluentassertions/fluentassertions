@@ -18,7 +18,9 @@ public class EnumEqualityStep : IEquivalencyStep
             return EquivalencyResult.ContinueWithNext;
         }
 
-        bool succeeded = Execute.Assertion
+        var assertionChain = AssertionChain.GetOrCreate().For(context);
+
+        assertionChain
             .ForCondition(comparands.Subject?.GetType().IsEnum == true)
             .BecauseOf(context.Reason)
             .FailWith(() =>
@@ -31,16 +33,16 @@ public class EnumEqualityStep : IEquivalencyStep
                     comparands.Subject);
             });
 
-        if (succeeded)
+        if (assertionChain.Succeeded)
         {
             switch (context.Options.EnumEquivalencyHandling)
             {
                 case EnumEquivalencyHandling.ByValue:
-                    HandleByValue(comparands, context.Reason);
+                    HandleByValue(assertionChain, comparands, context.Reason);
                     break;
 
                 case EnumEquivalencyHandling.ByName:
-                    HandleByName(comparands, context.Reason);
+                    HandleByName(assertionChain, comparands, context.Reason);
                     break;
 
                 default:
@@ -51,12 +53,12 @@ public class EnumEqualityStep : IEquivalencyStep
         return EquivalencyResult.EquivalencyProven;
     }
 
-    private static void HandleByValue(Comparands comparands, Reason reason)
+    private static void HandleByValue(AssertionChain assertionChain, Comparands comparands, Reason reason)
     {
         decimal? subjectsUnderlyingValue = ExtractDecimal(comparands.Subject);
         decimal? expectationsUnderlyingValue = ExtractDecimal(comparands.Expectation);
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(subjectsUnderlyingValue == expectationsUnderlyingValue)
             .BecauseOf(reason)
             .FailWith(() =>
@@ -69,12 +71,12 @@ public class EnumEqualityStep : IEquivalencyStep
             });
     }
 
-    private static void HandleByName(Comparands comparands, Reason reason)
+    private static void HandleByName(AssertionChain assertionChain, Comparands comparands, Reason reason)
     {
         string subject = comparands.Subject.ToString();
         string expected = comparands.Expectation.ToString();
 
-        Execute.Assertion
+        assertionChain
             .ForCondition(subject == expected)
             .BecauseOf(reason)
             .FailWith(() =>

@@ -9,7 +9,7 @@ namespace FluentAssertions.Equivalency.Matching;
 /// </summary>
 internal class MustMatchByNameRule : IMemberMatchingRule
 {
-    public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyOptions options)
+    public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyOptions options, AssertionChain assertionChain)
     {
         IMember subjectMember = null;
 
@@ -33,12 +33,12 @@ internal class MustMatchByNameRule : IMemberMatchingRule
 
         if (subjectMember is null)
         {
-            Execute.Assertion.FailWith(
+            assertionChain.FailWith(
                 $"Expectation has {expectedMember.Description} that the other object does not have.");
         }
         else if (options.IgnoreNonBrowsableOnSubject && !subjectMember.IsBrowsable)
         {
-            Execute.Assertion.FailWith(
+            assertionChain.FailWith(
                 $"Expectation has {expectedMember.Description} that is non-browsable in the other object, and non-browsable " +
                 "members on the subject are ignored with the current configuration");
         }

@@ -33,6 +33,7 @@ exclude:
   - name: SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
   - name: UnusedMemberInSuper.Global
   - name: ArrangeAccessorOwnerBody
+  - name: ParameterHidesMember
   - name: CollectionNeverUpdated.Local
     paths:
       - Tests

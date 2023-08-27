@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml;
+using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 using FluentAssertions.Xml.Equivalency;
 
@@ -12,8 +13,8 @@ namespace FluentAssertions.Xml;
 [DebuggerNonUserCode]
 public class XmlNodeAssertions : XmlNodeAssertions<XmlNode, XmlNodeAssertions>
 {
-    public XmlNodeAssertions(XmlNode xmlNode)
-        : base(xmlNode)
+    public XmlNodeAssertions(XmlNode xmlNode, AssertionChain assertionChain)
+        : base(xmlNode, assertionChain)
     {
     }
 }
@@ -26,9 +27,12 @@ public class XmlNodeAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<
     where TSubject : XmlNode
     where TAssertions : XmlNodeAssertions<TSubject, TAssertions>
 {
-    public XmlNodeAssertions(TSubject xmlNode)
-        : base(xmlNode)
+    private readonly AssertionChain assertionChain;
+
+    public XmlNodeAssertions(TSubject xmlNode, AssertionChain assertionChain)
+        : base(xmlNode, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -48,7 +52,7 @@ public class XmlNodeAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<
         using (var subjectReader = new XmlNodeReader(Subject))
         using (var expectedReader = new XmlNodeReader(expected))
         {
-            var xmlReaderValidator = new XmlReaderValidator(subjectReader, expectedReader, because, becauseArgs);
+            var xmlReaderValidator = new XmlReaderValidator(assertionChain, subjectReader, expectedReader, because, becauseArgs);
             xmlReaderValidator.Validate(shouldBeEquivalent: true);
         }
 
@@ -73,7 +77,7 @@ public class XmlNodeAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<
         using (var subjectReader = new XmlNodeReader(Subject))
         using (var unexpectedReader = new XmlNodeReader(unexpected))
         {
-            var xmlReaderValidator = new XmlReaderValidator(subjectReader, unexpectedReader, because, becauseArgs);
+            var xmlReaderValidator = new XmlReaderValidator(assertionChain, subjectReader, unexpectedReader, because, becauseArgs);
             xmlReaderValidator.Validate(shouldBeEquivalent: false);
         }
 

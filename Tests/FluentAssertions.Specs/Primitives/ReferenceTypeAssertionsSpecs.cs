@@ -43,10 +43,10 @@ public partial class ReferenceTypeAssertionsSpecs
             .Should().Throw<XunitException>()
             .WithMessage(
             """
-            Expected subject to refer to 
+            Expected subject to refer to
             {
                 UserName = "JohnDoe"
-            } because they are the same, but found 
+            } because they are the same, but found
             {
                 Name = "John Doe"
             }.
@@ -61,7 +61,7 @@ public partial class ReferenceTypeAssertionsSpecs
         act.Should().Throw<XunitException>()
             .WithMessage(
             """
-            Expected subject to be empty, but found at least one item 
+            Expected subject to be empty, but found at least one item
             {
                 FluentAssertions.Specs.Primitives.Complex
                 {
@@ -454,7 +454,7 @@ public partial class ReferenceTypeAssertionsSpecs
         public class ReferenceTypeAssertionsDummy : ReferenceTypeAssertions<object, ReferenceTypeAssertionsDummy>
         {
             public ReferenceTypeAssertionsDummy(object subject)
-                : base(subject)
+                : base(subject, AssertionChain.GetOrCreate())
             {
             }
 

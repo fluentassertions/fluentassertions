@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Numeric;
 
@@ -9,8 +10,8 @@ namespace FluentAssertions.Numeric;
 [DebuggerNonUserCode]
 internal class DoubleAssertions : NumericAssertions<double>
 {
-    internal DoubleAssertions(double value)
-        : base(value)
+    internal DoubleAssertions(double value, AssertionChain assertionChain)
+        : base(value, assertionChain)
     {
     }
 

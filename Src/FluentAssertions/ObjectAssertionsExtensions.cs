@@ -5,7 +5,6 @@ using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
-using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 
 namespace FluentAssertions;
@@ -66,7 +65,7 @@ public static class ObjectAssertionsExtensions
         }
         catch (Exception exc)
         {
-            Execute.Assertion
+            assertions.CurrentAssertionChain
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:"
                     + Environment.NewLine + Environment.NewLine + "{1}.",
@@ -110,7 +109,7 @@ public static class ObjectAssertionsExtensions
         }
         catch (Exception exc)
         {
-            Execute.Assertion
+            assertions.CurrentAssertionChain
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:"
                     + Environment.NewLine + Environment.NewLine + "{1}.",

@@ -1467,8 +1467,7 @@ public class CollectionSpecs
 
         // Assert
         action.Should().Throw<XunitException>()
-            .WithMessage(
-                "*Expected*[0].UnorderedCollection*5 item(s)*empty collection*");
+            .WithMessage("*Expected*[0].UnorderedCollection*5 item(s)*empty collection*");
     }
 
     [Fact]

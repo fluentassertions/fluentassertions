@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions.Common;
-using FluentAssertions.Equivalency;
 using FluentAssertions.Equivalency.Execution;
 using FluentAssertions.Execution;
 using FluentAssertions.Xml;
@@ -27,6 +26,7 @@ public static class Formatter
         new XElementValueFormatter(),
         new XAttributeValueFormatter(),
         new PropertyInfoFormatter(),
+        new MethodInfoFormatter(),
         new NullValueFormatter(),
         new GuidValueFormatter(),
         new DateTimeOffsetValueFormatter(),
@@ -214,7 +214,7 @@ public static class Formatter
 
             string fullPath = GetFullPath();
             var reference = new ObjectReference(value, fullPath);
-            return !tracker.IsCyclicReference(reference, CyclicReferenceHandling.Ignore);
+            return !tracker.IsCyclicReference(reference);
         }
 
         private string GetFullPath() => string.Join(".", pathStack.Reverse());

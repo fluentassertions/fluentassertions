@@ -14,12 +14,15 @@ namespace FluentAssertions.Types;
 /// </summary>
 public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAssertions>
 {
+    private readonly AssertionChain assertionChain;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="AssemblyAssertions" /> class.
     /// </summary>
-    public AssemblyAssertions(Assembly assembly)
-        : base(assembly)
+    public AssemblyAssertions(Assembly assembly, AssertionChain assertionChain)
+        : base(assembly, assertionChain)
     {
+        this.assertionChain = assertionChain;
     }
 
     /// <summary>
@@ -41,19 +44,19 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
 
         var assemblyName = assembly.GetName().Name;
 
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected assembly not to reference assembly {0}{reason}, but {context:assembly} is <null>.",
                 assemblyName);
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             var subjectName = Subject!.GetName().Name;
 
             IEnumerable<string> references = Subject.GetReferencedAssemblies().Select(x => x.Name);
 
-            Execute.Assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(!references.Contains(assemblyName))
                 .FailWith("Expected assembly {0} not to reference assembly {1}{reason}.", subjectName, assemblyName);
@@ -81,18 +84,18 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
 
         var assemblyName = assembly.GetName().Name;
 
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected assembly to reference assembly {0}{reason}, but {context:assembly} is <null>.", assemblyName);
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             var subjectName = Subject!.GetName().Name;
 
             IEnumerable<string> references = Subject.GetReferencedAssemblies().Select(x => x.Name);
 
-            Execute.Assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(references.Contains(assemblyName))
                 .FailWith("Expected assembly {0} to reference assembly {1}{reason}, but it does not.", subjectName, assemblyName);
@@ -120,7 +123,7 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
     {
         Guard.ThrowIfArgumentIsNullOrEmpty(name);
 
-        bool success = Execute.Assertion
+        assertionChain
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected assembly to define type {0}.{1}{reason}, but {context:assembly} is <null>.",
@@ -128,11 +131,11 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
 
         Type foundType = null;
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             foundType = Subject!.GetTypes().SingleOrDefault(t => t.Namespace == @namespace && t.Name == name);
 
-            Execute.Assertion
+            assertionChain
                 .ForCondition(foundType is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected assembly {0} to define type {1}.{2}{reason}, but it does not.",
@@ -150,15 +153,16 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because"/>.
     /// </param>
-    public AndConstraint<AssemblyAssertions> BeUnsigned([StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    public AndConstraint<AssemblyAssertions> BeUnsigned([StringSyntax("CompositeFormat")] string because = "",
+        params object[] becauseArgs)
     {
-        bool success = Execute.Assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .FailWith("Can't check for assembly signing if {context:assembly} reference is <null>.");
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
-            Execute.Assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject!.GetName().GetPublicKey() is not { Length: > 0 })
                 .FailWith(
@@ -181,29 +185,28 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="publicKey"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="publicKey"/> is empty.</exception>
-    public AndConstraint<AssemblyAssertions> BeSignedWithPublicKey(string publicKey, [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
+    public AndConstraint<AssemblyAssertions> BeSignedWithPublicKey(string publicKey,
+        [StringSyntax("CompositeFormat")] string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNullOrEmpty(publicKey);
 
-        bool success = Execute.Assertion
+        assertionChain
             .ForCondition(Subject is not null)
             .FailWith("Can't check for assembly signing if {context:assembly} reference is <null>.");
 
-        if (success)
+        if (assertionChain.Succeeded)
         {
             var bytes = Subject!.GetName().GetPublicKey() ?? [];
             string assemblyKey = ToHexString(bytes);
 
-            Execute.Assertion
+            assertionChain
                 .BecauseOf(because, becauseArgs)
-                .WithExpectation("Expected assembly {0} to have public key {1} ", Subject.FullName, publicKey)
-                .ForCondition(bytes.Length != 0)
-                .FailWith("{reason}, but it is unsigned.")
-                .Then
-                .ForCondition(string.Equals(assemblyKey, publicKey, StringComparison.OrdinalIgnoreCase))
-                .FailWith("{reason}, but it has {0} instead.", assemblyKey)
-                .Then
-                .ClearExpectation();
+                .WithExpectation("Expected assembly {0} to have public key {1} ", Subject.FullName, publicKey, chain => chain
+                    .ForCondition(bytes.Length != 0)
+                    .FailWith("{reason}, but it is unsigned.")
+                    .Then
+                    .ForCondition(string.Equals(assemblyKey, publicKey, StringComparison.OrdinalIgnoreCase))
+                    .FailWith("{reason}, but it has {0} instead.", assemblyKey));
         }
 
         return new AndConstraint<AssemblyAssertions>(this);

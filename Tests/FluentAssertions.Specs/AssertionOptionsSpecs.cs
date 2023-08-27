@@ -421,7 +421,7 @@ public class AssertionOptionsSpecs
         public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
             IValidateChildNodeEquivalency valueChildNodes)
         {
-            Execute.Assertion.FailWith(GetType().FullName);
+            AssertionChain.GetOrCreate().For(context).FailWith(GetType().FullName);
 
             return EquivalencyResult.EquivalencyProven;
         }

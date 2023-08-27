@@ -15,12 +15,18 @@ namespace FluentAssertions.Formatting;
 /// to the maximum number of lines provided through its constructor. It will throw
 /// a <see cref="MaxLinesExceededException"/> if the number of lines exceeds the maximum.
 /// </remarks>
-public class FormattedObjectGraph(int maxLines)
+public class FormattedObjectGraph
 {
+    private readonly int maxLines;
     private readonly List<string> lines = [];
     private readonly StringBuilder lineBuilder = new();
     private int indentation;
     private string lineBuilderWhitespace = string.Empty;
+
+    public FormattedObjectGraph(int maxLines)
+    {
+        this.maxLines = maxLines;
+    }
 
     /// <summary>
     /// The number of spaces that should be used by every indentation level.
@@ -93,13 +99,14 @@ public class FormattedObjectGraph(int maxLines)
 
     private void FlushCurrentLine()
     {
-        if (lineBuilder.Length > 0)
+        string line = lineBuilder.ToString().TrimEnd();
+        if (line.Length > 0)
         {
-            AppendWithoutExceedingMaximumLines($"{lineBuilderWhitespace}{lineBuilder}");
-
-            lineBuilder.Clear();
-            lineBuilderWhitespace = Whitespace;
+            AppendWithoutExceedingMaximumLines(lineBuilderWhitespace + line);
         }
+
+        lineBuilder.Clear();
+        lineBuilderWhitespace = Whitespace;
     }
 
     private void AppendWithoutExceedingMaximumLines(string line)

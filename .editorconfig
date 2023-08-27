@@ -199,6 +199,11 @@ dotnet_diagnostic.SA1116.severity = none
 dotnet_diagnostic.SA1117.severity = none
 # SA1200: Using directive should appear within a namespace declaration
 dotnet_diagnostic.SA1200.severity = none
+
+# Purpose: Use string. Empty for empty strings
+# Reason: There's no performance difference. See https://medium.com/@dk.kravtsov/string-empty-vs-in-c-70c64971161f 
+dotnet_diagnostic.SA1122.severity = none
+
 # SA1124: Do not use regions
 dotnet_diagnostic.SA1124.severity = none
 # SA1201: A property should not follow a method
