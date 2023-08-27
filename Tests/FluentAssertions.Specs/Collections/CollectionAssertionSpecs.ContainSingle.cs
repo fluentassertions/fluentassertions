@@ -33,11 +33,8 @@ public partial class CollectionAssertionSpecs
         IEnumerable<int> collection = [1, 2, 3];
         Expression<Func<int, bool>> expression = item => item == 2;
 
-        // Act
-        Action act = () => collection.Should().ContainSingle(expression);
-
-        // Assert
-        act.Should().NotThrow();
+        // Act / Assert
+        collection.Should().ContainSingle(expression);
     }
 
     [Fact]
@@ -122,7 +119,27 @@ public partial class CollectionAssertionSpecs
         Action act = () => collection.Should().ContainSingle(item => item == 2).Which.Should().BeGreaterThan(4);
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage("Expected*greater*4*2*");
+        act.Should()
+            .Throw<XunitException>()
+            .WithMessage("Expected collection[0]*greater*4*2*");
+    }
+
+    [Fact]
+    public void Chained_assertions_are_never_called_when_the_initial_assertion_failed()
+    {
+        // Arrange
+        IEnumerable<int> collection = [1, 2, 3];
+
+        // Act
+        Action act = () =>
+        {
+            using var _ = new AssertionScope();
+            collection.Should().ContainSingle(item => item == 4).Which.Should().BeGreaterThan(4);
+        };
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("Expected collection to contain a single item matching (item == 4), but no such item was found.");
     }
 
     [Fact]
@@ -239,9 +256,8 @@ public partial class CollectionAssertionSpecs
         Action act = () => collection.Should().ContainSingle().Which.Should().BeGreaterThan(4);
 
         // Assert
-        const string expectedMessage = "Expected collection to be greater than 4, but found 3.";
-
-        act.Should().Throw<XunitException>().WithMessage(expectedMessage);
+        act.Should().Throw<XunitException>()
+            .WithMessage("Expected collection[0] to be greater than 4, but found 3.");
     }
 
     [Fact]

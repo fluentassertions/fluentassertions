@@ -599,8 +599,7 @@ public class BasicSpecs
     }
 
     [Fact]
-    public void
-        When_asserting_equivalence_of_objects_including_enumerables_it_should_print_the_failure_message_only_once()
+    public void When_asserting_equivalence_of_objects_including_enumerables_it_should_print_the_failure_message_only_once()
     {
         // Arrange
         var record = new { Member1 = "", Member2 = new[] { "", "" } };

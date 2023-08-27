@@ -12,8 +12,22 @@ namespace FluentAssertions.Specs.Collections;
 /// </summary>
 public partial class CollectionAssertionSpecs
 {
-    public class Chainings
+    public class Chaining
     {
+        [Fact]
+        public void Chaining_something_should_do_something()
+        {
+            // Arrange
+            var languages = new[] { "C#" };
+
+            // Act
+            var act = () => languages.Should().ContainSingle()
+                .Which.Should().EndWith("script");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("Expected languages[0]*");
+        }
+
         [Fact]
         public void Should_support_chaining_constraints_with_and()
         {
@@ -71,7 +85,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected collection * to be ordered \"by Item2\"*");
+                .WithMessage("Expected collection*to be ordered \"by Item2\"*");
         }
 
         [Fact]
@@ -163,7 +177,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             action.Should().Throw<XunitException>()
-                .WithMessage("Expected collection * to be ordered \"by Item2\"*");
+                .WithMessage("Expected collection*to be ordered \"by Item2\"*");
         }
 
         [Fact]

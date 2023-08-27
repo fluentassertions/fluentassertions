@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Reflection;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Types;
 
@@ -13,17 +14,18 @@ public class ConstructorInfoAssertions : MethodBaseAssertions<ConstructorInfo, C
     /// Initializes a new instance of the <see cref="ConstructorInfoAssertions"/> class.
     /// </summary>
     /// <param name="constructorInfo">The constructorInfo from which to select properties.</param>
-    public ConstructorInfoAssertions(ConstructorInfo constructorInfo)
-        : base(constructorInfo)
+    /// <param name="assertionChain"></param>
+    public ConstructorInfoAssertions(ConstructorInfo constructorInfo, AssertionChain assertionChain)
+        : base(constructorInfo, assertionChain)
     {
     }
 
-    internal static string GetDescriptionFor(ConstructorInfo constructorInfo)
+    private protected override string SubjectDescription => GetDescriptionFor(Subject);
+
+    protected override string Identifier => "constructor";
+
+    private static string GetDescriptionFor(ConstructorInfo constructorInfo)
     {
         return $"{constructorInfo.DeclaringType}({GetParameterString(constructorInfo)})";
     }
-
-    internal override string SubjectDescription => GetDescriptionFor(Subject);
-
-    protected override string Identifier => "constructor";
 }

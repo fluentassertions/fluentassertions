@@ -28,6 +28,8 @@ sidebar:
 * You can mark all assertions in an assembly as custom assertions using the `[CustomAssertionsAssembly]` attribute - [#2389](https://github.com/fluentassertions/fluentassertions/pull/2389)
 * Improve `BeEmpty()` and `BeNullOrEmpty()` performance for `IEnumerable<T>`, by materializing only the first item - [#2530](https://github.com/fluentassertions/fluentassertions/pull/2530)
 * All `Should()` methods on reference types are now annotated with the `[NotNull]` attribute for a better Fluent Assertions experience when nullable reference types are enabled - [#2380](https://github.com/fluentassertions/fluentassertions/pull/2380)
+* All assertions that support chaining using the `.Which` construct will now amend the caller identifier - [2539](https://github.com/fluentassertions/pull/2539)
+* Introduced a `MethodInfoFormatter` and improved the `PropertyInfoFormatter` - [2539](https://github.com/fluentassertions/pull/2539)
 
 ### Fixes
 * Fixed formatting error when checking nullable `DateTimeOffset` with
@@ -53,6 +55,7 @@ sidebar:
 * Fixed `RaisePropertyChangeFor` to return a filtered list of events - [#2677](https://github.com/fluentassertions/fluentassertions/pull/2677)
 
 ### Breaking Changes (for users)
+* Replaced `Execute.Assertion` with `AssertionChain.GetOrCreate()` - [2539](https://github.com/fluentassertions/pull/2539)
 * Moved support for `DataSet`, `DataTable`, `DataRow` and `DataColumn` into a new package `FluentAssertions.DataSet` - [#2267](https://github.com/fluentassertions/fluentassertions/pull/2267)
 * Removed obsolete `...OrEqualTo` methods - [#2269](https://github.com/fluentassertions/fluentassertions/pull/2269)
   * `GenericCollectionAssertions`
@@ -83,6 +86,9 @@ sidebar:
 * The semantics of `BeLowerCased`/`BeUpperCased` have been changed to align with the behavior of `ToLower`/`ToUpper` - [#2660](https://github.com/fluentassertions/fluentassertions/pull/2660)
 
 ### Breaking Changes (for extensions)
+* Introduced a new `AssertionChain` class whose `GetOrCreate` is used to replace `Execute.Assertion` when writing custom assertions - [2539](https://github.com/fluentassertions/fluentassertions/pull/2539)
+* Removed `ClearExpectation` and made `WithExpectation` a scoped operation that takes a nested `AssertionChain` - [2539](https://github.com/fluentassertions/fluentassertions/pull/2539)
+* `AndWhichConstraint` now takes an `AssertionChain` instance and a postfix to improve the caller identifier in chained constructs - [2539](https://github.com/fluentassertions/pull/2539)
 * Add `ForConstraint` to `IAssertionsScope` to support chaining `.ForConstraint()` after `.Then` - [#2324](https://github.com/fluentassertions/fluentassertions/pull/2324)
 * Refactored `AsyncFunctionAssertions` into real base class - [#2359](https://github.com/fluentassertions/fluentassertions/pull/2359)
   * Its constructor has been made `protected`.
@@ -92,6 +98,7 @@ sidebar:
 * Renamed `EquivalencyResult.AssertionCompleted` to `EquivalencyProven` - [#2745](https://github.com/fluentassertions/fluentassertions/pull/2745)
 * Renamed `IEquivalencyValidator` to `IValidateChildNodeEquivalency`, and its method `RecursivelyAssertEquality` to `AssertEquivalencyOf` - [#2745](https://github.com/fluentassertions/fluentassertions/pull/2745)
 * Made `Node`, `Property` and `Field` internal - [#2745](https://github.com/fluentassertions/fluentassertions/pull/2745)
+
 
 ## 6.12.0
 

@@ -27,15 +27,17 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
 
         Type[] interfaceTypes = GetIEnumerableInterfaces(expectedType);
 
-        AssertionScope.Current
+        var assertionChain = AssertionChain.GetOrCreate().For(context);
+
+        assertionChain
             .ForCondition(interfaceTypes.Length == 1)
             .FailWith(() => new FailReason("{context:Expectation} implements {0}, so cannot determine which one " +
                 "to use for asserting the equivalency of the collection. ",
                 interfaceTypes.Select(type => "IEnumerable<" + type.GetGenericArguments().Single() + ">")));
 
-        if (AssertSubjectIsCollection(comparands.Subject))
+        if (AssertSubjectIsCollection(assertionChain, comparands.Subject))
         {
-            var validator = new EnumerableEquivalencyValidator(valueChildNodes, context)
+            var validator = new EnumerableEquivalencyValidator(assertionChain, valueChildNodes, context)
             {
                 Recursive = context.CurrentNode.IsRoot || context.Options.IsRecursive,
                 OrderingRules = context.Options.OrderingRules
@@ -62,20 +64,20 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
     private static void HandleImpl<T>(EnumerableEquivalencyValidator validator, object[] subject, IEnumerable<T> expectation) =>
         validator.Execute(subject, ToArray(expectation));
 
-    private static bool AssertSubjectIsCollection(object subject)
+    private static bool AssertSubjectIsCollection(AssertionChain assertionChain, object subject)
     {
-        bool conditionMet = AssertionScope.Current
+        assertionChain
             .ForCondition(subject is not null)
             .FailWith("Expected {context:subject} not to be {0}.", new object[] { null });
 
-        if (conditionMet)
+        if (assertionChain.Succeeded)
         {
-            conditionMet = AssertionScope.Current
+            assertionChain
                 .ForCondition(IsCollection(subject.GetType()))
                 .FailWith("Expected {context:subject} to be a collection, but it was a {0}", subject.GetType());
         }
 
-        return conditionMet;
+        return assertionChain.Succeeded;
     }
 
     private static bool IsCollection(Type type)

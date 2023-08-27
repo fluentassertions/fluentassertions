@@ -177,7 +177,7 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void When_a_collection_contains_multiple_duplicates_on_different_properties_all_should_be_reported()
+        public void Only_the_first_failing_assertion_in_a_chain_is_reported()
         {
             // Arrange
             IEnumerable<SomeClass> collection =
@@ -198,7 +198,7 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "*have unique items on e.Text*have unique items on e.Number*");
+                "*have unique items on e.Text*");
         }
 
         [Fact]

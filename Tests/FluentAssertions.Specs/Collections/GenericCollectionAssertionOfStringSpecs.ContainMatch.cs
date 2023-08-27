@@ -37,7 +37,21 @@ public partial class GenericCollectionAssertionOfStringSpecs
         }
 
         [Fact]
-        public void When_collection_contains_multiple_matches_which_should_throw()
+        public void Can_chain_another_assertion_if_a_single_string_matches_the_pattern()
+        {
+            // Arrange
+            IEnumerable<string> collection = ["build succeeded", "test succeeded", "pack failed"];
+
+            // Act
+            Action action = () => collection.Should().ContainMatch("*failed*").Which.Should().StartWith("test");
+
+            // Assert
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected collection[2] to start with*test*pack failed*");
+        }
+
+        [Fact]
+        public void Cannot_chain_another_assertion_if_multiple_strings_match_the_pattern()
         {
             // Arrange
             IEnumerable<string> collection = ["build succeded", "test failed", "pack failed"];

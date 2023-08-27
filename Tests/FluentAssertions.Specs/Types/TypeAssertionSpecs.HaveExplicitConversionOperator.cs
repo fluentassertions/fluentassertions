@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions.Common;
 using Xunit;
 using Xunit.Sdk;
 
@@ -19,15 +20,30 @@ public partial class TypeAssertionSpecs
             var sourceType = typeof(TypeWithConversionOperators);
             var targetType = typeof(byte);
 
+            // Act / Assert
+            type.Should()
+                .HaveExplicitConversionOperator(sourceType, targetType)
+                .Which.Should()
+                .NotBeNull();
+        }
+
+        [Fact]
+        public void Can_chain_an_additional_assertion_on_the_implicit_conversion_operator()
+        {
+            // Arrange
+            var type = typeof(TypeWithConversionOperators);
+            var sourceType = typeof(TypeWithConversionOperators);
+            var targetType = typeof(byte);
+
             // Act
-            Action act = () =>
-                type.Should()
-                    .HaveExplicitConversionOperator(sourceType, targetType)
-                    .Which.Should()
-                    .NotBeNull();
+            Action act = () => type
+                .Should().HaveExplicitConversionOperator(sourceType, targetType)
+                .Which.Should().HaveAccessModifier(CSharpAccessModifier.Private);
 
             // Assert
-            act.Should().NotThrow();
+            act.Should().Throw<XunitException>()
+                .WithMessage(
+                    "Expected method explicit operator Byte(TypeWithConversionOperators) to be Private, but it is Public.");
         }
 
         [Fact]
