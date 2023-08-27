@@ -17,8 +17,8 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue>
     : GenericDictionaryAssertions<TCollection, TKey, TValue, GenericDictionaryAssertions<TCollection, TKey, TValue>>
     where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
 {
-    public GenericDictionaryAssertions(TCollection keyValuePairs)
-        : base(keyValuePairs)
+    public GenericDictionaryAssertions(TCollection keyValuePairs, Assertion assertion)
+        : base(keyValuePairs, assertion)
     {
     }
 }
@@ -32,8 +32,8 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
     where TAssertions : GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
 {
-    public GenericDictionaryAssertions(TCollection keyValuePairs)
-        : base(keyValuePairs)
+    public GenericDictionaryAssertions(TCollection keyValuePairs, Assertion assertion)
+        : base(keyValuePairs, assertion)
     {
     }
 

@@ -21,7 +21,6 @@ public sealed class AssertionScope : IAssertionScope
     #region Private Definitions
 
     private readonly IAssertionStrategy assertionStrategy;
-    private readonly ContextDataItems contextData = new();
     private readonly StringBuilder tracing = new();
 
     private Func<string> reason;
@@ -105,7 +104,7 @@ public sealed class AssertionScope : IAssertionScope
 
         if (parent is not null)
         {
-            contextData.Add(parent.contextData);
+            ContextData.Add(parent.ContextData);
             Context = parent.Context;
             reason = parent.reason;
             callerIdentityProvider = parent.callerIdentityProvider;
@@ -151,6 +150,8 @@ public sealed class AssertionScope : IAssertionScope
 
     internal bool Succeeded => succeeded == true;
 
+    public ContextDataItems ContextData { get; } = new();
+
     /// <summary>
     /// Adds an explanation of why the assertion is supposed to succeed to the scope.
     /// </summary>
@@ -193,7 +194,7 @@ public sealed class AssertionScope : IAssertionScope
             string actualReason = localReason?.Invoke() ?? string.Empty;
             string identifier = GetIdentifier();
 
-            return messageBuilder.Build(message, args, actualReason, contextData, identifier, fallbackIdentifier);
+            return messageBuilder.Build(message, args, actualReason, ContextData, identifier, fallbackIdentifier);
         };
 
         return this;
@@ -201,8 +202,8 @@ public sealed class AssertionScope : IAssertionScope
 
     internal void TrackComparands(object subject, object expectation)
     {
-        contextData.Add(new ContextDataItems.DataItem("subject", subject, reportable: false, requiresFormatting: true));
-        contextData.Add(new ContextDataItems.DataItem("expectation", expectation, reportable: false, requiresFormatting: true));
+        ContextData.Add(new ContextDataItems.DataItem("subject", subject, reportable: false, requiresFormatting: true));
+        ContextData.Add(new ContextDataItems.DataItem("expectation", expectation, reportable: false, requiresFormatting: true));
     }
 
     /// <inheritdoc/>
@@ -246,7 +247,7 @@ public sealed class AssertionScope : IAssertionScope
             string identifier = GetIdentifier();
             FailReason failReason = failReasonFunc();
 
-            string result = messageBuilder.Build(failReason.Message, failReason.Args, localReason, contextData, identifier,
+            string result = messageBuilder.Build(failReason.Message, failReason.Args, localReason, ContextData, identifier,
                 fallbackIdentifier);
 
             return result;
@@ -303,7 +304,7 @@ public sealed class AssertionScope : IAssertionScope
             argProviders.Select(a => a()).ToArray()));
     }
 
-    private string GetIdentifier()
+    public string GetIdentifier()
     {
         var identifier = Context?.Value;
 
@@ -341,7 +342,7 @@ public sealed class AssertionScope : IAssertionScope
     /// </summary>
     public void AddNonReportable(string key, object value)
     {
-        contextData.Add(new ContextDataItems.DataItem(key, value, reportable: false, requiresFormatting: false));
+        ContextData.Add(new ContextDataItems.DataItem(key, value, reportable: false, requiresFormatting: false));
     }
 
     /// <summary>
@@ -350,7 +351,7 @@ public sealed class AssertionScope : IAssertionScope
     /// </summary>
     public void AddReportable(string key, string value)
     {
-        contextData.Add(new ContextDataItems.DataItem(key, value, reportable: true, requiresFormatting: false));
+        ContextData.Add(new ContextDataItems.DataItem(key, value, reportable: true, requiresFormatting: false));
     }
 
     /// <summary>
@@ -359,7 +360,7 @@ public sealed class AssertionScope : IAssertionScope
     /// </summary>
     public void AddReportable(string key, Func<string> valueFunc)
     {
-        contextData.Add(new ContextDataItems.DataItem(key, new DeferredReportable(valueFunc), reportable: true,
+        ContextData.Add(new ContextDataItems.DataItem(key, new DeferredReportable(valueFunc), reportable: true,
             requiresFormatting: false));
     }
 
@@ -382,7 +383,7 @@ public sealed class AssertionScope : IAssertionScope
     /// </summary>
     public T Get<T>(string key)
     {
-        return contextData.Get<T>(key);
+        return ContextData.Get<T>(key);
     }
 
     /// <inheritdoc/>
@@ -397,14 +398,14 @@ public sealed class AssertionScope : IAssertionScope
                 parent.assertionStrategy.HandleFailure(failureMessage);
             }
 
-            parent.contextData.Add(contextData);
+            parent.ContextData.Add(ContextData);
             parent.AppendTracing(tracing.ToString());
 
             parent = null;
         }
         else
         {
-            IDictionary<string, object> reportable = contextData.GetReportable();
+            IDictionary<string, object> reportable = ContextData.GetReportable();
 
             if (tracing.Length > 0)
             {

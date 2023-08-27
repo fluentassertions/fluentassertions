@@ -1,4 +1,5 @@
 using System;
+using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Execution;
 
@@ -141,11 +142,21 @@ public sealed class ContinuedAssertionScope : IAssertionScope
     /// <inheritdoc/>
     public IAssertionScope UsingLineBreaks => predecessor.UsingLineBreaks;
 
+    public ContextDataItems ContextData { get; }
+
+    public FormattingOptions FormattingOptions { get; }
+
     /// <inheritdoc/>
     public string[] Discard()
     {
         return predecessor.Discard();
     }
+
+    public void AddPreFormattedFailure(string formattedFailureMessage) => throw new NotSupportedException();
+
+    public void AddReportable(string key, Func<string> valueFunc) => throw new NotSupportedException();
+
+    public void AddReportable(string key, string value) => throw new NotSupportedException();
 
     /// <inheritdoc/>
     public void Dispose()

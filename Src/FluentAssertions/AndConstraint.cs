@@ -10,8 +10,8 @@ public class AndConstraint<T>
     /// <summary>
     /// Initializes a new instance of the <see cref="AndConstraint{T}"/> class.
     /// </summary>
-    public AndConstraint(T parentConstraint)
+    public AndConstraint(T assertion)
     {
-        And = parentConstraint;
+        And = assertion;
     }
 }

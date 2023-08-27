@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using FluentAssertions.Collections;
 using FluentAssertions.Common;
+using FluentAssertions.Execution;
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
 using FluentAssertions.Reflection;
@@ -287,6 +289,11 @@ public static class AssertionExtensions
         return new ObjectAssertions(actualValue);
     }
 
+    public static ObjectAssertions Should(this WhichResult<object> tuple)
+    {
+        return new ObjectAssertions(tuple.MatchedElement);
+    }
+
     /// <summary>
     /// Returns an <see cref="BooleanAssertions"/> object that can be used to assert the
     /// current <see cref="bool"/>.
@@ -344,7 +351,7 @@ public static class AssertionExtensions
     [Pure]
     public static GenericCollectionAssertions<T> Should<T>(this IEnumerable<T> actualValue)
     {
-        return new GenericCollectionAssertions<T>(actualValue);
+        return new GenericCollectionAssertions<T>(actualValue, new Assertion(AssertionScope.Current, () => AssertionScope.Current.GetIdentifier()));
     }
 
     /// <summary>
@@ -354,7 +361,7 @@ public static class AssertionExtensions
     [Pure]
     public static StringCollectionAssertions Should(this IEnumerable<string> @this)
     {
-        return new StringCollectionAssertions(@this);
+        return new StringCollectionAssertions(@this, new Assertion(AssertionScope.Current, () => AssertionScope.Current.GetIdentifier()));
     }
 
     /// <summary>
@@ -365,7 +372,8 @@ public static class AssertionExtensions
     public static GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue> Should<TKey, TValue>(
         this IDictionary<TKey, TValue> actualValue)
     {
-        return new GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue>(actualValue);
+        return new GenericDictionaryAssertions<IDictionary<TKey, TValue>, TKey, TValue>(actualValue, new Assertion(AssertionScope.Current,
+            () => AssertionScope.Current.GetIdentifier()));
     }
 
     /// <summary>
@@ -376,7 +384,8 @@ public static class AssertionExtensions
     public static GenericDictionaryAssertions<IEnumerable<KeyValuePair<TKey, TValue>>, TKey, TValue> Should<TKey, TValue>(
         this IEnumerable<KeyValuePair<TKey, TValue>> actualValue)
     {
-        return new GenericDictionaryAssertions<IEnumerable<KeyValuePair<TKey, TValue>>, TKey, TValue>(actualValue);
+        return new GenericDictionaryAssertions<IEnumerable<KeyValuePair<TKey, TValue>>, TKey, TValue>(actualValue, new Assertion(AssertionScope.Current,
+            () => AssertionScope.Current.GetIdentifier()));
     }
 
     /// <summary>
@@ -388,7 +397,8 @@ public static class AssertionExtensions
         this TCollection actualValue)
         where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
     {
-        return new GenericDictionaryAssertions<TCollection, TKey, TValue>(actualValue);
+        return new GenericDictionaryAssertions<TCollection, TKey, TValue>(actualValue, new Assertion(AssertionScope.Current,
+            () => AssertionScope.Current.GetIdentifier()));
     }
 
     /// <summary>
@@ -485,6 +495,16 @@ public static class AssertionExtensions
     }
 
     /// <summary>
+    /// Returns an <see cref="ComparableTypeAssertions{T}"/> object that can be used to assert the
+    /// current <see cref="IComparable{T}"/>.
+    /// </summary>
+    [Pure]
+    public static ComparableTypeAssertions<T> Should<T>(this WhichResult<IComparable<T>> tuple)
+    {
+        return new ComparableTypeAssertions<T>(tuple.MatchedElement);
+    }
+
+    /// <summary>
     /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
     /// current <see cref="int"/>.
     /// </summary>
@@ -492,6 +512,16 @@ public static class AssertionExtensions
     public static NumericAssertions<int> Should(this int actualValue)
     {
         return new Int32Assertions(actualValue);
+    }
+
+    /// <summary>
+    /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+    /// current <see cref="int"/>.
+    /// </summary>
+    [Pure]
+    public static NumericAssertions<int> Should(this WhichResult<int> actualValue)
+    {
+        return new Int32Assertions(actualValue.MatchedElement);
     }
 
     /// <summary>
@@ -711,7 +741,18 @@ public static class AssertionExtensions
     [Pure]
     public static StringAssertions Should(this string actualValue)
     {
-        return new StringAssertions(actualValue);
+        return new StringAssertions(actualValue,
+            new Assertion(AssertionScope.Current, () => AssertionScope.Current.GetIdentifier()));
+    }
+
+    /// <summary>
+    /// Returns an <see cref="StringAssertions"/> object that can be used to assert the
+    /// current <see cref="string"/>.
+    /// </summary>
+    [Pure]
+    public static StringAssertions Should(this (string ActualValue, Assertion CurrentAssertion) values)
+    {
+        return new StringAssertions(values.ActualValue, values.CurrentAssertion);
     }
 
     /// <summary>

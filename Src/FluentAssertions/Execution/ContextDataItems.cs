@@ -7,7 +7,7 @@ namespace FluentAssertions.Execution;
 /// <summary>
 /// Represents a collection of data items that are associated with an <see cref="AssertionScope"/>.
 /// </summary>
-internal class ContextDataItems
+public class ContextDataItems
 {
     private readonly List<DataItem> items = new();
 
@@ -61,7 +61,7 @@ internal class ContextDataItems
         return (T)(item?.Value ?? default(T));
     }
 
-    internal class DataItem
+    public class DataItem
     {
         public DataItem(string key, object value, bool reportable, bool requiresFormatting)
         {

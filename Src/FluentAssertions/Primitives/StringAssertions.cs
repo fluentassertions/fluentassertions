@@ -19,8 +19,8 @@ public class StringAssertions : StringAssertions<StringAssertions>
     /// <summary>
     /// Initializes a new instance of the <see cref="StringAssertions"/> class.
     /// </summary>
-    public StringAssertions(string value)
-        : base(value)
+    public StringAssertions(string value, Assertion assertion)
+        : base(value, assertion)
     {
     }
 }
@@ -32,12 +32,15 @@ public class StringAssertions : StringAssertions<StringAssertions>
 public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAssertions>
     where TAssertions : StringAssertions<TAssertions>
 {
+    private readonly Assertion assertion;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="StringAssertions{TAssertions}"/> class.
     /// </summary>
-    public StringAssertions(string value)
+    public StringAssertions(string value, Assertion assertion)
         : base(value)
     {
+        this.assertion = assertion;
     }
 
     /// <summary>
@@ -780,19 +783,19 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end with <null>.");
 
-        bool success = Execute.Assertion
+        assertion
             .BecauseOf(because, becauseArgs)
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:string} {0} to end with {1}{reason}.", Subject, expected);
 
-        if (success)
+        if (assertion.Succeeded)
         {
-            success = Execute.Assertion
+            assertion
                 .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject.Length >= expected.Length)
                 .FailWith("Expected {context:string} to end with {0}{reason}, but {1} is too short.", expected, Subject);
 
-            if (success)
+            if (assertion.Succeeded)
             {
                 Execute.Assertion
                     .ForCondition(Subject.EndsWith(expected, StringComparison.Ordinal))
