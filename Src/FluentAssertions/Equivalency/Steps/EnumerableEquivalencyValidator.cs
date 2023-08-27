@@ -16,13 +16,16 @@ internal class EnumerableEquivalencyValidator
 
     #region Private Definitions
 
+    private readonly AssertionChain assertionChain;
     private readonly IValidateChildNodeEquivalency parent;
     private readonly IEquivalencyValidationContext context;
 
     #endregion
 
-    public EnumerableEquivalencyValidator(IValidateChildNodeEquivalency parent, IEquivalencyValidationContext context)
+    public EnumerableEquivalencyValidator(AssertionChain assertionChain, IValidateChildNodeEquivalency parent,
+        IEquivalencyValidationContext context)
     {
+        this.assertionChain = assertionChain;
         this.parent = parent;
         this.context = context;
         Recursive = false;
@@ -54,24 +57,25 @@ internal class EnumerableEquivalencyValidator
         }
     }
 
-    private static bool AssertIsNotNull(object expectation, object[] subject)
+    private bool AssertIsNotNull(object expectation, object[] subject)
     {
-        return AssertionScope.Current
+        assertionChain
             .ForCondition(expectation is not null)
-            .FailWith("Expected {context:subject} to be <null>, but found {0}.", new object[] { subject });
+            .FailWith("Expected {context:subject} to be <null>, but found {0}.", [subject]);
+
+        return assertionChain.Succeeded;
     }
 
-    private static Continuation AssertCollectionsHaveSameCount<T>(ICollection<object> subject, ICollection<T> expectation)
+    private bool AssertCollectionsHaveSameCount<T>(ICollection<object> subject, ICollection<T> expectation)
     {
-        return AssertionScope.Current
-            .WithExpectation("Expected {context:subject} to be a collection with {0} item(s){reason}", expectation.Count)
+        assertionChain
             .AssertEitherCollectionIsNotEmpty(subject, expectation)
             .Then
             .AssertCollectionHasEnoughItems(subject, expectation)
             .Then
-            .AssertCollectionHasNotTooManyItems(subject, expectation)
-            .Then
-            .ClearExpectation();
+            .AssertCollectionHasNotTooManyItems(subject, expectation);
+
+        return assertionChain.Succeeded;
     }
 
     private void AssertElementGraphEquivalency<T>(object[] subjects, T[] expectations, INode currentNode)
@@ -101,11 +105,9 @@ internal class EnumerableEquivalencyValidator
                     $"Strictly comparing expectation {expectation} at {member.Description} to item with index {index} in {subjects}"));
 
             bool succeeded = StrictlyMatchAgainst(subjects, expectation, index);
-
             if (!succeeded)
             {
                 failedCount++;
-
                 if (failedCount >= FailedItemsFastFailThreshold)
                 {
                     context.Tracer.WriteLine(member =>
@@ -185,7 +187,7 @@ internal class EnumerableEquivalencyValidator
 
         foreach (string failure in results.GetTheFailuresForTheSetWithTheFewestFailures(expectationIndex))
         {
-            AssertionScope.Current.AddPreFormattedFailure(failure);
+            assertionChain.AddPreFormattedFailure(failure);
         }
 
         return indexToBeRemoved != -1;
@@ -195,8 +197,7 @@ internal class EnumerableEquivalencyValidator
     {
         using var scope = new AssertionScope();
 
-        parent.AssertEquivalencyOf(new Comparands(subject, expectation, typeof(T)),
-            context.AsCollectionItem<T>(expectationIndex));
+        parent.AssertEquivalencyOf(new Comparands(subject, expectation, typeof(T)), context.AsCollectionItem<T>(expectationIndex));
 
         return scope.Discard();
     }

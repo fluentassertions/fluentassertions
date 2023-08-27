@@ -1,3 +1,5 @@
+using FluentAssertions.Execution;
+
 namespace FluentAssertions.Equivalency.Steps;
 
 public class SimpleEqualityEquivalencyStep : IEquivalencyStep
@@ -7,6 +9,10 @@ public class SimpleEqualityEquivalencyStep : IEquivalencyStep
     {
         if (!context.Options.IsRecursive && !context.CurrentNode.IsRoot)
         {
+            AssertionChain.GetOrCreate()
+                .For(context)
+                .ReuseOnce();
+
             comparands.Subject.Should().Be(comparands.Expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
 
             return EquivalencyResult.EquivalencyProven;

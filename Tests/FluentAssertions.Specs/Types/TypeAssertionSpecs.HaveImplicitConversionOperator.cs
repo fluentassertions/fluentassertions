@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions.Common;
 using Xunit;
 using Xunit.Sdk;
 
@@ -116,6 +117,24 @@ public partial class TypeAssertionSpecs
 
             // Assert
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void Can_chain_an_additional_assertion_on_the_implicit_conversion_operator()
+        {
+            // Arrange
+            var type = typeof(TypeWithConversionOperators);
+
+            // Act
+            Action act = () =>
+                type.Should()
+                    .HaveImplicitConversionOperator<TypeWithConversionOperators, int>()
+                    .Which.Should()
+                    .HaveAccessModifier(CSharpAccessModifier.Internal);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected method implicit operator Int32(TypeWithConversionOperators) to be Internal, but it is Public.");
         }
 
         [Fact]

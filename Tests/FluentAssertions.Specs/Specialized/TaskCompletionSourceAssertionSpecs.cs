@@ -201,7 +201,7 @@ public class TaskCompletionSourceAssertionSpecs
 
             // Assert
             await action.Should().ThrowAsync<XunitException>()
-                .WithMessage("Expected testSubject to be 42, but found 99.");
+                .WithMessage("Expected testSubject.Result to be 42, but found 99.");
         }
 
         [Fact]

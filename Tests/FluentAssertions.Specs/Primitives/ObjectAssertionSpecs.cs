@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 using Xunit;
 
@@ -84,7 +85,7 @@ internal class SomeClassEqualityComparer : IEqualityComparer<SomeClass>
 internal class SomeClassAssertions : ObjectAssertions<SomeClass, SomeClassAssertions>
 {
     public SomeClassAssertions(SomeClass value)
-        : base(value)
+        : base(value, AssertionChain.GetOrCreate())
     {
     }
 }

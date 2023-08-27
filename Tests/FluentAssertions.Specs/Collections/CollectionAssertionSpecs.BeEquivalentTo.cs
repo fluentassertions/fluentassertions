@@ -363,11 +363,11 @@ public partial class CollectionAssertionSpecs
         public void Default_immutable_array_should_not_be_equivalent_to_initialized_immutable_array()
         {
             // Arrange
-            ImmutableArray<string> collection = default;
-            ImmutableArray<string> collection1 = ImmutableArray.Create("a", "b", "c");
+            ImmutableArray<string> subject = default;
+            ImmutableArray<string> expectation = ImmutableArray.Create("a", "b", "c");
 
             // Act / Assert
-            collection.Should().NotBeEquivalentTo(collection1);
+            subject.Should().NotBeEquivalentTo(expectation);
         }
 
         [Fact]
