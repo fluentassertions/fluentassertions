@@ -67,8 +67,7 @@ public readonly struct DateBuilder : IEquatable<DateBuilder>
     /// <summary>
     /// Returns a new <see cref="DateTimeOffset"/> value with specified offset.
     /// </summary>
-    public DateTimeOffset WithOffset(TimeSpan offset = default)
-        => new DateTimeOffset(date, offset);
+    public DateTimeOffset WithOffset(TimeSpan offset) => new(date, offset);
 
     /// <inheritdoc />
     public override string ToString() => date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);

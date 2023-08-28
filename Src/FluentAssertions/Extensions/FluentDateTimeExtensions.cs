@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using FluentAssertions.Common;
 
 namespace FluentAssertions.Extensions;
 
@@ -306,8 +305,5 @@ public static class FluentDateTimeExtensions
     /// Returns new <see cref="DateTimeOffset"/> that uses <paramref name="self"/>
     /// as its datetime and <paramref name="offset"/> as its offset.
     /// </summary>
-    public static DateTimeOffset WithOffset(this DateTime self, TimeSpan offset)
-    {
-        return self.ToDateTimeOffset(offset);
-    }
+    public static DateTimeOffset WithOffset(this DateTime self, TimeSpan offset) => new(self, offset);
 }
