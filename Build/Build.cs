@@ -54,7 +54,7 @@ class Build : NukeBuild
     [Solution(GenerateProjects = true)]
     readonly Solution Solution;
 
-    [GitVersion(Framework = "net6.0")]
+    [GitVersion(Framework = "net6.0", NoCache = true, NoFetch = true)]
     readonly GitVersion GitVersion;
 
     [GitRepository]
