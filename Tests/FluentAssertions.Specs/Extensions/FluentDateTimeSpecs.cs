@@ -144,7 +144,7 @@ public class FluentDateTimeSpecs
     public void When_fluently_specifying_a_datetimeoffset_and_time_it_should_return_the_correct_date_time_value()
     {
         // Act
-        DateTimeOffset dateTime = 10.December(2011).ToDateTimeOffset().At(09, 30, 45, 123, 456, 700);
+        DateTimeOffset dateTime = 10.December(2011).AsOffset().At(09, 30, 45, 123, 456, 700);
 
         // Assert
         dateTime.Should().Be(new DateTimeOffset(2011, 12, 10, 9, 30, 45, 123, TimeSpan.Zero).AddMicroseconds(456)
@@ -213,7 +213,7 @@ public class FluentDateTimeSpecs
     {
         // Act
         var expectedParameterName = "microseconds";
-        Action act = () => 10.December(2011).ToDateTimeOffset().At(0, 0, 0, 0, microseconds);
+        Action act = () => 10.December(2011).AsOffset().At(0, 0, 0, 0, microseconds);
 
         // Assert
         act.Should().Throw<ArgumentOutOfRangeException>()
@@ -226,7 +226,7 @@ public class FluentDateTimeSpecs
     public void When_fluently_specifying_a_datetimeoffset_with_inrange_microseconds_it_should_not_throw(int microseconds)
     {
         // Act
-        Action act = () => 10.December(2011).ToDateTimeOffset().At(0, 0, 0, 0, microseconds);
+        Action act = () => 10.December(2011).AsOffset().At(0, 0, 0, 0, microseconds);
 
         // Assert
         act.Should().NotThrow();
@@ -239,7 +239,7 @@ public class FluentDateTimeSpecs
     {
         // Act
         var expectedParameterName = "nanoseconds";
-        Action act = () => 10.December(2011).ToDateTimeOffset().At(0, 0, 0, 0, 0, nanoseconds);
+        Action act = () => 10.December(2011).AsOffset().At(0, 0, 0, 0, 0, nanoseconds);
 
         // Assert
         act.Should().Throw<ArgumentOutOfRangeException>()
@@ -252,7 +252,7 @@ public class FluentDateTimeSpecs
     public void When_fluently_specifying_a_datetimeoffset_with_inrange_nanoseconds_it_should_not_throw(int nanoseconds)
     {
         // Act
-        Action act = () => 10.December(2011).ToDateTimeOffset().At(0, 0, 0, 0, 0, nanoseconds);
+        Action act = () => 10.December(2011).AsOffset().At(0, 0, 0, 0, 0, nanoseconds);
 
         // Assert
         act.Should().NotThrow();

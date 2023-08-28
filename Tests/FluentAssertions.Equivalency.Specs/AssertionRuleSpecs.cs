@@ -150,9 +150,9 @@ public class AssertionRuleSpecs
     public void When_a_nested_property_is_unequal_based_on_equality_comparer_it_should_throw()
     {
         // Arrange
-        var subject = new { Timestamp = 22.March(2020) };
+        var subject = new { Timestamp = 22.March(2020).AsUtc() };
 
-        var expectation = new { Timestamp = 1.January(2021) };
+        var expectation = new { Timestamp = 1.January(2021).AsUtc() };
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expectation,

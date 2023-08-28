@@ -23,111 +23,111 @@ namespace FluentAssertions.Extensions;
 public static class FluentDateTimeExtensions
 {
     /// <summary>
-    /// Returns a new <see cref="DateTime"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
+    /// Returns a new <see cref="DateBuilder"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
     /// in the month January.
     /// </summary>
-    public static DateTime January(this int day, int year)
+    public static DateBuilder January(this int day, int year)
     {
-        return new DateTime(year, 1, day);
+        return new DateBuilder(year, 1, day);
     }
 
     /// <summary>
     /// Returns a new <see cref="DateTime"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
     /// in the month February.
     /// </summary>
-    public static DateTime February(this int day, int year)
+    public static DateBuilder February(this int day, int year)
     {
-        return new DateTime(year, 2, day);
+        return new DateBuilder(year, 2, day);
     }
 
     /// <summary>
-    /// Returns a new <see cref="DateTime"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
+    /// Returns a new <see cref="DateBuilder"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
     /// in the month March.
     /// </summary>
-    public static DateTime March(this int day, int year)
+    public static DateBuilder March(this int day, int year)
     {
-        return new DateTime(year, 3, day);
+        return new DateBuilder(year, 3, day);
     }
 
     /// <summary>
-    /// Returns a new <see cref="DateTime"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
+    /// Returns a new <see cref="DateBuilder"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
     /// in the month April.
     /// </summary>
-    public static DateTime April(this int day, int year)
+    public static DateBuilder April(this int day, int year)
     {
-        return new DateTime(year, 4, day);
+        return new DateBuilder(year, 4, day);
     }
 
     /// <summary>
-    /// Returns a new <see cref="DateTime"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
+    /// Returns a new <see cref="DateBuilder"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
     /// in the month May.
     /// </summary>
-    public static DateTime May(this int day, int year)
+    public static DateBuilder May(this int day, int year)
     {
-        return new DateTime(year, 5, day);
+        return new DateBuilder(year, 5, day);
     }
 
     /// <summary>
-    /// Returns a new <see cref="DateTime"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
+    /// Returns a new <see cref="DateBuilder"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
     /// in the month June.
     /// </summary>
-    public static DateTime June(this int day, int year)
+    public static DateBuilder June(this int day, int year)
     {
-        return new DateTime(year, 6, day);
+        return new DateBuilder(year, 6, day);
     }
 
     /// <summary>
-    /// Returns a new <see cref="DateTime"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
+    /// Returns a new <see cref="DateBuilder"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
     /// in the month July.
     /// </summary>
-    public static DateTime July(this int day, int year)
+    public static DateBuilder July(this int day, int year)
     {
-        return new DateTime(year, 7, day);
+        return new DateBuilder(year, 7, day);
     }
 
     /// <summary>
-    /// Returns a new <see cref="DateTime"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
+    /// Returns a new <see cref="DateBuilder"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
     /// in the month August.
     /// </summary>
-    public static DateTime August(this int day, int year)
+    public static DateBuilder August(this int day, int year)
     {
-        return new DateTime(year, 8, day);
+        return new DateBuilder(year, 8, day);
     }
 
     /// <summary>
-    /// Returns a new <see cref="DateTime"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
+    /// Returns a new <see cref="DateBuilder"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
     /// in the month September.
     /// </summary>
-    public static DateTime September(this int day, int year)
+    public static DateBuilder September(this int day, int year)
     {
-        return new DateTime(year, 9, day);
+        return new DateBuilder(year, 9, day);
     }
 
     /// <summary>
-    /// Returns a new <see cref="DateTime"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
+    /// Returns a new <see cref="DateBuilder"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
     /// in the month October.
     /// </summary>
-    public static DateTime October(this int day, int year)
+    public static DateBuilder October(this int day, int year)
     {
-        return new DateTime(year, 10, day);
+        return new DateBuilder(year, 10, day);
     }
 
     /// <summary>
-    /// Returns a new <see cref="DateTime"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
+    /// Returns a new <see cref="DateBuilder"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
     /// in the month November.
     /// </summary>
-    public static DateTime November(this int day, int year)
+    public static DateBuilder November(this int day, int year)
     {
-        return new DateTime(year, 11, day);
+        return new DateBuilder(year, 11, day);
     }
 
     /// <summary>
-    /// Returns a new <see cref="DateTime"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
+    /// Returns a new <see cref="DateBuilder"/> value for the specified <paramref name="day"/> and <paramref name="year"/>
     /// in the month December.
     /// </summary>
-    public static DateTime December(this int day, int year)
+    public static DateBuilder December(this int day, int year)
     {
-        return new DateTime(year, 12, day);
+        return new DateBuilder(year, 12, day);
     }
 
     /// <summary>

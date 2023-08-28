@@ -148,8 +148,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_datetimeoffset_value_is_equal_to_the_same_nullable_value_be_should_succeed()
         {
             // Arrange
-            DateTimeOffset dateTime = 4.June(2016).ToDateTimeOffset();
-            DateTimeOffset? sameDateTime = 4.June(2016).ToDateTimeOffset();
+            DateTimeOffset dateTime = 4.June(2016).AsOffset();
+            DateTimeOffset? sameDateTime = 4.June(2016).AsOffset();
 
             // Act
             Action act = () => dateTime.Should().Be(sameDateTime);
@@ -262,7 +262,7 @@ public class DateTimeOffsetAssertionSpecs
         {
             // Arrange
             DateTimeOffset? nullableDateTime = null;
-            DateTimeOffset expectation = 27.March(2016).ToDateTimeOffset(1.Hours());
+            DateTimeOffset expectation = 27.March(2016).WithOffset(1.Hours());
 
             // Act
             Action action = () =>
@@ -278,7 +278,7 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_fail_with_descriptive_message_when_asserting_non_null_value_is_equal_to_null_value()
         {
             // Arrange
-            DateTimeOffset? nullableDateTime = 27.March(2016).ToDateTimeOffset(1.Hours());
+            DateTimeOffset? nullableDateTime = 27.March(2016).WithOffset(1.Hours());
             DateTimeOffset? expectation = null;
 
             // Act
@@ -327,8 +327,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_datetimeoffset_value_is_not_equal_to_a_nullable_different_value_notbe_should_succeed()
         {
             // Arrange
-            DateTimeOffset dateTime = 4.June(2016).ToDateTimeOffset();
-            DateTimeOffset? otherDateTime = 5.June(2016).ToDateTimeOffset();
+            DateTimeOffset dateTime = 4.June(2016).AsOffset();
+            DateTimeOffset? otherDateTime = 5.June(2016).AsOffset();
 
             // Act
             Action act = () => dateTime.Should().NotBe(otherDateTime);
@@ -401,8 +401,8 @@ public class DateTimeOffsetAssertionSpecs
         public void Should_succeed_when_asserting_value_is_exactly_equal_to_the_same_nullable_value()
         {
             // Arrange
-            DateTimeOffset dateTime = 4.June(2016).ToDateTimeOffset();
-            DateTimeOffset? sameDateTime = 4.June(2016).ToDateTimeOffset();
+            DateTimeOffset dateTime = 4.June(2016).AsOffset();
+            DateTimeOffset? sameDateTime = 4.June(2016).AsOffset();
 
             // Act / Assert
             dateTime.Should().BeExactly(sameDateTime);
@@ -480,7 +480,7 @@ public class DateTimeOffsetAssertionSpecs
         {
             // Arrange
             DateTimeOffset? nullableDateTime = null;
-            DateTimeOffset expectation = 27.March(2016).ToDateTimeOffset(1.Hours());
+            DateTimeOffset expectation = 27.March(2016).WithOffset(1.Hours());
 
             // Act
             Action action = () =>
@@ -657,8 +657,8 @@ public class DateTimeOffsetAssertionSpecs
             When_asserting_subject_datetimeoffset_is_close_to_another_value_that_is_later_by_more_than_20ms_it_should_throw()
         {
             // Arrange
-            DateTimeOffset time = 13.March(2012).At(12, 15, 30, 979).ToDateTimeOffset(1.Hours());
-            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31).ToDateTimeOffset(1.Hours());
+            DateTimeOffset time = 13.March(2012).At(12, 15, 30, 979).WithOffset(1.Hours());
+            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31).WithOffset(1.Hours());
 
             // Act
             Action act = () => time.Should().BeCloseTo(nearbyTime, 20.Milliseconds());
@@ -674,8 +674,8 @@ public class DateTimeOffsetAssertionSpecs
             When_asserting_subject_datetimeoffset_is_close_to_another_value_that_is_earlier_by_more_than_20ms_it_should_throw()
         {
             // Arrange
-            DateTimeOffset time = 13.March(2012).At(12, 15, 31, 021).ToDateTimeOffset(1.Hours());
-            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31).ToDateTimeOffset(1.Hours());
+            DateTimeOffset time = 13.March(2012).At(12, 15, 31, 021).WithOffset(1.Hours());
+            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31).WithOffset(1.Hours());
 
             // Act
             Action act = () => time.Should().BeCloseTo(nearbyTime, 20.Milliseconds());
@@ -707,8 +707,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_close_to_an_earlier_datetimeoffset_by_35ms_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset time = 13.March(2012).At(12, 15, 31, 035).ToDateTimeOffset(1.Hours());
-            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31).ToDateTimeOffset(1.Hours());
+            DateTimeOffset time = 13.March(2012).At(12, 15, 31, 035).WithOffset(1.Hours());
+            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31).WithOffset(1.Hours());
 
             // Act
             Action act = () => time.Should().BeCloseTo(nearbyTime, 35.Milliseconds());
@@ -722,7 +722,7 @@ public class DateTimeOffsetAssertionSpecs
         {
             // Arrange
             DateTimeOffset? time = null;
-            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31).ToDateTimeOffset(5.Hours());
+            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31).WithOffset(5.Hours());
 
             // Act
             Action act = () => time.Should().BeCloseTo(nearbyTime, 35.Milliseconds());
@@ -888,8 +888,8 @@ public class DateTimeOffsetAssertionSpecs
             When_asserting_subject_datetimeoffset_is_not_close_to_another_value_that_is_later_by_more_than_20ms_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset time = 13.March(2012).At(12, 15, 30, 979).ToDateTimeOffset(1.Hours());
-            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31).ToDateTimeOffset(1.Hours());
+            DateTimeOffset time = 13.March(2012).At(12, 15, 30, 979).WithOffset(1.Hours());
+            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31).WithOffset(1.Hours());
 
             // Act
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
@@ -903,8 +903,8 @@ public class DateTimeOffsetAssertionSpecs
             When_asserting_subject_datetimeoffset_is_not_close_to_another_value_that_is_earlier_by_more_than_20ms_it_should_succeed()
         {
             // Arrange
-            DateTimeOffset time = 13.March(2012).At(12, 15, 31, 021).ToDateTimeOffset(1.Hours());
-            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31).ToDateTimeOffset(1.Hours());
+            DateTimeOffset time = 13.March(2012).At(12, 15, 31, 021).WithOffset(1.Hours());
+            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31).WithOffset(1.Hours());
 
             // Act
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 20.Milliseconds());
@@ -917,8 +917,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_asserting_subject_datetimeoffset_is_not_close_to_an_earlier_datetimeoffset_by_35ms_it_should_throw()
         {
             // Arrange
-            DateTimeOffset time = 13.March(2012).At(12, 15, 31, 035).ToDateTimeOffset(1.Hours());
-            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31).ToDateTimeOffset(1.Hours());
+            DateTimeOffset time = 13.March(2012).At(12, 15, 31, 035).WithOffset(1.Hours());
+            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31).WithOffset(1.Hours());
 
             // Act
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
@@ -934,7 +934,7 @@ public class DateTimeOffsetAssertionSpecs
         {
             // Arrange
             DateTimeOffset? time = null;
-            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31).ToDateTimeOffset(5.Hours());
+            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31).WithOffset(5.Hours());
 
             // Act
             Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35.Milliseconds());
@@ -2208,8 +2208,8 @@ public class DateTimeOffsetAssertionSpecs
         public void When_time_is_exactly_90_seconds_before_another_time_it_should_not_throw()
         {
             // Arrange
-            DateTimeOffset target = 1.January(0001).At(12, 55).ToDateTimeOffset();
-            DateTimeOffset subject = 1.January(0001).At(12, 53, 30).ToDateTimeOffset();
+            DateTimeOffset target = 1.January(0001).At(12, 55).WithOffset(0.Hours());
+            DateTimeOffset subject = 1.January(0001).At(12, 53, 30).WithOffset(0.Hours());
 
             // Act / Assert
             subject.Should().BeExactly(TimeSpan.FromSeconds(90)).Before(target);
