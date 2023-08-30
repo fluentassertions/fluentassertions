@@ -19,14 +19,19 @@ internal static class ObjectExtensions
             // CompareNumerics is only relevant for numerics boxed in an object.
             return (actual, expected) => actual is null
                 ? expected is null
-                : expected is not null && EqualityComparer<T>.Default.Equals(actual, expected);
+                : expected is not null && Compare(actual, expected);
         }
 
         return (actual, expected) => actual is null
             ? expected is null
             : expected is not null
-            && (EqualityComparer<T>.Default.Equals(actual, expected) || CompareNumerics(actual, expected));
+            && (Compare(actual, expected) || CompareNumerics(actual, expected));
     }
+
+    // Both ways, because sometimes expected can compare to actual but not vice versa.
+    private static bool Compare<T>(T actual, T expected)
+        => EqualityComparer<T>.Default.Equals(actual, expected)
+        || EqualityComparer<T>.Default.Equals(expected, actual);
 
     private static bool CompareNumerics(object actual, object expected)
     {

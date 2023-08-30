@@ -8,7 +8,7 @@ using System.Globalization;
 namespace FluentAssertions.Extensions;
 
 /// <summary>A date builder that implicitly casts both to a date only and a date time.</summary>
-public readonly struct DateBuilder : IEquatable<DateBuilder>
+public readonly partial struct DateBuilder : IEquatable<DateBuilder>
 {
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private readonly DateTime date;
@@ -17,6 +17,47 @@ public readonly struct DateBuilder : IEquatable<DateBuilder>
     internal DateBuilder(int year, int month, int day)
         => date = new DateTime(year, month, day, 00, 00, 00, DateTimeKind.Unspecified);
 
+    /// <summary>
+    /// Returns a new <see cref="DateTimeOffset"/> value without an offset.
+    /// </summary>
+    public DateTimeOffset AsOffset() => WithOffset(0.Hours());
+
+    /// <summary>
+    /// Returns a new <see cref="DateTimeOffset"/> value with specified offset.
+    /// </summary>
+    public DateTimeOffset WithOffset(TimeSpan offset) => new(date, offset);
+
+    /// <inheritdoc />
+    public override string ToString() => date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+    /// <inheritdoc />
+    public override int GetHashCode() => date.GetHashCode();
+
+    /// <inheritdoc />
+    public override bool Equals([NotNullWhen(true)] object? obj)
+        => (obj is DateBuilder builder && Equals(builder))
+#if NET6_0_OR_GREATER
+        || (obj is DateTime dateTime && Equals(dateTime))
+        || (obj is DateOnly dateOnly && Equals(dateOnly));
+#else
+        || (obj is DateTime dateTime && Equals(dateTime));
+#endif
+
+    /// <inheritdoc />
+    public bool Equals(DateBuilder other) => date.Equals(other.date);
+
+    /// <summary>True if both <see cref="DateBuilder"/>s represent the same date.</summary>
+    public static bool operator ==(DateBuilder left, DateBuilder right)
+        => left.Equals(right);
+
+    /// <summary>False if both <see cref="DateBuilder"/>s represent the same date.</summary>
+    public static bool operator !=(DateBuilder left, DateBuilder right)
+        => !(left == right);
+}
+
+/// <summary>Contains <see cref="DateTime"/> related logic.</summary>
+public readonly partial struct DateBuilder : IEquatable<DateTime>
+{
     /// <summary>
     /// Returns a new <see cref="DateTime"/> value for the <paramref name="time"/>.
     /// </summary>
@@ -59,46 +100,26 @@ public readonly struct DateBuilder : IEquatable<DateBuilder>
     /// </summary>
     public DateTime AsUtc() => date.AsUtc();
 
-    /// <summary>
-    /// Returns a new <see cref="DateTimeOffset"/> value without an offset.
-    /// </summary>
-    public DateTimeOffset AsOffset() => WithOffset(0.Hours());
-
-    /// <summary>
-    /// Returns a new <see cref="DateTimeOffset"/> value with specified offset.
-    /// </summary>
-    public DateTimeOffset WithOffset(TimeSpan offset) => new(date, offset);
-
     /// <inheritdoc />
-    public override string ToString() => date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-
-    /// <inheritdoc />
-    public override int GetHashCode() => date.GetHashCode();
-
-    /// <inheritdoc />
-    public override bool Equals([NotNullWhen(true)] object? obj)
-        => obj is DateBuilder other && Equals(other);
-
-    /// <inheritdoc />
-    public bool Equals(DateBuilder other)
-        => date.Equals(other.date);
-
-    /// <summary>True if both <see cref="DateBuilder"/>s represent the same date.</summary>
-    public static bool operator ==(DateBuilder left, DateBuilder right)
-        => left.Equals(right);
-
-    /// <summary>False if both <see cref="DateBuilder"/>s represent the same date.</summary>
-    public static bool operator !=(DateBuilder left, DateBuilder right)
-        => !(left == right);
-
-    /// <summary>Adds a <see cref="TimeSpan"/> to the <see cref="DateTime"/>.</summary>
-    public static DateTime operator +(DateBuilder builder, TimeSpan time) => builder.At(+time);
+    public bool Equals(DateTime other) => other.Equals(this);
 
     /// <summary>Implicitly casts the <see cref="DateBuilder"/> to a <see cref="DateTime"/>.</summary>
     public static implicit operator DateTime(DateBuilder builder) => builder.date;
 
+    /// <summary>Adds a <see cref="TimeSpan"/> to the <see cref="DateTime"/>.</summary>
+    public static DateTime operator +(DateBuilder builder, TimeSpan time) => builder.At(+time);
+}
+
 #if NET6_0_OR_GREATER
+
+/// <summary>Contains <see cref="DateOnly"/> related logic.</summary>
+public readonly partial struct DateBuilder : IEquatable<DateOnly>
+{
+    /// <inheritdoc />
+    public bool Equals(DateOnly other) => other.Equals(this);
+
     /// <summary>Implicitly casts the <see cref="DateBuilder"/> to a <see cref="DateOnly"/>.</summary>
     public static implicit operator DateOnly(DateBuilder builder) => DateOnly.FromDateTime(builder.date);
-#endif
 }
+
+#endif
