@@ -107,7 +107,7 @@ using var monitoredSubject = subject.Monitor(options => ...);
 
 ### Ignore broken event Accessors
 
-If some event accessors, you are not interested in, should throw exceptions, you can simply ignore all exceptions thrown by those event acessors:
+If some event accessors, you are not interested in, should throw exceptions, you can simply ignore all exceptions thrown by those event accessors:
 
 ```csharp
 var subject = new EditCustomerViewModel();
