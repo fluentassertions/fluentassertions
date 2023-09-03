@@ -275,6 +275,21 @@ internal static class Initializer
 }
 ```
 
+Unfortunately, this only works for .NET 5 and higher. That's why Fluent Assertions supports its own "module initializer" through the `[AssertionEngineInitializer]` attribute. It can be used multiple times. 
+
+```csharp
+[assembly: AssertionEngineInitializer(typeof(Initializer), nameof(Initializer.Initialize))]
+
+public static class Initializer
+{
+    public static void Initialize()
+    {
+        AssertionOptions.AssertEquivalencyUsing(options => options
+          .ComparingByValue<DirectoryInfo>());
+    }
+}
+```
+
 ### MSTest
 
 MSTest provides the `AssemblyInitializeAttribute` to annotate that a method in a `TestClass` should be run once per assembly.

@@ -1255,6 +1255,14 @@ namespace FluentAssertions.Execution
         public string FormattedMessage { get; set; }
     }
 }
+namespace FluentAssertions.Extensibility
+{
+    [System.AttributeUsage(System.AttributeTargets.Assembly, AllowMultiple=true)]
+    public sealed class AssertionEngineInitializerAttribute : System.Attribute
+    {
+        public AssertionEngineInitializerAttribute(System.Type type, string methodName) { }
+    }
+}
 namespace FluentAssertions.Extensions
 {
     public static class FluentDateTimeExtensions

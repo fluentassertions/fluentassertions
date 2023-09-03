@@ -15,6 +15,7 @@ public static class AssertionOptions
     static AssertionOptions()
     {
         EquivalencyPlan = new EquivalencyPlan();
+        Services.EnsureInitialized();
     }
 
     /// <summary>

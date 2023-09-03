@@ -63,6 +63,23 @@ xDocument.Should().HaveElement("child").Which.Should().BeOfType<XElement>().And.
 
 This chaining can make your unit tests a lot easier to read.
 
+## Global Configurations
+
+Fluent Assertions `AssertionOptions` has several methods and properties that can be used to change the way it executes assertions or the defaults it will use for comparing object graphs. Changing those settings at the right time can be difficult, depending on the test framework. That's why Fluent Assertions offers a special assembly-level attribute that can be used to have some code executed _before_ the first assertion is executed. It will be called only once per test run, but you can use the attribute multiple times. 
+
+```csharp
+[assembly: AssertionEngineInitializer(typeof(Initializer), nameof(Initializer.Initialize))]
+
+public static class Initializer
+{
+    public static void Initialize()
+    {
+        AssertionOptions.AssertEquivalencyUsing(options => options
+          .ComparingByValue<DirectoryInfo>());
+    }
+}
+```
+
 ## Detecting Test Frameworks
 
 Fluent Assertions supports a lot of different unit testing frameworks. Just add a reference to the corresponding test framework assembly to the unit test project. Fluent Assertions will automatically find the corresponding assembly and use it for throwing the framework-specific exceptions.
@@ -152,3 +169,4 @@ Expected string to be "Expected" with a length of 8, but "Actual" has a length o
 ```
 
 For more information take a look at the [AssertionScopeSpecs.cs](https://github.com/fluentassertions/fluentassertions/blob/master/Tests/FluentAssertions.Specs/Execution/AssertionScopeSpecs.cs) in Unit Tests.
+
