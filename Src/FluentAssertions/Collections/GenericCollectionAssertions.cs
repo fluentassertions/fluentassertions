@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -1459,10 +1458,6 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<TAssertions> HaveCountGreaterOrEqualTo(int expected, string because = "", params object[] becauseArgs) =>
-        HaveCountGreaterThanOrEqualTo(expected, because, becauseArgs);
-
     /// <summary>
     /// Asserts that the number of items in the collection is greater than the supplied <paramref name="expected" /> amount.
     /// </summary>
@@ -1520,10 +1515,6 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<TAssertions> HaveCountLessOrEqualTo(int expected, string because = "", params object[] becauseArgs) =>
-        HaveCountLessThanOrEqualTo(expected, because, becauseArgs);
 
     /// <summary>
     /// Asserts that the number of items in the collection is less than the supplied <paramref name="expected" /> amount.

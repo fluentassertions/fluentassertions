@@ -95,7 +95,7 @@ public class ExecutionTimeAssertionsSpecs
 
             // Act
             Action act = () =>
-                subject.ExecutionTimeOf(s => s.AddRange(new object[] { })).Should().BeLessOrEqualTo(1.Nanoseconds());
+                subject.ExecutionTimeOf(s => s.AddRange(new object[] { })).Should().BeLessThanOrEqualTo(1.Nanoseconds());
 
             // Assert
             act.Should().ThrowExactly<XunitException>()
