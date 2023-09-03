@@ -33,6 +33,8 @@ sidebar:
         url: /introduction#detecting-test-frameworks
       - title: Subject Identification
         url: /introduction#subject-identification
+      - title: Global Configuration
+        url: /introduction#global-configuration
       - title: Assertion Scopes
         url: /introduction#assertion-scopes
       - title: Basic Assertions

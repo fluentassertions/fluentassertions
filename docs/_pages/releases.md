@@ -11,6 +11,8 @@ sidebar:
 
 ### What's new
 
+* Introduced a new assembly-level attribute that you can use to initialize Fluent Assertions before the first assertion - [#2292](https://github.com/fluentassertions/fluentassertions/pull/2292)
+
 ### Improvements
 * Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)
 * You can mark all assertions in an assembly as custom assertions using the `[CustomAssertionsAssembly]` attribute - [#2389](https://github.com/fluentassertions/fluentassertions/pull/2389)

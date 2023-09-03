@@ -1,5 +1,9 @@
-﻿using System;
+using System;
+using System.Linq;
+using System.Reflection;
 using FluentAssertions.Execution;
+using FluentAssertions.Extensibility;
+using JetBrains.Annotations;
 
 namespace FluentAssertions.Common;
 
@@ -10,10 +14,11 @@ public static class Services
 {
     private static readonly object Lockable = new();
     private static Configuration configuration;
+    private static bool isInitialized;
 
     static Services()
     {
-        ResetToDefaults();
+        EnsureInitialized();
     }
 
     public static IConfigurationStore ConfigurationStore { get; set; }
@@ -33,14 +38,81 @@ public static class Services
 
     public static IReflector Reflector { get; set; }
 
+    [PublicAPI]
     public static void ResetToDefaults()
     {
-        Reflector = new FullFrameworkReflector();
+        isInitialized = false;
+        EnsureInitialized();
+    }
+
+    internal static void EnsureInitialized()
+    {
+        if (isInitialized)
+        {
+            return;
+        }
+
+        lock (Lockable)
+        {
+            if (!isInitialized)
+            {
+                ExecuteCustomInitializers();
+
+                Reflector = new FullFrameworkReflector();
 #if NETFRAMEWORK || NET6_0_OR_GREATER
-        ConfigurationStore = new ConfigurationStoreExceptionInterceptor(new AppSettingsConfigurationStore());
+                ConfigurationStore = new ConfigurationStoreExceptionInterceptor(new AppSettingsConfigurationStore());
 #else
-        ConfigurationStore = new NullConfigurationStore();
+                    ConfigurationStore = new NullConfigurationStore();
 #endif
-        ThrowException = new TestFrameworkProvider(Configuration).Throw;
+                ThrowException = new TestFrameworkProvider(Configuration).Throw;
+
+                isInitialized = true;
+            }
+        }
+    }
+
+    private static void ExecuteCustomInitializers()
+    {
+        var currentAssembly = Assembly.GetExecutingAssembly();
+        var currentAssemblyName = currentAssembly.GetName();
+
+        var attributes = Array.Empty<AssertionEngineInitializerAttribute>();
+
+        try
+        {
+            attributes = AppDomain.CurrentDomain
+                .GetAssemblies()
+                .Where(assembly => assembly != currentAssembly && !assembly.IsDynamic && !IsFramework(assembly))
+                .Where(a => a.GetReferencedAssemblies().Any(r => r.FullName == currentAssemblyName.FullName))
+                .SelectMany(a => a.GetCustomAttributes<AssertionEngineInitializerAttribute>())
+                .ToArray();
+        }
+        catch
+        {
+            // Just ignore any exceptions that might happen while trying to find the attributes
+        }
+
+        foreach (var attribute in attributes)
+        {
+            try
+            {
+                attribute.Initialize();
+            }
+            catch
+            {
+                // Just ignore any exceptions that might happen while trying to find the attributes
+            }
+        }
+    }
+
+    private static bool IsFramework(Assembly assembly)
+    {
+    #if NET6_0_OR_GREATER
+        return assembly!.FullName?.StartsWith("Microsoft.", StringComparison.OrdinalIgnoreCase) == true ||
+            assembly.FullName?.StartsWith("System.", StringComparison.OrdinalIgnoreCase) == true;
+    #else
+        return assembly.FullName.StartsWith("Microsoft.", StringComparison.OrdinalIgnoreCase) ||
+            assembly.FullName.StartsWith("System.", StringComparison.OrdinalIgnoreCase);
+    #endif
     }
 }
