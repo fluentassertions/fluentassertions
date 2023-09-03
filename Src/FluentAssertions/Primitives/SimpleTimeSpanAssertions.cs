@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
@@ -165,10 +164,6 @@ public class SimpleTimeSpanAssertions<TAssertions>
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<TAssertions> BeLessOrEqualTo(TimeSpan expected, string because = "", params object[] becauseArgs) =>
-        BeLessThanOrEqualTo(expected, because, becauseArgs);
-
     /// <summary>
     /// Asserts that the time difference of the current <see cref="TimeSpan"/> is greater than the
     /// specified <paramref name="expected"/> time.
@@ -213,10 +208,6 @@ public class SimpleTimeSpanAssertions<TAssertions>
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<TAssertions> BeGreaterOrEqualTo(TimeSpan expected, string because = "", params object[] becauseArgs) =>
-        BeGreaterThanOrEqualTo(expected, because, becauseArgs);
 
     /// <summary>
     /// Asserts that the current <see cref="TimeSpan"/> is within the specified time

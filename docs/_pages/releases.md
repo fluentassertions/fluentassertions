@@ -16,8 +16,20 @@ sidebar:
 ### Fixes
 
 ### Breaking Changes (for users)
-
 * Moved support for `DataSet`, `DataTable`, `DataRow` and `DataColumn` into a new package `FluentAssertions.DataSet` - [#2267](https://github.com/fluentassertions/fluentassertions/pull/2267)
+* Removed obsolete `...OrEqualTo` methods - [#2269](https://github.com/fluentassertions/fluentassertions/pull/2269)
+  * `GenericCollectionAssertions`
+    * `HaveCountGreaterOrEqualTo`: Use `HaveCountGreaterThanOrEqualTo` 
+    * `HaveCountLessOrEqualTo`: Use `HaveCountLessThanOrEqualTo` 
+  * `ComparableTypeAssertions`
+    * `BeGreaterOrEqualTo`: Use `BeGreaterThanOrEqualTo`
+    * `BeLessOrEqualTo`: Use `BeLessThanOrEqualTo`
+  * `SimpleTimeSpanAssertions`
+    * `BeGreaterOrEqualTo`: Use `BeGreaterThanOrEqualTo`
+    * `BeLessOrEqualTo`: Use `BeLessThanOrEqualTo`
+  * `ExecutionTimeAssertions`
+    * `BeGreaterOrEqualTo`: Use `BeGreaterThanOrEqualTo`
+    * `BeLessOrEqualTo`: Use `BeLessThanOrEqualTo`
 
 ### Breaking Changes (for extensions)
 

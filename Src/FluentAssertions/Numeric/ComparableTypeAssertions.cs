@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using FluentAssertions.Common;
@@ -247,10 +246,6 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<TAssertions> BeLessOrEqualTo(T expected, string because = "", params object[] becauseArgs) =>
-        BeLessThanOrEqualTo(expected, because, becauseArgs);
-
     /// <summary>
     /// Asserts that the subject is greater than another object according to its implementation of <see cref="IComparable{T}"/>.
     /// </summary>
@@ -296,10 +291,6 @@ public class ComparableTypeAssertions<T, TAssertions> : ReferenceTypeAssertions<
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<TAssertions> BeGreaterOrEqualTo(T expected, string because = "", params object[] becauseArgs) =>
-        BeGreaterThanOrEqualTo(expected, because, becauseArgs);
 
     /// <summary>
     /// Asserts that a value is within a range.

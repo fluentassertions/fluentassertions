@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
@@ -226,10 +225,6 @@ public class NumericAssertions<T, TAssertions>
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<TAssertions> BeLessOrEqualTo(T expected, string because = "", params object[] becauseArgs) =>
-        BeLessThanOrEqualTo(expected, because, becauseArgs);
-
     /// <summary>
     /// Asserts that the numeric value is greater than the specified <paramref name="expected"/> value.
     /// </summary>
@@ -287,10 +282,6 @@ public class NumericAssertions<T, TAssertions>
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public AndConstraint<TAssertions> BeGreaterOrEqualTo(T expected, string because = "", params object[] becauseArgs) =>
-        BeGreaterThanOrEqualTo(expected, because, becauseArgs);
 
     /// <summary>
     /// Asserts that a value is within a range.
