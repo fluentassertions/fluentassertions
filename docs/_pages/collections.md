@@ -162,9 +162,9 @@ Consider for instance two collections that contain some kind of domain entity pe
 Since the actual object instance is different, if you want to make sure a particular property was properly persisted, you usually do something like this:
 
 ```csharp
-persistedCustomers.Select(c => c.Name).Should().Equal(customers.Select(c => c.Name);
-persistedCustomers.Select(c => c.Name).Should().StartWith(customers.Select(c => c.Name);
-persistedCustomers.Select(c => c.Name).Should().EndWith(customers.Select(c => c.Name);
+persistedCustomers.Select(c => c.Name).Should().Equal(customers.Select(c => c.Name));
+persistedCustomers.Select(c => c.Name).Should().StartWith(customers.Select(c => c.Name));
+persistedCustomers.Select(c => c.Name).Should().EndWith(customers.Select(c => c.Name));
 ```
 
 With these new overloads, you can rewrite them into:
