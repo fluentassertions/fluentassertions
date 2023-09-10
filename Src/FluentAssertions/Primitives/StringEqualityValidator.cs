@@ -4,45 +4,43 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
 
-internal class StringEqualityValidator : StringValidator
+internal class StringEqualityValidator : IStringMismatchValidator
 {
     private readonly StringComparison comparisonMode;
 
-    public StringEqualityValidator(string subject, string expected, StringComparison comparisonMode, string because,
-        object[] becauseArgs)
-        : base(subject, expected, because, becauseArgs)
+    public StringEqualityValidator(StringComparison comparisonMode)
     {
         this.comparisonMode = comparisonMode;
     }
 
-    protected override bool ValidateAgainstSuperfluousWhitespace()
+    private bool ValidateAgainstSuperfluousWhitespace(IAssertionScope assertion, string subject, string expected)
     {
-        return Assertion
-            .ForCondition(!(Expected.Length > Subject.Length && Expected.TrimEnd().Equals(Subject, comparisonMode)))
-            .FailWith(ExpectationDescription + "{0}{reason}, but it misses some extra whitespace at the end.", Expected)
+        return assertion
+            .ForCondition(!(expected.Length > subject.Length && expected.TrimEnd().Equals(subject, comparisonMode)))
+            .FailWith(ExpectationDescription + "{0}{reason}, but it misses some extra whitespace at the end.", expected)
             .Then
-            .ForCondition(!(Subject.Length > Expected.Length && Subject.TrimEnd().Equals(Expected, comparisonMode)))
-            .FailWith(ExpectationDescription + "{0}{reason}, but it has unexpected whitespace at the end.", Expected);
+            .ForCondition(!(subject.Length > expected.Length && subject.TrimEnd().Equals(expected, comparisonMode)))
+            .FailWith(ExpectationDescription + "{0}{reason}, but it has unexpected whitespace at the end.", expected);
     }
 
-    protected override bool ValidateAgainstLengthDifferences()
+    private bool ValidateAgainstLengthDifferences(IAssertionScope assertion, string subject, string expected)
     {
-        return Assertion
-            .ForCondition(Subject.Length == Expected.Length)
+        return assertion
+            .ForCondition(subject.Length == expected.Length)
             .FailWith(() =>
             {
-                string mismatchSegment = GetMismatchSegmentForStringsOfDifferentLengths();
+                string mismatchSegment = GetMismatchSegmentForStringsOfDifferentLengths(subject, expected);
 
                 string message = ExpectationDescription +
                     "{0} with a length of {1}{reason}, but {2} has a length of {3}, differs near " + mismatchSegment + ".";
 
-                return new FailReason(message, Expected, Expected.Length, Subject, Subject.Length);
+                return new FailReason(message, expected, expected.Length, subject, subject.Length);
             });
     }
 
-    private string GetMismatchSegmentForStringsOfDifferentLengths()
+    private string GetMismatchSegmentForStringsOfDifferentLengths(string subject, string expected)
     {
-        int indexOfMismatch = Subject.IndexOfFirstMismatch(Expected, comparisonMode);
+        int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparisonMode);
 
         // If there is no difference it means that expected starts with subject and subject is shorter than expected
         if (indexOfMismatch == -1)
@@ -51,25 +49,29 @@ internal class StringEqualityValidator : StringValidator
             // We would like to point at next character as it is the real
             // index of first mismatch, but we need to point at character existing in
             // subject, so the next best thing is the last subject character.
-            indexOfMismatch = Math.Max(0, Subject.Length - 1);
+            indexOfMismatch = Math.Max(0, subject.Length - 1);
         }
 
-        return Subject.IndexedSegmentAt(indexOfMismatch);
+        return subject.IndexedSegmentAt(indexOfMismatch);
     }
 
-    protected override void ValidateAgainstMismatch()
+    public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
     {
-        int indexOfMismatch = Subject.IndexOfFirstMismatch(Expected, comparisonMode);
-
-        if (indexOfMismatch != -1)
+        if (ValidateAgainstSuperfluousWhitespace(assertion, subject, expected) &&
+            ValidateAgainstLengthDifferences(assertion, subject, expected))
         {
-            Assertion.FailWith(
-                ExpectationDescription + "{0}{reason}, but {1} differs near " + Subject.IndexedSegmentAt(indexOfMismatch) + ".",
-                Expected, Subject);
+            int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparisonMode);
+
+            if (indexOfMismatch != -1)
+            {
+                assertion.FailWith(
+                    ExpectationDescription + "{0}{reason}, but {1} differs near " + subject.IndexedSegmentAt(indexOfMismatch) + ".",
+                    expected, subject);
+            }
         }
     }
 
-    protected override string ExpectationDescription
+    public string ExpectationDescription
     {
         get
         {

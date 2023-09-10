@@ -1,20 +1,19 @@
 using System;
 using FluentAssertions.Common;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
 
-internal class StringStartValidator : StringValidator
+internal class StringStartValidator : IStringMismatchValidator
 {
     private readonly StringComparison stringComparison;
 
-    public StringStartValidator(string subject, string expected, StringComparison stringComparison, string because,
-        object[] becauseArgs)
-        : base(subject, expected, because, becauseArgs)
+    public StringStartValidator(StringComparison stringComparison)
     {
         this.stringComparison = stringComparison;
     }
 
-    protected override string ExpectationDescription
+    public string ExpectationDescription
     {
         get
         {
@@ -31,24 +30,23 @@ internal class StringStartValidator : StringValidator
         }
     }
 
-    protected override bool ValidateAgainstLengthDifferences()
+    public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
     {
-        return Assertion
-            .ForCondition(Subject.Length >= Expected.Length)
-            .FailWith(ExpectationDescription + "{0}{reason}, but {1} is too short.", Expected, Subject);
-    }
-
-    protected override void ValidateAgainstMismatch()
-    {
-        bool isMismatch = !Subject.StartsWith(Expected, stringComparison);
-
-        if (isMismatch)
+        if (assertion
+            .ForCondition(subject.Length >= expected.Length)
+            .FailWith(ExpectationDescription + "{0}{reason}, but {1} is too short.", expected, subject))
         {
-            int indexOfMismatch = Subject.IndexOfFirstMismatch(Expected, stringComparison);
+            bool isMismatch = !subject.StartsWith(expected, stringComparison);
 
-            Assertion.FailWith(
-                ExpectationDescription + "{0}{reason}, but {1} differs near " + Subject.IndexedSegmentAt(indexOfMismatch) + ".",
-                Expected, Subject);
+            if (isMismatch)
+            {
+                int indexOfMismatch = subject.IndexOfFirstMismatch(expected, stringComparison);
+
+                assertion.FailWith(
+                    ExpectationDescription + "{0}{reason}, but {1} differs near " + subject.IndexedSegmentAt(indexOfMismatch) +
+                    ".",
+                    expected, subject);
+            }
         }
     }
 }

@@ -1,19 +1,18 @@
 using System;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
 
-internal class NegatedStringStartValidator : StringValidator
+internal class NegatedStringStartValidator : IStringMismatchValidator
 {
     private readonly StringComparison stringComparison;
 
-    public NegatedStringStartValidator(string subject, string expected, StringComparison stringComparison, string because,
-        object[] becauseArgs)
-        : base(subject, expected, because, becauseArgs)
+    public NegatedStringStartValidator(StringComparison stringComparison)
     {
         this.stringComparison = stringComparison;
     }
 
-    protected override string ExpectationDescription
+    public string ExpectationDescription
     {
         get
         {
@@ -30,14 +29,14 @@ internal class NegatedStringStartValidator : StringValidator
         }
     }
 
-    protected override void ValidateAgainstMismatch()
+    public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
     {
-        bool isMatch = Subject.StartsWith(Expected, stringComparison);
+        bool isMatch = subject.StartsWith(expected, stringComparison);
 
         if (isMatch)
         {
-            Assertion.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.",
-                Expected, Subject);
+            assertion.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.",
+                expected, subject);
         }
     }
 }

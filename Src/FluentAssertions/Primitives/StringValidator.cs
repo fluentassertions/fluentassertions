@@ -3,55 +3,44 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
 
-/// <summary>
-/// Dedicated class for comparing two strings and generating consistent error messages.
-/// </summary>
-internal abstract class StringValidator
+internal class StringValidator
 {
     #region Private Definition
 
     private const int HumanReadableLength = 8;
 
-    protected string Subject { get; }
-
-    protected string Expected { get; }
-
-    protected IAssertionScope Assertion { get; set; }
-
     #endregion
 
-    protected StringValidator(string subject, string expected, string because, object[] becauseArgs)
-    {
-        Assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
+    private readonly IStringMismatchValidator mismatchValidator;
+    private IAssertionScope assertion;
 
-        Subject = subject;
-        Expected = expected;
+    public StringValidator(IStringMismatchValidator mismatchValidator, string because, object[] becauseArgs)
+    {
+        this.mismatchValidator = mismatchValidator;
+        assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
     }
 
-    public void Validate()
+    public void Validate(string subject, string expected)
     {
-        if (Expected is not null || Subject is not null)
+        if (expected is not null || subject is not null)
         {
-            if (ValidateAgainstNulls())
+            if (ValidateAgainstNulls(subject, expected))
             {
-                if (IsLongOrMultiline(Expected) || IsLongOrMultiline(Subject))
+                if (IsLongOrMultiline(expected) || IsLongOrMultiline(subject))
                 {
-                    Assertion = Assertion.UsingLineBreaks;
+                    assertion = assertion.UsingLineBreaks;
                 }
 
-                if (ValidateAgainstSuperfluousWhitespace() && ValidateAgainstLengthDifferences())
-                {
-                    ValidateAgainstMismatch();
-                }
+                mismatchValidator.ValidateAgainstMismatch(assertion, subject, expected);
             }
         }
     }
 
-    private bool ValidateAgainstNulls()
+    private bool ValidateAgainstNulls(string subject, string expected)
     {
-        if (Expected is null != Subject is null)
+        if (expected is null != subject is null)
         {
-            Assertion.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.", Expected, Subject);
+            assertion.FailWith(mismatchValidator.ExpectationDescription + "{0}{reason}, but found {1}.", expected, subject);
             return false;
         }
 
@@ -62,18 +51,4 @@ internal abstract class StringValidator
     {
         return value.Length > HumanReadableLength || value.Contains(Environment.NewLine, StringComparison.Ordinal);
     }
-
-    protected virtual bool ValidateAgainstSuperfluousWhitespace()
-    {
-        return true;
-    }
-
-    protected virtual bool ValidateAgainstLengthDifferences()
-    {
-        return true;
-    }
-
-    protected abstract void ValidateAgainstMismatch();
-
-    protected abstract string ExpectationDescription { get; }
 }
