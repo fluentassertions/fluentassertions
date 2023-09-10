@@ -23,12 +23,7 @@ internal class StringStartValidator : IStringMismatchValidator
     }
 
     private bool IgnoreCase
-    {
-        get
-        {
-            return stringComparison == StringComparison.OrdinalIgnoreCase;
-        }
-    }
+        => stringComparison == StringComparison.OrdinalIgnoreCase;
 
     public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
     {

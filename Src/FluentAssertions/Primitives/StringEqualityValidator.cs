@@ -57,17 +57,19 @@ internal class StringEqualityValidator : IStringMismatchValidator
 
     public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
     {
-        if (ValidateAgainstSuperfluousWhitespace(assertion, subject, expected) &&
-            ValidateAgainstLengthDifferences(assertion, subject, expected))
+        if (!ValidateAgainstSuperfluousWhitespace(assertion, subject, expected) ||
+            !ValidateAgainstLengthDifferences(assertion, subject, expected))
         {
-            int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparisonMode);
+            return;
+        }
 
-            if (indexOfMismatch != -1)
-            {
-                assertion.FailWith(
-                    ExpectationDescription + "{0}{reason}, but {1} differs near " + subject.IndexedSegmentAt(indexOfMismatch) + ".",
-                    expected, subject);
-            }
+        int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparisonMode);
+
+        if (indexOfMismatch != -1)
+        {
+            assertion.FailWith(
+                ExpectationDescription + "{0}{reason}, but {1} differs near " + subject.IndexedSegmentAt(indexOfMismatch) + ".",
+                expected, subject);
         }
     }
 
@@ -81,10 +83,5 @@ internal class StringEqualityValidator : IStringMismatchValidator
     }
 
     private bool IgnoreCase
-    {
-        get
-        {
-            return comparisonMode == StringComparison.OrdinalIgnoreCase;
-        }
-    }
+        => comparisonMode == StringComparison.OrdinalIgnoreCase;
 }
