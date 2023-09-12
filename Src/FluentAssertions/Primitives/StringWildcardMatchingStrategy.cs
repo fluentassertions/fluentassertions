@@ -12,14 +12,18 @@ internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
     {
         bool isMatch = IsMatch(subject, expected);
 
-        if (!isMatch && !Negate)
+        if (isMatch != Negate)
         {
-            assertion.FailWith(ExpectationDescription + "but {1} does not.", expected, subject);
+            return;
         }
 
-        if (isMatch && Negate)
+        if (Negate)
         {
             assertion.FailWith(ExpectationDescription + "but {1} matches.", expected, subject);
+        }
+        else
+        {
+            assertion.FailWith(ExpectationDescription + "but {1} does not.", expected, subject);
         }
     }
 
@@ -54,6 +58,7 @@ internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
         get
         {
             var builder = new StringBuilder();
+
             builder
                 .Append(Negate ? "Did not expect " : "Expected ")
                 .Append("{context:string}")
