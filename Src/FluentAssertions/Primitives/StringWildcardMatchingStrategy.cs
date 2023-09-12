@@ -6,7 +6,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
 
-internal class StringWildcardMatchingValidator : IStringMismatchValidator
+internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
 {
     public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
     {

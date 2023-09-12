@@ -11,12 +11,12 @@ internal class StringValidator
 
     #endregion
 
-    private readonly IStringMismatchValidator mismatchValidator;
+    private readonly IStringComparisonStrategy comparisonStrategy;
     private IAssertionScope assertion;
 
-    public StringValidator(IStringMismatchValidator mismatchValidator, string because, object[] becauseArgs)
+    public StringValidator(IStringComparisonStrategy comparisonStrategy, string because, object[] becauseArgs)
     {
-        this.mismatchValidator = mismatchValidator;
+        this.comparisonStrategy = comparisonStrategy;
         assertion = Execute.Assertion.BecauseOf(because, becauseArgs);
     }
 
@@ -31,7 +31,7 @@ internal class StringValidator
                     assertion = assertion.UsingLineBreaks;
                 }
 
-                mismatchValidator.ValidateAgainstMismatch(assertion, subject, expected);
+                comparisonStrategy.ValidateAgainstMismatch(assertion, subject, expected);
             }
         }
     }
@@ -40,7 +40,7 @@ internal class StringValidator
     {
         if (expected is null != subject is null)
         {
-            assertion.FailWith(mismatchValidator.ExpectationDescription + "{0}{reason}, but found {1}.", expected, subject);
+            assertion.FailWith(comparisonStrategy.ExpectationDescription + "{0}{reason}, but found {1}.", expected, subject);
             return false;
         }
 

@@ -4,11 +4,11 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
 
-internal class StringEqualityValidator : IStringMismatchValidator
+internal class StringEqualityStrategy : IStringComparisonStrategy
 {
     private readonly StringComparison comparisonMode;
 
-    public StringEqualityValidator(StringComparison comparisonMode)
+    public StringEqualityStrategy(StringComparison comparisonMode)
     {
         this.comparisonMode = comparisonMode;
     }

@@ -54,7 +54,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     public AndConstraint<TAssertions> Be(string expected, string because = "", params object[] becauseArgs)
     {
         var stringEqualityValidator = new StringValidator(
-            new StringEqualityValidator(StringComparison.Ordinal),
+            new StringEqualityStrategy(StringComparison.Ordinal),
             because, becauseArgs);
 
         stringEqualityValidator.Validate(Subject, expected);
@@ -114,7 +114,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         params object[] becauseArgs)
     {
         var expectation = new StringValidator(
-            new StringEqualityValidator(StringComparison.OrdinalIgnoreCase),
+            new StringEqualityStrategy(StringComparison.OrdinalIgnoreCase),
             because, becauseArgs);
 
         expectation.Validate(Subject, expected);
@@ -221,7 +221,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             "Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.");
 
         var stringWildcardMatchingValidator = new StringValidator(
-            new StringWildcardMatchingValidator(),
+            new StringWildcardMatchingStrategy(),
             because, becauseArgs);
 
         stringWildcardMatchingValidator.Validate(Subject, wildcardPattern);
@@ -273,7 +273,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             "Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.");
 
         var stringWildcardMatchingValidator = new StringValidator(
-            new StringWildcardMatchingValidator
+            new StringWildcardMatchingStrategy
             {
                 Negate = true
             },
@@ -329,7 +329,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             "Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.");
 
         var stringWildcardMatchingValidator = new StringValidator(
-            new StringWildcardMatchingValidator
+            new StringWildcardMatchingStrategy
             {
                 IgnoreCase = true,
                 IgnoreNewLineDifferences = true
@@ -386,7 +386,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             "Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.");
 
         var stringWildcardMatchingValidator = new StringValidator(
-            new StringWildcardMatchingValidator
+            new StringWildcardMatchingStrategy
             {
                 IgnoreCase = true,
                 IgnoreNewLineDifferences = true,
@@ -675,7 +675,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare start of string with <null>.");
 
         var stringStartValidator = new StringValidator(
-            new StringStartValidator(StringComparison.Ordinal),
+            new StringStartStrategy(StringComparison.Ordinal),
             because, becauseArgs);
 
         stringStartValidator.Validate(Subject, expected);
@@ -701,7 +701,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare start of string with <null>.");
 
         var negatedStringStartValidator = new StringValidator(
-            new NegatedStringStartValidator(StringComparison.Ordinal),
+            new NegatedStringStartStrategy(StringComparison.Ordinal),
             because, becauseArgs);
 
         negatedStringStartValidator.Validate(Subject, unexpected);
@@ -728,7 +728,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string start equivalence with <null>.");
 
         var stringStartValidator = new StringValidator(
-            new StringStartValidator(StringComparison.OrdinalIgnoreCase),
+            new StringStartStrategy(StringComparison.OrdinalIgnoreCase),
             because, becauseArgs);
 
         stringStartValidator.Validate(Subject, expected);
@@ -755,7 +755,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare start of string with <null>.");
 
         var negatedStringStartValidator = new StringValidator(
-            new NegatedStringStartValidator(StringComparison.OrdinalIgnoreCase),
+            new NegatedStringStartStrategy(StringComparison.OrdinalIgnoreCase),
             because, becauseArgs);
 
         negatedStringStartValidator.Validate(Subject, unexpected);
