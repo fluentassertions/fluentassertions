@@ -26,12 +26,8 @@ internal class NegatedStringStartStrategy : IStringComparisonStrategy
 
     public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
     {
-        bool isMatch = subject.StartsWith(expected, stringComparison);
-
-        if (isMatch)
-        {
-            assertion.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.",
-                expected, subject);
-        }
+        assertion
+            .ForCondition(!subject.StartsWith(expected, stringComparison))
+            .FailWith(ExpectationDescription + "{0}{reason}, but found {1}.", expected, subject);
     }
 }
