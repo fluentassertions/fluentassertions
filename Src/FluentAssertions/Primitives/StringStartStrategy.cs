@@ -27,23 +27,14 @@ internal class StringStartStrategy : IStringComparisonStrategy
 
     public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
     {
-        if (!assertion
-                .ForCondition(subject.Length >= expected.Length)
-                .FailWith(ExpectationDescription + "{0}{reason}, but {1} is too short.", expected, subject))
-        {
-            return;
-        }
-
-        if (subject.StartsWith(expected, stringComparison))
-        {
-            return;
-        }
-
-        int indexOfMismatch = subject.IndexOfFirstMismatch(expected, stringComparison);
-
-        assertion.FailWith(
-            ExpectationDescription + "{0}{reason}, but {1} differs near " + subject.IndexedSegmentAt(indexOfMismatch) +
-            ".",
-            expected, subject);
+        assertion
+            .ForCondition(subject.Length >= expected.Length)
+            .FailWith(ExpectationDescription + "{0}{reason}, but {1} is too short.", expected, subject)
+            .Then
+            .ForCondition(subject.StartsWith(expected, stringComparison))
+            .FailWith(ExpectationDescription + "{0}{reason}, but {1} differs near " +
+                subject.IndexedSegmentAt(subject.IndexOfFirstMismatch(expected, stringComparison)) +
+                ".",
+                expected, subject);
     }
 }

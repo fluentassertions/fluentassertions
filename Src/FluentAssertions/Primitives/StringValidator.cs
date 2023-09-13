@@ -5,11 +5,7 @@ namespace FluentAssertions.Primitives;
 
 internal class StringValidator
 {
-    #region Private Definition
-
     private const int HumanReadableLength = 8;
-
-    #endregion
 
     private readonly IStringComparisonStrategy comparisonStrategy;
     private IAssertionScope assertion;
@@ -22,29 +18,33 @@ internal class StringValidator
 
     public void Validate(string subject, string expected)
     {
-        if (expected is not null || subject is not null)
+        if (expected is null && subject is null)
         {
-            if (ValidateAgainstNulls(subject, expected))
-            {
-                if (IsLongOrMultiline(expected) || IsLongOrMultiline(subject))
-                {
-                    assertion = assertion.UsingLineBreaks;
-                }
-
-                comparisonStrategy.ValidateAgainstMismatch(assertion, subject, expected);
-            }
+            return;
         }
+
+        if (!ValidateAgainstNulls(subject, expected))
+        {
+            return;
+        }
+
+        if (IsLongOrMultiline(expected) || IsLongOrMultiline(subject))
+        {
+            assertion = assertion.UsingLineBreaks;
+        }
+
+        comparisonStrategy.ValidateAgainstMismatch(assertion, subject, expected);
     }
 
     private bool ValidateAgainstNulls(string subject, string expected)
     {
-        if (expected is null != subject is null)
+        if (expected is null == subject is null)
         {
-            assertion.FailWith(comparisonStrategy.ExpectationDescription + "{0}{reason}, but found {1}.", expected, subject);
-            return false;
+            return true;
         }
 
-        return true;
+        assertion.FailWith(comparisonStrategy.ExpectationDescription + "{0}{reason}, but found {1}.", expected, subject);
+        return false;
     }
 
     private static bool IsLongOrMultiline(string value)

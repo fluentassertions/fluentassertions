@@ -12,19 +12,12 @@ internal class StringWildcardMatchingStrategy : IStringComparisonStrategy
     {
         bool isMatch = IsMatch(subject, expected);
 
-        if (isMatch != Negate)
-        {
-            return;
-        }
-
-        if (Negate)
-        {
-            assertion.FailWith(ExpectationDescription + "but {1} matches.", expected, subject);
-        }
-        else
-        {
-            assertion.FailWith(ExpectationDescription + "but {1} does not.", expected, subject);
-        }
+        assertion
+            .ForCondition(!Negate || !isMatch)
+            .FailWith(ExpectationDescription + "but {1} matches.", expected, subject)
+            .Then
+            .ForCondition(Negate || isMatch)
+            .FailWith(ExpectationDescription + "but {1} does not.", expected, subject);
     }
 
     private bool IsMatch(string subject, string expected)
