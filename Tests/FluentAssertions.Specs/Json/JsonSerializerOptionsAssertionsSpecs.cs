@@ -30,7 +30,7 @@ public class JsonSerializerOptionsAssertionsSpecs
             JsonSerializerOptions options = new();
 
             // Act
-            Action act = () => options.Should().Deserialize<int>(json: null);
+            Action act = () => options.Should().Deserialize<int>(json: (string)null);
 
             // Assert
             act.Should().Throw<ArgumentNullException>()

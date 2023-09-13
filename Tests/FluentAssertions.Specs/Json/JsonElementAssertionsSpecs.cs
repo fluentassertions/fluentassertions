@@ -17,7 +17,7 @@ public class JsonElementAssertionsSpecs
 
             // Act
             Action act = () => options.Should().Serialize(42)
-                .And.Value.Should().HaveValueKind(JsonValueKind.String, because: "why not?");
+                .Which.Should().HaveValueKind(JsonValueKind.String, because: "why not?");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -31,7 +31,7 @@ public class JsonElementAssertionsSpecs
             JsonSerializerOptions options = new();
 
             // Act + assert
-            options.Should().Serialize(42).And.Value.Should().HaveValueKind(JsonValueKind.Number);
+            options.Should().Serialize(42).Which.Should().HaveValueKind(JsonValueKind.Number);
         }
     }
 
@@ -44,7 +44,7 @@ public class JsonElementAssertionsSpecs
             JsonSerializerOptions options = new();
 
             // Act
-            Action act = () => options.Should().Serialize("null").And.Value.Should().BeNull(because: "why not?");
+            Action act = () => options.Should().Serialize("null").Which.Should().BeNull(because: "why not?");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -58,7 +58,7 @@ public class JsonElementAssertionsSpecs
             JsonSerializerOptions options = new();
 
             // Act + assert
-            options.Should().Serialize<object>(null).And.Value.Should().BeNull();
+            options.Should().Serialize<object>(null).Which.Should().BeNull();
         }
     }
 
@@ -71,7 +71,7 @@ public class JsonElementAssertionsSpecs
             JsonSerializerOptions options = new();
 
             // Act
-            Action act = () => options.Should().Serialize<object>(null).And.Value.Should().BeString("null", because: "why not?");
+            Action act = () => options.Should().Serialize<object>(null).Which.Should().BeString("null", because: "why not?");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -85,7 +85,7 @@ public class JsonElementAssertionsSpecs
             JsonSerializerOptions options = new();
 
             // Act + assert
-            options.Should().Serialize(Guid.Parse("61088fce-43c5-4327-b591-0d7e862075d8")).And.Value.Should().BeString("61088fce-43c5-4327-b591-0d7e862075d8");
+            options.Should().Serialize(Guid.Parse("61088fce-43c5-4327-b591-0d7e862075d8")).Which.Should().BeString("61088fce-43c5-4327-b591-0d7e862075d8");
         }
     }
 
@@ -98,7 +98,7 @@ public class JsonElementAssertionsSpecs
             JsonSerializerOptions options = new();
 
             // Act
-            Action act = () => options.Should().Serialize("42").And.Value.Should().BeNumber(42, because: "why not?");
+            Action act = () => options.Should().Serialize("42").Which.Should().BeNumber(42, because: "why not?");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -112,7 +112,7 @@ public class JsonElementAssertionsSpecs
             JsonSerializerOptions options = new();
 
             // Act + assert
-            options.Should().Serialize(42).And.Value.Should().BeNumber(42);
+            options.Should().Serialize(42).Which.Should().BeNumber(42);
         }
 
         [Fact]
@@ -122,7 +122,7 @@ public class JsonElementAssertionsSpecs
             JsonSerializerOptions options = new();
 
             // Act + assert
-            options.Should().Serialize(42.17).And.Value.Should().BeNumber(42.17m);
+            options.Should().Serialize(42.17).Which.Should().BeNumber(42.17m);
         }
     }
 
@@ -135,7 +135,7 @@ public class JsonElementAssertionsSpecs
             JsonSerializerOptions options = new();
 
             // Act
-            Action act = () => options.Should().Serialize("true").And.Value.Should().BeTrue(because: "why not?");
+            Action act = () => options.Should().Serialize("true").Which.Should().BeTrue(because: "why not?");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -149,7 +149,7 @@ public class JsonElementAssertionsSpecs
             JsonSerializerOptions options = new();
 
             // Act + assert
-            options.Should().Serialize(true).And.Value.Should().BeTrue();
+            options.Should().Serialize(true).Which.Should().BeTrue();
         }
     }
 
@@ -162,7 +162,7 @@ public class JsonElementAssertionsSpecs
             JsonSerializerOptions options = new();
 
             // Act
-            Action act = () => options.Should().Serialize("false").And.Value.Should().BeFalse(because: "why not?");
+            Action act = () => options.Should().Serialize("false").Which.Should().BeFalse(because: "why not?");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -176,7 +176,7 @@ public class JsonElementAssertionsSpecs
             JsonSerializerOptions options = new();
 
             // Act + assert
-            options.Should().Serialize(false).And.Value.Should().BeFalse();
+            options.Should().Serialize(false).Which.Should().BeFalse();
         }
     }
 }

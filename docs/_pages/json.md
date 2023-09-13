@@ -42,7 +42,7 @@ public class Serializes
         JsonSerializerOptions options = GetOptions();
         
         options.Should().Serialize(new DateOnly(2017, 06, 11))
-            .And.Value.Should().BeString("2017-06-11");
+            .Which.Should().BeString("2017-06-11");
     }
     
     [Fact]
@@ -52,7 +52,7 @@ public class Serializes
         JsonSerializerOptions options = GetOptions();
         
         options.Should().Serialize(SomeEnum.SomeValue)
-            .And.Value.Should().BeNumber(42);
+            .Which.Should().BeNumber(42);
     }
     
     [Fact]
@@ -61,7 +61,7 @@ public class Serializes
         JsonSerializerOptions options = GetOptions();
         
         options.Should().Serialize(default(CustomStruct))
-            .And.Value.Should().BeNull();
+            .Which.Should().BeNull();
     }
 }
 ```
@@ -77,17 +77,16 @@ public class Deserializes
         JsonSerializerOptions options = GetOptions();
         
         options.Should().Deserialize<DateOnly>("2017-06-11")
-            .And.Value.Should().Be(new DateOnly(2017-06-11));
+            .Which.Should().Be(new DateOnly(2017-06-11));
     }
     
     [Fact]
     public void Enum_from_number()
     {
-    
         JsonSerializerOptions options = GetOptions();
         
         options.Should().Deserialize<SomeEnum>("42")
-            .And.Value.Should().BeNumber(SomeEnum.SomeValue);
+            .Which.Should().BeNumber(SomeEnum.SomeValue);
     }
     
     [Fact]
@@ -97,7 +96,7 @@ public class Deserializes
         JsonSerializerOptions options = GetOptions();
         
         options.Should().Deserialize<SomeEnum>("\"SomeValue\"")
-            .And.Value.Should().BeNumber(SomeEnum.SomeValue);
+            .Which.Should().BeNumber(SomeEnum.SomeValue);
     }
 }
 ```

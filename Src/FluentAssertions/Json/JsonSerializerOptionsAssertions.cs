@@ -39,7 +39,7 @@ public class JsonSerializerOptionsAssertions : ReferenceTypeAssertions<JsonSeria
     ///     Zero or more objects to format using the placeholders in <see paramref="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="json"/> is <see langword="null"/>.</exception>
-    public AndConstraint<ValueWrapper<T>> Deserialize<T>(Stream json, string because = "", params object[] becauseArgs)
+    public AndWhichConstraint<JsonSerializerOptionsAssertions, T> Deserialize<T>(Stream json, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(json);
 
@@ -54,11 +54,11 @@ public class JsonSerializerOptionsAssertions : ReferenceTypeAssertions<JsonSeria
             .ForCondition(failure is null)
             .FailWith("Expected {context:the options} to deserialize {0}{reason}, but it failed: {1}.", json, failure?.Message);
 
-        return new(new(deserialzed));
+        return new AndWhichConstraint<JsonSerializerOptionsAssertions, T>(this, deserialzed);
     }
 
     /// <inheritdoc cref="Deserialize{T}(Stream, string, object[])"/>
-    public AndConstraint<ValueWrapper<T>> Deserialize<T>(string json, string because = "", params object[] becauseArgs)
+    public AndWhichConstraint<JsonSerializerOptionsAssertions, T> Deserialize<T>(string json, string because = "", params object[] becauseArgs)
     {
         Stream stream = json is null ? null : new MemoryStream(Encoding.UTF8.GetBytes(json));
         return Deserialize<T>(stream, because, becauseArgs);
@@ -76,7 +76,7 @@ public class JsonSerializerOptionsAssertions : ReferenceTypeAssertions<JsonSeria
     /// <param name="becauseArgs">
     ///     Zero or more objects to format using the placeholders in <see paramref="because" />.
     /// </param>
-    public AndConstraint<ValueWrapper<JsonElement>> Serialize<T>(T value, string because = "", params object[] becauseArgs)
+    public AndWhichConstraint<JsonSerializerOptionsAssertions, JsonElement> Serialize<T>(T value, string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
             .ForCondition(Subject is { })
@@ -89,7 +89,7 @@ public class JsonSerializerOptionsAssertions : ReferenceTypeAssertions<JsonSeria
             .ForCondition(failure is null)
             .FailWith("Expected {context:the options} to serialize {0}{reason}, but it failed: {1}.", value, failure?.Message);
 
-        return new(new(serialized));
+        return new AndWhichConstraint<JsonSerializerOptionsAssertions, JsonElement>(this, serialized);
     }
 
     private T TryDeserialize<T>(Stream json, out Exception failure)
