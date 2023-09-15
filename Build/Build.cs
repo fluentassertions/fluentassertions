@@ -384,9 +384,16 @@ class Build : NukeBuild
 
     Tree TargetBranch => Repository.Branches[PullRequestBase].Tip.Tree;
 
-    Tree SourceBranch => Repository.Branches[Repository.Head.FriendlyName].Tip.Tree;
+    Tree SourceBranch => Repository.Branches[BranchName].Tip.Tree;
 
-    bool RunAllTargets => string.IsNullOrWhiteSpace(PullRequestBase) || Changes.Any(x => x.StartsWith("Build"));
+    string SourceBranchName => Repository?.Head?.FriendlyName;
+    string BranchName => SourceBranchName ?? PullRequestBase;
+    bool FailedToObtainSourceBranch => SourceBranchName is null;
+
+    bool RunAllTargets => 
+        FailedToObtainSourceBranch || 
+        string.IsNullOrWhiteSpace(PullRequestBase) || 
+        Changes.Any(x => x.StartsWith("Build"));
 
     bool IsTag => BranchSpec != null && BranchSpec.Contains("refs/tags", StringComparison.OrdinalIgnoreCase);
 }
