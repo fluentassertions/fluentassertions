@@ -84,8 +84,8 @@
               "SpellCheck",
               "TestFrameworks",
               "UnitTests",
-              "UnitTestsNetCore",
-              "UnitTestsNetFramework"
+              "UnitTestsNetFramework",
+              "UnitTestsNewerFrameworks"
             ]
           }
         },
@@ -110,8 +110,8 @@
               "SpellCheck",
               "TestFrameworks",
               "UnitTests",
-              "UnitTestsNetCore",
-              "UnitTestsNetFramework"
+              "UnitTestsNetFramework",
+              "UnitTestsNewerFrameworks"
             ]
           }
         },

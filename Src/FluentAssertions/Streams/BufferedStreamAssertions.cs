@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
-#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1
+#if NET6_0_OR_GREATER || NETSTANDARD2_1
 using FluentAssertions.Execution;
 #endif
 
@@ -29,7 +29,7 @@ public class BufferedStreamAssertions<TAssertions> : StreamAssertions<BufferedSt
 
     protected override string Identifier => "buffered stream";
 
-#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1
+#if NET6_0_OR_GREATER || NETSTANDARD2_1
     /// <summary>
     /// Asserts that the current <see cref="BufferedStream"/> has the <paramref name="expected"/> buffer size.
     /// </summary>

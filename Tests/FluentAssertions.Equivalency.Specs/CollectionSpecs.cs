@@ -157,9 +157,7 @@ public class CollectionSpecs
         private readonly Dictionary<Guid, List<string>> innerRoles = new();
 
         public virtual Dictionary<Guid, IEnumerable<string>> Roles
-        {
-            get { return innerRoles.ToDictionary(x => x.Key, y => y.Value.Select(z => z)); }
-        }
+            => innerRoles.ToDictionary(x => x.Key, y => y.Value.Select(z => z));
 
         public void Add(Guid userId, params string[] roles)
         {
@@ -315,7 +313,10 @@ public class CollectionSpecs
     public void When_a_nullable_collection_does_not_match_it_should_throw()
     {
         // Arrange
-        var subject = new { Values = (ImmutableArray<int>?)ImmutableArray.Create(1, 2, 3) };
+        var subject = new
+        {
+            Values = (ImmutableArray<int>?)ImmutableArray.Create(1, 2, 3)
+        };
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(new

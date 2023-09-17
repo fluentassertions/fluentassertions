@@ -36,7 +36,7 @@ public static class Services
     public static void ResetToDefaults()
     {
         Reflector = new FullFrameworkReflector();
-#if NETFRAMEWORK || NETCOREAPP
+#if NETFRAMEWORK || NET6_0_OR_GREATER
         ConfigurationStore = new ConfigurationStoreExceptionInterceptor(new AppSettingsConfigurationStore());
 #else
         ConfigurationStore = new NullConfigurationStore();
