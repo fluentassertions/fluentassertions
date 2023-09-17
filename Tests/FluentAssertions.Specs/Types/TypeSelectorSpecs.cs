@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using FluentAssertions.Types;
@@ -896,8 +897,8 @@ namespace Internal.UnwrapSelectorTestTypes.Test
 
     internal class ClassImplementingMultipleEnumerable : IEnumerable<int>, IEnumerable<string>
     {
-        private readonly IEnumerable<int> integers = new int[0];
-        private readonly IEnumerable<string> strings = new string[0];
+        private readonly IEnumerable<int> integers = Enumerable.Empty<int>();
+        private readonly IEnumerable<string> strings = Enumerable.Empty<string>();
 
         public IEnumerator<int> GetEnumerator() => integers.GetEnumerator();
 
