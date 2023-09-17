@@ -392,3 +392,5 @@ dotnet_diagnostic.MA0047.severity = none
 
 # Use an overload of 'GetHashCode' that has a StringComparison parameter
 dotnet_diagnostic.MA0074.severity = none
+
+dotnet_diagnostic.VSSpell001.severity = suggestion # Correct spelling.
