@@ -1,12 +1,10 @@
-using System;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives;
 
 internal class StringValidator
 {
-    private const int HumanReadableLength = 8;
-
     private readonly IStringComparisonStrategy comparisonStrategy;
     private IAssertionScope assertion;
 
@@ -28,7 +26,7 @@ internal class StringValidator
             return;
         }
 
-        if (IsLongOrMultiline(expected) || IsLongOrMultiline(subject))
+        if (expected.IsLongOrMultiline() || subject.IsLongOrMultiline())
         {
             assertion = assertion.UsingLineBreaks;
         }
@@ -45,10 +43,5 @@ internal class StringValidator
 
         assertion.FailWith(comparisonStrategy.ExpectationDescription + "{0}{reason}, but found {1}.", expected, subject);
         return false;
-    }
-
-    private static bool IsLongOrMultiline(string value)
-    {
-        return value.Length > HumanReadableLength || value.Contains(Environment.NewLine, StringComparison.Ordinal);
     }
 }

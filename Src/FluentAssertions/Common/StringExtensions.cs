@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using FluentAssertions.Formatting;
 
@@ -149,5 +150,106 @@ internal static class StringExtensions
         }
 
         return count;
+    }
+
+    /// <summary>
+    /// Determines if the <paramref name="value"/> is longer than 8 characters or contains an <see cref="Environment.NewLine"/>.
+    /// </summary>
+    public static bool IsLongOrMultiline(this string value)
+    {
+        const int humanReadableLength = 8;
+        return value.Length > humanReadableLength || value.Contains(Environment.NewLine, StringComparison.Ordinal);
+    }
+
+    /// <summary>
+    /// Get the mismatch segment between <paramref name="expected"/> and <paramref name="subject"/> for long strings,
+    /// when they differ at index <paramref name="firstIndexOfMismatch"/>.
+    /// </summary>
+    public static string GetMismatchSegmentForLongStrings(this string subject, string expected, int firstIndexOfMismatch)
+    {
+        int trimStart = CalculateSegmentStart(subject, firstIndexOfMismatch);
+
+        int whiteSpaceCount = (firstIndexOfMismatch - trimStart) + 3;
+        const string prefix = "  ";
+
+        if (trimStart > 0)
+        {
+            whiteSpaceCount++;
+        }
+
+        var visibleText = subject.Substring(trimStart, firstIndexOfMismatch - trimStart);
+        whiteSpaceCount += visibleText.Count(c => c == '\r' || c == '\n');
+
+        var sb = new StringBuilder();
+
+        sb.Append(' ', whiteSpaceCount).AppendLine("\u2193 (actual)")
+            .Append(prefix).Append('\"').AppendVisibleText(subject, trimStart).Append('\"').AppendLine()
+            .Append(prefix).Append('\"').AppendVisibleText(expected, trimStart).Append('\"').AppendLine()
+            .Append(' ', whiteSpaceCount).Append("\u2191 (expected)");
+
+        return sb.ToString();
+    }
+
+    private static StringBuilder AppendVisibleText(this StringBuilder sb, string subject, int trimStart)
+    {
+        var subjectLength = CalculateSegmentLength(subject.Substring(trimStart));
+
+        if (trimStart > 0)
+        {
+            sb.Append('\u2026');
+        }
+
+        sb.Append(subject
+            .Substring(trimStart, subjectLength)
+            .Replace("\r", "\\r", StringComparison.OrdinalIgnoreCase)
+            .Replace("\n", "\\n", StringComparison.OrdinalIgnoreCase));
+
+        if (subject.Length > (trimStart + subjectLength))
+        {
+            sb.Append('\u2026');
+        }
+
+        return sb;
+    }
+
+    /// <summary>
+    /// Calculates the start index of the visible segment from <paramref name="value"/> when highlighting the difference at <paramref name="index"/>.<br />
+    /// Either keep the last 10 characters before <paramref name="index"/> or a word begin (separated by whitespace) between 15 and 5 characters before <paramref name="index"/>.
+    /// </summary>
+    private static int CalculateSegmentStart(string value, int index)
+    {
+        if (index <= 10)
+        {
+            return 0;
+        }
+
+        var wordSearchBegin = Math.Max(index - 16, 0);
+
+        var wordIndex = value.Substring(wordSearchBegin, 8)
+            .IndexOf(' ', StringComparison.OrdinalIgnoreCase);
+
+        if (wordIndex > 0)
+        {
+            return wordSearchBegin + wordIndex + 1;
+        }
+
+        return index - 10;
+    }
+
+    /// <summary>
+    /// Calculates how many characters to keep in <paramref name="value"/>.<br />
+    /// If a word end is found between 15 and 25 characters, use this word end, otherwise keep 20 characters.
+    /// </summary>
+    private static int CalculateSegmentLength(string value)
+    {
+        var word = value.Substring(0, Math.Min(24, value.Length))
+            .LastIndexOf(' ');
+
+        if (word > 16)
+        {
+            return word;
+        }
+
+        return Math.Min(20, value.Length);
     }
 }

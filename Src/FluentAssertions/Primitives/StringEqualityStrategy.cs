@@ -57,19 +57,34 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
 
     public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
     {
-        if (!ValidateAgainstSuperfluousWhitespace(assertion, subject, expected) ||
-            !ValidateAgainstLengthDifferences(assertion, subject, expected))
+        if (!ValidateAgainstSuperfluousWhitespace(assertion, subject, expected))
         {
             return;
         }
 
-        int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparisonMode);
-
-        if (indexOfMismatch != -1)
+        if (expected.IsLongOrMultiline() || subject.IsLongOrMultiline())
         {
-            assertion.FailWith(
-                ExpectationDescription + "{0}{reason}, but {1} differs near " + subject.IndexedSegmentAt(indexOfMismatch) + ".",
-                expected, subject);
+            int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparisonMode);
+
+            if (indexOfMismatch != -1)
+            {
+                assertion.FailWith(
+                    ExpectationDescription + "the same string{reason}, but they differ at index {0}:" + Environment.NewLine
+                    + subject.GetMismatchSegmentForLongStrings(expected, indexOfMismatch) + ".",
+                    indexOfMismatch);
+            }
+        }
+        else if (ValidateAgainstLengthDifferences(assertion, subject, expected))
+        {
+            int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparisonMode);
+
+            if (indexOfMismatch != -1)
+            {
+                assertion.FailWith(
+                    ExpectationDescription + "{0}{reason}, but {1} differs near " + subject.IndexedSegmentAt(indexOfMismatch) +
+                    ".",
+                    expected, subject);
+            }
         }
     }
 

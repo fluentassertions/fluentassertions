@@ -174,7 +174,12 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected string to be*\"0987654321\", but*\"1234567890\" differs near \"123\" (index 0).");
+                "Expected string to be the same string, but they differ at index 0:" +
+                Environment.NewLine
+                + "   ↓ (actual)" + Environment.NewLine
+                + "  \"1234567890\"" + Environment.NewLine
+                + "  \"0987654321\"" + Environment.NewLine
+                + "   ↑ (expected).");
         }
 
         [Fact]
@@ -184,8 +189,51 @@ public partial class StringAssertionSpecs
             Action act = () => "A\r\nB".Should().Be("A\r\nC");
 
             // Assert
+            act.Should().Throw<XunitException>().Which.Message.Should().Be(
+                "Expected string to be the same string, but they differ at index 3:" +
+                Environment.NewLine
+                + "        ↓ (actual)" + Environment.NewLine
+                + "  \"A\\r\\nB\"" + Environment.NewLine
+                + "  \"A\\r\\nC\"" + Environment.NewLine
+                + "        ↑ (expected).");
+        }
+
+        [Fact]
+        public void When_text_is_longer_than_8_characters_use_failure_message_with_arrows()
+        {
+            var subject = "this is a long text that differs in between";
+            var expected = "this is a long text which differs in between";
+
+            // Act
+            Action act = () => subject.Should().Be(expected, "because we use arrows now");
+
+            // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected string to be \r\n\"A\\r\\nC\", but \r\n\"A\\r\\nB\" differs near \"B\" (index 3).");
+                "Expected subject to be the same string because we use arrows now, but they differ at index 20:" +
+                Environment.NewLine
+                + "              ↓ (actual)" + Environment.NewLine
+                + "  \"…long text that differs…\"" + Environment.NewLine
+                + "  \"…long text which differs…\"" + Environment.NewLine
+                + "              ↑ (expected).");
+        }
+
+        [Fact]
+        public void When_text_is_longer_than_8_characters_only_add_ellipsis_where_applicable()
+        {
+            var subject = "this is a long text that differs in between";
+            var expected = "this was too short";
+
+            // Act
+            Action act = () => subject.Should().Be(expected, "because we use arrows now");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected subject to be the same string because we use arrows now, but they differ at index 5:" +
+                Environment.NewLine
+                + "        ↓ (actual)" + Environment.NewLine
+                + "  \"this is a long text…\"" + Environment.NewLine
+                + "  \"this was too short\"" + Environment.NewLine
+                + "        ↑ (expected).");
         }
     }
 
