@@ -38,7 +38,7 @@ FluentAssertions is made with C# in mind. While it can be used from F#, the expe
   GenericCollectionAssertions<_, _, _>(x).Contain(KeyValuePair("A", 1), "")
   ```
 
-  As with casting, the need to construct the assertion directly will break your fluent chains, defeating some of the purpose of FluentAssertions.
+  As with casting, the need to construct the assertion directly will break your fluent chains, defeating one of the key points of FluentAssertions.
 
 * As can be seen above, the `because` parameter cannot be omitted when used from
   F# ([#2225](https://github.com/fluentassertions/fluentassertions/issues/2225)). Improving this is [deemed out of scope](https://github.com/fluentassertions/fluentassertions/issues/2225#issuecomment-1636733116) since it would double the API surface of FluentAssertions.
