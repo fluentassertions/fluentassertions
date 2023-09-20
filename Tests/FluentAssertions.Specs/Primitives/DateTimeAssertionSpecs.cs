@@ -2245,6 +2245,24 @@ public class DateTimeAssertionSpecs
             // Assert
             action.Should().NotThrow();
         }
+
+        [Fact]
+        public void Should_throw_because_of_assertion_failure()
+        {
+            // Arrange
+            DateTimeOffset? nullDateTime = null;
+
+            // Act
+            Action action = () =>
+                nullDateTime.Should()
+                    .BeWithin(TimeSpan.FromSeconds(1))
+                    .Before(DateTime.Now);
+
+            // Assert
+            action.Should().Throw<Exception>()
+                .Which.Message
+                .Should().NotContain("{");
+        }
     }
 
     public class BeOneOf
