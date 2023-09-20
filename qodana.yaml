@@ -9,6 +9,9 @@ dotnet:
 exclude:
   - name: ConvertIfStatementToReturnStatement
   - name: ConvertIfStatementToConditionalTernaryExpression
+  - name: SimilarAnonymousTypeNearby
+    paths:
+      - Tests
   - name: All
     paths:
       - Build
@@ -16,4 +19,3 @@ exclude:
       - Tests/AssemblyB
       - Tests/Benchmarks
       - Tests/UWP.Specs
-      
