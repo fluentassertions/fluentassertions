@@ -31,6 +31,7 @@ sidebar:
     * `BeGreaterOrEqualTo`: Use `BeGreaterThanOrEqualTo`
     * `BeLessOrEqualTo`: Use `BeLessThanOrEqualTo`
 * Removed the `DefaultValueFormatter.SpacesPerIndentionLevel` property which was added during the development of v6, but wasn't removed before the release of v6 - [#2281](https://github.com/fluentassertions/fluentassertions/pull/2281)
+* Dropped direct support for .NET Core 2.x and .NET Core 3.x - [#2302](https://github.com/fluentassertions/fluentassertions/pull/2302)
 
 ### Breaking Changes (for extensions)
 

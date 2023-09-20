@@ -1,9 +1,9 @@
-﻿#if NETFRAMEWORK
-using FluentAssertions.Specs.Common;
-#endif
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using FluentAssertions.Execution;
+#if NET47
+using FluentAssertions.Specs.Common;
+#endif
 using Xunit;
 using Xunit.Sdk;
 using static FluentAssertions.Extensions.FluentTimeSpanExtensions;

@@ -188,13 +188,13 @@ class Build : NukeBuild
             );
         });
 
-    Target UnitTestsNetCore => _ => _
+    Target UnitTestsNewerFrameworks => _ => _
         .Unlisted()
         .DependsOn(Compile)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
         .Executes(() =>
         {
-            const string NET47 = "net47";
+            const string net47 = "net47";
 
             DotNetTest(s => s
                 .SetConfiguration(Configuration.Debug)
@@ -210,7 +210,7 @@ class Build : NukeBuild
                     (_, project) => _
                         .SetProjectFile(project)
                         .CombineWith(
-                            project.GetTargetFrameworks().Except(new[] { NET47 }),
+                            project.GetTargetFrameworks().Except(new[] { net47 }),
                             (_, framework) => _
                                 .SetFramework(framework)
                                 .AddLoggers($"trx;LogFileName={project.Name}_{framework}.trx")
@@ -218,12 +218,12 @@ class Build : NukeBuild
                 ), completeOnFailure: true
             );
 
-            ReportTestOutcome(globFilters: $"*[!*{NET47}].trx");
+            ReportTestOutcome(globFilters: $"*[!*{net47}].trx");
         });
 
     Target UnitTests => _ => _
         .DependsOn(UnitTestsNetFramework)
-        .DependsOn(UnitTestsNetCore);
+        .DependsOn(UnitTestsNewerFrameworks);
 
     static string[] Outcomes(AbsolutePath path)
         => XmlTasks.XmlPeek(
