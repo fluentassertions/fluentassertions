@@ -9,9 +9,11 @@ sidebar:
 
 ### F# usage
 
-We encourage F# developers to try out [Faqt](https://github.com/cmeeren/Faqt/), an assertion library inspired by FluentAssertions and made specifically for F#.
+FluentAssertions was made with C# in mind. While it can be used from F#, the experience will not always be as intended.
 
-FluentAssertions is made with C# in mind. While it can be used from F#, the experience will not be as intended. In particular:
+For a better F# experience we encourage F# developers to try out [Faqt](https://github.com/cmeeren/Faqt/), an assertion library inspired by FluentAssertions and made specifically for F#.
+
+Some of the awkwardness you might hit with FluentAssertions when using F# is:
 
 * To aid F#'s overload resolution, you often have to cast subject values. This does not work in all cases and will only give you a subset of assertions. For example:
 
