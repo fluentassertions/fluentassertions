@@ -21,6 +21,6 @@ jobs:
         uses: JetBrains/qodana-action@v2023.2
         with:
           upload-result: ${{ github.ref_name == 'master' || github.ref_name == 'develop' }}
-          args: --baseline,qodana.sarif.json
+          args: --baseline,qodana.sarif.json --ide QDNET
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
