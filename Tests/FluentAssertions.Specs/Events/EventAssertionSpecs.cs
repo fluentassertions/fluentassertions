@@ -1,4 +1,9 @@
-﻿using System;
+﻿#if NET47
+using System.Reflection;
+using System.Reflection.Emit;
+#endif
+
+using System;
 using System.ComponentModel;
 using System.Linq;
 using FluentAssertions.Events;
@@ -7,10 +12,6 @@ using FluentAssertions.Extensions;
 using FluentAssertions.Formatting;
 using Xunit;
 using Xunit.Sdk;
-#if NETFRAMEWORK
-using System.Reflection;
-using System.Reflection.Emit;
-#endif
 
 namespace FluentAssertions.Specs.Events;
 

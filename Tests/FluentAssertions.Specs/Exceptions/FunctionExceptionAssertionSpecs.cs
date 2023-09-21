@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
-using Xunit;
-using Xunit.Sdk;
-#if NETFRAMEWORK
+#if NET47
 using FluentAssertions.Specs.Common;
 #endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Exceptions;
 

@@ -2,7 +2,7 @@
 
   <!-- To reduce build times, we only enable analyzers for the newest TFM -->
   <PropertyGroup>
-    <TargetFrameworks>net47;net6.0;netcoreapp2.1;netcoreapp3.0;netstandard2.0;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>net47;net6.0;netstandard2.0;netstandard2.1</TargetFrameworks>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>FluentAssertions.snk</AssemblyOriginatorKeyFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -18,7 +18,7 @@
     <Authors>Dennis Doomen;Jonas Nyrup</Authors>
     <PackageDescription>
       A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or
-      BDD-style unit tests. Targets .NET Framework 4.7, .NET Core 2.1 and 3.0, .NET 6, as well as .NET Standard 2.0 and 2.1.
+      BDD-style unit tests. Targets .NET Framework 4.7, .NET 6, as well as .NET Standard 2.0 and 2.1.
       Supports the unit test frameworks MSTest2, NUnit3, XUnit2, MSpec, and NSpec3.
 
       Supported by InfoSupport B.V.
@@ -26,7 +26,7 @@
     <PackageProjectUrl>https://www.fluentassertions.com</PackageProjectUrl>
     <RepositoryUrl>https://github.com/fluentassertions/fluentassertions</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>MSTest2;xUnit;NUnit;MSpec;NSpec;TDD;BDD;Fluent;netcore;netstandard;uwp</PackageTags>
+    <PackageTags>MSTest2;xUnit;NUnit;MSpec;NSpec;TDD;BDD;Fluent;netstandard;uwp</PackageTags>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageIcon>FluentAssertions.png</PackageIcon>
     <PackageReleaseNotes>See https://fluentassertions.com/releases/</PackageReleaseNotes>
@@ -56,24 +56,6 @@
       <ItemGroup>
         <Compile Remove="Common/NullConfigurationStore.cs" />
         <Compile Remove="StringBuilderExtensions.cs" />
-        <Compile Remove="SystemExtensions.cs" />
-      </ItemGroup>
-      <ItemGroup>
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0" />
-      </ItemGroup>
-    </When>
-    <When Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
-      <ItemGroup>
-        <Compile Remove="Common/NullConfigurationStore.cs" />
-        <Compile Remove="SystemExtensions.cs" />
-      </ItemGroup>
-      <ItemGroup>
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0" />
-      </ItemGroup>
-    </When>
-    <When Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
-      <ItemGroup>
-        <Compile Remove="Common/NullConfigurationStore.cs" />
         <Compile Remove="SystemExtensions.cs" />
       </ItemGroup>
       <ItemGroup>

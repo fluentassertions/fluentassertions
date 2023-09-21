@@ -1,10 +1,10 @@
-﻿#if NETFRAMEWORK
-using FluentAssertions.Specs.Common;
-#endif
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
+#if NET47
+using FluentAssertions.Specs.Common;
+#endif
 using FluentAssertions.Specs.Exceptions;
 using Xunit;
 using Xunit.Sdk;
