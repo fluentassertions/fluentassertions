@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Extensions;
 using Xunit;
@@ -2069,6 +2070,17 @@ public class DateTimeOffsetAssertionSpecs
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected the date part of subject to be <2009-12-30>, but it was <2009-12-31>.");
         }
+
+        [Fact]
+        public void Successive_and_call_works()
+        {
+            // Arrange
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 4, 5, 6), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2009, 12, 31, 4, 5, 6), TimeSpan.Zero);
+
+            // Act / Assert
+            subject.Should().BeSameDateAs(expectation).And.Be(subject);
+        }
     }
 
     public class NotBeSameDateAs
@@ -2082,6 +2094,21 @@ public class DateTimeOffsetAssertionSpecs
 
             // Act
             Action act = () => subject.Should().NotBeSameDateAs(expectation);
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect the date part of subject to be <2009-12-31>, but it was.");
+        }
+
+        [Fact]
+        public void Successive_and_call_works()
+        {
+            // Arrange
+            DateTimeOffset subject = new(new DateTime(2009, 12, 31, 4, 5, 6), TimeSpan.Zero);
+            DateTimeOffset expectation = new(new DateTime(2009, 12, 31), TimeSpan.Zero);
+
+            // Act
+            Action act = () => subject.Should().NotBeSameDateAs(expectation).And.Be(subject);
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -2519,6 +2546,52 @@ public class DateTimeOffsetAssertionSpecs
             // Assert
             action.Should().Throw<XunitException>().WithMessage(
                 "Expected value to be one of {<2017-01-01 +1h>, <2016-12-31 04:00:00 +1h>}, but it was <2016-12-31 +1h>.");
+        }
+
+        [Fact]
+        public void When_a_value_is_one_of_the_specified_param_values_successive_assertions_with_and_works()
+        {
+            // Arrange
+            var value = new DateTimeOffset(31.December(2016), 1.Hours());
+
+            // Act / Assert
+            value.Should().BeOneOf(value, value + 1.Hours())
+                .And.Be(31.December(2016).WithOffset(1.Hours()));
+        }
+
+        [Fact]
+        public void When_a_value_is_one_of_the_specified_nullable_params_values_successive_assertions_with_and_works()
+        {
+            // Arrange
+            var value = new DateTimeOffset(31.December(2016), 1.Hours());
+
+            // Act / Assert
+            value.Should().BeOneOf(null, value, value + 1.Hours())
+                .And.Be(31.December(2016).WithOffset(1.Hours()));
+        }
+
+        [Fact]
+        public void When_a_value_is_one_of_the_specified_enumerable_values_successive_assertions_with_and_works()
+        {
+            // Arrange
+            var value = new DateTimeOffset(31.December(2016), 1.Hours());
+            var expected = new[] { value, value + 1.Hours() }.AsEnumerable();
+
+            // Act / Assert
+            value.Should().BeOneOf(expected)
+                .And.Be(31.December(2016).WithOffset(1.Hours()));
+        }
+
+        [Fact]
+        public void When_a_value_is_one_of_the_specified_nullable_enumerable_values_successive_assertions_with_and_works()
+        {
+            // Arrange
+            var value = new DateTimeOffset(31.December(2016), 1.Hours());
+            var expected = new DateTimeOffset?[] { null, value, value + 1.Hours() }.AsEnumerable();
+
+            // Act / Assert
+            value.Should().BeOneOf(expected)
+                .And.Be(31.December(2016).WithOffset(1.Hours()));
         }
 
         [Fact]
