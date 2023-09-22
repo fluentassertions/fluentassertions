@@ -14,6 +14,8 @@ sidebar:
 ### Improvements
 
 ### Fixes
+* Fixed formatting error when checking nullable `DateTimeOffset` with 
+`BeWithin(...).Before(...)` - [#2312](https://github.com/fluentassertions/fluentassertions/pull/2312)
 
 ### Breaking Changes (for users)
 * Moved support for `DataSet`, `DataTable`, `DataRow` and `DataColumn` into a new package `FluentAssertions.DataSet` - [#2267](https://github.com/fluentassertions/fluentassertions/pull/2267)

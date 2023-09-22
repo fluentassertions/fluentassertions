@@ -2245,6 +2245,44 @@ public class DateTimeAssertionSpecs
             // Assert
             action.Should().NotThrow();
         }
+
+        [Fact]
+        public void Should_throw_because_of_assertion_failure_when_asserting_null_is_within_second_before_specific_date()
+        {
+            // Arrange
+            DateTimeOffset? nullDateTime = null;
+            DateTimeOffset target = new DateTimeOffset(2000, 1, 1, 12, 0, 0, TimeSpan.Zero);
+
+            // Act
+            Action action = () =>
+                nullDateTime.Should()
+                    .BeWithin(TimeSpan.FromSeconds(1))
+                    .Before(target);
+
+            // Assert
+            action.Should().Throw<Exception>()
+                .Which.Message
+                .Should().StartWith("Expected nullDateTime to be within 1s before <2000-01-01 12:00:00 +0h>, but found a <null> DateTime");
+        }
+
+        [Fact]
+        public void Should_throw_because_of_assertion_failure_when_asserting_null_is_within_second_after_specific_date()
+        {
+            // Arrange
+            DateTimeOffset? nullDateTime = null;
+            DateTimeOffset target = new DateTimeOffset(2000, 1, 1, 12, 0, 0, TimeSpan.Zero);
+
+            // Act
+            Action action = () =>
+                nullDateTime.Should()
+                    .BeWithin(TimeSpan.FromSeconds(1))
+                    .After(target);
+
+            // Assert
+            action.Should().Throw<Exception>()
+                .Which.Message
+                .Should().StartWith("Expected nullDateTime to be within 1s after <2000-01-01 12:00:00 +0h>, but found a <null> DateTime");
+        }
     }
 
     public class BeOneOf
