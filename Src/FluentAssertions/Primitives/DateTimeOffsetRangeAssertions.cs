@@ -68,7 +68,7 @@ public class DateTimeOffsetRangeAssertions<TAssertions>
         bool success = Execute.Assertion
             .ForCondition(subject.HasValue)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:the date and time) to be " + predicate.DisplayText +
+            .FailWith("Expected {context:the date and time} to be " + predicate.DisplayText +
                 " {0} before {1}{reason}, but found a <null> DateTime.", timeSpan, target);
 
         if (success)
