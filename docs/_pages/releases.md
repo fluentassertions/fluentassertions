@@ -12,6 +12,8 @@ sidebar:
 ### Improvements
 
 ### Fixes
+* Fixed formatting error when checking nullable `DateTimeOffset` with 
+`BeWithin(...).Before(...)` - [#2312](https://github.com/fluentassertions/fluentassertions/pull/2312)
 
 ## 6.12.0
 
