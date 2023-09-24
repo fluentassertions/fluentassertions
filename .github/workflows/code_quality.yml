@@ -9,9 +9,28 @@ on:
       - develop
 
 jobs:
+  set-mode:
+    name: Set PR Mode
+    runs-on: windows-latest
+    outputs: ${{ steps.set-mode.outputs.mode }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: set-mode
+        id: set-mode
+        run: |
+          if [ ${{ github.event_name }} == 'pull_request' ]; then
+            echo "IS PR"
+            echo "::set-output name=mode::true"
+          else
+            echo "IS no PR"
+            echo "::set-output name=mode::false"
+          fi
+        shell: bash
+    
   qodana-scan:
     name: Qodana Scan
     runs-on: windows-latest
+    needs: ["set-mode"]
     steps:
       - uses: actions/checkout@v3
         with:
@@ -22,6 +41,6 @@ jobs:
         with:
           upload-result: ${{ github.ref_name == 'master' || github.ref_name == 'develop' }}
           args: --baseline,qodana.sarif.json,--ide,QDNET
-          pr-mode: ${{ github.event_name == 'pull_request' }}
+          pr-mode: ${{needs.set-mode.outputs.mode}}
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
