@@ -22,6 +22,6 @@ jobs:
         with:
           upload-result: ${{ github.ref_name == 'master' || github.ref_name == 'develop' }}
           args: --baseline,qodana.sarif.json,--ide,QDNET
-          pr-mode: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
+          pr-mode: ${{ github.event_name == 'pull_request' }}
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
