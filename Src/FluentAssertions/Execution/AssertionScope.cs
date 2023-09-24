@@ -107,6 +107,7 @@ public sealed class AssertionScope : IAssertionScope
         {
             contextData.Add(parent.contextData);
             Context = parent.Context;
+            reason = parent.reason;
             callerIdentityProvider = parent.callerIdentityProvider;
         }
     }
