@@ -7,14 +7,15 @@ on:
     branches:
       - master
       - develop
+      - test
 
 jobs:
   set-mode:
     name: Set PR Mode
-    runs-on: windows-latest
-    outputs: ${{ steps.set-mode.outputs.mode }}
+    runs-on: ubuntu-latest
+    outputs: 
+      mode: ${{ steps.set-mode.outputs.mode }}
     steps:
-      - uses: actions/checkout@v3
       - name: set-mode
         id: set-mode
         run: |
