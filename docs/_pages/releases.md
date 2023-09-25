@@ -38,6 +38,7 @@ sidebar:
 * Dropped direct support for .NET Core 2.x and .NET Core 3.x - [#2302](https://github.com/fluentassertions/fluentassertions/pull/2302)
 
 ### Breaking Changes (for extensions)
+* Add `ForConstraint` to `IAssertionsScope` to support chaining `.ForConstraint()` after `.Then` - [#2324](https://github.com/fluentassertions/fluentassertions/pull/2324)
 
 ## 6.12.0
 
