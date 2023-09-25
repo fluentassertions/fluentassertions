@@ -1184,8 +1184,8 @@ public class DictionarySpecs
             ["a"] = new List<int> { 42 }
         };
 
-        Action act = () => subject.Should().BeEquivalentTo(expected, "FOO");
+        Action act = () => subject.Should().BeEquivalentTo(expected, "FOO {0}", "BAR");
 
-        act.Should().Throw<XunitException>().WithMessage("*FOO*");
+        act.Should().Throw<XunitException>().WithMessage("*FOO BAR*");
     }
 }
