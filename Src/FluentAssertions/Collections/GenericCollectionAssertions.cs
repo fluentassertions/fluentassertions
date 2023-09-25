@@ -2965,9 +2965,6 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             .ForCondition(subject => subject is not null)
             .FailWith("but collection is <null>.")
             .Then
-            .ForCondition(subject => subject.Any())
-            .FailWith("but collection is empty.")
-            .Then
             .ClearExpectation();
 
         if (success)
