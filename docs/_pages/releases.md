@@ -35,7 +35,7 @@ sidebar:
     * `BeLessOrEqualTo`: Use `BeLessThanOrEqualTo`
 * Removed the `DefaultValueFormatter.SpacesPerIndentionLevel` property which was added during the development of v6, but wasn't removed before the release of v6 - [#2281](https://github.com/fluentassertions/fluentassertions/pull/2281)
 * Dropped direct support for .NET Core 2.x and .NET Core 3.x - [#2302](https://github.com/fluentassertions/fluentassertions/pull/2302)
-* `AllSatisfy` now suceeds when asserting that an empty collection satifies some predicates - [#2321](https://github.com/fluentassertions/fluentassertions/pull/2321)
+* `AllSatisfy` now suceeds when asserting that an empty collection satisfies some predicates - [#2321](https://github.com/fluentassertions/fluentassertions/pull/2321)
 
 ### Breaking Changes (for extensions)
 
