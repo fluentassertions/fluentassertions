@@ -28,6 +28,16 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
+        public void All_items_in_an_empty_collection_are_assignable_to_a_generic_type()
+        {
+            // Arrange
+            var collection = Array.Empty<int>();
+
+            // Act / Assert
+            collection.Should().AllBeAssignableTo<int>();
+        }
+
+        [Fact]
         public void When_collection_is_null_then_all_be_assignable_to_should_fail()
         {
             // Arrange
@@ -43,6 +53,16 @@ public partial class CollectionAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Expected type to be \"*.Object\" *failure message*, but found collection is <null>.");
+        }
+
+        [Fact]
+        public void All_items_in_an_empty_collection_are_assignable_to_a_type()
+        {
+            // Arrange
+            var collection = Array.Empty<int>();
+
+            // Act / Assert
+            collection.Should().AllBeAssignableTo(typeof(int));
         }
 
         [Fact]
