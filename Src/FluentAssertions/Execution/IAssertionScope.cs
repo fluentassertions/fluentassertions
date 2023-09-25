@@ -21,6 +21,18 @@ public interface IAssertionScope : IDisposable
     IAssertionScope ForCondition(bool condition);
 
     /// <summary>
+    /// Makes assertion fail when <paramref name="actualOccurrences"/> does not match <paramref name="constraint"/>.
+    /// <para>
+    /// The occurrence description in natural language could then be inserted in failure message by using
+    /// <em>{expectedOccurrence}</em> placeholder in message parameters of <see cref="FailWith(string, object[])"/> and its
+    /// overloaded versions.
+    /// </para>
+    /// </summary>
+    /// <param name="constraint"><see cref="OccurrenceConstraint"/> defining the number of expected occurrences.</param>
+    /// <param name="actualOccurrences">The number of actual occurrences.</param>
+    IAssertionScope ForConstraint(OccurrenceConstraint constraint, int actualOccurrences);
+
+    /// <summary>
     /// Sets the failure message when the assertion is not met, or completes the failure message set to a prior call to
     /// <see cref="AssertionScope.WithExpectation"/>.
     /// </summary>

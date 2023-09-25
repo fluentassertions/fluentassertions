@@ -42,6 +42,17 @@ public sealed class ContinuedAssertionScope : IAssertionScope
         return this;
     }
 
+    /// <inheritdoc />
+    public IAssertionScope ForConstraint(OccurrenceConstraint constraint, int actualOccurrences)
+    {
+        if (continueAsserting)
+        {
+            return predecessor.ForConstraint(constraint, actualOccurrences);
+        }
+
+        return this;
+    }
+
     /// <inheritdoc/>
     public Continuation FailWith(string message)
     {
