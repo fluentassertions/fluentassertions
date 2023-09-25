@@ -44,8 +44,7 @@ internal sealed class TypeMemberReflector
                 .GetProperties(AllInstanceMembersFlag | BindingFlags.DeclaredOnly)
                 .Where(p => HasGetter(p, memberVisibility) && !p.IsIndexer())
                 .Where(property => includeInternal || !IsInternal(property))
-                .OrderBy(property => IsExplicitImplementation(property))
-                .ToArray();
+                .OrderBy(property => IsExplicitImplementation(property));
         });
     }
 
@@ -77,8 +76,7 @@ internal sealed class TypeMemberReflector
             return type
                 .GetFields(AllInstanceMembersFlag)
                 .Where(field => !field.IsPrivate && !field.IsFamily)
-                .Where(field => includeInternal || !IsInternal(field))
-                .ToArray();
+                .Where(field => includeInternal || !IsInternal(field));
         });
     }
 
