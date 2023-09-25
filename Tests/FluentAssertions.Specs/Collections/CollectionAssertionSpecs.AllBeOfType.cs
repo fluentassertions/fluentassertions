@@ -28,6 +28,26 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
+        public void All_items_in_an_empty_collection_are_of_a_generic_type()
+        {
+            // Arrange
+            var collection = Array.Empty<int>();
+
+            // Act / Assert
+            collection.Should().AllBeOfType<int>();
+        }
+
+        [Fact]
+        public void All_items_in_an_empty_collection_are_of_a_type()
+        {
+            // Arrange
+            var collection = Array.Empty<int>();
+
+            // Act / Assert
+            collection.Should().AllBeOfType(typeof(int));
+        }
+
+        [Fact]
         public void When_collection_is_null_then_all_be_of_type_should_fail()
         {
             // Arrange
