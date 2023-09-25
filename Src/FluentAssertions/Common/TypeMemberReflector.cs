@@ -29,12 +29,12 @@ internal sealed class TypeMemberReflector
 
     private static PropertyInfo[] LoadProperties(Type typeToReflect, MemberVisibility visibility)
     {
-        IEnumerable<PropertyInfo> query = GetPropertiesFromHierarchy(typeToReflect, visibility);
+        List<PropertyInfo> query = GetPropertiesFromHierarchy(typeToReflect, visibility);
 
         return query.ToArray();
     }
 
-    private static IEnumerable<PropertyInfo> GetPropertiesFromHierarchy(Type typeToReflect, MemberVisibility memberVisibility)
+    private static List<PropertyInfo> GetPropertiesFromHierarchy(Type typeToReflect, MemberVisibility memberVisibility)
     {
         bool includeInternal = memberVisibility.HasFlag(MemberVisibility.Internal);
 
@@ -63,12 +63,12 @@ internal sealed class TypeMemberReflector
 
     private static FieldInfo[] LoadFields(Type typeToReflect, MemberVisibility visibility)
     {
-        IEnumerable<FieldInfo> query = GetFieldsFromHierarchy(typeToReflect, visibility);
+        List<FieldInfo> query = GetFieldsFromHierarchy(typeToReflect, visibility);
 
         return query.ToArray();
     }
 
-    private static IEnumerable<FieldInfo> GetFieldsFromHierarchy(Type typeToReflect, MemberVisibility memberVisibility)
+    private static List<FieldInfo> GetFieldsFromHierarchy(Type typeToReflect, MemberVisibility memberVisibility)
     {
         bool includeInternal = memberVisibility.HasFlag(MemberVisibility.Internal);
 
@@ -87,7 +87,7 @@ internal sealed class TypeMemberReflector
         return field.IsAssembly || field.IsFamilyOrAssembly;
     }
 
-    private static IEnumerable<TMemberInfo> GetMembersFromHierarchy<TMemberInfo>(
+    private static List<TMemberInfo> GetMembersFromHierarchy<TMemberInfo>(
         Type typeToReflect,
         Func<Type, IEnumerable<TMemberInfo>> getMembers)
         where TMemberInfo : MemberInfo
@@ -100,7 +100,7 @@ internal sealed class TypeMemberReflector
         return GetClassMembers(typeToReflect, getMembers);
     }
 
-    private static IEnumerable<TMemberInfo> GetInterfaceMembers<TMemberInfo>(Type typeToReflect,
+    private static List<TMemberInfo> GetInterfaceMembers<TMemberInfo>(Type typeToReflect,
         Func<Type, IEnumerable<TMemberInfo>> getMembers)
         where TMemberInfo : MemberInfo
     {
@@ -136,7 +136,7 @@ internal sealed class TypeMemberReflector
         return members;
     }
 
-    private static IEnumerable<TMemberInfo> GetClassMembers<TMemberInfo>(Type typeToReflect,
+    private static List<TMemberInfo> GetClassMembers<TMemberInfo>(Type typeToReflect,
         Func<Type, IEnumerable<TMemberInfo>> getMembers)
         where TMemberInfo : MemberInfo
     {
