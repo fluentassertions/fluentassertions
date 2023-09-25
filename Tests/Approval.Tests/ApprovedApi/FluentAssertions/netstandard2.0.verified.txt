@@ -1145,6 +1145,7 @@ namespace FluentAssertions.Execution
         public FluentAssertions.Execution.Continuation FailWith(string message, params System.Func<object>[] argProviders) { }
         public FluentAssertions.Execution.Continuation FailWith(string message, params object[] args) { }
         public FluentAssertions.Execution.IAssertionScope ForCondition(bool condition) { }
+        public FluentAssertions.Execution.IAssertionScope ForConstraint(FluentAssertions.OccurrenceConstraint constraint, int actualOccurrences) { }
         public FluentAssertions.Execution.GivenSelector<T> Given<T>(System.Func<T> selector) { }
         public FluentAssertions.Execution.IAssertionScope WithDefaultIdentifier(string identifier) { }
         public FluentAssertions.Execution.IAssertionScope WithExpectation(string message, params object[] args) { }
@@ -1179,6 +1180,7 @@ namespace FluentAssertions.Execution
         FluentAssertions.Execution.Continuation FailWith(string message, params System.Func<object>[] argProviders);
         FluentAssertions.Execution.Continuation FailWith(string message, params object[] args);
         FluentAssertions.Execution.IAssertionScope ForCondition(bool condition);
+        FluentAssertions.Execution.IAssertionScope ForConstraint(FluentAssertions.OccurrenceConstraint constraint, int actualOccurrences);
         FluentAssertions.Execution.GivenSelector<T> Given<T>(System.Func<T> selector);
         FluentAssertions.Execution.IAssertionScope WithDefaultIdentifier(string identifier);
         FluentAssertions.Execution.IAssertionScope WithExpectation(string message, params object[] args);
