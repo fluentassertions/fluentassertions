@@ -2072,7 +2072,7 @@ public class DateTimeOffsetAssertionSpecs
         }
 
         [Fact]
-        public void Successive_and_call_works()
+        public void Can_chain_follow_up_assertions()
         {
             // Arrange
             DateTimeOffset subject = new(new DateTime(2009, 12, 31, 4, 5, 6), TimeSpan.Zero);
@@ -2101,7 +2101,7 @@ public class DateTimeOffsetAssertionSpecs
         }
 
         [Fact]
-        public void Successive_and_call_works()
+        public void Can_chain_follow_up_assertions()
         {
             // Arrange
             DateTimeOffset subject = new(new DateTime(2009, 12, 31, 4, 5, 6), TimeSpan.Zero);
@@ -2549,7 +2549,7 @@ public class DateTimeOffsetAssertionSpecs
         }
 
         [Fact]
-        public void When_a_value_is_one_of_the_specified_param_values_successive_assertions_with_and_works()
+        public void When_a_value_is_one_of_the_specified_param_values_follow_up_assertions_works()
         {
             // Arrange
             var value = new DateTimeOffset(31.December(2016), 1.Hours());
@@ -2560,7 +2560,7 @@ public class DateTimeOffsetAssertionSpecs
         }
 
         [Fact]
-        public void When_a_value_is_one_of_the_specified_nullable_params_values_successive_assertions_with_and_works()
+        public void When_a_value_is_one_of_the_specified_nullable_params_values_follow_up_assertions_works()
         {
             // Arrange
             var value = new DateTimeOffset(31.December(2016), 1.Hours());
@@ -2571,7 +2571,7 @@ public class DateTimeOffsetAssertionSpecs
         }
 
         [Fact]
-        public void When_a_value_is_one_of_the_specified_enumerable_values_successive_assertions_with_and_works()
+        public void When_a_value_is_one_of_the_specified_enumerable_values_follow_up_assertions_works()
         {
             // Arrange
             var value = new DateTimeOffset(31.December(2016), 1.Hours());
@@ -2583,7 +2583,7 @@ public class DateTimeOffsetAssertionSpecs
         }
 
         [Fact]
-        public void When_a_value_is_one_of_the_specified_nullable_enumerable_values_successive_assertions_with_and_works()
+        public void When_a_value_is_one_of_the_specified_nullable_enumerable_follow_up_assertions_works()
         {
             // Arrange
             var value = new DateTimeOffset(31.December(2016), 1.Hours());
