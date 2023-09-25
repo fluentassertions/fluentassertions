@@ -29,11 +29,7 @@ internal sealed class TypeMemberReflector
 
     private static PropertyInfo[] LoadProperties(Type typeToReflect, MemberVisibility visibility)
     {
-        IEnumerable<PropertyInfo> query =
-            from propertyInfo in GetPropertiesFromHierarchy(typeToReflect, visibility)
-            where HasGetter(propertyInfo, visibility)
-            where !propertyInfo.IsIndexer()
-            select propertyInfo;
+        IEnumerable<PropertyInfo> query = GetPropertiesFromHierarchy(typeToReflect, visibility);
 
         return query.ToArray();
     }
@@ -46,6 +42,7 @@ internal sealed class TypeMemberReflector
         {
             return type
                 .GetProperties(AllInstanceMembersFlag | BindingFlags.DeclaredOnly)
+                .Where(p => HasGetter(p, memberVisibility) && !p.IsIndexer())
                 .Where(property => includeInternal || !IsInternal(property))
                 .OrderBy(property => IsExplicitImplementation(property))
                 .ToArray();
@@ -59,18 +56,14 @@ internal sealed class TypeMemberReflector
 
     private static bool IsExplicitImplementation(PropertyInfo property)
     {
-        return property.GetMethod?.IsPrivate == true &&
+        return property.GetMethod.IsPrivate &&
             property.SetMethod?.IsPrivate != false &&
             property.Name.Contains('.', StringComparison.Ordinal);
     }
 
     private static FieldInfo[] LoadFields(Type typeToReflect, MemberVisibility visibility)
     {
-        IEnumerable<FieldInfo> query =
-            from fieldInfo in GetFieldsFromHierarchy(typeToReflect, visibility)
-            where !fieldInfo.IsPrivate
-            where !fieldInfo.IsFamily
-            select fieldInfo;
+        IEnumerable<FieldInfo> query = GetFieldsFromHierarchy(typeToReflect, visibility);
 
         return query.ToArray();
     }
@@ -83,7 +76,7 @@ internal sealed class TypeMemberReflector
         {
             return type
                 .GetFields(AllInstanceMembersFlag)
-                .Where(field => !field.IsPrivate)
+                .Where(field => !field.IsPrivate && !field.IsFamily)
                 .Where(field => includeInternal || !IsInternal(field))
                 .ToArray();
         });
