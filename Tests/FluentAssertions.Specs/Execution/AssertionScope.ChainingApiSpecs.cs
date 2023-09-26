@@ -114,6 +114,20 @@ public partial class AssertionScopeSpecs
     }
 
     [Fact]
+    public void Passing_a_null_value_as_reason_does_not_fail()
+    {
+        // Act
+        Action act = () => Execute.Assertion
+            .BecauseOf(null, "only because for method disambiguity")
+            .ForCondition(false)
+            .FailWith("First assertion");
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("First assertion");
+    }
+
+    [Fact]
     public void When_a_given_is_used_before_an_assertion_then_the_result_should_be_available_for_evaluation()
     {
         // Act
