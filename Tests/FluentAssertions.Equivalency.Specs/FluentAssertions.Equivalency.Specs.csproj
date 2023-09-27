@@ -17,7 +17,7 @@
       FluentAssertions.Specs.csproj for net47 does not generate a binding redirect from 4.0.4.0 to 4.0.4.1
       Upgrading to 1.6.0 gives "Could not load file or assembly 'System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0"
     -->
-    <PackageReference Include="System.Collections.Immutable" Version="[1.5.0]" />
+    <PackageReference Include="System.Collections.Immutable" Version="[7.0.0]" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
