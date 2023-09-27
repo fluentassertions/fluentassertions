@@ -252,6 +252,129 @@ namespace FluentAssertions.Specs.Execution
             outerScope.Get<string>("innerReportable").Should().Be("bar");
         }
 
+        [Fact]
+        public void Scope_formatting_options_passed_to_inner_scope()
+        {
+            var a = new[]
+            {
+                new Container
+                {
+                    Id = Guid.NewGuid(),
+                    Children = new[]
+                    {
+                        new Container.Child1
+                        {
+                            Id = Guid.NewGuid(),
+                            Children = new[]
+                            {
+                                new Container.Child2
+                                {
+                                    StringProperty = "A",
+                                    IntProperty = 1,
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            var b = new[]
+            {
+                new Container
+                {
+                    Id = Guid.NewGuid(),
+                    Children = new[]
+                    {
+                        new Container.Child1
+                        {
+                            Id = Guid.NewGuid(),
+                            Children = new[]
+                            {
+                                new Container.Child2
+                                {
+                                    StringProperty = "B",
+                                    IntProperty = 1,
+                                }
+                            }
+                        }
+                    }
+                },
+                new Container
+                {
+                    Id = Guid.NewGuid(),
+                    Children = new[]
+                    {
+                        new Container.Child1
+                        {
+                            Id = Guid.NewGuid(),
+                            Children = new[]
+                            {
+                                new Container.Child2
+                                {
+                                    StringProperty = "B",
+                                    IntProperty = 1,
+                                }
+                            }
+                        }
+                    }
+                },
+            };
+
+            var messageWithoutMaxDepthRespected = "";
+
+            try
+            {
+                using (var scope = new AssertionScope())
+                {
+                    scope.FormattingOptions.MaxDepth = 1;
+                    a.Should().BeEquivalentTo(b);
+                }
+            }
+            catch (Exception ex)
+            {
+                messageWithoutMaxDepthRespected = ex.Message;
+            }
+
+            AssertionOptions.FormattingOptions.MaxDepth = 1;
+            var messageWithMaxDepthCorrectlyRespected = "";
+
+            try
+            {
+                a.Should().BeEquivalentTo(b);
+            }
+            catch (Exception ex)
+            {
+                messageWithMaxDepthCorrectlyRespected = ex.Message;
+            }
+            finally
+            {
+                AssertionOptions.FormattingOptions.MaxDepth = 5;
+            }
+
+            messageWithMaxDepthCorrectlyRespected.Should().Be(messageWithoutMaxDepthRespected);
+        }
+
+        private class Container
+        {
+            public Guid Id { get; set; }
+
+            public Child1[] Children { get; set; }
+
+            public class Child1
+            {
+                public Guid Id { get; set; }
+
+                public Child2[] Children { get; set; }
+            }
+
+            public class Child2
+            {
+                public string StringProperty { get; set; }
+
+                public int IntProperty { get; set; }
+            }
+        }
+
         public class CustomAssertionStrategy : IAssertionStrategy
         {
             private readonly List<string> failureMessages = new();
