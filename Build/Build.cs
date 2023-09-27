@@ -169,7 +169,7 @@ class Build : NukeBuild
         Solution.Specs.VB_Specs
     };
 
-    Target UnitTestsNetFramework => _ => _
+    Target UnitTestsNet47 => _ => _
         .Unlisted()
         .DependsOn(Compile)
         .OnlyWhenDynamic(() => EnvironmentInfo.IsWin && (RunAllTargets || HasSourceChanges))
@@ -188,7 +188,7 @@ class Build : NukeBuild
             );
         });
 
-    Target UnitTestsNewerFrameworks => _ => _
+    Target UnitTestsNet6OrGreater => _ => _
         .Unlisted()
         .DependsOn(Compile)
         .OnlyWhenDynamic(() => RunAllTargets || HasSourceChanges)
@@ -222,8 +222,8 @@ class Build : NukeBuild
         });
 
     Target UnitTests => _ => _
-        .DependsOn(UnitTestsNetFramework)
-        .DependsOn(UnitTestsNewerFrameworks);
+        .DependsOn(UnitTestsNet47)
+        .DependsOn(UnitTestsNet6OrGreater);
 
     static string[] Outcomes(AbsolutePath path)
         => XmlTasks.XmlPeek(
