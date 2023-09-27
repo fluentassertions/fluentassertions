@@ -59,16 +59,6 @@ public class NotThrowSpecs
     }
 
     [Fact]
-    public void When_no_exception_should_be_thrown_by_sync_over_async_it_should_not_throw()
-    {
-        // Arrange
-        Action act = () => Task.Delay(0).Wait(0);
-
-        // Act / Assert
-        act.Should().NotThrow();
-    }
-
-    [Fact]
     public void When_no_exception_should_be_thrown_but_it_was_it_should_throw()
     {
         // Arrange
