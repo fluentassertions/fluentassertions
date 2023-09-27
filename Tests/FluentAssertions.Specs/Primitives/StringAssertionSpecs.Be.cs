@@ -190,7 +190,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().Which.Message.Should().Be(
-                "Expected string to be the same string, but they differ at index 3:" +
+                "Expected string to be the same string, but they differ on line 2 and column 1 (index 3):" +
                 Environment.NewLine
                 + "        ↓ (actual)" + Environment.NewLine
                 + "  \"A\\r\\nB\"" + Environment.NewLine
@@ -201,8 +201,8 @@ public partial class StringAssertionSpecs
         [Fact]
         public void When_text_is_longer_than_8_characters_use_failure_message_with_arrows()
         {
-            var subject = "this is a long text that differs in between";
-            var expected = "this is a long text which differs in between";
+            const string subject = "this is a long text that differs in between two words";
+            const string expected = "this is a long text which differs in between two words";
 
             // Act
             Action act = () => subject.Should().Be(expected, "because we use arrows now");
@@ -220,8 +220,8 @@ public partial class StringAssertionSpecs
         [Fact]
         public void When_text_is_longer_than_8_characters_only_add_ellipsis_where_applicable()
         {
-            var subject = "this is a long text that differs in between";
-            var expected = "this was too short";
+            const string subject = "this is a long text that differs";
+            const string expected = "this was too short";
 
             // Act
             Action act = () => subject.Should().Be(expected, "because we use arrows now");
@@ -234,6 +234,41 @@ public partial class StringAssertionSpecs
                 + "  \"this is a long text…\"" + Environment.NewLine
                 + "  \"this was too short\"" + Environment.NewLine
                 + "        ↑ (expected).");
+        }
+
+        [Fact]
+        public void When_text_has_many_lines_failure_message_should_look_informative()
+        {
+            var subject = """
+            @startuml
+            Alice -> Bob : Authentication Request
+            Bob --> Alice : Authentication Response
+
+            Alice -> Bob : Another authentication Request
+            Alice <-- Bob : Another authentication Response
+            @enduml
+            """;
+            var expected = """
+            @startuml
+            Alice -> Bob : Authentication Request
+            Bob --> Alice : Authentication Response
+
+            Bob -> Alice : Another authentication Request
+            Alice <-- Bob : Another authentication Response
+            @enduml
+            """;
+
+            // Act
+            Action act = () => subject.Should().Be(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected subject to be the same string, but they differ on line 5 and column 1 (index 93):" +
+                Environment.NewLine
+                + "                    ↓ (actual)" + Environment.NewLine
+                + "  \"…Response\\r\\n\\r\\nAlice ->…\"" + Environment.NewLine
+                + "  \"…Response\\r\\n\\r\\nBob ->…\"" + Environment.NewLine
+                + "                    ↑ (expected).");
         }
     }
 

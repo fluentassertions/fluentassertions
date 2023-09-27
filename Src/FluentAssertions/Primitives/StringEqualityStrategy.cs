@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -68,10 +69,20 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
 
             if (indexOfMismatch != -1)
             {
+                string lineInfo = $"at index {indexOfMismatch}";
+                var matchingString = subject.Substring(0, indexOfMismatch);
+                int lineNumber = matchingString.Count(c => c == '\n');
+
+                if (lineNumber > 0)
+                {
+                    var lastLineIndex = matchingString.LastIndexOf('\n');
+                    var column = matchingString.Length - lastLineIndex;
+                    lineInfo = $"on line {lineNumber + 1} and column {column} (index {indexOfMismatch})";
+                }
+
                 assertion.FailWith(
-                    ExpectationDescription + "the same string{reason}, but they differ at index {0}:" + Environment.NewLine
-                    + subject.GetMismatchSegmentForLongStrings(expected, indexOfMismatch) + ".",
-                    indexOfMismatch);
+                    ExpectationDescription + "the same string{reason}, but they differ " + lineInfo + ":" + Environment.NewLine
+                    + subject.GetMismatchSegmentForLongStrings(expected, indexOfMismatch) + ".");
             }
         }
         else if (ValidateAgainstLengthDifferences(assertion, subject, expected))
