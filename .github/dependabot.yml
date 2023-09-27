@@ -22,3 +22,17 @@ updates:
     ignore:
       - dependency-name: "System.Configuration.ConfigurationManager"
       - dependency-name: "System.Threading.Tasks.Extensions"
+    groups:
+      xunit:
+        patterns:
+          - "xunit*"
+          - "Verify*"
+      mstest:
+        patterns:
+          - "MSTest*"
+      nuke:
+        patterns:
+          - "Nuke*"
+      nunit:
+        patterns:
+          - "NUnit*"
