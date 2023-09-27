@@ -37,25 +37,33 @@ internal sealed class TypeMemberReflector
     private static List<PropertyInfo> GetPropertiesFromHierarchy(Type typeToReflect, MemberVisibility memberVisibility)
     {
         bool includeInternal = memberVisibility.HasFlag(MemberVisibility.Internal);
+        bool includeExplicitlyImplemented = memberVisibility.HasFlag(MemberVisibility.ExplicitlyImplemented);
 
         return GetMembersFromHierarchy(typeToReflect, type =>
         {
-            return type
-                .GetProperties(AllInstanceMembersFlag | BindingFlags.DeclaredOnly)
-                .Where(p => HasGetter(p, memberVisibility) && !p.IsIndexer())
-                .Where(property => includeInternal || !IsInternal(property))
-                .OrderBy(property => IsExplicitImplementation(property));
+            return
+                from p in type.GetProperties(AllInstanceMembersFlag | BindingFlags.DeclaredOnly)
+                where p.GetMethod is { } getMethod
+                    && (IsPublic(getMethod) || (includeExplicitlyImplemented && IsExplicitlyImplemented(getMethod)))
+                    && (includeInternal || !IsInternal(getMethod))
+                    && !p.IsIndexer()
+                orderby IsExplicitImplementation(p)
+                select p;
         });
     }
 
-    private static bool IsInternal(PropertyInfo property)
-    {
-        return property.GetMethod is { IsAssembly: true } or { IsFamilyOrAssembly: true };
-    }
+    private static bool IsPublic(MethodInfo getMethod) =>
+        !getMethod.IsPrivate && !getMethod.IsFamily;
+
+    private static bool IsExplicitlyImplemented(MethodInfo getMethod) =>
+        getMethod.IsPrivate && getMethod.IsFinal;
+
+    private static bool IsInternal(MethodInfo getMethod) =>
+        getMethod.IsAssembly || getMethod.IsFamilyOrAssembly;
 
     private static bool IsExplicitImplementation(PropertyInfo property)
     {
-        return property.GetMethod.IsPrivate &&
+        return property.GetMethod!.IsPrivate &&
             property.SetMethod?.IsPrivate != false &&
             property.Name.Contains('.', StringComparison.Ordinal);
     }
@@ -154,17 +162,5 @@ internal sealed class TypeMemberReflector
         }
 
         return members;
-    }
-
-    private static bool HasGetter(PropertyInfo propertyInfo, MemberVisibility visibility)
-    {
-        MethodInfo getMethod = propertyInfo.GetGetMethod(nonPublic: true);
-
-        if (visibility.HasFlag(MemberVisibility.ExplicitlyImplemented))
-        {
-            return getMethod is { IsPrivate: false, IsFamily: false } or { IsPrivate: true, IsFinal: true };
-        }
-
-        return getMethod is { IsPrivate: false, IsFamily: false };
     }
 }
