@@ -50,20 +50,13 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void An_empty_collection_should_throw()
+        public void An_empty_collection_should_succeed()
         {
             // Arrange
             var collection = Enumerable.Empty<int>();
 
-            // Act
-            Action act = () =>
-                collection.Should().AllSatisfy(x => x.Should().Be(1), "because we want to test the failure {0}", "message");
-
-            // Assert
-            act.Should()
-                .Throw<XunitException>()
-                .WithMessage(
-                    "Expected collection to contain only items satisfying the inspector because we want to test the failure message, but collection is empty.");
+            // Act / Assert
+            collection.Should().AllSatisfy(x => x.Should().Be(1));
         }
 
         [Fact]
