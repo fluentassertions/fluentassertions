@@ -1171,4 +1171,22 @@ public class DictionarySpecs
             .WhenTypeIs<double>()
         );
     }
+
+    [Fact]
+    public void Passing_the_reason_to_the_inner_equivalency_assertion_works()
+    {
+        var subject = new Dictionary<string, object>
+        {
+            ["a"] = new List<int>()
+        };
+
+        var expected = new Dictionary<string, object>
+        {
+            ["a"] = new List<int> { 42 }
+        };
+
+        Action act = () => subject.Should().BeEquivalentTo(expected, "FOO {0}", "BAR");
+
+        act.Should().Throw<XunitException>().WithMessage("*FOO BAR*");
+    }
 }
