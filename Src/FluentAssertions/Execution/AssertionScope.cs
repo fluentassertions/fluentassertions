@@ -107,6 +107,7 @@ public sealed class AssertionScope : IAssertionScope
         {
             contextData.Add(parent.contextData);
             Context = parent.Context;
+            reason = parent.reason;
             callerIdentityProvider = parent.callerIdentityProvider;
         }
     }
@@ -147,10 +148,7 @@ public sealed class AssertionScope : IAssertionScope
     /// </summary>
     public FormattingOptions FormattingOptions { get; } = AssertionOptions.FormattingOptions.Clone();
 
-    internal bool Succeeded
-    {
-        get => succeeded == true;
-    }
+    internal bool Succeeded => succeeded == true;
 
     /// <summary>
     /// Adds an explanation of why the assertion is supposed to succeed to the scope.
