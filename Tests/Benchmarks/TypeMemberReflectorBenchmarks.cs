@@ -25,7 +25,7 @@ public class TypeMemberReflectorBenchmarks
     public object Public_Internal_ExplicitlyImplemented() => new TypeMemberReflector(typeof(A), Public | Internal | ExplicitlyImplemented);
 }
 
-interface I
+internal interface I
 {
     int Interface0 { get; set; }
     int Interface1 { get; set; }
@@ -39,7 +39,7 @@ interface I
     int Interface9 { get; set; }
 }
 
-class A : I
+internal class A : I
 {
     public int Public0 { get; set; }
     public int Public1 { get; set; }
