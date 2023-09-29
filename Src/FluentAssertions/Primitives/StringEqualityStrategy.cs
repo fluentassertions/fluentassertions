@@ -69,6 +69,7 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
 
             if (indexOfMismatch == -1)
             {
+                ValidateAgainstLengthDifferences(assertion, subject, expected);
                 return;
             }
 
