@@ -2822,11 +2822,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
             .ForCondition(subject => subject is not null)
             .FailWith("but the collection is <null>.")
             .Then
-            .Given(subject => subject.ConvertOrCastToCollection())
-            .ForCondition(collection => collection.Count > 0)
-            .FailWith("but the collection is empty.")
-            .Then
-            .Given(collection => collection.Where(item => !compiledPredicate(item)))
+            .Given(subject => subject.ConvertOrCastToCollection().Where(item => !compiledPredicate(item)))
             .ForCondition(mismatchingItems => !mismatchingItems.Any())
             .FailWith("but {0} do(es) not match.", mismatchingItems => mismatchingItems)
             .Then
