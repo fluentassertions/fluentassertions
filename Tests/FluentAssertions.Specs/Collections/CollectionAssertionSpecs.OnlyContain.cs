@@ -62,12 +62,8 @@ public partial class CollectionAssertionSpecs
             // Arrange
             IEnumerable<string> strings = Enumerable.Empty<string>();
 
-            // Act
-            Action act = () => strings.Should().OnlyContain(e => e.Length > 0);
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("Expected strings to contain only items matching (e.Length > 0), but the collection is empty.");
+            // Act / Assert
+            strings.Should().OnlyContain(e => e.Length > 0);
         }
 
         [Fact]
