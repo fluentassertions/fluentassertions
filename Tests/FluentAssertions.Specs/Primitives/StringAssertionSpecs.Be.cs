@@ -253,7 +253,7 @@ public partial class StringAssertionSpecs
             Alice -> Bob : Authentication Request
             Bob --> Alice : Authentication Response
 
-            Bob -> Alice : Another authentication Request
+            Alice -> Bob : Invalid authentication Request
             Alice <-- Bob : Another authentication Response
             @enduml
             """;
@@ -263,12 +263,12 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject to be the same string, but they differ on line 5 and column 1 (index 93):" +
+                "Expected subject to be the same string, but they differ on line 5 and column 16 (index 108):" +
                 Environment.NewLine
-                + "                    ↓ (actual)" + Environment.NewLine
-                + "  \"…Response\\r\\n\\r\\nAlice ->…\"" + Environment.NewLine
-                + "  \"…Response\\r\\n\\r\\nBob ->…\"" + Environment.NewLine
-                + "                    ↑ (expected).");
+                + "             ↓ (actual)" + Environment.NewLine
+                + "  \"…-> Bob : Another aut…\"" + Environment.NewLine
+                + "  \"…-> Bob : Invalid aut…\"" + Environment.NewLine
+                + "             ↑ (expected).");
         }
     }
 
