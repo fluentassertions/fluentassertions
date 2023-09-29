@@ -178,7 +178,7 @@ internal static class StringExtensions
         }
 
         var visibleText = subject.Substring(trimStart, firstIndexOfMismatch - trimStart);
-        whiteSpaceCount += visibleText.Count(c => c == '\r' || c == '\n');
+        whiteSpaceCount += visibleText.Count(c => c is '\r' or '\n');
 
         var sb = new StringBuilder();
 
@@ -192,7 +192,7 @@ internal static class StringExtensions
 
     private static StringBuilder AppendVisibleText(this StringBuilder sb, string subject, int trimStart)
     {
-        var subjectLength = CalculateSegmentLength(subject.Substring(trimStart));
+        var subjectLength = CalculateSegmentLength(subject[trimStart..]);
 
         if (trimStart > 0)
         {
@@ -242,7 +242,7 @@ internal static class StringExtensions
     /// </summary>
     private static int CalculateSegmentLength(string value)
     {
-        var word = value.Substring(0, Math.Min(24, value.Length))
+        var word = value[..Math.Min(24, value.Length)]
             .LastIndexOf(' ');
 
         if (word > 16)

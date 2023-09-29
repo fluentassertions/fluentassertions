@@ -67,23 +67,25 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
         {
             int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparisonMode);
 
-            if (indexOfMismatch != -1)
+            if (indexOfMismatch == -1)
             {
-                string lineInfo = $"at index {indexOfMismatch}";
-                var matchingString = subject.Substring(0, indexOfMismatch);
-                int lineNumber = matchingString.Count(c => c == '\n');
-
-                if (lineNumber > 0)
-                {
-                    var lastLineIndex = matchingString.LastIndexOf('\n');
-                    var column = matchingString.Length - lastLineIndex;
-                    lineInfo = $"on line {lineNumber + 1} and column {column} (index {indexOfMismatch})";
-                }
-
-                assertion.FailWith(
-                    ExpectationDescription + "the same string{reason}, but they differ " + lineInfo + ":" + Environment.NewLine
-                    + subject.GetMismatchSegmentForLongStrings(expected, indexOfMismatch) + ".");
+                return;
             }
+
+            string lineInfo = $"at index {indexOfMismatch}";
+            var matchingString = subject[..indexOfMismatch];
+            int lineNumber = matchingString.Count(c => c == '\n');
+
+            if (lineNumber > 0)
+            {
+                var lastLineIndex = matchingString.LastIndexOf('\n');
+                var column = matchingString.Length - lastLineIndex;
+                lineInfo = $"on line {lineNumber + 1} and column {column} (index {indexOfMismatch})";
+            }
+
+            assertion.FailWith(
+                ExpectationDescription + "the same string{reason}, but they differ " + lineInfo + ":" + Environment.NewLine
+                + subject.GetMismatchSegmentForLongStrings(expected, indexOfMismatch) + ".");
         }
         else if (ValidateAgainstLengthDifferences(assertion, subject, expected))
         {
