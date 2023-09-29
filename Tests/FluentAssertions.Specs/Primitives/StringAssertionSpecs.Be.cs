@@ -239,6 +239,8 @@ public partial class StringAssertionSpecs
         [Fact]
         public void When_text_has_many_lines_failure_message_should_look_informative()
         {
+            var expectedIndex = 100 + 4 * (Environment.NewLine.Length);
+
             var subject = """
             @startuml
             Alice -> Bob : Authentication Request
@@ -263,7 +265,7 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject to be the same string, but they differ on line 5 and column 16 (index 108):" +
+                $"Expected subject to be the same string, but they differ on line 5 and column 16 (index {expectedIndex}):" +
                 Environment.NewLine
                 + "             ↓ (actual)" + Environment.NewLine
                 + "  \"…-> Bob : Another aut…\"" + Environment.NewLine
