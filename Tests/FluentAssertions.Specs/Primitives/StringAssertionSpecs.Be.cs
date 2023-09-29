@@ -239,7 +239,7 @@ public partial class StringAssertionSpecs
         [Fact]
         public void When_text_has_many_lines_failure_message_should_look_informative()
         {
-            var expectedIndex = 100 + 4 * (Environment.NewLine.Length);
+            var expectedIndex = 100 + (4 * Environment.NewLine.Length);
 
             var subject = """
             @startuml
@@ -250,6 +250,7 @@ public partial class StringAssertionSpecs
             Alice <-- Bob : Another authentication Response
             @enduml
             """;
+
             var expected = """
             @startuml
             Alice -> Bob : Authentication Request
