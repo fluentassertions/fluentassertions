@@ -426,4 +426,149 @@ public partial class AssertionScopeSpecs
         act.Should().Throw<XunitException>()
             .WithMessage("Expected other");
     }
+
+    [Fact]
+    public void Continuing_an_assertion_with_occurrence()
+    {
+        // Act
+        Action act = () => Execute.Assertion
+            .ForCondition(true)
+            .FailWith("First assertion")
+            .Then
+            .WithExpectation("{expectedOccurrence} ")
+            .ForConstraint(Exactly.Once(), 2)
+            .FailWith("Second {0}", "assertion");
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("Exactly 1 time Second \"assertion\"*");
+    }
+
+    [Fact]
+    public void Continuing_an_assertion_with_occurrence_will_not_be_executed_when_first_assertion_fails()
+    {
+        // Act
+        Action act = () => Execute.Assertion
+            .ForCondition(false)
+            .FailWith("First assertion")
+            .Then
+            .WithExpectation("{expectedOccurrence} ")
+            .ForConstraint(Exactly.Once(), 2)
+            .FailWith("Second {0}", "assertion");
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("First assertion");
+    }
+
+    [Fact]
+    public void Continuing_an_assertion_with_occurrence_overrides_the_previous_defined_expectations()
+    {
+        // Act
+        Action act = () => Execute.Assertion
+            .WithExpectation("First expectation")
+            .ForCondition(true)
+            .FailWith("First assertion")
+            .Then
+            .WithExpectation("{expectedOccurrence} ")
+            .ForConstraint(Exactly.Once(), 2)
+            .FailWith("Second {0}", "assertion");
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("Exactly 1 time Second \"assertion\"*");
+    }
+
+    [Fact]
+    public void Continuing_an_assertion_after_occurrence_check_works()
+    {
+        // Act
+        Action act = () => Execute.Assertion
+            .WithExpectation("{expectedOccurrence} ")
+            .ForConstraint(Exactly.Once(), 1)
+            .FailWith("First assertion")
+            .Then
+            .WithExpectation("Second expectation ")
+            .ForCondition(false)
+            .FailWith("Second {0}", "assertion");
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("Second expectation Second \"assertion\"*");
+    }
+
+    [Fact]
+    public void Continuing_an_assertion_with_occurrence_check_before_defining_expectation_works()
+    {
+        // Act
+        Action act = () => Execute.Assertion
+            .ForCondition(true)
+            .FailWith("First assertion")
+            .Then
+            .ForConstraint(Exactly.Once(), 2)
+            .WithExpectation("Second expectation ")
+            .FailWith("Second {0}", "assertion");
+
+        // Assert
+        act.Should().Throw<XunitException>()
+            .WithMessage("Second expectation Second \"assertion\"*");
+    }
+
+    [Fact]
+    public void Does_not_continue_a_chained_assertion_after_the_first_one_failed_the_occurrence_check()
+    {
+        // Arrange
+        using var scope = new AssertionScope();
+
+        // Act
+        Execute.Assertion
+            .ForConstraint(Exactly.Once(), 2)
+            .FailWith("First {0}", "assertion")
+            .Then
+            .ForConstraint(Exactly.Once(), 2)
+            .FailWith("Second {0}", "assertion");
+
+        string[] failures = scope.Discard();
+        scope.Dispose();
+
+        // Assert
+        Assert.Single(failures);
+        Assert.Contains("First \"assertion\"", failures);
+    }
+
+    [Fact]
+    public void Discard_a_scope_after_continuing_chained_assertion()
+    {
+        // Arrange
+        using var scope = new AssertionScope();
+
+        // Act
+        var failures = Execute.Assertion
+            .ForConstraint(Exactly.Once(), 2)
+            .FailWith("First {0}", "assertion")
+            .Then
+            .Discard();
+
+        // Assert
+        Assert.Single(failures);
+        Assert.Contains("First \"assertion\"", failures);
+    }
+
+    [Fact]
+    public void Get_info_about_line_breaks_from_parent_scope_after_continuing_chained_assertion()
+    {
+        // Arrange
+        using var scope = new AssertionScope();
+        scope.FormattingOptions.UseLineBreaks = true;
+
+        // Act
+        var innerScope = Execute.Assertion
+            .ForConstraint(Exactly.Once(), 1)
+            .FailWith("First {0}", "assertion")
+            .Then
+            .UsingLineBreaks;
+
+        // Assert
+        innerScope.UsingLineBreaks.Should().Be(scope.UsingLineBreaks);
+    }
 }

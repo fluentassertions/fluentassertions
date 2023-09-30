@@ -39,6 +39,7 @@ sidebar:
 * `AllSatisfy` now suceeds when asserting that an empty collection satisfies some predicates - [#2321](https://github.com/fluentassertions/fluentassertions/pull/2321)
 
 ### Breaking Changes (for extensions)
+* Add `ForConstraint` to `IAssertionsScope` to support chaining `.ForConstraint()` after `.Then` - [#2324](https://github.com/fluentassertions/fluentassertions/pull/2324)
 
 ## 6.12.0
 
