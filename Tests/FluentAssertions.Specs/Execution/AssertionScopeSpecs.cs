@@ -253,126 +253,37 @@ namespace FluentAssertions.Specs.Execution
         }
 
         [Fact]
-        public void Scope_formatting_options_passed_to_inner_scope()
+        public void Formatting_options_passed_to_inner_assertion_scopes()
         {
-            var a = new[]
+            // Arrange
+            var subject = new[]
             {
-                new Container
+                new
                 {
-                    Id = Guid.NewGuid(),
-                    Children = new[]
-                    {
-                        new Container.Child1
-                        {
-                            Id = Guid.NewGuid(),
-                            Children = new[]
-                            {
-                                new Container.Child2
-                                {
-                                    StringProperty = "A",
-                                    IntProperty = 1,
-                                }
-                            }
-                        }
-                    }
+                    Value = 42
                 }
             };
 
-            var b = new[]
+            var expected = new[]
             {
-                new Container
+                new
                 {
-                    Id = Guid.NewGuid(),
-                    Children = new[]
-                    {
-                        new Container.Child1
-                        {
-                            Id = Guid.NewGuid(),
-                            Children = new[]
-                            {
-                                new Container.Child2
-                                {
-                                    StringProperty = "B",
-                                    IntProperty = 1,
-                                }
-                            }
-                        }
-                    }
+                    Value = 42
                 },
-                new Container
+                new
                 {
-                    Id = Guid.NewGuid(),
-                    Children = new[]
-                    {
-                        new Container.Child1
-                        {
-                            Id = Guid.NewGuid(),
-                            Children = new[]
-                            {
-                                new Container.Child2
-                                {
-                                    StringProperty = "B",
-                                    IntProperty = 1,
-                                }
-                            }
-                        }
-                    }
-                },
+                    Value = 42
+                }
             };
 
-            var messageWithoutMaxDepthRespected = "";
+            // Act
+            using var scope = new AssertionScope();
+            scope.FormattingOptions.MaxDepth = 1;
+            subject.Should().BeEquivalentTo(expected);
 
-            try
-            {
-                using (var scope = new AssertionScope())
-                {
-                    scope.FormattingOptions.MaxDepth = 1;
-                    a.Should().BeEquivalentTo(b);
-                }
-            }
-            catch (Exception ex)
-            {
-                messageWithoutMaxDepthRespected = ex.Message;
-            }
-
-            AssertionOptions.FormattingOptions.MaxDepth = 1;
-            var messageWithMaxDepthCorrectlyRespected = "";
-
-            try
-            {
-                a.Should().BeEquivalentTo(b);
-            }
-            catch (Exception ex)
-            {
-                messageWithMaxDepthCorrectlyRespected = ex.Message;
-            }
-            finally
-            {
-                AssertionOptions.FormattingOptions.MaxDepth = 5;
-            }
-
-            messageWithMaxDepthCorrectlyRespected.Should().Be(messageWithoutMaxDepthRespected);
-        }
-
-        private class Container
-        {
-            public Guid Id { get; set; }
-
-            public Child1[] Children { get; set; }
-
-            public class Child1
-            {
-                public Guid Id { get; set; }
-
-                public Child2[] Children { get; set; }
-            }
-
-            public class Child2
-            {
-                public string StringProperty { get; set; }
-
-                public int IntProperty { get; set; }
-            }
+            // Assert
+            scope.Discard().Should().ContainSingle()
+                .Which.Should().Contain("Maximum recursion depth of 1 was reached");
         }
 
         public class CustomAssertionStrategy : IAssertionStrategy
