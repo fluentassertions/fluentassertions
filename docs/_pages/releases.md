@@ -14,7 +14,7 @@ sidebar:
 ### Improvements
 
 ### Fixes
-* Fixed formatting error when checking nullable `DateTimeOffset` with 
+* Fixed formatting error when checking nullable `DateTimeOffset` with
 `BeWithin(...).Before(...)` - [#2312](https://github.com/fluentassertions/fluentassertions/pull/2312)
 * `BeEquivalentTo` will now find and can map subject properties that are implemented through an explicitly-implemented interface - [#2152](https://github.com/fluentassertions/fluentassertions/pull/2152)
 * Fixed that the `because` and `becauseArgs` were not passed down the equivalency tree - [#2318](https://github.com/fluentassertions/fluentassertions/pull/2318)
@@ -23,8 +23,8 @@ sidebar:
 * Moved support for `DataSet`, `DataTable`, `DataRow` and `DataColumn` into a new package `FluentAssertions.DataSet` - [#2267](https://github.com/fluentassertions/fluentassertions/pull/2267)
 * Removed obsolete `...OrEqualTo` methods - [#2269](https://github.com/fluentassertions/fluentassertions/pull/2269)
   * `GenericCollectionAssertions`
-    * `HaveCountGreaterOrEqualTo`: Use `HaveCountGreaterThanOrEqualTo` 
-    * `HaveCountLessOrEqualTo`: Use `HaveCountLessThanOrEqualTo` 
+    * `HaveCountGreaterOrEqualTo`: Use `HaveCountGreaterThanOrEqualTo`
+    * `HaveCountLessOrEqualTo`: Use `HaveCountLessThanOrEqualTo`
   * `ComparableTypeAssertions`
     * `BeGreaterOrEqualTo`: Use `BeGreaterThanOrEqualTo`
     * `BeLessOrEqualTo`: Use `BeLessThanOrEqualTo`
@@ -38,6 +38,7 @@ sidebar:
 * Dropped direct support for .NET Core 2.x and .NET Core 3.x - [#2302](https://github.com/fluentassertions/fluentassertions/pull/2302)
 * `AllSatisfy` now suceeds when asserting that an empty collection satisfies some predicates - [#2321](https://github.com/fluentassertions/fluentassertions/pull/2321)
 * `OnlyContain` now succeeds when asserting that an empty collection matches some predicates - [#2350](https://github.com/fluentassertions/fluentassertions/pull/2350)
+* Dropped support for `NSpec3` test framework - [#2356](https://github.com/fluentassertions/fluentassertions/pull/2356)
 
 ### Breaking Changes (for extensions)
 * Add `ForConstraint` to `IAssertionsScope` to support chaining `.ForConstraint()` after `.Then` - [#2324](https://github.com/fluentassertions/fluentassertions/pull/2324)
