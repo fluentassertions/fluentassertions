@@ -30,7 +30,7 @@ public class TypeSelectorAssertions
     }
 
     /// <summary>
-    /// Gets the object which value is being asserted.
+    /// Gets the object whose value is being asserted.
     /// </summary>
     public IEnumerable<Type> Subject { get; }
 
