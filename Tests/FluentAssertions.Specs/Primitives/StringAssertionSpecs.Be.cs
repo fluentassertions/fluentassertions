@@ -173,13 +173,13 @@ public partial class StringAssertionSpecs
             Action act = () => "1234567890".Should().Be("0987654321");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected string to be the same string, but they differ at index 0:" +
-                Environment.NewLine
-                + "   ↓ (actual)" + Environment.NewLine
-                + "  \"1234567890\"" + Environment.NewLine
-                + "  \"0987654321\"" + Environment.NewLine
-                + "   ↑ (expected).");
+            act.Should().Throw<XunitException>().WithMessage("""
+                Expected string to be the same string, but they differ at index 0:
+                   ↓ (actual)
+                  "1234567890"
+                  "0987654321"
+                   ↑ (expected).
+                """);
         }
 
         [Fact]
@@ -189,13 +189,13 @@ public partial class StringAssertionSpecs
             Action act = () => "A\r\nB".Should().Be("A\r\nC");
 
             // Assert
-            act.Should().Throw<XunitException>().Which.Message.Should().Be(
-                "Expected string to be the same string, but they differ on line 2 and column 1 (index 3):" +
-                Environment.NewLine
-                + "        ↓ (actual)" + Environment.NewLine
-                + "  \"A\\r\\nB\"" + Environment.NewLine
-                + "  \"A\\r\\nC\"" + Environment.NewLine
-                + "        ↑ (expected).");
+            act.Should().Throw<XunitException>().Which.Message.Should().Be("""
+                Expected string to be the same string, but they differ on line 2 and column 1 (index 3):
+                        ↓ (actual)
+                  "A\r\nB"
+                  "A\r\nC"
+                        ↑ (expected).
+                """);
         }
 
         [Fact]
@@ -208,13 +208,13 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().Be(expected, "because we use arrows now");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject to be the same string because we use arrows now, but they differ at index 20:" +
-                Environment.NewLine
-                + "              ↓ (actual)" + Environment.NewLine
-                + "  \"…long text that differs…\"" + Environment.NewLine
-                + "  \"…long text which differs…\"" + Environment.NewLine
-                + "              ↑ (expected).");
+            act.Should().Throw<XunitException>().WithMessage("""
+                Expected subject to be the same string because we use arrows now, but they differ at index 20:
+                                   ↓ (actual)
+                  "…is a long text that…"
+                  "…is a long text which…"
+                                   ↑ (expected).
+                """);
         }
 
         [Fact]
@@ -227,13 +227,13 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().Be(expected, "because we use arrows now");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                "Expected subject to be the same string because we use arrows now, but they differ at index 5:" +
-                Environment.NewLine
-                + "        ↓ (actual)" + Environment.NewLine
-                + "  \"this is a long text that…\"" + Environment.NewLine
-                + "  \"this was too short\"" + Environment.NewLine
-                + "        ↑ (expected).");
+            act.Should().Throw<XunitException>().WithMessage("""
+                Expected subject to be the same string because we use arrows now, but they differ at index 5:
+                        ↓ (actual)
+                  "this is a long text that…"
+                  "this was too short"
+                        ↑ (expected).
+                """);
         }
 
         [Theory]
@@ -325,13 +325,13 @@ public partial class StringAssertionSpecs
             Action act = () => subject.Should().Be(expected);
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage(
-                $"Expected subject to be the same string, but they differ on line 5 and column 16 (index {expectedIndex}):" +
-                Environment.NewLine
-                + "             ↓ (actual)" + Environment.NewLine
-                + "  \"…-> Bob : Another…\"" + Environment.NewLine
-                + "  \"…-> Bob : Invalid…\"" + Environment.NewLine
-                + "             ↑ (expected).");
+            act.Should().Throw<XunitException>().WithMessage($"""
+                Expected subject to be the same string, but they differ on line 5 and column 16 (index {expectedIndex}):
+                             ↓ (actual)
+                  "…-> Bob : Another…"
+                  "…-> Bob : Invalid…"
+                             ↑ (expected).
+                """);
         }
     }
 
