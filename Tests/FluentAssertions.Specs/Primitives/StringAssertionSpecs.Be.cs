@@ -231,9 +231,69 @@ public partial class StringAssertionSpecs
                 "Expected subject to be the same string because we use arrows now, but they differ at index 5:" +
                 Environment.NewLine
                 + "        ↓ (actual)" + Environment.NewLine
-                + "  \"this is a long text…\"" + Environment.NewLine
+                + "  \"this is a long text that…\"" + Environment.NewLine
                 + "  \"this was too short\"" + Environment.NewLine
                 + "        ↑ (expected).");
+        }
+
+        [Theory]
+        [InlineData("ThisIsUsedTo Check a difference after 5 characters")]
+        [InlineData("ThisIsUsedTo CheckADifferenc e after 15 characters")]
+        public void When_long_text_differs_should_use_word_boundary_between_5_and_15_characters_before(string expected)
+        {
+            const string subject = "ThisIsUsedTo CheckADifferenceInThe WordBoundaryAlgorithm";
+
+            // Act
+            Action act = () => subject.Should().Be(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*\"…CheckADifferenceInThe*");
+        }
+
+        [Theory]
+        [InlineData("ThisIsUsedTo Chec k a difference after 4 characters", "\"…sedTo CheckADifferen")]
+        [InlineData("ThisIsUsedTo CheckADifference after 16 characters", "\"…Difference")]
+        public void
+            When_long_text_differs_should_use_use_10_characters_when_no_word_boundary_exists_between_5_and_15_characters_before(
+                string expected, string expectedMessagePart)
+        {
+            const string subject = "ThisIsUsedTo CheckADifferenceInThe WordBoundaryAlgorithm";
+
+            // Act
+            Action act = () => subject.Should().Be(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage($"*{expectedMessagePart}*");
+        }
+
+        [Theory]
+        [InlineData("ThisLongTextIsUsedToCheckADifferenceAtTheEnd after 10 + 5 characters")]
+        [InlineData("ThisLongTextIsUsedToCheckADifferen after 10 + 15 characters")]
+        public void When_long_text_differs_should_use_word_boundary_between_15_and_25_characters_after(string expected)
+        {
+            const string subject = "ThisLongTextIsUsedToCheckADifferenceAtTheEndOfThe WordBoundaryAlgorithm";
+
+            // Act
+            Action act = () => subject.Should().Be(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*AtTheEndOfThe…\"*");
+        }
+
+        [Theory]
+        [InlineData("ThisLongTextIsUsedToCheckADifferenceAtTheEndO after 10 + 4 characters", "eAtTheEndOfThe WordB…\"")]
+        [InlineData("ThisLongTextIsUsedToCheckADiffere after 10 + 16 characters", "ckADifferenceAtTheEn…\"")]
+        public void
+            When_long_text_differs_should_use_use_20_characters_when_no_word_boundary_exists_between_15_and_25_characters_after(
+                string expected, string expectedMessagePart)
+        {
+            const string subject = "ThisLongTextIsUsedToCheckADifferenceAtTheEndOfThe WordBoundaryAlgorithm";
+
+            // Act
+            Action act = () => subject.Should().Be(expected);
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage($"*{expectedMessagePart}*");
         }
 
         [Fact]
@@ -269,8 +329,8 @@ public partial class StringAssertionSpecs
                 $"Expected subject to be the same string, but they differ on line 5 and column 16 (index {expectedIndex}):" +
                 Environment.NewLine
                 + "             ↓ (actual)" + Environment.NewLine
-                + "  \"…-> Bob : Another aut…\"" + Environment.NewLine
-                + "  \"…-> Bob : Invalid aut…\"" + Environment.NewLine
+                + "  \"…-> Bob : Another…\"" + Environment.NewLine
+                + "  \"…-> Bob : Invalid…\"" + Environment.NewLine
                 + "             ↑ (expected).");
         }
     }
