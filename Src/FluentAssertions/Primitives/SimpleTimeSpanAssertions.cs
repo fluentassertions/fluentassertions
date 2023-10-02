@@ -33,7 +33,7 @@ public class SimpleTimeSpanAssertions<TAssertions>
     }
 
     /// <summary>
-    /// Gets the object which value is being asserted.
+    /// Gets the object whose value is being asserted.
     /// </summary>
     public TimeSpan? Subject { get; }
 
