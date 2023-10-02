@@ -21,7 +21,7 @@ public abstract class ReferenceTypeAssertions<TSubject, TAssertions>
     }
 
     /// <summary>
-    /// Gets the object which value is being asserted.
+    /// Gets the object whose value is being asserted.
     /// </summary>
     public TSubject Subject { get; }
 
