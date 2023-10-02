@@ -53,7 +53,6 @@ Fluent Assertions supports the following unit test frameworks:
 * [MSTest V2](https://github.com/Microsoft/testfx) (Visual Studio 2017, Visual Studio 2019)
 * [NUnit](http://www.nunit.org/)
 * [XUnit2](https://github.com/xunit/xunit/releases)
-* [NSpec](http://nspec.org/)
 * [MSpec](https://github.com/machine/machine.specifications)
 
 ## Coding by Example
