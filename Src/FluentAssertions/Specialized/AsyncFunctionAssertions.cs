@@ -11,6 +11,8 @@ namespace FluentAssertions.Specialized;
 /// <summary>
 /// Contains a number of methods to assert that an asynchronous method yields the expected result.
 /// </summary>
+/// <typeparam name="TTask">The type of <see cref="Task{T}"/> to be handled.</typeparam>
+/// <typeparam name="TAssertions">The type of assertion to be returned.</typeparam>
 [DebuggerNonUserCode]
 public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBase<Func<TTask>, TAssertions>
     where TTask : Task

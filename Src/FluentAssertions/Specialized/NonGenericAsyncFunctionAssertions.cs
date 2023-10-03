@@ -6,13 +6,22 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Specialized;
 
+/// <summary>
+/// Contains a number of methods to assert that an asynchronous method yields the expected result.
+/// </summary>
 public class NonGenericAsyncFunctionAssertions : AsyncFunctionAssertions<Task, NonGenericAsyncFunctionAssertions>
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="NonGenericAsyncFunctionAssertions"/> class.
+    /// </summary>
     public NonGenericAsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor)
         : this(subject, extractor, new Clock())
     {
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="NonGenericAsyncFunctionAssertions"/> class with custom <see cref="IClock"/>.
+    /// </summary>
     public NonGenericAsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor, IClock clock)
         : base(subject, extractor, clock)
     {
@@ -92,7 +101,7 @@ public class NonGenericAsyncFunctionAssertions : AsyncFunctionAssertions<Task, N
         return new AndConstraint<NonGenericAsyncFunctionAssertions>(this);
     }
 
-        /// <summary>
+    /// <summary>
     /// Asserts that the current <see cref="Func{T}"/> stops throwing any exception
     /// after a specified amount of time.
     /// </summary>

@@ -6,14 +6,24 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Specialized;
 
+/// <summary>
+/// Contains a number of methods to assert that an asynchronous method yields the expected result.
+/// </summary>
+/// <typeparam name="TResult">The type returned in the <see cref="Task{T}"/>.</typeparam>
 public class GenericAsyncFunctionAssertions<TResult>
     : AsyncFunctionAssertions<Task<TResult>, GenericAsyncFunctionAssertions<TResult>>
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GenericAsyncFunctionAssertions{TResult}"/> class.
+    /// </summary>
     public GenericAsyncFunctionAssertions(Func<Task<TResult>> subject, IExtractExceptions extractor)
         : this(subject, extractor, new Clock())
     {
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GenericAsyncFunctionAssertions{TResult}"/> class with custom <see cref="IClock"/>.
+    /// </summary>
     public GenericAsyncFunctionAssertions(Func<Task<TResult>> subject, IExtractExceptions extractor, IClock clock)
         : base(subject, extractor, clock)
     {
