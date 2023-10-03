@@ -135,7 +135,7 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
             whiteSpaceCountBeforeArrow++;
         }
 
-        var visibleText = subject.Substring(trimStart, firstIndexOfMismatch - trimStart);
+        var visibleText = subject[trimStart..firstIndexOfMismatch];
         whiteSpaceCountBeforeArrow += visibleText.Count(c => c is '\r' or '\n');
 
         var sb = new StringBuilder();
@@ -190,6 +190,7 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
         const int minCharactersToKeep = 5;
         const int maxCharactersToKeep = 15;
         const int lengthOfWhitespace = 1;
+        const int phraseLengthToCheckForWordBoundary = (maxCharactersToKeep - minCharactersToKeep) + lengthOfWhitespace;
 
         if (indexOfFirstMismatch <= defaultCharactersToKeep)
         {
@@ -199,8 +200,7 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
         var indexToStartSearchingForWordBoundary = Math.Max(indexOfFirstMismatch - (maxCharactersToKeep + lengthOfWhitespace), 0);
 
         var indexOfWordBoundary = value
-            .Substring(indexToStartSearchingForWordBoundary, (maxCharactersToKeep - minCharactersToKeep) + lengthOfWhitespace)
-            .IndexOf(' ', StringComparison.OrdinalIgnoreCase);
+                .IndexOf(' ', indexToStartSearchingForWordBoundary, phraseLengthToCheckForWordBoundary) - indexToStartSearchingForWordBoundary;
 
         if (indexOfWordBoundary >= 0)
         {
@@ -223,8 +223,8 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
         const int maxLength = 25;
         const int lengthOfWhitespace = 1;
 
-        var indexOfWordBoundary = value[..Math.Min(maxLength + lengthOfWhitespace, value.Length)]
-            .LastIndexOf(' ');
+        var indexOfWordBoundary = value
+            .LastIndexOf(' ', Math.Min(maxLength + lengthOfWhitespace, value.Length) - 1);
 
         if (indexOfWordBoundary >= minLength)
         {
