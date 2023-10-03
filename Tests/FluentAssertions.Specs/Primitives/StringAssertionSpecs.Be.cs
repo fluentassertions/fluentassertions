@@ -280,6 +280,26 @@ public partial class StringAssertionSpecs
             act.Should().Throw<XunitException>().WithMessage("*AtTheEndOfThe…\"*");
         }
 
+        [Fact]
+        public void When_empty_string_is_compared_with_long_text_should_differ_in_length()
+        {
+            // Act
+            Action act = () => "".Should().Be("ThisIsALongText");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*length*15*differs*");
+        }
+
+        [Fact]
+        public void When_long_text_has_first_mismatch_in_first_10_characters_should_include_whole_start_of_the_text()
+        {
+            // Act
+            Action act = () => "This is a long text".Should().Be("This is a text that differs at index 10");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage("*\"This is a long*");
+        }
+
         [Theory]
         [InlineData("ThisLongTextIsUsedToCheckADifferenceAtTheEndO after 10 + 4 characters", "eAtTheEndOfThe WordB…\"")]
         [InlineData("ThisLongTextIsUsedToCheckADiffere after 10 + 16 characters", "ckADifferenceAtTheEn…\"")]
