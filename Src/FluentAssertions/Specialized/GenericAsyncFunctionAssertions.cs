@@ -15,9 +15,7 @@ public class GenericAsyncFunctionAssertions<TResult>
     }
 
     public GenericAsyncFunctionAssertions(Func<Task<TResult>> subject, IExtractExceptions extractor, IClock clock)
-#pragma warning disable CS0618 // is currently obsolete to make it protected in Version 7
         : base(subject, extractor, clock)
-#pragma warning restore CS0618
     {
     }
 

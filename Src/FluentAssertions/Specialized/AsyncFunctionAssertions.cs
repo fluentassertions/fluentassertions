@@ -16,14 +16,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
     where TTask : Task
     where TAssertions : AsyncFunctionAssertions<TTask, TAssertions>
 {
-    [Obsolete("This class is intended as base class. This ctor is accidentally public and will be removed in Version 7.")]
-    public AsyncFunctionAssertions(Func<TTask> subject, IExtractExceptions extractor)
-        : this(subject, extractor, new Clock())
-    {
-    }
-
-    [Obsolete("This class is intended as base class. This ctor is accidentally public and will be made protected in Version 7.")]
-    public AsyncFunctionAssertions(Func<TTask> subject, IExtractExceptions extractor, IClock clock)
+    protected AsyncFunctionAssertions(Func<TTask> subject, IExtractExceptions extractor, IClock clock)
         : base(subject, extractor, clock)
     {
     }
