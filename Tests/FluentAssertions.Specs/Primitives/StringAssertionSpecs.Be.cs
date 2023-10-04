@@ -199,7 +199,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_text_is_longer_than_8_characters_use_failure_message_with_arrows()
+        public void Use_arrows_for_text_longer_than_8_characters()
         {
             const string subject = "this is a long text that differs in between two words";
             const string expected = "this is a long text which differs in between two words";
@@ -218,7 +218,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_text_is_longer_than_8_characters_only_add_ellipsis_where_applicable()
+        public void Only_add_ellipsis_for_long_text()
         {
             const string subject = "this is a long text that differs";
             const string expected = "this was too short";
@@ -239,7 +239,7 @@ public partial class StringAssertionSpecs
         [Theory]
         [InlineData("ThisIsUsedTo Check a difference after 5 characters")]
         [InlineData("ThisIsUsedTo CheckADifferenc e after 15 characters")]
-        public void When_long_text_differs_should_use_word_boundary_between_5_and_15_characters_before(string expected)
+        public void Will_look_for_a_word_boundary_between_5_and_15_characters_before_the_mismatching_index_to_highlight_the_mismatch(string expected)
         {
             const string subject = "ThisIsUsedTo CheckADifferenceInThe WordBoundaryAlgorithm";
 
@@ -253,8 +253,7 @@ public partial class StringAssertionSpecs
         [Theory]
         [InlineData("ThisIsUsedTo Chec k a difference after 4 characters", "\"…sedTo CheckADifferen")]
         [InlineData("ThisIsUsedTo CheckADifference after 16 characters", "\"…Difference")]
-        public void
-            When_long_text_differs_should_use_use_10_characters_when_no_word_boundary_exists_between_5_and_15_characters_before(
+        public void Will_fallback_to_10_characters_if_no_word_boundary_can_be_found_before_the_mismatching_index(
                 string expected, string expectedMessagePart)
         {
             const string subject = "ThisIsUsedTo CheckADifferenceInThe WordBoundaryAlgorithm";
@@ -269,7 +268,7 @@ public partial class StringAssertionSpecs
         [Theory]
         [InlineData("ThisLongTextIsUsedToCheckADifferenceAtTheEnd after 10 + 5 characters")]
         [InlineData("ThisLongTextIsUsedToCheckADifferen after 10 + 15 characters")]
-        public void When_long_text_differs_should_use_word_boundary_between_15_and_25_characters_after(string expected)
+        public void Will_look_for_a_word_boundary_between_15_and_25_characters_after_the_mismatching_index_to_highlight_the_mismatch(string expected)
         {
             const string subject = "ThisLongTextIsUsedToCheckADifferenceAtTheEndOfThe WordBoundaryAlgorithm";
 
@@ -281,7 +280,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_empty_string_is_compared_with_long_text_should_differ_in_length()
+        public void An_empty_string_is_always_shorter_than_a_long_text()
         {
             // Act
             Action act = () => "".Should().Be("ThisIsALongText");
@@ -291,7 +290,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_long_text_has_first_mismatch_in_first_10_characters_should_include_whole_start_of_the_text()
+        public void A_mismatch_below_index_11_includes_all_text_preceding_the_index_in_the_failure()
         {
             // Act
             Action act = () => "This is a long text".Should().Be("This is a text that differs at index 10");
@@ -303,8 +302,7 @@ public partial class StringAssertionSpecs
         [Theory]
         [InlineData("ThisLongTextIsUsedToCheckADifferenceAtTheEndO after 10 + 4 characters", "eAtTheEndOfThe WordB…\"")]
         [InlineData("ThisLongTextIsUsedToCheckADiffere after 10 + 16 characters", "ckADifferenceAtTheEn…\"")]
-        public void
-            When_long_text_differs_should_use_use_20_characters_when_no_word_boundary_exists_between_15_and_25_characters_after(
+        public void Will_fallback_to_20_characters_if_no_word_boundary_can_be_found_after_the_mismatching_index(
                 string expected, string expectedMessagePart)
         {
             const string subject = "ThisLongTextIsUsedToCheckADifferenceAtTheEndOfThe WordBoundaryAlgorithm";
@@ -317,7 +315,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void When_text_has_many_lines_failure_message_should_look_informative()
+        public void Mismatches_in_multiline_text_includes_the_line_number()
         {
             var expectedIndex = 100 + (4 * Environment.NewLine.Length);
 
