@@ -19,14 +19,14 @@
     <PackageDescription>
       A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or
       BDD-style unit tests. Targets .NET Framework 4.7, .NET 6, as well as .NET Standard 2.0 and 2.1.
-      Supports the unit test frameworks MSTest2, NUnit3, XUnit2, MSpec, and NSpec3.
+      Supports the unit test frameworks MSTest2, NUnit3, XUnit2 and MSpec.
 
       Supported by InfoSupport B.V.
     </PackageDescription>
     <PackageProjectUrl>https://www.fluentassertions.com</PackageProjectUrl>
     <RepositoryUrl>https://github.com/fluentassertions/fluentassertions</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>MSTest2;xUnit;NUnit;MSpec;NSpec;TDD;BDD;Fluent;netstandard;uwp</PackageTags>
+    <PackageTags>MSTest2;xUnit;NUnit;MSpec;TDD;BDD;Fluent;netstandard;uwp</PackageTags>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageIcon>FluentAssertions.png</PackageIcon>
     <PackageReleaseNotes>See https://fluentassertions.com/releases/</PackageReleaseNotes>
