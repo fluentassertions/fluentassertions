@@ -72,7 +72,7 @@ public class FormatterSpecs
         Action act = () => result.Should().Be(expectedJson);
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage("*near*index 37*");
+        act.Should().Throw<XunitException>().WithMessage("*at*index 37*");
     }
 
     [Fact]

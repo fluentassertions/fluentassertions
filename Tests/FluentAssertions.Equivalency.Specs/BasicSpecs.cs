@@ -221,7 +221,7 @@ public class BasicSpecs
             options => options.ComparingByMembers<ClassWithValueSemanticsOnSingleProperty>());
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage("*NestedProperty*OtherValue*SomeValue*");
+        act.Should().Throw<XunitException>().WithMessage("*NestedProperty*SomeValue*OtherValue*");
     }
 
     [Fact]
@@ -237,7 +237,7 @@ public class BasicSpecs
             options => options.ComparingByMembers<ClassWithValueSemanticsOnSingleProperty>());
 
         // Assert
-        act.Should().Throw<XunitException>().WithMessage("*NestedProperty*OtherValue*SomeValue*");
+        act.Should().Throw<XunitException>().WithMessage("*NestedProperty*SomeValue*OtherValue*");
     }
 
     [Fact]

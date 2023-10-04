@@ -411,7 +411,7 @@ public class CyclicReferencesSpecs
 
         // Assert
         act.Should().Throw<XunitException>()
-            .WithMessage("*subject.Next.Title*Second*SecondDifferent*")
+            .WithMessage("*subject.Next.Title*SecondDifferent*Second*")
             .Which.Message.Should().NotContain("maximum recursion depth was reached");
     }
 
