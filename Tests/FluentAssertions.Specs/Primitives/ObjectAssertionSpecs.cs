@@ -695,7 +695,7 @@ public class ObjectAssertionSpecs
             Action act = () => someObject.Should().BeOfType<Exception>().Which.Message.Should().Be("Other Message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*Expected*Other*Actual*");
+            act.Should().Throw<XunitException>().WithMessage("*Expected*Actual*Other*");
         }
 
         [Fact]
@@ -906,7 +906,7 @@ public class ObjectAssertionSpecs
             Action act = () => someObject.Should().BeAssignableTo<Exception>().Which.Message.Should().Be("Other Message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*Expected*Other*Actual*");
+            act.Should().Throw<XunitException>().WithMessage("*Expected*Actual*Other*");
         }
 
         [Fact]
@@ -1117,7 +1117,7 @@ public class ObjectAssertionSpecs
                 .Which.Message.Should().Be("Other Message");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("*Expected*Other*Actual*");
+            act.Should().Throw<XunitException>().WithMessage("*Expected*Actual*Other*");
         }
 
         [Fact]

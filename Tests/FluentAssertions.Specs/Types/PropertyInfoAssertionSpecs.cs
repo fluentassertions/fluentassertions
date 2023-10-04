@@ -140,7 +140,7 @@ public class PropertyInfoAssertionSpecs
                 propertyInfo.Should().BeDecoratedWith<DummyPropertyAttribute>().Which.Value.Should().Be("OtherValue");
 
             // Assert
-            act.Should().Throw<XunitException>().WithMessage("Expected*OtherValue*Value*");
+            act.Should().Throw<XunitException>().WithMessage("Expected*Value*OtherValue*");
         }
 
         [Fact]

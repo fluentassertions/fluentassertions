@@ -150,4 +150,13 @@ internal static class StringExtensions
 
         return count;
     }
+
+    /// <summary>
+    /// Determines if the <paramref name="value"/> is longer than 8 characters or contains an <see cref="Environment.NewLine"/>.
+    /// </summary>
+    public static bool IsLongOrMultiline(this string value)
+    {
+        const int humanReadableLength = 8;
+        return value.Length > humanReadableLength || value.Contains(Environment.NewLine, StringComparison.Ordinal);
+    }
 }

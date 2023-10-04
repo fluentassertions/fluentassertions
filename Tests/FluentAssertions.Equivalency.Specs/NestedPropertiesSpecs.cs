@@ -270,7 +270,7 @@ public class NestedPropertiesSpecs
         act
             .Should().Throw<XunitException>()
             .WithMessage(
-                "Expected*Level.Level.Text*to be *A wrong text value*but*\"Level2\"*length*");
+                "Expected*Level.Level.Text*to be *\"Level2\"*A wrong text value*");
     }
 
     [Fact]
