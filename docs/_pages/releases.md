@@ -37,7 +37,7 @@ sidebar:
     * `BeLessOrEqualTo`: Use `BeLessThanOrEqualTo`
 * Removed the `DefaultValueFormatter.SpacesPerIndentionLevel` property which was added during the development of v6, but wasn't removed before the release of v6 - [#2281](https://github.com/fluentassertions/fluentassertions/pull/2281)
 * Dropped direct support for .NET Core 2.x and .NET Core 3.x - [#2302](https://github.com/fluentassertions/fluentassertions/pull/2302)
-* `AllSatisfy` now suceeds when asserting that an empty collection satisfies some predicates - [#2321](https://github.com/fluentassertions/fluentassertions/pull/2321)
+* `AllSatisfy` now succeeds when asserting that an empty collection satisfies some predicates - [#2321](https://github.com/fluentassertions/fluentassertions/pull/2321)
 * `OnlyContain` now succeeds when asserting that an empty collection matches some predicates - [#2350](https://github.com/fluentassertions/fluentassertions/pull/2350)
 * Dropped support for `NSpec3` test framework - [#2356](https://github.com/fluentassertions/fluentassertions/pull/2356)
 
@@ -92,11 +92,11 @@ sidebar:
 * Added `BeOneOf` methods for object comparisons and `IComparable`s - [#2028](https://github.com/fluentassertions/fluentassertions/pull/2028)
 * Added `BeCloseTo` and `NotBeCloseTo` to `TimeOnly` - [#2030](https://github.com/fluentassertions/fluentassertions/pull/2030)
 * Added new extension methods to be able to write `Exactly.Times(n)`, `AtLeast.Times(n)` and `AtMost.Times(n)` in a more fluent way - [#2047](https://github.com/fluentassertions/fluentassertions/pull/2047)
-* Changed `BeEquivalentTo` to treat record structs like records, thus comparing them by member by default - [#2009](https://github.com/fluentassertions/fluentassertions/pull/2009)
+* Changed `BeEquivalentTo` to treat `record struct`s like `record`s, thus comparing them by member by default - [#2009](https://github.com/fluentassertions/fluentassertions/pull/2009)
 
 ### Fixes
 * `PropertyInfoSelector.ThatArePublicOrInternal` now takes the setter into account when determining if a property is `public` or `internal` - [#2082](https://github.com/fluentassertions/fluentassertions/pull/2082)
-* Quering properties on classes, e.g. `typeof(MyClass).Properties()`, now also includes static properties - [#2054](https://github.com/fluentassertions/fluentassertions/pull/2054)
+* Querying properties on classes, e.g. `typeof(MyClass).Properties()`, now also includes static properties - [#2054](https://github.com/fluentassertions/fluentassertions/pull/2054)
 * Nested AssertionScopes now print the inner scope reportables - [#2044](https://github.com/fluentassertions/fluentassertions/pull/2044)
 * Throw `ArgumentException` instead of `ArgumentNullException` when a required `string` argument is empty - [#2023](https://github.com/fluentassertions/fluentassertions/pull/2023)
 * Assertions on the ordering of a collection of `string`s now uses ordinal comparison when an `IComparer<T>` is not provided - [#2075](https://github.com/fluentassertions/fluentassertions/pull/2075)
