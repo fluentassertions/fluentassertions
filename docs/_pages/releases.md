@@ -44,6 +44,10 @@ sidebar:
 
 ### Breaking Changes (for extensions)
 * Add `ForConstraint` to `IAssertionsScope` to support chaining `.ForConstraint()` after `.Then` - [#2324](https://github.com/fluentassertions/fluentassertions/pull/2324)
+* Refactored `AsyncFunctionAssertions` into real base class - [#2359](https://github.com/fluentassertions/fluentassertions/pull/2359)
+  * Its constructor has been made `protected`.
+  * Unused constructors have been removed.
+  * Methods overwritten in `GenericAsyncFunctionAssertions` has been moved to `NonGenericAsyncFunctionAssertions`.
 
 ## 6.12.0
 

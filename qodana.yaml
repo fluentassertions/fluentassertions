@@ -9,6 +9,7 @@ dotnet:
 exclude:
   - name: ConvertIfStatementToReturnStatement
   - name: ConvertIfStatementToConditionalTernaryExpression
+  - name: InvertIf
   - name: SimilarAnonymousTypeNearby
     paths:
       - Tests
