@@ -305,8 +305,6 @@ namespace FluentAssertions
     }
     public static class ObjectAssertionsExtensions
     {
-        public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeBinarySerializable(this FluentAssertions.Primitives.ObjectAssertions assertions, string because = "", params object[] becauseArgs) { }
-        public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeBinarySerializable<T>(this FluentAssertions.Primitives.ObjectAssertions assertions, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>> options, string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeDataContractSerializable(this FluentAssertions.Primitives.ObjectAssertions assertions, string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeDataContractSerializable<T>(this FluentAssertions.Primitives.ObjectAssertions assertions, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>> options, string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeXmlSerializable(this FluentAssertions.Primitives.ObjectAssertions assertions, string because = "", params object[] becauseArgs) { }
