@@ -48,6 +48,7 @@ sidebar:
   * Its constructor has been made `protected`.
   * Unused constructors have been removed.
   * Methods overwritten in `GenericAsyncFunctionAssertions` has been moved to `NonGenericAsyncFunctionAssertions`.
+* Moved the non-generic `NotThrow` and `NotThrowAfter` from `DelegateAssertions<TDelegate, TAssertions>` to `ActionAssertions` - [#2371](https://github.com/fluentassertions/fluentassertions/pull/2371)
 
 ## 6.12.0
 
