@@ -17,12 +17,7 @@ namespace FluentAssertions;
 /// </summary>
 public class EquivalencyPlan : IEnumerable<IEquivalencyStep>
 {
-    private List<IEquivalencyStep> steps;
-
-    public EquivalencyPlan()
-    {
-        steps = GetDefaultSteps();
-    }
+    private List<IEquivalencyStep> steps = GetDefaultSteps();
 
     public IEnumerator<IEquivalencyStep> GetEnumerator()
     {
