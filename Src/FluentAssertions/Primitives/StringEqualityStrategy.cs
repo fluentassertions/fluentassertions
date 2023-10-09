@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FluentAssertions.Common;
@@ -8,11 +9,13 @@ namespace FluentAssertions.Primitives;
 
 internal class StringEqualityStrategy : IStringComparisonStrategy
 {
-    private readonly StringComparison comparisonMode;
+    private readonly IEqualityComparer<string> comparer;
+    private readonly bool ignoringCase;
 
-    public StringEqualityStrategy(StringComparison comparisonMode)
+    public StringEqualityStrategy(IEqualityComparer<string> comparer)
     {
-        this.comparisonMode = comparisonMode;
+        this.comparer = comparer;
+        ignoringCase = comparer.Equals("A", "a");
     }
 
     public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
@@ -21,7 +24,7 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
 
         if (expected.IsLongOrMultiline() || subject.IsLongOrMultiline())
         {
-            int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparisonMode);
+            int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparer);
 
             if (indexOfMismatch == -1)
             {
@@ -47,7 +50,7 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
         }
         else if (ValidateAgainstLengthDifferences(assertion, subject, expected))
         {
-            int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparisonMode);
+            int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparer);
 
             if (indexOfMismatch != -1)
             {
@@ -63,21 +66,18 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
     {
         get
         {
-            string predicateDescription = IgnoreCase ? "be equivalent to" : "be";
+            string predicateDescription = ignoringCase ? "be equivalent to" : "be";
             return "Expected {context:string} to " + predicateDescription + " ";
         }
     }
 
-    private bool IgnoreCase
-        => comparisonMode == StringComparison.OrdinalIgnoreCase;
-
     private void ValidateAgainstSuperfluousWhitespace(IAssertionScope assertion, string subject, string expected)
     {
         assertion
-            .ForCondition(!(expected.Length > subject.Length && expected.TrimEnd().Equals(subject, comparisonMode)))
+            .ForCondition(!(expected.Length > subject.Length && comparer.Equals(expected.TrimEnd(), subject)))
             .FailWith(ExpectationDescription + "{0}{reason}, but it misses some extra whitespace at the end.", expected)
             .Then
-            .ForCondition(!(subject.Length > expected.Length && subject.TrimEnd().Equals(expected, comparisonMode)))
+            .ForCondition(!(subject.Length > expected.Length && comparer.Equals(subject.TrimEnd(), expected)))
             .FailWith(ExpectationDescription + "{0}{reason}, but it has unexpected whitespace at the end.", expected);
     }
 
@@ -98,7 +98,7 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
 
     private string GetMismatchSegmentForStringsOfDifferentLengths(string subject, string expected)
     {
-        int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparisonMode);
+        int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparer);
 
         // If there is no difference it means that expected starts with subject and subject is shorter than expected
         if (indexOfMismatch == -1)

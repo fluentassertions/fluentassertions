@@ -54,7 +54,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     public AndConstraint<TAssertions> Be(string expected, string because = "", params object[] becauseArgs)
     {
         var stringEqualityValidator = new StringValidator(
-            new StringEqualityStrategy(StringComparison.Ordinal),
+            new StringEqualityStrategy(StringComparer.Ordinal),
             because, becauseArgs);
 
         stringEqualityValidator.Validate(Subject, expected);
@@ -110,11 +110,40 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeEquivalentTo(string expected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeEquivalentTo(string expected,
+        string because = "", params object[] becauseArgs)
     {
         var expectation = new StringValidator(
-            new StringEqualityStrategy(StringComparison.OrdinalIgnoreCase),
+            new StringEqualityStrategy(StringComparer.OrdinalIgnoreCase),
+            because, becauseArgs);
+
+        expectation.Validate(Subject, expected);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that a string is exactly the same as another string, using the provided <paramref name="comparer"/>.
+    /// </summary>
+    /// <param name="expected">
+    /// The string that the subject is expected to be equivalent to.
+    /// </param>
+    /// <param name="comparer">
+    /// The string equality comparer.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> BeEquivalentTo(string expected,
+        IEqualityComparer<string> comparer,
+        string because = "", params object[] becauseArgs)
+    {
+        var expectation = new StringValidator(
+            new StringEqualityStrategy(comparer),
             because, becauseArgs);
 
         expectation.Validate(Subject, expected);

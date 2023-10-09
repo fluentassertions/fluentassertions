@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using FluentAssertions.Formatting;
@@ -7,6 +8,23 @@ namespace FluentAssertions.Common;
 
 internal static class StringExtensions
 {
+    /// <summary>
+    /// Finds the first index at which the <paramref name="value"/> does not match the <paramref name="expected"/>
+    /// string anymore, accounting for the specified <paramref name="comparer"/>.
+    /// </summary>
+    public static int IndexOfFirstMismatch(this string value, string expected, IEqualityComparer<string> comparer)
+    {
+        for (int index = 0; index < value.Length; index++)
+        {
+            if (index >= expected.Length || !comparer.Equals(value[index..(index + 1)], expected[index..(index + 1)]))
+            {
+                return index;
+            }
+        }
+
+        return -1;
+    }
+
     /// <summary>
     /// Finds the first index at which the <paramref name="value"/> does not match the <paramref name="expected"/>
     /// string anymore, accounting for the specified <paramref name="stringComparison"/>.

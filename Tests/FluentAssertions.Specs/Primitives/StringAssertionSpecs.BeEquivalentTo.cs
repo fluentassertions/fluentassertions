@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Xunit;
 using Xunit.Sdk;
@@ -12,6 +13,33 @@ public partial class StringAssertionSpecs
 {
     public class BeEquivalentTo
     {
+        [Fact]
+        public void Use_custom_comparer()
+        {
+            // Arrange
+            var comparer = new DummyEqualityComparer((_, _) => true);
+            string actual = "test A";
+            string expect = "test B";
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expect, comparer);
+        }
+
+        [Fact]
+        public void Fail_for_mismatch_using_custom_comparer()
+        {
+            // Arrange
+            var comparer = new DummyEqualityComparer((_, _) => false);
+            string actual = "foo";
+            string expect = "foo";
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expect, comparer);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
         [Fact]
         public void When_strings_are_the_same_while_ignoring_case_it_should_not_throw()
         {
@@ -103,6 +131,26 @@ public partial class StringAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"abc\" because I say so, but it has unexpected whitespace at the end.");
+        }
+
+        private sealed class DummyEqualityComparer : IEqualityComparer<string>
+        {
+            private readonly Func<string, string, bool> callback;
+
+            public DummyEqualityComparer(Func<string, string, bool> callback)
+            {
+                this.callback = callback;
+            }
+
+            public bool Equals(string x, string y)
+            {
+                return callback(x, y);
+            }
+
+            public int GetHashCode(string obj)
+            {
+                return obj.GetHashCode();
+            }
         }
     }
 
