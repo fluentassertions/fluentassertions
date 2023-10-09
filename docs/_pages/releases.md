@@ -13,6 +13,7 @@ sidebar:
 
 ### Improvements
 * Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)
+* Allow `IEqualityComparer` in string `BeEquivalentTo` assertion - [#2372](https://github.com/fluentassertions/fluentassertions/pull/2372)
 
 ### Fixes
 * Fixed formatting error when checking nullable `DateTimeOffset` with
