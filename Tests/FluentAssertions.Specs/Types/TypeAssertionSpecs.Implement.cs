@@ -73,6 +73,20 @@ public partial class TypeAssertionSpecs
             act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("interfaceType");
         }
+
+        [Fact]
+        public void An_interface_does_not_implement_itself()
+        {
+            // Arrange
+            var type = typeof(IDummyInterface);
+
+            // Act
+            Action act = () =>
+                type.Should().Implement(typeof(IDummyInterface));
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
     }
 
     public class ImplementOfT
@@ -155,6 +169,16 @@ public partial class TypeAssertionSpecs
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
                 .WithParameterName("interfaceType");
+        }
+
+        [Fact]
+        public void An_interface_does_not_implement_itself()
+        {
+            // Arrange
+            var type = typeof(IDummyInterface);
+
+            // Act / Assert
+            type.Should().NotImplement(typeof(IDummyInterface));
         }
     }
 
