@@ -351,9 +351,7 @@ internal static class TypeExtensions
 
         // check subject's interfaces against definition
         return type.GetInterfaces()
-            .Where(i => i.IsGenericType)
-            .Select(i => i.GetGenericTypeDefinition())
-            .Contains(definition);
+            .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == definition);
     }
 
     public static bool IsDerivedFromOpenGeneric(this Type type, Type definition)
