@@ -69,5 +69,5 @@ internal class ObjectReference
         return Invariant($"{{\"{path}\", {@object}}}");
     }
 
-    public bool CompareByMembers => compareByMembers ?? (@object?.GetType().OverridesEquals() == false);
+    public bool CompareByMembers => compareByMembers ?? @object?.GetType().OverridesEquals() == false;
 }

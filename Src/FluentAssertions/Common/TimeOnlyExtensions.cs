@@ -21,8 +21,8 @@ internal static class TimeOnlyExtensions
         long ticks = subject.Ticks;
 
         return startTicks <= endTicks
-            ? (startTicks <= ticks && endTicks >= ticks)
-            : (startTicks <= ticks || endTicks >= ticks);
+            ? startTicks <= ticks && endTicks >= ticks
+            : startTicks <= ticks || endTicks >= ticks;
     }
 }
 
