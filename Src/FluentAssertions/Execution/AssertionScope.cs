@@ -109,6 +109,7 @@ public sealed class AssertionScope : IAssertionScope
             Context = parent.Context;
             reason = parent.reason;
             callerIdentityProvider = parent.callerIdentityProvider;
+            FormattingOptions = parent.FormattingOptions.Clone();
         }
     }
 
