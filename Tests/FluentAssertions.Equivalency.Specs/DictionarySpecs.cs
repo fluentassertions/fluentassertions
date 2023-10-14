@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 using FluentAssertions.Equivalency.Tracing;
@@ -1189,4 +1190,142 @@ public class DictionarySpecs
 
         act.Should().Throw<XunitException>().WithMessage("*FOO BAR*");
     }
+
+    [Fact]
+    public void A_non_generic_subject_can_be_compared_with_a_generic_expectation()
+    {
+        var subject = new ListDictionary
+        {
+            ["id"] = 22,
+            ["CustomerId"] = 33
+        };
+
+        var expected = new Dictionary<object, object>
+        {
+            ["id"] = 22,
+            ["CustomerId"] = 33
+        };
+
+        subject.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void A_non_generic_subject_which_is_null_can_be_compared_with_a_generic_expectation()
+    {
+        var subject = (ListDictionary)null;
+
+        var expected = new Dictionary<object, object>
+        {
+            ["id"] = 22,
+            ["CustomerId"] = 33
+        };
+
+        Action act = () => subject.Should().BeEquivalentTo(expected);
+
+        act.Should().Throw<XunitException>().WithMessage("*<null>*");
+    }
+
+    [Fact]
+    public void Excluding_nested_objects_when_dictionary_is_equivalent()
+    {
+        var subject = new Dictionary<object, object>
+        {
+            ["id"] = 22,
+            ["CustomerId"] = 33
+        };
+
+        var expected = new Dictionary<object, object>
+        {
+            ["id"] = 22,
+            ["CustomerId"] = 33
+        };
+
+        subject.Should().BeEquivalentTo(expected, opt => opt.ExcludingNestedObjects());
+    }
+
+    [Fact]
+    public void Custom_types_which_implementing_dictionaries_pass()
+    {
+        var subject = new NonGenericChildDictionary
+        {
+            ["id"] = 22,
+            ["CustomerId"] = 33
+        };
+
+        var expected = new Specs.NonGenericDictionary
+        {
+            ["id"] = 22,
+            ["CustomerId"] = 33
+        };
+
+        subject.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void Custom_types_which_implementing_dictionaries_pass_with_swapped_subject_expectation()
+    {
+        var subject = new Specs.NonGenericDictionary
+        {
+            ["id"] = 22,
+            ["CustomerId"] = 33
+        };
+
+        var expected = new NonGenericChildDictionary
+        {
+            ["id"] = 22,
+            ["CustomerId"] = 33
+        };
+
+        subject.Should().BeEquivalentTo(expected);
+    }
+}
+
+internal class NonGenericChildDictionary : Dictionary<string, int>
+{
+    public new void Add(string key, int value)
+    {
+        base.Add(key, value);
+    }
+}
+
+internal class NonGenericDictionary : IDictionary<string, int>
+{
+    private readonly Dictionary<string, int> innerDictionary = new();
+
+    public int this[string key]
+    {
+        get => innerDictionary[key];
+        set => innerDictionary[key] = value;
+    }
+
+    public ICollection<string> Keys => innerDictionary.Keys;
+
+    public ICollection<int> Values => innerDictionary.Values;
+
+    public int Count => innerDictionary.Count;
+
+    public bool IsReadOnly => false;
+
+    public void Add(string key, int value) => innerDictionary.Add(key, value);
+
+    public void Add(KeyValuePair<string, int> item) => innerDictionary.Add(item.Key, item.Value);
+
+    public void Clear() => innerDictionary.Clear();
+
+    public bool Contains(KeyValuePair<string, int> item) => innerDictionary.Contains(item);
+
+    public bool ContainsKey(string key) => innerDictionary.ContainsKey(key);
+
+    public void CopyTo(KeyValuePair<string, int>[] array, int arrayIndex) =>
+        ((ICollection<KeyValuePair<string, int>>)innerDictionary).CopyTo(array, arrayIndex);
+
+    public IEnumerator<KeyValuePair<string, int>> GetEnumerator() => innerDictionary.GetEnumerator();
+
+    public bool Remove(string key) => innerDictionary.Remove(key);
+
+    public bool Remove(KeyValuePair<string, int> item) => innerDictionary.Remove(item.Key);
+
+    public bool TryGetValue(string key, out int value) => innerDictionary.TryGetValue(key, out value);
+
+    IEnumerator IEnumerable.GetEnumerator() => innerDictionary.GetEnumerator();
 }
