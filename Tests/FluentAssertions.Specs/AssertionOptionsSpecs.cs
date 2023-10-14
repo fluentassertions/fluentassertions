@@ -6,6 +6,7 @@ using Chill;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Equivalency.Steps;
 using FluentAssertions.Execution;
+using FluentAssertions.Extensions;
 using FluentAssertions.Formatting;
 using Xunit;
 using Xunit.Sdk;

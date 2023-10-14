@@ -252,6 +252,40 @@ namespace FluentAssertions.Specs.Execution
             outerScope.Get<string>("innerReportable").Should().Be("bar");
         }
 
+        [Fact]
+        public void Formatting_options_passed_to_inner_assertion_scopes()
+        {
+            // Arrange
+            var subject = new[]
+            {
+                new
+                {
+                    Value = 42
+                }
+            };
+
+            var expected = new[]
+            {
+                new
+                {
+                    Value = 42
+                },
+                new
+                {
+                    Value = 42
+                }
+            };
+
+            // Act
+            using var scope = new AssertionScope();
+            scope.FormattingOptions.MaxDepth = 1;
+            subject.Should().BeEquivalentTo(expected);
+
+            // Assert
+            scope.Discard().Should().ContainSingle()
+                .Which.Should().Contain("Maximum recursion depth of 1 was reached");
+        }
+
         public class CustomAssertionStrategy : IAssertionStrategy
         {
             private readonly List<string> failureMessages = new();
