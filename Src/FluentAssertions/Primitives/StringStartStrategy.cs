@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -6,24 +6,23 @@ namespace FluentAssertions.Primitives;
 
 internal class StringStartStrategy : IStringComparisonStrategy
 {
-    private readonly StringComparison stringComparison;
+    private readonly IEqualityComparer<string> comparer;
+    private readonly bool ignoringCase;
 
-    public StringStartStrategy(StringComparison stringComparison)
+    public StringStartStrategy(IEqualityComparer<string> comparer)
     {
-        this.stringComparison = stringComparison;
+        this.comparer = comparer;
+        ignoringCase = comparer.Equals("A", "a");
     }
 
     public string ExpectationDescription
     {
         get
         {
-            string predicateDescription = IgnoreCase ? "start with equivalent of" : "start with";
+            string predicateDescription = ignoringCase ? "start with equivalent of" : "start with";
             return "Expected {context:string} to " + predicateDescription + " ";
         }
     }
-
-    private bool IgnoreCase
-        => stringComparison == StringComparison.OrdinalIgnoreCase;
 
     public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
     {
@@ -34,12 +33,12 @@ internal class StringStartStrategy : IStringComparisonStrategy
             return;
         }
 
-        if (subject.StartsWith(expected, stringComparison))
+        int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparer);
+
+        if (indexOfMismatch < 0 || indexOfMismatch >= expected.Length)
         {
             return;
         }
-
-        int indexOfMismatch = subject.IndexOfFirstMismatch(expected, stringComparison);
 
         assertion.FailWith(
             ExpectationDescription + "{0}{reason}, but {1} differs near " + subject.IndexedSegmentAt(indexOfMismatch) +

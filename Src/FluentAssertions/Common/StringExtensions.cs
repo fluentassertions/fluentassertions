@@ -26,30 +26,6 @@ internal static class StringExtensions
     }
 
     /// <summary>
-    /// Finds the first index at which the <paramref name="value"/> does not match the <paramref name="expected"/>
-    /// string anymore, accounting for the specified <paramref name="stringComparison"/>.
-    /// </summary>
-    public static int IndexOfFirstMismatch(this string value, string expected, StringComparison stringComparison)
-    {
-        Func<char, char, bool> comparer = GetCharComparer(stringComparison);
-
-        for (int index = 0; index < value.Length; index++)
-        {
-            if (index >= expected.Length || !comparer(value[index], expected[index]))
-            {
-                return index;
-            }
-        }
-
-        return -1;
-    }
-
-    private static Func<char, char, bool> GetCharComparer(StringComparison stringComparison) =>
-        stringComparison == StringComparison.Ordinal
-            ? (x, y) => x == y
-            : (x, y) => char.ToUpperInvariant(x) == char.ToUpperInvariant(y);
-
-    /// <summary>
     /// Gets the quoted three characters at the specified index of a string, including the index itself.
     /// </summary>
     public static string IndexedSegmentAt(this string value, int index)

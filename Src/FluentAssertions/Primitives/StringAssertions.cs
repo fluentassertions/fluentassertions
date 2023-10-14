@@ -704,7 +704,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare start of string with <null>.");
 
         var stringStartValidator = new StringValidator(
-            new StringStartStrategy(StringComparison.Ordinal),
+            new StringStartStrategy(StringComparer.Ordinal),
             because, becauseArgs);
 
         stringStartValidator.Validate(Subject, expected);
@@ -757,7 +757,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string start equivalence with <null>.");
 
         var stringStartValidator = new StringValidator(
-            new StringStartStrategy(StringComparison.OrdinalIgnoreCase),
+            new StringStartStrategy(StringComparer.OrdinalIgnoreCase),
             because, becauseArgs);
 
         stringStartValidator.Validate(Subject, expected);

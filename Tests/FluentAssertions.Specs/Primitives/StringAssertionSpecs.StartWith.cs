@@ -27,6 +27,20 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
+        public void When_expected_string_is_the_same_value_it_should_not_throw()
+        {
+            // Arrange
+            string value = "ABC";
+
+            // Act
+            Action action = () =>
+                value.Should().StartWith(value);
+
+            // Assert
+            action.Should().NotThrow();
+        }
+
+        [Fact]
         public void When_string_does_not_start_with_expected_phrase_it_should_throw()
         {
             // Act
