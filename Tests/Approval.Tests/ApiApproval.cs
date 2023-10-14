@@ -20,10 +20,10 @@ public class ApiApproval
 
     [Theory]
     [ClassData(typeof(TargetFrameworksTheoryData))]
-    public Task ApproveApi(string frameworkVersion)
+    public Task ApproveApi(string framework)
     {
         var configuration = typeof(ApiApproval).Assembly.GetCustomAttribute<AssemblyConfigurationAttribute>()!.Configuration;
-        var assemblyFile = GetPath("Src", "FluentAssertions", "bin", configuration, frameworkVersion, "FluentAssertions.dll");
+        var assemblyFile = CombinedPaths("Src", "FluentAssertions", "bin", configuration, framework, "FluentAssertions.dll");
         var assembly = Assembly.LoadFile(assemblyFile);
         var publicApi = assembly.GeneratePublicApi(options: null);
 
@@ -31,19 +31,15 @@ public class ApiApproval
             .Verify(publicApi)
             .ScrubLinesContaining("FrameworkDisplayName")
             .UseDirectory(Path.Combine("ApprovedApi", "FluentAssertions"))
-            .UseFileName(frameworkVersion)
+            .UseFileName(framework)
             .DisableDiff();
     }
-
-    private static string GetSolutionDirectory([CallerFilePath] string path = "") => Path.Combine(Path.GetDirectoryName(path)!, "..", "..");
-
-    private static string GetPath(params string[] paths) => Path.GetFullPath(Path.Combine(paths.Prepend(GetSolutionDirectory()).ToArray()));
 
     private class TargetFrameworksTheoryData : TheoryData<string>
     {
         public TargetFrameworksTheoryData()
         {
-            var csproj = GetPath("Src", "FluentAssertions", "FluentAssertions.csproj");
+            var csproj = CombinedPaths("Src", "FluentAssertions", "FluentAssertions.csproj");
             var project = XDocument.Load(csproj);
             var targetFrameworks = project.XPathSelectElement("/Project/PropertyGroup/TargetFrameworks");
 
@@ -53,4 +49,10 @@ public class ApiApproval
             }
         }
     }
+
+    private static string GetSolutionDirectory([CallerFilePath] string path = "") =>
+        Path.Combine(Path.GetDirectoryName(path)!, "..", "..");
+
+    private static string CombinedPaths(params string[] paths) =>
+        Path.GetFullPath(Path.Combine(paths.Prepend(GetSolutionDirectory()).ToArray()));
 }
