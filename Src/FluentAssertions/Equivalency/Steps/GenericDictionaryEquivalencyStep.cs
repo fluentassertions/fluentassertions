@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using FluentAssertions.Execution;
 
@@ -17,32 +19,53 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
     public EquivalencyResult Handle(Comparands comparands, IEquivalencyValidationContext context,
         IEquivalencyValidator nestedValidator)
     {
-        if (comparands.Expectation != null)
+        if (comparands.Expectation is null)
         {
-            Type expectationType = comparands.GetExpectedType(context.Options);
-            if (DictionaryInterfaceInfo.FindFrom(expectationType, "expectation") is { } expectedDictionary)
-            {
-                if (AssertSubjectIsNotNull(comparands.Subject)
-                    && EnsureSubjectIsDictionary(comparands, expectedDictionary) is { } actualDictionary)
-                {
-                    AssertDictionaryEquivalence(comparands, context, nestedValidator, actualDictionary, expectedDictionary);
-                }
-
-                return EquivalencyResult.AssertionCompleted;
-            }
+            return EquivalencyResult.ContinueWithNext;
         }
 
-        return EquivalencyResult.ContinueWithNext;
+        Type expectationType = comparands.GetExpectedType(context.Options);
+
+        if (DictionaryInterfaceInfo.FindFrom(expectationType, "expectation") is not { } expectedDictionary)
+        {
+            return EquivalencyResult.ContinueWithNext;
+        }
+
+        if (IsNonGenericDictionary(comparands.Subject))
+        {
+            // Because we handle non-generic dictionaries later
+            return EquivalencyResult.ContinueWithNext;
+        }
+
+        if (IsNotNull(comparands.Subject)
+            && EnsureSubjectIsOfTheExpectedDictionaryType(comparands, expectedDictionary) is { } actualDictionary)
+        {
+            AssertDictionaryEquivalence(comparands, context, nestedValidator, actualDictionary, expectedDictionary);
+        }
+
+        return EquivalencyResult.AssertionCompleted;
     }
 
-    private static bool AssertSubjectIsNotNull(object subject)
+    private static bool IsNonGenericDictionary(object subject)
+    {
+        if (subject is not IDictionary)
+        {
+            return false;
+        }
+
+        return !subject.GetType().GetInterfaces()
+            .Any(@interface => @interface.IsGenericType
+                && @interface.GetGenericTypeDefinition() == typeof(IDictionary<,>));
+    }
+
+    private static bool IsNotNull(object subject)
     {
         return AssertionScope.Current
             .ForCondition(subject is not null)
             .FailWith("Expected {context:Subject} not to be {0}{reason}.", new object[] { null });
     }
 
-    private static DictionaryInterfaceInfo EnsureSubjectIsDictionary(Comparands comparands,
+    private static DictionaryInterfaceInfo EnsureSubjectIsOfTheExpectedDictionaryType(Comparands comparands,
         DictionaryInterfaceInfo expectedDictionary)
     {
         var actualDictionary = DictionaryInterfaceInfo.FindFromWithKey(comparands.Subject.GetType(), "subject",
@@ -57,8 +80,8 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
         if (actualDictionary is null)
         {
             AssertionScope.Current.FailWith(
-                $"Expected {{context:subject}} to be a dictionary or collection of key-value pairs that is keyed to type {expectedDictionary.Key}. " +
-                $"It implements {actualDictionary}.");
+                "Expected {context:subject} to be a dictionary or collection of key-value pairs that is keyed to " +
+                $"type {expectedDictionary.Key}.");
         }
 
         return actualDictionary;
