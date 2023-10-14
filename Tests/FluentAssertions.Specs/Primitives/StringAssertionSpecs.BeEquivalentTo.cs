@@ -14,10 +14,10 @@ public partial class StringAssertionSpecs
     public class BeEquivalentTo
     {
         [Fact]
-        public void Use_custom_comparer()
+        public void Succeed_for_different_strings_using_custom_matching_comparer()
         {
             // Arrange
-            var comparer = new DummyEqualityComparer((_, _) => true);
+            var comparer = new MatchingEqualityComparer();
             string actual = "test A";
             string expect = "test B";
 
@@ -26,10 +26,10 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void Fail_for_mismatch_using_custom_comparer()
+        public void Fail_for_same_strings_using_custom_not_matching_comparer()
         {
             // Arrange
-            var comparer = new DummyEqualityComparer((_, _) => false);
+            var comparer = new NotMatchingEqualityComparer();
             string actual = "foo";
             string expect = "foo";
 
@@ -133,18 +133,24 @@ public partial class StringAssertionSpecs
                 "Expected string to be equivalent to \"abc\" because I say so, but it has unexpected whitespace at the end.");
         }
 
-        private sealed class DummyEqualityComparer : IEqualityComparer<string>
+        private sealed class MatchingEqualityComparer : IEqualityComparer<string>
         {
-            private readonly Func<string, string, bool> callback;
-
-            public DummyEqualityComparer(Func<string, string, bool> callback)
-            {
-                this.callback = callback;
-            }
-
             public bool Equals(string x, string y)
             {
-                return callback(x, y);
+                return true;
+            }
+
+            public int GetHashCode(string obj)
+            {
+                return obj.GetHashCode();
+            }
+        }
+
+        private sealed class NotMatchingEqualityComparer : IEqualityComparer<string>
+        {
+            public bool Equals(string x, string y)
+            {
+                return false;
             }
 
             public int GetHashCode(string obj)
