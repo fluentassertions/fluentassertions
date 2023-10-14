@@ -165,14 +165,50 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeEquivalentTo(string unexpected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeEquivalentTo(string unexpected,
+        string because = "", params object[] becauseArgs)
     {
         bool notEquivalent;
 
         using (var scope = new AssertionScope())
         {
             Subject.Should().BeEquivalentTo(unexpected);
+            notEquivalent = scope.Discard().Length > 0;
+        }
+
+        Execute.Assertion
+            .ForCondition(notEquivalent)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:string} not to be equivalent to {0}{reason}, but they are.", unexpected);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that a string is not exactly the same as another string, using the provided <paramref name="comparer"/>.
+    /// </summary>
+    /// <param name="unexpected">
+    /// The string that the subject is not expected to be equivalent to.
+    /// </param>
+    /// <param name="comparer">
+    /// The string equality comparer.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> NotBeEquivalentTo(string unexpected,
+        IEqualityComparer<string> comparer,
+        string because = "", params object[] becauseArgs)
+    {
+        bool notEquivalent;
+
+        using (var scope = new AssertionScope())
+        {
+            Subject.Should().BeEquivalentTo(unexpected, comparer);
             notEquivalent = scope.Discard().Length > 0;
         }
 

@@ -30,8 +30,8 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             var comparer = new NotMatchingEqualityComparer();
-            string actual = "foo";
-            string expect = "foo";
+            string actual = "test";
+            string expect = "test";
 
             // Act
             Action act = () => actual.Should().BeEquivalentTo(expect, comparer);
@@ -132,36 +132,37 @@ public partial class StringAssertionSpecs
             act.Should().Throw<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"abc\" because I say so, but it has unexpected whitespace at the end.");
         }
-
-        private sealed class MatchingEqualityComparer : IEqualityComparer<string>
-        {
-            public bool Equals(string x, string y)
-            {
-                return true;
-            }
-
-            public int GetHashCode(string obj)
-            {
-                return obj.GetHashCode();
-            }
-        }
-
-        private sealed class NotMatchingEqualityComparer : IEqualityComparer<string>
-        {
-            public bool Equals(string x, string y)
-            {
-                return false;
-            }
-
-            public int GetHashCode(string obj)
-            {
-                return obj.GetHashCode();
-            }
-        }
     }
 
     public class NotBeEquivalentTo
     {
+        [Fact]
+        public void Succeed_for_same_strings_using_custom_not_matching_comparer()
+        {
+            // Arrange
+            var comparer = new NotMatchingEqualityComparer();
+            string actual = "test";
+            string expect = "test";
+
+            // Act / Assert
+            actual.Should().NotBeEquivalentTo(expect, comparer);
+        }
+
+        [Fact]
+        public void Fail_for_different_strings_using_custom_matching_comparer()
+        {
+            // Arrange
+            var comparer = new MatchingEqualityComparer();
+            string actual = "test A";
+            string expect = "test B";
+
+            // Act
+            Action act = () => actual.Should().NotBeEquivalentTo(expect, comparer);
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
         [Fact]
         public void When_strings_are_the_same_while_ignoring_case_it_should_throw()
         {
@@ -248,6 +249,32 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().NotThrow();
+        }
+    }
+
+    private sealed class MatchingEqualityComparer : IEqualityComparer<string>
+    {
+        public bool Equals(string x, string y)
+        {
+            return true;
+        }
+
+        public int GetHashCode(string obj)
+        {
+            return obj.GetHashCode();
+        }
+    }
+
+    private sealed class NotMatchingEqualityComparer : IEqualityComparer<string>
+    {
+        public bool Equals(string x, string y)
+        {
+            return false;
+        }
+
+        public int GetHashCode(string obj)
+        {
+            return obj.GetHashCode();
         }
     }
 }
