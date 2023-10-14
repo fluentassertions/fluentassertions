@@ -53,9 +53,8 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
             return false;
         }
 
-        return !subject.GetType().GetInterfaces()
-            .Any(@interface => @interface.IsGenericType
-                && @interface.GetGenericTypeDefinition() == typeof(IDictionary<,>));
+        return !subject.GetType().GetInterfaces().Any(@interface =>
+            @interface.IsGenericType && @interface.GetGenericTypeDefinition() == typeof(IDictionary<,>));
     }
 
     private static bool IsNotNull(object subject)
