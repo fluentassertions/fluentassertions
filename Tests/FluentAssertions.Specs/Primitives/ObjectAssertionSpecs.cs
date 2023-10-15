@@ -186,6 +186,16 @@ public class ObjectAssertionSpecs
             // Assert
             act.Should().Throw<ArgumentNullException>().WithParameterName("comparer");
         }
+
+        [Fact]
+        public void Chaining_after_one_assertion()
+        {
+            // Arrange
+            var value = new SomeClass(3);
+
+            // Act / Assert
+            value.Should().Be(value).And.NotBeNull();
+        }
     }
 
     public class NotBe
@@ -314,6 +324,16 @@ public class ObjectAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithParameterName("comparer");
+        }
+
+        [Fact]
+        public void Chaining_after_one_assertion()
+        {
+            // Arrange
+            var value = new SomeClass(3);
+
+            // Act / Assert
+            value.Should().NotBe(new SomeClass(3)).And.NotBeNull();
         }
     }
 
@@ -507,6 +527,16 @@ public class ObjectAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithParameterName("comparer");
+        }
+
+        [Fact]
+        public void Chaining_after_one_assertion()
+        {
+            // Arrange
+            var value = new SomeClass(3);
+
+            // Act / Assert
+            value.Should().BeOneOf(value).And.NotBeNull();
         }
     }
 
