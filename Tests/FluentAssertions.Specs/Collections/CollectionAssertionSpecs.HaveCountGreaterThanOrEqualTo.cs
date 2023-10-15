@@ -69,5 +69,15 @@ public partial class CollectionAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage("*at least*1*we want to test the behaviour with a null subject*found <null>*");
         }
+
+        [Fact]
+        public void Chaining_after_one_assertion()
+        {
+            // Arrange
+            var collection = new[] { 1, 2, 3 };
+
+            // Act / Assert
+            collection.Should().HaveCountGreaterThanOrEqualTo(3).And.Contain(1);
+        }
     }
 }
