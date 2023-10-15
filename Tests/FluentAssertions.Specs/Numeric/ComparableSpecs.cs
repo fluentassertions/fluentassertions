@@ -556,6 +556,17 @@ public class ComparableSpecs
             // Assert
             act.Should().NotThrow();
         }
+
+        [Fact]
+        public void Chaining_after_one_assertion()
+        {
+            // Arrange
+            var subject = new ComparableOfString("World");
+            var other = new ComparableOfString("World");
+
+            // Act / Assert
+            subject.Should().BeLessThanOrEqualTo(other).And.NotBeNull();
+        }
     }
 
     public class BeGreaterThan
@@ -649,6 +660,17 @@ public class ComparableSpecs
 
             // Assert
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void Chaining_after_one_assertion()
+        {
+            // Arrange
+            var subject = new ComparableOfString("def");
+            var other = new ComparableOfString("def");
+
+            // Act / Assert
+            subject.Should().BeGreaterThanOrEqualTo(other).And.NotBeNull();
         }
     }
 }
