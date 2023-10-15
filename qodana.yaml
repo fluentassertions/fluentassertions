@@ -20,3 +20,4 @@ exclude:
       - Tests/AssemblyB
       - Tests/Benchmarks
       - Tests/UWP.Specs
+  - name: UnusedMember.Global
