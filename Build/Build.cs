@@ -40,6 +40,9 @@ class Build : NukeBuild
 
     string PullRequestBase => GitHubActions?.BaseRef;
 
+    [Parameter("The solution configuration to build. Default is 'Debug' (local) or 'CI' (server).")]
+    readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.CI;
+
     [Parameter("Use this parameter if you encounter build problems in any way, " +
         "to generate a .binlog file which holds some useful information.")]
     readonly bool? GenerateBinLog;
@@ -126,7 +129,7 @@ class Build : NukeBuild
 
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
-                .SetConfiguration(Configuration.CI)
+                .SetConfiguration(Configuration)
                 .When(GenerateBinLog is true, _ => _
                     .SetBinaryLog(ArtifactsDirectory / $"{Solution.Core.FluentAssertions.Name}.binlog")
                 )
@@ -145,7 +148,7 @@ class Build : NukeBuild
             Project project = Solution.Specs.Approval_Tests;
 
             DotNetTest(s => s
-                .SetConfiguration(Configuration.Release)
+                .SetConfiguration(Configuration == Configuration.Debug ? "Debug" : "Release")
                 .SetProcessEnvironmentVariable("DOTNET_CLI_UI_LANGUAGE", "en-US")
                 .EnableNoBuild()
                 .SetResultsDirectory(TestResultsDirectory)
@@ -318,7 +321,7 @@ class Build : NukeBuild
             DotNetPack(s => s
                 .SetProject(Solution.Core.FluentAssertions)
                 .SetOutputDirectory(ArtifactsDirectory)
-                .SetConfiguration(Configuration.Release)
+                .SetConfiguration(Configuration == Configuration.Debug ? "Debug" : "Release")
                 .EnableNoLogo()
                 .EnableNoRestore()
                 .EnableContinuousIntegrationBuild() // Necessary for deterministic builds
