@@ -196,6 +196,16 @@ public class ObjectAssertionSpecs
             // Act / Assert
             value.Should().Be(value).And.NotBeNull();
         }
+
+        [Fact]
+        public void Can_chain_multiple_assertions()
+        {
+            // Arrange
+            var value = new object();
+
+            // Act / Assert
+            value.Should().Be<object>(value, new DumbObjectEqualityComparer()).And.NotBeNull();
+        }
     }
 
     public class NotBe
@@ -334,6 +344,16 @@ public class ObjectAssertionSpecs
 
             // Act / Assert
             value.Should().NotBe(new SomeClass(3)).And.NotBeNull();
+        }
+
+        [Fact]
+        public void Can_chain_multiple_assertions()
+        {
+            // Arrange
+            var value = new object();
+
+            // Act / Assert
+            value.Should().NotBe<object>(new object(), new DumbObjectEqualityComparer()).And.NotBeNull();
         }
     }
 
@@ -537,6 +557,16 @@ public class ObjectAssertionSpecs
 
             // Act / Assert
             value.Should().BeOneOf(value).And.NotBeNull();
+        }
+
+        [Fact]
+        public void Can_chain_multiple_assertions()
+        {
+            // Arrange
+            var value = new object();
+
+            // Act / Assert
+            value.Should().BeOneOf<object>(new[] { value }, new DumbObjectEqualityComparer()).And.NotBeNull();
         }
     }
 
@@ -1509,6 +1539,13 @@ internal class SomeClass
     public int Key { get; }
 
     public override string ToString() => $"SomeClass({Key})";
+}
+
+internal class DumbObjectEqualityComparer : IEqualityComparer<object>
+{
+    public new bool Equals(object x, object y) => x.Equals(y);
+
+    public int GetHashCode(object obj) => obj.GetHashCode();
 }
 
 internal class SomeClassEqualityComparer : IEqualityComparer<SomeClass>
