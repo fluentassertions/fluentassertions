@@ -13,6 +13,7 @@ sidebar:
 
 ### Improvements
 * Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)
+* You can mark all assertions in an assembly as custom assertions using the `[CustomAssertionsAssembly]` attribute - [#2389](https://github.com/fluentassertions/fluentassertions/pull/2389)
 
 ### Fixes
 * Fixed formatting error when checking nullable `DateTimeOffset` with
