@@ -793,7 +793,7 @@ public class NumericAssertionSpecs
             int smallerValue = 1;
 
             // Act / Assert
-            value.Should().BeGreaterThan(smallerValue).And.Be(2);
+            value.Should().BeGreaterThanOrEqualTo(smallerValue).And.Be(2);
         }
     }
 
