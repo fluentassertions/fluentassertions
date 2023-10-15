@@ -358,6 +358,16 @@ public class SimpleTimeSpanAssertionSpecs
     }
 
     [Fact]
+    public void Chaining_after_one_assertion_1()
+    {
+        // Arrange
+        var twoSeconds = 2.Seconds();
+
+        // Act / Assert
+        twoSeconds.Should().BeGreaterThanOrEqualTo(twoSeconds).And.Be(2.Seconds());
+    }
+
+    [Fact]
     public void When_asserting_value_to_be_greater_than_or_equal_to_greater_value_it_should_fail()
     {
         // Arrange
@@ -462,6 +472,17 @@ public class SimpleTimeSpanAssertionSpecs
 
         // Act / Assert
         actual.Should().BeLessThanOrEqualTo(greater);
+    }
+
+    [Fact]
+    public void Chaining_after_one_assertion_2()
+    {
+        // Arrange
+        TimeSpan actual = 1.Seconds();
+        TimeSpan greater = 2.Seconds();
+
+        // Act / Assert
+        actual.Should().BeLessThanOrEqualTo(greater).And.Be(1.Seconds());
     }
 
     [Fact]
