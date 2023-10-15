@@ -3,22 +3,34 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "monday"
+      time: "16:00"
+      timezone: "Europe/Copenhagen"
 
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "monday"
+      time: "16:00"
+      timezone: "Europe/Copenhagen"
 
   - package-ecosystem: "bundler"
     directory: "/docs"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "monday"
+      time: "16:00"
+      timezone: "Europe/Copenhagen"
 
   - package-ecosystem: "nuget"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "monday"
+      time: "16:00"
+      timezone: "Europe/Copenhagen"
     ignore:
       - dependency-name: "System.Configuration.ConfigurationManager"
       - dependency-name: "System.Threading.Tasks.Extensions"
