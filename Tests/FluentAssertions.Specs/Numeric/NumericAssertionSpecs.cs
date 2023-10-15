@@ -784,6 +784,17 @@ public class NumericAssertionSpecs
                 .Should().Throw<ArgumentException>()
                 .WithMessage("*NaN*");
         }
+
+        [Fact]
+        public void Chaining_after_one_assertion()
+        {
+            // Arrange
+            int value = 2;
+            int smallerValue = 1;
+
+            // Act / Assert
+            value.Should().BeGreaterThan(smallerValue).And.Be(2);
+        }
     }
 
     public class LessThanOrEqualTo
@@ -1030,6 +1041,17 @@ public class NumericAssertionSpecs
             act
                 .Should().Throw<ArgumentException>()
                 .WithMessage("*NaN*");
+        }
+
+        [Fact]
+        public void Chaining_after_one_assertion()
+        {
+            // Arrange
+            int value = 1;
+            int greaterValue = 2;
+
+            // Act / Assert
+            value.Should().BeLessThanOrEqualTo(greaterValue).And.Be(1);
         }
     }
 
