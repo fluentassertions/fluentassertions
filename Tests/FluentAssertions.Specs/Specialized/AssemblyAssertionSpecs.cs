@@ -302,6 +302,16 @@ public class AssemblyAssertionSpecs
             act.Should().Throw<XunitException>()
                 .WithMessage("Can't check for assembly signing if nullAssembly reference is <null>.");
         }
+
+        [Fact]
+        public void Chaining_after_one_assertion()
+        {
+            // Arrange
+            var unsignedAssembly = FindAssembly.Stub("");
+
+            // Act & Assert
+            unsignedAssembly.Should().BeUnsigned().And.NotBeNull();
+        }
     }
 
     public class BeSignedWithPublicKey
@@ -361,6 +371,17 @@ public class AssemblyAssertionSpecs
             // Assert
             act.Should().Throw<XunitException>()
                 .WithMessage("Can't check for assembly signing if nullAssembly reference is <null>.");
+        }
+
+        [Fact]
+        public void Chaining_after_one_assertion()
+        {
+            // Arrange
+            var key = "0123456789ABCEF007";
+            var signedAssembly = FindAssembly.Stub(key);
+
+            // Act & Assert
+            signedAssembly.Should().BeSignedWithPublicKey(key).And.NotBeNull();
         }
     }
 }
