@@ -21,3 +21,5 @@ exclude:
       - Tests/Benchmarks
       - Tests/UWP.Specs
   - name: UnusedMember.Global
+  - name: ArrangeTrailingCommaInMultilineLists
+  - name: ArrangeTrailingCommaInSinglelineLists
