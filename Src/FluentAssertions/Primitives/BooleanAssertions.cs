@@ -51,7 +51,7 @@ public class BooleanAssertions<TAssertions>
         Execute.Assertion
             .ForCondition(Subject == false)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:boolean} to be false{reason}, but found {0}.", Subject);
+            .FailWith("Expected {context:boolean} to be False{reason}, but found {0}.", Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -71,7 +71,7 @@ public class BooleanAssertions<TAssertions>
         Execute.Assertion
             .ForCondition(Subject == true)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:boolean} to be true{reason}, but found {0}.", Subject);
+            .FailWith("Expected {context:boolean} to be True{reason}, but found {0}.", Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
