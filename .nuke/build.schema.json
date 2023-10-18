@@ -6,6 +6,14 @@
     "build": {
       "type": "object",
       "properties": {
+        "Configuration": {
+          "type": "string",
+          "description": "The solution configuration to build. Default is 'Debug' (local) or 'CI' (server)",
+          "enum": [
+            "CI",
+            "Debug"
+          ]
+        },
         "Continue": {
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
