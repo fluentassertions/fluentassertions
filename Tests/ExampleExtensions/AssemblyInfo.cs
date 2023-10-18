@@ -1,0 +1,3 @@
+﻿using FluentAssertions;
+
+[assembly: CustomAssertionsAssembly]

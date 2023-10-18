@@ -192,6 +192,11 @@ namespace FluentAssertions
     {
         public CustomAssertionAttribute() { }
     }
+    [System.AttributeUsage(System.AttributeTargets.Assembly)]
+    public sealed class CustomAssertionsAssemblyAttribute : System.Attribute
+    {
+        public CustomAssertionsAssemblyAttribute() { }
+    }
     public static class EnumAssertionsExtensions
     {
         public static FluentAssertions.Primitives.EnumAssertions<TEnum> Should<TEnum>(this TEnum @enum)

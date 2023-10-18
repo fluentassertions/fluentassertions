@@ -1,4 +1,5 @@
 ﻿using System;
+using ExampleExtensions;
 using Xunit;
 using Xunit.Sdk;
 
@@ -7,7 +8,7 @@ namespace FluentAssertions.Specs;
 public class ExtensibilitySpecs
 {
     [Fact]
-    public void When_a_method_is_marked_as_custom_assertion_it_should_be_ignored_during_caller_identification()
+    public void Methods_marked_as_custom_assertion_are_ignored_during_caller_identification()
     {
         // Arrange
         var myClient = new MyCustomer
@@ -22,14 +23,28 @@ public class ExtensibilitySpecs
         act.Should().Throw<XunitException>().WithMessage(
             "Expected myClient to be true because we don't work with old clients, but found False.");
     }
+
+    [Fact]
+    public void Methods_in_assemblies_marked_as_custom_assertion_are_ignored_during_caller_identification()
+    {
+        // Arrange
+        string palindrome = "fluent";
+
+        // Act
+        Action act = () => palindrome.Should().BePalindromic();
+
+        // Assert
+        act.Should().Throw<XunitException>().WithMessage(
+            "Expected palindrome to be*tneulf*");
+    }
 }
 
-public class MyCustomer
+internal class MyCustomer
 {
     public bool Active { get; set; }
 }
 
-public static class MyCustomerExtensions
+internal static class MyCustomerExtensions
 {
     public static MyCustomerAssertions Should(this MyCustomer customer)
     {
@@ -37,7 +52,7 @@ public static class MyCustomerExtensions
     }
 }
 
-public class MyCustomerAssertions
+internal class MyCustomerAssertions
 {
     private readonly MyCustomer customer;
 
