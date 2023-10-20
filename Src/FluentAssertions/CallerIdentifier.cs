@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using FluentAssertions.CallerIdentification;
@@ -137,7 +138,16 @@ public static class CallerIdentifier
 
     private static bool IsCustomAssertion(StackFrame frame)
     {
-        return frame.GetMethod()?.IsDecoratedWithOrInherit<CustomAssertionAttribute>() == true;
+        MethodBase getMethod = frame.GetMethod();
+
+        if (getMethod is not null)
+        {
+            return
+                getMethod.IsDecoratedWithOrInherit<CustomAssertionAttribute>() ||
+                getMethod.ReflectedType?.Assembly.IsDefined(typeof(CustomAssertionsAssemblyAttribute)) == true;
+        }
+
+        return false;
     }
 
     private static bool IsDynamic(StackFrame frame)

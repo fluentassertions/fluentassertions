@@ -193,6 +193,11 @@ namespace FluentAssertions
     {
         public CustomAssertionAttribute() { }
     }
+    [System.AttributeUsage(System.AttributeTargets.Assembly)]
+    public sealed class CustomAssertionsAssemblyAttribute : System.Attribute
+    {
+        public CustomAssertionsAssemblyAttribute() { }
+    }
     public static class EnumAssertionsExtensions
     {
         public static FluentAssertions.Primitives.EnumAssertions<TEnum> Should<TEnum>(this TEnum @enum)
@@ -312,8 +317,6 @@ namespace FluentAssertions
     }
     public static class ObjectAssertionsExtensions
     {
-        public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeBinarySerializable(this FluentAssertions.Primitives.ObjectAssertions assertions, string because = "", params object[] becauseArgs) { }
-        public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeBinarySerializable<T>(this FluentAssertions.Primitives.ObjectAssertions assertions, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>> options, string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeDataContractSerializable(this FluentAssertions.Primitives.ObjectAssertions assertions, string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeDataContractSerializable<T>(this FluentAssertions.Primitives.ObjectAssertions assertions, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>> options, string because = "", params object[] becauseArgs) { }
         public static FluentAssertions.AndConstraint<FluentAssertions.Primitives.ObjectAssertions> BeXmlSerializable(this FluentAssertions.Primitives.ObjectAssertions assertions, string because = "", params object[] becauseArgs) { }
@@ -2092,22 +2095,16 @@ namespace FluentAssertions.Specialized
         public ActionAssertions(System.Action subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Common.IClock clock) { }
         protected override string Identifier { get; }
         protected override void InvokeSubject() { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ActionAssertions> NotThrow(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ActionAssertions> NotThrowAfter(System.TimeSpan waitTime, System.TimeSpan pollInterval, string because = "", params object[] becauseArgs) { }
     }
     public class AsyncFunctionAssertions<TTask, TAssertions> : FluentAssertions.Specialized.DelegateAssertionsBase<System.Func<TTask>, TAssertions>
         where TTask : System.Threading.Tasks.Task
         where TAssertions : FluentAssertions.Specialized.AsyncFunctionAssertions<TTask, TAssertions>
     {
-        [System.Obsolete("This class is intended as base class. This ctor is accidentally public and will b" +
-            "e removed in Version 7.")]
-        public AsyncFunctionAssertions(System.Func<TTask> subject, FluentAssertions.Specialized.IExtractExceptions extractor) { }
-        [System.Obsolete("This class is intended as base class. This ctor is accidentally public and will b" +
-            "e made protected in Version 7.")]
-        public AsyncFunctionAssertions(System.Func<TTask> subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Common.IClock clock) { }
+        protected AsyncFunctionAssertions(System.Func<TTask> subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Common.IClock clock) { }
         protected override string Identifier { get; }
-        public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> CompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
         public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> NotCompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
-        public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> NotThrowAfterAsync(System.TimeSpan waitTime, System.TimeSpan pollInterval, string because = "", params object[] becauseArgs) { }
-        public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> NotThrowAsync(string because = "", params object[] becauseArgs) { }
         public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<TAssertions>> NotThrowAsync<TException>(string because = "", params object[] becauseArgs)
             where TException : System.Exception { }
         public System.Threading.Tasks.Task<FluentAssertions.Specialized.ExceptionAssertions<TException>> ThrowAsync<TException>(string because = "", params object[] becauseArgs)
@@ -2133,10 +2130,8 @@ namespace FluentAssertions.Specialized
     {
         protected DelegateAssertions(TDelegate @delegate, FluentAssertions.Specialized.IExtractExceptions extractor) { }
         protected abstract void InvokeSubject();
-        public FluentAssertions.AndConstraint<TAssertions> NotThrow(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotThrow<TException>(string because = "", params object[] becauseArgs)
             where TException : System.Exception { }
-        public FluentAssertions.AndConstraint<TAssertions> NotThrowAfter(System.TimeSpan waitTime, System.TimeSpan pollInterval, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.Specialized.ExceptionAssertions<TException> Throw<TException>(string because = "", params object[] becauseArgs)
             where TException : System.Exception { }
         public FluentAssertions.Specialized.ExceptionAssertions<TException> ThrowExactly<TException>(string because = "", params object[] becauseArgs)
@@ -2205,6 +2200,9 @@ namespace FluentAssertions.Specialized
     {
         public NonGenericAsyncFunctionAssertions(System.Func<System.Threading.Tasks.Task> subject, FluentAssertions.Specialized.IExtractExceptions extractor) { }
         public NonGenericAsyncFunctionAssertions(System.Func<System.Threading.Tasks.Task> subject, FluentAssertions.Specialized.IExtractExceptions extractor, FluentAssertions.Common.IClock clock) { }
+        public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<FluentAssertions.Specialized.NonGenericAsyncFunctionAssertions>> CompleteWithinAsync(System.TimeSpan timeSpan, string because = "", params object[] becauseArgs) { }
+        public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<FluentAssertions.Specialized.NonGenericAsyncFunctionAssertions>> NotThrowAfterAsync(System.TimeSpan waitTime, System.TimeSpan pollInterval, string because = "", params object[] becauseArgs) { }
+        public System.Threading.Tasks.Task<FluentAssertions.AndConstraint<FluentAssertions.Specialized.NonGenericAsyncFunctionAssertions>> NotThrowAsync(string because = "", params object[] becauseArgs) { }
     }
     public class TaskCompletionSourceAssertionsBase
     {

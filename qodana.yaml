@@ -1,7 +1,7 @@
 version: "1.0"
 
 linter: jetbrains/qodana-dotnet:latest
-failThreshold: 57
+failThreshold: 13
 
 dotnet:
   solution: FluentAssertions.sln
@@ -9,6 +9,7 @@ dotnet:
 exclude:
   - name: ConvertIfStatementToReturnStatement
   - name: ConvertIfStatementToConditionalTernaryExpression
+  - name: InvertIf
   - name: SimilarAnonymousTypeNearby
     paths:
       - Tests
@@ -19,3 +20,6 @@ exclude:
       - Tests/AssemblyB
       - Tests/Benchmarks
       - Tests/UWP.Specs
+  - name: UnusedMember.Global
+  - name: ArrangeTrailingCommaInMultilineLists
+  - name: ArrangeTrailingCommaInSinglelineLists

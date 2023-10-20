@@ -6,18 +6,26 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Specialized;
 
+/// <summary>
+/// Contains a number of methods to assert that an asynchronous method yields the expected result.
+/// </summary>
+/// <typeparam name="TResult">The type returned in the <see cref="Task{T}"/>.</typeparam>
 public class GenericAsyncFunctionAssertions<TResult>
     : AsyncFunctionAssertions<Task<TResult>, GenericAsyncFunctionAssertions<TResult>>
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GenericAsyncFunctionAssertions{TResult}"/> class.
+    /// </summary>
     public GenericAsyncFunctionAssertions(Func<Task<TResult>> subject, IExtractExceptions extractor)
         : this(subject, extractor, new Clock())
     {
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GenericAsyncFunctionAssertions{TResult}"/> class with custom <see cref="IClock"/>.
+    /// </summary>
     public GenericAsyncFunctionAssertions(Func<Task<TResult>> subject, IExtractExceptions extractor, IClock clock)
-#pragma warning disable CS0618 // is currently obsolete to make it protected in Version 7
         : base(subject, extractor, clock)
-#pragma warning restore CS0618
     {
     }
 
@@ -32,7 +40,7 @@ public class GenericAsyncFunctionAssertions<TResult>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public new async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> CompleteWithinAsync(
+    public async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> CompleteWithinAsync(
         TimeSpan timeSpan, string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
@@ -78,7 +86,7 @@ public class GenericAsyncFunctionAssertions<TResult>
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public new async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAsync(
+    public async Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAsync(
         string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
@@ -125,7 +133,7 @@ public class GenericAsyncFunctionAssertions<TResult>
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="waitTime"/> or <paramref name="pollInterval"/> are negative.</exception>
-    public new Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAfterAsync(
+    public Task<AndWhichConstraint<GenericAsyncFunctionAssertions<TResult>, TResult>> NotThrowAfterAsync(
         TimeSpan waitTime, TimeSpan pollInterval, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNegative(waitTime);

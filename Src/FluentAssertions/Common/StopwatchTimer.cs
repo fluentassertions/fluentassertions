@@ -5,12 +5,7 @@ namespace FluentAssertions.Common;
 
 internal sealed class StopwatchTimer : ITimer
 {
-    private readonly Stopwatch stopwatch;
-
-    public StopwatchTimer()
-    {
-        stopwatch = Stopwatch.StartNew();
-    }
+    private readonly Stopwatch stopwatch = Stopwatch.StartNew();
 
     public TimeSpan Elapsed => stopwatch.Elapsed;
 

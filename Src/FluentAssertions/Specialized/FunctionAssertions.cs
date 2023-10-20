@@ -38,7 +38,7 @@ public class FunctionAssertions<T> : DelegateAssertions<Func<T>, FunctionAsserti
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public new AndWhichConstraint<FunctionAssertions<T>, T> NotThrow(string because = "", params object[] becauseArgs)
+    public AndWhichConstraint<FunctionAssertions<T>, T> NotThrow(string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion
             .ForCondition(Subject is not null)
@@ -78,7 +78,7 @@ public class FunctionAssertions<T> : DelegateAssertions<Func<T>, FunctionAsserti
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="waitTime"/> or <paramref name="pollInterval"/> are negative.</exception>
-    public new AndWhichConstraint<FunctionAssertions<T>, T> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval,
+    public AndWhichConstraint<FunctionAssertions<T>, T> NotThrowAfter(TimeSpan waitTime, TimeSpan pollInterval,
         string because = "", params object[] becauseArgs)
     {
         bool success = Execute.Assertion

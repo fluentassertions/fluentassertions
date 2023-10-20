@@ -124,6 +124,8 @@ myClient.Should().BeActive("because we don't work with old clients");
 
 Without the `[CustomAssertion]` attribute, Fluent Assertions would find the line that calls `Should().BeTrue()` and treat the `customer` variable as the subject-under-test (SUT). But by applying this attribute, it will ignore this invocation and instead find the SUT by looking for a call to `Should().BeActive()` and use the `myClient` variable instead.
 
+Alternatively, you can add the `[assembly:CustomAssertionsAssembly]` attribute to a file within the project to tell Fluent Assertions that all code in that assembly should be treated as custom assertion code.
+
 ## Assertion Scopes
 
 You can batch multiple assertions into an `AssertionScope` so that FluentAssertions throws one exception at the end of the scope with all failures.

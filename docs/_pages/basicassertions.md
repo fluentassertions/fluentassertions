@@ -76,17 +76,9 @@ Some users requested the ability to easily downcast an object to one of its deri
 customer.Animals.First().As<Human>().Height.Should().Be(178);
 ```
 
-We’ve also added the possibility to assert that an object can be serialized and deserialized using the XML, binary or data contract formatters.
+We’ve also added the possibility to assert that an object can be serialized and deserialized using the XML or data contract formatters.
 
 ```csharp
 theObject.Should().BeXmlSerializable();
-theObject.Should().BeBinarySerializable();
 theObject.Should().BeDataContractSerializable();
-```
-
-Internally, `BeBinarySerializable` uses the [Object graph comparison](objectgraphs.md) API, so if you are in need of excluding certain properties from the comparison (for instance, because its backing field is `[NonSerializable]`, you can do this:
-
-```csharp
-theObject.Should().BeBinarySerializable<MyClass>(
-    options => options.Excluding(s => s.SomeNonSerializableProperty));
 ```

@@ -462,7 +462,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     {
         Guard.ThrowIfArgumentIsNull(interfaceType);
 
-        bool containsInterface = Subject.GetInterfaces().Contains(interfaceType);
+        bool containsInterface = interfaceType.IsAssignableFrom(Subject) && interfaceType != Subject;
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)
@@ -511,7 +511,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     {
         Guard.ThrowIfArgumentIsNull(interfaceType);
 
-        bool containsInterface = Subject.GetInterfaces().Contains(interfaceType);
+        bool containsInterface = interfaceType.IsAssignableFrom(Subject) && interfaceType != Subject;
 
         Execute.Assertion
             .BecauseOf(because, becauseArgs)

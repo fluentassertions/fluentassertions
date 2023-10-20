@@ -101,6 +101,18 @@ public class ExecutionTimeAssertionsSpecs
             act.Should().ThrowExactly<XunitException>()
                 .Which.Message.Should().Contain("{}").And.NotContain("{0}");
         }
+
+        [Fact]
+        public void Chaining_after_one_assertion()
+        {
+            // Arrange
+            var subject = new SleepingClass();
+
+            // Act / Assert
+            subject.ExecutionTimeOf(s => s.Sleep(0))
+                .Should().BeLessThanOrEqualTo(500.Milliseconds())
+                .And.BeCloseTo(0.Seconds(), 500.Milliseconds());
+        }
     }
 
     public class BeLessThan
@@ -309,6 +321,18 @@ public class ExecutionTimeAssertionsSpecs
             // Assert
             act.Should().ThrowExactly<XunitException>()
                 .Which.Message.Should().Contain("{}").And.NotContain("{0}");
+        }
+
+        [Fact]
+        public void Chaining_after_one_assertion()
+        {
+            // Arrange
+            var subject = new SleepingClass();
+
+            // Act / Assert
+            subject.ExecutionTimeOf(s => s.Sleep(100))
+                .Should().BeGreaterThanOrEqualTo(50.Milliseconds())
+                .And.BeCloseTo(0.Seconds(), 500.Milliseconds());
         }
     }
 

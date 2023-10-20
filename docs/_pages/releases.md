@@ -13,6 +13,7 @@ sidebar:
 
 ### Improvements
 * Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)
+* You can mark all assertions in an assembly as custom assertions using the `[CustomAssertionsAssembly]` attribute - [#2389](https://github.com/fluentassertions/fluentassertions/pull/2389)
 * Allow `IEqualityComparer` in string `BeEquivalentTo` and `NotBeEquivalentTo` assertion - [#2372](https://github.com/fluentassertions/fluentassertions/pull/2372)
 
 ### Fixes
@@ -20,6 +21,10 @@ sidebar:
 `BeWithin(...).Before(...)` - [#2312](https://github.com/fluentassertions/fluentassertions/pull/2312)
 * `BeEquivalentTo` will now find and can map subject properties that are implemented through an explicitly-implemented interface - [#2152](https://github.com/fluentassertions/fluentassertions/pull/2152)
 * Fixed that the `because` and `becauseArgs` were not passed down the equivalency tree - [#2318](https://github.com/fluentassertions/fluentassertions/pull/2318)
+* `BeEquivalentTo` can again compare a non-generic `IDictionary` with a generic one - [#2358](https://github.com/fluentassertions/fluentassertions/pull/2358)
+* Fixed that the `FormattingOptions` were not respected in inner `AssertionScope` - [#2329](https://github.com/fluentassertions/fluentassertions/pull/2329)
+* Capitalize `true` and `false` in failure messages and make them formattable to a custom `BooleanFormatter` - [#2390](https://github.com/fluentassertions/fluentassertions/pull/2390), [#2393](https://github.com/fluentassertions/fluentassertions/pull/2393)
+
 
 ### Breaking Changes (for users)
 * Moved support for `DataSet`, `DataTable`, `DataRow` and `DataColumn` into a new package `FluentAssertions.DataSet` - [#2267](https://github.com/fluentassertions/fluentassertions/pull/2267)
@@ -41,9 +46,15 @@ sidebar:
 * `AllSatisfy` now succeeds when asserting that an empty collection satisfies some predicates - [#2321](https://github.com/fluentassertions/fluentassertions/pull/2321)
 * `OnlyContain` now succeeds when asserting that an empty collection matches some predicates - [#2350](https://github.com/fluentassertions/fluentassertions/pull/2350)
 * Dropped support for `NSpec3` test framework - [#2356](https://github.com/fluentassertions/fluentassertions/pull/2356)
+* Dropped support for `BinaryFormatter` - [#2278](https://github.com/fluentassertions/fluentassertions/pull/2278)
 
 ### Breaking Changes (for extensions)
 * Add `ForConstraint` to `IAssertionsScope` to support chaining `.ForConstraint()` after `.Then` - [#2324](https://github.com/fluentassertions/fluentassertions/pull/2324)
+* Refactored `AsyncFunctionAssertions` into real base class - [#2359](https://github.com/fluentassertions/fluentassertions/pull/2359)
+  * Its constructor has been made `protected`.
+  * Unused constructors have been removed.
+  * Methods overwritten in `GenericAsyncFunctionAssertions` has been moved to `NonGenericAsyncFunctionAssertions`.
+* Moved the non-generic `NotThrow` and `NotThrowAfter` from `DelegateAssertions<TDelegate, TAssertions>` to `ActionAssertions` - [#2371](https://github.com/fluentassertions/fluentassertions/pull/2371)
 
 ## 6.12.0
 

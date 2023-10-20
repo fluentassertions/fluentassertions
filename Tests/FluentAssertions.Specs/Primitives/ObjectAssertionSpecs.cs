@@ -186,6 +186,26 @@ public class ObjectAssertionSpecs
             // Assert
             act.Should().Throw<ArgumentNullException>().WithParameterName("comparer");
         }
+
+        [Fact]
+        public void Chaining_after_one_assertion()
+        {
+            // Arrange
+            var value = new SomeClass(3);
+
+            // Act / Assert
+            value.Should().Be(value).And.NotBeNull();
+        }
+
+        [Fact]
+        public void Can_chain_multiple_assertions()
+        {
+            // Arrange
+            var value = new object();
+
+            // Act / Assert
+            value.Should().Be<object>(value, new DumbObjectEqualityComparer()).And.NotBeNull();
+        }
     }
 
     public class NotBe
@@ -314,6 +334,26 @@ public class ObjectAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithParameterName("comparer");
+        }
+
+        [Fact]
+        public void Chaining_after_one_assertion()
+        {
+            // Arrange
+            var value = new SomeClass(3);
+
+            // Act / Assert
+            value.Should().NotBe(new SomeClass(3)).And.NotBeNull();
+        }
+
+        [Fact]
+        public void Can_chain_multiple_assertions()
+        {
+            // Arrange
+            var value = new object();
+
+            // Act / Assert
+            value.Should().NotBe<object>(new object(), new DumbObjectEqualityComparer()).And.NotBeNull();
         }
     }
 
@@ -507,6 +547,26 @@ public class ObjectAssertionSpecs
 
             // Assert
             act.Should().Throw<ArgumentNullException>().WithParameterName("comparer");
+        }
+
+        [Fact]
+        public void Chaining_after_one_assertion()
+        {
+            // Arrange
+            var value = new SomeClass(3);
+
+            // Act / Assert
+            value.Should().BeOneOf(value).And.NotBeNull();
+        }
+
+        [Fact]
+        public void Can_chain_multiple_assertions()
+        {
+            // Arrange
+            var value = new object();
+
+            // Act / Assert
+            value.Should().BeOneOf<object>(new[] { value }, new DumbObjectEqualityComparer()).And.NotBeNull();
         }
     }
 
@@ -1251,188 +1311,6 @@ public class ObjectAssertionSpecs
         }
     }
 
-    public class BeBinarySerializable
-    {
-        [Fact]
-        public void When_an_object_is_binary_serializable_it_should_succeed()
-        {
-            // Arrange
-            var subject = new SerializableClass
-            {
-                Name = "John",
-                Id = 2
-            };
-
-            // Act
-            Action act = () => subject.Should().BeBinarySerializable();
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_an_object_is_binary_serializable_with_non_serializable_members_it_should_succeed()
-        {
-            // Arrange
-            var subject = new SerializableClassWithNonSerializableMember
-            {
-                Name = "John",
-                NonSerializable = "Nonserializable value"
-            };
-
-            // Act
-            Action act = () => subject.Should().BeBinarySerializable<SerializableClassWithNonSerializableMember>(options =>
-                options.Excluding(s => s.NonSerializable));
-
-            // Assert
-            act.Should().NotThrow();
-        }
-
-        [Fact]
-        public void When_injecting_null_options_it_should_throw()
-        {
-            // Arrange
-            var subject = new SerializableClassWithNonSerializableMember();
-
-            // Act
-            Action act = () => subject.Should().BeBinarySerializable<SerializableClassWithNonSerializableMember>(options: null);
-
-            // Assert
-            act.Should().ThrowExactly<ArgumentNullException>()
-                .WithParameterName("options");
-        }
-
-        [Fact]
-        public void When_an_object_is_not_binary_serializable_it_should_fail()
-        {
-            // Arrange
-            var subject = new UnserializableClass
-            {
-                Name = "John"
-            };
-
-            // Act
-            Action act = () => subject.Should().BeBinarySerializable("we need to store it on {0}", "disk");
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage(
-                    "*to be serializable because we need to store it on disk, but serialization failed with:*UnserializableClass*");
-        }
-
-        [Fact]
-        public void When_an_object_is_binary_serializable_but_not_deserializable_it_should_fail()
-        {
-            // Arrange
-            var subject = new BinarySerializableClassMissingDeserializationConstructor
-            {
-                Name = "John",
-                BirthDay = 20.September(1973)
-            };
-
-            // Act
-            Action act = () => subject.Should().BeBinarySerializable();
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage(
-                    "*to be serializable, but serialization failed with:*BinarySerializableClassMissingDeserializationConstructor*");
-        }
-
-        [Fact]
-        public void When_an_object_is_binary_serializable_but_doesnt_restore_all_properties_it_should_fail()
-        {
-            // Arrange
-            var subject = new BinarySerializableClassNotRestoringAllProperties
-            {
-                Name = "John",
-                BirthDay = 20.September(1973)
-            };
-
-            // Act
-            Action act = () => subject.Should().BeBinarySerializable();
-
-            // Assert
-            act.Should().Throw<XunitException>()
-                .WithMessage("*to be serializable, but serialization failed with:*subject.Name*to be*");
-        }
-
-        [Fact]
-        public void When_a_system_exception_is_asserted_to_be_serializable_it_should_compare_its_fields_and_properties()
-        {
-            // Arrange
-            var subject = new Exception("some error");
-
-            // Act
-            Action act = () => subject.Should().BeBinarySerializable();
-
-            // Assert
-            act.Should().NotThrow();
-        }
-    }
-
-    internal class UnserializableClass
-    {
-        public string Name { get; set; }
-    }
-
-    [Serializable]
-    public class SerializableClass
-    {
-        public string Name { get; set; }
-
-        public int Id;
-    }
-
-    [Serializable]
-    public class SerializableClassWithNonSerializableMember
-    {
-        [NonSerialized]
-        private string nonSerializable;
-
-        public string Name { get; set; }
-
-        public string NonSerializable
-        {
-            get => nonSerializable;
-            set => nonSerializable = value;
-        }
-    }
-
-    [Serializable]
-    internal class BinarySerializableClassMissingDeserializationConstructor : ISerializable
-    {
-        public string Name { get; set; }
-
-        public DateTime BirthDay { get; set; }
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-        }
-    }
-
-    [Serializable]
-    internal class BinarySerializableClassNotRestoringAllProperties : ISerializable
-    {
-        public string Name { get; set; }
-
-        public DateTime BirthDay { get; set; }
-
-        public BinarySerializableClassNotRestoringAllProperties()
-        {
-        }
-
-        public BinarySerializableClassNotRestoringAllProperties(SerializationInfo info, StreamingContext context)
-        {
-            BirthDay = info.GetDateTime("BirthDay");
-        }
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("BirthDay", BirthDay);
-        }
-    }
-
     public class BeXmlSerializable
     {
         [Fact]
@@ -1661,6 +1539,13 @@ internal class SomeClass
     public int Key { get; }
 
     public override string ToString() => $"SomeClass({Key})";
+}
+
+internal class DumbObjectEqualityComparer : IEqualityComparer<object>
+{
+    public new bool Equals(object x, object y) => x.Equals(y);
+
+    public int GetHashCode(object obj) => obj.GetHashCode();
 }
 
 internal class SomeClassEqualityComparer : IEqualityComparer<SomeClass>
