@@ -22,7 +22,7 @@ sidebar:
 * Fixed that the `because` and `becauseArgs` were not passed down the equivalency tree - [#2318](https://github.com/fluentassertions/fluentassertions/pull/2318)
 * `BeEquivalentTo` can again compare a non-generic `IDictionary` with a generic one - [#2358](https://github.com/fluentassertions/fluentassertions/pull/23158)
 * Fixed that the `FormattingOptions` were not respected in inner `AssertionScope` - [#2328](https://github.com/fluentassertions/fluentassertions/pull/2328)
-* Capitalize `true` and `false` in failure messages - [#2390](https://github.com/fluentassertions/fluentassertions/pull/2390), but changed to pass them as argument to be able to be picked up by custom `BooleanFormatter` - [#2393](https://github.com/fluentassertions/fluentassertions/pull/2393)
+* Capitalize `true` and `false` in failure messages and make them formattable to a custom `BooleanFormatter` - [#2390](https://github.com/fluentassertions/fluentassertions/pull/2390), [#2393](https://github.com/fluentassertions/fluentassertions/pull/2393)
 
 
 ### Breaking Changes (for users)
