@@ -12,7 +12,7 @@ namespace FluentAssertions.Specialized;
 public class ActionAssertions : DelegateAssertions<Action, ActionAssertions>
 {
     public ActionAssertions(Action subject, IExtractExceptions extractor)
-        : this(subject, extractor, new Clock())
+        : base(subject, extractor)
     {
     }
 

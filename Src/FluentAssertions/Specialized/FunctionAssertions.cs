@@ -12,7 +12,7 @@ namespace FluentAssertions.Specialized;
 public class FunctionAssertions<T> : DelegateAssertions<Func<T>, FunctionAssertions<T>>
 {
     public FunctionAssertions(Func<T> subject, IExtractExceptions extractor)
-        : this(subject, extractor, new Clock())
+        : base(subject, extractor)
     {
     }
 
