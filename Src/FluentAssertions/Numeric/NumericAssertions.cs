@@ -449,12 +449,15 @@ public class NumericAssertions<T, TAssertions>
     {
         Guard.ThrowIfArgumentIsNull(unexpectedType);
 
-        Execute.Assertion
+        bool success = Execute.Assertion
             .ForCondition(Subject.HasValue)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected type not to be " + unexpectedType + "{reason}, but found <null>.");
 
-        Subject.GetType().Should().NotBe(unexpectedType, because, becauseArgs);
+        if (success)
+        {
+            Subject.GetType().Should().NotBe(unexpectedType, because, becauseArgs);
+        }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
