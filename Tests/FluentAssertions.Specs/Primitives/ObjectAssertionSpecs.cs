@@ -815,7 +815,10 @@ public class ObjectAssertionSpecs
 
             // Act
             Action act = () =>
+            {
+                using var _ = new AssertionScope();
                 valueTypeObject.Should().NotBeOfType(typeof(int), "because we want to test the failure {0}", "message");
+            };
 
             // Assert
             act.Should().Throw<XunitException>()
