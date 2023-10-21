@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 using FluentAssertions.Common;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -557,6 +558,24 @@ public class PropertyInfoAssertionSpecs
         }
 
         [Fact]
+        public void Do_not_the_check_access_modifier_when_the_property_is_not_readable()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WriteOnlyProperty");
+
+            // Act
+            Action action = () =>
+            {
+                using var _ = new AssertionScope();
+                propertyInfo.Should().BeReadable(CSharpAccessModifier.Private);
+            };
+
+            // Assert
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected property WriteOnlyProperty to have a getter, but it does not.");
+        }
+
+        [Fact]
         public void When_subject_is_null_be_readable_with_accessmodifier_should_fail()
         {
             // Arrange
@@ -616,6 +635,24 @@ public class PropertyInfoAssertionSpecs
             action.Should().Throw<XunitException>()
                 .WithMessage(
                     "Expected method set_ReadPrivateWriteProperty to be Public because we want to test the error message, but it is Private.");
+        }
+
+        [Fact]
+        public void Do_not_the_check_access_modifier_when_the_property_is_not_writable()
+        {
+            // Arrange
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("ReadOnlyProperty");
+
+            // Act
+            Action action = () =>
+            {
+                using var _ = new AssertionScope();
+                propertyInfo.Should().BeWritable(CSharpAccessModifier.Private);
+            };
+
+            // Assert
+            action.Should().Throw<XunitException>()
+                .WithMessage("Expected propertyInfo ReadOnlyProperty to have a setter.");
         }
 
         [Fact]
