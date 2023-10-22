@@ -361,7 +361,7 @@ public class ObjectAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<T
 
         using (var scope = new AssertionScope())
         {
-            Subject.Should().BeEquivalentTo(unexpected, config);
+            BeEquivalentTo(unexpected, config);
             hasMismatches = scope.Discard().Length > 0;
         }
 

@@ -1845,7 +1845,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
         using (var scope = new AssertionScope())
         {
-            Subject.Should().BeEquivalentTo(unexpected, config);
+            BeEquivalentTo(unexpected, config);
 
             failures = scope.Discard();
         }
