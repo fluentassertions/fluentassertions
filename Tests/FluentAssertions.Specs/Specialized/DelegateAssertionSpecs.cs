@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+using FluentAssertions.Execution;
 using FluentAssertions.Specialized;
 using Xunit;
 
@@ -33,5 +35,23 @@ public class DelegateAssertionSpecs
         // Act
         act.Should().ThrowExactly<ArgumentNullException>()
             .WithParameterName("clock");
+    }
+
+    public class ThrowExactly
+    {
+        [Fact]
+        public void Does_not_continue_assertion_on_exact_exception_type()
+        {
+            // Arrange
+            var a = () => { };
+
+            // Act
+            using var scope = new AssertionScope();
+            a.Should().ThrowExactly<InvalidOperationException>();
+
+            // Assert
+            scope.Discard().Should().ContainSingle()
+                .Which.Should().Match("*InvalidOperationException*no exception*");
+        }
     }
 }
