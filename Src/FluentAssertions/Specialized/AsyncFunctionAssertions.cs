@@ -138,12 +138,15 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
         {
             Exception exception = await InvokeWithInterceptionAsync(Subject);
 
-            Execute.Assertion
+            success = Execute.Assertion
                 .ForCondition(exception is not null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {0}{reason}, but no exception was thrown.", expectedType);
 
-            exception.Should().BeOfType(expectedType, because, becauseArgs);
+            if (success)
+            {
+                exception.Should().BeOfType(expectedType, because, becauseArgs);
+            }
 
             return new ExceptionAssertions<TException>(new[] { exception as TException });
         }

@@ -21,6 +21,8 @@ sidebar:
 * Capitalize `true` and `false` in failure messages and make them formattable to a custom `BooleanFormatter` - [#2390](https://github.com/fluentassertions/fluentassertions/pull/2390), [#2393](https://github.com/fluentassertions/fluentassertions/pull/2393)
 * Improved the failure message for `NotBeOfType` when wrapped in an `AssertionScope` and the subject is null  - [#2399](https://github.com/fluentassertions/fluentassertions/pull/2399)
 * Improved the failure message for `BeWritable`/`BeReadable` when wrapped in an `AssertionScope` and the subject is read-only/write-only - [#2399](https://github.com/fluentassertions/fluentassertions/pull/2399)
+* Improved the failure message for `ThrowExactly[Async]` when wrapped in an `AssertionScope` and no exception is thrown - [#2398](https://github.com/fluentassertions/fluentassertions/pull/2398)
+
 
 ## 6.12.0
 

@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions.Execution;
 using FluentAssertions.Extensions;
+using FluentAssertions.Specialized;
 using Xunit;
 using Xunit.Sdk;
 
@@ -463,6 +464,24 @@ public static class TaskAssertionSpecs
             await action.Should().ThrowAsync<XunitException>().WithMessage(
                 "Expected a <System.InvalidOperationException> to be thrown within 1s,"
                 + " but found <System.NotSupportedException>:*foo*");
+        }
+    }
+
+    public class ThrowExactlyAsync
+    {
+        [Fact]
+        public async Task Does_not_continue_assertion_on_exact_exception_type()
+        {
+            // Arrange
+            var a = () => Task.Delay(1);
+
+            // Act
+            using var scope = new AssertionScope();
+            await a.Should().ThrowExactlyAsync<InvalidOperationException>();
+
+            // Assert
+            scope.Discard().Should().ContainSingle()
+                .Which.Should().Match("*InvalidOperationException*no exception*");
         }
     }
 
