@@ -143,7 +143,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
 
         using (var scope = new AssertionScope())
         {
-            Subject.Should().BeEquivalentTo(unexpected);
+            BeEquivalentTo(unexpected);
             notEquivalent = scope.Discard().Length > 0;
         }
 
