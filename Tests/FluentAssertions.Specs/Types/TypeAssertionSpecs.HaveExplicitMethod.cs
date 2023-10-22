@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -182,6 +183,19 @@ public partial class TypeAssertionSpecs
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
+        }
+
+        [Fact]
+        public void Does_not_continue_assertion_on_explicit_interface_implementation_if_not_implemented_at_all()
+        {
+            var act = () =>
+            {
+                using var _ = new AssertionScope();
+                typeof(ClassWithMembers).Should().HaveExplicitMethod(typeof(IExplicitInterface), "Foo", new Type[0]);
+            };
+
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type *ClassWithMembers* to*implement *IExplicitInterface, but it does not.");
         }
     }
 
@@ -439,6 +453,21 @@ public partial class TypeAssertionSpecs
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
+        }
+
+        [Fact]
+        public void Does_not_continue_assertion_on_explicit_interface_implementation_if_implemented()
+        {
+            var act = () =>
+            {
+                using var _ = new AssertionScope();
+                typeof(ClassExplicitlyImplementingInterface)
+                    .Should().NotHaveExplicitMethod(typeof(IExplicitInterface), "ExplicitMethod", new Type[0]);
+            };
+
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected *ClassExplicitlyImplementingInterface* to not*implement " +
+                    "*IExplicitInterface.ExplicitMethod(), but it does.");
         }
     }
 
