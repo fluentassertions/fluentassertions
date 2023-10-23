@@ -13,7 +13,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0'">
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisLevel>7.0</AnalysisLevel>
     <AnalysisMode>All</AnalysisMode>
     <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
   </PropertyGroup>
