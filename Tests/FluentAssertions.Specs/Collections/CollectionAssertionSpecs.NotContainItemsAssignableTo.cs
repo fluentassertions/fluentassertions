@@ -63,6 +63,16 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
+        public void Succeed_when_type_as_parameter_is_valid_type()
+        {
+            // Arrange
+            var collection = new[] { 1, 2, 3 };
+
+            // Act / Assert
+            collection.Should().NotContainItemsAssignableTo(typeof(string));
+        }
+
+        [Fact]
         public void Throws_when_the_collection_is_null()
         {
             // Arrange
