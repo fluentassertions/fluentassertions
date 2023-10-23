@@ -23,3 +23,6 @@ exclude:
   - name: UnusedMember.Global
   - name: ArrangeTrailingCommaInMultilineLists
   - name: ArrangeTrailingCommaInSinglelineLists
+  - name: ConvertToLambdaExpression
+  - name: SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
+  - name: UnusedMemberInSuper.Global
