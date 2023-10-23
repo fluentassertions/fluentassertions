@@ -52,13 +52,13 @@ internal sealed class TypeMemberReflector
         });
     }
 
-    private static bool IsPublic(MethodInfo getMethod) =>
+    private static bool IsPublic(MethodBase getMethod) =>
         !getMethod.IsPrivate && !getMethod.IsFamily;
 
-    private static bool IsExplicitlyImplemented(MethodInfo getMethod) =>
+    private static bool IsExplicitlyImplemented(MethodBase getMethod) =>
         getMethod.IsPrivate && getMethod.IsFinal;
 
-    private static bool IsInternal(MethodInfo getMethod) =>
+    private static bool IsInternal(MethodBase getMethod) =>
         getMethod.IsAssembly || getMethod.IsFamilyOrAssembly;
 
     private static bool IsExplicitImplementation(PropertyInfo property)
