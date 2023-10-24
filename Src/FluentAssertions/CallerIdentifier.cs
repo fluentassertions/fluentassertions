@@ -55,7 +55,8 @@ public static class CallerIdentifier
                 if (frame.GetMethod() is not null
                     && !IsDynamic(frame)
                     && !IsDotNet(frame)
-                    && !IsCustomAssertion(frame))
+                    && !IsCustomAssertion(frame)
+                    && !IsCurrentAssembly(frame))
                 {
                     caller = ExtractVariableNameFrom(frame);
                     break;
