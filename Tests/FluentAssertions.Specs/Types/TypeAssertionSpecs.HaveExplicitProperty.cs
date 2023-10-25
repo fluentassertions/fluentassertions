@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Sdk;
 
@@ -167,6 +168,19 @@ public partial class TypeAssertionSpecs
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
+        }
+
+        [Fact]
+        public void Does_not_continue_assertion_on_explicit_interface_implementation_if_not_implemented_at_all()
+        {
+            var act = () =>
+            {
+                using var _ = new AssertionScope();
+                typeof(int).Should().HaveExplicitProperty(typeof(IExplicitInterface), "Foo");
+            };
+
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected type System.Int32 to*implement *IExplicitInterface, but it does not.");
         }
     }
 
@@ -394,6 +408,21 @@ public partial class TypeAssertionSpecs
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
                 .WithParameterName("name");
+        }
+
+        [Fact]
+        public void Does_not_continue_assertion_on_explicit_interface_implementation_if_implemented()
+        {
+            var act = () =>
+            {
+                using var _ = new AssertionScope();
+                typeof(ClassExplicitlyImplementingInterface)
+                    .Should().NotHaveExplicitProperty(typeof(IExplicitInterface), "ExplicitStringProperty");
+            };
+
+            act.Should().Throw<XunitException>()
+                .WithMessage("Expected *ClassExplicitlyImplementingInterface* to*implement " +
+                    "*IExplicitInterface.ExplicitStringProperty, but it does.");
         }
     }
 
