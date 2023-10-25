@@ -462,20 +462,25 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     {
         Guard.ThrowIfArgumentIsNull(interfaceType);
 
-        bool containsInterface = interfaceType.IsAssignableFrom(Subject) && interfaceType != Subject;
-
-        Execute.Assertion
-            .BecauseOf(because, becauseArgs)
-            .WithExpectation("Expected type {0} to implement interface {1}{reason}", Subject, interfaceType)
-            .ForCondition(interfaceType.IsInterface)
-            .FailWith(", but {0} is not an interface.", interfaceType)
-            .Then
-            .ForCondition(containsInterface)
-            .FailWith(", but it does not.")
-            .Then
-            .ClearExpectation();
+        AssertSubjectImplements(interfaceType, because, becauseArgs);
 
         return new AndConstraint<TypeAssertions>(this);
+    }
+
+    private bool AssertSubjectImplements(Type interfaceType, string because = "", params object[] becauseArgs)
+    {
+        bool containsInterface = interfaceType.IsAssignableFrom(Subject) && interfaceType != Subject;
+
+        return Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected type {0} to implement interface {1}{reason}", Subject, interfaceType)
+                .ForCondition(interfaceType.IsInterface)
+                .FailWith(", but {0} is not an interface.", interfaceType)
+                .Then
+                .ForCondition(containsInterface)
+                .FailWith(", but it does not.")
+                .Then
+                .ClearExpectation();
     }
 
     /// <summary>
@@ -973,15 +978,18 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
 
         if (success)
         {
-            Subject.Should().Implement(interfaceType, because, becauseArgs);
+            success = AssertSubjectImplements(interfaceType, because, becauseArgs);
 
-            var explicitlyImplementsProperty = Subject.HasExplicitlyImplementedProperty(interfaceType, name);
+            if (success)
+            {
+                var explicitlyImplementsProperty = Subject.HasExplicitlyImplementedProperty(interfaceType, name);
 
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(explicitlyImplementsProperty)
-                .FailWith(
-                    $"Expected {Subject} to explicitly implement {interfaceType}.{name}{{reason}}, but it does not.");
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(explicitlyImplementsProperty)
+                    .FailWith(
+                        $"Expected {Subject} to explicitly implement {interfaceType}.{name}{{reason}}, but it does not.");
+            }
         }
 
         return new AndConstraint<TypeAssertions>(this);
@@ -1040,16 +1048,19 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
 
         if (success)
         {
-            Subject.Should().Implement(interfaceType, because, becauseArgs);
+            success = AssertSubjectImplements(interfaceType, because, becauseArgs);
 
-            var explicitlyImplementsProperty = Subject.HasExplicitlyImplementedProperty(interfaceType, name);
+            if (success)
+            {
+                var explicitlyImplementsProperty = Subject.HasExplicitlyImplementedProperty(interfaceType, name);
 
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(!explicitlyImplementsProperty)
-                .FailWith(
-                    $"Expected {Subject} to not explicitly implement {interfaceType}.{name}{{reason}}" +
-                    ", but it does.");
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(!explicitlyImplementsProperty)
+                    .FailWith(
+                        $"Expected {Subject} to not explicitly implement {interfaceType}.{name}{{reason}}" +
+                        ", but it does.");
+            }
         }
 
         return new AndConstraint<TypeAssertions>(this);
@@ -1111,16 +1122,19 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
 
         if (success)
         {
-            Subject.Should().Implement(interfaceType, because, becauseArgs);
+            success = AssertSubjectImplements(interfaceType, because, becauseArgs);
 
-            var explicitlyImplementsMethod = Subject.HasMethod($"{interfaceType}.{name}", parameterTypes);
+            if (success)
+            {
+                var explicitlyImplementsMethod = Subject.HasMethod($"{interfaceType}.{name}", parameterTypes);
 
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(explicitlyImplementsMethod)
-                .FailWith(
-                    $"Expected {Subject} to explicitly implement {interfaceType}.{name}" +
-                    $"({GetParameterString(parameterTypes)}){{reason}}, but it does not.");
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(explicitlyImplementsMethod)
+                    .FailWith(
+                        $"Expected {Subject} to explicitly implement {interfaceType}.{name}" +
+                        $"({GetParameterString(parameterTypes)}){{reason}}, but it does not.");
+            }
         }
 
         return new AndConstraint<TypeAssertions>(this);
@@ -1184,16 +1198,19 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
 
         if (success)
         {
-            Subject.Should().Implement(interfaceType, because, becauseArgs);
+            success = AssertSubjectImplements(interfaceType, because, becauseArgs);
 
-            var explicitlyImplementsMethod = Subject.HasMethod($"{interfaceType}.{name}", parameterTypes);
+            if (success)
+            {
+                var explicitlyImplementsMethod = Subject.HasMethod($"{interfaceType}.{name}", parameterTypes);
 
-            Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(!explicitlyImplementsMethod)
-                .FailWith(
-                    $"Expected {Subject} to not explicitly implement {interfaceType}.{name}" +
-                    $"({GetParameterString(parameterTypes)}){{reason}}, but it does.");
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(!explicitlyImplementsMethod)
+                    .FailWith(
+                        $"Expected {Subject} to not explicitly implement {interfaceType}.{name}" +
+                        $"({GetParameterString(parameterTypes)}){{reason}}, but it does.");
+            }
         }
 
         return new AndConstraint<TypeAssertions>(this);
