@@ -62,7 +62,7 @@ public static class Services
 #if NETFRAMEWORK || NET6_0_OR_GREATER
                 ConfigurationStore = new ConfigurationStoreExceptionInterceptor(new AppSettingsConfigurationStore());
 #else
-                    ConfigurationStore = new NullConfigurationStore();
+                ConfigurationStore = new NullConfigurationStore();
 #endif
                 ThrowException = new TestFrameworkProvider(Configuration).Throw;
 
@@ -107,12 +107,12 @@ public static class Services
 
     private static bool IsFramework(Assembly assembly)
     {
-    #if NET6_0_OR_GREATER
+#if NET6_0_OR_GREATER
         return assembly!.FullName?.StartsWith("Microsoft.", StringComparison.OrdinalIgnoreCase) == true ||
             assembly.FullName?.StartsWith("System.", StringComparison.OrdinalIgnoreCase) == true;
-    #else
+#else
         return assembly.FullName.StartsWith("Microsoft.", StringComparison.OrdinalIgnoreCase) ||
             assembly.FullName.StartsWith("System.", StringComparison.OrdinalIgnoreCase);
-    #endif
+#endif
     }
 }
