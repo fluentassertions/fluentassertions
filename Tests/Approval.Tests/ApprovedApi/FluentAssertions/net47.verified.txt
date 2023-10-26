@@ -49,6 +49,10 @@ namespace FluentAssertions
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
             "ly following \'And\'", true)]
         public static void Should(this FluentAssertions.Types.MethodInfoSelectorAssertions _) { }
+        public static FluentAssertions.Types.ParameterInfoSelectorAssertions Should(this FluentAssertions.Types.ParameterInfoSelector parameterInfoSelector) { }
+        [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
+            "ly following \'And\'", true)]
+        public static void Should(this FluentAssertions.Types.ParameterInfoSelectorAssertions _) { }
         public static FluentAssertions.Types.PropertyInfoSelectorAssertions Should(this FluentAssertions.Types.PropertyInfoSelector propertyInfoSelector) { }
         [System.Obsolete("You are asserting the \'AndConstraint\' itself. Remove the \'Should()\' method direct" +
             "ly following \'And\'", true)]
@@ -72,7 +76,7 @@ namespace FluentAssertions
         public static FluentAssertions.Types.AssemblyAssertions Should(this System.Reflection.Assembly assembly) { }
         public static FluentAssertions.Types.ConstructorInfoAssertions Should(this System.Reflection.ConstructorInfo constructorInfo) { }
         public static FluentAssertions.Types.MethodInfoAssertions Should(this System.Reflection.MethodInfo methodInfo) { }
-        public static FluentAssertions.Types.ParameterInfoAssertions Should(this System.Reflection.ParameterInfo parameter) { }
+        public static FluentAssertions.Types.ParameterInfoAssertions Should(this System.Reflection.ParameterInfo parameterInfo) { }
         public static FluentAssertions.Types.PropertyInfoAssertions Should(this System.Reflection.PropertyInfo propertyInfo) { }
         public static FluentAssertions.Primitives.SimpleTimeSpanAssertions Should(this System.TimeSpan actualValue) { }
         public static FluentAssertions.Primitives.NullableSimpleTimeSpanAssertions Should(this System.TimeSpan? actualValue) { }
@@ -352,6 +356,8 @@ namespace FluentAssertions
     {
         public static FluentAssertions.Types.MethodInfoSelector Methods(this FluentAssertions.Types.TypeSelector typeSelector) { }
         public static FluentAssertions.Types.MethodInfoSelector Methods(this System.Type type) { }
+        public static FluentAssertions.Types.ParameterInfoSelector Parameters(this System.Collections.Generic.IEnumerable<System.Reflection.MethodInfo> methods) { }
+        public static FluentAssertions.Types.ParameterInfoSelector Parameters(this System.Reflection.MethodInfo method) { }
         public static FluentAssertions.Types.PropertyInfoSelector Properties(this FluentAssertions.Types.TypeSelector typeSelector) { }
         public static FluentAssertions.Types.PropertyInfoSelector Properties(this System.Type type) { }
         public static FluentAssertions.Types.TypeSelector Types(this System.Collections.Generic.IEnumerable<System.Type> types) { }
@@ -2368,6 +2374,41 @@ namespace FluentAssertions.Types
     {
         public ParameterInfoAssertions(System.Reflection.ParameterInfo parameterInfo) { }
         protected override string Identifier { get; }
+    }
+    public class ParameterInfoSelector : System.Collections.Generic.IEnumerable<System.Reflection.ParameterInfo>, System.Collections.IEnumerable
+    {
+        public ParameterInfoSelector(System.Collections.Generic.IEnumerable<System.Reflection.MethodInfo> methods) { }
+        public ParameterInfoSelector(System.Reflection.MethodInfo method) { }
+        public FluentAssertions.Types.ParameterInfoSelector ThatAreInput { get; }
+        public FluentAssertions.Types.ParameterInfoSelector ThatAreNotInput { get; }
+        public FluentAssertions.Types.ParameterInfoSelector ThatAreNotOutput { get; }
+        public FluentAssertions.Types.ParameterInfoSelector ThatAreOutput { get; }
+        public FluentAssertions.Types.ParameterInfoSelector ThatDoNotHaveDefaultValue { get; }
+        public FluentAssertions.Types.ParameterInfoSelector ThatHaveDefaultValue { get; }
+        public System.Collections.Generic.IEnumerator<System.Reflection.ParameterInfo> GetEnumerator() { }
+        public FluentAssertions.Types.ParameterInfoSelector NotOfType<TReturn>() { }
+        public FluentAssertions.Types.ParameterInfoSelector OfType<TReturn>() { }
+        public FluentAssertions.Types.ParameterInfoSelector ThatAreDecoratedWith<TAttribute>()
+            where TAttribute : System.Attribute { }
+        public FluentAssertions.Types.ParameterInfoSelector ThatAreDecoratedWithOrInherit<TAttribute>()
+            where TAttribute : System.Attribute { }
+        public FluentAssertions.Types.ParameterInfoSelector ThatAreNotDecoratedWith<TAttribute>()
+            where TAttribute : System.Attribute { }
+        public FluentAssertions.Types.ParameterInfoSelector ThatAreNotDecoratedWithOrInherit<TAttribute>()
+            where TAttribute : System.Attribute { }
+        public System.Reflection.ParameterInfo[] ToArray() { }
+        public FluentAssertions.Types.TypeSelector Types() { }
+    }
+    public class ParameterInfoSelectorAssertions
+    {
+        public ParameterInfoSelectorAssertions(params System.Reflection.ParameterInfo[] parameters) { }
+        protected string Context { get; }
+        public System.Collections.Generic.IEnumerable<System.Reflection.ParameterInfo> SubjectParameters { get; }
+        public FluentAssertions.AndConstraint<FluentAssertions.Types.ParameterInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+            where TAttribute : System.Attribute { }
+        public override bool Equals(object obj) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Types.ParameterInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+            where TAttribute : System.Attribute { }
     }
     public class PropertyInfoAssertions : FluentAssertions.Types.MemberInfoAssertions<System.Reflection.PropertyInfo, FluentAssertions.Types.PropertyInfoAssertions>
     {

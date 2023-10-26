@@ -14,6 +14,11 @@ public class ParameterInfoAssertions : ReflectionAssertions<ParameterInfo, Param
     {
     }
 
+    internal static string GetDescriptionFor(ParameterInfo parameter)
+    {
+        return parameter?.Name ?? string.Empty;
+    }
+
     internal override string SubjectDescription => Subject.Name;
 
     /// <summary>

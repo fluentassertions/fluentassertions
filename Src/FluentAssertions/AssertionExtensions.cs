@@ -803,6 +803,20 @@ public static class AssertionExtensions
     }
 
     /// <summary>
+    /// Returns a <see cref="ParameterInfoSelectorAssertions"/> object that can be used to assert the properties returned by the
+    /// current <see cref="ParameterInfoSelector"/>.
+    /// </summary>
+    /// <seealso cref="TypeAssertions"/>
+    /// <exception cref="ArgumentNullException"><paramref name="parameterInfoSelector"/> is <see langword="null"/>.</exception>
+    [Pure]
+    public static ParameterInfoSelectorAssertions Should(this ParameterInfoSelector parameterInfoSelector)
+    {
+        Guard.ThrowIfArgumentIsNull(parameterInfoSelector);
+
+        return new ParameterInfoSelectorAssertions(parameterInfoSelector.ToArray());
+    }
+
+    /// <summary>
     /// Returns a <see cref="PropertyInfoAssertions"/> object that can be used to assert the
     /// current <see cref="PropertyInfoSelector"/>.
     /// </summary>
@@ -1003,6 +1017,13 @@ public static class AssertionExtensions
     public static void Should<TSubject, TAssertions>(this NumericAssertions<TSubject, TAssertions> _)
         where TSubject : struct, IComparable<TSubject>
         where TAssertions : NumericAssertions<TSubject, TAssertions>
+    {
+        InvalidShouldCall();
+    }
+
+    /// <inheritdoc cref="Should(ExecutionTimeAssertions)" />
+    [Obsolete("You are asserting the 'AndConstraint' itself. Remove the 'Should()' method directly following 'And'", error: true)]
+    public static void Should(this ParameterInfoSelectorAssertions _)
     {
         InvalidShouldCall();
     }
