@@ -1,4 +1,4 @@
-﻿[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/fluentassertions/fluentassertions")]
+[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/fluentassertions/fluentassertions")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo(@"Benchmarks, PublicKey=00240000048000009400000006020000002400005253413100040000010001002d25ff515c85b13ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f970d2a4874932fed35db546e89af2da88c194bf1b7f7ac70de7988c78406f7629c547283061282a825616eb7eb48a9514a7570942936020a9bb37dca9ff60b778309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo(@"FluentAssertions.Equivalency.Specs, PublicKey=00240000048000009400000006020000002400005253413100040000010001002d25ff515c85b13ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f970d2a4874932fed35db546e89af2da88c194bf1b7f7ac70de7988c78406f7629c547283061282a825616eb7eb48a9514a7570942936020a9bb37dca9ff60b778309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo(@"FluentAssertions.Specs, PublicKey=00240000048000009400000006020000002400005253413100040000010001002d25ff515c85b13ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f970d2a4874932fed35db546e89af2da88c194bf1b7f7ac70de7988c78406f7629c547283061282a825616eb7eb48a9514a7570942936020a9bb37dca9ff60b778309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f")]
@@ -72,6 +72,7 @@ namespace FluentAssertions
         public static FluentAssertions.Types.AssemblyAssertions Should(this System.Reflection.Assembly assembly) { }
         public static FluentAssertions.Types.ConstructorInfoAssertions Should(this System.Reflection.ConstructorInfo constructorInfo) { }
         public static FluentAssertions.Types.MethodInfoAssertions Should(this System.Reflection.MethodInfo methodInfo) { }
+        public static FluentAssertions.Types.ParameterInfoAssertions Should(this System.Reflection.ParameterInfo parameter) { }
         public static FluentAssertions.Types.PropertyInfoAssertions Should(this System.Reflection.PropertyInfo propertyInfo) { }
         public static FluentAssertions.Primitives.SimpleTimeSpanAssertions Should(this System.TimeSpan actualValue) { }
         public static FluentAssertions.Primitives.NullableSimpleTimeSpanAssertions Should(this System.TimeSpan? actualValue) { }
@@ -2081,6 +2082,19 @@ namespace FluentAssertions.Primitives
         LessThan = 4,
     }
 }
+namespace FluentAssertions.Reflection
+{
+    public class AssemblyAssertions : FluentAssertions.Types.ReflectionAssertions<System.Reflection.Assembly, FluentAssertions.Reflection.AssemblyAssertions>
+    {
+        public AssemblyAssertions(System.Reflection.Assembly assembly) { }
+        protected override string Identifier { get; }
+        public FluentAssertions.AndConstraint<FluentAssertions.Reflection.AssemblyAssertions> BeSignedWithPublicKey(string publicKey, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Reflection.AssemblyAssertions> BeUnsigned(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Reflection.AssemblyAssertions, System.Type> DefineType(string @namespace, string name, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Reflection.AssemblyAssertions> NotReference(System.Reflection.Assembly assembly, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Reflection.AssemblyAssertions> Reference(System.Reflection.Assembly assembly, string because = "", params object[] becauseArgs) { }
+    }
+}
 namespace FluentAssertions.Specialized
 {
     public class ActionAssertions : FluentAssertions.Specialized.DelegateAssertions<System.Action, FluentAssertions.Specialized.ActionAssertions>
@@ -2272,20 +2286,12 @@ namespace FluentAssertions.Types
         public ConstructorInfoAssertions(System.Reflection.ConstructorInfo constructorInfo) { }
         protected override string Identifier { get; }
     }
-    public abstract class MemberInfoAssertions<TSubject, TAssertions> : FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions>
+    public abstract class MemberInfoAssertions<TSubject, TAssertions> : FluentAssertions.Types.ReflectionAssertions<TSubject, TAssertions>
         where TSubject : System.Reflection.MemberInfo
         where TAssertions : FluentAssertions.Types.MemberInfoAssertions<TSubject, TAssertions>
     {
         protected MemberInfoAssertions(TSubject subject) { }
         protected override string Identifier { get; }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.MemberInfoAssertions<TSubject, TAssertions>, TAttribute> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
-            where TAttribute : System.Attribute { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.MemberInfoAssertions<TSubject, TAssertions>, TAttribute> BeDecoratedWith<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
-            where TAttribute : System.Attribute { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
-            where TAttribute : System.Attribute { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeDecoratedWith<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
-            where TAttribute : System.Attribute { }
     }
     public abstract class MethodBaseAssertions<TSubject, TAssertions> : FluentAssertions.Types.MemberInfoAssertions<TSubject, TAssertions>
         where TSubject : System.Reflection.MethodBase
@@ -2360,6 +2366,11 @@ namespace FluentAssertions.Types
             where TAttribute : System.Attribute { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.MethodInfoSelectorAssertions> NotBeVirtual(string because = "", params object[] becauseArgs) { }
     }
+    public class ParameterInfoAssertions : FluentAssertions.Types.ReflectionAssertions<System.Reflection.ParameterInfo, FluentAssertions.Types.ParameterInfoAssertions>
+    {
+        public ParameterInfoAssertions(System.Reflection.ParameterInfo parameterInfo) { }
+        protected override string Identifier { get; }
+    }
     public class PropertyInfoAssertions : FluentAssertions.Types.MemberInfoAssertions<System.Reflection.PropertyInfo, FluentAssertions.Types.PropertyInfoAssertions>
     {
         public PropertyInfoAssertions(System.Reflection.PropertyInfo propertyInfo) { }
@@ -2417,7 +2428,29 @@ namespace FluentAssertions.Types
         public FluentAssertions.AndConstraint<FluentAssertions.Types.PropertyInfoSelectorAssertions> NotBeVirtual(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.PropertyInfoSelectorAssertions> NotBeWritable(string because = "", params object[] becauseArgs) { }
     }
-    public class TypeAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<System.Type, FluentAssertions.Types.TypeAssertions>
+    public abstract class ReflectionAssertions<TSubject, TAssertions> : FluentAssertions.Primitives.ReferenceTypeAssertions<TSubject, TAssertions>
+        where TSubject : System.Reflection.ICustomAttributeProvider
+        where TAssertions : FluentAssertions.Types.ReflectionAssertions<TSubject, TAssertions>
+    {
+        protected ReflectionAssertions(TSubject subject) { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, TAttribute> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+            where TAttribute : System.Attribute { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, TAttribute> BeDecoratedWith<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
+            where TAttribute : System.Attribute { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, TAttribute> BeDecoratedWithOrInherit<TAttribute>(string because = "", params object[] becauseArgs)
+            where TAttribute : System.Attribute { }
+        public FluentAssertions.AndWhichConstraint<TAssertions, TAttribute> BeDecoratedWithOrInherit<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
+            where TAttribute : System.Attribute { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+            where TAttribute : System.Attribute { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeDecoratedWith<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
+            where TAttribute : System.Attribute { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeDecoratedWithOrInherit<TAttribute>(string because = "", params object[] becauseArgs)
+            where TAttribute : System.Attribute { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeDecoratedWithOrInherit<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
+            where TAttribute : System.Attribute { }
+    }
+    public class TypeAssertions : FluentAssertions.Types.ReflectionAssertions<System.Type, FluentAssertions.Types.TypeAssertions>
     {
         public TypeAssertions(System.Type type) { }
         protected override string Identifier { get; }
@@ -2426,14 +2459,6 @@ namespace FluentAssertions.Types
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> BeAbstract(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> BeAssignableTo(System.Type type, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> BeAssignableTo<T>(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, TAttribute> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
-            where TAttribute : System.Attribute { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, TAttribute> BeDecoratedWith<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
-            where TAttribute : System.Attribute { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, TAttribute> BeDecoratedWithOrInherit<TAttribute>(string because = "", params object[] becauseArgs)
-            where TAttribute : System.Attribute { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.TypeAssertions, TAttribute> BeDecoratedWithOrInherit<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
-            where TAttribute : System.Attribute { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> BeDerivedFrom(System.Type baseType, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> BeDerivedFrom<TBaseClass>(string because = "", params object[] becauseArgs)
             where TBaseClass :  class { }
@@ -2464,14 +2489,6 @@ namespace FluentAssertions.Types
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotBeAbstract(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotBeAssignableTo(System.Type type, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotBeAssignableTo<T>(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
-            where TAttribute : System.Attribute { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotBeDecoratedWith<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
-            where TAttribute : System.Attribute { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotBeDecoratedWithOrInherit<TAttribute>(string because = "", params object[] becauseArgs)
-            where TAttribute : System.Attribute { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotBeDecoratedWithOrInherit<TAttribute>(System.Linq.Expressions.Expression<System.Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
-            where TAttribute : System.Attribute { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotBeDerivedFrom(System.Type baseType, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Types.TypeAssertions> NotBeDerivedFrom<TBaseClass>(string because = "", params object[] becauseArgs)
             where TBaseClass :  class { }

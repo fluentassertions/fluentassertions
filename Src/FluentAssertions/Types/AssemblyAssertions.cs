@@ -4,14 +4,14 @@ using System.Linq;
 using System.Reflection;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
+using FluentAssertions.Types;
 
 namespace FluentAssertions.Types;
 
 /// <summary>
 /// Contains a number of methods to assert that an <see cref="Assembly"/> is in the expected state.
 /// </summary>
-public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAssertions>
+public class AssemblyAssertions : ReflectionAssertions<Assembly, AssemblyAssertions>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="AssemblyAssertions" /> class.
@@ -212,6 +212,8 @@ public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAsse
 #else
         BitConverter.ToString(bytes).Replace("-", string.Empty, StringComparison.Ordinal);
 #endif
+
+    internal override string SubjectDescription => Subject.FullName;
 
     /// <summary>
     /// Returns the type of the subject the assertion applies on.

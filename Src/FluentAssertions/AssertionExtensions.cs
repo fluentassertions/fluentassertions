@@ -792,6 +792,17 @@ public static class AssertionExtensions
     }
 
     /// <summary>
+    /// Returns a <see cref="ParameterInfoAssertions"/> object that can be used to assert the
+    /// current <see cref="ParameterInfo"/>.
+    /// </summary>
+    /// <seealso cref="TypeAssertions"/>
+    [Pure]
+    public static ParameterInfoAssertions Should(this ParameterInfo parameterInfo)
+    {
+        return new ParameterInfoAssertions(parameterInfo);
+    }
+
+    /// <summary>
     /// Returns a <see cref="PropertyInfoAssertions"/> object that can be used to assert the
     /// current <see cref="PropertyInfoSelector"/>.
     /// </summary>

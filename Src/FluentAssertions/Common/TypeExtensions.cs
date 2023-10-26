@@ -25,7 +25,7 @@ internal static class TypeExtensions
     private static readonly ConcurrentDictionary<(Type Type, MemberVisibility Visibility), TypeMemberReflector>
         TypeMemberReflectorsCache = new();
 
-    public static bool IsDecoratedWith<TAttribute>(this Type type)
+    public static bool IsDecoratedWith<TAttribute>(this ICustomAttributeProvider type)
         where TAttribute : Attribute
     {
         return type.IsDefined(typeof(TAttribute), inherit: false);
@@ -40,7 +40,7 @@ internal static class TypeExtensions
         return Attribute.IsDefined(type, typeof(TAttribute), inherit: false);
     }
 
-    public static bool IsDecoratedWithOrInherit<TAttribute>(this Type type)
+    public static bool IsDecoratedWithOrInherit<TAttribute>(this ICustomAttributeProvider type)
         where TAttribute : Attribute
     {
         return type.IsDefined(typeof(TAttribute), inherit: true);
@@ -55,7 +55,7 @@ internal static class TypeExtensions
         return Attribute.IsDefined(type, typeof(TAttribute), inherit: true);
     }
 
-    public static bool IsDecoratedWith<TAttribute>(this Type type,
+    public static bool IsDecoratedWith<TAttribute>(this ICustomAttributeProvider type,
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
         where TAttribute : Attribute
     {
@@ -69,33 +69,38 @@ internal static class TypeExtensions
         return GetCustomAttributes(type, isMatchingAttributePredicate).Any();
     }
 
-    public static bool IsDecoratedWithOrInherit<TAttribute>(this Type type,
+    public static bool IsDecoratedWithOrInherit<TAttribute>(this ICustomAttributeProvider type,
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
         where TAttribute : Attribute
     {
         return GetCustomAttributes(type, isMatchingAttributePredicate, inherit: true).Any();
     }
 
-    public static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this Type type)
+    public static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this ICustomAttributeProvider type)
         where TAttribute : Attribute
     {
         return GetCustomAttributes<TAttribute>(type);
     }
 
-    public static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this Type type,
+    public static IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(this ICustomAttributeProvider type,
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
         where TAttribute : Attribute
     {
+        if (type is MemberInfo memberInfo)
+        {
+            return memberInfo.GetMatchingAttributes(isMatchingAttributePredicate);
+        }
+
         return GetCustomAttributes(type, isMatchingAttributePredicate);
     }
 
-    public static IEnumerable<TAttribute> GetMatchingOrInheritedAttributes<TAttribute>(this Type type)
+    public static IEnumerable<TAttribute> GetMatchingOrInheritedAttributes<TAttribute>(this ICustomAttributeProvider type)
         where TAttribute : Attribute
     {
         return GetCustomAttributes<TAttribute>(type, inherit: true);
     }
 
-    public static IEnumerable<TAttribute> GetMatchingOrInheritedAttributes<TAttribute>(this Type type,
+    public static IEnumerable<TAttribute> GetMatchingOrInheritedAttributes<TAttribute>(this ICustomAttributeProvider type,
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
         where TAttribute : Attribute
     {
@@ -119,13 +124,13 @@ internal static class TypeExtensions
         return GetCustomAttributes<TAttribute>(type, inherit).Where(isMatchingAttribute);
     }
 
-    private static TAttribute[] GetCustomAttributes<TAttribute>(this Type type, bool inherit = false)
+    private static TAttribute[] GetCustomAttributes<TAttribute>(this ICustomAttributeProvider type, bool inherit = false)
         where TAttribute : Attribute
     {
         return (TAttribute[])type.GetCustomAttributes(typeof(TAttribute), inherit);
     }
 
-    private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(Type type,
+    private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(ICustomAttributeProvider type,
         Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, bool inherit = false)
         where TAttribute : Attribute
     {
