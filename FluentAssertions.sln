@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Src\JetBrainsAnnotations.cs = Src\JetBrainsAnnotations.cs
 		nuget.config = nuget.config
 		README.md = README.md
+		docs\_pages\releases.md = docs\_pages\releases.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "Build\_build.csproj", "{364DD16C-D759-49DC-A04A-64D40205295B}"
