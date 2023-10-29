@@ -25,14 +25,14 @@ public class AssertionOptionsSpecs
     {
         protected override void Dispose(bool disposing)
         {
-            AssertionOptions.AssertEquivalencyUsing(_ => new EquivalencyAssertionOptions());
+            AssertionOptions.AssertEquivalencyUsing(_ => new EquivalencyOptions());
 
             base.Dispose(disposing);
         }
     }
 
     [Collection("AssertionOptionsSpecs")]
-    public class When_injecting_a_null_configurer : GivenSubject<EquivalencyAssertionOptions, Action>
+    public class When_injecting_a_null_configurer : GivenSubject<EquivalencyOptions, Action>
     {
         public When_injecting_a_null_configurer()
         {
@@ -48,14 +48,14 @@ public class AssertionOptionsSpecs
     }
 
     [Collection("AssertionOptionsSpecs")]
-    public class When_concurrently_getting_equality_strategy : GivenSubject<EquivalencyAssertionOptions, Action>
+    public class When_concurrently_getting_equality_strategy : GivenSubject<EquivalencyOptions, Action>
     {
         public When_concurrently_getting_equality_strategy()
         {
             When(() =>
             {
 #pragma warning disable CA1859 // https://github.com/dotnet/roslyn-analyzers/issues/6704
-                IEquivalencyAssertionOptions equivalencyAssertionOptions = new EquivalencyAssertionOptions();
+                IEquivalencyAssertionOptions equivalencyAssertionOptions = new EquivalencyOptions();
 #pragma warning restore CA1859
 
                 return () => Parallel.For(0, 10_000, new ParallelOptions { MaxDegreeOfParallelism = 8 },

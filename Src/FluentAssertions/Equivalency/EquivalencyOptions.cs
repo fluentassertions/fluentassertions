@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -9,23 +7,19 @@ using FluentAssertions.Equivalency.Matching;
 using FluentAssertions.Equivalency.Ordering;
 using FluentAssertions.Equivalency.Selection;
 
-#endregion
-
 namespace FluentAssertions.Equivalency;
-
-// REFACTOR rename to EquivalencyOptions
 
 /// <summary>
 /// Represents the run-time type-specific behavior of a structural equivalency assertion.
 /// </summary>
-public class EquivalencyAssertionOptions<TExpectation>
-    : SelfReferenceEquivalencyAssertionOptions<EquivalencyAssertionOptions<TExpectation>>
+public class EquivalencyOptions<TExpectation>
+    : SelfReferenceEquivalencyOptions<EquivalencyOptions<TExpectation>>
 {
-    public EquivalencyAssertionOptions()
+    public EquivalencyOptions()
     {
     }
 
-    public EquivalencyAssertionOptions(IEquivalencyAssertionOptions defaults)
+    public EquivalencyOptions(IEquivalencyAssertionOptions defaults)
         : base(defaults)
     {
     }
@@ -33,7 +27,7 @@ public class EquivalencyAssertionOptions<TExpectation>
     /// <summary>
     /// Excludes the specified (nested) member from the structural equality check.
     /// </summary>
-    public EquivalencyAssertionOptions<TExpectation> Excluding(Expression<Func<TExpectation, object>> expression)
+    public EquivalencyOptions<TExpectation> Excluding(Expression<Func<TExpectation, object>> expression)
     {
         AddSelectionRule(new ExcludeMemberByPathSelectionRule(expression.GetMemberPath()));
         return this;
@@ -57,7 +51,7 @@ public class EquivalencyAssertionOptions<TExpectation>
     /// <remarks>
     /// This overrides the default behavior of including all declared members.
     /// </remarks>
-    public EquivalencyAssertionOptions<TExpectation> Including(Expression<Func<TExpectation, object>> expression)
+    public EquivalencyOptions<TExpectation> Including(Expression<Func<TExpectation, object>> expression)
     {
         AddSelectionRule(new IncludeMemberByPathSelectionRule(expression.GetMemberPath()));
         return this;
@@ -67,7 +61,7 @@ public class EquivalencyAssertionOptions<TExpectation>
     /// Causes the collection identified by <paramref name="expression"/> to be compared in the order
     /// in which the items appear in the expectation.
     /// </summary>
-    public EquivalencyAssertionOptions<TExpectation> WithStrictOrderingFor(
+    public EquivalencyOptions<TExpectation> WithStrictOrderingFor(
         Expression<Func<TExpectation, object>> expression)
     {
         string expressionMemberPath = expression.GetMemberPath().ToString();
@@ -79,7 +73,7 @@ public class EquivalencyAssertionOptions<TExpectation>
     /// Causes the collection identified by <paramref name="expression"/> to be compared ignoring the order
     /// in which the items appear in the expectation.
     /// </summary>
-    public EquivalencyAssertionOptions<TExpectation> WithoutStrictOrderingFor(
+    public EquivalencyOptions<TExpectation> WithoutStrictOrderingFor(
         Expression<Func<TExpectation, object>> expression)
     {
         string expressionMemberPath = expression.GetMemberPath().ToString();
@@ -93,9 +87,9 @@ public class EquivalencyAssertionOptions<TExpectation>
     /// <summary>
     /// Creates a new set of options based on the current instance which acts on a a collection of the <typeparamref name="TExpectation"/>.
     /// </summary>
-    public EquivalencyAssertionOptions<IEnumerable<TExpectation>> AsCollection()
+    public EquivalencyOptions<IEnumerable<TExpectation>> AsCollection()
     {
-        return new EquivalencyAssertionOptions<IEnumerable<TExpectation>>(
+        return new EquivalencyOptions<IEnumerable<TExpectation>>(
             new CollectionMemberAssertionOptionsDecorator(this));
     }
 
@@ -110,7 +104,7 @@ public class EquivalencyAssertionOptions<TExpectation>
     /// If the types of the members are different, the usual logic applies depending or not if conversion options were specified.
     /// Fields can be mapped to properties and vice-versa.
     /// </remarks>
-    public EquivalencyAssertionOptions<TExpectation> WithMapping<TSubject>(
+    public EquivalencyOptions<TExpectation> WithMapping<TSubject>(
         Expression<Func<TExpectation, object>> expectationMemberPath,
         Expression<Func<TSubject, object>> subjectMemberPath)
     {
@@ -134,7 +128,7 @@ public class EquivalencyAssertionOptions<TExpectation>
     /// if conversion options were specified.
     /// Fields can be mapped to properties and vice-versa.
     /// </remarks>
-    public EquivalencyAssertionOptions<TExpectation> WithMapping(
+    public EquivalencyOptions<TExpectation> WithMapping(
         string expectationMemberPath,
         string subjectMemberPath)
     {
@@ -155,7 +149,7 @@ public class EquivalencyAssertionOptions<TExpectation>
     /// If the types of the members are different, the usual logic applies depending or not if conversion options were specified.
     /// Fields can be mapped to properties and vice-versa.
     /// </remarks>
-    public EquivalencyAssertionOptions<TExpectation> WithMapping<TNestedExpectation, TNestedSubject>(
+    public EquivalencyOptions<TExpectation> WithMapping<TNestedExpectation, TNestedSubject>(
         Expression<Func<TNestedExpectation, object>> expectationMember,
         Expression<Func<TNestedSubject, object>> subjectMember)
     {
@@ -177,7 +171,7 @@ public class EquivalencyAssertionOptions<TExpectation>
     /// If the types of the members are different, the usual logic applies depending or not if conversion options were specified.
     /// Fields can be mapped to properties and vice-versa.
     /// </remarks>
-    public EquivalencyAssertionOptions<TExpectation> WithMapping<TNestedExpectation, TNestedSubject>(
+    public EquivalencyOptions<TExpectation> WithMapping<TNestedExpectation, TNestedSubject>(
         string expectationMemberName,
         string subjectMemberName)
     {
@@ -192,9 +186,9 @@ public class EquivalencyAssertionOptions<TExpectation>
 /// <summary>
 /// Represents the run-time type-agnostic behavior of a structural equivalency assertion.
 /// </summary>
-public class EquivalencyAssertionOptions : SelfReferenceEquivalencyAssertionOptions<EquivalencyAssertionOptions>
+public class EquivalencyOptions : SelfReferenceEquivalencyOptions<EquivalencyOptions>
 {
-    public EquivalencyAssertionOptions()
+    public EquivalencyOptions()
     {
         IncludingNestedObjects();
 

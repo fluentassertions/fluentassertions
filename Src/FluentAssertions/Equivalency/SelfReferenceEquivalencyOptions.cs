@@ -20,8 +20,8 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// Represents the run-time behavior of a structural equivalency assertion.
 /// </summary>
-public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquivalencyAssertionOptions
-    where TSelf : SelfReferenceEquivalencyAssertionOptions<TSelf>
+public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyAssertionOptions
+    where TSelf : SelfReferenceEquivalencyOptions<TSelf>
 {
     #region Private Definitions
 
@@ -58,7 +58,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
 
     #endregion
 
-    private protected SelfReferenceEquivalencyAssertionOptions()
+    private protected SelfReferenceEquivalencyOptions()
     {
         equalityStrategyProvider = new EqualityStrategyProvider();
 
@@ -70,7 +70,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// <summary>
     /// Creates an instance of the equivalency assertions options based on defaults previously configured by the caller.
     /// </summary>
-    protected SelfReferenceEquivalencyAssertionOptions(IEquivalencyAssertionOptions defaults)
+    protected SelfReferenceEquivalencyOptions(IEquivalencyAssertionOptions defaults)
     {
         equalityStrategyProvider = new EqualityStrategyProvider(defaults.GetEqualityStrategy)
         {
@@ -752,7 +752,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     }
 
     /// <summary>
-    /// Defines additional overrides when used with <see cref="SelfReferenceEquivalencyAssertionOptions{T}" />
+    /// Defines additional overrides when used with <see cref="SelfReferenceEquivalencyOptions{TSelf}" />
     /// </summary>
     public class Restriction<TMember>
     {

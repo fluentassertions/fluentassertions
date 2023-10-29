@@ -6,7 +6,7 @@ using FluentAssertions.Equivalency.Tracing;
 namespace FluentAssertions.Equivalency;
 
 /// <summary>
-/// Provides the run-time details of the <see cref="EquivalencyAssertionOptions{TSubject}" /> class.
+/// Provides the run-time details of the <see cref="EquivalencyOptions{TExpectation}" /> class.
 /// </summary>
 public interface IEquivalencyAssertionOptions
 {

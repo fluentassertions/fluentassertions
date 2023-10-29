@@ -35,9 +35,9 @@ public static class ObjectAssertionsExtensions
     /// </summary>
     /// <param name="assertions"></param>
     /// <param name="options">
-    /// A reference to the <see cref="EquivalencyAssertionOptions{TExpectation}"/> configuration object that can be used
+    /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
-    /// <see cref="EquivalencyAssertionOptions{TExpectation}"/> class. The global defaults are determined by the
+    /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
     /// <see cref="AssertionOptions"/> class.
     /// </param>
     /// <param name="because">
@@ -49,7 +49,7 @@ public static class ObjectAssertionsExtensions
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="options"/> is <see langword="null"/>.</exception>
     public static AndConstraint<ObjectAssertions> BeDataContractSerializable<T>(this ObjectAssertions assertions,
-        Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> options, string because = "",
+        Func<EquivalencyOptions<T>, EquivalencyOptions<T>> options, string because = "",
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(options);
@@ -58,7 +58,7 @@ public static class ObjectAssertionsExtensions
         {
             var deserializedObject = CreateCloneUsingDataContractSerializer(assertions.Subject);
 
-            EquivalencyAssertionOptions<T> defaultOptions = AssertionOptions.CloneDefaults<T>()
+            EquivalencyOptions<T> defaultOptions = AssertionOptions.CloneDefaults<T>()
                 .RespectingRuntimeTypes().IncludingFields().IncludingProperties();
 
             ((T)deserializedObject).Should().BeEquivalentTo((T)assertions.Subject, _ => options(defaultOptions));
