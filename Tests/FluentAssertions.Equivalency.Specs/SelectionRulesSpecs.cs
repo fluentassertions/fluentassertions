@@ -1442,6 +1442,54 @@ public class SelectionRulesSpecs
             // Act / Assert
             actual.Should().BeEquivalentTo(expected);
         }
+
+        [Fact]
+        public void Private_protected_properties_are_ignored()
+        {
+            // Arrange
+            var subject = new ClassWithPrivateProtectedProperty("Name", 13);
+            var other = new ClassWithPrivateProtectedProperty("Name", 37);
+
+            // Act/Assert
+            subject.Should().BeEquivalentTo(other);
+        }
+
+        private class ClassWithPrivateProtectedProperty
+        {
+            public ClassWithPrivateProtectedProperty(string name, int value)
+            {
+                Name = name;
+                Value = value;
+            }
+
+            public string Name { get; }
+
+            private protected int Value { get; }
+        }
+
+        [Fact]
+        public void Private_protected_fields_are_ignored()
+        {
+            // Arrange
+            var subject = new ClassWithPrivateProtectedField("Name", 13);
+            var other = new ClassWithPrivateProtectedField("Name", 37);
+
+            // Act/Assert
+            subject.Should().BeEquivalentTo(other);
+        }
+
+        private class ClassWithPrivateProtectedField
+        {
+            public ClassWithPrivateProtectedField(string name, int value)
+            {
+                Name = name;
+                this.value = value;
+            }
+
+            public string Name;
+
+            private protected int value;
+        }
     }
 
     public class MemberHiding
