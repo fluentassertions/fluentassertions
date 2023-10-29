@@ -28,10 +28,43 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
             string expectation = (string)comparands.Expectation;
 
             subject.Should()
-                .Be(expectation, context.Reason.FormattedMessage, context.Reason.Arguments);
+                .Be(expectation, CreateOptions(context.Options), context.Reason.FormattedMessage, context.Reason.Arguments);
         }
 
         return EquivalencyResult.AssertionCompleted;
+    }
+
+    private static Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> CreateOptions(IEquivalencyAssertionOptions existingOptions)
+    {
+        return o =>
+        {
+            if (existingOptions is EquivalencyAssertionOptions<string> equivalencyAssertionOptions)
+            {
+                return equivalencyAssertionOptions;
+            }
+
+            if (existingOptions.IgnoreLeadingWhitespace)
+            {
+                o.IgnoringLeadingWhitespace();
+            }
+
+            if (existingOptions.IgnoreTrailingWhitespace)
+            {
+                o.IgnoringTrailingWhitespace();
+            }
+
+            if (existingOptions.IgnoreNewlines)
+            {
+                o.IgnoringNewlines();
+            }
+
+            if (existingOptions.IgnoreCase)
+            {
+                o.IgnoringCase();
+            }
+
+            return o;
+        };
     }
 
     private static bool ValidateAgainstNulls(Comparands comparands, INode currentNode)

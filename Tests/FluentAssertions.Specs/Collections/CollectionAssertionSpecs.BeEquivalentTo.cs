@@ -158,6 +158,50 @@ public partial class CollectionAssertionSpecs
             // Act / Assert
             collection.Should().BeEquivalentTo(collection1);
         }
+
+        [Fact]
+        public void Succeed_for_collection_with_case_different_strings_when_IgnoringCase()
+        {
+            // Arrange
+            var actual = new[] { "first", "test", "last" };
+            var expect = new[] { "first", "TEST", "last" };
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expect, o => o.IgnoringCase());
+        }
+
+        [Fact]
+        public void Succeed_for_collection_with_leading_whitespace_different_strings_when_IgnoringLeadingWhitespace()
+        {
+            // Arrange
+            var actual = new[] { "first", "test", "last" };
+            var expect = new[] { "first", "  test", "last" };
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expect, o => o.IgnoringLeadingWhitespace());
+        }
+
+        [Fact]
+        public void Succeed_for_collection_with_trailing_whitespace_different_strings_when_IgnoringTrailingWhitespace()
+        {
+            // Arrange
+            var actual = new[] { "first", "test", "last" };
+            var expect = new[] { "first", "test  ", "last" };
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expect, o => o.IgnoringTrailingWhitespace());
+        }
+
+        [Fact]
+        public void Succeed_for_collection_with_newline_different_strings_when_IgnoringNewlines()
+        {
+            // Arrange
+            var actual = new[] { "first", "ABC", "last" };
+            var expect = new[] { "first", "\rA\nB\r\nC\n", "last" };
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expect, o => o.IgnoringNewlines());
+        }
     }
 
     public class NotBeEquivalentTo
