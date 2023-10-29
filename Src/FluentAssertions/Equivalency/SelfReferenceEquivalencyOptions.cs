@@ -177,7 +177,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
 
     public bool? CompareRecordsByValue => equalityStrategyProvider.CompareRecordsByValue;
 
-    EqualityStrategy IEquivalencyAssertionOptions.GetEqualityStrategy(Type type)
+    EqualityStrategy IEquivalencyOptions.GetEqualityStrategy(Type type)
         => equalityStrategyProvider.GetEqualityStrategy(type);
 
     public ITraceWriter TraceWriter { get; private set; }
