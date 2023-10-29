@@ -56,6 +56,12 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     private bool ignoreNonBrowsableOnSubject;
     private bool excludeNonBrowsableOnExpectation;
 
+    private bool ignoreLeadingWhitespace;
+    private bool ignoreTrailingWhitespace;
+    private bool ignoreNewlines;
+    private bool ignoreCase;
+    private IEqualityComparer<string> stringComparer;
+
     #endregion
 
     private protected SelfReferenceEquivalencyOptions()
@@ -86,6 +92,10 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
         includedFields = defaults.IncludedFields;
         ignoreNonBrowsableOnSubject = defaults.IgnoreNonBrowsableOnSubject;
         excludeNonBrowsableOnExpectation = defaults.ExcludeNonBrowsableOnExpectation;
+        ignoreLeadingWhitespace = defaults.IgnoreLeadingWhitespace;
+        ignoreTrailingWhitespace = defaults.IgnoreTrailingWhitespace;
+        ignoreNewlines = defaults.IgnoreNewlines;
+        ignoreCase = defaults.IgnoreCase;
 
         ConversionSelector = defaults.ConversionSelector.Clone();
 
@@ -179,6 +189,14 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
 
     EqualityStrategy IEquivalencyOptions.GetEqualityStrategy(Type type)
         => equalityStrategyProvider.GetEqualityStrategy(type);
+
+    bool IEquivalencyAssertionOptions.IgnoreLeadingWhitespace => ignoreLeadingWhitespace;
+
+    bool IEquivalencyAssertionOptions.IgnoreTrailingWhitespace => ignoreTrailingWhitespace;
+
+    bool IEquivalencyAssertionOptions.IgnoreNewlines => ignoreNewlines;
+
+    bool IEquivalencyAssertionOptions.IgnoreCase => ignoreCase;
 
     public ITraceWriter TraceWriter { get; private set; }
 
@@ -494,6 +512,11 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     {
         userEquivalencySteps.Insert(0, new EqualityComparerEquivalencyStep<T>(comparer));
 
+        if (comparer is IEqualityComparer<string> c)
+        {
+            stringComparer = c;
+        }
+
         return (TSelf)this;
     }
 
@@ -677,6 +700,80 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     {
         ConversionSelector.Exclude(predicate);
         return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Instructs the comparison to ignore leading whitespace when comparing <see langword="string" />s.
+    /// </summary>
+    public TSelf IgnoringLeadingWhitespace()
+    {
+        ignoreLeadingWhitespace = true;
+        return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Instructs the comparison to ignore trailing whitespace when comparing <see langword="string" />s.
+    /// </summary>
+    public TSelf IgnoringTrailingWhitespace()
+    {
+        ignoreTrailingWhitespace = true;
+        return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Instructs the comparison to ignore newlines when comparing <see langword="string" />s.
+    /// </summary>
+    public TSelf IgnoringNewlines()
+    {
+        ignoreNewlines = true;
+        return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Instructs the comparison to compare <see langword="string" />s case-insensitive.
+    /// </summary>
+    public TSelf IgnoringCase()
+    {
+        ignoreCase = true;
+        return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Returns the comparer for strings, which is either an explicitly specified comparer via <see cref="Using{T}(System.Collections.Generic.IEqualityComparer{T})"/> or an ordinal comparer depending on <see cref="IgnoringCase()" />.
+    /// </summary>
+    internal IEqualityComparer<string> GetStringComparerOrDefault()
+    {
+        return stringComparer ?? (ignoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal);
+    }
+
+    /// <summary>
+    /// Applies the string-specific options to the <paramref name="value"/>.
+    /// </summary>
+    /// <remarks>
+    /// When <see cref="IgnoringLeadingWhitespace()"/> whitespace is removed from the start of the <paramref name="value"/>.<br />
+    /// When <see cref="IgnoringTrailingWhitespace()"/> whitespace is removed from the end of the <paramref name="value"/>.<br />
+    /// When <see cref="IgnoringNewlines()"/> all newlines ("\r" and "\n") are removed from the <paramref name="value"/>.
+    /// </remarks>
+    internal string ApplyStringSettings(string value)
+    {
+        if (ignoreLeadingWhitespace)
+        {
+            value = value.TrimStart();
+        }
+
+        if (ignoreTrailingWhitespace)
+        {
+            value = value.TrimEnd();
+        }
+
+        if (ignoreNewlines)
+        {
+            value = value
+                .Replace("\r", string.Empty, StringComparison.Ordinal)
+                .Replace("\n", string.Empty, StringComparison.Ordinal);
+        }
+
+        return value;
     }
 
     /// <summary>

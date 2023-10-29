@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.RegularExpressions;
 using FluentAssertions.Common;
+using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
 using JetBrains.Annotations;
 
@@ -123,6 +124,41 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     }
 
     /// <summary>
+    /// Asserts that a string is exactly the same as another string, using the provided <paramref name="config"/>.
+    /// </summary>
+    /// <param name="expected">
+    /// The string that the subject is expected to be equivalent to.
+    /// </param>
+    /// <param name="config">
+    /// The equivalency options.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> BeEquivalentTo(string expected,
+        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(config);
+
+        EquivalencyAssertionOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
+
+        var expectation = new StringValidator(
+            new StringEqualityStrategy(options.GetStringComparerOrDefault()),
+            because, becauseArgs);
+
+        var subject = options.ApplyStringSettings(Subject);
+        expected = options.ApplyStringSettings(expected);
+
+        expectation.Validate(subject, expected);
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
     /// Asserts that a string is not exactly the same as another string, including any leading or trailing whitespace, with
     /// the exception of the casing.
     /// </summary>
@@ -144,6 +180,44 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         using (var scope = new AssertionScope())
         {
             BeEquivalentTo(unexpected);
+            notEquivalent = scope.Discard().Length > 0;
+        }
+
+        Execute.Assertion
+            .ForCondition(notEquivalent)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:string} not to be equivalent to {0}{reason}, but they are.", unexpected);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that a string is not exactly the same as another string, using the provided <paramref name="config"/>.
+    /// </summary>
+    /// <param name="unexpected">
+    /// The string that the subject is not expected to be equivalent to.
+    /// </param>
+    /// <param name="config">
+    /// The equivalency options.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> NotBeEquivalentTo(string unexpected,
+        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(config);
+
+        bool notEquivalent;
+
+        using (var scope = new AssertionScope())
+        {
+            Subject.Should().BeEquivalentTo(unexpected, config);
             notEquivalent = scope.Discard().Length > 0;
         }
 

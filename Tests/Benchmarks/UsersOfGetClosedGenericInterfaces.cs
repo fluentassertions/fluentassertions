@@ -77,6 +77,14 @@ public class UsersOfGetClosedGenericInterfaces
         public ITraceWriter TraceWriter => throw new NotImplementedException();
 
         public EqualityStrategy GetEqualityStrategy(Type type) => throw new NotImplementedException();
+
+        public bool IgnoreLeadingWhitespace => throw new NotImplementedException();
+
+        public bool IgnoreTrailingWhitespace => throw new NotImplementedException();
+
+        public bool IgnoreNewlines => throw new NotImplementedException();
+
+        public bool IgnoreCase => throw new NotImplementedException();
     }
 
     [Params(typeof(DBNull), typeof(bool), typeof(char), typeof(sbyte), typeof(byte), typeof(short), typeof(ushort),

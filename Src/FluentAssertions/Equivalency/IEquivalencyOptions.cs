@@ -98,4 +98,24 @@ public interface IEquivalencyOptions
     /// Determines the right strategy for evaluating the equality of objects of this type.
     /// </summary>
     EqualityStrategy GetEqualityStrategy(Type type);
+
+    /// <summary>
+    /// Gets a value indicating whether leading whitespace is ignored when comparing <see langword="string" />s.
+    /// </summary>
+    bool IgnoreLeadingWhitespace { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether trailing whitespace is ignored when comparing <see langword="string" />s.
+    /// </summary>
+    bool IgnoreTrailingWhitespace { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether newlines are ignored when comparing <see langword="string" />s.
+    /// </summary>
+    bool IgnoreNewlines { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether a case-insensitive comparer is used when comparing <see langword="string" />s.
+    /// </summary>
+    bool IgnoreCase { get; }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Xunit;
 using Xunit.Sdk;
@@ -12,6 +13,77 @@ public partial class StringAssertionSpecs
 {
     public class BeEquivalentTo
     {
+        [Fact]
+        public void Succeed_for_different_strings_using_custom_matching_comparer()
+        {
+            // Arrange
+            var comparer = new MatchingEqualityComparer();
+            string actual = "test A";
+            string expect = "test B";
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expect, o => o.Using(comparer));
+        }
+
+        [Fact]
+        public void Fail_for_same_strings_using_custom_not_matching_comparer()
+        {
+            // Arrange
+            var comparer = new NotMatchingEqualityComparer();
+            string actual = "test";
+            string expect = "test";
+
+            // Act
+            Action act = () => actual.Should().BeEquivalentTo(expect, o => o.Using(comparer));
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Succeed_for_case_different_strings_when_IgnoringCase()
+        {
+            // Arrange
+            string actual = "test";
+            string expect = "TEST";
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expect, o => o.IgnoringCase());
+        }
+
+        [Fact]
+        public void Succeed_for_leading_whitespace_different_strings_when_IgnoringLeadingWhitespace()
+        {
+            // Arrange
+            string actual = "test";
+            string expect = "  test";
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expect, o => o.IgnoringLeadingWhitespace());
+        }
+
+        [Fact]
+        public void Succeed_for_trailing_whitespace_different_strings_when_IgnoringTrailingWhitespace()
+        {
+            // Arrange
+            string actual = "test";
+            string expect = "test  ";
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expect, o => o.IgnoringTrailingWhitespace());
+        }
+
+        [Fact]
+        public void Succeed_for_newline_different_strings_when_IgnoringNewlines()
+        {
+            // Arrange
+            string actual = "ABC";
+            string expect = "\rA\nB\r\nC\n";
+
+            // Act / Assert
+            actual.Should().BeEquivalentTo(expect, o => o.IgnoringNewlines());
+        }
+
         [Fact]
         public void When_strings_are_the_same_while_ignoring_case_it_should_not_throw()
         {
@@ -109,6 +181,89 @@ public partial class StringAssertionSpecs
     public class NotBeEquivalentTo
     {
         [Fact]
+        public void Succeed_for_same_strings_using_custom_not_matching_comparer()
+        {
+            // Arrange
+            var comparer = new NotMatchingEqualityComparer();
+            string actual = "test";
+            string expect = "test";
+
+            // Act / Assert
+            actual.Should().NotBeEquivalentTo(expect, o => o.Using(comparer));
+        }
+
+        [Fact]
+        public void Fail_for_different_strings_using_custom_matching_comparer()
+        {
+            // Arrange
+            var comparer = new MatchingEqualityComparer();
+            string actual = "test A";
+            string expect = "test B";
+
+            // Act
+            Action act = () => actual.Should().NotBeEquivalentTo(expect, o => o.Using(comparer));
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Fail_for_case_different_strings_when_IgnoringCase()
+        {
+            // Arrange
+            string actual = "test";
+            string expect = "TEST";
+
+            // Act
+            Action act = () => actual.Should().NotBeEquivalentTo(expect, o => o.IgnoringCase());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Fail_for_leading_whitespace_different_strings_when_IgnoringLeadingWhitespace()
+        {
+            // Arrange
+            string actual = "test";
+            string expect = "  test";
+
+            // Act
+            Action act = () => actual.Should().NotBeEquivalentTo(expect, o => o.IgnoringLeadingWhitespace());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Fail_for_trailing_whitespace_different_strings_when_IgnoringTrailingWhitespace()
+        {
+            // Arrange
+            string actual = "test";
+            string expect = "test  ";
+
+            // Act
+            Action act = () => actual.Should().NotBeEquivalentTo(expect, o => o.IgnoringTrailingWhitespace());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Fail_for_newline_different_strings_when_IgnoringNewlines()
+        {
+            // Arrange
+            string actual = "ABC";
+            string expect = "\rA\nB\r\nC\n";
+
+            // Act
+            Action act = () => actual.Should().NotBeEquivalentTo(expect, o => o.IgnoringNewlines());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
         public void When_strings_are_the_same_while_ignoring_case_it_should_throw()
         {
             // Arrange
@@ -194,6 +349,32 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().NotThrow();
+        }
+    }
+
+    private sealed class MatchingEqualityComparer : IEqualityComparer<string>
+    {
+        public bool Equals(string x, string y)
+        {
+            return true;
+        }
+
+        public int GetHashCode(string obj)
+        {
+            return obj.GetHashCode();
+        }
+    }
+
+    private sealed class NotMatchingEqualityComparer : IEqualityComparer<string>
+    {
+        public bool Equals(string x, string y)
+        {
+            return false;
+        }
+
+        public int GetHashCode(string obj)
+        {
+            return obj.GetHashCode();
         }
     }
 }
