@@ -19,7 +19,7 @@ public class EquivalencyOptions<TExpectation>
     {
     }
 
-    public EquivalencyOptions(IEquivalencyAssertionOptions defaults)
+    public EquivalencyOptions(IEquivalencyOptions defaults)
         : base(defaults)
     {
     }
@@ -90,7 +90,7 @@ public class EquivalencyOptions<TExpectation>
     public EquivalencyOptions<IEnumerable<TExpectation>> AsCollection()
     {
         return new EquivalencyOptions<IEnumerable<TExpectation>>(
-            new CollectionMemberAssertionOptionsDecorator(this));
+            new CollectionMemberOptionsDecorator(this));
     }
 
     /// <summary>

@@ -8,7 +8,7 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// Provides the run-time details of the <see cref="EquivalencyOptions{TExpectation}" /> class.
 /// </summary>
-public interface IEquivalencyAssertionOptions
+public interface IEquivalencyOptions
 {
     /// <summary>
     /// Gets an ordered collection of selection rules that define what members (e.g. properties or fields) are included.

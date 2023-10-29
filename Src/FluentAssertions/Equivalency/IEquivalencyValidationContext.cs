@@ -25,7 +25,7 @@ public interface IEquivalencyValidationContext
     /// </summary>
     Tracer Tracer { get; }
 
-    IEquivalencyAssertionOptions Options { get; }
+    IEquivalencyOptions Options { get; }
 
     /// <summary>
     /// Determines whether the specified object reference is a cyclic reference to the same object earlier in the

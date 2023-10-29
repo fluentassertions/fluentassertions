@@ -140,7 +140,7 @@ public class ExtensibilitySpecs
 
     internal class ForeignKeyMatchingRule : IMemberMatchingRule
     {
-        public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions options)
+        public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyOptions options)
         {
             string name = expectedMember.Name;
 

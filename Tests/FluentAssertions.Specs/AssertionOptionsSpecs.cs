@@ -55,11 +55,11 @@ public class AssertionOptionsSpecs
             When(() =>
             {
 #pragma warning disable CA1859 // https://github.com/dotnet/roslyn-analyzers/issues/6704
-                IEquivalencyAssertionOptions equivalencyAssertionOptions = new EquivalencyOptions();
+                IEquivalencyOptions equivalencyOptions = new EquivalencyOptions();
 #pragma warning restore CA1859
 
                 return () => Parallel.For(0, 10_000, new ParallelOptions { MaxDegreeOfParallelism = 8 },
-                    _ => equivalencyAssertionOptions.GetEqualityStrategy(typeof(IEnumerable))
+                    _ => equivalencyOptions.GetEqualityStrategy(typeof(IEnumerable))
                 );
             });
         }
