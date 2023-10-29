@@ -54,7 +54,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     public AndConstraint<TAssertions> Be(string expected, string because = "", params object[] becauseArgs)
     {
         var stringEqualityValidator = new StringValidator(
-            new StringEqualityStrategy(StringComparison.Ordinal),
+            new StringEqualityStrategy(StringComparer.Ordinal),
             because, becauseArgs);
 
         stringEqualityValidator.Validate(Subject, expected);
@@ -110,11 +110,11 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> BeEquivalentTo(string expected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> BeEquivalentTo(string expected,
+        string because = "", params object[] becauseArgs)
     {
         var expectation = new StringValidator(
-            new StringEqualityStrategy(StringComparison.OrdinalIgnoreCase),
+            new StringEqualityStrategy(StringComparer.OrdinalIgnoreCase),
             because, becauseArgs);
 
         expectation.Validate(Subject, expected);
@@ -136,8 +136,8 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotBeEquivalentTo(string unexpected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotBeEquivalentTo(string unexpected,
+        string because = "", params object[] becauseArgs)
     {
         bool notEquivalent;
 
@@ -675,7 +675,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare start of string with <null>.");
 
         var stringStartValidator = new StringValidator(
-            new StringStartStrategy(StringComparison.Ordinal),
+            new StringStartStrategy(StringComparer.Ordinal),
             because, becauseArgs);
 
         stringStartValidator.Validate(Subject, expected);
@@ -728,7 +728,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string start equivalence with <null>.");
 
         var stringStartValidator = new StringValidator(
-            new StringStartStrategy(StringComparison.OrdinalIgnoreCase),
+            new StringStartStrategy(StringComparer.OrdinalIgnoreCase),
             because, becauseArgs);
 
         stringStartValidator.Validate(Subject, expected);

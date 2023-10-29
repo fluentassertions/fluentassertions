@@ -18,12 +18,18 @@ public partial class StringAssertionSpecs
             // Arrange
             string value = "ABC";
 
-            // Act
-            Action action = () =>
-                value.Should().StartWith("AB");
+            // Act / Assert
+            value.Should().StartWith("AB");
+        }
 
-            // Assert
-            action.Should().NotThrow();
+        [Fact]
+        public void When_expected_string_is_the_same_value_it_should_not_throw()
+        {
+            // Arrange
+            string value = "ABC";
+
+            // Act / Assert
+            value.Should().StartWith(value);
         }
 
         [Fact]
@@ -67,11 +73,8 @@ public partial class StringAssertionSpecs
         [Fact]
         public void When_string_start_is_compared_with_empty_string_it_should_not_throw()
         {
-            // Act
-            Action act = () => "ABC".Should().StartWith("");
-
-            // Assert
-            act.Should().NotThrow();
+            // Act / Assert
+            "ABC".Should().StartWith("");
         }
 
         [Fact]
@@ -107,12 +110,8 @@ public partial class StringAssertionSpecs
             // Arrange
             string value = "ABC";
 
-            // Act
-            Action action = () =>
-                value.Should().NotStartWith("DE");
-
-            // Assert
-            action.Should().NotThrow();
+            // Act / Assert
+            value.Should().NotStartWith("DE");
         }
 
         [Fact]
