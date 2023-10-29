@@ -24,6 +24,7 @@ sidebar:
 * Improved the failure message for `ThrowExactly[Async]` when wrapped in an `AssertionScope` and no exception is thrown - [#2398](https://github.com/fluentassertions/fluentassertions/pull/2398)
 * Improved the failure message for `[Not]HaveExplicitProperty` when wrapped in an `AssertionScope` and not implementing the interface - [#2403](https://github.com/fluentassertions/fluentassertions/pull/2403)
 * Improved the failure message for `[Not]HaveExplicitMethod` when wrapped in an `AssertionScope` and not implementing the interface - [#2403](https://github.com/fluentassertions/fluentassertions/pull/2403)
+* Changed `BeEquivalentTo` to exclude `private protected` members from the comparison - [#2417](https://github.com/fluentassertions/fluentassertions/pull/2417)
 
 
 ## 6.12.0
