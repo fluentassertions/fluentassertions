@@ -53,7 +53,7 @@ internal sealed class TypeMemberReflector
     }
 
     private static bool IsPublic(MethodBase getMethod) =>
-        !getMethod.IsPrivate && !getMethod.IsFamily;
+        !getMethod.IsPrivate && !getMethod.IsFamily && !getMethod.IsFamilyAndAssembly;
 
     private static bool IsExplicitlyImplemented(MethodBase getMethod) =>
         getMethod.IsPrivate && getMethod.IsFinal;
@@ -83,10 +83,13 @@ internal sealed class TypeMemberReflector
         {
             return type
                 .GetFields(AllInstanceMembersFlag)
-                .Where(field => !field.IsPrivate && !field.IsFamily)
+                .Where(field => IsPublic(field))
                 .Where(field => includeInternal || !IsInternal(field));
         });
     }
+
+    private static bool IsPublic(FieldInfo field) =>
+        !field.IsPrivate && !field.IsFamily && !field.IsFamilyAndAssembly;
 
     private static bool IsInternal(FieldInfo field)
     {
