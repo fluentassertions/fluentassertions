@@ -905,13 +905,14 @@ public class SelectionRulesSpecs
                 "internal", "protected-internal", "private", "private-protected");
 
             var expected = new ClassWithAllAccessModifiersForMembers("public", "protected",
-                "ignored-internal", "ignored-protected-internal", "private", "ignore-private-protected");
+                "ignored-internal", "ignored-protected-internal", "private", "private-protected");
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(expected, config =>
-                config.Excluding(ctx => ctx.WhichGetterHas(CSharpAccessModifier.Internal) ||
-                    ctx.WhichGetterHas(CSharpAccessModifier.ProtectedInternal) ||
-                    ctx.WhichGetterHas(CSharpAccessModifier.PrivateProtected)));
+            Action act = () => subject.Should().BeEquivalentTo(expected, config => config
+                .IncludingInternalFields()
+                .Excluding(ctx =>
+                    ctx.WhichGetterHas(CSharpAccessModifier.Internal) ||
+                    ctx.WhichGetterHas(CSharpAccessModifier.ProtectedInternal)));
 
             // Assert
             act.Should().NotThrow();
@@ -925,14 +926,15 @@ public class SelectionRulesSpecs
                 "internal", "protected-internal", "private", "private-protected");
 
             var expected = new ClassWithAllAccessModifiersForMembers("public", "protected",
-                "ignored-internal", "ignored-protected-internal", "ignored-private", "ignore-private-protected");
+                "ignored-internal", "ignored-protected-internal", "ignored-private", "private-protected");
 
             // Act
-            Action act = () => subject.Should().BeEquivalentTo(expected, config =>
-                config.Excluding(ctx => ctx.WhichSetterHas(CSharpAccessModifier.Internal) ||
+            Action act = () => subject.Should().BeEquivalentTo(expected, config => config
+                .IncludingInternalFields()
+                .Excluding(ctx =>
+                    ctx.WhichSetterHas(CSharpAccessModifier.Internal) ||
                     ctx.WhichSetterHas(CSharpAccessModifier.ProtectedInternal) ||
-                    ctx.WhichSetterHas(CSharpAccessModifier.Private) ||
-                    ctx.WhichSetterHas(CSharpAccessModifier.PrivateProtected)));
+                    ctx.WhichSetterHas(CSharpAccessModifier.Private)));
 
             // Assert
             act.Should().NotThrow();
