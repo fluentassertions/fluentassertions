@@ -55,8 +55,8 @@ public partial class StringAssertionSpecs
         public void Succeed_for_leading_whitespace_different_strings_when_IgnoringLeadingWhitespace()
         {
             // Arrange
-            string actual = "test";
-            string expect = "  test";
+            string actual = "  test";
+            string expect = "test";
 
             // Act / Assert
             actual.Should().BeEquivalentTo(expect, o => o.IgnoringLeadingWhitespace());
@@ -66,8 +66,8 @@ public partial class StringAssertionSpecs
         public void Succeed_for_trailing_whitespace_different_strings_when_IgnoringTrailingWhitespace()
         {
             // Arrange
-            string actual = "test";
-            string expect = "test  ";
+            string actual = "test  ";
+            string expect = "test";
 
             // Act / Assert
             actual.Should().BeEquivalentTo(expect, o => o.IgnoringTrailingWhitespace());
@@ -77,8 +77,8 @@ public partial class StringAssertionSpecs
         public void Succeed_for_newline_different_strings_when_IgnoringNewlines()
         {
             // Arrange
-            string actual = "ABC";
-            string expect = "\rA\nB\r\nC\n";
+            string actual = "\rA\nB\r\nC\n";
+            string expect = "ABC";
 
             // Act / Assert
             actual.Should().BeEquivalentTo(expect, o => o.IgnoringNewlines());
@@ -225,8 +225,8 @@ public partial class StringAssertionSpecs
         public void Fail_for_leading_whitespace_different_strings_when_IgnoringLeadingWhitespace()
         {
             // Arrange
-            string actual = "test";
-            string expect = "  test";
+            string actual = "  test";
+            string expect = "test";
 
             // Act
             Action act = () => actual.Should().NotBeEquivalentTo(expect, o => o.IgnoringLeadingWhitespace());
@@ -239,8 +239,8 @@ public partial class StringAssertionSpecs
         public void Fail_for_trailing_whitespace_different_strings_when_IgnoringTrailingWhitespace()
         {
             // Arrange
-            string actual = "test";
-            string expect = "test  ";
+            string actual = "test  ";
+            string expect = "test";
 
             // Act
             Action act = () => actual.Should().NotBeEquivalentTo(expect, o => o.IgnoringTrailingWhitespace());
@@ -253,8 +253,8 @@ public partial class StringAssertionSpecs
         public void Fail_for_newline_different_strings_when_IgnoringNewlines()
         {
             // Arrange
-            string actual = "ABC";
-            string expect = "\rA\nB\r\nC\n";
+            string actual = "\rA\nB\r\nC\n";
+            string expect = "ABC";
 
             // Act
             Action act = () => actual.Should().NotBeEquivalentTo(expect, o => o.IgnoringNewlines());

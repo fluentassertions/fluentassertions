@@ -190,13 +190,13 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     EqualityStrategy IEquivalencyOptions.GetEqualityStrategy(Type type)
         => equalityStrategyProvider.GetEqualityStrategy(type);
 
-    bool IEquivalencyAssertionOptions.IgnoreLeadingWhitespace => ignoreLeadingWhitespace;
+    public bool IgnoreLeadingWhitespace => ignoreLeadingWhitespace;
 
-    bool IEquivalencyAssertionOptions.IgnoreTrailingWhitespace => ignoreTrailingWhitespace;
+    public bool IgnoreTrailingWhitespace => ignoreTrailingWhitespace;
 
-    bool IEquivalencyAssertionOptions.IgnoreNewlines => ignoreNewlines;
+    public bool IgnoreNewlines => ignoreNewlines;
 
-    bool IEquivalencyAssertionOptions.IgnoreCase => ignoreCase;
+    public bool IgnoreCase => ignoreCase;
 
     public ITraceWriter TraceWriter { get; private set; }
 

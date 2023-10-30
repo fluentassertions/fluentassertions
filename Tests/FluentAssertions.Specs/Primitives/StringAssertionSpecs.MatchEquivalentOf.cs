@@ -12,6 +12,50 @@ public partial class StringAssertionSpecs
     public class MatchEquivalentOf
     {
         [Fact]
+        public void Succeed_for_case_different_strings_when_IgnoringCase()
+        {
+            // Arrange
+            string actual = "test";
+            string expect = "TEST";
+
+            // Act / Assert
+            actual.Should().MatchEquivalentOf(expect, o => o.IgnoringCase());
+        }
+
+        [Fact]
+        public void Succeed_for_leading_whitespace_different_strings_when_IgnoringLeadingWhitespace()
+        {
+            // Arrange
+            string actual = "  test";
+            string expect = "test";
+
+            // Act / Assert
+            actual.Should().MatchEquivalentOf(expect, o => o.IgnoringLeadingWhitespace());
+        }
+
+        [Fact]
+        public void Succeed_for_trailing_whitespace_different_strings_when_IgnoringTrailingWhitespace()
+        {
+            // Arrange
+            string actual = "test  ";
+            string expect = "test";
+
+            // Act / Assert
+            actual.Should().MatchEquivalentOf(expect, o => o.IgnoringTrailingWhitespace());
+        }
+
+        [Fact]
+        public void Succeed_for_newline_different_strings_when_IgnoringNewlines()
+        {
+            // Arrange
+            string actual = "\rA\nB\r\nC\n";
+            string expect = "ABC";
+
+            // Act / Assert
+            actual.Should().MatchEquivalentOf(expect, o => o.IgnoringNewlines());
+        }
+
+        [Fact]
         public void When_a_string_does_not_match_the_equivalent_of_a_wildcard_pattern_it_should_throw()
         {
             // Arrange
@@ -86,6 +130,62 @@ public partial class StringAssertionSpecs
 
     public class NotMatchEquivalentOf
     {
+        [Fact]
+        public void Fail_for_case_different_strings_when_IgnoringCase()
+        {
+            // Arrange
+            string actual = "test";
+            string expect = "TEST";
+
+            // Act
+            Action act = () => actual.Should().NotMatchEquivalentOf(expect, o => o.IgnoringCase());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Fail_for_leading_whitespace_different_strings_when_IgnoringLeadingWhitespace()
+        {
+            // Arrange
+            string actual = "  test";
+            string expect = "test";
+
+            // Act
+            Action act = () => actual.Should().NotMatchEquivalentOf(expect, o => o.IgnoringLeadingWhitespace());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Fail_for_trailing_whitespace_different_strings_when_IgnoringTrailingWhitespace()
+        {
+            // Arrange
+            string actual = "test  ";
+            string expect = "test";
+
+            // Act
+            Action act = () => actual.Should().NotMatchEquivalentOf(expect, o => o.IgnoringTrailingWhitespace());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
+        [Fact]
+        public void Fail_for_newline_different_strings_when_IgnoringNewlines()
+        {
+            // Arrange
+            string actual = "\rA\nB\r\nC\n";
+            string expect = "ABC";
+
+            // Act
+            Action act = () => actual.Should().NotMatchEquivalentOf(expect, o => o.IgnoringNewlines());
+
+            // Assert
+            act.Should().Throw<XunitException>();
+        }
+
         [Fact]
         public void When_a_string_is_not_equivalent_to_a_pattern_and_that_is_expected_it_should_not_throw()
         {

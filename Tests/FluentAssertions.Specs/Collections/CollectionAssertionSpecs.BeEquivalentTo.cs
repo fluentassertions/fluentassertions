@@ -174,8 +174,8 @@ public partial class CollectionAssertionSpecs
         public void Succeed_for_collection_with_leading_whitespace_different_strings_when_IgnoringLeadingWhitespace()
         {
             // Arrange
-            var actual = new[] { "first", "test", "last" };
-            var expect = new[] { "first", "  test", "last" };
+            var actual = new[] { "first", "  test", "last" };
+            var expect = new[] { "first", "test", "last" };
 
             // Act / Assert
             actual.Should().BeEquivalentTo(expect, o => o.IgnoringLeadingWhitespace());
@@ -185,8 +185,8 @@ public partial class CollectionAssertionSpecs
         public void Succeed_for_collection_with_trailing_whitespace_different_strings_when_IgnoringTrailingWhitespace()
         {
             // Arrange
-            var actual = new[] { "first", "test", "last" };
-            var expect = new[] { "first", "test  ", "last" };
+            var actual = new[] { "first", "test  ", "last" };
+            var expect = new[] { "first", "test", "last" };
 
             // Act / Assert
             actual.Should().BeEquivalentTo(expect, o => o.IgnoringTrailingWhitespace());
@@ -196,8 +196,8 @@ public partial class CollectionAssertionSpecs
         public void Succeed_for_collection_with_newline_different_strings_when_IgnoringNewlines()
         {
             // Arrange
-            var actual = new[] { "first", "ABC", "last" };
-            var expect = new[] { "first", "\rA\nB\r\nC\n", "last" };
+            var actual = new[] { "first", "\rA\nB\r\nC\n", "last" };
+            var expect = new[] { "first", "ABC", "last" };
 
             // Act / Assert
             actual.Should().BeEquivalentTo(expect, o => o.IgnoringNewlines());

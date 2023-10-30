@@ -90,7 +90,6 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             because, becauseArgs);
 
         var subject = options.ApplyStringSettings(Subject);
-        expected = options.ApplyStringSettings(expected);
 
         expectation.Validate(subject, expected);
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -185,7 +184,6 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             because, becauseArgs);
 
         var subject = options.ApplyStringSettings(Subject);
-        expected = options.ApplyStringSettings(expected);
 
         expectation.Validate(subject, expected);
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -278,6 +276,42 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         Execute.Assertion
             .ForCondition(Subject != unexpected)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:string} not to be {0}{reason}.", unexpected);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that a string is not exactly the same as the specified <paramref name="unexpected"/>, using the provided <paramref name="config"/>.
+    /// </summary>
+    /// <param name="unexpected">The string that the subject is not expected to be equivalent to.</param>
+    /// <param name="config">
+    /// The equivalency options.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> NotBe(string unexpected,
+        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(config);
+
+        bool notEquivalent;
+
+        using (var scope = new AssertionScope())
+        {
+            Subject.Should().Be(unexpected, config);
+            notEquivalent = scope.Discard().Length > 0;
+        }
+
+        Execute.Assertion
+            .ForCondition(notEquivalent)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:string} not to be {0}{reason}.", unexpected);
 
@@ -426,8 +460,8 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
-    public AndConstraint<TAssertions> MatchEquivalentOf(string wildcardPattern, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> MatchEquivalentOf(string wildcardPattern,
+        string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern),
             "Cannot match string against <null>. Provide a wildcard pattern or use the BeNull method.");
@@ -444,6 +478,72 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             because, becauseArgs);
 
         stringWildcardMatchingValidator.Validate(Subject, wildcardPattern);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that a string matches the <paramref name="wildcardPattern"/>, using the provided <paramref name="config"/>.
+    /// </summary>
+    /// <param name="wildcardPattern">
+    /// The pattern to match against the subject. This parameter can contain a combination of literal text and wildcard
+    /// (* and ?) characters, but it doesn't support regular expressions.
+    /// </param>
+    /// <param name="config">
+    /// The equivalency options.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <remarks>
+    /// <paramref name="wildcardPattern"/> can be a combination of literal and wildcard characters,
+    /// but it doesn't support regular expressions. The following wildcard specifiers are permitted in
+    /// <paramref name="wildcardPattern"/>.
+    /// <list type="table">
+    /// <listheader>
+    /// <term>Wildcard character</term>
+    /// <description>Description</description>
+    /// </listheader>
+    /// <item>
+    /// <term>* (asterisk)</term>
+    /// <description>Zero or more characters in that position.</description>
+    /// </item>
+    /// <item>
+    /// <term>? (question mark)</term>
+    /// <description>Exactly one character in that position.</description>
+    /// </item>
+    /// </list>
+    /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
+    public AndConstraint<TAssertions> MatchEquivalentOf(string wildcardPattern,
+        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern),
+            "Cannot match string against <null>. Provide a wildcard pattern or use the BeNull method.");
+
+        Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern),
+            "Cannot match string against an empty string. Provide a wildcard pattern or use the BeEmpty method.");
+
+        Guard.ThrowIfArgumentIsNull(config);
+
+        EquivalencyAssertionOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
+
+        var stringWildcardMatchingValidator = new StringValidator(
+            new StringWildcardMatchingStrategy
+            {
+                IgnoreCase = options.IgnoreCase,
+                IgnoreNewLineDifferences = options.IgnoreNewlines
+            },
+            because, becauseArgs);
+
+        var subject = options.ApplyStringSettings(Subject);
+        stringWildcardMatchingValidator.Validate(subject, wildcardPattern);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -483,8 +583,8 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
-    public AndConstraint<TAssertions> NotMatchEquivalentOf(string wildcardPattern, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotMatchEquivalentOf(string wildcardPattern,
+        string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern),
             "Cannot match string against <null>. Provide a wildcard pattern or use the NotBeNull method.");
@@ -502,6 +602,73 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             because, becauseArgs);
 
         stringWildcardMatchingValidator.Validate(Subject, wildcardPattern);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that a string does not match the <paramref name="wildcardPattern"/>, using the provided <paramref name="config"/>.
+    /// </summary>
+    /// <param name="wildcardPattern">
+    /// The pattern to match against the subject. This parameter can contain a combination of literal text and wildcard
+    /// (* and ?) characters, but it doesn't support regular expressions.
+    /// </param>
+    /// <param name="config">
+    /// The equivalency options.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <remarks>
+    /// <paramref name="wildcardPattern"/> can be a combination of literal and wildcard characters,
+    /// but it doesn't support regular expressions. The following wildcard specifiers are permitted in
+    /// <paramref name="wildcardPattern"/>.
+    /// <list type="table">
+    /// <listheader>
+    /// <term>Wildcard character</term>
+    /// <description>Description</description>
+    /// </listheader>
+    /// <item>
+    /// <term>* (asterisk)</term>
+    /// <description>Zero or more characters in that position.</description>
+    /// </item>
+    /// <item>
+    /// <term>? (question mark)</term>
+    /// <description>Exactly one character in that position.</description>
+    /// </item>
+    /// </list>
+    /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
+    public AndConstraint<TAssertions> NotMatchEquivalentOf(string wildcardPattern,
+        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern),
+            "Cannot match string against <null>. Provide a wildcard pattern or use the NotBeNull method.");
+
+        Guard.ThrowIfArgumentIsEmpty(wildcardPattern, nameof(wildcardPattern),
+            "Cannot match string against an empty string. Provide a wildcard pattern or use the NotBeEmpty method.");
+
+        Guard.ThrowIfArgumentIsNull(config);
+
+        EquivalencyAssertionOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
+
+        var stringWildcardMatchingValidator = new StringValidator(
+            new StringWildcardMatchingStrategy
+            {
+                IgnoreCase = options.IgnoreCase,
+                IgnoreNewLineDifferences = options.IgnoreNewlines,
+                Negate = true
+            },
+            because, becauseArgs);
+
+        var subject = options.ApplyStringSettings(Subject);
+        stringWildcardMatchingValidator.Validate(subject, wildcardPattern);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -608,7 +775,8 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <exception cref="ArgumentNullException"><paramref name="regularExpression"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="regularExpression"/> is empty.</exception>
     public AndConstraint<TAssertions> MatchRegex(Regex regularExpression,
-        OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs)
+        OccurrenceConstraint occurrenceConstraint,
+        string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(regularExpression, nameof(regularExpression),
             "Cannot match string against <null>. Provide a regex pattern or use the BeNull method.");
@@ -807,11 +975,18 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare start of string with <null>.");
 
-        var negatedStringStartValidator = new StringValidator(
-            new NegatedStringStartStrategy(StringComparison.Ordinal),
-            because, becauseArgs);
+        bool notEquivalent;
 
-        negatedStringStartValidator.Validate(Subject, unexpected);
+        using (var scope = new AssertionScope())
+        {
+            Subject.Should().StartWith(unexpected);
+            notEquivalent = scope.Discard().Length > 0;
+        }
+
+        Execute.Assertion
+            .ForCondition(Subject != null && notEquivalent)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:string} that does not start with {0}{reason}, but found {1}.", unexpected, Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -829,8 +1004,8 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> StartWithEquivalentOf(string expected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> StartWithEquivalentOf(string expected,
+        string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string start equivalence with <null>.");
 
@@ -839,6 +1014,40 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             because, becauseArgs);
 
         stringStartValidator.Validate(Subject, expected);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that a string starts with the specified <paramref name="expected"/>, using the provided <paramref name="config"/>.
+    /// </summary>
+    /// <param name="expected">The string that the subject is expected to start with.</param>
+    /// <param name="config">
+    /// The equivalency options.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
+    public AndConstraint<TAssertions> StartWithEquivalentOf(string expected,
+        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string start equivalence with <null>.");
+        Guard.ThrowIfArgumentIsNull(config);
+
+        EquivalencyAssertionOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
+
+        var stringStartValidator = new StringValidator(
+            new StringStartStrategy(options.GetStringComparerOrDefault()),
+            because, becauseArgs);
+
+        var subject = options.ApplyStringSettings(Subject);
+        stringStartValidator.Validate(subject, expected);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -856,16 +1065,61 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> NotStartWithEquivalentOf(string unexpected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotStartWithEquivalentOf(string unexpected,
+        string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare start of string with <null>.");
 
-        var negatedStringStartValidator = new StringValidator(
-            new NegatedStringStartStrategy(StringComparison.OrdinalIgnoreCase),
-            because, becauseArgs);
+        bool notEquivalent;
 
-        negatedStringStartValidator.Validate(Subject, unexpected);
+        using (var scope = new AssertionScope())
+        {
+            Subject.Should().StartWithEquivalentOf(unexpected);
+            notEquivalent = scope.Discard().Length > 0;
+        }
+
+        Execute.Assertion
+            .ForCondition(Subject != null && notEquivalent)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:string} that does not start with equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that a string does not start with the specified <paramref name="unexpected"/> value, using the provided <paramref name="config"/>.
+    /// </summary>
+    /// <param name="unexpected">The string that the subject is not expected to start with.</param>
+    /// <param name="config">
+    /// The equivalency options.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
+    public AndConstraint<TAssertions> NotStartWithEquivalentOf(string unexpected,
+        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare start of string with <null>.");
+        Guard.ThrowIfArgumentIsNull(config);
+
+        bool notEquivalent;
+
+        using (var scope = new AssertionScope())
+        {
+            Subject.Should().StartWithEquivalentOf(unexpected, config);
+            notEquivalent = scope.Discard().Length > 0;
+        }
+
+        Execute.Assertion
+            .ForCondition(Subject != null && notEquivalent)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:string} that does not start with equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -887,26 +1141,11 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end with <null>.");
 
-        bool success = Execute.Assertion
-            .BecauseOf(because, becauseArgs)
-            .ForCondition(Subject is not null)
-            .FailWith("Expected {context:string} {0} to end with {1}{reason}.", Subject, expected);
+        var stringEndValidator = new StringValidator(
+            new StringEndStrategy(StringComparer.Ordinal),
+            because, becauseArgs);
 
-        if (success)
-        {
-            success = Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject.Length >= expected.Length)
-                .FailWith("Expected {context:string} to end with {0}{reason}, but {1} is too short.", expected, Subject);
-
-            if (success)
-            {
-                Execute.Assertion
-                    .ForCondition(Subject.EndsWith(expected, StringComparison.Ordinal))
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:string} {0} to end with {1}{reason}.", Subject, expected);
-            }
-        }
+        stringEndValidator.Validate(Subject, expected);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -928,18 +1167,18 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare end of string with <null>.");
 
-        bool success = Execute.Assertion
-            .ForCondition(Subject is not null)
-            .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:string} that does not end with {1}{reason}, but found {0}.", Subject, unexpected);
+        bool notEquivalent;
 
-        if (success)
+        using (var scope = new AssertionScope())
         {
-            Execute.Assertion
-                .ForCondition(!Subject.EndsWith(unexpected, StringComparison.Ordinal))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:string} {0} not to end with {1}{reason}.", Subject, unexpected);
+            Subject.Should().EndWith(unexpected);
+            notEquivalent = scope.Discard().Length > 0;
         }
+
+        Execute.Assertion
+            .ForCondition(Subject != null && notEquivalent)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:string} not to end with {0}{reason}, but found {1}.", unexpected, Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -957,35 +1196,50 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> EndWithEquivalentOf(string expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> EndWithEquivalentOf(string expected,
+        string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end equivalence with <null>.");
 
-        bool success = Execute.Assertion
-            .BecauseOf(because, becauseArgs)
-            .ForCondition(Subject is not null)
-            .FailWith(
-                "Expected {context:string} that ends with equivalent of {0}{reason}, but found {1}.", expected, Subject);
+        var stringEndValidator = new StringValidator(
+            new StringEndStrategy(StringComparer.OrdinalIgnoreCase),
+            because, becauseArgs);
 
-        if (success)
-        {
-            success = Execute.Assertion
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject.Length >= expected.Length)
-                .FailWith(
-                    "Expected {context:string} to end with equivalent of {0}{reason}, but {1} is too short.",
-                    expected, Subject);
+        stringEndValidator.Validate(Subject, expected);
 
-            if (success)
-            {
-                Execute.Assertion
-                    .ForCondition(Subject.EndsWith(expected, StringComparison.OrdinalIgnoreCase))
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith(
-                        "Expected {context:string} that ends with equivalent of {0}{reason}, but found {1}.",
-                        expected, Subject);
-            }
-        }
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that a string ends with the specified <paramref name="expected"/>, using the provided <paramref name="config"/>.
+    /// </summary>
+    /// <param name="expected">The string that the subject is expected to end with.</param>
+    /// <param name="config">
+    /// The equivalency options.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
+    public AndConstraint<TAssertions> EndWithEquivalentOf(string expected,
+        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end equivalence with <null>.");
+        Guard.ThrowIfArgumentIsNull(config);
+
+        EquivalencyAssertionOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
+
+        var stringEndValidator = new StringValidator(
+            new StringEndStrategy(options.GetStringComparerOrDefault()),
+            because, becauseArgs);
+
+        var subject = options.ApplyStringSettings(Subject);
+        stringEndValidator.Validate(subject, expected);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1003,26 +1257,61 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
-    public AndConstraint<TAssertions> NotEndWithEquivalentOf(string unexpected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotEndWithEquivalentOf(string unexpected,
+        string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare end of string with <null>.");
 
-        var success = Execute.Assertion
-            .BecauseOf(because, becauseArgs)
-            .ForCondition(Subject is not null)
-            .FailWith(
-                "Expected {context:string} that does not end with equivalent of {0}{reason}, but found {1}.",
-                unexpected, Subject);
+        bool notEquivalent;
 
-        if (success)
+        using (var scope = new AssertionScope())
         {
-            Execute.Assertion
-                .ForCondition(!Subject.EndsWith(unexpected, StringComparison.OrdinalIgnoreCase))
-                .BecauseOf(because, becauseArgs)
-                .FailWith(
-                    "Expected {context:string} that does not end with equivalent of {0}{reason}, but found {1}.",
-                    unexpected, Subject);
+            Subject.Should().EndWithEquivalentOf(unexpected);
+            notEquivalent = scope.Discard().Length > 0;
         }
+
+        Execute.Assertion
+            .ForCondition(Subject != null && notEquivalent)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:string} that does not end with equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that a string does not end with the specified <paramref name="unexpected"/>, using the provided <paramref name="config"/>.
+    /// </summary>
+    /// <param name="unexpected">The string that the subject is not expected to end with.</param>
+    /// <param name="config">
+    /// The equivalency options.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
+    public AndConstraint<TAssertions> NotEndWithEquivalentOf(string unexpected,
+        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare end of string with <null>.");
+        Guard.ThrowIfArgumentIsNull(config);
+
+        bool notEquivalent;
+
+        using (var scope = new AssertionScope())
+        {
+            Subject.Should().EndWithEquivalentOf(unexpected, config);
+            notEquivalent = scope.Discard().Length > 0;
+        }
+
+        Execute.Assertion
+            .ForCondition(Subject != null && notEquivalent)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Expected {context:string} that does not end with equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1082,7 +1371,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
         Guard.ThrowIfArgumentIsEmpty(expected, nameof(expected), "Cannot assert string containment against an empty string.");
 
-        int actual = Subject.CountSubstring(expected, StringComparison.Ordinal);
+        int actual = Subject.CountSubstring(expected, StringComparer.Ordinal);
 
         Execute.Assertion
             .ForConstraint(occurrenceConstraint, actual)
@@ -1108,15 +1397,84 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
-    public AndConstraint<TAssertions> ContainEquivalentOf(string expected, string because = "", params object[] becauseArgs)
+    public AndConstraint<TAssertions> ContainEquivalentOf(string expected,
+        string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
         Guard.ThrowIfArgumentIsEmpty(expected, nameof(expected), "Cannot assert string containment against an empty string.");
 
-        Execute.Assertion
-            .ForCondition(Contains(Subject, expected, StringComparison.OrdinalIgnoreCase))
-            .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:string} {0} to contain the equivalent of {1}{reason}.", Subject, expected);
+        var stringContainValidator = new StringValidatorSupportingNull(
+            new StringContainsStrategy(StringComparer.OrdinalIgnoreCase, AtLeast.Once()),
+            because, becauseArgs);
+
+        stringContainValidator.Validate(Subject, expected);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that a string contains the specified <paramref name="expected"/>, using the provided <paramref name="config"/>.
+    /// </summary>
+    /// <param name="expected">The string that the subject is expected to contain.</param>
+    /// <param name="config">
+    /// The equivalency options.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
+    public AndConstraint<TAssertions> ContainEquivalentOf(string expected,
+        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        string because = "", params object[] becauseArgs)
+    {
+        return ContainEquivalentOf(expected, AtLeast.Once(), config, because, becauseArgs);
+    }
+
+    /// <summary>
+    /// Asserts that a string contains the specified <paramref name="expected"/>, using the provided <paramref name="config"/>.
+    /// </summary>
+    /// <param name="expected">The string that the subject is expected to contain.</param>
+    /// <param name="occurrenceConstraint">
+    /// A constraint specifying the amount of times a substring should be present within the test subject.
+    /// It can be created by invoking static methods Once, Twice, Thrice, or Times(int)
+    /// on the classes <see cref="Exactly"/>, <see cref="AtLeast"/>, <see cref="MoreThan"/>, <see cref="AtMost"/>, and <see cref="LessThan"/>.
+    /// For example, <see cref="Exactly.Times(int)"/> or <see cref="LessThan.Twice()"/>.
+    /// </param>
+    /// <param name="config">
+    /// The equivalency options.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
+    public AndConstraint<TAssertions> ContainEquivalentOf(string expected,
+        OccurrenceConstraint occurrenceConstraint,
+        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
+        Guard.ThrowIfArgumentIsEmpty(expected, nameof(expected), "Cannot assert string containment against an empty string.");
+        Guard.ThrowIfArgumentIsNull(occurrenceConstraint);
+        Guard.ThrowIfArgumentIsNull(config);
+
+        EquivalencyAssertionOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
+
+        var stringContainValidator = new StringValidatorSupportingNull(
+            new StringContainsStrategy(options.GetStringComparerOrDefault(), occurrenceConstraint),
+            because, becauseArgs);
+
+        var subject = options.ApplyStringSettings(Subject);
+        stringContainValidator.Validate(subject, expected);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1143,20 +1501,19 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
-    public AndConstraint<TAssertions> ContainEquivalentOf(string expected, OccurrenceConstraint occurrenceConstraint,
+    public AndConstraint<TAssertions> ContainEquivalentOf(string expected,
+        OccurrenceConstraint occurrenceConstraint,
         string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
         Guard.ThrowIfArgumentIsEmpty(expected, nameof(expected), "Cannot assert string containment against an empty string.");
+        Guard.ThrowIfArgumentIsNull(occurrenceConstraint);
 
-        int actual = Subject.CountSubstring(expected, StringComparison.OrdinalIgnoreCase);
+        var stringContainValidator = new StringValidatorSupportingNull(
+            new StringContainsStrategy(StringComparer.OrdinalIgnoreCase, occurrenceConstraint),
+            because, becauseArgs);
 
-        Execute.Assertion
-            .ForConstraint(occurrenceConstraint, actual)
-            .BecauseOf(because, becauseArgs)
-            .FailWith(
-                $"Expected {{context:string}} {{0}} to contain equivalent of {{1}} {{expectedOccurrence}}{{reason}}, but found it {actual.Times()}.",
-                Subject, expected);
+        stringContainValidator.Validate(Subject, expected);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
@@ -1250,8 +1607,8 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="unexpected"/> is empty.</exception>
-    public AndConstraint<TAssertions> NotContain(string unexpected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotContain(string unexpected,
+        string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot assert string containment against <null>.");
         Guard.ThrowIfArgumentIsEmpty(unexpected, nameof(unexpected), "Cannot assert string containment against an empty string.");
@@ -1356,20 +1713,118 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <param name="becauseArgs">
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
-    public AndConstraint<TAssertions> NotContainEquivalentOf(string unexpected, string because = "",
-        params object[] becauseArgs)
+    public AndConstraint<TAssertions> NotContainEquivalentOf(string unexpected,
+        string because = "", params object[] becauseArgs)
     {
         Execute.Assertion
-            .ForCondition(!Contains(Subject, unexpected, StringComparison.OrdinalIgnoreCase))
+            .ForCondition(!string.IsNullOrEmpty(unexpected) && Subject != null)
             .BecauseOf(because, becauseArgs)
-            .FailWith("Did not expect {context:string} to contain equivalent of {0}{reason} but found {1}.", unexpected, Subject);
+            .FailWith("Did not expect {context:string} to contain the equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
+
+        bool notEquivalent;
+
+        using (var scope = new AssertionScope())
+        {
+            Subject.Should().ContainEquivalentOf(unexpected);
+            notEquivalent = scope.Discard().Length > 0;
+        }
+
+        Execute.Assertion
+            .ForCondition(notEquivalent)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Did not expect {context:string} to contain the equivalent of {0}{reason} but found {1}.", unexpected, Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
-    private static bool Contains(string actual, string expected, StringComparison comparison)
+    /// <summary>
+    /// Asserts that a string does not contain the specified <paramref name="unexpected"/> string, using the provided <paramref name="config"/>.
+    /// </summary>
+    /// <param name="unexpected">The string that the subject is not expected to contain.</param>
+    /// <param name="config">
+    /// The equivalency options.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> NotContainEquivalentOf(string unexpected,
+        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        string because = "", params object[] becauseArgs)
     {
-        return (actual ?? string.Empty).Contains(expected ?? string.Empty, comparison);
+        Guard.ThrowIfArgumentIsNull(config);
+
+        Execute.Assertion
+            .ForCondition(!string.IsNullOrEmpty(unexpected) && Subject != null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Did not expect {context:string} to contain the equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
+
+        bool notEquivalent;
+
+        using (var scope = new AssertionScope())
+        {
+            Subject.Should().ContainEquivalentOf(unexpected, config);
+            notEquivalent = scope.Discard().Length > 0;
+        }
+
+        Execute.Assertion
+            .ForCondition(notEquivalent)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Did not expect {context:string} to contain the equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that a string does not contain the specified <paramref name="unexpected"/> string, using the provided <paramref name="config"/>.
+    /// </summary>
+    /// <param name="unexpected">The string that the subject is not expected to contain.</param>
+    /// <param name="occurrenceConstraint">
+    /// A constraint specifying the amount of times a substring should be present within the test subject.
+    /// It can be created by invoking static methods Once, Twice, Thrice, or Times(int)
+    /// on the classes <see cref="Exactly"/>, <see cref="AtLeast"/>, <see cref="MoreThan"/>, <see cref="AtMost"/>, and <see cref="LessThan"/>.
+    /// For example, <see cref="Exactly.Times(int)"/> or <see cref="LessThan.Twice()"/>.
+    /// </param>
+    /// <param name="config">
+    /// The equivalency options.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> NotContainEquivalentOf(string unexpected,
+        OccurrenceConstraint occurrenceConstraint,
+        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(occurrenceConstraint);
+        Guard.ThrowIfArgumentIsNull(config);
+
+        Execute.Assertion
+            .ForCondition(!string.IsNullOrEmpty(unexpected) && Subject != null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Did not expect {context:string} to contain the equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
+
+        bool notEquivalent;
+
+        using (var scope = new AssertionScope())
+        {
+            Subject.Should().ContainEquivalentOf(unexpected, occurrenceConstraint, config);
+            notEquivalent = scope.Discard().Length > 0;
+        }
+
+        Execute.Assertion
+            .ForCondition(notEquivalent)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Did not expect {context:string} to contain the equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
     /// <summary>
@@ -1610,6 +2065,11 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             .FailWith("Did not expect any characters in {context:string} to be lower cased{reason}.");
 
         return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    private static bool Contains(string actual, string expected, StringComparison comparison)
+    {
+        return (actual ?? string.Empty).Contains(expected ?? string.Empty, comparison);
     }
 
     private static void ThrowIfValuesNullOrEmpty(IEnumerable<string> values)
