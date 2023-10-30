@@ -16,7 +16,7 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             string actual = "test";
-            string expect = "TEST";
+            string expect = "T*T";
 
             // Act / Assert
             actual.Should().MatchEquivalentOf(expect, o => o.IgnoringCase());
@@ -27,7 +27,7 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             string actual = "  test";
-            string expect = "test";
+            string expect = "t*t";
 
             // Act / Assert
             actual.Should().MatchEquivalentOf(expect, o => o.IgnoringLeadingWhitespace());
@@ -38,7 +38,7 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             string actual = "test  ";
-            string expect = "test";
+            string expect = "t*t";
 
             // Act / Assert
             actual.Should().MatchEquivalentOf(expect, o => o.IgnoringTrailingWhitespace());
@@ -49,7 +49,7 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             string actual = "\rA\nB\r\nC\n";
-            string expect = "ABC";
+            string expect = "A?C";
 
             // Act / Assert
             actual.Should().MatchEquivalentOf(expect, o => o.IgnoringNewlines());
@@ -135,7 +135,7 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             string actual = "test";
-            string expect = "TEST";
+            string expect = "T*T";
 
             // Act
             Action act = () => actual.Should().NotMatchEquivalentOf(expect, o => o.IgnoringCase());
@@ -149,7 +149,7 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             string actual = "  test";
-            string expect = "test";
+            string expect = "t*t";
 
             // Act
             Action act = () => actual.Should().NotMatchEquivalentOf(expect, o => o.IgnoringLeadingWhitespace());
@@ -163,7 +163,7 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             string actual = "test  ";
-            string expect = "test";
+            string expect = "t*t";
 
             // Act
             Action act = () => actual.Should().NotMatchEquivalentOf(expect, o => o.IgnoringTrailingWhitespace());
@@ -177,7 +177,7 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             string actual = "\rA\nB\r\nC\n";
-            string expect = "ABC";
+            string expect = "A?C";
 
             // Act
             Action act = () => actual.Should().NotMatchEquivalentOf(expect, o => o.IgnoringNewlines());

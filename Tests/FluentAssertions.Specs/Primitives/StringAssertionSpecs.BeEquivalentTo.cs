@@ -18,8 +18,8 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             var comparer = new MatchingEqualityComparer();
-            string actual = "test A";
-            string expect = "test B";
+            string actual = "ABC";
+            string expect = "XYZ";
 
             // Act / Assert
             actual.Should().BeEquivalentTo(expect, o => o.Using(comparer));
@@ -30,8 +30,8 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             var comparer = new NotMatchingEqualityComparer();
-            string actual = "test";
-            string expect = "test";
+            string actual = "ABC";
+            string expect = "ABC";
 
             // Act
             Action act = () => actual.Should().BeEquivalentTo(expect, o => o.Using(comparer));
@@ -185,8 +185,8 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             var comparer = new NotMatchingEqualityComparer();
-            string actual = "test";
-            string expect = "test";
+            string actual = "ABC";
+            string expect = "ABC";
 
             // Act / Assert
             actual.Should().NotBeEquivalentTo(expect, o => o.Using(comparer));
@@ -197,8 +197,8 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             var comparer = new MatchingEqualityComparer();
-            string actual = "test A";
-            string expect = "test B";
+            string actual = "ABC";
+            string expect = "XYZ";
 
             // Act
             Action act = () => actual.Should().NotBeEquivalentTo(expect, o => o.Using(comparer));
@@ -349,32 +349,6 @@ public partial class StringAssertionSpecs
 
             // Assert
             act.Should().NotThrow();
-        }
-    }
-
-    private sealed class MatchingEqualityComparer : IEqualityComparer<string>
-    {
-        public bool Equals(string x, string y)
-        {
-            return true;
-        }
-
-        public int GetHashCode(string obj)
-        {
-            return obj.GetHashCode();
-        }
-    }
-
-    private sealed class NotMatchingEqualityComparer : IEqualityComparer<string>
-    {
-        public bool Equals(string x, string y)
-        {
-            return false;
-        }
-
-        public int GetHashCode(string obj)
-        {
-            return obj.GetHashCode();
         }
     }
 }

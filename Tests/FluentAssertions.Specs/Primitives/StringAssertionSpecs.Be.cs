@@ -16,8 +16,8 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             var comparer = new MatchingEqualityComparer();
-            string actual = "test A";
-            string expect = "test B";
+            string actual = "ABC";
+            string expect = "XYZ";
 
             // Act / Assert
             actual.Should().Be(expect, o => o.Using(comparer));
@@ -28,8 +28,8 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             var comparer = new NotMatchingEqualityComparer();
-            string actual = "test";
-            string expect = "test";
+            string actual = "ABC";
+            string expect = "ABC";
 
             // Act
             Action act = () => actual.Should().Be(expect, o => o.Using(comparer));
@@ -431,8 +431,8 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             var comparer = new NotMatchingEqualityComparer();
-            string actual = "test";
-            string expect = "test";
+            string actual = "ABC";
+            string expect = "ABC";
 
             // Act / Assert
             actual.Should().NotBe(expect, o => o.Using(comparer));
@@ -443,8 +443,8 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             var comparer = new MatchingEqualityComparer();
-            string actual = "test A";
-            string expect = "test B";
+            string actual = "ABC";
+            string expect = "XYZ";
 
             // Act
             Action act = () => actual.Should().NotBe(expect, o => o.Using(comparer));

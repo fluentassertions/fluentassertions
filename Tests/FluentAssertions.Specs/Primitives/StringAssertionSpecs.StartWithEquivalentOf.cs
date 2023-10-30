@@ -17,8 +17,8 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             var comparer = new MatchingEqualityComparer();
-            string actual = "test A";
-            string expect = "test B";
+            string actual = "ABC";
+            string expect = "XYZ";
 
             // Act / Assert
             actual.Should().StartWithEquivalentOf(expect, o => o.Using(comparer));
@@ -29,8 +29,8 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             var comparer = new NotMatchingEqualityComparer();
-            string actual = "test";
-            string expect = "test";
+            string actual = "ABC";
+            string expect = "ABC";
 
             // Act
             Action act = () => actual.Should().StartWithEquivalentOf(expect, o => o.Using(comparer));
@@ -43,7 +43,7 @@ public partial class StringAssertionSpecs
         public void Succeed_for_case_different_strings_when_IgnoringCase()
         {
             // Arrange
-            string actual = "test";
+            string actual = "test with suffix";
             string expect = "TEST";
 
             // Act / Assert
@@ -54,7 +54,7 @@ public partial class StringAssertionSpecs
         public void Succeed_for_leading_whitespace_different_strings_when_IgnoringLeadingWhitespace()
         {
             // Arrange
-            string actual = "  test";
+            string actual = "  test with suffix";
             string expect = "test";
 
             // Act / Assert
@@ -65,7 +65,7 @@ public partial class StringAssertionSpecs
         public void Succeed_for_trailing_whitespace_different_strings_when_IgnoringTrailingWhitespace()
         {
             // Arrange
-            string actual = "test  ";
+            string actual = "test with suffix  ";
             string expect = "test";
 
             // Act / Assert
@@ -76,7 +76,7 @@ public partial class StringAssertionSpecs
         public void Succeed_for_newline_different_strings_when_IgnoringNewlines()
         {
             // Arrange
-            string actual = "\rA\nB\r\nC\n";
+            string actual = "\rA\nB\r\nC\n with suffix";
             string expect = "ABC";
 
             // Act / Assert
@@ -175,8 +175,8 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             var comparer = new NotMatchingEqualityComparer();
-            string actual = "test";
-            string expect = "test";
+            string actual = "ABC";
+            string expect = "ABC";
 
             // Act / Assert
             actual.Should().NotStartWithEquivalentOf(expect, o => o.Using(comparer));
@@ -187,8 +187,8 @@ public partial class StringAssertionSpecs
         {
             // Arrange
             var comparer = new MatchingEqualityComparer();
-            string actual = "test A";
-            string expect = "test B";
+            string actual = "ABC";
+            string expect = "XYZ";
 
             // Act
             Action act = () => actual.Should().NotStartWithEquivalentOf(expect, o => o.Using(comparer));
@@ -201,7 +201,7 @@ public partial class StringAssertionSpecs
         public void Fail_for_case_different_strings_when_IgnoringCase()
         {
             // Arrange
-            string actual = "test";
+            string actual = "test with suffix";
             string expect = "TEST";
 
             // Act
@@ -215,7 +215,7 @@ public partial class StringAssertionSpecs
         public void Fail_for_leading_whitespace_different_strings_when_IgnoringLeadingWhitespace()
         {
             // Arrange
-            string actual = "  test";
+            string actual = "  test with suffix";
             string expect = "test";
 
             // Act
@@ -229,7 +229,7 @@ public partial class StringAssertionSpecs
         public void Fail_for_trailing_whitespace_different_strings_when_IgnoringTrailingWhitespace()
         {
             // Arrange
-            string actual = "test  ";
+            string actual = "test with suffix  ";
             string expect = "test";
 
             // Act
@@ -243,7 +243,7 @@ public partial class StringAssertionSpecs
         public void Fail_for_newline_different_strings_when_IgnoringNewlines()
         {
             // Arrange
-            string actual = "\rA\nB\r\nC\n";
+            string actual = "\rA\nB\r\nC\n with suffix";
             string expect = "ABC";
 
             // Act
