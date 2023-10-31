@@ -1,4 +1,3 @@
-
 ## 7.0 Alpha 1
 
 ### What's new

@@ -192,3 +192,6 @@ Tests/Benchmarks/BenchmarkDotNet.Artifacts/
 
 # Documentation spell check
 node_modules/
+
+# Ignore this file, as it should be a copy of the RELEASE.md from the root directory and not be included in the repository
+/docs/_pages/RELEASE.md

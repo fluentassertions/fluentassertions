@@ -369,7 +369,8 @@ class Build : NukeBuild
         x.StartsWith("cSpell.json") ||
         x.StartsWith("LICENSE") ||
         x.StartsWith("package.json") ||
-        x.StartsWith("README.md");
+        x.StartsWith("README.md") ||
+        x.StartsWith("RELEASE.md");
 
     string[] Changes =>
         Repository.Diff
