@@ -747,36 +747,6 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     }
 
     /// <summary>
-    /// Applies the string-specific options to the <paramref name="value"/>.
-    /// </summary>
-    /// <remarks>
-    /// When <see cref="IgnoringLeadingWhitespace()"/> whitespace is removed from the start of the <paramref name="value"/>.<br />
-    /// When <see cref="IgnoringTrailingWhitespace()"/> whitespace is removed from the end of the <paramref name="value"/>.<br />
-    /// When <see cref="IgnoringNewlines()"/> all newlines ("\r" and "\n") are removed from the <paramref name="value"/>.
-    /// </remarks>
-    internal string ApplyStringSettings(string value)
-    {
-        if (ignoreLeadingWhitespace)
-        {
-            value = value.TrimStart();
-        }
-
-        if (ignoreTrailingWhitespace)
-        {
-            value = value.TrimEnd();
-        }
-
-        if (ignoreNewlines)
-        {
-            value = value
-                .Replace("\r", string.Empty, StringComparison.Ordinal)
-                .Replace("\n", string.Empty, StringComparison.Ordinal);
-        }
-
-        return value;
-    }
-
-    /// <summary>
     /// Returns a string that represents the current object.
     /// </summary>
     /// <returns>

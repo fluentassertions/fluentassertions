@@ -89,7 +89,8 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             new StringEqualityStrategy(options.GetStringComparerOrDefault()),
             because, becauseArgs);
 
-        var subject = options.ApplyStringSettings(Subject);
+        var subject = ApplyStringSettings(Subject, options);
+        expected = ApplyStringSettings(expected, options);
 
         expectation.Validate(subject, expected);
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -183,7 +184,8 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             new StringEqualityStrategy(options.GetStringComparerOrDefault()),
             because, becauseArgs);
 
-        var subject = options.ApplyStringSettings(Subject);
+        var subject = ApplyStringSettings(Subject, options);
+        expected = ApplyStringSettings(expected, options);
 
         expectation.Validate(subject, expected);
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -542,9 +544,10 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             },
             because, becauseArgs);
 
-        var subject = options.ApplyStringSettings(Subject);
-        stringWildcardMatchingValidator.Validate(subject, wildcardPattern);
+        var subject = ApplyStringSettings(Subject, options);
+        wildcardPattern = ApplyStringSettings(wildcardPattern, options);
 
+        stringWildcardMatchingValidator.Validate(subject, wildcardPattern);
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
@@ -667,9 +670,10 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             },
             because, becauseArgs);
 
-        var subject = options.ApplyStringSettings(Subject);
-        stringWildcardMatchingValidator.Validate(subject, wildcardPattern);
+        var subject = ApplyStringSettings(Subject, options);
+        wildcardPattern = ApplyStringSettings(wildcardPattern, options);
 
+        stringWildcardMatchingValidator.Validate(subject, wildcardPattern);
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
@@ -1046,9 +1050,10 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             new StringStartStrategy(options.GetStringComparerOrDefault()),
             because, becauseArgs);
 
-        var subject = options.ApplyStringSettings(Subject);
-        stringStartValidator.Validate(subject, expected);
+        var subject = ApplyStringSettings(Subject, options);
+        expected = ApplyStringSettings(expected, options);
 
+        stringStartValidator.Validate(subject, expected);
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
@@ -1238,9 +1243,10 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             new StringEndStrategy(options.GetStringComparerOrDefault()),
             because, becauseArgs);
 
-        var subject = options.ApplyStringSettings(Subject);
-        stringEndValidator.Validate(subject, expected);
+        var subject = ApplyStringSettings(Subject, options);
+        expected = ApplyStringSettings(expected, options);
 
+        stringEndValidator.Validate(subject, expected);
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
@@ -1473,9 +1479,10 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             new StringContainsStrategy(options.GetStringComparerOrDefault(), occurrenceConstraint),
             because, becauseArgs);
 
-        var subject = options.ApplyStringSettings(Subject);
-        stringContainValidator.Validate(subject, expected);
+        var subject = ApplyStringSettings(Subject, options);
+        expected = ApplyStringSettings(expected, options);
 
+        stringContainValidator.Validate(subject, expected);
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
@@ -2080,6 +2087,36 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         {
             throw new ArgumentException("Cannot assert string containment of values in empty collection", nameof(values));
         }
+    }
+
+    /// <summary>
+    /// Applies the string-specific <paramref name="options"/> to the <paramref name="value"/>.
+    /// </summary>
+    /// <remarks>
+    /// When <see cref="IEquivalencyAssertionOptions.IgnoreLeadingWhitespace"/> is set, whitespace is removed from the start of the <paramref name="value"/>.<br />
+    /// When <see cref="IEquivalencyAssertionOptions.IgnoreTrailingWhitespace"/> is set, whitespace is removed from the end of the <paramref name="value"/>.<br />
+    /// When <see cref="IEquivalencyAssertionOptions.IgnoreNewlines"/> is set, all newlines ("\r" and "\n") are removed from the <paramref name="value"/>.
+    /// </remarks>
+    private static string ApplyStringSettings(string value, IEquivalencyAssertionOptions options)
+    {
+        if (options.IgnoreLeadingWhitespace)
+        {
+            value = value.TrimStart();
+        }
+
+        if (options.IgnoreTrailingWhitespace)
+        {
+            value = value.TrimEnd();
+        }
+
+        if (options.IgnoreNewlines)
+        {
+            value = value
+                .Replace("\r", string.Empty, StringComparison.Ordinal)
+                .Replace("\n", string.Empty, StringComparison.Ordinal);
+        }
+
+        return value;
     }
 
     /// <summary>
