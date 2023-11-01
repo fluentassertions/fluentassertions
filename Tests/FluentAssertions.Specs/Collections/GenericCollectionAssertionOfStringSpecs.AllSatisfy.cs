@@ -4,9 +4,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Collections;
 
-/// <summary>
-/// This part contains tests that address AllSatisfy
-/// </summary>
 public partial class GenericCollectionAssertionOfStringSpecs
 {
     public class AllSatisfy
