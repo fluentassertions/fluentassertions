@@ -670,7 +670,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     }
 
     /// <summary>
-    /// Asserts that the collection is a subset of the <paramref name="expectedSubset" />.
+    /// Asserts that the collection is a superset of the <paramref name="expectedSubset" />.
     /// </summary>
     /// <param name="expectedSubset">An <see cref="IEnumerable{T}"/> with the expected superset.</param>
     /// <param name="because">
