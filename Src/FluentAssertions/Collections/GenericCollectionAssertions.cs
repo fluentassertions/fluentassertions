@@ -707,14 +707,14 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     {
         AssertBeSubsetOf(expectedProperSuperset, "proper subset", because, becauseArgs);
 
-        ICollection<T> expectedItems = expectedProperSuperset.ConvertOrCastToCollection();
+        ISet<T> expectedItems = expectedProperSuperset.ConvertOrCastToSet();
 
         if (expectedItems.Intersect(Subject).Count() == expectedItems.Count)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:collection} to be a proper subset of {0}{reason}, but items {1} are equivalent to the subset",
-                    Subject, expectedItems);
+                    expectedItems, Subject);
         }
 
         return new AndConstraint<TAssertions>((TAssertions)this);
@@ -737,7 +737,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     {
         AssertContainment(expectedProperSubset, "be a proper superset of", because, becauseArgs);
 
-        ICollection<T> actualItems = Subject.ConvertOrCastToCollection();
+        ISet<T> actualItems = Subject.ConvertOrCastToSet();
 
         if (actualItems.Intersect(expectedProperSubset).Count() == actualItems.Count)
         {

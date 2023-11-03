@@ -24,6 +24,17 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
+        public void When_collection_is_proper_subset_of_a_specified_collection_with_duplicates_it_should_not_throw()
+        {
+            // Arrange
+            var subset = new[] { 1, 1, 1, 2, 2, 3, 3 };
+            var superset = new[] { 1, 2, 3, 3, 3, 4 };
+
+            // Act / Assert
+            subset.Should().BeProperSubsetOf(superset);
+        }
+
+        [Fact]
         public void When_collection_is_not_a_proper_subset_of_another_it_should_throw_with_the_reason()
         {
             // Arrange
@@ -35,8 +46,40 @@ public partial class CollectionAssertionSpecs
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
-                "Expected subset to be a proper subset of {1, 2, 3, 4} because we want to test the failure message, " +
-                "but items {4, 3, 2, 1} are equivalent to the subset");
+                "Expected subset to be a proper subset of {4, 3, 2, 1} because we want to test the failure message, " +
+                "but items {1, 2, 3, 4} are equivalent to the subset");
+        }
+
+        [Fact]
+        public void When_collection_is_not_a_proper_subset_of_another_with_duplicates_it_should_throw_with_the_reason()
+        {
+            // Arrange
+            var subset = new[] { 1, 1, 1, 2, 2, 3, 3, 4 };
+            var superset = new[] { 4, 3, 2, 1 };
+
+            // Act
+            Action act = () => subset.Should().BeProperSubsetOf(superset, "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected subset to be a proper subset of {4, 3, 2, 1} because we want to test the failure message, " +
+                "but items {1, 1, 1, 2, 2, 3, 3, 4} are equivalent to the subset");
+        }
+
+        [Fact]
+        public void When_collection_with_duplicates_is_not_a_proper_subset_of_another_with_duplicates_it_should_throw_with_the_reason()
+        {
+            // Arrange
+            var subset = new[] { 1, 1, 1, 2, 2, 3, 3, 4 };
+            var superset = new[] { 4, 4, 4, 3, 3, 2, 1, 1 };
+
+            // Act
+            Action act = () => subset.Should().BeProperSubsetOf(superset, "because we want to test the failure {0}", "message");
+
+            // Assert
+            act.Should().Throw<XunitException>().WithMessage(
+                "Expected subset to be a proper subset of {4, 3, 2, 1} because we want to test the failure message, " +
+                "but items {1, 1, 1, 2, 2, 3, 3, 4} are equivalent to the subset");
         }
 
         [Fact]
