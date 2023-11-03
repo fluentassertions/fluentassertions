@@ -714,9 +714,8 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
 
         builder
             .AppendLine("- Compare tuples by their properties")
-            .AppendLine("- Compare anonymous types by their properties");
-
-        equalityStrategyCache.AppendToString(builder);
+            .AppendLine("- Compare anonymous types by their properties")
+            .Append(equalityStrategyCache);
 
         if (excludeNonBrowsableOnExpectation)
         {

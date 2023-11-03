@@ -13,8 +13,10 @@ internal sealed class EqualityStrategyCache
     private readonly List<Type> referenceTypes = new();
     private readonly List<Type> valueTypes = new();
     private readonly ConcurrentDictionary<Type, EqualityStrategy> typeCache = new();
+
     [CanBeNull]
     private readonly Func<Type, EqualityStrategy> defaultStrategy;
+
     private bool? compareRecordsByValue;
 
     public bool? CompareRecordsByValue
@@ -92,8 +94,10 @@ internal sealed class EqualityStrategyCache
         return true;
     }
 
-    public void AppendToString(StringBuilder builder)
+    public override string ToString()
     {
+        var builder = new StringBuilder();
+
         if (compareRecordsByValue is true)
         {
             builder.AppendLine("- Compare records by value");
@@ -112,5 +116,7 @@ internal sealed class EqualityStrategyCache
         {
             builder.AppendLine(CultureInfo.InvariantCulture, $"- Compare {type} by its members");
         }
+
+        return builder.ToString();
     }
 }
