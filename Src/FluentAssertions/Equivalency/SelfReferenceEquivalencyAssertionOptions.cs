@@ -25,7 +25,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
 {
     #region Private Definitions
 
-    private readonly EqualityStrategyCache equalityStrategyCache;
+    private readonly EqualityStrategyProvider equalityStrategyProvider;
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private readonly List<IMemberSelectionRule> selectionRules = new();
@@ -60,7 +60,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
 
     private protected SelfReferenceEquivalencyAssertionOptions()
     {
-        equalityStrategyCache = new EqualityStrategyCache(null);
+        equalityStrategyProvider = new EqualityStrategyProvider();
 
         AddMatchingRule(new MustMatchByNameRule());
 
@@ -72,7 +72,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// </summary>
     protected SelfReferenceEquivalencyAssertionOptions(IEquivalencyAssertionOptions defaults)
     {
-        equalityStrategyCache = new EqualityStrategyCache(defaults.GetEqualityStrategy)
+        equalityStrategyProvider = new EqualityStrategyProvider(defaults.GetEqualityStrategy)
         {
             CompareRecordsByValue = defaults.CompareRecordsByValue
         };
@@ -175,10 +175,10 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
 
     bool IEquivalencyAssertionOptions.ExcludeNonBrowsableOnExpectation => excludeNonBrowsableOnExpectation;
 
-    public bool? CompareRecordsByValue => equalityStrategyCache.CompareRecordsByValue;
+    public bool? CompareRecordsByValue => equalityStrategyProvider.CompareRecordsByValue;
 
     EqualityStrategy IEquivalencyAssertionOptions.GetEqualityStrategy(Type type)
-        => equalityStrategyCache.GetEqualityStrategy(type);
+        => equalityStrategyProvider.GetEqualityStrategy(type);
 
     public ITraceWriter TraceWriter { get; private set; }
 
@@ -568,7 +568,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// </summary>
     public TSelf ComparingRecordsByValue()
     {
-        equalityStrategyCache.CompareRecordsByValue = true;
+        equalityStrategyProvider.CompareRecordsByValue = true;
         return (TSelf)this;
     }
 
@@ -581,7 +581,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// </remarks>
     public TSelf ComparingRecordsByMembers()
     {
-        equalityStrategyCache.CompareRecordsByValue = false;
+        equalityStrategyProvider.CompareRecordsByValue = false;
         return (TSelf)this;
     }
 
@@ -605,7 +605,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
             throw new InvalidOperationException($"Cannot compare a primitive type such as {type.Name} by its members");
         }
 
-        if (!equalityStrategyCache.AddReferenceType(type))
+        if (!equalityStrategyProvider.AddReferenceType(type))
         {
             throw new InvalidOperationException(
                 $"Can't compare {type.Name} by its members if it already setup to be compared by value");
@@ -629,7 +629,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     {
         Guard.ThrowIfArgumentIsNull(type);
 
-        if (!equalityStrategyCache.AddValueType(type))
+        if (!equalityStrategyProvider.AddValueType(type))
         {
             throw new InvalidOperationException(
                 $"Can't compare {type.Name} by value if it already setup to be compared by its members");
@@ -715,7 +715,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
         builder
             .AppendLine("- Compare tuples by their properties")
             .AppendLine("- Compare anonymous types by their properties")
-            .Append(equalityStrategyCache);
+            .Append(equalityStrategyProvider);
 
         if (excludeNonBrowsableOnExpectation)
         {

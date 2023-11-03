@@ -8,7 +8,7 @@ using JetBrains.Annotations;
 
 namespace FluentAssertions.Equivalency;
 
-internal sealed class EqualityStrategyCache
+internal sealed class EqualityStrategyProvider
 {
     private readonly List<Type> referenceTypes = new();
     private readonly List<Type> valueTypes = new();
@@ -19,6 +19,15 @@ internal sealed class EqualityStrategyCache
 
     private bool? compareRecordsByValue;
 
+    public EqualityStrategyProvider()
+    {
+    }
+
+    public EqualityStrategyProvider(Func<Type, EqualityStrategy> defaultStrategy)
+    {
+        this.defaultStrategy = defaultStrategy;
+    }
+
     public bool? CompareRecordsByValue
     {
         get => compareRecordsByValue;
@@ -27,11 +36,6 @@ internal sealed class EqualityStrategyCache
             compareRecordsByValue = value;
             typeCache.Clear();
         }
-    }
-
-    public EqualityStrategyCache([CanBeNull] Func<Type, EqualityStrategy> defaultStrategy)
-    {
-        this.defaultStrategy = defaultStrategy;
     }
 
     public EqualityStrategy GetEqualityStrategy(Type type)
