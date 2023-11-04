@@ -470,5 +470,24 @@ public partial class StringAssertionSpecs
             // Assert
             act.Should().NotThrow();
         }
+
+        [Fact]
+        public void Fail_for_too_many_occurences_according_to_occurence_constraint()
+        {
+            // Act
+            Action act = () =>
+                "abc".Should().NotContainEquivalentOf("a", AtMost.Once());
+
+            // Assert
+            act.Should().Throw<XunitException>()
+                .WithMessage("Did not expect string to contain the equivalent of \"a\" at most 1 time, but found it in \"abc\".");
+        }
+
+        [Fact]
+        public void Succeed_for_correct_occurences_according_to_occurence_constraint()
+        {
+            // Act / Assert
+            "abc".Should().NotContainEquivalentOf("a", AtLeast.Twice());
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -1256,6 +1257,53 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             .ForCondition(!Contains(Subject, unexpected, StringComparison.OrdinalIgnoreCase))
             .BecauseOf(because, becauseArgs)
             .FailWith("Did not expect {context:string} to contain equivalent of {0}{reason} but found {1}.", unexpected, Subject);
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
+    /// <summary>
+    /// Asserts that a string does not contain the specified <paramref name="unexpected"/> string,
+    /// including any leading or trailing whitespace, with the exception of the casing.
+    /// </summary>
+    /// <param name="unexpected">The string that the subject is not expected to contain.</param>
+    /// <param name="occurrenceConstraint">
+    /// A constraint specifying the amount of times a substring should be present within the test subject.
+    /// It can be created by invoking static methods Once, Twice, Thrice, or Times(int)
+    /// on the classes <see cref="Exactly"/>, <see cref="AtLeast"/>, <see cref="MoreThan"/>, <see cref="AtMost"/>, and <see cref="LessThan"/>.
+    /// For example, <see cref="Exactly.Times(int)"/> or <see cref="LessThan.Twice()"/>.
+    /// </param>
+    /// <param name="because">
+    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+    /// </param>
+    /// <param name="becauseArgs">
+    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
+    /// </param>
+    public AndConstraint<TAssertions> NotContainEquivalentOf(string unexpected,
+        OccurrenceConstraint occurrenceConstraint,
+        string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(occurrenceConstraint);
+
+        Execute.Assertion
+            .ForCondition(!string.IsNullOrEmpty(unexpected) && Subject != null)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Did not expect {context:string} to contain the equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
+
+        bool notEquivalent;
+
+        using (var scope = new AssertionScope())
+        {
+            Subject.Should().ContainEquivalentOf(unexpected, occurrenceConstraint);
+            notEquivalent = scope.Discard().Length > 0;
+        }
+
+        var assertion = Execute.Assertion;
+        occurrenceConstraint.RegisterReportables(assertion);
+        assertion
+            .ForCondition(notEquivalent)
+            .BecauseOf(because, becauseArgs)
+            .FailWith("Did not expect {context:string} to contain the equivalent of {0} {expectedOccurrence}{reason}, but found it in {1}.", unexpected, Subject);
 
         return new AndConstraint<TAssertions>((TAssertions)this);
     }

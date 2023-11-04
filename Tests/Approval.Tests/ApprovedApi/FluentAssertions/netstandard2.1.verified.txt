@@ -2060,6 +2060,7 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotContainAny(params string[] values) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainAny(System.Collections.Generic.IEnumerable<string> values, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainEquivalentOf(string unexpected, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotContainEquivalentOf(string unexpected, FluentAssertions.OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotEndWith(string unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotEndWithEquivalentOf(string unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotMatch(string wildcardPattern, string because = "", params object[] becauseArgs) { }
