@@ -672,7 +672,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <summary>
     /// Asserts that the collection is a superset of the <paramref name="expectedSubset" />.
     /// </summary>
-    /// <param name="expectedSubset">An <see cref="IEnumerable{T}"/> with the expected superset.</param>
+    /// <param name="expectedSubset">An <see cref="IEnumerable{T}"/> with the expected subset.</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -723,7 +723,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <summary>
     /// Asserts that the collection is a proper subset of the <paramref name="expectedProperSubset" />.
     /// </summary>
-    /// <param name="expectedProperSubset">An <see cref="IEnumerable{T}"/> with the expected superset.</param>
+    /// <param name="expectedProperSubset">An <see cref="IEnumerable{T}"/> with the expected subset.</param>
     /// <param name="because">
     /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
     /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
