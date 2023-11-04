@@ -1717,55 +1717,6 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     }
 
     /// <summary>
-    /// Asserts that a string does not contain the specified <paramref name="unexpected"/> string, using the provided <paramref name="config"/>.
-    /// </summary>
-    /// <param name="unexpected">The string that the subject is not expected to contain.</param>
-    /// <param name="occurrenceConstraint">
-    /// A constraint specifying the amount of times a substring should be present within the test subject.
-    /// It can be created by invoking static methods Once, Twice, Thrice, or Times(int)
-    /// on the classes <see cref="Exactly"/>, <see cref="AtLeast"/>, <see cref="MoreThan"/>, <see cref="AtMost"/>, and <see cref="LessThan"/>.
-    /// For example, <see cref="Exactly.Times(int)"/> or <see cref="LessThan.Twice()"/>.
-    /// </param>
-    /// <param name="config">
-    /// The equivalency options.
-    /// </param>
-    /// <param name="because">
-    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-    /// </param>
-    /// <param name="becauseArgs">
-    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-    /// </param>
-    public AndConstraint<TAssertions> NotContainEquivalentOf(string unexpected,
-        OccurrenceConstraint occurrenceConstraint,
-        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
-        string because = "", params object[] becauseArgs)
-    {
-        Guard.ThrowIfArgumentIsNull(occurrenceConstraint);
-        Guard.ThrowIfArgumentIsNull(config);
-
-        Execute.Assertion
-            .ForCondition(!string.IsNullOrEmpty(unexpected) && Subject != null)
-            .BecauseOf(because, becauseArgs)
-            .FailWith("Did not expect {context:string} to contain the equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
-
-        bool notEquivalent;
-
-        using (var scope = new AssertionScope())
-        {
-            Subject.Should().ContainEquivalentOf(unexpected, occurrenceConstraint, config);
-            notEquivalent = scope.Discard().Length > 0;
-        }
-
-        Execute.Assertion
-            .ForCondition(notEquivalent)
-            .BecauseOf(because, becauseArgs)
-            .FailWith("Did not expect {context:string} to contain the equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
-
-        return new AndConstraint<TAssertions>((TAssertions)this);
-    }
-
-    /// <summary>
     /// Asserts that a string is <see cref="string.Empty"/>.
     /// </summary>
     /// <param name="because">
