@@ -164,9 +164,9 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </remarks>
     /// <param name="expectation">The expected element.</param>
     /// <param name="config">
-    /// A reference to the <see cref="EquivalencyAssertionOptions{TExpectation}"/> configuration object that can be used
+    /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
-    /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the
+    /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
     /// <see cref="AssertionOptions"/> class.
     /// </param>
     /// <param name="because">
@@ -178,7 +178,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> AllBeEquivalentTo<TExpectation>(TExpectation expectation,
-        Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config,
+        Func<EquivalencyOptions<TExpectation>, EquivalencyOptions<TExpectation>> config,
         string because = "",
         params object[] becauseArgs)
     {
@@ -192,7 +192,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         // in case user needs to use them. Strict ordering improves algorithmic complexity
         // from O(n^2) to O(n). For bigger tables it is necessary in order to achieve acceptable
         // execution times.
-        Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> forceStrictOrderingConfig =
+        Func<EquivalencyOptions<TExpectation>, EquivalencyOptions<TExpectation>> forceStrictOrderingConfig =
             x => config(x).WithStrictOrderingFor(s => string.IsNullOrEmpty(s.Path));
 
         return BeEquivalentTo(repeatedExpectation, forceStrictOrderingConfig, because, becauseArgs);
@@ -338,9 +338,9 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </remarks>
     /// <param name="expectation">An <see cref="IEnumerable{T}"/> with the expected elements.</param>
     /// <param name="config">
-    /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used
+    /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
-    /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the
+    /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
     /// <see cref="AssertionOptions"/> class.
     /// </param>
     /// <param name="because">
@@ -352,12 +352,12 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(IEnumerable<TExpectation> expectation,
-        Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
+        Func<EquivalencyOptions<TExpectation>, EquivalencyOptions<TExpectation>> config, string because = "",
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(config);
 
-        EquivalencyAssertionOptions<IEnumerable<TExpectation>> options =
+        EquivalencyOptions<IEnumerable<TExpectation>> options =
             config(AssertionOptions.CloneDefaults<TExpectation>()).AsCollection();
 
         var context =
@@ -853,9 +853,9 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </remarks>
     /// <param name="expectation">The expected element.</param>
     /// <param name="config">
-    /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used
+    /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
-    /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the
+    /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
     /// <see cref="AssertionOptions"/> class.
     /// </param>
     /// <param name="because">
@@ -867,8 +867,8 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndWhichConstraint<TAssertions, T> ContainEquivalentOf<TExpectation>(TExpectation expectation,
-        Func<EquivalencyAssertionOptions<TExpectation>,
-            EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs)
+        Func<EquivalencyOptions<TExpectation>,
+            EquivalencyOptions<TExpectation>> config, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(config);
 
@@ -879,7 +879,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
         if (success)
         {
-            EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
+            EquivalencyOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
 
             using var scope = new AssertionScope();
             scope.AddReportable("configuration", () => options.ToString());
@@ -1816,9 +1816,9 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </summary>
     /// <param name="unexpected">An <see cref="IEnumerable{T}"/> with the unexpected elements.</param>
     /// /// <param name="config">
-    /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used
+    /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
-    /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the
+    /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
     /// <see cref="AssertionOptions"/> class.
     /// </param>
     /// <param name="because">
@@ -1829,7 +1829,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public AndConstraint<TAssertions> NotBeEquivalentTo<TExpectation>(IEnumerable<TExpectation> unexpected,
-        Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config,
+        Func<EquivalencyOptions<TExpectation>, EquivalencyOptions<TExpectation>> config,
         string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot verify inequivalence against a <null> collection.");
@@ -2336,9 +2336,9 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// </remarks>
     /// <param name="unexpected">The unexpected element.</param>
     /// <param name="config">
-    /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used
+    /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
-    /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the
+    /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
     /// <see cref="AssertionOptions"/> class.
     /// </param>
     /// <param name="because">
@@ -2351,8 +2351,8 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     [SuppressMessage("Design", "MA0051:Method is too long", Justification = "Needs refactoring")]
     public AndConstraint<TAssertions> NotContainEquivalentOf<TExpectation>(TExpectation unexpected,
-        Func<EquivalencyAssertionOptions<TExpectation>,
-            EquivalencyAssertionOptions<TExpectation>> config, string because = "", params object[] becauseArgs)
+        Func<EquivalencyOptions<TExpectation>,
+            EquivalencyOptions<TExpectation>> config, string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(config);
 
@@ -2364,7 +2364,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
         if (success)
         {
-            EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
+            EquivalencyOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
 
             var foundIndices = new List<int>();
 

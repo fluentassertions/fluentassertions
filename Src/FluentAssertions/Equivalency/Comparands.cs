@@ -62,7 +62,7 @@ public class Comparands
     /// <remarks>
     /// If the expectation is a nullable type, it should return the type of the wrapped object.
     /// </remarks>
-    public Type GetExpectedType(IEquivalencyAssertionOptions options)
+    public Type GetExpectedType(IEquivalencyOptions options)
     {
         Type type = options.UseRuntimeTyping ? RuntimeType : CompileTimeType;
 

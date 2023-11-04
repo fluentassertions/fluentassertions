@@ -54,6 +54,11 @@ sidebar:
 * `OnlyContain` now succeeds when asserting that an empty collection matches some predicates - [#2350](https://github.com/fluentassertions/fluentassertions/pull/2350)
 * Dropped support for `NSpec3` test framework - [#2356](https://github.com/fluentassertions/fluentassertions/pull/2356)
 * Dropped support for `BinaryFormatter` - [#2278](https://github.com/fluentassertions/fluentassertions/pull/2278)
+* Renamed "...AssertionOptions" to "...Options" - [#2414](https://github.com/fluentassertions/fluentassertions/pull/2414)
+  * `EquivalencyAssertionOptions` to `EquivalencyOptions`
+  * `EquivalencyAssertionOptions<TExpectation>` to `EquivalencyOptions<TExpectation>`
+  * `IEquivalencyAssertionOptions` to `IEquivalencyOptions`
+  * `SelfReferenceEquivalencyAssertionOptions<TSelf>` to `SelfReferenceEquivalencyOptions<TSelf>`
 
 ### Breaking Changes (for extensions)
 * Add `ForConstraint` to `IAssertionsScope` to support chaining `.ForConstraint()` after `.Then` - [#2324](https://github.com/fluentassertions/fluentassertions/pull/2324)

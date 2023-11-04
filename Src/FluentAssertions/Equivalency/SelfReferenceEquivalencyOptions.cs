@@ -20,8 +20,8 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// Represents the run-time behavior of a structural equivalency assertion.
 /// </summary>
-public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquivalencyAssertionOptions
-    where TSelf : SelfReferenceEquivalencyAssertionOptions<TSelf>
+public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptions
+    where TSelf : SelfReferenceEquivalencyOptions<TSelf>
 {
     #region Private Definitions
 
@@ -58,7 +58,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
 
     #endregion
 
-    private protected SelfReferenceEquivalencyAssertionOptions()
+    private protected SelfReferenceEquivalencyOptions()
     {
         equalityStrategyProvider = new EqualityStrategyProvider();
 
@@ -70,7 +70,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// <summary>
     /// Creates an instance of the equivalency assertions options based on defaults previously configured by the caller.
     /// </summary>
-    protected SelfReferenceEquivalencyAssertionOptions(IEquivalencyAssertionOptions defaults)
+    protected SelfReferenceEquivalencyOptions(IEquivalencyOptions defaults)
     {
         equalityStrategyProvider = new EqualityStrategyProvider(defaults.GetEqualityStrategy)
         {
@@ -103,7 +103,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// <summary>
     /// Gets an ordered collection of selection rules that define what members are included.
     /// </summary>
-    IEnumerable<IMemberSelectionRule> IEquivalencyAssertionOptions.SelectionRules
+    IEnumerable<IMemberSelectionRule> IEquivalencyOptions.SelectionRules
     {
         get
         {
@@ -135,12 +135,12 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// Gets an ordered collection of matching rules that determine which subject members are matched with which
     /// expectation members.
     /// </summary>
-    IEnumerable<IMemberMatchingRule> IEquivalencyAssertionOptions.MatchingRules => matchingRules;
+    IEnumerable<IMemberMatchingRule> IEquivalencyOptions.MatchingRules => matchingRules;
 
     /// <summary>
     /// Gets an ordered collection of Equivalency steps how a subject is compared with the expectation.
     /// </summary>
-    IEnumerable<IEquivalencyStep> IEquivalencyAssertionOptions.UserEquivalencySteps => userEquivalencySteps;
+    IEnumerable<IEquivalencyStep> IEquivalencyOptions.UserEquivalencySteps => userEquivalencySteps;
 
     public ConversionSelector ConversionSelector { get; } = new();
 
@@ -149,35 +149,35 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// default,
     /// ordering is irrelevant.
     /// </summary>
-    OrderingRuleCollection IEquivalencyAssertionOptions.OrderingRules => OrderingRules;
+    OrderingRuleCollection IEquivalencyOptions.OrderingRules => OrderingRules;
 
     /// <summary>
     /// Gets value indicating whether the equality check will include nested collections and complex types.
     /// </summary>
-    bool IEquivalencyAssertionOptions.IsRecursive => isRecursive;
+    bool IEquivalencyOptions.IsRecursive => isRecursive;
 
-    bool IEquivalencyAssertionOptions.AllowInfiniteRecursion => allowInfiniteRecursion;
+    bool IEquivalencyOptions.AllowInfiniteRecursion => allowInfiniteRecursion;
 
     /// <summary>
     /// Gets value indicating how cyclic references should be handled. By default, it will throw an exception.
     /// </summary>
-    CyclicReferenceHandling IEquivalencyAssertionOptions.CyclicReferenceHandling => cyclicReferenceHandling;
+    CyclicReferenceHandling IEquivalencyOptions.CyclicReferenceHandling => cyclicReferenceHandling;
 
-    EnumEquivalencyHandling IEquivalencyAssertionOptions.EnumEquivalencyHandling => enumEquivalencyHandling;
+    EnumEquivalencyHandling IEquivalencyOptions.EnumEquivalencyHandling => enumEquivalencyHandling;
 
-    bool IEquivalencyAssertionOptions.UseRuntimeTyping => useRuntimeTyping;
+    bool IEquivalencyOptions.UseRuntimeTyping => useRuntimeTyping;
 
-    MemberVisibility IEquivalencyAssertionOptions.IncludedProperties => includedProperties;
+    MemberVisibility IEquivalencyOptions.IncludedProperties => includedProperties;
 
-    MemberVisibility IEquivalencyAssertionOptions.IncludedFields => includedFields;
+    MemberVisibility IEquivalencyOptions.IncludedFields => includedFields;
 
-    bool IEquivalencyAssertionOptions.IgnoreNonBrowsableOnSubject => ignoreNonBrowsableOnSubject;
+    bool IEquivalencyOptions.IgnoreNonBrowsableOnSubject => ignoreNonBrowsableOnSubject;
 
-    bool IEquivalencyAssertionOptions.ExcludeNonBrowsableOnExpectation => excludeNonBrowsableOnExpectation;
+    bool IEquivalencyOptions.ExcludeNonBrowsableOnExpectation => excludeNonBrowsableOnExpectation;
 
     public bool? CompareRecordsByValue => equalityStrategyProvider.CompareRecordsByValue;
 
-    EqualityStrategy IEquivalencyAssertionOptions.GetEqualityStrategy(Type type)
+    EqualityStrategy IEquivalencyOptions.GetEqualityStrategy(Type type)
         => equalityStrategyProvider.GetEqualityStrategy(type);
 
     public ITraceWriter TraceWriter { get; private set; }
@@ -752,7 +752,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     }
 
     /// <summary>
-    /// Defines additional overrides when used with <see cref="SelfReferenceEquivalencyAssertionOptions{T}" />
+    /// Defines additional overrides when used with <see cref="SelfReferenceEquivalencyOptions{TSelf}" />
     /// </summary>
     public class Restriction<TMember>
     {

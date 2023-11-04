@@ -11,7 +11,7 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
 {
 #pragma warning disable SA1110 // Allow opening parenthesis on new line to reduce line length
     private static readonly MethodInfo AssertDictionaryEquivalenceMethod =
-        new Action<EquivalencyValidationContext, IEquivalencyValidator, IEquivalencyAssertionOptions,
+        new Action<EquivalencyValidationContext, IEquivalencyValidator, IEquivalencyOptions,
                 IDictionary<object, object>, IDictionary<object, object>>
             (AssertDictionaryEquivalence).GetMethodInfo().GetGenericMethodDefinition();
 #pragma warning restore SA1110
@@ -158,7 +158,7 @@ public class GenericDictionaryEquivalencyStep : IEquivalencyStep
     private static void AssertDictionaryEquivalence<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(
         EquivalencyValidationContext context,
         IEquivalencyValidator parent,
-        IEquivalencyAssertionOptions options,
+        IEquivalencyOptions options,
         IDictionary<TSubjectKey, TSubjectValue> subject,
         IDictionary<TExpectedKey, TExpectedValue> expectation)
         where TExpectedKey : TSubjectKey

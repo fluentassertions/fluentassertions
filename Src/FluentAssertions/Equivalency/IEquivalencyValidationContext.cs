@@ -21,11 +21,11 @@ public interface IEquivalencyValidationContext
 
     /// <summary>
     /// Gets an object that can be used by the equivalency algorithm to provide a trace when the
-    /// <see cref="SelfReferenceEquivalencyAssertionOptions{TSelf}.WithTracing"/> option is used.
+    /// <see cref="SelfReferenceEquivalencyOptions{TSelf}.WithTracing"/> option is used.
     /// </summary>
     Tracer Tracer { get; }
 
-    IEquivalencyAssertionOptions Options { get; }
+    IEquivalencyOptions Options { get; }
 
     /// <summary>
     /// Determines whether the specified object reference is a cyclic reference to the same object earlier in the
