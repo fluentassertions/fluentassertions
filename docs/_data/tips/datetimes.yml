@@ -21,3 +21,147 @@
 
   new-message: |
     Expected a date and time that does not have date <2017-01-01>, but found it does.
+
+- old: | 
+    actual.Year.Should().Be(expected.Year);
+
+  new: |
+    actual.Should().HaveYear(expected.Year);
+
+  old-message: |
+    Expected actual.Year to be 2018, but found 2017 (difference of -1).
+
+  new-message: |
+    Expected the year part of actual to be 2018, but found 2017.
+
+- old: |
+    actual.Year.Should().NotBe(unexpected.Year);
+
+  new: |
+    actual.Should().NotHaveYear(unexpected.Year);
+
+  old-message: |
+    Did not expect the year part of actual to be 2017, but it was.
+
+  new-message: |
+    Did not expect actual.Year to be 2017.
+
+- old: |
+    actual.Month.Should().Be(expected.Month);
+
+  new: |
+    actual.Should().HaveMonth(expected.Month);
+
+  old-message: |
+    Expected actual.Month to be 2, but found 1.
+
+  new-message: |
+    Expected the month part of actual to be 2, but found 1.
+
+- old: |
+    actual.Month.Should().NotBe(unexpected.Month);
+
+  new: |
+    actual.Should().NotHaveMonth(unexpected.Month);
+
+  old-message: |
+    Did not expect actual.Month to be 1.
+
+  new-message: |
+    Did not expect the month part of actual to be 1, but it was.
+
+- old: |
+    actual.Day.Should().Be(expected.Day);
+
+  new: |
+    actual.Should().HaveDay(expected.Day);
+
+  old-message: |
+    Expected actual.Day to be 2, but found 1.
+
+  new-message: |
+    Expected the day part of actual to be 2, but found 1.
+
+- old: |
+    actual.Day.Should().NotBe(unexpected.Day);
+
+  new: |
+    actual.Should().NotHaveDay(unexpected.Day);
+
+  old-message: |
+    Did not expect actual.Day to be 1.
+
+  new-message: |
+    Did not expect the day part of actual to be 1, but it was.
+
+- old: |
+    actual.Hour.Should().Be(expected.Hour);
+
+  new: |
+    actual.Should().HaveHour(expected.Hour);
+
+  old-message: |
+    Expected actual.Hour to be 19, but found 16 (difference of -3).
+
+  new-message: |
+    Expected the hour part of actual to be 19, but found 16.
+
+- old: |
+    actual.Hour.Should().NotBe(unexpected.Hour);
+
+  new: |
+    actual.Should().NotHaveHour(unexpected.Hour);
+
+  old-message: |
+    Did not expect actual.Hour to be 16.
+
+  new-message: |
+    Did not expect the hour part of actual to be 16, but it was.
+
+- old: |
+    actual.Minute.Should().Be(expected.Minute);
+
+  new: |
+    actual.Should().HaveMinute(expected.Minute);
+
+  old-message: |
+    Expected actual.Minute to be 31, but found 30 (difference of -1).
+
+  new-message: |
+    Expected the minute part of actual to be 31, but found 30.
+
+- old: |
+    actual.Minute.Should().NotBe(unexpected.Minute);
+
+  new: |
+    actual.Should().NotHaveMinute(unexpected.Minute);
+
+  old-message: |
+    Did not expect actual.Minute to be 30.
+
+  new-message: |
+    Did not expect the minute part of actual to be 30, but it was.
+
+- old: |
+    actual.Second.Should().Be(expected.Second);
+
+  new: |
+    actual.Should().HaveSecond(expected.Second);
+
+  old-message: |
+    Expected actual.Second to be 18, but found 17 (difference of -1).
+
+  new-message: |
+    Expected the seconds part of actual to be 18, but found 17.
+
+- old: |
+    actual.Second.Should().NotBe(unexpected.Second);
+
+  new: |
+    actual.Should().NotHaveSecond(unexpected.Second);
+
+  old-message: |
+    Did not expect actual.Second to be 17.
+
+  new-message: |
+    Did not expect the seconds part of actual to be 17, but it was.
