@@ -160,47 +160,47 @@ public partial class CollectionAssertionSpecs
         }
 
         [Fact]
-        public void Succeed_for_collection_with_case_different_strings_when_IgnoringCase()
+        public void Can_ignore_casing_while_comparing_collections_of_strings()
         {
             // Arrange
             var actual = new[] { "first", "test", "last" };
-            var expect = new[] { "first", "TEST", "last" };
+            var expectation = new[] { "first", "TEST", "last" };
 
             // Act / Assert
-            actual.Should().BeEquivalentTo(expect, o => o.IgnoringCase());
+            actual.Should().BeEquivalentTo(expectation, o => o.IgnoringCase());
         }
 
         [Fact]
-        public void Succeed_for_collection_with_leading_whitespace_different_strings_when_IgnoringLeadingWhitespace()
+        public void Can_ignore_leading_whitespace_while_comparing_collections_of_strings()
         {
             // Arrange
             var actual = new[] { "first", "  test", "last" };
-            var expect = new[] { "first", "test", "last" };
+            var expectation = new[] { "first", "test", "last" };
 
             // Act / Assert
-            actual.Should().BeEquivalentTo(expect, o => o.IgnoringLeadingWhitespace());
+            actual.Should().BeEquivalentTo(expectation, o => o.IgnoringLeadingWhitespace());
         }
 
         [Fact]
-        public void Succeed_for_collection_with_trailing_whitespace_different_strings_when_IgnoringTrailingWhitespace()
+        public void Can_ignore_trailing_whitespace_while_comparing_collections_of_strings()
         {
             // Arrange
             var actual = new[] { "first", "test  ", "last" };
-            var expect = new[] { "first", "test", "last" };
+            var expectation = new[] { "first", "test", "last" };
 
             // Act / Assert
-            actual.Should().BeEquivalentTo(expect, o => o.IgnoringTrailingWhitespace());
+            actual.Should().BeEquivalentTo(expectation, o => o.IgnoringTrailingWhitespace());
         }
 
         [Fact]
-        public void Succeed_for_collection_with_newline_different_strings_when_IgnoringNewlines()
+        public void Can_ignore_newlines_while_comparing_collections_of_strings()
         {
             // Arrange
             var actual = new[] { "first", "\rA\nB\r\nC\n", "last" };
-            var expect = new[] { "first", "ABC", "last" };
+            var expectation = new[] { "first", "ABC", "last" };
 
             // Act / Assert
-            actual.Should().BeEquivalentTo(expect, o => o.IgnoringNewlines());
+            actual.Should().BeEquivalentTo(expectation, o => o.IgnoringNewlines());
         }
     }
 

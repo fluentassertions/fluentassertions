@@ -7,47 +7,47 @@ public partial class ObjectAssertionSpecs
     public class BeEquivalentTo
     {
         [Fact]
-        public void Succeed_for_object_containing_case_different_strings_when_IgnoringCase()
+        public void Can_ignore_casing_while_comparing_objects_with_string_properties()
         {
             // Arrange
             var actual = new { foo = "test" };
-            var expect = new { foo = "TEST" };
+            var expectation = new { foo = "TEST" };
 
             // Act / Assert
-            actual.Should().BeEquivalentTo(expect, o => o.IgnoringCase());
+            actual.Should().BeEquivalentTo(expectation, o => o.IgnoringCase());
         }
 
         [Fact]
-        public void Succeed_for_object_containing_leading_whitespace_different_strings_when_IgnoringLeadingWhitespace()
+        public void Can_ignore_leading_whitespace_while_comparing_objects_with_string_properties()
         {
             // Arrange
             var actual = new { foo = "  test" };
-            var expect = new { foo = "test" };
+            var expectation = new { foo = "test" };
 
             // Act / Assert
-            actual.Should().BeEquivalentTo(expect, o => o.IgnoringLeadingWhitespace());
+            actual.Should().BeEquivalentTo(expectation, o => o.IgnoringLeadingWhitespace());
         }
 
         [Fact]
-        public void Succeed_for_object_containing_trailing_whitespace_different_strings_when_IgnoringTrailingWhitespace()
+        public void Can_ignore_trailing_whitespace_while_comparing_objects_with_string_properties()
         {
             // Arrange
             var actual = new { foo = "test  " };
-            var expect = new { foo = "test" };
+            var expectation = new { foo = "test" };
 
             // Act / Assert
-            actual.Should().BeEquivalentTo(expect, o => o.IgnoringTrailingWhitespace());
+            actual.Should().BeEquivalentTo(expectation, o => o.IgnoringTrailingWhitespace());
         }
 
         [Fact]
-        public void Succeed_for_object_containing_newline_different_strings_when_IgnoringNewlines()
+        public void Can_ignore_newlines_while_comparing_objects_with_string_properties()
         {
             // Arrange
             var actual = new { foo = "\rA\nB\r\nC\n" };
-            var expect = new { foo = "ABC" };
+            var expectation = new { foo = "ABC" };
 
             // Act / Assert
-            actual.Should().BeEquivalentTo(expect, o => o.IgnoringNewlines());
+            actual.Should().BeEquivalentTo(expectation, o => o.IgnoringNewlines());
         }
     }
 }

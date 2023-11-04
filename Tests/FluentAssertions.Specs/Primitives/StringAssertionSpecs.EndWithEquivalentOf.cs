@@ -16,7 +16,7 @@ public partial class StringAssertionSpecs
         public void Succeed_for_different_strings_using_custom_matching_comparer()
         {
             // Arrange
-            var comparer = new MatchingEqualityComparer();
+            var comparer = new AlwaysMatchingEqualityComparer();
             string actual = "ABC";
             string expect = "XYZ";
 
@@ -28,7 +28,7 @@ public partial class StringAssertionSpecs
         public void Fail_for_same_strings_using_custom_not_matching_comparer()
         {
             // Arrange
-            var comparer = new NotMatchingEqualityComparer();
+            var comparer = new NeverMatchingEqualityComparer();
             string actual = "ABC";
             string expect = "ABC";
 
@@ -40,7 +40,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void Succeed_for_case_different_strings_when_IgnoringCase()
+        public void Can_ignore_casing_while_checking_a_string_to_end_with_another()
         {
             // Arrange
             string actual = "prefix for test";
@@ -51,7 +51,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void Succeed_for_leading_whitespace_different_strings_when_IgnoringLeadingWhitespace()
+        public void Can_ignore_leading_whitespace_while_checking_a_string_to_end_with_another()
         {
             // Arrange
             string actual = "  prefix for test";
@@ -62,7 +62,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void Succeed_for_trailing_whitespace_different_strings_when_IgnoringTrailingWhitespace()
+        public void Can_ignore_trailing_whitespace_while_checking_a_string_to_end_with_another()
         {
             // Arrange
             string actual = "prefix for test  ";
@@ -73,7 +73,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void Succeed_for_newline_different_strings_when_IgnoringNewlines()
+        public void Can_ignore_newlines_while_checking_a_string_to_end_with_another()
         {
             // Arrange
             string actual = "prefix for \rA\nB\r\nC\n";
@@ -175,7 +175,7 @@ public partial class StringAssertionSpecs
         public void Succeed_for_same_strings_using_custom_not_matching_comparer()
         {
             // Arrange
-            var comparer = new NotMatchingEqualityComparer();
+            var comparer = new NeverMatchingEqualityComparer();
             string actual = "ABC";
             string expect = "ABC";
 
@@ -187,7 +187,7 @@ public partial class StringAssertionSpecs
         public void Fail_for_different_strings_using_custom_matching_comparer()
         {
             // Arrange
-            var comparer = new MatchingEqualityComparer();
+            var comparer = new AlwaysMatchingEqualityComparer();
             string actual = "ABC";
             string expect = "XYZ";
 
@@ -199,7 +199,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void Fail_for_case_different_strings_when_IgnoringCase()
+        public void Can_ignore_casing_while_checking_a_string_to_not_end_with_another()
         {
             // Arrange
             string actual = "prefix for test";
@@ -213,7 +213,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void Fail_for_leading_whitespace_different_strings_when_IgnoringLeadingWhitespace()
+        public void Can_ignore_leading_whitespace_while_checking_a_string_to_not_end_with_another()
         {
             // Arrange
             string actual = "  prefix for test";
@@ -227,7 +227,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void Fail_for_trailing_whitespace_different_strings_when_IgnoringTrailingWhitespace()
+        public void Can_ignore_trailing_whitespace_while_checking_a_string_to_not_end_with_another()
         {
             // Arrange
             string actual = "prefix for test  ";
@@ -241,7 +241,7 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void Fail_for_newline_different_strings_when_IgnoringNewlines()
+        public void Can_ignore_newlines_while_checking_a_string_to_not_end_with_another()
         {
             // Arrange
             string actual = "prefix for \rA\nB\r\nC\n";

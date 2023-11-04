@@ -25,7 +25,7 @@ public partial class StringAssertionSpecs
             .HaveLength(length);
     }
 
-    private sealed class MatchingEqualityComparer : IEqualityComparer<string>
+    private sealed class AlwaysMatchingEqualityComparer : IEqualityComparer<string>
     {
         public bool Equals(string x, string y)
         {
@@ -38,7 +38,7 @@ public partial class StringAssertionSpecs
         }
     }
 
-    private sealed class NotMatchingEqualityComparer : IEqualityComparer<string>
+    private sealed class NeverMatchingEqualityComparer : IEqualityComparer<string>
     {
         public bool Equals(string x, string y)
         {
