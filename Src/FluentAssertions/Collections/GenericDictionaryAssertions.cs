@@ -198,9 +198,9 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// </remarks>
     /// <param name="expectation">The expected element.</param>
     /// <param name="config">
-    /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used
+    /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
-    /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the
+    /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
     /// <see cref="AssertionOptions"/> class.
     /// </param>
     /// <param name="because">
@@ -212,12 +212,12 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(TExpectation expectation,
-        Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
+        Func<EquivalencyOptions<TExpectation>, EquivalencyOptions<TExpectation>> config, string because = "",
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(config);
 
-        EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
+        EquivalencyOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
 
         var context =
             new EquivalencyValidationContext(Node.From<TExpectation>(() => AssertionScope.Current.CallerIdentity), options)

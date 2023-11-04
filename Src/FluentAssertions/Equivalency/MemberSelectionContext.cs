@@ -10,9 +10,9 @@ public class MemberSelectionContext
 {
     private readonly Type compileTimeType;
     private readonly Type runtimeType;
-    private readonly IEquivalencyAssertionOptions options;
+    private readonly IEquivalencyOptions options;
 
-    public MemberSelectionContext(Type compileTimeType, Type runtimeType, IEquivalencyAssertionOptions options)
+    public MemberSelectionContext(Type compileTimeType, Type runtimeType, IEquivalencyOptions options)
     {
         this.runtimeType = runtimeType;
         this.compileTimeType = compileTimeType;

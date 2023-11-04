@@ -42,7 +42,7 @@ public class EquivalencyValidator : IEquivalencyValidator
         }
     }
 
-    private static bool ShouldContinueThisDeep(INode currentNode, IEquivalencyAssertionOptions options,
+    private static bool ShouldContinueThisDeep(INode currentNode, IEquivalencyOptions options,
         AssertionScope assertionScope)
     {
         bool shouldRecurse = options.AllowInfiniteRecursion || currentNode.Depth <= MaxDepth;

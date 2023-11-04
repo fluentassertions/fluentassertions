@@ -10,7 +10,7 @@ namespace FluentAssertions;
 /// </summary>
 public static class AssertionOptions
 {
-    private static EquivalencyAssertionOptions defaults = new();
+    private static EquivalencyOptions defaults = new();
 
     static AssertionOptions()
     {
@@ -21,9 +21,9 @@ public static class AssertionOptions
     /// <summary>
     /// Creates a clone of the default options and allows the caller to modify them.
     /// </summary>
-    public static EquivalencyAssertionOptions<T> CloneDefaults<T>()
+    public static EquivalencyOptions<T> CloneDefaults<T>()
     {
-        return new EquivalencyAssertionOptions<T>(defaults);
+        return new EquivalencyOptions<T>(defaults);
     }
 
     /// <summary>
@@ -38,7 +38,7 @@ public static class AssertionOptions
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="defaultsConfigurer"/> is <see langword="null"/>.</exception>
     public static void AssertEquivalencyUsing(
-        Func<EquivalencyAssertionOptions, EquivalencyAssertionOptions> defaultsConfigurer)
+        Func<EquivalencyOptions, EquivalencyOptions> defaultsConfigurer)
     {
         Guard.ThrowIfArgumentIsNull(defaultsConfigurer);
 

@@ -107,9 +107,9 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// </remarks>
     /// <param name="expectation">An <see cref="IEnumerable{String}"/> with the expected elements.</param>
     /// <param name="config">
-    /// A reference to the <see cref="EquivalencyAssertionOptions{String}"/> configuration object that can be used
+    /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
-    /// <see cref="EquivalencyAssertionOptions{String}"/> class. The global defaults are determined by the
+    /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
     /// <see cref="AssertionOptions"/> class.
     /// </param>
     /// <param name="because">
@@ -121,12 +121,12 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable<string> expectation,
-        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config, string because = "",
+        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config, string because = "",
         params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(config);
 
-        EquivalencyAssertionOptions<IEnumerable<string>>
+        EquivalencyOptions<IEnumerable<string>>
             options = config(AssertionOptions.CloneDefaults<string>()).AsCollection();
 
         var context =
@@ -170,9 +170,9 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// </summary>
     /// <param name="expectation">An expected <see cref="string"/>.</param>
     /// <param name="config">
-    /// A reference to the <see cref="EquivalencyAssertionOptions{String}"/> configuration object that can be used
+    /// A reference to the <see cref="EquivalencyOptions{TExpectation}"/> configuration object that can be used
     /// to influence the way the object graphs are compared. You can also provide an alternative instance of the
-    /// <see cref="EquivalencyAssertionOptions{String}"/> class. The global defaults are determined by the
+    /// <see cref="EquivalencyOptions{TExpectation}"/> class. The global defaults are determined by the
     /// <see cref="AssertionOptions"/> class.
     /// </param>
     /// <param name="because">
@@ -184,7 +184,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="config"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> AllBe(string expectation,
-        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
         string because = "",
         params object[] becauseArgs)
     {
@@ -198,7 +198,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
         // in case user needs to use them. Strict ordering improves algorithmic complexity
         // from O(n^2) to O(n). For bigger tables it is necessary in order to achieve acceptable
         // execution times.
-        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> forceStringOrderingConfig =
+        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> forceStringOrderingConfig =
             x => config(x).WithStrictOrderingFor(s => string.IsNullOrEmpty(s.Path));
 
         return BeEquivalentTo(repeatedExpectation, forceStringOrderingConfig, because, becauseArgs);

@@ -9,7 +9,7 @@ namespace FluentAssertions.Equivalency.Matching;
 /// </summary>
 internal class MustMatchByNameRule : IMemberMatchingRule
 {
-    public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyAssertionOptions options)
+    public IMember Match(IMember expectedMember, object subject, INode parent, IEquivalencyOptions options)
     {
         IMember subjectMember = null;
 

@@ -10,11 +10,11 @@ namespace FluentAssertions.Equivalency.Execution;
 /// <summary>
 /// Ensures that all the rules remove the collection index from the path before processing it further.
 /// </summary>
-internal class CollectionMemberAssertionOptionsDecorator : IEquivalencyAssertionOptions
+internal class CollectionMemberOptionsDecorator : IEquivalencyOptions
 {
-    private readonly IEquivalencyAssertionOptions inner;
+    private readonly IEquivalencyOptions inner;
 
-    public CollectionMemberAssertionOptionsDecorator(IEquivalencyAssertionOptions inner)
+    public CollectionMemberOptionsDecorator(IEquivalencyOptions inner)
     {
         this.inner = inner;
     }

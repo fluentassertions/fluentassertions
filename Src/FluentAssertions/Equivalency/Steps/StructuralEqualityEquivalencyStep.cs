@@ -53,7 +53,7 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
     }
 
     private static void AssertMemberEquality(Comparands comparands, IEquivalencyValidationContext context,
-        IEquivalencyValidator parent, IMember selectedMember, IEquivalencyAssertionOptions options)
+        IEquivalencyValidator parent, IMember selectedMember, IEquivalencyOptions options)
     {
         IMember matchingMember = FindMatchFor(selectedMember, context.CurrentNode, comparands.Subject, options);
 
@@ -78,7 +78,7 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
     }
 
     private static IMember FindMatchFor(IMember selectedMember, INode currentNode, object subject,
-        IEquivalencyAssertionOptions config)
+        IEquivalencyOptions config)
     {
         IEnumerable<IMember> query =
             from rule in config.MatchingRules
@@ -95,7 +95,7 @@ public class StructuralEqualityEquivalencyStep : IEquivalencyStep
     }
 
     private static IEnumerable<IMember> GetMembersFromExpectation(INode currentNode, Comparands comparands,
-        IEquivalencyAssertionOptions options)
+        IEquivalencyOptions options)
     {
         IEnumerable<IMember> members = Enumerable.Empty<IMember>();
 

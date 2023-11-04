@@ -29,7 +29,7 @@ public class UsersOfGetClosedGenericInterfaces
         public INode CurrentNode { get; }
         public Reason Reason { get; }
         public Tracer Tracer { get; }
-        public IEquivalencyAssertionOptions Options { get; internal set; }
+        public IEquivalencyOptions Options { get; internal set; }
         public bool IsCyclicReference(object expectation) => throw new NotImplementedException();
 
         public IEquivalencyValidationContext AsNestedMember(IMember expectationMember) => throw new NotImplementedException();
@@ -42,7 +42,7 @@ public class UsersOfGetClosedGenericInterfaces
         public IEquivalencyValidationContext Clone() => throw new NotImplementedException();
     }
 
-    private class Config : IEquivalencyAssertionOptions
+    private class Config : IEquivalencyOptions
     {
         public IEnumerable<IMemberSelectionRule> SelectionRules => throw new NotImplementedException();
 

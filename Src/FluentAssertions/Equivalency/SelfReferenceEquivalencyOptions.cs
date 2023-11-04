@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -21,17 +20,12 @@ namespace FluentAssertions.Equivalency;
 /// <summary>
 /// Represents the run-time behavior of a structural equivalency assertion.
 /// </summary>
-public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquivalencyAssertionOptions
-    where TSelf : SelfReferenceEquivalencyAssertionOptions<TSelf>
+public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptions
+    where TSelf : SelfReferenceEquivalencyOptions<TSelf>
 {
     #region Private Definitions
 
-    // REFACTOR: group the next three fields in a dedicated class
-    private readonly List<Type> referenceTypes = new();
-    private readonly List<Type> valueTypes = new();
-    private readonly Func<Type, EqualityStrategy> getDefaultEqualityStrategy;
-
-    private readonly ConcurrentDictionary<Type, EqualityStrategy> equalityStrategyCache = new();
+    private readonly EqualityStrategyProvider equalityStrategyProvider;
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private readonly List<IMemberSelectionRule> selectionRules = new();
@@ -62,12 +56,12 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     private bool ignoreNonBrowsableOnSubject;
     private bool excludeNonBrowsableOnExpectation;
 
-    private bool? compareRecordsByValue;
-
     #endregion
 
-    private protected SelfReferenceEquivalencyAssertionOptions()
+    private protected SelfReferenceEquivalencyOptions()
     {
+        equalityStrategyProvider = new EqualityStrategyProvider();
+
         AddMatchingRule(new MustMatchByNameRule());
 
         OrderingRules.Add(new ByteArrayOrderingRule());
@@ -76,8 +70,13 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// <summary>
     /// Creates an instance of the equivalency assertions options based on defaults previously configured by the caller.
     /// </summary>
-    protected SelfReferenceEquivalencyAssertionOptions(IEquivalencyAssertionOptions defaults)
+    protected SelfReferenceEquivalencyOptions(IEquivalencyOptions defaults)
     {
+        equalityStrategyProvider = new EqualityStrategyProvider(defaults.GetEqualityStrategy)
+        {
+            CompareRecordsByValue = defaults.CompareRecordsByValue
+        };
+
         isRecursive = defaults.IsRecursive;
         cyclicReferenceHandling = defaults.CyclicReferenceHandling;
         allowInfiniteRecursion = defaults.AllowInfiniteRecursion;
@@ -87,7 +86,6 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
         includedFields = defaults.IncludedFields;
         ignoreNonBrowsableOnSubject = defaults.IgnoreNonBrowsableOnSubject;
         excludeNonBrowsableOnExpectation = defaults.ExcludeNonBrowsableOnExpectation;
-        compareRecordsByValue = defaults.CompareRecordsByValue;
 
         ConversionSelector = defaults.ConversionSelector.Clone();
 
@@ -96,7 +94,6 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
         matchingRules.AddRange(defaults.MatchingRules);
         OrderingRules = new OrderingRuleCollection(defaults.OrderingRules);
 
-        getDefaultEqualityStrategy = defaults.GetEqualityStrategy;
         TraceWriter = defaults.TraceWriter;
 
         RemoveSelectionRule<AllPropertiesSelectionRule>();
@@ -106,7 +103,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// <summary>
     /// Gets an ordered collection of selection rules that define what members are included.
     /// </summary>
-    IEnumerable<IMemberSelectionRule> IEquivalencyAssertionOptions.SelectionRules
+    IEnumerable<IMemberSelectionRule> IEquivalencyOptions.SelectionRules
     {
         get
         {
@@ -138,12 +135,12 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// Gets an ordered collection of matching rules that determine which subject members are matched with which
     /// expectation members.
     /// </summary>
-    IEnumerable<IMemberMatchingRule> IEquivalencyAssertionOptions.MatchingRules => matchingRules;
+    IEnumerable<IMemberMatchingRule> IEquivalencyOptions.MatchingRules => matchingRules;
 
     /// <summary>
     /// Gets an ordered collection of Equivalency steps how a subject is compared with the expectation.
     /// </summary>
-    IEnumerable<IEquivalencyStep> IEquivalencyAssertionOptions.UserEquivalencySteps => userEquivalencySteps;
+    IEnumerable<IEquivalencyStep> IEquivalencyOptions.UserEquivalencySteps => userEquivalencySteps;
 
     public ConversionSelector ConversionSelector { get; } = new();
 
@@ -152,68 +149,36 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// default,
     /// ordering is irrelevant.
     /// </summary>
-    OrderingRuleCollection IEquivalencyAssertionOptions.OrderingRules => OrderingRules;
+    OrderingRuleCollection IEquivalencyOptions.OrderingRules => OrderingRules;
 
     /// <summary>
     /// Gets value indicating whether the equality check will include nested collections and complex types.
     /// </summary>
-    bool IEquivalencyAssertionOptions.IsRecursive => isRecursive;
+    bool IEquivalencyOptions.IsRecursive => isRecursive;
 
-    bool IEquivalencyAssertionOptions.AllowInfiniteRecursion => allowInfiniteRecursion;
+    bool IEquivalencyOptions.AllowInfiniteRecursion => allowInfiniteRecursion;
 
     /// <summary>
     /// Gets value indicating how cyclic references should be handled. By default, it will throw an exception.
     /// </summary>
-    CyclicReferenceHandling IEquivalencyAssertionOptions.CyclicReferenceHandling => cyclicReferenceHandling;
+    CyclicReferenceHandling IEquivalencyOptions.CyclicReferenceHandling => cyclicReferenceHandling;
 
-    EnumEquivalencyHandling IEquivalencyAssertionOptions.EnumEquivalencyHandling => enumEquivalencyHandling;
+    EnumEquivalencyHandling IEquivalencyOptions.EnumEquivalencyHandling => enumEquivalencyHandling;
 
-    bool IEquivalencyAssertionOptions.UseRuntimeTyping => useRuntimeTyping;
+    bool IEquivalencyOptions.UseRuntimeTyping => useRuntimeTyping;
 
-    MemberVisibility IEquivalencyAssertionOptions.IncludedProperties => includedProperties;
+    MemberVisibility IEquivalencyOptions.IncludedProperties => includedProperties;
 
-    MemberVisibility IEquivalencyAssertionOptions.IncludedFields => includedFields;
+    MemberVisibility IEquivalencyOptions.IncludedFields => includedFields;
 
-    bool IEquivalencyAssertionOptions.IgnoreNonBrowsableOnSubject => ignoreNonBrowsableOnSubject;
+    bool IEquivalencyOptions.IgnoreNonBrowsableOnSubject => ignoreNonBrowsableOnSubject;
 
-    bool IEquivalencyAssertionOptions.ExcludeNonBrowsableOnExpectation => excludeNonBrowsableOnExpectation;
+    bool IEquivalencyOptions.ExcludeNonBrowsableOnExpectation => excludeNonBrowsableOnExpectation;
 
-    public bool? CompareRecordsByValue => compareRecordsByValue;
+    public bool? CompareRecordsByValue => equalityStrategyProvider.CompareRecordsByValue;
 
-    EqualityStrategy IEquivalencyAssertionOptions.GetEqualityStrategy(Type type)
-    {
-        // As the valueFactory parameter captures instance members,
-        // be aware if the cache must be cleared on mutating the members.
-        return equalityStrategyCache.GetOrAdd(type, typeKey =>
-        {
-            if (!typeKey.IsPrimitive && referenceTypes.Count > 0 && referenceTypes.Exists(t => typeKey.IsSameOrInherits(t)))
-            {
-                return EqualityStrategy.ForceMembers;
-            }
-            else if (valueTypes.Count > 0 && valueTypes.Exists(t => typeKey.IsSameOrInherits(t)))
-            {
-                return EqualityStrategy.ForceEquals;
-            }
-            else if (!typeKey.IsPrimitive && referenceTypes.Count > 0 && referenceTypes.Exists(t => typeKey.IsAssignableToOpenGeneric(t)))
-            {
-                return EqualityStrategy.ForceMembers;
-            }
-            else if (valueTypes.Count > 0 && valueTypes.Exists(t => typeKey.IsAssignableToOpenGeneric(t)))
-            {
-                return EqualityStrategy.ForceEquals;
-            }
-            else if ((compareRecordsByValue.HasValue || getDefaultEqualityStrategy is null) && typeKey.IsRecord())
-            {
-                return compareRecordsByValue is true ? EqualityStrategy.ForceEquals : EqualityStrategy.ForceMembers;
-            }
-            else if (getDefaultEqualityStrategy is not null)
-            {
-                return getDefaultEqualityStrategy(typeKey);
-            }
-
-            return typeKey.HasValueSemantics() ? EqualityStrategy.Equals : EqualityStrategy.Members;
-        });
-    }
+    EqualityStrategy IEquivalencyOptions.GetEqualityStrategy(Type type)
+        => equalityStrategyProvider.GetEqualityStrategy(type);
 
     public ITraceWriter TraceWriter { get; private set; }
 
@@ -603,8 +568,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// </summary>
     public TSelf ComparingRecordsByValue()
     {
-        compareRecordsByValue = true;
-        equalityStrategyCache.Clear();
+        equalityStrategyProvider.CompareRecordsByValue = true;
         return (TSelf)this;
     }
 
@@ -617,8 +581,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     /// </remarks>
     public TSelf ComparingRecordsByMembers()
     {
-        compareRecordsByValue = false;
-        equalityStrategyCache.Clear();
+        equalityStrategyProvider.CompareRecordsByValue = false;
         return (TSelf)this;
     }
 
@@ -642,14 +605,12 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
             throw new InvalidOperationException($"Cannot compare a primitive type such as {type.Name} by its members");
         }
 
-        if (valueTypes.Exists(t => type.IsSameOrInherits(t)))
+        if (!equalityStrategyProvider.AddReferenceType(type))
         {
             throw new InvalidOperationException(
                 $"Can't compare {type.Name} by its members if it already setup to be compared by value");
         }
 
-        referenceTypes.Add(type);
-        equalityStrategyCache.Clear();
         return (TSelf)this;
     }
 
@@ -668,14 +629,12 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     {
         Guard.ThrowIfArgumentIsNull(type);
 
-        if (referenceTypes.Exists(t => type.IsSameOrInherits(t)))
+        if (!equalityStrategyProvider.AddValueType(type))
         {
             throw new InvalidOperationException(
                 $"Can't compare {type.Name} by value if it already setup to be compared by its members");
         }
 
-        valueTypes.Add(type);
-        equalityStrategyCache.Clear();
         return (TSelf)this;
     }
 
@@ -755,26 +714,8 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
 
         builder
             .AppendLine("- Compare tuples by their properties")
-            .AppendLine("- Compare anonymous types by their properties");
-
-        if (compareRecordsByValue is true)
-        {
-            builder.AppendLine("- Compare records by value");
-        }
-        else
-        {
-            builder.AppendLine("- Compare records by their members");
-        }
-
-        foreach (Type valueType in valueTypes)
-        {
-            builder.AppendLine(CultureInfo.InvariantCulture, $"- Compare {valueType} by value");
-        }
-
-        foreach (Type type in referenceTypes)
-        {
-            builder.AppendLine(CultureInfo.InvariantCulture, $"- Compare {type} by its members");
-        }
+            .AppendLine("- Compare anonymous types by their properties")
+            .Append(equalityStrategyProvider);
 
         if (excludeNonBrowsableOnExpectation)
         {
@@ -811,7 +752,7 @@ public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquival
     }
 
     /// <summary>
-    /// Defines additional overrides when used with <see cref="SelfReferenceEquivalencyAssertionOptions{T}" />
+    /// Defines additional overrides when used with <see cref="SelfReferenceEquivalencyOptions{TSelf}" />
     /// </summary>
     public class Restriction<TMember>
     {
