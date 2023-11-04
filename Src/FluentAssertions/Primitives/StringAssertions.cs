@@ -140,12 +140,12 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public AndConstraint<TAssertions> BeEquivalentTo(string expected,
-        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
         string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(config);
 
-        EquivalencyAssertionOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
+        EquivalencyOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
 
         var expectation = new StringValidator(
             new StringEqualityStrategy(options.GetStringComparerOrDefault()),
@@ -208,7 +208,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public AndConstraint<TAssertions> NotBeEquivalentTo(string unexpected,
-        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
         string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(config);
@@ -454,7 +454,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
     public AndConstraint<TAssertions> MatchEquivalentOf(string wildcardPattern,
-        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
         string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern),
@@ -465,7 +465,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
 
         Guard.ThrowIfArgumentIsNull(config);
 
-        EquivalencyAssertionOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
+        EquivalencyOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
 
         var stringWildcardMatchingValidator = new StringValidator(
             new StringWildcardMatchingStrategy
@@ -579,7 +579,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <exception cref="ArgumentNullException"><paramref name="wildcardPattern"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="wildcardPattern"/> is empty.</exception>
     public AndConstraint<TAssertions> NotMatchEquivalentOf(string wildcardPattern,
-        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
         string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(wildcardPattern, nameof(wildcardPattern),
@@ -590,7 +590,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
 
         Guard.ThrowIfArgumentIsNull(config);
 
-        EquivalencyAssertionOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
+        EquivalencyOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
 
         var stringWildcardMatchingValidator = new StringValidator(
             new StringWildcardMatchingStrategy
@@ -969,13 +969,13 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> StartWithEquivalentOf(string expected,
-        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
         string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string start equivalence with <null>.");
         Guard.ThrowIfArgumentIsNull(config);
 
-        EquivalencyAssertionOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
+        EquivalencyOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
 
         var stringStartValidator = new StringValidator(
             new StringStartStrategy(options.GetStringComparerOrDefault()),
@@ -1038,7 +1038,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotStartWithEquivalentOf(string unexpected,
-        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
         string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare start of string with <null>.");
@@ -1162,13 +1162,13 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> EndWithEquivalentOf(string expected,
-        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
         string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end equivalence with <null>.");
         Guard.ThrowIfArgumentIsNull(config);
 
-        EquivalencyAssertionOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
+        EquivalencyOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
 
         var stringEndValidator = new StringValidator(
             new StringEndStrategy(options.GetStringComparerOrDefault()),
@@ -1231,7 +1231,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="unexpected"/> is <see langword="null"/>.</exception>
     public AndConstraint<TAssertions> NotEndWithEquivalentOf(string unexpected,
-        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
         string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(unexpected, nameof(unexpected), "Cannot compare end of string with <null>.");
@@ -1366,7 +1366,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <exception cref="ArgumentNullException"><paramref name="expected"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
     public AndConstraint<TAssertions> ContainEquivalentOf(string expected,
-        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
         string because = "", params object[] becauseArgs)
     {
         return ContainEquivalentOf(expected, AtLeast.Once(), config, because, becauseArgs);
@@ -1396,7 +1396,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <exception cref="ArgumentException"><paramref name="expected"/> is empty.</exception>
     public AndConstraint<TAssertions> ContainEquivalentOf(string expected,
         OccurrenceConstraint occurrenceConstraint,
-        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
         string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
@@ -1404,7 +1404,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsNull(occurrenceConstraint);
         Guard.ThrowIfArgumentIsNull(config);
 
-        EquivalencyAssertionOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
+        EquivalencyOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
 
         var stringContainValidator = new StringValidatorSupportingNull(
             new StringContainsStrategy(options.GetStringComparerOrDefault(), occurrenceConstraint),
@@ -1690,7 +1690,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// Zero or more objects to format using the placeholders in <paramref name="because" />.
     /// </param>
     public AndConstraint<TAssertions> NotContainEquivalentOf(string unexpected,
-        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
         string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(config);
@@ -1738,7 +1738,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// </param>
     public AndConstraint<TAssertions> NotContainEquivalentOf(string unexpected,
         OccurrenceConstraint occurrenceConstraint,
-        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
+        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
         string because = "", params object[] becauseArgs)
     {
         Guard.ThrowIfArgumentIsNull(occurrenceConstraint);
@@ -2024,11 +2024,11 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// Applies the string-specific <paramref name="options"/> to the <paramref name="value"/>.
     /// </summary>
     /// <remarks>
-    /// When <see cref="IEquivalencyAssertionOptions.IgnoreLeadingWhitespace"/> is set, whitespace is removed from the start of the <paramref name="value"/>.<br />
-    /// When <see cref="IEquivalencyAssertionOptions.IgnoreTrailingWhitespace"/> is set, whitespace is removed from the end of the <paramref name="value"/>.<br />
-    /// When <see cref="IEquivalencyAssertionOptions.IgnoreNewlines"/> is set, all newlines ("\r" and "\n") are removed from the <paramref name="value"/>.
+    /// When <see cref="IEquivalencyOptions.IgnoreLeadingWhitespace"/> is set, whitespace is removed from the start of the <paramref name="value"/>.<br />
+    /// When <see cref="IEquivalencyOptions.IgnoreTrailingWhitespace"/> is set, whitespace is removed from the end of the <paramref name="value"/>.<br />
+    /// When <see cref="IEquivalencyOptions.IgnoreNewlines"/> is set, all newlines ("\r" and "\n") are removed from the <paramref name="value"/>.
     /// </remarks>
-    private static string ApplyStringSettings(string value, IEquivalencyAssertionOptions options)
+    private static string ApplyStringSettings(string value, IEquivalencyOptions options)
     {
         if (options.IgnoreLeadingWhitespace)
         {

@@ -2120,7 +2120,7 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> Be(string expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(string expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(string expected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(string expected, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeLowerCased(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNullOrEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeNullOrWhiteSpace(string because = "", params object[] becauseArgs) { }
@@ -2135,15 +2135,15 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> ContainAny(System.Collections.Generic.IEnumerable<string> values, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> ContainEquivalentOf(string expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> ContainEquivalentOf(string expected, FluentAssertions.OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> ContainEquivalentOf(string expected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>> config, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> ContainEquivalentOf(string expected, FluentAssertions.OccurrenceConstraint occurrenceConstraint, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> ContainEquivalentOf(string expected, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> ContainEquivalentOf(string expected, FluentAssertions.OccurrenceConstraint occurrenceConstraint, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> EndWith(string expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> EndWithEquivalentOf(string expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> EndWithEquivalentOf(string expected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> EndWithEquivalentOf(string expected, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> HaveLength(int expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> Match(string wildcardPattern, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> MatchEquivalentOf(string wildcardPattern, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> MatchEquivalentOf(string wildcardPattern, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> MatchEquivalentOf(string wildcardPattern, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> MatchRegex(string regularExpression, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> MatchRegex(System.Text.RegularExpressions.Regex regularExpression, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> MatchRegex(string regularExpression, FluentAssertions.OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs) { }
@@ -2151,7 +2151,7 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotBe(string unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo(string unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo(string unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo(string unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeLowerCased(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeNullOrEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeNullOrWhiteSpace(string because = "", params object[] becauseArgs) { }
@@ -2162,22 +2162,22 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> NotContainAny(params string[] values) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainAny(System.Collections.Generic.IEnumerable<string> values, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainEquivalentOf(string unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotContainEquivalentOf(string unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>> config, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotContainEquivalentOf(string unexpected, FluentAssertions.OccurrenceConstraint occurrenceConstraint, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotContainEquivalentOf(string unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotContainEquivalentOf(string unexpected, FluentAssertions.OccurrenceConstraint occurrenceConstraint, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotEndWith(string unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotEndWithEquivalentOf(string unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotEndWithEquivalentOf(string unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotEndWithEquivalentOf(string unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotMatch(string wildcardPattern, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotMatchEquivalentOf(string wildcardPattern, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotMatchEquivalentOf(string wildcardPattern, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotMatchEquivalentOf(string wildcardPattern, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotMatchRegex(string regularExpression, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotMatchRegex(System.Text.RegularExpressions.Regex regularExpression, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotStartWith(string unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotStartWithEquivalentOf(string unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotStartWithEquivalentOf(string unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> NotStartWithEquivalentOf(string unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> StartWith(string expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> StartWithEquivalentOf(string expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> StartWithEquivalentOf(string expected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>> config, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<TAssertions> StartWithEquivalentOf(string expected, System.Func<FluentAssertions.Equivalency.EquivalencyOptions<string>, FluentAssertions.Equivalency.EquivalencyOptions<string>> config, string because = "", params object[] becauseArgs) { }
     }
     public class TimeOnlyAssertions : FluentAssertions.Primitives.TimeOnlyAssertions<FluentAssertions.Primitives.TimeOnlyAssertions>
     {

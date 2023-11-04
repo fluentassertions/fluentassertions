@@ -34,13 +34,13 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
         return EquivalencyResult.AssertionCompleted;
     }
 
-    private static Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> CreateOptions(IEquivalencyAssertionOptions existingOptions)
+    private static Func<EquivalencyOptions<string>, EquivalencyOptions<string>> CreateOptions(IEquivalencyOptions existingOptions)
     {
         return o =>
         {
-            if (existingOptions is EquivalencyAssertionOptions<string> equivalencyAssertionOptions)
+            if (existingOptions is EquivalencyOptions<string> EquivalencyOptions)
             {
-                return equivalencyAssertionOptions;
+                return EquivalencyOptions;
             }
 
             if (existingOptions.IgnoreLeadingWhitespace)
