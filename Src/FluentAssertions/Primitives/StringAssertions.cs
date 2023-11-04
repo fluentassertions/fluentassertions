@@ -64,39 +64,6 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     }
 
     /// <summary>
-    /// Asserts that a string is exactly the same as another string, using the provided <paramref name="config"/>.
-    /// </summary>
-    /// <param name="expected">The expected string.</param>
-    /// <param name="config">
-    /// The equivalency options.
-    /// </param>
-    /// <param name="because">
-    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-    /// </param>
-    /// <param name="becauseArgs">
-    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-    /// </param>
-    public AndConstraint<TAssertions> Be(string expected,
-        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
-        string because = "", params object[] becauseArgs)
-    {
-        Guard.ThrowIfArgumentIsNull(config);
-
-        EquivalencyAssertionOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
-
-        var expectation = new StringValidator(
-            new StringEqualityStrategy(options.GetStringComparerOrDefault()),
-            because, becauseArgs);
-
-        var subject = ApplyStringSettings(Subject, options);
-        expected = ApplyStringSettings(expected, options);
-
-        expectation.Validate(subject, expected);
-        return new AndConstraint<TAssertions>((TAssertions)this);
-    }
-
-    /// <summary>
     /// Asserts that the <see cref="string"/> is one of the specified <paramref name="validValues"/>.
     /// </summary>
     /// <param name="validValues">
@@ -278,42 +245,6 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     {
         Execute.Assertion
             .ForCondition(Subject != unexpected)
-            .BecauseOf(because, becauseArgs)
-            .FailWith("Expected {context:string} not to be {0}{reason}.", unexpected);
-
-        return new AndConstraint<TAssertions>((TAssertions)this);
-    }
-
-    /// <summary>
-    /// Asserts that a string is not exactly the same as the specified <paramref name="unexpected"/>, using the provided <paramref name="config"/>.
-    /// </summary>
-    /// <param name="unexpected">The string that the subject is not expected to be equivalent to.</param>
-    /// <param name="config">
-    /// The equivalency options.
-    /// </param>
-    /// <param name="because">
-    /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-    /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-    /// </param>
-    /// <param name="becauseArgs">
-    /// Zero or more objects to format using the placeholders in <paramref name="because" />.
-    /// </param>
-    public AndConstraint<TAssertions> NotBe(string unexpected,
-        Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config,
-        string because = "", params object[] becauseArgs)
-    {
-        Guard.ThrowIfArgumentIsNull(config);
-
-        bool notEquivalent;
-
-        using (var scope = new AssertionScope())
-        {
-            Subject.Should().Be(unexpected, config);
-            notEquivalent = scope.Discard().Length > 0;
-        }
-
-        Execute.Assertion
-            .ForCondition(notEquivalent)
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:string} not to be {0}{reason}.", unexpected);
 

@@ -2118,7 +2118,6 @@ namespace FluentAssertions.Primitives
         public StringAssertions(string value) { }
         protected override string Identifier { get; }
         public FluentAssertions.AndConstraint<TAssertions> Be(string expected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> Be(string expected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(string expected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> BeEquivalentTo(string expected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>> config, string because = "", params object[] becauseArgs) { }
@@ -2150,7 +2149,6 @@ namespace FluentAssertions.Primitives
         public FluentAssertions.AndConstraint<TAssertions> MatchRegex(string regularExpression, FluentAssertions.OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> MatchRegex(System.Text.RegularExpressions.Regex regularExpression, FluentAssertions.OccurrenceConstraint occurrenceConstraint, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBe(string unexpected, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<TAssertions> NotBe(string unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>> config, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo(string unexpected, string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<TAssertions> NotBeEquivalentTo(string unexpected, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>, FluentAssertions.Equivalency.EquivalencyAssertionOptions<string>> config, string because = "", params object[] becauseArgs) { }
