@@ -566,7 +566,7 @@ namespace FluentAssertions.Collections
         public FluentAssertions.AndConstraint<TAssertions> Equal(params string[] expected) { }
         public FluentAssertions.AndConstraint<TAssertions> NotContainMatch(string wildcardPattern, string because = "", params object[] becauseArgs) { }
     }
-    public class SubsequentOrderingAssertions<T> : FluentAssertions.Collections.SubsequentOrderingGenericCollectionAssertions<System.Collections.Generic.IEnumerable<T>, T, FluentAssertions.Collections.SubsequentOrderingAssertions<T>>
+    public class SubsequentOrderingAssertions<T> : FluentAssertions.Collections.SubsequentOrderingGenericCollectionAssertions<System.Collections.Generic.IEnumerable<T>, T>
     {
         public SubsequentOrderingAssertions(System.Collections.Generic.IEnumerable<T> actualValue, System.Linq.IOrderedEnumerable<T> previousOrderedEnumerable, FluentAssertions.Execution.AssertionChain assertionChain) { }
     }
