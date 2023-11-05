@@ -6,7 +6,7 @@ namespace FluentAssertions.Collections;
 
 [DebuggerNonUserCode]
 public class SubsequentOrderingAssertions<T>
-    : SubsequentOrderingGenericCollectionAssertions<IEnumerable<T>, T, SubsequentOrderingAssertions<T>>
+    : SubsequentOrderingGenericCollectionAssertions<IEnumerable<T>, T>
 {
     public SubsequentOrderingAssertions(IEnumerable<T> actualValue, IOrderedEnumerable<T> previousOrderedEnumerable)
         : base(actualValue, previousOrderedEnumerable)
