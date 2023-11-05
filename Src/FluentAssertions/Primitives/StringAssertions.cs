@@ -729,7 +729,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
 
         if (success)
         {
-            int actual = regularExpression.Matches(Subject).Count;
+            int actual = regularExpression.Matches(Subject!).Count;
 
             Execute.Assertion
                 .ForConstraint(occurrenceConstraint, actual)
@@ -778,7 +778,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         if (success)
         {
             Execute.Assertion
-                .ForCondition(regularExpression.IsMatch(Subject))
+                .ForCondition(regularExpression.IsMatch(Subject!))
                 .BecauseOf(because, becauseArgs)
                 .UsingLineBreaks
                 .FailWith("Expected {context:string} to match regex {0}{reason}, but {1} does not match.", regexStr, Subject);
@@ -858,7 +858,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         if (success)
         {
             Execute.Assertion
-                .ForCondition(!regularExpression.IsMatch(Subject))
+                .ForCondition(!regularExpression.IsMatch(Subject!))
                 .BecauseOf(because, becauseArgs)
                 .UsingLineBreaks
                 .FailWith("Did not expect {context:string} to match regex {0}{reason}, but {1} matches.", regexStr, Subject);
@@ -1778,7 +1778,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .ForCondition(Subject.Length == expected)
+                .ForCondition(Subject!.Length == expected)
                 .FailWith("Expected {context:string} with length {0}{reason}, but found string {1} with length {2}.",
                     expected, Subject, Subject.Length);
         }

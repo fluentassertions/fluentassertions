@@ -20,26 +20,14 @@ internal class CollectionMemberOptionsDecorator : IEquivalencyOptions
     }
 
     public IEnumerable<IMemberSelectionRule> SelectionRules
-    {
-        get
-        {
-            return inner.SelectionRules.Select(rule => new CollectionMemberSelectionRuleDecorator(rule)).ToArray();
-        }
-    }
+        => inner.SelectionRules.Select(rule => new CollectionMemberSelectionRuleDecorator(rule)).ToArray();
 
     public IEnumerable<IMemberMatchingRule> MatchingRules
-    {
-        get { return inner.MatchingRules.ToArray(); }
-    }
+        => inner.MatchingRules.ToArray();
 
     public OrderingRuleCollection OrderingRules
-    {
-        get
-        {
-            return new OrderingRuleCollection(inner.OrderingRules.Select(rule =>
-                new CollectionMemberOrderingRuleDecorator(rule)));
-        }
-    }
+        => new(inner.OrderingRules.Select(rule =>
+            new CollectionMemberOrderingRuleDecorator(rule)));
 
     public ConversionSelector ConversionSelector => inner.ConversionSelector;
 

@@ -56,10 +56,6 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     private bool ignoreNonBrowsableOnSubject;
     private bool excludeNonBrowsableOnExpectation;
 
-    private bool ignoreLeadingWhitespace;
-    private bool ignoreTrailingWhitespace;
-    private bool ignoreNewlines;
-    private bool ignoreCase;
     private IEqualityComparer<string> stringComparer;
 
     #endregion
@@ -92,10 +88,10 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
         includedFields = defaults.IncludedFields;
         ignoreNonBrowsableOnSubject = defaults.IgnoreNonBrowsableOnSubject;
         excludeNonBrowsableOnExpectation = defaults.ExcludeNonBrowsableOnExpectation;
-        ignoreLeadingWhitespace = defaults.IgnoreLeadingWhitespace;
-        ignoreTrailingWhitespace = defaults.IgnoreTrailingWhitespace;
-        ignoreNewlines = defaults.IgnoreNewlines;
-        ignoreCase = defaults.IgnoreCase;
+        IgnoreLeadingWhitespace = defaults.IgnoreLeadingWhitespace;
+        IgnoreTrailingWhitespace = defaults.IgnoreTrailingWhitespace;
+        IgnoreNewlines = defaults.IgnoreNewlines;
+        IgnoreCase = defaults.IgnoreCase;
 
         ConversionSelector = defaults.ConversionSelector.Clone();
 
@@ -190,13 +186,13 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     EqualityStrategy IEquivalencyOptions.GetEqualityStrategy(Type type)
         => equalityStrategyProvider.GetEqualityStrategy(type);
 
-    public bool IgnoreLeadingWhitespace => ignoreLeadingWhitespace;
+    public bool IgnoreLeadingWhitespace { get; private set; }
 
-    public bool IgnoreTrailingWhitespace => ignoreTrailingWhitespace;
+    public bool IgnoreTrailingWhitespace { get; private set; }
 
-    public bool IgnoreNewlines => ignoreNewlines;
+    public bool IgnoreNewlines { get; private set; }
 
-    public bool IgnoreCase => ignoreCase;
+    public bool IgnoreCase { get; private set; }
 
     public ITraceWriter TraceWriter { get; private set; }
 
@@ -707,7 +703,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     /// </summary>
     public TSelf IgnoringLeadingWhitespace()
     {
-        ignoreLeadingWhitespace = true;
+        IgnoreLeadingWhitespace = true;
         return (TSelf)this;
     }
 
@@ -716,7 +712,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     /// </summary>
     public TSelf IgnoringTrailingWhitespace()
     {
-        ignoreTrailingWhitespace = true;
+        IgnoreTrailingWhitespace = true;
         return (TSelf)this;
     }
 
@@ -725,7 +721,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     /// </summary>
     public TSelf IgnoringNewlines()
     {
-        ignoreNewlines = true;
+        IgnoreNewlines = true;
         return (TSelf)this;
     }
 
@@ -734,7 +730,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     /// </summary>
     public TSelf IgnoringCase()
     {
-        ignoreCase = true;
+        IgnoreCase = true;
         return (TSelf)this;
     }
 
@@ -743,7 +739,7 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     /// </summary>
     internal IEqualityComparer<string> GetStringComparerOrDefault()
     {
-        return stringComparer ?? (ignoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal);
+        return stringComparer ?? (IgnoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal);
     }
 
     /// <summary>
