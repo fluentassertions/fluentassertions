@@ -16,7 +16,7 @@ public partial class CollectionAssertionSpecs
         public void When_two_collections_contain_the_same_items_in_the_same_order_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 2, 3 };
+            int[] collection = [1, 2, 2, 3];
 
             // Act / Assert
             collection.Should().ContainInOrder(1, 2, 3);
@@ -36,7 +36,7 @@ public partial class CollectionAssertionSpecs
         public void When_the_first_collection_contains_a_duplicate_item_without_affecting_the_order_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3, 2 };
+            int[] collection = [1, 2, 3, 2];
 
             // Act / Assert
             collection.Should().ContainInOrder(1, 2, 3);
@@ -46,7 +46,7 @@ public partial class CollectionAssertionSpecs
         public void When_two_collections_contain_the_same_duplicate_items_in_the_same_order_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 1, 2, 12, 2, 2 };
+            int[] collection = [1, 2, 1, 2, 12, 2, 2];
 
             // Act / Assert
             collection.Should().ContainInOrder(1, 2, 1, 2, 12, 2, 2);
@@ -56,7 +56,7 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_does_not_contain_a_range_twice_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 1, 3, 12, 2, 2 };
+            int[] collection = [1, 2, 1, 3, 12, 2, 2];
 
             // Act
             Action act = () => collection.Should().ContainInOrder(1, 2, 1, 1, 2);
@@ -70,7 +70,7 @@ public partial class CollectionAssertionSpecs
         public void When_two_collections_contain_the_same_items_but_in_different_order_it_should_throw_with_a_clear_explanation()
         {
             // Act
-            Action act = () => new[] { 1, 2, 3 }.Should().ContainInOrder(new[] { 3, 1 }, "because we said so");
+            Action act = () => new[] { 1, 2, 3 }.Should().ContainInOrder([3, 1], "because we said so");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -81,7 +81,7 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_does_not_contain_an_ordered_item_it_should_throw_with_a_clear_explanation()
         {
             // Act
-            Action act = () => new[] { 1, 2, 3 }.Should().ContainInOrder(new[] { 4, 1 }, "we failed");
+            Action act = () => new[] { 1, 2, 3 }.Should().ContainInOrder([4, 1], "we failed");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -139,7 +139,7 @@ public partial class CollectionAssertionSpecs
             Action act = () =>
             {
                 using var _ = new AssertionScope();
-                ints.Should().ContainInOrder(new[] { 4 }, "because we're checking how it reacts to a null subject");
+                ints.Should().ContainInOrder([4], "because we're checking how it reacts to a null subject");
             };
 
             // Assert
@@ -154,7 +154,7 @@ public partial class CollectionAssertionSpecs
         public void When_two_collections_contain_the_same_items_but_in_different_order_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().NotContainInOrder(2, 1);
@@ -164,7 +164,7 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_does_not_contain_an_ordered_item_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().NotContainInOrder(4, 1);
@@ -174,7 +174,7 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_contains_less_items_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2 };
+            int[] collection = [1, 2];
 
             // Act / Assert
             collection.Should().NotContainInOrder(1, 2, 3);
@@ -184,7 +184,7 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_does_not_contain_a_range_twice_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 1, 3, 12, 2, 2 };
+            int[] collection = [1, 2, 1, 3, 12, 2, 2];
 
             // Act / Assert
             collection.Should().NotContainInOrder(1, 2, 1, 1, 2);
@@ -208,10 +208,10 @@ public partial class CollectionAssertionSpecs
         public void When_two_collections_contain_the_same_items_in_the_same_order_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 2, 3 };
+            int[] collection = [1, 2, 2, 3];
 
             // Act
-            Action act = () => collection.Should().NotContainInOrder(new[] { 1, 2, 3 }, "that's what we expect");
+            Action act = () => collection.Should().NotContainInOrder([1, 2, 3], "that's what we expect");
 
             // Assert
             act.Should().Throw<XunitException>().WithMessage(
@@ -229,7 +229,7 @@ public partial class CollectionAssertionSpecs
             Action act = () =>
             {
                 using var _ = new AssertionScope();
-                collection.Should().NotContainInOrder(new[] { 1, 2, 3 }, "we want to test the failure {0}", "message");
+                collection.Should().NotContainInOrder([1, 2, 3], "we want to test the failure {0}", "message");
             };
 
             // Assert
@@ -256,7 +256,7 @@ public partial class CollectionAssertionSpecs
         public void When_the_first_collection_contains_a_duplicate_item_without_affecting_the_order_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3, 2 };
+            int[] collection = [1, 2, 3, 2];
 
             // Act
             Action act = () => collection.Should().NotContainInOrder(1, 2, 3);
@@ -271,7 +271,7 @@ public partial class CollectionAssertionSpecs
         public void When_two_collections_contain_the_same_duplicate_items_in_the_same_order_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 1, 2, 12, 2, 2 };
+            int[] collection = [1, 2, 1, 2, 12, 2, 2];
 
             // Act
             Action act = () => collection.Should().NotContainInOrder(1, 2, 1, 2, 12, 2, 2);
@@ -286,7 +286,7 @@ public partial class CollectionAssertionSpecs
         public void When_passing_in_null_while_checking_for_absence_of_ordered_containment_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().NotContainInOrder(null);

@@ -288,7 +288,7 @@ namespace FluentAssertions.Specs.Execution
 
         public class CustomAssertionStrategy : IAssertionStrategy
         {
-            private readonly List<string> failureMessages = new();
+            private readonly List<string> failureMessages = [];
 
             public IEnumerable<string> FailureMessages => failureMessages;
 

@@ -16,7 +16,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_has_expected_element_at_specific_index_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().HaveElementAt(1, 2);
@@ -26,7 +26,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_does_not_have_the_expected_element_at_specific_index_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().HaveElementAt(1, 3, "we put it {0}", "there");
@@ -40,7 +40,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_does_not_have_an_element_at_the_specific_index_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().HaveElementAt(4, 3, "we put it {0}", "there");

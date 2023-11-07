@@ -38,7 +38,7 @@ public partial class CollectionAssertionSpecs
             When_asserting_non_empty_collection_to_be_null_or_empty_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().BeNullOrEmpty("because we want to test the failure {0}", "message");
@@ -108,7 +108,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_collection_to_not_be_null_or_empty_it_should_enumerate_only_once()
         {
             // Arrange
-            var collection = new CountingGenericEnumerable<int>(new[] { 42 });
+            var collection = new CountingGenericEnumerable<int>([42]);
 
             // Act
             collection.Should().NotBeNullOrEmpty();

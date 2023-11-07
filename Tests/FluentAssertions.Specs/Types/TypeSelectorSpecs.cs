@@ -667,7 +667,7 @@ namespace FluentAssertions.Specs.Types
                 .UnwrapTaskTypes();
 
             types.Should()
-                .BeEquivalentTo(new[] { typeof(int), typeof(void), typeof(void), typeof(string), typeof(bool) });
+                .BeEquivalentTo([typeof(int), typeof(void), typeof(void), typeof(string), typeof(bool)]);
         }
 
         [Fact]
@@ -897,8 +897,8 @@ namespace Internal.UnwrapSelectorTestTypes.Test
 
     internal class ClassImplementingMultipleEnumerable : IEnumerable<int>, IEnumerable<string>
     {
-        private readonly IEnumerable<int> integers = Enumerable.Empty<int>();
-        private readonly IEnumerable<string> strings = Enumerable.Empty<string>();
+        private readonly IEnumerable<int> integers = [];
+        private readonly IEnumerable<string> strings = [];
 
         public IEnumerator<int> GetEnumerator() => integers.GetEnumerator();
 

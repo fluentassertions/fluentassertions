@@ -28,7 +28,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_is_not_empty_unexpectedly_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().BeEmpty("that's what we expect");
@@ -42,7 +42,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_collection_with_items_is_not_empty_it_should_succeed()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().NotBeEmpty();
@@ -171,7 +171,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_collection_to_be_not_empty_it_should_enumerate_only_once()
         {
             // Arrange
-            var collection = new CountingGenericEnumerable<int>(new[] { 42 });
+            var collection = new CountingGenericEnumerable<int>([42]);
 
             // Act
             collection.Should().NotBeEmpty();

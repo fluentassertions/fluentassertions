@@ -18,7 +18,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_asserting_against_null_inspectors_it_should_throw_with_clear_explanation()
         {
             // Arrange
-            IEnumerable<int> collection = new[] { 1, 2 };
+            IEnumerable<int> collection = [1, 2];
 
             // Act
             Action act = () => collection.Should().SatisfyRespectively(null);
@@ -32,7 +32,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_asserting_against_empty_inspectors_it_should_throw_with_clear_explanation()
         {
             // Arrange
-            IEnumerable<int> collection = new[] { 1, 2 };
+            IEnumerable<int> collection = [1, 2];
 
             // Act
             Action act = () => collection.Should().SatisfyRespectively();
@@ -66,7 +66,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_which_is_asserting_against_inspectors_is_empty_it_should_throw()
         {
             // Arrange
-            var collection = Enumerable.Empty<int>();
+            IEnumerable<int> collection = [];
 
             // Act
             Action act = () => collection.Should().SatisfyRespectively(new Action<int>[] { x => x.Should().Be(1) },
@@ -103,8 +103,8 @@ public partial class CollectionAssertionSpecs
             // Arrange
             var customers = new[]
             {
-                new CustomerWithItems { Age = 21, Items = new[] { 1, 2 } },
-                new CustomerWithItems { Age = 22, Items = new[] { 3 } }
+                new CustomerWithItems { Age = 21, Items = [1, 2] },
+                new CustomerWithItems { Age = 22, Items = [3] }
             };
 
             // Act
@@ -148,7 +148,7 @@ public partial class CollectionAssertionSpecs
         public void When_inspector_message_is_not_reformatable_it_should_not_throw()
         {
             // Arrange
-            byte[][] subject = { new byte[] { 1 } };
+            byte[][] subject = [[1]];
 
             // Act
             Action act = () => subject.Should().SatisfyRespectively(e => e.Should().BeEquivalentTo(new byte[] { 2, 3, 4 }));
@@ -161,7 +161,7 @@ public partial class CollectionAssertionSpecs
         public void When_inspectors_count_does_not_equal_asserting_collection_length_it_should_throw_with_a_useful_message()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().SatisfyRespectively(

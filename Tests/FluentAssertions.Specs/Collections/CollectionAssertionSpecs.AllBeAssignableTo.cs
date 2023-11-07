@@ -17,7 +17,7 @@ public partial class CollectionAssertionSpecs
         public void When_the_types_in_a_collection_is_matched_against_a_null_type_it_should_throw()
         {
             // Arrange
-            var collection = Array.Empty<int>();
+            int[] collection = [];
 
             // Act
             Action act = () => collection.Should().AllBeAssignableTo(null);
@@ -31,7 +31,7 @@ public partial class CollectionAssertionSpecs
         public void All_items_in_an_empty_collection_are_assignable_to_a_generic_type()
         {
             // Arrange
-            var collection = Array.Empty<int>();
+            int[] collection = [];
 
             // Act / Assert
             collection.Should().AllBeAssignableTo<int>();
@@ -59,7 +59,7 @@ public partial class CollectionAssertionSpecs
         public void All_items_in_an_empty_collection_are_assignable_to_a_type()
         {
             // Arrange
-            var collection = Array.Empty<int>();
+            int[] collection = [];
 
             // Act / Assert
             collection.Should().AllBeAssignableTo(typeof(int));
@@ -69,7 +69,7 @@ public partial class CollectionAssertionSpecs
         public void When_all_of_the_types_in_a_collection_match_expected_type_it_should_succeed()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().AllBeAssignableTo(typeof(int));
@@ -79,7 +79,7 @@ public partial class CollectionAssertionSpecs
         public void When_all_of_the_types_in_a_collection_match_expected_generic_type_it_should_succeed()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().AllBeAssignableTo<int>();
@@ -89,7 +89,7 @@ public partial class CollectionAssertionSpecs
         public void When_matching_a_collection_against_a_type_it_should_return_the_casted_items()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().AllBeAssignableTo<int>()
@@ -152,7 +152,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_is_of_matching_types_it_should_succeed()
         {
             // Arrange
-            var collection = new[] { typeof(Exception), typeof(ArgumentException) };
+            Type[] collection = [typeof(Exception), typeof(ArgumentException)];
 
             // Act / Assert
             collection.Should().AllBeAssignableTo<Exception>();
@@ -162,7 +162,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_of_types_contains_one_type_that_does_not_match_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
-            var collection = new[] { typeof(int), typeof(string), typeof(int) };
+            Type[] collection = [typeof(int), typeof(string), typeof(int)];
 
             // Act
             Action act = () => collection.Should().AllBeAssignableTo<int>("because they are of different type");

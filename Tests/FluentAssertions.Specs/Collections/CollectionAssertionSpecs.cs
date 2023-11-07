@@ -18,7 +18,7 @@ public partial class CollectionAssertionSpecs
         public void Should_support_chaining_constraints_with_and()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should()

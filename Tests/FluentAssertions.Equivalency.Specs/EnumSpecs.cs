@@ -102,7 +102,7 @@ public class EnumSpecs
     public void Comparing_collections_of_numerics_with_collections_of_enums_includes_custom_message()
     {
         // Arrange
-        var actual = new[] { 1 };
+        int[] actual = [1];
 
         var expected = new[] { TestEnum.First };
 

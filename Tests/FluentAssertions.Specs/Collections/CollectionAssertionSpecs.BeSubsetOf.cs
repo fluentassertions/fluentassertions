@@ -16,8 +16,8 @@ public partial class CollectionAssertionSpecs
         public void When_collection_is_subset_of_a_specified_collection_it_should_not_throw()
         {
             // Arrange
-            var subset = new[] { 1, 2 };
-            var superset = new[] { 1, 2, 3 };
+            int[] subset = [1, 2];
+            int[] superset = [1, 2, 3];
 
             // Act / Assert
             subset.Should().BeSubsetOf(superset);
@@ -27,8 +27,8 @@ public partial class CollectionAssertionSpecs
         public void When_collection_is_not_a_subset_of_another_it_should_throw_with_the_reason()
         {
             // Arrange
-            var subset = new[] { 1, 2, 3, 6 };
-            var superset = new[] { 1, 2, 4, 5 };
+            int[] subset = [1, 2, 3, 6];
+            int[] superset = [1, 2, 4, 5];
 
             // Act
             Action act = () => subset.Should().BeSubsetOf(superset, "because we want to test the failure {0}", "message");
@@ -43,8 +43,8 @@ public partial class CollectionAssertionSpecs
         public void When_an_empty_collection_is_tested_against_a_superset_it_should_succeed()
         {
             // Arrange
-            var subset = new int[0];
-            var superset = new[] { 1, 2, 4, 5 };
+            int[] subset = [];
+            int[] superset = [1, 2, 4, 5];
 
             // Act
             Action act = () => subset.Should().BeSubsetOf(superset);
@@ -57,7 +57,7 @@ public partial class CollectionAssertionSpecs
         public void When_a_subset_is_tested_against_a_null_superset_it_should_throw_with_a_clear_explanation()
         {
             // Arrange
-            var subset = new[] { 1, 2, 3 };
+            int[] subset = [1, 2, 3];
             int[] superset = null;
 
             // Act
@@ -72,8 +72,8 @@ public partial class CollectionAssertionSpecs
         public void When_a_set_is_expected_to_be_not_a_subset_it_should_succeed()
         {
             // Arrange
-            var subject = new[] { 1, 2, 4 };
-            var otherSet = new[] { 1, 2, 3 };
+            int[] subject = [1, 2, 4];
+            int[] otherSet = [1, 2, 3];
 
             // Act / Assert
             subject.Should().NotBeSubsetOf(otherSet);
@@ -86,8 +86,8 @@ public partial class CollectionAssertionSpecs
         public void When_an_empty_set_is_not_supposed_to_be_a_subset_of_another_set_it_should_throw()
         {
             // Arrange
-            var subject = new int[] { };
-            var otherSet = new[] { 1, 2, 3 };
+            int[] subject = [];
+            int[] otherSet = [1, 2, 3];
 
             // Act
             Action act = () => subject.Should().NotBeSubsetOf(otherSet);
@@ -101,8 +101,8 @@ public partial class CollectionAssertionSpecs
         public void Should_fail_when_asserting_collection_is_not_subset_of_a_superset_collection()
         {
             // Arrange
-            var subject = new[] { 1, 2 };
-            var otherSet = new[] { 1, 2, 3 };
+            int[] subject = [1, 2];
+            int[] otherSet = [1, 2, 3];
 
             // Act
             Action act = () => subject.Should().NotBeSubsetOf(otherSet, "because I'm {0}", "mistaken");
@@ -117,7 +117,7 @@ public partial class CollectionAssertionSpecs
         {
             // Arrange
             int[] collection = null;
-            var collection1 = new[] { 1, 2, 3 };
+            int[] collection1 = [1, 2, 3];
 
             // Act
             Action act = () =>
@@ -135,7 +135,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_collection_to_not_be_subset_against_same_collection_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
             var collection1 = collection;
 
             // Act
@@ -157,7 +157,7 @@ public partial class CollectionAssertionSpecs
             Action act = () =>
             {
                 using var _ = new AssertionScope();
-                collection.Should().NotBeSubsetOf(new[] { 1, 2, 3 }, "we want to test the failure {0}", "message");
+                collection.Should().NotBeSubsetOf([1, 2, 3], "we want to test the failure {0}", "message");
             };
 
             // Assert

@@ -204,7 +204,7 @@ public class TypeExtensionsSpecs
         return methods.SingleOrDefault(m =>
             m.Name == name
             && m.ReturnType == returnType
-            && m.GetParameters().Select(p => p.ParameterType).SequenceEqual(new[] { type })
+            && m.GetParameters().Select(p => p.ParameterType).SequenceEqual([type])
         );
     }
 

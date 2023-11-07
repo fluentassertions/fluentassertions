@@ -14,7 +14,7 @@ namespace FluentAssertions.Collections.MaximumMatching;
 internal class MaximumMatchingSolver<TValue>
 {
     private readonly MaximumMatchingProblem<TValue> problem;
-    private readonly Dictionary<Predicate<TValue>, List<Element<TValue>>> matchingElementsByPredicate = new();
+    private readonly Dictionary<Predicate<TValue>, List<Element<TValue>>> matchingElementsByPredicate = [];
 
     public MaximumMatchingSolver(MaximumMatchingProblem<TValue> problem)
     {
@@ -76,7 +76,7 @@ internal class MaximumMatchingSolver<TValue>
             }
         }
 
-        return Enumerable.Empty<Match>();
+        return [];
     }
 
     private List<Element<TValue>> GetMatchingElements(Predicate<TValue> predicate)
@@ -98,7 +98,7 @@ internal class MaximumMatchingSolver<TValue>
 
     private sealed class MatchCollection : IEnumerable<Match>
     {
-        private readonly Dictionary<Element<TValue>, Match> matchesByElement = new();
+        private readonly Dictionary<Element<TValue>, Match> matchesByElement = [];
 
         public void UpdateFrom(IEnumerable<Match> matches)
         {
@@ -123,7 +123,7 @@ internal class MaximumMatchingSolver<TValue>
     private sealed class BreadthFirstSearchTracker
     {
         private readonly Queue<Predicate<TValue>> unmatchedPredicatesQueue = new();
-        private readonly Dictionary<Predicate<TValue>, Match> previousMatchByPredicate = new();
+        private readonly Dictionary<Predicate<TValue>, Match> previousMatchByPredicate = [];
 
         private readonly MatchCollection originalMatches;
 

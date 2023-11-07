@@ -783,7 +783,7 @@ public class EnumAssertionSpecs
             BindingFlags flags = BindingFlags.DeclaredOnly;
 
             // Act / Assert
-            Action act = () => flags.Should().BeOneOf(Array.Empty<BindingFlags>());
+            Action act = () => flags.Should().BeOneOf([]);
 
             act.Should()
                 .Throw<ArgumentException>()

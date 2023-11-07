@@ -35,11 +35,11 @@ public class CulturedTheoryAttributeDiscoverer : TheoryDiscoverer
     private static string[] GetCultures(IAttributeInfo culturedTheoryAttribute)
     {
         var ctorArgs = culturedTheoryAttribute.GetConstructorArguments().ToArray();
-        var cultures = Reflector.ConvertArguments(ctorArgs, new[] { typeof(string[]) }).Cast<string[]>().Single();
+        var cultures = Reflector.ConvertArguments(ctorArgs, [typeof(string[])]).Cast<string[]>().Single();
 
         if (cultures is null || cultures.Length == 0)
         {
-            cultures = new[] { "en-US", "fr-FR" };
+            cultures = ["en-US", "fr-FR"];
         }
 
         return cultures;

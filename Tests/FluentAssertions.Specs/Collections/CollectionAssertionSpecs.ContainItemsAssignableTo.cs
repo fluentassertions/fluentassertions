@@ -59,7 +59,7 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_is_empty_an_exception_should_be_thrown()
         {
             // Arrange
-            int[] collection = Array.Empty<int>();
+            int[] collection = [];
 
             // Act
             Action act = () => collection.Should().ContainItemsAssignableTo<int>();

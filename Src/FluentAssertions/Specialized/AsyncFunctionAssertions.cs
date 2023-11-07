@@ -101,10 +101,10 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
                 exception.Should().BeOfType(expectedType, because, becauseArgs);
             }
 
-            return new ExceptionAssertions<TException>(new[] { exception as TException });
+            return new ExceptionAssertions<TException>([exception as TException]);
         }
 
-        return new ExceptionAssertions<TException>(Array.Empty<TException>());
+        return new ExceptionAssertions<TException>([]);
     }
 
     /// <summary>
@@ -133,7 +133,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
             return ThrowInternal<TException>(exception, because, becauseArgs);
         }
 
-        return new ExceptionAssertions<TException>(Array.Empty<TException>());
+        return new ExceptionAssertions<TException>([]);
     }
 
     /// <summary>
@@ -165,7 +165,7 @@ public class AsyncFunctionAssertions<TTask, TAssertions> : DelegateAssertionsBas
             return AssertThrows<TException>(caughtException, timeSpan, because, becauseArgs);
         }
 
-        return new ExceptionAssertions<TException>(Array.Empty<TException>());
+        return new ExceptionAssertions<TException>([]);
     }
 
     private ExceptionAssertions<TException> AssertThrows<TException>(

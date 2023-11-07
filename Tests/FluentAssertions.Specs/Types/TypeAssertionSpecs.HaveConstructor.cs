@@ -21,7 +21,7 @@ public partial class TypeAssertionSpecs
             // Act
             Action act = () =>
                 type.Should()
-                    .HaveConstructor(new[] { typeof(string) })
+                    .HaveConstructor([typeof(string)])
                     .Which.Should().HaveAccessModifier(CSharpAccessModifier.Private);
 
             // Assert
@@ -36,7 +36,7 @@ public partial class TypeAssertionSpecs
 
             // Act
             Action act = () =>
-                type.Should().HaveConstructor(new[] { typeof(int), typeof(Type) }, "we want to test the failure {0}", "message");
+                type.Should().HaveConstructor([typeof(int), typeof(Type)], "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -53,7 +53,7 @@ public partial class TypeAssertionSpecs
 
             // Act
             Action act = () =>
-                type.Should().HaveConstructor(new[] { typeof(string) }, "we want to test the failure {0}", "message");
+                type.Should().HaveConstructor([typeof(string)], "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -87,7 +87,7 @@ public partial class TypeAssertionSpecs
             // Act
             Action act = () =>
                 type.Should()
-                    .NotHaveConstructor(new[] { typeof(string) });
+                    .NotHaveConstructor([typeof(string)]);
 
             // Assert
             act.Should().NotThrow();
@@ -101,7 +101,7 @@ public partial class TypeAssertionSpecs
 
             // Act
             Action act = () =>
-                type.Should().NotHaveConstructor(new[] { typeof(string) }, "we want to test the failure {0}", "message");
+                type.Should().NotHaveConstructor([typeof(string)], "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -117,7 +117,7 @@ public partial class TypeAssertionSpecs
 
             // Act
             Action act = () =>
-                type.Should().NotHaveConstructor(new[] { typeof(string) }, "we want to test the failure {0}", "message");
+                type.Should().NotHaveConstructor([typeof(string)], "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()

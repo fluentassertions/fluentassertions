@@ -20,7 +20,7 @@ public class PropertyInfoSelector : IEnumerable<PropertyInfo>
     /// <param name="type">The type from which to select properties.</param>
     /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null"/>.</exception>
     public PropertyInfoSelector(Type type)
-        : this(new[] { type })
+        : this([type])
     {
     }
 

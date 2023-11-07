@@ -1474,7 +1474,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     public AndWhichConstraint<TypeAssertions, ConstructorInfo> HaveDefaultConstructor(
         string because = "", params object[] becauseArgs)
     {
-        return HaveConstructor(Array.Empty<Type>(), because, becauseArgs);
+        return HaveConstructor([], because, becauseArgs);
     }
 
     /// <summary>
@@ -1531,7 +1531,7 @@ public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     public AndWhichConstraint<TypeAssertions, ConstructorInfo> NotHaveDefaultConstructor(
         string because = "", params object[] becauseArgs)
     {
-        return NotHaveConstructor(Array.Empty<Type>(), because, becauseArgs);
+        return NotHaveConstructor([], because, becauseArgs);
     }
 
     private static string GetParameterString(IEnumerable<Type> parameterTypes)

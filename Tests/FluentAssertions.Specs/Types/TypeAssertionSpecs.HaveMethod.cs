@@ -21,7 +21,7 @@ public partial class TypeAssertionSpecs
             // Act
             Action act = () =>
                 type.Should()
-                    .HaveMethod("VoidMethod", new Type[] { })
+                    .HaveMethod("VoidMethod", [])
                     .Which.Should()
                     .HaveAccessModifier(CSharpAccessModifier.Private)
                     .And.ReturnVoid();
@@ -39,7 +39,7 @@ public partial class TypeAssertionSpecs
             // Act
             Action act = () =>
                 type.Should().HaveMethod(
-                    "NonExistentMethod", new[] { typeof(int), typeof(Type) }, "we want to test the failure {0}", "message");
+                    "NonExistentMethod", [typeof(int), typeof(Type)], "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -57,7 +57,7 @@ public partial class TypeAssertionSpecs
             // Act
             Action act = () =>
                 type.Should().HaveMethod(
-                    "VoidMethod", new[] { typeof(int), typeof(Type) }, "we want to test the failure {0}", "message");
+                    "VoidMethod", [typeof(int), typeof(Type)], "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -74,7 +74,7 @@ public partial class TypeAssertionSpecs
 
             // Act
             Action act = () =>
-                type.Should().HaveMethod("Name", new[] { typeof(string) }, "we want to test the failure {0}", "message");
+                type.Should().HaveMethod("Name", [typeof(string)], "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -89,7 +89,7 @@ public partial class TypeAssertionSpecs
 
             // Act
             Action act = () =>
-                type.Should().HaveMethod(null, new[] { typeof(string) });
+                type.Should().HaveMethod(null, [typeof(string)]);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
@@ -104,7 +104,7 @@ public partial class TypeAssertionSpecs
 
             // Act
             Action act = () =>
-                type.Should().HaveMethod(string.Empty, new[] { typeof(string) });
+                type.Should().HaveMethod(string.Empty, [typeof(string)]);
 
             // Assert
             act.Should().ThrowExactly<ArgumentException>()
@@ -137,7 +137,7 @@ public partial class TypeAssertionSpecs
 
             // Act
             Action act = () =>
-                type.Should().NotHaveMethod("NonExistentMethod", new Type[] { });
+                type.Should().NotHaveMethod("NonExistentMethod", []);
 
             // Assert
             act.Should().NotThrow();
@@ -151,7 +151,7 @@ public partial class TypeAssertionSpecs
 
             // Act
             Action act = () =>
-                type.Should().NotHaveMethod("VoidMethod", new[] { typeof(int) });
+                type.Should().NotHaveMethod("VoidMethod", [typeof(int)]);
 
             // Assert
             act.Should().NotThrow();
@@ -165,7 +165,7 @@ public partial class TypeAssertionSpecs
 
             // Act
             Action act = () =>
-                type.Should().NotHaveMethod("VoidMethod", new Type[] { }, "we want to test the failure {0}", "message");
+                type.Should().NotHaveMethod("VoidMethod", [], "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -180,7 +180,7 @@ public partial class TypeAssertionSpecs
 
             // Act
             Action act = () =>
-                type.Should().NotHaveMethod("Name", new[] { typeof(string) }, "we want to test the failure {0}", "message");
+                type.Should().NotHaveMethod("Name", [typeof(string)], "we want to test the failure {0}", "message");
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -195,7 +195,7 @@ public partial class TypeAssertionSpecs
 
             // Act
             Action act = () =>
-                type.Should().NotHaveMethod(null, new[] { typeof(string) });
+                type.Should().NotHaveMethod(null, [typeof(string)]);
 
             // Assert
             act.Should().ThrowExactly<ArgumentNullException>()
@@ -210,7 +210,7 @@ public partial class TypeAssertionSpecs
 
             // Act
             Action act = () =>
-                type.Should().NotHaveMethod(string.Empty, new[] { typeof(string) });
+                type.Should().NotHaveMethod(string.Empty, [typeof(string)]);
 
             // Assert
             act.Should().ThrowExactly<ArgumentException>()

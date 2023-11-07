@@ -99,7 +99,7 @@ class Build : NukeBuild
                     "Branch spec {branchspec} is a pull request. Adding build number {buildnumber}",
                     BranchSpec, BuildNumber);
 
-                SemVer = string.Join('.', GitVersion.SemVer.Split('.').Take(3).Union(new[] { BuildNumber }));
+                SemVer = string.Join('.', GitVersion.SemVer.Split('.').Take(3).Union([BuildNumber]));
             }
 
             Information("SemVer = {semver}", SemVer);
@@ -159,14 +159,14 @@ class Build : NukeBuild
             ReportTestOutcome(globFilters: $"*{project.Name}.trx");
         });
 
-    Project[] Projects => new[]
-    {
+    Project[] Projects =>
+    [
         Solution.Specs.FluentAssertions_Specs,
         Solution.Specs.FluentAssertions_Equivalency_Specs,
         Solution.Specs.FluentAssertions_Extensibility_Specs,
         Solution.Specs.FSharp_Specs,
         Solution.Specs.VB_Specs
-    };
+    ];
 
     Target UnitTestsNet47 => _ => _
         .Unlisted()
@@ -209,7 +209,7 @@ class Build : NukeBuild
                         (settings, project) => settings
                             .SetProjectFile(project)
                             .CombineWith(
-                                project.GetTargetFrameworks().Except(new[] { net47 }),
+                                project.GetTargetFrameworks().Except([net47]),
                                 (frameworkSettings, framework) => frameworkSettings
                                     .SetFramework(framework)
                                     .AddLoggers($"trx;LogFileName={project.Name}_{framework}.trx")
@@ -284,7 +284,7 @@ class Build : NukeBuild
             var testCombinations =
                 from project in projects
                 let frameworks = project.GetTargetFrameworks()
-                let supportedFrameworks = EnvironmentInfo.IsWin ? frameworks : frameworks.Except(new[] { "net47" })
+                let supportedFrameworks = EnvironmentInfo.IsWin ? frameworks : frameworks.Except(["net47"])
                 from framework in supportedFrameworks
                 select new { project, framework };
 

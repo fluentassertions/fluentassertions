@@ -156,7 +156,7 @@ public partial class CollectionAssertionSpecs
         public void When_empty_collection_starts_with_the_empty_sequence_it_should_not_throw()
         {
             // Arrange
-            var collection = new string[] { };
+            string[] collection = [];
 
             // Act
             Action act = () => collection.Should().StartWith(new string[] { });

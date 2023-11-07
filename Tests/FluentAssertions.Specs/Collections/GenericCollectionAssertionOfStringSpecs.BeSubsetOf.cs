@@ -114,7 +114,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_an_empty_set_is_not_supposed_to_be_a_subset_of_another_set_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> subject = new string[] { };
+            IEnumerable<string> subject = [];
             IEnumerable<string> otherSet = new[] { "one", "two", "three" };
 
             // Act

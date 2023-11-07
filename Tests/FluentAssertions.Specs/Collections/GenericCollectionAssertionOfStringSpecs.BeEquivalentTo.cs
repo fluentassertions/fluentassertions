@@ -100,8 +100,8 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_two_arrays_contain_the_same_elements_it_should_treat_them_as_equivalent()
         {
             // Arrange
-            string[] array1 = { "one", "two", "three" };
-            string[] array2 = { "three", "two", "one" };
+            string[] array1 = ["one", "two", "three"];
+            string[] array2 = ["three", "two", "one"];
 
             // Act / Assert
             array1.Should().BeEquivalentTo(array2);
