@@ -20,7 +20,7 @@ public partial class GenericDictionaryAssertionSpecs
                 [3] = "Three"
             };
 
-            var collection = new[] { 4, 5, 6 };
+            int[] collection = [4, 5, 6];
 
             // Act / Assert
             dictionary.Should().HaveSameCount(collection);
@@ -37,7 +37,7 @@ public partial class GenericDictionaryAssertionSpecs
                 [3] = "Three"
             };
 
-            var collection = new[] { 4, 6 };
+            int[] collection = [4, 6];
 
             // Act
             Action act = () => dictionary.Should().HaveSameCount(collection);
@@ -58,7 +58,7 @@ public partial class GenericDictionaryAssertionSpecs
                 [3] = "Three"
             };
 
-            var collection = new[] { 4, 6 };
+            int[] collection = [4, 6];
 
             // Act
             Action act = () => dictionary.Should().HaveSameCount(collection, "we want to test the {0}", "reason");
@@ -73,7 +73,7 @@ public partial class GenericDictionaryAssertionSpecs
         {
             // Arrange
             Dictionary<string, int> dictionary = null;
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => dictionary.Should().HaveSameCount(collection,
@@ -119,7 +119,7 @@ public partial class GenericDictionaryAssertionSpecs
                 [3] = "Three"
             };
 
-            var collection = new[] { 4, 6 };
+            int[] collection = [4, 6];
 
             // Act / Assert
             dictionary.Should().NotHaveSameCount(collection);
@@ -136,7 +136,7 @@ public partial class GenericDictionaryAssertionSpecs
                 [3] = "Three"
             };
 
-            var collection = new[] { 4, 5, 6 };
+            int[] collection = [4, 5, 6];
 
             // Act
             Action act = () => dictionary.Should().NotHaveSameCount(collection);
@@ -157,7 +157,7 @@ public partial class GenericDictionaryAssertionSpecs
                 [3] = "Three"
             };
 
-            var collection = new[] { 4, 5, 6 };
+            int[] collection = [4, 5, 6];
 
             // Act
             Action act = () => dictionary.Should().NotHaveSameCount(collection, "we want to test the {0}", "reason");
@@ -172,7 +172,7 @@ public partial class GenericDictionaryAssertionSpecs
         {
             // Arrange
             Dictionary<int, string> dictionary = null;
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => dictionary.Should().NotHaveSameCount(collection,

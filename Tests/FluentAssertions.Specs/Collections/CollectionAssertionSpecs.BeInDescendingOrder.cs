@@ -42,7 +42,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_empty_collection_by_property_expression_ordered_in_descending_it_should_succeed()
         {
             // Arrange
-            var collection = Enumerable.Empty<SomeClass>();
+            IEnumerable<SomeClass> collection = [];
 
             // Act
             Action act = () => collection.Should().BeInDescendingOrder(o => o.Number);
@@ -55,7 +55,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_empty_collection_with_no_parameters_ordered_in_descending_it_should_succeed()
         {
             // Arrange
-            var collection = new int[] { };
+            int[] collection = [];
 
             // Act
             Action act = () => collection.Should().BeInDescendingOrder();
@@ -68,7 +68,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_single_element_collection_with_no_parameters_ordered_in_descending_it_should_succeed()
         {
             // Arrange
-            var collection = new[] { 42 };
+            int[] collection = [42];
 
             // Act
             Action act = () => collection.Should().BeInDescendingOrder();
@@ -204,7 +204,7 @@ public partial class CollectionAssertionSpecs
         public void When_strings_are_in_descending_order_it_should_succeed()
         {
             // Arrange
-            string[] strings = { "theta", "beta", "alpha" };
+            string[] strings = ["theta", "beta", "alpha"];
 
             // Act
             Action act = () => strings.Should().BeInDescendingOrder();
@@ -217,7 +217,7 @@ public partial class CollectionAssertionSpecs
         public void When_strings_are_not_in_descending_order_it_should_throw()
         {
             // Arrange
-            string[] strings = { "theta", "alpha", "beta" };
+            string[] strings = ["theta", "alpha", "beta"];
 
             // Act
             Action act = () => strings.Should().BeInDescendingOrder("of {0}", "reasons");
@@ -232,7 +232,7 @@ public partial class CollectionAssertionSpecs
         public void When_strings_are_in_descending_order_based_on_a_custom_comparer_it_should_succeed()
         {
             // Arrange
-            string[] strings = { "roy", "dennis", "barbara" };
+            string[] strings = ["roy", "dennis", "barbara"];
 
             // Act
             Action act = () => strings.Should().BeInDescendingOrder(new ByLastCharacterComparer());
@@ -245,7 +245,7 @@ public partial class CollectionAssertionSpecs
         public void When_strings_are_not_in_descending_order_based_on_a_custom_comparer_it_should_throw()
         {
             // Arrange
-            string[] strings = { "dennis", "roy", "barbara" };
+            string[] strings = ["dennis", "roy", "barbara"];
 
             // Act
             Action act = () => strings.Should().BeInDescendingOrder(new ByLastCharacterComparer(), "of {0}", "reasons");
@@ -260,7 +260,7 @@ public partial class CollectionAssertionSpecs
         public void When_strings_are_in_descending_order_based_on_a_custom_lambda_it_should_succeed()
         {
             // Arrange
-            string[] strings = { "roy", "dennis", "barbara" };
+            string[] strings = ["roy", "dennis", "barbara"];
 
             // Act
             Action act = () => strings.Should().BeInDescendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()));
@@ -273,7 +273,7 @@ public partial class CollectionAssertionSpecs
         public void When_strings_are_not_in_descending_order_based_on_a_custom_lambda_it_should_throw()
         {
             // Arrange
-            string[] strings = { "dennis", "roy", "barbara" };
+            string[] strings = ["dennis", "roy", "barbara"];
 
             // Act
             Action act = () =>
@@ -345,7 +345,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_empty_collection_by_property_expression_to_not_be_ordered_in_descending_it_should_throw()
         {
             // Arrange
-            var collection = Enumerable.Empty<SomeClass>();
+            IEnumerable<SomeClass> collection = [];
 
             // Act
             Action act = () => collection.Should().NotBeInDescendingOrder(o => o.Number);
@@ -359,7 +359,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_empty_collection_with_no_parameters_not_be_ordered_in_descending_it_should_throw()
         {
             // Arrange
-            var collection = new int[] { };
+            int[] collection = [];
 
             // Act
             Action act = () => collection.Should().NotBeInDescendingOrder("because I say {0}", "so");
@@ -373,7 +373,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_single_element_collection_with_no_parameters_not_be_ordered_in_descending_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 42 };
+            int[] collection = [42];
 
             // Act
             Action act = () => collection.Should().NotBeInDescendingOrder();
@@ -405,7 +405,7 @@ public partial class CollectionAssertionSpecs
             When_asserting_the_items_in_a_descending_ordered_collection_are_not_ordered_descending_using_the_given_comparer_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 3, 2, 1 };
+            int[] collection = [3, 2, 1];
 
             // Act
             Action act = () => collection.Should().NotBeInDescendingOrder(Comparer<int>.Default, "it should not be sorted");
@@ -420,7 +420,7 @@ public partial class CollectionAssertionSpecs
             When_asserting_the_items_not_in_an_descendingly_ordered_collection_are_not_ordered_descending_using_the_given_comparer_it_should_succeed()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().NotBeInDescendingOrder(Comparer<int>.Default);
@@ -513,7 +513,7 @@ public partial class CollectionAssertionSpecs
         public void When_strings_are_not_in_descending_order_it_should_succeed()
         {
             // Arrange
-            string[] strings = { "beta", "theta", "alpha" };
+            string[] strings = ["beta", "theta", "alpha"];
 
             // Act
             Action act = () => strings.Should().NotBeInDescendingOrder();
@@ -526,7 +526,7 @@ public partial class CollectionAssertionSpecs
         public void When_strings_are_unexpectedly_in_descending_order_it_should_throw()
         {
             // Arrange
-            string[] strings = { "theta", "beta", "alpha" };
+            string[] strings = ["theta", "beta", "alpha"];
 
             // Act
             Action act = () => strings.Should().NotBeInDescendingOrder("of {0}", "reasons");
@@ -541,7 +541,7 @@ public partial class CollectionAssertionSpecs
         public void When_strings_are_not_in_descending_order_based_on_a_custom_comparer_it_should_succeed()
         {
             // Arrange
-            string[] strings = { "roy", "barbara", "dennis" };
+            string[] strings = ["roy", "barbara", "dennis"];
 
             // Act
             Action act = () => strings.Should().NotBeInDescendingOrder(new ByLastCharacterComparer());
@@ -554,7 +554,7 @@ public partial class CollectionAssertionSpecs
         public void When_strings_are_unexpectedly_in_descending_order_based_on_a_custom_comparer_it_should_throw()
         {
             // Arrange
-            string[] strings = { "roy", "dennis", "barbara" };
+            string[] strings = ["roy", "dennis", "barbara"];
 
             // Act
             Action act = () => strings.Should().NotBeInDescendingOrder(new ByLastCharacterComparer(), "of {0}", "reasons");
@@ -569,7 +569,7 @@ public partial class CollectionAssertionSpecs
         public void When_strings_are_not_in_descending_order_based_on_a_custom_lambda_it_should_succeed()
         {
             // Arrange
-            string[] strings = { "dennis", "roy", "barbara" };
+            string[] strings = ["dennis", "roy", "barbara"];
 
             // Act
             Action act = () => strings.Should().NotBeInDescendingOrder((sut, exp) => sut.Last().CompareTo(exp.Last()));
@@ -582,7 +582,7 @@ public partial class CollectionAssertionSpecs
         public void When_strings_are_unexpectedly_in_descending_order_based_on_a_custom_lambda_it_should_throw()
         {
             // Arrange
-            string[] strings = { "roy", "dennis", "barbara" };
+            string[] strings = ["roy", "dennis", "barbara"];
 
             // Act
             Action act = () =>

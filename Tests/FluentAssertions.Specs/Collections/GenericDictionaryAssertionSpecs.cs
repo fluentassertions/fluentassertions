@@ -135,12 +135,12 @@ public partial class GenericDictionaryAssertionSpecs
 
         public static object[] Dictionaries()
         {
-            return new object[]
-            {
+            return
+            [
                 new Dictionary<int, int> { [1] = 42 },
                 new TrueReadOnlyDictionary<int, int>(new Dictionary<int, int> { [1] = 42 }),
                 new List<KeyValuePair<int, int>> { new(1, 42) }
-            };
+            ];
         }
 
         public static IEnumerable<object[]> DictionariesData()
@@ -346,7 +346,7 @@ public partial class GenericDictionaryAssertionSpecs
 
     internal class DictionaryNotImplementingIReadOnlyDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
-        private readonly Dictionary<TKey, TValue> dictionary = new();
+        private readonly Dictionary<TKey, TValue> dictionary = [];
 
         public TValue this[TKey key] { get => dictionary[key]; set => throw new NotImplementedException(); }
 

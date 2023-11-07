@@ -64,7 +64,7 @@ public class EnumerableEquivalencyStep : IEquivalencyStep
         catch (InvalidOperationException) when (IsIgnorableArrayLikeType(value))
         {
             // This is probably a default ImmutableArray<T> or an empty ArraySegment.
-            return Array.Empty<object>();
+            return [];
         }
     }
 

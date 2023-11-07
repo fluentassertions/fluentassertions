@@ -48,7 +48,7 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
             try
             {
                 HandleMethod.MakeGenericMethod(typeOfEnumeration)
-                    .Invoke(null, new[] { validator, subjectAsArray, comparands.Expectation });
+                    .Invoke(null, [validator, subjectAsArray, comparands.Expectation]);
             }
             catch (TargetInvocationException e)
             {
@@ -95,7 +95,7 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
         // Avoid expensive calculation when the type in question can't possibly implement IEnumerable<>.
         if (Type.GetTypeCode(type) != TypeCode.Object)
         {
-            return Array.Empty<Type>();
+            return [];
         }
 
         Type soughtType = typeof(IEnumerable<>);
@@ -119,7 +119,7 @@ public class GenericEnumerableEquivalencyStep : IEquivalencyStep
         catch (InvalidOperationException) when (value.GetType().Name.Equals("ImmutableArray`1", StringComparison.Ordinal))
         {
             // This is probably a default ImmutableArray<T>
-            return Array.Empty<T>();
+            return [];
         }
     }
 }

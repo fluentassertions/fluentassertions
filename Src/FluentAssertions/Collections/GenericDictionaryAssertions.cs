@@ -255,7 +255,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
     public WhoseValueConstraint<TCollection, TKey, TValue, TAssertions> ContainKey(TKey expected,
         string because = "", params object[] becauseArgs)
     {
-        AndConstraint<TAssertions> andConstraint = ContainKeys(new[] { expected }, because, becauseArgs);
+        AndConstraint<TAssertions> andConstraint = ContainKeys([expected], because, becauseArgs);
 
         _ = TryGetValue(Subject, expected, out TValue value);
 
@@ -447,7 +447,7 @@ public class GenericDictionaryAssertions<TCollection, TKey, TValue, TAssertions>
         string because = "", params object[] becauseArgs)
     {
         AndWhichConstraint<TAssertions, IEnumerable<TValue>> innerConstraint =
-            ContainValuesAndWhich(new[] { expected }, because, becauseArgs);
+            ContainValuesAndWhich([expected], because, becauseArgs);
 
         return
             new AndWhichConstraint<TAssertions, TValue>(

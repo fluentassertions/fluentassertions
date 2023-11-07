@@ -18,8 +18,8 @@ public partial class CollectionAssertionSpecs
         public void When_two_collections_contain_the_same_elements_it_should_treat_them_as_equivalent()
         {
             // Arrange
-            var collection1 = new[] { 1, 2, 3 };
-            var collection2 = new[] { 3, 1, 2 };
+            int[] collection1 = [1, 2, 3];
+            int[] collection2 = [3, 1, 2];
 
             // Act / Assert
             collection1.Should().BeEquivalentTo(collection2);
@@ -29,10 +29,10 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_contains_same_elements_it_should_treat_it_as_equivalent()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
-            collection.Should().BeEquivalentTo(new[] { 3, 1, 2 });
+            collection.Should().BeEquivalentTo([3, 1, 2]);
         }
 
         [Fact]
@@ -50,8 +50,8 @@ public partial class CollectionAssertionSpecs
         public void When_collections_are_not_equivalent_it_should_throw()
         {
             // Arrange
-            var collection1 = new[] { 1, 2, 3 };
-            var collection2 = new[] { 1, 2 };
+            int[] collection1 = [1, 2, 3];
+            int[] collection2 = [1, 2];
 
             // Act
             Action act = () => collection1.Should().BeEquivalentTo(collection2, "we treat {0} alike", "all");
@@ -65,8 +65,8 @@ public partial class CollectionAssertionSpecs
         public void When_collections_with_duplicates_are_not_equivalent_it_should_throw()
         {
             // Arrange
-            var collection1 = new[] { 1, 2, 3, 1 };
-            var collection2 = new[] { 1, 2, 3, 3 };
+            int[] collection1 = [1, 2, 3, 1];
+            int[] collection2 = [1, 2, 3, 3];
 
             // Act
             Action act = () => collection1.Should().BeEquivalentTo(collection2);
@@ -80,8 +80,8 @@ public partial class CollectionAssertionSpecs
         public void When_testing_for_equivalence_against_empty_collection_it_should_throw()
         {
             // Arrange
-            var subject = new[] { 1, 2, 3 };
-            var otherCollection = new int[0];
+            int[] subject = [1, 2, 3];
+            int[] otherCollection = [];
 
             // Act
             Action act = () => subject.Should().BeEquivalentTo(otherCollection);
@@ -109,7 +109,7 @@ public partial class CollectionAssertionSpecs
         public void When_testing_for_equivalence_against_null_collection_it_should_throw()
         {
             // Arrange
-            var collection1 = new[] { 1, 2, 3 };
+            int[] collection1 = [1, 2, 3];
             int[] collection2 = null;
 
             // Act
@@ -125,7 +125,7 @@ public partial class CollectionAssertionSpecs
         {
             // Arrange
             int[] collection = null;
-            var collection1 = new[] { 1, 2, 3 };
+            int[] collection1 = [1, 2, 3];
 
             // Act
             Action act =
@@ -166,8 +166,8 @@ public partial class CollectionAssertionSpecs
         public void When_collection_is_not_equivalent_to_another_smaller_collection_it_should_succeed()
         {
             // Arrange
-            var collection1 = new[] { 1, 2, 3 };
-            var collection2 = new[] { 3, 1 };
+            int[] collection1 = [1, 2, 3];
+            int[] collection2 = [3, 1];
 
             // Act / Assert
             collection1.Should().NotBeEquivalentTo(collection2);
@@ -191,8 +191,8 @@ public partial class CollectionAssertionSpecs
         public void When_collection_is_not_equivalent_to_another_equally_sized_collection_it_should_succeed()
         {
             // Arrange
-            var collection1 = new[] { 1, 2, 3 };
-            var collection2 = new[] { 3, 1, 4 };
+            int[] collection1 = [1, 2, 3];
+            int[] collection2 = [3, 1, 4];
 
             // Act / Assert
             collection1.Should().NotBeEquivalentTo(collection2);
@@ -202,8 +202,8 @@ public partial class CollectionAssertionSpecs
         public void When_collections_are_unexpectedly_equivalent_it_should_throw()
         {
             // Arrange
-            var collection1 = new[] { 1, 2, 3 };
-            var collection2 = new[] { 3, 1, 2 };
+            int[] collection1 = [1, 2, 3];
+            int[] collection2 = [3, 1, 2];
 
             // Act
             Action act = () => collection1.Should().NotBeEquivalentTo(collection2);
@@ -218,7 +218,7 @@ public partial class CollectionAssertionSpecs
         {
             // Arrange
             int[] actual = null;
-            var expectation = new[] { 1, 2, 3 };
+            int[] expectation = [1, 2, 3];
 
             // Act
             Action act = () =>
@@ -236,7 +236,7 @@ public partial class CollectionAssertionSpecs
         public void When_non_empty_collection_is_not_expected_to_be_equivalent_to_an_empty_collection_it_should_succeed()
         {
             // Arrange
-            var collection1 = new[] { 1, 2, 3 };
+            int[] collection1 = [1, 2, 3];
             var collection2 = new int[0];
 
             // Act
@@ -250,7 +250,7 @@ public partial class CollectionAssertionSpecs
         public void When_testing_collections_not_to_be_equivalent_against_null_collection_it_should_throw()
         {
             // Arrange
-            var collection1 = new[] { 1, 2, 3 };
+            int[] collection1 = [1, 2, 3];
             int[] collection2 = null;
 
             // Act
@@ -266,7 +266,7 @@ public partial class CollectionAssertionSpecs
         public void When_testing_collections_not_to_be_equivalent_against_same_collection_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
             var collection1 = collection;
 
             // Act
@@ -301,7 +301,7 @@ public partial class CollectionAssertionSpecs
         {
             // Arrange
             int[] actual = null;
-            int[] expectation = { 1, 2, 3 };
+            int[] expectation = [1, 2, 3];
 
             // Act
             Action act = () =>

@@ -17,8 +17,8 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_the_items_in_an_two_intersecting_collections_intersect_it_should_succeed()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
-            var otherCollection = new[] { 3, 4, 5 };
+            int[] collection = [1, 2, 3];
+            int[] otherCollection = [3, 4, 5];
 
             // Act / Assert
             collection.Should().IntersectWith(otherCollection);
@@ -28,8 +28,8 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_the_items_in_an_two_non_intersecting_collections_intersect_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
-            var otherCollection = new[] { 4, 5 };
+            int[] collection = [1, 2, 3];
+            int[] otherCollection = [4, 5];
 
             // Act
             Action action = () => collection.Should().IntersectWith(otherCollection, "they should share items");
@@ -50,7 +50,7 @@ public partial class CollectionAssertionSpecs
             Action act = () =>
             {
                 using var _ = new AssertionScope();
-                collection.Should().IntersectWith(new[] { 4, 5 }, "we want to test the failure {0}", "message");
+                collection.Should().IntersectWith([4, 5], "we want to test the failure {0}", "message");
             };
 
             // Assert
@@ -65,8 +65,8 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_the_items_in_an_two_non_intersecting_collections_do_not_intersect_it_should_succeed()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
-            var otherCollection = new[] { 4, 5 };
+            int[] collection = [1, 2, 3];
+            int[] otherCollection = [4, 5];
 
             // Act / Assert
             collection.Should().NotIntersectWith(otherCollection);
@@ -76,8 +76,8 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_the_items_in_an_two_intersecting_collections_do_not_intersect_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
-            var otherCollection = new[] { 2, 3, 4 };
+            int[] collection = [1, 2, 3];
+            int[] otherCollection = [2, 3, 4];
 
             // Act
             Action action = () => collection.Should().NotIntersectWith(otherCollection, "they should not share items");
@@ -92,7 +92,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_collection_to_not_intersect_with_same_collection_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
             var otherCollection = collection;
 
             // Act
@@ -114,7 +114,7 @@ public partial class CollectionAssertionSpecs
             Action act = () =>
             {
                 using var _ = new AssertionScope();
-                collection.Should().NotIntersectWith(new[] { 4, 5 }, "we want to test the failure {0}", "message");
+                collection.Should().NotIntersectWith([4, 5], "we want to test the failure {0}", "message");
             };
 
             // Assert

@@ -11,7 +11,7 @@ internal class CyclicReferenceDetector : ICloneable2
 {
     #region Private Definitions
 
-    private HashSet<ObjectReference> observedReferences = new();
+    private HashSet<ObjectReference> observedReferences = [];
 
     #endregion
 

@@ -253,7 +253,7 @@ public class StringCollectionAssertions<TCollection, TAssertions> : GenericColle
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:collection} to contain a match of {0}{reason}, but found <null>.", wildcardPattern);
 
-        IEnumerable<string> matched = new List<string>(0);
+        IEnumerable<string> matched = [];
 
         if (success)
         {

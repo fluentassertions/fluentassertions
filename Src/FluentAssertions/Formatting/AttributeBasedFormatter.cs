@@ -36,7 +36,7 @@ public class AttributeBasedFormatter : IValueFormatter
     {
         MethodInfo method = GetFormatter(value);
 
-        object[] parameters = { value, formattedGraph };
+        object[] parameters = [value, formattedGraph];
 
         method.Invoke(null, parameters);
     }

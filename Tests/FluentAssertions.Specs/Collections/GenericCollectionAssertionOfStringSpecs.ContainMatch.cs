@@ -84,7 +84,7 @@ public partial class GenericCollectionAssertionOfStringSpecs
         public void When_asserting_empty_collection_for_match_it_should_throw()
         {
             // Arrange
-            IEnumerable<string> collection = new string[] { };
+            IEnumerable<string> collection = [];
 
             // Act
             Action action = () => collection.Should().ContainMatch("* failed");

@@ -16,7 +16,7 @@ public partial class CollectionAssertionSpecs
         public void Should_succeed_when_asserting_collection_has_a_count_greater_than_or_equal_to_less_the_number_of_items()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().HaveCountGreaterThanOrEqualTo(3);
@@ -26,7 +26,7 @@ public partial class CollectionAssertionSpecs
         public void Should_fail_when_asserting_collection_has_a_count_greater_than_or_equal_to_the_number_of_items()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().HaveCountGreaterThanOrEqualTo(4);
@@ -40,7 +40,7 @@ public partial class CollectionAssertionSpecs
             When_collection_has_a_count_greater_than_or_equal_to_the_number_of_items_it_should_fail_with_descriptive_message_()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action action = () =>
@@ -74,7 +74,7 @@ public partial class CollectionAssertionSpecs
         public void Chaining_after_one_assertion()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().HaveCountGreaterThanOrEqualTo(3).And.Contain(1);

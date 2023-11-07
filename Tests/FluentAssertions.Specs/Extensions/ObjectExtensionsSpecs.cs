@@ -135,8 +135,8 @@ public class ObjectExtensionsSpecs
 
     private static object[] GetNumericIConvertibles()
     {
-        return new object[]
-        {
+        return
+        [
             (byte)1,
             (sbyte)1,
             (short)1,
@@ -148,18 +148,18 @@ public class ObjectExtensionsSpecs
             1F,
             1D,
             1M,
-        };
+        ];
     }
 
     private static object[] GetNonNumericIConvertibles()
     {
-        return new object[]
-        {
+        return
+        [
             true,
             '\u0001',
             new DateTime(1),
             DBNull.Value,
             "1"
-        };
+        ];
     }
 }

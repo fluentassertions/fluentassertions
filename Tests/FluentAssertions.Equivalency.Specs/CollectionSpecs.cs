@@ -146,7 +146,7 @@ public class CollectionSpecs
         public IEnumerable<IMember> SelectMembers(INode currentNode, IEnumerable<IMember> selectedMembers,
             MemberSelectionContext context)
         {
-            return Enumerable.Empty<IMember>();
+            return [];
         }
 
         bool IMemberSelectionRule.IncludesMembers => OverridesStandardIncludeRules;
@@ -154,7 +154,7 @@ public class CollectionSpecs
 
     public class UserRolesLookupElement
     {
-        private readonly Dictionary<Guid, List<string>> innerRoles = new();
+        private readonly Dictionary<Guid, List<string>> innerRoles = [];
 
         public virtual Dictionary<Guid, IEnumerable<string>> Roles
             => innerRoles.ToDictionary(x => x.Key, y => y.Value.Select(z => z));
@@ -200,7 +200,7 @@ public class CollectionSpecs
         object objectA = new();
         object objectB = new();
 
-        var actual = new[] { new[] { objectA, objectB } };
+        object[][] actual = [[objectA, objectB]];
         var expected = actual[0];
 
         // Act
@@ -279,9 +279,9 @@ public class CollectionSpecs
     public void When_a_collection_does_not_match_it_should_include_items_in_message()
     {
         // Arrange
-        var subject = new[] { 1, 2 };
+        int[] subject = [1, 2];
 
-        var expectation = new[] { 3, 2, 1 };
+        int[] expectation = [3, 2, 1];
 
         // Act
         Action action = () => subject.Should().BeEquivalentTo(expectation);
@@ -440,11 +440,11 @@ public class CollectionSpecs
     public void When_two_deeply_nested_collections_are_equivalent_while_ignoring_the_order_it_should_not_throw()
     {
         // Arrange
-        var items = new[] { new int[0], new[] { 42 } };
+        var items = new[] { new int[0], [42] };
 
         // Act / Assert
         items.Should().BeEquivalentTo(
-            new[] { new[] { 42 }, new int[0] }
+            new[] { [42], new int[0] }
         );
     }
 
@@ -472,7 +472,7 @@ public class CollectionSpecs
     {
         // Arrange
         object item = new();
-        object[] array = { item };
+        object[] array = [item];
         IList readOnlyList = ArrayList.ReadOnly(array);
 
         // Act / Assert
@@ -643,7 +643,7 @@ public class CollectionSpecs
             };
 
             // Act / Assert
-            new[] { subject }.Should().BeEquivalentTo(new[] { expected },
+            new[] { subject }.Should().BeEquivalentTo([expected],
                 options => options
                     .For(x => x.Level.Collection)
                     .Exclude(x => x.Number));
@@ -1118,7 +1118,7 @@ public class CollectionSpecs
         var expected = new { A = "aaa", B = "ccc" };
 
         // Act
-        Action act = () => result.Should().BeEquivalentTo(new[] { expected }, options => options.Including(x => x.A));
+        Action act = () => result.Should().BeEquivalentTo([expected], options => options.Including(x => x.A));
 
         // Assert
         act.Should().NotThrow();
@@ -1683,7 +1683,7 @@ public class CollectionSpecs
     public void When_expectation_is_null_enumerable_it_should_throw()
     {
         // Arrange
-        var subject = Enumerable.Empty<object>();
+        IEnumerable<object> subject = [];
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo((IEnumerable<object>)null);
@@ -2142,13 +2142,13 @@ public class CollectionSpecs
         // Arrange
         var company1 = new MyCompany { Name = "Company" };
         var user1 = new MyUser { Name = "User", Company = company1 };
-        company1.Users = new List<MyUser> { user1 };
+        company1.Users = [user1];
         var logo1 = new MyCompanyLogo { Url = "blank", Company = company1, CreatedBy = user1 };
         company1.Logo = logo1;
 
         var company2 = new MyCompany { Name = "Company" };
         var user2 = new MyUser { Name = "User", Company = company2 };
-        company2.Users = new List<MyUser> { user2 };
+        company2.Users = [user2];
         var logo2 = new MyCompanyLogo { Url = "blank", Company = company2, CreatedBy = user2 };
         company2.Logo = logo2;
 

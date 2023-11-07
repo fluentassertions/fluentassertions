@@ -30,7 +30,7 @@ public partial class NumericAssertionSpecs
             int value = 3;
 
             // Act
-            Action act = () => value.Should().BeOneOf(new[] { 4, 5 }, "because those are the valid values");
+            Action act = () => value.Should().BeOneOf([4, 5], "because those are the valid values");
 
             // Assert
             act

@@ -94,7 +94,7 @@ internal sealed class DictionaryInterfaceInfo
         {
             if (Type.GetTypeCode(key) != TypeCode.Object)
             {
-                return Array.Empty<DictionaryInterfaceInfo>();
+                return [];
             }
 
             return key
@@ -125,7 +125,7 @@ internal sealed class DictionaryInterfaceInfo
             Type pairValueType = suitableKeyValuePairCollection.GenericTypeArguments[^1];
 
             var methodInfo = ConvertToDictionaryMethod.MakeGenericMethod(Key, pairValueType);
-            return methodInfo.Invoke(null, new[] { convertable });
+            return methodInfo.Invoke(null, [convertable]);
         }
 
         return null;

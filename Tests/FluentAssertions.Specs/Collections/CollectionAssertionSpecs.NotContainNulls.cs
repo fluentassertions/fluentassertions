@@ -17,7 +17,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_does_not_contain_nulls_it_should_not_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act / Assert
             collection.Should().NotContainNulls();
@@ -105,7 +105,7 @@ public partial class CollectionAssertionSpecs
         public void When_injecting_a_null_predicate_into_NotContainNulls_it_should_throw()
         {
             // Arrange
-            IEnumerable<SomeClass> collection = new SomeClass[] { };
+            IEnumerable<SomeClass> collection = [];
 
             // Act
             Action act = () => collection.Should().NotContainNulls<string>(predicate: null);

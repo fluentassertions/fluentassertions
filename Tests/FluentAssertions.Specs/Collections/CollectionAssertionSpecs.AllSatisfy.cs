@@ -18,7 +18,7 @@ public partial class CollectionAssertionSpecs
         public void A_null_inspector_should_throw()
         {
             // Arrange
-            IEnumerable<int> collection = new[] { 1, 2 };
+            IEnumerable<int> collection = [1, 2];
 
             // Act
             Action act = () => collection.Should().AllSatisfy(null);
@@ -53,7 +53,7 @@ public partial class CollectionAssertionSpecs
         public void An_empty_collection_should_succeed()
         {
             // Arrange
-            var collection = Enumerable.Empty<int>();
+            IEnumerable<int> collection = [];
 
             // Act / Assert
             collection.Should().AllSatisfy(x => x.Should().Be(1));
@@ -75,8 +75,8 @@ public partial class CollectionAssertionSpecs
             // Arrange
             var customers = new[]
             {
-                new CustomerWithItems { Age = 21, Items = new[] { 1, 2 } },
-                new CustomerWithItems { Age = 22, Items = new[] { 3 } }
+                new CustomerWithItems { Age = 21, Items = [1, 2] },
+                new CustomerWithItems { Age = 22, Items = [3] }
             };
 
             // Act
@@ -113,7 +113,7 @@ public partial class CollectionAssertionSpecs
         public void Inspector_message_that_is_not_reformatable_should_not_throw()
         {
             // Arrange
-            byte[][] subject = { new byte[] { 1 } };
+            byte[][] subject = [[1]];
 
             // Act
             Action act = () => subject.Should().AllSatisfy(e => e.Should().BeEquivalentTo(new byte[] { 2, 3, 4 }));

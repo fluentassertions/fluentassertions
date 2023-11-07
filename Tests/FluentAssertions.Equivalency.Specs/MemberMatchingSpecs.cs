@@ -51,12 +51,12 @@ public class MemberMatchingSpecs
     public void Nested_properties_can_be_mapped_using_a_nested_expression()
     {
         // Arrange
-        var subject = new ParentOfSubjectWithProperty1(new[] { new SubjectWithProperty1 { Property1 = "Hello" } });
+        var subject = new ParentOfSubjectWithProperty1([new SubjectWithProperty1 { Property1 = "Hello" }]);
 
-        var expectation = new ParentOfExpectationWithProperty2(new[]
-        {
+        var expectation = new ParentOfExpectationWithProperty2(
+        [
             new ExpectationWithProperty2 { Property2 = "Hello" }
-        });
+        ]);
 
         // Act / Assert
         subject.Should()
@@ -70,12 +70,12 @@ public class MemberMatchingSpecs
     public void Nested_properties_can_be_mapped_using_a_nested_type_and_property_names()
     {
         // Arrange
-        var subject = new ParentOfSubjectWithProperty1(new[] { new SubjectWithProperty1 { Property1 = "Hello" } });
+        var subject = new ParentOfSubjectWithProperty1([new SubjectWithProperty1 { Property1 = "Hello" }]);
 
-        var expectation = new ParentOfExpectationWithProperty2(new[]
-        {
+        var expectation = new ParentOfExpectationWithProperty2(
+        [
             new ExpectationWithProperty2 { Property2 = "Hello" }
-        });
+        ]);
 
         // Act / Assert
         subject.Should()
@@ -87,14 +87,14 @@ public class MemberMatchingSpecs
     public void Nested_explicitly_implemented_properties_can_be_mapped_using_a_nested_type_and_property_names()
     {
         // Arrange
-        var subject = new ParentOfSubjectWithExplicitlyImplementedProperty(new[] { new SubjectWithExplicitImplementedProperty() });
+        var subject = new ParentOfSubjectWithExplicitlyImplementedProperty([new SubjectWithExplicitImplementedProperty()]);
 
         ((IProperty)subject.Children[0]).Property = "Hello";
 
-        var expectation = new ParentOfExpectationWithProperty2(new[]
-        {
+        var expectation = new ParentOfExpectationWithProperty2(
+        [
             new ExpectationWithProperty2 { Property2 = "Hello" }
-        });
+        ]);
 
         // Act / Assert
         subject.Should()
@@ -121,12 +121,12 @@ public class MemberMatchingSpecs
     public void Nested_properties_can_be_mapped_using_a_nested_type_and_a_property_expression()
     {
         // Arrange
-        var subject = new ParentOfSubjectWithProperty1(new[] { new SubjectWithProperty1 { Property1 = "Hello" } });
+        var subject = new ParentOfSubjectWithProperty1([new SubjectWithProperty1 { Property1 = "Hello" }]);
 
-        var expectation = new ParentOfExpectationWithProperty2(new[]
-        {
+        var expectation = new ParentOfExpectationWithProperty2(
+        [
             new ExpectationWithProperty2 { Property2 = "Hello" }
-        });
+        ]);
 
         // Act / Assert
         subject.Should()
@@ -405,12 +405,12 @@ public class MemberMatchingSpecs
     public void Nested_types_and_dotted_expectation_member_paths_cannot_be_combined()
     {
         // Arrange
-        var subject = new ParentOfSubjectWithProperty1(new[] { new SubjectWithProperty1 { Property1 = "Hello" } });
+        var subject = new ParentOfSubjectWithProperty1([new SubjectWithProperty1 { Property1 = "Hello" }]);
 
-        var expectation = new ParentOfExpectationWithProperty2(new[]
-        {
+        var expectation = new ParentOfExpectationWithProperty2(
+        [
             new ExpectationWithProperty2 { Property2 = "Hello" }
-        });
+        ]);
 
         // Act
         Action act = () => subject.Should()
@@ -427,12 +427,12 @@ public class MemberMatchingSpecs
     public void Nested_types_and_dotted_subject_member_paths_cannot_be_combined()
     {
         // Arrange
-        var subject = new ParentOfSubjectWithProperty1(new[] { new SubjectWithProperty1 { Property1 = "Hello" } });
+        var subject = new ParentOfSubjectWithProperty1([new SubjectWithProperty1 { Property1 = "Hello" }]);
 
-        var expectation = new ParentOfExpectationWithProperty2(new[]
-        {
+        var expectation = new ParentOfExpectationWithProperty2(
+        [
             new ExpectationWithProperty2 { Property2 = "Hello" }
-        });
+        ]);
 
         // Act
         Action act = () => subject.Should()
@@ -449,12 +449,12 @@ public class MemberMatchingSpecs
     public void The_member_name_on_a_nested_type_mapping_must_be_a_valid_member()
     {
         // Arrange
-        var subject = new ParentOfSubjectWithProperty1(new[] { new SubjectWithProperty1 { Property1 = "Hello" } });
+        var subject = new ParentOfSubjectWithProperty1([new SubjectWithProperty1 { Property1 = "Hello" }]);
 
-        var expectation = new ParentOfExpectationWithProperty2(new[]
-        {
+        var expectation = new ParentOfExpectationWithProperty2(
+        [
             new ExpectationWithProperty2 { Property2 = "Hello" }
-        });
+        ]);
 
         // Act
         Action act = () => subject.Should()
@@ -529,8 +529,8 @@ public class MemberMatchingSpecs
             Name = "Test"
         };
 
-        var entityCol = new[] { entity };
-        var dtoCol = new[] { dto };
+        Entity[] entityCol = [entity];
+        EntityDto[] dtoCol = [dto];
 
         // Act / Assert
         dtoCol.Should().BeEquivalentTo(entityCol, c =>

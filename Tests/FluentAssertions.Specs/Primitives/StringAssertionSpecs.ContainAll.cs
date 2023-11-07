@@ -103,7 +103,7 @@ public partial class StringAssertionSpecs
             var testString = $"{red} {green}";
 
             // Act
-            Action act = () => testString.Should().ContainAll(new[] { yellow, blue }, "some {0} reason", "special");
+            Action act = () => testString.Should().ContainAll([yellow, blue], "some {0} reason", "special");
 
             // Assert
             act
@@ -187,7 +187,7 @@ public partial class StringAssertionSpecs
             var testString = $"{red} {green} {yellow}";
 
             // Act
-            Action act = () => testString.Should().NotContainAll(new[] { red, green, yellow }, "some {0} reason", "special");
+            Action act = () => testString.Should().NotContainAll([red, green, yellow], "some {0} reason", "special");
 
             // Assert
             act

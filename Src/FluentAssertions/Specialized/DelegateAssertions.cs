@@ -50,7 +50,7 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
             return ThrowInternal<TException>(exception, because, becauseArgs);
         }
 
-        return new ExceptionAssertions<TException>(Array.Empty<TException>());
+        return new ExceptionAssertions<TException>([]);
     }
 
     /// <summary>
@@ -123,10 +123,10 @@ public abstract class DelegateAssertions<TDelegate, TAssertions> : DelegateAsser
                 exception.Should().BeOfType(expectedType, because, becauseArgs);
             }
 
-            return new ExceptionAssertions<TException>(new[] { exception as TException });
+            return new ExceptionAssertions<TException>([exception as TException]);
         }
 
-        return new ExceptionAssertions<TException>(Array.Empty<TException>());
+        return new ExceptionAssertions<TException>([]);
     }
 
     protected abstract void InvokeSubject();

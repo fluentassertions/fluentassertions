@@ -308,7 +308,7 @@ public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentA
             .BecauseOf(because, becauseArgs)
             .FailWith("Cannot assert the count if the document itself is <null>.");
 
-        IEnumerable<XElement> xElements = Enumerable.Empty<XElement>();
+        IEnumerable<XElement> xElements = [];
 
         if (success)
         {

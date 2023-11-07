@@ -10,8 +10,8 @@ namespace FluentAssertions.Equivalency;
 
 internal sealed class EqualityStrategyProvider
 {
-    private readonly List<Type> referenceTypes = new();
-    private readonly List<Type> valueTypes = new();
+    private readonly List<Type> referenceTypes = [];
+    private readonly List<Type> valueTypes = [];
     private readonly ConcurrentDictionary<Type, EqualityStrategy> typeCache = new();
 
     [CanBeNull]

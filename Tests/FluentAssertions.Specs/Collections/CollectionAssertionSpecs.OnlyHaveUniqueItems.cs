@@ -17,7 +17,7 @@ public partial class CollectionAssertionSpecs
         public void Should_succeed_when_asserting_collection_with_unique_items_contains_only_unique_items()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3, 4 };
+            int[] collection = [1, 2, 3, 4];
 
             // Act / Assert
             collection.Should().OnlyHaveUniqueItems();
@@ -27,7 +27,7 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_contains_duplicate_items_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3, 3 };
+            int[] collection = [1, 2, 3, 3];
 
             // Act
             Action act = () => collection.Should().OnlyHaveUniqueItems("{0} don't like {1}", "we", "duplicates");
@@ -41,7 +41,7 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_contains_duplicate_items_it_supports_chaining()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3, 3 };
+            int[] collection = [1, 2, 3, 3];
 
             // Act
             Action act = () =>
@@ -59,7 +59,7 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_contains_multiple_duplicate_items_it_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 2, 3, 3 };
+            int[] collection = [1, 2, 2, 3, 3];
 
             // Act
             Action act = () => collection.Should().OnlyHaveUniqueItems("{0} don't like {1}", "we", "duplicates");
@@ -73,7 +73,7 @@ public partial class CollectionAssertionSpecs
         public void When_a_collection_contains_multiple_duplicate_items_it_supports_chaining()
         {
             // Arrange
-            var collection = new[] { 1, 2, 2, 3, 3 };
+            int[] collection = [1, 2, 2, 3, 3];
 
             // Act
             Action act = () =>
@@ -109,7 +109,7 @@ public partial class CollectionAssertionSpecs
         public void When_injecting_a_null_predicate_into_OnlyHaveUniqueItems_it_should_throw()
         {
             // Arrange
-            IEnumerable<SomeClass> collection = new SomeClass[] { };
+            IEnumerable<SomeClass> collection = [];
 
             // Act
             Action act = () => collection.Should().OnlyHaveUniqueItems<string>(predicate: null);

@@ -744,7 +744,7 @@ public class EventAssertionSpecs
             string typeName = baseType.Name + "_GeneratedForTest";
 
             TypeBuilder typeBuilder =
-                moduleBuilder.DefineType(typeName, TypeAttributes.Public, baseType, new[] { interfaceType });
+                moduleBuilder.DefineType(typeName, TypeAttributes.Public, baseType, [interfaceType]);
 
             MethodBuilder addHandler = EmitAddRemoveEventHandler("add");
             typeBuilder.DefineMethodOverride(addHandler, interfaceType.GetMethod("add_InterfaceEvent"));

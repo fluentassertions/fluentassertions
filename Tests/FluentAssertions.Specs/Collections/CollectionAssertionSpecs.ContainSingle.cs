@@ -17,7 +17,7 @@ public partial class CollectionAssertionSpecs
     public void When_injecting_a_null_predicate_into_ContainSingle_it_should_throw()
     {
         // Arrange
-        IEnumerable<int> collection = new int[] { };
+        IEnumerable<int> collection = [];
 
         // Act
         Action act = () => collection.Should().ContainSingle(predicate: null);
@@ -31,7 +31,7 @@ public partial class CollectionAssertionSpecs
     public void When_a_collection_contains_a_single_item_matching_a_predicate_it_should_succeed()
     {
         // Arrange
-        IEnumerable<int> collection = new[] { 1, 2, 3 };
+        IEnumerable<int> collection = [1, 2, 3];
         Expression<Func<int, bool>> expression = item => item == 2;
 
         // Act
@@ -45,7 +45,7 @@ public partial class CollectionAssertionSpecs
     public void When_asserting_an_empty_collection_contains_a_single_item_matching_a_predicate_it_should_throw()
     {
         // Arrange
-        IEnumerable<int> collection = Enumerable.Empty<int>();
+        IEnumerable<int> collection = [];
         Expression<Func<int, bool>> expression = item => item == 2;
 
         // Act
@@ -83,7 +83,7 @@ public partial class CollectionAssertionSpecs
     public void When_non_empty_collection_does_not_contain_a_single_item_matching_a_predicate_it_should_throw()
     {
         // Arrange
-        IEnumerable<int> collection = new[] { 1, 3 };
+        IEnumerable<int> collection = [1, 3];
         Expression<Func<int, bool>> expression = item => item == 2;
 
         // Act
@@ -100,7 +100,7 @@ public partial class CollectionAssertionSpecs
     public void When_non_empty_collection_contains_more_than_a_single_item_matching_a_predicate_it_should_throw()
     {
         // Arrange
-        IEnumerable<int> collection = new[] { 1, 2, 2, 2, 3 };
+        IEnumerable<int> collection = [1, 2, 2, 2, 3];
         Expression<Func<int, bool>> expression = item => item == 2;
 
         // Act
@@ -117,7 +117,7 @@ public partial class CollectionAssertionSpecs
     public void When_single_item_matching_a_predicate_is_found_it_should_allow_continuation()
     {
         // Arrange
-        IEnumerable<int> collection = new[] { 1, 2, 3 };
+        IEnumerable<int> collection = [1, 2, 3];
 
         // Act
         Action act = () => collection.Should().ContainSingle(item => item == 2).Which.Should().BeGreaterThan(4);
@@ -158,7 +158,7 @@ public partial class CollectionAssertionSpecs
     public void When_a_collection_contains_a_single_item_it_should_succeed()
     {
         // Arrange
-        IEnumerable<int> collection = new[] { 1 };
+        IEnumerable<int> collection = [1];
 
         // Act
         Action act = () => collection.Should().ContainSingle();
@@ -171,7 +171,7 @@ public partial class CollectionAssertionSpecs
     public void When_asserting_an_empty_collection_contains_a_single_item_it_should_throw()
     {
         // Arrange
-        IEnumerable<int> collection = Enumerable.Empty<int>();
+        IEnumerable<int> collection = [];
 
         // Act
         Action act = () => collection.Should().ContainSingle("more is not allowed");
@@ -204,7 +204,7 @@ public partial class CollectionAssertionSpecs
     public void When_non_empty_collection_does_not_contain_a_single_item_it_should_throw()
     {
         // Arrange
-        IEnumerable<int> collection = new[] { 1, 3 };
+        IEnumerable<int> collection = [1, 3];
 
         // Act
         Action act = () => collection.Should().ContainSingle();
@@ -219,7 +219,7 @@ public partial class CollectionAssertionSpecs
     public void When_non_empty_collection_contains_more_than_a_single_item_it_should_throw()
     {
         // Arrange
-        IEnumerable<int> collection = new[] { 1, 2 };
+        IEnumerable<int> collection = [1, 2];
 
         // Act
         Action act = () => collection.Should().ContainSingle();
@@ -234,7 +234,7 @@ public partial class CollectionAssertionSpecs
     public void When_single_item_is_found_it_should_allow_continuation()
     {
         // Arrange
-        IEnumerable<int> collection = new[] { 3 };
+        IEnumerable<int> collection = [3];
 
         // Act
         Action act = () => collection.Should().ContainSingle().Which.Should().BeGreaterThan(4);

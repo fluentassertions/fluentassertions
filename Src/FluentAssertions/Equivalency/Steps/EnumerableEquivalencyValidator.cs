@@ -76,8 +76,7 @@ internal class EnumerableEquivalencyValidator
 
     private void AssertElementGraphEquivalency<T>(object[] subjects, T[] expectations, INode currentNode)
     {
-        unmatchedSubjectIndexes = new List<int>(subjects.Length);
-        unmatchedSubjectIndexes.AddRange(Enumerable.Range(0, subjects.Length));
+        unmatchedSubjectIndexes = Enumerable.Range(0, subjects.Length).ToList();
 
         if (OrderingRules.IsOrderingStrictFor(new ObjectInfo(new Comparands(subjects, expectations, typeof(T[])), currentNode)))
         {

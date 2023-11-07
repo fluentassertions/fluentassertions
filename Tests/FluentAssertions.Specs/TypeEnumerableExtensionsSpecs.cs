@@ -71,7 +71,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_selecting_types_in_namespace_it_should_return_the_correct_type()
         {
-            var types = new[] { typeof(JustAClass), typeof(BaseNamespaceClass), typeof(NestedNamespaceClass) };
+            Type[] types = [typeof(JustAClass), typeof(BaseNamespaceClass), typeof(NestedNamespaceClass)];
 
             types.ThatAreInNamespace(typeof(BaseNamespaceClass).Namespace)
                 .Should()
@@ -82,7 +82,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_selecting_types_under_namespace_it_should_return_the_correct_type()
         {
-            var types = new[] { typeof(JustAClass), typeof(BaseNamespaceClass), typeof(NestedNamespaceClass) };
+            Type[] types = [typeof(JustAClass), typeof(BaseNamespaceClass), typeof(NestedNamespaceClass)];
 
             types.ThatAreUnderNamespace(typeof(BaseNamespaceClass).Namespace)
                 .Should()
@@ -94,7 +94,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_selecting_derived_classes_it_should_return_the_correct_type()
         {
-            var types = new[] { typeof(JustAClass), typeof(SomeBaseClass), typeof(SomeClassDerivedFromSomeBaseClass) };
+            Type[] types = [typeof(JustAClass), typeof(SomeBaseClass), typeof(SomeClassDerivedFromSomeBaseClass)];
 
             types.ThatDeriveFrom<SomeBaseClass>()
                 .Should()
@@ -105,7 +105,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_selecting_types_that_implement_interface_it_should_return_the_correct_type()
         {
-            var types = new[] { typeof(JustAClass), typeof(ClassImplementingJustAnInterface), typeof(IJustAnInterface) };
+            Type[] types = [typeof(JustAClass), typeof(ClassImplementingJustAnInterface), typeof(IJustAnInterface)];
 
             types.ThatImplement<IJustAnInterface>()
                 .Should()
@@ -116,7 +116,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_selecting_only_the_classes_it_should_return_the_correct_type()
         {
-            var types = new[] { typeof(JustAClass), typeof(IJustAnInterface) };
+            Type[] types = [typeof(JustAClass), typeof(IJustAnInterface)];
 
             types.ThatAreClasses()
                 .Should()
@@ -127,7 +127,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_selecting_not_a_classes_it_should_return_the_correct_type()
         {
-            var types = new[] { typeof(JustAClass), typeof(IJustAnInterface) };
+            Type[] types = [typeof(JustAClass), typeof(IJustAnInterface)];
 
             types.ThatAreNotClasses()
                 .Should()
@@ -138,7 +138,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_selecting_static_classes_it_should_return_the_correct_type()
         {
-            var types = new[] { typeof(JustAClass), typeof(AStaticClass) };
+            Type[] types = [typeof(JustAClass), typeof(AStaticClass)];
 
             types.ThatAreStatic()
                 .Should()
@@ -149,7 +149,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_selecting_not_a_static_classes_it_should_return_the_correct_type()
         {
-            var types = new[] { typeof(JustAClass), typeof(AStaticClass) };
+            Type[] types = [typeof(JustAClass), typeof(AStaticClass)];
 
             types.ThatAreNotStatic()
                 .Should()
@@ -160,7 +160,7 @@ namespace FluentAssertions.Specs
         [Fact]
         public void When_selecting_types_with_predicate_it_should_return_the_correct_type()
         {
-            var types = new[] { typeof(JustAClass), typeof(AStaticClass) };
+            Type[] types = [typeof(JustAClass), typeof(AStaticClass)];
 
             types.ThatSatisfy(t => t.IsSealed && t.IsAbstract)
                 .Should()

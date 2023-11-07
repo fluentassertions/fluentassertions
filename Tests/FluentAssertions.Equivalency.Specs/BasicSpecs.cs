@@ -57,9 +57,9 @@ public class BasicSpecs
     public void When_comparing_nested_collection_with_a_null_value_it_should_fail_with_the_correct_message()
     {
         // Arrange
-        var subject = new[] { new MyClass { Items = new[] { "a" } } };
+        MyClass[] subject = [new MyClass { Items = new[] { "a" } }];
 
-        var expectation = new[] { new MyClass() };
+        MyClass[] expectation = [new MyClass()];
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expectation);
@@ -344,8 +344,8 @@ public class BasicSpecs
     public void When_comparing_an_open_type_by_members_it_should_succeed()
     {
         // Arrange
-        var subject = new Option<int[]>(new[] { 1, 3, 2 });
-        var expected = new Option<int[]>(new[] { 1, 2, 3 });
+        var subject = new Option<int[]>([1, 3, 2]);
+        var expected = new Option<int[]>([1, 2, 3]);
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expected, opt => opt
@@ -359,8 +359,8 @@ public class BasicSpecs
     public void When_threating_open_type_as_reference_type_and_a_closed_type_as_value_type_it_should_compare_by_value()
     {
         // Arrange
-        var subject = new Option<int[]>(new[] { 1, 3, 2 });
-        var expected = new Option<int[]>(new[] { 1, 2, 3 });
+        var subject = new Option<int[]>([1, 3, 2]);
+        var expected = new Option<int[]>([1, 2, 3]);
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expected, opt => opt
@@ -375,8 +375,8 @@ public class BasicSpecs
     public void When_threating_open_type_as_value_type_and_a_closed_type_as_reference_type_it_should_compare_by_members()
     {
         // Arrange
-        var subject = new Option<int[]>(new[] { 1, 3, 2 });
-        var expected = new Option<int[]>(new[] { 1, 2, 3 });
+        var subject = new Option<int[]>([1, 3, 2]);
+        var expected = new Option<int[]>([1, 2, 3]);
 
         // Act
         Action act = () => subject.Should().BeEquivalentTo(expected, opt => opt

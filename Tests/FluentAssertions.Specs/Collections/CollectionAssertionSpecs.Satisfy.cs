@@ -19,7 +19,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_element_at_each_position_matches_predicate_at_same_position_should_not_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().Satisfy(
@@ -35,7 +35,7 @@ public partial class CollectionAssertionSpecs
         public void When_collection_element_at_each_position_matches_predicate_at_reverse_position_should_not_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().Satisfy(
@@ -51,7 +51,7 @@ public partial class CollectionAssertionSpecs
         public void When_one_element_does_not_have_matching_predicate_Satisfy_should_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2 };
+            int[] collection = [1, 2];
 
             // Act
             Action act = () => collection.Should().Satisfy(
@@ -71,7 +71,7 @@ public partial class CollectionAssertionSpecs
             When_some_predicates_have_multiple_matching_elements_and_most_restricitve_predicates_are_last_should_not_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3, 4 };
+            int[] collection = [1, 2, 3, 4];
 
             // Act
             Action act = () => collection.Should().Satisfy(
@@ -89,7 +89,7 @@ public partial class CollectionAssertionSpecs
             When_some_predicates_have_multiple_matching_elements_and_most_restricitve_predicates_are_first_should_not_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3, 4 };
+            int[] collection = [1, 2, 3, 4];
 
             // Act
             Action act = () => collection.Should().Satisfy(
@@ -106,7 +106,7 @@ public partial class CollectionAssertionSpecs
         public void When_second_predicate_matches_first_and_last_element_and_solution_exists_should_not_throw()
         {
             // Arrange
-            var collection = new[] { 1, 2, 3 };
+            int[] collection = [1, 2, 3];
 
             // Act
             Action act = () => collection.Should().Satisfy(
@@ -156,7 +156,7 @@ public partial class CollectionAssertionSpecs
         public void When_Satisfy_asserting_against_null_inspectors_it_should_throw_with_clear_explanation()
         {
             // Arrange
-            IEnumerable<int> collection = new[] { 1, 2 };
+            IEnumerable<int> collection = [1, 2];
 
             // Act
             Action act = () => collection.Should().Satisfy(null);
@@ -170,7 +170,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_against_empty_inspectors_should_throw_with_clear_explanation()
         {
             // Arrange
-            IEnumerable<int> collection = new[] { 1, 2 };
+            IEnumerable<int> collection = [1, 2];
 
             // Act
             Action act = () => collection.Should().Satisfy();
@@ -210,7 +210,7 @@ public partial class CollectionAssertionSpecs
         public void When_asserting_collection_which_is_empty_should_throw()
         {
             // Arrange
-            var collection = Enumerable.Empty<int>();
+            IEnumerable<int> collection = [];
 
             // Act
             Action act = () => collection.Should().Satisfy(

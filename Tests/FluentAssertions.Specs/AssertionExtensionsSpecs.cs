@@ -32,7 +32,7 @@ public class AssertionExtensionsSpecs
     private static bool OverridesEquals(Type t)
     {
         MethodInfo equals = t.GetMethod("Equals", BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public,
-            null, new[] { typeof(object) }, null);
+            null, [typeof(object)], null);
 
         return equals is not null;
     }
@@ -108,7 +108,7 @@ public class AssertionExtensionsSpecs
         }
 
         // Act
-        Action act = () => fakeOverload.Invoke(null, new object[] { null });
+        Action act = () => fakeOverload.Invoke(null, [null]);
 
         // Assert
         act.Should()

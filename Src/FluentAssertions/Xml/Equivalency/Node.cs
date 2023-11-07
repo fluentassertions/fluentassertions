@@ -7,7 +7,7 @@ namespace FluentAssertions.Xml.Equivalency;
 
 internal sealed class Node
 {
-    private readonly List<Node> children = new();
+    private readonly List<Node> children = [];
     private readonly string name;
     private int count;
 

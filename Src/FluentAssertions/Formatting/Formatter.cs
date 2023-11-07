@@ -16,10 +16,10 @@ public static class Formatter
 {
     #region Private Definitions
 
-    private static readonly List<IValueFormatter> CustomFormatters = new();
+    private static readonly List<IValueFormatter> CustomFormatters = [];
 
-    private static readonly List<IValueFormatter> DefaultFormatters = new()
-    {
+    private static readonly List<IValueFormatter> DefaultFormatters =
+    [
         new XmlReaderValueFormatter(),
         new XmlNodeFormatter(),
         new AttributeBasedFormatter(),
@@ -57,7 +57,7 @@ public static class Formatter
         new EnumerableValueFormatter(),
         new EnumValueFormatter(),
         new DefaultValueFormatter()
-    };
+    ];
 
     /// <summary>
     /// Is used to detect recursive calls by <see cref="IValueFormatter"/> implementations.

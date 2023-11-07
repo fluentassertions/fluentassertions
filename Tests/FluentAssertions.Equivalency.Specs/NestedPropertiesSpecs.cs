@@ -307,9 +307,9 @@ public class NestedPropertiesSpecs
     public void Should_support_nested_collections_containing_empty_objects()
     {
         // Arrange
-        var orig = new[] { new OuterWithObject { MyProperty = new[] { new Inner() } } };
+        var orig = new[] { new OuterWithObject { MyProperty = [new Inner()] } };
 
-        var expectation = new[] { new OuterWithObject { MyProperty = new[] { new Inner() } } };
+        var expectation = new[] { new OuterWithObject { MyProperty = [new Inner()] } };
 
         // Act / Assert
         orig.Should().BeEquivalentTo(expectation);

@@ -327,7 +327,7 @@ public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAsse
                 "Expected {context:subject} to have an element with count of {0}{reason}, but the element itself is <null>.",
                 expected.ToString());
 
-        IEnumerable<XElement> xElements = Enumerable.Empty<XElement>();
+        IEnumerable<XElement> xElements = [];
 
         if (success)
         {
