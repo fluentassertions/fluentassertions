@@ -61,10 +61,15 @@ public class EnumerableEquivalencyStep : IEquivalencyStep
         {
             return ((IEnumerable)value).Cast<object>().ToArray();
         }
-        catch (InvalidOperationException) when (value.GetType().Name.Equals("ImmutableArray`1", StringComparison.Ordinal))
+        catch (InvalidOperationException) when (IsIgnorableArrayLikeType(value))
         {
-            // This is probably a default ImmutableArray<T>
+            // This is probably a default ImmutableArray<T> or an empty ArraySegment.
             return Array.Empty<object>();
         }
+
+        bool IsIgnorableArrayLikeType(object value)
+            => value.GetType() is Type type &&
+                (type.Name.Equals("ImmutableArray`1", StringComparison.Ordinal) ||
+                 (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(ArraySegment<>)));
     }
 }
