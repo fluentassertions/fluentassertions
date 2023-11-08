@@ -410,6 +410,11 @@ public class Derived : Base
     public virtual string NonExcludedDerivedProperty => "Foo";
 }
 
+public class ClassWithArraySegment
+{
+    public ArraySegment<byte> Segment { get; set; }
+}
+
 #endregion
 
 #region Nested classes for comparison
