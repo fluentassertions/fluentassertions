@@ -3334,26 +3334,6 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         }
     }
 
-    internal void AssertBeSubsetOf(IEnumerable<T> expectedSuperset, string subsetType, string because = "",
-        params object[] becauseArgs)
-    {
-        Guard.ThrowIfArgumentIsNull(expectedSuperset, nameof(expectedSuperset),
-    "Cannot verify a " + subsetType + " against a <null> collection.");
-
-        Execute.Assertion
-            .BecauseOf(because, becauseArgs)
-            .WithExpectation("Expected {context:collection} to be a " + subsetType + " of {0}{reason}, ", expectedSuperset)
-            .Given(() => Subject)
-            .ForCondition(subject => subject is not null)
-            .FailWith("but found <null>.")
-            .Then
-            .Given(subject => subject.Except(expectedSuperset))
-            .ForCondition(excessItems => !excessItems.Any())
-            .FailWith("but items {0} are not part of the superset.", excessItems => excessItems)
-            .Then
-            .ClearExpectation();
-    }
-
     internal AndConstraint<SubsequentOrderingAssertions<T>> BeOrderedBy<TSelector>(
         Expression<Func<T, TSelector>> propertyExpression,
         IComparer<TSelector> comparer,
@@ -3531,6 +3511,26 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
         IList<T> collection = subject.ConvertOrCastToList();
         int index = collection.IndexOf(predecessor);
         return index < (collection.Count - 1) ? collection[index + 1] : default;
+    }
+
+    private void AssertBeSubsetOf(IEnumerable<T> expectedSuperset, string subsetType, string because = "",
+        params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(expectedSuperset, nameof(expectedSuperset),
+    "Cannot verify a " + subsetType + " against a <null> collection.");
+
+        Execute.Assertion
+            .BecauseOf(because, becauseArgs)
+            .WithExpectation("Expected {context:collection} to be a " + subsetType + " of {0}{reason}, ", expectedSuperset)
+            .Given(() => Subject)
+            .ForCondition(subject => subject is not null)
+            .FailWith("but found <null>.")
+            .Then
+            .Given(subject => subject.Except(expectedSuperset))
+            .ForCondition(excessItems => !excessItems.Any())
+            .FailWith("but items {0} are not part of the superset.", excessItems => excessItems)
+            .Then
+            .ClearExpectation();
     }
 
     private string[] CollectFailuresFromInspectors(IEnumerable<Action<T>> elementInspectors)
