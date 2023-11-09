@@ -7,22 +7,15 @@ namespace FluentAssertions.Primitives;
 internal class StringEndStrategy : IStringComparisonStrategy
 {
     private readonly IEqualityComparer<string> comparer;
-    private readonly bool useEquivalencyMessage;
+    private readonly string predicateDescription;
 
-    public StringEndStrategy(IEqualityComparer<string> comparer, bool useEquivalencyMessage)
+    public StringEndStrategy(IEqualityComparer<string> comparer, string predicateDescription)
     {
         this.comparer = comparer;
-        this.useEquivalencyMessage = useEquivalencyMessage;
+        this.predicateDescription = predicateDescription;
     }
 
-    public string ExpectationDescription
-    {
-        get
-        {
-            string predicateDescription = useEquivalencyMessage ? "end with equivalent of" : "end with";
-            return "Expected {context:string} to " + predicateDescription + " ";
-        }
-    }
+    public string ExpectationDescription => "Expected {context:string} to " + predicateDescription + " ";
 
     public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
     {

@@ -10,12 +10,12 @@ namespace FluentAssertions.Primitives;
 internal class StringEqualityStrategy : IStringComparisonStrategy
 {
     private readonly IEqualityComparer<string> comparer;
-    private readonly bool useEquivalencyMessage;
+    private readonly string predicateDescription;
 
-    public StringEqualityStrategy(IEqualityComparer<string> comparer, bool useEquivalencyMessage)
+    public StringEqualityStrategy(IEqualityComparer<string> comparer, string predicateDescription)
     {
         this.comparer = comparer;
-        this.useEquivalencyMessage = useEquivalencyMessage;
+        this.predicateDescription = predicateDescription;
     }
 
     public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
@@ -62,14 +62,7 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
         }
     }
 
-    public string ExpectationDescription
-    {
-        get
-        {
-            string predicateDescription = useEquivalencyMessage ? "be equivalent to" : "be";
-            return "Expected {context:string} to " + predicateDescription + " ";
-        }
-    }
+    public string ExpectationDescription => "Expected {context:string} to " + predicateDescription + " ";
 
     private void ValidateAgainstSuperfluousWhitespace(IAssertionScope assertion, string subject, string expected)
     {

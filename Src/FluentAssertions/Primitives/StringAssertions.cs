@@ -55,7 +55,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     public AndConstraint<TAssertions> Be(string expected, string because = "", params object[] becauseArgs)
     {
         var stringEqualityValidator = new StringValidator(
-            new StringEqualityStrategy(StringComparer.Ordinal, false),
+            new StringEqualityStrategy(StringComparer.Ordinal, "be"),
             because, becauseArgs);
 
         stringEqualityValidator.Validate(Subject, expected);
@@ -115,7 +115,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         string because = "", params object[] becauseArgs)
     {
         var expectation = new StringValidator(
-            new StringEqualityStrategy(StringComparer.OrdinalIgnoreCase, true),
+            new StringEqualityStrategy(StringComparer.OrdinalIgnoreCase, "be equivalent to"),
             because, becauseArgs);
 
         expectation.Validate(Subject, expected);
@@ -148,7 +148,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         EquivalencyOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
 
         var expectation = new StringValidator(
-            new StringEqualityStrategy(options.GetStringComparerOrDefault(), true),
+            new StringEqualityStrategy(options.GetStringComparerOrDefault(), "be equivalent to"),
             because, becauseArgs);
 
         var subject = ApplyStringSettings(Subject, options);
@@ -885,7 +885,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare start of string with <null>.");
 
         var stringStartValidator = new StringValidator(
-            new StringStartStrategy(StringComparer.Ordinal, false),
+            new StringStartStrategy(StringComparer.Ordinal, "start with"),
             because, becauseArgs);
 
         stringStartValidator.Validate(Subject, expected);
@@ -945,7 +945,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string start equivalence with <null>.");
 
         var stringStartValidator = new StringValidator(
-            new StringStartStrategy(StringComparer.OrdinalIgnoreCase, true),
+            new StringStartStrategy(StringComparer.OrdinalIgnoreCase, "start with equivalent of"),
             because, becauseArgs);
 
         stringStartValidator.Validate(Subject, expected);
@@ -978,7 +978,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         EquivalencyOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
 
         var stringStartValidator = new StringValidator(
-            new StringStartStrategy(options.GetStringComparerOrDefault(), true),
+            new StringStartStrategy(options.GetStringComparerOrDefault(), "start with equivalent of"),
             because, becauseArgs);
 
         var subject = ApplyStringSettings(Subject, options);
@@ -1078,7 +1078,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end with <null>.");
 
         var stringEndValidator = new StringValidator(
-            new StringEndStrategy(StringComparer.Ordinal, false),
+            new StringEndStrategy(StringComparer.Ordinal, "end with"),
             because, becauseArgs);
 
         stringEndValidator.Validate(Subject, expected);
@@ -1138,7 +1138,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot compare string end equivalence with <null>.");
 
         var stringEndValidator = new StringValidator(
-            new StringEndStrategy(StringComparer.OrdinalIgnoreCase, true),
+            new StringEndStrategy(StringComparer.OrdinalIgnoreCase, "end with equivalent of"),
             because, becauseArgs);
 
         stringEndValidator.Validate(Subject, expected);
@@ -1171,7 +1171,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         EquivalencyOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
 
         var stringEndValidator = new StringValidator(
-            new StringEndStrategy(options.GetStringComparerOrDefault(), true),
+            new StringEndStrategy(options.GetStringComparerOrDefault(), "end with equivalent of"),
             because, becauseArgs);
 
         var subject = ApplyStringSettings(Subject, options);

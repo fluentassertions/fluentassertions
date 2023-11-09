@@ -7,22 +7,15 @@ namespace FluentAssertions.Primitives;
 internal class StringStartStrategy : IStringComparisonStrategy
 {
     private readonly IEqualityComparer<string> comparer;
-    private readonly bool useEquivalencyMessage;
+    private readonly string predicateDescription;
 
-    public StringStartStrategy(IEqualityComparer<string> comparer, bool useEquivalencyMessage)
+    public StringStartStrategy(IEqualityComparer<string> comparer, string predicateDescription)
     {
         this.comparer = comparer;
-        this.useEquivalencyMessage = useEquivalencyMessage;
+        this.predicateDescription = predicateDescription;
     }
 
-    public string ExpectationDescription
-    {
-        get
-        {
-            string predicateDescription = useEquivalencyMessage ? "start with equivalent of" : "start with";
-            return "Expected {context:string} to " + predicateDescription + " ";
-        }
-    }
+    public string ExpectationDescription => "Expected {context:string} to " + predicateDescription + " ";
 
     public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
     {
