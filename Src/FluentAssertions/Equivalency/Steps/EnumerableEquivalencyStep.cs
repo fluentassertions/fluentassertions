@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using FluentAssertions.Execution;
+using JetBrains.Annotations;
 
 namespace FluentAssertions.Equivalency.Steps;
 
@@ -70,8 +71,8 @@ public class EnumerableEquivalencyStep : IEquivalencyStep
 
     private static bool IsIgnorableArrayLikeType(object value)
     {
-        return value.GetType() is Type type &&
-                    (type.Name.Equals("ImmutableArray`1", StringComparison.Ordinal) ||
-                     (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(ArraySegment<>)));
+        var type = value.GetType();
+        return  (type.Name.Equals("ImmutableArray`1", StringComparison.Ordinal) ||
+                (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(ArraySegment<>)));
     }
 }
