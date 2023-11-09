@@ -70,7 +70,7 @@ public class EnumerableEquivalencyStep : IEquivalencyStep
 
     private static bool IsIgnorableArrayLikeType(object value)
     {
-        return value.GetType() is Type type &&
+        return value.GetType() is { } type &&
                     (type.Name.Equals("ImmutableArray`1", StringComparison.Ordinal) ||
                      (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(ArraySegment<>)));
     }
