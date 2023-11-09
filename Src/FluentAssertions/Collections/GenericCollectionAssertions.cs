@@ -651,6 +651,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
     /// <summary>
     /// Asserts that the collection is a subset of the <paramref name="expectedSuperset" />.
+    /// If <paramref name="expectedSuperset" /> is equivalent to the subject then it's still a valid superset since it contains all of the elements from the subject. 
     /// </summary>
     /// <param name="expectedSuperset">An <see cref="IEnumerable{T}"/> with the expected superset.</param>
     /// <param name="because">
@@ -671,6 +672,7 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
     /// <summary>
     /// Asserts that the collection is a superset of the <paramref name="expectedSubset" />.
+    /// If <paramref name="expectedSubset" /> is equivalent to the subject then it's still a valid subset since all of it's items are contained in the subject. 
     /// </summary>
     /// <param name="expectedSubset">An <see cref="IEnumerable{T}"/> with the expected subset.</param>
     /// <param name="because">
@@ -692,6 +694,8 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
     /// <summary>
     /// Asserts that the collection is a proper subset of the <paramref name="expectedProperSuperset" />.
+    /// If <paramref name="expectedProperSuperset" /> is equivalent to the subject then the subject is not a proper subset.
+    /// <paramref name="expectedProperSuperset" /> must contain at least one element in that is not present in the subject.
     /// </summary>
     /// <param name="expectedProperSuperset">An <see cref="IEnumerable{T}"/> with the expected superset.</param>
     /// <param name="because">
@@ -722,6 +726,8 @@ public class GenericCollectionAssertions<TCollection, T, TAssertions> : Referenc
 
     /// <summary>
     /// Asserts that the collection is a proper subset of the <paramref name="expectedProperSubset" />.
+    /// If <paramref name="expectedProperSubset" /> is equivalent to the subject then the subject is not a proper superset.
+    /// The subject must contain at least one element in that is not present in <paramref name="expectedProperSubset" />.    
     /// </summary>
     /// <param name="expectedProperSubset">An <see cref="IEnumerable{T}"/> with the expected subset.</param>
     /// <param name="because">
