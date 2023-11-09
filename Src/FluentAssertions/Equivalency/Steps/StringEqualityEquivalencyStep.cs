@@ -28,7 +28,7 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
             string expectation = (string)comparands.Expectation;
 
             subject.Should()
-                .BeEquivalentTo(expectation, CreateOptions(context.Options),
+                .Be(expectation, CreateOptions(context.Options),
                     context.Reason.FormattedMessage, context.Reason.Arguments);
         }
 

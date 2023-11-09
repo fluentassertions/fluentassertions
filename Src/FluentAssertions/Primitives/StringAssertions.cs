@@ -1956,6 +1956,25 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         return new AndConstraint<TAssertions>((TAssertions)this);
     }
 
+    internal AndConstraint<TAssertions> Be(string expected,
+        Func<EquivalencyOptions<string>, EquivalencyOptions<string>> config,
+        string because = "", params object[] becauseArgs)
+    {
+        Guard.ThrowIfArgumentIsNull(config);
+
+        EquivalencyOptions<string> options = config(AssertionOptions.CloneDefaults<string>());
+
+        var expectation = new StringValidator(
+            new StringEqualityStrategy(options.GetStringComparerOrDefault(), "be"),
+            because, becauseArgs);
+
+        var subject = ApplyStringSettings(Subject, options);
+        expected = ApplyStringSettings(expected, options);
+
+        expectation.Validate(subject, expected);
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+
     private static bool Contains(string actual, string expected, StringComparison comparison)
     {
         return (actual ?? string.Empty).Contains(expected ?? string.Empty, comparison);

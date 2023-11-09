@@ -116,7 +116,7 @@ public class NestedPropertiesSpecs
             // test confirming that whole mechanism of gathering description from
             // equivalency steps works.
             .Should().Match(
-                @"Expected property subject.Level.Text to be equivalent to ""Level2"", but ""Level1"" differs near ""1"" (index 5).*" +
+                @"Expected property subject.Level.Text to be ""Level2"", but ""Level1"" differs near ""1"" (index 5).*" +
                 "With configuration:*" +
                 "- Use declared types and members*" +
                 "- Compare enums by value*" +
