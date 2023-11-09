@@ -1176,8 +1176,8 @@ public class CollectionSpecs
 
         // Assert
         action.Should().Throw<XunitException>().WithMessage(
-            "Expected subject[1]*to be \"one\", but \"two\" differs near \"two\" (index 0).*" +
-            "Expected subject[2]*to be \"one\", but \"six\" differs near \"six\" (index 0).*");
+            "Expected subject[1]*to be equivalent to \"one\", but \"two\" differs near \"two\" (index 0).*" +
+            "Expected subject[2]*to be equivalent to \"one\", but \"six\" differs near \"six\" (index 0).*");
     }
 
     [Fact]
@@ -1191,8 +1191,8 @@ public class CollectionSpecs
 
         // Assert
         action.Should().Throw<XunitException>().WithMessage(
-            "Expected subject[1]*to be \"one\", but \"One\" differs near \"One\" (index 0).*" +
-            "Expected subject[2]*to be \"one\", but \"ONE\" differs near \"ONE\" (index 0).*");
+            "Expected subject[1]*to be equivalent to \"one\", but \"One\" differs near \"One\" (index 0).*" +
+            "Expected subject[2]*to be equivalent to \"one\", but \"ONE\" differs near \"ONE\" (index 0).*");
     }
 
     [Fact]
@@ -1206,7 +1206,7 @@ public class CollectionSpecs
 
         // Assert
         action.Should().Throw<XunitException>().Which
-            .Message.Should().Contain("subject[9] to be \"one\", but \"two\" differs near \"two\" (index 0)")
+            .Message.Should().Contain("subject[9] to be equivalent to \"one\", but \"two\" differs near \"two\" (index 0)")
             .And.NotContain("subject[10]");
     }
 
@@ -2257,7 +2257,7 @@ public class CollectionSpecs
         // Assert
         action.Should().Throw<XunitException>()
             .WithMessage(
-                "Expected property subject[1].Name*to be \"John\", but \"Jane\" differs near*");
+                "Expected property subject[1].Name*to be equivalent to \"John\", but \"Jane\" differs near*");
     }
 
     [Fact]
@@ -2283,7 +2283,7 @@ public class CollectionSpecs
         // Assert
         action.Should().Throw<XunitException>()
             .WithMessage(
-                "Expected property subject[1].Name*to be \"Jane\", but \"John\" differs near*");
+                "Expected property subject[1].Name*to be equivalent to \"Jane\", but \"John\" differs near*");
     }
 
     [Fact]

@@ -8,23 +8,14 @@ internal class StringContainsStrategy : IStringComparisonStrategy
 {
     private readonly IEqualityComparer<string> comparer;
     private readonly OccurrenceConstraint occurrenceConstraint;
-    private readonly bool ignoringCase;
 
     public StringContainsStrategy(IEqualityComparer<string> comparer, OccurrenceConstraint occurrenceConstraint)
     {
         this.comparer = comparer;
         this.occurrenceConstraint = occurrenceConstraint;
-        ignoringCase = comparer.Equals("A", "a");
     }
 
-    public string ExpectationDescription
-    {
-        get
-        {
-            string predicateDescription = ignoringCase ? "contain the equivalent of" : "contain";
-            return "Expected {context:string} to " + predicateDescription + " ";
-        }
-    }
+    public string ExpectationDescription => "Expected {context:string} to contain the equivalent of ";
 
     public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
     {

@@ -10,12 +10,12 @@ namespace FluentAssertions.Primitives;
 internal class StringEqualityStrategy : IStringComparisonStrategy
 {
     private readonly IEqualityComparer<string> comparer;
-    private readonly bool ignoringCase;
+    private readonly bool useEquivalencyMessage;
 
-    public StringEqualityStrategy(IEqualityComparer<string> comparer)
+    public StringEqualityStrategy(IEqualityComparer<string> comparer, bool useEquivalencyMessage)
     {
         this.comparer = comparer;
-        ignoringCase = comparer.Equals("A", "a");
+        this.useEquivalencyMessage = useEquivalencyMessage;
     }
 
     public void ValidateAgainstMismatch(IAssertionScope assertion, string subject, string expected)
@@ -66,7 +66,7 @@ internal class StringEqualityStrategy : IStringComparisonStrategy
     {
         get
         {
-            string predicateDescription = ignoringCase ? "be equivalent to" : "be";
+            string predicateDescription = useEquivalencyMessage ? "be equivalent to" : "be";
             return "Expected {context:string} to " + predicateDescription + " ";
         }
     }

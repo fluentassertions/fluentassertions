@@ -7,19 +7,19 @@ namespace FluentAssertions.Primitives;
 internal class StringEndStrategy : IStringComparisonStrategy
 {
     private readonly IEqualityComparer<string> comparer;
-    private readonly bool ignoringCase;
+    private readonly bool useEquivalencyMessage;
 
-    public StringEndStrategy(IEqualityComparer<string> comparer)
+    public StringEndStrategy(IEqualityComparer<string> comparer, bool useEquivalencyMessage)
     {
         this.comparer = comparer;
-        ignoringCase = comparer.Equals("A", "a");
+        this.useEquivalencyMessage = useEquivalencyMessage;
     }
 
     public string ExpectationDescription
     {
         get
         {
-            string predicateDescription = ignoringCase ? "end with equivalent of" : "end with";
+            string predicateDescription = useEquivalencyMessage ? "end with equivalent of" : "end with";
             return "Expected {context:string} to " + predicateDescription + " ";
         }
     }
