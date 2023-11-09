@@ -659,4 +659,9 @@ public class BasicSpecs
         // Assert
         act.Should().NotThrow();
     }
+
+    private class ClassWithArraySegment
+    {
+        public ArraySegment<byte> Segment { get; set; }
+    }
 }

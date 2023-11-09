@@ -66,10 +66,12 @@ public class EnumerableEquivalencyStep : IEquivalencyStep
             // This is probably a default ImmutableArray<T> or an empty ArraySegment.
             return Array.Empty<object>();
         }
+    }
 
-        bool IsIgnorableArrayLikeType(object value)
-            => value.GetType() is Type type &&
-                (type.Name.Equals("ImmutableArray`1", StringComparison.Ordinal) ||
-                 (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(ArraySegment<>)));
+    private static bool IsIgnorableArrayLikeType(object value)
+    {
+        return value.GetType() is Type type &&
+                    (type.Name.Equals("ImmutableArray`1", StringComparison.Ordinal) ||
+                     (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(ArraySegment<>)));
     }
 }
