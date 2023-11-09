@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using FluentAssertions.Execution;
 #if NET47
 using FluentAssertions.Specs.Common;
