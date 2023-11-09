@@ -1,4 +1,6 @@
-﻿namespace System;
+﻿using System;
+
+namespace FluentAssertions;
 
 internal static class SystemExtensions
 {

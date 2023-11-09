@@ -13,7 +13,6 @@ using FluentAssertions.Collections;
 using FluentAssertions.Common;
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
-using FluentAssertions.Reflection;
 using FluentAssertions.Specialized;
 using FluentAssertions.Streams;
 using FluentAssertions.Types;

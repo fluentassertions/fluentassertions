@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace System.Text;
+namespace FluentAssertions;
 
 /// <summary>
 /// Since net6.0 StringBuilder has additional overloads taking an AppendInterpolatedStringHandler

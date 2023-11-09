@@ -6,7 +6,7 @@ using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 
-namespace FluentAssertions.Reflection;
+namespace FluentAssertions.Specialized;
 
 /// <summary>
 /// Contains a number of methods to assert that an <see cref="Assembly"/> is in the expected state.
