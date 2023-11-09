@@ -75,7 +75,7 @@ theString.Should().EndWithEquivalentOf("a string");
 theString.Should().NotEndWithEquivalentOf("a string");
 ```
 
-All equivalency methods which end with "EquivalentOf" can be fine-tuned in its behaviour what differences to ignore.
+All equivalency methods which end with "EquivalentOf" can be fine-tuned in its behavior what differences to ignore.
 For instance, if you want to ignore leading whitespace, use this:
 
 ```csharp
@@ -84,7 +84,7 @@ theString.Should().BeEquivalentTo("This is a string", o => o.IgnoringLeadingWhit
 
 The supported options are:
 
-| Option                       | Behaviour                                                       |
+| Option                       | Behavior                                                       |
 | ---------------------------- | --------------------------------------------------------------- |
 | `IgnoringLeadingWhitespace`  | Ignores leading whitespace in the subject and the expectation.  |
 | `IgnoringTrailingWhitespace` | Ignores trailing whitespace in the subject and the expectation. |
