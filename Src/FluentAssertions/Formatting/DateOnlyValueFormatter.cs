@@ -1,7 +1,8 @@
+#if NET6_0_OR_GREATER
+
 using System;
 using System.Globalization;
 
-#if NET6_0_OR_GREATER
 namespace FluentAssertions.Formatting;
 
 public class DateOnlyValueFormatter : IValueFormatter
