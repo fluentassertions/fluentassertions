@@ -27,9 +27,7 @@ public static class CallerIdentifier
         {
             var stack = new StackTrace(fNeedFileInfo: true);
 
-            var allStackFrames = stack.GetFrames()
-                .Where(frame => frame is not null && !IsCompilerServices(frame))
-                .ToArray();
+            var allStackFrames = GetFrames(stack);
 
             int searchStart = allStackFrames.Length - 1;
 
@@ -83,9 +81,7 @@ public static class CallerIdentifier
         {
             var stack = new StackTrace();
 
-            var allStackFrames = stack.GetFrames()
-                .Where(frame => frame is not null && !IsCompilerServices(frame))
-                .ToArray();
+            var allStackFrames = GetFrames(stack);
 
             int firstUserCodeFrameIndex = 0;
 
@@ -116,9 +112,7 @@ public static class CallerIdentifier
 
     internal static bool OnlyOneFluentAssertionScopeOnCallStack()
     {
-        var allStackFrames = new StackTrace().GetFrames()
-            .Where(frame => frame is not null && !IsCompilerServices(frame))
-            .ToArray();
+        var allStackFrames = GetFrames(new StackTrace());
 
         int firstNonFluentAssertionsStackFrameIndex = Array.FindIndex(
             allStackFrames,
@@ -266,5 +260,12 @@ public static class CallerIdentifier
     private static bool IsBooleanLiteral(string candidate)
     {
         return candidate is "true" or "false";
+    }
+
+    private static StackFrame[] GetFrames(StackTrace stack)
+    {
+        return stack.GetFrames()?
+            .Where(frame => frame is not null && !IsCompilerServices(frame))
+            .ToArray() ?? Array.Empty<StackFrame>();
     }
 }
