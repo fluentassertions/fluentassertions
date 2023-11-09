@@ -508,10 +508,17 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     {
         userEquivalencySteps.Insert(0, new EqualityComparerEquivalencyStep<T>(comparer));
 
-        if (comparer is IEqualityComparer<string> c)
-        {
-            stringComparer = c;
-        }
+        return (TSelf)this;
+    }
+
+    /// <summary>
+    /// Ensures the equivalency comparison will use the specified implementation of <see cref="IEqualityComparer{String}"/>
+    /// any time when a property is a <see langword="string" />.
+    /// </summary>
+    public TSelf Using(IEqualityComparer<string> comparer)
+    {
+        userEquivalencySteps.Insert(0, new EqualityComparerEquivalencyStep<string>(comparer));
+        stringComparer = comparer;
 
         return (TSelf)this;
     }
