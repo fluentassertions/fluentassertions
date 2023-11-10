@@ -31,3 +31,4 @@ exclude:
   - name: ConvertToLambdaExpression
   - name: SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
   - name: UnusedMemberInSuper.Global
+  - name: ArrangeAccessorOwnerBody
