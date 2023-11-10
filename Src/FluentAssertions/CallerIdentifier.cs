@@ -264,8 +264,15 @@ public static class CallerIdentifier
 
     private static StackFrame[] GetFrames(StackTrace stack)
     {
-        return stack.GetFrames()?
-            .Where(frame => frame is not null && !IsCompilerServices(frame))
-            .ToArray() ?? Array.Empty<StackFrame>();
+        var frames = stack.GetFrames();
+#if !NET6_0_OR_GREATER
+        if (frames == null)
+        {
+            return Array.Empty<StackFrame>();
+        }
+#endif
+        return frames
+            .Where(frame => !IsCompilerServices(frame))
+            .ToArray();
     }
 }
