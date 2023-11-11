@@ -69,7 +69,7 @@ namespace FluentAssertions
         public static FluentAssertions.Streams.BufferedStreamAssertions Should(this System.IO.BufferedStream actualValue) { }
         public static FluentAssertions.Streams.StreamAssertions Should(this System.IO.Stream actualValue) { }
         public static FluentAssertions.Primitives.HttpResponseMessageAssertions Should(this System.Net.Http.HttpResponseMessage actualValue) { }
-        public static FluentAssertions.Specialized.AssemblyAssertions Should(this System.Reflection.Assembly assembly) { }
+        public static FluentAssertions.Types.AssemblyAssertions Should(this System.Reflection.Assembly assembly) { }
         public static FluentAssertions.Types.ConstructorInfoAssertions Should(this System.Reflection.ConstructorInfo constructorInfo) { }
         public static FluentAssertions.Types.MethodInfoAssertions Should(this System.Reflection.MethodInfo methodInfo) { }
         public static FluentAssertions.Types.PropertyInfoAssertions Should(this System.Reflection.PropertyInfo propertyInfo) { }
@@ -2091,16 +2091,6 @@ namespace FluentAssertions.Specialized
         public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ActionAssertions> NotThrow(string because = "", params object[] becauseArgs) { }
         public FluentAssertions.AndConstraint<FluentAssertions.Specialized.ActionAssertions> NotThrowAfter(System.TimeSpan waitTime, System.TimeSpan pollInterval, string because = "", params object[] becauseArgs) { }
     }
-    public class AssemblyAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<System.Reflection.Assembly, FluentAssertions.Specialized.AssemblyAssertions>
-    {
-        public AssemblyAssertions(System.Reflection.Assembly assembly) { }
-        protected override string Identifier { get; }
-        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.AssemblyAssertions> BeSignedWithPublicKey(string publicKey, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.AssemblyAssertions> BeUnsigned(string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndWhichConstraint<FluentAssertions.Specialized.AssemblyAssertions, System.Type> DefineType(string @namespace, string name, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.AssemblyAssertions> NotReference(System.Reflection.Assembly assembly, string because = "", params object[] becauseArgs) { }
-        public FluentAssertions.AndConstraint<FluentAssertions.Specialized.AssemblyAssertions> Reference(System.Reflection.Assembly assembly, string because = "", params object[] becauseArgs) { }
-    }
     public class AsyncFunctionAssertions<TTask, TAssertions> : FluentAssertions.Specialized.DelegateAssertionsBase<System.Func<TTask>, TAssertions>
         where TTask : System.Threading.Tasks.Task
         where TAssertions : FluentAssertions.Specialized.AsyncFunctionAssertions<TTask, TAssertions>
@@ -2263,6 +2253,16 @@ namespace FluentAssertions.Types
     public static class AllTypes
     {
         public static FluentAssertions.Types.TypeSelector From(System.Reflection.Assembly assembly) { }
+    }
+    public class AssemblyAssertions : FluentAssertions.Primitives.ReferenceTypeAssertions<System.Reflection.Assembly, FluentAssertions.Types.AssemblyAssertions>
+    {
+        public AssemblyAssertions(System.Reflection.Assembly assembly) { }
+        protected override string Identifier { get; }
+        public FluentAssertions.AndConstraint<FluentAssertions.Types.AssemblyAssertions> BeSignedWithPublicKey(string publicKey, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Types.AssemblyAssertions> BeUnsigned(string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndWhichConstraint<FluentAssertions.Types.AssemblyAssertions, System.Type> DefineType(string @namespace, string name, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Types.AssemblyAssertions> NotReference(System.Reflection.Assembly assembly, string because = "", params object[] becauseArgs) { }
+        public FluentAssertions.AndConstraint<FluentAssertions.Types.AssemblyAssertions> Reference(System.Reflection.Assembly assembly, string because = "", params object[] becauseArgs) { }
     }
     public class ConstructorInfoAssertions : FluentAssertions.Types.MethodBaseAssertions<System.Reflection.ConstructorInfo, FluentAssertions.Types.ConstructorInfoAssertions>
     {
