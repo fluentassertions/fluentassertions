@@ -55,8 +55,6 @@
     <When Condition="'$(TargetFramework)' == 'net6.0'">
       <ItemGroup>
         <Compile Remove="Common/NullConfigurationStore.cs" />
-        <Compile Remove="StringBuilderExtensions.cs" />
-        <Compile Remove="SystemExtensions.cs" />
       </ItemGroup>
       <ItemGroup>
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0" />
@@ -66,7 +64,6 @@
       <ItemGroup>
         <Compile Remove="Common/AppSettingsConfigurationStore.cs" />
         <Compile Remove="Common/ConfigurationStoreExceptionInterceptor.cs" />
-        <Compile Remove="SystemExtensions.cs" />
       </ItemGroup>
     </When>
     <When Condition="'$(TargetFramework)' == 'netstandard2.0'">
