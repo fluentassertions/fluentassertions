@@ -1,6 +1,7 @@
-﻿using System;
+﻿#if NET47 || NETSTANDARD2_0
 
-namespace FluentAssertions;
+// ReSharper disable once CheckNamespace
+namespace System;
 
 internal static class SystemExtensions
 {
@@ -23,3 +24,5 @@ internal static class SystemExtensions
     public static bool StartsWith(this string str, char value) =>
         str.Length != 0 && str[0] == value;
 }
+
+#endif

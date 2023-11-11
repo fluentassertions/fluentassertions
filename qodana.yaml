@@ -26,3 +26,6 @@ exclude:
   - name: ConvertToLambdaExpression
   - name: SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
   - name: UnusedMemberInSuper.Global
+  - name: CheckNamespace
+    paths:
+      - Src\FluentAssertions\Polyfill
