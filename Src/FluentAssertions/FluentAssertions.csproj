@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <!-- To reduce build times, we only enable analyzers for the newest TFM -->
   <PropertyGroup>
@@ -45,7 +45,7 @@
 
   <ItemGroup Label="Analyzers">
     <AdditionalFiles Include="BannedSymbols.txt" />
-    <PackageReference Include="JetBrains.Annotations" Version="2023.2.0" PrivateAssets="all" />
+    <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
     <PackageReference Include="PolySharp" Version="1.13.2" PrivateAssets="all" />
   </ItemGroup>
