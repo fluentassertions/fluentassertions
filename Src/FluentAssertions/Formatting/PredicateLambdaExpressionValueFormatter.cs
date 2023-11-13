@@ -134,7 +134,7 @@ public class PredicateLambdaExpressionValueFormatter : IValueFormatter
 
         public override Expression Visit(Expression node)
         {
-            if (node?.NodeType == ExpressionType.AndAlso)
+            if (node!.NodeType == ExpressionType.AndAlso)
             {
                 var binaryExpression = (BinaryExpression)node;
                 Visit(binaryExpression.Left);
