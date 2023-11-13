@@ -59,7 +59,7 @@ sidebar:
   * `EquivalencyAssertionOptions<TExpectation>` to `EquivalencyOptions<TExpectation>`
   * `IEquivalencyAssertionOptions` to `IEquivalencyOptions`
   * `SelfReferenceEquivalencyAssertionOptions<TSelf>` to `SelfReferenceEquivalencyOptions<TSelf>`
-* Add fluent syntax for `WithoutMatchingRules` and `WithoutSelectionRules` on `SelfReferenceEquivalencyOptions<TSelf>` - [#2457](https://github.com/fluentassertions/fluentassertions/pull/2457)
+* Allow fluently calling `WithoutMatchingRules` and `WithoutSelectionRules` while using `BeEquivalentTo` - [#2457](https://github.com/fluentassertions/fluentassertions/pull/2457)
 
 ### Breaking Changes (for extensions)
 * Add `ForConstraint` to `IAssertionsScope` to support chaining `.ForConstraint()` after `.Then` - [#2324](https://github.com/fluentassertions/fluentassertions/pull/2324)
