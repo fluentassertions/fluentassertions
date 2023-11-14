@@ -63,11 +63,11 @@ class Build : NukeBuild
     readonly GitRepository GitRepository;
 
 #if OS_WINDOWS
-    [NuGetPackage("Node.js.redist", "node.exe", Version = "16.20.0", Framework = "win-x64")]
+    [NuGetPackage("Node.js.redist", "node.exe", Version = "20.9.0", Framework = "win-x64")]
 #elif OS_MAC
-    [NuGetPackage("Node.js.redist", "node", Version = "16.20.0", Framework = "osx-x64")]
+    [NuGetPackage("Node.js.redist", "node", Version = "20.9.0", Framework = "osx-x64")]
 #else
-    [NuGetPackage("Node.js.redist", "node", Version = "16.20.0", Framework = "linux-x64")]
+    [NuGetPackage("Node.js.redist", "node", Version = "20.9.0", Framework = "linux-x64")]
 #endif
     Tool Node;
 
