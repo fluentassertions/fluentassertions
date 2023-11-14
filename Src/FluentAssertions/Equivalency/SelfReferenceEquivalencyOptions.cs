@@ -427,17 +427,19 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     /// <summary>
     /// Clears all selection rules, including those that were added by default.
     /// </summary>
-    public void WithoutSelectionRules()
+    public TSelf WithoutSelectionRules()
     {
         selectionRules.Clear();
+        return (TSelf)this;
     }
 
     /// <summary>
     /// Clears all matching rules, including those that were added by default.
     /// </summary>
-    public void WithoutMatchingRules()
+    public TSelf WithoutMatchingRules()
     {
         matchingRules.Clear();
+        return (TSelf)this;
     }
 
     /// <summary>

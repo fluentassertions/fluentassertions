@@ -957,8 +957,8 @@ namespace FluentAssertions.Equivalency
         public TSelf WithStrictOrderingFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
         public TSelf WithTracing(FluentAssertions.Equivalency.Tracing.ITraceWriter writer = null) { }
         public TSelf WithoutAutoConversionFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
-        public void WithoutMatchingRules() { }
-        public void WithoutSelectionRules() { }
+        public TSelf WithoutMatchingRules() { }
+        public TSelf WithoutSelectionRules() { }
         public TSelf WithoutStrictOrdering() { }
         public TSelf WithoutStrictOrderingFor(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IObjectInfo, bool>> predicate) { }
         public class Restriction<TMember>
