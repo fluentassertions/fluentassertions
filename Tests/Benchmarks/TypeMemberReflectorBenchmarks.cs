@@ -6,7 +6,7 @@ using static FluentAssertions.Equivalency.MemberVisibility;
 namespace Benchmarks;
 
 [MemoryDiagnoser]
-[SimpleJob(RuntimeMoniker.Net60)]
+[SimpleJob(RuntimeMoniker.Net80)]
 public class TypeMemberReflectorBenchmarks
 {
     [Benchmark]
