@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>NUnit3.Specs</RootNamespace>
     <AssemblyName>NUnit3.Specs</AssemblyName>
   </PropertyGroup>
