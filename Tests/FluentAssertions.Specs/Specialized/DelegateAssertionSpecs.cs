@@ -6,6 +6,20 @@ namespace FluentAssertions.Specs.Specialized;
 
 public class DelegateAssertionSpecs
 {
+    [Fact]
+    public void Null_clock_throws_exception()
+    {
+        // Arrange
+        Func<int> subject = () => 1;
+
+        // Act
+        var act = void () => subject.Should(clock: null).NotThrow();
+
+        // Assert
+        act.Should().ThrowExactly<ArgumentNullException>()
+            .WithParameterName("clock");
+    }
+
     public class Throw
     {
         [Fact]
