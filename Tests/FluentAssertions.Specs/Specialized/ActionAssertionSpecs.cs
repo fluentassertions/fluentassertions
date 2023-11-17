@@ -1,16 +1,15 @@
 ﻿using System;
-using FluentAssertions.Execution;
 using Xunit;
 
 namespace FluentAssertions.Specs.Specialized;
 
-public class DelegateAssertionSpecs
+public class ActionAssertionSpecs
 {
     [Fact]
     public void Null_clock_throws_exception()
     {
         // Arrange
-        Func<int> subject = () => 1;
+        Action subject = () => { };
 
         // Act
         var act = void () => subject.Should(clock: null).NotThrow();
@@ -35,21 +34,17 @@ public class DelegateAssertionSpecs
         }
     }
 
-    public class ThrowExactly
+    public class NotThrow
     {
         [Fact]
-        public void Does_not_continue_assertion_on_exact_exception_type()
+        public void Allow_additional_assertions_on_return_value()
         {
             // Arrange
-            var a = () => { };
+            Action subject = () => { };
 
-            // Act
-            using var scope = new AssertionScope();
-            a.Should().ThrowExactly<InvalidOperationException>();
-
-            // Assert
-            scope.Discard().Should().ContainSingle()
-                .Which.Should().Match("*InvalidOperationException*no exception*");
+            // Act / Assert
+            subject.Should().NotThrow()
+                .And.NotBeNull();
         }
     }
 }
