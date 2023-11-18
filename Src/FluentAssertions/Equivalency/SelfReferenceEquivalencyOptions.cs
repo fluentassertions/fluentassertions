@@ -708,6 +708,9 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     /// <summary>
     /// Instructs the comparison to ignore leading whitespace when comparing <see langword="string" />s.
     /// </summary>
+    /// <remarks>
+    /// Note: This affects the index of first mismatch, as the removed whitespace is also ignored for the index calculation!
+    /// </remarks>
     public TSelf IgnoringLeadingWhitespace()
     {
         IgnoreLeadingWhitespace = true;
