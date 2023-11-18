@@ -41,6 +41,9 @@ collection.Should().EndWith(8);
 collection.Should().EndWith(new[] { 5, 8 });
 
 collection.Should().BeSubsetOf(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, });
+collection.Should().BeProperSubsetOf(new[] { 1, 2, 5, 6, 7, 8 });
+collection.Should().BeSupersetOf(new[] { 1, 2, 5, 8 });
+collection.Should().BeProperSupersetOf(new[] { 1, 5, 2 });
 
 collection.Should().ContainSingle();
 collection.Should().ContainSingle(x => x > 3);
