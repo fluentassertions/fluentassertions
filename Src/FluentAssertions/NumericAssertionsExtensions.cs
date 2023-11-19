@@ -725,7 +725,7 @@ public static class NumericAssertionsExtensions
 
         if (success)
         {
-            var nonNullableAssertions = new SingleAssertions(parent.Subject!.Value);
+            var nonNullableAssertions = new SingleAssertions(parent.Subject.Value);
             nonNullableAssertions.BeApproximately(expectedValue, precision, because, becauseArgs);
         }
 
@@ -859,7 +859,7 @@ public static class NumericAssertionsExtensions
 
         if (success)
         {
-            var nonNullableAssertions = new DoubleAssertions(parent.Subject!.Value);
+            var nonNullableAssertions = new DoubleAssertions(parent.Subject.Value);
             BeApproximately(nonNullableAssertions, expectedValue, precision, because, becauseArgs);
         }
 
@@ -994,7 +994,7 @@ public static class NumericAssertionsExtensions
 
         if (success)
         {
-            var nonNullableAssertions = new DecimalAssertions(parent.Subject!.Value);
+            var nonNullableAssertions = new DecimalAssertions(parent.Subject.Value);
             BeApproximately(nonNullableAssertions, expectedValue, precision, because, becauseArgs);
         }
 

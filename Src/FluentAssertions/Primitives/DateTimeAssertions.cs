@@ -406,7 +406,7 @@ public class DateTimeAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith(", but found <null>.")
             .Then
-            .ForCondition(Subject!.Value.Year == expected)
+            .ForCondition(Subject.Value.Year == expected)
             .FailWith(", but found {0}.", Subject.Value.Year)
             .Then
             .ClearExpectation();
@@ -433,7 +433,7 @@ public class DateTimeAssertions<TAssertions>
             .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but found a <null> DateTime.",
                 unexpected)
             .Then
-            .ForCondition(Subject!.Value.Year != unexpected)
+            .ForCondition(Subject.Value.Year != unexpected)
             .FailWith("Did not expect the year part of {context:the date} to be {0}{reason}, but it was.", unexpected,
                 Subject.Value.Year);
 
@@ -459,7 +459,7 @@ public class DateTimeAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith(", but found a <null> DateTime.")
             .Then
-            .ForCondition(Subject!.Value.Month == expected)
+            .ForCondition(Subject.Value.Month == expected)
             .FailWith(", but found {0}.", Subject.Value.Month)
             .Then
             .ClearExpectation();
@@ -486,7 +486,7 @@ public class DateTimeAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith(", but found a <null> DateTime.")
             .Then
-            .ForCondition(Subject!.Value.Month != unexpected)
+            .ForCondition(Subject.Value.Month != unexpected)
             .FailWith(", but it was.")
             .Then
             .ClearExpectation();
@@ -513,7 +513,7 @@ public class DateTimeAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith(", but found a <null> DateTime.")
             .Then
-            .ForCondition(Subject!.Value.Day == expected)
+            .ForCondition(Subject.Value.Day == expected)
             .FailWith(", but found {0}.", Subject.Value.Day)
             .Then
             .ClearExpectation();
@@ -540,7 +540,7 @@ public class DateTimeAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith(", but found a <null> DateTime.")
             .Then
-            .ForCondition(Subject!.Value.Day != unexpected)
+            .ForCondition(Subject.Value.Day != unexpected)
             .FailWith(", but it was.")
             .Then
             .ClearExpectation();
@@ -567,7 +567,7 @@ public class DateTimeAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith(", but found a <null> DateTime.")
             .Then
-            .ForCondition(Subject!.Value.Hour == expected)
+            .ForCondition(Subject.Value.Hour == expected)
             .FailWith(", but found {0}.", Subject.Value.Hour)
             .Then
             .ClearExpectation();
@@ -594,7 +594,7 @@ public class DateTimeAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith(", but found a <null> DateTime.", unexpected)
             .Then
-            .ForCondition(Subject!.Value.Hour != unexpected)
+            .ForCondition(Subject.Value.Hour != unexpected)
             .FailWith(", but it was.", unexpected, Subject.Value.Hour)
             .Then
             .ClearExpectation();
@@ -622,7 +622,7 @@ public class DateTimeAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith(", but found a <null> DateTime.")
             .Then
-            .ForCondition(Subject!.Value.Minute == expected)
+            .ForCondition(Subject.Value.Minute == expected)
             .FailWith(", but found {0}.", Subject.Value.Minute)
             .Then
             .ClearExpectation();
@@ -650,7 +650,7 @@ public class DateTimeAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith(", but found a <null> DateTime.", unexpected)
             .Then
-            .ForCondition(Subject!.Value.Minute != unexpected)
+            .ForCondition(Subject.Value.Minute != unexpected)
             .FailWith(", but it was.", unexpected, Subject.Value.Minute)
             .Then
             .ClearExpectation();
@@ -678,7 +678,7 @@ public class DateTimeAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith(", but found a <null> DateTime.")
             .Then
-            .ForCondition(Subject!.Value.Second == expected)
+            .ForCondition(Subject.Value.Second == expected)
             .FailWith(", but found {0}.", Subject.Value.Second)
             .Then
             .ClearExpectation();
@@ -706,7 +706,7 @@ public class DateTimeAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith(", but found a <null> DateTime.")
             .Then
-            .ForCondition(Subject!.Value.Second != unexpected)
+            .ForCondition(Subject.Value.Second != unexpected)
             .FailWith(", but it was.")
             .Then
             .ClearExpectation();
@@ -797,7 +797,7 @@ public class DateTimeAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith(", but found a <null> DateTime.", expectedDate)
             .Then
-            .ForCondition(Subject!.Value.Date == expectedDate)
+            .ForCondition(Subject.Value.Date == expectedDate)
             .FailWith(", but found {1}.", expectedDate, Subject.Value)
             .Then
             .ClearExpectation();
@@ -827,7 +827,7 @@ public class DateTimeAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith(", but found a <null> DateTime.")
             .Then
-            .ForCondition(Subject!.Value.Date != unexpectedDate)
+            .ForCondition(Subject.Value.Date != unexpectedDate)
             .FailWith(", but it was.")
             .Then
             .ClearExpectation();
@@ -920,7 +920,7 @@ public class DateTimeAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith(", but found a <null> DateTime.")
             .Then
-            .ForCondition(Subject!.Value.Kind == expectedKind)
+            .ForCondition(Subject.Value.Kind == expectedKind)
             .FailWith(", but found " + Subject.Value.Kind + ".")
             .Then
             .ClearExpectation();
