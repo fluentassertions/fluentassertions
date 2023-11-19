@@ -15,6 +15,7 @@ public class BooleanAssertionSpecs
             bool boolean = true;
 
             // Act / Assert
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             boolean.Should().BeTrue();
         }
 
@@ -25,6 +26,7 @@ public class BooleanAssertionSpecs
             bool boolean = false;
 
             // Act
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             Action action = () => boolean.Should().BeTrue();
 
             // Assert
