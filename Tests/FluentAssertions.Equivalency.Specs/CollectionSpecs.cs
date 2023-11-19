@@ -295,11 +295,9 @@ public class CollectionSpecs
     public void When_collection_of_same_count_does_not_match_it_should_include_at_most_10_items_in_message()
     {
         // Arrange
-        const int commonLength = 11;
-
         // Subjects contains different values, because we want to distinguish them in the assertion message
         var subject = new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-        var expectation = Enumerable.Repeat(20, commonLength).ToArray();
+        var expectation = Enumerable.Repeat(20, subject.Length).ToArray();
 
         // Act
         Action action = () => subject.Should().BeEquivalentTo(expectation);
