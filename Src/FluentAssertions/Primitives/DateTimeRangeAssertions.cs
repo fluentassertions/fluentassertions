@@ -74,7 +74,7 @@ public class DateTimeRangeAssertions<TAssertions>
 
         if (success)
         {
-            TimeSpan actual = target - subject.Value;
+            TimeSpan actual = target - subject!.Value;
 
             Execute.Assertion
                 .ForCondition(predicate.IsMatchedBy(actual, timeSpan))
@@ -113,7 +113,7 @@ public class DateTimeRangeAssertions<TAssertions>
 
         if (success)
         {
-            TimeSpan actual = subject.Value - target;
+            TimeSpan actual = subject!.Value - target;
 
             Execute.Assertion
                 .ForCondition(predicate.IsMatchedBy(actual, timeSpan))

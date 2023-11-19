@@ -427,7 +427,7 @@ public class EnumAssertions<TEnum, TAssertions>
             .ForCondition(Subject is not null)
             .FailWith("Expected {context:the enum} to be one of {0}{reason}, but found <null>", validValues)
             .Then
-            .ForCondition(validValues.Contains(Subject.Value))
+            .ForCondition(validValues.Contains(Subject!.Value))
             .BecauseOf(because, becauseArgs)
             .FailWith("Expected {context:the enum} to be one of {0}{reason}, but found {1}.", validValues, Subject);
 

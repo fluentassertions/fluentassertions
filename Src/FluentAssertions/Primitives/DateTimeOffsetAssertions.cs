@@ -183,7 +183,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith("but found a <null> DateTimeOffset.")
             .Then
-            .ForCondition(Subject.Value.EqualsExact(expected))
+            .ForCondition(Subject!.Value.EqualsExact(expected))
             .FailWith("but it was {0}.", Subject)
             .Then
             .ClearExpectation();
@@ -221,7 +221,7 @@ public class DateTimeOffsetAssertions<TAssertions>
                 .ForCondition(Subject.HasValue)
                 .FailWith("but found a <null> DateTimeOffset.")
                 .Then
-                .ForCondition(Subject.Value.EqualsExact(expected.Value))
+                .ForCondition(Subject!.Value.EqualsExact(expected.Value))
                 .FailWith("but it was {0}.", Subject)
                 .Then
                 .ClearExpectation();
@@ -550,7 +550,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith("but found a <null> DateTimeOffset.")
             .Then
-            .ForCondition(Subject.Value.Year == expected)
+            .ForCondition(Subject!.Value.Year == expected)
             .FailWith("but it was {0}.", Subject.Value.Year)
             .Then
             .ClearExpectation();
@@ -577,7 +577,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith("but found a <null> DateTimeOffset.")
             .Then
-            .ForCondition(Subject.Value.Year != unexpected)
+            .ForCondition(Subject!.Value.Year != unexpected)
             .FailWith("but it was.")
             .Then
             .ClearExpectation();
@@ -605,7 +605,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith("but found a <null> DateTimeOffset.")
             .Then
-            .ForCondition(Subject.Value.Month == expected)
+            .ForCondition(Subject!.Value.Month == expected)
             .FailWith("but it was {0}.", Subject.Value.Month)
             .Then
             .ClearExpectation();
@@ -632,7 +632,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith("but found a <null> DateTimeOffset.")
             .Then
-            .ForCondition(Subject.Value.Month != unexpected)
+            .ForCondition(Subject!.Value.Month != unexpected)
             .FailWith("but it was.")
             .Then
             .ClearExpectation();
@@ -660,7 +660,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith("but found a <null> DateTimeOffset.")
             .Then
-            .ForCondition(Subject.Value.Day == expected)
+            .ForCondition(Subject!.Value.Day == expected)
             .FailWith("but it was {0}.", Subject.Value.Day)
             .Then
             .ClearExpectation();
@@ -687,7 +687,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith("but found a <null> DateTimeOffset.")
             .Then
-            .ForCondition(Subject.Value.Day != unexpected)
+            .ForCondition(Subject!.Value.Day != unexpected)
             .FailWith("but it was.")
             .Then
             .ClearExpectation();
@@ -715,7 +715,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith("but found a <null> DateTimeOffset.")
             .Then
-            .ForCondition(Subject.Value.Hour == expected)
+            .ForCondition(Subject!.Value.Hour == expected)
             .FailWith("but it was {0}.", Subject.Value.Hour)
             .Then
             .ClearExpectation();
@@ -742,7 +742,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith("but found a <null> DateTimeOffset.")
             .Then
-            .ForCondition(Subject.Value.Hour != unexpected)
+            .ForCondition(Subject!.Value.Hour != unexpected)
             .FailWith("but it was.")
             .Then
             .ClearExpectation();
@@ -770,7 +770,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith("but found a <null> DateTimeOffset.")
             .Then
-            .ForCondition(Subject.Value.Minute == expected)
+            .ForCondition(Subject!.Value.Minute == expected)
             .FailWith("but it was {0}.", Subject.Value.Minute)
             .Then
             .ClearExpectation();
@@ -798,7 +798,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith("but found a <null> DateTimeOffset.")
             .Then
-            .ForCondition(Subject.Value.Minute != unexpected)
+            .ForCondition(Subject!.Value.Minute != unexpected)
             .FailWith("but it was.")
             .Then
             .ClearExpectation();
@@ -826,7 +826,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith("but found a <null> DateTimeOffset.")
             .Then
-            .ForCondition(Subject.Value.Second == expected)
+            .ForCondition(Subject!.Value.Second == expected)
             .FailWith("but it was {0}.", Subject.Value.Second)
             .Then
             .ClearExpectation();
@@ -854,7 +854,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith("but found a <null> DateTimeOffset.")
             .Then
-            .ForCondition(Subject.Value.Second != unexpected)
+            .ForCondition(Subject!.Value.Second != unexpected)
             .FailWith("but it was.")
             .Then
             .ClearExpectation();
@@ -882,7 +882,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith("but found a <null> DateTimeOffset.")
             .Then
-            .ForCondition(Subject.Value.Offset == expected)
+            .ForCondition(Subject!.Value.Offset == expected)
             .FailWith("but it was {0}.", Subject.Value.Offset)
             .Then
             .ClearExpectation();
@@ -910,7 +910,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith("but found a <null> DateTimeOffset.")
             .Then
-            .ForCondition(Subject.Value.Offset != unexpected)
+            .ForCondition(Subject!.Value.Offset != unexpected)
             .FailWith("but it was.")
             .Then
             .ClearExpectation();
@@ -1001,7 +1001,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith("but found a <null> DateTimeOffset.", expectedDate)
             .Then
-            .ForCondition(Subject.Value.Date == expectedDate)
+            .ForCondition(Subject!.Value.Date == expectedDate)
             .FailWith("but it was {0}.", Subject.Value.Date)
             .Then
             .ClearExpectation();
@@ -1031,7 +1031,7 @@ public class DateTimeOffsetAssertions<TAssertions>
             .ForCondition(Subject.HasValue)
             .FailWith("but found a <null> DateTimeOffset.")
             .Then
-            .ForCondition(Subject.Value.Date != unexpectedDate)
+            .ForCondition(Subject!.Value.Date != unexpectedDate)
             .FailWith("but it was.")
             .Then
             .ClearExpectation();

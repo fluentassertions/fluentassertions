@@ -33,7 +33,7 @@ public static class NumericAssertionsExtensions
         sbyte nearbyValue, byte delta, string because = "",
         params object[] becauseArgs)
     {
-        sbyte actualValue = parent.Subject.Value;
+        sbyte? actualValue = parent.Subject;
         sbyte minValue = (sbyte)(nearbyValue - delta);
 
         if (minValue > nearbyValue)
@@ -75,7 +75,7 @@ public static class NumericAssertionsExtensions
         byte nearbyValue, byte delta, string because = "",
         params object[] becauseArgs)
     {
-        byte actualValue = parent.Subject.Value;
+        byte? actualValue = parent.Subject;
         byte minValue = (byte)(nearbyValue - delta);
 
         if (minValue > nearbyValue)
@@ -117,7 +117,7 @@ public static class NumericAssertionsExtensions
         short nearbyValue, ushort delta, string because = "",
         params object[] becauseArgs)
     {
-        short actualValue = parent.Subject.Value;
+        short? actualValue = parent.Subject;
         short minValue = (short)(nearbyValue - delta);
 
         if (minValue > nearbyValue)
@@ -159,7 +159,7 @@ public static class NumericAssertionsExtensions
         ushort nearbyValue, ushort delta, string because = "",
         params object[] becauseArgs)
     {
-        ushort actualValue = parent.Subject.Value;
+        ushort? actualValue = parent.Subject;
         ushort minValue = (ushort)(nearbyValue - delta);
 
         if (minValue > nearbyValue)
@@ -201,7 +201,7 @@ public static class NumericAssertionsExtensions
         int nearbyValue, uint delta, string because = "",
         params object[] becauseArgs)
     {
-        int actualValue = parent.Subject.Value;
+        int? actualValue = parent.Subject;
         int minValue = (int)(nearbyValue - delta);
 
         if (minValue > nearbyValue)
@@ -243,7 +243,7 @@ public static class NumericAssertionsExtensions
         uint nearbyValue, uint delta, string because = "",
         params object[] becauseArgs)
     {
-        uint actualValue = parent.Subject.Value;
+        uint? actualValue = parent.Subject;
         uint minValue = nearbyValue - delta;
 
         if (minValue > nearbyValue)
@@ -285,7 +285,7 @@ public static class NumericAssertionsExtensions
         long nearbyValue, ulong delta, string because = "",
         params object[] becauseArgs)
     {
-        long actualValue = parent.Subject.Value;
+        long? actualValue = parent.Subject;
         long minValue = GetMinValue(nearbyValue, delta);
         long maxValue = GetMaxValue(nearbyValue, delta);
 
@@ -316,7 +316,7 @@ public static class NumericAssertionsExtensions
         ulong nearbyValue, ulong delta, string because = "",
         params object[] becauseArgs)
     {
-        ulong actualValue = parent.Subject.Value;
+        ulong? actualValue = parent.Subject;
         ulong minValue = nearbyValue - delta;
 
         if (minValue > nearbyValue)
@@ -373,7 +373,7 @@ public static class NumericAssertionsExtensions
         sbyte distantValue, byte delta, string because = "",
         params object[] becauseArgs)
     {
-        sbyte actualValue = parent.Subject.Value;
+        sbyte? actualValue = parent.Subject;
         sbyte minValue = (sbyte)(distantValue - delta);
 
         if (minValue > distantValue)
@@ -415,7 +415,7 @@ public static class NumericAssertionsExtensions
         byte distantValue, byte delta, string because = "",
         params object[] becauseArgs)
     {
-        byte actualValue = parent.Subject.Value;
+        byte? actualValue = parent.Subject;
         byte minValue = (byte)(distantValue - delta);
 
         if (minValue > distantValue)
@@ -457,7 +457,7 @@ public static class NumericAssertionsExtensions
         short distantValue, ushort delta, string because = "",
         params object[] becauseArgs)
     {
-        short actualValue = parent.Subject.Value;
+        short? actualValue = parent.Subject;
         short minValue = (short)(distantValue - delta);
 
         if (minValue > distantValue)
@@ -499,7 +499,7 @@ public static class NumericAssertionsExtensions
         ushort distantValue, ushort delta, string because = "",
         params object[] becauseArgs)
     {
-        ushort actualValue = parent.Subject.Value;
+        ushort? actualValue = parent.Subject;
         ushort minValue = (ushort)(distantValue - delta);
 
         if (minValue > distantValue)
@@ -541,7 +541,7 @@ public static class NumericAssertionsExtensions
         int distantValue, uint delta, string because = "",
         params object[] becauseArgs)
     {
-        int actualValue = parent.Subject.Value;
+        int? actualValue = parent.Subject;
         int minValue = (int)(distantValue - delta);
 
         if (minValue > distantValue)
@@ -583,7 +583,7 @@ public static class NumericAssertionsExtensions
         uint distantValue, uint delta, string because = "",
         params object[] becauseArgs)
     {
-        uint actualValue = parent.Subject.Value;
+        uint? actualValue = parent.Subject;
         uint minValue = distantValue - delta;
 
         if (minValue > distantValue)
@@ -625,7 +625,7 @@ public static class NumericAssertionsExtensions
         long distantValue, ulong delta, string because = "",
         params object[] becauseArgs)
     {
-        long actualValue = parent.Subject.Value;
+        long? actualValue = parent.Subject;
         long minValue = GetMinValue(distantValue, delta);
         long maxValue = GetMaxValue(distantValue, delta);
 
@@ -656,7 +656,7 @@ public static class NumericAssertionsExtensions
         ulong distantValue, ulong delta, string because = "",
         params object[] becauseArgs)
     {
-        ulong actualValue = parent.Subject.Value;
+        ulong? actualValue = parent.Subject;
         ulong minValue = distantValue - delta;
 
         if (minValue > distantValue)
@@ -725,7 +725,7 @@ public static class NumericAssertionsExtensions
 
         if (success)
         {
-            var nonNullableAssertions = new SingleAssertions(parent.Subject.Value);
+            var nonNullableAssertions = new SingleAssertions(parent.Subject!.Value);
             nonNullableAssertions.BeApproximately(expectedValue, precision, because, becauseArgs);
         }
 
@@ -859,7 +859,7 @@ public static class NumericAssertionsExtensions
 
         if (success)
         {
-            var nonNullableAssertions = new DoubleAssertions(parent.Subject.Value);
+            var nonNullableAssertions = new DoubleAssertions(parent.Subject!.Value);
             BeApproximately(nonNullableAssertions, expectedValue, precision, because, becauseArgs);
         }
 
@@ -994,7 +994,7 @@ public static class NumericAssertionsExtensions
 
         if (success)
         {
-            var nonNullableAssertions = new DecimalAssertions(parent.Subject.Value);
+            var nonNullableAssertions = new DecimalAssertions(parent.Subject!.Value);
             BeApproximately(nonNullableAssertions, expectedValue, precision, because, becauseArgs);
         }
 
