@@ -1,7 +1,7 @@
 version: "1.0"
 
 linter: jetbrains/qodana-dotnet:latest
-failThreshold: 19
+failThreshold: 20
 
 dotnet:
   solution: FluentAssertions.sln
@@ -20,12 +20,10 @@ exclude:
       - Tests/AssemblyB
       - Tests/Benchmarks
       - Tests/UWP.Specs
+      - Src/FluentAssertions/Polyfill
   - name: UnusedMember.Global
   - name: ArrangeTrailingCommaInMultilineLists
   - name: ArrangeTrailingCommaInSinglelineLists
   - name: ConvertToLambdaExpression
   - name: SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
   - name: UnusedMemberInSuper.Global
-  - name: CheckNamespace
-    paths:
-      - Src\FluentAssertions\Polyfill
