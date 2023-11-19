@@ -21,6 +21,7 @@ jobs:
         dotnet-version: |
           6.0.x
           7.0.x
+          8.0.x
 
     - name: Run NUKE
       run: ./build.ps1
@@ -63,6 +64,7 @@ jobs:
         dotnet-version: |
           6.0.x
           7.0.x
+          8.0.x
 
     - name: Run NUKE
       run: ./build.sh UnitTests
