@@ -259,7 +259,10 @@ namespace FluentAssertions.Specs.Execution
             var foo = new Foo();
 
             // Act
+            // ReSharper disable RedundantStringInterpolation
             Action act = () => foo.BarMethod(@"test", argument2: $@"test2", argument3: @$"test3").Should().BeNull();
+
+            // ReSharper restore RedundantStringInterpolation
 
             // Assert
             act.Should().Throw<XunitException>()
@@ -291,6 +294,7 @@ namespace FluentAssertions.Specs.Execution
             var foo = new Foo();
 
             // Act
+            // ReSharper disable once RedundantStringInterpolation
             Action act = () => foo.BarMethod(@$"test"";").Should().BeNull();
 
             // Assert
