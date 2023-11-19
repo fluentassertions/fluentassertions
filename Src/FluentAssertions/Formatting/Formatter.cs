@@ -107,8 +107,9 @@ public static class Formatter
 
             try
             {
-                Format(value, output, context, (path, childValue,
-                    output) => FormatChild(path, childValue, output, context, options, graph));
+                Format(value, output, context,
+                    (path, childValue, childOutput)
+                        => FormatChild(path, childValue, childOutput, context, options, graph));
             }
             catch (MaxLinesExceededException)
             {

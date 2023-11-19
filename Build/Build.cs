@@ -124,13 +124,13 @@ class Build : NukeBuild
         .Executes(() =>
         {
             ReportSummary(s => s
-                .WhenNotNull(GitVersion, (_, o) => _
+                .WhenNotNull(GitVersion, (v, o) => v
                     .AddPair("Version", o.SemVer)));
 
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration)
-                .When(GenerateBinLog is true, _ => _
+                .When(GenerateBinLog is true, c => c
                     .SetBinaryLog(ArtifactsDirectory / $"{Solution.Core.FluentAssertions.Name}.binlog")
                 )
                 .EnableNoLogo()
@@ -176,7 +176,7 @@ class Build : NukeBuild
         {
             string[] testAssemblies = Projects
                 .SelectMany(project => project.Directory.GlobFiles("bin/Debug/net47/*.Specs.dll"))
-                .Select(_ => _.ToString())
+                .Select(p => p.ToString())
                 .ToArray();
 
             Assert.NotEmpty(testAssemblies.ToList());
@@ -206,11 +206,11 @@ class Build : NukeBuild
                         "DoesNotReturnAttribute")
                     .CombineWith(
                         Projects,
-                        (_, project) => _
+                        (settings, project) => settings
                             .SetProjectFile(project)
                             .CombineWith(
                                 project.GetTargetFrameworks().Except(new[] { net47 }),
-                                (_, framework) => _
+                                (frameworkSettings, framework) => frameworkSettings
                                     .SetFramework(framework)
                                     .AddLoggers($"trx;LogFileName={project.Name}_{framework}.trx")
                             )
@@ -239,10 +239,10 @@ class Build : NukeBuild
         var skippedTests = outcomes.Count(outcome => outcome is "NotExecuted");
 
         ReportSummary(_ => _
-            .When(failedTests > 0, _ => _
+            .When(failedTests > 0, c => c
                 .AddPair("Failed", failedTests.ToString()))
             .AddPair("Passed", passedTests.ToString())
-            .When(skippedTests > 0, _ => _
+            .When(skippedTests > 0, c => c
                 .AddPair("Skipped", skippedTests.ToString())));
     }
 
@@ -298,7 +298,7 @@ class Build : NukeBuild
                     "DoesNotReturnAttribute")
                 .CombineWith(
                     testCombinations,
-                    (_, v) => _
+                    (settings, v) => settings
                         .SetProjectFile(v.project)
                         .SetFramework(v.framework)
                         .AddLoggers($"trx;LogFileName={v.project.Name}_{v.framework}.trx")), completeOnFailure: true);
@@ -316,7 +316,7 @@ class Build : NukeBuild
         .Executes(() =>
         {
             ReportSummary(s => s
-                .WhenNotNull(SemVer, (_, semVer) => _
+                .WhenNotNull(SemVer, (c, semVer) => c
                     .AddPair("Packed version", semVer)));
 
             DotNetPack(s => s
