@@ -9,7 +9,7 @@ namespace Benchmarks;
 
 [MemoryDiagnoser]
 [SimpleJob(RuntimeMoniker.Net472)]
-[SimpleJob(RuntimeMoniker.Net60)]
+[SimpleJob(RuntimeMoniker.Net80)]
 public class Issue1657
 {
     private List<ExampleObject> list;
