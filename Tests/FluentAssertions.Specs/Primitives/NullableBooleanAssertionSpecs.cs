@@ -4,6 +4,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs.Primitives;
 
+// ReSharper disable ConditionIsAlwaysTrueOrFalse
 public class NullableBooleanAssertionSpecs
 {
     [Fact]
