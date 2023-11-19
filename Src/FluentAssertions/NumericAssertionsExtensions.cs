@@ -33,7 +33,7 @@ public static class NumericAssertionsExtensions
         sbyte nearbyValue, byte delta, string because = "",
         params object[] becauseArgs)
     {
-        sbyte? actualValue = parent.Subject;
+        sbyte actualValue = parent.Subject;
         sbyte minValue = (sbyte)(nearbyValue - delta);
 
         if (minValue > nearbyValue)
@@ -75,7 +75,7 @@ public static class NumericAssertionsExtensions
         byte nearbyValue, byte delta, string because = "",
         params object[] becauseArgs)
     {
-        byte? actualValue = parent.Subject;
+        byte actualValue = parent.Subject;
         byte minValue = (byte)(nearbyValue - delta);
 
         if (minValue > nearbyValue)
@@ -117,7 +117,7 @@ public static class NumericAssertionsExtensions
         short nearbyValue, ushort delta, string because = "",
         params object[] becauseArgs)
     {
-        short? actualValue = parent.Subject;
+        short actualValue = parent.Subject;
         short minValue = (short)(nearbyValue - delta);
 
         if (minValue > nearbyValue)
@@ -159,7 +159,7 @@ public static class NumericAssertionsExtensions
         ushort nearbyValue, ushort delta, string because = "",
         params object[] becauseArgs)
     {
-        ushort? actualValue = parent.Subject;
+        ushort actualValue = parent.Subject;
         ushort minValue = (ushort)(nearbyValue - delta);
 
         if (minValue > nearbyValue)
@@ -201,7 +201,7 @@ public static class NumericAssertionsExtensions
         int nearbyValue, uint delta, string because = "",
         params object[] becauseArgs)
     {
-        int? actualValue = parent.Subject;
+        int actualValue = parent.Subject;
         int minValue = (int)(nearbyValue - delta);
 
         if (minValue > nearbyValue)
@@ -243,7 +243,7 @@ public static class NumericAssertionsExtensions
         uint nearbyValue, uint delta, string because = "",
         params object[] becauseArgs)
     {
-        uint? actualValue = parent.Subject;
+        uint actualValue = parent.Subject;
         uint minValue = nearbyValue - delta;
 
         if (minValue > nearbyValue)
@@ -285,7 +285,7 @@ public static class NumericAssertionsExtensions
         long nearbyValue, ulong delta, string because = "",
         params object[] becauseArgs)
     {
-        long? actualValue = parent.Subject;
+        long actualValue = parent.Subject;
         long minValue = GetMinValue(nearbyValue, delta);
         long maxValue = GetMaxValue(nearbyValue, delta);
 
@@ -316,7 +316,7 @@ public static class NumericAssertionsExtensions
         ulong nearbyValue, ulong delta, string because = "",
         params object[] becauseArgs)
     {
-        ulong? actualValue = parent.Subject;
+        ulong actualValue = parent.Subject;
         ulong minValue = nearbyValue - delta;
 
         if (minValue > nearbyValue)
@@ -373,7 +373,7 @@ public static class NumericAssertionsExtensions
         sbyte distantValue, byte delta, string because = "",
         params object[] becauseArgs)
     {
-        sbyte? actualValue = parent.Subject;
+        sbyte actualValue = parent.Subject;
         sbyte minValue = (sbyte)(distantValue - delta);
 
         if (minValue > distantValue)
@@ -415,7 +415,7 @@ public static class NumericAssertionsExtensions
         byte distantValue, byte delta, string because = "",
         params object[] becauseArgs)
     {
-        byte? actualValue = parent.Subject;
+        byte actualValue = parent.Subject;
         byte minValue = (byte)(distantValue - delta);
 
         if (minValue > distantValue)
@@ -457,7 +457,7 @@ public static class NumericAssertionsExtensions
         short distantValue, ushort delta, string because = "",
         params object[] becauseArgs)
     {
-        short? actualValue = parent.Subject;
+        short actualValue = parent.Subject;
         short minValue = (short)(distantValue - delta);
 
         if (minValue > distantValue)
@@ -499,7 +499,7 @@ public static class NumericAssertionsExtensions
         ushort distantValue, ushort delta, string because = "",
         params object[] becauseArgs)
     {
-        ushort? actualValue = parent.Subject;
+        ushort actualValue = parent.Subject;
         ushort minValue = (ushort)(distantValue - delta);
 
         if (minValue > distantValue)
@@ -541,7 +541,7 @@ public static class NumericAssertionsExtensions
         int distantValue, uint delta, string because = "",
         params object[] becauseArgs)
     {
-        int? actualValue = parent.Subject;
+        int actualValue = parent.Subject;
         int minValue = (int)(distantValue - delta);
 
         if (minValue > distantValue)
@@ -583,7 +583,7 @@ public static class NumericAssertionsExtensions
         uint distantValue, uint delta, string because = "",
         params object[] becauseArgs)
     {
-        uint? actualValue = parent.Subject;
+        uint actualValue = parent.Subject;
         uint minValue = distantValue - delta;
 
         if (minValue > distantValue)
@@ -625,7 +625,7 @@ public static class NumericAssertionsExtensions
         long distantValue, ulong delta, string because = "",
         params object[] becauseArgs)
     {
-        long? actualValue = parent.Subject;
+        long actualValue = parent.Subject;
         long minValue = GetMinValue(distantValue, delta);
         long maxValue = GetMaxValue(distantValue, delta);
 
@@ -656,7 +656,7 @@ public static class NumericAssertionsExtensions
         ulong distantValue, ulong delta, string because = "",
         params object[] becauseArgs)
     {
-        ulong? actualValue = parent.Subject;
+        ulong actualValue = parent.Subject;
         ulong minValue = distantValue - delta;
 
         if (minValue > distantValue)
@@ -808,17 +808,17 @@ public static class NumericAssertionsExtensions
 
         if (float.IsPositiveInfinity(expectedValue))
         {
-            FailIfDifferenceOutsidePrecision(float.IsPositiveInfinity(parent.Subject.Value), parent, expectedValue, precision,
+            FailIfDifferenceOutsidePrecision(float.IsPositiveInfinity(parent.Subject), parent, expectedValue, precision,
                 float.NaN, because, becauseArgs);
         }
         else if (float.IsNegativeInfinity(expectedValue))
         {
-            FailIfDifferenceOutsidePrecision(float.IsNegativeInfinity(parent.Subject.Value), parent, expectedValue, precision,
+            FailIfDifferenceOutsidePrecision(float.IsNegativeInfinity(parent.Subject), parent, expectedValue, precision,
                 float.NaN, because, becauseArgs);
         }
         else
         {
-            float actualDifference = Math.Abs(expectedValue - parent.Subject.Value);
+            float actualDifference = Math.Abs(expectedValue - parent.Subject);
 
             FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference,
                 because, becauseArgs);
@@ -942,17 +942,17 @@ public static class NumericAssertionsExtensions
 
         if (double.IsPositiveInfinity(expectedValue))
         {
-            FailIfDifferenceOutsidePrecision(double.IsPositiveInfinity(parent.Subject.Value), parent, expectedValue, precision,
+            FailIfDifferenceOutsidePrecision(double.IsPositiveInfinity(parent.Subject), parent, expectedValue, precision,
                 double.NaN, because, becauseArgs);
         }
         else if (double.IsNegativeInfinity(expectedValue))
         {
-            FailIfDifferenceOutsidePrecision(double.IsNegativeInfinity(parent.Subject.Value), parent, expectedValue, precision,
+            FailIfDifferenceOutsidePrecision(double.IsNegativeInfinity(parent.Subject), parent, expectedValue, precision,
                 double.NaN, because, becauseArgs);
         }
         else
         {
-            double actualDifference = Math.Abs(expectedValue - parent.Subject.Value);
+            double actualDifference = Math.Abs(expectedValue - parent.Subject);
 
             FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference,
                 because, becauseArgs);
@@ -1071,7 +1071,7 @@ public static class NumericAssertionsExtensions
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
-        decimal actualDifference = Math.Abs(expectedValue - parent.Subject.Value);
+        decimal actualDifference = Math.Abs(expectedValue - parent.Subject);
 
         FailIfDifferenceOutsidePrecision(actualDifference <= precision, parent, expectedValue, precision, actualDifference,
             because, becauseArgs);
@@ -1205,17 +1205,17 @@ public static class NumericAssertionsExtensions
 
         if (float.IsPositiveInfinity(unexpectedValue))
         {
-            FailIfDifferenceWithinPrecision(parent, !float.IsPositiveInfinity(parent.Subject.Value), unexpectedValue, precision,
+            FailIfDifferenceWithinPrecision(parent, !float.IsPositiveInfinity(parent.Subject), unexpectedValue, precision,
                 float.NaN, because, becauseArgs);
         }
         else if (float.IsNegativeInfinity(unexpectedValue))
         {
-            FailIfDifferenceWithinPrecision(parent, !float.IsNegativeInfinity(parent.Subject.Value), unexpectedValue, precision,
+            FailIfDifferenceWithinPrecision(parent, !float.IsNegativeInfinity(parent.Subject), unexpectedValue, precision,
                 float.NaN, because, becauseArgs);
         }
         else
         {
-            float actualDifference = Math.Abs(unexpectedValue - parent.Subject.Value);
+            float actualDifference = Math.Abs(unexpectedValue - parent.Subject);
 
             FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference,
                 because, becauseArgs);
@@ -1335,17 +1335,17 @@ public static class NumericAssertionsExtensions
 
         if (double.IsPositiveInfinity(unexpectedValue))
         {
-            FailIfDifferenceWithinPrecision(parent, !double.IsPositiveInfinity(parent.Subject.Value), unexpectedValue, precision,
+            FailIfDifferenceWithinPrecision(parent, !double.IsPositiveInfinity(parent.Subject), unexpectedValue, precision,
                 double.NaN, because, becauseArgs);
         }
         else if (double.IsNegativeInfinity(unexpectedValue))
         {
-            FailIfDifferenceWithinPrecision(parent, !double.IsNegativeInfinity(parent.Subject.Value), unexpectedValue, precision,
+            FailIfDifferenceWithinPrecision(parent, !double.IsNegativeInfinity(parent.Subject), unexpectedValue, precision,
                 double.NaN, because, becauseArgs);
         }
         else
         {
-            double actualDifference = Math.Abs(unexpectedValue - parent.Subject.Value);
+            double actualDifference = Math.Abs(unexpectedValue - parent.Subject);
 
             FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference,
                 because, becauseArgs);
@@ -1458,7 +1458,7 @@ public static class NumericAssertionsExtensions
     {
         Guard.ThrowIfArgumentIsNegative(precision);
 
-        decimal actualDifference = Math.Abs(unexpectedValue - parent.Subject.Value);
+        decimal actualDifference = Math.Abs(unexpectedValue - parent.Subject);
 
         FailIfDifferenceWithinPrecision(parent, actualDifference > precision, unexpectedValue, precision, actualDifference,
             because, becauseArgs);

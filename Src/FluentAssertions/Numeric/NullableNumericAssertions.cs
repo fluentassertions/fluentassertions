@@ -6,6 +6,9 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Numeric;
 
+/// <summary>
+/// Contains a number of methods to assert that a nullable <see cref="IComparable{T}"/> is in the expected state.
+/// </summary>
 [DebuggerNonUserCode]
 public class NullableNumericAssertions<T> : NullableNumericAssertions<T, NullableNumericAssertions<T>>
     where T : struct, IComparable<T>
@@ -16,15 +19,20 @@ public class NullableNumericAssertions<T> : NullableNumericAssertions<T, Nullabl
     }
 }
 
+/// <summary>
+/// Contains a number of methods to assert that a nullable <see cref="IComparable{T}"/> is in the expected state.
+/// </summary>
 [DebuggerNonUserCode]
-public class NullableNumericAssertions<T, TAssertions> : NumericAssertions<T, TAssertions>
+public class NullableNumericAssertions<T, TAssertions> : NumericAssertionsBase<T, T?, TAssertions>
     where T : struct, IComparable<T>
     where TAssertions : NullableNumericAssertions<T, TAssertions>
 {
     public NullableNumericAssertions(T? value)
-        : base(value)
     {
+        Subject = value;
     }
+
+    public override T? Subject { get; }
 
     /// <summary>
     /// Asserts that a nullable numeric value is not <see langword="null"/>.
