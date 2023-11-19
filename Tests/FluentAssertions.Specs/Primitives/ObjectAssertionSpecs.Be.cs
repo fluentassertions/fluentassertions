@@ -193,7 +193,7 @@ public partial class ObjectAssertionSpecs
             var value = new object();
 
             // Act / Assert
-            value.Should().Be<object>(value, new DumbObjectEqualityComparer()).And.NotBeNull();
+            value.Should().Be(value, new DumbObjectEqualityComparer()).And.NotBeNull();
         }
     }
 
@@ -342,7 +342,7 @@ public partial class ObjectAssertionSpecs
             var value = new object();
 
             // Act / Assert
-            value.Should().NotBe<object>(new object(), new DumbObjectEqualityComparer()).And.NotBeNull();
+            value.Should().NotBe(new object(), new DumbObjectEqualityComparer()).And.NotBeNull();
         }
     }
 
