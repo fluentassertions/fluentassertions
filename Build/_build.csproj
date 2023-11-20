@@ -19,7 +19,7 @@
   <ItemGroup>
     <PackageDownload Include="GitVersion.Tool" Version="[5.10.0]" />
     <PackageDownload Include="ReportGenerator" Version="[5.1.23]" />
-    <PackageDownload Include="xunit.runner.console" Version="[2.5.0]" />
+    <PackageDownload Include="xunit.runner.console" Version="[2.6.2]" />
     <PackageDownload Include="Node.js.redist" Version="[20.9.0]" />
     <PackageReference Include="LibGit2Sharp" Version="0.28.0" />
     <PackageReference Include="Nuke.Common" Version="7.0.6" />
