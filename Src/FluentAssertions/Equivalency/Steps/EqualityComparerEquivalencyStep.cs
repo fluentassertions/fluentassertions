@@ -21,6 +21,11 @@ public class EqualityComparerEquivalencyStep<T> : IEquivalencyStep
             return EquivalencyResult.ContinueWithNext;
         }
 
+        if (comparands.Subject is null && typeof(T).IsValueType)
+        {
+            return EquivalencyResult.ContinueWithNext;
+        }
+
         Execute.Assertion
             .BecauseOf(context.Reason.FormattedMessage, context.Reason.Arguments)
             .ForCondition(comparands.Subject is T)

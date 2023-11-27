@@ -862,5 +862,38 @@ public class ExtensibilitySpecs
         }
     }
 
+    [Fact]
+    public void Can_compare_null_with_nullable_struct_property_with_custom_comparer()
+    {
+        var art1 = new ClassWithNullableStructProperty();
+        art1.Should().BeEquivalentTo(new ClassWithNullableStructProperty(), o => o
+            .Using<StructWithProperties, StructWithPropertiesComparer>()
+        );
+    }
+
+    private class ClassWithNullableStructProperty
+    {
+        public StructWithProperties? Value { get; set; }
+    }
+
+    private struct StructWithProperties
+    {
+        public int Value { get; set; }
+    }
+
+    private class StructWithPropertiesComparer : IEqualityComparer<StructWithProperties>
+    {
+        public bool Equals(StructWithProperties x, StructWithProperties y)
+        {
+            var result = Equals(x.Value, y.Value);
+            return result;
+        }
+
+        public int GetHashCode(StructWithProperties obj)
+        {
+            return obj.Value;
+        }
+    }
+
     #endregion
 }
