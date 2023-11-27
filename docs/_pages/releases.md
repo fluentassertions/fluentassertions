@@ -13,6 +13,7 @@ sidebar:
 
 * Introduced a new assembly-level attribute that you can use to initialize Fluent Assertions before the first assertion - [#2292](https://github.com/fluentassertions/fluentassertions/pull/2292)
 * Ensure compatibility with .NET 8 - [#2466](https://github.com/fluentassertions/fluentassertions/pull/2466)
+* Add support for NUnit 4 - [#2483](https://github.com/fluentassertions/fluentassertions/pull/2483)
 
 ### Improvements
 * Improve failure message for string assertions when checking for equality - [#2307](https://github.com/fluentassertions/fluentassertions/pull/2307)
