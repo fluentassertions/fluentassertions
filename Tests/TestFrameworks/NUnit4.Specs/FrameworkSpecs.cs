@@ -8,15 +8,12 @@ namespace NUnit4.Specs;
 public class FrameworkSpecs
 {
     [Test]
-    public void When_nunit4_is_used_it_should_throw_nunit_exceptions_for_assertion_failures()
+    public void Throw_nunit_framework_exception_for_nunit4_tests()
     {
         // Act
         Action act = () => 0.Should().Be(1);
 
         // Assert
-        Exception exception = act.Should().Throw<Exception>().Which;
-        exception.GetType()
-            .FullName.Should()
-            .ContainEquivalentOf("NUnit.Framework.AssertionException");
+        act.Should().Throw<AssertionException>();
     }
 }
