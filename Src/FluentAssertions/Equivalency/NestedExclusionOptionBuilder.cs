@@ -27,8 +27,14 @@ public class NestedExclusionOptionBuilder<TExpectation, TCurrent>
     /// </summary>
     public EquivalencyOptions<TExpectation> Exclude(Expression<Func<TCurrent, object>> expression)
     {
-        var nextPath = expression.GetMemberPath();
-        currentPathSelectionRule.AppendPath(nextPath);
+        var currentSelectionPath = currentPathSelectionRule.CurrentPath;
+
+        foreach (var path in expression.GetMemberPaths())
+        {
+            var newPath = currentSelectionPath.AsParentCollectionOf(path);
+            capturedOptions.AddSelectionRule(new ExcludeMemberByPathSelectionRule(newPath));
+        }
+
         return capturedOptions;
     }
 
