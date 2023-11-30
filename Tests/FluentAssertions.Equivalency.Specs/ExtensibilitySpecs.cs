@@ -863,7 +863,7 @@ public class ExtensibilitySpecs
     }
 
     [Fact]
-    public void Can_compare_null_again_null_with_custom_comparer_for_nullable_property()
+    public void Can_compare_null_against_null_with_custom_comparer_for_nullable_property()
     {
         var comperand = new ClassWithNullableStructProperty();
         comperand.Should().BeEquivalentTo(new ClassWithNullableStructProperty(), o => o
@@ -872,7 +872,7 @@ public class ExtensibilitySpecs
     }
 
     [Fact]
-    public void Can_compare_null_again_not_null_with_custom_comparer_for_nullable_property()
+    public void Can_compare_null_against_not_null_with_custom_comparer_for_nullable_property()
     {
         var comperand = new ClassWithNullableStructProperty();
         comperand.Should().NotBeEquivalentTo(new ClassWithNullableStructProperty()
@@ -887,7 +887,7 @@ public class ExtensibilitySpecs
     }
 
     [Fact]
-    public void Can_compare_not_null_again_null_with_custom_comparer_for_nullable_property()
+    public void Can_compare_not_null_against_null_with_custom_comparer_for_nullable_property()
     {
         var comperand = new ClassWithNullableStructProperty()
         {
@@ -903,7 +903,7 @@ public class ExtensibilitySpecs
     }
 
     [Fact]
-    public void Can_compare_not_null_again_not_null_with_custom_comparer_for_nullable_property()
+    public void Can_compare_not_null_against_not_null_with_custom_comparer_for_nullable_property()
     {
         var comperand = new ClassWithNullableStructProperty()
         {
@@ -925,7 +925,7 @@ public class ExtensibilitySpecs
     }
 
     [Fact]
-    public void Can_compare_null_again_null_with_custom_nullable_comparer_for_nullable_property()
+    public void Can_compare_null_against_null_with_custom_nullable_comparer_for_nullable_property()
     {
         var comperand = new ClassWithNullableStructProperty();
         comperand.Should().BeEquivalentTo(new ClassWithNullableStructProperty(), o => o
@@ -934,7 +934,7 @@ public class ExtensibilitySpecs
     }
 
     [Fact]
-    public void Can_compare_null_again_not_null_with_custom_nullable_comparer_for_nullable_property()
+    public void Can_compare_null_against_not_null_with_custom_nullable_comparer_for_nullable_property()
     {
         var comperand = new ClassWithNullableStructProperty();
         comperand.Should().NotBeEquivalentTo(new ClassWithNullableStructProperty()
@@ -949,7 +949,7 @@ public class ExtensibilitySpecs
     }
 
     [Fact]
-    public void Can_compare_not_null_again_null_with_custom_nullable_comparer_for_nullable_property()
+    public void Can_compare_not_null_against_null_with_custom_nullable_comparer_for_nullable_property()
     {
         var comperand = new ClassWithNullableStructProperty()
         {
@@ -965,7 +965,7 @@ public class ExtensibilitySpecs
     }
 
     [Fact]
-    public void Can_compare_not_null_again_not_null_with_custom_nullable_comparer_for_nullable_property()
+    public void Can_compare_not_null_against_not_null_with_custom_nullable_comparer_for_nullable_property()
     {
         var comperand = new ClassWithNullableStructProperty()
         {
@@ -1022,7 +1022,7 @@ public class ExtensibilitySpecs
     }
 
     [Fact]
-    public void Can_compare_null_again_null_with_custom_comparer_for_property()
+    public void Can_compare_null_against_null_with_custom_comparer_for_property()
     {
         var comperand = new ClassWithClassProperty();
         comperand.Should().BeEquivalentTo(new ClassWithClassProperty(), o => o
@@ -1031,7 +1031,7 @@ public class ExtensibilitySpecs
     }
 
     [Fact]
-    public void Can_compare_null_again_not_null_with_custom_comparer_for_property()
+    public void Can_compare_null_against_not_null_with_custom_comparer_for_property()
     {
         var comperand = new ClassWithClassProperty();
         comperand.Should().NotBeEquivalentTo(new ClassWithClassProperty()
@@ -1046,7 +1046,7 @@ public class ExtensibilitySpecs
     }
 
     [Fact]
-    public void Can_compare_not_null_again_null_with_custom_comparer_for_property()
+    public void Can_compare_not_null_against_null_with_custom_comparer_for_property()
     {
         var comperand = new ClassWithClassProperty()
         {
@@ -1062,7 +1062,7 @@ public class ExtensibilitySpecs
     }
 
     [Fact]
-    public void Can_compare_not_null_again_not_null_with_custom_comparer_for_property()
+    public void Can_compare_not_null_against_not_null_with_custom_comparer_for_property()
     {
         var comperand = new ClassWithClassProperty()
         {
