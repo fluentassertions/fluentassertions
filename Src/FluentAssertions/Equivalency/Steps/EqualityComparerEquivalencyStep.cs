@@ -21,7 +21,7 @@ public class EqualityComparerEquivalencyStep<T> : IEquivalencyStep
             return EquivalencyResult.ContinueWithNext;
         }
 
-        if (comparands.Subject is null && typeof(T).IsValueType)
+        if (comparands.Subject is null || comparands.Expectation is null)
         {
             return EquivalencyResult.ContinueWithNext;
         }
