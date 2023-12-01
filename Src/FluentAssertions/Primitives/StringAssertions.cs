@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
+#if NET6_0_OR_GREATER
+using FluentAssertions.Json;
+#endif
 using JetBrains.Annotations;
 
 namespace FluentAssertions.Primitives;
@@ -1514,6 +1517,32 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             throw new ArgumentException("Cannot assert string containment of values in empty collection", nameof(values));
         }
     }
+
+#if NET6_0_OR_GREATER
+    public AndConstraint<TAssertions> BeJsonEquivalentTo(string expected, JsonComparatorOptions? options = null)
+    {
+        Guard.ThrowIfArgumentIsNull(expected, nameof(expected), "Cannot assert string containment against <null>.");
+        Guard.ThrowIfArgumentIsEmpty(expected, nameof(expected), "Cannot assert string containment against an empty string.");
+
+        string result;
+        if (options?.LooseObjectOrderComparison != true)
+        {
+            result = JsonTokenStreamCompare.IsJsonTokenEquivalent(this.Subject, expected, options);
+        }
+        else
+        {
+            throw new NotSupportedException(); // Not implemented yet
+        }
+
+        if (result is not null)
+        {
+            Execute.Assertion
+                .FailWith(() => new FailReason("Expected {context:string} to match expected json, but found diff\n{0}", result));
+        }
+
+        return new AndConstraint<TAssertions>((TAssertions)this);
+    }
+#endif
 
     /// <summary>
     /// Returns the type of the subject the assertion applies on.
