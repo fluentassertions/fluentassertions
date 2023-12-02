@@ -1097,13 +1097,13 @@ public class ExtensibilitySpecs
     {
         public bool Equals(ClassProperty x, ClassProperty y)
         {
-            var result = Equals(x?.Value, y?.Value);
+            var result = Equals(x.Value, y.Value);
             return result;
         }
 
         public int GetHashCode(ClassProperty obj)
         {
-            return obj?.Value ?? 0;
+            return obj.Value;
         }
     }
 
