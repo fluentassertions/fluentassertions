@@ -23,6 +23,9 @@ public class EqualityComparerEquivalencyStep<T> : IEquivalencyStep
 
         if (comparands.Subject is null || comparands.Expectation is null)
         {
+            // The later check for `comparands.Subject is T` leads to an failure even if the expectation is null
+            // IEqualityComparer isn't null aware. To preserve NullReferenceExceptions a compare with null is
+            // not handled by the custom comparer.
             return EquivalencyResult.ContinueWithNext;
         }
 
