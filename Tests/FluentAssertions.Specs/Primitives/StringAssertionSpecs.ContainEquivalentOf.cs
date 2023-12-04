@@ -71,17 +71,6 @@ public partial class StringAssertionSpecs
             actual.Should().ContainEquivalentOf(expect, o => o.IgnoringTrailingWhitespace());
         }
 
-        [Fact]
-        public void Can_ignore_newlines_while_checking_a_string_to_contain_another()
-        {
-            // Arrange
-            string actual = "this is a string containing \rA\nB\r\nC.\n";
-            string expect = "ABC";
-
-            // Act / Assert
-            actual.Should().ContainEquivalentOf(expect, o => o.IgnoringNewlines());
-        }
-
         [InlineData("aa", "A")]
         [InlineData("aCCa", "acca")]
         [Theory]
@@ -559,20 +548,6 @@ public partial class StringAssertionSpecs
 
             // Act
             Action act = () => actual.Should().NotContainEquivalentOf(expect, o => o.IgnoringTrailingWhitespace());
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void Can_ignore_newlines_while_checking_a_string_to_not_contain_another()
-        {
-            // Arrange
-            string actual = "this is a string containing \rA\nB\r\nC.\n";
-            string expect = "ABC";
-
-            // Act
-            Action act = () => actual.Should().NotContainEquivalentOf(expect, o => o.IgnoringNewlines());
 
             // Assert
             act.Should().Throw<XunitException>();

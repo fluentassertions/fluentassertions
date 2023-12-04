@@ -73,17 +73,6 @@ public partial class StringAssertionSpecs
         }
 
         [Fact]
-        public void Can_ignore_newlines_while_comparing_strings_to_be_equivalent()
-        {
-            // Arrange
-            string actual = "\rA\nB\r\nC\n";
-            string expect = "ABC";
-
-            // Act / Assert
-            actual.Should().BeEquivalentTo(expect, o => o.IgnoringNewlines());
-        }
-
-        [Fact]
         public void When_strings_are_the_same_while_ignoring_case_it_should_not_throw()
         {
             // Arrange
@@ -243,20 +232,6 @@ public partial class StringAssertionSpecs
 
             // Act
             Action act = () => actual.Should().NotBeEquivalentTo(expect, o => o.IgnoringTrailingWhitespace());
-
-            // Assert
-            act.Should().Throw<XunitException>();
-        }
-
-        [Fact]
-        public void Can_ignore_newlines_while_comparing_strings_to_not_be_equivalent()
-        {
-            // Arrange
-            string actual = "\rA\nB\r\nC\n";
-            string expect = "ABC";
-
-            // Act
-            Action act = () => actual.Should().NotBeEquivalentTo(expect, o => o.IgnoringNewlines());
 
             // Assert
             act.Should().Throw<XunitException>();

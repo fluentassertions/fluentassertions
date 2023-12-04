@@ -38,16 +38,5 @@ public partial class CollectionAssertionSpecs
             // Act / Assert
             actual.Should().AllBeEquivalentTo(expectation, o => o.IgnoringTrailingWhitespace());
         }
-
-        [Fact]
-        public void Can_ignore_newlines_while_comparing_collections_of_strings()
-        {
-            // Arrange
-            var actual = new[] { "ABC", "\nA\nBC", "A\nBC\n", "A\r\nB\r\nC", "\r\nA\r\nB\r\nC\r\n" };
-            var expectation = "ABC";
-
-            // Act / Assert
-            actual.Should().AllBeEquivalentTo(expectation, o => o.IgnoringNewlines());
-        }
     }
 }

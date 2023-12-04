@@ -470,8 +470,7 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         var stringWildcardMatchingValidator = new StringValidator(
             new StringWildcardMatchingStrategy
             {
-                IgnoreCase = options.IgnoreCase,
-                IgnoreNewLineDifferences = options.IgnoreNewlines
+                IgnoreCase = options.IgnoreCase
             },
             because, becauseArgs);
 
@@ -596,7 +595,6 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
             new StringWildcardMatchingStrategy
             {
                 IgnoreCase = options.IgnoreCase,
-                IgnoreNewLineDifferences = options.IgnoreNewlines,
                 Negate = true
             },
             because, becauseArgs);
@@ -1996,7 +1994,6 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
     /// <remarks>
     /// When <see cref="IEquivalencyOptions.IgnoreLeadingWhitespace"/> is set, whitespace is removed from the start of the <paramref name="value"/>.<br />
     /// When <see cref="IEquivalencyOptions.IgnoreTrailingWhitespace"/> is set, whitespace is removed from the end of the <paramref name="value"/>.<br />
-    /// When <see cref="IEquivalencyOptions.IgnoreNewlines"/> is set, all newlines ("\r" and "\n") are removed from the <paramref name="value"/>.
     /// </remarks>
     private static string ApplyStringSettings(string value, IEquivalencyOptions options)
     {
@@ -2008,13 +2005,6 @@ public class StringAssertions<TAssertions> : ReferenceTypeAssertions<string, TAs
         if (options.IgnoreTrailingWhitespace)
         {
             value = value.TrimEnd();
-        }
-
-        if (options.IgnoreNewlines)
-        {
-            value = value
-                .Replace("\r", string.Empty, StringComparison.Ordinal)
-                .Replace("\n", string.Empty, StringComparison.Ordinal);
         }
 
         return value;

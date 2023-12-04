@@ -77,8 +77,6 @@ internal class CollectionMemberOptionsDecorator : IEquivalencyOptions
 
     public bool IgnoreTrailingWhitespace => inner.IgnoreTrailingWhitespace;
 
-    public bool IgnoreNewlines => inner.IgnoreNewlines;
-
     public bool IgnoreCase => inner.IgnoreCase;
 
     public ITraceWriter TraceWriter => inner.TraceWriter;

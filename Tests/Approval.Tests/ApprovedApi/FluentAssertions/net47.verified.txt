@@ -750,7 +750,6 @@ namespace FluentAssertions.Equivalency
         bool ExcludeNonBrowsableOnExpectation { get; }
         bool IgnoreCase { get; }
         bool IgnoreLeadingWhitespace { get; }
-        bool IgnoreNewlines { get; }
         bool IgnoreNonBrowsableOnSubject { get; }
         bool IgnoreTrailingWhitespace { get; }
         FluentAssertions.Equivalency.MemberVisibility IncludedFields { get; }
@@ -915,7 +914,6 @@ namespace FluentAssertions.Equivalency
         public FluentAssertions.Equivalency.ConversionSelector ConversionSelector { get; }
         public bool IgnoreCase { get; }
         public bool IgnoreLeadingWhitespace { get; }
-        public bool IgnoreNewlines { get; }
         public bool IgnoreTrailingWhitespace { get; }
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         protected FluentAssertions.Equivalency.OrderingRuleCollection OrderingRules { get; }
@@ -940,7 +938,6 @@ namespace FluentAssertions.Equivalency
         public TSelf IgnoringCase() { }
         public TSelf IgnoringCyclicReferences() { }
         public TSelf IgnoringLeadingWhitespace() { }
-        public TSelf IgnoringNewlines() { }
         public TSelf IgnoringNonBrowsableMembersOnSubject() { }
         public TSelf IgnoringTrailingWhitespace() { }
         public TSelf Including(System.Linq.Expressions.Expression<System.Func<FluentAssertions.Equivalency.IMemberInfo, bool>> predicate) { }

@@ -110,11 +110,6 @@ public interface IEquivalencyOptions
     bool IgnoreTrailingWhitespace { get; }
 
     /// <summary>
-    /// Gets a value indicating whether newlines are ignored when comparing <see langword="string" />s.
-    /// </summary>
-    bool IgnoreNewlines { get; }
-
-    /// <summary>
     /// Gets a value indicating whether a case-insensitive comparer is used when comparing <see langword="string" />s.
     /// </summary>
     bool IgnoreCase { get; }

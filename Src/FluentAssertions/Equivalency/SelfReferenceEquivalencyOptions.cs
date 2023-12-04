@@ -90,7 +90,6 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
         excludeNonBrowsableOnExpectation = defaults.ExcludeNonBrowsableOnExpectation;
         IgnoreLeadingWhitespace = defaults.IgnoreLeadingWhitespace;
         IgnoreTrailingWhitespace = defaults.IgnoreTrailingWhitespace;
-        IgnoreNewlines = defaults.IgnoreNewlines;
         IgnoreCase = defaults.IgnoreCase;
 
         ConversionSelector = defaults.ConversionSelector.Clone();
@@ -189,8 +188,6 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     public bool IgnoreLeadingWhitespace { get; private set; }
 
     public bool IgnoreTrailingWhitespace { get; private set; }
-
-    public bool IgnoreNewlines { get; private set; }
 
     public bool IgnoreCase { get; private set; }
 
@@ -723,15 +720,6 @@ public abstract class SelfReferenceEquivalencyOptions<TSelf> : IEquivalencyOptio
     public TSelf IgnoringTrailingWhitespace()
     {
         IgnoreTrailingWhitespace = true;
-        return (TSelf)this;
-    }
-
-    /// <summary>
-    /// Instructs the comparison to ignore newlines when comparing <see langword="string" />s.
-    /// </summary>
-    public TSelf IgnoringNewlines()
-    {
-        IgnoreNewlines = true;
         return (TSelf)this;
     }
 

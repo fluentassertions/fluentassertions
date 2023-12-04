@@ -54,11 +54,6 @@ public class StringEqualityEquivalencyStep : IEquivalencyStep
                 o.IgnoringTrailingWhitespace();
             }
 
-            if (existingOptions.IgnoreNewlines)
-            {
-                o.IgnoringNewlines();
-            }
-
             if (existingOptions.IgnoreCase)
             {
                 o.IgnoringCase();
