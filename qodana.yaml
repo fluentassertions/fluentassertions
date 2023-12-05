@@ -1,7 +1,10 @@
 version: "1.0"
 
-linter: jetbrains/qodana-dotnet:latest
+ide: QDNET
 failThreshold: 20
+
+profile:
+  path: profile.yaml
 
 dotnet:
   solution: FluentAssertions.sln
