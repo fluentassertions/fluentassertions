@@ -9,4 +9,4 @@ groups: # List of configured groups
 
 inspections: # Group invocation
   - group: InspectionsToExclude
-    enabled: false # Enable the InspectionsToInclude group
+    enabled: false # Disable the InspectionsToExclude group
