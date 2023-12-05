@@ -21,7 +21,7 @@ jobs:
         uses: JetBrains/qodana-action@v2023.2
         with:
           upload-result: ${{ github.ref_name == 'master' || github.ref_name == 'develop' }}
-          args: --baseline,qodana.sarif.json,--ide,QDNET
+          args: --baseline,qodana.sarif.json,--ide,QDNET,--property,idea.log.debug.categories=#org.jetbrains.qodana.publisher
           pr-mode: ${{ github.event_name == 'pull_request_target' }}
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
