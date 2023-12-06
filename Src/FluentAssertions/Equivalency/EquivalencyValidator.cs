@@ -31,14 +31,16 @@ public class EquivalencyValidator : IEquivalencyValidator
     {
         var scope = AssertionScope.Current;
 
-        if (ShouldContinueThisDeep(context.CurrentNode, context.Options, scope))
+        if (!ShouldContinueThisDeep(context.CurrentNode, context.Options, scope))
         {
-            TrackWhatIsNeededToProvideContextToFailures(scope, comparands, context.CurrentNode);
+            return;
+        }
 
-            if (!context.IsCyclicReference(comparands.Expectation))
-            {
-                TryToProveNodesAreEquivalent(comparands, context);
-            }
+        TrackWhatIsNeededToProvideContextToFailures(scope, comparands, context.CurrentNode);
+
+        if (!context.IsCyclicReference(comparands.Expectation))
+        {
+            TryToProveNodesAreEquivalent(comparands, context);
         }
     }
 
