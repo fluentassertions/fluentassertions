@@ -647,17 +647,14 @@ public class BasicSpecs
     }
 
     [Fact]
-    public void When_a_class_contains_an_empty_array_segment()
+    public void Empty_array_segments_can_be_compared_for_equivalency()
     {
         // Arrange
         var actual = new ClassWithArraySegment();
         var expected = new ClassWithArraySegment();
 
-        // Act
-        Action act = () => actual.Should().BeEquivalentTo(expected);
-
-        // Assert
-        act.Should().NotThrow();
+        // Act / Assert
+        actual.Should().BeEquivalentTo(expected);
     }
 
     private class ClassWithArraySegment
