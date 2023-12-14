@@ -8,6 +8,7 @@ profile:
 
 dotnet:
   solution: FluentAssertions.sln
+  frameworks: "!netstandard2.0;!netstandard2.1"
 
 exclude:
   - name: ConvertIfStatementToReturnStatement
