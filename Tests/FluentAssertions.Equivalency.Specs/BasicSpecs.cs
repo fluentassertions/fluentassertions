@@ -645,4 +645,20 @@ public class BasicSpecs
         // Assert
         act.Should().Throw<XunitException>().WithMessage("Expected property actual[0].Id*to be *-*, but found *-*");
     }
+
+    [Fact]
+    public void Empty_array_segments_can_be_compared_for_equivalency()
+    {
+        // Arrange
+        var actual = new ClassWithArraySegment();
+        var expected = new ClassWithArraySegment();
+
+        // Act / Assert
+        actual.Should().BeEquivalentTo(expected);
+    }
+
+    private class ClassWithArraySegment
+    {
+        public ArraySegment<byte> Segment { get; set; }
+    }
 }
