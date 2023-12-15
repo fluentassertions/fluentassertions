@@ -18,10 +18,10 @@ jobs:
           ref: ${{ github.event.pull_request.merge_commit_sha }}
           fetch-depth: 0
       - name: 'Qodana Scan'
-        uses: JetBrains/qodana-action@v2023.2
+        uses: JetBrains/qodana-action@v2023.3
         with:
           upload-result: ${{ github.ref_name == 'master' || github.ref_name == 'develop' }}
-          args: --baseline,qodana.sarif.json,--ide,QDNET-EAP
+          args: --baseline,qodana.sarif.json,--ide,QDNET
           pr-mode: ${{ github.event_name == 'pull_request_target' }}
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}

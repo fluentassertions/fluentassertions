@@ -1,0 +1,12 @@
+name: "Custom profile"
+
+baseProfile: qodana.starter
+
+groups: # List of configured groups
+  - groupId: InspectionsToExclude
+    groups:
+      - "category:C#/Roslyn Analyzers"
+
+inspections: # Group invocation
+  - group: InspectionsToExclude
+    enabled: false # Disable the InspectionsToExclude group

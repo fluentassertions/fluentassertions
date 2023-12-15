@@ -366,6 +366,9 @@ dotnet_diagnostic.RCS1186.severity = none
 # Use bit shift operator.
 dotnet_diagnostic.RCS1237.severity = none
 
+# RCS1228: Unused element in documentation comment. (Equivalent to SA1614)
+dotnet_diagnostic.RCS1228.severity = suggestion
+
 # Use an overload that has a IEqualityComparer<string> or IComparer<string> parameter
 dotnet_diagnostic.MA0002.severity = suggestion
 
