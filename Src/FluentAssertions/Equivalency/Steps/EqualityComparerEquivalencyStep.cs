@@ -23,7 +23,7 @@ public class EqualityComparerEquivalencyStep<T> : IEquivalencyStep
 
         if (comparands.Subject is null || comparands.Expectation is null)
         {
-            // The later check for `comparands.Subject is T` leads to an failure even if the expectation is null.
+            // The later check for `comparands.Subject is T` leads to a failure even if the expectation is null.
             return EquivalencyResult.ContinueWithNext;
         }
 
