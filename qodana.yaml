@@ -17,6 +17,9 @@ exclude:
   - name: UnusedMember.Local
     paths:
       - Tests
+  - name: UnusedAutoPropertyAccessor.Local
+    paths:
+      - Tests
   - name: All
     paths:
       - Build
