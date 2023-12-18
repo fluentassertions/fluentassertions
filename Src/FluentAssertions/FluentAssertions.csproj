@@ -47,7 +47,7 @@
     <AdditionalFiles Include="BannedSymbols.txt" />
     <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-    <PackageReference Include="PolySharp" Version="1.14.0" PrivateAssets="all" />
+    <PackageReference Include="PolySharp" Version="1.14.1" PrivateAssets="all" />
   </ItemGroup>
 
   <!-- Target framework dependent configuration -->
