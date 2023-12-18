@@ -41,7 +41,7 @@ jobs:
         file: TestResults/reports/lcov.info
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         path: ./Artifacts/*
   only-unit-tests:
